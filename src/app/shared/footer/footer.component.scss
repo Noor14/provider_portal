@@ -1,0 +1,49 @@
+@import '../../../assets/scss/_variables';
+@import '../../../assets/scss/_global';
+
+footer {
+    background: $primary-grey; 
+    padding: 1rem;
+    text-align: center;
+    .link-Section{
+        margin-top: 15px;
+        .info-links {
+            color: $white-color;
+            font-size: $font-size-medium;
+            font-family: $font-proxima;
+            border-right: 1px solid rgba($secondary-grey, 0.5);
+            &:last-child {
+                border-right: 0px;
+            }
+            img {
+                width: 18px;
+                margin-right: 10px;
+            }
+        }
+    }
+    .copyRights-Section {
+        padding-bottom:15px;
+        color: $disabled-text-color;
+        font-size: $font-size-base;
+        font-weight: 500;
+        margin-top: 35px;
+        a{
+            color: $disabled-text-color;
+            margin: 0 10px;
+            &:hover{
+             color: $primary-color;
+            }
+        }
+    }
+}
+
+@media (max-width: $screen-xs-max) {
+    footer {
+        .link-Section{
+            .info-links {
+                border:none;
+                padding: 5px 0;
+            }
+    }
+ }
+}
