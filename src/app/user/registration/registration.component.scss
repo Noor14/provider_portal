@@ -1,0 +1,28 @@
+section#registration {
+    agm-map {
+        height: 300px;
+        width: 85%;
+    }
+    .select-city {
+        position: absolute;
+        z-index: 1;
+        margin-top: 15px;
+        top: 0;
+        margin-left: 15px;
+         input{
+            width: 300px;
+        }
+        // .prepend-flag{
+        //     position: absolute;
+        //     top: 15px;
+        //     left: 8px;
+        // }
+        // input#typeahead{
+        //     padding-left: 1.8rem;
+        // }
+        // img{
+        //     width: 16px;
+        //     height: 12px;
+        // }
+    }
+}
