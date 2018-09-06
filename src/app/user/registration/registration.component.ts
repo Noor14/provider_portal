@@ -17,6 +17,12 @@ export class RegistrationComponent implements OnInit {
   public select: any;
   public lat: number= 23.424076;
   public lng: number= 53.847816;
+  public selectedRegion={
+     lat: 23.424076,
+    lng: 53.847816,
+    flag: '5/5c/Flag_of_Alabama.svg/45px-Flag_of_Alabama.svg.png',
+    name: 'UAE'
+  }
 
   constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) { }
 
@@ -29,27 +35,27 @@ export class RegistrationComponent implements OnInit {
       { id: 5, name: 'India', flag: '0/01/Flag_of_California.svg/45px-Flag_of_California.svg.png', lat: 20.593683, lng: 78.962883 }
     ];
 
-    this.mapsAPILoader.load().then(() => {
-      let autoComplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, { types: ["(cities)"] });
-      autoComplete.addListener('places_changed', () => {
-        this.ngZone.run(() => {
-          let place: google.maps.places.PlaceResult = autoComplete.getPlace();
-          this.lat = place.geometry.location.lat();
-          this.lng = place.geometry.location.lng();
-          if (place.geometry === undefined || place.geometry === null) {
-            return
-          }
-        })
-      })
-    })
+    // this.mapsAPILoader.load().then(() => {
+    //   let autoComplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, { types: ["(cities)"] });
+    //   autoComplete.addListener('places_changed', () => {
+    //     this.ngZone.run(() => {
+    //       let place: google.maps.places.PlaceResult = autoComplete.getPlace();
+    //       this.lat = place.geometry.location.lat();
+    //       this.lng = place.geometry.location.lng();
+    //       if (place.geometry === undefined || place.geometry === null) {
+    //         return
+    //       }
+    //     })
+    //   })
+    // })
   }
 
-  //   search = (text$: Observable<string>) =>
-  //   text$.pipe(
-  //     debounceTime(200),
-  //     map(term => (!term || term.length < 3)? []
-  //       : this.regions.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-  //   )
-  //  formatter = (x: {name: string}) => x.name;
+    search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 3)? []
+        : this.regions.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+   formatter = (x: {name: string}) => x.name;
 
 }
