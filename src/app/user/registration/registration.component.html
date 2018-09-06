@@ -1,58 +1,26 @@
 <section id="registration">
-
-  <div class="row">
-    <div class="col-xl-3 col-md-12 col-sm-12">
-      <div class="left-sidebar ">
-
-        <div class="row">
-          <div class="col">
-            <div class="progressbar">
-              <h3>Your Progress </h3>
-            </div>
-          </div>
+  <div class="row no-margin">
+    <div class="col-xl-3 col-md-3 col-sm-3">
+      <app-leftsidebar></app-leftsidebar>
+    </div>
+    <div class="col-md-9">
+      <div class="container">
+        <div class="select-city">
+          <!-- <img *ngIf="selectedRegion && selectedRegion.flag" [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + selectedRegion.flag" class="mr-1 prepend-flag">
+          <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search"
+            [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Select Region" />
+          <ng-template #rt let-r="result">
+            <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="mr-1">
+            <ngb-highlight [result]="r.name"></ngb-highlight>
+          </ng-template> -->
+          <input type="text" placeholder="Select Country" autocorrect="off" autocapitalize="off" class="form-control" 
+          spellcheck="off" #search>
         </div>
+        <agm-map [zoom]="zoomlevel" [latitude]="lat" [longitude]="lng">
+          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        </agm-map>
 
-        <div class="row">
-          <div class="col">
-            <div class="sidebar-nav">
-              <button type="button" class="btn btn-primary btn-lg"> <img class="logo" src="../../../assets/images/hashmove-logo.png"> My Profile</button>
-                <button type="button" class="btn btn-primary btn-lg">Organization</button>
-                <button type="button" class="btn btn-primary btn-lg">Setup</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- customer support -->
-        <div class="support">
-          <div class="col-10 pull-right">
-            <div class="card border-0 pull-right">
-              <div class="card-body">
-                <h5 class="card-title">Customer Support</h5>
-                <ul class="list-group list-group-flush ">
-                  <li class="list-group-item pl-0">
-                    <small>Helpline</small>
-                    <p>+97 141234567</p>
-                    <small>Email</small>
-                    <p>support@hashmove.com</p>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- customer support -->
       </div>
-
-
-
-
-
-
-
     </div>
   </div>
-
-
-
-
 </section>
