@@ -8,6 +8,7 @@ import { routing } from './app.routing';
 import { HeaderComponent } from './Shared/header/header.component';
 import { FooterComponent } from './Shared/footer/footer.component';
 import { RegistrationComponent } from './user/registration/registration.component';
+import { LeftsidebarComponent } from './user/leftsidebar/leftsidebar.component';
 
 
 
@@ -16,7 +17,8 @@ import { RegistrationComponent } from './user/registration/registration.componen
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    LeftsidebarComponent
   ],
   imports: [
     BrowserModule,
