@@ -11,6 +11,7 @@ import { AgmCoreModule } from '@agm/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { OtpconfirmationComponent } from './user/otpconfirmation/otpconfirmation.component';
 import { CreatePasswordComponent } from './user/create-password/create-password.component';
+import { LeftsidebarComponent } from './user/leftsidebar/leftsidebar.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { CreatePasswordComponent } from './user/create-password/create-password.
     HeaderComponent,
     FooterComponent,
     RegistrationComponent,
+    LeftsidebarComponent,
     OtpconfirmationComponent,
     CreatePasswordComponent,
   ],
