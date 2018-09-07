@@ -16,7 +16,7 @@ export class RegistrationComponent implements OnInit {
   regions: any[];
   public zoomlevel: number = 5;
   public select: any;
-  public selected = {
+  public selectedRegion = {
     lat: 23.424076,
     lng: 53.847816,
     name: 'UAE', 

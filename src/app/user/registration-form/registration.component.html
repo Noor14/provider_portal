@@ -1,0 +1,26 @@
+<section id="registration">
+  <div class="row">
+    <div class="col-xl-3 col-md-3 col-sm-3 left-section">
+      <app-leftsidebar></app-leftsidebar>
+    </div>
+    <div class="col-xl-9 col-md-9 col-sm-9">
+      <div class="container">
+        <div class="select-city">
+           <img *ngIf="selectedRegion && selectedRegion.flag" [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + selectedRegion.flag" class="mr-1 prepend-flag">
+          <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search"
+            [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Select Region" />
+          <ng-template #rt let-r="result">
+            <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="mr-1">
+            <ngb-highlight [result]="r.name"></ngb-highlight>
+          </ng-template> 
+          <!--<input type="text" placeholder="Select Country" autocorrect="off" autocapitalize="off" class="form-control" 
+          spellcheck="off" #search>-->
+        </div>
+        <agm-map [zoom]="zoomlevel" [latitude]="selectedRegion.lat" [longitude]="selectedRegion.lng">
+          <agm-marker [latitude]="selectedRegion.lat" [longitude]="selectedRegion.lng"></agm-marker>
+        </agm-map>
+        <button class="btn btn-primary">Create Account</button>
+      </div>
+    </div>
+  </div>
+</section>

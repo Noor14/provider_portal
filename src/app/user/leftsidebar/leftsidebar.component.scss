@@ -1,55 +1,39 @@
-.sidebar {
-    background-color: #f1f3f4;
-    // .progressbar {
-    //     h3 {
-    //         text-align: center;
-    //         padding-top: 0.5rem;
-    //         font-size: 0.875rem;
-    //         font-weight: 500;
-    //         color: #738593;
-    //         text-transform: uppercase;
-    //         font-family: proxima-nova, sans-serif;
-    //         letter-spacing: 0.5px;
-    //     }
-    // }
-    // .sidebar-nav {
-    //     button {
-    //         width:50%;
-    //         border:0;
-    //         font-size:1rem;
-    //         float: right;
-    //         margin-right: 10px;
-    //         margin-bottom:10px;
-    //         margin-top:10px;
-    //         background-color: #00a2df;
-    //         img {
-    //             height: 50px;
-    //         }
-    //     }
-    // }
-}
+@import '../../../assets/scss/_variables';
 
-// .support {
-//     background: #3f5165;
-//     height: 100%;
-//     display: flow-root;
-//     .card {
-//         background: #3f5165;
-//         border: 0;
-//         float: right;
-//         &-body {
-//             h5{
-//               color:white;
-//             }
-//             .list-group {
-//                 &-item {
-//                     small {
-//                         text-transform: uppercase;
-//                     }
-//                     color:white;
-//                     background: #3f5165;
-//                 }
-//             }
-//         }
-//     }
-// }
+.left-sidebar{
+    .list-group{
+        align-items: flex-end;
+        padding-top: 15px;
+      &-item{
+          width: 150px;
+          height: 120px;
+          border-radius: 5px;
+          text-align: center;
+          background-color: transparent;
+          border: none;
+          color: #000;
+          h6{
+              margin-top: .5rem;
+          }
+           &:first-child{
+          height: 180px;
+          cursor: default;
+          color: $disabled-text-color;
+          h6{
+          font-size: 12px;
+          }
+          circle-progress{
+          border-bottom: 1px solid grey
+          }
+            }
+            img{
+                width: 35px;
+            }
+          &.active{
+              color: $white-color;
+              background-color: $primary-color
+          }
+      }  
+    
+    }
+    }
