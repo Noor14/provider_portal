@@ -1,25 +1,57 @@
 <section id="registration">
-  <div class="row no-margin">
-    <div class="col-xl-3 col-md-3 col-sm-3">
-      <app-leftsidebar></app-leftsidebar>
+  <div class="row">
+    <div class="col-xl-3 col-md-3 col-sm-3 left-section">
+      <div class=" left-sidebar">
+      <ul class="list-group">
+        <a href="javascript:;" class="list-group-item  d-flex flex-column align-items-center">
+          YOUR PROGRESS
+          <circle-progress
+          [percent]="10"
+          [maxPercent]="100"
+          [radius]="50"
+          [outerStrokeWidth]="9"
+          [innerStrokeWidth]="9"
+          [space] = "-9"
+          [outerStrokeColor]="'#ca1d21'"
+          [innerStrokeColor]="'#e7e8ea'"
+          [animation]="true"
+          [outerStrokeLinecap]= "square"
+          [showTitle]= "false"
+          [showSubtitle]="true"
+          [showUnits]="false"
+          [unitsFontSize]="15"
+          [animationDuration]="300"></circle-progress>
+        </a>
+        <a href="javascript:;" class="list-group-item">
+          <img src="../../../assets/images/icons/icon_user.svg" alt="profile"/>
+           <h6>My Profile</h6>
+          </a>
+        <a href="javascript:;" class="list-group-item active">
+          <h6>My Organization</h6>
+          </a>
+        <a href="javascript:;" class="list-group-item">
+          <img src="../../../assets/images/icons/icon_setup.svg" alt="profile"/>
+          <h6>Setup</h6>
+          </a>
+      </ul>
+      </div>
     </div>
     <div class="col-md-9">
       <div class="container">
         <div class="select-city">
-          <img *ngIf="selectedRegion && selectedRegion.flag" [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + selectedRegion.flag" class="mr-1 prepend-flag">
+           <img *ngIf="selectedRegion && selectedRegion.flag" [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + selectedRegion.flag" class="mr-1 prepend-flag">
           <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search"
             [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Select Region" />
           <ng-template #rt let-r="result">
             <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="mr-1">
             <ngb-highlight [result]="r.name"></ngb-highlight>
-          </ng-template>
-          <!-- <input type="text" placeholder="Select Country" autocorrect="off" autocapitalize="off" class="form-control" 
-          spellcheck="off" #search> -->
+          </ng-template> 
+          <!--<input type="text" placeholder="Select Country" autocorrect="off" autocapitalize="off" class="form-control" 
+          spellcheck="off" #search>-->
         </div>
-        <agm-map [zoom]="zoomlevel" [latitude]="selectedRegion.lat" [longitude]="selectedRegion.lng">
-          <agm-marker [latitude]="selectedRegion.lat" [longitude]="selectedRegion.lng"></agm-marker>
+        <agm-map [zoom]="zoomlevel" [latitude]="selected.lat" [longitude]="selected.lng">
+          <agm-marker [latitude]="selected.lat" [longitude]="selected.lng"></agm-marker>
         </agm-map>
-
       </div>
     </div>
   </div>
