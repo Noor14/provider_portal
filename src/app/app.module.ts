@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './Shared/header/header.component';
 import { FooterComponent } from './Shared/footer/footer.component';
-import { RegistrationComponent } from './user/registration/registration.component';
+import { RegistrationComponent } from './user/registration-form/registration.component';
 import { AgmCoreModule } from '@agm/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { OtpconfirmationComponent } from './user/otpconfirmation/otpconfirmation.component';
@@ -33,7 +33,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg&libraries=geometry',
       libraries: ["places"]
     }),
-      NgCircleProgressModule.forRoot()
+   NgCircleProgressModule.forRoot()
 
   ],
   providers: [],
