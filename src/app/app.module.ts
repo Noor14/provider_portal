@@ -11,7 +11,7 @@ import { AgmCoreModule } from '@agm/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { OtpconfirmationComponent } from './user/otpconfirmation/otpconfirmation.component';
 import { CreatePasswordComponent } from './user/create-password/create-password.component';
-
+import { NgCircleProgressModule } from 'ng-circle-progress';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +30,8 @@ import { CreatePasswordComponent } from './user/create-password/create-password.
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg&libraries=geometry',
       libraries: ["places"]
-    })
+    }),
+      NgCircleProgressModule.forRoot()
 
   ],
   providers: [],
