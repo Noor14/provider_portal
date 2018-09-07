@@ -13,6 +13,7 @@ import { OtpconfirmationComponent } from './user/otpconfirmation/otpconfirmation
 import { CreatePasswordComponent } from './user/create-password/create-password.component';
 import { LeftsidebarComponent } from './user/leftsidebar/leftsidebar.component';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { BuisnessDetailComponent } from './user/buisness-detail/buisness-detail.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,6 +23,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     LeftsidebarComponent,
     OtpconfirmationComponent,
     CreatePasswordComponent,
+    BuisnessDetailComponent,
   ],
   imports: [
     BrowserModule,
