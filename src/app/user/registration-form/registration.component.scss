@@ -1,41 +1,132 @@
-@import '../../../assets/scss/_variables';
-
+@import '../../../assets/scss/_variables.scss';
 section#registration {
-    agm-map {
-        height: 300px;
-        width: 85%;
+  agm-map {
+    height: 360px;
+    margin-bottom: 58px;
+  }
+  .select-city {
+    position: absolute;
+    z-index: 1;
+    margin-top: 15px; // top: 0;
+    margin-left: 15px;
+    .dropdown-menu {
+      .dropdown-item {
+        &.active,
+        &:active {
+          background: $primary-grey;
+        }
+      }
     }
-    .select-city {
-        position: absolute;
-        z-index: 1;
-        margin-top: 15px;
-        top: 0;
-        margin-left: 15px;
-        .dropdown-menu{
-            .dropdown-item{
-            &.active, &:active{
-                background: $primary-grey; 
-            }
-            }
-        }
-        .prepend-flag{
-            position: absolute;
-            top: 15px;
-            left: 8px;
-        }
-        input#typeahead{
-            padding-left: 1.8rem;
-        }
-        img{
-            width: 16px;
-            height: 12px;
-        }
+    .prepend-flag {
+      position: absolute;
+      top: 15px;
+      left: 8px;
     }
-    .left-section{
-    background-color: #eff1f5;
-
+    input#typeahead {
+      padding-left: 1.8rem;
     }
-  
+    img {
+      width: 16px;
+      height: 12px;
+    }
+  }
 }
 
-    
+.registration {
+  &-title {
+    font-family: $font-pragmatica;
+    font-weight: $font-weight-mid;
+    color: $text-color-default;
+    font-size: $font-size-large + $font-size-large;
+    line-height: 1.5;
+  }
+  &-paragraph {
+    font-family: $font-proxima;
+    font-weight: $font-weight-normal;
+    color: $secondary-text-color;
+    font-size: $font-size-large;
+  }
+  &-map-section {
+    margin-top: 58px;
+    &-title {
+      font-family: $font-pragmatica;
+      font-weight: $font-weight-mid;
+      color: $text-color-default;
+      font-size: $font-size-large + 0.25rem;
+      text-transform: capitalize;
+    }
+    .hr-solid {
+      margin-top: 0.9375rem !important;
+      margin-bottom: 1.5rem !important;
+    }
+    .check-boxes-main {
+      label {
+        font-family: $font-proxima !important;
+        font-weight: $font-weight-normal !important;
+        color: $text-color-default !important;
+        font-size: $font-size-large !important;
+      }
+      &.dir-arabic {
+        span {
+          margin: 0;
+          margin-left: 1em;
+        }
+      }
+    }
+    .form-row {
+      label {
+        font-family: $font-proxima !important;
+        font-weight: $font-weight-mid !important;
+        color: $text-color-default !important;
+        font-size: $font-size-large !important;
+      }
+    }
+    .select-number {
+      input[type="text"] {
+        // padding-left: 29% !important;
+        padding-left: 40px;
+      }
+      .contanct-dropdown {
+        position: absolute;
+        margin-left: 15px;
+        margin-top: 13px;
+      }
+      .input-group-prepend {
+        .dropdown {
+          margin-top: 13px;
+          position: absolute;
+          margin-left: 12px;
+        }
+      }
+      span {
+        font-size: $font-size-medium;
+      }
+      .country-section {
+        border: 0px;
+        background: transparent;
+      }
+      ng-scrollbar {
+        margin-bottom: 0rem;
+        min-height: 367px;
+        width: 7.2rem;
+        position: absolute;
+        z-index: 999;
+        top: 10px;
+        border: 1px solid $primary-color;
+        -webkit-box-shadow: 0px 0px 10px 0px $primary-color;
+        box-shadow: 0px 0px 10px 0px $primary-color;
+        left: -10px;
+        ul {
+          border: 0px;
+          li.list-group-item {
+            border: 0px;
+            cursor: pointer;
+            img {
+              border: 1px solid $grey-border;
+            }
+          }
+        }
+      }
+    }
+  }
+}
