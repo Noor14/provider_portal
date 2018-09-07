@@ -11,6 +11,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Routes, RouterModule } from '@angular/router';
 import { UserComponent } from './user.component';
+import { BusinessDetailComponent } from './business-detail/business-detail.component'
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { UserComponent } from './user.component';
     LeftsidebarComponent,
     OtpconfirmationComponent,
     CreatePasswordComponent,
+    BusinessDetailComponent,
     UserComponent
   ]
 })
