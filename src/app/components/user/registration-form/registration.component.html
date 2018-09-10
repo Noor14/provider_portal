@@ -1,17 +1,204 @@
-<section id="registration">
-  <div class="select-city">
-    <img *ngIf="selectedRegion && selectedRegion.flag" [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + selectedRegion.flag" class="mr-1 prepend-flag">
-   <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search"
-     [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Select Region" />
-   <ng-template #rt let-r="result">
-     <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="mr-1">
-     <ngb-highlight [result]="r.name"></ngb-highlight>
-   </ng-template> 
-   <!--<input type="text" placeholder="Select Country" autocorrect="off" autocapitalize="off" class="form-control" 
-   spellcheck="off" #search>-->
- </div>
- <agm-map [zoom]="zoomlevel" [latitude]="selectedRegion.lat" [longitude]="selectedRegion.lng">
-   <agm-marker [latitude]="selectedRegion.lat" [longitude]="selectedRegion.lng"></agm-marker>
- </agm-map>
- <button class="btn btn-primary" routerLink="/otp">Create Account</button>
+<section id="registrationForm">
+      <!-- Registration Page -->
+      <div class="registration">
+        <h3 class="registration-title">Registration Details</h3>
+        <small class="registration-paragraph">It takes less than 15 seconds to setup your account.</small>
+        <div class="registration-map-section">
+          <div class="row">
+            <div class="col">
+              <h4 class="registration-map-section-title">Select your region</h4>
+              <hr class="hr-solid">
+              <div class="select-city">
+                <img *ngIf="selectedRegion && selectedRegion.flag" [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + selectedRegion.flag"
+                  class="mr-1 prepend-flag">
+                <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search"
+                  [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Select Region" />
+                <ng-template #rt let-r="result">
+                  <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="mr-1">
+                  <ngb-highlight [result]="r.name"></ngb-highlight>
+                </ng-template>
+
+              </div>
+              <agm-map [zoom]="zoomlevel" [latitude]="selectedRegion.lat" [longitude]="selectedRegion.lng">
+                <agm-marker [latitude]="selectedRegion.lat" [longitude]="selectedRegion.lng"></agm-marker>
+              </agm-map>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col">
+              <h4 class="registration-map-section-title">
+                Who Would You Like to Setup the Account for?
+                <span class="arabic">من تريد إعداد الحساب؟</span>
+              </h4>
+              <hr class="hr-solid">
+              <div class="row">
+                <div class="col">
+                  <div class="check-boxes-main">
+                    <input id="five" type="checkbox" checked='checked'>
+                    <label for='five'>
+                      <span></span>On behalf of own company
+                    </label>
+                    <input id='six' type='checkbox' />
+                    <label for='six'>
+                      <span></span>On behalf of someone else’s company
+                    </label>
+                    <input id='seven' type='checkbox' />
+                    <label for='seven'>
+                      <span></span>My Organization
+                    </label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="check-boxes-main dir-rtl">
+                    <input id="ar-five" type="checkbox" checked='checked'>
+                    <label for='ar-five'>
+                      <span></span>On behalf of own company
+                    </label>
+                    <input id='ar-six' type='checkbox' />
+                    <label for='ar-six'>
+                      <span></span>On behalf of someone else’s company
+                    </label>
+                    <input id='ar-seven' type='checkbox' />
+                    <label for='ar-seven'>
+                      <span></span>My Organization
+                    </label>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col">
+              <h4 class="registration-map-section-title">
+                Service Offered
+                <span class="dir-rtl">الخدمات المقدمة</span>
+              </h4>
+              <hr class="hr-solid">
+              <div class="row">
+                <div class="btn-group col">
+                  <div class="btn btn-light service-btn active">
+                    <p class="mb-0">Freight Forwarder</p>
+                    <p class="mb-0">وكيل الشحن</p>
+                  </div>
+                  <div class="btn btn-light service-btn">
+                    <p class="mb-0">Freight Forwarder</p>
+                    <p class="mb-0">وكيل الشحن</p>
+                  </div>
+                  <div class="btn btn-light service-btn">
+                    <p class="mb-0">Freight Forwarder</p>
+                    <p class="mb-0">وكيل الشحن</p>
+                  </div>
+                  <div class="btn btn-light service-btn">
+                    <p class="mb-0">Freight Forwarder</p>
+                    <p class="mb-0">وكيل الشحن</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col">
+              <h4 class="registration-map-section-title">
+                Personal information
+                <span class="arabic">معلومات شخصية</span>
+              </h4>
+              <hr class="hr-solid">
+              <div class="form-row">
+                <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                  <label for="leftFirstName">First Name</label>
+                  <input type="text" class="form-control" id="leftFirstName" placeholder="Email">
+                </div>
+                <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
+                  <label for="rightFirstName col-12">First Name</label>
+                  <input type="text" class="form-control" id="rightFirstName" placeholder="Email">
+                </div>
+                <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                  <label for="leftLastName">Last Name</label>
+                  <input type="text" class="form-control" id="leftLastName" placeholder="Email">
+                </div>
+                <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
+                  <label for="rightLastName">Last Name</label>
+                  <input type="text" class="form-control" id="rightLastName" placeholder="Email">
+                </div>
+                <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                  <label for="leftJobTitle">Job Title</label>
+                  <input type="text" class="form-control" id="leftJobTitle" placeholder="Email">
+                </div>
+                <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
+                  <label for="rightJobTitle">Job Title</label>
+                  <input type="text" class="form-control" id="rightJobTitle" placeholder="Email">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col">
+              <h4 class="registration-map-section-title">
+                Contact Details
+                <span class="arabic">بيانات المتصل</span>
+              </h4>
+              <hr class="hr-solid">
+              <div class="form-row">
+                <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                  <label class="">Contact</label>
+                  <div class="select-number">
+                    <div class="input-group-prepend">
+                      <div class="contanct-dropdown">
+                        <div class="pointer phone" id="phoneCode" style="max-height: 28rem;">
+                          <div class="d-inline-block" style="width:20px;height:20px;">
+                            <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive"
+                              style="max-width:100%; max-height:100%;">
+                            <div class="animated fadeIn country-section">
+                              <ul class="list-group">
+                                <li class="list-group-item">
+                                  <div class="d-inline-block" style="width:20px;height:20px;">
+                                  </div>
+                                  <span> +971</span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <input type="text" class="form-control control-phone" maxlength="12" placeholder="123456789">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
+                  <label for="inputEmail4">رقم الهاتف المتحرك</label>
+                  <div class="select-number">
+                    <div class="input-group-prepend">
+                      <div class="contanct-dropdown">
+                        <div class="pointer phone" id="phoneCode" style="max-height: 28rem;">
+                          <div class="d-inline-block" style="width:20px;height:20px;">
+                            <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive"
+                              style="max-width:100%; max-height:100%;">
+                          </div>
+                        </div>
+                      </div>
+                      <input type="text" class="form-control control-phone" maxlength="12" placeholder="123456789">
+                    </div>
+                  </div>
+
+                </div>
+                <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                  <label for="inputEmail4 col-12">Email Address</label>
+                  <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                </div>
+                <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
+                  <label for="inputEmail4 col-12">البريد الإلكتروني</label>
+                  <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col">
+              <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">Create Account / إصنع حساب</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Registration Page -->
 </section>

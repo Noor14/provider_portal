@@ -17,15 +17,7 @@ body {
   font-family: $font-pragmatica; //font-size: $base-font-size;
   font-weight: $font-weight-normal;
   font-style: normal; // background: rgba(243,245,247,1);
-  .pointer {
-    cursor: pointer;
-  }
-  .small-modal {
-    .modal-dialog {
-      //max-width: 450px !important;
-      max-width: 400px !important;
-    }
-  }
+
 }
 
 .container {

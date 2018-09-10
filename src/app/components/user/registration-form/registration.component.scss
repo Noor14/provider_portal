@@ -1,4 +1,4 @@
-@import '../../../assets/scss/_variables.scss';
+@import '../../../../assets/scss/_variables';
 section#registrationForm {
   agm-map {
     height: 360px;
@@ -148,7 +148,7 @@ section#registrationForm {
         background: $white-color !important;
         &:before {
           content: " ";
-          background: url('../../../assets/images/corner-selection-png.png');
+          background: url('../../../../assets/images/corner-selection-png.png');
           width: 44px;
           height: 44px;
           position: absolute;
