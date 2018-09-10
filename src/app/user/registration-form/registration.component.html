@@ -8,6 +8,7 @@
     <div class="col-xl-9 col-md-9 col-sm-9 p-0">
       <div class="right-section-portal">
         <div class="inner-container">
+          <!-- <app-otpconfirmation></app-otpconfirmation> -->
           <!-- Registration Page -->
           <div class="registration">
             <h3 class="registration-title">Registration Details</h3>
@@ -26,13 +27,11 @@
                       <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="mr-1">
                       <ngb-highlight [result]="r.name"></ngb-highlight>
                     </ng-template>
-                    <!--<input type="text" placeholder="Select Country" autocorrect="off" autocapitalize="off" class="form-control" 
-                                            spellcheck="off" #search>-->
+
                   </div>
                   <agm-map [zoom]="zoomlevel" [latitude]="selectedRegion.lat" [longitude]="selectedRegion.lng">
                     <agm-marker [latitude]="selectedRegion.lat" [longitude]="selectedRegion.lng"></agm-marker>
                   </agm-map>
-                  <!-- <button class="btn btn-primary">Create Account</button> -->
                 </div>
               </div>
               <div class="row mt-5">
@@ -163,7 +162,6 @@
                                   <ul class="list-group">
                                     <li class="list-group-item">
                                       <div class="d-inline-block" style="width:20px;height:20px;">
-                                        <!-- <img src="../../../../assets/images/icons/flags/4x3/ae.svg" style="max-width:100%; max-height:100%;"> -->
                                       </div>
                                       <span> +971</span>
                                     </li>
@@ -203,9 +201,14 @@
                   </div>
                 </div>
               </div>
+              <div class="row mt-5">
+                <div class="col">
+                  <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">Create Account / إصنع حساب</a>
+                </div>
+              </div>
             </div>
           </div>
-          <!--/ Registration Page -->
+          <!--Registration Page -->
         </div>
       </div>
     </div>
