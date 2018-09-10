@@ -1,8 +1,12 @@
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router'
-import { HeaderComponent } from './shared/header/header.component';
-import { FooterComponent } from './shared/footer/footer.component';
+import { HeaderComponent } from './Shared/header/header.component';
+import { FooterComponent } from './Shared/footer/footer.component';
+import { RegistrationComponent } from './user/registration-form/registration.component';
+import { OtpconfirmationComponent } from './user/otpconfirmation/otpconfirmation.component';
+import { CreatePasswordComponent } from './user/create-password/create-password.component';
+
 
 const appRoutes:Routes = [
   { path: '', loadChildren : 'app/components/user/user.module#UserModule'}
