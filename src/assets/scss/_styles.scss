@@ -1,2 +1,13 @@
-@import './_variables';
+@import './_variables.scss';
 @import './_global';
+/* set container size */
+
+
+body {
+  font-family: $font-pragmatica; //font-size: $base-font-size;
+  font-weight: $font-weight-normal;
+  font-style: normal; // background: rgba(243,245,247,1);
+}
+
+
+

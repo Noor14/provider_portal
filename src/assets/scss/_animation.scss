@@ -1,0 +1,272 @@
+@import "./_variables.scss";
+//moving clockwise animation 
+.clockSpin {
+  // transform-origin: 15px 15px;
+  transform-origin: 13.1px;
+}
+
+.transit-time-bounce {
+  fill: #738593;
+}
+
+
+/* The typing effect */
+
+@keyframes typing {
+  from {
+    width: 0
+  }
+  to {
+    width: 100%
+  }
+}
+
+/* The typewriter cursor effect */
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent
+  }
+  50% {
+    border-color: orange;
+  }
+}
+
+
+@keyframes clockwiseSpin {
+  0% {
+    transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(240deg);
+    -moz-transform: rotate(240deg);
+  }
+}
+
+@keyframes text-glow {
+  0% {
+    text-shadow: none;
+  }
+  100% {
+    // text-shadow: -1px 1px 3px #f5a623;
+    color: #afafaf;
+  }
+}
+
+// bounce animation for route details section (transit time)
+@keyframes bounce-top {
+  0% {
+    transform: translateY(-20px);
+    animation-timing-function: ease-in;
+    opacity: 1;
+  }
+  24% {
+    opacity: 1;
+  }
+  40% {
+    transform: translateY(-13px);
+    animation-timing-function: ease-in;
+  }
+  65% {
+    transform: translateY(-6px);
+    animation-timing-function: ease-in;
+  }
+  82% {
+    transform: translateY(-4px);
+    animation-timing-function: ease-in;
+  }
+  93% {
+    transform: translateY(-2px);
+    animation-timing-function: ease-in;
+  }
+  25%,
+  55%,
+  75%,
+  87% {
+    transform: translateY(0px);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    transform: translateY(0px);
+    animation-timing-function: ease-out;
+    opacity: 1;
+  }
+}
+
+// Fastes Route Icon...
+@-webkit-keyframes fastest-route-1 {
+  0% {
+    -webkit-transform: translate(-16px, 0px);
+    transform: translate(-16px, 0px)
+  }
+  50% {
+    -webkit-transform: translate(-8px, 0px);
+    transform: translate(-8px, 0px)
+  }
+  70% {
+    -webkit-transform: translate(16px, 0px);
+    transform: translate(16px, 0px);
+  }
+  100% {
+    -webkit-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes fastest-route-1 {
+  0% {
+    -webkit-transform: translate(-16px, 0px);
+    transform: translate(-16px, 0px)
+  }
+  50% {
+    -webkit-transform: translate(-8px, 0px);
+    transform: translate(-8px, 0px)
+  }
+  100% {
+    -webkit-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
+  }
+}
+
+/*=== Fastest Route and Best Price onload strok animation   ===*/
+
+/* On-load icons animation via strok */
+
+// Path,
+// polygon,
+// rect,
+// circle {
+//   stroke-dasharray: 50;
+//   stroke-dashoffset: 50;
+//   -webkit-animation: dash 1.5s linear alternate-reverse;
+//   animation: dash 1.5s linear alternate-reverse;
+//   stroke: #000000;
+//   fill: $primary-color;
+//   fill-opacity: 0;
+//   stroke-width: 0.6px;
+//   animation-fill-mode: both;
+//   /* opacity: 0; */
+// }
+/* On-load icons animation via strok */
+
+@-webkit-keyframes dash {
+  from {
+    stroke-dashoffset: 100;
+    opacity: 1;
+    stroke: #000000;
+    fill-opacity: 1;
+    stroke-opacity: 0;
+  } // to {
+  //    stroke-dashoffset: 0;
+  //    opacity: 0;
+  //    fill-opacity: 0;
+  //    stroke: transparent;
+  //  }
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 100;
+    opacity: 1;
+    stroke: #000000;
+    fill-opacity: 1;
+    stroke-opacity: 0;
+  } // to {
+  //    stroke-dashoffset: 0;
+  //    opacity: 0;
+  //    fill-opacity: 0;
+  //    stroke: transparent;
+  //  }
+}
+
+@keyframes LeftToRight {
+  from {
+    transform: translate3d(-2.7rem, 0, 1rem);
+  }
+  to {
+    transform: translate3d(0rem, 0, 0rem);
+  }
+}
+
+/*=== Fastest Route and Best Price onload strok animation   ===*/
+
+//*===  RECOMMENDED glowing section keyfram for FORWARDER Page ===*//
+@-webkit-keyframes glowing {
+  0% {
+    background-color: rgba($primary-grey, 0.9);
+    -webkit-box-shadow: 0 0 3px rgba($primary-grey, 0.9);
+  }
+
+  50% {
+    background-color: rgba($secondary-color-dark, 0.9);
+    -webkit-box-shadow: 0 0 10px rgba($secondary-color-dark, 0.9);
+    ;
+  }
+
+  100% {
+    background-color: rgba($primary-grey, 0.9);
+    -webkit-box-shadow: 0 0 3px rgba($primary-grey, 0.9);
+  }
+}
+
+@-moz-keyframes glowing {
+  0% {
+    background-color: rgba($primary-grey, 0.9);
+    -webkit-box-shadow: 0 0 3px rgba($primary-grey, 0.9);
+  }
+
+  50% {
+    background-color: rgba($secondary-color-dark, 0.9);
+    -webkit-box-shadow: 0 0 10px rgba($secondary-color-dark, 0.9);
+  }
+
+  100% {
+    background-color: rgba($primary-grey, 0.9);
+    -webkit-box-shadow: 0 0 3px rgba($primary-grey, 0.9);
+  }
+}
+
+@-o-keyframes glowing {
+  0% {
+    background-color: rgba($primary-grey, 0.9);
+    -webkit-box-shadow: 0 0 3px rgba($primary-grey, 0.9);
+  }
+
+  50% {
+    background-color: rgba($secondary-color-dark, 0.9);
+    -webkit-box-shadow: 0 0 10px rgba($secondary-color-dark, 0.9);
+  }
+
+  100% {
+    background-color: rgba($primary-grey, 0.9);
+    -webkit-box-shadow: 0 0 3px rgba($primary-grey, 0.9);
+  }
+}
+
+@keyframes glowing {
+  0% {
+    background-color: rgba($primary-grey, 0.9);
+    -webkit-box-shadow: 0 0 3px rgba($primary-grey, 0.9);
+  }
+
+  50% {
+    background-color: rgba($secondary-color-dark, 0.9);
+    -webkit-box-shadow: 0 0 10px rgba($secondary-color-dark, 0.9);
+  }
+
+  100% {
+    background-color: rgba($primary-grey, 0.9);
+    -webkit-box-shadow: 0 0 3px rgba($primary-grey, 0.9);
+  }
+}
+
+// .glowing-effects {
+//   -webkit-animation: glowing 1500ms infinite;
+//   -moz-animation: glowing 1500ms infinite;
+//   -o-animation: glowing 1500ms infinite;
+//   animation: glowing 1500ms infinite;
+// }
+
+//*===  RECOMMENDED glowing section keyfram for FORWARDER Page .END/ ===*//

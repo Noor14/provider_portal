@@ -1,11 +1,9 @@
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router'
-import { HeaderComponent } from './shared/header/header.component';
-import { FooterComponent } from './shared/footer/footer.component';
 
 const appRoutes:Routes = [
-  { path: '', loadChildren : 'app/components/user/user.module#UserModule'}
+  { path: '', loadChildren : 'app/components/pages/pages.module#PagesModule'}
 ]
 
 @NgModule({
