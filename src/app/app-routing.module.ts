@@ -1,13 +1,9 @@
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router'
-import { RegistrationComponent } from './components/user/registration-form/registration.component';
-import { OtpconfirmationComponent } from './components/user/otpconfirmation/otpconfirmation.component';
-import { CreatePasswordComponent } from './components/user/create-password/create-password.component';
-
 
 const appRoutes:Routes = [
-  { path: '', loadChildren : 'app/components/user/user.module#UserModule'}
+  { path: '', loadChildren : 'app/components/pages/pages.module#PagesModule'}
 ]
 
 @NgModule({
