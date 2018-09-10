@@ -1,5 +1,12 @@
-section#user{
-    .left-section{
-        background-color: #eff1f5;
-        }
+@import '../../../assets/scss/_variables';
+
+.user{
+    .left-section {
+        background-color: $left-sidebar-background;
+      }
+      
+      .right-section-portal {
+        background-color: $right-side-background;
+        padding: 80px;
+      }
 }

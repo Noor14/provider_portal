@@ -2,44 +2,12 @@
 @import './_global';
 /* set container size */
 
-html {
-  overflow-x: hidden;
-  font-size: $base-font-size;
-}
 
 body {
-  position: relative;
-  margin: 0;
-  margin-bottom: 6rem;
-  min-height: 100%;
-  margin: 0;
-  height: 100%;
   font-family: $font-pragmatica; //font-size: $base-font-size;
   font-weight: $font-weight-normal;
   font-style: normal; // background: rgba(243,245,247,1);
-
 }
 
-.container {
-  width: 100%;
-  max-width: 1350px;
-  padding: 0px 20px;
-}
 
-.inner-container {
-  width: 100%;
-  max-width: 890px;
-  margin: auto;
-  // padding: 0 20px;
-}
 
-.left-section {
-  background-color: $left-sidebar-background;
-  min-width: 325px;
-}
-
-.right-section-portal {
-  background-color: $right-side-background;
-  height: 100%;
-  padding: 82px 0;
-}
