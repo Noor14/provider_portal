@@ -66,7 +66,7 @@ section#registration {
         color: $text-color-default !important;
         font-size: $font-size-large !important;
       }
-      &.dir-arabic {
+      &.dir-rtl {
         span {
           margin: 0;
           margin-left: 1em;
@@ -83,8 +83,7 @@ section#registration {
     }
     .select-number {
       input[type="text"] {
-        // padding-left: 29% !important;
-        padding-left: 40px;
+        padding-left: 22% !important; // padding-left: 40px;
       }
       .contanct-dropdown {
         position: absolute;
@@ -116,14 +115,22 @@ section#registration {
         -webkit-box-shadow: 0px 0px 10px 0px $primary-color;
         box-shadow: 0px 0px 10px 0px $primary-color;
         left: -10px;
-        ul {
+      }
+      ul {
+        border: 0px;
+        li.list-group-item {
           border: 0px;
-          li.list-group-item {
-            border: 0px;
-            cursor: pointer;
-            img {
-              border: 1px solid $grey-border;
-            }
+          cursor: pointer;
+          position: absolute;
+          top: 0;
+          height: 20px;
+          background: transparent;
+          border: 0;
+          padding: 0;
+          top: -27px;
+          left: 30px;
+          img {
+            border: 1px solid $grey-border;
           }
         }
       }
