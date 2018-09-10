@@ -38,11 +38,10 @@
     }
     .support {
         background: #243748;
-        height: 100%;
-        display: flow-root;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
         .card {
-            border: 0;
-            float: right;
             &-body {
                 p {
                     font-size: 1rem;
