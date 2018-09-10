@@ -1,12 +1,11 @@
 @import '../../../assets/scss/_variables';
-
-.user{
-    .left-section {
-        background-color: $left-sidebar-background;
-      }
-      
-      .right-section-portal {
-        background-color: $right-side-background;
-        padding: 80px;
-      }
+.user {
+  .left-section {
+    background-color: $left-sidebar-background;
+  }
+  .right-section-portal {
+    background-color: $right-side-background; // padding: 80px;
+    padding: 80px 95px;
+    height: 100%;
+  }
 }
