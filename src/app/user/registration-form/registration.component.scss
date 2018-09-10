@@ -1,5 +1,5 @@
 @import '../../../assets/scss/_variables.scss';
-section#registration {
+section#registrationForm {
   agm-map {
     height: 360px;
     margin-bottom: 58px;
@@ -30,8 +30,6 @@ section#registration {
       height: 12px;
     }
   }
-}
-
 .registration {
   &-title {
     font-family: $font-pragmatica;
@@ -167,4 +165,5 @@ section#registration {
     font-weight: $font-proxima-weight-semibold;
     padding: 0.75rem 0.75rem;
   }
+}
 }

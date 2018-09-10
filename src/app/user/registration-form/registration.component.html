@@ -1,4 +1,4 @@
-<section id="registration">
+<section id="registrationForm">
   <div class="row">
     <div class="left-section">
       <div class="left-section col-xl-2 col-md-3 col-sm-3">
@@ -21,8 +21,8 @@
                   <div class="select-city">
                     <img *ngIf="selectedRegion && selectedRegion.flag" [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + selectedRegion.flag"
                       class="mr-1 prepend-flag">
-                    <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search" [resultTemplate]="rt"
-                      [inputFormatter]="formatter" placeholder="Select Region" />
+                    <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search"
+                      [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Select Region" />
                     <ng-template #rt let-r="result">
                       <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="mr-1">
                       <ngb-highlight [result]="r.name"></ngb-highlight>
@@ -95,7 +95,7 @@
                         <p class="mb-0">Freight Forwarder</p>
                         <p class="mb-0">وكيل الشحن</p>
                       </div>
-                      <div class="btn btn-light service-btn active">
+                      <div class="btn btn-light service-btn">
                         <p class="mb-0">Freight Forwarder</p>
                         <p class="mb-0">وكيل الشحن</p>
                       </div>
@@ -116,28 +116,28 @@
                   <hr class="hr-solid">
                   <div class="form-row">
                     <div class="form-group col-xl-6 col-md-6 col-sm-12">
-                      <label for="inputEmail4">First Name</label>
-                      <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                      <label for="leftFirstName">First Name</label>
+                      <input type="text" class="form-control" id="leftFirstName" placeholder="Email">
                     </div>
                     <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
-                      <label for="inputEmail4 col-12">First Name</label>
-                      <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                      <label for="rightFirstName col-12">First Name</label>
+                      <input type="text" class="form-control" id="rightFirstName" placeholder="Email">
                     </div>
                     <div class="form-group col-xl-6 col-md-6 col-sm-12">
-                      <label for="inputEmail4">Last Name</label>
-                      <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                      <label for="leftLastName">Last Name</label>
+                      <input type="text" class="form-control" id="leftLastName" placeholder="Email">
                     </div>
                     <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
-                      <label for="inputEmail4">First Name</label>
-                      <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                      <label for="rightLastName">Last Name</label>
+                      <input type="text" class="form-control" id="rightLastName" placeholder="Email">
                     </div>
                     <div class="form-group col-xl-6 col-md-6 col-sm-12">
-                      <label for="inputEmail4">Job Title</label>
-                      <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                      <label for="leftJobTitle">Job Title</label>
+                      <input type="text" class="form-control" id="leftJobTitle" placeholder="Email">
                     </div>
                     <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
-                      <label for="inputEmail4">First Name</label>
-                      <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                      <label for="rightJobTitle">Job Title</label>
+                      <input type="text" class="form-control" id="rightJobTitle" placeholder="Email">
                     </div>
                   </div>
                 </div>
@@ -157,7 +157,8 @@
                           <div class="contanct-dropdown">
                             <div class="pointer phone" id="phoneCode" style="max-height: 28rem;">
                               <div class="d-inline-block" style="width:20px;height:20px;">
-                                <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive" style="max-width:100%; max-height:100%;">
+                                <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive"
+                                  style="max-width:100%; max-height:100%;">
                                 <div class="animated fadeIn country-section">
                                   <ul class="list-group">
                                     <li class="list-group-item">
@@ -181,7 +182,8 @@
                           <div class="contanct-dropdown">
                             <div class="pointer phone" id="phoneCode" style="max-height: 28rem;">
                               <div class="d-inline-block" style="width:20px;height:20px;">
-                                <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive" style="max-width:100%; max-height:100%;">
+                                <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive"
+                                  style="max-width:100%; max-height:100%;">
                               </div>
                             </div>
                           </div>
