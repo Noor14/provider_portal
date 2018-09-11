@@ -37,8 +37,6 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
 
     this.countryList = this._sharedService.countryList;
-    console.log(this.countryList)
-
     // this.mapsAPILoader.load().then(() => {
     //   let autoComplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, { types: ["(cities)"] });
     //   autoComplete.addListener('places_changed', () => {
@@ -52,8 +50,6 @@ export class RegistrationComponent implements OnInit {
     //     })
     //   })
     // })
-
-    
     this._userService.getServiceOffered().subscribe((res:any) => {
       if(res.returnStatus == 'Success'){
          this.serviceOffered = JSON.parse(res.returnObject);

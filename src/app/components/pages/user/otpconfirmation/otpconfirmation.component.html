@@ -1,11 +1,13 @@
 <div class="profile-verify ">
   <h3 class="profile-verify-title text-center">Hi Jhon, Please Verify Your Profile</h3>
-  <p class="profile-verify-paragraph text-center">A one-time password was emailed to you at john@company.com. if you cannot find this email
-    <br/>(it may be caught in your spam filters) you may request a new one below.</p>
+  <p class="profile-verify-paragraph text-center">A one-time password was emailed to you at john@company.com. if you
+    cannot find this email
+    <br />(it may be caught in your spam filters) you may request a new one below.</p>
   <div class="row">
     <div class="dir-rtl col-12 mt-4">
       <h3 class="profile-verify-title text-center">مرحبا جون ، يرجى التحقق من ملف التعريف الخاص بك</h3>
-      <p class="profile-verify-paragraph text-center">تم إرسال كلمة مرور لمرة واحدة عبر البريد الإلكتروني على john@company.com. إذا لم تتمكن من العثور على هذا البريد الإلكتروني
+      <p class="profile-verify-paragraph text-center">تم إرسال كلمة مرور لمرة واحدة عبر البريد الإلكتروني على
+        john@company.com. إذا لم تتمكن من العثور على هذا البريد الإلكتروني
         (قد يتم اكتشافه في عوامل تصفية الرسائل غير المرغوب فيها) ، فيمكنك طلب عنوان جديد أدناه.</p>
       <hr class="hr-solid">
     </div>
@@ -14,7 +16,14 @@
     <div class="col-6 otp-form">
       <label for="">One-Time Password/كلمة السر لمرة واحدة</label>
       <input type="text" class="form-control mb-3" placeholder="">
-      <button class="btn btn-primary hvr-sweep-to-right form-control">Submit / خضع</button>
+      <button class="btn btn-primary hvr-sweep-to-right form-control" (click)="submitOtp()">Submit / خضع</button>
+      <p class="otp-form-msg text-center mt-2 ">
+        <button href="javascript:;" (click)="resendOtp()" class="hvr-icon-forward" [disabled] ="!resendTimer">
+          RESEND OTP/إعادة إرسال
+          <img src="../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16 align-text-top hvr-icon">
+        </button>
+        <span>10 : 00 Minutes</span>
+      </p>
     </div>
   </div>
 </div>

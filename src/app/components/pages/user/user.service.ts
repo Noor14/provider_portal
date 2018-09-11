@@ -20,5 +20,14 @@ export class UserService {
     return this._http.post(baseApi + url, obj);
   }
 
+  resendOtpCode(otpKey){
+    let url: string = `otp/ResendOTP/${otpKey}`;
+    return this._http.get(baseApi + url);
+  }
+
+  sendOtpCode(otpKey){
+    let url: string = "otp/Post";
+    return this._http.post(baseApi + url, otpKey);
+  }
 
 }
