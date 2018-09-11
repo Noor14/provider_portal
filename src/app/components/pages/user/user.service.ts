@@ -5,17 +5,17 @@ import { HttpClient } from "@angular/common/http";
 @Injectable()
 export class UserService {
 
-  constructor(private _http : HttpClient) { }
-  getAccountSetup(id){
-    let url: string = "usersprovider/AccountSetup/" + id;
+  constructor(private _http: HttpClient) { }
+  getAccountSetup(id) {
+    let url: string = `usersprovider/AccountSetup/${id}`;
     return this._http.get(baseApi + url);
   }
-  getServiceOffered(){
+  getServiceOffered() {
     let url: string = "usersprovider/ServiceOffered";
     return this._http.get(baseApi + url);
   }
 
-  userRegistration(obj){
+  userRegistration(obj) {
     let url: string = "usersprovider/Post";
     return this._http.post(baseApi + url, obj);
   }
