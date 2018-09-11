@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonService } from './services/common.service';
+import { SharedService } from './services/shared.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { CommonService } from './services/common.service';
     NgbModule.forRoot(),
   ],
   providers: [
-    CommonService
+    CommonService,
+    SharedService
   ],
   bootstrap: [AppComponent]
 })

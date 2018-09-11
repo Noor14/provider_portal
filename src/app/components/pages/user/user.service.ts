@@ -6,12 +6,19 @@ import { HttpClient } from "@angular/common/http";
 export class UserService {
 
   constructor(private _http : HttpClient) { }
-  getAccountSetup(){
-    let url: string = "usersprovider/AccountSetup/0";
+  getAccountSetup(id){
+    let url: string = "usersprovider/AccountSetup/" + id;
     return this._http.get(baseApi + url);
   }
   getServiceOffered(){
     let url: string = "usersprovider/ServiceOffered";
     return this._http.get(baseApi + url);
   }
+
+  userRegistration(obj){
+    let url: string = "usersprovider/Post";
+    return this._http.post(baseApi + url, obj);
+  }
+
+
 }

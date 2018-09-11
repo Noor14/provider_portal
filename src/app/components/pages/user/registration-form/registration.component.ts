@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { MapsAPILoader } from '@agm/core'
-import { } from '@types/googlemaps'
+import { MapsAPILoader } from '@agm/core';
+import { Router } from '@angular/router';
+import { } from '@types/googlemaps';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { UserService } from '../user.service';
-
+import { SharedService } from '../../../../services/shared.service';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -14,30 +15,29 @@ import { UserService } from '../user.service';
 export class RegistrationComponent implements OnInit {
 
   // @ViewChild('search') public searchElement: ElementRef;
-  regions: any[];
-  accountSetup: any;
-  serviceOffered: any;
+  public countryList: any[];
+  public accountSetup: any;
+  public serviceOffered: any;
   public zoomlevel: number = 5;
+  public serviceIds: any[]= [];
+  public lat:number = 23.424076;
+  public lng:number = 53.847816;
   public selectedRegion = {
-    lat: 23.424076,
-    lng: 53.847816,
-    name: 'UAE', 
-    flag: '5/5c/Flag_of_Alabama.svg/45px-Flag_of_Alabama.svg.png'
+    id: undefined,
+    code: undefined,
+    title: undefined,
   }
-  constructor(private _userService : UserService, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) { }
+  constructor(
+    private _userService : UserService,
+    private _sharedService : SharedService,
+    private mapsAPILoader: MapsAPILoader,
+    private _router: Router,
+    private ngZone: NgZone) { }
 
   ngOnInit() {
-    this.regions = [
-      { id: 1, name: 'UAE', flag: '5/5c/Flag_of_Alabama.svg/45px-Flag_of_Alabama.svg.png', lat: 23.424076, lng: 53.847816 },
-      { id: 2, name: 'Pakistan', flag: 'e/e6/Flag_of_Alaska.svg/43px-Flag_of_Alaska.svg.png', lat: 30.375320, lng: 69.345116 },
-      { id: 3, name: 'America', flag: '9/9d/Flag_of_Arizona.svg/45px-Flag_of_Arizona.svg.png', lat: 37.090240, lng: -95.712891 },
-      { id: 4, name: 'SaudiArabia', flag: '9/9d/Flag_of_Arkansas.svg/45px-Flag_of_Arkansas.svg.png', lat: 24.694970, lng: 46.724130 },
-      { id: 5, name: 'India', flag: '0/01/Flag_of_California.svg/45px-Flag_of_California.svg.png', lat: 20.593683, lng: 78.962883 },
-      { id: 6, name: 'Palestine', flag: 'e/e6/Flag_of_Alaska.svg/43px-Flag_of_Alaska.svg.png', lat: 30.375320, lng: 69.345116 },
-      { id: 7, name: 'Australia', flag: 'e/e6/Flag_of_Alaska.svg/43px-Flag_of_Alaska.svg.png', lat: 30.375320, lng: 69.345116 },
-      { id: 8, name: 'Austria', flag: 'e/e6/Flag_of_Alaska.svg/43px-Flag_of_Alaska.svg.png', lat: 30.375320, lng: 69.345116 }
 
-    ];
+    this.countryList = this._sharedService.countryList;
+    console.log(this.countryList)
 
     // this.mapsAPILoader.load().then(() => {
     //   let autoComplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, { types: ["(cities)"] });
@@ -54,14 +54,6 @@ export class RegistrationComponent implements OnInit {
     // })
 
     
-    this._userService.getAccountSetup().subscribe((res:any) => {
-      if(res.returnStatus == 'Success'){
-         this.accountSetup = JSON.parse(res.returnObject);
-         console.log(this.accountSetup);
-         
-      }
-    })
-
     this._userService.getServiceOffered().subscribe((res:any) => {
       if(res.returnStatus == 'Success'){
          this.serviceOffered = JSON.parse(res.returnObject);
@@ -70,16 +62,75 @@ export class RegistrationComponent implements OnInit {
     })
 
   }
-  serviceSelection(obj, evt){
-    console.log(evt);
+  
+  accountList(id){
+    this._userService.getAccountSetup(id).subscribe((res:any) => {
+      if(res.returnStatus == 'Success'){
+         this.accountSetup = JSON.parse(res.returnObject);
+         
+      }
+    })
   }
+
+  getAccountList(id){
+    if(id) this.accountList(id);
+  }
+
+  serviceSelection(obj, selectedService){
+    let index = this.serviceIds.indexOf(obj.ServiceID);
+    let selectedItem = selectedService.classList;
+    if(index < 0){
+      selectedItem.add('active');
+      this.serviceIds.push(obj.ServiceID);
+    }
+    else{
+      this.serviceIds.splice(index, 1);
+      selectedItem.remove('active');
+    }
+  }
+
+
+  createAccount(){
+  let obj = {
+    setupAccountId:1,
+    serviceId:1,
+    countryID: 100,
+    primaryEmail: "noor@texpo.com",
+          baseLanguageData:{
+            firstName: "Noor",
+            lastName: "Ali",
+            primaryPhone: "03001234567",
+            CountryPhoneCode: "+92",
+            PhoneCodeCountryID: "+92",
+            jobTitle: "Manager",      
+          },
+          otherLanguageData:{ 
+            firstName: "Noor",
+            lastName: "Ali",
+            primaryPhone: "03001234567",
+            CountryPhoneCode: "+92",
+            PhoneCodeCountryID: "+92",
+            jobTitle: "Manager",
+            
+          }
+        }
+    
+  this._userService.userRegistration(obj).subscribe((res:any)=>{
+    if(res.returnStatus=="Success"){
+       this._router.navigate(['/otp'])
+    }
+  })
+
+}
+
+
 
     search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       map(term => (!term || term.length < 3)? []
-        : this.regions.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+        : this.countryList.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
     )
-   formatter = (x: {name: string}) => x.name;
+   formatter = (x: {title: string}) => x.title;
 
 }
