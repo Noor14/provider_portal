@@ -6,6 +6,10 @@ section#business-detail {
             font-weight: 700;
             font-family: proxima, sans-serif;
         }
+
+        h5 {
+            margin-top:3rem;
+        }
         input {
             border: 0;
             height: 2.9rem;
@@ -32,6 +36,7 @@ section#business-detail {
             border: 1px solid #e1d8d8;
             text-align: center;
         }
+    
         .trade-license-box {
             img {
                 margin: auto;
@@ -49,6 +54,13 @@ section#business-detail {
             border: 1px solid #e1d8d8;
             margin-bottom: 1rem;
             text-align: center;
+        }
+        .business-map {
+        width: 100%;
+        height: 350px;
+        border: 1px solid #e1d8d8;
+        margin-bottom: 1rem;
+        margin-top:2rem;
         }
         &-contacts {
             .select-city {
