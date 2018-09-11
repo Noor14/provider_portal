@@ -1,6 +1,9 @@
 @import '../../../assets/scss/_variables';
 @import '../../../assets/scss/_global';
 header {
+  background: $white-color;
+  padding: 6px 0;
+  border-bottom: 1px solid $grey-border;
   .logo {
     width: 180px;
     height: auto;
