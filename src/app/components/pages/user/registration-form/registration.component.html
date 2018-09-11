@@ -1,4 +1,4 @@
-      <!-- Registration Page -->
+      Registration Page 
       <section class="registration">
         <h3 class="registration-title">Registration Details</h3>
         <small class="registration-paragraph">It takes less than 15 seconds to setup your account.</small>
@@ -30,40 +30,23 @@
                 <span class="arabic">من تريد إعداد الحساب؟</span>
               </h4>
               <hr class="hr-solid">
-              <div class="row">
+              <div class="row" *ngFor="let account of accountSetup; let i = index">
                 <div class="col">
                   <div class="check-boxes-main">
-                    <input id="five" type="checkbox" checked='checked'>
-                    <label for='five'>
-                      <span></span>On behalf of own company
-                    </label>
-                    <input id='six' type='checkbox' />
-                    <label for='six'>
-                      <span></span>On behalf of someone else’s company
-                    </label>
-                    <input id='seven' type='checkbox' />
-                    <label for='seven'>
-                      <span></span>My Organization
+                    <input id="{{i+1}}" type="checkbox">
+                    <label for="{{i+1}}">
+                      <span></span>{{account.AccountNameBaseLang}}
                     </label>
                   </div>
                 </div>
                 <div class="col">
                   <div class="check-boxes-main dir-rtl">
-                    <input id="ar-five" type="checkbox" checked='checked'>
-                    <label for='ar-five'>
-                      <span></span>On behalf of own company
-                    </label>
-                    <input id='ar-six' type='checkbox' />
-                    <label for='ar-six'>
-                      <span></span>On behalf of someone else’s company
-                    </label>
-                    <input id='ar-seven' type='checkbox' />
-                    <label for='ar-seven'>
-                      <span></span>My Organization
+                    <input id="{{i+1}}" type="checkbox">
+                    <label for="{{i+1}}">
+                      <span></span>{{account.AccountNameOtherLang}}
                     </label>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -75,30 +58,13 @@
               </h4>
               <hr class="hr-solid">
               <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                  <div class="service-btn text-center active">
-                    <p class="mb-0">Freight Forwarder</p>
-                    <p class="mb-0">وكيل الشحن</p>
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let service of serviceOffered">
+                  <div class="service-btn text-center d-flex flex-column justify-content-center" 
+                       (click)="serviceSelection(service, $event)">
+                    <p class="mb-0">{{service.ServiceNameBaseLang}}</p>
+                    <p class="mb-0">{{service.ServiceNameOtherLang}}</p>
                   </div>
                 </div>  
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                  <div class="service-btn  text-center">
-                    <p class="mb-0">Freight Forwarder</p>
-                    <p class="mb-0">وكيل الشحن</p>
-                  </div>
-                </div> 
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                  <div class="service-btn  text-center">
-                    <p class="mb-0">Freight Forwarder</p>
-                    <p class="mb-0">وكيل الشحن</p>
-                  </div>
-                </div> 
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                  <div class="service-btn text-center">
-                    <p class="mb-0">Freight Forwarder</p>
-                    <p class="mb-0">وكيل الشحن</p>
-                  </div>
-                </div> 
               </div>
             </div>
           </div>
@@ -200,9 +166,8 @@
           </div>
           <div class="row mt-5">
             <div class="col">
-              <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">Create Account / إصنع حساب</a>
+              <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right pull-right" routerLink="/otp">Create Account / إصنع حساب</a>
             </div>
           </div>
         </div>
       </section>
-      <!--Registration Page -->

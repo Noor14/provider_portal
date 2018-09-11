@@ -3,6 +3,7 @@ import { MapsAPILoader } from '@agm/core'
 import { } from '@types/googlemaps'
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-registration',
@@ -14,15 +15,16 @@ export class RegistrationComponent implements OnInit {
 
   // @ViewChild('search') public searchElement: ElementRef;
   regions: any[];
+  accountSetup: any;
+  serviceOffered: any;
   public zoomlevel: number = 5;
-  public select: any;
   public selectedRegion = {
     lat: 23.424076,
     lng: 53.847816,
     name: 'UAE', 
     flag: '5/5c/Flag_of_Alabama.svg/45px-Flag_of_Alabama.svg.png'
   }
-  constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) { }
+  constructor(private _userService : UserService, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) { }
 
   ngOnInit() {
     this.regions = [
@@ -50,6 +52,26 @@ export class RegistrationComponent implements OnInit {
     //     })
     //   })
     // })
+
+    
+    this._userService.getAccountSetup().subscribe((res:any) => {
+      if(res.returnStatus == 'Success'){
+         this.accountSetup = JSON.parse(res.returnObject);
+         console.log(this.accountSetup);
+         
+      }
+    })
+
+    this._userService.getServiceOffered().subscribe((res:any) => {
+      if(res.returnStatus == 'Success'){
+         this.serviceOffered = JSON.parse(res.returnObject);
+         console.log(this.serviceOffered);
+      }
+    })
+
+  }
+  serviceSelection(obj, evt){
+    console.log(evt);
   }
 
     search = (text$: Observable<string>) =>
