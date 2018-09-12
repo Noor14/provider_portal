@@ -1,4 +1,3 @@
-      Registration Page 
       <section class="registration">
         <h3 class="registration-title">Registration Details</h3>
         <small class="registration-paragraph">It takes less than 15 seconds to setup your account.</small>
@@ -23,7 +22,9 @@
               </agm-map>
             </div>
           </div>
-          <div class="row mt-5" *ngIf="accountSetup && accountSetup.length">
+          </div>
+          <section class="registration-form" *ngIf="accountSetup && accountSetup.length">
+          <div class="row mt-5">
             <div class="col">
               <h4 class="registration-map-section-title">
                 Who Would You Like to Setup the Account for?
@@ -169,5 +170,5 @@
               <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="createAccount()">Create Account / إصنع حساب</button>
             </div>
           </div>
-        </div>
+        </section>
       </section>
