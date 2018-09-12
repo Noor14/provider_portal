@@ -1,15 +1,11 @@
 @import './_variables';
 
 /*---  For Direction Rtl  ---*/
-
-
 .dir-rtl {
   direction: rtl;
   text-align: right;
   float: right;
 }
-
-
 a.link-hover {
   transition: all 0.5s ease;
   position: relative;
@@ -37,6 +33,10 @@ a.link-hover {
 .pointer{
   cursor:pointer;
 }
+
+
+
+
 
 /* from user portal */
 
