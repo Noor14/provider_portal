@@ -4,8 +4,6 @@
             font-family: $font-pragmatica;
             font-weight: $font-weight-mid;
             color: $text-color-default;
-            font-size: $font-size-large + $font-size-large;
-            line-height: 1.5;
         }
         &-paragraph {
             font-family: $font-proxima;
@@ -46,13 +44,7 @@
               }
           }
         }
-            &-title {
-                font-family: $font-pragmatica;
-                font-weight: $font-weight-mid;
-                color: $text-color-default;
-                font-size: $font-size-large + 0.25rem;
-                text-transform: capitalize;
-            }
+       
             .hr-solid {
                 margin-top: 0.9375rem !important;
                 margin-bottom: 1.5rem !important;
