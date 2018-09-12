@@ -34,26 +34,9 @@ a.link-hover {
   }
 }
 
-app-pages{
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  .main{
-    flex:auto;
-    flex-shrink: 0;
-  }
-  app-header{
-    flex-shrink: 0;
-  }
-  app-footer{
-    flex-shrink: 0;
-  }
-
+.pointer{
+  cursor:pointer;
 }
-
 
 /* from user portal */
 

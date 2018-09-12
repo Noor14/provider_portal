@@ -8,22 +8,22 @@
               <h4 class="registration-map-section-title">Select your region</h4>
               <hr class="hr-solid">
               <div class="select-city">
-                <img *ngIf="selectedRegion && selectedRegion.flag" [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + selectedRegion.flag"
+                <img *ngIf="selectedRegion && selectedRegion.code" src="{{'../../../../../assets/images/flags/4x3/' + (selectedRegion.code | lowercase) + '.svg'}}"
                   class="mr-1 prepend-flag">
                 <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search"
-                  [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Select Region" />
+                  [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Select Region" (ngModelChange)= "getAccountList(selectedRegion.id)"/>
                 <ng-template #rt let-r="result">
-                  <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="mr-1">
-                  <ngb-highlight [result]="r.name"></ngb-highlight>
+                  <img src="{{'../../../../../assets/images/flags/4x3/' + (r.code | lowercase) + '.svg'}}" class="mr-1">
+                  <ngb-highlight [result]="r.title"></ngb-highlight>
                 </ng-template>
 
               </div>
-              <agm-map [zoom]="zoomlevel" [latitude]="selectedRegion.lat" [longitude]="selectedRegion.lng">
-                <agm-marker [latitude]="selectedRegion.lat" [longitude]="selectedRegion.lng"></agm-marker>
+              <agm-map [zoom]="zoomlevel" [latitude]="lat" [longitude]="lng">
+                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
               </agm-map>
             </div>
           </div>
-          <div class="row mt-5">
+          <div class="row mt-5" *ngIf="accountSetup && accountSetup.length">
             <div class="col">
               <h4 class="registration-map-section-title">
                 Who Would You Like to Setup the Account for?
@@ -33,7 +33,7 @@
               <div class="row" *ngFor="let account of accountSetup; let i = index">
                 <div class="col">
                   <div class="check-boxes-main">
-                    <input id="{{i+1}}" type="checkbox">
+                    <input id="{{i+1}}" name="accountSetup" type="checkbox">
                     <label for="{{i+1}}">
                       <span></span>{{account.AccountNameBaseLang}}
                     </label>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="col">
                   <div class="check-boxes-main dir-rtl">
-                    <input id="{{i+1}}" type="checkbox">
+                    <input id="{{i+1}}" name="accountSetup" type="checkbox">
                     <label for="{{i+1}}">
                       <span></span>{{account.AccountNameOtherLang}}
                     </label>
@@ -59,10 +59,10 @@
               <hr class="hr-solid">
               <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let service of serviceOffered">
-                  <div class="service-btn text-center d-flex flex-column justify-content-center" 
-                       (click)="serviceSelection(service, $event)">
-                    <p class="mb-0">{{service.ServiceNameBaseLang}}</p>
-                    <p class="mb-0">{{service.ServiceNameOtherLang}}</p>
+                  <div #selectService class="service-btn text-center d-flex flex-column justify-content-center pointer" 
+                       (click)="serviceSelection(service, selectService)">
+                    <span>{{service.ServiceNameBaseLang}}</span>
+                    <span>{{service.ServiceNameOtherLang}}</span>
                   </div>
                 </div>  
               </div>
@@ -166,7 +166,7 @@
           </div>
           <div class="row mt-5">
             <div class="col">
-              <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right pull-right" routerLink="/otp">Create Account / إصنع حساب</a>
+              <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="createAccount()">Create Account / إصنع حساب</button>
             </div>
           </div>
         </div>
