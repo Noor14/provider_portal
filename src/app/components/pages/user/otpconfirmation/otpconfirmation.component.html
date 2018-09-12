@@ -18,10 +18,10 @@
       <input type="text" class="form-control mb-3" placeholder="">
       <button class="btn btn-primary hvr-sweep-to-right form-control" (click)="submitOtp()">Submit / خضع</button>
       <p class="otp-form-msg text-center mt-2 ">
-        <button href="javascript:;" (click)="resendOtp()" class="hvr-icon-forward" [disabled] ="!resendTimer">
+        <a href="javascript:;" (click)="resendOtp()" class="hvr-icon-forward">
           RESEND OTP/إعادة إرسال
           <img src="../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16 align-text-top hvr-icon">
-        </button>
+        </a>
         <span>10 : 00 Minutes</span>
       </p>
     </div>
