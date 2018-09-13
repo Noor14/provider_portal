@@ -20,13 +20,17 @@ export class RegistrationComponent implements OnInit {
   public serviceOffered: any;
   public zoomlevel: number = 5;
   public serviceIds: any[]= [];
-  public lat:number = 23.424076;
-  public lng:number = 53.847816;
+  public registrationForm: boolean;
   public selectedRegion = {
     id: undefined,
     code: undefined,
     title: undefined,
   }
+  public location = {
+    lat: undefined,
+    lng: undefined
+  }
+
   constructor(
     private _userService : UserService,
     private _sharedService : SharedService,
@@ -35,8 +39,16 @@ export class RegistrationComponent implements OnInit {
     private ngZone: NgZone) { }
 
   ngOnInit() {
-
     this.countryList = this._sharedService.countryList;
+    this._sharedService.getBrowserlocation().subscribe((res:any)=>{
+      if(res.status == "success"){
+        let obj ={
+          title: res.country
+        }; 
+        this.getMapLatlng(obj);
+      }
+    })
+
     // this.mapsAPILoader.load().then(() => {
     //   let autoComplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, { types: ["(cities)"] });
     //   autoComplete.addListener('places_changed', () => {
@@ -53,23 +65,37 @@ export class RegistrationComponent implements OnInit {
     this._userService.getServiceOffered().subscribe((res:any) => {
       if(res.returnStatus == 'Success'){
          this.serviceOffered = JSON.parse(res.returnObject);
-         console.log(this.serviceOffered);
+        //  console.log(this.serviceOffered);
       }
     })
 
   }
-  
   accountList(id){
     this._userService.getAccountSetup(id).subscribe((res:any) => {
       if(res.returnStatus == 'Success'){
          this.accountSetup = JSON.parse(res.returnObject);
-         
+         this.registrationForm = true
+      }
+    })
+  }
+  getMapLatlng(region){
+    this._userService.getLatlng(region.title).subscribe((res:any)=>{
+      if(res.status == "OK"){
+        this.location = res.results[0].geometry.location;
+        if(region.id){
+        this.accountList(region.id);
+      }
       }
     })
   }
 
-  getAccountList(id){
-    if(id) this.accountList(id);
+  getAccountList(region){
+    if(region.id){ 
+        this.getMapLatlng(region);
+    }
+    else{
+      this.registrationForm = false
+    }
   }
 
   serviceSelection(obj, selectedService){
@@ -92,6 +118,7 @@ export class RegistrationComponent implements OnInit {
     serviceId:1,
     countryID: 100,
     primaryEmail: "noor@texpo.com",
+    redirectUrl:"http://localhost:4200/otp",
           baseLanguageData:{
             firstName: "Noor",
             lastName: "Ali",
@@ -118,8 +145,6 @@ export class RegistrationComponent implements OnInit {
   })
 
 }
-
-
 
     search = (text$: Observable<string>) =>
     text$.pipe(

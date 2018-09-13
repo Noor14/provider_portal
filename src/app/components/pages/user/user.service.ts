@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { baseApi } from '../../../constants/base.url';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 
 @Injectable()
 export class UserService {
@@ -28,6 +28,15 @@ export class UserService {
   sendOtpCode(otpKey){
     let url: string = "otp/Post";
     return this._http.post(baseApi + url, otpKey);
+  }
+
+  getLatlng(country){
+    const params = new HttpParams()
+    .set('address', country)
+    .set('key', 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg');
+    let url: string = `https://maps.googleapis.com/maps/api/geocode/json`;
+    
+    return this._http.get(url, {params});
   }
 
 }

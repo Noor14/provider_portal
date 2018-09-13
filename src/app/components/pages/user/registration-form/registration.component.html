@@ -1,174 +1,173 @@
-      <section class="registration">
-        <h2 class="registration-title">Registration Details</h2>
-        <small class="registration-paragraph">It takes less than 15 seconds to setup your account.</small>
-        <div class="registration-map-section">
-          <div class="row">
-            <div class="col">
-              <h4 class="registration-map-section-title">Select your region</h4>
-              <hr class="hr-solid">
-              <div class="select-city">
-                <img *ngIf="selectedRegion && selectedRegion.code" src="{{'../../../../../assets/images/flags/4x3/' + (selectedRegion.code | lowercase) + '.svg'}}"
-                  class="mr-1 prepend-flag">
-                <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search"
-                  [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Select Region" (ngModelChange)= "getAccountList(selectedRegion.id)"/>
-                <ng-template #rt let-r="result">
-                  <img src="{{'../../../../../assets/images/flags/4x3/' + (r.code | lowercase) + '.svg'}}" class="mr-1">
-                  <ngb-highlight [result]="r.title"></ngb-highlight>
-                </ng-template>
+<section class="registration">
+  <h2 class="registration-title">Registration Details</h2>
+  <small class="registration-paragraph">It takes less than 15 seconds to setup your account.</small>
+  <section class="registration-map-section">
+    <div class="row">
+      <div class="col">
+        <h4 class="registration-map-section-title">Select your region</h4>
+        <hr class="hr-solid">
+        <div class="select-city">
+          <img *ngIf="selectedRegion && selectedRegion.code" src="{{'../../../../../assets/images/flags/4x3/' + (selectedRegion.code | lowercase) + '.svg'}}"
+            class="mr-1 prepend-flag">
+          <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search"
+            [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Select Region" (ngModelChange)="getAccountList(selectedRegion)" />
+          <ng-template #rt let-r="result">
+            <img src="{{'../../../../../assets/images/flags/4x3/' + (r.code | lowercase) + '.svg'}}" class="mr-1">
+            <ngb-highlight [result]="r.title"></ngb-highlight>
+          </ng-template>
 
-              </div>
-              <agm-map [zoom]="zoomlevel" [latitude]="lat" [longitude]="lng">
-                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-              </agm-map>
+        </div>
+        <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
+          <agm-marker [latitude]="location.lat" [longitude]="location.lng"></agm-marker>
+        </agm-map>
+      </div>
+    </div>
+  </section>
+  <section class="registration-form" *ngIf="registrationForm">
+    <div class="row mt-5">
+      <div class="col">
+        <h4 class="registration-map-section-title">
+          Who Would You Like to Setup the Account for?
+          <span class="arabic">من تريد إعداد الحساب؟</span>
+        </h4>
+        <hr class="hr-solid">
+        <div class="row" *ngFor="let account of accountSetup; let i = index">
+          <div class="col">
+            <div class="check-boxes-main">
+              <input id="{{i+1}}" name="accountSetup" type="checkbox">
+              <label for="{{i+1}}">
+                <span></span>{{account.AccountNameBaseLang}}
+              </label>
             </div>
           </div>
-          </div>
-          <section class="registration-form" *ngIf="accountSetup && accountSetup.length">
-          <div class="row mt-5">
-            <div class="col">
-              <h4 class="registration-map-section-title">
-                Who Would You Like to Setup the Account for?
-                <span class="arabic">من تريد إعداد الحساب؟</span>
-              </h4>
-              <hr class="hr-solid">
-              <div class="row" *ngFor="let account of accountSetup; let i = index">
-                <div class="col">
-                  <div class="check-boxes-main">
-                    <input id="{{i+1}}" name="accountSetup" type="checkbox">
-                    <label for="{{i+1}}">
-                      <span></span>{{account.AccountNameBaseLang}}
-                    </label>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="check-boxes-main dir-rtl">
-                    <input id="{{i+1}}" name="accountSetup" type="checkbox">
-                    <label for="{{i+1}}">
-                      <span></span>{{account.AccountNameOtherLang}}
-                    </label>
-                  </div>
-                </div>
-              </div>
+          <div class="col">
+            <div class="check-boxes-main dir-rtl">
+              <input id="{{i+1}}" name="accountSetup" type="checkbox">
+              <label for="{{i+1}}">
+                <span></span>{{account.AccountNameOtherLang}}
+              </label>
             </div>
           </div>
-          <div class="row mt-5">
-            <div class="col">
-              <h4 class="registration-map-section-title">
-                Service Offered
-                <span class="dir-rtl">الخدمات المقدمة</span>
-              </h4>
-              <hr class="hr-solid">
-              <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let service of serviceOffered">
-                  <div #selectService class="service-btn text-center d-flex flex-column justify-content-center pointer" 
-                       (click)="serviceSelection(service, selectService)">
-                    <span>{{service.ServiceNameBaseLang}}</span>
-                    <span>{{service.ServiceNameOtherLang}}</span>
-                  </div>
-                </div>  
-              </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col">
+        <h4 class="registration-map-section-title">
+          Service Offered
+          <span class="dir-rtl">الخدمات المقدمة</span>
+        </h4>
+        <hr class="hr-solid">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let service of serviceOffered">
+            <div #selectService class="service-btn text-center d-flex flex-column justify-content-center pointer"
+              (click)="serviceSelection(service, selectService)">
+              <span>{{service.ServiceNameBaseLang}}</span>
+              <span>{{service.ServiceNameOtherLang}}</span>
             </div>
           </div>
-          <div class="row mt-5">
-            <div class="col">
-              <h4 class="registration-map-section-title">
-                Personal information
-                <span class="arabic">معلومات شخصية</span>
-              </h4>
-              <hr class="hr-solid">
-              <div class="form-row">
-                <div class="form-group col-xl-6 col-md-6 col-sm-12">
-                  <label for="leftFirstName">First Name</label>
-                  <input type="text" class="form-control" id="leftFirstName" placeholder="Email">
-                </div>
-                <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
-                  <label for="rightFirstName col-12">First Name</label>
-                  <input type="text" class="form-control" id="rightFirstName" placeholder="Email">
-                </div>
-                <div class="form-group col-xl-6 col-md-6 col-sm-12">
-                  <label for="leftLastName">Last Name</label>
-                  <input type="text" class="form-control" id="leftLastName" placeholder="Email">
-                </div>
-                <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
-                  <label for="rightLastName">Last Name</label>
-                  <input type="text" class="form-control" id="rightLastName" placeholder="Email">
-                </div>
-                <div class="form-group col-xl-6 col-md-6 col-sm-12">
-                  <label for="leftJobTitle">Job Title</label>
-                  <input type="text" class="form-control" id="leftJobTitle" placeholder="Email">
-                </div>
-                <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
-                  <label for="rightJobTitle">Job Title</label>
-                  <input type="text" class="form-control" id="rightJobTitle" placeholder="Email">
-                </div>
-              </div>
-            </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col">
+        <h4 class="registration-map-section-title">
+          Personal information
+          <span class="arabic">معلومات شخصية</span>
+        </h4>
+        <hr class="hr-solid">
+        <div class="form-row">
+          <div class="form-group col-xl-6 col-md-6 col-sm-12">
+            <label for="leftFirstName">First Name</label>
+            <input type="text" class="form-control" id="leftFirstName" placeholder="Email">
           </div>
-          <div class="row mt-5">
-            <div class="col">
-              <h4 class="registration-map-section-title">
-                Contact Details
-                <span class="arabic">بيانات المتصل</span>
-              </h4>
-              <hr class="hr-solid">
-              <div class="form-row">
-                <div class="form-group col-xl-6 col-md-6 col-sm-12">
-                  <label class="">Contact</label>
-                  <div class="select-number">
-                    <div class="input-group-prepend">
-                      <div class="contanct-dropdown">
-                        <div class="pointer phone" id="phoneCode" style="max-height: 28rem;">
-                          <div class="d-inline-block" style="width:20px;height:20px;">
-                            <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive"
-                              style="max-width:100%; max-height:100%;">
-                            <div class="animated fadeIn country-section">
-                              <ul class="list-group">
-                                <li class="list-group-item">
-                                  <div class="d-inline-block" style="width:20px;height:20px;">
-                                  </div>
-                                  <span> +971</span>
-                                </li>
-                              </ul>
+          <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
+            <label for="rightFirstName col-12">First Name</label>
+            <input type="text" class="form-control" id="rightFirstName" placeholder="Email">
+          </div>
+          <div class="form-group col-xl-6 col-md-6 col-sm-12">
+            <label for="leftLastName">Last Name</label>
+            <input type="text" class="form-control" id="leftLastName" placeholder="Email">
+          </div>
+          <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
+            <label for="rightLastName">Last Name</label>
+            <input type="text" class="form-control" id="rightLastName" placeholder="Email">
+          </div>
+          <div class="form-group col-xl-6 col-md-6 col-sm-12">
+            <label for="leftJobTitle">Job Title</label>
+            <input type="text" class="form-control" id="leftJobTitle" placeholder="Email">
+          </div>
+          <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
+            <label for="rightJobTitle">Job Title</label>
+            <input type="text" class="form-control" id="rightJobTitle" placeholder="Email">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col">
+        <h4 class="registration-map-section-title">
+          Contact Details
+          <span class="arabic">بيانات المتصل</span>
+        </h4>
+        <hr class="hr-solid">
+        <div class="form-row">
+          <div class="form-group col-xl-6 col-md-6 col-sm-12">
+            <label class="">Contact</label>
+            <div class="select-number">
+              <div class="input-group-prepend">
+                <div class="contanct-dropdown">
+                  <div class="pointer phone" id="phoneCode" style="max-height: 28rem;">
+                    <div class="d-inline-block" style="width:20px;height:20px;">
+                      <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive" style="max-width:100%; max-height:100%;">
+                      <div class="animated fadeIn country-section">
+                        <ul class="list-group">
+                          <li class="list-group-item">
+                            <div class="d-inline-block" style="width:20px;height:20px;">
                             </div>
-                          </div>
-                        </div>
+                            <span> +971</span>
+                          </li>
+                        </ul>
                       </div>
-                      <input type="text" class="form-control control-phone" maxlength="12" placeholder="123456789">
                     </div>
                   </div>
                 </div>
-                <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
-                  <label for="inputEmail4">رقم الهاتف المتحرك</label>
-                  <div class="select-number">
-                    <div class="input-group-prepend">
-                      <div class="contanct-dropdown">
-                        <div class="pointer phone" id="phoneCode" style="max-height: 28rem;">
-                          <div class="d-inline-block" style="width:20px;height:20px;">
-                            <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive"
-                              style="max-width:100%; max-height:100%;">
-                          </div>
-                        </div>
-                      </div>
-                      <input type="text" class="form-control control-phone" maxlength="12" placeholder="123456789">
-                    </div>
-                  </div>
-
-                </div>
-                <div class="form-group col-xl-6 col-md-6 col-sm-12">
-                  <label for="inputEmail4 col-12">Email Address</label>
-                  <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-                </div>
-                <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
-                  <label for="inputEmail4 col-12">البريد الإلكتروني</label>
-                  <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-                </div>
+                <input type="text" class="form-control control-phone" maxlength="12" placeholder="123456789">
               </div>
             </div>
           </div>
-          <div class="row mt-5">
-            <div class="col">
-              <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="createAccount()">Create Account / إصنع حساب</button>
+          <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
+            <label for="inputEmail4">رقم الهاتف المتحرك</label>
+            <div class="select-number">
+              <div class="input-group-prepend">
+                <div class="contanct-dropdown">
+                  <div class="pointer phone" id="phoneCode" style="max-height: 28rem;">
+                    <div class="d-inline-block" style="width:20px;height:20px;">
+                      <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive" style="max-width:100%; max-height:100%;">
+                    </div>
+                  </div>
+                </div>
+                <input type="text" class="form-control control-phone" maxlength="12" placeholder="123456789">
+              </div>
             </div>
+
           </div>
-        </section>
-      </section>
+          <div class="form-group col-xl-6 col-md-6 col-sm-12">
+            <label for="inputEmail4 col-12">Email Address</label>
+            <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+          </div>
+          <div class="form-group col-xl-6 col-md-6 col-sm-12 dir-rtl">
+            <label for="inputEmail4 col-12">البريد الإلكتروني</label>
+            <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col">
+        <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="createAccount()">Create
+          Account / إصنع حساب</button>
+      </div>
+    </div>
+  </section>
+</section>
