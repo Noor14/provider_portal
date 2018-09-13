@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, NgZone, state } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { Router } from '@angular/router';
 import { } from '@types/googlemaps';
@@ -39,11 +39,14 @@ export class RegistrationComponent implements OnInit {
     private ngZone: NgZone) { }
 
   ngOnInit() {
-    this.countryList = this._sharedService.countryList;
-    this._sharedService.getBrowserlocation().subscribe((res:any)=>{
-      if(res.status == "success"){
+    this._sharedService.countryList.subscribe((state:any)=>{
+      this.countryList = state;
+    });
+    
+    this._sharedService.getLocation.subscribe((state:any)=>{
+      if(state && state.country){
         let obj ={
-          title: res.country
+          title: state.country
         }; 
         this.getMapLatlng(obj);
       }
