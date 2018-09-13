@@ -2,6 +2,7 @@
 
 section#business-detail {
     .business-profile {
+
         h2 {
             font-weight: 700;
             font-family: proxima, sans-serif;
@@ -10,18 +11,32 @@ section#business-detail {
         h5 {
             margin-top:3rem;
         }
+        .form-group {
         input {
             border: 0;
             height: 2.9rem;
+            &::placeholder {
+                color: #afafaf;
+                opacity: 1;
+            }
+            &:-ms-input-placeholder {
+                color: #afafaf;
+            }
+            &::-ms-input-placeholder {
+                color: #afafaf;
+            }
         }
-        select {
+     .form-control {
             border: 0;
             height: 2.9rem;
-        }
+    
+            }
+    
         label {
             margin-top: 1rem;
             margin-bottom: 0.5rem;
         }
+    }
         .upload-image {
             img {
                 margin: auto;
