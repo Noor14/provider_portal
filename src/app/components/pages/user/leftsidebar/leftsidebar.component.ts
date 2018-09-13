@@ -11,5 +11,16 @@ export class LeftsidebarComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  formatSubtitle = (percent: number) : string => {
+    return percent + "%";
+    // if(percent >= 100){
+    //   return "Congratulations!"
+    // }else if(percent >= 50){
+    //   return "Half"
+    // }else if(percent > 0){
+    //   return percent + "%";
+    // }else {
+    //   return "Not started"
+    // }
+  }
 }
