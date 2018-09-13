@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
          this._sharedService.setCountries(res);
     })
 
-    this._sharedService.getBrowserlocation().subscribe((state:any)=>{
+    this._commonService.getBrowserlocation().subscribe((state:any)=>{
       if(state.status == "success"){
         this._sharedService.setMapLocation(state);
       }
