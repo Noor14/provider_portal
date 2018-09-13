@@ -5,7 +5,9 @@
 
     <div class="row form-group">
       <div class="col">
-        <h5 class="registration-map-section-title">Select Your Region</h5>
+        <h5 class="registration-map-section-title ">
+          <span>Select Your Region</span>
+        </h5>
         <hr class="hr-solid">
         <div class="select-city">
           <img *ngIf="selectedRegion && selectedRegion.code" src="{{'../../../../../assets/images/flags/4x3/' + (selectedRegion.code | lowercase) + '.svg'}}"
@@ -63,9 +65,9 @@
 
 
         <div class="col-12">
-          <h5 class="registration-map-section-title mt-5">
-            Service Offered
-            <span class="arabic-title dir-rtl">الخدمات المقدمة</span>
+          <h5 class="registration-map-section-title mt-5 d-flex justify-content-between">
+            <span>Service Offered </span>
+            <span>الخدمات المقدمة</span>
           </h5>
           <hr class="hr-solid">
           <div class="row">
@@ -80,9 +82,9 @@
 
       </div>
     </form>
-    <h5 class="registration-map-section-title mt-5">
-      Personal information
-      <span class="arabic-title dir-rtl">معلومات شخصية</span>
+    <h5 class="registration-map-section-title mt-5 d-flex justify-content-between">
+      <span> Personal information</span>
+      <span >معلومات شخصية</span>
     </h5>
     <hr class="hr-solid">
     <form>
@@ -115,9 +117,9 @@
 
 
 
-    <h5 class="registration-map-section-title mt-5">
-      Contact Details
-      <span class="arabic-title dir-rtl">بيانات المتصل</span>
+    <h5 class="registration-map-section-title mt-5 d-flex justify-content-between">
+      <span>Contact Details </span>
+      <span>بيانات المتصل</span>
     </h5>
     <hr class="hr-solid">
 
