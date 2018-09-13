@@ -14,11 +14,6 @@ export class SharedService {
   public getLocation =this.userLocation.asObservable();
 
 
-  getBrowserlocation(){
-    let url: string = 'http://ip-api.com/json';
-    return this._http.get(url);
-  }
-
   setMapLocation(data){
     this.userLocation.next(data);
   }
