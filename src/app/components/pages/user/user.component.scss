@@ -1,35 +1,33 @@
 @import '../../../../assets/scss/_variables';
-
-.user{
+.user {
     .left-section {
         background-color: $left-sidebar-background;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         .support {
-          background: #243748;
-          .card {
-              &-body {
-                  p {
-                      font-size: 1rem;
-                      font-family: proxima-nova, sans-serif;
-                      margin-bottom: 0.5rem;
-                  }
-                  small {
-                      font-size: 0.75rem;
-                      text-transform: uppercase;
-                      font-family: proxima-nova, sans-serif;
-                  }
-                  color:#ffffff;
-                  background:#243748;
-                  padding: 18px 20px 10px 5px;
-              }
-          }
-      }
-      }
-      
-      .right-section-portal {
+            background: #243748;
+            .card {
+                &-body {
+                    p {
+                        font-size: 1rem;
+                        font-family: proxima-nova, sans-serif;
+                        margin-bottom: 0.5rem;
+                    }
+                    small {
+                        font-size: 0.75rem;
+                        text-transform: uppercase;
+                        font-family: proxima-nova, sans-serif;
+                    }
+                    color:#ffffff;
+                    background:#243748;
+                    padding: 18px 20px 10px 5px;
+                }
+            }
+        }
+    }
+    .right-section-portal {
         background-color: $right-side-background;
         padding: 80px 95px !important;
-      }
+    }
 }
