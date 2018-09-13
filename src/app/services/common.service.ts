@@ -10,4 +10,8 @@ export class CommonService {
     let url: string = "Country/GetDropDownDetail/0";
     return this._http.get(baseApi + url);
   }
+   getBrowserlocation(){
+    let url: string = 'http://ip-api.com/json';
+    return this._http.get(url);
+  }
 }

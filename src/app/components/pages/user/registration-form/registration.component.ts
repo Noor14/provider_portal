@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, NgZone, state } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
 import { Router } from '@angular/router';
 import { } from '@types/googlemaps';
@@ -21,6 +22,7 @@ export class RegistrationComponent implements OnInit {
   public zoomlevel: number = 5;
   public serviceIds: any[]= [];
   public registrationForm: boolean;
+  public regForm;
   public selectedRegion = {
     id: undefined,
     code: undefined,
@@ -39,6 +41,20 @@ export class RegistrationComponent implements OnInit {
     private ngZone: NgZone) { }
 
   ngOnInit() {
+
+    this.regForm = new FormGroup({
+      firstName: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/), Validators.minLength(2), Validators.maxLength(50)]),
+      lastName: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/), Validators.minLength(2), Validators.maxLength(50)]),
+      email: new FormControl(null, [
+        Validators.required,
+        // Validators.pattern(EMAIL_REGEX),
+        Validators.maxLength(320)
+      ]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(12)]),
+      jobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]),
+    });
+
+
     this._sharedService.countryList.subscribe((state:any)=>{
       this.countryList = state;
     });
@@ -68,7 +84,6 @@ export class RegistrationComponent implements OnInit {
     this._userService.getServiceOffered().subscribe((res:any) => {
       if(res.returnStatus == 'Success'){
          this.serviceOffered = JSON.parse(res.returnObject);
-        //  console.log(this.serviceOffered);
       }
     })
 

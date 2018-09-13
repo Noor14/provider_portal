@@ -27,12 +27,17 @@
                     border-bottom: 1px solid grey
                 }
             }
-            img {
+            svg {
                 width: 35px;
             }
             &.active {
                 color: $white-color;
-                background-color: $primary-color
+                background-color: $primary-color;
+                svg{
+                    path{
+                    fill: $white-color !important;
+                  }
+                }
             }
         }
     }
