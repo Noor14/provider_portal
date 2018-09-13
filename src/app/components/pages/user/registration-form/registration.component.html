@@ -1,7 +1,7 @@
 <section class="registration">
   <h3 class="registration-title">Registration Details</h3>
   <small class="registration-paragraph">It takes less than 15 seconds to setup your account.</small>
-  <div class="registration-map-section">
+  <section class="registration-map-section">
 
     <div class="row form-group">
       <div class="col">
@@ -11,29 +11,32 @@
           <img *ngIf="selectedRegion && selectedRegion.code" src="{{'../../../../../assets/images/flags/4x3/' + (selectedRegion.code | lowercase) + '.svg'}}"
             class="mr-1 prepend-flag">
           <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search" [resultTemplate]="rt"
-            [inputFormatter]="formatter" placeholder="Select Region" (ngModelChange)="getAccountList(selectedRegion.id)" />
+            [inputFormatter]="formatter" placeholder="Select Region" (ngModelChange)="getAccountList(selectedRegion)" />
           <ng-template #rt let-r="result">
             <img src="{{'../../../../../assets/images/flags/4x3/' + (r.code | lowercase) + '.svg'}}" class="mr-1">
             <ngb-highlight [result]="r.title"></ngb-highlight>
           </ng-template>
 
         </div>
-        <agm-map [zoom]="zoomlevel" [latitude]="lat" [longitude]="lng">
-          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
+          <agm-marker [latitude]="location.lat" [longitude]="location.lng"></agm-marker>
         </agm-map>
       </div>
 
     </div>
-  </div>
+  </section>
 
-  <section class="registration-form" *ngIf="accountSetup && accountSetup.length">
-
+  <section class="registration-form" *ngIf="registrationForm">
     <form>
       <div class="row form-group">
         <div class="col-12">
-          <h5 class="registration-map-section-title mt-5">
-            Who Would You Like to Setup the Account for?
-            <span class="arabic-title dir-rtl">من تريد إعداد الحساب؟</span>
+          <h5 class="registration-map-section-title mt-5 d-flex justify-content-between">
+            <span>
+                Who Would You Like to Setup the Account for?
+            </span>
+            <span
+            >من تريد إعداد الحساب؟
+            </span>
           </h5>
           <hr class="hr-solid">
           <div class="row" *ngFor="let account of accountSetup; let i = index">

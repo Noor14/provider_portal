@@ -77,7 +77,7 @@ export class RegistrationComponent implements OnInit {
     this._userService.getAccountSetup(id).subscribe((res:any) => {
       if(res.returnStatus == 'Success'){
          this.accountSetup = JSON.parse(res.returnObject);
-         this.registrationForm = true
+         this.registrationForm = true;
       }
     })
   }
@@ -97,7 +97,7 @@ export class RegistrationComponent implements OnInit {
         this.getMapLatlng(region);
     }
     else{
-      this.registrationForm = false
+      this.registrationForm = false;
     }
   }
 
