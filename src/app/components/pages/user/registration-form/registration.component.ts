@@ -130,32 +130,57 @@ export class RegistrationComponent implements OnInit {
   }
 
 
-  createAccount(){
-  let obj = {
-    setupAccountId:1,
-    serviceId:1,
-    countryID: 100,
-    primaryEmail: "noor@texpo.com",
-    redirectUrl:"http://localhost:4200/otp",
-          baseLanguageData:{
-            firstName: "Noor",
-            lastName: "Ali",
-            primaryPhone: "03001234567",
-            CountryPhoneCode: "+92",
-            PhoneCodeCountryID: "+92",
-            jobTitle: "Manager",      
-          },
-          otherLanguageData:{ 
-            firstName: "Noor",
-            lastName: "Ali",
-            primaryPhone: "03001234567",
-            CountryPhoneCode: "+92",
-            PhoneCodeCountryID: "+92",
-            jobTitle: "Manager",
+  createAccount(data){
+  // let obj = {
+  //   accountID:1,
+  //   countryID: 100,
+  //   primaryEmail: data.email,
+  //   redirectUrl:"http://localhost:4200/otp",
+  //         baseLanguageData:{
+  //           firstName: data.firstName,
+  //           lastName: data.lastName,
+  //           primaryPhone: data.phone,
+  //           CountryPhoneCode: "+92",
+  //           PhoneCodeCountryID: "+92",
+  //           jobTitle: "Manager",      
+  //         },
+  //         otherLanguageData:{ 
+  //           firstName: "",
+  //           lastName: "",
+  //           primaryPhone: "",
+  //           CountryPhoneCode: "",
+  //           PhoneCodeCountryID: "",
+  //           jobTitle: "",
             
-          }
-        }
-    
+  //         }
+  //       }
+
+ 
+
+let obj={
+  accountID: 100,
+  countryID: 101,
+  primaryEmail: "farah@texpo.com",
+  otpKey: "",
+  otpExpiry: "2018-09-13T11:19:45.799Z",
+  redirectUrl: "http://localhost:31289",
+  user: [
+    {
+      userID: 0,
+      firstName: "Farah",
+      lastName: "Anwar",
+      primaryPhone: "03001234567",
+      countryPhoneCode: "+92",
+      phoneCodeCountryID: 92,
+      jobTitle: "Software Engineer",
+      createdBy: "",
+      createdDateTime: "2018-09-13T11:19:45.799Z",
+      modifiedBy: "",
+      modifiedDateTime: "2018-09-13T11:19:45.799Z"
+    }
+  ]
+} 
+ 
   this._userService.userRegistration(obj).subscribe((res:any)=>{
     if(res.returnStatus=="Success"){
        this._router.navigate(['/otp'])

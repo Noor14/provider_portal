@@ -12,8 +12,8 @@
         <div class="select-city">
           <img *ngIf="selectedRegion && selectedRegion.code" src="{{'../../../../../assets/images/flags/4x3/' + (selectedRegion.code | lowercase) + '.svg'}}"
             class="mr-1 prepend-flag">
-          <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search" [resultTemplate]="rt"
-            [inputFormatter]="formatter" placeholder="Select Region" (ngModelChange)="getAccountList(selectedRegion)" />
+          <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search"
+            [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Select Region" (ngModelChange)="getAccountList(selectedRegion)" />
           <ng-template #rt let-r="result">
             <img src="{{'../../../../../assets/images/flags/4x3/' + (r.code | lowercase) + '.svg'}}" class="mr-1">
             <ngb-highlight [result]="r.title"></ngb-highlight>
@@ -29,75 +29,71 @@
   </section>
 
   <section class="registration-form" *ngIf="registrationForm">
-    <form>
-      <div class="row form-group">
-        <div class="col-12">
-          <h5 class="registration-map-section-title mt-5 d-flex justify-content-between">
-            <span>
-                Who Would You Like to Setup the Account for?
-            </span>
-            <span
-            >من تريد إعداد الحساب؟
-            </span>
-          </h5>
-          <hr class="hr-solid">
-          <div class="row" *ngFor="let account of accountSetup; let i = index">
-            <div class="col-6">
-              <div class="check-boxes-main">
-                <input id="{{i+1}}" name="accountSetup" type="checkbox">
-                <label for="{{i+1}}">
-                  <span></span>{{account.AccountNameBaseLang}}
-                </label>
-              </div>
+    <div class="row form-group">
+      <div class="col-12">
+        <h5 class="registration-map-section-title mt-5 d-flex justify-content-between">
+          <span>
+            Who Would You Like to Setup the Account for?
+          </span>
+          <span>من تريد إعداد الحساب؟
+          </span>
+        </h5>
+        <hr class="hr-solid">
+        <div class="row" *ngFor="let account of accountSetup; let i = index">
+          <div class="col-6">
+            <div class="check-boxes-main">
+              <input id="{{i+1}}" name="accountSetup" type="checkbox">
+              <label for="{{i+1}}">
+                <span></span>{{account.AccountNameBaseLang}}
+              </label>
             </div>
-            <div class="col-6">
-              <div class="check-boxes-main dir-rtl">
-                <input id="{{i+1}}" name="accountSetup" type="checkbox">
-                <label for="{{i+1}}">
-                  <span></span>{{account.AccountNameOtherLang}}
-                </label>
-              </div>
+          </div>
+          <div class="col-6">
+            <div class="check-boxes-main dir-rtl">
+              <input id="{{i+1}}" name="accountSetup" type="checkbox">
+              <label for="{{i+1}}">
+                <span></span>{{account.AccountNameOtherLang}}
+              </label>
             </div>
           </div>
         </div>
-
-
-
-
-        <div class="col-12">
-          <h5 class="registration-map-section-title mt-5 d-flex justify-content-between">
-            <span>Service Offered </span>
-            <span>الخدمات المقدمة</span>
-          </h5>
-          <hr class="hr-solid">
-          <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let service of serviceOffered">
-              <div #selectService class="service-btn text-center d-flex flex-column justify-content-center pointer" (click)="serviceSelection(service, selectService)">
-                <span>{{service.ServiceNameBaseLang}}</span>
-                <span>{{service.ServiceNameOtherLang}}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
-    </form>
+      <div class="col-12">
+        <h5 class="registration-map-section-title mt-5 d-flex justify-content-between">
+          <span>Service Offered </span>
+          <span>الخدمات المقدمة</span>
+        </h5>
+        <hr class="hr-solid">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let service of serviceOffered">
+            <div #selectService class="service-btn text-center d-flex flex-column justify-content-center pointer"
+              (click)="serviceSelection(service, selectService)">
+              <span>{{service.ServiceNameBaseLang}}</span>
+              <span>{{service.ServiceNameOtherLang}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <h5 class="registration-map-section-title mt-5 d-flex justify-content-between">
       <span> Personal information</span>
-      <span >معلومات شخصية</span>
+      <span>معلومات شخصية</span>
     </h5>
+
     <hr class="hr-solid">
-    <form>
+
+    <form autocomplete="off" novalidate [formGroup]="regForm" (ngSubmit)="createAccount(regForm.value)">
       <div class="row form-group">
         <div class="col-6">
           <label for="leftFirstName">First Name</label>
-          <input type="text" class="form-control" id="leftFirstName" placeholder="First Name">
+          <input type="text" class="form-control" id="leftFirstName" placeholder="First Name" formControlName="firstName">
 
           <label for="leftLastName">Last Name</label>
-          <input type="text" class="form-control" id="leftLastName" placeholder="Last Name">
+          <input type="text" class="form-control" id="leftLastName" placeholder="Last Name" formControlName="lastName">
 
           <label for="leftJobTitle">Job Title</label>
-          <input type="text" class="form-control" id="leftJobTitle" placeholder="Job Title">
+          <input type="text" class="form-control" id="leftJobTitle" placeholder="Job Title" formControlName="jobTitle">
 
         </div>
 
@@ -113,90 +109,85 @@
 
         </div>
       </div>
+      <h5 class="registration-map-section-title mt-5 d-flex justify-content-between">
+        <span>Contact Details </span>
+        <span>بيانات المتصل</span>
+      </h5>
+      <hr class="hr-solid">
+
+      <div class="row form-group">
+        <div class="col-6">
+          <label for="">Mobile</label>
+          <div class="select-number">
+            <div class="input-group-prepend">
+              <div class="contanct-dropdown">
+                <div class="pointer phone" id="phoneCode" style="max-height: 28rem;">
+                  <div class="d-inline-block" style="width:20px;height:20px;">
+                    <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive" style="max-width:100%; max-height:100%;">
+                    <div class="animated fadeIn country-section">
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          <div class="d-inline-block" style="width:20px;height:20px;">
+                          </div>
+                          <span> +971</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input type="text" class="form-control control-phone" maxlength="12" placeholder="123456789"
+                formControlName="phone">
+            </div>
+          </div>
+          <label for="address">Email Address</label>
+          <input type="text" class="form-control" placeholder="eg: john@company.com" formControlName="email">
+          <div class="info-text">
+            <img src="../../../assets/images/icons/icon_info.svg" alt="icons">
+            <p>This will be used as your login credential</p>
+
+          </div>
+        </div>
+
+        <div class="col-6 dir-rtl">
+          <label for="">رقم الهاتف المتحرك</label>
+          <div class="select-number">
+            <div class="input-group-prepend">
+              <div class="contanct-dropdown">
+                <div class="pointer phone" id="phoneCode" style="max-height: 28rem;">
+                  <div class="d-inline-block" style="width:20px;height:20px;">
+                    <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive" style="max-width:100%; max-height:100%;">
+                    <div class="animated fadeIn country-section">
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          <span> +971</span>
+                          <div class="d-inline-block" style="width:20px;height:20px;">
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input type="text" class="form-control control-phone" maxlength="12" placeholder="123456789">
+            </div>
+          </div>
+
+          <label for="address">البريد الإلكتروني</label>
+          <input type="text" class="form-control" placeholder="eg: john@company.com">
+
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col">
+          <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" type="submit">
+            Create Account / إصنع حساب
+          </button>
+        </div>
+      </div>
     </form>
 
-
-
-    <h5 class="registration-map-section-title mt-5 d-flex justify-content-between">
-      <span>Contact Details </span>
-      <span>بيانات المتصل</span>
-    </h5>
-    <hr class="hr-solid">
-
-    <div class="row form-group">
-      <div class="col-6">
-
-        <label for="">Mobile</label>
-        <div class="select-number">
-          <div class="input-group-prepend">
-            <div class="contanct-dropdown">
-              <div class="pointer phone" id="phoneCode" style="max-height: 28rem;">
-                <div class="d-inline-block" style="width:20px;height:20px;">
-                  <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive" style="max-width:100%; max-height:100%;">
-                  <div class="animated fadeIn country-section">
-                    <ul class="list-group">
-                      <li class="list-group-item">
-                        <div class="d-inline-block" style="width:20px;height:20px;">
-                        </div>
-                        <span> +971</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <input type="text" class="form-control control-phone" maxlength="12" placeholder="123456789">
-          </div>
-        </div>
-
-        <label for="address">Email Address</label>
-        <input type="text" class="form-control" placeholder="eg: john@company.com">
-        <div class="info-text">
-          <img src="../../../assets/images/icons/icon_info.svg" alt="icons">
-          <p>This will be used as your login credential</p>
-
-        </div>
-      </div>
-
-
-
-      <div class="col-6 dir-rtl">
-        <label for="">رقم الهاتف المتحرك</label>
-        <div class="select-number">
-          <div class="input-group-prepend">
-            <div class="contanct-dropdown">
-              <div class="pointer phone" id="phoneCode" style="max-height: 28rem;">
-                <div class="d-inline-block" style="width:20px;height:20px;">
-                  <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive" style="max-width:100%; max-height:100%;">
-                  <div class="animated fadeIn country-section">
-                    <ul class="list-group">
-                      <li class="list-group-item">
-                        <span> +971</span>
-                        <div class="d-inline-block" style="width:20px;height:20px;">
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <input type="text" class="form-control control-phone" maxlength="12" placeholder="123456789">
-          </div>
-        </div>
-
-        <label for="address">البريد الإلكتروني</label>
-        <input type="text" class="form-control" placeholder="eg: john@company.com">
-
-      </div>
-    </div>
-
-
-
-    <div class="row mt-5">
-      <div class="col">
-        <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="createAccount()">Create Account / إصنع حساب</button>
-      </div>
-    </div>
+  
 
   </section>
 
