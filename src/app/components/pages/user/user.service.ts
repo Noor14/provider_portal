@@ -20,9 +20,14 @@ export class UserService {
     return this._http.post(baseApi + url, obj);
   }
 
-  resendOtpCode(otpKey){
-    let url: string = `otp/ResendOTP/${otpKey}`;
+  getUserInfoByOtp(otpKey){
+    let url: string = `otp/GetOTPUser/${otpKey}`;
     return this._http.get(baseApi + url);
+  }
+
+  resendOtpCode(obj){
+    let url: string = "otp/ResendOTP";
+    return this._http.post(baseApi + url, obj);
   }
 
   sendOtpCode(otpKey){
@@ -30,12 +35,16 @@ export class UserService {
     return this._http.post(baseApi + url, otpKey);
   }
 
+  createPaasword(obj){
+    let url: string = "usersprovider/CreatePassword";
+    return this._http.post(baseApi + url, obj);
+  }
+
   getLatlng(country){
     const params = new HttpParams()
     .set('address', country)
     .set('key', 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg');
     let url: string = `https://maps.googleapis.com/maps/api/geocode/json`;
-    
     return this._http.get(url, {params});
   }
 

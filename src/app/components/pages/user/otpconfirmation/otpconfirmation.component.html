@@ -1,7 +1,7 @@
-<div class="profile-verify ">
-  <h3 class="profile-verify-title text-center">Hi Jhon, Please Verify Your Profile</h3>
-  <p class="profile-verify-paragraph text-center">A one-time password was emailed to you at john@company.com. if you
-    cannot find this email
+<div class="profile-verify " *ngIf="!passwordForm">
+  <h3 class="profile-verify-title text-center" *ngIf="userInfo && userInfo.FirstName">Hi {{userInfo.FirstName}}, Please Verify Your Profile</h3>
+  <p class="profile-verify-paragraph text-center" *ngIf="userInfo &&  userInfo.PrimaryEmail">
+    A one-time password was emailed to you at {{userInfo.PrimaryEmail}}. if you cannot find this email
     <br />(it may be caught in your spam filters) you may request a new one below.</p>
   <div class="row">
     <div class="dir-rtl col-12 mt-4">
@@ -15,7 +15,7 @@
   <div class="row justify-content-center">
     <div class="col-6 otp-form">
       <label for="">One-Time Password/كلمة السر لمرة واحدة</label>
-      <input type="text" class="form-control mb-3" placeholder="">
+      <input type="text" class="form-control mb-3" [(ngModel)]="otpCode" placeholder="">
       <button class="btn btn-primary hvr-sweep-to-right form-control" (click)="submitOtp()">Submit / خضع</button>
       <p class="otp-form-msg text-center mt-2 ">
         <a href="javascript:;" (click)="resendOtp()" class="hvr-icon-forward">
@@ -27,3 +27,24 @@
     </div>
   </div>
 </div>
+<div class="profile-verify" *ngIf="passwordForm">
+    <h3 class="profile-verify-title text-center">Hi Jhon, Please Verify Your Profile</h3>
+    <p class="profile-verify-paragraph text-center">A one-time password was emailed to you at john@company.com. if you cannot find this email
+      <br/>(it may be caught in your spam filters) you may request a new one below.</p>
+    <div class="row">
+      <div class="dir-rtl col-12 mt-4">
+        <h3 class="profile-verify-title text-center">مرحبا جون ، يرجى التحقق من ملف التعريف الخاص بك</h3>
+        <p class="profile-verify-paragraph text-center">تم إرسال كلمة مرور لمرة واحدة عبر البريد الإلكتروني على john@company.com. إذا لم تتمكن من العثور على هذا البريد الإلكتروني
+          (قد يتم اكتشافه في عوامل تصفية الرسائل غير المرغوب فيها) ، فيمكنك طلب عنوان جديد أدناه.</p>
+        <hr class="hr-solid">
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-6 otp-form">
+        <label for="">One-Time Password/كلمة السر لمرة واحدة</label>
+        <input type="text" class="form-control mb-3" placeholder="Enter Password" [(ngModel)]="userPassword">
+        <button class="btn btn-primary hvr-sweep-to-right form-control" (click)="passwordSubmit()">Submit / خضع</button>
+      </div>
+    </div>
+  </div>
+  

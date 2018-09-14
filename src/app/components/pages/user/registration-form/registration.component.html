@@ -29,7 +29,7 @@
   </section>
 
   <section class="registration-form" *ngIf="registrationForm">
-    <div class="row form-group">
+    <div class="row">
       <div class="col-12">
         <h5 class="registration-map-section-title mt-5 d-flex justify-content-between">
           <span>
@@ -41,24 +41,26 @@
         <hr class="hr-solid">
         <div class="row" *ngFor="let account of accountSetup; let i = index">
           <div class="col-6">
-            <div class="check-boxes-main">
-              <input id="{{i+1}}" name="accountSetup" type="checkbox">
-              <label for="{{i+1}}">
-                <span></span>{{account.AccountNameBaseLang}}
+            <div class="fancyRadioBoxes">
+              <input id="{{i}}" name="accountSetup" type="radio" (click)="selectAccountSetup(i, account)">
+              <label for="{{i}}">
+                <span></span>
+                {{account.AccountNameBaseLang}}
               </label>
             </div>
           </div>
           <div class="col-6">
-            <div class="check-boxes-main dir-rtl">
-              <input id="{{i+1}}" name="accountSetup" type="checkbox">
-              <label for="{{i+1}}">
-                <span></span>{{account.AccountNameOtherLang}}
+            <div class="fancyRadioBoxes dir-rtl">
+              <input id="{{i}}" name="accountSetupArb" type="radio" (click)="selectAccountSetup(i, account)">
+              <label for="{{i}}">
+                <span></span>
+                {{account.AccountNameOtherLang}}
               </label>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-12">
+      <!-- <div class="col-12">
         <h5 class="registration-map-section-title mt-5 d-flex justify-content-between">
           <span>Service Offered </span>
           <span>الخدمات المقدمة</span>
@@ -73,7 +75,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <h5 class="registration-map-section-title mt-5 d-flex justify-content-between">
@@ -84,111 +86,164 @@
     <hr class="hr-solid">
 
     <form autocomplete="off" novalidate [formGroup]="regForm" (ngSubmit)="createAccount(regForm.value)">
-      <div class="row form-group">
+      <div class="row">
         <div class="col-6">
-          <label for="leftFirstName">First Name</label>
-          <input type="text" class="form-control" id="leftFirstName" placeholder="First Name" formControlName="firstName">
-
-          <label for="leftLastName">Last Name</label>
-          <input type="text" class="form-control" id="leftLastName" placeholder="Last Name" formControlName="lastName">
-
-          <label for="leftJobTitle">Job Title</label>
-          <input type="text" class="form-control" id="leftJobTitle" placeholder="Job Title" formControlName="jobTitle">
-
+         <div class="form-group">
+            <label for="leftFirstName">First Name</label>
+            <input type="text" class="form-control" id="leftFirstName" placeholder="First Name" formControlName="firstName">
+            <!-- <p class="formError animated fadeIn">Field Not Validate</p> -->
+         </div>
+        </div>  
+        <div class="col-6">
+            <div class="form-group">
+                <label for="leftFirstName">الاسم الاول</label>
+                <input type="text" class="form-control" id="leftFirstName" placeholder="المثال : جون">
+                <!-- <p>Field Not Validate</p> -->
+            </div>
+        </div>  
         </div>
-
-        <div class="col-6 dir-rtl">
-          <label for="leftFirstName">الاسم الاول</label>
-          <input type="text" class="form-control" id="leftFirstName" placeholder="المثال : جون">
-
-          <label for="leftLastName">الاسم الأخير</label>
-          <input type="text" class="form-control" id="leftLastName" placeholder="المثال : سمىت">
-
-          <label for="leftJobTitle">عنوان</label>
-          <input type="text" class="form-control" id="leftJobTitle" placeholder="المثال : مدير">
-
+        <div class="row">
+          <div class="col-6">
+              <div class="form-group">
+              <label for="leftLastName">Last Name</label>
+              <input type="text" class="form-control" id="leftLastName" placeholder="Last Name" formControlName="lastName">
+              <!-- <p class="formError animated fadeIn">Field Not Validate</p> -->
+              </div>
+          </div>
+          <div class="col-6">
+              <div class="form-group">
+                  <label for="leftLastName">الاسم الأخير</label>
+                  <input type="text" class="form-control" id="leftLastName" placeholder="المثال : سمىت">
+              <!-- <p>Field Not Validate</p> -->
+            </div>
+          </div>
         </div>
-      </div>
+          
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+                <label for="leftJobTitle">Job Title</label>
+                <input type="text" class="form-control" id="leftJobTitle" placeholder="Job Title" formControlName="jobTitle">
+                <!-- <p class="formError animated fadeIn">Field Not Validate</p> -->
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+                <label for="leftJobTitle">عنوان</label>
+                <input type="text" class="form-control" id="leftJobTitle" placeholder="المثال : مدير">
+            </div>
+          </div>
+        </div>
+      
       <h5 class="registration-map-section-title mt-5 d-flex justify-content-between">
         <span>Contact Details </span>
         <span>بيانات المتصل</span>
       </h5>
       <hr class="hr-solid">
 
-      <div class="row form-group">
+      <div class="row">
         <div class="col-6">
-          <label for="">Mobile</label>
+            <div class="form-group">
           <div class="select-number">
-            <div class="input-group-prepend">
-              <div class="contanct-dropdown">
-                <div class="pointer phone" id="phoneCode" style="max-height: 28rem;">
-                  <div class="d-inline-block" style="width:20px;height:20px;">
-                    <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive" style="max-width:100%; max-height:100%;">
-                    <div class="animated fadeIn country-section">
-                      <ul class="list-group">
-                        <li class="list-group-item">
-                          <div class="d-inline-block" style="width:20px;height:20px;">
-                          </div>
-                          <span> +971</span>
-                        </li>
-                      </ul>
+              <label>Phone</label>
+              <div class="input-group-prepend">
+                <div ngbDropdown>
+                  <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                    <div class="d-inline-block" style="width:20px;height:16px;margin-right: 10px">
+                      <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive"
+                        style="max-width:100%;max-height:100%;">
+                      <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'" alt="flags" 
+                      class=" img-responsive" style="max-width:100%;max-height:100%;">
                     </div>
+                    <span>{{phoneCode}}</span>
+                  </div>
+                  <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                    <ul class="list-group">
+                      <li class="list-group-item" *ngFor="let list of countryList" (click)="flag(list,'country')">
+                        <div class="d-inline-block" style="width:20px;height:16px;margin-right: 10px">
+                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}"
+                            style="max-width:100%;max-height:100%;">
+                        </div>
+                        <span> {{list.desc[0].CountryPhoneCode}}</span>
+                      </li>
+                    </ul>
                   </div>
                 </div>
+
+                <input type="text" class="form-control" maxlength="12" placeholder="123456789" (keypress)="NumberValid($event)" formControlName="phone">
               </div>
-              <input type="text" class="form-control control-phone" maxlength="12" placeholder="123456789"
-                formControlName="phone">
-            </div>
+                <!-- <p class="formError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('required') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">This field is required</p> -->
+                <p class="formError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('pattern') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Please enter valid information</p>
           </div>
-          <label for="address">Email Address</label>
-          <input type="text" class="form-control" placeholder="eg: john@company.com" formControlName="email">
-          <div class="info-text">
-            <img src="../../../assets/images/icons/icon_info.svg" alt="icons">
-            <p>This will be used as your login credential</p>
-
           </div>
-        </div>
-
-        <div class="col-6 dir-rtl">
-          <label for="">رقم الهاتف المتحرك</label>
+         </div>
+         <div class="col-6">
+            <div class="form-group">
           <div class="select-number">
-            <div class="input-group-prepend">
-              <div class="contanct-dropdown">
-                <div class="pointer phone" id="phoneCode" style="max-height: 28rem;">
-                  <div class="d-inline-block" style="width:20px;height:20px;">
-                    <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive" style="max-width:100%; max-height:100%;">
-                    <div class="animated fadeIn country-section">
-                      <ul class="list-group">
-                        <li class="list-group-item">
-                          <span> +971</span>
-                          <div class="d-inline-block" style="width:20px;height:20px;">
-                          </div>
-                        </li>
-                      </ul>
+              <label>رقم الهاتف المتحرك</label>
+              <div class="input-group-prepend">
+                  <div ngbDropdown>
+                      <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                        <div class="d-inline-block" style="width:20px;height:16px;margin-right: 10px">
+                          <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive"
+                            style="max-width:100%;max-height:100%;">
+                          <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'" alt="flags" 
+                          class=" img-responsive" style="max-width:100%;max-height:100%;">
+                        </div>
+                        <span>{{phoneCode}}</span>
+                      </div>
+                      <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                        <ul class="list-group">
+                          <li class="list-group-item" *ngFor="let list of countryList" (click)="flag(list,'country')">
+                            <div class="d-inline-block" style="width:20px;height:16px;margin-right: 10px">
+                              <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}"
+                                style="max-width:100%;max-height:100%;">
+                            </div>
+                            <span> {{list.desc[0].CountryPhoneCode}}</span>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
-                  </div>
-                </div>
+
+                <input type="text"
+                  class="form-control" maxlength="12" placeholder="123456789" (keypress)="NumberValid($event)" formControlName="phone">
               </div>
-              <input type="text" class="form-control control-phone" maxlength="12" placeholder="123456789">
+                <!-- <p class="formError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('required') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">This field is required</p> -->
+                <p class="formError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('pattern') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Please enter valid information</p>
+          </div>
+          </div>
+         </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+                <label for="address">Email Address</label>
+                <input type="text" class="form-control" placeholder="eg: john@company.com" formControlName="email">
+                <!-- <p class="formError animated fadeIn">Field Not Validate</p> -->
             </div>
           </div>
-
-          <label for="address">البريد الإلكتروني</label>
-          <input type="text" class="form-control" placeholder="eg: john@company.com">
-
+          <div class="col-6">
+              <div class="form-group">
+                  <label for="address">البريد الإلكتروني</label>
+                  <input type="text" class="form-control" placeholder="eg: john@company.com" >
+                  <!-- <p class="formError animated fadeIn">Field Not Validate</p> -->
+              </div>
+            </div>
         </div>
-      </div>
+      
+        <div class="info-text">
+            <p><img src="../../../assets/images/icons/icon_info.svg" alt="icons"> This will be used as your login credential</p>
+          </div>
+        
       <div class="row mt-5">
         <div class="col">
-          <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" type="submit">
+          <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" type="submit" [disabled]= "regForm.invalid">
             Create Account / إصنع حساب
           </button>
         </div>
       </div>
     </form>
-
-  
-
+   
   </section>
 
 </section>

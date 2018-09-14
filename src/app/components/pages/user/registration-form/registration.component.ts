@@ -16,11 +16,15 @@ import { SharedService } from '../../../../services/shared.service';
 export class RegistrationComponent implements OnInit {
 
   // @ViewChild('search') public searchElement: ElementRef;
+  public phoneCountryId: any
+  public phoneCode: any;
+  public countryFlagImage:string;
+  public accountId: number;
   public countryList: any[];
   public accountSetup: any;
   public serviceOffered: any;
   public zoomlevel: number = 5;
-  public serviceIds: any[]= [];
+  public serviceIds: any[] = [];
   public registrationForm: boolean;
   public regForm;
   public selectedRegion = {
@@ -34,8 +38,8 @@ export class RegistrationComponent implements OnInit {
   }
 
   constructor(
-    private _userService : UserService,
-    private _sharedService : SharedService,
+    private _userService: UserService,
+    private _sharedService: SharedService,
     private mapsAPILoader: MapsAPILoader,
     private _router: Router,
     private ngZone: NgZone) { }
@@ -43,11 +47,11 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
 
     this.regForm = new FormGroup({
-      firstName: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/), Validators.minLength(2), Validators.maxLength(50)]),
+      firstName: new FormControl(null, { updateOn: 'blur', validators: [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/), Validators.minLength(2), Validators.maxLength(50)] }),
       lastName: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/), Validators.minLength(2), Validators.maxLength(50)]),
       email: new FormControl(null, [
         Validators.required,
-        // Validators.pattern(EMAIL_REGEX),
+        Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
         Validators.maxLength(320)
       ]),
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(12)]),
@@ -55,15 +59,21 @@ export class RegistrationComponent implements OnInit {
     });
 
 
-    this._sharedService.countryList.subscribe((state:any)=>{
-      this.countryList = state;
+    this._sharedService.countryList.subscribe((state: any) => {
+      let List = state;
+      List.map((obj) => {
+        obj.desc = JSON.parse(obj.desc);
+      })
+      this.countryList = List;
     });
-    
-    this._sharedService.getLocation.subscribe((state:any)=>{
-      if(state && state.country){
-        let obj ={
+
+    this._sharedService.getLocation.subscribe((state: any) => {
+      if (state && state.country) {
+        let obj = {
           title: state.country
-        }; 
+        };
+        let selectedCountry = this.countryList.find(obj => obj.title == state.country);
+        this.flag(selectedCountry);
         this.getMapLatlng(obj);
       }
     })
@@ -81,120 +91,143 @@ export class RegistrationComponent implements OnInit {
     //     })
     //   })
     // })
-    this._userService.getServiceOffered().subscribe((res:any) => {
-      if(res.returnStatus == 'Success'){
-         this.serviceOffered = JSON.parse(res.returnObject);
+    this._userService.getServiceOffered().subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
+        this.serviceOffered = res.returnObject;
       }
     })
 
   }
-  accountList(id){
-    this._userService.getAccountSetup(id).subscribe((res:any) => {
-      if(res.returnStatus == 'Success'){
-         this.accountSetup = JSON.parse(res.returnObject);
-         this.registrationForm = true;
+  accountList(id) {
+    this._userService.getAccountSetup(id).subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
+        this.accountSetup = JSON.parse(res.returnObject);
+        this.registrationForm = true;
       }
     })
   }
-  getMapLatlng(region){
-    this._userService.getLatlng(region.title).subscribe((res:any)=>{
-      if(res.status == "OK"){
+  getMapLatlng(region) {
+    this._userService.getLatlng(region.title).subscribe((res: any) => {
+      if (res.status == "OK") {
         this.location = res.results[0].geometry.location;
-        if(region.id){
-        this.accountList(region.id);
-      }
+        if (region.id) {
+          this.accountList(region.id);
+        }
       }
     })
   }
-
-  getAccountList(region){
-    if(region.id){ 
-        this.getMapLatlng(region);
+  selectAccountSetup(id, obj){
+    this.accountId = obj.AccountID;
+    let elem = document.getElementsByClassName('fancyRadioBoxes') as any;
+    for(let i=0; i< elem.length; i++){
+        if(elem[i].children[0].id == id){
+          elem[i].children[0].checked = true;
+      }
+      
     }
-    else{
+  }
+  NumberValid(evt) {
+    let charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+      return false;
+    return true;
+  }
+  textValidation(event) {
+    const pattern = /[a-zA-Z-][a-zA-Z -]*$/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      if (event.charCode == 0) {
+        return true;
+      }
+
+      if (event.target.value) {
+        var end = event.target.selectionEnd;
+        if (event.keyCode == 32 && (event.target.value[end - 1] == " " || event.target.value[end] == " ")) {
+          event.preventDefault();
+          return false;
+        }
+      }
+      else {
+        return false;
+      }
+    }
+    else {
+      return true;
+    }
+
+  }
+
+  flag(list) {
+      this.countryFlagImage = list.code;
+      let description = list.desc;
+      this.phoneCode = description[0].CountryPhoneCode;
+      this.phoneCountryId = list.id
+  }
+
+
+  getAccountList(region) {
+    if (region.id) {
+      this.getMapLatlng(region);
+    }
+    else {
       this.registrationForm = false;
     }
   }
 
-  serviceSelection(obj, selectedService){
+  serviceSelection(obj, selectedService) {
     let index = this.serviceIds.indexOf(obj.ServiceID);
     let selectedItem = selectedService.classList;
-    if(index < 0){
+    if (index < 0) {
       selectedItem.add('active');
       this.serviceIds.push(obj.ServiceID);
     }
-    else{
+    else {
       this.serviceIds.splice(index, 1);
       selectedItem.remove('active');
     }
   }
 
 
-  createAccount(data){
-  // let obj = {
-  //   accountID:1,
-  //   countryID: 100,
-  //   primaryEmail: data.email,
-  //   redirectUrl:"http://localhost:4200/otp",
-  //         baseLanguageData:{
-  //           firstName: data.firstName,
-  //           lastName: data.lastName,
-  //           primaryPhone: data.phone,
-  //           CountryPhoneCode: "+92",
-  //           PhoneCodeCountryID: "+92",
-  //           jobTitle: "Manager",      
-  //         },
-  //         otherLanguageData:{ 
-  //           firstName: "",
-  //           lastName: "",
-  //           primaryPhone: "",
-  //           CountryPhoneCode: "",
-  //           PhoneCodeCountryID: "",
-  //           jobTitle: "",
-            
-  //         }
-  //       }
+  createAccount(data) {
 
- 
-
-let obj={
-  accountID: 100,
-  countryID: 101,
-  primaryEmail: "farah@texpo.com",
-  otpKey: "",
-  otpExpiry: "2018-09-13T11:19:45.799Z",
-  redirectUrl: "http://localhost:31289",
-  user: [
-    {
-      userID: 0,
-      firstName: "Farah",
-      lastName: "Anwar",
-      primaryPhone: "03001234567",
-      countryPhoneCode: "+92",
-      phoneCodeCountryID: 92,
-      jobTitle: "Software Engineer",
-      createdBy: "",
-      createdDateTime: "2018-09-13T11:19:45.799Z",
-      modifiedBy: "",
-      modifiedDateTime: "2018-09-13T11:19:45.799Z"
+    let obj = {
+      accountSetupID: this.accountId,
+      countryID: this.selectedRegion.id,
+      primaryEmail: data.email,
+      redirectUrl: window.location.protocol + "//" + window.location.host + "/otp",
+      userBaseLanguageData: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        primaryPhone: this.phoneCode + data.phone,
+        countryPhoneCode: this.phoneCode,
+        phoneCodeCountryID: this.phoneCountryId,
+        jobTitle: data.jobTitle
+      },
+      userOtherLanguageData: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        primaryPhone: this.phoneCode + data.phone,
+        countryPhoneCode: this.phoneCode,
+        phoneCodeCountryID: this.phoneCountryId,
+        jobTitle: data.jobTitle
+      }
     }
-  ]
-} 
- 
-  this._userService.userRegistration(obj).subscribe((res:any)=>{
-    if(res.returnStatus=="Success"){
-       this._router.navigate(['/otp'])
-    }
-  })
 
-}
+    this._userService.userRegistration(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        console.log(res)
+        this._router.navigate(['/otp', res.returnObject.otpKey])
+      }
+    })
 
-    search = (text$: Observable<string>) =>
+  }
+
+  search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
-      map(term => (!term || term.length < 3)? []
+      map(term => (!term || term.length < 3) ? []
         : this.countryList.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
     )
-   formatter = (x: {title: string}) => x.title;
+  formatter = (x: { title: string }) => x.title;
 
 }

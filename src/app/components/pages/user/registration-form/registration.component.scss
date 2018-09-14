@@ -16,6 +16,10 @@
             input {
                 border: 0;
                 height: 2.9rem;
+                label {
+                    margin-top: 0.5rem;
+                    margin-bottom: 0.5rem;
+                }
                 &::placeholder {
                     color: #afafaf;
                     opacity: 1;
@@ -27,25 +31,28 @@
                     color: #afafaf;
                 }
             }
-            .info-text {
-                p {
-                    font-size: 0.875rem;
-                    font-family: $font-proxima;
-                    color: $secondary-text-color;
-                    padding-top: 0.59rem;
-                }
+            p.formError {
+                position: absolute; 
+                line-height: 1;
+                margin-top: 6px;
+                color: $danger-color;
+                font-size: $font-size-medium - 0.025;
+              }
+        }
+        .info-text {
+            p {
+                font-size: 0.875rem;
+                font-family: $font-proxima;
+                color: $secondary-text-color;
+                padding-top: 0.59rem;
                 img {
-                    margin-top: 0.7rem;
-                    float: left;
                     width: 16px;
                     margin-right: 0.5rem;
                 }
             }
+           
         }
-        label {
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
+       
     }
     &-map-section {
         margin-top: 58px;
@@ -84,15 +91,8 @@
         margin-top: 0.9375rem !important;
         margin-bottom: 1.5rem !important;
     }
-    .check-boxes-main {
-        input {
-            height: 0;
-            border: none;
-        }
+    .fancyRadioBoxes {
         label {
-            font-family: $font-proxima !important;
-            font-weight: $font-weight-normal !important;
-            color: $text-color-default !important;
             font-size: $font-size-large !important;
         }
     }
@@ -118,6 +118,7 @@
         }
         .country-section {
             border: 0px;
+            left:-14px !important;
             background: transparent;
         }
         ng-scrollbar {
@@ -134,17 +135,19 @@
         }
         ul {
             border: 0px;
+            max-height: 200px;
+            overflow-y: scroll;
             li.list-group-item {
-                border: 0px;
-                cursor: pointer;
-                position: absolute;
-                top: 0;
-                height: 20px;
-                background: transparent;
-                border: 0;
-                padding: 0;
-                top: -27px;
-                left: 30px;
+                // border: 0px;
+                // cursor: pointer;
+                // position: absolute;
+                // top: 0;
+                // height: 20px;
+                // background: transparent;
+                // border: 0;
+                // padding: 0;
+                // top: -27px;
+                // left: 30px;
                 img {
                     border: 1px solid $grey-border;
                 }
@@ -181,24 +184,24 @@
         font-weight: $font-proxima-weight-semibold;
         padding: 0.75rem 0.75rem;
     }
-    .dir-rtl {
-        .select-number {
-            .input-group-prepend {
-                .contanct-dropdown {
-                    margin-right: 15px;
-                    margin-left: 0px;
-                    .list-group-item {
-                        right: 30px;
-                        left: -10px;
-                        top: 0px;
-                    }
-                }
-                .control-phone{
-                    padding-right: 22% !important;
-                    padding-left: 0 !important;
-                }
-            }
-        }
+    // .dir-rtl {
+    //     .select-number {
+    //         .input-group-prepend {
+    //             .contanct-dropdown {
+    //                 margin-right: 15px;
+    //                 margin-left: 0px;
+    //                 .list-group-item {
+    //                     right: 30px;
+    //                     left: -10px;
+    //                     top: 0px;
+    //                 }
+    //             }
+    //             .control-phone{
+    //                 padding-right: 22% !important;
+    //                 padding-left: 0 !important;
+    //             }
+    //         }
+    //     }
         
-    }
+    // }
 }

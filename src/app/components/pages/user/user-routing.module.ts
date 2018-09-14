@@ -11,8 +11,8 @@ const routes: Routes = [
       component : UserComponent,
       children:[
         { path: 'registration', component : RegistrationComponent },
-        { path: 'otp', component : OtpconfirmationComponent },
-        { path: 'password', component : CreatePasswordComponent },
+        { path: 'otp/:keys', component : OtpconfirmationComponent },
+        // { path: 'password', component : CreatePasswordComponent },
         { path: 'business-profile', component : BusinessDetailComponent },
         { path: '**', redirectTo: 'registration', pathMatch: 'full' }
      ]
