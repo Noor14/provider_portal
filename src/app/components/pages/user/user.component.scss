@@ -19,7 +19,7 @@
                         text-transform: uppercase;
                         font-family: proxima-nova, sans-serif;
                     }
-                    color:#ffffff;
+                    color:$color-white;
                     background:#243748;
                     padding: 18px 20px 10px 5px;
                 }
@@ -28,6 +28,6 @@
     }
     .right-section-portal {
         background-color: $right-side-background;
-        padding: 80px 95px !important;
+        padding: 80px 6% !important;
     }
 }

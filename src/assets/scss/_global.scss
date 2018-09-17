@@ -37,11 +37,11 @@ app-pages{
 
 }
 // direction RTL
-
-.dir-rtl {
+.dir-otherLanguage{
   direction: rtl;
-  text-align: right;
-  float: right;
+  label{
+    float: right;
+  }
 }
 
 // link Hover
@@ -76,79 +76,12 @@ a.link-hover {
   cursor:pointer;
 }
 
-}
-
-
-
-
-
-
-
-
-
-
-
 
 /* from user portal */
-
-.btn {
-  transition: all 0.5s ease;
-  font-size: $base-font-size;
-  font-family: $font-proxima;
-  border-radius: 3px;
-  font-weight: 400;
-  &:hover {
-    box-shadow: 0 12px 20px -12px rgba(98, 100, 101, 0.95) !important;
-  }
-  &-primary {
-    background-color: $secondary-color !important;
-    border-color: $secondary-color;
-    &:hover,
-    &:focus,
-    &:active,
-    &.focus,
-    &:not(:disabled):not(.disabled):active {
-      background-color: darken($secondary-color, 0.8);
-      border-color: darken($secondary-color, 0.8);
-      box-shadow: 0px 0px 0px;
-    }
-    &:not(:disabled):not(.disabled):active:focus {
-      box-shadow: 0 0 0 0.2rem rgba($secondary-color, .5)
-    }
-  }
-  &:not(:disabled):not(.disabled):active:focus {
-    box-shadow: 0 0 0 0.2rem rgba($secondary-color, .5)
-  }
-  &-outline-primary {
-    color: $secondary-color;
-    border-color: $secondary-color;
-    &:disabled {
-      color: $dropdown-shipping;
-    }
-    &:hover,
-    &:active,
-    &:focus,
-    &:not(:disabled):not(.disabled):active {
-      color: $white-color !important;
-      background-color: $secondary-color;
-      border-color: $secondary-color;
-      box-shadow: 0px 0px 0px;
-    }
-  }
-  &:disabled {
-    box-shadow: none !important;
-    &:before {
-      background: $btn-disable-background !important;
-      color: $btn-disable-color !important;
-    }
-  }
-}
-
-
-// Swip to Right on hover for all page 
 .hvr-sweep-to-right.btn-primary {
-  &:before {
+  &:before{
     background: #18a7a1 !important;
+    border-color: #18a7a1 !important;
     color: $color-white; //color: $secondary-color !important;
   }
   &:hover {
@@ -159,6 +92,7 @@ a.link-hover {
     //color: $secondary-color !important; //font-weight: $font-weight-mid;
     color: $color-white !important;
   }
+
 }
 
 .hvr-sweep-to-right.btn-danger {
@@ -185,6 +119,84 @@ a.link-hover {
     color: $white-color !important;
   }
 }
+
+// Btn scss or hover effect
+.btn {
+  transition: all 0.5s ease;
+  font-size: $base-font-size;
+  font-family: $font-proxima;
+  border-radius: 3px;
+  font-weight: 400;
+  &:hover {
+    box-shadow: 0 12px 20px -12px rgba(98, 100, 101, 0.95) !important;
+  }
+  &-primary {
+    background-color: $secondary-color !important;
+    border-color: $secondary-color;
+    &:hover,
+    &:focus,
+    &:active,
+    &.focus,
+    &:not(:disabled):not(.disabled):active {
+      background-color: darken($secondary-color, 0.8);
+      border-color: darken($secondary-color, 0.8);
+      box-shadow: 0px 0px 0px;
+    }
+   
+  }
+
+  &-outline-primary {
+    color: $secondary-color !important;
+    border-color: $secondary-color;
+    &:disabled {
+      color: $dropdown-shipping;
+    }
+    &:hover,
+    &:active,
+    &:focus,
+    &:not(:disabled):not(.disabled):active {
+      color: $white-color !important;
+      background-color: $secondary-color;
+      border-color: $secondary-color;
+      box-shadow: 0px 0px 0px;
+    }
+  }
+  &:disabled{
+    padding: 0.75rem 0.75rem;
+     cursor: not-allowed;
+     border: 0;
+     background: $btn-disable-background !important;
+     color: $color-topmenu !important;
+     border-radius: 2px;
+     &:before {
+       background: none !important;
+       color: $color-topmenu !important;
+       box-shadow: 0px 0px 0px !important;
+     }
+     &:hover{
+       box-shadow: 0px 0px 0px !important;
+       color: $color-topmenu !important;
+     }
+   }
+  
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // icon size base class
 .icon-size-12 {
@@ -222,12 +234,14 @@ a.link-hover {
   input[type="radio"] {
     height: 0;
     width: 0;
+    display: none;
   }
   input[type="radio"]+label {
     font-size: $font-size-medium;
     font-family: $font-proxima;
     color: $text-color-default;
     font-weight: $font-weight-normal;
+    height: 48px;
     position: relative;
     cursor: pointer;
     display: flex;
@@ -339,8 +353,7 @@ input[type="radio"]:focus+label>span {
 /*-- generic Inputs  --*/
 
 .form-row {
-  input,
-  select {
+  input,select {
     border: 1px solid $provider-input-border !important;
     border-radius: 4px !important;
     height: 52px !important;
