@@ -10,7 +10,7 @@
       <img *ngIf="selectedRegion && selectedRegion.code" src="{{'../../../../../assets/images/flags/4x3/' + (selectedRegion.code | lowercase) + '.svg'}}"
         class="mr-1 prepend-flag">
       <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search"
-        [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Select Region" (ngModelChange)="getAccountList(selectedRegion)" />
+        [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Select Region" (ngModelChange)="getAccountList(selectedRegion, $event)" />
       <ng-template #rt let-r="result">
         <img src="{{'../../../../../assets/images/flags/4x3/' + (r.code | lowercase) + '.svg'}}" class="mr-1">
         <ngb-highlight [result]="r.title"></ngb-highlight>
@@ -184,12 +184,15 @@
                     </ul>
                   </div>
                 </div>
-                <input type="text" class="form-control" maxlength="12" placeholder="123456789" (keypress)="NumberValid($event)"
+                <input type="text" class="form-control" [ngClass]="{'inputError': phoneError && regForm.controls['phone'].errors}"(ngModelChange)="onModelEmailPhoneChange('transLangPhone',$event)" (focusout)="errorValidate()" [(ngModel)]="transLangphone" (focus)="phoneError=false" maxlength="12" placeholder="123456789" (keypress)="NumberValid($event)"
                   formControlName="phone">
               </div>
-              <!-- <p class="formError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('required') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">This field is required</p> -->
-              <p class="formError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('pattern') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Please
-                enter valid information</p>
+              <span class="animated fadeIn" *ngIf="phoneError">
+                <p class="inputError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('required') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">{{requiredFields}}</p>
+                <p class="inputError animated fadeIn" *ngIf="!regForm.controls['phone'].hasError('pattern') && regForm.controls['phone'].hasError('minlength') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Phone number should be minimum 7 digits</p>
+                <p class="inputError animated fadeIn" *ngIf="!regForm.controls['phone'].hasError('pattern') && regForm.controls['phone'].hasError('maxlength') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Phone number should not exceed from 12 digits</p>
+                <p class="inputError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('pattern') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Please enter valid information</p>
+              </span>
             </div>
           </div>
         </div>
@@ -215,12 +218,15 @@
                       </ul>
                     </div>
                   </div>
-                  <input type="text" class="form-control" maxlength="12" placeholder="123456789" (keypress)="NumberValid($event)"
-                    formControlName="phone">
+                  <input type="text" class="form-control" (focusout)="errorValidate()" (focus)="translangPhoneError=false" [ngClass]="{'inputError': translangPhoneError && regForm.controls['transLangPhone'].errors}" [(ngModel)]="transLangphone" maxlength="12" placeholder="123456789" (keypress)="NumberValid($event)"
+                    formControlName="transLangPhone">
                 </div>
-                <!-- <p class="formError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('required') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">This field is required</p> -->
-                <p class="formError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('pattern') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Please
-                  enter valid information</p>
+                <span class="animated fadeIn" *ngIf="translangPhoneError">
+                  <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangPhone'].hasError('required') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">{{requiredFields}}</p>
+                  <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangPhone'].hasError('pattern') && regForm.controls['transLangPhone'].hasError('minlength') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">Phone number should be minimum 7 digits</p>
+                  <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangPhone'].hasError('pattern') && regForm.controls['transLangPhone'].hasError('maxlength') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">Phone number should not exceed from 12 digits</p>
+                  <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangPhone'].hasError('pattern') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">Please enter valid information</p>
+                </span>
               </div>
           </div>
         </div>
@@ -229,7 +235,7 @@
         <div class="col-lg-6 col-md-6 col-sm-12">
           <div class="form-group">
             <label for="address">Email Address</label>
-            <input type="email" autocomplete="nope" (focusout)="errorValidate()" (focus)="EmailError=false" [ngClass]="{'inputError': EmailError && regForm.controls['email'].errors}" (keypress)="spaceHandler($event)"class="form-control" [(ngModel)]="transLangEmail" (ngModelChange)="onModelEmailChange('transLangEmail',$event)" placeholder="eg: john@company.com" formControlName="email">
+            <input type="email" autocomplete="nope" (focusout)="errorValidate()" (focus)="EmailError=false" [ngClass]="{'inputError': EmailError && regForm.controls['email'].errors}" (keypress)="spaceHandler($event)" class="form-control" [(ngModel)]="transLangEmail" (ngModelChange)="onModelEmailPhoneChange('transLangEmail',$event)" placeholder="eg: john@company.com" formControlName="email">
             <span class="animated fadeIn" *ngIf="EmailError && regForm.controls['email'].errors">
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['email'].hasError('required') && (regForm.controls.email.dirty || regForm.controls.email.touched)">{{requiredFields}}</p>
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['email'].hasError('pattern') && (regForm.controls.email.dirty || regForm.controls.email.touched)">Please enter valid information</p>

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
+import { ToastrService } from 'ngx-toastr';
+import { SharedService } from '../../../../services/shared.service';
 
 @Component({
   selector: 'app-otpconfirmation',
@@ -9,17 +12,27 @@ import { UserService } from '../user.service';
 })
 export class OtpconfirmationComponent implements OnInit {
 
-  public resendTimer: number = 1;
+  public timer: any;
   public otpKey: string;
   public paramSubscriber: any;
   public userInfo: any;
   public otpCode:number;
-  public passwordForm:boolean;
-  public userPassword:any;
+  public otpForm;
 
-  constructor(private _userService: UserService, private _route: ActivatedRoute, private _router: Router) { }
+  constructor(
+    private _userService: UserService, 
+    private _route: ActivatedRoute, 
+    private _router: Router,
+    private _toast: ToastrService,
+    private _sharedService: SharedService
+   ) { }
 
   ngOnInit() {
+
+    this.otpForm = new FormGroup({
+      otp: new FormControl(null, [Validators.required]),
+    });
+
     this.paramSubscriber = this._route.params.subscribe(params => {
       let keyCode = params.keys; // (+) converts string 'id' to a number
       if (keyCode) {
@@ -28,12 +41,19 @@ export class OtpconfirmationComponent implements OnInit {
     });
   }
 
-
+  passSpaceHandler(event){
+    if (event.keyCode == 32) {
+      event.preventDefault();
+      return false;
+    }
+  }
  UserInfofromOtp(keyCode){
     this._userService.getUserInfoByOtp(keyCode).subscribe((res:any)=>{
-      if(res.returnStatus == "Success")
+      if(res.returnStatus == "Success"){
       this.userInfo = JSON.parse(res.returnObject);
-      console.log(this.userInfo)
+      this._sharedService.formProgress.next(10)
+      console.log(this.userInfo);
+    } 
     })
   }
   resendOtp(){                                                                                                 
@@ -41,12 +61,16 @@ export class OtpconfirmationComponent implements OnInit {
       key: this.userInfo.Key
     };
     this._userService.resendOtpCode(obj).subscribe((res:any)=>{
-      console.log(res);
+      if(res.returnStatus == "Success"){
+        this.userInfo.OTPCode = res.returnObject.otpCode;
+        console.log(res);
+      }
     })
   }
   submitOtp(){
     if(this.otpCode != this.userInfo.OTPCode){
-      return alert("Otp not matched");
+      this._toast.error("Otp not matched", '');
+      return;
     }
     let obj= {
       otpid: this.userInfo.OTPID,
@@ -55,25 +79,15 @@ export class OtpconfirmationComponent implements OnInit {
     };
     this._userService.sendOtpCode(obj).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
-        this.passwordForm = true;
+        console.log(res);
+        this._toast.success(res.returnText,'');
+        let otpKey = JSON.parse(res.returnObject);
+        if(otpKey)
+        this._router.navigate(['/password', otpKey.Key])
+        
       }
     })
   }
 
-  passwordSubmit(){
-    let obj={
-      otpKey: this.userInfo.Key,
-      password: this.userPassword
-    }
-    if(!this.userPassword){
-      return alert('insertPassword please')
-    }
-    this._userService.createPaasword(obj).subscribe((res:any)=>{
-      if(res.returnStatus == "Success"){
-        this.passwordForm = true;
-        alert('Registered successfully')
-        this._router.navigate(['/registration']);
-      }
-    })
-  }
+
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from '../../../../services/shared.service';
 
 @Component({
   selector: 'app-business-detail',
@@ -7,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BusinessDetailComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _sharedService: SharedService
+  ) { }
 
   ngOnInit() {
 
+    // this._sharedService.formProgress.next(30);
     this.getTenYears();
   }
 

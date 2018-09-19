@@ -35,6 +35,11 @@ export class UserService {
     return this._http.post(baseApi + url, otpKey);
   }
 
+  getUserOtpVerified(otpKey, status){
+    let url: string = `otp/GetVerifiedOTPUser/${otpKey}/${status}`;
+    return this._http.get(baseApi + url);
+    
+  }
   createPaasword(obj){
     let url: string = "usersprovider/CreatePassword";
     return this._http.post(baseApi + url, obj);
