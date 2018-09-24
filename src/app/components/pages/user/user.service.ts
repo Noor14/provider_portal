@@ -6,6 +6,12 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 export class UserService {
 
   constructor(private _http: HttpClient) { }
+
+  getlabelsDescription(page){
+    let url: string = `languagetranslate/LanguageDictionary/[En-US]/[Ar-AE]/${page}`;
+    return this._http.get(baseApi + url);
+  } 
+  
   getAccountSetup(id) {
     let url: string = `usersprovider/AccountSetup/${id}`;
     return this._http.get(baseApi + url);
