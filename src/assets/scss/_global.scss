@@ -6,6 +6,12 @@
   text-align: right;
   float: right;
 }
+.dir-otherLanguage{
+  direction: rtl;
+  label{
+  float: right;
+  }
+  }
 a.link-hover {
   transition: all 0.5s ease;
   position: relative;
