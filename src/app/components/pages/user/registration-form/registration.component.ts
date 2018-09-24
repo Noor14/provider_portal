@@ -218,26 +218,27 @@ export class RegistrationComponent implements OnInit {
     this._userService.getlabelsDescription('registration').subscribe((res:any)=>{
       if(res.returnStatus =='Success'){
         // console.log(res.returnObject);
+      // console.log(this.regForm.controls.firstName);
        this.lblAccSetupBaseLang = res.returnObject[0].baseLang;
        this.lblAccSetupOtherLang = res.returnObject[0].otherLang;
        this.lblPersonalInfoBaseLang = res.returnObject[1].baseLang;
        this.lblPersonalInfoOtherLang = res.returnObject[1].otherLang; 
-       this.lblFormfirstNameBaseLang = res.returnObject[2].baseLang  
-       this.lblFormfirstNameOtherLang = res.returnObject[2].otherLang  
-       this.lblFormlastNameBaseLang = res.returnObject[3].baseLang  
-       this.lblFormlastNameOtherLang = res.returnObject[3].otherLang  
-       this.lblFormjobTitleBaseLang = res.returnObject[4].baseLang  
-       this.lblFormjobTitleOtherLang = res.returnObject[4].otherLang    
+       this.lblFormfirstNameBaseLang = res.returnObject[2].baseLang;  
+       this.lblFormfirstNameOtherLang = res.returnObject[2].otherLang;  
+       this.lblFormlastNameBaseLang = res.returnObject[3].baseLang;  
+       this.lblFormlastNameOtherLang = res.returnObject[3].otherLang;  
+       this.lblFormjobTitleBaseLang = res.returnObject[4].baseLang;  
+       this.lblFormjobTitleOtherLang = res.returnObject[4].otherLang;    
        this.lblContactDetailBaseLang = res.returnObject[5].baseLang;
        this.lblContactDetailOtherLang = res.returnObject[5].otherLang;
-       this.lblFormMobileBaseLang = res.returnObject[6].baseLang  
-       this.lblFormMobileOtherLang = res.returnObject[6].otherLang   
-       this.lblFormEmailBaseLang = res.returnObject[7].baseLang  
-       this.lblFormEmailOtherLang = res.returnObject[7].otherLang 
-       this.emailInfoTextBaselang = res.returnObject[8].baseLang  
-       this.emailInfoTextOtherlang = res.returnObject[8].otherLang 
-       this.regBtnBaseLang = res.returnObject[9].baseLang   
-       this.regBtnOtherLang = res.returnObject[9].otherLang   
+       this.lblFormMobileBaseLang = res.returnObject[6].baseLang; 
+       this.lblFormMobileOtherLang = res.returnObject[6].otherLang;   
+       this.lblFormEmailBaseLang = res.returnObject[7].baseLang;  
+       this.lblFormEmailOtherLang = res.returnObject[7].otherLang; 
+       this.emailInfoTextBaselang = res.returnObject[8].baseLang;  
+       this.emailInfoTextOtherlang = res.returnObject[8].otherLang; 
+       this.regBtnBaseLang = res.returnObject[9].baseLang;   
+       this.regBtnOtherLang = res.returnObject[9].otherLang;   
       }
     })
   }
