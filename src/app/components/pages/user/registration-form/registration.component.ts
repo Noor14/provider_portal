@@ -18,14 +18,11 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RegistrationComponent implements OnInit {
 
-  // public timer=10
-
-
-
   // @ViewChild('search') public searchElement: ElementRef;
-  debounceInput: Subject<string> = new Subject();
+  public debounceInput: Subject<string> = new Subject();
   public phoneCountryId: any
-  public phoneCode: any;
+  public phoneCode: string;
+  public transPhoneCode: string;
   public countryFlagImage: string;
   public accountId: number;
   public countryList: any[];
@@ -44,11 +41,23 @@ export class RegistrationComponent implements OnInit {
     lat: undefined,
     lng: undefined
   }
+  public arabicNumbers :any = [
+    {baseNumber:'0',arabicNumber:'۰'},
+    {baseNumber:'1',arabicNumber:'۱'},
+    {baseNumber:'2',arabicNumber:'۲'},
+    {baseNumber:'3',arabicNumber:'۳'},
+    {baseNumber:'4',arabicNumber:'۴'},
+    {baseNumber:'5',arabicNumber:'۵'},
+    {baseNumber:'6',arabicNumber:'۶'},
+    {baseNumber:'7',arabicNumber:'۷'},
+    {baseNumber:'8',arabicNumber:'۸'},
+    {baseNumber:'9',arabicNumber:'۹'}
+  ]
+
 
   // model binding
 
   public transLangEmail: any;
-  public transLangphone: any;
 
 
   // form Field Validtaions boolean variable
@@ -65,19 +74,46 @@ export class RegistrationComponent implements OnInit {
   public translangPhoneError: boolean;
   public transEmailError: boolean;
 
-  // whenactive on inputs
+  // when active on inputs
   public activeFirstName: any;
   public activeTransFirstName: any;
   public activeLastName:any;
   public activeTransLastName:any;
   public activejobTitle: any;
   public activeTransjobTitle: any;
+  public activePhone:any;
+  public activeTransPhone:any;
 
 
 
   // global Input
   public Globalinputfrom: any;
   public Globalinputto: any;
+
+
+  public lblAccSetupBaseLang: string;
+  public lblAccSetupOtherLang: string;
+  public lblPersonalInfoBaseLang: string;
+  public lblPersonalInfoOtherLang: string;
+  public lblContactDetailBaseLang: string;
+  public lblContactDetailOtherLang: string;
+
+  public lblFormfirstNameBaseLang: string;
+  public lblFormfirstNameOtherLang: string;
+  public lblFormlastNameBaseLang: string;
+  public lblFormlastNameOtherLang: string;
+  public lblFormjobTitleBaseLang: string;
+  public lblFormjobTitleOtherLang: string;
+  public lblFormMobileBaseLang: string; 
+  public lblFormMobileOtherLang: string;   
+  public lblFormEmailBaseLang: string; 
+  public lblFormEmailOtherLang: string;   
+  public emailInfoTextBaselang: string;
+  public emailInfoTextOtherlang: string;
+  public regBtnBaseLang: string;   
+  public regBtnOtherLang: string;   
+
+
 
   constructor(
     private _toastr: ToastrService,
@@ -90,22 +126,12 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit() {
 
-
-    if(this.timer){
-      this.countDown(this.timer);
-    }
-
-
-
-
-
-
-
-    this._sharedService.formProgress.next(0)
+    this._sharedService.formProgress.next(0);
+    
     this.regForm = new FormGroup({
-      firstName: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z]*$/), Validators.minLength(2), Validators.maxLength(100)]),
+      firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
       transLangfirstName: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
-      lastName: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z]*$/), Validators.minLength(2), Validators.maxLength(100)]),
+      lastName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
       transLanglastName: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
       email: new FormControl(null, [
         Validators.required,
@@ -118,7 +144,7 @@ export class RegistrationComponent implements OnInit {
         Validators.maxLength(320)
       ]),
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(12)]),
-      transLangPhone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(12)]),
+      transLangPhone: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(12)]),
       jobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]),
       transLangjobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]),
     });
@@ -139,8 +165,6 @@ export class RegistrationComponent implements OnInit {
         let obj = {
           title: state.country
         };
-        let selectedCountry = this.countryList.find(obj => obj.title == state.country);
-        this.selectPhoneCode(selectedCountry);
         this.getMapLatlng(obj);
       }
     })
@@ -166,23 +190,6 @@ export class RegistrationComponent implements OnInit {
     })
 
 
-  }
-
-
-  countDown(time){
-    let seconds = 60;
-    // if(time > 0 ){
-    //   for(let i=1; i<59; i++){
-
-    //   }
-        }
-        console.log(time + " : " + seconds)
-    // }
-      }, 1000)
-    // setInterval(()=>{
-    //   // console.log(time)
-    //   // time--
-    // },1000)
   }
 
   errorValidate() {
@@ -219,12 +226,41 @@ export class RegistrationComponent implements OnInit {
     }
 
   }
-
+  getlabelsDescription(){
+    this._userService.getlabelsDescription('registration').subscribe((res:any)=>{
+      if(res.returnStatus =='Success'){
+        // console.log(res.returnObject);
+      // console.log(this.regForm.controls.firstName);
+       this.lblAccSetupBaseLang = res.returnObject[0].baseLang;
+       this.lblAccSetupOtherLang = res.returnObject[0].otherLang;
+       this.lblPersonalInfoBaseLang = res.returnObject[1].baseLang;
+       this.lblPersonalInfoOtherLang = res.returnObject[1].otherLang; 
+       this.lblFormfirstNameBaseLang = res.returnObject[2].baseLang;  
+       this.lblFormfirstNameOtherLang = res.returnObject[2].otherLang;  
+       this.lblFormlastNameBaseLang = res.returnObject[3].baseLang;  
+       this.lblFormlastNameOtherLang = res.returnObject[3].otherLang;  
+       this.lblFormjobTitleBaseLang = res.returnObject[4].baseLang;  
+       this.lblFormjobTitleOtherLang = res.returnObject[4].otherLang;    
+       this.lblContactDetailBaseLang = res.returnObject[5].baseLang;
+       this.lblContactDetailOtherLang = res.returnObject[5].otherLang;
+       this.lblFormMobileBaseLang = res.returnObject[6].baseLang; 
+       this.lblFormMobileOtherLang = res.returnObject[6].otherLang;   
+       this.lblFormEmailBaseLang = res.returnObject[7].baseLang;  
+       this.lblFormEmailOtherLang = res.returnObject[7].otherLang; 
+       this.emailInfoTextBaselang = res.returnObject[8].baseLang;  
+       this.emailInfoTextOtherlang = res.returnObject[8].otherLang; 
+       this.regBtnBaseLang = res.returnObject[9].baseLang;   
+       this.regBtnOtherLang = res.returnObject[9].otherLang;   
+      }
+    })
+  }
   accountList(id) {
     this._userService.getAccountSetup(id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.accountSetup = JSON.parse(res.returnObject);
         this.registrationForm = true;
+        this.getlabelsDescription()
+
       }
     })
   }
@@ -234,6 +270,8 @@ export class RegistrationComponent implements OnInit {
       if (res.status == "OK") {
         this.location = res.results[0].geometry.location;
         if (region.id) {
+          let selectedCountry = this.countryList.find(obj => obj.title == region.title);
+          this.selectPhoneCode(selectedCountry);
           this.accountList(region.id);
         }
       }
@@ -259,7 +297,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   textValidation(event) {
-    const pattern = /^[a-zA-Z]*$/;
+    const pattern = /[a-zA-Z-][a-zA-Z -]*$/;
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
       if (event.charCode == 0) {
@@ -267,11 +305,11 @@ export class RegistrationComponent implements OnInit {
       }
       if (event.target.value) {
         var end = event.target.selectionEnd;
-        if (event.keyCode == 32 && (event.target.value[end - 1] == " " || event.target.value[end] == " ")) {
+        if (event.charCode == 32 && (event.target.value[end - 1] == " " || event.target.value[end] == " ")) {
           event.preventDefault();
           return false;
         }
-        else if(event.keyCode == 32 && !pattern.test(inputChar)){
+        else if(event.charCode == 32 && !pattern.test(inputChar)){
           return true;
         }
         else{
@@ -288,7 +326,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   spaceHandler(event) {
-    if (event.keyCode == 32) {
+    if (event.charCode == 32) {
       event.preventDefault();
       return false;
     }
@@ -298,6 +336,7 @@ export class RegistrationComponent implements OnInit {
     this.countryFlagImage = list.code;
     let description = list.desc;
     this.phoneCode = description[0].CountryPhoneCode;
+    this.transPhoneCode = description[0].CountryPhoneCode_OtherLang;
     this.phoneCountryId = list.id
   }
 
@@ -364,23 +403,33 @@ export class RegistrationComponent implements OnInit {
     })
 
   }
-  onModelEmailPhoneChange($controlName, $event){
-    // let value = $event.split('').pop();
-    // var arabicNumbers = [
-    //   {baseNumber:'0',arabicNumber:'۰'},
-    //   {baseNumber:'1',arabicNumber:'۱'},
-    //   {baseNumber:'2',arabicNumber:'۲'},
-    //   {baseNumber:'3',arabicNumber:'۳'},
-    //   {baseNumber:'4',arabicNumber:'۴'},
-    //   {baseNumber:'5',arabicNumber:'۵'},
-    //   {baseNumber:'6',arabicNumber:'۶'},
-    //   {baseNumber:'7',arabicNumber:'۷'},
-    //   {baseNumber:'8',arabicNumber:'۸'},
-    //   {baseNumber:'9',arabicNumber:'۹'}
-    // ]
-    // let convertValue= arabicNumbers.find(obj => obj.baseNumber == value);
-    // this.regForm.controls[$controlName].patchValue(convertValue.arabicNumber);
-  this.regForm.controls[$controlName].patchValue($event);
+  onModelPhoneChange(fromActive, currentActive, $controlName, $value){
+    if(currentActive && !fromActive){
+       let number = $value.split('');
+    for (let i=0; i< number.length; i++){
+      this.arabicNumbers.forEach((obj, index)=>{
+        if(number[i] == obj.baseNumber){
+          number.splice(i,1, obj.arabicNumber)
+        }
+      })
+    }
+    this.regForm.controls[$controlName].patchValue(number.reverse().join(''));
+    }
+}
+onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
+  if(currentActive && !fromActive){
+     let number = $value.split('');
+  for (let i=0; i< number.length; i++){
+    this.arabicNumbers.forEach((obj, index)=>{
+      if(number[i] == obj.baseNumber || number[i] == obj.arabicNumber){
+        number.splice(i,1, obj.baseNumber)
+      }
+    })
+    
+  }
+  this.regForm.controls[$controlName].patchValue(number.join(''));
+  }
+
 }
   onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
     setTimeout(() => {

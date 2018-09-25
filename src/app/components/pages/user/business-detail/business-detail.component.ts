@@ -14,7 +14,7 @@ export class BusinessDetailComponent implements OnInit {
 
   ngOnInit() {
 
-    // this._sharedService.formProgress.next(30);
+    this._sharedService.formProgress.next(30);
     this.getTenYears();
   }
 

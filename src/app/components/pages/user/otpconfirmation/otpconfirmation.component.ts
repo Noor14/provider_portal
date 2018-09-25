@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
@@ -10,14 +10,26 @@ import { SharedService } from '../../../../services/shared.service';
   templateUrl: './otpconfirmation.component.html',
   styleUrls: ['./otpconfirmation.component.scss']
 })
-export class OtpconfirmationComponent implements OnInit {
+export class OtpconfirmationComponent implements OnInit, OnDestroy {
 
-  public timer: any;
+  public remainingTime: string;
   public otpKey: string;
   public paramSubscriber: any;
   public userInfo: any;
   public otpCode:number;
   public otpForm;
+
+  public headingBaseLanguage: string;
+  public headingOtherLanguage: string;
+  public descBaseLanguage: string;
+  public descOtherLanguage: string;
+  public lblOTPPasswordOtherlang: string;
+  public lblOTPPasswordBaselang: string;
+  public otpbtnBaselang: string;
+  public otpbtnOtherlang: string;
+  public otpResendBaselang: string;
+  public otpResendOtherlang: string;
+
 
   constructor(
     private _userService: UserService, 
@@ -40,6 +52,47 @@ export class OtpconfirmationComponent implements OnInit {
       }
     });
   }
+  ngOnDestroy(){
+    this.paramSubscriber.unsubscribe();
+  }
+
+  getlabelsDescription(obj){
+    this._userService.getlabelsDescription('otp').subscribe((res:any)=>{
+      if(res.returnStatus =='Success'){
+        console.log(res.returnObject);
+       this.headingBaseLanguage = res.returnObject[0].baseLang.replace('{firstName}', obj.FirstName);
+       this.headingOtherLanguage = res.returnObject[0].otherLang.replace('{firstName}', obj.FirstName);
+       this.descBaseLanguage = res.returnObject[1].baseLang.replace('{emailAddress}', obj.PrimaryEmail);
+       this.descOtherLanguage = res.returnObject[1].otherLang.replace('{emailAddress}', obj.PrimaryEmail);
+       this.lblOTPPasswordBaselang = res.returnObject[2].baseLang;
+       this.lblOTPPasswordOtherlang = res.returnObject[2].otherLang;
+       this.otpbtnBaselang = res.returnObject[3].baseLang;
+       this.otpbtnOtherlang = res.returnObject[3].otherLang;
+       this.otpResendBaselang = res.returnObject[4].baseLang;
+       this.otpResendOtherlang = res.returnObject[4].otherLang;
+      }
+    })
+  }
+
+  countDown(time){
+  let minutes = time/60;
+  let seconds = parseInt(Math.fround(time/60%1).toFixed(1).split('.').pop());
+   if (time > 0 || seconds > 0) {
+     let countTime = setInterval(() => {
+       if (minutes == 0 && seconds == 0) {
+         clearInterval(countTime);
+       }
+       else if (seconds == 60 || seconds == 0) {
+         minutes--;
+         seconds = 60;
+       }
+       this.remainingTime = minutes + " : " + seconds;
+       seconds--
+     }, 1000)
+   }
+  
+ }
+
 
   passSpaceHandler(event){
     if (event.keyCode == 32) {
@@ -51,18 +104,35 @@ export class OtpconfirmationComponent implements OnInit {
     this._userService.getUserInfoByOtp(keyCode).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
       this.userInfo = JSON.parse(res.returnObject);
+      this.getlabelsDescription(this.userInfo);
+      (this.userInfo.Timer > 0)? this.countDown(this.userInfo.Timer) : this.remainingTime = "0 : 0";  
       this._sharedService.formProgress.next(10)
       console.log(this.userInfo);
     } 
     })
   }
-  resendOtp(){                                                                                                 
+  timerClass(){
+    if(this.remainingTime){
+      let remainsTime = this.remainingTime.split(':');
+      if(parseInt(remainsTime[0]) == 0 && parseInt(remainsTime[1]) == 0){
+        return 'resendLink';
+      }
+    }   
+  }
+  resendOtp(){ 
+    if(this.remainingTime){
+      let remainsTime = this.remainingTime.split(':');
+      if(parseInt(remainsTime[0]) > 0 || parseInt(remainsTime[1]) > 0){
+        return;
+      }
+    }                                                                                                
     let obj= {
       key: this.userInfo.Key
     };
     this._userService.resendOtpCode(obj).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
         this.userInfo.OTPCode = res.returnObject.otpCode;
+        (this.userInfo.timer > 0)? this.countDown(this.userInfo.timer) : this.remainingTime = "0 : 0"; 
         console.log(res);
       }
     })

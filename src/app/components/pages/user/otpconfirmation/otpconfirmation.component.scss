@@ -36,12 +36,20 @@
             height: 48px;
         }
         &-msg {
-            a,span {
+            a{
                 font-size: $font-size-medium;
                 color: $dark-grey-blue;
                 font-family: $font-proxima;
                 font-weight: $font-proxima-weight-semibold;
+                cursor: no-drop !important;
+                &.resendLink{
+                    cursor: pointer !important;
+                }
             }
+            span{
+                @extend a;
+                cursor: default !important;
+            } 
         }
     }
 }

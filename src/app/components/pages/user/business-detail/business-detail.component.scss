@@ -1,6 +1,35 @@
 @import '../../../../../assets/scss/_variables';
 
 .business-profile {
+    .service-btn {
+        border-radius: 4px;
+        border: 1px solid $input-border;
+        background: $white-color;
+        min-width: 200px;
+        height: 60px;
+        position: relative;
+        &.active {
+            box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
+            border-radius: 4px;
+            border: 1px solid $primary-color !important;
+            background: $white-color !important;
+            &:before {
+                content: " ";
+                background: url('../../../../../assets/images/corner-selection.png');
+                width: 44px;
+                height: 44px;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+        }
+    }
+    form{
+        .dir-otherLanguage{
+            .row{
+                clear: both;
+            }
+         }
 
         h2 {
             font-weight: 700;
@@ -52,22 +81,23 @@
         }
     
         .trade-license-box {
-            img {
-                margin: auto;
-                display: block;
-                padding-top: 5rem;
-            }
             small {
                 color: #afafaf;
             }
-            p {
-                margin-top: 0.8rem;
+            .documentInfo{
+                height: 225px;
+                border: 1px dashed #e1d8d8;
+                margin-bottom: 3rem;
+                text-align: center;
+                img {
+                    margin: auto;
+                    display: block;
+                    padding-top: 5rem;
+                }
+                p {
+                    margin-top: 0.8rem;
+                }
             }
-            width: 100%;
-            height: 210px;
-            border: 1px solid #e1d8d8;
-            margin-bottom: 1rem;
-            text-align: center;
         }
         .business-map {
         width: 100%;
@@ -165,29 +195,7 @@
                 }
             }
         }
-        .service-btn {
-            border-radius: 4px;
-            border: 1px solid $input-border;
-            background: $white-color;
-            min-width: 200px;
-            height: 60px;
-            position: relative;
-            &.active {
-                box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
-                border-radius: 4px;
-                border: 1px solid $primary-color !important;
-                background: $white-color !important;
-                &:before {
-                    content: " ";
-                    background: url('../../../../../assets/images/corner-selection.png');
-                    width: 44px;
-                    height: 44px;
-                    position: absolute;
-                    right: 0;
-                    top: 0;
-                }
-            }
-        }
+       
         .social-accounts {
             p {
                 font-size: 0.8rem;
@@ -203,3 +211,4 @@
             }
         }
     }
+}

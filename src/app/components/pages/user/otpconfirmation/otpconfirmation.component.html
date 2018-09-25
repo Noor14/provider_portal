@@ -2,18 +2,15 @@
   <div class="row">
       <div class="col-12">
       <h3 class="profile-verify-title text-center" >
-        Hi {{userInfo.FirstName}}, Please Verify Your Profile
+        {{headingBaseLanguage}}
       </h3>
       <p class="profile-verify-paragraph text-center">
-        A one-time password was emailed to you at {{userInfo.PrimaryEmail}}. if you cannot find this email
-        <br />(it may be caught in your spam filters) you may request a new one below.
+       {{descBaseLanguage}}
       </p>
       </div>
     <div class="col-12 mt-4">
-      <h3 class="profile-verify-title text-center">مرحبا جون ، يرجى التحقق من ملف التعريف الخاص بك</h3>
-      <p class="profile-verify-paragraph text-center">تم إرسال كلمة مرور لمرة واحدة عبر البريد الإلكتروني على
-        {{userInfo.PrimaryEmail}}. إذا لم تتمكن من العثور على هذا البريد الإلكتروني
-        (قد يتم اكتشافه في عوامل تصفية الرسائل غير المرغوب فيها) ، فيمكنك طلب عنوان جديد أدناه.</p>
+      <h3 class="profile-verify-title text-center dir-otherLanguage">{{headingOtherLanguage}}</h3>
+      <p class="profile-verify-paragraph text-center">{{descOtherLanguage}}</p>
       <hr class="hr-solid">
     </div>
   </div>
@@ -22,17 +19,17 @@
     <div class="col-6 otp-form">
       <div class="form-froup">
         <form autocomplete="off" novalidate [formGroup]="otpForm" (ngSubmit)="submitOtp(otpForm.value)">
-            <label for="otp">One-Time Password/كلمة السر لمرة واحدة</label>
+            <label for="otp">{{lblOTPPasswordBaselang}} / {{lblOTPPasswordOtherlang}}</label>
             <input formControlName="otp" (keypress)="passSpaceHandler($event)" type="text" id="otp" class="form-control mb-3" [(ngModel)]="otpCode" placeholder="Enter OTP Code">
-            <button class="btn btn-primary hvr-sweep-to-right form-control" type="submit" [disabled]="otpForm.invalid">Submit / خضع</button>
+            <button class="btn btn-primary hvr-sweep-to-right form-control" type="submit" [disabled]="otpForm.invalid">{{otpbtnBaselang}} / {{otpbtnOtherlang}}</button>
         </form>
       </div>
       <p class="otp-form-msg text-center mt-2 ">
-        <a href="javascript:;" (click)="resendOtp()" class="hvr-icon-forward">
-          RESEND OTP/إعادة إرسال
+        <a href="javascript:;" (click)="resendOtp()" class="hvr-icon-forward" [ngClass]="timerClass()">
+          {{otpResendBaselang}} / {{otpResendOtherlang}}
           <img src="../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16 align-text-top hvr-icon">
         </a>
-        <!-- <span id="countdown">{{timer}}</span> -->
+        <span>{{remainingTime}} Minutes</span>
       </p>
     </div>
   </div>
