@@ -16,9 +16,7 @@ export class LeftsidebarComponent implements OnInit {
 
   ngOnInit() {
     this._sharedService.formProgress.subscribe(state => {
-      if (state) {
-        this.percentProgress += state
-      }
+        this.percentProgress = state;
     })
   }
   formatSubtitle = (percent: number): string => {

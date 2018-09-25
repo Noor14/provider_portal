@@ -100,7 +100,7 @@ export class CreatePasswordComponent implements OnInit {
       if(res.returnStatus == "Success"){
       this.userInfo = res.returnObject;
       this.getlabelsDescription(this.userInfo);
-      this._sharedService.formProgress.next(10);
+      this._sharedService.formProgress.next(20);
       console.log(this.userInfo);
     } 
     })

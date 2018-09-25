@@ -8,7 +8,7 @@ export class CommonService {
   constructor(private _http: HttpClient) { }
 
   getCountry() {
-    let url: string = "Country/GetDropDownDetail/0";
+    let url: string = "country/GetDropDownDetailOtherLanguage/0";
     return this._http.get(baseApi + url);
   }
 

@@ -21,7 +21,8 @@ export class RegistrationComponent implements OnInit {
   // @ViewChild('search') public searchElement: ElementRef;
   public debounceInput: Subject<string> = new Subject();
   public phoneCountryId: any
-  public phoneCode: any;
+  public phoneCode: string;
+  public transPhoneCode: string;
   public countryFlagImage: string;
   public accountId: number;
   public countryList: any[];
@@ -40,12 +41,23 @@ export class RegistrationComponent implements OnInit {
     lat: undefined,
     lng: undefined
   }
+  public arabicNumbers :any = [
+    {baseNumber:'0',arabicNumber:'۰'},
+    {baseNumber:'1',arabicNumber:'۱'},
+    {baseNumber:'2',arabicNumber:'۲'},
+    {baseNumber:'3',arabicNumber:'۳'},
+    {baseNumber:'4',arabicNumber:'۴'},
+    {baseNumber:'5',arabicNumber:'۵'},
+    {baseNumber:'6',arabicNumber:'۶'},
+    {baseNumber:'7',arabicNumber:'۷'},
+    {baseNumber:'8',arabicNumber:'۸'},
+    {baseNumber:'9',arabicNumber:'۹'}
+  ]
 
 
   // model binding
 
   public transLangEmail: any;
-  public transLangphone: any;
 
 
   // form Field Validtaions boolean variable
@@ -69,6 +81,8 @@ export class RegistrationComponent implements OnInit {
   public activeTransLastName:any;
   public activejobTitle: any;
   public activeTransjobTitle: any;
+  public activePhone:any;
+  public activeTransPhone:any;
 
 
 
@@ -113,7 +127,7 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
 
     this._sharedService.formProgress.next(0);
-
+    
     this.regForm = new FormGroup({
       firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
       transLangfirstName: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
@@ -130,7 +144,7 @@ export class RegistrationComponent implements OnInit {
         Validators.maxLength(320)
       ]),
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(12)]),
-      transLangPhone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(12)]),
+      transLangPhone: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(12)]),
       jobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]),
       transLangjobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]),
     });
@@ -151,8 +165,6 @@ export class RegistrationComponent implements OnInit {
         let obj = {
           title: state.country
         };
-        let selectedCountry = this.countryList.find(obj => obj.title == state.country);
-        this.selectPhoneCode(selectedCountry);
         this.getMapLatlng(obj);
       }
     })
@@ -258,6 +270,8 @@ export class RegistrationComponent implements OnInit {
       if (res.status == "OK") {
         this.location = res.results[0].geometry.location;
         if (region.id) {
+          let selectedCountry = this.countryList.find(obj => obj.title == region.title);
+          this.selectPhoneCode(selectedCountry);
           this.accountList(region.id);
         }
       }
@@ -322,6 +336,7 @@ export class RegistrationComponent implements OnInit {
     this.countryFlagImage = list.code;
     let description = list.desc;
     this.phoneCode = description[0].CountryPhoneCode;
+    this.transPhoneCode = description[0].CountryPhoneCode_OtherLang;
     this.phoneCountryId = list.id
   }
 
@@ -388,23 +403,33 @@ export class RegistrationComponent implements OnInit {
     })
 
   }
-  onModelEmailPhoneChange($controlName, $event){
-    // let value = $event.split('').pop();
-    // var arabicNumbers = [
-    //   {baseNumber:'0',arabicNumber:'۰'},
-    //   {baseNumber:'1',arabicNumber:'۱'},
-    //   {baseNumber:'2',arabicNumber:'۲'},
-    //   {baseNumber:'3',arabicNumber:'۳'},
-    //   {baseNumber:'4',arabicNumber:'۴'},
-    //   {baseNumber:'5',arabicNumber:'۵'},
-    //   {baseNumber:'6',arabicNumber:'۶'},
-    //   {baseNumber:'7',arabicNumber:'۷'},
-    //   {baseNumber:'8',arabicNumber:'۸'},
-    //   {baseNumber:'9',arabicNumber:'۹'}
-    // ]
-    // let convertValue= arabicNumbers.find(obj => obj.baseNumber == value);
-    // this.regForm.controls[$controlName].patchValue(convertValue.arabicNumber);
-  this.regForm.controls[$controlName].patchValue($event);
+  onModelPhoneChange(fromActive, currentActive, $controlName, $value){
+    if(currentActive && !fromActive){
+       let number = $value.split('');
+    for (let i=0; i< number.length; i++){
+      this.arabicNumbers.forEach((obj, index)=>{
+        if(number[i] == obj.baseNumber){
+          number.splice(i,1, obj.arabicNumber)
+        }
+      })
+    }
+    this.regForm.controls[$controlName].patchValue(number.reverse().join(''));
+    }
+}
+onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
+  if(currentActive && !fromActive){
+     let number = $value.split('');
+  for (let i=0; i< number.length; i++){
+    this.arabicNumbers.forEach((obj, index)=>{
+      if(number[i] == obj.baseNumber || number[i] == obj.arabicNumber){
+        number.splice(i,1, obj.baseNumber)
+      }
+    })
+    
+  }
+  this.regForm.controls[$controlName].patchValue(number.join(''));
+  }
+
 }
   onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
     setTimeout(() => {
