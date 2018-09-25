@@ -91,9 +91,9 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
 
 
-    // if(this.timer){
-    //   this.countDown(this.timer);
-    // }
+    if(this.timer){
+      this.countDown(this.timer);
+    }
 
 
 
@@ -170,11 +170,15 @@ export class RegistrationComponent implements OnInit {
 
 
   countDown(time){
+    let seconds = 60;
     // if(time > 0 ){
     //   for(let i=1; i<59; i++){
 
     //   }
+        }
+        console.log(time + " : " + seconds)
     // }
+      }, 1000)
     // setInterval(()=>{
     //   // console.log(time)
     //   // time--
