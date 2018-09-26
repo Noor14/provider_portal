@@ -18,7 +18,6 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RegistrationComponent implements OnInit {
 
-  // @ViewChild('search') public searchElement: ElementRef;
   public debounceInput: Subject<string> = new Subject();
   public phoneCountryId: any
   public phoneCode: string;
@@ -27,9 +26,7 @@ export class RegistrationComponent implements OnInit {
   public accountId: number;
   public countryList: any[];
   public accountSetup: any;
-  public serviceOffered: any;
   public zoomlevel: number = 5;
-  public serviceIds: any[] = [];
   public registrationForm: boolean;
   public regForm;
   public selectedRegion = {
@@ -168,27 +165,6 @@ export class RegistrationComponent implements OnInit {
         this.getMapLatlng(obj);
       }
     })
-
-    // this.mapsAPILoader.load().then(() => {
-    //   let autoComplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, { types: ["(cities)"] });
-    //   autoComplete.addListener('places_changed', () => {
-    //     this.ngZone.run(() => {
-    //       let place: google.maps.places.PlaceResult = autoComplete.getPlace();
-    //       this.lat = place.geometry.location.lat();
-    //       this.lng = place.geometry.location.lng();
-    //       if (place.geometry === undefined || place.geometry === null) {
-    //         return
-    //       }
-    //     })
-    //   })
-    // })
-
-    this._userService.getServiceOffered().subscribe((res: any) => {
-      if (res.returnStatus == 'Success') {
-        this.serviceOffered = res.returnObject;
-      }
-    })
-
 
   }
 
@@ -350,18 +326,7 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  serviceSelection(obj, selectedService) {
-    let index = this.serviceIds.indexOf(obj.ServiceID);
-    let selectedItem = selectedService.classList;
-    if (index < 0) {
-      selectedItem.add('active');
-      this.serviceIds.push(obj.ServiceID);
-    }
-    else {
-      this.serviceIds.splice(index, 1);
-      selectedItem.remove('active');
-    }
-  }
+
 
 
   createAccount(data) {

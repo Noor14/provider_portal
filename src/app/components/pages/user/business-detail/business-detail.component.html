@@ -34,15 +34,15 @@
                       </select>
                     </div>   
                   <div class="col-4">
-                        <select id="inputState" class="form-control" placeholder="MM">
-                          <option selected> MM</option>
-                          <option>JAN</option>
+                        <select id="inputState" class="form-control" placeholder="MM" name="issueMonth" [(ngModel)]="selectedIssueMonth" (change)="selectIssueMonth($event.target.value)">
+                          <option value="undefined">MM</option>
+                          <option *ngFor="let month of months">{{month.name}}</option>
                         </select>
                       </div>
                       <div class="col-5">
                         <select id="inputState" class="form-control">
-                          <option selected>YYYY</option>
-                          <option>1999</option>
+                            <option selected>YYYY</option>
+                            <option *ngFor="let year of pastYears">{{year}}</option>
                         </select>
                       </div>
                   </div>
@@ -60,15 +60,15 @@
                           </select>
                         </div>   
                       <div class="col-4">
-                            <select id="inputState" class="form-control" placeholder="MM">
-                              <option selected> MM</option>
-                              <option>JAN</option>
+                          <select id="inputState" class="form-control" placeholder="MM" name="issueMonthArabic" [(ngModel)]="selectedIssueMonthAr" (change)="selectIssueMonth($event.target.value)">
+                              <option value="undefined">MM</option>
+                              <option *ngFor="let month of months">{{month.arabicName}}</option>
                             </select>
                           </div>
                           <div class="col-5">
                             <select id="inputState" class="form-control">
-                              <option selected>YYYY</option>
-                              <option>1999</option>
+                                <option selected>YYYY</option>
+                                <option>1999</option>
                             </select>
                           </div>
                       </div>
@@ -89,14 +89,14 @@
                     </div>   
                   <div class="col-4">
                         <select id="inputState" class="form-control" placeholder="MM">
-                          <option selected> MM</option>
-                          <option>JAN</option>
+                          <option selected>MM</option>
+                          <option *ngFor="let month of months">{{month.name}}</option>
                         </select>
                       </div>
                       <div class="col-5">
                         <select id="inputState" class="form-control">
-                          <option selected>YYYY</option>
-                          <option>1999</option>
+                            <option selected>YYYY</option>
+                            <option *ngFor="let year of futureYears">{{year}}</option>
                         </select>
                       </div>
                   </div>
@@ -115,8 +115,8 @@
                         </div>   
                       <div class="col-4">
                             <select id="inputState" class="form-control" placeholder="MM">
-                              <option selected> MM</option>
-                              <option>JAN</option>
+                              <option selected>MM</option>
+                              <option *ngFor="let month of months">{{month.arabicName}}</option>
                             </select>
                           </div>
                           <div class="col-5">
@@ -158,39 +158,24 @@
     <h5 class="m-0"> Company Activities</h5>
     <small> Select the activities listed on your trade license  </small>
     <hr class="hr-solid">
-        <div class="row mb-2">
-            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-              <div #selectService class="service-btn text-center d-flex flex-column justify-content-center pointer active">
-                <span>Freight Forwarder </span>
-                <span>وكيل الشحن</span>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let service of serviceOffered">
+                <div #selectService class="service-btn text-center d-flex flex-column justify-content-center pointer"
+                  (click)="serviceSelection(service, selectService)">
+                  <span>{{service.ServiceNameBaseLang}}</span>
+                  <span>{{service.ServiceNameOtherLang}}</span>
+                </div>
               </div>
-            </div>  
-            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-              <div #selectService class="service-btn text-center d-flex flex-column justify-content-center pointer">
-                <span>LCL Consolidator </span>
-                <span>LCL الموحد</span>
-              </div>
-            </div>  
-            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-              <div #selectService class="service-btn text-center d-flex flex-column justify-content-center pointer">
-                <span>Trucking / Haullers</span>
-                <span>النقل بالشاحنات</span>
-              </div>
-            </div>  
-            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-              <div #selectService class="service-btn text-center d-flex flex-column justify-content-center pointer">
-                <span>Warehousing</span>
-                <span>التخزين</span>
-              </div>
-            </div>  
           </div>
-  
     <h5> Business Location</h5>
     <hr class="hr-solid">
 
     <div class="business-map">
       <div class="col-12">
-
+        <input type="text" #search>
+        <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
+          <agm-marker [latitude]="location.lat" [longitude]="location.lng"></agm-marker>
+        </agm-map>
       </div>
     </div>
 
