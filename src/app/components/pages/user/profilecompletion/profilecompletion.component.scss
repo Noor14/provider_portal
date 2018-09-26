@@ -1,0 +1,31 @@
+@import '../../../../../assets/scss/_variables';
+.thankyou {
+    &-icon {
+        display: flex;
+    }
+    &-heading {
+        font-family: $font-pragmatica;
+        font-weight: $font-weight-mid;
+        color: $text-color-default;
+        text-transform: capitalize;
+        text-align: center;
+    }
+    .text {
+        text-align: center;
+        font-family: $font-proxima; // padding: 0 6.5rem 0 6.5rem;
+    }
+    .proceed-btn {
+        text-align: center;
+        .text {
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            color: #738593;
+        }
+        a {
+            text-transform: uppercase;
+            font-weight: 600;
+            padding: 0.7rem 2.5rem;
+        }
+    }
+}
