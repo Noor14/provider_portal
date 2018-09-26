@@ -16,6 +16,7 @@ import { BusinessDetailComponent } from './business-detail/business-detail.compo
 import { UserService } from './user.service';
 import { DirectorinfoComponent } from './directorinfo/directorinfo.component';
 import { UserbusinessComponent } from './userbusiness/userbusiness.component';
+import { ProfilecompletionComponent } from './profilecompletion/profilecompletion.component';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { UserbusinessComponent } from './userbusiness/userbusiness.component';
     BusinessDetailComponent,
     UserComponent,
     DirectorinfoComponent,
-    UserbusinessComponent
+    UserbusinessComponent,
+    ProfilecompletionComponent
   ],
   providers: [UserService],
 })

@@ -3,6 +3,38 @@
   <h2> Business Profile </h2>
   <p>It takes less than 60 seconds to add your business and get started </p>
 
+
+  <ngb-accordion [closeOthers]="true" activeIds="static-1">
+      <ngb-panel id="static-1">
+          <ng-template ngbPanelTitle>
+              <h5 ><i class="fa fa-angle-down"></i> Directors Info</h5>
+              <hr class="hr-solid">
+          </ng-template>
+        <ng-template ngbPanelContent>
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia
+          aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
+          sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+          craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
+          occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+          labore sustainable VHS.
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel id="static-2">
+        <ng-template ngbPanelTitle>
+            <h5> <i class="fa fa-angle-down"></i> Management Info</h5>
+              <hr class="hr-solid">
+        </ng-template>
+        <ng-template ngbPanelContent>
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia
+          aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
+          sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+          craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
+          occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+          labore sustainable VHS.
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+
   <form>
     <div class="row justify-content-between">
       <div class="col-3">
@@ -68,23 +100,44 @@
 
 
     <div class="row">
-        <div class="col-6">
-          <div class="check-boxes-main">
-            <input id="1" name="documentsUpload" type="checkbox">
-            <label for="1">
-              <span></span>Mubashira
-            </label>
-          </div>
+      <div class="col-6">
+        <label>Select a document to Upload</label>
+        <div class="check-boxes-main">
+          <input id="1" name="documentsUpload" type="checkbox">
+          <label for="1">
+            <span></span>Passport
+          </label>
+          <input id="1" name="documentsUpload" type="checkbox">
+          <label for="1">
+            <span></span>Emirates ID
+          </label>
+          <input id="1" name="documentsUpload" type="checkbox">
+          <label for="1">
+            <span></span>Drivers License
+          </label>
         </div>
-        <div class="col-6">
-          <div class="check-boxes-main dir-rtl">
-            <input id="2" name="documentsUpload" type="checkbox">
-            <label for="2">
-              <span></span>Mubashira
-            </label>
-          </div>
+
+
+      </div>
+      <div class="col-6  dir-rtl">
+        <label> اختر وثيقة للتحميل</label>
+        <div class="check-boxes-main ">
+          <input id="2" name="documentsUpload" type="checkbox">
+          <label for="2">
+            <span></span> جواز سفر
+          </label>
+
+          <input id="2" name="documentsUpload" type="checkbox">
+          <label for="2">
+            <span></span> هوية الإمارات
+          </label>
+          <input id="2" name="documentsUpload" type="checkbox">
+          <label for="2">
+            <span></span> رخصة السائق
+          </label>
         </div>
       </div>
+    </div>
 
 
 
@@ -92,13 +145,14 @@
     <div class="document-upload-box">
       <div class="col-12">
         <img src="../../../assets/images/icons/manager-icon.png">
-        <p> Drag here or browse to upload</p>
+        <p> Drag here or <span> browse </span>to upload</p>
       </div>
 
     </div>
 
-    <div class="row form-group">
-      <div class="col">
+
+    <div class="row justify-content-between">
+      <div class="col-3">
         <div class="form-group">
           <label for="exampleFormControlSelect1">Job Title </label>
           <select class="form-control" id="exampleFormControlSelect1">
@@ -109,16 +163,10 @@
             <option>5</option>
           </select>
         </div>
-
-        <label for="first name">First Name</label>
-        <input type="text" class="form-control" placeholder="John">
-
-        <label for="first name">Last Name</label>
-        <input type="text" class="form-control" placeholder="Smith">
       </div>
 
-      <div class="col dir-rtl">
-        <div class="form-group">
+      <div class="col-3">
+        <div class="form-group dir-otherLanguage">
           <label for="exampleFormControlSelect1">المسمى الوظيفي </label>
           <select class="form-control" id="exampleFormControlSelect1">
             <option>المدير التنفيذي</option>
@@ -128,31 +176,94 @@
             <option>5</option>
           </select>
         </div>
-
-        <label for="first name">الاسم الاول </label>
-        <input type="text" class="form-control" placeholder="المثال : جون">
-
-
-        <label for="first name">الاسم الأخير</label>
-        <input type="text" class="form-control" placeholder="الاسم الأخير">
-
       </div>
     </div>
 
-    <div class="text">
-      <p> Add More / إضافة المزيد </p>
+
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="first name">First Name</label>
+          <input type="text" class="form-control" placeholder="John">
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-group dir-otherLanguage">
+          <label for="first name">الاسم الاول </label>
+          <input type="text" class="form-control" placeholder="المثال : جون">
+        </div>
+      </div>
     </div>
+
+    <div class="row">
+
+      <div class="col">
+        <div class="form-group">
+          <label for="first name">Last Name</label>
+          <input type="text" class="form-control" placeholder="Smith">
+        </div>
+
+      </div>
+
+      <div class="col">
+        <div class="form-group dir-otherLanguage">
+          <label for="first name">الاسم الأخير</label>
+          <input type="text" class="form-control" placeholder="الاسم الأخير">
+        </div>
+
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+          <label>Select a document to Upload</label>
+          <div class="check-boxes-main">
+            <input id="1" name="documentsUpload" type="checkbox">
+            <label for="1">
+              <span></span>Passport
+            </label>
+            <input id="1" name="documentsUpload" type="checkbox">
+            <label for="1">
+              <span></span>Emirates ID
+            </label>
+            <input id="1" name="documentsUpload" type="checkbox">
+            <label for="1">
+              <span></span>Drivers License
+            </label>
+          </div>
+  
+  
+        </div>
+        <div class="col-6  dir-rtl">
+          <label> اختر وثيقة للتحميل</label>
+          <div class="check-boxes-main ">
+            <input id="2" name="documentsUpload" type="checkbox">
+            <label for="2">
+              <span></span> جواز سفر
+            </label>
+  
+            <input id="2" name="documentsUpload" type="checkbox">
+            <label for="2">
+              <span></span> هوية الإمارات
+            </label>
+            <input id="2" name="documentsUpload" type="checkbox">
+            <label for="2">
+              <span></span> رخصة السائق
+            </label>
+          </div>
+        </div>
+      </div>
+
+    <div class="info_text">
+        <p> <img src="../../../assets/images/icons/icon_add.svg" alt="icons">Add More  / إضافة المزيد </p>
+ </div>
 
     <div class="submit-btn  mt-5">
       <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">Submit / خضع</a>
     </div>
-
-    <div class="text">
-      <p> GO BACK / الى الخلف </p>
-    </div>
+    <div class="info_text">
+    <p class="text mt-4"> <img src="../../../assets/images/icons/icon_arrow_left.svg" alt="icons">GO BACK  /  الى الخلف </p> 
+  </div>
   </form>
-
-
-
-
-</section>
+  </section>
