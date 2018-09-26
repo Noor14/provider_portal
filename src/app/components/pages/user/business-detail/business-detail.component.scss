@@ -1,6 +1,14 @@
 @import '../../../../../assets/scss/_variables';
 
 .business-profile {
+    h2 {
+        font-weight: 700;
+        font-family: proxima, sans-serif;
+    }
+
+    h5 {
+        margin-top:3rem;
+    }
     .service-btn {
         border-radius: 4px;
         border: 1px solid $input-border;
@@ -24,6 +32,66 @@
             }
         }
     }
+    .select-number {
+        .input-group-prepend {
+            input[type="text"] {
+                padding-left: 22% !important; // padding-left: 40px;
+            }
+            .dropdown {
+                margin-top: 12px;
+                position: absolute;
+                margin-left: 12px;
+            }
+            img{
+                width: 20px;
+                height: 15px;
+                margin-right: 5px;
+                }
+            .phone{
+                span {
+                    font-size: $font-size-medium;
+                }
+            }
+            .country-section {
+                border: 0px;
+                left:-14px !important;
+                background: transparent;
+                ul {
+                    border: 0px;
+                    max-height: 200px;
+                    overflow-y: scroll;
+                    li.list-group-item {
+                            padding-top: 0.45rem;
+                            padding-bottom: 0.45rem;
+                            border: none;
+                            cursor: pointer;
+                        img {
+                            border: 1px solid $grey-border;
+                        }
+                    }
+                }
+            }
+        }
+        .input-group-append{
+            width: 100%;
+            @extend .input-group-prepend;
+            input[type="text"]{
+                padding-left: 0;
+                padding-right: 22%;
+            }
+            .dropdown {
+                margin-top: 12px;
+                margin-right: 12px;
+            }
+            .country-section {
+                left: 0 !important;
+                right:-14px !important;
+                ul{
+                    padding-right: 0;
+                }
+            }
+        }
+    }
     form{
         .dir-otherLanguage{
             .row{
@@ -31,14 +99,6 @@
             }
          }
 
-        h2 {
-            font-weight: 700;
-            font-family: proxima, sans-serif;
-        }
-
-        h5 {
-            margin-top:3rem;
-        }
         .form-group {
         input {
             border: 0;
