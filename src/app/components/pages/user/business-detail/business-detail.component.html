@@ -171,10 +171,11 @@
     <hr class="hr-solid">
 
     <div class="business-map">
-      <div class="col-12">
-        <input type="text" #search>
+      <div class="map-box">
+        <input type="text" class="form-control searchAddress" #search>
         <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
-          <agm-marker [latitude]="location.lat" [longitude]="location.lng"></agm-marker>
+          <agm-marker [latitude]="location.lat" [longitude]="location.lng" 
+          [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
         </agm-map>
       </div>
     </div>
@@ -257,10 +258,7 @@
               <label for="exampleFormControlSelect1">Organization Type </label>
               <select class="form-control" id="exampleFormControlSelect1">
                 <option>please select</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                <option *ngFor="let type of organizationList">{{type.BaseLang}}</option>
               </select>
             </div>
         </div>
@@ -269,10 +267,7 @@
                 <label for="exampleFormControlSelect1">نوع المنظمة</label>
                 <select class="form-control" id="exampleFormControlSelect1">
                   <option>please select </option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
+                  <option *ngFor="let type of organizationList">{{type.OtherLang}}</option>
                 </select>
               </div>
         </div>
@@ -418,8 +413,9 @@
                               <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                                 <ul class="list-group">
                                   <li class="list-group-item">
-                                    <span>Website</span>
-                                  </li>
+                                    <li class="list-group-item" *ngFor="let link of socialLink">
+                                      <span>{{link.title}}</span>
+                                    </li>
                                 </ul>
                               </div>
                             </div>
@@ -440,8 +436,8 @@
                                 </div>
                                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                                   <ul class="list-group">
-                                    <li class="list-group-item">
-                                      <span>Website</span>
+                                    <li class="list-group-item" *ngFor="let link of socialLink">
+                                      <span>{{link.title}}</span>
                                     </li>
                                   </ul>
                                 </div>

@@ -93,45 +93,21 @@
         }
     }
     .business-map {
-        height: 350px;
-        border: 1px solid #e1d8d8;
+        .map-box{
+            position: relative;
+            .searchAddress{
+                position: absolute;
+                left: 15px;
+                top: 15px;
+                width:300px;
+                z-index: 1;
+            }
+            agm-map{
+                height: 350px;
+            }
+        }        
         }
-        // &-contacts {
-        //     .select-city {
-        //         position: absolute;
-        //         z-index: 1;
-        //         margin-top: 15px; // top: 0;
-        //         margin-left: 15px;
-        //         .dropdown-menu {
-        //             .dropdown-item {
-        //                 &.active,
-        //                 &:active {
-        //                     background: $primary-grey;
-        //                 }
-        //             }
-        //         }
-        //         .prepend-flag {
-        //             position: absolute;
-        //             top: 15px;
-        //             left: 8px;
-        //         }
-        //         input#typeahead {
-        //             padding-left: 1.8rem;
-        //         }
-        //         img {
-        //             width: 16px;
-        //             height: 12px;
-        //         }
-        //     }
-        //     .form-row {
-        //         label {
-        //             font-family: $font-proxima !important;
-        //             color: $text-color-default !important;
-        //             font-size: $font-size-large !important;
-        //         }
-        //     }
-       
-        // }
+    
     form{
         .dir-otherLanguage{
             .row{
