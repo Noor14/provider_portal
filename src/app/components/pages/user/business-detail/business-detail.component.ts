@@ -3,7 +3,6 @@ import { SharedService } from '../../../../services/shared.service';
 import { UserService } from '../user.service';
 import { MapsAPILoader } from '@agm/core';
 import { } from '@types/googlemaps';
-import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 
@@ -19,10 +18,14 @@ export class BusinessDetailComponent implements OnInit {
   @ViewChild('search') public searchElement: ElementRef;
 
   public zoomlevel: number = 5;
+  public draggable: boolean = true;
   public location = {
     lat: 23.4241,
     lng: 53.8478
   }
+  public geoCoder;
+  public socialLink: any;
+  public organizationList: any;
   public serviceIds: any[] = [];
   public selectedIssueMonth;
   public selectedIssueMonthAr;
@@ -89,7 +92,8 @@ export class BusinessDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.getsocialList();
+    this.getOrganizationList();
     this._sharedService.formProgress.next(30);
     this.getTenYears();
     this._userService.getServiceOffered().subscribe((res: any) => {
@@ -97,19 +101,70 @@ export class BusinessDetailComponent implements OnInit {
         this.serviceOffered = JSON.parse(res.returnObject);
       }
     })
-        this.mapsAPILoader.load().then(() => {
-      let autoComplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, { types: ["address"] });
-      autoComplete.addListener('places_changed', () => {
-        this.ngZone.run(() => {
-          let place: google.maps.places.PlaceResult = autoComplete.getPlace();
-          this.location.lat = place.geometry.location.lat();
-          this.location.lng = place.geometry.location.lng();
-          if (place.geometry === undefined || place.geometry === null) {
-            return
-          }
-        })
-      })
+
+    this.getplacemapLoc();
+  }
+
+getplacemapLoc(){
+  this.mapsAPILoader.load().then(() => {
+    this.geoCoder = new google.maps.Geocoder;
+    let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
+    autocomplete.setComponentRestrictions(
+      {'country': ['pk']});
+    autocomplete.addListener("place_changed", () => {
+      this.ngZone.run(() => {
+        //get the place result
+        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+        console.log(place);
+
+        //verify result
+        if (place.geometry === undefined || place.geometry === null) {
+          return;
+        }
+
+        //set latitude, longitude and zoom
+        this.location.lat = place.geometry.location.lat();
+        this.location.lng = place.geometry.location.lng();
+      });
+    });
+  });
+
+}
+  getOrganizationList(){
+    this._userService.getOrganizationType().subscribe((res:any)=>{
+      if(res.returnStatus=="Success"){
+        this.organizationList = JSON.parse(res.returnObject);
+      }
     })
+  }
+  getsocialList(){
+    this._userService.socialList().subscribe((res:any)=>{
+      if(res.returnStatus=="Success"){
+        this.socialLink = res.returnObject;
+      }
+    })
+  }
+
+  markerDragEnd($event){
+    console.log($event);
+    this.geoCoder.geocode({'location': {lat: $event.coords.lat, lng: $event.coords.lng}}, (results, status) => {
+      console.log(results);
+      console.log(status);
+      if (status === 'OK') {
+        if (results[0]) {
+          console.log('aaaa');
+          console.log(results[0].formatted_address);
+          // this.searchElementRef.nativeElement.value = results[0].formatted_address);
+          // console.log(this.searchElementRef.nativeElement.value);
+          // infowindow.setContent(results[0].formatted_address);
+        } else {
+          window.alert('No results found');
+        }
+      } else {
+        window.alert('Geocoder failed due to: ' + status);
+      }
+
+    });
   }
 
   selectIssueMonth(name){

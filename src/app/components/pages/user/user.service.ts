@@ -59,4 +59,15 @@ export class UserService {
     return this._http.get(url, {params});
   }
 
+  getOrganizationType(){
+    let url: string = "companytype/GetOrganizationType";
+    return this._http.get(baseApi + url);
+  }
+
+  socialList(){
+    let url: string = "socialmedia/GetSocialMediaAccount";
+    return this._http.get(baseApi + url);
+  }
+
+
 }
