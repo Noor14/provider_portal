@@ -1,76 +1,86 @@
 @import './assets/scss/_styles';
 @import "./assets/fonts/fonts-hm.css";
 
+perfect-scrollbar.main-scroll {
+  height: 100vh;
+    .ps {
+        &__rail-y:hover {
+            width: 6px !important;
+            .ps__thumb-y {
+                width: 7px !important;
+            }
+        }
+    }
+}
 .toast-container {
     .toast-warning {
-      background-color: #fdf6ec;
-      border: 1px solid #f89406;
-      color: black !important;
-      padding: 10px 15px 10px 65px;
-      font-size: $font-size-base;
-      background-image: unset;
-      .toast-close-button {
-        outline: 0;
-      }
-      .toast-message:before {
-        content: "";
-        width: 45px;
-        height: 100%;
-        background: #f89406;
-        background-image: url("./assets/images/icons/icon_info.svg");
-        background-size: 20px;
-        background-position: 50%;
-        background-repeat: no-repeat;
-        position: absolute;
-        left: 0;
-        top: 0;
-        color: #f89406;
-      }
-      .toast-close-button {
-        color: dimgrey !important;
-      }
+        background-color: #fdf6ec;
+        border: 1px solid #f89406;
+        color: black !important;
+        padding: 10px 15px 10px 65px;
+        font-size: $font-size-base;
+        background-image: unset;
+        .toast-close-button {
+            outline: 0;
+        }
+        .toast-message:before {
+            content: "";
+            width: 45px;
+            height: 100%;
+            background: #f89406;
+            background-image: url("./assets/images/icons/icon_info.svg");
+            background-size: 20px;
+            background-position: 50%;
+            background-repeat: no-repeat;
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #f89406;
+        }
+        .toast-close-button {
+            color: dimgrey !important;
+        }
     }
     .toast-success {
-      @extend .toast-warning;
-      background-color: #e9f7f7;
-      border: 1px solid #00bfb4;
-      .toast-message:before {
-        @extend .toast-message:before;
-        background: #00bfb4;
-        color: #00bfb4;
-        background-image: url("./assets/images/icons/icon_success.svg");
-        background-size: 20px;
-        background-position: 50%;
-        background-repeat: no-repeat;
-      }
+        @extend .toast-warning;
+        background-color: #e9f7f7;
+        border: 1px solid #00bfb4;
+        .toast-message:before {
+            @extend .toast-message:before;
+            background: #00bfb4;
+            color: #00bfb4;
+            background-image: url("./assets/images/icons/icon_success.svg");
+            background-size: 20px;
+            background-position: 50%;
+            background-repeat: no-repeat;
+        }
     }
     .toast-error {
-      @extend .toast-warning;
-      background-color: #fae7e9;
-      border: 1px solid #d8242f;
-      .toast-message:before {
-        @extend .toast-message:before;
-        background: #d8242f;
-        color: #d8242f;
-        background-image: url("./assets/images/icons/icon_error_white.svg");
-        background-size: 20px;
-        background-position: 50%;
-        background-repeat: no-repeat;
-      }
+        @extend .toast-warning;
+        background-color: #fae7e9;
+        border: 1px solid #d8242f;
+        .toast-message:before {
+            @extend .toast-message:before;
+            background: #d8242f;
+            color: #d8242f;
+            background-image: url("./assets/images/icons/icon_error_white.svg");
+            background-size: 20px;
+            background-position: 50%;
+            background-repeat: no-repeat;
+        }
     }
     .toast-info {
-      @extend .toast-warning;
-      background-color: #fff;
-      border: 1px solid #2f96b4;
-      .toast-message:before {
-        @extend .toast-message:before;
-        background: #2f96b4;
-        color: #2f96b4;
-        background-image: url("./assets/images/icons/icon_info.svg");
-        background-size: 20px;
-        background-position: 50%;
-        background-repeat: no-repeat;
-      }
+        @extend .toast-warning;
+        background-color: #fff;
+        border: 1px solid #2f96b4;
+        .toast-message:before {
+            @extend .toast-message:before;
+            background: #2f96b4;
+            color: #2f96b4;
+            background-image: url("./assets/images/icons/icon_info.svg");
+            background-size: 20px;
+            background-position: 50%;
+            background-repeat: no-repeat;
+        }
     }
-  }
-  
+}

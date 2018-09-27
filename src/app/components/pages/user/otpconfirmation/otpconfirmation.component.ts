@@ -59,7 +59,6 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
   getlabelsDescription(obj){
     this._userService.getlabelsDescription('otp').subscribe((res:any)=>{
       if(res.returnStatus =='Success'){
-        console.log(res.returnObject);
        this.headingBaseLanguage = res.returnObject[0].baseLang.replace('{firstName}', obj.FirstName);
        this.headingOtherLanguage = res.returnObject[0].otherLang.replace('{firstName}', obj.FirstName);
        this.descBaseLanguage = res.returnObject[1].baseLang.replace('{emailAddress}', obj.PrimaryEmail);
@@ -83,11 +82,16 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
          clearInterval(countTime);
        }
        else if (seconds == 60 || seconds == 0) {
-         minutes--;
+         minutes-- ;
          seconds = 60;
        }
-       this.remainingTime = minutes + " : " + seconds;
-       seconds--
+      if (minutes > 0 || seconds != 0){
+        this.remainingTime = minutes + " Minutes : " + seconds + " Seconds";
+        seconds-- ;
+      }
+       else{
+        this.remainingTime = undefined
+       }
      }, 1000)
    }
   
@@ -105,41 +109,35 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
       if(res.returnStatus == "Success"){
       this.userInfo = JSON.parse(res.returnObject);
       this.getlabelsDescription(this.userInfo);
-      (this.userInfo.Timer > 0)? this.countDown(this.userInfo.Timer) : this.remainingTime = "0 : 0";  
+      if (this.userInfo.Timer > 0) this.countDown(this.userInfo.Timer);  
       this._sharedService.formProgress.next(10)
       console.log(this.userInfo);
     } 
     })
   }
   timerClass(){
-    if(this.remainingTime){
-      let remainsTime = this.remainingTime.split(':');
-      if(parseInt(remainsTime[0]) == 0 && parseInt(remainsTime[1]) == 0){
+    if(!this.remainingTime){
         return 'resendLink';
       }
-    }   
   }
+
   resendOtp(){ 
-    if(this.remainingTime){
-      let remainsTime = this.remainingTime.split(':');
-      if(parseInt(remainsTime[0]) > 0 || parseInt(remainsTime[1]) > 0){
-        return;
-      }
-    }                                                                                                
+    if(this.remainingTime) return;
     let obj= {
       key: this.userInfo.Key
     };
     this._userService.resendOtpCode(obj).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
         this.userInfo.OTPCode = res.returnObject.otpCode;
-        (this.userInfo.timer > 0)? this.countDown(this.userInfo.timer) : this.remainingTime = "0 : 0"; 
-        console.log(res);
+        this.userInfo.Timer = res.returnObject.timer;
+        this._toast.success("Rseend OTP Successfully", '');
+        if(this.userInfo.Timer > 0) this.countDown(this.userInfo.Timer); 
       }
     })
   }
   submitOtp(){
     if(this.otpCode != this.userInfo.OTPCode){
-      this._toast.error("Otp not matched", '');
+      this._toast.error("OTP not matched", '');
       return;
     }
     let obj= {

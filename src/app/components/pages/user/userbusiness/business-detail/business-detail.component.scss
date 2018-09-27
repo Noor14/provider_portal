@@ -1,0 +1,216 @@
+@import '../../../../../../assets/scss/_variables';
+
+.business-profile {
+    h2 {
+        font-weight: 700;
+        font-family: proxima, sans-serif;
+    }
+
+    h5 {
+        margin-top:3rem;
+    }
+    .service-btn {
+        border-radius: 4px;
+        border: 1px solid $input-border;
+        background: $white-color;
+        min-width: 200px;
+        height: 60px;
+        position: relative;
+        &.active {
+            box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
+            border-radius: 4px;
+            border: 1px solid $primary-color !important;
+            background: $white-color !important;
+            &:before {
+                content: " ";
+                background: url('../../../../../../assets/images/corner-selection.png');
+                width: 44px;
+                height: 44px;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+        }
+    }
+    .select-number {
+        .input-group-prepend {
+            input[type="text"] {
+                padding-left: 22% !important; // padding-left: 40px;
+            }
+            .dropdown {
+                margin-top: 12px;
+                position: absolute;
+                margin-left: 12px;
+            }
+            img{
+                width: 20px;
+                height: 15px;
+                margin-right: 5px;
+                }
+            .phone{
+                span {
+                    font-size: $font-size-medium;
+                }
+            }
+            .country-section {
+                border: 0px;
+                left:-14px !important;
+                background: transparent;
+                ul {
+                    border: 0px;
+                    max-height: 200px;
+                    overflow-y: scroll;
+                    li.list-group-item {
+                            padding-top: 0.45rem;
+                            padding-bottom: 0.45rem;
+                            border: none;
+                            cursor: pointer;
+                        img {
+                            border: 1px solid $grey-border;
+                        }
+                    }
+                }
+            }
+        }
+        .input-group-append{
+            width: 100%;
+            @extend .input-group-prepend;
+            input[type="text"]{
+                padding-left: 0;
+                padding-right: 22%;
+            }
+            .dropdown {
+                margin-top: 12px;
+                margin-right: 12px;
+            }
+            .country-section {
+                left: 0 !important;
+                right:-14px !important;
+                ul{
+                    padding-right: 0;
+                }
+            }
+        }
+    }
+    .business-map {
+        .map-box{
+            position: relative;
+            .searchAddress{
+                position: absolute;
+                left: 15px;
+                top: 15px;
+                width:calc(8em + 100px);
+                z-index: 1;
+            }
+            agm-map{
+                height: 350px;
+            }
+        }        
+        }
+    .add-more{
+        a{
+        font-size: 0.875rem;
+        font-family: $font-proxima;
+        font-weight: $font-weight-mid;
+        color: $secondary-text-color;
+        &:hover{
+            text-decoration: none
+        }
+      }
+    }
+    form{
+        .dir-otherLanguage{
+            .row{
+                clear: both;
+            }
+         }
+
+        .form-group {
+        input {
+            border: 0;
+            height: 2.9rem;
+            &::placeholder {
+                color: #afafaf;
+                opacity: 1;
+            }
+            &:-ms-input-placeholder {
+                color: #afafaf;
+            }
+            &::-ms-input-placeholder {
+                color: #afafaf;
+            }
+        }
+     .form-control {
+            border: 0;
+            height: 2.9rem;
+    
+            }
+    
+        label {
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+    }
+        .upload-image {
+            img {
+                margin: auto;
+                display: block;
+                padding-top: 2.5rem;
+            }
+            p{
+                padding:1rem;
+            }
+            width: 180px;
+            height: 160px;
+            border: 1px solid #e1d8d8;
+            text-align: center;
+        }
+    
+        .trade-license-box {
+            small {
+                color: #afafaf;
+            }
+            .documentInfo{
+                height: 225px;
+                border: 1px dashed #e1d8d8;
+                margin-bottom: 3rem;
+                text-align: center;
+                img {
+                    margin: auto;
+                    display: block;
+                    padding-top: 5rem;
+                }
+                p {
+                    margin-top: 0.8rem;
+                }
+            }
+        }
+      
+       
+        .social-accounts {
+       
+        .info_text {
+            p {
+                font-size: 0.875rem;
+                font-family: $font-proxima;
+                color: $secondary-text-color;
+                padding-top: 0.59rem;
+            }
+            img {
+                margin-top: 0.1rem;
+                float: left;
+                display: inline;
+                width: 16px;
+                margin-right: 0.5rem;
+            }
+        }
+    }
+     
+        .contact-btn {
+            a {
+                font-weight: 600;
+                padding: 0.75rem 3.75rem;
+            }
+        }
+    }
+}

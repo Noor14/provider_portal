@@ -1,0 +1,104 @@
+@import '../../../../../../assets/scss/_variables';
+
+.directors-info {
+    .accordion {
+        .card {
+            border: 0;
+            &-header {
+                padding: 0.5rem 0rem;
+                border: 0;
+                background-color: #f7f8fc;
+                a{
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+        h5 {
+            color: #212529;
+            text-decoration: none;
+        }
+        .fa-angle-down {
+            font-size: 1.2rem;
+            margin-right: 1rem;
+        }
+    }
+    h2 {
+        font-weight: 600;
+      font-family: $font-proxima;
+    }
+    p {
+        margin-bottom: 2.3rem;
+    }
+    .form-group {
+        input {
+            border: 0;
+            height: 2.9rem;
+            &::placeholder {
+                color: #afafaf;
+                opacity: 1;
+            }
+            &:-ms-input-placeholder {
+                color: #afafaf;
+            }
+            &::-ms-input-placeholder {
+                color: #afafaf;
+            }
+        }
+        .form-control {
+            border: 0;
+            height: 2.9rem;
+        }
+        label {
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+    }
+    .document-upload-box {
+        margin-top: 30px;
+        width: 100%;
+        height: 210px;
+        border: 1px solid #e1d8d8;
+        margin-bottom: 2rem;
+        text-align: center;
+        img {
+            margin: auto;
+            display: block;
+            padding-top: 5rem;
+        }
+        p {
+            margin-top: 0.8rem;
+        }
+    }
+}
+
+.info_text {
+    margin-top: 2rem;
+    p {
+        font-size: 0.875rem;
+        font-family: $font-proxima;
+        color: $secondary-text-color;
+        padding-top: 0.59rem;
+    }
+    img {
+        margin-top: 0.1rem;
+        float: left;
+        display: inline;
+        width: 16px;
+        margin-right: 0.5rem;
+    }
+}
+
+.submit-btn {
+    .text {
+        font-size: 0.8rem;
+        font-weight: 500;
+        margin-top: 0.5rem;
+        color: #738593;
+    }
+    a {
+        font-weight: 600;
+        padding: 0.75rem 3.75rem;
+    }
+}

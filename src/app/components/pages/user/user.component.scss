@@ -31,3 +31,10 @@
         padding: 80px 6% !important;
     }
 }
+@media (max-width: $screen-xs-max) {
+    .user {
+        .left-section {
+            display: none;
+    }
+ }
+}

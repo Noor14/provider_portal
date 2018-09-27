@@ -12,8 +12,11 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Routes, RouterModule } from '@angular/router';
 import { UserComponent } from './user.component';
-import { BusinessDetailComponent } from './business-detail/business-detail.component'
+import { BusinessDetailComponent } from './userbusiness/business-detail/business-detail.component'
 import { UserService } from './user.service';
+import { DirectorinfoComponent } from './userbusiness/directorinfo/directorinfo.component';
+import { UserbusinessComponent } from './userbusiness/userbusiness.component';
+import { ProfilecompletionComponent } from './profilecompletion/profilecompletion.component';
 
 @NgModule({
   imports: [
@@ -35,7 +38,10 @@ import { UserService } from './user.service';
     OtpconfirmationComponent,
     CreatePasswordComponent,
     BusinessDetailComponent,
-    UserComponent
+    UserComponent,
+    DirectorinfoComponent,
+    UserbusinessComponent,
+    ProfilecompletionComponent
   ],
   providers: [UserService],
 })
