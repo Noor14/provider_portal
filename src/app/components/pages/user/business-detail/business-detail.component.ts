@@ -157,7 +157,6 @@ getplacemapLoc(){
           // this.searchElementRef.nativeElement.value = results[0].formatted_address);
           // console.log(this.searchElementRef.nativeElement.value);
           // infowindow.setContent(results[0].formatted_address);
-          
         } else {
           window.alert('No results found');
         }
