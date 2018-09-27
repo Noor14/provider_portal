@@ -125,6 +125,7 @@ getplacemapLoc(){
         //set latitude, longitude and zoom
         this.location.lat = place.geometry.location.lat();
         this.location.lng = place.geometry.location.lng();
+        this.zoomlevel = 12;
       });
     });
   });

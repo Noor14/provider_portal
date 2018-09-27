@@ -29,7 +29,7 @@
           {{otpResendBaselang}} / {{otpResendOtherlang}}
           <img src="../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16 align-text-top hvr-icon">
         </a>
-        <span>{{remainingTime}} Minutes</span>
+        <span *ngIf="remainingTime">{{remainingTime}}</span>
       </p>
     </div>
   </div>

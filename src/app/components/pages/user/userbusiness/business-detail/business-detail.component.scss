@@ -99,7 +99,7 @@
                 position: absolute;
                 left: 15px;
                 top: 15px;
-                width:300px;
+                width:calc(8em + 100px);
                 z-index: 1;
             }
             agm-map{

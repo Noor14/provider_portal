@@ -80,7 +80,7 @@
             <span class="animated fadeIn" *ngIf="firstNameError && regForm.controls['firstName'].errors">
                 <p class="inputError animated fadeIn" *ngIf="regForm.controls['firstName'].hasError('required') && (regForm.controls.firstName.dirty || regForm.controls.firstName.touched)">{{requiredFields}}</p>
                 <p class="inputError animated fadeIn" *ngIf="!regForm.controls['firstName'].hasError('pattern') && regForm.controls['firstName'].hasError('minlength') && (regForm.controls.firstName.dirty || regForm.controls.firstName.touched)">First name must be at least 2 characters long</p>
-                <p class="inputError animated fadeIn" *ngIf="!regForm.controls['firstName'].hasError('pattern') && regForm.controls['firstName'].hasError('maxlength') && (regForm.controls.firstName.dirty || regForm.controls.firstName.touched)">First name should not exceed from 50 characters</p>
+                <p class="inputError animated fadeIn" *ngIf="!regForm.controls['firstName'].hasError('pattern') && regForm.controls['firstName'].hasError('maxlength') && (regForm.controls.firstName.dirty || regForm.controls.firstName.touched)">First name should not exceed from 100 characters</p>
                 <p class="inputError animated fadeIn" *ngIf="regForm.controls['firstName'].hasError('pattern') && (regForm.controls.firstName.dirty || regForm.controls.firstName.touched)">Please enter valid information</p>
             </span>
           </div>
@@ -92,7 +92,7 @@
             <span class="animated fadeIn" *ngIf="transfirstNameError && regForm.controls['transLangfirstName'].errors">
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangfirstName'].hasError('required') && (regForm.controls.transLangfirstName.dirty || regForm.controls.transLangfirstName.touched)">{{requiredFields}}</p>
               <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangfirstName'].hasError('pattern') && regForm.controls['transLangfirstName'].hasError('minlength') && (regForm.controls.transLangfirstName.dirty || regForm.controls.transLangfirstName.touched)">First name must be at least 2 characters long</p>
-              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangfirstName'].hasError('pattern') && regForm.controls['transLangfirstName'].hasError('maxlength') && (regForm.controls.transLangfirstName.dirty || regForm.controls.transLangfirstName.touched)">First name should not exceed from 50 characters</p>
+              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangfirstName'].hasError('pattern') && regForm.controls['transLangfirstName'].hasError('maxlength') && (regForm.controls.transLangfirstName.dirty || regForm.controls.transLangfirstName.touched)">First name should not exceed from 100 characters</p>
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangfirstName'].hasError('pattern') && (regForm.controls.transLangfirstName.dirty || regForm.controls.transLangfirstName.touched)">Please enter valid information</p>
           </span>
           </div>
@@ -106,7 +106,7 @@
             <span class="animated fadeIn" *ngIf="lastNameError && regForm.controls['lastName'].errors">
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['lastName'].hasError('required') && (regForm.controls.lastName.dirty || regForm.controls.lastName.touched)">{{requiredFields}}</p>
               <p class="inputError animated fadeIn" *ngIf="!regForm.controls['lastName'].hasError('pattern') && regForm.controls['lastName'].hasError('minlength') && (regForm.controls.lastName.dirty || regForm.controls.lastName.touched)">Last name must be at least 2 characters long</p>
-              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['lastName'].hasError('pattern') && regForm.controls['lastName'].hasError('maxlength') && (regForm.controls.lastName.dirty || regForm.controls.lastName.touched)">Last name should not exceed from 50 characters</p>
+              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['lastName'].hasError('pattern') && regForm.controls['lastName'].hasError('maxlength') && (regForm.controls.lastName.dirty || regForm.controls.lastName.touched)">Last name should not exceed from 25 characters</p>
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['lastName'].hasError('pattern') && (regForm.controls.lastName.dirty || regForm.controls.lastName.touched)">Please enter valid information</p>
             </span>
           </div>
@@ -118,7 +118,7 @@
             <span class="animated fadeIn" *ngIf="translastNameError && regForm.controls['transLanglastName'].errors">
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLanglastName'].hasError('required') && (regForm.controls.transLanglastName.dirty || regForm.controls.transLanglastName.touched)">{{requiredFields}}</p>
               <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLanglastName'].hasError('pattern') && regForm.controls['transLanglastName'].hasError('minlength') && (regForm.controls.transLanglastName.dirty || regForm.controls.transLanglastName.touched)">Last name must be at least 2 characters long</p>
-              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLanglastName'].hasError('pattern') && regForm.controls['transLanglastName'].hasError('maxlength') && (regForm.controls.transLanglastName.dirty || regForm.controls.transLanglastName.touched)">Last name should not exceed from 50 characters</p>
+              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLanglastName'].hasError('pattern') && regForm.controls['transLanglastName'].hasError('maxlength') && (regForm.controls.transLanglastName.dirty || regForm.controls.transLanglastName.touched)">Last name should not exceed from 25 characters</p>
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLanglastName'].hasError('pattern') && (regForm.controls.transLanglastName.dirty || regForm.controls.transLanglastName.touched)">Please enter valid information</p>
             </span>
           </div>
