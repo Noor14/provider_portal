@@ -107,7 +107,17 @@
             }
         }        
         }
-    
+    .add-more{
+        a{
+        font-size: 0.875rem;
+        font-family: $font-proxima;
+        font-weight: $font-weight-mid;
+        color: $secondary-text-color;
+        &:hover{
+            text-decoration: none
+        }
+      }
+    }
     form{
         .dir-otherLanguage{
             .row{

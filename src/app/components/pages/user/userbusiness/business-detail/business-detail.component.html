@@ -1,460 +1,460 @@
-  <section class="business-profile">
-    <h2>John, Add Your Business Profile </h2>
-    <p>It takes less than 60 seconds to add your business and get started </p>
+<section class="business-profile">
+  <h2>John, Add Your Business Profile </h2>
+  <p>It takes less than 60 seconds to add your business and get started </p>
 
-    <h5 class="d-flex justify-content-between">
-      <span>Key Information</span>
-      <span>معلومات أساسية</span>
-     </h5>
-    <hr class="hr-solid">
-    <form>
-      <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="form-group">
-                <label for="Trade-License">Trade License No</label>
-                <input type="text" class="form-control">
-              </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="form-group dir-otherLanguage">
-                <label for="Issue-Date">الرخصة التجارية</label>
-                <input type="text" class="form-control">
-              </div>
+  <h5 class="d-flex justify-content-between">
+    <span>Key Information</span>
+    <span>معلومات أساسية</span>
+  </h5>
+  <hr class="hr-solid">
+  <form>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group">
+          <label for="Trade-License">Trade License No</label>
+          <input type="text" class="form-control">
         </div>
       </div>
-      <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                  <label for="Trade-License">Issue Date</label>
-                  <div class="row">
-                  <div class="col-3">
-                      <select id="inputState" class="form-control" placeholder="DD">
-                        <option selected>DD</option>
-                        <option>MON</option>
-                      </select>
-                    </div>   
-                  <div class="col-3">
-                        <select id="inputState" class="form-control" placeholder="MM" name="issueMonth" [(ngModel)]="selectedIssueMonth" (change)="selectIssueMonth($event.target.value)">
-                          <option value="undefined">MM</option>
-                          <option *ngFor="let month of months">{{month.name}}</option>
-                        </select>
-                      </div>
-                      <div class="col-4">
-                        <select id="inputState" class="form-control">
-                            <option selected>YYYY</option>
-                            <option *ngFor="let year of pastYears">{{year}}</option>
-                        </select>
-                      </div>
-                  </div>
-                        
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group dir-otherLanguage">
+          <label for="Issue-Date">الرخصة التجارية</label>
+          <input type="text" class="form-control">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group">
+          <label for="Trade-License">Issue Date</label>
+          <div class="row">
+            <div class="col-3">
+              <select id="inputState" class="form-control" placeholder="DD">
+                <option selected>DD</option>
+                <option>MON</option>
+              </select>
+            </div>
+            <div class="col-3">
+              <select id="inputState" class="form-control" placeholder="MM" name="issueMonth" [(ngModel)]="selectedIssueMonth"
+                (change)="selectIssueMonth($event.target.value)">
+                <option value="undefined">MM</option>
+                <option *ngFor="let month of months">{{month.name}}</option>
+              </select>
+            </div>
+            <div class="col-4">
+              <select id="inputState" class="form-control">
+                <option selected>YYYY</option>
+                <option *ngFor="let year of pastYears">{{year}}</option>
+              </select>
             </div>
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-12">
-                  <div class="form-group dir-otherLanguage">
-                      <label for="Trade-License">تاريخ الاصدار</label>
-                      <div class="row">
-                      <div class="col-3">
-                          <select id="inputState" class="form-control" placeholder="DD">
-                            <option selected>DD</option>
-                            <option>MON</option>
-                          </select>
-                        </div>   
-                      <div class="col-3">
-                          <select id="inputState" class="form-control" placeholder="MM" name="issueMonthArabic" [(ngModel)]="selectedIssueMonthAr" (change)="selectIssueMonth($event.target.value)">
-                              <option value="undefined">MM</option>
-                              <option *ngFor="let month of months">{{month.arabicName}}</option>
-                            </select>
-                          </div>
-                          <div class="col-4">
-                            <select id="inputState" class="form-control">
-                                <option selected>YYYY</option>
-                                <option>1999</option>
-                            </select>
-                          </div>
-                      </div>
-                            
-                </div>
-          </div>
+
+        </div>
       </div>
-      <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                  <label for="Trade-License">Expiry Date</label>
-                  <div class="row">
-                  <div class="col-3">
-                      <select id="inputState" class="form-control" placeholder="DD">
-                        <option selected>DD</option>
-                        <option>MON</option>
-                      </select>
-                    </div>   
-                  <div class="col-4">
-                        <select id="inputState" class="form-control" placeholder="MM">
-                          <option selected>MM</option>
-                          <option *ngFor="let month of months">{{month.name}}</option>
-                        </select>
-                      </div>
-                      <div class="col-5">
-                        <select id="inputState" class="form-control">
-                            <option selected>YYYY</option>
-                            <option *ngFor="let year of futureYears">{{year}}</option>
-                        </select>
-                      </div>
-                  </div>
-                        
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group dir-otherLanguage">
+          <label for="Trade-License">تاريخ الاصدار</label>
+          <div class="row">
+            <div class="col-3">
+              <select id="inputState" class="form-control" placeholder="DD">
+                <option selected>DD</option>
+                <option>MON</option>
+              </select>
+            </div>
+            <div class="col-3">
+              <select id="inputState" class="form-control" placeholder="MM" name="issueMonthArabic" [(ngModel)]="selectedIssueMonthAr"
+                (change)="selectIssueMonth($event.target.value)">
+                <option value="undefined">MM</option>
+                <option *ngFor="let month of months">{{month.arabicName}}</option>
+              </select>
+            </div>
+            <div class="col-4">
+              <select id="inputState" class="form-control">
+                <option selected>YYYY</option>
+                <option>1999</option>
+              </select>
             </div>
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-12">
-                  <div class="form-group dir-otherLanguage">
-                      <label for="Trade-License">تاريخ الانتهاء</label>
-                      <div class="row">
-                      <div class="col-3">
-                          <select id="inputState" class="form-control" placeholder="DD">
-                            <option selected>DD</option>
-                            <option>MON</option>
-                          </select>
-                        </div>   
-                      <div class="col-4">
-                            <select id="inputState" class="form-control" placeholder="MM">
-                              <option selected>MM</option>
-                              <option *ngFor="let month of months">{{month.arabicName}}</option>
-                            </select>
-                          </div>
-                          <div class="col-5">
-                            <select id="inputState" class="form-control">
-                              <option selected>YYYY</option>
-                              <option>1999</option>
-                            </select>
-                          </div>
-                      </div>
-                            
-                </div>
-          </div>
-      </div>
-      <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                  <label for="trade-license">VAT No</label>
-                   <input type="text" class="form-control">
-              </div>
-          </div>
-          <div class="col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group dir-otherLanguage">
-                  <label for="vat-no">ضريبة القيمة المضافة</label>
-                  <input type="text" class="form-control">
-                </div>
-          </div>
-        </div>
-      <div class="trade-license-box">
-              <label for="trade-license" class="m-0"> Trade License </label>
-              <br>
-              <small>Document must be valid for XX months </small>
-              <div class="documentInfo">
-                  <img src="../../../assets/images/icons/manager-icon.png">
-                  <p> Drag here or browse to upload</p>
-                  <small> (supported types: pdf,jpeg,png,Maximum size per document: 4 MB) </small>
-              </div>
-      </div>
-    </form>
-    <h5 class="m-0"> Company Activities</h5>
-    <small> Select the activities listed on your trade license  </small>
-    <hr class="hr-solid">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let service of serviceOffered">
-                <div #selectService class="service-btn text-center d-flex flex-column justify-content-center pointer"
-                  (click)="serviceSelection(service, selectService)">
-                  <span>{{service.ServiceNameBaseLang}}</span>
-                  <span>{{service.ServiceNameOtherLang}}</span>
-                </div>
-              </div>
-          </div>
-    <h5> Business Location</h5>
-    <hr class="hr-solid">
 
-    <div class="business-map">
-      <div class="map-box">
-        <input type="text" class="form-control searchAddress" #search>
-        <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
-          <agm-marker [latitude]="location.lat" [longitude]="location.lng" 
-          [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
-        </agm-map>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group">
+          <label for="Trade-License">Expiry Date</label>
+          <div class="row">
+            <div class="col-3">
+              <select id="inputState" class="form-control" placeholder="DD">
+                <option selected>DD</option>
+                <option>MON</option>
+              </select>
+            </div>
+            <div class="col-4">
+              <select id="inputState" class="form-control" placeholder="MM">
+                <option selected>MM</option>
+                <option *ngFor="let month of months">{{month.name}}</option>
+              </select>
+            </div>
+            <div class="col-5">
+              <select id="inputState" class="form-control">
+                <option selected>YYYY</option>
+                <option *ngFor="let year of futureYears">{{year}}</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group dir-otherLanguage">
+          <label for="Trade-License">تاريخ الانتهاء</label>
+          <div class="row">
+            <div class="col-3">
+              <select id="inputState" class="form-control" placeholder="DD">
+                <option selected>DD</option>
+                <option>MON</option>
+              </select>
+            </div>
+            <div class="col-4">
+              <select id="inputState" class="form-control" placeholder="MM">
+                <option selected>MM</option>
+                <option *ngFor="let month of months">{{month.arabicName}}</option>
+              </select>
+            </div>
+            <div class="col-5">
+              <select id="inputState" class="form-control">
+                <option selected>YYYY</option>
+                <option>1999</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group">
+          <label for="trade-license">VAT No</label>
+          <input type="text" class="form-control">
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group dir-otherLanguage">
+          <label for="vat-no">ضريبة القيمة المضافة</label>
+          <input type="text" class="form-control">
+        </div>
+      </div>
+    </div>
+    <div class="trade-license-box">
+      <label for="trade-license" class="m-0"> Trade License </label>
+      <br>
+      <small>Document must be valid for XX months </small>
+      <div class="documentInfo">
+        <img src="../../../assets/images/icons/manager-icon.png">
+        <p> Drag here or browse to upload</p>
+        <small> (supported types: pdf,jpeg,png,Maximum size per document: 4 MB) </small>
+      </div>
+    </div>
+  </form>
+  <h5 class="m-0"> Company Activities</h5>
+  <small> Select the activities listed on your trade license </small>
+  <hr class="hr-solid">
+  <div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let service of serviceOffered">
+      <div #selectService class="service-btn text-center d-flex flex-column justify-content-center pointer" (click)="serviceSelection(service, selectService)">
+        <span>{{service.ServiceNameBaseLang}}</span>
+        <span>{{service.ServiceNameOtherLang}}</span>
+      </div>
+    </div>
+  </div>
+  <h5> Business Location</h5>
+  <hr class="hr-solid">
+
+  <div class="business-map">
+    <div class="map-box">
+      <input type="text" class="form-control searchAddress" #search>
+      <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
+        <agm-marker [latitude]="location.lat" [longitude]="location.lng" [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
+      </agm-map>
+    </div>
+  </div>
+
+  <form>
+    <div class="row ">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input type="text" class="form-control">
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group dir-otherLanguage">
+
+          <label for="address">عنوان</label>
+          <input type="text" class="form-control">
+        </div>
       </div>
     </div>
 
-    <form>
-      <div class="row ">
-          <div class="col-lg-6 col-md-6 col-sm-12">
-        
-       <div class="form-group">
-          <label for="address">Address</label>
-          <input type="text" class="form-control">
-       </div>
-       </div>
-       <div class="col-lg-6 col-md-6 col-sm-12">
-         <div class="form-group dir-otherLanguage">
-         
-          <label for="address">عنوان</label>
-          <input type="text" class="form-control">
-          </div>
-          </div>
-          </div>
-         
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12">
-              <div class="row">
-              <div class="col-5">
-                  <div class="form-group">
-                      <label for="address">P.0 Box</label>
-                      <input type="text" class="form-control">
-                      </div>
-              </div>
-            </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
-              <div class="row row justify-content-end">
-                <div class="col-5">
-                    <div class="form-group dir-otherLanguage">
-                        <label for="address">صندوق بريد</label>
-                        <input type="text" class="form-control">
-                        </div>
-                      </div>
-                    </div>
-                </div>
-          </div>
-    </form>
-
-    <h5> Business Information</h5>
-    <hr class="hr-solid">
-
-    <form>
-      <div class="row">
-        <div class="col-12">
-          <div class="form-group">
-              <label for="address">Upload Logo</label>
-              <div class="upload-image">
-                <img src="../../../assets/images/icons/manager-icon.png">
-                <p> Drag here or browse to upload</p>
-              </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group">
-              <label for="address">Organization Name</label>
-              <input type="text" class="form-control">
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="form-group dir-otherLanguage">
-            <label for="address">اسم المنظمة</label>
-            <input type="text" class="form-control">
-            </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group">
-              <label for="exampleFormControlSelect1">Organization Type </label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option>please select</option>
-                <option *ngFor="let type of organizationList">{{type.BaseLang}}</option>
-              </select>
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="form-group dir-otherLanguage">
-                <label for="exampleFormControlSelect1">نوع المنظمة</label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                  <option>please select </option>
-                  <option *ngFor="let type of organizationList">{{type.OtherLang}}</option>
-                </select>
-              </div>
-        </div>
-      </div>
-    </form>
-
-
-    <h5> Contact Details</h5>
-    <hr class="hr-solid">
-
-    <form class="business-profile-contacts">
-      <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="row">
+          <div class="col-5">
             <div class="form-group">
-                <label>Telephone</label>
-                <div class="select-number">
-                  <div class="input-group-prepend">
-                    <div ngbDropdown>
-                      <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                          <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags"
-                            class="img-responsive">
-                          <!-- <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
+              <label for="address">P.0 Box</label>
+              <input type="text" class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="row row justify-content-end">
+          <div class="col-5">
+            <div class="form-group dir-otherLanguage">
+              <label for="address">صندوق بريد</label>
+              <input type="text" class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <h5> Business Information</h5>
+  <hr class="hr-solid">
+
+  <form>
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="address">Upload Logo</label>
+          <div class="upload-image">
+            <img src="../../../assets/images/icons/manager-icon.png">
+            <p> Drag here or browse to upload</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group">
+          <label for="address">Organization Name</label>
+          <input type="text" class="form-control">
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group dir-otherLanguage">
+          <label for="address">اسم المنظمة</label>
+          <input type="text" class="form-control">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Organization Type </label>
+          <select class="form-control" id="exampleFormControlSelect1">
+            <option>please select</option>
+            <option *ngFor="let type of organizationList">{{type.BaseLang}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group dir-otherLanguage">
+          <label for="exampleFormControlSelect1">نوع المنظمة</label>
+          <select class="form-control" id="exampleFormControlSelect1">
+            <option>please select </option>
+            <option *ngFor="let type of organizationList">{{type.OtherLang}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+  <h5> Contact Details</h5>
+  <hr class="hr-solid">
+
+  <form class="business-profile-contacts">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group">
+          <label>Telephone</label>
+          <div class="select-number">
+            <div class="input-group-prepend">
+              <div ngbDropdown>
+                <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                  <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive">
+                  <!-- <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
                             alt="flags" class="img-responsive"> -->
-                        <span>+92</span>
-                      </div>
-                      <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
-                        <ul class="list-group">
-                          <li class="list-group-item">
-                              <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags">
-                            <span>+92</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <input type="text" class="form-control" maxlength="12" placeholder="12 345 6789" />
-                  </div>
-                 
+                  <span>+92</span>
+                </div>
+                <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags">
+                      <span>+92</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
+              <input type="text" class="form-control" maxlength="12" placeholder="12 345 6789" />
+            </div>
+
+          </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="form-group dir-otherLanguage">
-                <label>رقم هاتف</label>
-                <div class="select-number">
-                  <div class="input-group-append">
-                    <div ngbDropdown>
-                      <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                          <img src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
-                            class="img-responsive">
-                          <!-- <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group dir-otherLanguage">
+          <label>رقم هاتف</label>
+          <div class="select-number">
+            <div class="input-group-append">
+              <div ngbDropdown>
+                <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                  <img src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive">
+                  <!-- <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
                             alt="flags" class="img-responsive"> -->
-                        <span>+92</span>
-                      </div>
-                      <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
-                        <ul class="list-group">
-                          <li class="list-group-item">
-                              <img src="../../../../../assets/images/flags/4x3/ae.svg" alt="flag">
-                            <span> +92</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <input type="text" class="form-control"  maxlength="12"
-                     placeholder="۶۷۸۹ ۳۴۵ ۱۲" >
-                  </div>
-                  
+                  <span>+92</span>
                 </div>
+                <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <img src="../../../../../assets/images/flags/4x3/ae.svg" alt="flag">
+                      <span> +92</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <input type="text" class="form-control" maxlength="12" placeholder="۶۷۸۹ ۳۴۵ ۱۲">
             </div>
+
+          </div>
         </div>
       </div>
+    </div>
 
 
-      <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                    <label>Fax</label>
-                    <div class="select-number">
-                      <div class="input-group-prepend">
-                        <div ngbDropdown>
-                          <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                              <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags"
-                                class="img-responsive">
-                              <!-- <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group">
+          <label>Fax</label>
+          <div class="select-number">
+            <div class="input-group-prepend">
+              <div ngbDropdown>
+                <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                  <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive">
+                  <!-- <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
                                 alt="flags" class="img-responsive"> -->
-                            <span>+92</span>
-                          </div>
-                          <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
-                            <ul class="list-group">
-                              <li class="list-group-item">
-                                  <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags">
-                                <span>+92</span>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <input type="text" class="form-control" maxlength="12" placeholder="12 345 6789" />
-                      </div>
-                     
-                    </div>
-                  </div>
+                  <span>+92</span>
+                </div>
+                <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags">
+                      <span>+92</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <input type="text" class="form-control" maxlength="12" placeholder="12 345 6789" />
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group dir-otherLanguage">
-                    <label>رقم الفاكس</label>
-                    <div class="select-number">
-                      <div class="input-group-append">
-                        <div ngbDropdown>
-                          <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                              <img src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
-                                class="img-responsive">
-                              <!-- <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
-                                alt="flags" class="img-responsive"> -->
-                            <span>+92</span>
-                          </div>
-                          <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
-                            <ul class="list-group">
-                              <li class="list-group-item">
-                                  <img src="../../../../../assets/images/flags/4x3/ae.svg" alt="flag">
-                                <span> +92</span>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <input type="text" class="form-control"  maxlength="12"
-                         placeholder="۶۷۸۹ ۳۴۵ ۱۲" >
-                      </div>
-                      
-                    </div>
-                </div>
-            </div>
-            </div>
-  
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group">
-                        <label>Social Media Accounts</label>
-                        <div class="select-number">
-                          <div class="input-group-prepend">
-                            <div ngbDropdown>
-                              <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                                <span>Website</span>
-                              </div>
-                              <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
-                                <ul class="list-group">
-                                  <li class="list-group-item">
-                                    <li class="list-group-item" *ngFor="let link of socialLink">
-                                      <span>{{link.title}}</span>
-                                    </li>
-                                </ul>
-                              </div>
-                            </div>
-                            <input type="text" class="form-control" maxlength="12" placeholder="www.company.com" />
-                          </div>
-                         
-                        </div>
-                      </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group">
-                        <label class="d-flex justify-content-end">حساب وسائل الاعلام الاجتماعية</label>
-                        <div class="select-number">
-                            <div class="input-group-prepend">
-                              <div ngbDropdown>
-                                <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                                  <span>Website</span>
-                                </div>
-                                <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
-                                  <ul class="list-group">
-                                    <li class="list-group-item" *ngFor="let link of socialLink">
-                                      <span>{{link.title}}</span>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                              <input type="text" class="form-control" maxlength="12" placeholder="www.company.com" />
-                            </div>
-                          </div>
-                    </div>
-                </div>
-                </div>
 
-
-      <div class="contact-btn  mt-5">
-        <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">NEXT / التالى</a>
+          </div>
+        </div>
       </div>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group dir-otherLanguage">
+          <label>رقم الفاكس</label>
+          <div class="select-number">
+            <div class="input-group-append">
+              <div ngbDropdown>
+                <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                  <img src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive">
+                  <!-- <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
+                                alt="flags" class="img-responsive"> -->
+                  <span>+92</span>
+                </div>
+                <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <img src="../../../../../assets/images/flags/4x3/ae.svg" alt="flag">
+                      <span> +92</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <input type="text" class="form-control" maxlength="12" placeholder="۶۷۸۹ ۳۴۵ ۱۲">
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group">
+          <label>Social Media Accounts</label>
+          <div class="select-number">
+            <div class="input-group-prepend">
+              <div ngbDropdown>
+                <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                  <span>Website</span>
+                </div>
+                <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                    <li class="list-group-item" *ngFor="let link of socialLink">
+                      <span>{{link.title}}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <input type="text" class="form-control" maxlength="12" placeholder="www.company.com" />
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group">
+          <label class="d-flex justify-content-end">حساب وسائل الاعلام الاجتماعية</label>
+          <div class="select-number">
+            <div class="input-group-prepend">
+              <div ngbDropdown>
+                <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                  <span>Website</span>
+                </div>
+                <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                  <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let link of socialLink">
+                      <span>{{link.title}}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <input type="text" class="form-control" maxlength="12" placeholder="www.company.com" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="add-more">
+        <a href="javascript:;" >
+        <img src="../../../assets/images/icons/icon_add.svg" alt="icons" class="mr-2 icon-size-16"> 
+         Add More Accounts / إضافة المزيد من الحساب</a> 
+    </div>
 
 
-    </form>
+    <div class="contact-btn  mt-5">
+      <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">NEXT / التالى</a>
+    </div>
 
-  </section>
+
+  </form>
+
+</section>
