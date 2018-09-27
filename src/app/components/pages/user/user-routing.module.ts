@@ -13,7 +13,7 @@ const routes: Routes = [
         { path: 'registration', component : RegistrationComponent },
         { path: 'otp/:keys', component : OtpconfirmationComponent },
         { path: 'password/:keys', component : CreatePasswordComponent },
-        { path: 'business-profile', component : UserbusinessComponen },
+        { path: 'business-profile', component : UserbusinessComponent },
         { path: '**', redirectTo: 'registration', pathMatch: 'full' }
      ]
   }
