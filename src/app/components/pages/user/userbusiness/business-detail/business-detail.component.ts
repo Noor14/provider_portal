@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone, ElementRef, ViewChild } from '@angular/core';
-import { SharedService } from '../../../../services/shared.service';
-import { UserService } from '../user.service';
+import { SharedService } from '../../../../../services/shared.service';
+import { UserService } from '../../user.service';
 import { MapsAPILoader } from '@agm/core';
 import { } from '@types/googlemaps';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
