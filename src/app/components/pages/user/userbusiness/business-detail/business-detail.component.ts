@@ -6,8 +6,6 @@ import { MapsAPILoader } from '@agm/core';
 import { } from '@types/googlemaps';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
-
-
 @Component({
   selector: 'app-business-detail',
   templateUrl: './business-detail.component.html',
@@ -24,6 +22,7 @@ export class BusinessDetailComponent implements OnInit {
     lat: 23.4241,
     lng: 53.8478
   }
+  public firstName;
   public geoCoder;
   public socialLink: any;
   public organizationList: any;
@@ -113,7 +112,11 @@ export class BusinessDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if(userInfo){
+    this.firstName = userInfo.returnObject.firstName;
+  }
     this.getsocialList();
     this.getOrganizationList();
     this._sharedService.formProgress.next(30);
@@ -338,7 +341,7 @@ getplacemapLoc(){
 
   getTenYears(){
     let date = new Date();
-    for (let i=0; i < 11; i++){
+    for (let i=0; i < 2; i++){
         let pastyear = date.getFullYear()-i;
         let futureyear= date.getFullYear()+i
         let persianDigits = "۰۱۲۳۴۵۶۷۸۹";

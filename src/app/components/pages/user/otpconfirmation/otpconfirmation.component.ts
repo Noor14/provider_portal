@@ -138,7 +138,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
       if(res.returnStatus == "Success"){
         this.userInfo.OTPCode = res.returnObject.otpCode;
         this.userInfo.Timer = res.returnObject.timer;
-        this._toast.success("Rseend OTP Successfully", '');
+        this._toast.success("Resend OTP Successfully", '');
         if(this.userInfo.Timer > 0) this.countDown(this.userInfo.Timer); 
       }
     })

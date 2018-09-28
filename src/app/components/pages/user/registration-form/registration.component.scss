@@ -12,6 +12,11 @@
         color: $secondary-text-color;
         font-size: $font-size-large;
     }
+    &-head-titles{
+        span:nth-child(2){
+            font-family: $font-NeoSansArabic-Medium;
+        }
+    }
     &-form {
         .form-group {
             input {
@@ -56,6 +61,9 @@
                 padding-top: 0.59rem;
                 img {
                     width: 16px;
+                }
+                &:nth-child(2){
+                    font-family: $font-NeoSansArabic-Regular;
                 }
             }
            
@@ -102,6 +110,11 @@
     .fancyRadioBoxes {
         label {
             font-size: $font-size-large !important;
+        }
+        &.dir-otherLanguage{
+            label{
+                font-family: $font-NeoSansArabic-Regular;
+            }
         }
     }
 
@@ -197,6 +210,9 @@
         &:disabled{
             font-weight: $font-proxima-weight-semibold;
         }
+        span:nth-child(2){
+            font-family: $font-NeoSansArabic-Regular;
+          }
  
     }
    
