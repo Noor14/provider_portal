@@ -5,12 +5,11 @@
         {{headingBaseLanguage}}
       </h3>
       <p class="profile-verify-paragraph text-center">
-       {{descBaseLanguage}}
-      </p>
+      <p class="profile-verify-paragraph text-center"> {{descBaseLanguageFirstLine}}<br />{{descBaseLanguageSecondLine}}</p>
       </div>
     <div class="col-12 mt-4" *ngIf="showTranslatedLangSide">
       <h3 class="profile-verify-title text-center dir-otherLanguage">{{headingOtherLanguage}}</h3>
-      <p class="profile-verify-paragraph text-center">{{descOtherLanguage}}</p>
+      <p class="profile-verify-paragraph text-center dir-otherLanguage">{{descOtherLanguageFirstLine}}<br /> {{descOtherLanguageSecondLine}}</p>
       <hr class="hr-solid">
     </div>
   </div>

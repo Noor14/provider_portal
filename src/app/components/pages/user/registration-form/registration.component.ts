@@ -148,16 +148,25 @@ export class RegistrationComponent implements OnInit {
       transLangjobTitle: new FormControl('', [CustomValidator.bind(this), Validators.minLength(3), Validators.maxLength(100)]),
     });
 
-
-    this._sharedService.countryList.subscribe((state: any) => {
-      let List = state;
-      List.map((obj) => {
-        if (typeof (obj.desc) == "string") {
-          obj.desc = JSON.parse(obj.desc);
-        }
-      })
-      this.countryList = List;
-    });
+    this._commonService.getCountry().subscribe((res:any) => {
+      if(res && res.length){
+        res.map((obj) => {
+          if (typeof (obj.desc) == "string") {
+            obj.desc = JSON.parse(obj.desc);
+          }
+        })
+        this.countryList = res;
+     }
+   });
+    // this._sharedService.countryList.subscribe((state: any) => {
+    //   let List = state;
+    //   List.map((obj) => {
+    //     if (typeof (obj.desc) == "string") {
+    //       obj.desc = JSON.parse(obj.desc);
+    //     }
+    //   })
+    //   this.countryList = List;
+    // });
 
     this._sharedService.getLocation.subscribe((state: any) => {
       if (state && state.country) {

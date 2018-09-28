@@ -203,10 +203,10 @@ getplacemapLoc(){
   }
 
   tradeLiscenceNo($controlName, $value){
-    this.informationForm.controls[$controlName].patchValue($value);
+    // this.informationForm.controls[$controlName].patchValue($value);
   }
   tradeLiscenceNoTr($controlName, $value){
-    this.informationForm.controls[$controlName].patchValue($value);
+    // this.informationForm.controls[$controlName].patchValue($value);
   }
 
 
