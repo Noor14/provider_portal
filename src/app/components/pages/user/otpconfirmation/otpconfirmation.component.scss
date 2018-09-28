@@ -46,10 +46,11 @@
                     cursor: pointer !important;
                 }
             }
-            span{
+            b{
                 @extend a;
                 cursor: default !important;
             } 
+           
         }
     }
 }

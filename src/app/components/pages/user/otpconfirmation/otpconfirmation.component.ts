@@ -18,6 +18,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
   public userInfo: any;
   public otpCode:number;
   public otpForm;
+  public showTranslatedLangSide: boolean;
 
   public headingBaseLanguage: string;
   public headingOtherLanguage: string;
@@ -60,7 +61,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
     this._userService.getlabelsDescription('otp').subscribe((res:any)=>{
       if(res.returnStatus =='Success'){
        this.headingBaseLanguage = res.returnObject[0].baseLang.replace('{firstName}', obj.FirstName);
-       this.headingOtherLanguage = res.returnObject[0].otherLang.replace('{firstName}', obj.FirstName);
+       this.headingOtherLanguage = res.returnObject[0].otherLang.replace('{firstName}', obj.FirstNameOL);
        this.descBaseLanguage = res.returnObject[1].baseLang.replace('{emailAddress}', obj.PrimaryEmail);
        this.descOtherLanguage = res.returnObject[1].otherLang.replace('{emailAddress}', obj.PrimaryEmail);
        this.lblOTPPasswordBaselang = res.returnObject[2].baseLang;
@@ -108,6 +109,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
     this._userService.getUserInfoByOtp(keyCode).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
       this.userInfo = JSON.parse(res.returnObject);
+      this.showTranslatedLangSide = (this.userInfo && this.userInfo.RegionCode == "MET")? true : false;
       this.getlabelsDescription(this.userInfo);
       if (this.userInfo.Timer > 0) this.countDown(this.userInfo.Timer);  
       this._sharedService.formProgress.next(10)

@@ -10,9 +10,12 @@ import { SharedService } from './services/shared.service';
 export class AppComponent implements OnInit {
   constructor(private _commonService : CommonService, private _sharedService: SharedService){}
   ngOnInit() {
+    
     this._commonService.getCountry().subscribe((res:any) => {
+         if(res && res.length){
          this._sharedService.setCountries(res);
-    })
+        }
+      });
 
     this._commonService.getBrowserlocation().subscribe((state:any)=>{
       if(state.status == "success"){

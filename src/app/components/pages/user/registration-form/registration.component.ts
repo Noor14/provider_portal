@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { } from '@types/googlemaps';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { CustomValidator, ValidateEmail, EMAIL_REGEX } from '../../../../constants/globalFunctions'
 import { UserService } from '../user.service';
 import { SharedService } from '../../../../services/shared.service';
 import { CommonService } from '../../../../services/common.service';
@@ -19,6 +20,7 @@ import { ToastrService } from 'ngx-toastr';
 export class RegistrationComponent implements OnInit {
 
   public debounceInput: Subject<string> = new Subject();
+  public showTranslatedLangSide: boolean;
   public phoneCountryId: any
   public phoneCode: string;
   public transPhoneCode: string;
@@ -59,7 +61,7 @@ export class RegistrationComponent implements OnInit {
 
   // form Field Validtaions boolean variable
   public requiredFields: string = "This field is required";
-
+  public requiredFieldsOthrLng: string = "هذه الخانة مطلوبه";
   public firstNameError: boolean;
   public lastNameError: boolean;
   public phoneError: boolean;
@@ -127,23 +129,23 @@ export class RegistrationComponent implements OnInit {
     
     this.regForm = new FormGroup({
       firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
-      transLangfirstName: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
+      transLangfirstName: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(2), Validators.maxLength(100)]),
       lastName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
-      transLanglastName: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
+      transLanglastName: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(2), Validators.maxLength(100)]),
       email: new FormControl(null, [
         Validators.required,
-        Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+        Validators.pattern(EMAIL_REGEX),
         Validators.maxLength(320)
       ]),
       transLangEmail: new FormControl(null, [
-        Validators.required,
-        Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+        CustomValidator.bind(this), 
+        Validators.pattern(EMAIL_REGEX),
         Validators.maxLength(320)
       ]),
-      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(12)]),
-      transLangPhone: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(12)]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(9)]),
+      transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(9)]),
       jobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
-      transLangjobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+      transLangjobTitle: new FormControl('', [CustomValidator.bind(this), Validators.minLength(3), Validators.maxLength(100)]),
     });
 
 
@@ -230,12 +232,15 @@ export class RegistrationComponent implements OnInit {
       }
     })
   }
-  accountList(id) {
-    this._userService.getAccountSetup(id).subscribe((res: any) => {
+  accountList(region) {
+    this._userService.getAccountSetup(region.id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.accountSetup = JSON.parse(res.returnObject);
+        this.showTranslatedLangSide = (region.desc[0].RegionCode == 'MET')? true : false;
+        this.regForm.reset();
+        this.transLangEmail = '';
         this.registrationForm = true;
-        this.getlabelsDescription()
+        this.getlabelsDescription();
 
       }
     })
@@ -248,7 +253,7 @@ export class RegistrationComponent implements OnInit {
         if (region.id) {
           let selectedCountry = this.countryList.find(obj => obj.title == region.title);
           this.selectPhoneCode(selectedCountry);
-          this.accountList(region.id);
+          this.accountList(region);
         }
       }
     })
@@ -330,10 +335,26 @@ export class RegistrationComponent implements OnInit {
 
 
   createAccount(data) {
+     let valid: boolean = ValidateEmail(data.email);
       if(!this.accountId){
-            this._toastr.error("Account setup field is required", '');
-            return;
+        this._toastr.error("Account setup field is required", '');
+         return;
       }
+      if (this.regForm.invalid) {
+        return;
+      }
+      else if (!valid) {
+        this._toastr.warning('Invalid email entered.', 'Failed')
+        return
+      }
+    let otherLangObj = {
+      firstName: data.transLangfirstName,
+      lastName: data.transLanglastName,
+      primaryPhone: this.phoneCode + data.transLangPhone,
+      countryPhoneCode: this.phoneCode,
+      phoneCodeCountryID: this.phoneCountryId,
+      jobTitle: data.transLangjobTitle
+    };
     let obj = {
       accountSetupID: this.accountId,
       countryID: this.selectedRegion.id,
@@ -347,14 +368,7 @@ export class RegistrationComponent implements OnInit {
         phoneCodeCountryID: this.phoneCountryId,
         jobTitle: data.jobTitle
       },
-      userOtherLanguageData: {
-        firstName: data.transLangfirstName,
-        lastName: data.transLanglastName,
-        primaryPhone: this.phoneCode + data.transLangPhone,
-        countryPhoneCode: this.phoneCode,
-        phoneCodeCountryID: this.phoneCountryId,
-        jobTitle: data.transLangjobTitle
-      }
+      userOtherLanguageData: (this.showTranslatedLangSide)? otherLangObj : null
     }
 
     this._userService.userRegistration(obj).subscribe((res: any) => {
@@ -369,6 +383,7 @@ export class RegistrationComponent implements OnInit {
 
   }
   onModelPhoneChange(fromActive, currentActive, $controlName, $value){
+    if(!this.showTranslatedLangSide) return;
     if(currentActive && !fromActive){
        let number = $value.split('');
     for (let i=0; i< number.length; i++){
@@ -382,6 +397,8 @@ export class RegistrationComponent implements OnInit {
     }
 }
 onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
+  if(!this.showTranslatedLangSide) return;
+  
   if(currentActive && !fromActive){
      let number = $value.split('');
   for (let i=0; i< number.length; i++){
@@ -397,6 +414,7 @@ onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
 
 }
   onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
+    if(!this.showTranslatedLangSide) return;
     setTimeout(() => {
       if(currentActive && !fromActive && $value){
         this.Globalinputfrom = false;
@@ -419,6 +437,8 @@ onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
   }
 
   onTransModel(fromActive, currentActive, $controlName, $value) {
+
+    if(!this.showTranslatedLangSide) return;
     if(currentActive && !fromActive && $value){
       this.Globalinputto = false;
     }

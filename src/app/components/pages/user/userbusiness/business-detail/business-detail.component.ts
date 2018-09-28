@@ -1,4 +1,5 @@
 import { Component, OnInit, NgZone, ElementRef, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../../../services/shared.service';
 import { UserService } from '../../user.service';
 import { MapsAPILoader } from '@agm/core';
@@ -27,12 +28,28 @@ export class BusinessDetailComponent implements OnInit {
   public socialLink: any;
   public organizationList: any;
   public serviceIds: any[] = [];
+  public selectedIssueYear;
+  public selectedIssueYearAr;
+  public selectedExpiryYear;
+  public selectedExpiryYearAr;
   public selectedIssueMonth;
   public selectedIssueMonthAr;
+  public selectedExpireMonth;
+  public selectedExpireMonthAr;
+  public selectedIssueDate;
+  public selectedIssueDateAr;
+  public selectedExpireDate;
+  public selectedExpireDateAr;
   public serviceOffered: any;
+  public IssueYear: any;
   public IssueMonth: any;
-  public pastYears:number[] = [];
-  public futureYears:number[] = [];
+  public IssueDate: any;
+  public ExpiryYear: any;
+  public ExpireMonth: any;
+  public ExpireDate: any;
+  public pastYears:any[] = [];
+  public futureYears:any[] = [];
+  public dates:any[] = [];
   public months:any[]= [
     {
       name:'Jan',
@@ -84,6 +101,10 @@ export class BusinessDetailComponent implements OnInit {
     }
   ]
   
+  
+
+  public informationForm;
+
   constructor(
     private mapsAPILoader: MapsAPILoader,  
     private ngZone: NgZone,  
@@ -92,10 +113,12 @@ export class BusinessDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    
     this.getsocialList();
     this.getOrganizationList();
     this._sharedService.formProgress.next(30);
     this.getTenYears();
+    this.getDates();
     this._userService.getServiceOffered().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.serviceOffered = JSON.parse(res.returnObject);
@@ -103,7 +126,40 @@ export class BusinessDetailComponent implements OnInit {
     })
 
     this.getplacemapLoc();
+
+    this.informationForm = new FormGroup({
+      licenseNo: new FormControl(null, [Validators.required]),
+      licenseNoAr: new FormControl(null, [Validators.required]),
+      vatNo: new FormControl(null, [Validators.required]),
+      
+      issueDate: new FormControl(null, [Validators.required]),
+      issueMonth: new FormControl(null, [Validators.required]),
+      issueYear: new FormControl(null, [Validators.required]),
+      issueDateArabic: new FormControl(null, [Validators.required]),
+      issueMonthArabic: new FormControl(null, [Validators.required]),
+      issueYearArabic: new FormControl(null, [Validators.required]),
+      expireDate: new FormControl(null, [Validators.required]),
+      expireMonth: new FormControl(null, [Validators.required]),
+      expiryYear: new FormControl(null, [Validators.required]),
+      expireDateArabic: new FormControl(null, [Validators.required]),
+      expireMonthArabic: new FormControl(null, [Validators.required]),
+      expiryYearArabic: new FormControl(null, [Validators.required]),
+    });
+
   }
+
+getDates(){
+  for(let i=1; i<=31; i++){
+    let persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+    let persianMap = persianDigits.split("");
+   let convertedNumber = i.toString().replace(/\d/g, (m : string) => {
+      return persianMap[parseInt(m)]
+   
+    });
+    this.dates.push({ dateNormal : i, dateArabic : convertedNumber });
+  }
+}
+
 
 getplacemapLoc(){
   this.mapsAPILoader.load().then(() => {
@@ -146,6 +202,14 @@ getplacemapLoc(){
     })
   }
 
+  tradeLiscenceNo($controlName, $value){
+    this.informationForm.controls[$controlName].patchValue($value);
+  }
+  tradeLiscenceNoTr($controlName, $value){
+    this.informationForm.controls[$controlName].patchValue($value);
+  }
+
+
   markerDragEnd($event){
     console.log($event);
     this.geoCoder.geocode({'location': {lat: $event.coords.lat, lng: $event.coords.lng}}, (results, status) => {
@@ -168,7 +232,8 @@ getplacemapLoc(){
     });
   }
 
-  selectIssueMonth(name){
+  selectMonth(name, type){
+    if(type == "issue"){
     if(name && name != 'undefined'){
     let selectedMonth = this.months.find(obj => (obj.name == name  || obj.arabicName == name));
     this.IssueMonth = selectedMonth;
@@ -179,6 +244,81 @@ getplacemapLoc(){
     this.IssueMonth = {};
     this.selectedIssueMonth = name;
     this.selectedIssueMonthAr = name;
+   }
+   }
+   else if(type == "expire"){
+    if(name && name != 'undefined'){
+    let selectedMonth = this.months.find(obj => (obj.name == name  || obj.arabicName == name));
+    this.ExpireMonth = selectedMonth;
+    this.selectedExpireMonth = selectedMonth.name;
+    this.selectedExpireMonthAr = selectedMonth.arabicName;
+   }
+   else{
+    this.ExpireMonth = {};
+    this.selectedExpireMonth = name;
+    this.selectedExpireMonthAr = name;
+   }
+   }
+  }
+  
+  
+    selectDate(date, type){
+    if(type == "issue"){
+    if(date && date != 'undefined'){
+    let selectedDate = this.dates.find(obj => (obj.dateNormal == date  || obj.dateArabic == date));
+    this.IssueDate = selectedDate;
+    this.selectedIssueDate = selectedDate.dateNormal;
+    this.selectedIssueDateAr = selectedDate.dateArabic;
+   }
+   else{
+    this.IssueDate = {};
+    this.selectedIssueDate = date;
+    this.selectedIssueDateAr = date;
+   }
+   }
+   else if(type == "expire"){
+    if(date && date != 'undefined'){
+    let selectedDate = this.dates.find(obj => (obj.dateNormal == date  || obj.dateArabic == date));
+    this.ExpireDate = selectedDate;
+    this.selectedExpireDate = selectedDate.dateNormal;
+    this.selectedExpireDateAr = selectedDate.dateArabic;
+   }
+   else{
+    this.ExpireDate = {};
+    this.selectedExpireDate = date;
+    this.selectedExpireDateAr = date;
+   }
+   }
+  }
+  
+  
+  
+   selectYear(year, type){
+    if(type == "issue"){
+    if(year && year != 'undefined'){
+    let selectedYear = this.pastYears.find(obj => (obj.yearNormal == year  || obj.yearArabic == year));
+    this.IssueYear = selectedYear;
+    this.selectedIssueYear = selectedYear.yearNormal;
+    this.selectedIssueYearAr = selectedYear.yearArabic;
+   }
+   else{
+    this.IssueYear = {};
+    this.selectedIssueYear= year;
+    this.selectedIssueYearAr = year;
+   }
+   }
+   else if(type == "expire"){
+    if(year && year != 'undefined'){
+    let selectedYear = this.futureYears.find(obj => (obj.yearNormal == year  || obj.yearArabic == year));
+    this.ExpiryYear = selectedYear;
+    this.selectedExpiryYear = selectedYear.yearNormal;
+    this.selectedExpiryYearAr = selectedYear.yearArabic;
+   }
+   else{
+    this.ExpiryYear = {};
+    this.selectedIssueYear= year;
+    this.selectedIssueYearAr = year
+   }
    }
   }
 
@@ -198,12 +338,22 @@ getplacemapLoc(){
 
   getTenYears(){
     let date = new Date();
-    for (var i=0; i < 11; i++){
-      this.pastYears.push(date.getFullYear()-i);
-      this.futureYears.push(date.getFullYear()+i);
-    }
-    if(i>10){
-
+    for (let i=0; i < 11; i++){
+        let pastyear = date.getFullYear()-i;
+        let futureyear= date.getFullYear()+i
+        let persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+        let persianMap = persianDigits.split("");
+        let convertedPastYear = pastyear.toString().replace(/\d/g, (m : string) => {
+            return persianMap[parseInt(m)]
+        
+          });
+       let convertedFutureYear = futureyear.toString().replace(/\d/g, (m : string) => {
+            return persianMap[parseInt(m)]
+        
+       });
+          
+      this.pastYears.push({ yearNormal : pastyear, yearArabic : convertedPastYear });
+      this.futureYears.push({ yearNormal: futureyear, yearArabic: convertedFutureYear });
     }
   }
 

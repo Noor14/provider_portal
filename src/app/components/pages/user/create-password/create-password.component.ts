@@ -21,6 +21,7 @@ export class CreatePasswordComponent implements OnInit {
   public colorEye;
 
 
+  public showTranslatedLangSide: boolean;
   public headingBaseLanguage: string;
   public headingOtherLanguage: string;
   public descBaseLanguage: string;
@@ -82,7 +83,7 @@ export class CreatePasswordComponent implements OnInit {
       if(res.returnStatus =='Success'){
         console.log(res.returnObject);
        this.headingBaseLanguage = res.returnObject[0].baseLang.replace('{firstName}', obj.firstName);
-       this.headingOtherLanguage = res.returnObject[0].otherLang.replace('{firstName}', obj.firstName);
+       this.headingOtherLanguage = res.returnObject[0].otherLang.replace('{firstName}', obj.firstNameOL);
        this.descBaseLanguage = res.returnObject[1].baseLang;
        this.descOtherLanguage = res.returnObject[1].otherLang;
        this.lblPasswordBaselang = res.returnObject[2].baseLang;
@@ -99,6 +100,7 @@ export class CreatePasswordComponent implements OnInit {
     this._userService.getUserOtpVerified(keyCode, "Used").subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
       this.userInfo = res.returnObject;
+      this.showTranslatedLangSide = (this.userInfo && this.userInfo.regionCode == "MET")? true : false;
       this.getlabelsDescription(this.userInfo);
       this._sharedService.formProgress.next(20);
       console.log(this.userInfo);
