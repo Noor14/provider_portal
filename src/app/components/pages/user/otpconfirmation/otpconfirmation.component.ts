@@ -18,11 +18,14 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
   public userInfo: any;
   public otpCode:number;
   public otpForm;
+  public showTranslatedLangSide: boolean;
 
   public headingBaseLanguage: string;
   public headingOtherLanguage: string;
-  public descBaseLanguage: string;
-  public descOtherLanguage: string;
+  public descBaseLanguageFirstLine: string;
+  public descBaseLanguageSecondLine: string;
+  public descOtherLanguageFirstLine: string;
+  public descOtherLanguageSecondLine: string;
   public lblOTPPasswordOtherlang: string;
   public lblOTPPasswordBaselang: string;
   public otpbtnBaselang: string;
@@ -60,9 +63,13 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
     this._userService.getlabelsDescription('otp').subscribe((res:any)=>{
       if(res.returnStatus =='Success'){
        this.headingBaseLanguage = res.returnObject[0].baseLang.replace('{firstName}', obj.FirstName);
-       this.headingOtherLanguage = res.returnObject[0].otherLang.replace('{firstName}', obj.FirstName);
-       this.descBaseLanguage = res.returnObject[1].baseLang.replace('{emailAddress}', obj.PrimaryEmail);
-       this.descOtherLanguage = res.returnObject[1].otherLang.replace('{emailAddress}', obj.PrimaryEmail);
+       this.headingOtherLanguage = res.returnObject[0].otherLang.replace('{firstName}', obj.FirstNameOL);
+       let descLanguage = res.returnObject[1].baseLang.replace('{emailAddress}', obj.PrimaryEmail).split('<br />');
+       this.descBaseLanguageFirstLine = descLanguage[0];
+       this.descBaseLanguageSecondLine = descLanguage[1];
+       let descLanguageOther = res.returnObject[1].otherLang.replace('{emailAddress}', obj.PrimaryEmail).split('<br />');
+       this.descOtherLanguageFirstLine = descLanguageOther[0];
+       this.descOtherLanguageSecondLine = descLanguageOther[1];
        this.lblOTPPasswordBaselang = res.returnObject[2].baseLang;
        this.lblOTPPasswordOtherlang = res.returnObject[2].otherLang;
        this.otpbtnBaselang = res.returnObject[3].baseLang;
@@ -108,6 +115,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
     this._userService.getUserInfoByOtp(keyCode).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
       this.userInfo = JSON.parse(res.returnObject);
+      this.showTranslatedLangSide = (this.userInfo && this.userInfo.RegionCode == "MET")? true : false;
       this.getlabelsDescription(this.userInfo);
       if (this.userInfo.Timer > 0) this.countDown(this.userInfo.Timer);  
       this._sharedService.formProgress.next(10)
@@ -130,7 +138,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
       if(res.returnStatus == "Success"){
         this.userInfo.OTPCode = res.returnObject.otpCode;
         this.userInfo.Timer = res.returnObject.timer;
-        this._toast.success("Rseend OTP Successfully", '');
+        this._toast.success("Resend OTP Successfully", '');
         if(this.userInfo.Timer > 0) this.countDown(this.userInfo.Timer); 
       }
     })

@@ -1,5 +1,5 @@
 <section class="business-profile">
-  <h2>John, Add Your Business Profile </h2>
+  <h2>{{firstName}}, Add Your Business Profile </h2>
   <p>It takes less than 60 seconds to add your business and get started </p>
 
   <h5 class="d-flex justify-content-between">
@@ -7,18 +7,18 @@
     <span>معلومات أساسية</span>
   </h5>
   <hr class="hr-solid">
-  <form>
+  <form autocomplete="off" novalidate [formGroup]="informationForm">
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label for="Trade-License">Trade License No</label>
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" formControlName='licenseNo' (ngModelChange)="tradeLiscenceNo('licenseNoAr', $event)">
         </div>
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group dir-otherLanguage">
           <label for="Issue-Date">الرخصة التجارية</label>
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" formControlName='licenseNoAr' (ngModelChange)="tradeLiscenceNoTr('licenseNo', $event)">
         </div>
       </div>
     </div>
@@ -29,21 +29,21 @@
           <div class="row">
             <div class="col-3">
               <select id="inputState" class="form-control" placeholder="DD" name="issueDate"
-              [(ngModel)]="selectedIssueDate" (change) = "selectDate($event.target.value, 'issue')" >
+              [(ngModel)]="selectedIssueDate" (change) = "selectDate($event.target.value, 'issue')" formControlName='issueDate'>
                 <option value="undefined">DD</option>
                 <option *ngFor="let date of dates">{{date.dateNormal}}</option>
               </select>
             </div>
             <div class="col-4">
               <select id="inputState" class="form-control" placeholder="MM" name="issueMonth" 
-              [(ngModel)]="selectedIssueMonth" (change)="selectMonth($event.target.value, 'issue')" >
+              [(ngModel)]="selectedIssueMonth" (change)="selectMonth($event.target.value, 'issue')" formControlName='issueMonth'>
                 <option value="undefined">MM</option>
                 <option *ngFor="let month of months">{{month.name}}</option>
               </select>
             </div>
             <div class="col-4">
               <select id="inputState" class="form-control" name="issueYear" 
-              [(ngModel)]="selectedIssueYear" (change)="selectYear($event.target.value, 'issue')" >
+              [(ngModel)]="selectedIssueYear" (change)="selectYear($event.target.value, 'issue')" formControlName='issueYear'>
                 <option value="undefined">YYYY</option>
                 <option *ngFor="let year of pastYears">{{year.yearNormal}}</option>
               </select>
@@ -58,21 +58,21 @@
           <div class="row">
             <div class="col-3">
               <select id="inputState" class="form-control" placeholder="DD" name="issueDateArabic"
-              [(ngModel)]="selectedIssueDateAr" (change) = "selectDate($event.target.value, 'issue')" >
+              [(ngModel)]="selectedIssueDateAr" (change) = "selectDate($event.target.value, 'issue')" formControlName='issueDateArabic'>
                 <option value="undefined">DD</option>
                 <option *ngFor="let date of dates">{{date.dateArabic}}</option>
               </select>
             </div>
             <div class="col-4">
               <select id="inputState" class="form-control" placeholder="MM" name="issueMonthArabic" 
-              [(ngModel)]="selectedIssueMonthAr" (change)="selectMonth($event.target.value, 'issue')" >
+              [(ngModel)]="selectedIssueMonthAr" (change)="selectMonth($event.target.value, 'issue')" formControlName='issueMonthArabic'>
                 <option value="undefined">MM</option>
                 <option *ngFor="let month of months">{{month.arabicName}}</option>
               </select>
             </div>
             <div class="col-4">
               <select id="inputState" class="form-control" name="issueYearArabic" 
-              [(ngModel)]="selectedIssueYearAr" (change)="selectYear($event.target.value, 'issue')" >
+              [(ngModel)]="selectedIssueYearAr" (change)="selectYear($event.target.value, 'issue')" formControlName='issueYearArabic'>
                 <option value="undefined">YYYY</option>
                 <option *ngFor="let year of pastYears">{{year.yearArabic}}</option>
               </select>
@@ -89,21 +89,21 @@
           <div class="row">
             <div class="col-3">
               <select id="inputState" class="form-control" placeholder="DD" name="expireDate"
-              [(ngModel)]="selectedExpireDate" (change) = "selectDate($event.target.value, 'expire')" >
+              [(ngModel)]="selectedExpireDate" (change) = "selectDate($event.target.value, 'expire')" formControlName='expireDate'>
                 <option value="undefined">DD</option>
                 <option *ngFor="let date of dates">{{date.dateNormal}}</option>
               </select>
             </div>
             <div class="col-4">
               <select id="inputState" class="form-control" placeholder="MM" name="expireMonth"
-              [(ngModel)]="selectedExpireMonth" (change)="selectMonth($event.target.value, 'expire')" >
+              [(ngModel)]="selectedExpireMonth" (change)="selectMonth($event.target.value, 'expire')" formControlName='expireMonth'>
                 <option value="undefined">MM</option>
                 <option *ngFor="let month of months">{{month.name}}</option>
               </select>
             </div>
             <div class="col-4">
               <select id="inputState" class="form-control" name="expiryYear" 
-              [(ngModel)]="selectedExpiryYear" (change)="selectYear($event.target.value, 'expire')" >
+              [(ngModel)]="selectedExpiryYear" (change)="selectYear($event.target.value, 'expire')" formControlName='expiryYear'>
                 <option value="undefined">YYYY</option>
                 <option *ngFor="let year of futureYears">{{year.yearNormal}}</option>
               </select>
@@ -118,21 +118,21 @@
           <div class="row">
             <div class="col-3">
               <select id="inputState" class="form-control" placeholder="DD" name="expireDateArabic"
-              [(ngModel)]="selectedExpireDateAr" (change)= "selectDate($event.target.value, 'expire')" >
+              [(ngModel)]="selectedExpireDateAr" (change)= "selectDate($event.target.value, 'expire')" formControlName='expireDateArabic'>
                 <option value="undefined">DD</option>
                 <option *ngFor="let date of dates">{{date.dateArabic}}</option>
               </select>
             </div>
             <div class="col-4">
               <select id="inputState" class="form-control" placeholder="MM" name="expireMonthArabic"
-              [(ngModel)]="selectedExpireMonthAr" (change)= "selectMonth($event.target.value, 'expire')" >
+              [(ngModel)]="selectedExpireMonthAr" (change)= "selectMonth($event.target.value, 'expire')" formControlName='expireMonthArabic'>
                 <option value="undefined">MM</option>
                 <option *ngFor="let month of months">{{month.arabicName}}</option>
               </select>
             </div>
             <div class="col-4">
               <select id="inputState" class="form-control" name="expiryYearArabic" 
-              [(ngModel)]="selectedExpiryYearAr" (change)="selectYear($event.target.value, 'expire')" >
+              [(ngModel)]="selectedExpiryYearAr" (change)="selectYear($event.target.value, 'expire')" formControlName='expiryYearArabic'>
                 <option selected>YYYY</option>
                 <option *ngFor="let year of futureYears">{{year.yearArabic}}</option>
               </select>
@@ -459,9 +459,8 @@
          Add More Accounts / إضافة المزيد من الحساب</a> 
     </div>
 
-
-    <div class="contact-btn  mt-5">
-      <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">NEXT / التالى</a>
+    <div class="contact-btn mt-5">
+      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" [disabled]="informationForm.invalid">NEXT / التالى</button>
     </div>
 
 

@@ -1,11 +1,10 @@
 import { Component, OnInit, NgZone, ElementRef, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../../../services/shared.service';
 import { UserService } from '../../user.service';
 import { MapsAPILoader } from '@agm/core';
 import { } from '@types/googlemaps';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-
-
 
 @Component({
   selector: 'app-business-detail',
@@ -23,6 +22,7 @@ export class BusinessDetailComponent implements OnInit {
     lat: 23.4241,
     lng: 53.8478
   }
+  public firstName;
   public geoCoder;
   public socialLink: any;
   public organizationList: any;
@@ -102,6 +102,8 @@ export class BusinessDetailComponent implements OnInit {
   
   
 
+  public informationForm;
+
   constructor(
     private mapsAPILoader: MapsAPILoader,  
     private ngZone: NgZone,  
@@ -110,7 +112,11 @@ export class BusinessDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if(userInfo){
+    this.firstName = userInfo.returnObject.firstName;
+  }
     this.getsocialList();
     this.getOrganizationList();
     this._sharedService.formProgress.next(30);
@@ -123,6 +129,26 @@ export class BusinessDetailComponent implements OnInit {
     })
 
     this.getplacemapLoc();
+
+    this.informationForm = new FormGroup({
+      licenseNo: new FormControl(null, [Validators.required]),
+      licenseNoAr: new FormControl(null, [Validators.required]),
+      vatNo: new FormControl(null, [Validators.required]),
+      
+      issueDate: new FormControl(null, [Validators.required]),
+      issueMonth: new FormControl(null, [Validators.required]),
+      issueYear: new FormControl(null, [Validators.required]),
+      issueDateArabic: new FormControl(null, [Validators.required]),
+      issueMonthArabic: new FormControl(null, [Validators.required]),
+      issueYearArabic: new FormControl(null, [Validators.required]),
+      expireDate: new FormControl(null, [Validators.required]),
+      expireMonth: new FormControl(null, [Validators.required]),
+      expiryYear: new FormControl(null, [Validators.required]),
+      expireDateArabic: new FormControl(null, [Validators.required]),
+      expireMonthArabic: new FormControl(null, [Validators.required]),
+      expiryYearArabic: new FormControl(null, [Validators.required]),
+    });
+
   }
 
 getDates(){
@@ -178,6 +204,14 @@ getplacemapLoc(){
       }
     })
   }
+
+  tradeLiscenceNo($controlName, $value){
+    // this.informationForm.controls[$controlName].patchValue($value);
+  }
+  tradeLiscenceNoTr($controlName, $value){
+    // this.informationForm.controls[$controlName].patchValue($value);
+  }
+
 
   markerDragEnd($event){
     console.log($event);
@@ -307,7 +341,7 @@ getplacemapLoc(){
 
   getTenYears(){
     let date = new Date();
-    for (let i=0; i < 11; i++){
+    for (let i=0; i < 2; i++){
         let pastyear = date.getFullYear()-i;
         let futureyear= date.getFullYear()+i
         let persianDigits = "۰۱۲۳۴۵۶۷۸۹";

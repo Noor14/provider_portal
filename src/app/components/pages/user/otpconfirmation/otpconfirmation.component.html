@@ -5,12 +5,11 @@
         {{headingBaseLanguage}}
       </h3>
       <p class="profile-verify-paragraph text-center">
-       {{descBaseLanguage}}
-      </p>
+      <p class="profile-verify-paragraph text-center"> {{descBaseLanguageFirstLine}}<br />{{descBaseLanguageSecondLine}}</p>
       </div>
-    <div class="col-12 mt-4">
+    <div class="col-12 mt-4" *ngIf="showTranslatedLangSide">
       <h3 class="profile-verify-title text-center dir-otherLanguage">{{headingOtherLanguage}}</h3>
-      <p class="profile-verify-paragraph text-center">{{descOtherLanguage}}</p>
+      <p class="profile-verify-paragraph text-center dir-otherLanguage">{{descOtherLanguageFirstLine}}<br /> {{descOtherLanguageSecondLine}}</p>
       <hr class="hr-solid">
     </div>
   </div>
@@ -19,17 +18,19 @@
     <div class="col-6 otp-form">
       <div class="form-froup">
         <form autocomplete="off" novalidate [formGroup]="otpForm" (ngSubmit)="submitOtp(otpForm.value)">
-            <label for="otp">{{lblOTPPasswordBaselang}} / {{lblOTPPasswordOtherlang}}</label>
-            <input formControlName="otp" (keypress)="passSpaceHandler($event)" type="text" id="otp" class="form-control mb-3" [(ngModel)]="otpCode" placeholder="Enter OTP Code">
-            <button class="btn btn-primary hvr-sweep-to-right form-control" type="submit" [disabled]="otpForm.invalid">{{otpbtnBaselang}} / {{otpbtnOtherlang}}</button>
+            <label for="otp"><span>{{lblOTPPasswordBaselang}}</span><span *ngIf="showTranslatedLangSide"> / {{lblOTPPasswordOtherlang}}</span></label>
+            <input maxlength="6" formControlName="otp" (keypress)="passSpaceHandler($event)" type="text" id="otp" class="form-control mb-3" [(ngModel)]="otpCode" placeholder="Enter OTP Code">
+            <button class="btn btn-primary hvr-sweep-to-right form-control" type="submit" [disabled]="otpForm.invalid">
+              <span>{{otpbtnBaselang}}</span><span *ngIf="showTranslatedLangSide"> / {{otpbtnOtherlang}}</span>
+            </button>
         </form>
       </div>
       <p class="otp-form-msg text-center mt-2 ">
         <a href="javascript:;" (click)="resendOtp()" class="hvr-icon-forward" [ngClass]="timerClass()">
-          {{otpResendBaselang}} / {{otpResendOtherlang}}
+          <span>{{otpResendBaselang}}</span><span *ngIf="showTranslatedLangSide"> / {{otpResendOtherlang}}</span>
           <img src="../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16 align-text-top hvr-icon">
         </a>
-        <span *ngIf="remainingTime">{{remainingTime}}</span>
+        <b *ngIf="remainingTime">{{remainingTime}}</b>
       </p>
     </div>
   </div>

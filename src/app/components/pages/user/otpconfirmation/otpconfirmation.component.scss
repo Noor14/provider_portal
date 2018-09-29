@@ -5,12 +5,19 @@
         color: $text-color-default;
         font-weight: $font-weight-mid;
         font-family: $font-pragmatica;
+        &.dir-otherLanguage{
+            font-size: $font-size-large + 0.7;
+            font-family: $font-NeoSansArabic-Medium;
+        }
     }
     &-paragraph {
         font-size: $font-size-large;
         color: $secondary-text-color;
         font-family: $font-proxima;
         font-weight: $font-weight-normal;
+        &.dir-otherLanguage{
+            font-family: $font-NeoSansArabic-Regular;
+        }
     }
     .hr-solid {
         margin-top: 0.9375rem !important;
@@ -22,6 +29,9 @@
             font-family: $font-proxima;
             font-weight: $font-weight-normal;
             color: $text-color-default;
+            span:nth-child(2){
+                font-family: $font-NeoSansArabic-Regular
+            }
         }
         .form-control {
             height: 48px;
@@ -34,6 +44,9 @@
             text-transform: uppercase;
             line-height: 35px;
             height: 48px;
+            span:nth-child(2){
+                font-family: $font-NeoSansArabic-Regular;
+              }
         }
         &-msg {
             a{
@@ -45,11 +58,15 @@
                 &.resendLink{
                     cursor: pointer !important;
                 }
+                span:nth-child(2){
+                    font-family: $font-NeoSansArabic-Regular
+                }
             }
-            span{
+            b{
                 @extend a;
                 cursor: default !important;
             } 
+           
         }
     }
 }
