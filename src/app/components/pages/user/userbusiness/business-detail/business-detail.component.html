@@ -28,22 +28,24 @@
           <label for="Trade-License">Issue Date</label>
           <div class="row">
             <div class="col-3">
-              <select id="inputState" class="form-control" placeholder="DD">
-                <option selected>DD</option>
-                <option>MON</option>
+              <select id="inputState" class="form-control" placeholder="DD" name="issueDate"
+              [(ngModel)]="selectedIssueDate" (change) = "selectDate($event.target.value, 'issue')" >
+                <option value="undefined">DD</option>
+                <option *ngFor="let date of dates">{{date.dateNormal}}</option>
               </select>
             </div>
-            <div class="col-3">
-              <select id="inputState" class="form-control" placeholder="MM" name="issueMonth" [(ngModel)]="selectedIssueMonth"
-                (change)="selectIssueMonth($event.target.value)">
+            <div class="col-4">
+              <select id="inputState" class="form-control" placeholder="MM" name="issueMonth" 
+              [(ngModel)]="selectedIssueMonth" (change)="selectMonth($event.target.value, 'issue')" >
                 <option value="undefined">MM</option>
                 <option *ngFor="let month of months">{{month.name}}</option>
               </select>
             </div>
             <div class="col-4">
-              <select id="inputState" class="form-control">
-                <option selected>YYYY</option>
-                <option *ngFor="let year of pastYears">{{year}}</option>
+              <select id="inputState" class="form-control" name="issueYear" 
+              [(ngModel)]="selectedIssueYear" (change)="selectYear($event.target.value, 'issue')" >
+                <option value="undefined">YYYY</option>
+                <option *ngFor="let year of pastYears">{{year.yearNormal}}</option>
               </select>
             </div>
           </div>
@@ -55,22 +57,24 @@
           <label for="Trade-License">تاريخ الاصدار</label>
           <div class="row">
             <div class="col-3">
-              <select id="inputState" class="form-control" placeholder="DD">
-                <option selected>DD</option>
-                <option>MON</option>
+              <select id="inputState" class="form-control" placeholder="DD" name="issueDateArabic"
+              [(ngModel)]="selectedIssueDateAr" (change) = "selectDate($event.target.value, 'issue')" >
+                <option value="undefined">DD</option>
+                <option *ngFor="let date of dates">{{date.dateArabic}}</option>
               </select>
             </div>
-            <div class="col-3">
-              <select id="inputState" class="form-control" placeholder="MM" name="issueMonthArabic" [(ngModel)]="selectedIssueMonthAr"
-                (change)="selectIssueMonth($event.target.value)">
+            <div class="col-4">
+              <select id="inputState" class="form-control" placeholder="MM" name="issueMonthArabic" 
+              [(ngModel)]="selectedIssueMonthAr" (change)="selectMonth($event.target.value, 'issue')" >
                 <option value="undefined">MM</option>
                 <option *ngFor="let month of months">{{month.arabicName}}</option>
               </select>
             </div>
             <div class="col-4">
-              <select id="inputState" class="form-control">
-                <option selected>YYYY</option>
-                <option>1999</option>
+              <select id="inputState" class="form-control" name="issueYearArabic" 
+              [(ngModel)]="selectedIssueYearAr" (change)="selectYear($event.target.value, 'issue')" >
+                <option value="undefined">YYYY</option>
+                <option *ngFor="let year of pastYears">{{year.yearArabic}}</option>
               </select>
             </div>
           </div>
@@ -84,21 +88,24 @@
           <label for="Trade-License">Expiry Date</label>
           <div class="row">
             <div class="col-3">
-              <select id="inputState" class="form-control" placeholder="DD">
-                <option selected>DD</option>
-                <option>MON</option>
+              <select id="inputState" class="form-control" placeholder="DD" name="expireDate"
+              [(ngModel)]="selectedExpireDate" (change) = "selectDate($event.target.value, 'expire')" >
+                <option value="undefined">DD</option>
+                <option *ngFor="let date of dates">{{date.dateNormal}}</option>
               </select>
             </div>
             <div class="col-4">
-              <select id="inputState" class="form-control" placeholder="MM">
-                <option selected>MM</option>
+              <select id="inputState" class="form-control" placeholder="MM" name="expireMonth"
+              [(ngModel)]="selectedExpireMonth" (change)="selectMonth($event.target.value, 'expire')" >
+                <option value="undefined">MM</option>
                 <option *ngFor="let month of months">{{month.name}}</option>
               </select>
             </div>
-            <div class="col-5">
-              <select id="inputState" class="form-control">
-                <option selected>YYYY</option>
-                <option *ngFor="let year of futureYears">{{year}}</option>
+            <div class="col-4">
+              <select id="inputState" class="form-control" name="expiryYear" 
+              [(ngModel)]="selectedExpiryYear" (change)="selectYear($event.target.value, 'expire')" >
+                <option value="undefined">YYYY</option>
+                <option *ngFor="let year of futureYears">{{year.yearNormal}}</option>
               </select>
             </div>
           </div>
@@ -110,21 +117,24 @@
           <label for="Trade-License">تاريخ الانتهاء</label>
           <div class="row">
             <div class="col-3">
-              <select id="inputState" class="form-control" placeholder="DD">
-                <option selected>DD</option>
-                <option>MON</option>
+              <select id="inputState" class="form-control" placeholder="DD" name="expireDateArabic"
+              [(ngModel)]="selectedExpireDateAr" (change)= "selectDate($event.target.value, 'expire')" >
+                <option value="undefined">DD</option>
+                <option *ngFor="let date of dates">{{date.dateArabic}}</option>
               </select>
             </div>
             <div class="col-4">
-              <select id="inputState" class="form-control" placeholder="MM">
-                <option selected>MM</option>
+              <select id="inputState" class="form-control" placeholder="MM" name="expireMonthArabic"
+              [(ngModel)]="selectedExpireMonthAr" (change)= "selectMonth($event.target.value, 'expire')" >
+                <option value="undefined">MM</option>
                 <option *ngFor="let month of months">{{month.arabicName}}</option>
               </select>
             </div>
-            <div class="col-5">
-              <select id="inputState" class="form-control">
+            <div class="col-4">
+              <select id="inputState" class="form-control" name="expiryYearArabic" 
+              [(ngModel)]="selectedExpiryYearAr" (change)="selectYear($event.target.value, 'expire')" >
                 <option selected>YYYY</option>
-                <option>1999</option>
+                <option *ngFor="let year of futureYears">{{year.yearArabic}}</option>
               </select>
             </div>
           </div>
