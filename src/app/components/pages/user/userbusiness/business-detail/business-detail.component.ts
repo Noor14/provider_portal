@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, NgZone, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../../../services/shared.service';
 import { UserService } from '../../user.service';
@@ -15,13 +15,13 @@ export class BusinessDetailComponent implements OnInit {
 
 
   @ViewChild('search') public searchElement: ElementRef;
-
-  public zoomlevel: number = 5;
+  public requiredFields: string = "This field is required";
+  public requiredFieldsOthrLng: string = "هذه الخانة مطلوبه";
+  public zoomlevel: number = 6;
   public draggable: boolean = true;
-  public location = {
-    lat: 23.4241,
-    lng: 53.8478
-  }
+  public location: any = {lat:undefined, lng:undefined};
+  public countAccount = 1 
+  public socialAccounts: any[]=[this.countAccount] ;
   public firstName;
   public geoCoder;
   public socialLink: any;
@@ -39,7 +39,10 @@ export class BusinessDetailComponent implements OnInit {
   public selectedIssueDateAr;
   public selectedExpireDate;
   public selectedExpireDateAr;
+  public selectedOrgType;
+  public selectedOrgTypeAr;
   public serviceOffered: any;
+  public orgType;
   public IssueYear: any;
   public IssueMonth: any;
   public IssueDate: any;
@@ -99,10 +102,35 @@ export class BusinessDetailComponent implements OnInit {
       arabicName:'ديسمبر'
     }
   ]
-  
-  
+  public arabicNumbers :any = [
+    {baseNumber:'0',arabicNumber:'۰'},
+    {baseNumber:'1',arabicNumber:'۱'},
+    {baseNumber:'2',arabicNumber:'۲'},
+    {baseNumber:'3',arabicNumber:'۳'},
+    {baseNumber:'4',arabicNumber:'۴'},
+    {baseNumber:'5',arabicNumber:'۵'},
+    {baseNumber:'6',arabicNumber:'۶'},
+    {baseNumber:'7',arabicNumber:'۷'},
+    {baseNumber:'8',arabicNumber:'۸'},
+    {baseNumber:'9',arabicNumber:'۹'}
+  ]
+  public countryList:any;
+  public countryFlagImage:string;
+  public phoneCode:string;
+  public transPhoneCode:string;
+  public phoneCountryId:any;
 
   public informationForm;
+  public businessLocForm;
+  public organizationForm;
+  public contactInfoForm;
+
+
+  public activePhone:any;
+  public activeTransPhone:any;
+
+  public phoneError: boolean;
+  public translangPhoneError: boolean;
 
   constructor(
     private mapsAPILoader: MapsAPILoader,  
@@ -112,23 +140,26 @@ export class BusinessDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this._sharedService.formProgress.next(30);
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if(userInfo){
     this.firstName = userInfo.returnObject.firstName;
   }
     this.getsocialList();
     this.getOrganizationList();
-    this._sharedService.formProgress.next(30);
     this.getTenYears();
     this.getDates();
+    this.getplacemapLoc();
+    this.getMapLatlng('pakistan');
+
     this._userService.getServiceOffered().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.serviceOffered = JSON.parse(res.returnObject);
       }
     })
-
-    this.getplacemapLoc();
+    this._sharedService.countryList.subscribe((state: any) => {
+      this.countryList = state;
+    });
 
     this.informationForm = new FormGroup({
       licenseNo: new FormControl(null, [Validators.required]),
@@ -148,7 +179,20 @@ export class BusinessDetailComponent implements OnInit {
       expireMonthArabic: new FormControl(null, [Validators.required]),
       expiryYearArabic: new FormControl(null, [Validators.required]),
     });
+    this.businessLocForm = new FormGroup({
+      address: new FormControl(null, [Validators.required]),
+      transAddress: new FormControl(null, [Validators.required]),
+    });
 
+    this.organizationForm = new FormGroup({
+      organizationType: new FormControl(null, [Validators.required]),
+      organizationTypeAr: new FormControl(null, [Validators.required]),
+    });
+    this.contactInfoForm = new FormGroup({
+      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(9)]),
+      transLangPhone: new FormControl(null, [Validators.minLength(7), Validators.maxLength(9)]),
+     
+    });
   }
 
 getDates(){
@@ -163,6 +207,15 @@ getDates(){
   }
 }
 
+getMapLatlng(region) {
+  this._userService.getLatlng(region).subscribe((res: any) => {
+    if (res.status == "OK") {
+      this.location = res.results[0].geometry.location;
+        let selectedCountry = this.countryList.find(obj => obj.title.toLowerCase() == region.toLowerCase());
+        this.selectPhoneCode(selectedCountry);
+    }
+  })
+}
 
 getplacemapLoc(){
   this.mapsAPILoader.load().then(() => {
@@ -174,7 +227,9 @@ getplacemapLoc(){
       this.ngZone.run(() => {
         //get the place result
         let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-        console.log(place);
+        console.log(place)
+        this.businessLocForm.controls['address'].setValue(place.formatted_address);
+        this.businessLocForm.controls['transAddress'].setValue(place.formatted_address);
 
         //verify result
         if (place.geometry === undefined || place.geometry === null) {
@@ -190,6 +245,19 @@ getplacemapLoc(){
   });
 
 }
+
+errorValidate() {
+
+  if (this.contactInfoForm.controls.phone.status == "INVALID" && this.contactInfoForm.controls.phone.touched) {
+    this.phoneError = true;
+  }
+  if (this.contactInfoForm.controls.transLangPhone.status == "INVALID" && this.contactInfoForm.controls.transLangPhone.touched) {
+    this.translangPhoneError = true;
+  }
+
+
+}
+
   getOrganizationList(){
     this._userService.getOrganizationType().subscribe((res:any)=>{
       if(res.returnStatus=="Success"){
@@ -211,7 +279,6 @@ getplacemapLoc(){
   tradeLiscenceNoTr($controlName, $value){
     // this.informationForm.controls[$controlName].patchValue($value);
   }
-
 
   markerDragEnd($event){
     console.log($event);
@@ -263,8 +330,40 @@ getplacemapLoc(){
    }
    }
   }
+  onModelPhoneChange(fromActive, currentActive, $controlName, $value){
+    if(currentActive && !fromActive){
+       let number = $value.split('');
+    for (let i=0; i< number.length; i++){
+      this.arabicNumbers.forEach((obj, index)=>{
+        if(number[i] == obj.baseNumber){
+          number.splice(i,1, obj.arabicNumber)
+        }
+      })
+    }
+    this.contactInfoForm.controls[$controlName].patchValue(number.reverse().join(''));
+    }
+}
+onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
   
-  
+  if(currentActive && !fromActive){
+     let number = $value.split('');
+  for (let i=0; i< number.length; i++){
+    this.arabicNumbers.forEach((obj, index)=>{
+      if(number[i] == obj.baseNumber || number[i] == obj.arabicNumber){
+        number.splice(i,1, obj.baseNumber)
+      }
+    })
+    
+  }
+  this.contactInfoForm.controls[$controlName].patchValue(number.join(''));
+  }
+
+}
+  addmoreSocialLink(){
+    this.countAccount ++
+   this.socialAccounts.push(this.countAccount);
+  }
+
     selectDate(date, type){
     if(type == "issue"){
     if(date && date != 'undefined'){
@@ -294,8 +393,33 @@ getplacemapLoc(){
    }
   }
   
-  
-  
+  organizationType(type){
+    if(type && type != 'undefined'){
+      let selectedOrganization = this.organizationList.find(obj => (obj.BaseLang == type  || obj.OtherLang == type));
+      this.orgType = selectedOrganization;
+      this.selectedOrgType = selectedOrganization.BaseLang;
+      this.selectedOrgTypeAr = selectedOrganization.OtherLang;
+     }
+     else{
+      this.orgType = {};
+      this.selectedOrgType = type;
+      this.selectedOrgTypeAr = type;
+     }
+  }
+  NumberValid(evt) {
+    let charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+      return false;
+    return true;
+  }
+
+  selectPhoneCode(list) {
+    this.countryFlagImage = list.code;
+    let description = list.desc;
+    this.phoneCode = description[0].CountryPhoneCode;
+    this.transPhoneCode = description[0].CountryPhoneCode_OtherLang;
+    this.phoneCountryId = list.id
+  }
    selectYear(year, type){
     if(type == "issue"){
     if(year && year != 'undefined'){
@@ -358,6 +482,12 @@ getplacemapLoc(){
       this.pastYears.push({ yearNormal : pastyear, yearArabic : convertedPastYear });
       this.futureYears.push({ yearNormal: futureyear, yearArabic: convertedFutureYear });
     }
+  }
+
+
+
+  nextForm(){
+    this._sharedService.formChange.next(false);
   }
 
 

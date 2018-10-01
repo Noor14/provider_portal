@@ -1,4 +1,4 @@
-<section class="business-profile">
+<section class="business-profile pl-1 pr-1">
   <h2>{{firstName}}, Add Your Business Profile </h2>
   <p>It takes less than 60 seconds to add your business and get started </p>
 
@@ -183,27 +183,27 @@
 
   <div class="business-map">
     <div class="map-box">
-      <input type="text" class="form-control searchAddress" #search>
+      <input type="text" class="form-control searchAddress" #search placeholder="Search">
       <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
         <agm-marker [latitude]="location.lat" [longitude]="location.lng" [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
       </agm-map>
     </div>
   </div>
 
-  <form>
+  <form autocomplete="off" novalidate [formGroup]="businessLocForm">
     <div class="row ">
       <div class="col-lg-6 col-md-6 col-sm-12">
 
         <div class="form-group">
           <label for="address">Address</label>
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" formControlName="address">
         </div>
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group dir-otherLanguage">
 
           <label for="address">عنوان</label>
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" formControlName="transAddress">
         </div>
       </div>
     </div>
@@ -235,7 +235,7 @@
   <h5> Business Information</h5>
   <hr class="hr-solid">
 
-  <form>
+  <form autocomplete="off" novalidate [formGroup]="organizationForm">
     <div class="row">
       <div class="col-12">
         <div class="form-group">
@@ -266,8 +266,9 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label for="exampleFormControlSelect1">Organization Type </label>
-          <select class="form-control" id="exampleFormControlSelect1">
-            <option>please select</option>
+          <select class="form-control" id="exampleFormControlSelect1" name="organizationType"
+            [(ngModel)]="selectedOrgType" (change) = "organizationType($event.target.value)" formControlName="organizationType">
+            <option value="undefined">Please select</option>
             <option *ngFor="let type of organizationList">{{type.BaseLang}}</option>
           </select>
         </div>
@@ -275,8 +276,9 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group dir-otherLanguage">
           <label for="exampleFormControlSelect1">نوع المنظمة</label>
-          <select class="form-control" id="exampleFormControlSelect1">
-            <option>please select </option>
+          <select class="form-control" id="exampleFormControlSelect2" name="organizationTypeAr"
+            [(ngModel)]="selectedOrgTypeAr" (change) = "organizationType($event.target.value)" formControlName="organizationTypeAr">
+            <option value="undefined">Please select </option>
             <option *ngFor="let type of organizationList">{{type.OtherLang}}</option>
           </select>
         </div>
@@ -288,7 +290,7 @@
   <h5> Contact Details</h5>
   <hr class="hr-solid">
 
-  <form class="business-profile-contacts">
+  <form autocomplete="off" novalidate [formGroup]="contactInfoForm">
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
@@ -297,23 +299,32 @@
             <div class="input-group-prepend">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                  <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive">
-                  <!-- <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
-                            alt="flags" class="img-responsive"> -->
-                  <span>+92</span>
+                  <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
+                  class="img-responsive">
+                <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
+                  alt="flags" class="img-responsive">
+               <span>{{phoneCode}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                   <ul class="list-group">
-                    <li class="list-group-item">
-                      <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags">
-                      <span>+92</span>
+                    <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
+                      <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}">
+                      <span> {{list.desc[0].CountryPhoneCode}}</span>
                     </li>
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" maxlength="12" placeholder="12 345 6789" />
+              <input type="text" class="form-control" 
+               maxlength="9" placeholder="12 345 6789" formControlName="phone" [ngClass]="{'inputError': phoneError && contactInfoForm.controls['phone'].errors}" (focusout)="errorValidate()" (blur)="activePhone=false"
+               (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
+               (keypress)="NumberValid($event)"/>
             </div>
-
+            <span class="animated fadeIn" *ngIf="phoneError">
+                <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['phone'].hasError('required') && (contactInfoForm.controls.phone.dirty || contactInfoForm.controls.phone.touched)">{{requiredFields}}</p>
+                <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['phone'].hasError('pattern') && contactInfoForm.controls['phone'].hasError('minlength') && (contactInfoForm.controls.phone.dirty || contactInfoForm.controls.phone.touched)">Phone number should be minimum 7 digits</p>
+                <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['phone'].hasError('pattern') && contactInfoForm.controls['phone'].hasError('maxlength') && (contactInfoForm.controls.phone.dirty || contactInfoForm.controls.phone.touched)">Phone number should not exceed from 9 digits</p>
+                <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['phone'].hasError('pattern') && (contactInfoForm.controls.phone.dirty || contactInfoForm.controls.phone.touched)">Please enter valid information</p>
+              </span>
           </div>
         </div>
       </div>
@@ -324,23 +335,31 @@
             <div class="input-group-append">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                  <img src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive">
-                  <!-- <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
-                            alt="flags" class="img-responsive"> -->
-                  <span>+92</span>
+                  <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
+                          class="img-responsive">
+                        <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
+                          alt="flags" class="img-responsive">
+                   <span>{{transPhoneCode}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                   <ul class="list-group">
-                    <li class="list-group-item">
-                      <img src="../../../../../assets/images/flags/4x3/ae.svg" alt="flag">
-                      <span> +92</span>
-                    </li>
+                    <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
+                      <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}">
+                    <span> {{list.desc[0].CountryPhoneCode_OtherLang}}</span>
+                  </li>
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" maxlength="12" placeholder="۶۷۸۹ ۳۴۵ ۱۲">
+              <input type="text" class="form-control" formControlName="transLangPhone" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true"
+               [ngClass]="{'inputError': translangPhoneError && contactInfoForm.controls['transLangPhone'].errors}" 
+              (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="9" placeholder="۶۷۸۹ ۳۴۵ ۱۲" (keypress)="NumberValid($event)">
             </div>
-
+            <span class="animated fadeIn" *ngIf="translangPhoneError">
+                <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['transLangPhone'].hasError('required') && (contactInfoForm.controls.transLangPhone.dirty || contactInfoForm.controls.transLangPhone.touched)">{{requiredFieldsOthrLng}}</p>
+                <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['transLangPhone'].hasError('pattern') && contactInfoForm.controls['transLangPhone'].hasError('minlength') && (contactInfoForm.controls.transLangPhone.dirty || contactInfoForm.controls.transLangPhone.touched)">يجب أن يكون رقم الهاتف 7 أرقام كحد أدنى</p>
+                <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['transLangPhone'].hasError('pattern') && contactInfoForm.controls['transLangPhone'].hasError('maxlength') && (contactInfoForm.controls.transLangPhone.dirty || contactInfoForm.controls.transLangPhone.touched)">يجب ألا يتجاوز رقم الهاتف 9 أرقام</p>
+                <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['transLangPhone'].hasError('pattern') && (contactInfoForm.controls.transLangPhone.dirty || contactInfoForm.controls.transLangPhone.touched)">يرجى إدخال معلومات صحيحة</p>
+              </span>
           </div>
         </div>
       </div>
@@ -355,21 +374,22 @@
             <div class="input-group-prepend">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                  <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive">
-                  <!-- <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
-                                alt="flags" class="img-responsive"> -->
-                  <span>+92</span>
+                    <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
+                    class="img-responsive">
+                  <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
+                    alt="flags" class="img-responsive">
+                 <span>{{phoneCode}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                   <ul class="list-group">
-                    <li class="list-group-item">
-                      <img src="../../../assets/images/flags/4x3/ae.svg" alt="flags">
-                      <span>+92</span>
-                    </li>
+                      <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
+                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}">
+                          <span> {{list.desc[0].CountryPhoneCode}}</span>
+                      </li>
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" maxlength="12" placeholder="12 345 6789" />
+              <input type="text" class="form-control" maxlength="9" placeholder="12 345 6789" (keypress)="NumberValid($event)" />
             </div>
 
           </div>
@@ -382,21 +402,22 @@
             <div class="input-group-append">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                  <img src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" class="img-responsive">
-                  <!-- <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
-                                alt="flags" class="img-responsive"> -->
-                  <span>+92</span>
+                    <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
+                    class="img-responsive">
+                  <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
+                    alt="flags" class="img-responsive">
+                 <span>{{transPhoneCode}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                   <ul class="list-group">
-                    <li class="list-group-item">
-                      <img src="../../../../../assets/images/flags/4x3/ae.svg" alt="flag">
-                      <span> +92</span>
-                    </li>
+                      <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
+                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}">
+                        <span> {{list.desc[0].CountryPhoneCode_OtherLang}}</span>
+                      </li>
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" maxlength="12" placeholder="۶۷۸۹ ۳۴۵ ۱۲">
+              <input type="text" class="form-control" maxlength="9" placeholder="۶۷۸۹ ۳۴۵ ۱۲" (keypress)="NumberValid($event)">
             </div>
 
           </div>
@@ -408,7 +429,7 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label>Social Media Accounts</label>
-          <div class="select-number">
+          <div class="select-number mt-3"  *ngFor = "let i of socialAccounts">
             <div class="input-group-prepend">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
@@ -427,12 +448,13 @@
             </div>
 
           </div>
+       
         </div>
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label class="d-flex justify-content-end">حساب وسائل الاعلام الاجتماعية</label>
-          <div class="select-number">
+          <div class="select-number mt-3"  *ngFor = "let i of socialAccounts">
             <div class="input-group-prepend">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
@@ -454,13 +476,13 @@
     </div>
 
     <div class="add-more">
-        <a href="javascript:;" >
+        <a href="javascript:;" (click)="addmoreSocialLink()">
         <img src="../../../assets/images/icons/icon_add.svg" alt="icons" class="mr-2 icon-size-16"> 
          Add More Accounts / إضافة المزيد من الحساب</a> 
     </div>
 
     <div class="contact-btn mt-5">
-      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" [disabled]="informationForm.invalid">NEXT / التالى</button>
+      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()">NEXT / التالى</button>
     </div>
 
 

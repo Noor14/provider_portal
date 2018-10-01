@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { SharedService } from '../../../../../services/shared.service';
 
 @Component({
   selector: 'app-directorinfo',
@@ -9,13 +10,16 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class DirectorinfoComponent implements OnInit {
   
-  constructor() {
+  constructor(private _sharedService :SharedService) {
     
    }
 
   ngOnInit() {
   }
   
+ previousForm(){
+    this._sharedService.formChange.next(true);
+  }
 
 }
 
