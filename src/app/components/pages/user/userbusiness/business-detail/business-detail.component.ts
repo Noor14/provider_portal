@@ -1,10 +1,13 @@
 import { Component, OnInit, NgZone, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../../../services/shared.service';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { UserService } from '../../user.service';
 import { MapsAPILoader } from '@agm/core';
 import { } from '@types/googlemaps';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
+import { CommonService } from '../../../../../services/common.service';
 
 @Component({
   selector: 'app-business-detail',
@@ -13,8 +16,8 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 })
 export class BusinessDetailComponent implements OnInit {
 
-
   @ViewChild('search') public searchElement: ElementRef;
+  public debounceInput: Subject<string> = new Subject();
   public requiredFields: string = "This field is required";
   public requiredFieldsOthrLng: string = "هذه الخانة مطلوبه";
   public zoomlevel: number = 6;
@@ -119,6 +122,14 @@ export class BusinessDetailComponent implements OnInit {
   public phoneCode:string;
   public transPhoneCode:string;
   public phoneCountryId:any;
+  public licenseNoAr: any; 
+  public vatNoAr:any;
+  public poBoxAr:any;
+  public addressAr:any;
+  
+    // global Input
+  public Globalinputfrom: any;
+  public Globalinputto: any;
 
   public informationForm;
   public businessLocForm;
@@ -128,29 +139,50 @@ export class BusinessDetailComponent implements OnInit {
 
   public activePhone:any;
   public activeTransPhone:any;
+  public activeFax:any;
+  public activeTransFax:any;
+  public activeOrgName: any;
+  public activeTransOrgName: any;
 
+  public orgNameError:boolean;
+  public transorgNameError:boolean;
+  public addressArError:boolean;
+  public addressError:boolean;
+  public vatError:boolean;
+  public vatNoArError:boolean;
+  public poBoxError:boolean;
+  public poBoxArError:boolean;
+  public translicenseError:boolean
+  public licenseError:boolean
   public phoneError: boolean;
   public translangPhoneError: boolean;
+  public faxError: boolean;
+  public translangFaxError: boolean;
+
+  public userProfile;
 
   constructor(
     private mapsAPILoader: MapsAPILoader,  
     private ngZone: NgZone,  
     private _sharedService: SharedService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _toastr: ToastrService,
+    private _commonService: CommonService,
+    
   ) { }
 
   ngOnInit() {
     this._sharedService.formProgress.next(30);
+
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if(userInfo){
-    this.firstName = userInfo.returnObject.firstName;
+    if(userInfo && userInfo.returnObject){
+      this.userProfile = userInfo.returnObject.regular;
+      this.firstName = userInfo.returnObject.firstName;
   }
     this.getsocialList();
     this.getOrganizationList();
     this.getTenYears();
     this.getDates();
-    this.getplacemapLoc();
-    this.getMapLatlng('pakistan');
 
     this._userService.getServiceOffered().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
@@ -158,13 +190,21 @@ export class BusinessDetailComponent implements OnInit {
       }
     })
     this._sharedService.countryList.subscribe((state: any) => {
+      if(state){
       this.countryList = state;
+      let selectedCountry = this.countryList.find(obj => obj.id == this.userProfile.countryID);
+      this.selectPhoneCode(selectedCountry);
+      this.getplacemapLoc(selectedCountry.code.toLowerCase());
+      this.getMapLatlng(selectedCountry.title);
+    }
+      
     });
 
     this.informationForm = new FormGroup({
       licenseNo: new FormControl(null, [Validators.required]),
       licenseNoAr: new FormControl(null, [Validators.required]),
-      vatNo: new FormControl(null, [Validators.required]),
+      vatNo: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(5), Validators.maxLength(12)]),
+      vatNoAr: new FormControl(null, [Validators.minLength(7), Validators.maxLength(9)]),
       
       issueDate: new FormControl(null, [Validators.required]),
       issueMonth: new FormControl(null, [Validators.required]),
@@ -180,17 +220,23 @@ export class BusinessDetailComponent implements OnInit {
       expiryYearArabic: new FormControl(null, [Validators.required]),
     });
     this.businessLocForm = new FormGroup({
-      address: new FormControl(null, [Validators.required]),
-      transAddress: new FormControl(null, [Validators.required]),
+      address: new FormControl(null, [Validators.required, Validators.maxLength(200),Validators.minLength(20)]),
+      transAddress: new FormControl(null, [Validators.required, Validators.maxLength(200),Validators.minLength(20)]),
+      poBoxNo: new FormControl(null, [Validators.required, Validators.maxLength(16),Validators.minLength(4)]),
+      poBoxNoAr: new FormControl(null, [Validators.maxLength(16),Validators.minLength(4)]),
     });
 
     this.organizationForm = new FormGroup({
       organizationType: new FormControl(null, [Validators.required]),
       organizationTypeAr: new FormControl(null, [Validators.required]),
+      orgName: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
+      transLangOrgName: new FormControl(null, [Validators.maxLength(100)]),
     });
     this.contactInfoForm = new FormGroup({
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(9)]),
       transLangPhone: new FormControl(null, [Validators.minLength(7), Validators.maxLength(9)]),
+      fax: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(9)]),
+      transLangFax: new FormControl(null, [Validators.minLength(7), Validators.maxLength(9)]),
      
     });
   }
@@ -211,18 +257,16 @@ getMapLatlng(region) {
   this._userService.getLatlng(region).subscribe((res: any) => {
     if (res.status == "OK") {
       this.location = res.results[0].geometry.location;
-        let selectedCountry = this.countryList.find(obj => obj.title.toLowerCase() == region.toLowerCase());
-        this.selectPhoneCode(selectedCountry);
     }
   })
 }
 
-getplacemapLoc(){
+getplacemapLoc(countryBound){
   this.mapsAPILoader.load().then(() => {
     this.geoCoder = new google.maps.Geocoder;
     let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
     autocomplete.setComponentRestrictions(
-      {'country': ['pk']});
+      {'country': [countryBound]});
     autocomplete.addListener("place_changed", () => {
       this.ngZone.run(() => {
         //get the place result
@@ -245,8 +289,67 @@ getplacemapLoc(){
   });
 
 }
+textValidation(event) {
+  const pattern = /^[a-zA-Z0-9_]*$/;
+  let inputChar = String.fromCharCode(event.charCode);
+  if (!pattern.test(inputChar)) {
+    if (event.charCode == 0) {
+      return true;
+    }
+    if (event.target.value) {
+      var end = event.target.selectionEnd;
+      if (event.charCode == 32 && (event.target.value[end - 1] == " " || event.target.value[end] == " ")) {
+        event.preventDefault();
+        return false;
+      }
+      else if(event.charCode == 32 && !pattern.test(inputChar)){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    else {
+      return false;
+    }
+  }
+  else{
+    return true;
+  }
+}
 
 errorValidate() {
+  if (this.organizationForm.controls.orgName.status == "INVALID" && this.organizationForm.controls.orgName.touched) {
+    this.orgNameError = true;
+  }
+  if (this.organizationForm.controls.transLangOrgName.status == "INVALID" && this.organizationForm.controls.transLangOrgName.touched) {
+    this.transorgNameError = true;
+  }
+  if (this.businessLocForm.controls.address.status == "INVALID" && this.businessLocForm.controls.address.touched) {
+    this.addressError = true;
+  }
+  if (this.businessLocForm.controls.transAddress.status == "INVALID" && this.businessLocForm.controls.transAddress.touched) {
+    this.addressArError = true;
+  }
+  if (this.businessLocForm.controls.poBoxNo.status == "INVALID" && this.businessLocForm.controls.poBoxNo.touched) {
+    this.poBoxError = true;
+  }
+  if (this.businessLocForm.controls.poBoxNoAr.status == "INVALID" && this.businessLocForm.controls.poBoxNoAr.touched) {
+    this.poBoxArError = true;
+  }
+
+  if (this.informationForm.controls.licenseNo.status == "INVALID" && this.informationForm.controls.licenseNo.touched) {
+    this.licenseError = true;
+  }
+  if (this.informationForm.controls.licenseNoAr.status == "INVALID" && this.informationForm.controls.licenseNoAr.touched) {
+    this.translicenseError = true;
+  }
+  if (this.informationForm.controls.vatNo.status == "INVALID" && this.informationForm.controls.vatNo.touched) {
+    this.vatError = true;
+  }
+  if (this.informationForm.controls.vatNoAr.status == "INVALID" && this.informationForm.controls.vatNoAr.touched) {
+    this.vatNoArError = true;
+  }
 
   if (this.contactInfoForm.controls.phone.status == "INVALID" && this.contactInfoForm.controls.phone.touched) {
     this.phoneError = true;
@@ -255,7 +358,21 @@ errorValidate() {
     this.translangPhoneError = true;
   }
 
+  if (this.contactInfoForm.controls.fax.status == "INVALID" && this.contactInfoForm.controls.fax.touched) {
+    this.faxError = true;
+  }
+  if (this.contactInfoForm.controls.transLangFax.status == "INVALID" && this.contactInfoForm.controls.transLangFax.touched) {
+    this.translangFaxError = true;
+  }
 
+
+}
+
+spaceHandler(event) {
+  if (event.charCode == 32) {
+    event.preventDefault();
+    return false;
+  }
 }
 
   getOrganizationList(){
@@ -273,13 +390,6 @@ errorValidate() {
     })
   }
 
-  tradeLiscenceNo($controlName, $value){
-    // this.informationForm.controls[$controlName].patchValue($value);
-  }
-  tradeLiscenceNoTr($controlName, $value){
-    // this.informationForm.controls[$controlName].patchValue($value);
-  }
-
   markerDragEnd($event){
     console.log($event);
     this.geoCoder.geocode({'location': {lat: $event.coords.lat, lng: $event.coords.lng}}, (results, status) => {
@@ -289,14 +399,16 @@ errorValidate() {
         if (results[0]) {
           console.log('aaaa');
           console.log(results[0].formatted_address);
-          // this.searchElementRef.nativeElement.value = results[0].formatted_address);
+          this.businessLocForm.controls['address'].setValue(results[0].formatted_address);
+          this.businessLocForm.controls['transAddress'].setValue(results[0].formatted_address);
+          this.searchElement.nativeElement.value = results[0].formatted_address;
           // console.log(this.searchElementRef.nativeElement.value);
           // infowindow.setContent(results[0].formatted_address);
         } else {
-          window.alert('No results found');
+          this._toastr.error('No results found', '');
         }
       } else {
-        window.alert('Geocoder failed due to: ' + status);
+        this._toastr.error('Geocoder failed due to: ' + status, '');
       }
 
     });
@@ -330,6 +442,37 @@ errorValidate() {
    }
    }
   }
+  onModelFaxChange(fromActive, currentActive, $controlName, $value){
+    if(currentActive && !fromActive){
+       let number = $value.split('');
+    for (let i=0; i< number.length; i++){
+      this.arabicNumbers.forEach((obj, index)=>{
+        if(number[i] == obj.baseNumber){
+          number.splice(i,1, obj.arabicNumber)
+        }
+      })
+    }
+    this.contactInfoForm.controls[$controlName].patchValue(number.reverse().join(''));
+    }
+  }
+
+  onModelTransFaxChange(fromActive, currentActive, $controlName, $value){
+  
+    if(currentActive && !fromActive){
+       let number = $value.split('');
+    for (let i=0; i< number.length; i++){
+      this.arabicNumbers.forEach((obj, index)=>{
+        if(number[i] == obj.baseNumber || number[i] == obj.arabicNumber){
+          number.splice(i,1, obj.baseNumber)
+        }
+      })
+      
+    }
+    this.contactInfoForm.controls[$controlName].patchValue(number.join(''));
+    }
+  
+  }
+
   onModelPhoneChange(fromActive, currentActive, $controlName, $value){
     if(currentActive && !fromActive){
        let number = $value.split('');
@@ -343,6 +486,7 @@ errorValidate() {
     this.contactInfoForm.controls[$controlName].patchValue(number.reverse().join(''));
     }
 }
+
 onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
   
   if(currentActive && !fromActive){
@@ -359,6 +503,74 @@ onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
   }
 
 }
+
+onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
+  setTimeout(() => {
+    if(currentActive && !fromActive && $value){
+      this.Globalinputfrom = false;
+    }
+    if(fromActive == false && currentActive && this.organizationForm.controls[$controlName].errors || this.Globalinputto){
+      this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
+        this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+        this.Globalinputto = true;
+      })
+    }
+   else if ($value && currentActive && source && target && fromActive==undefined) {
+      this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
+        this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+      })
+    }
+    // else if(currentActive && !$value){
+    //   this.fromActive(fromActive);
+    // }
+  }, 100)
+}
+
+onTransModel(fromActive, currentActive, $controlName, $value) {
+  if(currentActive && !fromActive && $value){
+    this.Globalinputto = false;
+  }
+  if(currentActive && fromActive == false && this.organizationForm.controls[$controlName].errors || this.Globalinputfrom){
+    this.debounceInput.next($value);
+    this.debounceInput.pipe(debounceTime(400),distinctUntilChanged()).subscribe(value => {
+    this._commonService.detectedLanguage(value).subscribe((res: any) => {
+      let sourceLang = res.data.detections[0][0].language;
+      let target = "en";
+      if (sourceLang && target && value) {
+        this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+          this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+            this.Globalinputfrom = true;
+        })
+      }
+    })
+});
+  }
+    else if (currentActive && $value && fromActive==undefined) {
+      this.debounceInput.next($value);
+      this.debounceInput.pipe(debounceTime(400),distinctUntilChanged()).subscribe(value => {
+      this._commonService.detectedLanguage(value).subscribe((res: any) => {
+        let sourceLang = res.data.detections[0][0].language;
+        let target = "en";
+        // if (sourceLang && target && value) {
+        //   this.onModelChange(fromActive, currentActive, $controlName, sourceLang, target, value);
+        // }
+        if (sourceLang && target && value) {
+          this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+            this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+          })
+        }
+      })
+  });
+}
+// else if(currentActive && !$value){
+//   this.fromActive(fromActive);    
+// }
+}
+
+
+
+
+
   addmoreSocialLink(){
     this.countAccount ++
    this.socialAccounts.push(this.countAccount);
@@ -488,6 +700,15 @@ onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
 
   nextForm(){
     this._sharedService.formChange.next(false);
+  }
+
+
+  onDropSuccess($fileEvent) {
+    console.log($fileEvent);
+  }
+
+  onDropFailed($fileEvent) {
+    console.log($fileEvent);
   }
 
 

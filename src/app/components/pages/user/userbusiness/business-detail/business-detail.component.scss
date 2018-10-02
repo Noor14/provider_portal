@@ -118,6 +118,7 @@
         }
       }
     }
+
     form{
         .dir-otherLanguage{
             .row{
@@ -125,7 +126,15 @@
             }
          }
 
+     
         .form-group {
+            p.inputError {
+                position: absolute; 
+                line-height: 1;
+                margin-top: 6px;
+                color: $danger-color;
+                font-size: $font-size-medium - 0.025;
+              }
         input {
             border: 0;
             height: 2.9rem;
@@ -139,6 +148,9 @@
             &::-ms-input-placeholder {
                 color: #afafaf;
             }
+            &.inputError{
+                border:1px solid $danger-color
+            }
         }
      .form-control {
             border: 0;
@@ -150,7 +162,7 @@
             margin-top: 1rem;
             margin-bottom: 0.5rem;
         }
-    }
+      }
         .upload-image {
             img {
                 margin: auto;
@@ -200,11 +212,12 @@
         }
     }
      
-        .contact-btn {
-            .btn {
-                font-weight: 600;
-                padding: 0.75rem 3.75rem;
-            }
+    
+    }
+    .contact-btn {
+        .btn {
+            font-weight: 600;
+            padding: 0.75rem 3.75rem;
         }
     }
 }
