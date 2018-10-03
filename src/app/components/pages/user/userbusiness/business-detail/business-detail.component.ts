@@ -8,6 +8,7 @@ import { MapsAPILoader } from '@agm/core';
 import { } from '@types/googlemaps';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../../../../services/common.service';
+import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../directives/ng-files';
 
 @Component({
   selector: 'app-business-detail',
@@ -20,6 +21,21 @@ export class BusinessDetailComponent implements OnInit {
   public debounceInput: Subject<string> = new Subject();
   public requiredFields: string = "This field is required";
   public requiredFieldsOthrLng: string = "هذه الخانة مطلوبه";
+  public selectedFiles;
+  private sharedConfig: NgFilesConfig = {
+    acceptExtensions: ['jpg'],
+    maxFilesCount: 5
+  };
+
+  private namedConfig: NgFilesConfig = {
+    acceptExtensions: ['js', 'doc', 'mp4'],
+    maxFilesCount: 5,
+    maxFileSize: 512000,
+    totalFilesSize: 1012000
+  };
+
+
+
   public zoomlevel: number = 6;
   public draggable: boolean = true;
   public location: any = {lat:undefined, lng:undefined};
@@ -168,10 +184,13 @@ export class BusinessDetailComponent implements OnInit {
     private _userService: UserService,
     private _toastr: ToastrService,
     private _commonService: CommonService,
+    private ngFilesService: NgFilesService
     
   ) { }
 
   ngOnInit() {
+    this.ngFilesService.addConfig(this.sharedConfig);
+    this.ngFilesService.addConfig(this.namedConfig, 'another-config');
     this._sharedService.formProgress.next(30);
 
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -702,14 +721,13 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
     this._sharedService.formChange.next(false);
   }
 
-
-  onDropSuccess($fileEvent) {
-    console.log($fileEvent);
+  public filesSelect(selectedFiles: NgFilesSelected): void {
+    console.log(selectedFiles)
+    if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
+      this.selectedFiles = selectedFiles.status;
+      return;
+    }
+    this.selectedFiles = Array.from(selectedFiles.files).map(file => file.name);
   }
-
-  onDropFailed($fileEvent) {
-    console.log($fileEvent);
-  }
-
 
 }

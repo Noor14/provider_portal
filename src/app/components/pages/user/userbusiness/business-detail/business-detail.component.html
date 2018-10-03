@@ -187,9 +187,18 @@
       </div>
     </div>
     <div class="trade-license-box">
+
+        <ng-files-click (filesSelect)="filesSelect($event)">
+            <span>Upload</span>
+          </ng-files-click>
+          <ng-files-drop (filesSelect)="filesSelect($event)" [configId]="'another-config'">
+            <div style="display: inline-block; height: 100px; width: 100px; background-color: gray">
+              {{selectedFiles}}
+            </div>
+          </ng-files-drop>
       <!-- <label for="trade-license" class="m-0"> Trade License </label>
-      <br> -->
-      <!-- <small>Document must be valid for XX months </small>
+      <br>
+      <small>Document must be valid for XX months </small>
       <div class="documentInfo">
         <img src="../../../assets/images/icons/manager-icon.png">
         <p> Drag here or browse to upload</p>

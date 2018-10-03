@@ -156,6 +156,10 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
         this._router.navigate(['/password', otpKey.Key])
         
       }
+      else if(res.returnStatus == "Error"){
+        console.log(res);
+        this._toast.error(res.returnText,'');
+      }
     })
   }
 

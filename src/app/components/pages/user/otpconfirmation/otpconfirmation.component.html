@@ -12,7 +12,7 @@
   </div>
 
   <div class="row justify-content-center">
-    <div class="col-6 otp-form">
+    <div class="col-lg-6 col-md-6 col-sm-8 otp-form">
       <div class="form-froup">
         <form autocomplete="off" novalidate [formGroup]="otpForm" (ngSubmit)="submitOtp(otpForm.value)">
             <label for="otp"><span>{{lblOTPPasswordBaselang}}</span><span *ngIf="showTranslatedLangSide"> / {{lblOTPPasswordOtherlang}}</span></label>
