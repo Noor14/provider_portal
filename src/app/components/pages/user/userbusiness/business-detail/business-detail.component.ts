@@ -201,10 +201,10 @@ export class BusinessDetailComponent implements OnInit {
     });
 
     this.informationForm = new FormGroup({
-      licenseNo: new FormControl(null, [Validators.required]),
-      licenseNoAr: new FormControl(null, [Validators.required]),
+      licenseNo: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(10)]),
+      licenseNoAr: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(10)]),
       vatNo: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(5), Validators.maxLength(12)]),
-      vatNoAr: new FormControl(null, [Validators.minLength(7), Validators.maxLength(9)]),
+      vatNoAr: new FormControl(null, [Validators.minLength(5), Validators.maxLength(12)]),
       
       issueDate: new FormControl(null, [Validators.required]),
       issueMonth: new FormControl(null, [Validators.required]),
@@ -220,17 +220,17 @@ export class BusinessDetailComponent implements OnInit {
       expiryYearArabic: new FormControl(null, [Validators.required]),
     });
     this.businessLocForm = new FormGroup({
-      address: new FormControl(null, [Validators.required, Validators.maxLength(200),Validators.minLength(20)]),
-      transAddress: new FormControl(null, [Validators.required, Validators.maxLength(200),Validators.minLength(20)]),
-      poBoxNo: new FormControl(null, [Validators.required, Validators.maxLength(16),Validators.minLength(4)]),
-      poBoxNoAr: new FormControl(null, [Validators.maxLength(16),Validators.minLength(4)]),
+      address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(20)]),
+      transAddress: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(20)]),
+      poBoxNo: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
+      poBoxNoAr: new FormControl(null, [Validators.maxLength(16), Validators.minLength(4)]),
     });
 
     this.organizationForm = new FormGroup({
       organizationType: new FormControl(null, [Validators.required]),
       organizationTypeAr: new FormControl(null, [Validators.required]),
-      orgName: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
-      transLangOrgName: new FormControl(null, [Validators.maxLength(100)]),
+      orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4)]),
+      transLangOrgName: new FormControl(null, [Validators.maxLength(100), Validators.minLength(4)]),
     });
     this.contactInfoForm = new FormGroup({
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(9)]),
