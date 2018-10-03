@@ -192,7 +192,7 @@
                       <span>{{transPhoneCode}}</span>
                     </div>
                     <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
-                      <ul class="list-group">
+                      <ul class="list-group text-justify">
                         <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
                             <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}">
                           <span> {{list.desc[0].CountryPhoneCode_OtherLang}}</span>
