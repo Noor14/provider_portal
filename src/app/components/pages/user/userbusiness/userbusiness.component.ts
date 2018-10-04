@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { SharedService } from '../../../../services/shared.service';
-
 
 @Component({
   selector: 'app-userbusiness',
@@ -9,15 +8,15 @@ import { SharedService } from '../../../../services/shared.service';
 })
 export class UserbusinessComponent implements OnInit {
 
-  constructor(private _sharedService: SharedService) { }
+
   isLeftVisible = true;
+  constructor(private _sharedService: SharedService) { }
 
   ngOnInit() {
-      this._sharedService.formChanger.subscribe((state: boolean) => {
-        console.log(this.isLeftVisible, state)
+    this._sharedService.formChange.subscribe((state:any)=>{
       this.isLeftVisible = state;
-    });
-
+    })
+   
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { SharedService } from '../../../../../services/shared.service';
 
 @Component({
@@ -10,15 +10,16 @@ import { SharedService } from '../../../../../services/shared.service';
 })
 export class DirectorinfoComponent implements OnInit {
   
-  constructor(private _sharedService: SharedService) {
+  constructor(private _sharedService :SharedService) {
     
    }
 
   ngOnInit() {
   }
   
-previousForm(){
-  this._sharedService.formChanger.next(true);
-}
+ previousForm(){
+    this._sharedService.formChange.next(true);
+  }
+
 }
 

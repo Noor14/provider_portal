@@ -12,11 +12,16 @@ export class AppComponent implements OnInit {
   constructor(private _commonService : CommonService, private _sharedService: SharedService){}
   ngOnInit() {
 
-    // this._commonService.getCountry().subscribe((res:any) => {
-    //      if(res && res.length){
-    //      this._sharedService.setCountries(res);
-    //     }
-    //   });
+    this._commonService.getCountry().subscribe((res:any) => {
+         if(res && res.length){
+           res.map((obj) => {
+            if (typeof (obj.desc) == "string") {
+              obj.desc = JSON.parse(obj.desc);
+            }
+          })
+         this._sharedService.countryList.next(res);
+        }
+      });
 
     this._commonService.getBrowserlocation().subscribe((state:any)=>{
       if(state.status == "success"){

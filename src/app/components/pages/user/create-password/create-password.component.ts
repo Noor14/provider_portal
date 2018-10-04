@@ -24,10 +24,8 @@ export class CreatePasswordComponent implements OnInit {
   public showTranslatedLangSide: boolean;
   public headingBaseLanguage: string;
   public headingOtherLanguage: string;
-  public descBaseLanguageFirstLine: string;
-  public descBaseLanguageSecondLine: string;
-  public descOtherLanguageFirstLine: string;
-  public descOtherLanguageSecondLine: string;
+  public descBaseLanguage: string;
+  public descOtherLanguage: string;
   public lblPasswordOtherlang: string;
   public lblPasswordBaselang: string;
   public btnBaselang: string;
@@ -86,13 +84,8 @@ export class CreatePasswordComponent implements OnInit {
         console.log(res.returnObject);
        this.headingBaseLanguage = res.returnObject[0].baseLang.replace('{firstName}', obj.firstName);
        this.headingOtherLanguage = res.returnObject[0].otherLang.replace('{firstName}', obj.firstNameOL);
-       let descLanguage = res.returnObject[1].baseLang.split('<br />');
-       this.descBaseLanguageFirstLine = descLanguage[0];
-       this.descBaseLanguageSecondLine = descLanguage[1];
-
-      let descOtherLanguage = res.returnObject[1].otherLang.split('<br />');
-      this.descOtherLanguageFirstLine = descOtherLanguage[0];
-      this.descOtherLanguageSecondLine = descOtherLanguage[1];
+       this.descBaseLanguage = res.returnObject[1].baseLang;
+       this.descOtherLanguage = res.returnObject[1].otherLang;
        this.lblPasswordBaselang = res.returnObject[2].baseLang;
        this.lblPasswordOtherlang = res.returnObject[2].otherLang;
        this.btnBaselang = res.returnObject[3].baseLang;

@@ -22,10 +22,8 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
 
   public headingBaseLanguage: string;
   public headingOtherLanguage: string;
-  public descBaseLanguageFirstLine: string;
-  public descBaseLanguageSecondLine: string;
-  public descOtherLanguageFirstLine: string;
-  public descOtherLanguageSecondLine: string;
+  public descBaseLanguage: string;
+  public descOtherLanguage: string;
   public lblOTPPasswordOtherlang: string;
   public lblOTPPasswordBaselang: string;
   public otpbtnBaselang: string;
@@ -64,12 +62,8 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
       if(res.returnStatus =='Success'){
        this.headingBaseLanguage = res.returnObject[0].baseLang.replace('{firstName}', obj.FirstName);
        this.headingOtherLanguage = res.returnObject[0].otherLang.replace('{firstName}', obj.FirstNameOL);
-       let descLanguage = res.returnObject[1].baseLang.replace('{emailAddress}', obj.PrimaryEmail).split('<br />');
-       this.descBaseLanguageFirstLine = descLanguage[0];
-       this.descBaseLanguageSecondLine = descLanguage[1];
-       let descLanguageOther = res.returnObject[1].otherLang.replace('{emailAddress}', obj.PrimaryEmail).split('<br />');
-       this.descOtherLanguageFirstLine = descLanguageOther[0];
-       this.descOtherLanguageSecondLine = descLanguageOther[1];
+       this.descBaseLanguage = res.returnObject[1].baseLang.replace('{emailAddress}', obj.PrimaryEmail);
+       this.descOtherLanguage = res.returnObject[1].otherLang.replace('{emailAddress}', obj.PrimaryEmail);
        this.lblOTPPasswordBaselang = res.returnObject[2].baseLang;
        this.lblOTPPasswordOtherlang = res.returnObject[2].otherLang;
        this.otpbtnBaselang = res.returnObject[3].baseLang;
@@ -161,6 +155,10 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
         if(otpKey)
         this._router.navigate(['/password', otpKey.Key])
         
+      }
+      else if(res.returnStatus == "Error"){
+        console.log(res);
+        this._toast.error(res.returnText,'');
       }
     })
   }

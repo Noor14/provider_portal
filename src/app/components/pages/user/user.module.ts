@@ -17,13 +17,14 @@ import { UserService } from './user.service';
 import { DirectorinfoComponent } from './userbusiness/directorinfo/directorinfo.component';
 import { UserbusinessComponent } from './userbusiness/userbusiness.component';
 import { ProfilecompletionComponent } from './profilecompletion/profilecompletion.component';
-import { SlidePanelComponent } from '../../../shared/slide-panel/slide-panel.component';
-
+import { SlidePanelComponent } from '../../../directives/slide-panel/slide-panel.component';
+import { NgFilesModule } from '../../../directives/ng-files/';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
+    NgFilesModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg&libraries=geometry',
       libraries: ["places"]
@@ -35,6 +36,7 @@ import { SlidePanelComponent } from '../../../shared/slide-panel/slide-panel.com
     UserRoutingModule
   ],
   declarations: [
+    SlidePanelComponent,
     RegistrationComponent,
     LeftsidebarComponent,
     OtpconfirmationComponent,
