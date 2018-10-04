@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, NgZone, ElementRef, ViewChild, EventEmitter, Output  } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../../../services/shared.service';
 import { UserService } from '../../user.service';
@@ -324,6 +324,13 @@ getplacemapLoc(){
    }
    }
   }
+
+
+  nextForm(){
+    this._sharedService.formChanger.next(false);
+  }
+
+
 
 
   serviceSelection(obj, selectedService) {

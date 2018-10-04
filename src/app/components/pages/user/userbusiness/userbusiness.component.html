@@ -1,3 +1,4 @@
-
-<app-business-detail></app-business-detail>
-<!-- <app-directorinfo></app-directorinfo> -->
+<my-slide-panel [activePane]="isLeftVisible ? 'left' : 'right'">
+    <app-business-detail leftPane></app-business-detail>
+    <app-directorinfo rightPane></app-directorinfo>
+</my-slide-panel>

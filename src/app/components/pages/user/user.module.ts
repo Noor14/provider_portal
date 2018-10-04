@@ -17,6 +17,8 @@ import { UserService } from './user.service';
 import { DirectorinfoComponent } from './userbusiness/directorinfo/directorinfo.component';
 import { UserbusinessComponent } from './userbusiness/userbusiness.component';
 import { ProfilecompletionComponent } from './profilecompletion/profilecompletion.component';
+import { SlidePanelComponent } from '../../../shared/slide-panel/slide-panel.component';
+
 
 @NgModule({
   imports: [
@@ -41,7 +43,8 @@ import { ProfilecompletionComponent } from './profilecompletion/profilecompletio
     UserComponent,
     DirectorinfoComponent,
     UserbusinessComponent,
-    ProfilecompletionComponent
+    ProfilecompletionComponent,
+    SlidePanelComponent
   ],
   providers: [UserService],
 })

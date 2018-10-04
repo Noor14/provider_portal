@@ -460,10 +460,9 @@
     </div>
 
     <div class="contact-btn mt-5">
-      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" [disabled]="informationForm.invalid">NEXT / التالى</button>
+      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" 
+       (click)="nextForm()">NEXT / التالى</button>
     </div>
-
-
   </form>
 
 </section>
