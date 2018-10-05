@@ -20,7 +20,6 @@ import { NgFilesSelected } from '../../declarations/ng-files-selected';
 @Component({
   selector: 'app-ng-files-drag-n-upload',
   templateUrl: './ng-files-drag-n-upload.component.html',
-  styles: ['.ng-files-drag-n-upload { display: none; }'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgFilesDragNUploadComponent implements OnInit, DoCheck {
@@ -60,9 +59,6 @@ export class NgFilesDragNUploadComponent implements OnInit, DoCheck {
     private ngFilesUtilsService: NgFilesUtilsService
   ) { }
 
-  ngDoCheck() {
-    this.changeDetector.detectChanges();
-  }
 
   ngOnInit() {
     const config = this.ngFilesService.getConfig(this.configId);
@@ -79,6 +75,9 @@ export class NgFilesDragNUploadComponent implements OnInit, DoCheck {
     this.filesSelect.emit(
       this.ngFilesUtilsService.verifyFiles(files, this.configId)
     );
+  }
+  ngDoCheck() {
+    this.changeDetector.detectChanges();
   }
 
   private dropFilesHandler(files: FileList) {

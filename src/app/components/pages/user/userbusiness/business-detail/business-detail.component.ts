@@ -21,18 +21,20 @@ export class BusinessDetailComponent implements OnInit {
   public debounceInput: Subject<string> = new Subject();
   public requiredFields: string = "This field is required";
   public requiredFieldsOthrLng: string = "هذه الخانة مطلوبه";
-  public selectedFiles;
+  public selectedLicense;
+  public selectedLogo;
+
   private sharedConfig: NgFilesConfig = {
-    acceptExtensions: ['jpg'],
-    maxFilesCount: 5
+    acceptExtensions: ['jpg', 'png', , 'pdf', 'bmp'],
+    maxFilesCount: 1,
+    maxFileSize: 4096000,
+    totalFilesSize: 4096000
   };
 
-  private namedConfig: NgFilesConfig = {
-    acceptExtensions: ['js', 'doc', 'mp4'],
-    maxFilesCount: 5,
-    maxFileSize: 512000,
-    totalFilesSize: 1012000
-  };
+  // private namedConfig: NgFilesConfig = {
+  //   acceptExtensions: ['js', 'doc', 'mp4'],
+  //   maxFilesCount: 5,
+  // };
 
 
 
@@ -189,8 +191,8 @@ export class BusinessDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.ngFilesService.addConfig(this.sharedConfig);
-    this.ngFilesService.addConfig(this.namedConfig, 'another-config');
+    this.ngFilesService.addConfig(this.sharedConfig, 'config');
+    // this.ngFilesService.addConfig(this.namedConfig);
     this._sharedService.formProgress.next(30);
 
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -721,13 +723,31 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
     this._sharedService.formChange.next(false);
   }
 
-  public filesSelect(selectedFiles: NgFilesSelected): void {
-    console.log(selectedFiles)
+ SelectDocx(selectedFiles: NgFilesSelected, type): void {
+   if(type =='license'){
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      this.selectedFiles = selectedFiles.status;
+      if (selectedFiles.files.length > 1) this._toastr.error('Please select a one file', '')
+      // this.selectedFiles = selectedFiles.status;
       return;
     }
-    this.selectedFiles = Array.from(selectedFiles.files).map(file => file.name);
+    this.selectedLicense = Array.from(selectedFiles.files).map(file => file.name);
+  }
+  else if(type =='logo'){
+    if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
+      if (selectedFiles.files.length > 1) this._toastr.error('Please select a one file', '')
+      // this.selectedFiles = selectedFiles.status;
+      return;
+    }
+    this.selectedLogo = Array.from(selectedFiles.files).map(file => file.name);
+  }
   }
 
+  // Selectlogo(selectedFiles: NgFilesSelected): void {
+  //   if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
+  //     if (selectedFiles.files.length > 1) this._toastr.error('Please select a one file', '')
+  //     // this.selectedFiles = selectedFiles.status;
+  //     return;
+  //   }
+  //   this.selectedFiles = Array.from(selectedFiles.files).map(file => file.name);
+  // }
 }

@@ -31,7 +31,7 @@
     "hover.css": "^2.3.2",
     "jquery": "^3.3.1",
     "ng-circle-progress": "^1.0.0",
-    "ngx-perfect-scrollbar": "^5.3.5",
+    "ngx-scrollbar": "^1.5.7",
     "ngx-toastr": "^8.4.0",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"

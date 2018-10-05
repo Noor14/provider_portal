@@ -19,7 +19,6 @@ import { NgFilesSelected } from '../../declarations/ng-files-selected';
 @Component({
     selector: 'ng-files-click', // tslint:disable-line
     templateUrl: './ng-files-click.component.html',
-    styles: ['.ng-files-upload-btn { display: none; }'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgFilesClickComponent implements OnInit, DoCheck {

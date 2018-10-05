@@ -3,18 +3,13 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonService } from './services/common.service';
 import { SharedService } from './services/shared.service';
 import { ToastrModule } from 'ngx-toastr';
-
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true
-};
-
+import { ScrollbarModule } from 'ngx-scrollbar';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +17,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    PerfectScrollbarModule,
+    ScrollbarModule,
     HttpClientModule,
     AppRoutingModule,
     NgbModule.forRoot(),
