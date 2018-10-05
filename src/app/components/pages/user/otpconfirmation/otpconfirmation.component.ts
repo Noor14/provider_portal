@@ -82,9 +82,9 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
        if (minutes == 0 && seconds == 0) {
          clearInterval(countTime);
        }
-       else if (seconds == 60 || seconds == 0) {
+       else if (seconds < 0) {
          minutes-- ;
-         seconds = 60;
+         seconds = 59;
        }
       if (minutes > 0 || seconds != 0){
         this.remainingTime = minutes + " Minutes : " + seconds + " Seconds";

@@ -1,16 +1,8 @@
 @import './assets/scss/_styles';
 @import "./assets/fonts/fonts-hm.css";
 
-perfect-scrollbar.main-scroll {
-  height: 100vh;
-    .ps {
-        &__rail-y:hover {
-            width: 6px !important;
-            .ps__thumb-y {
-                width: 6px !important;
-            }
-        }
-    }
+ ng-scrollbar.main-scroll {
+   height: 100vh;
 }
 .toast-container {
     .toast-warning {

@@ -1,5 +1,5 @@
 <section class="business-profile pl-1 pr-1">
-  <h2>{{firstName}}, Add Your Business Profile </h2>
+  <h2>{{firstNameBL}}, Add Your Business Profile </h2>
   <p>It takes less than 60 seconds to add your business and get started </p>
 
   <h5 class="d-flex justify-content-between">
@@ -187,24 +187,19 @@
       </div>
     </div>
     <div class="trade-license-box">
-
-        <ng-files-click (filesSelect)="filesSelect($event)">
-            <span>Upload</span>
-          </ng-files-click>
-          <ng-files-drop (filesSelect)="filesSelect($event)" [configId]="'another-config'">
-            <div style="display: inline-block; height: 100px; width: 100px; background-color: gray">
-              {{selectedFiles}}
-            </div>
-          </ng-files-drop>
-      <!-- <label for="trade-license" class="m-0"> Trade License </label>
-      <br>
-      <small>Document must be valid for XX months </small>
+      <div class="licenseNaming">
+          <label for="trade-license" class="m-0"> Trade License </label>
+          <br>
+          <small>Document must be valid for XX months </small>
+      </div>
       <div class="documentInfo">
-        <img src="../../../assets/images/icons/manager-icon.png">
-        <p> Drag here or browse to upload</p>
-        <small> (supported types: pdf,jpeg,png,Maximum size per document: 4 MB) </small>
-      </div> -->
-
+         <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'license')" [configId]="'config'">
+            <img src="../../../assets/images/icons/manager-icon.png">
+            <p> Drag here or browse to upload</p>
+            <p *ngIf="selectedLicense">{{selectedLicense}}</p>
+            <small> (supported types: pdf,jpeg,png,Maximum size per document: 4 MB) </small>
+         </app-ng-files-drag-n-upload>
+      </div>
     </div>
   </form>
   <h5 class="m-0"> Company Activities</h5>
@@ -309,11 +304,14 @@
     <div class="row">
       <div class="col-12">
         <div class="form-group">
-          <label for="address">Upload Logo</label>
-          <div class="upload-image">
-            <img src="../../../assets/images/icons/manager-icon.png">
-            <p> Drag here or browse to upload</p>
-          </div>
+           <label for="address">Upload Logo</label>
+          <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'logo')" [configId]="'config'">
+              <div class="upload-image">
+                  <img src="../../../assets/images/icons/manager-icon.png">
+                  <p *ngIf="selectedLogo"> {{selectedLogo}} </p>
+                  <p> Drag here or browse to upload</p>
+              </div>
+           </app-ng-files-drag-n-upload>
         </div>
       </div>
     </div>

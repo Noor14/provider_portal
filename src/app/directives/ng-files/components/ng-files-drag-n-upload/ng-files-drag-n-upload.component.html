@@ -1,9 +1,9 @@
-<label>
+<label class="d-block m-0 h-100">
   <ng-content></ng-content>
   <input type="file"
   class="d-none"
   [multiple]="maxFilesCount > 1"
   #spyNgFilesInputSpy
   accept="{{acceptExtensions}}"
-  (change)="onChange(spyNgFilesInputSpy.files); spyNgFilesInputSpy.value=''" />
+  (change)="onChange(spyNgFilesInputSpy.files); spyNgFilesInputSpy.value = ''" />
 </label>

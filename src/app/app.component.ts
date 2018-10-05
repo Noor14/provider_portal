@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonService } from './services/common.service';
 import { SharedService } from './services/shared.service';
+import { ScrollbarComponent } from 'ngx-scrollbar';
+
 
 
 @Component({
@@ -9,9 +11,12 @@ import { SharedService } from './services/shared.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(private _commonService : CommonService, private _sharedService: SharedService){}
-  ngOnInit() {
 
+  @ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
+
+  constructor(private _commonService : CommonService, private _sharedService: SharedService){}
+  
+  ngOnInit() {
     this._commonService.getCountry().subscribe((res:any) => {
          if(res && res.length){
            res.map((obj) => {

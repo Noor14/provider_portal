@@ -1,4 +1,3 @@
-<perfect-scrollbar class="main-scroll">
-    <router-outlet></router-outlet>
-</perfect-scrollbar>
- 
+<ng-scrollbar [autoHide]="true" class="main-scroll" #scrollRef>
+  <router-outlet></router-outlet>
+</ng-scrollbar>

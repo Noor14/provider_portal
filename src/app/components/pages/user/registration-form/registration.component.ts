@@ -353,8 +353,8 @@ export class RegistrationComponent implements OnInit {
     let otherLangObj = {
       firstName: data.transLangfirstName,
       lastName: data.transLanglastName,
-      primaryPhone: this.phoneCode + data.transLangPhone,
-      countryPhoneCode: this.phoneCode,
+      primaryPhone: this.transPhoneCode + data.transLangPhone,
+      countryPhoneCode: this.transPhoneCode,
       phoneCodeCountryID: this.phoneCountryId,
       jobTitle: data.transLangjobTitle
     };
