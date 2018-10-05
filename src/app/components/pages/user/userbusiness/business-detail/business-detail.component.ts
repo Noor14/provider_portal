@@ -722,12 +722,6 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
     }
   }
 
-
-
-  nextForm(){
-    this._sharedService.formChange.next(false);
-  }
-
   public filesSelect(selectedFiles: NgFilesSelected): void {
     console.log(selectedFiles)
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
