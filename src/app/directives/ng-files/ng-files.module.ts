@@ -7,15 +7,18 @@ import {
 
 import {
   NgFilesClickComponent,
-  NgFilesDropComponent
+  NgFilesDropComponent,
+  NgFilesDragNUploadComponent 
 } from './components';
 
 @NgModule({
   declarations: [
     NgFilesClickComponent,
-    NgFilesDropComponent
+    NgFilesDropComponent,
+    NgFilesDragNUploadComponent
   ],
   exports: [
+    NgFilesDragNUploadComponent, 
     NgFilesClickComponent,
     NgFilesDropComponent
   ],

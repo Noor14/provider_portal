@@ -1,5 +1,5 @@
 <section class="business-profile pl-1 pr-1">
-  <h2>{{firstName}}, Add Your Business Profile </h2>
+  <h2>{{firstNameBL}}, Add Your Business Profile </h2>
   <p>It takes less than 60 seconds to add your business and get started </p>
 
   <h5 class="d-flex justify-content-between">
@@ -188,14 +188,18 @@
     </div>
     <div class="trade-license-box">
 
-        <ng-files-click (filesSelect)="filesSelect($event)">
-            <span>Upload</span>
-          </ng-files-click>
-          <ng-files-drop (filesSelect)="filesSelect($event)" [configId]="'another-config'">
+        <app-ng-files-drag-n-upload (filesSelect)="filesSelect($event)">
+            <span>Upload or Drag</span>
+        </app-ng-files-drag-n-upload>
+        <div style="display: inline-block; height: 100px; width: 100px; background-color: gray">
+          {{selectedFiles}}
+        </div>
+
+          <!-- <ng-files-drop (filesSelect)="filesSelect($event)" [configId]="'another-config'">
             <div style="display: inline-block; height: 100px; width: 100px; background-color: gray">
               {{selectedFiles}}
             </div>
-          </ng-files-drop>
+          </ng-files-drop> -->
       <!-- <label for="trade-license" class="m-0"> Trade License </label>
       <br>
       <small>Document must be valid for XX months </small>

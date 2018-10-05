@@ -26,8 +26,8 @@ import { NgFilesModule } from '../../../directives/ng-files/';
     HttpClientModule,
     NgFilesModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg&libraries=geometry',
-      libraries: ["places"]
+      apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
+      libraries: ["places","geometry"]
     }),
     NgCircleProgressModule.forRoot(),
     FormsModule,

@@ -41,7 +41,7 @@ export class BusinessDetailComponent implements OnInit {
   public location: any = {lat:undefined, lng:undefined};
   public countAccount = 1 
   public socialAccounts: any[]=[this.countAccount] ;
-  public firstName;
+  public firstNameBL;
   public geoCoder;
   public socialLink: any;
   public organizationList: any;
@@ -195,8 +195,8 @@ export class BusinessDetailComponent implements OnInit {
 
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if(userInfo && userInfo.returnObject){
-      this.userProfile = userInfo.returnObject.regular;
-      this.firstName = userInfo.returnObject.firstName;
+      this.userProfile = userInfo.returnObject;
+      this.firstNameBL = userInfo.returnObject.firstNameBL;
   }
     this.getsocialList();
     this.getOrganizationList();
