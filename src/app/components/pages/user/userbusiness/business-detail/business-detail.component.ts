@@ -254,10 +254,10 @@ export class BusinessDetailComponent implements OnInit {
       transLangOrgName: new FormControl(null, [Validators.maxLength(100), Validators.minLength(4)]),
     });
     this.contactInfoForm = new FormGroup({
-      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(9)]),
-      transLangPhone: new FormControl(null, [Validators.minLength(7), Validators.maxLength(9)]),
-      fax: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(9)]),
-      transLangFax: new FormControl(null, [Validators.minLength(7), Validators.maxLength(9)]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(10)]),
+      transLangPhone: new FormControl(null, [Validators.minLength(7), Validators.maxLength(10)]),
+      fax: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(10)]),
+      transLangFax: new FormControl(null, [Validators.minLength(7), Validators.maxLength(10)]),
      
     });
   }

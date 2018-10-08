@@ -64,6 +64,11 @@ export class UserService {
     return this._http.get(baseApi + url);
   }
 
+  getDocByCountrytype(countryId){
+    let url: string = `Document/GetDocumentTypebyCountry/${countryId}`;
+    return this._http.get(baseApi + url);
+  }
+
   socialList(){
     let url: string = "socialmedia/GetSocialMediaAccount";
     return this._http.get(baseApi + url);

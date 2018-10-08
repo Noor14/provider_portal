@@ -2,310 +2,413 @@
 
   <h2> Business Profile </h2>
   <p>It takes less than 60 seconds to add your business and get started </p>
-
-
-  <ngb-accordion [closeOthers]="true" activeIds="static-1">
-    <ngb-panel id="static-1">
+  <ngb-accordion [closeOthers]="true" activeIds="managementInfo">
+    <ngb-panel id="directorInfo" title="">
       <ng-template ngbPanelTitle>
-        <h5>
-          <i class="fa fa-angle-down"></i> Directors Info</h5>
-        <hr class="hr-solid">
+          <h5>
+            <i class="fa fa-angle-down"></i> Directors Info
+          </h5>
       </ng-template>
       <ng-template ngbPanelContent>
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
-        non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-        aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-        craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-        occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
-        labore sustainable VHS.
+          <form autocomplete="off" novalidate [formGroup]="directorForm">
+        
+          <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="first name">First Name</label>
+                  <input type="text" class="form-control" placeholder="John">
+                </div>
+              </div>
+        
+              <div class="col">
+                <div class="form-group dir-otherLanguage">
+                  <label for="first name">الاسم الاول </label>
+                  <input type="text" class="form-control" placeholder="المثال : جون">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="last name">Last Name</label>
+                    <input type="text" class="form-control" placeholder="John">
+                  </div>
+                </div>
+          
+                <div class="col">
+                  <div class="form-group dir-otherLanguage">
+                    <label for="last name">الاسم الاخير</label>
+                    <input type="text" class="form-control" placeholder="المثال : جون">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                      <label>Mobile No</label>
+                      <div class="select-number">
+                        <div class="input-group-prepend">
+                          <div ngbDropdown>
+                            <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                                <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
+                                  class="img-responsive">
+                                <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
+                                  alt="flags" class="img-responsive">
+                              <span>{{phoneCode}}</span>
+                            </div>
+                            <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                              <ul class="list-group">
+                                <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
+                                  <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}">
+                                  <span> {{list.desc[0].CountryPhoneCode}}</span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" [ngClass]="{'inputError': phoneError && directorForm.controls['phone'].errors}" (focusout)="errorValidate()" (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
+                           maxlength="9" placeholder="12 345 6789" (keypress)="NumberValid($event)" formControlName="phone">
+                        </div>
+                        <span *ngIf="phoneError">
+                            <p class="inputError animated fadeIn" *ngIf="directorForm.controls['phone'].hasError('required') && (directorForm.controls.phone.dirty || directorForm.controls.phone.touched)">{{requiredFields}}</p>
+                            <p class="inputError animated fadeIn" *ngIf="!directorForm.controls['phone'].hasError('pattern') && directorForm.controls['phone'].hasError('minlength') && (directorForm.controls.phone.dirty || directorForm.controls.phone.touched)">Phone number should be minimum 7 digits</p>
+                            <p class="inputError animated fadeIn" *ngIf="!directorForm.controls['phone'].hasError('pattern') && directorForm.controls['phone'].hasError('maxlength') && (directorForm.controls.phone.dirty || directorForm.controls.phone.touched)">Phone number should not exceed from 9 digits</p>
+                            <p class="inputError animated fadeIn" *ngIf="directorForm.controls['phone'].hasError('pattern') && (directorForm.controls.phone.dirty || directorForm.controls.phone.touched)">Please enter valid information</p>
+                          </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group dir-otherLanguage">
+                        <label>رقم الهاتف المتحرك</label>
+                        <div class="select-number">
+                          <div class="input-group-append">
+                            <div ngbDropdown>
+                              <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                                  <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
+                                    class="img-responsive">
+                                  <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
+                                    alt="flags" class="img-responsive">
+                                <span>{{transPhoneCode}}</span>
+                              </div>
+                              <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                                <ul class="list-group text-justify">
+                                  <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
+                                      <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}">
+                                    <span> {{list.desc[0].CountryPhoneCode_OtherLang}}</span>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <input type="text" class="form-control" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true" [ngClass]="{'inputError': translangPhoneError && directorForm.controls['transLangPhone'].errors}" 
+                            (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="9"
+                             placeholder="۶۷۸۹ ۳۴۵ ۱۲" (keypress)="NumberValid($event)" formControlName="transLangPhone">
+                          </div>
+                          <span *ngIf="translangPhoneError">
+                              <p class="inputError animated fadeIn" *ngIf="directorForm.controls['transLangPhone'].hasError('required') && (directorForm.controls.transLangPhone.dirty || directorForm.controls.transLangPhone.touched)">{{requiredFieldsOthrLng}}</p>
+                              <p class="inputError animated fadeIn" *ngIf="!directorForm.controls['transLangPhone'].hasError('pattern') && directorForm.controls['transLangPhone'].hasError('minlength') && (directorForm.controls.transLangPhone.dirty || directorForm.controls.transLangPhone.touched)">يجب أن يكون رقم الهاتف 7 أرقام كحد أدنى</p>
+                              <p class="inputError animated fadeIn" *ngIf="!directorForm.controls['transLangPhone'].hasError('pattern') && directorForm.controls['transLangPhone'].hasError('maxlength') && (directorForm.controls.transLangPhone.dirty || directorForm.controls.transLangPhone.touched)">يجب ألا يتجاوز رقم الهاتف 9 أرقام</p>
+                              <p class="inputError animated fadeIn" *ngIf="directorForm.controls['transLangPhone'].hasError('pattern') && (directorForm.controls.transLangPhone.dirty || directorForm.controls.transLangPhone.touched)">يرجى إدخال معلومات صحيحة</p>
+                            </span>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                      <label for="address">Email Address</label>
+                      <input type="email" autocomplete="nope" (focusout)="errorValidate()" (focus)="EmailError=false" [ngClass]="{'inputError': EmailError && directorForm.controls['email'].errors}" (keypress)="spaceHandler($event)" class="form-control" [(ngModel)]="transLangEmail" placeholder="eg: john@company.com" formControlName="email">
+                      <span *ngIf="EmailError && directorForm.controls['email'].errors">
+                          <p class="inputError animated fadeIn" *ngIf="directorForm.controls['email'].hasError('required') && (directorForm.controls.email.dirty || directorForm.controls.email.touched)">{{requiredFields}}</p>
+                          <p class="inputError animated fadeIn" *ngIf="directorForm.controls['email'].hasError('pattern') && (directorForm.controls.email.dirty || directorForm.controls.email.touched)">Please enter valid information</p>
+                          <p class="inputError animated fadeIn" *ngIf="directorForm.controls['email'].hasError('maxlength') && (directorForm.controls.email.dirty || directorForm.controls.email.touched)">Email should not exceed from 320 characters</p>
+                        </span>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group dir-otherLanguage">
+                      <label for="address">البريد الإلكتروني</label>
+                      <input type="email" class="form-control" placeholder="eg: john@company.com" (focusout)="errorValidate()" (focus)="transEmailError=false" [ngClass]="{'inputError': transEmailError && directorForm.controls['transLangEmail'].errors}" (keypress)="spaceHandler($event)" [(ngModel)]="transLangEmail" formControlName="transLangEmail">
+                      <span *ngIf="transEmailError && directorForm.controls['transLangEmail'].errors">
+                          <p class="inputError animated fadeIn" *ngIf="directorForm.controls['transLangEmail'].hasError('required') && (directorForm.controls.transLangEmail.dirty || directorForm.controls.transLangEmail.touched)">{{requiredFieldsOthrLng}}</p>
+                          <p class="inputError animated fadeIn" *ngIf="directorForm.controls['transLangEmail'].hasError('pattern') && (directorForm.controls.transLangEmail.dirty || directorForm.controls.transLangEmail.touched)">يرجى إدخال معلومات صحيحة</p>
+                          <p class="inputError animated fadeIn" *ngIf="directorForm.controls['transLangEmail'].hasError('maxlength') && (directorForm.controls.transLangEmail.dirty || directorForm.controls.transLangEmail.touched)">يجب ألا يتجاوز البريد الإلكتروني 320 حرفًا</p>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+                </form>
       </ng-template>
     </ngb-panel>
-    <ngb-panel id="static-2">
+    <ngb-panel id="managementInfo">
       <ng-template ngbPanelTitle>
-        <h5>
-          <i class="fa fa-angle-down"></i> Management Info</h5>
-        <hr class="hr-solid">
+          <h5>
+              <i class="fa fa-angle-down"></i> Management Info
+          </h5>
       </ng-template>
       <ng-template ngbPanelContent>
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
-        non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-        aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-        craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-        occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
-        labore sustainable VHS.
+          <form>
+              <div class="row justify-content-between">
+                <div class="col-3">
+                  <div class="form-group">
+                    <label for="exampleFormControlSelect1">Job Title </label>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                      <option>CEO</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                  </div>
+                </div>
+          
+                <div class="col-3">
+                  <div class="form-group dir-otherLanguage">
+                    <label for="exampleFormControlSelect1">المسمى الوظيفي </label>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                      <option>المدير التنفيذي</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+          
+          
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="first name">First Name</label>
+                    <input type="text" class="form-control" placeholder="John">
+                  </div>
+                </div>
+          
+                <div class="col">
+                  <div class="form-group dir-otherLanguage">
+                    <label for="first name">الاسم الاول </label>
+                    <input type="text" class="form-control" placeholder="المثال : جون">
+                  </div>
+                </div>
+              </div>
+          
+              <div class="row">
+                <div class="col-6">
+                  <div class="fancyRadioBoxes">
+                    <input id="1" name="accountSetup" type="radio">
+                    <label for="1">
+                      <span></span>
+                      Passport
+                    </label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="fancyRadioBoxes dir-otherLanguage">
+                    <input id="4" name="accountSetup" type="radio">
+                    <label for="4">
+                      <span class="mr-0 ml-2"></span>
+                      جواز سفر
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="fancyRadioBoxes">
+                    <input id="5" name="accountSetup" type="radio">
+                    <label for="5">
+                      <span></span>
+                      Emirates ID
+                    </label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="fancyRadioBoxes dir-otherLanguage">
+                    <input id="5" name="accountSetup" type="radio">
+                    <label for="5">
+                      <span class="mr-0 ml-2"></span>
+                      هوية الإمارات
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="fancyRadioBoxes">
+                    <input id="6" name="accountSetup" type="radio">
+                    <label for="6">
+                      <span></span>
+                      Drivers License
+                    </label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="fancyRadioBoxes dir-otherLanguage">
+                    <input id="6" name="accountSetup" type="radio">
+                    <label for="6">
+                      <span class="mr-0 ml-2"></span>
+                      رخصة السائق
+                    </label>
+                  </div>
+                </div>
+              </div>
+          
+          
+          
+          
+              <div class="document-upload-box">
+                <div class="col-12">
+                  <img src="../../../assets/images/icons/manager-icon.png">
+                  <p> Drag here or
+                    <span> browse </span>to upload</p>
+                </div>
+          
+              </div>
+          
+          
+              <div class="row justify-content-between">
+                <div class="col-3">
+                  <div class="form-group">
+                    <label for="exampleFormControlSelect1">Job Title </label>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                      <option>CEO</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                  </div>
+                </div>
+          
+                <div class="col-3">
+                  <div class="form-group dir-otherLanguage">
+                    <label for="exampleFormControlSelect1">المسمى الوظيفي </label>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                      <option>المدير التنفيذي</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+          
+          
+          
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="first name">First Name</label>
+                    <input type="text" class="form-control" placeholder="John">
+                  </div>
+                </div>
+          
+                <div class="col">
+                  <div class="form-group dir-otherLanguage">
+                    <label for="first name">الاسم الاول </label>
+                    <input type="text" class="form-control" placeholder="المثال : جون">
+                  </div>
+                </div>
+              </div>
+          
+              <div class="row">
+          
+                <div class="col">
+                  <div class="form-group">
+                    <label for="first name">Last Name</label>
+                    <input type="text" class="form-control" placeholder="Smith">
+                  </div>
+          
+                </div>
+          
+                <div class="col">
+                  <div class="form-group dir-otherLanguage">
+                    <label for="first name">الاسم الأخير</label>
+                    <input type="text" class="form-control" placeholder="الاسم الأخير">
+                  </div>
+          
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="fancyRadioBoxes">
+                    <input id="1" name="accountSetup" type="radio">
+                    <label for="1">
+                      <span></span>
+                      Passport
+                    </label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="fancyRadioBoxes dir-otherLanguage">
+                    <input id="1" name="accountSetup" type="radio">
+                    <label for="1">
+                      <span class="mr-0 ml-2"></span>
+                      جواز سفر
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="fancyRadioBoxes">
+                    <input id="2" name="accountSetup" type="radio">
+                    <label for="2">
+                      <span></span>
+                      Emirates ID
+                    </label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="fancyRadioBoxes dir-otherLanguage">
+                    <input id="2" name="accountSetup" type="radio">
+                    <label for="2">
+                      <span class="mr-0 ml-2"></span>
+                      هوية الإمارات
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="fancyRadioBoxes">
+                    <input id="3" name="accountSetup" type="radio">
+                    <label for="3">
+                      <span></span>
+                      Drivers License
+                    </label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="fancyRadioBoxes dir-otherLanguage">
+                    <input id="1" name="accountSetup" type="radio">
+                    <label for="1">
+                      <span class="mr-0 ml-2"></span>
+                      رخصة السائق
+                    </label>
+                  </div>
+                </div>
+              </div>
+          
+              <div class="info_text">
+                <p>
+                  <img src="../../../assets/images/icons/icon_add.svg" alt="icons">Add More / إضافة المزيد </p>
+              </div>
+          
+              <div class="submit-btn  mt-5">
+                <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">Submit / خضع</a>
+              </div>
+              <div class="info_text">
+                <a href="javascript:;" class="text mt-4" (click)="previousForm()">
+                  <img src="../../../assets/images/icons/icon_arrow_left.svg" alt="icons">GO BACK / الى الخلف
+                </a>
+              </div>
+          </form>
       </ng-template>
     </ngb-panel>
+
   </ngb-accordion>
-
-  <form>
-    <div class="row justify-content-between">
-      <div class="col-3">
-        <div class="form-group">
-          <label for="exampleFormControlSelect1">Job Title </label>
-          <select class="form-control" id="exampleFormControlSelect1">
-            <option>CEO</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="col-3">
-        <div class="form-group dir-otherLanguage">
-          <label for="exampleFormControlSelect1">المسمى الوظيفي </label>
-          <select class="form-control" id="exampleFormControlSelect1">
-            <option>المدير التنفيذي</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col">
-        <div class="form-group">
-          <label for="first name">First Name</label>
-          <input type="text" class="form-control" placeholder="John">
-        </div>
-      </div>
-
-      <div class="col">
-        <div class="form-group dir-otherLanguage">
-          <label for="first name">الاسم الاول </label>
-          <input type="text" class="form-control" placeholder="المثال : جون">
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-6">
-        <div class="fancyRadioBoxes">
-          <input id="1" name="accountSetup" type="radio">
-          <label for="1">
-            <span></span>
-            Passport
-          </label>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="fancyRadioBoxes dir-otherLanguage">
-          <input id="4" name="accountSetup" type="radio">
-          <label for="4">
-            <span class="mr-0 ml-2"></span>
-            جواز سفر
-          </label>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <div class="fancyRadioBoxes">
-          <input id="5" name="accountSetup" type="radio">
-          <label for="5">
-            <span></span>
-            Emirates ID
-          </label>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="fancyRadioBoxes dir-otherLanguage">
-          <input id="5" name="accountSetup" type="radio">
-          <label for="5">
-            <span class="mr-0 ml-2"></span>
-            هوية الإمارات
-          </label>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <div class="fancyRadioBoxes">
-          <input id="6" name="accountSetup" type="radio">
-          <label for="6">
-            <span></span>
-            Drivers License
-          </label>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="fancyRadioBoxes dir-otherLanguage">
-          <input id="6" name="accountSetup" type="radio">
-          <label for="6">
-            <span class="mr-0 ml-2"></span>
-            رخصة السائق
-          </label>
-        </div>
-      </div>
-    </div>
-
-
-
-
-    <div class="document-upload-box">
-      <div class="col-12">
-        <img src="../../../assets/images/icons/manager-icon.png">
-        <p> Drag here or
-          <span> browse </span>to upload</p>
-      </div>
-
-    </div>
-
-
-    <div class="row justify-content-between">
-      <div class="col-3">
-        <div class="form-group">
-          <label for="exampleFormControlSelect1">Job Title </label>
-          <select class="form-control" id="exampleFormControlSelect1">
-            <option>CEO</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="col-3">
-        <div class="form-group dir-otherLanguage">
-          <label for="exampleFormControlSelect1">المسمى الوظيفي </label>
-          <select class="form-control" id="exampleFormControlSelect1">
-            <option>المدير التنفيذي</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-
-
-    <div class="row">
-      <div class="col">
-        <div class="form-group">
-          <label for="first name">First Name</label>
-          <input type="text" class="form-control" placeholder="John">
-        </div>
-      </div>
-
-      <div class="col">
-        <div class="form-group dir-otherLanguage">
-          <label for="first name">الاسم الاول </label>
-          <input type="text" class="form-control" placeholder="المثال : جون">
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-
-      <div class="col">
-        <div class="form-group">
-          <label for="first name">Last Name</label>
-          <input type="text" class="form-control" placeholder="Smith">
-        </div>
-
-      </div>
-
-      <div class="col">
-        <div class="form-group dir-otherLanguage">
-          <label for="first name">الاسم الأخير</label>
-          <input type="text" class="form-control" placeholder="الاسم الأخير">
-        </div>
-
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <div class="fancyRadioBoxes">
-          <input id="1" name="accountSetup" type="radio">
-          <label for="1">
-            <span></span>
-            Passport
-          </label>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="fancyRadioBoxes dir-otherLanguage">
-          <input id="1" name="accountSetup" type="radio">
-          <label for="1">
-            <span class="mr-0 ml-2"></span>
-            جواز سفر
-          </label>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <div class="fancyRadioBoxes">
-          <input id="2" name="accountSetup" type="radio">
-          <label for="2">
-            <span></span>
-            Emirates ID
-          </label>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="fancyRadioBoxes dir-otherLanguage">
-          <input id="2" name="accountSetup" type="radio">
-          <label for="2">
-            <span class="mr-0 ml-2"></span>
-            هوية الإمارات
-          </label>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <div class="fancyRadioBoxes">
-          <input id="3" name="accountSetup" type="radio">
-          <label for="3">
-            <span></span>
-            Drivers License
-          </label>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="fancyRadioBoxes dir-otherLanguage">
-          <input id="1" name="accountSetup" type="radio">
-          <label for="1">
-            <span class="mr-0 ml-2"></span>
-            رخصة السائق
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <!-- <div class="col-6">
-         
-          <label>Select a document to Upload</label>
-    
-  
-  
-        </div> -->
-    <!-- <div class="col-6  dir-rtl">
-          <label> اختر وثيقة للتحميل</label>
-         
-        </div> -->
-
-    <div class="info_text">
-      <p>
-        <img src="../../../assets/images/icons/icon_add.svg" alt="icons">Add More / إضافة المزيد </p>
-    </div>
-
-    <div class="submit-btn  mt-5">
-      <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">Submit / خضع</a>
-    </div>
-    <div class="info_text">
-      <a href="javascript:;" class="text mt-4" (click)="previousForm()">
-        <img src="../../../assets/images/icons/icon_arrow_left.svg" alt="icons">GO BACK / الى الخلف 
-      </a>
-    </div>
-  </form>
+ 
 </section>
