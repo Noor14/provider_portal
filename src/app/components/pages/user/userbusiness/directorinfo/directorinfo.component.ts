@@ -2,6 +2,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../../../services/shared.service';
 import { EMAIL_REGEX, CustomValidator } from '../../../../../constants/globalFunctions';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { CommonService } from '../../../../../services/common.service';
 
 @Component({
   selector: 'app-directorinfo',
@@ -12,12 +15,16 @@ import { EMAIL_REGEX, CustomValidator } from '../../../../../constants/globalFun
 })
 export class DirectorinfoComponent implements OnInit {
   
+  showTranslatedLangSide:boolean = true;
+
+  public debounceInput: Subject<string> = new Subject();
   public countryFlagImage: string;
   public phoneCode: string;
   public transPhoneCode: string;
   public phoneCountryId: any
   public countryList: any[];
   
+  public nextState:boolean
   // form Field Validtaions boolean variable
   public requiredFields: string = "This field is required";
   public requiredFieldsOthrLng: string = "هذه الخانة مطلوبه";
@@ -41,6 +48,9 @@ export class DirectorinfoComponent implements OnInit {
 
   public transLangEmail: any;
 
+  // global Input
+  public Globalinputfrom: any;
+  public Globalinputto: any;
 
   public userProfile: any;
 
@@ -59,7 +69,10 @@ export class DirectorinfoComponent implements OnInit {
   
   directorForm; 
 
-  constructor(private _sharedService :SharedService) {
+  constructor(
+    private _sharedService :SharedService,
+    private _commonService: CommonService,
+  ) {
     
    }
 
@@ -67,11 +80,6 @@ export class DirectorinfoComponent implements OnInit {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if(userInfo && userInfo.returnObject){
       this.userProfile = userInfo.returnObject;
-      console.log(this.userProfile);
-      if (this.userProfile.countryID) {
-        let selectedCountry = this.countryList.find(obj => obj.id == this.userProfile.countryID);
-        this.selectPhoneCode(selectedCountry);
-      }
   }
 
     this.directorForm = new FormGroup({
@@ -89,16 +97,21 @@ export class DirectorinfoComponent implements OnInit {
         Validators.pattern(EMAIL_REGEX),
         Validators.maxLength(320)
       ]),
-      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(9)]),
-      transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(9)]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(10)]),
+      transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(10)]),
         });
 
 
     this._sharedService.countryList.subscribe((state: any) => {
       this.countryList = state;
+      if (this.userProfile.countryID) {
+        let selectedCountry = this.countryList.find(obj => obj.id == this.userProfile.countryID);
+        this.selectPhoneCode(selectedCountry);
+      }
     });
   }
   
+
  previousForm(){
     this._sharedService.formChange.next(true);
   }
@@ -133,7 +146,34 @@ export class DirectorinfoComponent implements OnInit {
 
   }
 
-
+  textValidation(event) {
+    const pattern = /[a-zA-Z-][a-zA-Z -]*$/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      if (event.charCode == 0) {
+        return true;
+      }
+      if (event.target.value) {
+        var end = event.target.selectionEnd;
+        if (event.charCode == 32 && (event.target.value[end - 1] == " " || event.target.value[end] == " ")) {
+          event.preventDefault();
+          return false;
+        }
+        else if(event.charCode == 32 && !pattern.test(inputChar)){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }
+      else {
+        return false;
+      }
+    }
+    else{
+      return true;
+    }
+  }
 
   NumberValid(evt) {
     let charCode = (evt.which) ? evt.which : evt.keyCode
@@ -170,6 +210,73 @@ export class DirectorinfoComponent implements OnInit {
     this.directorForm.controls[$controlName].patchValue(number.reverse().join(''));
     }
 }
+
+onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
+  setTimeout(() => {
+    if(currentActive && !fromActive && $value){
+      this.Globalinputfrom = false;
+    }
+    if(fromActive == false && currentActive && this.directorForm.controls[$controlName].errors || this.Globalinputto){
+      this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
+        this.directorForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+        this.Globalinputto = true;
+      })
+    }
+   else if ($value && currentActive && source && target && fromActive==undefined) {
+      this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
+        this.directorForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+      })
+    }
+    // else if(currentActive && !$value){
+    //   this.fromActive(fromActive);
+    // }
+  }, 100)
+}
+
+onTransModel(fromActive, currentActive, $controlName, $value) {
+
+  if(currentActive && !fromActive && $value){
+    this.Globalinputto = false;
+  }
+  if(currentActive && fromActive == false && this.directorForm.controls[$controlName].errors || this.Globalinputfrom){
+    this.debounceInput.next($value);
+    this.debounceInput.pipe(debounceTime(400),distinctUntilChanged()).subscribe(value => {
+    this._commonService.detectedLanguage(value).subscribe((res: any) => {
+      let sourceLang = res.data.detections[0][0].language;
+      let target = "en";
+      if (sourceLang && target && value) {
+        this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+          this.directorForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+            this.Globalinputfrom = true;
+        })
+      }
+    })
+});
+  }
+    else if (currentActive && $value && fromActive==undefined) {
+      this.debounceInput.next($value);
+      this.debounceInput.pipe(debounceTime(400),distinctUntilChanged()).subscribe(value => {
+      this._commonService.detectedLanguage(value).subscribe((res: any) => {
+        let sourceLang = res.data.detections[0][0].language;
+        let target = "en";
+        // if (sourceLang && target && value) {
+        //   this.onModelChange(fromActive, currentActive, $controlName, sourceLang, target, value);
+        // }
+        if (sourceLang && target && value) {
+          this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+            this.directorForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+          })
+        }
+      })
+  });
+}
+// else if(currentActive && !$value){
+//   this.fromActive(fromActive);    
+// }
+}
+
+
+
 onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
   
   if(currentActive && !fromActive){
