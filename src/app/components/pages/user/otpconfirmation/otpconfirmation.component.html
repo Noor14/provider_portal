@@ -1,15 +1,16 @@
 <div class="profile-verify" *ngIf="userInfo && userInfo.FirstName; else otherTemp">
   <div class="row">
-      <div class="col-12">
+      <div class="col">
       <h3 class="profile-verify-title text-center" innerHTML=" {{headingBaseLanguage}}"></h3>
       <p class="profile-verify-paragraph text-center" innerHTML="{{descBaseLanguage}}"></p>
       </div>
-    <div class="col-12 mt-4" *ngIf="showTranslatedLangSide">
+    <div class="col" *ngIf="showTranslatedLangSide">
       <h3 class="profile-verify-title text-center dir-otherLanguage" innerHTML="{{headingOtherLanguage}}"></h3>
       <p class="profile-verify-paragraph text-center dir-otherLanguage" innerHTML="{{descOtherLanguage}}"></p>
-      <hr class="hr-solid">
     </div>
   </div>
+
+  <hr class="hr-solid">
 
   <div class="row justify-content-center">
     <div class="col-lg-6 col-md-6 col-sm-8 otp-form">

@@ -26,6 +26,7 @@
                 padding-top: 0.59rem;
                 img {
                     width: 16px;
+                    vertical-align: text-top;
                 }
                 &:nth-child(2){
                     font-family: $font-NeoSansArabic-Regular;
@@ -60,6 +61,7 @@
                 left: 8px;
             }
             input#typeahead {
+                width: calc(100% + 8em);
                 padding-left: 1.8rem;
             }
             img {
@@ -181,4 +183,48 @@
  
     }
    
+}
+
+input.blinking {
+    -webkit-animation: 1.4s linear infinite blink;
+    animation: 1.4s linear infinite blink;
+     -ms-animation: 1.4s linear infinite blink;
+    
+   
+}
+
+@-webkit-keyframes blink {
+   from {  
+       box-shadow: 0px 0px 4px 1px #ced4da;
+       transition: ease-in 2s;                
+   }
+   to {  
+       border: solid 1px ;
+       box-shadow: 0px 0px 4px 1px $danger-color;   
+       transition: ease;
+   }  
+}
+
+@keyframes blink {
+   from {  
+       box-shadow: 0px 0px 4px 1px #ced4da;                        
+       transition: ease-in 2s;
+   }
+   to {  
+       border: solid 1px $danger-color;
+       box-shadow: 0px 0px 4px 1px $danger-color;   
+       transition: ease;
+   }     
+}
+
+
+
+@media (max-width: $screen-xs-five-hundred) {
+    section.registration {
+        .registration-map-section{
+            input#typeahead {
+                font-size: 12px;
+            }
+    }
+ }
 }

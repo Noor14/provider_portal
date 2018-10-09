@@ -242,6 +242,7 @@ export class RegistrationComponent implements OnInit {
         this.showTranslatedLangSide = (region.desc[0].RegionCode == 'MET')? true : false;
         this.regForm.reset();
         this.transLangEmail = '';
+        this.accountId = undefined;
         this.registrationForm = true;
         this.getlabelsDescription();
 

@@ -1,7 +1,7 @@
 <section class="directors-info pl-1 pr-1">
 
   <h2> Business Profile </h2>
-  <p>It takes less than 60 seconds to add your business and get started </p>
+  <p>It takes only a few minutes to add your business and get started</p>
   <ngb-accordion [closeOthers]="true" activeIds="managementInfo">
     <ngb-panel id="directorInfo">
       <ng-template ngbPanelTitle>
@@ -233,7 +233,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-12">
                   <div class="form-group">
                     <label for="first name">Last Name</label>
-                    <input type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': lastNameErrorMng && managementForm.controls['lastName'].errors}" (focusout)="errorValidate()" (blur)="activeLastNameMng=false" (focus)="lastNameErrorMng=false; activeLastNameMng=true" (ngModelChange)="onModelChange(activeTransLastNameMng, activeLastNameMng, 'transLanglastName', 'en', 'ar' ,$event)" class="form-control" id="leftLastName" placeholder="eg: Smith" formControlName="lastName">
+                    <input type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': lastNameErrorMng && managementForm.controls['lastName'].errors}" (focusout)="errorValidate()" (blur)="activeLastNameMng=false" (focus)="lastNameErrorMng=false; activeLastNameMng=true" (ngModelChange)="onModelChangeMng(activeTransLastNameMng, activeLastNameMng, 'transLanglastName', 'en', 'ar' ,$event)" class="form-control" id="leftLastName" placeholder="eg: Smith" formControlName="lastName">
                     <span *ngIf="lastNameErrorMng && managementForm.controls['lastName'].errors">
                       <p class="inputError animated fadeIn" *ngIf="managementForm.controls['lastName'].hasError('required') && (managementForm.controls.lastName.dirty || managementForm.controls.lastName.touched)">{{requiredFields}}</p>
                       <p class="inputError animated fadeIn" *ngIf="!managementForm.controls['lastName'].hasError('pattern') && managementForm.controls['lastName'].hasError('minlength') && (managementForm.controls.lastName.dirty || managementForm.controls.lastName.touched)">Last name must be at least 2 characters long</p>
@@ -247,7 +247,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-12">
                   <div class="form-group dir-otherLanguage">
                     <label for="first name">الاسم الأخير</label>
-                    <input type="text" maxlength="100" class="form-control" id="leftLastName" placeholder="المثال : سمىت" [ngClass]="{'inputError': translastNameErrorMng && managementForm.controls['transLanglastName'].errors}" (focusout)="errorValidate()" (blur)="activeTransLastNameMng=false" (focus)="translastNameErrorMng=false; activeTransLastNameMng=true" (ngModelChange)="onTransModel(activeLastNameMng, activeTransLastNameMng, 'lastName' ,$event)" formControlName="transLanglastName">
+                    <input type="text" maxlength="100" class="form-control" id="leftLastName" placeholder="المثال : سمىت" [ngClass]="{'inputError': translastNameErrorMng && managementForm.controls['transLanglastName'].errors}" (focusout)="errorValidate()" (blur)="activeTransLastNameMng=false" (focus)="translastNameErrorMng=false; activeTransLastNameMng=true" (ngModelChange)="onTransModelMng(activeLastNameMng, activeTransLastNameMng, 'lastName' ,$event)" formControlName="transLanglastName">
                     <span *ngIf="translastNameErrorMng && managementForm.controls['transLanglastName'].errors">
                       <p class="inputError animated fadeIn" *ngIf="managementForm.controls['transLanglastName'].hasError('required') && (managementForm.controls.transLanglastName.dirty || managementForm.controls.transLanglastName.touched)">{{requiredFieldsOthrLng}}</p>
                       <p class="inputError animated fadeIn" *ngIf="!managementForm.controls['transLanglastName'].hasError('pattern') && managementForm.controls['transLanglastName'].hasError('minlength') && (managementForm.controls.transLanglastName.dirty || managementForm.controls.transLanglastName.touched)">يجب ألا يقل الاسم الأخير عن 2 حرف</p>
