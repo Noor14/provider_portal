@@ -162,7 +162,7 @@
                 </div>
                 <div class="info_text">
                   <p>
-                    <img src="../../../assets/images/icons/icon_add.svg" alt="icons">Add More / إضافة المزيد </p>
+                    <img src="../../../assets/images/icons/icon_add.svg" class="icon-size-16" alt="icons">Add More / إضافة المزيد </p>
                 </div>
                 </form>
       </ng-template>
@@ -174,31 +174,25 @@
           </h5>
       </ng-template>
       <ng-template ngbPanelContent>
-          <form class="animated fadeIn">
+          <form autocomplete="off" novalidate [formGroup]="managementForm" class="animated fadeIn">
 
               <div class="row justify-content-between">
                 <div class="col-3">
                   <div class="form-group">
-                    <label for="exampleFormControlSelect1">Job Title </label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                      <option>CEO</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
+                    <label for="jobType">Job Title </label>
+                    <select class="form-control" id="jobType" [(ngModel)]="selectedjobDesg" name="jobDesgType"
+                     (change) = "jobType($event.target.value)" formControlName="jobDesgType">
+                      <option *ngFor="let list of jobTypeList">{{list.BaseLang}}</option>
                     </select>
                   </div>
                 </div>
           
                 <div class="col-3">
                   <div class="form-group dir-otherLanguage">
-                    <label for="exampleFormControlSelect1">المسمى الوظيفي </label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                      <option>المدير التنفيذي</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
+                    <label for="jobTypeAr">المسمى الوظيفي </label>
+                    <select class="form-control" id="jobTypeAr" name="jobDesgTypeAr"
+                    [(ngModel)]="selectedjobDesgAr" (change) = "jobType($event.target.value)" formControlName="jobDesgTypeAr">
+                        <option *ngFor="let list of jobTypeList">{{list.OtherLang}}</option>
                     </select>
                   </div>
                 </div>
@@ -207,110 +201,109 @@
           
           
               <div class="row">
-                <div class="col">
+                <div class="col-lg-6 col-md-6 col-sm-12">
                   <div class="form-group">
                     <label for="first name">First Name</label>
-                    <input type="text" class="form-control" placeholder="John">
+                    <input type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': firstNameErrorMng && managementForm.controls['firstName'].errors}" (focusout)="errorValidate()" (blur)="activeFirstNameMng=false" (focus)="firstNameErrorMng=false; activeFirstNameMng=true" (ngModelChange)="onModelChangeMng(activeTransFirstNameMng, activeFirstNameMng, 'transLangfirstName', 'en', 'ar' ,$event)" class="form-control" placeholder="eg: John" formControlName="firstName">
+                    <span *ngIf="firstNameErrorMng && managementForm.controls['firstName'].errors">
+                      <p class="inputError animated fadeIn" *ngIf="managementForm.controls['firstName'].hasError('required') && (managementForm.controls.firstName.dirty || managementForm.controls.firstName.touched)">{{requiredFields}}</p>
+                      <p class="inputError animated fadeIn" *ngIf="!managementForm.controls['firstName'].hasError('pattern') && managementForm.controls['firstName'].hasError('minlength') && (managementForm.controls.firstName.dirty || managementForm.controls.firstName.touched)">First name must be at least 2 characters long</p>
+                      <p class="inputError animated fadeIn" *ngIf="!managementForm.controls['firstName'].hasError('pattern') && managementForm.controls['firstName'].hasError('maxlength') && (managementForm.controls.firstName.dirty || managementForm.controls.firstName.touched)">First name should not exceed from 100 characters</p>
+                      <p class="inputError animated fadeIn" *ngIf="managementForm.controls['firstName'].hasError('pattern') && (managementForm.controls.firstName.dirty || managementForm.controls.firstName.touched)">Please enter valid information</p>
+                  </span>
                   </div>
                 </div>
           
-                <div class="col">
+                <div class="col-lg-6 col-md-6 col-sm-12">
                   <div class="form-group dir-otherLanguage">
                     <label for="first name">الاسم الاول </label>
-                    <input type="text" class="form-control" placeholder="المثال : جون">
+                    <input type="text" maxlength="100" class="form-control" id="rightFirstName" [ngClass]="{'inputError': transfirstNameErrorMng && managementForm.controls['transLangfirstName'].errors}" (focusout)="errorValidate()" (blur)="activeTransFirstNameMng=false" (focus)="transfirstNameErrorMng=false; activeTransFirstNameMng=true" (ngModelChange)="onTransModelMng(activeFirstNameMng, activeTransFirstNameMng, 'firstName' ,$event)"  placeholder="المثال : جون" formControlName= "transLangfirstName">
+                    <span *ngIf="transfirstNameErrorMng && managementForm.controls['transLangfirstName'].errors">
+                      <p class="inputError animated fadeIn" *ngIf="managementForm.controls['transLangfirstName'].hasError('required') && (managementForm.controls.transLangfirstName.dirty || managementForm.controls.transLangfirstName.touched)">{{requiredFieldsOthrLng}}</p>
+                      <p class="inputError animated fadeIn" *ngIf="!managementForm.controls['transLangfirstName'].hasError('pattern') && managementForm.controls['transLangfirstName'].hasError('minlength') && (managementForm.controls.transLangfirstName.dirty || managementForm.controls.transLangfirstName.touched)">يجب أن يتكون الاسم الأول من حرفين على الأقل</p>
+                      <p class="inputError animated fadeIn" *ngIf="!managementForm.controls['transLangfirstName'].hasError('pattern') && managementForm.controls['transLangfirstName'].hasError('maxlength') && (managementForm.controls.transLangfirstName.dirty || managementForm.controls.transLangfirstName.touched)">يجب ألا يتجاوز الاسم الأول 100 حرف</p>
+                      <p class="inputError animated fadeIn" *ngIf="managementForm.controls['transLangfirstName'].hasError('pattern') && (managementForm.controls.transLangfirstName.dirty || managementForm.controls.transLangfirstName.touched)">يرجى إدخال معلومات صحيحة</p>
+                  </span>
                   </div>
                 </div>
               </div>
           
               <div class="row">
           
-                <div class="col">
+                <div class="col-lg-6 col-md-6 col-sm-12">
                   <div class="form-group">
                     <label for="first name">Last Name</label>
-                    <input type="text" class="form-control" placeholder="Smith">
+                    <input type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': lastNameErrorMng && managementForm.controls['lastName'].errors}" (focusout)="errorValidate()" (blur)="activeLastNameMng=false" (focus)="lastNameErrorMng=false; activeLastNameMng=true" (ngModelChange)="onModelChange(activeTransLastNameMng, activeLastNameMng, 'transLanglastName', 'en', 'ar' ,$event)" class="form-control" id="leftLastName" placeholder="eg: Smith" formControlName="lastName">
+                    <span *ngIf="lastNameErrorMng && managementForm.controls['lastName'].errors">
+                      <p class="inputError animated fadeIn" *ngIf="managementForm.controls['lastName'].hasError('required') && (managementForm.controls.lastName.dirty || managementForm.controls.lastName.touched)">{{requiredFields}}</p>
+                      <p class="inputError animated fadeIn" *ngIf="!managementForm.controls['lastName'].hasError('pattern') && managementForm.controls['lastName'].hasError('minlength') && (managementForm.controls.lastName.dirty || managementForm.controls.lastName.touched)">Last name must be at least 2 characters long</p>
+                      <p class="inputError animated fadeIn" *ngIf="!managementForm.controls['lastName'].hasError('pattern') && managementForm.controls['lastName'].hasError('maxlength') && (managementForm.controls.lastName.dirty || managementForm.controls.lastName.touched)">Last name should not exceed from 100 characters</p>
+                      <p class="inputError animated fadeIn" *ngIf="managementForm.controls['lastName'].hasError('pattern') && (managementForm.controls.lastName.dirty || managementForm.controls.lastName.touched)">Please enter valid information</p>
+                    </span>
                   </div>
           
                 </div>
           
-                <div class="col">
+                <div class="col-lg-6 col-md-6 col-sm-12">
                   <div class="form-group dir-otherLanguage">
                     <label for="first name">الاسم الأخير</label>
-                    <input type="text" class="form-control" placeholder="الاسم الأخير">
+                    <input type="text" maxlength="100" class="form-control" id="leftLastName" placeholder="المثال : سمىت" [ngClass]="{'inputError': translastNameErrorMng && managementForm.controls['transLanglastName'].errors}" (focusout)="errorValidate()" (blur)="activeTransLastNameMng=false" (focus)="translastNameErrorMng=false; activeTransLastNameMng=true" (ngModelChange)="onTransModel(activeLastNameMng, activeTransLastNameMng, 'lastName' ,$event)" formControlName="transLanglastName">
+                    <span *ngIf="translastNameErrorMng && managementForm.controls['transLanglastName'].errors">
+                      <p class="inputError animated fadeIn" *ngIf="managementForm.controls['transLanglastName'].hasError('required') && (managementForm.controls.transLanglastName.dirty || managementForm.controls.transLanglastName.touched)">{{requiredFieldsOthrLng}}</p>
+                      <p class="inputError animated fadeIn" *ngIf="!managementForm.controls['transLanglastName'].hasError('pattern') && managementForm.controls['transLanglastName'].hasError('minlength') && (managementForm.controls.transLanglastName.dirty || managementForm.controls.transLanglastName.touched)">يجب ألا يقل الاسم الأخير عن 2 حرف</p>
+                      <p class="inputError animated fadeIn" *ngIf="!managementForm.controls['transLanglastName'].hasError('pattern') && managementForm.controls['transLanglastName'].hasError('maxlength') && (managementForm.controls.transLanglastName.dirty || managementForm.controls.transLanglastName.touched)">يجب ألا يتجاوز الاسم الأخير 100 حرف</p>
+                      <p class="inputError animated fadeIn" *ngIf="managementForm.controls['transLanglastName'].hasError('pattern') && (managementForm.controls.transLanglastName.dirty || managementForm.controls.transLanglastName.touched)">يرجى إدخال معلومات صحيحة</p>
+                    </span>
                   </div>
           
                 </div>
               </div>
-              <div class="row">
-                <div class="col-6">
-                  <div class="fancyRadioBoxes">
-                    <input id="1" name="accountSetup" type="radio">
-                    <label for="1">
-                      <span></span>
-                      Passport
-                    </label>
+
+              <div class="documentInfo d-flex flex-column p-4 mt-3">
+                <div class="docList mt-3 mb-3">
+               
+                  <div class="row" *ngFor="let doc of docTypes; let i = index">
+                      <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="fancyRadioBoxes">
+                          <input id="{{i}}" name="name" type="radio" (click)="selectdocType(i, doc)">
+                          <label for="{{i}}">
+                            <span></span>
+                            {{doc.BaseLang}}
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="fancyRadioBoxes dir-otherLanguage">
+                          <input id="{{i}}" name="nameAr" type="radio" (click)="selectdocType(i, doc)">
+                          <label for="{{i}}">
+                            <span class="mr-0 ml-2"></span>
+                            {{doc.OtherLang}}
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                </div>   
+                <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngFor = "let file of selectedDocx">
+                  <div class="fileDesc">
+                      <img *ngIf="file.type == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
+                      <img *ngIf="file.type == 'image/png' || file.type == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
+                    <span>{{file.name}}</span>
                   </div>
-                </div>
-                <div class="col-6">
-                  <div class="fancyRadioBoxes dir-otherLanguage">
-                    <input id="1" name="accountSetup" type="radio">
-                    <label for="1">
-                      <span class="mr-0 ml-2"></span>
-                      جواز سفر
-                    </label>
+                  <div class="del">
+                    <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16">
                   </div>
+                </div>  
+                
+                <div class="file-uploader">
+                   <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event)" [configId]="'config'">
+                      <img src="../../../assets/images/icons/manager-icon.png">
+                      <p class="m-0"> Drag here or browse to upload</p>
+                      <small> (supported types: pdf,jpeg,png,Maximum size per document: 4 MB) </small>
+                   </app-ng-files-drag-n-upload>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-6">
-                  <div class="fancyRadioBoxes">
-                    <input id="2" name="accountSetup" type="radio">
-                    <label for="2">
-                      <span></span>
-                      Emirates ID
-                    </label>
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="fancyRadioBoxes dir-otherLanguage">
-                    <input id="2" name="accountSetup" type="radio">
-                    <label for="2">
-                      <span class="mr-0 ml-2"></span>
-                      هوية الإمارات
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-6">
-                  <div class="fancyRadioBoxes">
-                    <input id="3" name="accountSetup" type="radio">
-                    <label for="3">
-                      <span></span>
-                      Drivers License
-                    </label>
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="fancyRadioBoxes dir-otherLanguage">
-                    <input id="1" name="accountSetup" type="radio">
-                    <label for="1">
-                      <span class="mr-0 ml-2"></span>
-                      رخصة السائق
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="document-upload-box">
-                <div class="col-12">
-                  <img src="../../../assets/images/icons/manager-icon.png">
-                  <p> Drag here or
-                    <span> browse </span>to upload</p>
-                </div>
-          
               </div>
               <div class="info_text">
-                <p>
-                  <img src="../../../assets/images/icons/icon_add.svg" alt="icons">Add More / إضافة المزيد </p>
+                <p><img src="../../../assets/images/icons/icon_add.svg" class="icon-size-16"  alt="icons">Add More / إضافة المزيد </p>
               </div>
           
           </form>
@@ -319,11 +312,11 @@
 
   </ngb-accordion>
   <div class="submit-btn  mt-5">
-    <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">Submit / خضع</a>
+    <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="submitBusinessInfo()">Submit / خضع</a>
   </div>
   <div class="info_text">
     <a href="javascript:;" class="text mt-4" (click)="previousForm()">
-      <img src="../../../assets/images/icons/icon_arrow_left.svg" alt="icons">GO BACK / الى الخلف
+      <img src="../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16" alt="icons">GO BACK / الى الخلف
     </a>
   </div>
  

@@ -117,19 +117,19 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
     } 
     })
   }
-  timerClass(){
-    if(!this.remainingTime){
-        return 'resendLink';
-      }
-  }
+  // timerClass(){
+  //   if(!this.remainingTime){
+  //       return 'resendLink';
+  //     }
+  // }
 
   resendOtp(){ 
-    if(this.remainingTime) return;
     let obj= {
       key: this.userInfo.Key
     };
     this._userService.resendOtpCode(obj).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
+        console.log(res.returnObject.otpCode);
         this.userInfo.OTPCode = res.returnObject.otpCode;
         this.userInfo.Timer = res.returnObject.timer;
         this._toast.success("Resend OTP Successfully", '');

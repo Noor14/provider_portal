@@ -15,15 +15,17 @@
     <div class="col-lg-6 col-md-6 col-sm-8 otp-form">
       <div class="form-froup">
         <form autocomplete="off" novalidate [formGroup]="otpForm" (ngSubmit)="submitOtp(otpForm.value)">
+          <div class="form-group">
             <label for="otp"><span>{{lblOTPPasswordBaselang}}</span><span *ngIf="showTranslatedLangSide"> / {{lblOTPPasswordOtherlang}}</span></label>
             <input maxlength="6" formControlName="otp" (keypress)="passSpaceHandler($event)" type="text" id="otp" class="form-control mb-3" [(ngModel)]="otpCode" placeholder="Enter OTP Code">
+            </div>
             <button class="btn btn-primary hvr-sweep-to-right form-control" type="submit" [disabled]="otpForm.invalid">
               <span>{{otpbtnBaselang}}</span><span *ngIf="showTranslatedLangSide"> / {{otpbtnOtherlang}}</span>
             </button>
         </form>
       </div>
       <p class="otp-form-msg text-center mt-2 ">
-        <a href="javascript:;" (click)="resendOtp()" class="hvr-icon-forward" [ngClass]="timerClass()">
+        <a href="javascript:;" (click)="resendOtp()" class="hvr-icon-forward">
           <span>{{otpResendBaselang}}</span><span *ngIf="showTranslatedLangSide"> / {{otpResendOtherlang}}</span>
           <img src="../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16 align-text-top hvr-icon">
         </a>

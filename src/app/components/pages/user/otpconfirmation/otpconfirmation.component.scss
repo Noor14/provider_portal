@@ -33,9 +33,6 @@
                 font-family: $font-NeoSansArabic-Regular
             }
         }
-        .form-control {
-            height: 48px;
-        }
         .btn {
             font-size: $font-size-large;
             font-family: $font-proxima;
@@ -54,10 +51,11 @@
                 color: $dark-grey-blue;
                 font-family: $font-proxima;
                 font-weight: $font-proxima-weight-semibold;
-                cursor: no-drop !important;
-                &.resendLink{
-                    cursor: pointer !important;
+                cursor: pointer !important;
+                &:hover{
+                    text-decoration: none;
                 }
+            
                 span:nth-child(2){
                     font-family: $font-NeoSansArabic-Regular
                 }

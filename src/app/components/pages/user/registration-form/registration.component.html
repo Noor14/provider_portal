@@ -10,7 +10,7 @@
       <img *ngIf="selectedRegion && selectedRegion.code" src="{{'../../../../../assets/images/flags/4x3/' + (selectedRegion.code | lowercase) + '.svg'}}"
         class="mr-1 prepend-flag">
       <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search"
-        [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Select Region" (ngModelChange)="getAccountList(selectedRegion, $event)" />
+        [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Please enter your country name to proceed" (ngModelChange)="getAccountList(selectedRegion, $event)" />
       <ng-template #rt let-r="result">
         <img src="{{'../../../../../assets/images/flags/4x3/' + (r.code | lowercase) + '.svg'}}" class="mr-1">
         <ngb-highlight [result]="r.title"></ngb-highlight>

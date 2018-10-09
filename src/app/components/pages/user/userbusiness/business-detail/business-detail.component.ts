@@ -24,7 +24,7 @@ export class BusinessDetailComponent implements OnInit {
   public selectedLicense;
   public selectedLogo;
 
-  private sharedConfig: NgFilesConfig = {
+  private config: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', , 'pdf', 'bmp'],
     maxFilesCount: 1,
     maxFileSize: 4096000,
@@ -191,7 +191,7 @@ export class BusinessDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.ngFilesService.addConfig(this.sharedConfig, 'config');
+    this.ngFilesService.addConfig(this.config, 'docConfig');
     // this.ngFilesService.addConfig(this.namedConfig);
     this._sharedService.formProgress.next(30);
 
@@ -730,7 +730,7 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
       // this.selectedFiles = selectedFiles.status;
       return;
     }
-    this.selectedLicense = Array.from(selectedFiles.files).map(file => file.name);
+    this.selectedLicense = selectedFiles.files[0];
   }
   else if(type =='logo'){
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
@@ -738,16 +738,8 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
       // this.selectedFiles = selectedFiles.status;
       return;
     }
-    this.selectedLogo = Array.from(selectedFiles.files).map(file => file.name);
+    this.selectedLogo = selectedFiles.files[0];
   }
   }
 
-  // Selectlogo(selectedFiles: NgFilesSelected): void {
-  //   if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-  //     if (selectedFiles.files.length > 1) this._toastr.error('Please select a one file', '')
-  //     // this.selectedFiles = selectedFiles.status;
-  //     return;
-  //   }
-  //   this.selectedFiles = Array.from(selectedFiles.files).map(file => file.name);
-  // }
 }

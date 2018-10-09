@@ -5,6 +5,10 @@ import { EMAIL_REGEX, CustomValidator } from '../../../../../constants/globalFun
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CommonService } from '../../../../../services/common.service';
+import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../directives/ng-files';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-directorinfo',
@@ -15,9 +19,18 @@ import { CommonService } from '../../../../../services/common.service';
 })
 export class DirectorinfoComponent implements OnInit {
   
-  showTranslatedLangSide:boolean = true;
+  public showTranslatedLangSide:boolean = true;
+
+  public selectedDocx :any;
+  private sharedConfig: NgFilesConfig = {
+    acceptExtensions: ['jpg', 'png', , 'pdf', 'bmp'],
+    maxFilesCount: 2,
+    maxFileSize: 4096000,
+    totalFilesSize: 8192000
+  };
 
   public debounceInput: Subject<string> = new Subject();
+  public debounceInputMang: Subject<string> = new Subject();
   public countryFlagImage: string;
   public phoneCode: string;
   public transPhoneCode: string;
@@ -28,6 +41,7 @@ export class DirectorinfoComponent implements OnInit {
   // form Field Validtaions boolean variable
   public requiredFields: string = "This field is required";
   public requiredFieldsOthrLng: string = "هذه الخانة مطلوبه";
+
   public firstNameError: boolean;
   public lastNameError: boolean;
   public phoneError: boolean;
@@ -44,6 +58,18 @@ export class DirectorinfoComponent implements OnInit {
   public activePhone:any;
   public activeTransPhone:any;
 
+
+  public firstNameErrorMng: boolean;
+  public lastNameErrorMng: boolean;
+  public transfirstNameErrorMng: boolean;
+  public translastNameErrorMng: boolean;
+
+  public activeFirstNameMng: any;
+  public activeTransFirstNameMng: any;
+  public activeLastNameMng:any;
+  public activeTransLastNameMng:any;
+
+
   // model binding
 
   public transLangEmail: any;
@@ -51,6 +77,8 @@ export class DirectorinfoComponent implements OnInit {
   // global Input
   public Globalinputfrom: any;
   public Globalinputto: any;
+  public GlobalinputfromMng: any;
+  public GlobalinputtoMng: any;
 
   public userProfile: any;
 
@@ -67,16 +95,32 @@ export class DirectorinfoComponent implements OnInit {
     {baseNumber:'9',arabicNumber:'۹'}
   ]
   
-  directorForm; 
 
+
+ public docxId: any;
+ public docTypes:any=[];
+ public jobTypeList:any=[];
+ public selectedjobDesg;
+ public selectedjobDesgAr;
+ public desgType;
+
+ directorForm; 
+ managementForm;
   constructor(
     private _sharedService :SharedService,
     private _commonService: CommonService,
+    private ngFilesService: NgFilesService,
+    private _toastr: ToastrService,    
+    private _router: Router,
+    
   ) {
     
    }
 
   ngOnInit() {
+    this._sharedService.formProgress.next(40);
+    
+    this.ngFilesService.addConfig(this.sharedConfig, 'config');
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if(userInfo && userInfo.returnObject){
       this.userProfile = userInfo.returnObject;
@@ -102,6 +146,16 @@ export class DirectorinfoComponent implements OnInit {
         });
 
 
+        this.managementForm = new FormGroup({
+          firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
+          transLangfirstName: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(2), Validators.maxLength(100)]),
+          lastName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
+          transLanglastName: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(2), Validators.maxLength(100)]),
+          jobDesgType: new FormControl(null, [Validators.required]),
+          jobDesgTypeAr: new FormControl(null, [Validators.required]),
+            });   
+
+
     this._sharedService.countryList.subscribe((state: any) => {
       this.countryList = state;
       if (this.userProfile.countryID) {
@@ -109,14 +163,70 @@ export class DirectorinfoComponent implements OnInit {
         this.selectPhoneCode(selectedCountry);
       }
     });
+
+    this._sharedService.documentList.subscribe((state: any) => {
+      this.docTypes = state;
+    });
+    this._sharedService.jobTitleList.subscribe((state: any) => {
+      this.jobTypeList = state;
+    });
   }
   
+
+
+
+  jobType(type){
+    if(type && type != 'undefined'){
+      let selectedDesg = this.jobTypeList.find(obj => (obj.BaseLang == type  || obj.OtherLang == type));
+      this.desgType = selectedDesg;
+      this.selectedjobDesg = selectedDesg.BaseLang;
+      this.selectedjobDesgAr = selectedDesg.OtherLang;
+     }
+     else{
+      this.desgType = {};
+      this.selectedjobDesg = type;
+      this.selectedjobDesgAr = type;
+     }
+  }
+
+
+
+
+
+
+
+
+
+  selectdocType(index, obj) {
+    // this.docxId = obj.AccountID;
+    let elem = document.getElementsByClassName('fancyRadioBoxes') as any;
+    for (let i = 0; i < elem.length; i++) {
+      if (elem[i].children[0].id == index) {
+        elem[i].children[0].checked = true;
+      }
+  
+    }
+  }
 
  previousForm(){
     this._sharedService.formChange.next(true);
   }
 
   errorValidate() {
+
+    if (this.managementForm.controls.firstName.status == "INVALID" && this.managementForm.controls.firstName.touched) {
+      this.firstNameErrorMng = true;
+    }
+    if (this.managementForm.controls.transLangfirstName.status == "INVALID" && this.managementForm.controls.transLangfirstName.touched) {
+      this.transfirstNameErrorMng = true;
+    }
+    if (this.managementForm.controls.lastName.status == "INVALID" && this.managementForm.controls.lastName.touched) {
+      this.lastNameErrorMng = true;
+    }
+    if (this.managementForm.controls.transLanglastName.status == "INVALID" && this.managementForm.controls.transLanglastName.touched) {
+      this.translastNameErrorMng = true;
+    }
+
     if (this.directorForm.controls.firstName.status == "INVALID" && this.directorForm.controls.firstName.touched) {
       this.firstNameError = true;
     }
@@ -276,6 +386,72 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
 }
 
 
+onModelChangeMng(fromActive, currentActive, $controlName, source, target, $value) {
+  setTimeout(() => {
+    if(currentActive && !fromActive && $value){
+      this.GlobalinputfromMng = false;
+    }
+    if(fromActive == false && currentActive && this.managementForm.controls[$controlName].errors || this.GlobalinputtoMng){
+      this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
+        this.managementForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+        this.GlobalinputtoMng = true;
+      })
+    }
+   else if ($value && currentActive && source && target && fromActive==undefined) {
+      this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
+        this.managementForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+      })
+    }
+    // else if(currentActive && !$value){
+    //   this.fromActive(fromActive);
+    // }
+  }, 100)
+}
+
+onTransModelMng(fromActive, currentActive, $controlName, $value) {
+
+  if(currentActive && !fromActive && $value){
+    this.GlobalinputtoMng = false;
+  }
+  if(currentActive && fromActive == false && this.managementForm.controls[$controlName].errors || this.GlobalinputfromMng){
+    this.debounceInputMang.next($value);
+    this.debounceInputMang.pipe(debounceTime(400),distinctUntilChanged()).subscribe(value => {
+    this._commonService.detectedLanguage(value).subscribe((res: any) => {
+      let sourceLang = res.data.detections[0][0].language;
+      let target = "en";
+      if (sourceLang && target && value) {
+        this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+          this.managementForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+            this.GlobalinputfromMng = true;
+        })
+      }
+    })
+});
+  }
+    else if (currentActive && $value && fromActive==undefined) {
+      this.debounceInputMang.next($value);
+      this.debounceInputMang.pipe(debounceTime(400),distinctUntilChanged()).subscribe(value => {
+      this._commonService.detectedLanguage(value).subscribe((res: any) => {
+        let sourceLang = res.data.detections[0][0].language;
+        let target = "en";
+        // if (sourceLang && target && value) {
+        //   this.onModelChange(fromActive, currentActive, $controlName, sourceLang, target, value);
+        // }
+        if (sourceLang && target && value) {
+          this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+            this.managementForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+          })
+        }
+      })
+  });
+}
+// else if(currentActive && !$value){
+//   this.fromActive(fromActive);    
+// }
+}
+
+
+
 
 onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
   
@@ -293,5 +469,25 @@ onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
   }
 
 }
+
+
+
+selectDocx(selectedFiles: NgFilesSelected): void {
+ 
+   if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
+     if (selectedFiles.files.length > 1) this._toastr.error('Please select only two files', '')
+     // this.selectedFiles = selectedFiles.status;
+     return;
+   }
+   this.selectedDocx = selectedFiles.files;
+ 
+
+ }
+ submitBusinessInfo(){
+  this._router.navigate(['/profile-completion']);
+ }
+
+
+
 }
 
