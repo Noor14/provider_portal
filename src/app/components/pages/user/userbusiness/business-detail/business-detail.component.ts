@@ -723,6 +723,17 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
     this._sharedService.formChange.next(false);
   }
 
+  removeSelectedDocx(type){
+    if(type == "license"){
+      this.selectedLicense = {}
+    }
+    else if(type == "logo"){
+      this.selectedLogo = {}
+    }
+  }
+
+
+
  SelectDocx(selectedFiles: NgFilesSelected, type): void {
    if(type =='license'){
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {

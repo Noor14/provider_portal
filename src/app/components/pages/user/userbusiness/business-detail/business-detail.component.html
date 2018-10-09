@@ -200,7 +200,7 @@
           <span>{{selectedLicense.name}}</span>
         </div>
         <div class="del">
-          <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16">
+          <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx('license')">
         </div>
       </div>  
       
@@ -274,7 +274,7 @@
         <div class="row">
           <div class="col-5">
             <div class="form-group">
-              <label for="address">P.0 Box</label>
+              <label for="address">P.O Box</label>
               <input type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false" [ngClass]="{'inputError': poBoxError && businessLocForm.controls['address'].errors}" 
               [(ngModel)]="poBoxAr" formControlName="poBoxNo">
               <span *ngIf="poBoxError && businessLocForm.controls['poBoxNo'].errors">
@@ -325,7 +325,7 @@
                    <span>{{selectedLogo.name}}</span>
               </div>
               <div class="del">
-                <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16">
+                <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx('logo')">
               </div>
             </div>  
             
