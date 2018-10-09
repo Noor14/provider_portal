@@ -1,13 +1,11 @@
 @import '../../../../../../assets/scss/_variables';
-
 .business-profile {
     h2 {
         font-weight: 700;
         font-family: proxima, sans-serif;
     }
-
     h5 {
-        margin-top:3rem;
+        margin-top: 3rem;
     }
     .service-btn {
         border-radius: 4px;
@@ -32,187 +30,74 @@
             }
         }
     }
-    .select-number {
-        .input-group-prepend {
-            input[type="text"] {
-                padding-left: 22% !important; // padding-left: 40px;
-            }
-            .dropdown {
-                margin-top: 12px;
-                position: absolute;
-                margin-left: 12px;
-            }
-            img{
-                width: 20px;
-                height: 15px;
-                margin-right: 5px;
-                }
-            .phone{
-                span {
-                    font-size: $font-size-medium;
-                }
-            }
-            .country-section {
-                border: 0px;
-                left:-14px !important;
-                background: transparent;
-                ul {
-                    border: 0px;
-                    max-height: 200px;
-                    overflow-y: scroll;
-                    li.list-group-item {
-                            padding-top: 0.45rem;
-                            padding-bottom: 0.45rem;
-                            border: none;
-                            cursor: pointer;
-                        img {
-                            border: 1px solid $grey-border;
-                        }
-                    }
-                }
-            }
-        }
-        .input-group-append{
-            width: 100%;
-            @extend .input-group-prepend;
-            input[type="text"]{
-                padding-left: 0;
-                padding-right: 22%;
-            }
-            .dropdown {
-                margin-top: 12px;
-                margin-right: 12px;
-            }
-            .country-section {
-                left: 0 !important;
-                right:-14px !important;
-                ul{
-                    padding-right: 0;
-                }
-            }
-        }
-    }
+ 
     .business-map {
-        .map-box{
+        .map-box {
             position: relative;
-            .searchAddress{
+            .searchAddress {
                 position: absolute;
                 left: 15px;
                 top: 15px;
-                width:calc(8em + 100px);
+                width: calc(8em + 100px);
                 z-index: 1;
             }
-            agm-map{
+            agm-map {
                 height: 350px;
             }
-        }        
         }
-    .add-more{
-        a{
-        font-size: 0.875rem;
-        font-family: $font-proxima;
-        font-weight: $font-weight-mid;
-        color: $secondary-text-color;
-        &:hover{
-            text-decoration: none
-        }
-      }
     }
-
-    form{
-        .dir-otherLanguage{
-            .row{
+    .add-more {
+        a {
+            font-size: 0.875rem;
+            font-family: $font-proxima;
+            font-weight: $font-weight-mid;
+            color: $secondary-text-color;
+            &:hover {
+                text-decoration: none
+            }
+        }
+    }
+    form {
+        .dir-otherLanguage {
+            .row {
                 clear: both;
             }
-         }
+        }
 
-     
-        .form-group {
-            p.inputError {
-                position: absolute; 
-                line-height: 1;
-                margin-top: 6px;
-                color: $danger-color;
-                font-size: $font-size-medium - 0.025;
-              }
-        input {
-            border: 0;
-            height: 2.9rem;
-            &::placeholder {
-                color: #afafaf;
-                opacity: 1;
-            }
-            &:-ms-input-placeholder {
-                color: #afafaf;
-            }
-            &::-ms-input-placeholder {
-                color: #afafaf;
-            }
-            &.inputError{
-                border:1px solid $danger-color
-            }
-        }
-     .form-control {
-            border: 0;
-            height: 2.9rem;
-    
-            }
-    
-        label {
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-        }
-      }
-        .upload-image {
-            img {
-                margin: auto;
-                display: block;
-                padding-top: 2.5rem;
-            }
-            p{
-                padding:1rem;
-            }
-            width: 180px;
-            height: 160px;
-            border: 1px solid #e1d8d8;
-            text-align: center;
-        }
-    
         .trade-license-box {
             small {
                 color: #afafaf;
             }
-            .documentInfo{
-                height: 225px;
+        }
+        .documentInfo {
+            margin-bottom: 3rem;
+            background: $white-color;
+            padding: 20px;
+            .uploaded-file {
+                border: 1px solid $secondary-color;
+                border-radius: 3px;
+                margin-bottom: 20px;
+                .fileIcon {
+                    width: 35px;
+                    height: 35px;
+                }
+            }
+            .file-uploader {
+                padding: 25px;
                 border: 1px dashed #e1d8d8;
-                margin-bottom: 3rem;
                 text-align: center;
-                img {
-                    margin: auto;
-                    display: block;
-                    padding-top: 5rem;
-                }
-                p {
-                    margin-top: 0.8rem;
-                }
             }
         }
-      
-       
         .social-accounts {
-       
-        .info_text {
-            p {
-                font-size: 0.875rem;
-                font-family: $font-proxima;
-                color: $secondary-text-color;
-                padding-top: 0.59rem;
+            .info_text {
+                p {
+                    font-size: 0.875rem;
+                    font-family: $font-proxima;
+                    color: $secondary-text-color;
+                    padding-top: 0.59rem;
+                }
             }
-          
         }
-    }
-     
-    
     }
     .contact-btn {
         .btn {

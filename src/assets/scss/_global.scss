@@ -337,10 +337,107 @@ input[type="radio"]:focus+label>span {
 
 /*-- generic Inputs  --*/
 
-.form-row {
-  input,select {
-    border: 1px solid $provider-input-border !important;
-    border-radius: 4px !important;
-    height: 52px !important;
+// .form-row {
+  .form-group {
+    p.inputError {
+      position: absolute;
+      line-height: 1;
+      margin-top: 6px;
+      color: $danger-color;
+      font-size: $font-size-medium - 0.025;
+     }
+      label {
+          margin-top: 1rem;
+          margin-bottom: 0.5rem;
+      }
+      input,
+      select {
+          outline: 0;
+          border: 1px solid $provider-input-border;
+          border-radius: 4px !important;
+          height: 52px !important;
+          &::placeholder {
+              color: $place-holder-color;
+              opacity: 1;
+          }
+          &:-ms-input-placeholder {
+              color: $place-holder-color;
+          }
+          &::-ms-input-placeholder {
+              color: $place-holder-color;
+          }
+          &.inputError {
+              border: 1px solid $danger-color
+          }
+          &:focus {
+              box-shadow: none !important;
+          }
+      }
+      .select-number {
+        .input-group-prepend {
+          align-items: center;
+            input[type="text"] {
+                padding-left: 22% !important; // padding-left: 40px;
+            }
+            .dropdown {
+                position: absolute;
+                margin-left: 12px;
+            }
+            img{
+                width: 20px;
+                height: 15px;
+                margin-right: 5px;
+                }
+            .phone{
+                span {
+                    font-size: $font-size-medium;
+                }
+            }
+            .country-section {
+                border: 0px;
+                left:-14px !important;
+                background: transparent;
+                ul {
+                    border: 0px;
+                    max-height: 200px;
+                    overflow-y: scroll;
+                    li.list-group-item {
+                            padding-top: 0.45rem;
+                            padding-bottom: 0.45rem;
+                            border: none;
+                            cursor: pointer;
+                        img {
+                            border: 1px solid $grey-border;
+                        }
+                    }
+                }
+            }
+        }
+        .input-group-append{
+            width: 100%;
+            @extend .input-group-prepend;
+            input[type="text"]{
+                padding-left: 0;
+                padding-right: 22%;
+            }
+            img{
+              margin-right: 0px;
+              margin-left: 5px;
+              }
+            .dropdown {
+                margin-left:0; 
+                margin-right: 12px;
+            }
+            .country-section {
+                left: 0 !important;
+                right:-14px !important;
+                ul{
+                    padding-right: 0;
+                }
+            }
+        }
+    }
   }
-}
+  
+  
+// }

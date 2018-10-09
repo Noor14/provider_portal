@@ -1,6 +1,6 @@
 <section class="business-profile pl-1 pr-1">
   <h2>{{firstNameBL}}, Add Your Business Profile </h2>
-  <p>It takes less than 60 seconds to add your business and get started </p>
+  <p>It takes only a few minutes to add your business and get started</p>
 
   <h5 class="d-flex justify-content-between">
     <span>Key Information</span>
@@ -190,16 +190,28 @@
       <div class="licenseNaming">
           <label for="trade-license" class="m-0"> Trade License </label>
           <br>
-          <small>Document must be valid for XX months </small>
+          <small>Document must be valid for 3 months </small>
       </div>
-      <div class="documentInfo">
-         <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'license')" [configId]="'config'">
+      <div class="documentInfo d-flex flex-column p-4 mt-3">
+      <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLicense && selectedLicense.name">
+        <div class="fileDesc">
+          <img *ngIf="selectedLicense.type == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
+          <img *ngIf="selectedLicense.type == 'image/png' || selectedLicense.type == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
+          <span>{{selectedLicense.name}}</span>
+        </div>
+        <div class="del">
+          <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx('license')">
+        </div>
+      </div>  
+      
+      <div class="file-uploader">
+         <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'license')" [configId]="'docConfig'">
             <img src="../../../assets/images/icons/manager-icon.png">
-            <p> Drag here or browse to upload</p>
-            <p *ngIf="selectedLicense">{{selectedLicense}}</p>
+            <p class="m-0"> Drag here or browse to upload</p>
             <small> (supported types: pdf,jpeg,png,Maximum size per document: 4 MB) </small>
          </app-ng-files-drag-n-upload>
       </div>
+    </div>
     </div>
   </form>
   <h5 class="m-0"> Company Activities</h5>
@@ -262,7 +274,7 @@
         <div class="row">
           <div class="col-5">
             <div class="form-group">
-              <label for="address">P.0 Box</label>
+              <label for="address">P.O Box</label>
               <input type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false" [ngClass]="{'inputError': poBoxError && businessLocForm.controls['address'].errors}" 
               [(ngModel)]="poBoxAr" formControlName="poBoxNo">
               <span *ngIf="poBoxError && businessLocForm.controls['poBoxNo'].errors">
@@ -305,13 +317,26 @@
       <div class="col-12">
         <div class="form-group">
            <label for="address">Upload Logo</label>
-          <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'logo')" [configId]="'config'">
-              <div class="upload-image">
-                  <img src="../../../assets/images/icons/manager-icon.png">
-                  <p *ngIf="selectedLogo"> {{selectedLogo}} </p>
-                  <p> Drag here or browse to upload</p>
+           <div class="documentInfo d-flex flex-column p-4 mt-3">
+            <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLogo && selectedLogo.name">
+              <div class="fileDesc">
+                  <img *ngIf="selectedLogo.type == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
+                  <img *ngIf="selectedLogo.type == 'image/png' || selectedLogo.type == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
+                   <span>{{selectedLogo.name}}</span>
               </div>
-           </app-ng-files-drag-n-upload>
+              <div class="del">
+                <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx('logo')">
+              </div>
+            </div>  
+            
+            <div class="file-uploader">
+               <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'logo')" [configId]="'docConfig'">
+                  <img src="../../../assets/images/icons/manager-icon.png">
+                  <p class="m-0"> Drag here or browse to upload</p>
+                  <small> (supported types: pdf,jpeg,png,Maximum size per document: 4 MB) </small>
+               </app-ng-files-drag-n-upload>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -360,7 +385,7 @@
           <label for="exampleFormControlSelect1">نوع المنظمة</label>
           <select class="form-control" id="exampleFormControlSelect2" name="organizationTypeAr"
             [(ngModel)]="selectedOrgTypeAr" (change) = "organizationType($event.target.value)" formControlName="organizationTypeAr">
-            <option value="undefined">Please select </option>
+            <option value="undefined">يرجى الاختيار</option>
             <option *ngFor="let type of organizationList">{{type.OtherLang}}</option>
           </select>
         </div>

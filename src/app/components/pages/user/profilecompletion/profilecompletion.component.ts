@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from '../../../../services/shared.service';
 
 @Component({
   selector: 'app-profilecompletion',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfilecompletionComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _sharedService: SharedService) { }
 
   ngOnInit() {
+    this._sharedService.formProgress.next(50);
+    
   }
 
 }

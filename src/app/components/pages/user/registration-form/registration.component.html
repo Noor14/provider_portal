@@ -1,6 +1,6 @@
 <section class="registration">
   <h3 class="registration-title">Registration Details</h3>
-  <small class="registration-paragraph">It takes less than 15 minutes to setup your account.</small>
+  <small class="registration-paragraph">It takes only a few minutes to setup your account.</small>
   <section class="registration-map-section">
     <h5 class="registration-head-titles">
       Select Your Country
@@ -9,8 +9,8 @@
     <div class="select-city">
       <img *ngIf="selectedRegion && selectedRegion.code" src="{{'../../../../../assets/images/flags/4x3/' + (selectedRegion.code | lowercase) + '.svg'}}"
         class="mr-1 prepend-flag">
-      <input id="typeahead" type="text" class="form-control" [(ngModel)]="selectedRegion" [ngbTypeahead]="search"
-        [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Select Region" (ngModelChange)="getAccountList(selectedRegion, $event)" />
+      <input id="typeahead" type="text" class="form-control" [ngClass]= "{'blinking': !selectedRegion.id || !selectedRegion }" [(ngModel)]="selectedRegion" [ngbTypeahead]="search"
+        [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Please enter your country name to proceed" (ngModelChange)="getAccountList(selectedRegion, $event)" />
       <ng-template #rt let-r="result">
         <img src="{{'../../../../../assets/images/flags/4x3/' + (r.code | lowercase) + '.svg'}}" class="mr-1">
         <ngb-highlight [result]="r.title"></ngb-highlight>

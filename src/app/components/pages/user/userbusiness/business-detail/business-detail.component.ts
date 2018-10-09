@@ -24,7 +24,7 @@ export class BusinessDetailComponent implements OnInit {
   public selectedLicense;
   public selectedLogo;
 
-  private sharedConfig: NgFilesConfig = {
+  private config: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', , 'pdf', 'bmp'],
     maxFilesCount: 1,
     maxFileSize: 4096000,
@@ -191,7 +191,7 @@ export class BusinessDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.ngFilesService.addConfig(this.sharedConfig, 'config');
+    this.ngFilesService.addConfig(this.config, 'docConfig');
     // this.ngFilesService.addConfig(this.namedConfig);
     this._sharedService.formProgress.next(30);
 
@@ -254,10 +254,10 @@ export class BusinessDetailComponent implements OnInit {
       transLangOrgName: new FormControl(null, [Validators.maxLength(100), Validators.minLength(4)]),
     });
     this.contactInfoForm = new FormGroup({
-      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(9)]),
-      transLangPhone: new FormControl(null, [Validators.minLength(7), Validators.maxLength(9)]),
-      fax: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(9)]),
-      transLangFax: new FormControl(null, [Validators.minLength(7), Validators.maxLength(9)]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(10)]),
+      transLangPhone: new FormControl(null, [Validators.minLength(7), Validators.maxLength(10)]),
+      fax: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(10)]),
+      transLangFax: new FormControl(null, [Validators.minLength(7), Validators.maxLength(10)]),
      
     });
   }
@@ -730,6 +730,17 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
     this._sharedService.formChange.next(false);
   }
 
+  removeSelectedDocx(type){
+    if(type == "license"){
+      this.selectedLicense = {}
+    }
+    else if(type == "logo"){
+      this.selectedLogo = {}
+    }
+  }
+
+
+
  SelectDocx(selectedFiles: NgFilesSelected, type): void {
    if(type =='license'){
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
@@ -737,7 +748,7 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
       // this.selectedFiles = selectedFiles.status;
       return;
     }
-    this.selectedLicense = Array.from(selectedFiles.files).map(file => file.name);
+    this.selectedLicense = selectedFiles.files[0];
   }
   else if(type =='logo'){
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
@@ -745,16 +756,8 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
       // this.selectedFiles = selectedFiles.status;
       return;
     }
-    this.selectedLogo = Array.from(selectedFiles.files).map(file => file.name);
+    this.selectedLogo = selectedFiles.files[0];
   }
   }
 
-  // Selectlogo(selectedFiles: NgFilesSelected): void {
-  //   if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-  //     if (selectedFiles.files.length > 1) this._toastr.error('Please select a one file', '')
-  //     // this.selectedFiles = selectedFiles.status;
-  //     return;
-  //   }
-  //   this.selectedFiles = Array.from(selectedFiles.files).map(file => file.name);
-  // }
 }
