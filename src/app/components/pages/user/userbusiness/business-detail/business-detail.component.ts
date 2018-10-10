@@ -683,13 +683,6 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
   }
 
 
-  nextForm(){
-    this._sharedService.formChanger.next(false);
-  }
-
-
-
-
   serviceSelection(obj, selectedService) {
     let index = this.serviceIds.indexOf(obj.ServiceID);
     let selectedItem = selectedService.classList;
