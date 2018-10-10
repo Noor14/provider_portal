@@ -13,6 +13,12 @@
                         font-size: 1rem;
                         font-family: proxima-nova, sans-serif;
                         margin-bottom: 0.5rem;
+                        a{
+                            color: $color-white;
+                          &:hover{
+                              text-decoration: none;
+                          }  
+                        }
                     }
                     small {
                         font-size: 0.75rem;

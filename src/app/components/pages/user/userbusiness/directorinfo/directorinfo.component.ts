@@ -118,7 +118,7 @@ export class DirectorinfoComponent implements OnInit {
    }
 
   ngOnInit() {
-    this._sharedService.formProgress.next(40);
+    this._sharedService.formProgress.next(50);
     
     this.ngFilesService.addConfig(this.sharedConfig, 'config');
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -487,7 +487,9 @@ selectDocx(selectedFiles: NgFilesSelected): void {
   this._router.navigate(['/profile-completion']);
  }
 
-
+ removeSelectedDocx(index){
+  this.selectedDocx.splice(index,1);
+ }
 
 }
 
