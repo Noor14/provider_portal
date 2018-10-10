@@ -7,6 +7,8 @@
         justify-content: space-between;
         .support {
             background: #243748;
+            position: sticky;
+            bottom: 0;
             .card {
                 &-body {
                     p {
