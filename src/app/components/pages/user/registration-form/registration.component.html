@@ -28,7 +28,7 @@
       <span *ngIf="showTranslatedLangSide">{{lblAccSetupOtherLang}}</span>
     </h5>
     <hr class="hr-solid">
-    <div class="row" *ngFor="let account of accountSetup; let i = index">
+    <div class="row mb-1" *ngFor="let account of accountSetup; let i = index">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="fancyRadioBoxes">
           <input id="{{i}}" name="accountSetup" type="radio" (click)="selectAccountSetup(i, account)">

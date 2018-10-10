@@ -102,7 +102,7 @@ export class CreatePasswordComponent implements OnInit {
       this.userInfo = res.returnObject;
       this.showTranslatedLangSide = (this.userInfo && this.userInfo.regionCode == "MET")? true : false;
       this.getlabelsDescription(this.userInfo);
-      this._sharedService.formProgress.next(20);
+      this._sharedService.formProgress.next(30);
       console.log(this.userInfo);
     } 
     })

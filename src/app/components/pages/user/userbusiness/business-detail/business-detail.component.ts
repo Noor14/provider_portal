@@ -25,7 +25,7 @@ export class BusinessDetailComponent implements OnInit {
   public selectedLogo;
 
   private config: NgFilesConfig = {
-    acceptExtensions: ['jpg', 'png', , 'pdf', 'bmp'],
+    acceptExtensions: ['jpg', 'png', 'pdf', 'bmp'],
     maxFilesCount: 1,
     maxFileSize: 4096000,
     totalFilesSize: 4096000
@@ -193,7 +193,7 @@ export class BusinessDetailComponent implements OnInit {
   ngOnInit() {
     this.ngFilesService.addConfig(this.config, 'docConfig');
     // this.ngFilesService.addConfig(this.namedConfig);
-    this._sharedService.formProgress.next(30);
+    this._sharedService.formProgress.next(40);
 
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if(userInfo && userInfo.returnObject){

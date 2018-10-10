@@ -48,8 +48,16 @@
                 color: $white-color;
                 background-color: $primary-color;
                 svg {
-                    path {
+                    path,
+                    rect {
                         fill: $white-color !important;
+                    }
+                    g {
+                        g {
+                            path:last-child {
+                                fill: $primary-color !important;
+                            }
+                        }
                     }
                 }
             }

@@ -11,7 +11,7 @@ export class ProfilecompletionComponent implements OnInit {
   constructor(private _sharedService: SharedService) { }
 
   ngOnInit() {
-    this._sharedService.formProgress.next(50);
+    this._sharedService.formProgress.next(60);
     
   }
 
