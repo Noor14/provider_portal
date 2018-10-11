@@ -16,6 +16,9 @@ import { BusinessDetailComponent } from './userbusiness/business-detail/business
 import { UserService } from './user.service';
 import { DirectorinfoComponent } from './userbusiness/directorinfo/directorinfo.component';
 import { UserbusinessComponent } from './userbusiness/userbusiness.component';
+import { ShippingLinesComponent } from './userbusiness/shipping-lines/shipping-lines.component'
+import { BusinessSetupComponent } from './userbusiness/business-setup/business-setup.component'
+import { SetupMapComponent } from './userbusiness/setup-map/setup-map.component'
 import { ProfilecompletionComponent } from './profilecompletion/profilecompletion.component';
 import { SlidePanelComponent } from '../../../directives/slide-panel/slide-panel.component';
 import { NgFilesModule } from '../../../directives/ng-files/';
@@ -45,7 +48,10 @@ import { NgFilesModule } from '../../../directives/ng-files/';
     UserComponent,
     DirectorinfoComponent,
     UserbusinessComponent,
-    ProfilecompletionComponent
+    ProfilecompletionComponent,
+    BusinessSetupComponent,
+    SetupMapComponent,    
+    ShippingLinesComponent
   ],
   providers: [UserService],
 })
