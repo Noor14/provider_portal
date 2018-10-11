@@ -118,7 +118,6 @@ export class DirectorinfoComponent implements OnInit {
    }
 
   ngOnInit() {
-    this._sharedService.formProgress.next(50);
     
     this.ngFilesService.addConfig(this.sharedConfig, 'config');
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -210,6 +209,8 @@ export class DirectorinfoComponent implements OnInit {
 
  previousForm(){
     this._sharedService.formChange.next(true);
+    this._sharedService.formProgress.next(40);
+    
   }
 
   errorValidate() {

@@ -698,22 +698,22 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
 
   getTenYears(){
     let date = new Date();
+    let persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+    let persianMap = persianDigits.split("");
+    for (let i=0; i < 11; i++){
+      let pastyear = date.getFullYear()-i;
+      let convertedPastYear = pastyear.toString().replace(/\d/g, (m : string) => {
+          return persianMap[parseInt(m)]
+        });
+     this.pastYears.push({ yearNormal : pastyear, yearArabic : convertedPastYear });
+     };
     for (let i=0; i < 2; i++){
-        let pastyear = date.getFullYear()-i;
         let futureyear= date.getFullYear()+i
-        let persianDigits = "۰۱۲۳۴۵۶۷۸۹";
-        let persianMap = persianDigits.split("");
-        let convertedPastYear = pastyear.toString().replace(/\d/g, (m : string) => {
-            return persianMap[parseInt(m)]
-        
-          });
        let convertedFutureYear = futureyear.toString().replace(/\d/g, (m : string) => {
             return persianMap[parseInt(m)]
-        
        });
-          
-      this.pastYears.push({ yearNormal : pastyear, yearArabic : convertedPastYear });
       this.futureYears.push({ yearNormal: futureyear, yearArabic: convertedFutureYear });
+
     }
   }
 
@@ -721,6 +721,8 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
 
   nextForm(){
     this._sharedService.formChange.next(false);
+    this._sharedService.formProgress.next(50);
+    
   }
 
   removeSelectedDocx(type){
