@@ -111,6 +111,39 @@
       </div>
 
       <div class="row">
+          <!-- <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label for="lefttransLangjobTitle">{{lblFormjobTitleBaseLang}}</label>
+                <input type="text" maxlength="100" class="form-control" id="typeaheadother" 
+                placeholder="eg: Manager" formControlName="jobTitle" [(ngModel)]="selectedjobTitle" [ngbTypeahead]="jobSearch"
+                [resultTemplate]="jt" [inputFormatter]="formatterjob">
+                <ng-template #jt let-r="result">
+                    <ngb-highlight [result]="r.baseLanguage"></ngb-highlight>
+                </ng-template> -->
+                <!-- <span *ngIf="jobTitleError && regForm.controls['jobTitle'].errors">
+                  <p class="inputError animated fadeIn" *ngIf="regForm.controls['jobTitle'].hasError('required') && (regForm.controls.jobTitle.dirty || regForm.controls.jobTitle.touched)">{{requiredFields}}</p>
+                  <p class="inputError animated fadeIn" *ngIf="!regForm.controls['jobTitle'].hasError('pattern') && regForm.controls['jobTitle'].hasError('minlength') && (regForm.controls.jobTitle.dirty || regForm.controls.jobTitle.touched)">Job title must be at least 3 characters long</p>
+                  <p class="inputError animated fadeIn" *ngIf="!regForm.controls['jobTitle'].hasError('pattern') && regForm.controls['jobTitle'].hasError('maxlength') && (regForm.controls.jobTitle.dirty || regForm.controls.jobTitle.touched)">Job title should not exceed from 100 characters</p>
+                  <p class="inputError animated fadeIn" *ngIf="regForm.controls['jobTitle'].hasError('pattern') && (regForm.controls.jobTitle.dirty || regForm.controls.jobTitle.touched)">Please enter valid information</p>
+                </span> -->
+              <!-- </div>
+            </div> -->
+            <!-- <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
+              <div class="form-group dir-otherLanguage">
+                <label for="leftJobTitle">{{lblFormjobTitleOtherLang}}</label>
+                <input type="text" maxlength="100" class="form-control" [(ngModel)]="selectedjobTitle" placeholder="المثال : مدير" [ngbTypeahead]="jobSearchOtherLng"
+                [resultTemplate]="jto" [inputFormatter]="formatterjobOtherLng" formControlName="transLangjobTitle" >
+                <ng-template #jto let-r="result" pla>
+                    <ngb-highlight [result]="r.otherLanguage"></ngb-highlight>
+                </ng-template> -->
+                <!-- <span *ngIf="transjobTitleError && regForm.controls['transLangjobTitle'].errors">
+                  <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangjobTitle'].hasError('required') && (regForm.controls.transLangjobTitle.dirty || regForm.controls.transLangjobTitle.touched)">{{requiredFieldsOthrLng}}</p>
+                  <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangjobTitle'].hasError('pattern') && regForm.controls['transLangjobTitle'].hasError('minlength') && (regForm.controls.transLangjobTitle.dirty || regForm.controls.transLangjobTitle.touched)">يجب أن يكون عنوان الوظيفة 3 أحرف على الأقل</p>
+                  <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangjobTitle'].hasError('pattern') && regForm.controls['transLangjobTitle'].hasError('maxlength') && (regForm.controls.transLangjobTitle.dirty || regForm.controls.transLangjobTitle.touched)">يجب ألا يتجاوز عنوان الوظيفة 100 حرف</p>
+                  <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangjobTitle'].hasError('pattern') && (regForm.controls.transLangjobTitle.dirty || regForm.controls.transLangjobTitle.touched)">يرجى إدخال معلومات صحيحة</p>
+                </span> -->
+              <!-- </div>
+            </div> -->
         <div class="col-lg-6 col-md-6 col-sm-12">
           <div class="form-group">
             <label for="lefttransLangjobTitle">{{lblFormjobTitleBaseLang}}</label>

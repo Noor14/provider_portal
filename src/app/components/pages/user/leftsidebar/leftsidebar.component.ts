@@ -21,8 +21,8 @@ export class LeftsidebarComponent implements OnInit {
   }
 
   getClass(type) {
-    if(type == 'My Profile' && location.pathname != '/business-profile'){
-      if(location.pathname == '/registration' || location.pathname.indexOf('/otp/') || location.pathname.indexOf('/password')){
+    if(type == 'My Profile'){
+      if(location.pathname == '/registration' || location.pathname.indexOf('/otp/') > -1 || location.pathname.indexOf('/password') > -1){
         return "active";
       }
     }
