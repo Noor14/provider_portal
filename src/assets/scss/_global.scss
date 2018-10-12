@@ -396,7 +396,8 @@ input[type="radio"]:focus+label>span {
             }
             .country-section {
                 border: 0px;
-                left:-14px !important;
+                top: 29px !important;
+                left:-12px !important;
                 background: transparent;
                 ul {
                     border: 0px;
@@ -431,7 +432,7 @@ input[type="radio"]:focus+label>span {
             }
             .country-section {
                 left: 0 !important;
-                right:-14px !important;
+                right:-12px !important;
                 ul{
                     padding-right: 0;
                 }

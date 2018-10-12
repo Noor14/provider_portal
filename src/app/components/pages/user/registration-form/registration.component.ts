@@ -18,7 +18,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
-  selectedjobTitle
+  public selectedjobTitle:any
   public debounceInput: Subject<string> = new Subject();
   public showTranslatedLangSide: boolean;
   public phoneCountryId: any
@@ -364,7 +364,7 @@ export class RegistrationComponent implements OnInit {
       primaryPhone: this.transPhoneCode + data.transLangPhone,
       countryPhoneCode: this.transPhoneCode,
       phoneCodeCountryID: this.phoneCountryId,
-      jobTitle: data.transLangjobTitle
+      jobTitle: (typeof data.transLangjobTitle === "object")? data.transLangjobTitle.otherLanguage : data.transLangjobTitle 
     };
     let obj = {
       accountSetupID: this.accountId,
@@ -377,7 +377,7 @@ export class RegistrationComponent implements OnInit {
         primaryPhone: this.phoneCode + data.phone,
         countryPhoneCode: this.phoneCode,
         phoneCodeCountryID: this.phoneCountryId,
-        jobTitle: data.jobTitle
+        jobTitle: (typeof data.jobTitle === "object")? data.jobTitle.baseLanguage : data.jobTitle
       },
       userOtherLanguageData: (this.showTranslatedLangSide) ? otherLangObj : null
     }
@@ -439,6 +439,7 @@ export class RegistrationComponent implements OnInit {
       else if ($value && currentActive && source && target && fromActive == undefined) {
         this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
           this.regForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+ 
         })
       }
       // else if(currentActive && !$value){
@@ -494,7 +495,49 @@ export class RegistrationComponent implements OnInit {
   //   from = undefined;
   //   console.log(from);
   // }
+  onModeljobtitle(fromActive, currentActive, $controlName, source, target, $value) {
+    if (!this.showTranslatedLangSide) return;
+    setTimeout(() => {
+      if(typeof this.selectedjobTitle == 'object') return;
+    if ($value && currentActive && source && target && !fromActive) {
+        this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
+          this.regForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+          let obj={
+            baseLanguage: $value,
+            otherLanguage : res.data.translations[0].translatedText,
+          }
+          this.selectedjobTitle = obj
+        })
+      }
 
+    }, 200)
+  }
+  onTransModeljobTitle(fromActive, currentActive, $controlName, $value){
+
+    if (!this.showTranslatedLangSide) return;
+    setTimeout(() => {
+      if(typeof this.selectedjobTitle == 'object') return;
+     if (currentActive && $value && !fromActive) {
+      this.debounceInput.next($value);
+      this.debounceInput.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
+        this._commonService.detectedLanguage(value).subscribe((res: any) => {
+          let sourceLang = res.data.detections[0][0].language;
+          let target = "en";
+          if (sourceLang && target && value) {
+            this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+              this.regForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+              let obj={
+                baseLanguage: res.data.translations[0].translatedText,
+                otherLanguage : $value
+              }
+              this.selectedjobTitle = obj
+            })
+          }
+        })
+      });
+    }
+  }, 200)
+  }
 
   search = (text$: Observable<string>) =>
     text$.pipe(

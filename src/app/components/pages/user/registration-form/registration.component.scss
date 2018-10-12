@@ -47,14 +47,6 @@
             z-index: 1;
             margin-top: 15px; // top: 0;
             margin-left: 15px;
-            .dropdown-menu {
-                .dropdown-item {
-                    &.active,
-                    &:active {
-                        background: $primary-grey;
-                    }
-                }
-            }
             .prepend-flag {
                 position: absolute;
                 top: 12px;
@@ -70,6 +62,23 @@
             }
         }
     }
+    ngb-typeahead-window{
+        max-height: 200px;
+        overflow-y: auto;
+    &.dropdown-menu {
+        &#ngb-typeahead-2{
+            top: auto !important;
+            left: auto !important;
+            text-align: right;
+        }
+        .dropdown-item {
+            &.active,
+            &:active {
+                background: $primary-grey;
+            }
+        }
+    }
+}
     .hr-solid {
         margin-top: 0.6rem !important;
         margin-bottom: 1.5rem !important;
