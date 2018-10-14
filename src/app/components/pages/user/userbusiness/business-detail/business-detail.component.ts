@@ -721,6 +721,8 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
 
   nextForm(){
     this._sharedService.formChange.next(false);
+    this._sharedService.formProgress.next(50);
+
   }
 
   removeSelectedDocx(type){
