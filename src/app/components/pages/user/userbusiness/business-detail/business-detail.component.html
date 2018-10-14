@@ -17,8 +17,8 @@
           <span *ngIf="licenseError && informationForm.controls['licenseNo'].errors">
               <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('required') && (informationForm.controls.licenseNo.dirty || informationForm.controls.licenseNo.touched)">{{requiredFields}}</p>
               <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('pattern') && (informationForm.controls.licenseNo.dirty || informationForm.controls.licenseNo.touched)">Please enter valid information</p>
-              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('maxlength') && (informationForm.controls.licenseNo.dirty || informationForm.controls.licenseNo.touched)">Trade licence no should be minimum 4 characters</p>
-              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('minlength') && (informationForm.controls.licenseNo.dirty || informationForm.controls.licenseNo.touched)">Trade licence no should not exceed from 10 characters</p>
+              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('maxlength') && (informationForm.controls.licenseNo.dirty || informationForm.controls.licenseNo.touched)">Trade licence no should not exceed from 10 characters</p>
+              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('minlength') && (informationForm.controls.licenseNo.dirty || informationForm.controls.licenseNo.touched)">Trade licence no should be minimum 4 characters</p>
           </span>
         </div>
       </div>
@@ -30,8 +30,8 @@
            <span *ngIf="translicenseError && informationForm.controls['licenseNoAr'].errors">
               <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNoAr'].hasError('required') && (informationForm.controls.licenseNoAr.dirty || informationForm.controls.licenseNoAr.touched)">{{requiredFieldsOthrLng}}</p>
               <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNoAr'].hasError('pattern') && (informationForm.controls.licenseNoAr.dirty || informationForm.controls.licenseNoAr.touched)">يرجى إدخال معلومات صحيحة</p>
-              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNoAr'].hasError('minlength') && (informationForm.controls.licenseNoAr.dirty || informationForm.controls.licenseNoAr.touched)">يجب ألا يقل الرخصة التجارية عن 4 أحرف</p>
               <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNoAr'].hasError('maxlength') && (informationForm.controls.licenseNoAr.dirty || informationForm.controls.licenseNoAr.touched)">يجب ألا يتجاوز الرخصة التجارية من 10 أحرف</p>
+              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNoAr'].hasError('minlength') && (informationForm.controls.licenseNoAr.dirty || informationForm.controls.licenseNoAr.touched)">يجب ألا يقل الرخصة التجارية عن 4 أحرف</p>
             </span>
           </div>
       </div>
@@ -162,12 +162,12 @@
           <label for="trade-license">VAT No</label>
           <input type="text" class="form-control" maxlength="12" (focusout)="errorValidate()" (focus)="vatError = false" [ngClass]="{'inputError': vatError && informationForm.controls['vatNo'].errors}" 
           (keypress)="NumberValid($event)" class="form-control" [(ngModel)]="vatNoAr" formControlName="vatNo">
-          <span *ngIf="vatError && informationForm.controls['vatNo'].errors">
-              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNo'].hasError('required') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">{{requiredFields}}</p>
+           <span *ngIf="vatError && informationForm.controls['vatNo'].errors">
+              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNo'].hasError('required') && (contactInfoForm.controls.vatNo.dirty || contactInfoForm.controls.vatNo.touched)">{{requiredFields}}</p>
+              <p class="inputError animated fadeIn" *ngIf="!informationForm.controls['vatNo'].hasError('pattern') && informationForm.controls['vatNo'].hasError('minlength') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">Vat no should be minimum 5 characters</p>
+              <p class="inputError animated fadeIn" *ngIf="!informationForm.controls['vatNo'].hasError('pattern') && informationForm.controls['vatNo'].hasError('maxlength') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">Vat no should not exceed from 12 characters</p>
               <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNo'].hasError('pattern') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">Please enter valid information</p>
-              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNo'].hasError('maxlength') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">Vat no should not exceed from 12 characters</p>
-              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNo'].hasError('minlength') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">Vat no should be minimum 5 characters</p>
-            </span>
+          </span>
         </div>
         
       </div>
@@ -179,8 +179,8 @@
           <span *ngIf="vatNoArError && informationForm.controls['vatNoAr'].errors">
               <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNoAr'].hasError('required') && (informationForm.controls.vatNoAr.dirty || informationForm.controls.vatNoAr.touched)">{{requiredFieldsOthrLng}}</p>
               <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNoAr'].hasError('pattern') && (informationForm.controls.vatNoAr.dirty || informationForm.controls.vatNoAr.touched)">يرجى إدخال معلومات صحيحة</p>
-              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNoAr'].hasError('maxlength') && (informationForm.controls.vatNoAr.dirty || informationForm.controls.vatNoAr.touched)">يجب ألا يتجاوز عدد ضريبة القيمة المضافة 12 حرفًا</p>
-              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNoAr'].hasError('minlength') && (informationForm.controls.vatNoAr.dirty || informationForm.controls.vatNoAr.touched)">يجب أن يكون رقم ضريبة القيمة المضافة 5 أحرف كحد أدنى</p>
+              <p class="inputError animated fadeIn" *ngIf="!informationForm.controls['vatNo'].hasError('pattern') &&  informationForm.controls['vatNoAr'].hasError('maxlength') && (informationForm.controls.vatNoAr.dirty || informationForm.controls.vatNoAr.touched)">يجب ألا يتجاوز عدد ضريبة القيمة المضافة 12 حرفًا</p>
+              <p class="inputError animated fadeIn" *ngIf="!informationForm.controls['vatNo'].hasError('pattern') && informationForm.controls['vatNoAr'].hasError('minlength') && (informationForm.controls.vatNoAr.dirty || informationForm.controls.vatNoAr.touched)">يجب أن يكون رقم ضريبة القيمة المضافة 5 أحرف كحد أدنى</p>
             </span>
         </div>
        
@@ -204,7 +204,7 @@
         </div>
       </div>  
       
-      <div class="file-uploader">
+      <div class="file-uploader" *ngIf="!selectedLicense || (selectedLicense && !selectedLicense.name)">
          <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'license')" [configId]="'docConfig'">
             <img src="../../../assets/images/icons/manager-icon.png">
             <p class="m-0"> Drag here or browse to upload</p>
@@ -329,7 +329,7 @@
               </div>
             </div>  
             
-            <div class="file-uploader">
+            <div class="file-uploader" *ngIf="!selectedLogo || (selectedLogo && !selectedLogo.name)">
                <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'logo')" [configId]="'docConfig'">
                   <img src="../../../assets/images/icons/manager-icon.png">
                   <p class="m-0"> Drag here or browse to upload</p>

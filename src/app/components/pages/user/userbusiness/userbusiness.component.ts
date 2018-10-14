@@ -23,7 +23,7 @@ export class UserbusinessComponent implements OnInit {
     this._sharedService.formChange.subscribe((state:any)=>{
       this.isLeftVisible = state;
     })
-    this._userService.getjobTitle().subscribe((res: any) => {
+    this._userService.getDesgTitle().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this._sharedService.jobTitleList.next(JSON.parse(res.returnObject));
       }

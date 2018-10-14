@@ -47,14 +47,6 @@
             z-index: 1;
             margin-top: 15px; // top: 0;
             margin-left: 15px;
-            .dropdown-menu {
-                .dropdown-item {
-                    &.active,
-                    &:active {
-                        background: $primary-grey;
-                    }
-                }
-            }
             .prepend-flag {
                 position: absolute;
                 top: 12px;
@@ -70,6 +62,23 @@
             }
         }
     }
+    ngb-typeahead-window{
+        max-height: 200px;
+        overflow-y: auto;
+    &.dropdown-menu {
+        &#ngb-typeahead-2{
+            top: auto !important;
+            left: auto !important;
+            text-align: right;
+        }
+        .dropdown-item {
+            &.active,
+            &:active {
+                background: $primary-grey;
+            }
+        }
+    }
+}
     .hr-solid {
         margin-top: 0.6rem !important;
         margin-bottom: 1.5rem !important;
@@ -77,7 +86,6 @@
     .fancyRadioBoxes {
         label {
             font-size: $font-size-large !important;
-            line-height: 1;
         }
         &.dir-otherLanguage{
             label{
@@ -86,89 +94,6 @@
         }
     }
 
-    // .select-number {
-    //     .input-group-prepend {
-    //         input[type="text"] {
-    //             padding-left: 22% !important; // padding-left: 40px;
-    //         }
-    //         .dropdown {
-    //             margin-top: 10px;
-    //             position: absolute;
-    //             margin-left: 12px;
-    //         }
-    //         img{
-    //             width: 20px;
-    //             height: 15px;
-    //             margin-right: 5px;
-    //             }
-    //         .phone{
-    //             span {
-    //                 font-size: $font-size-medium;
-    //             }
-    //         }
-    //         .country-section {
-    //             border: 0px;
-    //             left:-14px !important;
-    //             background: transparent;
-    //             ul {
-    //                 border: 0px;
-    //                 max-height: 200px;
-    //                 overflow-y: scroll;
-    //                 li.list-group-item {
-    //                         padding-top: 0.45rem;
-    //                         padding-bottom: 0.45rem;
-    //                         border: none;
-    //                         cursor: pointer;
-    //                     img {
-    //                         border: 1px solid $grey-border;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     .input-group-append{
-    //         width: 100%;
-    //         @extend .input-group-prepend;
-    //         input[type="text"]{
-    //             padding-left: 0;
-    //             padding-right: 22%;
-    //         }
-    //         .dropdown {
-    //             margin-top: 10px;
-    //             margin-right: 12px;
-    //         }
-    //         .country-section {
-    //             left: 0 !important;
-    //             right:-14px !important;
-    //             ul{
-    //                 padding-right: 0;
-    //             }
-    //         }
-    //     }
-    // }
-    .service-btn {
-        border-radius: 4px;
-        border: 1px solid $input-border;
-        background: $white-color;
-        min-width: 200px;
-        height: 60px;
-        position: relative;
-        &.active {
-            box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
-            border-radius: 4px;
-            border: 1px solid $primary-color !important;
-            background: $white-color !important;
-            &:before {
-                content: " ";
-                background: url('../../../../../assets/images/corner-selection.png');
-                width: 44px;
-                height: 44px;
-                position: absolute;
-                right: 0;
-                top: 0;
-            }
-        }
-    }
     .btn-register {
         font-size: $font-size-large;
         color: $white-color;

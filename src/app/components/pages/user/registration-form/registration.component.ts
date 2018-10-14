@@ -18,7 +18,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
-
+  public selectedjobTitle:any
   public debounceInput: Subject<string> = new Subject();
   public showTranslatedLangSide: boolean;
   public phoneCountryId: any
@@ -28,6 +28,7 @@ export class RegistrationComponent implements OnInit {
   public accountId: number;
   public countryList: any[];
   public accountSetup: any;
+  public jobTitles: any;
   public zoomlevel: number = 5;
   public registrationForm: boolean;
   public regForm;
@@ -40,17 +41,17 @@ export class RegistrationComponent implements OnInit {
     lat: undefined,
     lng: undefined
   }
-  public arabicNumbers :any = [
-    {baseNumber:'0',arabicNumber:'۰'},
-    {baseNumber:'1',arabicNumber:'۱'},
-    {baseNumber:'2',arabicNumber:'۲'},
-    {baseNumber:'3',arabicNumber:'۳'},
-    {baseNumber:'4',arabicNumber:'۴'},
-    {baseNumber:'5',arabicNumber:'۵'},
-    {baseNumber:'6',arabicNumber:'۶'},
-    {baseNumber:'7',arabicNumber:'۷'},
-    {baseNumber:'8',arabicNumber:'۸'},
-    {baseNumber:'9',arabicNumber:'۹'}
+  public arabicNumbers: any = [
+    { baseNumber: '0', arabicNumber: '۰' },
+    { baseNumber: '1', arabicNumber: '۱' },
+    { baseNumber: '2', arabicNumber: '۲' },
+    { baseNumber: '3', arabicNumber: '۳' },
+    { baseNumber: '4', arabicNumber: '۴' },
+    { baseNumber: '5', arabicNumber: '۵' },
+    { baseNumber: '6', arabicNumber: '۶' },
+    { baseNumber: '7', arabicNumber: '۷' },
+    { baseNumber: '8', arabicNumber: '۸' },
+    { baseNumber: '9', arabicNumber: '۹' }
   ]
 
 
@@ -76,12 +77,12 @@ export class RegistrationComponent implements OnInit {
   // when active on inputs
   public activeFirstName: any;
   public activeTransFirstName: any;
-  public activeLastName:any;
-  public activeTransLastName:any;
+  public activeLastName: any;
+  public activeTransLastName: any;
   public activejobTitle: any;
   public activeTransjobTitle: any;
-  public activePhone:any;
-  public activeTransPhone:any;
+  public activePhone: any;
+  public activeTransPhone: any;
 
 
 
@@ -103,14 +104,14 @@ export class RegistrationComponent implements OnInit {
   public lblFormlastNameOtherLang: string;
   public lblFormjobTitleBaseLang: string;
   public lblFormjobTitleOtherLang: string;
-  public lblFormMobileBaseLang: string; 
-  public lblFormMobileOtherLang: string;   
-  public lblFormEmailBaseLang: string; 
-  public lblFormEmailOtherLang: string;   
+  public lblFormMobileBaseLang: string;
+  public lblFormMobileOtherLang: string;
+  public lblFormEmailBaseLang: string;
+  public lblFormEmailOtherLang: string;
   public emailInfoTextBaselang: string;
   public emailInfoTextOtherlang: string;
-  public regBtnBaseLang: string;   
-  public regBtnOtherLang: string;   
+  public regBtnBaseLang: string;
+  public regBtnOtherLang: string;
 
 
 
@@ -126,7 +127,7 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
 
     this._sharedService.formProgress.next(0);
-    
+
     this.regForm = new FormGroup({
       firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
       transLangfirstName: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(2), Validators.maxLength(100)]),
@@ -138,7 +139,7 @@ export class RegistrationComponent implements OnInit {
         Validators.maxLength(320)
       ]),
       transLangEmail: new FormControl(null, [
-        CustomValidator.bind(this), 
+        CustomValidator.bind(this),
         Validators.pattern(EMAIL_REGEX),
         Validators.maxLength(320)
       ]),
@@ -148,16 +149,16 @@ export class RegistrationComponent implements OnInit {
       transLangjobTitle: new FormControl('', [CustomValidator.bind(this), Validators.minLength(3), Validators.maxLength(100)]),
     });
 
-  //   this._commonService.getCountry().subscribe((res:any) => {
-  //     if(res && res.length){
-  //       res.map((obj) => {
-  //         if (typeof (obj.desc) == "string") {
-  //           obj.desc = JSON.parse(obj.desc);
-  //         }
-  //       })
-  //       this.countryList = res;
-  //    }
-  //  });
+    //   this._commonService.getCountry().subscribe((res:any) => {
+    //     if(res && res.length){
+    //       res.map((obj) => {
+    //         if (typeof (obj.desc) == "string") {
+    //           obj.desc = JSON.parse(obj.desc);
+    //         }
+    //       })
+    //       this.countryList = res;
+    //    }
+    //  });
     this._sharedService.countryList.subscribe((state: any) => {
       this.countryList = state;
     });
@@ -168,6 +169,12 @@ export class RegistrationComponent implements OnInit {
           title: state.country
         };
         this.getMapLatlng(obj);
+      }
+    })
+
+    this._userService.getjobTitles().subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
+        this.jobTitles = res.returnObject;
       }
     })
 
@@ -207,31 +214,31 @@ export class RegistrationComponent implements OnInit {
     }
 
   }
-  getlabelsDescription(){
-    this._userService.getlabelsDescription('registration').subscribe((res:any)=>{
-      if(res.returnStatus =='Success'){
+  getlabelsDescription() {
+    this._userService.getlabelsDescription('registration').subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
         // console.log(res.returnObject);
-      // console.log(this.regForm.controls.firstName);
-       this.lblAccSetupBaseLang = res.returnObject[0].baseLang;
-       this.lblAccSetupOtherLang = res.returnObject[0].otherLang;
-       this.lblPersonalInfoBaseLang = res.returnObject[1].baseLang;
-       this.lblPersonalInfoOtherLang = res.returnObject[1].otherLang; 
-       this.lblFormfirstNameBaseLang = res.returnObject[2].baseLang;  
-       this.lblFormfirstNameOtherLang = res.returnObject[2].otherLang;  
-       this.lblFormlastNameBaseLang = res.returnObject[3].baseLang;  
-       this.lblFormlastNameOtherLang = res.returnObject[3].otherLang;  
-       this.lblFormjobTitleBaseLang = res.returnObject[4].baseLang;  
-       this.lblFormjobTitleOtherLang = res.returnObject[4].otherLang;    
-       this.lblContactDetailBaseLang = res.returnObject[5].baseLang;
-       this.lblContactDetailOtherLang = res.returnObject[5].otherLang;
-       this.lblFormMobileBaseLang = res.returnObject[6].baseLang; 
-       this.lblFormMobileOtherLang = res.returnObject[6].otherLang;   
-       this.lblFormEmailBaseLang = res.returnObject[7].baseLang;  
-       this.lblFormEmailOtherLang = res.returnObject[7].otherLang; 
-       this.emailInfoTextBaselang = res.returnObject[8].baseLang;  
-       this.emailInfoTextOtherlang = res.returnObject[8].otherLang; 
-       this.regBtnBaseLang = res.returnObject[9].baseLang;   
-       this.regBtnOtherLang = res.returnObject[9].otherLang;   
+        // console.log(this.regForm.controls.firstName);
+        this.lblAccSetupBaseLang = res.returnObject[0].baseLang;
+        this.lblAccSetupOtherLang = res.returnObject[0].otherLang;
+        this.lblPersonalInfoBaseLang = res.returnObject[1].baseLang;
+        this.lblPersonalInfoOtherLang = res.returnObject[1].otherLang;
+        this.lblFormfirstNameBaseLang = res.returnObject[2].baseLang;
+        this.lblFormfirstNameOtherLang = res.returnObject[2].otherLang;
+        this.lblFormlastNameBaseLang = res.returnObject[3].baseLang;
+        this.lblFormlastNameOtherLang = res.returnObject[3].otherLang;
+        this.lblFormjobTitleBaseLang = res.returnObject[4].baseLang;
+        this.lblFormjobTitleOtherLang = res.returnObject[4].otherLang;
+        this.lblContactDetailBaseLang = res.returnObject[5].baseLang;
+        this.lblContactDetailOtherLang = res.returnObject[5].otherLang;
+        this.lblFormMobileBaseLang = res.returnObject[6].baseLang;
+        this.lblFormMobileOtherLang = res.returnObject[6].otherLang;
+        this.lblFormEmailBaseLang = res.returnObject[7].baseLang;
+        this.lblFormEmailOtherLang = res.returnObject[7].otherLang;
+        this.emailInfoTextBaselang = res.returnObject[8].baseLang;
+        this.emailInfoTextOtherlang = res.returnObject[8].otherLang;
+        this.regBtnBaseLang = res.returnObject[9].baseLang;
+        this.regBtnOtherLang = res.returnObject[9].otherLang;
       }
     })
   }
@@ -239,7 +246,7 @@ export class RegistrationComponent implements OnInit {
     this._userService.getAccountSetup(region.id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.accountSetup = JSON.parse(res.returnObject);
-        this.showTranslatedLangSide = (region.desc[0].RegionCode == 'MET')? true : false;
+        this.showTranslatedLangSide = (region.desc[0].RegionCode == 'MET') ? true : false;
         this.regForm.reset();
         this.transLangEmail = '';
         this.accountId = undefined;
@@ -294,10 +301,10 @@ export class RegistrationComponent implements OnInit {
           event.preventDefault();
           return false;
         }
-        else if(event.charCode == 32 && !pattern.test(inputChar)){
+        else if (event.charCode == 32 && !pattern.test(inputChar)) {
           return true;
         }
-        else{
+        else {
           return false;
         }
       }
@@ -305,7 +312,7 @@ export class RegistrationComponent implements OnInit {
         return false;
       }
     }
-    else{
+    else {
       return true;
     }
   }
@@ -339,25 +346,25 @@ export class RegistrationComponent implements OnInit {
 
 
   createAccount(data) {
-     let valid: boolean = ValidateEmail(data.email);
-      if(!this.accountId){
-        this._toastr.error("Account setup field is required", '');
-         return;
-      }
-      if (this.regForm.invalid) {
-        return;
-      }
-      else if (!valid) {
-        this._toastr.warning('Invalid email entered.', 'Failed')
-        return
-      }
+    let valid: boolean = ValidateEmail(data.email);
+    if (!this.accountId) {
+      this._toastr.error("Account setup field is required", '');
+      return;
+    }
+    if (this.regForm.invalid) {
+      return;
+    }
+    else if (!valid) {
+      this._toastr.warning('Invalid email entered.', 'Failed')
+      return
+    }
     let otherLangObj = {
       firstName: data.transLangfirstName,
       lastName: data.transLanglastName,
       primaryPhone: this.transPhoneCode + data.transLangPhone,
       countryPhoneCode: this.transPhoneCode,
       phoneCodeCountryID: this.phoneCountryId,
-      jobTitle: data.transLangjobTitle
+      jobTitle: (typeof data.transLangjobTitle === "object")? data.transLangjobTitle.otherLanguage : data.transLangjobTitle 
     };
     let obj = {
       accountSetupID: this.accountId,
@@ -370,68 +377,69 @@ export class RegistrationComponent implements OnInit {
         primaryPhone: this.phoneCode + data.phone,
         countryPhoneCode: this.phoneCode,
         phoneCodeCountryID: this.phoneCountryId,
-        jobTitle: data.jobTitle
+        jobTitle: (typeof data.jobTitle === "object")? data.jobTitle.baseLanguage : data.jobTitle
       },
-      userOtherLanguageData: (this.showTranslatedLangSide)? otherLangObj : null
+      userOtherLanguageData: (this.showTranslatedLangSide) ? otherLangObj : null
     }
 
     this._userService.userRegistration(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this._toastr.success(res.returnText,'');
+        this._toastr.success(res.returnText, '');
         this._router.navigate(['/otp', res.returnObject.otpKey])
       }
-      else{
-        this._toastr.error(res.returnText,'');
+      else {
+        this._toastr.error(res.returnText, '');
       }
     })
 
   }
-  onModelPhoneChange(fromActive, currentActive, $controlName, $value){
-    if(!this.showTranslatedLangSide) return;
-    if(currentActive && !fromActive){
-       let number = $value.split('');
-    for (let i=0; i< number.length; i++){
-      this.arabicNumbers.forEach((obj, index)=>{
-        if(number[i] == obj.baseNumber){
-          number.splice(i,1, obj.arabicNumber)
-        }
-      })
-    }
-    this.regForm.controls[$controlName].patchValue(number.reverse().join(''));
-    }
-}
-onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
-  if(!this.showTranslatedLangSide) return;
-  
-  if(currentActive && !fromActive){
-     let number = $value.split('');
-  for (let i=0; i< number.length; i++){
-    this.arabicNumbers.forEach((obj, index)=>{
-      if(number[i] == obj.baseNumber || number[i] == obj.arabicNumber){
-        number.splice(i,1, obj.baseNumber)
+  onModelPhoneChange(fromActive, currentActive, $controlName, $value) {
+    if (!this.showTranslatedLangSide) return;
+    if (currentActive && !fromActive) {
+      let number = $value.split('');
+      for (let i = 0; i < number.length; i++) {
+        this.arabicNumbers.forEach((obj, index) => {
+          if (number[i] == obj.baseNumber) {
+            number.splice(i, 1, obj.arabicNumber)
+          }
+        })
       }
-    })
-    
+      this.regForm.controls[$controlName].patchValue(number.reverse().join(''));
+    }
   }
-  this.regForm.controls[$controlName].patchValue(number.join(''));
-  }
+  onModelTransPhoneChange(fromActive, currentActive, $controlName, $value) {
+    if (!this.showTranslatedLangSide) return;
 
-}
+    if (currentActive && !fromActive) {
+      let number = $value.split('');
+      for (let i = 0; i < number.length; i++) {
+        this.arabicNumbers.forEach((obj, index) => {
+          if (number[i] == obj.baseNumber || number[i] == obj.arabicNumber) {
+            number.splice(i, 1, obj.baseNumber)
+          }
+        })
+
+      }
+      this.regForm.controls[$controlName].patchValue(number.join(''));
+    }
+
+  }
   onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
-    if(!this.showTranslatedLangSide) return;
+    if (!this.showTranslatedLangSide) return;
     setTimeout(() => {
-      if(currentActive && !fromActive && $value){
+      if (currentActive && !fromActive && $value) {
         this.Globalinputfrom = false;
       }
-      if(fromActive == false && currentActive && this.regForm.controls[$controlName].errors || this.Globalinputto){
+      if (fromActive == false && currentActive && this.regForm.controls[$controlName].errors || this.Globalinputto) {
         this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
           this.regForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
           this.Globalinputto = true;
         })
       }
-     else if ($value && currentActive && source && target && fromActive==undefined) {
+      else if ($value && currentActive && source && target && fromActive == undefined) {
         this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
           this.regForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+ 
         })
       }
       // else if(currentActive && !$value){
@@ -442,28 +450,28 @@ onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
 
   onTransModel(fromActive, currentActive, $controlName, $value) {
 
-    if(!this.showTranslatedLangSide) return;
-    if(currentActive && !fromActive && $value){
+    if (!this.showTranslatedLangSide) return;
+    if (currentActive && !fromActive && $value) {
       this.Globalinputto = false;
     }
-    if(currentActive && fromActive == false && this.regForm.controls[$controlName].errors || this.Globalinputfrom){
+    if (currentActive && fromActive == false && this.regForm.controls[$controlName].errors || this.Globalinputfrom) {
       this.debounceInput.next($value);
-      this.debounceInput.pipe(debounceTime(400),distinctUntilChanged()).subscribe(value => {
-      this._commonService.detectedLanguage(value).subscribe((res: any) => {
-        let sourceLang = res.data.detections[0][0].language;
-        let target = "en";
-        if (sourceLang && target && value) {
-          this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
-            this.regForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+      this.debounceInput.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
+        this._commonService.detectedLanguage(value).subscribe((res: any) => {
+          let sourceLang = res.data.detections[0][0].language;
+          let target = "en";
+          if (sourceLang && target && value) {
+            this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+              this.regForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
               this.Globalinputfrom = true;
-          })
-        }
-      })
-  });
+            })
+          }
+        })
+      });
     }
-      else if (currentActive && $value && fromActive==undefined) {
-        this.debounceInput.next($value);
-        this.debounceInput.pipe(debounceTime(400),distinctUntilChanged()).subscribe(value => {
+    else if (currentActive && $value && fromActive == undefined) {
+      this.debounceInput.next($value);
+      this.debounceInput.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
         this._commonService.detectedLanguage(value).subscribe((res: any) => {
           let sourceLang = res.data.detections[0][0].language;
           let target = "en";
@@ -476,25 +484,85 @@ onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
             })
           }
         })
-    });
-  }
-  // else if(currentActive && !$value){
-  //   this.fromActive(fromActive);    
-  // }
+      });
+    }
+    // else if(currentActive && !$value){
+    //   this.fromActive(fromActive);    
+    // }
   }
 
   // fromActive(from){
   //   from = undefined;
   //   console.log(from);
   // }
+  onModeljobtitle(fromActive, currentActive, $controlName, source, target, $value) {
+    if (!this.showTranslatedLangSide) return;
+    setTimeout(() => {
+      if(typeof this.selectedjobTitle == 'object') return;
+    if ($value && currentActive && source && target && !fromActive) {
+        this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
+          this.regForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+          let obj={
+            baseLanguage: $value,
+            otherLanguage : res.data.translations[0].translatedText,
+          }
+          this.selectedjobTitle = obj
+        })
+      }
 
+    }, 200)
+  }
+  onTransModeljobTitle(fromActive, currentActive, $controlName, $value){
+
+    if (!this.showTranslatedLangSide) return;
+    setTimeout(() => {
+      if(typeof this.selectedjobTitle == 'object') return;
+     if (currentActive && $value && !fromActive) {
+      this.debounceInput.next($value);
+      this.debounceInput.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
+        this._commonService.detectedLanguage(value).subscribe((res: any) => {
+          let sourceLang = res.data.detections[0][0].language;
+          let target = "en";
+          if (sourceLang && target && value) {
+            this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+              this.regForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+              let obj={
+                baseLanguage: res.data.translations[0].translatedText,
+                otherLanguage : $value
+              }
+              this.selectedjobTitle = obj
+            })
+          }
+        })
+      });
+    }
+  }, 200)
+  }
 
   search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       map(term => (!term || term.length < 3) ? []
-        : this.countryList.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+        : this.countryList.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1))
     )
   formatter = (x: { title: string }) => x.title;
+
+
+  jobSearch = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 3) ? []
+        : this.jobTitles.filter(v => v.baseLanguage.toLowerCase().indexOf(term.toLowerCase()) > -1))
+    )
+  formatterjob = (x: { baseLanguage: string }) => x.baseLanguage;
+
+  jobSearchOtherLng = (text$: Observable<string>) => 
+      text$.pipe(
+        debounceTime(200),
+        map((term: string) => (!term || term.length < 3) ? []
+          : this.jobTitles.filter(v => v.baseLanguage.toLowerCase().indexOf(term.toLowerCase()) > -1 || (v.otherLanguage && v.otherLanguage.indexOf(term) > -1))))
+
+
+  formatterjobOtherLng = (x: { otherLanguage: string }) => x.otherLanguage;
 
 }

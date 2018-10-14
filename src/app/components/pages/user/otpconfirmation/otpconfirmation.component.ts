@@ -12,6 +12,7 @@ import { SharedService } from '../../../../services/shared.service';
 })
 export class OtpconfirmationComponent implements OnInit, OnDestroy {
 
+  public countTime: any; 
   public remainingTime: string;
   public otpKey: string;
   public paramSubscriber: any;
@@ -78,9 +79,9 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
   let minutes = time/60;
   let seconds = parseInt(Math.fround(time/60%1).toFixed(1).split('.').pop());
    if (time > 0 || seconds > 0) {
-     let countTime = setInterval(() => {
+     this.countTime = setInterval(() => {
        if (minutes == 0 && seconds == 0) {
-         clearInterval(countTime);
+         clearInterval(this.countTime);
        }
        else if (seconds < 0) {
          minutes-- ;
@@ -133,15 +134,14 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
         this.userInfo.OTPCode = res.returnObject.otpCode;
         this.userInfo.Timer = res.returnObject.timer;
         this._toast.success("Resend OTP Successfully", '');
-        if(this.userInfo.Timer > 0) this.countDown(this.userInfo.Timer); 
+        if(this.userInfo.Timer > 0) {
+          clearInterval(this.countTime);
+          this.countDown(this.userInfo.Timer); 
+        }
       }
     })
   }
   submitOtp(){
-    if(this.otpCode != this.userInfo.OTPCode){
-      this._toast.error("OTP not matched", '');
-      return;
-    }
     let obj= {
       otpid: this.userInfo.OTPID,
       key: this.userInfo.Key,

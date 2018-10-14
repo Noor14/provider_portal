@@ -16,6 +16,10 @@ export class UserService {
     let url: string = `usersprovider/AccountSetup/${id}`;
     return this._http.get(baseApi + url);
   }
+  getjobTitles() {
+    let url: string = "job/GetJobTitles";
+    return this._http.get(baseApi + url);
+  }
   getServiceOffered() {
     let url: string = "usersprovider/ServiceOffered";
     return this._http.get(baseApi + url);
@@ -69,7 +73,7 @@ export class UserService {
     return this._http.get(baseApi + url);
   }
 
-  getjobTitle(){
+  getDesgTitle(){
     let url: string = "usersprovider/GetManagementJobTitle"; 
     return this._http.get(baseApi + url);
   }

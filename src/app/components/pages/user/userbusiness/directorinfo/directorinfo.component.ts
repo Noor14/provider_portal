@@ -210,7 +210,7 @@ export class DirectorinfoComponent implements OnInit {
  previousForm(){
     this._sharedService.formChange.next(true);
     this._sharedService.formProgress.next(40);
-
+    
   }
 
   errorValidate() {
