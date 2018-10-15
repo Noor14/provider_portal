@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RegistrationComponent } from './registration-form/registration.component';
+import { RegistrationComponent } from './user-creation/registration-form/registration.component';
 import { UserComponent } from './user.component';
-import { OtpconfirmationComponent } from './otpconfirmation/otpconfirmation.component';
-import { UserbusinessComponent } from './userbusiness/userbusiness.component';
-import { CreatePasswordComponent } from './create-password/create-password.component';
-import { ProfilecompletionComponent } from './profilecompletion/profilecompletion.component';
+import { OtpconfirmationComponent } from './user-creation/otpconfirmation/otpconfirmation.component';
+import { BusinessInfoComponent } from './user-business/business-info/business-info.component';
+import { CreatePasswordComponent } from './user-creation/create-password/create-password.component';
+import { ProfilecompletionComponent } from './user-business/business-info/profilecompletion/profilecompletion.component';
 
 const routes: Routes = [
     { path: '', 
@@ -14,7 +14,7 @@ const routes: Routes = [
         { path: 'registration', component : RegistrationComponent },
         { path: 'otp/:keys', component : OtpconfirmationComponent },
         { path: 'password/:keys', component : CreatePasswordComponent },
-        { path: 'business-profile', component : UserbusinessComponent },
+        { path: 'business-profile', component : BusinessInfoComponent },
         { path: 'profile-completion', component : ProfilecompletionComponent },
         { path: '**', redirectTo: 'registration', pathMatch: 'full' }
      ]

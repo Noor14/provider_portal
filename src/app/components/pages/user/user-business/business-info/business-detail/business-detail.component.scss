@@ -1,0 +1,110 @@
+@import '../../../../../../../assets/scss/_variables';
+.business-profile {
+    h2 {
+        font-weight: 700;
+        font-family: proxima, sans-serif;
+    }
+    h5 {
+        margin-top: 3rem;
+        span:nth-child(2){
+            font-family: $font-NeoSansArabic-Medium;
+        }
+    }
+    .service-btn {
+        border-radius: 4px;
+        border: 1px solid $input-border;
+        background: $white-color;
+        height: 60px;
+        position: relative;
+        &.active {
+            box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
+            border-radius: 4px;
+            border: 1px solid $primary-color !important;
+            background: $white-color !important;
+            &:before {
+                content: " ";
+                background: url('../../../../../../../assets/images/corner-selection.png');
+                width: 44px;
+                height: 44px;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+        }
+    }
+ 
+    .business-map {
+        .map-box {
+            position: relative;
+            .searchAddress {
+                position: absolute;
+                left: 15px;
+                top: 15px;
+                width: calc(8em + 100px);
+                z-index: 1;
+            }
+            agm-map {
+                height: 350px;
+            }
+        }
+    }
+    .add-more {
+        a {
+            font-size: 0.875rem;
+            font-family: $font-proxima;
+            font-weight: $font-weight-mid;
+            color: $secondary-text-color;
+            &:hover {
+                text-decoration: none
+            }
+        }
+    }
+    form {
+        .dir-otherLanguage {
+            .row {
+                clear: both;
+            }
+        }
+
+        .trade-license-box {
+            small {
+                color: #afafaf;
+            }
+        }
+        .documentInfo {
+            margin-bottom: 3rem;
+            background: $white-color;
+            padding: 20px;
+            .uploaded-file {
+                border: 1px solid $secondary-color;
+                border-radius: 3px;
+                margin-bottom: 20px;
+                .fileIcon {
+                    width: 35px;
+                    height: 35px;
+                }
+            }
+            .file-uploader {
+                padding: 25px;
+                border: 1px dashed #e1d8d8;
+                text-align: center;
+            }
+        }
+        .social-accounts {
+            .info_text {
+                p {
+                    font-size: 0.875rem;
+                    font-family: $font-proxima;
+                    color: $secondary-text-color;
+                    padding-top: 0.59rem;
+                }
+            }
+        }
+    }
+    .contact-btn {
+        .btn {
+            font-weight: 600;
+            padding: 0.75rem 3.75rem;
+        }
+    }
+}
