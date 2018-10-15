@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../../../../services/shared.service';
 import { UserBusinessService } from '../user-business.service';
+import { UserService } from '../../user.service';
 
 @Component({
   selector: 'app-business-info',
@@ -13,7 +14,8 @@ export class BusinessInfoComponent implements OnInit {
   isLeftVisible = true;
   constructor(
     private _sharedService: SharedService,
-    private _userbusinessService: UserBusinessService
+    private _userbusinessService: UserBusinessService,
+    private _userService: UserService,
   ) { }
 
   ngOnInit() {
@@ -29,6 +31,13 @@ export class BusinessInfoComponent implements OnInit {
     this._userbusinessService.getDesgTitle().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this._sharedService.jobTitleList.next(JSON.parse(res.returnObject));
+      }
+    })
+
+    this._userService.getlabelsDescription('BusinessProfile').subscribe((res:any)=>{
+      if (res.returnStatus == 'Success') {
+        console.log(res.returnObject);
+        this._sharedService.businessProfileJsonLabels.next(res.returnObject);
       }
     })
   }

@@ -129,6 +129,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
 
   resendOtp(){ 
     let obj= {
+      LanguageID: this.userInfo.LanguageID,
       key: this.userInfo.Key
     };
     this._userCreationService.resendOtpCode(obj).subscribe((res:any)=>{
