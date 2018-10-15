@@ -254,6 +254,7 @@ export class RegistrationComponent implements OnInit {
         this.regForm.reset();
         this.transLangEmail = '';
         this.accountId = undefined;
+        this.selectedjobTitle = undefined;
         this.registrationForm = true;
         this.getlabelsDescription();
 

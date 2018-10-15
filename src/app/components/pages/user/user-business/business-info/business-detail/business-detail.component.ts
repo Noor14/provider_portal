@@ -306,7 +306,7 @@ getplacemapLoc(countryBound){
         //set latitude, longitude and zoom
         this.location.lat = place.geometry.location.lat();
         this.location.lng = place.geometry.location.lng();
-        this.zoomlevel = 12;
+        this.zoomlevel = 14;
       });
     });
   });
@@ -528,6 +528,7 @@ onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
 }
 
 onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
+  debugger
   setTimeout(() => {
     if(currentActive && !fromActive && $value){
       this.Globalinputfrom = false;

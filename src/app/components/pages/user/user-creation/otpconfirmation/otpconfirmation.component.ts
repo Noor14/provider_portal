@@ -79,8 +79,8 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
   }
 
   countDown(time){
-  let minutes = time/60;
-  let seconds = parseInt(Math.fround(time/60%1).toFixed(1).split('.').pop());
+  let minutes = parseInt((time/60).toFixed(0));
+  let seconds = time - (minutes*60);
    if (time > 0 || seconds > 0) {
      this.countTime = setInterval(() => {
        if (minutes == 0 && seconds == 0) {

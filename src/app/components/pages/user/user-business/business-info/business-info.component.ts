@@ -42,7 +42,7 @@ export class BusinessInfoComponent implements OnInit {
     })
   }
   getDocType(id) {
-    this._userbusinessService.getDocByCountrytype(id).subscribe((res: any) => {
+    this._userbusinessService.getDocByCountrytype('provider', 0, id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this._sharedService.documentList.next(JSON.parse(res.returnObject));
       }
