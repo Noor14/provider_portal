@@ -268,7 +268,6 @@ export class RegistrationComponent implements OnInit {
         if (region.id) {
           let selectedCountry = this.countryList.find(obj => obj.title.toLowerCase() == region.title.toLowerCase());
           this.selectedLangIdbyCountry = selectedCountry.desc[0].LanguageID;
-          console.log(selectedCountry.desc, 'selectedCountry.desc0');  
           this.selectPhoneCode(selectedCountry);
           this.accountList(region);
         }
@@ -376,7 +375,7 @@ export class RegistrationComponent implements OnInit {
       accountSetupID: this.accountId,
       countryID: this.selectedRegion.id,
       primaryEmail: data.email,
-      languageId : this.selectedLangIdbyCountry,
+      LanguageID : this.selectedLangIdbyCountry,
       redirectUrl: window.location.protocol + "//" + window.location.host + "/otp",
       userBaseLanguageData: {
         firstName: data.firstName,
