@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CommonService } from '../../../../../../services/common.service';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../../directives/ng-files';
+import { UserBusinessService } from '../../user-business.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
@@ -106,13 +107,14 @@ export class DirectorinfoComponent implements OnInit {
 
  directorForm; 
  managementForm;
+
   constructor(
     private _sharedService :SharedService,
     private _commonService: CommonService,
+    private _userbusinessService :UserBusinessService,
     private ngFilesService: NgFilesService,
     private _toastr: ToastrService,    
     private _router: Router,
-    
   ) {
     
    }
@@ -485,6 +487,14 @@ selectDocx(selectedFiles: NgFilesSelected): void {
 
  }
  submitBusinessInfo(){
+   let obj = {};
+  this._userbusinessService.submitBusinessInfo(obj).subscribe((res:any)=>{
+    if(res.status=="Success"){
+      console.log(res);
+    }
+  })
+
+
   this._router.navigate(['/profile-completion']);
  }
 

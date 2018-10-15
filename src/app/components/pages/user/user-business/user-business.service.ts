@@ -33,4 +33,10 @@ export class UserBusinessService {
     return this._http.get(baseApi + url);
   }
 
+  submitBusinessInfo(obj){
+    let url: string = "usersprovider/AddProviderBusiness";
+    return this._http.post(baseApi + url, obj);
+     
+  }
+
 }
