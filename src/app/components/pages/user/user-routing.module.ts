@@ -6,6 +6,7 @@ import { OtpconfirmationComponent } from './user-creation/otpconfirmation/otpcon
 import { BusinessInfoComponent } from './user-business/business-info/business-info.component';
 import { CreatePasswordComponent } from './user-creation/create-password/create-password.component';
 import { ProfilecompletionComponent } from './user-business/business-info/profilecompletion/profilecompletion.component';
+import { ShippingInfoComponent } from './user-business/shipping-info/shipping-info.component';
 
 const routes: Routes = [
     { path: '', 
@@ -15,6 +16,7 @@ const routes: Routes = [
         { path: 'otp/:keys', component : OtpconfirmationComponent },
         { path: 'password/:keys', component : CreatePasswordComponent },
         { path: 'business-profile', component : BusinessInfoComponent },
+        { path: 'business-setup', component : ShippingInfoComponent },
         { path: 'profile-completion', component : ProfilecompletionComponent },
         { path: '**', redirectTo: 'registration', pathMatch: 'full' }
      ]
