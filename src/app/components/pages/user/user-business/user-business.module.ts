@@ -33,6 +33,7 @@ import { UserBusinessService } from './user-business.service';
     NgbModule,
   ],
   declarations:[ 
+    UserBusinessComponent,
     BusinessInfoComponent,
     ShippingInfoComponent,
     BusinessDetailComponent,
