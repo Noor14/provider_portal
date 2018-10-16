@@ -262,6 +262,110 @@ export class BusinessDetailComponent implements OnInit {
       transLangFax: new FormControl(null, [Validators.minLength(7), Validators.maxLength(10)]),
      
     });
+
+    this._sharedService.businessProfileJsonLabels.subscribe((state: any) => {
+      if(state){
+        let data = state;
+        data.forEach(element => {
+          
+          if(element.keyCode == "lbl_MainHeading"){
+            this.headingBaseLanguage =  element.baseLang;
+            this.headingOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_Content"){
+            this.statementBaseLanguage = element.baseLang;
+            this.statementOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_KeyInfo"){
+            this.infoFormBaseLanguage = element.baseLang;
+            this.infoFormOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_TradeLicenseNo"){
+            this.tradeLabelBaseLanguage = element.baseLang;
+            this.tradeLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_IssueDate"){
+            this.issueDateLabelBaseLanguage = element.baseLang;
+            this.issueDateLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_ExpiryDate"){
+            this.expiryDateLabelBaseLanguage = element.baseLang;
+            this.expiryDateLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_VATNo"){
+            this.vatNoLabelBaseLanguage = element.baseLang;
+            this.vatNoLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_TradeLicense"){
+            this.tadeliscenseLabelBaseLanguage = element.baseLang;
+            this.tadeliscenseOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_Document"){
+            this.docLabelBaseLanguage = element.baseLang;
+            this.docLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_BusinessLoc"){
+            this.busLocLabelBaseLanguage = element.baseLang;
+            this.busLocLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_Address"){
+            this.addLabelBaseLanguage = element.baseLang;
+            this.addLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_POBox"){
+            this.poBoxLabelBaseLanguage = element.baseLang;
+            this.poBoxLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_BusinessInfo"){
+            this.busInfoLabelBaseLanguage = element.baseLang;
+            this.busInfoLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_UploadLogo"){
+            this.uploadlogoLabelBaseLanguage = element.baseLang;
+            this.uploadlogoLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_OrganizationName"){
+            this.orgNameLabelBaseLanguage = element.baseLang;
+            this.orgNameLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_OrganizationType"){
+            this.orgTypeLabelBaseLanguage = element.baseLang;
+            this.orgTypeLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_ContactDetails"){
+            this.conDetailLabelBaseLanguage = element.baseLang;
+            this.conDetailLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_Telephone"){
+            this.telPhoneLabelBaseLanguage = element.baseLang;
+            this.telPhoneLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_Fax"){
+            this.faxLabelBaseLanguage = element.baseLang;
+            this.faxLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_SocialMedia"){
+            this.socialMedLabelBaseLanguage = element.baseLang;
+            this.socialMedLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_MoreAccounts"){
+            this.moreAccLabelBaseLanguage = element.baseLang;
+            this.moreAccLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "btn_Next"){
+            this.btnLabelBaseLanguage = element.baseLang;
+            this.btnLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_Select"){
+            this.selectLabelBaseLanguage = element.baseLang;
+            this.selectLabelOtherLanguage = element.otherLang;
+          }
+
+        });
+      }
+    });
+
+
   }
 
 getDates(){
@@ -742,7 +846,8 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
  SelectDocx(selectedFiles: NgFilesSelected, type): void {
    if(type =='license'){
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.files.length > 1) this._toastr.error('Please select a one file', '')
+      if (selectedFiles.status == 1) this._toastr.error('Please select a one file', '')
+      else if (selectedFiles.status == 2) this._toastr.error('Please select a correct file format', '')
       // this.selectedFiles = selectedFiles.status;
       return;
     }
@@ -750,8 +855,9 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
   }
   else if(type =='logo'){
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.files.length > 1) this._toastr.error('Please select a one file', '')
-      // this.selectedFiles = selectedFiles.status;
+      if (selectedFiles.status == 1) this._toastr.error('Please select a one file', '')
+      else if (selectedFiles.status == 2) this._toastr.error('Please select a correct file format', '')
+          // this.selectedFiles = selectedFiles.status;
       return;
     }
     this.selectedLogo = selectedFiles.files[0];

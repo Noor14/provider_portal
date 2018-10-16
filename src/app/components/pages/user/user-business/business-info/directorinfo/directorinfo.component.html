@@ -262,13 +262,13 @@
               <div class="documentInfo d-flex flex-column p-4 mt-3">
                 <div class="docList mt-3 mb-3">
                
-                  <!-- <div class="row" *ngFor="let doc of docTypes; let i = index">
+                  <div class="row" *ngFor="let doc of docTypes; let i = index">
                       <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="fancyRadioBoxes">
                           <input id="{{i}}" name="name" type="radio" (click)="selectdocType(i, doc)">
                           <label for="{{i}}">
                             <span></span>
-                            {{doc.BaseLang}}
+                            {{doc.DocumentTypeName}}
                           </label>
                         </div>
                       </div>
@@ -277,11 +277,11 @@
                           <input id="{{i}}" name="nameAr" type="radio" (click)="selectdocType(i, doc)">
                           <label for="{{i}}">
                             <span class="mr-0 ml-2"></span>
-                            {{doc.OtherLang}}
+                            {{doc.DocumentTypeNameOL}}
                           </label>
                         </div>
                       </div>
-                    </div> -->
+                    </div>
                 </div>   
                 <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngFor = "let file of selectedDocx ; let i = index">
                   <div class="fileDesc">

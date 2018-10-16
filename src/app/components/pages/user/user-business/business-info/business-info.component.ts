@@ -22,7 +22,7 @@ export class BusinessInfoComponent implements OnInit {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnObject) {
       let userProfile = userInfo.returnObject;
-      // this.getDocType(userProfile.countryID);
+      this.getDocType(userProfile.countryID);
 
     }
     this._sharedService.formChange.subscribe((state: any) => {
@@ -44,7 +44,7 @@ export class BusinessInfoComponent implements OnInit {
   getDocType(id) {
     this._userbusinessService.getDocByCountrytype('provider', 0, id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
-        this._sharedService.documentList.next(JSON.parse(res.returnObject));
+        this._sharedService.documentList.next(res.returnObject);
       }
     })
   }

@@ -9,6 +9,7 @@ import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '.
 import { UserBusinessService } from '../../user-business.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { element } from 'protractor';
 
 
 @Component({
@@ -16,13 +17,13 @@ import { Router } from '@angular/router';
   templateUrl: './directorinfo.component.html',
   styleUrls: ['./directorinfo.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  
+
 })
 export class DirectorinfoComponent implements OnInit {
-  
-  public showTranslatedLangSide:boolean = true;
 
-  public selectedDocx :any;
+  public showTranslatedLangSide: boolean = true;
+
+  public selectedDocx: any;
   private sharedConfig: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', , 'pdf', 'bmp'],
     maxFilesCount: 2,
@@ -37,8 +38,8 @@ export class DirectorinfoComponent implements OnInit {
   public transPhoneCode: string;
   public phoneCountryId: any
   public countryList: any[];
-  
-  public nextState:boolean
+
+  public nextState: boolean
   // form Field Validtaions boolean variable
   public requiredFields: string = "This field is required";
   public requiredFieldsOthrLng: string = "هذه الخانة مطلوبه";
@@ -54,10 +55,10 @@ export class DirectorinfoComponent implements OnInit {
 
   public activeFirstName: any;
   public activeTransFirstName: any;
-  public activeLastName:any;
-  public activeTransLastName:any;
-  public activePhone:any;
-  public activeTransPhone:any;
+  public activeLastName: any;
+  public activeTransLastName: any;
+  public activePhone: any;
+  public activeTransPhone: any;
 
 
   public firstNameErrorMng: boolean;
@@ -67,8 +68,8 @@ export class DirectorinfoComponent implements OnInit {
 
   public activeFirstNameMng: any;
   public activeTransFirstNameMng: any;
-  public activeLastNameMng:any;
-  public activeTransLastNameMng:any;
+  public activeLastNameMng: any;
+  public activeTransLastNameMng: any;
 
 
   // model binding
@@ -83,49 +84,49 @@ export class DirectorinfoComponent implements OnInit {
 
   public userProfile: any;
 
-  public arabicNumbers :any = [
-    {baseNumber:'0',arabicNumber:'۰'},
-    {baseNumber:'1',arabicNumber:'۱'},
-    {baseNumber:'2',arabicNumber:'۲'},
-    {baseNumber:'3',arabicNumber:'۳'},
-    {baseNumber:'4',arabicNumber:'۴'},
-    {baseNumber:'5',arabicNumber:'۵'},
-    {baseNumber:'6',arabicNumber:'۶'},
-    {baseNumber:'7',arabicNumber:'۷'},
-    {baseNumber:'8',arabicNumber:'۸'},
-    {baseNumber:'9',arabicNumber:'۹'}
+  public arabicNumbers: any = [
+    { baseNumber: '0', arabicNumber: '۰' },
+    { baseNumber: '1', arabicNumber: '۱' },
+    { baseNumber: '2', arabicNumber: '۲' },
+    { baseNumber: '3', arabicNumber: '۳' },
+    { baseNumber: '4', arabicNumber: '۴' },
+    { baseNumber: '5', arabicNumber: '۵' },
+    { baseNumber: '6', arabicNumber: '۶' },
+    { baseNumber: '7', arabicNumber: '۷' },
+    { baseNumber: '8', arabicNumber: '۸' },
+    { baseNumber: '9', arabicNumber: '۹' }
   ]
-  
 
 
- public docxId: any;
- public docTypes:any=[];
- public jobTypeList:any=[];
- public selectedjobDesg;
- public selectedjobDesgAr;
- public desgType;
 
- directorForm; 
- managementForm;
+  public docxId: any;
+  public docTypes: any = [];
+  public jobTypeList: any = [];
+  public selectedjobDesg;
+  public selectedjobDesgAr;
+  public desgType;
+
+  directorForm;
+  managementForm;
 
   constructor(
-    private _sharedService :SharedService,
+    private _sharedService: SharedService,
     private _commonService: CommonService,
-    private _userbusinessService :UserBusinessService,
+    private _userbusinessService: UserBusinessService,
     private ngFilesService: NgFilesService,
-    private _toastr: ToastrService,    
+    private _toastr: ToastrService,
     private _router: Router,
   ) {
-    
-   }
+
+  }
 
   ngOnInit() {
-    
+
     this.ngFilesService.addConfig(this.sharedConfig, 'config');
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if(userInfo && userInfo.returnObject){
+    if (userInfo && userInfo.returnObject) {
       this.userProfile = userInfo.returnObject;
-  }
+    }
 
     this.directorForm = new FormGroup({
       firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
@@ -138,23 +139,23 @@ export class DirectorinfoComponent implements OnInit {
         Validators.maxLength(320)
       ]),
       transLangEmail: new FormControl(null, [
-        CustomValidator.bind(this), 
+        CustomValidator.bind(this),
         Validators.pattern(EMAIL_REGEX),
         Validators.maxLength(320)
       ]),
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(10)]),
       transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(10)]),
-        });
+    });
 
 
-        this.managementForm = new FormGroup({
-          firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
-          transLangfirstName: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(2), Validators.maxLength(100)]),
-          lastName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
-          transLanglastName: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(2), Validators.maxLength(100)]),
-          jobDesgType: new FormControl(null, [Validators.required]),
-          jobDesgTypeAr: new FormControl(null, [Validators.required]),
-            });   
+    this.managementForm = new FormGroup({
+      firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
+      transLangfirstName: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(2), Validators.maxLength(100)]),
+      lastName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
+      transLanglastName: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(2), Validators.maxLength(100)]),
+      jobDesgType: new FormControl(null, [Validators.required]),
+      jobDesgTypeAr: new FormControl(null, [Validators.required]),
+    });
 
 
     this._sharedService.countryList.subscribe((state: any) => {
@@ -166,28 +167,35 @@ export class DirectorinfoComponent implements OnInit {
     });
 
     this._sharedService.documentList.subscribe((state: any) => {
-      this.docTypes = state;
+      if (state) {
+        let copy = Object.assign([], state)
+        this.docTypes = copy.filter(element => !element.BusinessLogic)
+      }
+
     });
+
+
+
     this._sharedService.jobTitleList.subscribe((state: any) => {
       this.jobTypeList = state;
     });
   }
-  
 
 
 
-  jobType(type){
-    if(type && type != 'undefined'){
-      let selectedDesg = this.jobTypeList.find(obj => (obj.BaseLang == type  || obj.OtherLang == type));
+
+  jobType(type) {
+    if (type && type != 'undefined') {
+      let selectedDesg = this.jobTypeList.find(obj => (obj.BaseLang == type || obj.OtherLang == type));
       this.desgType = selectedDesg;
       this.selectedjobDesg = selectedDesg.BaseLang;
       this.selectedjobDesgAr = selectedDesg.OtherLang;
-     }
-     else{
+    }
+    else {
       this.desgType = {};
       this.selectedjobDesg = type;
       this.selectedjobDesgAr = type;
-     }
+    }
   }
 
 
@@ -205,14 +213,14 @@ export class DirectorinfoComponent implements OnInit {
       if (elem[i].children[0].id == index) {
         elem[i].children[0].checked = true;
       }
-  
+
     }
   }
 
- previousForm(){
+  previousForm() {
     this._sharedService.formChange.next(true);
     this._sharedService.formProgress.next(40);
-    
+
   }
 
   errorValidate() {
@@ -255,7 +263,7 @@ export class DirectorinfoComponent implements OnInit {
       this.transEmailError = true;
     }
 
-  
+
 
   }
 
@@ -272,10 +280,10 @@ export class DirectorinfoComponent implements OnInit {
           event.preventDefault();
           return false;
         }
-        else if(event.charCode == 32 && !pattern.test(inputChar)){
+        else if (event.charCode == 32 && !pattern.test(inputChar)) {
           return true;
         }
-        else{
+        else {
           return false;
         }
       }
@@ -283,7 +291,7 @@ export class DirectorinfoComponent implements OnInit {
         return false;
       }
     }
-    else{
+    else {
       return true;
     }
   }
@@ -309,198 +317,198 @@ export class DirectorinfoComponent implements OnInit {
     this.phoneCountryId = list.id
   }
 
-  onModelPhoneChange(fromActive, currentActive, $controlName, $value){
+  onModelPhoneChange(fromActive, currentActive, $controlName, $value) {
 
-    if(currentActive && !fromActive){
-       let number = $value.split('');
-    for (let i=0; i< number.length; i++){
-      this.arabicNumbers.forEach((obj, index)=>{
-        if(number[i] == obj.baseNumber){
-          number.splice(i,1, obj.arabicNumber)
-        }
-      })
+    if (currentActive && !fromActive) {
+      let number = $value.split('');
+      for (let i = 0; i < number.length; i++) {
+        this.arabicNumbers.forEach((obj, index) => {
+          if (number[i] == obj.baseNumber) {
+            number.splice(i, 1, obj.arabicNumber)
+          }
+        })
+      }
+      this.directorForm.controls[$controlName].patchValue(number.reverse().join(''));
     }
-    this.directorForm.controls[$controlName].patchValue(number.reverse().join(''));
-    }
-}
-
-onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
-  setTimeout(() => {
-    if(currentActive && !fromActive && $value){
-      this.Globalinputfrom = false;
-    }
-    if(fromActive == false && currentActive && this.directorForm.controls[$controlName].errors || this.Globalinputto){
-      this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
-        this.directorForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
-        this.Globalinputto = true;
-      })
-    }
-   else if ($value && currentActive && source && target && fromActive==undefined) {
-      this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
-        this.directorForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
-      })
-    }
-    // else if(currentActive && !$value){
-    //   this.fromActive(fromActive);
-    // }
-  }, 100)
-}
-
-onTransModel(fromActive, currentActive, $controlName, $value) {
-
-  if(currentActive && !fromActive && $value){
-    this.Globalinputto = false;
   }
-  if(currentActive && fromActive == false && this.directorForm.controls[$controlName].errors || this.Globalinputfrom){
-    this.debounceInput.next($value);
-    this.debounceInput.pipe(debounceTime(400),distinctUntilChanged()).subscribe(value => {
-    this._commonService.detectedLanguage(value).subscribe((res: any) => {
-      let sourceLang = res.data.detections[0][0].language;
-      let target = "en";
-      if (sourceLang && target && value) {
-        this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+
+  onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
+    setTimeout(() => {
+      if (currentActive && !fromActive && $value) {
+        this.Globalinputfrom = false;
+      }
+      if (fromActive == false && currentActive && this.directorForm.controls[$controlName].errors || this.Globalinputto) {
+        this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
           this.directorForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
-            this.Globalinputfrom = true;
+          this.Globalinputto = true;
         })
       }
-    })
-});
+      else if ($value && currentActive && source && target && fromActive == undefined) {
+        this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
+          this.directorForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+        })
+      }
+      // else if(currentActive && !$value){
+      //   this.fromActive(fromActive);
+      // }
+    }, 100)
   }
-    else if (currentActive && $value && fromActive==undefined) {
+
+  onTransModel(fromActive, currentActive, $controlName, $value) {
+
+    if (currentActive && !fromActive && $value) {
+      this.Globalinputto = false;
+    }
+    if (currentActive && fromActive == false && this.directorForm.controls[$controlName].errors || this.Globalinputfrom) {
       this.debounceInput.next($value);
-      this.debounceInput.pipe(debounceTime(400),distinctUntilChanged()).subscribe(value => {
-      this._commonService.detectedLanguage(value).subscribe((res: any) => {
-        let sourceLang = res.data.detections[0][0].language;
-        let target = "en";
-        // if (sourceLang && target && value) {
-        //   this.onModelChange(fromActive, currentActive, $controlName, sourceLang, target, value);
-        // }
-        if (sourceLang && target && value) {
-          this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
-            this.directorForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
-          })
-        }
-      })
-  });
-}
-// else if(currentActive && !$value){
-//   this.fromActive(fromActive);    
-// }
-}
-
-
-onModelChangeMng(fromActive, currentActive, $controlName, source, target, $value) {
-  setTimeout(() => {
-    if(currentActive && !fromActive && $value){
-      this.GlobalinputfromMng = false;
+      this.debounceInput.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
+        this._commonService.detectedLanguage(value).subscribe((res: any) => {
+          let sourceLang = res.data.detections[0][0].language;
+          let target = "en";
+          if (sourceLang && target && value) {
+            this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+              this.directorForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+              this.Globalinputfrom = true;
+            })
+          }
+        })
+      });
     }
-    if(fromActive == false && currentActive && this.managementForm.controls[$controlName].errors || this.GlobalinputtoMng){
-      this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
-        this.managementForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
-        this.GlobalinputtoMng = true;
-      })
-    }
-   else if ($value && currentActive && source && target && fromActive==undefined) {
-      this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
-        this.managementForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
-      })
+    else if (currentActive && $value && fromActive == undefined) {
+      this.debounceInput.next($value);
+      this.debounceInput.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
+        this._commonService.detectedLanguage(value).subscribe((res: any) => {
+          let sourceLang = res.data.detections[0][0].language;
+          let target = "en";
+          // if (sourceLang && target && value) {
+          //   this.onModelChange(fromActive, currentActive, $controlName, sourceLang, target, value);
+          // }
+          if (sourceLang && target && value) {
+            this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+              this.directorForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+            })
+          }
+        })
+      });
     }
     // else if(currentActive && !$value){
-    //   this.fromActive(fromActive);
+    //   this.fromActive(fromActive);    
     // }
-  }, 100)
-}
-
-onTransModelMng(fromActive, currentActive, $controlName, $value) {
-
-  if(currentActive && !fromActive && $value){
-    this.GlobalinputtoMng = false;
   }
-  if(currentActive && fromActive == false && this.managementForm.controls[$controlName].errors || this.GlobalinputfromMng){
-    this.debounceInputMang.next($value);
-    this.debounceInputMang.pipe(debounceTime(400),distinctUntilChanged()).subscribe(value => {
-    this._commonService.detectedLanguage(value).subscribe((res: any) => {
-      let sourceLang = res.data.detections[0][0].language;
-      let target = "en";
-      if (sourceLang && target && value) {
-        this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+
+
+  onModelChangeMng(fromActive, currentActive, $controlName, source, target, $value) {
+    setTimeout(() => {
+      if (currentActive && !fromActive && $value) {
+        this.GlobalinputfromMng = false;
+      }
+      if (fromActive == false && currentActive && this.managementForm.controls[$controlName].errors || this.GlobalinputtoMng) {
+        this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
           this.managementForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
-            this.GlobalinputfromMng = true;
+          this.GlobalinputtoMng = true;
         })
       }
-    })
-});
+      else if ($value && currentActive && source && target && fromActive == undefined) {
+        this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
+          this.managementForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+        })
+      }
+      // else if(currentActive && !$value){
+      //   this.fromActive(fromActive);
+      // }
+    }, 100)
   }
-    else if (currentActive && $value && fromActive==undefined) {
+
+  onTransModelMng(fromActive, currentActive, $controlName, $value) {
+
+    if (currentActive && !fromActive && $value) {
+      this.GlobalinputtoMng = false;
+    }
+    if (currentActive && fromActive == false && this.managementForm.controls[$controlName].errors || this.GlobalinputfromMng) {
       this.debounceInputMang.next($value);
-      this.debounceInputMang.pipe(debounceTime(400),distinctUntilChanged()).subscribe(value => {
-      this._commonService.detectedLanguage(value).subscribe((res: any) => {
-        let sourceLang = res.data.detections[0][0].language;
-        let target = "en";
-        // if (sourceLang && target && value) {
-        //   this.onModelChange(fromActive, currentActive, $controlName, sourceLang, target, value);
-        // }
-        if (sourceLang && target && value) {
-          this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
-            this.managementForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
-          })
-        }
-      })
-  });
-}
-// else if(currentActive && !$value){
-//   this.fromActive(fromActive);    
-// }
-}
+      this.debounceInputMang.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
+        this._commonService.detectedLanguage(value).subscribe((res: any) => {
+          let sourceLang = res.data.detections[0][0].language;
+          let target = "en";
+          if (sourceLang && target && value) {
+            this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+              this.managementForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+              this.GlobalinputfromMng = true;
+            })
+          }
+        })
+      });
+    }
+    else if (currentActive && $value && fromActive == undefined) {
+      this.debounceInputMang.next($value);
+      this.debounceInputMang.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
+        this._commonService.detectedLanguage(value).subscribe((res: any) => {
+          let sourceLang = res.data.detections[0][0].language;
+          let target = "en";
+          // if (sourceLang && target && value) {
+          //   this.onModelChange(fromActive, currentActive, $controlName, sourceLang, target, value);
+          // }
+          if (sourceLang && target && value) {
+            this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+              this.managementForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+            })
+          }
+        })
+      });
+    }
+    // else if(currentActive && !$value){
+    //   this.fromActive(fromActive);    
+    // }
+  }
 
 
 
 
-onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
-  
-  if(currentActive && !fromActive){
-     let number = $value.split('');
-  for (let i=0; i< number.length; i++){
-    this.arabicNumbers.forEach((obj, index)=>{
-      if(number[i] == obj.baseNumber || number[i] == obj.arabicNumber){
-        number.splice(i,1, obj.baseNumber)
+  onModelTransPhoneChange(fromActive, currentActive, $controlName, $value) {
+
+    if (currentActive && !fromActive) {
+      let number = $value.split('');
+      for (let i = 0; i < number.length; i++) {
+        this.arabicNumbers.forEach((obj, index) => {
+          if (number[i] == obj.baseNumber || number[i] == obj.arabicNumber) {
+            number.splice(i, 1, obj.baseNumber)
+          }
+        })
+
+      }
+      this.directorForm.controls[$controlName].patchValue(number.join(''));
+    }
+
+  }
+
+
+
+  selectDocx(selectedFiles: NgFilesSelected): void {
+
+    if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
+      if (selectedFiles.files.length > 1) this._toastr.error('Please select only two files', '')
+      // this.selectedFiles = selectedFiles.status;
+      return;
+    }
+    this.selectedDocx = selectedFiles.files;
+
+
+  }
+  submitBusinessInfo() {
+    let obj = {};
+    this._userbusinessService.submitBusinessInfo(obj).subscribe((res: any) => {
+      if (res.status == "Success") {
+        console.log(res);
       }
     })
-    
+
+
+    this._router.navigate(['/profile-completion']);
   }
-  this.directorForm.controls[$controlName].patchValue(number.join(''));
+
+  removeSelectedDocx(index) {
+    this.selectedDocx.splice(index, 1);
   }
-
-}
-
-
-
-selectDocx(selectedFiles: NgFilesSelected): void {
- 
-   if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-     if (selectedFiles.files.length > 1) this._toastr.error('Please select only two files', '')
-     // this.selectedFiles = selectedFiles.status;
-     return;
-   }
-   this.selectedDocx = selectedFiles.files;
- 
-
- }
- submitBusinessInfo(){
-   let obj = {};
-  this._userbusinessService.submitBusinessInfo(obj).subscribe((res:any)=>{
-    if(res.status=="Success"){
-      console.log(res);
-    }
-  })
-
-
-  this._router.navigate(['/profile-completion']);
- }
-
- removeSelectedDocx(index){
-  this.selectedDocx.splice(index,1);
- }
 
 }
 

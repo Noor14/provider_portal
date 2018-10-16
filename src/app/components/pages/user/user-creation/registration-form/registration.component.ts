@@ -370,13 +370,13 @@ export class RegistrationComponent implements OnInit {
       primaryPhone: this.transPhoneCode + data.transLangPhone,
       countryPhoneCode: this.transPhoneCode,
       phoneCodeCountryID: this.phoneCountryId,
+      LanguageID : this.selectedLangIdbyCountry,
       jobTitle: (typeof data.transLangjobTitle === "object")? data.transLangjobTitle.otherLanguage : data.transLangjobTitle 
     };
     let obj = {
       accountSetupID: this.accountId,
       countryID: this.selectedRegion.id,
       primaryEmail: data.email,
-      LanguageID : this.selectedLangIdbyCountry,
       redirectUrl: window.location.protocol + "//" + window.location.host + "/otp",
       userBaseLanguageData: {
         firstName: data.firstName,
