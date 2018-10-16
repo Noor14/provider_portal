@@ -1,0 +1,156 @@
+@import '../../../../../../assets/scss/_variables';
+
+.registration {
+    &-title {
+        font-family: $font-pragmatica;
+        font-weight: $font-weight-mid;
+        color: $text-color-default;
+    }
+    &-paragraph {
+        font-family: $font-proxima;
+        font-weight: $font-weight-normal;
+        color: $secondary-text-color;
+        font-size: $font-size-large;
+    }
+    &-head-titles{
+        span:nth-child(2){
+            font-family: $font-NeoSansArabic-Medium;
+        }
+    }
+    &-form {
+        .info-text {
+            span{
+                font-size: 0.875rem;
+                font-family: $font-proxima;
+                color: $secondary-text-color;
+                padding-top: 0.59rem;
+                img {
+                    width: 16px;
+                    vertical-align: text-top;
+                }
+                &:nth-child(2){
+                    font-family: $font-NeoSansArabic-Regular;
+                }
+            }
+           
+        }
+       
+    }
+    &-map-section {
+        margin-top: 58px;
+        agm-map {
+            height: 360px;
+            margin-bottom: 58px;
+        }
+        .select-city {
+            position: absolute;
+            z-index: 1;
+            margin-top: 15px; // top: 0;
+            margin-left: 15px;
+            .prepend-flag {
+                position: absolute;
+                top: 12px;
+                left: 8px;
+            }
+            input#typeahead {
+                width: calc(100% + 8em);
+                padding-left: 1.8rem;
+            }
+            img {
+                width: 16px;
+                height: 12px;
+            }
+        }
+    }
+    ngb-typeahead-window{
+        max-height: 200px;
+        overflow-y: auto;
+    &.dropdown-menu {
+        &#ngb-typeahead-2{
+            top: auto !important;
+            left: auto !important;
+            text-align: right;
+        }
+        .dropdown-item {
+            &.active,
+            &:active {
+                background: $primary-grey;
+            }
+        }
+    }
+}
+    .hr-solid {
+        margin-top: 0.6rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+    .fancyRadioBoxes {
+        label {
+            font-size: $font-size-large !important;
+        }
+        &.dir-otherLanguage{
+            label{
+                font-family: $font-NeoSansArabic-Regular;
+            }
+        }
+    }
+
+    .btn-register {
+        font-size: $font-size-large;
+        color: $white-color;
+        text-transform: uppercase;
+        font-weight: $font-proxima-weight-semibold;
+        padding: 0.75rem;
+        &:disabled{
+            font-weight: $font-proxima-weight-semibold;
+        }
+        span:nth-child(2){
+            font-family: $font-NeoSansArabic-Regular;
+          }
+ 
+    }
+   
+}
+
+input.blinking {
+    -webkit-animation: 1.4s linear infinite blink;
+    animation: 1.4s linear infinite blink;
+     -ms-animation: 1.4s linear infinite blink;
+    
+   
+}
+
+@-webkit-keyframes blink {
+   from {  
+       box-shadow: 0px 0px 4px 1px #ced4da;
+       transition: ease-in 2s;                
+   }
+   to {  
+       border: solid 1px ;
+       box-shadow: 0px 0px 4px 1px $danger-color;   
+       transition: ease;
+   }  
+}
+
+@keyframes blink {
+   from {  
+       box-shadow: 0px 0px 4px 1px #ced4da;                        
+       transition: ease-in 2s;
+   }
+   to {  
+       border: solid 1px $danger-color;
+       box-shadow: 0px 0px 4px 1px $danger-color;   
+       transition: ease;
+   }     
+}
+
+
+
+@media (max-width: $screen-xs-five-hundred) {
+    section.registration {
+        .registration-map-section{
+            input#typeahead {
+                font-size: 12px;
+            }
+    }
+ }
+}
