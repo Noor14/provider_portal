@@ -486,7 +486,8 @@ export class DirectorinfoComponent implements OnInit {
   selectDocx(selectedFiles: NgFilesSelected): void {
 
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.files.length > 1) this._toastr.error('Please select only two files', '')
+      if (selectedFiles.status == 1) this._toastr.error('Please select only two files', '')
+      else if (selectedFiles.status == 2) this._toastr.error('Please select a correct file format', '')
       // this.selectedFiles = selectedFiles.status;
       return;
     }
