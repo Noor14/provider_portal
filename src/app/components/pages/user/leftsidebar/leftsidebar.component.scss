@@ -8,7 +8,7 @@
             margin-right: 0.5rem;
             width: 162px;
             margin: 10px 0;
-            height: 120px;
+            
             border-radius: 5px;
             text-align: center;
             background-color: transparent;
@@ -21,13 +21,13 @@
             }
             &:first-child {
                 margin-top: 0;
-                height: 182px;
+                
                 cursor: default;
                 border-bottom: 1px solid $grey-border;
                 color: $disabled-text-color;
                 h6 {
                     font-size: 0.93rem;
-                    color: #c8ced5;
+                    color: #aeb3bb;
                     font-family: "proxima-nova", sans-serif;
                 }
                 &:after {
@@ -38,6 +38,82 @@
                     background: #f7f8fa;
                     bottom: -3px;
                 }
+
+                .progress-circle {
+                    background-color: #e6e8ec;
+                    border-radius: 50%;
+                    display: inline-block;
+                    height: 130px;
+                    position: relative;
+                    width: 130px;
+                    margin-bottom: 12px;
+                    margin-top: 10px;
+                    &:before {
+                        align-items: center;
+                        background-color: #eef1f5;
+                        border-radius: 50%;
+                        content: attr(data-progress) '%';
+                        display: flex;
+                        justify-content: center;
+                        position: absolute;
+                        left: 0.6rem;
+                        right: 0.6rem;
+                        top: 0.6rem;
+                        bottom: 0.6rem;
+                        transition: -webkit-transform 0.2s ease;
+                        transition: transform 0.2s ease;
+                        transition: transform 0.2s ease, -webkit-transform 0.2s ease;
+                        box-shadow: 0 0px 0px 1px rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) 0 -1px 5px -1px inset;
+                        color: #000;
+                        font-size: 25px;
+                        font-weight: 500;
+                      }
+                      &:after {
+                        background-color: #d2272a;
+                        border-radius: 50%;
+                        content: '';
+                        display: inline-block;
+                        height: 100%;
+                        width: 100%;
+                        box-shadow: 0 1px 1px 0.8px inset rgba(0, 0, 0, 0.1);
+                      }
+                      &:hover:before,
+                        &:focus:before {
+                            -webkit-transform: scale(0.9);
+                                    transform: scale(0.9);
+                        }
+                      &[data-progress="0"]:after {
+                        background-image: linear-gradient(90deg, #e6e8ec 50%, transparent 50%, transparent), linear-gradient(90deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
+                      }
+                      &[data-progress="20"]:after {
+                        background-image: linear-gradient(90deg, #e6e8ec 50%, transparent 50%, transparent), linear-gradient(162deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
+                      }
+                      &[data-progress="30"]:after {
+                        background-image: linear-gradient(90deg, #e6e8ec 50%, transparent 50%, transparent), linear-gradient(198deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
+                      }
+                      &[data-progress="40"]:after {
+                        background-image: linear-gradient(90deg, #e6e8ec 50%, transparent 50%, transparent), linear-gradient(234deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
+                      }
+                      &[data-progress="50"]:after {
+                        background-image: linear-gradient(-90deg, #d2272a 50%, transparent 50%, transparent), linear-gradient(270deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
+                      }
+                      &[data-progress="60"]:after {
+                        background-image: linear-gradient(-54deg, #d2272a 50%, transparent 50%, transparent), linear-gradient(270deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
+                      }
+                      &[data-progress="70"]:after {
+                        background-image: linear-gradient(-18deg, #d2272a 50%, transparent 50%, transparent), linear-gradient(270deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
+                      }
+                      &[data-progress="80"]:after {
+                        background-image: linear-gradient(18deg, #d2272a 50%, transparent 50%, transparent), linear-gradient(270deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
+                      }
+                      &[data-progress="90"]:after {
+                        background-image: linear-gradient(54deg, #d2272a 50%, transparent 50%, transparent), linear-gradient(270deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
+                      }
+                      &[data-progress="100"]:after {
+                        background-image: linear-gradient(90deg, #d2272a 50%, transparent 50%, transparent), linear-gradient(270deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
+                      }
+                  }
+                
             }
             svg {
                 margin-top: 0.8rem;
