@@ -25,7 +25,7 @@
   <section class="registration-form animated fadeInUp" *ngIf="registrationForm">
     <h5 class="registration-head-titles mt-5 d-flex justify-content-between">
       <span>{{lblAccSetupBaseLang}}</span>
-      <span *ngIf="showTranslatedLangSide">{{lblAccSetupOtherLang}}</span>
+      <span *ngIf="showTranslatedLangSide" class="text-right">{{lblAccSetupOtherLang}}</span>
     </h5>
     <hr class="hr-solid">
     <div class="row mb-1" *ngFor="let account of accountSetup; let i = index">
@@ -51,7 +51,7 @@
 
     <h5 class="registration-head-titles mt-5 d-flex justify-content-between">
       <span>{{lblPersonalInfoBaseLang}}</span>
-      <span *ngIf="showTranslatedLangSide">{{lblPersonalInfoOtherLang}}</span>
+      <span *ngIf="showTranslatedLangSide" class="text-right">{{lblPersonalInfoOtherLang}}</span>
     </h5>
 
     <hr class="hr-solid">
@@ -184,7 +184,7 @@
 
       <h5 class="registration-head-titles mt-5 d-flex justify-content-between">
         <span>{{lblContactDetailBaseLang}}</span>
-        <span *ngIf="showTranslatedLangSide">{{lblContactDetailOtherLang}}</span>
+        <span *ngIf="showTranslatedLangSide" class="text-right">{{lblContactDetailOtherLang}}</span>
       </h5>
       <hr class="hr-solid">
 

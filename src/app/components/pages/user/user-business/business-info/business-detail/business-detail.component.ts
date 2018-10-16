@@ -44,7 +44,6 @@ export class BusinessDetailComponent implements OnInit {
   public location: any = {lat:undefined, lng:undefined};
   public countAccount = 1 
   public socialAccounts: any[]=[this.countAccount] ;
-  public firstNameBL;
   public geoCoder;
   public socialLink: any;
   public organizationList: any;
@@ -180,6 +179,61 @@ export class BusinessDetailComponent implements OnInit {
 
   public userProfile;
 
+
+
+
+  //--------------- labels
+
+
+  public headingBaseLanguage;
+  public headingOtherLanguage;
+  public statementBaseLanguage
+  public statementOtherLanguage;
+  public infoFormBaseLanguage;
+  public infoFormOtherLanguage;
+  public tradeLabelBaseLanguage;
+  public tradeLabelOtherLanguage;
+  public issueDateLabelBaseLanguage;
+  public issueDateLabelOtherLanguage;
+  public expiryDateLabelBaseLanguage;
+  public expiryDateLabelOtherLanguage;
+  public vatNoLabelBaseLanguage;
+  public vatNoLabelOtherLanguage;
+  public tradeliscenseLabelBaseLanguage;
+  public tradeliscenseLabelOtherLanguage;
+  public docLabelBaseLanguage;
+  public docLabelOtherLanguage;
+  public busLocLabelBaseLanguage;
+  public busLocLabelOtherLanguage;
+  public addLabelBaseLanguage;
+  public addLabelOtherLanguage;
+  public poBoxLabelBaseLanguage;
+  public poBoxLabelOtherLanguage;
+  public busInfoLabelBaseLanguage;
+  public busInfoLabelOtherLanguage;
+  public uploadlogoLabelBaseLanguage;
+  public uploadlogoLabelOtherLanguage;
+  public orgNameLabelBaseLanguage;
+  public orgNameLabelOtherLanguage;
+  public orgTypeLabelBaseLanguage;
+  public orgTypeLabelOtherLanguage;
+  public conDetailLabelBaseLanguage;
+  public conDetailLabelOtherLanguage;
+  public telPhoneLabelBaseLanguage;
+  public telPhoneLabelOtherLanguage;
+  public faxLabelBaseLanguage;
+  public faxLabelOtherLanguage;
+  public socialMedLabelBaseLanguage;
+  public socialMedLabelOtherLanguage;
+  public moreAccLabelBaseLanguage;
+  public moreAccLabelOtherLanguage;
+  public btnLabelBaseLanguage;
+  public btnLabelOtherLanguage;
+  public selectLabelBaseLanguage;
+  public selectLabelOtherLanguage;
+
+
+
   constructor(
     private mapsAPILoader: MapsAPILoader,  
     private ngZone: NgZone,  
@@ -200,7 +254,8 @@ export class BusinessDetailComponent implements OnInit {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if(userInfo && userInfo.returnObject){
       this.userProfile = userInfo.returnObject;
-      this.firstNameBL = userInfo.returnObject.firstNameBL;
+      this.getLabels(this.userProfile);
+      // this.firstNameBL = userInfo.returnObject.firstNameBL;
   }
     this.getsocialList();
     this.getOrganizationList();
@@ -263,14 +318,20 @@ export class BusinessDetailComponent implements OnInit {
      
     });
 
+    
+
+  }
+
+  getLabels(obj){
     this._sharedService.businessProfileJsonLabels.subscribe((state: any) => {
       if(state){
         let data = state;
+        console.log( obj.firstNameOL, obj)
         data.forEach(element => {
           
-          if(element.keyCode == "lbl_MainHeading"){
-            this.headingBaseLanguage =  element.baseLang;
-            this.headingOtherLanguage = element.otherLang;
+          if(element.keyCode == "lbl_Heading"){
+            this.headingBaseLanguage =  element.baseLang.replace('{firstName}', obj.firstNameBL);
+            this.headingOtherLanguage = element.otherLang.replace('{firstName}', obj.firstNameOL);
           }
           else if(element.keyCode == "lbl_Content"){
             this.statementBaseLanguage = element.baseLang;
@@ -297,8 +358,8 @@ export class BusinessDetailComponent implements OnInit {
             this.vatNoLabelOtherLanguage = element.otherLang;
           }
           else if(element.keyCode == "lbl_TradeLicense"){
-            this.tadeliscenseLabelBaseLanguage = element.baseLang;
-            this.tadeliscenseOtherLanguage = element.otherLang;
+            this.tradeliscenseLabelBaseLanguage = element.baseLang;
+            this.tradeliscenseLabelOtherLanguage = element.otherLang;
           }
           else if(element.keyCode == "lbl_Document"){
             this.docLabelBaseLanguage = element.baseLang;
@@ -364,7 +425,6 @@ export class BusinessDetailComponent implements OnInit {
         });
       }
     });
-
 
   }
 
