@@ -1,0 +1,24 @@
+@import '../../../../../../assets/scss/_variables';
+.region {
+    &-map {
+        width: 100%;
+        border: 1px solid $light-grey;
+        height: 430px;
+    }
+    &-continue {
+        
+        span {
+            font-family: $font-proxima;
+            color: $secondary-grey;
+            text-transform: uppercase;
+            text-align: left;
+            img{
+                margin-right:0.625rem;
+            }
+        }
+        .btn {
+            text-transform: uppercase;
+            padding: 0.75rem 3.75rem;
+        }
+    }
+}
