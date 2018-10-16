@@ -42,6 +42,8 @@ export class RegistrationComponent implements OnInit {
     lat: undefined,
     lng: undefined
   }
+  public selectedLangIdbyCountry:any;
+
   public arabicNumbers: any = [
     { baseNumber: '0', arabicNumber: '۰' },
     { baseNumber: '1', arabicNumber: '۱' },
@@ -252,6 +254,7 @@ export class RegistrationComponent implements OnInit {
         this.regForm.reset();
         this.transLangEmail = '';
         this.accountId = undefined;
+        this.selectedjobTitle = undefined;
         this.registrationForm = true;
         this.getlabelsDescription();
 
@@ -265,6 +268,7 @@ export class RegistrationComponent implements OnInit {
         this.location = res.results[0].geometry.location;
         if (region.id) {
           let selectedCountry = this.countryList.find(obj => obj.title.toLowerCase() == region.title.toLowerCase());
+          this.selectedLangIdbyCountry = selectedCountry.desc[0].LanguageID;
           this.selectPhoneCode(selectedCountry);
           this.accountList(region);
         }
@@ -366,6 +370,7 @@ export class RegistrationComponent implements OnInit {
       primaryPhone: this.transPhoneCode + data.transLangPhone,
       countryPhoneCode: this.transPhoneCode,
       phoneCodeCountryID: this.phoneCountryId,
+      LanguageID : this.selectedLangIdbyCountry,
       jobTitle: (typeof data.transLangjobTitle === "object")? data.transLangjobTitle.otherLanguage : data.transLangjobTitle 
     };
     let obj = {

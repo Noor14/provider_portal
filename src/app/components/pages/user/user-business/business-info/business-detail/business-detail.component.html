@@ -1,17 +1,26 @@
 <section class="business-profile pl-1 pr-1">
-  <h2>{{firstNameBL}}, Add Your Business Profile </h2>
-  <p>It takes only a few minutes to add your business and get started</p>
+  <div class="row">
+    <div class="col d-flex flex-column align-items-start">
+        <h2>{{headingBaseLanguage}}</h2>
+        <p>{{statementBaseLanguage}}</p>
+    </div>
+    <div class="col d-flex flex-column align-items-start dir-otherLanguage text-right">
+        <h2>{{headingOtherLanguage}}</h2>
+        <p>{{statementOtherLanguage}}</p>
+    </div>
+  </div>
+  
 
   <h5 class="d-flex justify-content-between">
-    <span>Key Information</span>
-    <span>معلومات أساسية</span>
+    <span>{{infoFormBaseLanguage}}</span>
+    <span class="text-right">{{infoFormOtherLanguage}}</span>
   </h5>
   <hr class="hr-solid">
   <form autocomplete="off" novalidate [formGroup]="informationForm">
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
-          <label for="Trade-License">Trade License No</label>
+          <label for="Trade-License">{{tradeLabelBaseLanguage}}</label>
           <input type="text" maxlength="10" (focusout)="errorValidate()" (focus)="licenseError = false" [ngClass]="{'inputError': licenseError && informationForm.controls['licenseNo'].errors}" 
           (keypress)="spaceHandler($event)" class="form-control" [(ngModel)]="licenseNoAr" formControlName="licenseNo">
           <span *ngIf="licenseError && informationForm.controls['licenseNo'].errors">
@@ -24,7 +33,7 @@
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group dir-otherLanguage">
-          <label for="Issue-Date">الرخصة التجارية</label>
+          <label for="Issue-Date">{{tradeLabelOtherLanguage}}</label>
           <input type="text" class="form-control" maxlength="10" formControlName='licenseNoAr' (focusout)="errorValidate()" (focus)="translicenseError=false" [ngClass]="{'inputError': translicenseError && informationForm.controls['licenseNoAr'].errors}"
            (keypress)="spaceHandler($event)" [(ngModel)]="licenseNoAr">
            <span *ngIf="translicenseError && informationForm.controls['licenseNoAr'].errors">
@@ -39,7 +48,7 @@
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
-          <label for="Trade-License">Issue Date</label>
+          <label for="Trade-License">{{issueDateLabelBaseLanguage}}</label>
           <div class="row">
             <div class="col-3">
               <select id="inputState" class="form-control" placeholder="DD" name="issueDate"
@@ -68,7 +77,7 @@
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group dir-otherLanguage">
-          <label for="Trade-License">تاريخ الاصدار</label>
+          <label for="Trade-License">{{issueDateLabelOtherLanguage}}</label>
           <div class="row">
             <div class="col-3">
               <select id="inputState" class="form-control" placeholder="DD" name="issueDateArabic"
@@ -99,7 +108,7 @@
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
-          <label for="Trade-License">Expiry Date</label>
+          <label for="Trade-License">{{expiryDateLabelBaseLanguage}}</label>
           <div class="row">
             <div class="col-3">
               <select id="inputState" class="form-control" placeholder="DD" name="expireDate"
@@ -128,7 +137,7 @@
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group dir-otherLanguage">
-          <label for="Trade-License">تاريخ الانتهاء</label>
+          <label for="Trade-License">{{expiryDateLabelOtherLanguage}}</label>
           <div class="row">
             <div class="col-3">
               <select id="inputState" class="form-control" placeholder="DD" name="expireDateArabic"
@@ -159,7 +168,7 @@
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
-          <label for="trade-license">VAT No</label>
+          <label for="trade-license">{{vatNoLabelBaseLanguage}}</label>
           <input type="text" class="form-control" maxlength="12" (focusout)="errorValidate()" (focus)="vatError = false" [ngClass]="{'inputError': vatError && informationForm.controls['vatNo'].errors}" 
           (keypress)="NumberValid($event)" class="form-control" [(ngModel)]="vatNoAr" formControlName="vatNo">
            <span *ngIf="vatError && informationForm.controls['vatNo'].errors">
@@ -173,7 +182,7 @@
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group dir-otherLanguage">
-          <label for="vat-no">ضريبة القيمة المضافة</label>
+          <label for="vat-no">{{vatNoLabelOtherLanguage}}</label>
           <input type="text" class="form-control" maxlength="12" (focusout)="errorValidate()" (focus)="vatNoArError = false" [ngClass]="{'inputError': vatNoArError && informationForm.controls['vatNoAr'].errors}" 
           (keypress)="NumberValid($event)" class="form-control" [(ngModel)]="vatNoAr" formControlName="vatNoAr">
           <span *ngIf="vatNoArError && informationForm.controls['vatNoAr'].errors">
@@ -187,11 +196,19 @@
       </div>
     </div>
     <div class="trade-license-box">
-      <div class="licenseNaming">
-          <label for="trade-license" class="m-0"> Trade License </label>
-          <br>
-          <small>Document must be valid for 3 months </small>
+      <div class="row">
+          <div class="licenseNaming col-6">
+              <label for="trade-license" class="m-0">{{tradeliscenseLabelBaseLanguage}}</label>
+              <br>
+              <small>{{docLabelBaseLanguage}}</small>
+          </div>
+          <div class="licenseNaming col-6 dir-otherLanguage">
+              <label for="trade-license" class="m-0">{{tradeliscenseLabelOtherLanguage}}</label>
+              <br>
+              <small class="d-flex arabicLng">{{docLabelOtherLanguage}}</small>
+          </div>
       </div>
+ 
       <div class="documentInfo d-flex flex-column p-4 mt-3">
       <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLicense && selectedLicense.name">
         <div class="fileDesc">
@@ -225,7 +242,10 @@
       </div>
     </div>
   </div>
-  <h5> Business Location</h5>
+  <h5 class="d-flex justify-content-between">
+    <span>{{busLocLabelBaseLanguage}}</span> 
+    <span class="text-right">{{busLocLabelOtherLanguage}}</span> 
+  </h5>
   <hr class="hr-solid">
 
   <div class="business-map">
@@ -241,7 +261,7 @@
     <div class="row ">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
-          <label for="address">Address</label>
+          <label for="address">{{addLabelBaseLanguage}}</label>
           <input type="text" (keypress)="textValidation($event)" class="form-control" maxlength="200" formControlName="address" (focusout)="errorValidate()" 
           (focus)="addressError = false" [ngClass]="{'inputError': addressError && businessLocForm.controls['address'].errors}" [(ngModel)]="addressAr">
           <span *ngIf="addressError && businessLocForm.controls['address'].errors">
@@ -255,7 +275,7 @@
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group dir-otherLanguage">
-          <label for="address">عنوان</label>
+          <label for="address">{{addLabelOtherLanguage}}</label>
           <input type="text" class="form-control" (keypress)="textValidation($event)" maxlength="200" formControlName="transAddress" (focusout)="errorValidate()" 
           (focus)="addressArError = false" [ngClass]="{'inputError': addressArError && businessLocForm.controls['transAddress'].errors}" [(ngModel)]="addressAr">
           <span *ngIf="addressArError && businessLocForm.controls['transAddress'].errors">
@@ -274,7 +294,7 @@
         <div class="row">
           <div class="col-5">
             <div class="form-group">
-              <label for="address">P.O Box</label>
+              <label for="address">{{poBoxLabelBaseLanguage}}</label>
               <input type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false" [ngClass]="{'inputError': poBoxError && businessLocForm.controls['address'].errors}" 
               [(ngModel)]="poBoxAr" formControlName="poBoxNo">
               <span *ngIf="poBoxError && businessLocForm.controls['poBoxNo'].errors">
@@ -292,7 +312,7 @@
         <div class="row row justify-content-end">
           <div class="col-5">
             <div class="form-group dir-otherLanguage">
-              <label for="address">صندوق بريد</label>
+              <label for="address">{{poBoxLabelOtherLanguage}}</label>
               <input type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxArError = false" [ngClass]="{'inputError': poBoxArError && businessLocForm.controls['poBoxNoAr'].errors}" 
               [(ngModel)]="poBoxAr" formControlName="poBoxNoAr">
               <span *ngIf="poBoxArError && businessLocForm.controls['poBoxNoAr'].errors">
@@ -309,14 +329,17 @@
     </div>
   </form>
 
-  <h5> Business Information</h5>
+  <h5 class="d-flex justify-content-between"> 
+    <span>{{busInfoLabelBaseLanguage}}</span>
+    <span class="text-right">{{busInfoLabelOtherLanguage}}</span>
+  </h5>
   <hr class="hr-solid">
 
   <form autocomplete="off" novalidate [formGroup]="organizationForm">
     <div class="row">
       <div class="col-12">
         <div class="form-group">
-           <label for="address">Upload Logo</label>
+           <label for="address">{{uploadlogoLabelBaseLanguage}}</label>
            <div class="documentInfo d-flex flex-column p-4 mt-3">
             <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLogo && selectedLogo.name">
               <div class="fileDesc">
@@ -343,7 +366,7 @@
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
-          <label for="name">Organization Name</label>
+          <label for="name">{{orgNameLabelBaseLanguage}}</label>
           <input type="text" class="form-control" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': orgNameError && organizationForm.controls['orgName'].errors}" (focusout)="errorValidate()" (blur)="activeOrgName=false" (focus)="orgNameError=false; activeOrgName=true" (ngModelChange)="onModelChange(activeTransOrgName, activeOrgName, 'transLangOrgName', 'en', 'ar' ,$event)" placeholder="Organization Name" formControlName="orgName">
           <span *ngIf="orgNameError && organizationForm.controls['orgName'].errors">
               <p class="inputError animated fadeIn" *ngIf="organizationForm.controls['orgName'].hasError('required') && (organizationForm.controls.orgName.dirty || organizationForm.controls.orgName.touched)">{{requiredFields}}</p>
@@ -356,7 +379,7 @@
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group dir-otherLanguage">
-          <label for="nameAr">اسم المنظمة</label>
+          <label for="nameAr">{{orgNameLabelOtherLanguage}}</label>
           <input type="text" class="form-control" [ngClass]="{'inputError': transorgNameError && organizationForm.controls['transLangOrgName'].errors}" (focusout)="errorValidate()" (blur)="activeTransOrgName=false" (focus)="transorgNameError=false; activeTransOrgName=true" (ngModelChange)="onTransModel(activeOrgName, activeTransOrgName, 'orgName' ,$event)"  placeholder="اسم المنظمة" formControlName= "transLangOrgName">
           <span *ngIf="transorgNameError && organizationForm.controls['transLangOrgName'].errors">
               <p class="inputError animated fadeIn" *ngIf="organizationForm.controls['transLangOrgName'].hasError('required') && (organizationForm.controls.transLangOrgName.dirty || organizationForm.controls.transLangOrgName.touched)">{{requiredFieldsOthrLng}}</p>
@@ -372,7 +395,7 @@
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
-          <label for="exampleFormControlSelect1">Organization Type </label>
+          <label for="exampleFormControlSelect1">{{orgTypeLabelBaseLanguage}}</label>
           <select class="form-control" id="exampleFormControlSelect1" name="organizationType"
             [(ngModel)]="selectedOrgType" (change) = "organizationType($event.target.value)" formControlName="organizationType">
             <option value="undefined">Please select</option>
@@ -382,7 +405,7 @@
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group dir-otherLanguage">
-          <label for="exampleFormControlSelect1">نوع المنظمة</label>
+          <label for="exampleFormControlSelect1">{{orgTypeLabelOtherLanguage}}</label>
           <select class="form-control" id="exampleFormControlSelect2" name="organizationTypeAr"
             [(ngModel)]="selectedOrgTypeAr" (change) = "organizationType($event.target.value)" formControlName="organizationTypeAr">
             <option value="undefined">يرجى الاختيار</option>
@@ -394,14 +417,17 @@
   </form>
 
 
-  <h5> Contact Details</h5>
+  <h5 class="d-flex justify-content-between"> 
+    <span>{{conDetailLabelBaseLanguage}}</span>
+    <span class="text-right">{{conDetailLabelOtherLanguage}}</span>
+  </h5>
   <hr class="hr-solid">
 
   <form autocomplete="off" novalidate [formGroup]="contactInfoForm">
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
-          <label>Telephone</label>
+          <label>{{telPhoneLabelBaseLanguage}}</label>
           <div class="select-number">
             <div class="input-group-prepend">
               <div ngbDropdown>
@@ -437,7 +463,7 @@
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group dir-otherLanguage">
-          <label>رقم هاتف</label>
+          <label>{{telPhoneLabelOtherLanguage}}</label>
           <div class="select-number">
             <div class="input-group-append">
               <div ngbDropdown>
@@ -476,7 +502,7 @@
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
-          <label>Fax</label>
+          <label>{{faxLabelBaseLanguage}}</label>
           <div class="select-number">
             <div class="input-group-prepend">
               <div ngbDropdown>
@@ -511,7 +537,7 @@
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group dir-otherLanguage">
-          <label>رقم الفاكس</label>
+          <label>{{faxLabelOtherLanguage}}</label>
           <div class="select-number">
             <div class="input-group-append">
               <div ngbDropdown>
@@ -549,7 +575,7 @@
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
-          <label>Social Media Accounts</label>
+          <label>{{socialMedLabelBaseLanguage}}</label>
           <div class="select-number mt-2"  *ngFor = "let i of socialAccounts">
             <div class="input-group-prepend">
               <div ngbDropdown>
@@ -574,7 +600,7 @@
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
-          <label class="d-flex justify-content-end">حساب وسائل الاعلام الاجتماعية</label>
+          <label class="d-flex justify-content-end arabicLng">{{socialMedLabelOtherLanguage}}</label>
           <div class="select-number mt-3"  *ngFor = "let i of socialAccounts">
             <div class="input-group-prepend">
               <div ngbDropdown>
@@ -599,11 +625,14 @@
     <div class="add-more">
         <a href="javascript:;" (click)="addmoreSocialLink()">
         <img src="../../../assets/images/icons/icon_add.svg" alt="icons" class="mr-2 icon-size-16"> 
-         Add More Accounts / إضافة المزيد من الحساب</a> 
+         <span>{{moreAccLabelBaseLanguage}}</span> / <span>{{moreAccLabelOtherLanguage}}</span>
+        </a> 
     </div>
 
     <div class="contact-btn mt-5">
-      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()">NEXT / التالى</button>
+      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()">
+        <span>{{btnLabelBaseLanguage}}</span> / <span>{{btnLabelOtherLanguage}}</span>
+     </button>
     </div>
   </form>
 

@@ -9,38 +9,36 @@
         <div class="row mt-4">
           <div class="col">
               <h2 class="thankyou-heading text-left">
-                  thank you for adding your business
+                  {{headingBaseLanguage}}
                </h2>
                 <h5 class="thankyou-sub-heading text-left">
-                  Your Application is #HSH-092847
+                  {{subheadingBaseLanguage}}
                 </h5>
           </div>
           <div class="col dir-otherLanguage">
               <h2 class="thankyou-heading text-right">
-                  شكرا على إضافة عملك
+                  {{headingOtherLanguage}}
                 </h2>
                 <h5 class="thankyou-sub-heading text-right">
-                  رقم الطلب الخاص بك هو HSH-092847
+                  {{subheadingOtherLanguage}}
                 </h5>
           </div>
         </div>
         <div class="row">
           <div class="col">
               <p class="text text-left">
-                  After receipt and review of your documents, our Fraud & Compliance team will validate your acceptance within 1-3 business
-                  days by sending you a conifrmation email. If your documents do not meet our verification requirenets, you will
-                  receive a message advising how they can be met.
+                  {{desc1BaseLanguage}}
                </p>
                <p class="text text-left">
-                 Please note that any document that is submitted to HashMove is protected by our privacy policy. We value your privacy.
+                 {{desc2BaseLanguage}}
               </p>
           </div>
           <div class="col dir-otherLanguage">
               <p class="text text-right">
-                  بعد استلام ومراجعة مستنداتك ، سيقوم فريق الاحتيال والامتثال لدينا بالتحقق من صحة قبولك في غضون 1-3 أيام عمل من خلال إرسال رسالة تأكيد عبر البريد الإلكتروني. إذا كانت مستنداتك لا تفي بمتطلبات التحقق الخاصة بنا ، فستتلقى رسالة نصح فيها بكيفية الوفاء بها.
+                  {{desc1OtherLanguage}}
                 </p>
                 <p class="text text-right">
-                    يرجى ملاحظة أن أي وثيقة يتم تقديمها إلى HashMove محمية بموجب سياسة الخصوصية الخاصة بنا. نحن نقيم مستوى الخصوصية لديك.
+                  {{desc2OtherLanguage}}
                 </p>
           </div>
         </div>
@@ -49,19 +47,18 @@
         <div class="row">
           <div class="col">
               <h5 class="thankyou-sub-heading text-left">
-                  Finish Your Setup
+                  {{finishHeadingBaseLanguage}}
                 </h5>
                 <p class="text text-left">
-                  You can still continue completing the setup. However, your profile will appear unverified and you'll not be able to receive
-                  any orders.
+                 {{finishContentBaseLanguage}}
                 </p>
           </div>
           <div class="col dir-otherLanguage">
               <h5 class="thankyou-sub-heading text-right">
-                  الانتهاء من الإعداد الخاص بك
+                  {{finishHeadingOtherLanguage}}
                 </h5>
                 <p class="text text-right">
-                  لا يزال بإمكانك متابعة إكمال الإعداد. ومع ذلك ، سيظهر ملفك الشخصي لم يتم التحقق منه ولن تتمكن من تلقي أي طلبات.
+                  {{finishContentOtherLanguage}}
                 </p>
           </div>
         </div>
@@ -69,7 +66,9 @@
        
 
         <div class="proceed-btn mt-4">
-          <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right">proceed / تقد م</a>
+          <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right">
+            <span>{{btnTextBaseLanguage}}</span> / <span>{{btnTextOtherLanguage}}</span> 
+          </a>
         </div>
       </div>
     </div>

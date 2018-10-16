@@ -1,5 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AgmCoreModule } from '@agm/core';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+
 import { BusinessInfoComponent } from './business-info/business-info.component';
 import { ShippingInfoComponent } from './shipping-info/shipping-info.component';
 import { UserBusinessComponent } from './user-business.component';
@@ -17,9 +22,18 @@ import { UserBusinessService } from './user-business.service';
 @NgModule({
   imports: [
     CommonModule,
-    NgFilesModule
+    NgFilesModule,
+    HttpClientModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
+      libraries: ["places","geometry"]
+    }),
+    FormsModule,
+    ReactiveFormsModule,
+    NgbModule,
   ],
   declarations:[ 
+    UserBusinessComponent,
     BusinessInfoComponent,
     ShippingInfoComponent,
     BusinessDetailComponent,

@@ -1,14 +1,15 @@
 import { Component, OnInit, NgZone, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { SharedService } from '../../../../../services/shared.service';
+import { SharedService } from '../../../../../../services/shared.service';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { UserService } from '../../user.service';
+import { UserService } from '../../../user.service';
 import { MapsAPILoader } from '@agm/core';
 import { } from '@types/googlemaps';
 import { ToastrService } from 'ngx-toastr';
-import { CommonService } from '../../../../../services/common.service';
-import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../directives/ng-files';
+import { CommonService } from '../../../../../../services/common.service';
+import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../../directives/ng-files';
+import { UserBusinessService } from '../../user-business.service';
 
 @Component({
   selector: 'app-business-detail',
@@ -43,7 +44,6 @@ export class BusinessDetailComponent implements OnInit {
   public location: any = {lat:undefined, lng:undefined};
   public countAccount = 1 
   public socialAccounts: any[]=[this.countAccount] ;
-  public firstNameBL;
   public geoCoder;
   public socialLink: any;
   public organizationList: any;
@@ -179,11 +179,67 @@ export class BusinessDetailComponent implements OnInit {
 
   public userProfile;
 
+
+
+
+  //--------------- labels
+
+
+  public headingBaseLanguage;
+  public headingOtherLanguage;
+  public statementBaseLanguage
+  public statementOtherLanguage;
+  public infoFormBaseLanguage;
+  public infoFormOtherLanguage;
+  public tradeLabelBaseLanguage;
+  public tradeLabelOtherLanguage;
+  public issueDateLabelBaseLanguage;
+  public issueDateLabelOtherLanguage;
+  public expiryDateLabelBaseLanguage;
+  public expiryDateLabelOtherLanguage;
+  public vatNoLabelBaseLanguage;
+  public vatNoLabelOtherLanguage;
+  public tradeliscenseLabelBaseLanguage;
+  public tradeliscenseLabelOtherLanguage;
+  public docLabelBaseLanguage;
+  public docLabelOtherLanguage;
+  public busLocLabelBaseLanguage;
+  public busLocLabelOtherLanguage;
+  public addLabelBaseLanguage;
+  public addLabelOtherLanguage;
+  public poBoxLabelBaseLanguage;
+  public poBoxLabelOtherLanguage;
+  public busInfoLabelBaseLanguage;
+  public busInfoLabelOtherLanguage;
+  public uploadlogoLabelBaseLanguage;
+  public uploadlogoLabelOtherLanguage;
+  public orgNameLabelBaseLanguage;
+  public orgNameLabelOtherLanguage;
+  public orgTypeLabelBaseLanguage;
+  public orgTypeLabelOtherLanguage;
+  public conDetailLabelBaseLanguage;
+  public conDetailLabelOtherLanguage;
+  public telPhoneLabelBaseLanguage;
+  public telPhoneLabelOtherLanguage;
+  public faxLabelBaseLanguage;
+  public faxLabelOtherLanguage;
+  public socialMedLabelBaseLanguage;
+  public socialMedLabelOtherLanguage;
+  public moreAccLabelBaseLanguage;
+  public moreAccLabelOtherLanguage;
+  public btnLabelBaseLanguage;
+  public btnLabelOtherLanguage;
+  public selectLabelBaseLanguage;
+  public selectLabelOtherLanguage;
+
+
+
   constructor(
     private mapsAPILoader: MapsAPILoader,  
     private ngZone: NgZone,  
     private _sharedService: SharedService,
     private _userService: UserService,
+    private _userbusinessService: UserBusinessService,
     private _toastr: ToastrService,
     private _commonService: CommonService,
     private ngFilesService: NgFilesService
@@ -198,14 +254,15 @@ export class BusinessDetailComponent implements OnInit {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if(userInfo && userInfo.returnObject){
       this.userProfile = userInfo.returnObject;
-      this.firstNameBL = userInfo.returnObject.firstNameBL;
+      this.getLabels(this.userProfile);
+      // this.firstNameBL = userInfo.returnObject.firstNameBL;
   }
     this.getsocialList();
     this.getOrganizationList();
     this.getTenYears();
     this.getDates();
 
-    this._userService.getServiceOffered().subscribe((res: any) => {
+    this._userbusinessService.getServiceOffered().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.serviceOffered = JSON.parse(res.returnObject);
       }
@@ -260,6 +317,115 @@ export class BusinessDetailComponent implements OnInit {
       transLangFax: new FormControl(null, [Validators.minLength(7), Validators.maxLength(10)]),
      
     });
+
+    
+
+  }
+
+  getLabels(obj){
+    this._sharedService.businessProfileJsonLabels.subscribe((state: any) => {
+      if(state){
+        let data = state;
+        console.log( obj.firstNameOL, obj)
+        data.forEach(element => {
+          
+          if(element.keyCode == "lbl_Heading"){
+            this.headingBaseLanguage =  element.baseLang.replace('{firstName}', obj.firstNameBL);
+            this.headingOtherLanguage = element.otherLang.replace('{firstName}', obj.firstNameOL);
+          }
+          else if(element.keyCode == "lbl_Content"){
+            this.statementBaseLanguage = element.baseLang;
+            this.statementOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_KeyInfo"){
+            this.infoFormBaseLanguage = element.baseLang;
+            this.infoFormOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_TradeLicenseNo"){
+            this.tradeLabelBaseLanguage = element.baseLang;
+            this.tradeLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_IssueDate"){
+            this.issueDateLabelBaseLanguage = element.baseLang;
+            this.issueDateLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_ExpiryDate"){
+            this.expiryDateLabelBaseLanguage = element.baseLang;
+            this.expiryDateLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_VATNo"){
+            this.vatNoLabelBaseLanguage = element.baseLang;
+            this.vatNoLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_TradeLicense"){
+            this.tradeliscenseLabelBaseLanguage = element.baseLang;
+            this.tradeliscenseLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_Document"){
+            this.docLabelBaseLanguage = element.baseLang;
+            this.docLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_BusinessLoc"){
+            this.busLocLabelBaseLanguage = element.baseLang;
+            this.busLocLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_Address"){
+            this.addLabelBaseLanguage = element.baseLang;
+            this.addLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_POBox"){
+            this.poBoxLabelBaseLanguage = element.baseLang;
+            this.poBoxLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_BusinessInfo"){
+            this.busInfoLabelBaseLanguage = element.baseLang;
+            this.busInfoLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_UploadLogo"){
+            this.uploadlogoLabelBaseLanguage = element.baseLang;
+            this.uploadlogoLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_OrganizationName"){
+            this.orgNameLabelBaseLanguage = element.baseLang;
+            this.orgNameLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_OrganizationType"){
+            this.orgTypeLabelBaseLanguage = element.baseLang;
+            this.orgTypeLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_ContactDetails"){
+            this.conDetailLabelBaseLanguage = element.baseLang;
+            this.conDetailLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_Telephone"){
+            this.telPhoneLabelBaseLanguage = element.baseLang;
+            this.telPhoneLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_Fax"){
+            this.faxLabelBaseLanguage = element.baseLang;
+            this.faxLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_SocialMedia"){
+            this.socialMedLabelBaseLanguage = element.baseLang;
+            this.socialMedLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_MoreAccounts"){
+            this.moreAccLabelBaseLanguage = element.baseLang;
+            this.moreAccLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "btn_Next"){
+            this.btnLabelBaseLanguage = element.baseLang;
+            this.btnLabelOtherLanguage = element.otherLang;
+          }
+          else if(element.keyCode == "lbl_Select"){
+            this.selectLabelBaseLanguage = element.baseLang;
+            this.selectLabelOtherLanguage = element.otherLang;
+          }
+
+        });
+      }
+    });
+
   }
 
 getDates(){
@@ -304,7 +470,7 @@ getplacemapLoc(countryBound){
         //set latitude, longitude and zoom
         this.location.lat = place.geometry.location.lat();
         this.location.lng = place.geometry.location.lng();
-        this.zoomlevel = 12;
+        this.zoomlevel = 14;
       });
     });
   });
@@ -397,14 +563,14 @@ spaceHandler(event) {
 }
 
   getOrganizationList(){
-    this._userService.getOrganizationType().subscribe((res:any)=>{
+    this._userbusinessService.getOrganizationType().subscribe((res:any)=>{
       if(res.returnStatus=="Success"){
         this.organizationList = JSON.parse(res.returnObject);
       }
     })
   }
   getsocialList(){
-    this._userService.socialList().subscribe((res:any)=>{
+    this._userbusinessService.socialList().subscribe((res:any)=>{
       if(res.returnStatus=="Success"){
         this.socialLink = res.returnObject;
       }
@@ -526,6 +692,7 @@ onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
 }
 
 onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
+  debugger
   setTimeout(() => {
     if(currentActive && !fromActive && $value){
       this.Globalinputfrom = false;
@@ -739,7 +906,8 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
  SelectDocx(selectedFiles: NgFilesSelected, type): void {
    if(type =='license'){
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.files.length > 1) this._toastr.error('Please select a one file', '')
+      if (selectedFiles.status == 1) this._toastr.error('Please select a one file', '')
+      else if (selectedFiles.status == 2) this._toastr.error('Please select a correct file format', '')
       // this.selectedFiles = selectedFiles.status;
       return;
     }
@@ -747,8 +915,9 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
   }
   else if(type =='logo'){
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.files.length > 1) this._toastr.error('Please select a one file', '')
-      // this.selectedFiles = selectedFiles.status;
+      if (selectedFiles.status == 1) this._toastr.error('Please select a one file', '')
+      else if (selectedFiles.status == 2) this._toastr.error('Please select a correct file format', '')
+          // this.selectedFiles = selectedFiles.status;
       return;
     }
     this.selectedLogo = selectedFiles.files[0];

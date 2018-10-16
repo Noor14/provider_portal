@@ -1,10 +1,9 @@
-@import '../../../../../../assets/scss/_variables';
+@import '../../../../../../../assets/scss/_variables';
 .setup {
     &-service {
         border-radius: 4px;
         border: 1px solid $input-border;
         background: $white-color;
-        min-width: 200px;
         height: 104px;
         position: relative;
         &.active {
@@ -14,7 +13,7 @@
             background: $white-color !important;
             &:before {
                 content: " ";
-                background: url('../../../../../../assets/images/corner-selection.png');
+                background: url('../../../../../../../assets/images/corner-selection.png');
                 width: 44px;
                 height: 44px;
                 position: absolute;
@@ -26,7 +25,6 @@
             border-radius: 4px;
             border: 1px solid $input-border;
             background: $white-color;
-            min-width: 200px;
             height: 60px;
             position: relative;
             img {
@@ -39,7 +37,7 @@
                 background: $white-color !important;
                 &:before {
                     content: " ";
-                    background: url('../../../../../../assets/images/corner-selection.png');
+                    background: url('../../../../../../../assets/images/corner-selection.png');
                     width: 44px;
                     height: 44px;
                     position: absolute;
