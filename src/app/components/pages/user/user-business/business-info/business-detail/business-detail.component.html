@@ -172,7 +172,7 @@
           <input type="text" class="form-control" maxlength="12" (focusout)="errorValidate()" (focus)="vatError = false" [ngClass]="{'inputError': vatError && informationForm.controls['vatNo'].errors}" 
           (keypress)="NumberValid($event)" class="form-control" [(ngModel)]="vatNoAr" formControlName="vatNo">
            <span *ngIf="vatError && informationForm.controls['vatNo'].errors">
-              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNo'].hasError('required') && (contactInfoForm.controls.vatNo.dirty || contactInfoForm.controls.vatNo.touched)">{{requiredFields}}</p>
+              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNo'].hasError('required') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">{{requiredFields}}</p>
               <p class="inputError animated fadeIn" *ngIf="!informationForm.controls['vatNo'].hasError('pattern') && informationForm.controls['vatNo'].hasError('minlength') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">Vat no should be minimum 5 characters</p>
               <p class="inputError animated fadeIn" *ngIf="!informationForm.controls['vatNo'].hasError('pattern') && informationForm.controls['vatNo'].hasError('maxlength') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">Vat no should not exceed from 12 characters</p>
               <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNo'].hasError('pattern') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">Please enter valid information</p>
@@ -209,19 +209,19 @@
           </div>
       </div>
  
-      <div class="documentInfo d-flex flex-column p-4 mt-3">
-      <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLicense && selectedLicense.name">
+      <div class="documentInfo d-flex flex-column mt-3">
+      <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLicense && selectedLicense.fileName">
         <div class="fileDesc">
-          <img *ngIf="selectedLicense.type == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
-          <img *ngIf="selectedLicense.type == 'image/png' || selectedLicense.type == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
-          <span>{{selectedLicense.name}}</span>
+          <img *ngIf="selectedLicense.fileType == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
+          <img *ngIf="selectedLicense.fileType == 'image/png' || selectedLicense.fileType == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
+          <span>{{selectedLicense.fileName}}</span>
         </div>
         <div class="del">
           <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx('license')">
         </div>
       </div>  
       
-      <div class="file-uploader" *ngIf="!selectedLicense || (selectedLicense && !selectedLicense.name)">
+      <div class="file-uploader" *ngIf="!selectedLicense || (selectedLicense && !selectedLicense.fileName)">
          <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'license')" [configId]="'docConfig'">
             <img src="../../../assets/images/icons/manager-icon.png">
             <p class="m-0"> Drag here or browse to upload</p>
@@ -340,19 +340,19 @@
       <div class="col-12">
         <div class="form-group">
            <label for="address">{{uploadlogoLabelBaseLanguage}}</label>
-           <div class="documentInfo d-flex flex-column p-4 mt-3">
-            <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLogo && selectedLogo.name">
+           <div class="documentInfo d-flex flex-column mt-3">
+            <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLogo && selectedLogo.fileName">
               <div class="fileDesc">
-                  <img *ngIf="selectedLogo.type == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
-                  <img *ngIf="selectedLogo.type == 'image/png' || selectedLogo.type == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
-                   <span>{{selectedLogo.name}}</span>
+                  <img *ngIf="selectedLogo.fileType == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
+                  <img *ngIf="selectedLogo.fileType == 'image/png' || selectedLogo.fileType == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
+                   <span>{{selectedLogo.fileName}}</span>
               </div>
               <div class="del">
                 <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx('logo')">
               </div>
             </div>  
             
-            <div class="file-uploader" *ngIf="!selectedLogo || (selectedLogo && !selectedLogo.name)">
+            <div class="file-uploader" *ngIf="!selectedLogo || (selectedLogo && !selectedLogo.fileName)">
                <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'logo')" [configId]="'docConfig'">
                   <img src="../../../assets/images/icons/manager-icon.png">
                   <p class="m-0"> Drag here or browse to upload</p>
@@ -396,7 +396,7 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label for="exampleFormControlSelect1">{{orgTypeLabelBaseLanguage}}</label>
-          <select class="form-control" id="exampleFormControlSelect1" name="organizationType"
+          <select class="form-control" id="exampleFormControlSelect1" name="orgType"
             [(ngModel)]="selectedOrgType" (change) = "organizationType($event.target.value)" formControlName="organizationType">
             <option value="undefined">Please select</option>
             <option *ngFor="let type of organizationList">{{type.BaseLang}}</option>
@@ -406,7 +406,7 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group dir-otherLanguage">
           <label for="exampleFormControlSelect1">{{orgTypeLabelOtherLanguage}}</label>
-          <select class="form-control" id="exampleFormControlSelect2" name="organizationTypeAr"
+          <select class="form-control" id="exampleFormControlSelect2" name="orgTypeAr"
             [(ngModel)]="selectedOrgTypeAr" (change) = "organizationType($event.target.value)" formControlName="organizationTypeAr">
             <option value="undefined">يرجى الاختيار</option>
             <option *ngFor="let type of organizationList">{{type.OtherLang}}</option>
@@ -522,7 +522,7 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" maxlength="9" placeholder="12 345 6789" formControlName="fax" [ngClass]="{'inputError': faxError && contactInfoForm.controls['fax'].errors}" (focusout)="errorValidate()" (blur)="activeFax=false"
+              <input type="text" class="form-control" maxlength="10" placeholder="12 345 6789" formControlName="fax" [ngClass]="{'inputError': faxError && contactInfoForm.controls['fax'].errors}" (focusout)="errorValidate()" (blur)="activeFax=false"
               (ngModelChange)="onModelFaxChange(activeTransFax, activeFax, 'transLangFax', $event)" (focus)="faxError=false; activeFax=true"
               (keypress)="NumberValid($event)" />
             </div>
@@ -557,7 +557,7 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" maxlength="9" placeholder="۶۷۸۹ ۳۴۵ ۱۲" formControlName="transLangFax" (focusout)="errorValidate()" (blur)="activeTransFax=false" (focus)="translangFaxError = false; activeTransFax=true"
+              <input type="text" class="form-control" maxlength="10" placeholder="۶۷۸۹ ۳۴۵ ۱۲" formControlName="transLangFax" (focusout)="errorValidate()" (blur)="activeTransFax=false" (focus)="translangFaxError = false; activeTransFax=true"
               [ngClass]="{'inputError': translangFaxError && contactInfoForm.controls['transLangFax'].errors}" 
              (ngModelChange)="onModelTransFaxChange(activeFax, activeTransFax, 'fax', $event)" (keypress)="NumberValid($event)">
             </div>
@@ -622,15 +622,16 @@
       </div>
     </div>
 
-    <div class="add-more">
+    <!-- <div class="add-more">
         <a href="javascript:;" (click)="addmoreSocialLink()">
         <img src="../../../assets/images/icons/icon_add.svg" alt="icons" class="mr-2 icon-size-16"> 
          <span>{{moreAccLabelBaseLanguage}}</span> / <span>{{moreAccLabelOtherLanguage}}</span>
         </a> 
-    </div>
+    </div> -->
 
     <div class="contact-btn mt-5">
-      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()">
+<button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" 
+[disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length">
         <span>{{btnLabelBaseLanguage}}</span> / <span>{{btnLabelOtherLanguage}}</span>
      </button>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, NgZone, ElementRef, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../../../../services/shared.service';
 import { Observable, Subject } from 'rxjs';
@@ -14,6 +14,7 @@ import { UserBusinessService } from '../../user-business.service';
 @Component({
   selector: 'app-business-detail',
   templateUrl: './business-detail.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./business-detail.component.scss']
 })
 export class BusinessDetailComponent implements OnInit {
@@ -41,9 +42,9 @@ export class BusinessDetailComponent implements OnInit {
 
   public zoomlevel: number = 6;
   public draggable: boolean = true;
-  public location: any = {lat:undefined, lng:undefined};
-  public countAccount = 1 
-  public socialAccounts: any[]=[this.countAccount] ;
+  public location: any = { lat: undefined, lng: undefined };
+  public countAccount = 1
+  public socialAccounts: any[] = [this.countAccount];
   public geoCoder;
   public socialLink: any;
   public organizationList: any;
@@ -70,82 +71,82 @@ export class BusinessDetailComponent implements OnInit {
   public ExpiryYear: any;
   public ExpireMonth: any;
   public ExpireDate: any;
-  public pastYears:any[] = [];
-  public futureYears:any[] = [];
-  public dates:any[] = [];
-  public months:any[]= [
+  public pastYears: any[] = [];
+  public futureYears: any[] = [];
+  public dates: any[] = [];
+  public months: any[] = [
     {
-      name:'Jan',
-      arabicName:'يناير'
+      name: 'Jan',
+      arabicName: 'يناير'
     },
     {
-      name:'Feb',
-      arabicName:'فبراير'
+      name: 'Feb',
+      arabicName: 'فبراير'
     },
     {
-      name:'Mar',
-      arabicName:'مارس'
+      name: 'Mar',
+      arabicName: 'مارس'
     },
     {
-      name:'Apr',
-      arabicName:'أبريل'
+      name: 'Apr',
+      arabicName: 'أبريل'
     },
     {
-      name:'May',
-      arabicName:'مايو'
+      name: 'May',
+      arabicName: 'مايو'
     },
     {
-      name:'Jun',
-      arabicName:'يونيو'
+      name: 'Jun',
+      arabicName: 'يونيو'
     },
     {
-      name:'Jul',
-      arabicName:'يوليو'
+      name: 'Jul',
+      arabicName: 'يوليو'
     },
     {
-      name:'Aug',
-      arabicName:'أغسطس'
+      name: 'Aug',
+      arabicName: 'أغسطس'
     },
     {
-      name:'Sep',
-      arabicName:'سبتمبر'
+      name: 'Sep',
+      arabicName: 'سبتمبر'
     },
     {
-      name:'Oct',
-      arabicName:'أكتوبر'
+      name: 'Oct',
+      arabicName: 'أكتوبر'
     },
     {
-      name:'Nov',
-      arabicName:'نوفمبر'
+      name: 'Nov',
+      arabicName: 'نوفمبر'
     },
     {
-      name:'Dec',
-      arabicName:'ديسمبر'
+      name: 'Dec',
+      arabicName: 'ديسمبر'
     }
   ]
-  public arabicNumbers :any = [
-    {baseNumber:'0',arabicNumber:'۰'},
-    {baseNumber:'1',arabicNumber:'۱'},
-    {baseNumber:'2',arabicNumber:'۲'},
-    {baseNumber:'3',arabicNumber:'۳'},
-    {baseNumber:'4',arabicNumber:'۴'},
-    {baseNumber:'5',arabicNumber:'۵'},
-    {baseNumber:'6',arabicNumber:'۶'},
-    {baseNumber:'7',arabicNumber:'۷'},
-    {baseNumber:'8',arabicNumber:'۸'},
-    {baseNumber:'9',arabicNumber:'۹'}
+  public arabicNumbers: any = [
+    { baseNumber: '0', arabicNumber: '۰' },
+    { baseNumber: '1', arabicNumber: '۱' },
+    { baseNumber: '2', arabicNumber: '۲' },
+    { baseNumber: '3', arabicNumber: '۳' },
+    { baseNumber: '4', arabicNumber: '۴' },
+    { baseNumber: '5', arabicNumber: '۵' },
+    { baseNumber: '6', arabicNumber: '۶' },
+    { baseNumber: '7', arabicNumber: '۷' },
+    { baseNumber: '8', arabicNumber: '۸' },
+    { baseNumber: '9', arabicNumber: '۹' }
   ]
-  public countryList:any;
-  public countryFlagImage:string;
-  public phoneCode:string;
-  public transPhoneCode:string;
-  public phoneCountryId:any;
-  public licenseNoAr: any; 
-  public vatNoAr:any;
-  public poBoxAr:any;
-  public addressAr:any;
-  
-    // global Input
+  public countryList: any;
+  public countryFlagImage: string;
+  public phoneCode: string;
+  public transPhoneCode: string;
+  public phoneCountryId: any;
+  public licenseNoAr: any;
+  public vatNoAr: any;
+  public poBoxAr: any;
+  public addressAr: any;
+
+  // global Input
   public Globalinputfrom: any;
   public Globalinputto: any;
 
@@ -155,23 +156,23 @@ export class BusinessDetailComponent implements OnInit {
   public contactInfoForm;
 
 
-  public activePhone:any;
-  public activeTransPhone:any;
-  public activeFax:any;
-  public activeTransFax:any;
+  public activePhone: any;
+  public activeTransPhone: any;
+  public activeFax: any;
+  public activeTransFax: any;
   public activeOrgName: any;
   public activeTransOrgName: any;
 
-  public orgNameError:boolean;
-  public transorgNameError:boolean;
-  public addressArError:boolean;
-  public addressError:boolean;
-  public vatError:boolean;
-  public vatNoArError:boolean;
-  public poBoxError:boolean;
-  public poBoxArError:boolean;
-  public translicenseError:boolean
-  public licenseError:boolean
+  public orgNameError: boolean;
+  public transorgNameError: boolean;
+  public addressArError: boolean;
+  public addressError: boolean;
+  public vatError: boolean;
+  public vatNoArError: boolean;
+  public poBoxError: boolean;
+  public poBoxArError: boolean;
+  public translicenseError: boolean
+  public licenseError: boolean
   public phoneError: boolean;
   public translangPhoneError: boolean;
   public faxError: boolean;
@@ -235,15 +236,15 @@ export class BusinessDetailComponent implements OnInit {
 
 
   constructor(
-    private mapsAPILoader: MapsAPILoader,  
-    private ngZone: NgZone,  
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone,
     private _sharedService: SharedService,
     private _userService: UserService,
     private _userbusinessService: UserBusinessService,
     private _toastr: ToastrService,
     private _commonService: CommonService,
     private ngFilesService: NgFilesService
-    
+
   ) { }
 
   ngOnInit() {
@@ -252,11 +253,11 @@ export class BusinessDetailComponent implements OnInit {
     this._sharedService.formProgress.next(40);
 
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if(userInfo && userInfo.returnObject){
+    if (userInfo && userInfo.returnObject) {
       this.userProfile = userInfo.returnObject;
       this.getLabels(this.userProfile);
       // this.firstNameBL = userInfo.returnObject.firstNameBL;
-  }
+    }
     this.getsocialList();
     this.getOrganizationList();
     this.getTenYears();
@@ -268,22 +269,22 @@ export class BusinessDetailComponent implements OnInit {
       }
     })
     this._sharedService.countryList.subscribe((state: any) => {
-      if(state){
-      this.countryList = state;
-      let selectedCountry = this.countryList.find(obj => obj.id == this.userProfile.countryID);
-      this.selectPhoneCode(selectedCountry);
-      this.getplacemapLoc(selectedCountry.code.toLowerCase());
-      this.getMapLatlng(selectedCountry.title);
-    }
-      
+      if (state) {
+        this.countryList = state;
+        let selectedCountry = this.countryList.find(obj => obj.id == this.userProfile.countryID);
+        this.selectPhoneCode(selectedCountry);
+        this.getplacemapLoc(selectedCountry.code.toLowerCase());
+        this.getMapLatlng(selectedCountry.title);
+      }
+
     });
 
     this.informationForm = new FormGroup({
       licenseNo: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(10)]),
       licenseNoAr: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(10)]),
       vatNo: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(5), Validators.maxLength(12)]),
-      vatNoAr: new FormControl(null, [Validators.minLength(5), Validators.maxLength(12)]),
-      
+      vatNoAr: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(12)]),
+
       issueDate: new FormControl(null, [Validators.required]),
       issueMonth: new FormControl(null, [Validators.required]),
       issueYear: new FormControl(null, [Validators.required]),
@@ -301,7 +302,7 @@ export class BusinessDetailComponent implements OnInit {
       address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(20)]),
       transAddress: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(20)]),
       poBoxNo: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
-      poBoxNoAr: new FormControl(null, [Validators.maxLength(16), Validators.minLength(4)]),
+      poBoxNoAr: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
     });
 
     this.organizationForm = new FormGroup({
@@ -312,112 +313,111 @@ export class BusinessDetailComponent implements OnInit {
     });
     this.contactInfoForm = new FormGroup({
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(10)]),
-      transLangPhone: new FormControl(null, [Validators.minLength(7), Validators.maxLength(10)]),
+      transLangPhone: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(10)]),
       fax: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(10)]),
-      transLangFax: new FormControl(null, [Validators.minLength(7), Validators.maxLength(10)]),
-     
+      transLangFax: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(10)]),
+
     });
 
-    
+
 
   }
 
-  getLabels(obj){
+  getLabels(obj) {
     this._sharedService.businessProfileJsonLabels.subscribe((state: any) => {
-      if(state){
+      if (state) {
         let data = state;
-        console.log( obj.firstNameOL, obj)
         data.forEach(element => {
-          
-          if(element.keyCode == "lbl_Heading"){
-            this.headingBaseLanguage =  element.baseLang.replace('{firstName}', obj.firstNameBL);
+
+          if (element.keyCode == "lbl_Heading") {
+            this.headingBaseLanguage = element.baseLang.replace('{firstName}', obj.firstNameBL);
             this.headingOtherLanguage = element.otherLang.replace('{firstName}', obj.firstNameOL);
           }
-          else if(element.keyCode == "lbl_Content"){
+          else if (element.keyCode == "lbl_Content") {
             this.statementBaseLanguage = element.baseLang;
             this.statementOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_KeyInfo"){
+          else if (element.keyCode == "lbl_KeyInfo") {
             this.infoFormBaseLanguage = element.baseLang;
             this.infoFormOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_TradeLicenseNo"){
+          else if (element.keyCode == "lbl_TradeLicenseNo") {
             this.tradeLabelBaseLanguage = element.baseLang;
             this.tradeLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_IssueDate"){
+          else if (element.keyCode == "lbl_IssueDate") {
             this.issueDateLabelBaseLanguage = element.baseLang;
             this.issueDateLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_ExpiryDate"){
+          else if (element.keyCode == "lbl_ExpiryDate") {
             this.expiryDateLabelBaseLanguage = element.baseLang;
             this.expiryDateLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_VATNo"){
+          else if (element.keyCode == "lbl_VATNo") {
             this.vatNoLabelBaseLanguage = element.baseLang;
             this.vatNoLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_TradeLicense"){
+          else if (element.keyCode == "lbl_TradeLicense") {
             this.tradeliscenseLabelBaseLanguage = element.baseLang;
             this.tradeliscenseLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_Document"){
+          else if (element.keyCode == "lbl_Document") {
             this.docLabelBaseLanguage = element.baseLang;
             this.docLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_BusinessLoc"){
+          else if (element.keyCode == "lbl_BusinessLoc") {
             this.busLocLabelBaseLanguage = element.baseLang;
             this.busLocLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_Address"){
+          else if (element.keyCode == "lbl_Address") {
             this.addLabelBaseLanguage = element.baseLang;
             this.addLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_POBox"){
+          else if (element.keyCode == "lbl_POBox") {
             this.poBoxLabelBaseLanguage = element.baseLang;
             this.poBoxLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_BusinessInfo"){
+          else if (element.keyCode == "lbl_BusinessInfo") {
             this.busInfoLabelBaseLanguage = element.baseLang;
             this.busInfoLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_UploadLogo"){
+          else if (element.keyCode == "lbl_UploadLogo") {
             this.uploadlogoLabelBaseLanguage = element.baseLang;
             this.uploadlogoLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_OrganizationName"){
+          else if (element.keyCode == "lbl_OrganizationName") {
             this.orgNameLabelBaseLanguage = element.baseLang;
             this.orgNameLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_OrganizationType"){
+          else if (element.keyCode == "lbl_OrganizationType") {
             this.orgTypeLabelBaseLanguage = element.baseLang;
             this.orgTypeLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_ContactDetails"){
+          else if (element.keyCode == "lbl_ContactDetails") {
             this.conDetailLabelBaseLanguage = element.baseLang;
             this.conDetailLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_Telephone"){
+          else if (element.keyCode == "lbl_Telephone") {
             this.telPhoneLabelBaseLanguage = element.baseLang;
             this.telPhoneLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_Fax"){
+          else if (element.keyCode == "lbl_Fax") {
             this.faxLabelBaseLanguage = element.baseLang;
             this.faxLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_SocialMedia"){
+          else if (element.keyCode == "lbl_SocialMedia") {
             this.socialMedLabelBaseLanguage = element.baseLang;
             this.socialMedLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_MoreAccounts"){
+          else if (element.keyCode == "lbl_MoreAccounts") {
             this.moreAccLabelBaseLanguage = element.baseLang;
             this.moreAccLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "btn_Next"){
+          else if (element.keyCode == "btn_Next") {
             this.btnLabelBaseLanguage = element.baseLang;
             this.btnLabelOtherLanguage = element.otherLang;
           }
-          else if(element.keyCode == "lbl_Select"){
+          else if (element.keyCode == "lbl_Select") {
             this.selectLabelBaseLanguage = element.baseLang;
             this.selectLabelOtherLanguage = element.otherLang;
           }
@@ -428,158 +428,158 @@ export class BusinessDetailComponent implements OnInit {
 
   }
 
-getDates(){
-  for(let i=1; i<=31; i++){
-    let persianDigits = "۰۱۲۳۴۵۶۷۸۹";
-    let persianMap = persianDigits.split("");
-   let convertedNumber = i.toString().replace(/\d/g, (m : string) => {
-      return persianMap[parseInt(m)]
-   
-    });
-    this.dates.push({ dateNormal : i, dateArabic : convertedNumber });
-  }
-}
+  getDates() {
+    for (let i = 1; i <= 31; i++) {
+      let persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+      let persianMap = persianDigits.split("");
+      let convertedNumber = i.toString().replace(/\d/g, (m: string) => {
+        return persianMap[parseInt(m)]
 
-getMapLatlng(region) {
-  this._userService.getLatlng(region).subscribe((res: any) => {
-    if (res.status == "OK") {
-      this.location = res.results[0].geometry.location;
+      });
+      this.dates.push({ dateNormal: i, dateArabic: convertedNumber });
     }
-  })
-}
+  }
 
-getplacemapLoc(countryBound){
-  this.mapsAPILoader.load().then(() => {
-    this.geoCoder = new google.maps.Geocoder;
-    let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
-    autocomplete.setComponentRestrictions(
-      {'country': [countryBound]});
-    autocomplete.addListener("place_changed", () => {
-      this.ngZone.run(() => {
-        //get the place result
-        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-        console.log(place)
-        this.businessLocForm.controls['address'].setValue(place.formatted_address);
-        this.businessLocForm.controls['transAddress'].setValue(place.formatted_address);
+  getMapLatlng(region) {
+    this._userService.getLatlng(region).subscribe((res: any) => {
+      if (res.status == "OK") {
+        this.location = res.results[0].geometry.location;
+      }
+    })
+  }
 
-        //verify result
-        if (place.geometry === undefined || place.geometry === null) {
-          return;
-        }
+  getplacemapLoc(countryBound) {
+    this.mapsAPILoader.load().then(() => {
+      this.geoCoder = new google.maps.Geocoder;
+      let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
+      autocomplete.setComponentRestrictions(
+        { 'country': [countryBound] });
+      autocomplete.addListener("place_changed", () => {
+        this.ngZone.run(() => {
+          //get the place result
+          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          console.log(place)
+          this.businessLocForm.controls['address'].setValue(place.formatted_address);
+          this.businessLocForm.controls['transAddress'].setValue(place.formatted_address);
 
-        //set latitude, longitude and zoom
-        this.location.lat = place.geometry.location.lat();
-        this.location.lng = place.geometry.location.lng();
-        this.zoomlevel = 14;
+          //verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+
+          //set latitude, longitude and zoom
+          this.location.lat = place.geometry.location.lat();
+          this.location.lng = place.geometry.location.lng();
+          this.zoomlevel = 14;
+        });
       });
     });
-  });
 
-}
-textValidation(event) {
-  const pattern = /^[a-zA-Z0-9_]*$/;
-  let inputChar = String.fromCharCode(event.charCode);
-  if (!pattern.test(inputChar)) {
-    if (event.charCode == 0) {
-      return true;
-    }
-    if (event.target.value) {
-      var end = event.target.selectionEnd;
-      if (event.charCode == 32 && (event.target.value[end - 1] == " " || event.target.value[end] == " ")) {
-        event.preventDefault();
-        return false;
-      }
-      else if(event.charCode == 32 && !pattern.test(inputChar)){
+  }
+  textValidation(event) {
+    const pattern = /^[a-zA-Z0-9_]*$/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      if (event.charCode == 0) {
         return true;
       }
-      else{
+      if (event.target.value) {
+        var end = event.target.selectionEnd;
+        if (event.charCode == 32 && (event.target.value[end - 1] == " " || event.target.value[end] == " ")) {
+          event.preventDefault();
+          return false;
+        }
+        else if (event.charCode == 32 && !pattern.test(inputChar)) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+      else {
         return false;
       }
     }
     else {
+      return true;
+    }
+  }
+
+  errorValidate() {
+    if (this.organizationForm.controls.orgName.status == "INVALID" && this.organizationForm.controls.orgName.touched) {
+      this.orgNameError = true;
+    }
+    if (this.organizationForm.controls.transLangOrgName.status == "INVALID" && this.organizationForm.controls.transLangOrgName.touched) {
+      this.transorgNameError = true;
+    }
+    if (this.businessLocForm.controls.address.status == "INVALID" && this.businessLocForm.controls.address.touched) {
+      this.addressError = true;
+    }
+    if (this.businessLocForm.controls.transAddress.status == "INVALID" && this.businessLocForm.controls.transAddress.touched) {
+      this.addressArError = true;
+    }
+    if (this.businessLocForm.controls.poBoxNo.status == "INVALID" && this.businessLocForm.controls.poBoxNo.touched) {
+      this.poBoxError = true;
+    }
+    if (this.businessLocForm.controls.poBoxNoAr.status == "INVALID" && this.businessLocForm.controls.poBoxNoAr.touched) {
+      this.poBoxArError = true;
+    }
+
+    if (this.informationForm.controls.licenseNo.status == "INVALID" && this.informationForm.controls.licenseNo.touched) {
+      this.licenseError = true;
+    }
+    if (this.informationForm.controls.licenseNoAr.status == "INVALID" && this.informationForm.controls.licenseNoAr.touched) {
+      this.translicenseError = true;
+    }
+    if (this.informationForm.controls.vatNo.status == "INVALID" && this.informationForm.controls.vatNo.touched) {
+      this.vatError = true;
+    }
+    if (this.informationForm.controls.vatNoAr.status == "INVALID" && this.informationForm.controls.vatNoAr.touched) {
+      this.vatNoArError = true;
+    }
+
+    if (this.contactInfoForm.controls.phone.status == "INVALID" && this.contactInfoForm.controls.phone.touched) {
+      this.phoneError = true;
+    }
+    if (this.contactInfoForm.controls.transLangPhone.status == "INVALID" && this.contactInfoForm.controls.transLangPhone.touched) {
+      this.translangPhoneError = true;
+    }
+
+    if (this.contactInfoForm.controls.fax.status == "INVALID" && this.contactInfoForm.controls.fax.touched) {
+      this.faxError = true;
+    }
+    if (this.contactInfoForm.controls.transLangFax.status == "INVALID" && this.contactInfoForm.controls.transLangFax.touched) {
+      this.translangFaxError = true;
+    }
+
+
+  }
+
+  spaceHandler(event) {
+    if (event.charCode == 32) {
+      event.preventDefault();
       return false;
     }
   }
-  else{
-    return true;
-  }
-}
 
-errorValidate() {
-  if (this.organizationForm.controls.orgName.status == "INVALID" && this.organizationForm.controls.orgName.touched) {
-    this.orgNameError = true;
-  }
-  if (this.organizationForm.controls.transLangOrgName.status == "INVALID" && this.organizationForm.controls.transLangOrgName.touched) {
-    this.transorgNameError = true;
-  }
-  if (this.businessLocForm.controls.address.status == "INVALID" && this.businessLocForm.controls.address.touched) {
-    this.addressError = true;
-  }
-  if (this.businessLocForm.controls.transAddress.status == "INVALID" && this.businessLocForm.controls.transAddress.touched) {
-    this.addressArError = true;
-  }
-  if (this.businessLocForm.controls.poBoxNo.status == "INVALID" && this.businessLocForm.controls.poBoxNo.touched) {
-    this.poBoxError = true;
-  }
-  if (this.businessLocForm.controls.poBoxNoAr.status == "INVALID" && this.businessLocForm.controls.poBoxNoAr.touched) {
-    this.poBoxArError = true;
-  }
-
-  if (this.informationForm.controls.licenseNo.status == "INVALID" && this.informationForm.controls.licenseNo.touched) {
-    this.licenseError = true;
-  }
-  if (this.informationForm.controls.licenseNoAr.status == "INVALID" && this.informationForm.controls.licenseNoAr.touched) {
-    this.translicenseError = true;
-  }
-  if (this.informationForm.controls.vatNo.status == "INVALID" && this.informationForm.controls.vatNo.touched) {
-    this.vatError = true;
-  }
-  if (this.informationForm.controls.vatNoAr.status == "INVALID" && this.informationForm.controls.vatNoAr.touched) {
-    this.vatNoArError = true;
-  }
-
-  if (this.contactInfoForm.controls.phone.status == "INVALID" && this.contactInfoForm.controls.phone.touched) {
-    this.phoneError = true;
-  }
-  if (this.contactInfoForm.controls.transLangPhone.status == "INVALID" && this.contactInfoForm.controls.transLangPhone.touched) {
-    this.translangPhoneError = true;
-  }
-
-  if (this.contactInfoForm.controls.fax.status == "INVALID" && this.contactInfoForm.controls.fax.touched) {
-    this.faxError = true;
-  }
-  if (this.contactInfoForm.controls.transLangFax.status == "INVALID" && this.contactInfoForm.controls.transLangFax.touched) {
-    this.translangFaxError = true;
-  }
-
-
-}
-
-spaceHandler(event) {
-  if (event.charCode == 32) {
-    event.preventDefault();
-    return false;
-  }
-}
-
-  getOrganizationList(){
-    this._userbusinessService.getOrganizationType().subscribe((res:any)=>{
-      if(res.returnStatus=="Success"){
+  getOrganizationList() {
+    this._userbusinessService.getOrganizationType().subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
         this.organizationList = JSON.parse(res.returnObject);
       }
     })
   }
-  getsocialList(){
-    this._userbusinessService.socialList().subscribe((res:any)=>{
-      if(res.returnStatus=="Success"){
+  getsocialList() {
+    this._userbusinessService.socialList().subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
         this.socialLink = res.returnObject;
       }
     })
   }
 
-  markerDragEnd($event){
+  markerDragEnd($event) {
     console.log($event);
-    this.geoCoder.geocode({'location': {lat: $event.coords.lat, lng: $event.coords.lng}}, (results, status) => {
+    this.geoCoder.geocode({ 'location': { lat: $event.coords.lat, lng: $event.coords.lng } }, (results, status) => {
       console.log(results);
       console.log(status);
       if (status === 'OK') {
@@ -601,210 +601,209 @@ spaceHandler(event) {
     });
   }
 
-  selectMonth(name, type){
-    if(type == "issue"){
-    if(name && name != 'undefined'){
-    let selectedMonth = this.months.find(obj => (obj.name == name  || obj.arabicName == name));
-    this.IssueMonth = selectedMonth;
-    this.selectedIssueMonth = selectedMonth.name;
-    this.selectedIssueMonthAr = selectedMonth.arabicName;
-   }
-   else{
-    this.IssueMonth = {};
-    this.selectedIssueMonth = name;
-    this.selectedIssueMonthAr = name;
-   }
-   }
-   else if(type == "expire"){
-    if(name && name != 'undefined'){
-    let selectedMonth = this.months.find(obj => (obj.name == name  || obj.arabicName == name));
-    this.ExpireMonth = selectedMonth;
-    this.selectedExpireMonth = selectedMonth.name;
-    this.selectedExpireMonthAr = selectedMonth.arabicName;
-   }
-   else{
-    this.ExpireMonth = {};
-    this.selectedExpireMonth = name;
-    this.selectedExpireMonthAr = name;
-   }
-   }
-  }
-  onModelFaxChange(fromActive, currentActive, $controlName, $value){
-    if(currentActive && !fromActive){
-       let number = $value.split('');
-    for (let i=0; i< number.length; i++){
-      this.arabicNumbers.forEach((obj, index)=>{
-        if(number[i] == obj.baseNumber){
-          number.splice(i,1, obj.arabicNumber)
-        }
-      })
-    }
-    this.contactInfoForm.controls[$controlName].patchValue(number.reverse().join(''));
-    }
-  }
-
-  onModelTransFaxChange(fromActive, currentActive, $controlName, $value){
-  
-    if(currentActive && !fromActive){
-       let number = $value.split('');
-    for (let i=0; i< number.length; i++){
-      this.arabicNumbers.forEach((obj, index)=>{
-        if(number[i] == obj.baseNumber || number[i] == obj.arabicNumber){
-          number.splice(i,1, obj.baseNumber)
-        }
-      })
-      
-    }
-    this.contactInfoForm.controls[$controlName].patchValue(number.join(''));
-    }
-  
-  }
-
-  onModelPhoneChange(fromActive, currentActive, $controlName, $value){
-    if(currentActive && !fromActive){
-       let number = $value.split('');
-    for (let i=0; i< number.length; i++){
-      this.arabicNumbers.forEach((obj, index)=>{
-        if(number[i] == obj.baseNumber){
-          number.splice(i,1, obj.arabicNumber)
-        }
-      })
-    }
-    this.contactInfoForm.controls[$controlName].patchValue(number.reverse().join(''));
-    }
-}
-
-onModelTransPhoneChange(fromActive, currentActive, $controlName, $value){
-  
-  if(currentActive && !fromActive){
-     let number = $value.split('');
-  for (let i=0; i< number.length; i++){
-    this.arabicNumbers.forEach((obj, index)=>{
-      if(number[i] == obj.baseNumber || number[i] == obj.arabicNumber){
-        number.splice(i,1, obj.baseNumber)
+  selectMonth(name, type) {
+    if (type == "issue") {
+      if (name && name != 'undefined') {
+        let selectedMonth = this.months.find(obj => (obj.name == name || obj.arabicName == name));
+        this.IssueMonth = selectedMonth;
+        this.selectedIssueMonth = selectedMonth.name;
+        this.selectedIssueMonthAr = selectedMonth.arabicName;
       }
-    })
-    
-  }
-  this.contactInfoForm.controls[$controlName].patchValue(number.join(''));
-  }
-
-}
-
-onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
-  debugger
-  setTimeout(() => {
-    if(currentActive && !fromActive && $value){
-      this.Globalinputfrom = false;
+      else {
+        this.IssueMonth = {};
+        this.selectedIssueMonth = name;
+        this.selectedIssueMonthAr = name;
+      }
     }
-    if(fromActive == false && currentActive && this.organizationForm.controls[$controlName].errors || this.Globalinputto){
-      this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
-        this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
-        this.Globalinputto = true;
-      })
+    else if (type == "expire") {
+      if (name && name != 'undefined') {
+        let selectedMonth = this.months.find(obj => (obj.name == name || obj.arabicName == name));
+        this.ExpireMonth = selectedMonth;
+        this.selectedExpireMonth = selectedMonth.name;
+        this.selectedExpireMonthAr = selectedMonth.arabicName;
+      }
+      else {
+        this.ExpireMonth = {};
+        this.selectedExpireMonth = name;
+        this.selectedExpireMonthAr = name;
+      }
     }
-   else if ($value && currentActive && source && target && fromActive==undefined) {
-      this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
-        this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
-      })
-    }
-    // else if(currentActive && !$value){
-    //   this.fromActive(fromActive);
-    // }
-  }, 100)
-}
-
-onTransModel(fromActive, currentActive, $controlName, $value) {
-  if(currentActive && !fromActive && $value){
-    this.Globalinputto = false;
   }
-  if(currentActive && fromActive == false && this.organizationForm.controls[$controlName].errors || this.Globalinputfrom){
-    this.debounceInput.next($value);
-    this.debounceInput.pipe(debounceTime(400),distinctUntilChanged()).subscribe(value => {
-    this._commonService.detectedLanguage(value).subscribe((res: any) => {
-      let sourceLang = res.data.detections[0][0].language;
-      let target = "en";
-      if (sourceLang && target && value) {
-        this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
-          this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
-            this.Globalinputfrom = true;
+  onModelFaxChange(fromActive, currentActive, $controlName, $value) {
+    if (currentActive && !fromActive) {
+      let number = $value.split('');
+      for (let i = 0; i < number.length; i++) {
+        this.arabicNumbers.forEach((obj, index) => {
+          if (number[i] == obj.baseNumber) {
+            number.splice(i, 1, obj.arabicNumber)
+          }
         })
       }
-    })
-});
+      this.contactInfoForm.controls[$controlName].patchValue(number.reverse().join(''));
+    }
   }
-    else if (currentActive && $value && fromActive==undefined) {
+
+  onModelTransFaxChange(fromActive, currentActive, $controlName, $value) {
+
+    if (currentActive && !fromActive) {
+      let number = $value.split('');
+      for (let i = 0; i < number.length; i++) {
+        this.arabicNumbers.forEach((obj, index) => {
+          if (number[i] == obj.baseNumber || number[i] == obj.arabicNumber) {
+            number.splice(i, 1, obj.baseNumber)
+          }
+        })
+
+      }
+      this.contactInfoForm.controls[$controlName].patchValue(number.join(''));
+    }
+
+  }
+
+  onModelPhoneChange(fromActive, currentActive, $controlName, $value) {
+    if (currentActive && !fromActive) {
+      let number = $value.split('');
+      for (let i = 0; i < number.length; i++) {
+        this.arabicNumbers.forEach((obj, index) => {
+          if (number[i] == obj.baseNumber) {
+            number.splice(i, 1, obj.arabicNumber)
+          }
+        })
+      }
+      this.contactInfoForm.controls[$controlName].patchValue(number.reverse().join(''));
+    }
+  }
+
+  onModelTransPhoneChange(fromActive, currentActive, $controlName, $value) {
+
+    if (currentActive && !fromActive) {
+      let number = $value.split('');
+      for (let i = 0; i < number.length; i++) {
+        this.arabicNumbers.forEach((obj, index) => {
+          if (number[i] == obj.baseNumber || number[i] == obj.arabicNumber) {
+            number.splice(i, 1, obj.baseNumber)
+          }
+        })
+
+      }
+      this.contactInfoForm.controls[$controlName].patchValue(number.join(''));
+    }
+
+  }
+
+  onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
+    setTimeout(() => {
+      if (currentActive && !fromActive && $value) {
+        this.Globalinputfrom = false;
+      }
+      if (fromActive == false && currentActive && this.organizationForm.controls[$controlName].errors || this.Globalinputto) {
+        this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
+          this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+          this.Globalinputto = true;
+        })
+      }
+      else if ($value && currentActive && source && target && fromActive == undefined) {
+        this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
+          this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+        })
+      }
+      // else if(currentActive && !$value){
+      //   this.fromActive(fromActive);
+      // }
+    }, 100)
+  }
+
+  onTransModel(fromActive, currentActive, $controlName, $value) {
+    if (currentActive && !fromActive && $value) {
+      this.Globalinputto = false;
+    }
+    if (currentActive && fromActive == false && this.organizationForm.controls[$controlName].errors || this.Globalinputfrom) {
       this.debounceInput.next($value);
-      this.debounceInput.pipe(debounceTime(400),distinctUntilChanged()).subscribe(value => {
-      this._commonService.detectedLanguage(value).subscribe((res: any) => {
-        let sourceLang = res.data.detections[0][0].language;
-        let target = "en";
-        // if (sourceLang && target && value) {
-        //   this.onModelChange(fromActive, currentActive, $controlName, sourceLang, target, value);
-        // }
-        if (sourceLang && target && value) {
-          this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
-            this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
-          })
-        }
-      })
-  });
-}
-// else if(currentActive && !$value){
-//   this.fromActive(fromActive);    
-// }
-}
-
-
-
-
-
-  addmoreSocialLink(){
-    this.countAccount ++
-   this.socialAccounts.push(this.countAccount);
+      this.debounceInput.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
+        this._commonService.detectedLanguage(value).subscribe((res: any) => {
+          let sourceLang = res.data.detections[0][0].language;
+          let target = "en";
+          if (sourceLang && target && value) {
+            this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+              this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+              this.Globalinputfrom = true;
+            })
+          }
+        })
+      });
+    }
+    else if (currentActive && $value && fromActive == undefined) {
+      this.debounceInput.next($value);
+      this.debounceInput.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
+        this._commonService.detectedLanguage(value).subscribe((res: any) => {
+          let sourceLang = res.data.detections[0][0].language;
+          let target = "en";
+          // if (sourceLang && target && value) {
+          //   this.onModelChange(fromActive, currentActive, $controlName, sourceLang, target, value);
+          // }
+          if (sourceLang && target && value) {
+            this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+              this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+            })
+          }
+        })
+      });
+    }
+    // else if(currentActive && !$value){
+    //   this.fromActive(fromActive);    
+    // }
   }
 
-    selectDate(date, type){
-    if(type == "issue"){
-    if(date && date != 'undefined'){
-    let selectedDate = this.dates.find(obj => (obj.dateNormal == date  || obj.dateArabic == date));
-    this.IssueDate = selectedDate;
-    this.selectedIssueDate = selectedDate.dateNormal;
-    this.selectedIssueDateAr = selectedDate.dateArabic;
-   }
-   else{
-    this.IssueDate = {};
-    this.selectedIssueDate = date;
-    this.selectedIssueDateAr = date;
-   }
-   }
-   else if(type == "expire"){
-    if(date && date != 'undefined'){
-    let selectedDate = this.dates.find(obj => (obj.dateNormal == date  || obj.dateArabic == date));
-    this.ExpireDate = selectedDate;
-    this.selectedExpireDate = selectedDate.dateNormal;
-    this.selectedExpireDateAr = selectedDate.dateArabic;
-   }
-   else{
-    this.ExpireDate = {};
-    this.selectedExpireDate = date;
-    this.selectedExpireDateAr = date;
-   }
-   }
+
+
+
+
+  addmoreSocialLink() {
+    this.countAccount++
+    this.socialAccounts.push(this.countAccount);
   }
-  
-  organizationType(type){
-    if(type && type != 'undefined'){
-      let selectedOrganization = this.organizationList.find(obj => (obj.BaseLang == type  || obj.OtherLang == type));
+
+  selectDate(date, type) {
+    if (type == "issue") {
+      if (date && date != 'undefined') {
+        let selectedDate = this.dates.find(obj => (obj.dateNormal == date || obj.dateArabic == date));
+        this.IssueDate = selectedDate;
+        this.selectedIssueDate = selectedDate.dateNormal;
+        this.selectedIssueDateAr = selectedDate.dateArabic;
+      }
+      else {
+        this.IssueDate = {};
+        this.selectedIssueDate = date;
+        this.selectedIssueDateAr = date;
+      }
+    }
+    else if (type == "expire") {
+      if (date && date != 'undefined') {
+        let selectedDate = this.dates.find(obj => (obj.dateNormal == date || obj.dateArabic == date));
+        this.ExpireDate = selectedDate;
+        this.selectedExpireDate = selectedDate.dateNormal;
+        this.selectedExpireDateAr = selectedDate.dateArabic;
+      }
+      else {
+        this.ExpireDate = {};
+        this.selectedExpireDate = date;
+        this.selectedExpireDateAr = date;
+      }
+    }
+  }
+
+  organizationType(type) {
+    if (type && type != 'undefined') {
+      let selectedOrganization = this.organizationList.find(obj => (obj.BaseLang == type || obj.OtherLang == type));
       this.orgType = selectedOrganization;
       this.selectedOrgType = selectedOrganization.BaseLang;
       this.selectedOrgTypeAr = selectedOrganization.OtherLang;
-     }
-     else{
+    }
+    else {
       this.orgType = {};
       this.selectedOrgType = type;
       this.selectedOrgTypeAr = type;
-     }
+    }
   }
   NumberValid(evt) {
     let charCode = (evt.which) ? evt.which : evt.keyCode
@@ -820,65 +819,72 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
     this.transPhoneCode = description[0].CountryPhoneCode_OtherLang;
     this.phoneCountryId = list.id
   }
-   selectYear(year, type){
-    if(type == "issue"){
-    if(year && year != 'undefined'){
-    let selectedYear = this.pastYears.find(obj => (obj.yearNormal == year  || obj.yearArabic == year));
-    this.IssueYear = selectedYear;
-    this.selectedIssueYear = selectedYear.yearNormal;
-    this.selectedIssueYearAr = selectedYear.yearArabic;
-   }
-   else{
-    this.IssueYear = {};
-    this.selectedIssueYear= year;
-    this.selectedIssueYearAr = year;
-   }
-   }
-   else if(type == "expire"){
-    if(year && year != 'undefined'){
-    let selectedYear = this.futureYears.find(obj => (obj.yearNormal == year  || obj.yearArabic == year));
-    this.ExpiryYear = selectedYear;
-    this.selectedExpiryYear = selectedYear.yearNormal;
-    this.selectedExpiryYearAr = selectedYear.yearArabic;
-   }
-   else{
-    this.ExpiryYear = {};
-    this.selectedIssueYear= year;
-    this.selectedIssueYearAr = year
-   }
-   }
+  selectYear(year, type) {
+    if (type == "issue") {
+      if (year && year != 'undefined') {
+        let selectedYear = this.pastYears.find(obj => (obj.yearNormal == year || obj.yearArabic == year));
+        this.IssueYear = selectedYear;
+        this.selectedIssueYear = selectedYear.yearNormal;
+        this.selectedIssueYearAr = selectedYear.yearArabic;
+      }
+      else {
+        this.IssueYear = {};
+        this.selectedIssueYear = year;
+        this.selectedIssueYearAr = year;
+      }
+    }
+    else if (type == "expire") {
+      if (year && year != 'undefined') {
+        let selectedYear = this.futureYears.find(obj => (obj.yearNormal == year || obj.yearArabic == year));
+        this.ExpiryYear = selectedYear;
+        this.selectedExpiryYear = selectedYear.yearNormal;
+        this.selectedExpiryYearAr = selectedYear.yearArabic;
+      }
+      else {
+        this.ExpiryYear = {};
+        this.selectedIssueYear = year;
+        this.selectedIssueYearAr = year
+      }
+    }
   }
 
 
   serviceSelection(obj, selectedService) {
-    let index = this.serviceIds.indexOf(obj.ServiceID);
     let selectedItem = selectedService.classList;
-    if (index < 0) {
+    if (this.serviceIds && this.serviceIds.length) {
+      for (var i = 0; i < this.serviceIds.length; i++) {
+        if (this.serviceIds[i].ServiceID == obj.ServiceID) {
+          this.serviceIds.splice(i, 1);
+          selectedItem.remove('active');
+          return;
+        }
+      }
+
+    }
+    if ((this.serviceIds && !this.serviceIds.length) || (i == this.serviceIds.length)) {
       selectedItem.add('active');
-      this.serviceIds.push(obj.ServiceID);
+      this.serviceIds.push(obj);
     }
-    else {
-      this.serviceIds.splice(index, 1);
-      selectedItem.remove('active');
-    }
+    console.log(this.serviceIds);
+
   }
 
-  getTenYears(){
+  getTenYears() {
     let date = new Date();
     let persianDigits = "۰۱۲۳۴۵۶۷۸۹";
     let persianMap = persianDigits.split("");
-    for (let i=0; i < 11; i++){
-      let pastyear = date.getFullYear()-i;
-      let convertedPastYear = pastyear.toString().replace(/\d/g, (m : string) => {
-          return persianMap[parseInt(m)]
-        });
-     this.pastYears.push({ yearNormal : pastyear, yearArabic : convertedPastYear });
-     };
-    for (let i=0; i < 2; i++){
-        let futureyear= date.getFullYear()+i
-       let convertedFutureYear = futureyear.toString().replace(/\d/g, (m : string) => {
-            return persianMap[parseInt(m)]
-       });
+    for (let i = 0; i < 11; i++) {
+      let pastyear = date.getFullYear() - i;
+      let convertedPastYear = pastyear.toString().replace(/\d/g, (m: string) => {
+        return persianMap[parseInt(m)]
+      });
+      this.pastYears.push({ yearNormal: pastyear, yearArabic: convertedPastYear });
+    };
+    for (let i = 0; i < 2; i++) {
+      let futureyear = date.getFullYear() + i
+      let convertedFutureYear = futureyear.toString().replace(/\d/g, (m: string) => {
+        return persianMap[parseInt(m)]
+      });
       this.futureYears.push({ yearNormal: futureyear, yearArabic: convertedFutureYear });
 
     }
@@ -886,42 +892,122 @@ onTransModel(fromActive, currentActive, $controlName, $value) {
 
 
 
-  nextForm(){
+  nextForm() {
     this._sharedService.formChange.next(false);
     this._sharedService.formProgress.next(50);
+    console.log(this.informationForm.value);
     
+
+    let businessDetail = {
+      informationForm: this.informationForm.value,
+      businessLocForm: this.businessLocForm.value,
+      organizationForm: this.organizationForm.value,
+      contactInfoForm: this.contactInfoForm.value,
+      issueDate: this.informationForm.value.issueDate + '/' + this.informationForm.value.issueMonth + '/' + this.informationForm.value.issueYear,
+      expiryDate: this.informationForm.value.expireDate + '/' + this.informationForm.value.expireMonth + '/' + this.informationForm.value.expiryYear,
+      location: this.location,
+      logisticsService: this.serviceIds,
+      licenseDocx: this.selectedLicense,
+      logo: this.selectedLogo,
+      license: this.selectedLicense, 
+      busiType: this.orgType,
+      OtherLangPhoneCode: this.transPhoneCode,
+      baseLangPhoneCode: this.phoneCode
+
+    }
+    this._sharedService.businessDetailObj.next(businessDetail);
+
   }
 
-  removeSelectedDocx(type){
-    if(type == "license"){
+  removeSelectedDocx(type) {
+    if (type == "license") {
       this.selectedLicense = {}
     }
-    else if(type == "logo"){
+    else if (type == "logo") {
       this.selectedLogo = {}
     }
   }
 
 
 
- SelectDocx(selectedFiles: NgFilesSelected, type): void {
-   if(type =='license'){
-    if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.status == 1) this._toastr.error('Please select a one file', '')
-      else if (selectedFiles.status == 2) this._toastr.error('Please select a correct file format', '')
-      // this.selectedFiles = selectedFiles.status;
-      return;
+  SelectDocx(selectedFiles: any, type): void {
+
+
+
+    console.log(selectedFiles)
+    if (type == 'license') {
+
+      // if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
+      //   if (selectedFiles.status == 1) this._toastr.error('Please select only one file to upload', '')
+      //   else if (selectedFiles.status == 2) this._toastr.error('File format is not supported please select supported format file', '')
+      //   // this.selectedFiles = selectedFiles.status;
+      //   console.log('in if');
+      //   return;
+      // } else {
+      // console.log('in else ');
+
+      try {
+        this.onFileChange(selectedFiles, 'license')
+      } catch (error) {
+        console.log(error);
+      }
+      // }
     }
-    this.selectedLicense = selectedFiles.files[0];
-  }
-  else if(type =='logo'){
-    if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.status == 1) this._toastr.error('Please select a one file', '')
-      else if (selectedFiles.status == 2) this._toastr.error('Please select a correct file format', '')
-          // this.selectedFiles = selectedFiles.status;
-      return;
+    else if (type == 'logo') {
+
+      // if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
+      //   if (selectedFiles.status == 1) this._toastr.error('Please select only one file to upload', '')
+      //   else if (selectedFiles.status == 2) this._toastr.error('File format is not supported please select supported format file', '')
+      //   // this.selectedFiles = selectedFiles.status;
+      //   console.log('in if');
+      //   return;
+      // } else {
+      //   console.log('in else ');
+
+      try {
+        this.onFileChange(selectedFiles, 'logo')
+      } catch (error) {
+        console.log(error);
+      }
+      // }
     }
-    this.selectedLogo = selectedFiles.files[0];
-  }
   }
 
+  onFileChange(event, type) {
+    let reader = new FileReader();
+
+    if (event) {
+      try {
+        let file = event[0];
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+
+          let selectedFile: DocumentFile = {
+            fileName: file.name,
+            fileType: file.type,
+            fileBaseString: reader.result.split(',')[1]
+          }
+
+          console.log('you file content:', selectedFile);
+
+          if (type === 'license') {
+            this.selectedLicense = selectedFile
+          }
+
+          if (type === 'logo') {
+            this.selectedLogo = selectedFile
+          }
+
+        };
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+}
+
+export interface DocumentFile {
+  fileBaseString: string
+  fileName: string
+  fileType: string
 }

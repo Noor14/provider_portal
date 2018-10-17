@@ -10,6 +10,7 @@ import { UserBusinessService } from '../../user-business.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { element } from 'protractor';
+import { DocumentUpload } from '../../../../../../interfaces/document.interface';
 
 
 @Component({
@@ -109,6 +110,9 @@ export class DirectorinfoComponent implements OnInit {
   directorForm;
   managementForm;
 
+  public formOneObj;
+  public uploadDocs: Array<DocumentUpload> = []
+
   constructor(
     private _sharedService: SharedService,
     private _commonService: CommonService,
@@ -170,14 +174,20 @@ export class DirectorinfoComponent implements OnInit {
       if (state) {
         let copy = Object.assign([], state)
         this.docTypes = copy.filter(element => !element.BusinessLogic)
+        this.uploadDocs = copy.filter(element => element.BusinessLogic)
+        console.log(this.uploadDocs);
+
       }
-
     });
-
 
 
     this._sharedService.jobTitleList.subscribe((state: any) => {
       this.jobTypeList = state;
+    });
+
+
+    this._sharedService.businessDetailObj.subscribe((state: any) => {
+      this.formOneObj = state;
     });
   }
 
@@ -197,14 +207,6 @@ export class DirectorinfoComponent implements OnInit {
       this.selectedjobDesgAr = type;
     }
   }
-
-
-
-
-
-
-
-
 
   selectdocType(index, obj) {
     // this.docxId = obj.AccountID;
@@ -486,8 +488,8 @@ export class DirectorinfoComponent implements OnInit {
   selectDocx(selectedFiles: NgFilesSelected): void {
 
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.status == 1) this._toastr.error('Please select only two files', '')
-      else if (selectedFiles.status == 2) this._toastr.error('Please select a correct file format', '')
+      if (selectedFiles.status == 1) this._toastr.error('Please select only two file to upload', '')
+      else if (selectedFiles.status == 2) this._toastr.error('File format is not supported please select supported format file', '')
       // this.selectedFiles = selectedFiles.status;
       return;
     }
@@ -496,15 +498,118 @@ export class DirectorinfoComponent implements OnInit {
 
   }
   submitBusinessInfo() {
-    let obj = {};
-    this._userbusinessService.submitBusinessInfo(obj).subscribe((res: any) => {
-      if (res.status == "Success") {
-        console.log(res);
+
+    const { license, logo } = this.formOneObj
+
+    this.uploadDocs.forEach(docObj => {
+      // docObj.
+      if (docObj.BusinessLogic === 'COMPANY_LOGO') {
+        docObj.DocumentFileContent = license.fileBaseString
+        docObj.DocumentName = license.fileName
+        docObj.DocumentUploadedFileType = license.fileType
+      }
+
+      if (docObj.BusinessLogic === 'TRADE_LICENSE') {
+        docObj.DocumentFileContent = logo.fileBaseString
+        docObj.DocumentName = logo.fileName
+        docObj.DocumentUploadedFileType = logo.fileType
       }
     })
 
+    let obj = {
+      userID: this.userProfile.userID,
+      providerID: this.userProfile.providerID,
+      companyID: this.userProfile.companyID,
+      businessProfileBL: {
+        licenseNo: this.formOneObj.informationForm.licenseNo,
+        issueDate: this.formOneObj.issueDate,
+        expiryDate: this.formOneObj.expiryDate,
+        vatNo: this.formOneObj.informationForm.vatNo,
+        organizationTypeID: this.formOneObj.busiType.ID,
+        organizationName: this.formOneObj.organizationForm.orgName,
+        address: this.formOneObj.businessLocForm.address,
+        poBox: this.formOneObj.businessLocForm.poBoxNo,
+        telephone: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.phone,
+        faxNo: this.formOneObj.contactInfoForm.fax,
+        managementInfo: [
+          {
+            jobTitleID: 0,
+            firstName: "string",
+            lastName: "string"
+          }
+        ],
+        directorInfo: [
+          {
+            firstName: "string",
+            lastName: "string",
+            email: "string",
+            mobileNo: "string"
+          }
+        ]
+      },
+      businessProfileOL: {
+        licenseNo: this.formOneObj.informationForm.licenseNoAr,
+        issueDate: this.formOneObj.issueDate,
+        expiryDate: this.formOneObj.expiryDate,
+        vatNo: this.formOneObj.informationForm.vatNoAr,
+        organizationTypeID: this.formOneObj.busiType.ID,
+        organizationName: this.formOneObj.organizationForm.transLangOrgName,
+        address: this.formOneObj.businessLocForm.transAddress,
+        poBox: this.formOneObj.businessLocForm.poBoxNoAr,
+        telephone: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.transLangPhone,
+        faxNo: this.formOneObj.contactInfoForm.transLangFax,
+        managementInfo: [
+          {
+            jobTitleID: 0,
+            firstName: "string",
+            lastName: "string"
+          }
+        ],
+        directorInfo: [
+          {
+            firstName: "string",
+            lastName: "string",
+            email: "string",
+            mobileNo: "string"
+          }
+        ]
+      },
+      socialAccount: [
+        {
+          providerSocialMediaAccountsID: 0,
+          providerSocialMediaCode: "",
+          shortName: "",
+          providerID: 605,
+          socialMediaPortalsID: 100,
+          carrierID: 0,
+          companyID: 598,
+          userID: 630,
+          linkURL: "texpo.com",
+          isDelete: true,
+          isActive: true,
+          createdBy: "string",
+          createdDateTime: "2018-10-05T07:43:40.333Z",
+          modifiedBy: "string",
+          modifiedDateTime: "2018-10-05T07:43:40.333Z"
+        }
+      ],
+      providerLogisticServiceList: this.formOneObj.logisticsService,
+      businessLocation: {
+        latitude: this.formOneObj.location.lat.toString(),
+        longitude: this.formOneObj.location.lng.toString()
+      },
+      doc: this.uploadDocs
 
-    this._router.navigate(['/profile-completion']);
+    };
+
+    this._userbusinessService.submitBusinessInfo(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        console.log(res);
+        this._router.navigate(['/profile-completion']);
+
+      }
+    })
+
   }
 
   removeSelectedDocx(index) {
