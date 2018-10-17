@@ -130,7 +130,9 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
   resendOtp(){ 
     let obj= {
       LanguageID: this.userInfo.LanguageID,
-      key: this.userInfo.Key
+      key: this.userInfo.Key,
+      redirectUrl: window.location.protocol + "//" + window.location.host + window.location.pathname,
+      
     };
     this._userCreationService.resendOtpCode(obj).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){

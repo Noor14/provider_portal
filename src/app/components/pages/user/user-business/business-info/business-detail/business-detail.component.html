@@ -580,12 +580,12 @@
             <div class="input-group-prepend">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                  <span>Website</span>
+                  <span *ngIf="!selectedSocialsite.title">Website</span>
+                  <span *ngIf="selectedSocialsite.title">{{selectedSocialsite.title}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="social">
                   <ul class="list-group">
-                    <li class="list-group-item">
-                    <li class="list-group-item" *ngFor="let link of socialLink">
+                    <li class="list-group-item" *ngFor="let link of socialLink" (click)="selectedSocialLink(link, i)">
                       <span>{{link.title}}</span>
                     </li>
                   </ul>
@@ -605,11 +605,12 @@
             <div class="input-group-prepend">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                  <span>Website</span>
+                  <span *ngIf="!selectedSocialsite.title">Website</span>
+                  <span *ngIf="selectedSocialsite.title">{{selectedSocialsite.title}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="social">
                   <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let link of socialLink">
+                    <li class="list-group-item" *ngFor="let link of socialLink" (click)="selectedSocialLink(link, i)">
                       <span>{{link.title}}</span>
                     </li>
                   </ul>
@@ -630,8 +631,8 @@
     </div> -->
 
     <div class="contact-btn mt-5">
-<button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" 
-[disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length">
+    <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" 
+        [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length">
         <span>{{btnLabelBaseLanguage}}</span> / <span>{{btnLabelOtherLanguage}}</span>
      </button>
     </div>

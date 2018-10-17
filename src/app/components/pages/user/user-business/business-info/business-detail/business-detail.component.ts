@@ -25,6 +25,7 @@ export class BusinessDetailComponent implements OnInit {
   public requiredFieldsOthrLng: string = "هذه الخانة مطلوبه";
   public selectedLicense;
   public selectedLogo;
+  public selectedSocialsite:any={};
 
   private config: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', 'pdf', 'bmp'],
@@ -573,6 +574,7 @@ export class BusinessDetailComponent implements OnInit {
     this._userbusinessService.socialList().subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.socialLink = res.returnObject;
+        console.log(this.socialLink);
       }
     })
   }
@@ -896,7 +898,7 @@ export class BusinessDetailComponent implements OnInit {
     this._sharedService.formChange.next(false);
     this._sharedService.formProgress.next(50);
     console.log(this.informationForm.value);
-    
+
 
     let businessDetail = {
       informationForm: this.informationForm.value,
@@ -909,7 +911,7 @@ export class BusinessDetailComponent implements OnInit {
       logisticsService: this.serviceIds,
       licenseDocx: this.selectedLicense,
       logo: this.selectedLogo,
-      license: this.selectedLicense, 
+      license: this.selectedLicense,
       busiType: this.orgType,
       OtherLangPhoneCode: this.transPhoneCode,
       baseLangPhoneCode: this.phoneCode
@@ -1004,6 +1006,15 @@ export class BusinessDetailComponent implements OnInit {
       }
     }
   }
+
+
+  selectedSocialLink(obj ,index) {
+    this.selectedSocialsite = obj;
+    console.log(obj)
+  }
+
+
+
 }
 
 export interface DocumentFile {

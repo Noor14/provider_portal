@@ -311,22 +311,28 @@
     </ngb-panel>
 
   </ngb-accordion>
-  <div class="submit-btn  mt-5">
-    <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="submitBusinessInfo()">Proceed / تخطي</button>
-   
-    <!-- <div class="info_text">
-        <a href="javascript:;" class="text mr-4"(click)="submitBusinessInfo()">
-            SKIP & PROCEED / تخطي والمضي قدما
-            <img src="../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16" alt="icons">
-          </a>
-    </div> -->
-   
-  </div>
 
+<div class="d-flex justify-content-between align-items-center mt-4">
   <div class="info_text">
-    <a href="javascript:;" class="text mt-4" (click)="previousForm()">
-      <img src="../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16" alt="icons">GO BACK / الى الخلف
+    <a class="text" href="javascript:;">
+      <img alt="icons" class="icon-size-16" src="../../../assets/images/icons/icon_arrow_left.svg">GO BACK / الى الخلف
     </a>
   </div>
+
+  <div class="submit-btn d-flex align-items-center">
+    <div class="info_text">
+      <a class="text mr-2" href="javascript:;">
+        SKIP & PROCEED / تخطي والمضي قدما
+        <img alt="icons" class="icon-size-16" src="../../../assets/images/icons/icon_arrow_right.svg">
+      </a>
+    </div>
+    <button class="btn btn-primary btn-register hvr-sweep-to-right">
+      <span>Proceed</span> / <span>تخطي</span>
+    </button>
+
+  </div>
+</div>
+
+ 
  
 </section>
