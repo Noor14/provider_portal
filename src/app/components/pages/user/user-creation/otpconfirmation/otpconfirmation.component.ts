@@ -79,8 +79,8 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
   }
 
   countDown(time){
-  let minutes = time/60;
-  let seconds = parseInt(Math.fround(time/60%1).toFixed(1).split('.').pop());
+  let minutes = parseInt((time/60).toFixed(0));
+  let seconds = time - (minutes*60);
    if (time > 0 || seconds > 0) {
      this.countTime = setInterval(() => {
        if (minutes == 0 && seconds == 0) {
@@ -130,7 +130,11 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
   resendOtp(){ 
     let obj= {
       LanguageID: this.userInfo.LanguageID,
-      key: this.userInfo.Key
+      key: this.userInfo.Key,
+      FirstName: this.userInfo.FirstName,
+      FirstNameOL: this.userInfo.FirstNameOL,
+      redirectUrl: window.location.protocol + "//" + window.location.host + "/otp"
+      
     };
     this._userCreationService.resendOtpCode(obj).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){

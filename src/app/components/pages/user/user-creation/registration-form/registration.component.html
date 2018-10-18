@@ -25,7 +25,7 @@
   <section class="registration-form animated fadeInUp pt-2" *ngIf="registrationForm">
     <h5 class="registration-head-titles mt-5 d-flex justify-content-between">
       <span>{{lblAccSetupBaseLang}}</span>
-      <span *ngIf="showTranslatedLangSide">{{lblAccSetupOtherLang}}</span>
+      <span *ngIf="showTranslatedLangSide" class="text-right">{{lblAccSetupOtherLang}}</span>
     </h5>
     <hr class="hr-solid">
     <div class="row mb-1" *ngFor="let account of accountSetup; let i = index">
@@ -51,7 +51,7 @@
 
     <h5 class="registration-head-titles mt-5 d-flex justify-content-between">
       <span>{{lblPersonalInfoBaseLang}}</span>
-      <span *ngIf="showTranslatedLangSide">{{lblPersonalInfoOtherLang}}</span>
+      <span *ngIf="showTranslatedLangSide" class="text-right">{{lblPersonalInfoOtherLang}}</span>
     </h5>
 
     <hr class="hr-solid">
@@ -184,7 +184,7 @@
 
       <h5 class="registration-head-titles mt-5 d-flex justify-content-between">
         <span>{{lblContactDetailBaseLang}}</span>
-        <span *ngIf="showTranslatedLangSide">{{lblContactDetailOtherLang}}</span>
+        <span *ngIf="showTranslatedLangSide" class="text-right">{{lblContactDetailOtherLang}}</span>
       </h5>
       <hr class="hr-solid">
 
@@ -212,12 +212,12 @@
                   </div>
                 </div>
                 <input type="text" class="form-control" [ngClass]="{'inputError': phoneError && regForm.controls['phone'].errors}" (focusout)="errorValidate()" (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
-                 maxlength="9" placeholder="12 345 6789" (keypress)="NumberValid($event)" formControlName="phone">
+                 maxlength="13" placeholder="12 345 6789" (keypress)="NumberValid($event)" formControlName="phone">
               </div>
               <span *ngIf="phoneError">
                 <p class="inputError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('required') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">{{requiredFields}}</p>
                 <p class="inputError animated fadeIn" *ngIf="!regForm.controls['phone'].hasError('pattern') && regForm.controls['phone'].hasError('minlength') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Phone number should be minimum 7 digits</p>
-                <p class="inputError animated fadeIn" *ngIf="!regForm.controls['phone'].hasError('pattern') && regForm.controls['phone'].hasError('maxlength') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Phone number should not exceed from 9 digits</p>
+                <p class="inputError animated fadeIn" *ngIf="!regForm.controls['phone'].hasError('pattern') && regForm.controls['phone'].hasError('maxlength') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Phone number should not exceed from 13 digits</p>
                 <p class="inputError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('pattern') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Please enter valid information</p>
               </span>
             </div>
@@ -246,13 +246,13 @@
                     </div>
                   </div>
                   <input type="text" class="form-control" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true" [ngClass]="{'inputError': translangPhoneError && regForm.controls['transLangPhone'].errors}" 
-                  (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="9"
+                  (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="13"
                    placeholder="۶۷۸۹ ۳۴۵ ۱۲" (keypress)="NumberValid($event)" formControlName="transLangPhone">
                 </div>
                 <span *ngIf="translangPhoneError">
                   <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangPhone'].hasError('required') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">{{requiredFieldsOthrLng}}</p>
                   <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangPhone'].hasError('pattern') && regForm.controls['transLangPhone'].hasError('minlength') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">يجب أن يكون رقم الهاتف 7 أرقام كحد أدنى</p>
-                  <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangPhone'].hasError('pattern') && regForm.controls['transLangPhone'].hasError('maxlength') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">يجب ألا يتجاوز رقم الهاتف 9 أرقام</p>
+                  <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangPhone'].hasError('pattern') && regForm.controls['transLangPhone'].hasError('maxlength') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">يجب ألا يتجاوز رقم الهاتف  13 أرقام</p>
                   <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangPhone'].hasError('pattern') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">يرجى إدخال معلومات صحيحة</p>
                 </span>
               </div>
@@ -296,7 +296,7 @@
       </div>
       <div class="row mt-5">
         <div class="col">
-          <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" type="submit" [disabled]="regForm.invalid">
+          <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" type="submit" [disabled]="regForm.invalid || !accountId">
             <span>{{regBtnBaseLang}}</span><span *ngIf="showTranslatedLangSide"> / {{regBtnOtherLang}}</span>
           </button>
         </div>

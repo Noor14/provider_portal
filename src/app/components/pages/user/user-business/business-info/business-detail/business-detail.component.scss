@@ -1,14 +1,26 @@
 @import '../../../../../../../assets/scss/_variables';
 .business-profile {
+    .arabicLng{
+        font-family: $font-NeoSansArabic-Regular;
+    }
     h2 {
-        font-family: $font-pragmatica;
-        font-weight: $font-weight-mid;
-        color: $text-color-default;
+        font-weight: 700;
+        font-family: proxima, sans-serif;
+        font-size: $font-size-large + 0.72;
     }
     h5 {
-        margin-top: 2.8rem;
-        span:nth-child(2) {
+        margin-top: 3rem;
+        span:nth-child(2){
             font-family: $font-NeoSansArabic-Medium;
+        }
+    }
+    .dir-otherLanguage {
+        h2{
+            font-size: $font-size-large + 0.7;
+            font-family: $font-NeoSansArabic-Medium;
+        }
+        p{
+            font-family: $font-NeoSansArabic-Regular;
         }
     }
     .service-btn {
@@ -17,6 +29,9 @@
         background: $white-color;
         height: 60px;
         position: relative;
+        span:nth-child(2){
+            font-family: $font-NeoSansArabic-Regular;
+        }
         &.active {
             box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
             border-radius: 4px;
@@ -33,6 +48,7 @@
             }
         }
     }
+ 
     .business-map {
         .map-box {
             position: relative;
@@ -50,12 +66,16 @@
     }
     .add-more {
         a {
+      
             font-size: 0.875rem;
             font-family: $font-proxima;
             font-weight: $font-weight-mid;
             color: $secondary-text-color;
             &:hover {
                 text-decoration: none
+            }
+            span:last-child{
+                font-family: $font-NeoSansArabic-Regular;
             }
         }
     }
@@ -65,32 +85,34 @@
                 clear: both;
             }
         }
+
+        .trade-license-box {
+            small {
+                color: #afafaf;
+            }
+        }
         .documentInfo {
             margin-bottom: 3rem;
             border: 1px dashed #e1d8d8;
-            padding: 20px;
-            border-radius: 4px;
             .uploaded-file {
                 border: 1px solid $secondary-color;
                 border-radius: 3px;
-                margin-bottom: 20px;
+                margin: 15px;
                 .fileIcon {
                     width: 35px;
                     height: 35px;
                 }
             }
             .file-uploader {
-                small {
-                    color: $text-grey;
+                text-align: center;
+                app-ng-files-drag-n-upload {
+                    label {
+                        padding: 60px
+                    }
                 }
-                padding: 25px;
-                text-align: center;
-            }
-            .upload {
-              padding:20px;
-                text-align: center;
             }
         }
+        
         .social-accounts {
             .info_text {
                 p {
@@ -103,10 +125,12 @@
         }
     }
     .contact-btn {
-        margin-top:3.5rem;
         .btn {
             font-weight: 600;
             padding: 0.75rem 3.75rem;
+            span:nth-child(2){
+                font-family: $font-NeoSansArabic-Regular;
+            }
         }
     }
 }

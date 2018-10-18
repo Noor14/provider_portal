@@ -18,8 +18,8 @@ export class UserBusinessService {
     return this._http.get(baseApi + url);
   }
 
-  getDocByCountrytype(countryId){
-    let url: string = `Document/GetDocumentTypebyCountry/${countryId}`;
+  getDocByCountrytype(forProcess, providerId, countryId){
+    let url: string = `Document/GetProviderDocument/${forProcess}/${providerId}/${countryId}`;
     return this._http.get(baseApi + url);
   }
 
@@ -31,6 +31,12 @@ export class UserBusinessService {
   socialList(){
     let url: string = "socialmedia/GetSocialMediaAccount";
     return this._http.get(baseApi + url);
+  }
+
+  submitBusinessInfo(obj){
+    let url: string = "usersprovider/AddProviderBusiness";
+    return this._http.post(baseApi + url, obj);
+     
   }
 
 }
