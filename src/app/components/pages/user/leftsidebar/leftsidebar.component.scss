@@ -7,7 +7,7 @@
         &-item {
             margin-right: 0.5rem;
             width: 162px;
-            margin: 10px 0;
+            margin: 8px 0;
             height: 120px;
             border-radius: 5px;
             text-align: center;
@@ -15,20 +15,25 @@
             border: none;
             color: #243748;
             h6 {
-                margin-top: 0.5rem;
-                font-family: "proxima-nova", sans-serif;
-                font-weight: normal;
+                margin-top: 0.8rem;
+                font-family: $font-proxima;
+                font-weight: $font-proxima-weight-semibold;
+                font-size:$root-font-size;
             }
             &:first-child {
                 margin-top: 0;
-                height: 182px;
+                height: 192px;
+                margin-bottom:15px;
+
                 cursor: default;
                 border-bottom: 1px solid $grey-border;
                 color: $disabled-text-color;
                 h6 {
-                    font-size: 0.93rem;
-                    color: #c8ced5;
-                    font-family: "proxima-nova", sans-serif;
+                    font-size:$font-size-medium;
+                    font-family:  $font-proxima;
+                    color: rgba(115, 133, 147, 0.6);
+                    text-transform: uppercase;
+            
                 }
                 &:after {
                     content: " ";

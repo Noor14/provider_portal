@@ -1,12 +1,13 @@
 @import '../../../../../../../assets/scss/_variables';
 .business-profile {
     h2 {
-        font-weight: 700;
-        font-family: proxima, sans-serif;
+        font-family: $font-pragmatica;
+        font-weight: $font-weight-mid;
+        color: $text-color-default;
     }
     h5 {
-        margin-top: 3rem;
-        span:nth-child(2){
+        margin-top: 2.8rem;
+        span:nth-child(2) {
             font-family: $font-NeoSansArabic-Medium;
         }
     }
@@ -32,7 +33,6 @@
             }
         }
     }
- 
     .business-map {
         .map-box {
             position: relative;
@@ -65,16 +65,11 @@
                 clear: both;
             }
         }
-
-        .trade-license-box {
-            small {
-                color: #afafaf;
-            }
-        }
         .documentInfo {
             margin-bottom: 3rem;
             border: 1px dashed #e1d8d8;
             padding: 20px;
+            border-radius: 4px;
             .uploaded-file {
                 border: 1px solid $secondary-color;
                 border-radius: 3px;
@@ -85,7 +80,14 @@
                 }
             }
             .file-uploader {
+                small {
+                    color: $text-grey;
+                }
                 padding: 25px;
+                text-align: center;
+            }
+            .upload {
+              padding:20px;
                 text-align: center;
             }
         }
@@ -101,6 +103,7 @@
         }
     }
     .contact-btn {
+        margin-top:3.5rem;
         .btn {
             font-weight: 600;
             padding: 0.75rem 3.75rem;

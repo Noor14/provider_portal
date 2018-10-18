@@ -1,8 +1,18 @@
 @import '../../../../../../../assets/scss/_variables';
 .directors-info {
     h2 {
-        font-weight: 600;
-        font-family: $font-proxima;
+        font-family: $font-pragmatica;
+        font-weight: $font-weight-mid;
+        color: $text-color-default;
+        span:nth-child(2) {
+            font-family: $font-NeoSansArabic-Medium;
+        }
+    }
+    h5 {
+        margin-top: 1.3rem;
+        span:nth-child(2) {
+            font-family: $font-NeoSansArabic-Medium;
+        }
     } // p {
     //     margin-bottom: 2.3rem;
     // }
@@ -37,6 +47,7 @@
     .documentInfo {
         background: $white-color;
         padding: 20px;
+        margin-bottom: 1.5rem;
         .uploaded-file {
             border: 1px solid $secondary-color;
             border-radius: 3px;
@@ -50,17 +61,22 @@
             padding: 25px;
             border: 1px dashed #e1d8d8;
             text-align: center;
+            small {
+                color: $text-grey;
+            }
+        
         }
     }
 }
 
 .info_text {
-    margin-top:2 rem;
+ 
     p {
         font-size: 0.875rem;
         font-family: $font-proxima;
         color: $secondary-text-color;
         padding-top: 0.59rem;
+
     }
     a {
         @extend p;

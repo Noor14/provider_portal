@@ -9,21 +9,27 @@
             background: #243748;
             .card {
                 &-body {
+               
                     p {
+                        font-family: $font-pragmatica;
                         font-size: 1rem;
-                        font-family: proxima-nova, sans-serif;
                         margin-bottom: 0.5rem;
-                        a{
+
+              
+                        a {
                             color: $color-white;
-                          &:hover{
-                              text-decoration: none;
-                          }  
+                            &:hover {
+                                text-decoration: none;
+                            }
                         }
                     }
                     small {
                         font-size: 0.75rem;
+                        letter-spacing:1px;
+                        font-family: $font-proxima;
                         text-transform: uppercase;
-                        font-family: proxima-nova, sans-serif;
+                        opacity: 0.502;
+                        font-weight: $font-proxima-weight-semibold;
                     }
                     color:$color-white;
                     background:#243748;
@@ -37,10 +43,11 @@
         padding: 80px 6% !important;
     }
 }
+
 @media (max-width: $screen-xs-max) {
     .user {
         .left-section {
             display: none;
+        }
     }
- }
 }
