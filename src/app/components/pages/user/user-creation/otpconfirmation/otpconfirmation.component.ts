@@ -131,6 +131,8 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
     let obj= {
       LanguageID: this.userInfo.LanguageID,
       key: this.userInfo.Key,
+      FirstName: this.userInfo.FirstName,
+      FirstNameOL: this.userInfo.FirstNameOL,
       redirectUrl: window.location.protocol + "//" + window.location.host + "/otp"
       
     };
