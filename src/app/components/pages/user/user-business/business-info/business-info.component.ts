@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { SharedService } from '../../../../../services/shared.service';
 import { UserBusinessService } from '../user-business.service';
 import { UserService } from '../../user.service';
+import { ScrollbarComponent } from 'ngx-scrollbar';
+
 
 @Component({
   selector: 'app-business-info',
@@ -22,6 +24,8 @@ import { UserService } from '../../user.service';
 })
 export class BusinessInfoComponent implements OnInit {
 
+  @ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
+  @ViewChild(ScrollbarComponent) scrollReftwo: ScrollbarComponent;
 
   isLeftVisible = true;
   constructor(
@@ -40,6 +44,7 @@ export class BusinessInfoComponent implements OnInit {
     this._sharedService.formChange.subscribe((state: any) => {
       this.isLeftVisible = state;
     })
+    
     this._userbusinessService.getDesgTitle().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this._sharedService.jobTitleList.next(JSON.parse(res.returnObject));

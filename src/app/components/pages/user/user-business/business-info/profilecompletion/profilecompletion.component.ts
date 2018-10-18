@@ -23,12 +23,17 @@ export class ProfilecompletionComponent implements OnInit {
   public finishContentOtherLanguage;
   public btnTextBaseLanguage;
   public btnTextOtherLanguage;
-
+  public userAPPno;
   constructor(
     private _sharedService: SharedService,
     private _userService: UserService ) { }
 
   ngOnInit() {
+
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo && userInfo.returnCode) {
+      this.userAPPno = userInfo.returnCode;
+    }
     this._sharedService.formProgress.next(60);
     this._userService.getlabelsDescription('BusinessVerification').subscribe((res:any)=>{
       if(res.returnStatus =='Success'){
@@ -40,8 +45,8 @@ export class ProfilecompletionComponent implements OnInit {
             this.headingOtherLanguage = element.otherLang;
           }
           else if(element.keyCode == "lbl_MainSubHeading"){
-            this.subheadingBaseLanguage = element.baseLang;
-            this.subheadingOtherLanguage = element.otherLang;
+            this.subheadingBaseLanguage = element.baseLang.replace('{appNo}', this.userAPPno);
+            this.subheadingOtherLanguage = element.otherLang.replace('{appNo}', this.userAPPno);;
           }
           else if(element.keyCode == "lbl_MainContent1"){
             this.desc1BaseLanguage = element.baseLang;

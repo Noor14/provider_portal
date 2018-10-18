@@ -9,6 +9,7 @@ import { } from '@types/googlemaps';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../../../../../services/common.service';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../../directives/ng-files';
+import { CustomValidator, ValidateEmail, EMAIL_REGEX } from '../../../../../../constants/globalFunctions'
 import { UserBusinessService } from '../../user-business.service';
 
 @Component({
@@ -40,7 +41,7 @@ export class BusinessDetailComponent implements OnInit {
   // };
 
 
-
+  public showTranslatedLangSide: boolean;
   public zoomlevel: number = 6;
   public draggable: boolean = true;
   public location: any = { lat: undefined, lng: undefined };
@@ -246,9 +247,11 @@ export class BusinessDetailComponent implements OnInit {
     private _commonService: CommonService,
     private ngFilesService: NgFilesService
 
-  ) { }
+  ) { 
+  }
 
   ngOnInit() {
+    
     this.ngFilesService.addConfig(this.config, 'docConfig');
     // this.ngFilesService.addConfig(this.namedConfig);
     this._sharedService.formProgress.next(40);
@@ -256,6 +259,7 @@ export class BusinessDetailComponent implements OnInit {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnObject) {
       this.userProfile = userInfo.returnObject;
+      this.showTranslatedLangSide = (this.userProfile.regionCode == "MET")? true: false;
       this.getLabels(this.userProfile);
       // this.firstNameBL = userInfo.returnObject.firstNameBL;
     }
@@ -282,41 +286,41 @@ export class BusinessDetailComponent implements OnInit {
 
     this.informationForm = new FormGroup({
       licenseNo: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(10)]),
-      licenseNoAr: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(10)]),
+      licenseNoAr: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(4), Validators.maxLength(10)]),
       vatNo: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(5), Validators.maxLength(12)]),
-      vatNoAr: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(12)]),
+      vatNoAr: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(5), Validators.maxLength(12)]),
 
       issueDate: new FormControl(null, [Validators.required]),
       issueMonth: new FormControl(null, [Validators.required]),
       issueYear: new FormControl(null, [Validators.required]),
-      issueDateArabic: new FormControl(null, [Validators.required]),
-      issueMonthArabic: new FormControl(null, [Validators.required]),
-      issueYearArabic: new FormControl(null, [Validators.required]),
+      issueDateArabic: new FormControl(null, [CustomValidator.bind(this)]),
+      issueMonthArabic: new FormControl(null, [CustomValidator.bind(this)]),
+      issueYearArabic: new FormControl(null, [CustomValidator.bind(this)]),
       expireDate: new FormControl(null, [Validators.required]),
       expireMonth: new FormControl(null, [Validators.required]),
       expiryYear: new FormControl(null, [Validators.required]),
-      expireDateArabic: new FormControl(null, [Validators.required]),
-      expireMonthArabic: new FormControl(null, [Validators.required]),
-      expiryYearArabic: new FormControl(null, [Validators.required]),
+      expireDateArabic: new FormControl(null, [CustomValidator.bind(this)]),
+      expireMonthArabic: new FormControl(null, [CustomValidator.bind(this)]),
+      expiryYearArabic: new FormControl(null, [CustomValidator.bind(this)]),
     });
     this.businessLocForm = new FormGroup({
       address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(20)]),
-      transAddress: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(20)]),
+      transAddress: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(200), Validators.minLength(20)]),
       poBoxNo: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
-      poBoxNoAr: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
+      poBoxNoAr: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(16), Validators.minLength(4)]),
     });
 
     this.organizationForm = new FormGroup({
       organizationType: new FormControl(null, [Validators.required]),
-      organizationTypeAr: new FormControl(null, [Validators.required]),
+      organizationTypeAr: new FormControl(null, [CustomValidator.bind(this)]),
       orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4)]),
-      transLangOrgName: new FormControl(null, [Validators.maxLength(100), Validators.minLength(4)]),
+      transLangOrgName: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(100), Validators.minLength(4)]),
     });
     this.contactInfoForm = new FormGroup({
-      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(10)]),
-      transLangPhone: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(10)]),
-      fax: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(10)]),
-      transLangFax: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(10)]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
+      transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
+      fax: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
+      transLangFax: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
 
     });
 
@@ -632,6 +636,7 @@ export class BusinessDetailComponent implements OnInit {
     }
   }
   onModelFaxChange(fromActive, currentActive, $controlName, $value) {
+    if (!this.showTranslatedLangSide) return;
     if (currentActive && !fromActive) {
       let number = $value.split('');
       for (let i = 0; i < number.length; i++) {
@@ -646,7 +651,7 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   onModelTransFaxChange(fromActive, currentActive, $controlName, $value) {
-
+    if (!this.showTranslatedLangSide) return;
     if (currentActive && !fromActive) {
       let number = $value.split('');
       for (let i = 0; i < number.length; i++) {
@@ -663,6 +668,7 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   onModelPhoneChange(fromActive, currentActive, $controlName, $value) {
+    if (!this.showTranslatedLangSide) return;
     if (currentActive && !fromActive) {
       let number = $value.split('');
       for (let i = 0; i < number.length; i++) {
@@ -677,7 +683,7 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   onModelTransPhoneChange(fromActive, currentActive, $controlName, $value) {
-
+    if (!this.showTranslatedLangSide) return;
     if (currentActive && !fromActive) {
       let number = $value.split('');
       for (let i = 0; i < number.length; i++) {
@@ -694,6 +700,7 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
+    if (!this.showTranslatedLangSide) return;
     setTimeout(() => {
       if (currentActive && !fromActive && $value) {
         this.Globalinputfrom = false;
@@ -716,6 +723,7 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   onTransModel(fromActive, currentActive, $controlName, $value) {
+    if (!this.showTranslatedLangSide) return;
     if (currentActive && !fromActive && $value) {
       this.Globalinputto = false;
     }

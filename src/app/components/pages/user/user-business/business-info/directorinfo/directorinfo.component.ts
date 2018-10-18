@@ -13,6 +13,7 @@ import { element } from 'protractor';
 import { DocumentUpload } from '../../../../../../interfaces/document.interface';
 
 
+
 @Component({
   selector: 'app-directorinfo',
   templateUrl: './directorinfo.component.html',
@@ -24,7 +25,7 @@ export class DirectorinfoComponent implements OnInit {
 
   public showTranslatedLangSide: boolean = true;
 
-  public selectedDocx: any;
+  public selectedDocx: any[] = [];
   private sharedConfig: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', , 'pdf', 'bmp'],
     maxFilesCount: 2,
@@ -122,10 +123,9 @@ export class DirectorinfoComponent implements OnInit {
     private _router: Router,
   ) {
 
-  }
+ }
 
   ngOnInit() {
-
     this.ngFilesService.addConfig(this.sharedConfig, 'config');
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnObject) {
@@ -147,8 +147,8 @@ export class DirectorinfoComponent implements OnInit {
         Validators.pattern(EMAIL_REGEX),
         Validators.maxLength(320)
       ]),
-      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(10)]),
-      transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(10)]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
+      transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
     });
 
 
@@ -190,9 +190,6 @@ export class DirectorinfoComponent implements OnInit {
       this.formOneObj = state;
     });
   }
-
-
-
 
   jobType(type) {
     if (type && type != 'undefined') {
@@ -485,16 +482,53 @@ export class DirectorinfoComponent implements OnInit {
 
 
 
-  selectDocx(selectedFiles: NgFilesSelected): void {
-
-    if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.status == 1) this._toastr.error('Please select only two file to upload', '')
-      else if (selectedFiles.status == 2) this._toastr.error('File format is not supported please select supported format file', '')
-      // this.selectedFiles = selectedFiles.status;
-      return;
+  selectDocx(selectedFiles: any): void {
+    console.log(selectedFiles)
+    try {
+      this.onFileChange(selectedFiles)
+    } catch (error) {
+      console.log(error);
     }
-    this.selectedDocx = selectedFiles.files;
 
+    // if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
+    //   if (selectedFiles.status == 1) this._toastr.error('Please select only two file to upload', '')
+    //   else if (selectedFiles.status == 2) this._toastr.error('File format is not supported please select supported format file', '')
+    //   // this.selectedFiles = selectedFiles.status;
+    //   return;
+    // }
+    // this.selectedDocx = selectedFiles.files;
+
+
+  }
+
+  onFileChange(event) {
+
+
+    if (event) {
+      try {
+        for (let index = 0; index < event.length; index++) {
+          let reader = new FileReader();
+          const element = event[index];
+          let file = element
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+
+            let selectedFile: DocumentFile = {
+              fileName: file.name,
+              fileType: file.type,
+              fileBaseString: reader.result.split(',')[1]
+            }
+            console.log('you file content:', selectedFile);
+            this.selectedDocx.push(selectedFile)
+          }
+
+        }
+        
+      }
+      catch (err) {
+        console.log(err);
+      }
+    }
 
   }
   submitBusinessInfo() {
@@ -604,7 +638,7 @@ export class DirectorinfoComponent implements OnInit {
 
     this._userbusinessService.submitBusinessInfo(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        console.log(res);
+        localStorage.setItem('userInfo', JSON.stringify(res));
         this._router.navigate(['/profile-completion']);
 
       }
@@ -618,3 +652,8 @@ export class DirectorinfoComponent implements OnInit {
 
 }
 
+export interface DocumentFile {
+  fileBaseString: string
+  fileName: string
+  fileType: string
+}

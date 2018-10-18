@@ -1,7 +1,7 @@
-<my-slide-panel [activePane]= "isLeftVisible ? 'left' : 'right'">
+<!-- <my-slide-panel [activePane]= "isLeftVisible ? 'left' : 'right'">
 <app-business-detail leftPane></app-business-detail>
 <app-directorinfo rightPane></app-directorinfo>
-</my-slide-panel>
+</my-slide-panel> -->
 
-<!-- <app-business-detail *ngIf="isLeftVisible"></app-business-detail> -->
-<!-- <app-directorinfo *ngIf="isLeftVisible"></app-directorinfo> -->
+<app-business-detail [hidden]="!isLeftVisible"></app-business-detail>
+<app-directorinfo [hidden]="isLeftVisible"></app-directorinfo>
