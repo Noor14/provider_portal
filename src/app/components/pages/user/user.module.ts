@@ -12,6 +12,7 @@ import { UserComponent } from './user.component';
 import { UserService } from './user.service';
 import { UserCreationModule } from './user-creation/user-creation.module';
 import { UserBusinessModule } from './user-business/user-business.module';
+import { BookingsComponent } from './bookings/bookings.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { UserBusinessModule } from './user-business/user-business.module';
   declarations: [
     LeftsidebarComponent,
     UserComponent,
+    BookingsComponent,
   ],
   providers: [UserService],
 })
