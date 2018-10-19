@@ -54,7 +54,7 @@
               <select id="inputState" class="form-control" placeholder="DD" name="issueDate"
               [(ngModel)]="selectedIssueDate" (change) = "selectDate($event.target.value, 'issue')" formControlName='issueDate'>
                 <option value="undefined">DD</option>
-                <option *ngFor="let date of dates">{{date.dateNormal}}</option>
+                <option *ngFor="let date of issueDates" [selected]='date.dateNormal == selectedIssueDate'>{{date.dateNormal}}</option>
               </select>
             </div>
             <div class="col-4">
@@ -83,7 +83,7 @@
               <select id="inputState" class="form-control" placeholder="DD" name="issueDateArabic"
               [(ngModel)]="selectedIssueDateAr" (change) = "selectDate($event.target.value, 'issue')" formControlName='issueDateArabic'>
                 <option value="undefined">DD</option>
-                <option *ngFor="let date of dates">{{date.dateArabic}}</option>
+                <option *ngFor="let date of issueDates" [selected]='date.dateArabic == selectedIssueDateAr'>{{date.dateArabic}}</option>
               </select>
             </div>
             <div class="col-4">
@@ -114,7 +114,7 @@
               <select id="inputState" class="form-control" placeholder="DD" name="expireDate"
               [(ngModel)]="selectedExpireDate" (change) = "selectDate($event.target.value, 'expire')" formControlName='expireDate'>
                 <option value="undefined">DD</option>
-                <option *ngFor="let date of dates">{{date.dateNormal}}</option>
+                <option *ngFor="let date of expiryDates" [selected]='date.dateNormal == selectedExpireDate'>{{date.dateNormal}}</option>
               </select>
             </div>
             <div class="col-4">
@@ -143,7 +143,7 @@
               <select id="inputState" class="form-control" placeholder="DD" name="expireDateArabic"
               [(ngModel)]="selectedExpireDateAr" (change)= "selectDate($event.target.value, 'expire')" formControlName='expireDateArabic'>
                 <option value="undefined">DD</option>
-                <option *ngFor="let date of dates">{{date.dateArabic}}</option>
+                <option *ngFor="let date of expiryDates" [selected]='date.dateArabic == selectedExpireDateAr'>{{date.dateArabic}}</option>
               </select>
             </div>
             <div class="col-4">

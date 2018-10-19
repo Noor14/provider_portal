@@ -75,7 +75,8 @@ export class BusinessDetailComponent implements OnInit {
   public ExpireDate: any;
   public pastYears: any[] = [];
   public futureYears: any[] = [];
-  public dates: any[] = [];
+  public issueDates: any[] = [];
+  public expiryDates: any[] = [];
 
 
   public months: any[] = [
@@ -182,50 +183,25 @@ export class BusinessDetailComponent implements OnInit {
       }],
     30:[
       {
-        name: 'Jan',
-        arabicName: 'يناير'
-      },
-    
-      {
-        name: 'Mar',
-        arabicName: 'مارس'
-      },
-      {
         name: 'Apr',
         arabicName: 'أبريل'
       },
-      {
-        name: 'May',
-        arabicName: 'مايو'
-      },
+  
       {
         name: 'Jun',
         arabicName: 'يونيو'
       },
-      {
-        name: 'Jul',
-        arabicName: 'يوليو'
-      },
-      {
-        name: 'Aug',
-        arabicName: 'أغسطس'
-      },
+   
+  
       {
         name: 'Sep',
         arabicName: 'سبتمبر'
       },
-      {
-        name: 'Oct',
-        arabicName: 'أكتوبر'
-      },
+  
       {
         name: 'Nov',
         arabicName: 'نوفمبر'
-      },
-      {
-        name: 'Dec',
-        arabicName: 'ديسمبر'
-      } 
+      }
     ],
     allMonths: Object.assign([], this.months)
   }
@@ -357,7 +333,7 @@ export class BusinessDetailComponent implements OnInit {
     this.getsocialList();
     this.getOrganizationList();
     this.getTenYears();
-    this.getDates();
+    this.getDates(31, 'both');
 
     this._userbusinessService.getServiceOffered().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
@@ -524,15 +500,36 @@ export class BusinessDetailComponent implements OnInit {
 
   }
 
-  getDates() {
-    for (let i = 1; i <= 31; i++) {
-      let persianDigits = "۰۱۲۳۴۵۶۷۸۹";
-      let persianMap = persianDigits.split("");
+  getDates(limit, type) {
+    let persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+    let persianMap = persianDigits.split("");
+    if(type=='issue'){
+      this.issueDates=[];
+    for (var i = 1; i <= limit; i++) {
       let convertedNumber = i.toString().replace(/\d/g, (m: string) => {
         return persianMap[parseInt(m)]
-
       });
-      this.dates.push({ dateNormal: i, dateArabic: convertedNumber });
+      this.issueDates.push({ dateNormal: i, dateArabic: convertedNumber });
+
+    }
+    }
+    else if(type=='expire'){
+      this.expiryDates=[];
+    for (let i = 1; i <= limit; i++) {
+      let convertedNumber = i.toString().replace(/\d/g, (m: string) => {
+        return persianMap[parseInt(m)]
+      });
+      this.expiryDates.push({ dateNormal: i, dateArabic: convertedNumber });
+    }
+    }
+    else if (type == 'both'){
+      for (let i = 1; i <= limit; i++) {
+        let convertedNumber = i.toString().replace(/\d/g, (m: string) => {
+          return persianMap[parseInt(m)]
+        });
+        this.issueDates.push({ dateNormal: i, dateArabic: convertedNumber });
+        this.expiryDates.push({ dateNormal: i, dateArabic: convertedNumber });
+      }
     }
   }
 
@@ -705,11 +702,28 @@ export class BusinessDetailComponent implements OnInit {
         this.IssueMonth = selectedMonth;
         this.selectedIssueMonth = selectedMonth.name;
         this.selectedIssueMonthAr = selectedMonth.arabicName;
+        for (const key in this.dateValObj) {
+          if (this.dateValObj.hasOwnProperty(key)) {
+            let obj = this.dateValObj[key].find(obj => (obj.name == name || obj.arabicName == name));
+            if (obj && Object.keys(obj).length){
+              this.getDates(key, type);
+              return
+            }
+            else if (!obj && name == 'Feb' || name == 'فبراير'){
+              this.getDates(28, type);
+              console.log(this.selectedIssueDate);
+              return
+            }
+
+          }
+        }
+        
       }
       else {
         this.IssueMonth = {};
         this.selectedIssueMonth = name;
         this.selectedIssueMonthAr = name;
+        this.getDates(31 , type);
       }
     }
     else if (type == "expire") {
@@ -718,11 +732,27 @@ export class BusinessDetailComponent implements OnInit {
         this.ExpireMonth = selectedMonth;
         this.selectedExpireMonth = selectedMonth.name;
         this.selectedExpireMonthAr = selectedMonth.arabicName;
+        for (const key in this.dateValObj) {
+          if (this.dateValObj.hasOwnProperty(key)) {
+            let obj = this.dateValObj[key].find(obj => (obj.name == name || obj.arabicName == name));
+            if (obj && Object.keys(obj).length) {
+              this.getDates(key, type);
+              return
+            }
+            else if (!obj && name == 'Feb' || name == 'فبراير') {
+              this.getDates(28, type);
+              return
+            }
+
+          }
+        }
       }
       else {
         this.ExpireMonth = {};
         this.selectedExpireMonth = name;
         this.selectedExpireMonthAr = name;
+        this.getDates(31, type);
+        
       }
     }
   }
@@ -867,33 +897,34 @@ export class BusinessDetailComponent implements OnInit {
   selectDate(date, type) {
     if (type == "issue") {
       if (date && date != 'undefined') {
-        let selectedDate = this.dates.find(obj => (obj.dateNormal == date || obj.dateArabic == date));
+        let selectedDate = this.issueDates.find(obj => (obj.dateNormal == date || obj.dateArabic == date));
         this.IssueDate = selectedDate;
+        this.datenMonthValidator(date, type)
         this.selectedIssueDate = selectedDate.dateNormal;
         this.selectedIssueDateAr = selectedDate.dateArabic;
-        this.datenMonthValidator(date, type)
       }
       else {
         this.IssueDate = {};
+        this.datenMonthValidator(date, type)
         this.selectedIssueDate = date;
         this.selectedIssueDateAr = date;
-        this.datenMonthValidator(date, type)
+     
       }
     }
     else if (type == "expire") {
       if (date && date != 'undefined') {
-        let selectedDate = this.dates.find(obj => (obj.dateNormal == date || obj.dateArabic == date));
+        let selectedDate = this.expiryDates.find(obj => (obj.dateNormal == date || obj.dateArabic == date));
         this.ExpireDate = selectedDate;
+        this.datenMonthValidator(date, type)
         this.selectedExpireDate = selectedDate.dateNormal;
         this.selectedExpireDateAr = selectedDate.dateArabic;
-        this.datenMonthValidator(date, type)
         
       }
       else {
         this.ExpireDate = {};
+        this.datenMonthValidator(date, type);
         this.selectedExpireDate = date;
         this.selectedExpireDateAr = date;
-        this.datenMonthValidator(date, type)
         
       }
     }
@@ -901,10 +932,15 @@ export class BusinessDetailComponent implements OnInit {
 
   datenMonthValidator(date, type){
     if(type== 'issue'){
-    if(date >= 28){
+    if(date >= 30){
       for(let key in this.dateValObj){
-        if (key == date){
+        if (key == date && date !=30){
           this.issueMonths = this.dateValObj[key];
+          return;
+        }
+        else if (key == date && date == 30){
+          this.issueMonths = this.dateValObj[key].concat(this.dateValObj[31]);
+          return;
         }
         // else {
         //   this.issueMonths = this.dateValObj.allMonths;
@@ -916,14 +952,15 @@ export class BusinessDetailComponent implements OnInit {
     }
     }
     if (type == 'expire') {
-      if (date >= 28) {
+      if (date >= 30) {
         for (let key in this.dateValObj) {
-          if (key == date) {
+          if (key == date && date != 30) {
             this.expiryMonths = this.dateValObj[key];
           }
-          // else{
-          //   this.expiryMonths = this.dateValObj.allMonths;
-          // }
+          else if (key == date && date == 30) {
+            this.issueMonths = this.dateValObj[key].concat(this.dateValObj[31]);
+            return;
+          }
         }
       }
       else {
@@ -1070,10 +1107,7 @@ export class BusinessDetailComponent implements OnInit {
 
 
   SelectDocx(selectedFiles: any, type): void {
-
-
-
-    console.log(selectedFiles)
+   console.log(selectedFiles)
     if (type == 'license') {
 
       // if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
@@ -1149,8 +1183,6 @@ export class BusinessDetailComponent implements OnInit {
     this.selectedSocialsite = obj;
     console.log(obj)
   }
-
-
 
 }
 
