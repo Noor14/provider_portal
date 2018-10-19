@@ -8,7 +8,6 @@
             margin-right: 0.5rem;
             width: 162px;
             margin: 8px 0;
-            height: 120px;
             border-radius: 5px;
             text-align: center;
             background-color: transparent;
@@ -26,8 +25,9 @@
                 cursor: default;
                 border-bottom: 1px solid $grey-border;
                 color: $disabled-text-color;
+                margin-bottom:15px;
                 h6 {
-                     font-size:$font-size-medium;
+                    font-size:$font-size-medium;
                     font-family:  $font-proxima;
                     color: rgba(115, 133, 147, 0.6);
                     text-transform: uppercase;
