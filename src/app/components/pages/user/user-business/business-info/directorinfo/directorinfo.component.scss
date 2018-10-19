@@ -1,11 +1,9 @@
 @import '../../../../../../../assets/scss/_variables';
-
 .directors-info {
     h2 {
         font-weight: 600;
-      font-family: $font-proxima;
-    }
-    // p {
+        font-family: $font-proxima;
+    } // p {
     //     margin-bottom: 2.3rem;
     // }
     .accordion {
@@ -17,12 +15,12 @@
                 border: 0;
                 background-color: $right-side-background;
                 border-bottom: 1px solid $grey-border;
-                a{
+                a {
                     &:hover {
                         text-decoration: none;
                     }
                 }
-                &::after{
+                &::after {
                     content: " ";
                     position: absolute;
                     width: 100%;
@@ -32,7 +30,7 @@
                     z-index: 1;
                 }
             }
-            &-body{
+            &-body {
                 padding-left: 0;
                 padding-right: 0;
             }
@@ -46,41 +44,38 @@
             margin-right: 1rem;
         }
     }
-
-
-    .documentInfo{
+    .documentInfo {
         margin-bottom: 3rem;
         background: $white-color;
         padding: 20px;
-        .uploaded-file{
+        .uploaded-file {
             border: 1px solid $secondary-color;
-            border-radius:3px;
+            border-radius: 3px;
             margin-bottom: 20px;
-            .fileIcon{
+            .fileIcon {
                 width: 35px;
                 height: 35px;
             }
-        }                
-    .file-uploader{
-        padding: 25px;
-        border: 1px dashed #e1d8d8;
-        text-align: center;
+        }
+        .file-uploader {
+            padding: 25px;
+            border: 1px dashed #e1d8d8;
+            text-align: center;
+        }
     }
-}
 }
 
 .info_text {
-    margin-top: 2rem;
     p {
         font-size: 0.875rem;
         font-family: $font-proxima;
         color: $secondary-text-color;
         padding-top: 0.59rem;
     }
-    a{
+    a {
         @extend p;
-        &:hover{
-            text-decoration:none;
+        &:hover {
+            text-decoration: none;
         }
     }
     img {
@@ -91,14 +86,12 @@
 }
 
 .submit-btn {
-    .text {
-        font-size: 0.8rem;
-        font-weight: 500;
-        margin-top: 0.5rem;
-        color: #738593;
-    }
-    a {
+    .btn {
         font-weight: 600;
         padding: 0.75rem 3.75rem;
+        span:nth-child(2) {
+            font-family: $font-NeoSansArabic-Regular;
+        }
     }
+
 }

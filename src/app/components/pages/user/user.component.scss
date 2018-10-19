@@ -13,11 +13,11 @@
                         font-size: 1rem;
                         font-family: proxima-nova, sans-serif;
                         margin-bottom: 0.5rem;
-                        a{
+                        a {
                             color: $color-white;
-                          &:hover{
-                              text-decoration: none;
-                          }  
+                            &:hover {
+                                text-decoration: none;
+                            }
                         }
                     }
                     small {
@@ -37,10 +37,11 @@
         padding: 80px 6% !important;
     }
 }
+
 @media (max-width: $screen-xs-max) {
     .user {
         .left-section {
             display: none;
+        }
     }
- }
 }

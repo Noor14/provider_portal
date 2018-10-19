@@ -25,7 +25,7 @@
                 </div>
               </div>
         
-              <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
                 <div class="form-group dir-otherLanguage">
                   <label for="first name">الاسم الاول </label>
                   <input type="text" maxlength="100" class="form-control" id="rightFirstName" [ngClass]="{'inputError': transfirstNameError && directorForm.controls['transLangfirstName'].errors}" (focusout)="errorValidate()" (blur)="activeTransFirstName=false" (focus)="transfirstNameError=false; activeTransFirstName=true" (ngModelChange)="onTransModel(activeFirstName, activeTransFirstName, 'firstName' ,$event)"  placeholder="المثال : جون" formControlName= "transLangfirstName">
@@ -52,7 +52,7 @@
                   </div>
                 </div>
           
-                <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
                   <div class="form-group dir-otherLanguage">
                     <label for="last name">الاسم الاخير</label>
                     <input type="text" maxlength="100" class="form-control" id="leftLastName" placeholder="المثال : سمىت" [ngClass]="{'inputError': translastNameError && directorForm.controls['transLanglastName'].errors}" (focusout)="errorValidate()" (blur)="activeTransLastName=false" (focus)="translastNameError=false; activeTransLastName=true" (ngModelChange)="onTransModel(activeLastName, activeTransLastName, 'lastName' ,$event)" formControlName="transLanglastName">
@@ -89,18 +89,18 @@
                             </div>
                           </div>
                           <input type="text" class="form-control" [ngClass]="{'inputError': phoneError && directorForm.controls['phone'].errors}" (focusout)="errorValidate()" (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
-                           maxlength="10" placeholder="12 345 6789" (keypress)="NumberValid($event)" formControlName="phone">
+                           maxlength="13" placeholder="12 345 6789" (keypress)="NumberValid($event)" formControlName="phone">
                         </div>
                         <span *ngIf="phoneError">
                             <p class="inputError animated fadeIn" *ngIf="directorForm.controls['phone'].hasError('required') && (directorForm.controls.phone.dirty || directorForm.controls.phone.touched)">{{requiredFields}}</p>
                             <p class="inputError animated fadeIn" *ngIf="!directorForm.controls['phone'].hasError('pattern') && directorForm.controls['phone'].hasError('minlength') && (directorForm.controls.phone.dirty || directorForm.controls.phone.touched)">Phone number should be minimum 7 digits</p>
-                            <p class="inputError animated fadeIn" *ngIf="!directorForm.controls['phone'].hasError('pattern') && directorForm.controls['phone'].hasError('maxlength') && (directorForm.controls.phone.dirty || directorForm.controls.phone.touched)">Phone number should not exceed from 10 digits</p>
+                            <p class="inputError animated fadeIn" *ngIf="!directorForm.controls['phone'].hasError('pattern') && directorForm.controls['phone'].hasError('maxlength') && (directorForm.controls.phone.dirty || directorForm.controls.phone.touched)">Phone number should not exceed from 13 digits</p>
                             <p class="inputError animated fadeIn" *ngIf="directorForm.controls['phone'].hasError('pattern') && (directorForm.controls.phone.dirty || directorForm.controls.phone.touched)">Please enter valid information</p>
                           </span>
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12">
+                  <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
                     <div class="form-group dir-otherLanguage">
                         <label>رقم الهاتف المتحرك</label>
                         <div class="select-number">
@@ -123,13 +123,13 @@
                               </div>
                             </div>
                             <input type="text" class="form-control" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true" [ngClass]="{'inputError': translangPhoneError && directorForm.controls['transLangPhone'].errors}" 
-                            (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="10"
+                            (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="13"
                              placeholder="۶۷۸۹ ۳۴۵ ۱۲" (keypress)="NumberValid($event)" formControlName="transLangPhone">
                           </div>
                           <span *ngIf="translangPhoneError">
                               <p class="inputError animated fadeIn" *ngIf="directorForm.controls['transLangPhone'].hasError('required') && (directorForm.controls.transLangPhone.dirty || directorForm.controls.transLangPhone.touched)">{{requiredFieldsOthrLng}}</p>
                               <p class="inputError animated fadeIn" *ngIf="!directorForm.controls['transLangPhone'].hasError('pattern') && directorForm.controls['transLangPhone'].hasError('minlength') && (directorForm.controls.transLangPhone.dirty || directorForm.controls.transLangPhone.touched)">يجب أن يكون رقم الهاتف 7 أرقام كحد أدنى</p>
-                              <p class="inputError animated fadeIn" *ngIf="!directorForm.controls['transLangPhone'].hasError('pattern') && directorForm.controls['transLangPhone'].hasError('maxlength') && (directorForm.controls.transLangPhone.dirty || directorForm.controls.transLangPhone.touched)">يجب ألا يتجاوز رقم الهاتف 10 أرقام</p>
+                              <p class="inputError animated fadeIn" *ngIf="!directorForm.controls['transLangPhone'].hasError('pattern') && directorForm.controls['transLangPhone'].hasError('maxlength') && (directorForm.controls.transLangPhone.dirty || directorForm.controls.transLangPhone.touched)">يجب ألا يتجاوز رقم الهاتف 13 أرقام</p>
                               <p class="inputError animated fadeIn" *ngIf="directorForm.controls['transLangPhone'].hasError('pattern') && (directorForm.controls.transLangPhone.dirty || directorForm.controls.transLangPhone.touched)">يرجى إدخال معلومات صحيحة</p>
                             </span>
                         </div>
@@ -148,7 +148,7 @@
                         </span>
                     </div>
                   </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12">
+                  <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
                     <div class="form-group dir-otherLanguage">
                       <label for="address">البريد الإلكتروني</label>
                       <input type="email" class="form-control" placeholder="eg: john@company.com" (focusout)="errorValidate()" (focus)="transEmailError=false" [ngClass]="{'inputError': transEmailError && directorForm.controls['transLangEmail'].errors}" (keypress)="spaceHandler($event)" [(ngModel)]="transLangEmail" formControlName="transLangEmail">
@@ -160,10 +160,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="info_text">
+                <!-- <div class="info_text">
                   <p>
                     <img src="../../../assets/images/icons/icon_add.svg" class="icon-size-16" alt="icons">Add More / إضافة المزيد </p>
-                </div>
+                </div> -->
                 </form>
       </ng-template>
     </ngb-panel>
@@ -187,7 +187,7 @@
                   </div>
                 </div>
           
-                <div class="col-3">
+                <div class="col-3" *ngIf="showTranslatedLangSide">
                   <div class="form-group dir-otherLanguage">
                     <label for="jobTypeAr">المسمى الوظيفي </label>
                     <select class="form-control" id="jobTypeAr" name="jobDesgTypeAr"
@@ -214,7 +214,7 @@
                   </div>
                 </div>
           
-                <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
                   <div class="form-group dir-otherLanguage">
                     <label for="first name">الاسم الاول </label>
                     <input type="text" maxlength="100" class="form-control" id="rightFirstName" [ngClass]="{'inputError': transfirstNameErrorMng && managementForm.controls['transLangfirstName'].errors}" (focusout)="errorValidate()" (blur)="activeTransFirstNameMng=false" (focus)="transfirstNameErrorMng=false; activeTransFirstNameMng=true" (ngModelChange)="onTransModelMng(activeFirstNameMng, activeTransFirstNameMng, 'firstName' ,$event)"  placeholder="المثال : جون" formControlName= "transLangfirstName">
@@ -244,7 +244,7 @@
           
                 </div>
           
-                <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
                   <div class="form-group dir-otherLanguage">
                     <label for="first name">الاسم الأخير</label>
                     <input type="text" maxlength="100" class="form-control" id="leftLastName" placeholder="المثال : سمىت" [ngClass]="{'inputError': translastNameErrorMng && managementForm.controls['transLanglastName'].errors}" (focusout)="errorValidate()" (blur)="activeTransLastNameMng=false" (focus)="translastNameErrorMng=false; activeTransLastNameMng=true" (ngModelChange)="onTransModelMng(activeLastNameMng, activeTransLastNameMng, 'lastName' ,$event)" formControlName="transLanglastName">
@@ -272,7 +272,7 @@
                           </label>
                         </div>
                       </div>
-                      <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
                         <div class="fancyRadioBoxes dir-otherLanguage">
                           <input id="{{i}}" name="nameAr" type="radio" (click)="selectdocType(i, doc)">
                           <label for="{{i}}">
@@ -285,9 +285,9 @@
                 </div>   
                 <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngFor = "let file of selectedDocx ; let i = index">
                   <div class="fileDesc">
-                      <img *ngIf="file.type == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
-                      <img *ngIf="file.type == 'image/png' || file.type == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
-                    <span>{{file.name}}</span>
+                      <img *ngIf="file.fileType == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
+                      <img *ngIf="file.fileType == 'image/png' || file.fileType == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
+                    <span>{{file.fileName}}</span>
                   </div>
                   <div class="del">
                     <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx(i)">
@@ -302,22 +302,39 @@
                    </app-ng-files-drag-n-upload>
                 </div>
               </div>
-              <div class="info_text">
+              <!-- <div class="info_text">
                 <p><img src="../../../assets/images/icons/icon_add.svg" class="icon-size-16"  alt="icons">Add More / إضافة المزيد </p>
-              </div>
+              </div> -->
           
           </form>
       </ng-template>
     </ngb-panel>
 
   </ngb-accordion>
-  <div class="submit-btn  mt-5">
-    <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="submitBusinessInfo()">Submit / خضع</a>
-  </div>
+
+<div class="d-flex justify-content-between align-items-center mt-4">
   <div class="info_text">
-    <a href="javascript:;" class="text mt-4" (click)="previousForm()">
-      <img src="../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16" alt="icons">GO BACK / الى الخلف
+    <a class="text" href="javascript:;" (click)="previousForm()">
+      <img alt="icons" class="icon-size-16" src="../../../assets/images/icons/icon_arrow_left.svg">
+      <span>GO BACK </span> <span *ngIf="showTranslatedLangSide">/ الى الخلف</span>
     </a>
   </div>
+
+  <div class="submit-btn d-flex align-items-center">
+    <div class="info_text">
+      <a class="text mr-2" href="javascript:;" (click)="submitBusinessInfo()">
+        <span>SKIP & PROCEED </span>
+        <span *ngIf="showTranslatedLangSide"> / تخطي والمضي قدما</span>
+        <img alt="icons" class="icon-size-16" src="../../../assets/images/icons/icon_arrow_right.svg">
+      </a>
+    </div>
+    <button class="btn btn-primary btn-register hvr-sweep-to-right" (click)="submitBusinessInfo()">
+      <span>Proceed</span><span *ngIf="showTranslatedLangSide"> / تخطي</span>
+    </button>
+
+  </div>
+</div>
+
+ 
  
 </section>

@@ -4,7 +4,7 @@
         <h2>{{headingBaseLanguage}}</h2>
         <p>{{statementBaseLanguage}}</p>
     </div>
-    <div class="col d-flex flex-column align-items-start dir-otherLanguage text-right">
+    <div class="col d-flex flex-column align-items-start dir-otherLanguage text-right" *ngIf="showTranslatedLangSide">
         <h2>{{headingOtherLanguage}}</h2>
         <p>{{statementOtherLanguage}}</p>
     </div>
@@ -13,7 +13,7 @@
 
   <h5 class="d-flex justify-content-between">
     <span>{{infoFormBaseLanguage}}</span>
-    <span class="text-right">{{infoFormOtherLanguage}}</span>
+    <span class="text-right" *ngIf="showTranslatedLangSide">{{infoFormOtherLanguage}}</span>
   </h5>
   <hr class="hr-solid">
   <form autocomplete="off" novalidate [formGroup]="informationForm">
@@ -31,7 +31,7 @@
           </span>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="Issue-Date">{{tradeLabelOtherLanguage}}</label>
           <input type="text" class="form-control" maxlength="10" formControlName='licenseNoAr' (focusout)="errorValidate()" (focus)="translicenseError=false" [ngClass]="{'inputError': translicenseError && informationForm.controls['licenseNoAr'].errors}"
@@ -54,14 +54,14 @@
               <select id="inputState" class="form-control" placeholder="DD" name="issueDate"
               [(ngModel)]="selectedIssueDate" (change) = "selectDate($event.target.value, 'issue')" formControlName='issueDate'>
                 <option value="undefined">DD</option>
-                <option *ngFor="let date of dates">{{date.dateNormal}}</option>
+                <option *ngFor="let date of issueDates" [selected]='date.dateNormal == selectedIssueDate'>{{date.dateNormal}}</option>
               </select>
             </div>
             <div class="col-4">
               <select id="inputState" class="form-control" placeholder="MM" name="issueMonth" 
               [(ngModel)]="selectedIssueMonth" (change)="selectMonth($event.target.value, 'issue')" formControlName='issueMonth'>
                 <option value="undefined">MM</option>
-                <option *ngFor="let month of months">{{month.name}}</option>
+                <option *ngFor="let month of issueMonths">{{month.name}}</option>
               </select>
             </div>
             <div class="col-4">
@@ -75,7 +75,7 @@
 
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide"> 
         <div class="form-group dir-otherLanguage">
           <label for="Trade-License">{{issueDateLabelOtherLanguage}}</label>
           <div class="row">
@@ -83,14 +83,14 @@
               <select id="inputState" class="form-control" placeholder="DD" name="issueDateArabic"
               [(ngModel)]="selectedIssueDateAr" (change) = "selectDate($event.target.value, 'issue')" formControlName='issueDateArabic'>
                 <option value="undefined">DD</option>
-                <option *ngFor="let date of dates">{{date.dateArabic}}</option>
+                <option *ngFor="let date of issueDates" [selected]='date.dateArabic == selectedIssueDateAr'>{{date.dateArabic}}</option>
               </select>
             </div>
             <div class="col-4">
               <select id="inputState" class="form-control" placeholder="MM" name="issueMonthArabic" 
               [(ngModel)]="selectedIssueMonthAr" (change)="selectMonth($event.target.value, 'issue')" formControlName='issueMonthArabic'>
                 <option value="undefined">MM</option>
-                <option *ngFor="let month of months">{{month.arabicName}}</option>
+                <option *ngFor="let month of issueMonths">{{month.arabicName}}</option>
               </select>
             </div>
             <div class="col-4">
@@ -114,14 +114,14 @@
               <select id="inputState" class="form-control" placeholder="DD" name="expireDate"
               [(ngModel)]="selectedExpireDate" (change) = "selectDate($event.target.value, 'expire')" formControlName='expireDate'>
                 <option value="undefined">DD</option>
-                <option *ngFor="let date of dates">{{date.dateNormal}}</option>
+                <option *ngFor="let date of expiryDates" [selected]='date.dateNormal == selectedExpireDate'>{{date.dateNormal}}</option>
               </select>
             </div>
             <div class="col-4">
               <select id="inputState" class="form-control" placeholder="MM" name="expireMonth"
               [(ngModel)]="selectedExpireMonth" (change)="selectMonth($event.target.value, 'expire')" formControlName='expireMonth'>
                 <option value="undefined">MM</option>
-                <option *ngFor="let month of months">{{month.name}}</option>
+                <option *ngFor="let month of expiryMonths">{{month.name}}</option>
               </select>
             </div>
             <div class="col-4">
@@ -135,7 +135,7 @@
 
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="Trade-License">{{expiryDateLabelOtherLanguage}}</label>
           <div class="row">
@@ -143,14 +143,14 @@
               <select id="inputState" class="form-control" placeholder="DD" name="expireDateArabic"
               [(ngModel)]="selectedExpireDateAr" (change)= "selectDate($event.target.value, 'expire')" formControlName='expireDateArabic'>
                 <option value="undefined">DD</option>
-                <option *ngFor="let date of dates">{{date.dateArabic}}</option>
+                <option *ngFor="let date of expiryDates" [selected]='date.dateArabic == selectedExpireDateAr'>{{date.dateArabic}}</option>
               </select>
             </div>
             <div class="col-4">
               <select id="inputState" class="form-control" placeholder="MM" name="expireMonthArabic"
               [(ngModel)]="selectedExpireMonthAr" (change)= "selectMonth($event.target.value, 'expire')" formControlName='expireMonthArabic'>
                 <option value="undefined">MM</option>
-                <option *ngFor="let month of months">{{month.arabicName}}</option>
+                <option *ngFor="let month of expiryMonths">{{month.arabicName}}</option>
               </select>
             </div>
             <div class="col-4">
@@ -172,7 +172,7 @@
           <input type="text" class="form-control" maxlength="12" (focusout)="errorValidate()" (focus)="vatError = false" [ngClass]="{'inputError': vatError && informationForm.controls['vatNo'].errors}" 
           (keypress)="NumberValid($event)" class="form-control" [(ngModel)]="vatNoAr" formControlName="vatNo">
            <span *ngIf="vatError && informationForm.controls['vatNo'].errors">
-              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNo'].hasError('required') && (contactInfoForm.controls.vatNo.dirty || contactInfoForm.controls.vatNo.touched)">{{requiredFields}}</p>
+              <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNo'].hasError('required') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">{{requiredFields}}</p>
               <p class="inputError animated fadeIn" *ngIf="!informationForm.controls['vatNo'].hasError('pattern') && informationForm.controls['vatNo'].hasError('minlength') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">Vat no should be minimum 5 characters</p>
               <p class="inputError animated fadeIn" *ngIf="!informationForm.controls['vatNo'].hasError('pattern') && informationForm.controls['vatNo'].hasError('maxlength') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">Vat no should not exceed from 12 characters</p>
               <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNo'].hasError('pattern') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">Please enter valid information</p>
@@ -180,7 +180,7 @@
         </div>
         
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="vat-no">{{vatNoLabelOtherLanguage}}</label>
           <input type="text" class="form-control" maxlength="12" (focusout)="errorValidate()" (focus)="vatNoArError = false" [ngClass]="{'inputError': vatNoArError && informationForm.controls['vatNoAr'].errors}" 
@@ -202,26 +202,26 @@
               <br>
               <small>{{docLabelBaseLanguage}}</small>
           </div>
-          <div class="licenseNaming col-6 dir-otherLanguage">
+          <div class="licenseNaming col-6 dir-otherLanguage" *ngIf="showTranslatedLangSide">
               <label for="trade-license" class="m-0">{{tradeliscenseLabelOtherLanguage}}</label>
               <br>
               <small class="d-flex arabicLng">{{docLabelOtherLanguage}}</small>
           </div>
       </div>
  
-      <div class="documentInfo d-flex flex-column p-4 mt-3">
-      <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLicense && selectedLicense.name">
+      <div class="documentInfo d-flex flex-column mt-3">
+      <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLicense && selectedLicense.fileName">
         <div class="fileDesc">
-          <img *ngIf="selectedLicense.type == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
-          <img *ngIf="selectedLicense.type == 'image/png' || selectedLicense.type == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
-          <span>{{selectedLicense.name}}</span>
+          <img *ngIf="selectedLicense.fileType == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
+          <img *ngIf="selectedLicense.fileType == 'image/png' || selectedLicense.fileType == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
+          <span>{{selectedLicense.fileName}}</span>
         </div>
         <div class="del">
           <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx('license')">
         </div>
       </div>  
       
-      <div class="file-uploader" *ngIf="!selectedLicense || (selectedLicense && !selectedLicense.name)">
+      <div class="file-uploader" *ngIf="!selectedLicense || (selectedLicense && !selectedLicense.fileName)">
          <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'license')" [configId]="'docConfig'">
             <img src="../../../assets/images/icons/manager-icon.png">
             <p class="m-0"> Drag here or browse to upload</p>
@@ -244,7 +244,7 @@
   </div>
   <h5 class="d-flex justify-content-between">
     <span>{{busLocLabelBaseLanguage}}</span> 
-    <span class="text-right">{{busLocLabelOtherLanguage}}</span> 
+    <span class="text-right" *ngIf="showTranslatedLangSide">{{busLocLabelOtherLanguage}}</span> 
   </h5>
   <hr class="hr-solid">
 
@@ -273,7 +273,7 @@
         </div>
        
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="address">{{addLabelOtherLanguage}}</label>
           <input type="text" class="form-control" (keypress)="textValidation($event)" maxlength="200" formControlName="transAddress" (focusout)="errorValidate()" 
@@ -308,7 +308,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="row row justify-content-end">
           <div class="col-5">
             <div class="form-group dir-otherLanguage">
@@ -331,7 +331,7 @@
 
   <h5 class="d-flex justify-content-between"> 
     <span>{{busInfoLabelBaseLanguage}}</span>
-    <span class="text-right">{{busInfoLabelOtherLanguage}}</span>
+    <span class="text-right" *ngIf="showTranslatedLangSide">{{busInfoLabelOtherLanguage}}</span>
   </h5>
   <hr class="hr-solid">
 
@@ -340,19 +340,19 @@
       <div class="col-12">
         <div class="form-group">
            <label for="address">{{uploadlogoLabelBaseLanguage}}</label>
-           <div class="documentInfo d-flex flex-column p-4 mt-3">
-            <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLogo && selectedLogo.name">
+           <div class="documentInfo d-flex flex-column mt-3">
+            <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLogo && selectedLogo.fileName">
               <div class="fileDesc">
-                  <img *ngIf="selectedLogo.type == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
-                  <img *ngIf="selectedLogo.type == 'image/png' || selectedLogo.type == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
-                   <span>{{selectedLogo.name}}</span>
+                  <img *ngIf="selectedLogo.fileType == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
+                  <img *ngIf="selectedLogo.fileType == 'image/png' || selectedLogo.fileType == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
+                   <span>{{selectedLogo.fileName}}</span>
               </div>
               <div class="del">
                 <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx('logo')">
               </div>
             </div>  
             
-            <div class="file-uploader" *ngIf="!selectedLogo || (selectedLogo && !selectedLogo.name)">
+            <div class="file-uploader" *ngIf="!selectedLogo || (selectedLogo && !selectedLogo.fileName)">
                <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'logo')" [configId]="'docConfig'">
                   <img src="../../../assets/images/icons/manager-icon.png">
                   <p class="m-0"> Drag here or browse to upload</p>
@@ -377,7 +377,7 @@
         </div>
        
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="nameAr">{{orgNameLabelOtherLanguage}}</label>
           <input type="text" class="form-control" [ngClass]="{'inputError': transorgNameError && organizationForm.controls['transLangOrgName'].errors}" (focusout)="errorValidate()" (blur)="activeTransOrgName=false" (focus)="transorgNameError=false; activeTransOrgName=true" (ngModelChange)="onTransModel(activeOrgName, activeTransOrgName, 'orgName' ,$event)"  placeholder="اسم المنظمة" formControlName= "transLangOrgName">
@@ -396,17 +396,17 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label for="exampleFormControlSelect1">{{orgTypeLabelBaseLanguage}}</label>
-          <select class="form-control" id="exampleFormControlSelect1" name="organizationType"
+          <select class="form-control" id="exampleFormControlSelect1" name="orgType"
             [(ngModel)]="selectedOrgType" (change) = "organizationType($event.target.value)" formControlName="organizationType">
             <option value="undefined">Please select</option>
             <option *ngFor="let type of organizationList">{{type.BaseLang}}</option>
           </select>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="exampleFormControlSelect1">{{orgTypeLabelOtherLanguage}}</label>
-          <select class="form-control" id="exampleFormControlSelect2" name="organizationTypeAr"
+          <select class="form-control" id="exampleFormControlSelect2" name="orgTypeAr"
             [(ngModel)]="selectedOrgTypeAr" (change) = "organizationType($event.target.value)" formControlName="organizationTypeAr">
             <option value="undefined">يرجى الاختيار</option>
             <option *ngFor="let type of organizationList">{{type.OtherLang}}</option>
@@ -419,7 +419,7 @@
 
   <h5 class="d-flex justify-content-between"> 
     <span>{{conDetailLabelBaseLanguage}}</span>
-    <span class="text-right">{{conDetailLabelOtherLanguage}}</span>
+    <span class="text-right" *ngIf="showTranslatedLangSide">{{conDetailLabelOtherLanguage}}</span>
   </h5>
   <hr class="hr-solid">
 
@@ -448,20 +448,20 @@
                 </div>
               </div>
               <input type="text" class="form-control" 
-               maxlength="9" placeholder="12 345 6789" formControlName="phone" [ngClass]="{'inputError': phoneError && contactInfoForm.controls['phone'].errors}" (focusout)="errorValidate()" 
+               maxlength="13" placeholder="12 345 6789" formControlName="phone" [ngClass]="{'inputError': phoneError && contactInfoForm.controls['phone'].errors}" (focusout)="errorValidate()" 
                (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
                (keypress)="NumberValid($event)" />
               </div>
               <span class="animated fadeIn" *ngIf="phoneError && contactInfoForm.controls['phone'].errors">
                   <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['phone'].hasError('required') && (contactInfoForm.controls.phone.dirty || contactInfoForm.controls.phone.touched)">{{requiredFields}}</p>
                   <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['phone'].hasError('pattern') && contactInfoForm.controls['phone'].hasError('minlength') && (contactInfoForm.controls.phone.dirty || contactInfoForm.controls.phone.touched)">Phone number should be minimum 7 digits</p>
-                  <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['phone'].hasError('pattern') && contactInfoForm.controls['phone'].hasError('maxlength') && (contactInfoForm.controls.phone.dirty || contactInfoForm.controls.phone.touched)">Phone number should not exceed from 9 digits</p>
+                  <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['phone'].hasError('pattern') && contactInfoForm.controls['phone'].hasError('maxlength') && (contactInfoForm.controls.phone.dirty || contactInfoForm.controls.phone.touched)">Phone number should not exceed from 13 digits</p>
                   <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['phone'].hasError('pattern') && (contactInfoForm.controls.phone.dirty || contactInfoForm.controls.phone.touched)">Please enter valid information</p>
               </span>
           </div>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label>{{telPhoneLabelOtherLanguage}}</label>
           <div class="select-number">
@@ -485,12 +485,12 @@
               </div>
               <input type="text" class="form-control" formControlName="transLangPhone" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true"
                [ngClass]="{'inputError': translangPhoneError && contactInfoForm.controls['transLangPhone'].errors}" 
-              (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="9" placeholder="۶۷۸۹ ۳۴۵ ۱۲" (keypress)="NumberValid($event)">
+              (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="13" placeholder="۶۷۸۹ ۳۴۵ ۱۲" (keypress)="NumberValid($event)">
             </div>
             <span class="animated fadeIn" *ngIf="translangPhoneError && contactInfoForm.controls['transLangPhone'].errors">
                 <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['transLangPhone'].hasError('required') && (contactInfoForm.controls.transLangPhone.dirty || contactInfoForm.controls.transLangPhone.touched)">{{requiredFieldsOthrLng}}</p>
                 <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['transLangPhone'].hasError('pattern') && contactInfoForm.controls['transLangPhone'].hasError('minlength') && (contactInfoForm.controls.transLangPhone.dirty || contactInfoForm.controls.transLangPhone.touched)">يجب أن يكون رقم الهاتف 7 أرقام كحد أدنى</p>
-                <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['transLangPhone'].hasError('pattern') && contactInfoForm.controls['transLangPhone'].hasError('maxlength') && (contactInfoForm.controls.transLangPhone.dirty || contactInfoForm.controls.transLangPhone.touched)">يجب ألا يتجاوز رقم الهاتف 9 أرقام</p>
+                <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['transLangPhone'].hasError('pattern') && contactInfoForm.controls['transLangPhone'].hasError('maxlength') && (contactInfoForm.controls.transLangPhone.dirty || contactInfoForm.controls.transLangPhone.touched)">يجب ألا يتجاوز رقم الهاتف 13 أرقام</p>
                 <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['transLangPhone'].hasError('pattern') && (contactInfoForm.controls.transLangPhone.dirty || contactInfoForm.controls.transLangPhone.touched)">يرجى إدخال معلومات صحيحة</p>
               </span>
           </div>
@@ -522,20 +522,20 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" maxlength="9" placeholder="12 345 6789" formControlName="fax" [ngClass]="{'inputError': faxError && contactInfoForm.controls['fax'].errors}" (focusout)="errorValidate()" (blur)="activeFax=false"
+              <input type="text" class="form-control" maxlength="13" placeholder="12 345 6789" formControlName="fax" [ngClass]="{'inputError': faxError && contactInfoForm.controls['fax'].errors}" (focusout)="errorValidate()" (blur)="activeFax=false"
               (ngModelChange)="onModelFaxChange(activeTransFax, activeFax, 'transLangFax', $event)" (focus)="faxError=false; activeFax=true"
               (keypress)="NumberValid($event)" />
             </div>
             <span class="animated fadeIn" *ngIf="faxError">
                 <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['fax'].hasError('required') && (contactInfoForm.controls.fax.dirty || contactInfoForm.controls.fax.touched)">{{requiredFields}}</p>
                 <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['fax'].hasError('pattern') && contactInfoForm.controls['fax'].hasError('minlength') && (contactInfoForm.controls.fax.dirty || contactInfoForm.controls.fax.touched)">Fax number should be minimum 7 digits</p>
-                <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['fax'].hasError('pattern') && contactInfoForm.controls['fax'].hasError('maxlength') && (contactInfoForm.controls.fax.dirty || contactInfoForm.controls.fax.touched)">Fax number should not exceed from 9 digits</p>
+                <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['fax'].hasError('pattern') && contactInfoForm.controls['fax'].hasError('maxlength') && (contactInfoForm.controls.fax.dirty || contactInfoForm.controls.fax.touched)">Fax number should not exceed from 13 digits</p>
                 <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['fax'].hasError('pattern') && (contactInfoForm.controls.fax.dirty || contactInfoForm.controls.fax.touched)">Please enter valid information</p>
             </span>
           </div>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label>{{faxLabelOtherLanguage}}</label>
           <div class="select-number">
@@ -557,14 +557,14 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" maxlength="9" placeholder="۶۷۸۹ ۳۴۵ ۱۲" formControlName="transLangFax" (focusout)="errorValidate()" (blur)="activeTransFax=false" (focus)="translangFaxError = false; activeTransFax=true"
+              <input type="text" class="form-control" maxlength="13" placeholder="۶۷۸۹ ۳۴۵ ۱۲" formControlName="transLangFax" (focusout)="errorValidate()" (blur)="activeTransFax=false" (focus)="translangFaxError = false; activeTransFax=true"
               [ngClass]="{'inputError': translangFaxError && contactInfoForm.controls['transLangFax'].errors}" 
              (ngModelChange)="onModelTransFaxChange(activeFax, activeTransFax, 'fax', $event)" (keypress)="NumberValid($event)">
             </div>
             <span class="animated fadeIn" *ngIf="translangFaxError">
                 <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['transLangFax'].hasError('required') && (contactInfoForm.controls.transLangFax.dirty || contactInfoForm.controls.transLangFax.touched)">{{requiredFieldsOthrLng}}</p>
                 <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['transLangFax'].hasError('pattern') && contactInfoForm.controls['transLangFax'].hasError('minlength') && (contactInfoForm.controls.transLangFax.dirty || contactInfoForm.controls.transLangFax.touched)">يجب أن يكون رقم الفاكس 7 أرقام كحد أدنى</p>
-                <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['transLangFax'].hasError('pattern') && contactInfoForm.controls['transLangFax'].hasError('maxlength') && (contactInfoForm.controls.transLangFax.dirty || contactInfoForm.controls.transLangFax.touched)">يجب ألا يتجاوز رقم الفاكس من 9 أرقام</p>
+                <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['transLangFax'].hasError('pattern') && contactInfoForm.controls['transLangFax'].hasError('maxlength') && (contactInfoForm.controls.transLangFax.dirty || contactInfoForm.controls.transLangFax.touched)">يجب ألا يتجاوز رقم الفاكس من 13 أرقام</p>
                 <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['transLangFax'].hasError('pattern') && (contactInfoForm.controls.transLangFax.dirty || contactInfoForm.controls.transLangFax.touched)">يرجى إدخال معلومات صحيحة</p>
               </span>
           </div>
@@ -580,12 +580,12 @@
             <div class="input-group-prepend">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                  <span>Website</span>
+                  <span *ngIf="!selectedSocialsite.title">Website</span>
+                  <span *ngIf="selectedSocialsite.title">{{selectedSocialsite.title}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="social">
                   <ul class="list-group">
-                    <li class="list-group-item">
-                    <li class="list-group-item" *ngFor="let link of socialLink">
+                    <li class="list-group-item" *ngFor="let link of socialLink" (click)="selectedSocialLink(link, i)">
                       <span>{{link.title}}</span>
                     </li>
                   </ul>
@@ -598,18 +598,19 @@
        
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group">
           <label class="d-flex justify-content-end arabicLng">{{socialMedLabelOtherLanguage}}</label>
           <div class="select-number mt-3"  *ngFor = "let i of socialAccounts">
             <div class="input-group-prepend">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                  <span>Website</span>
+                  <span *ngIf="!selectedSocialsite.title">Website</span>
+                  <span *ngIf="selectedSocialsite.title">{{selectedSocialsite.title}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="social">
                   <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let link of socialLink">
+                    <li class="list-group-item" *ngFor="let link of socialLink" (click)="selectedSocialLink(link, i)">
                       <span>{{link.title}}</span>
                     </li>
                   </ul>
@@ -622,17 +623,21 @@
       </div>
     </div>
 
-    <div class="add-more">
+    <!-- <div class="add-more">
         <a href="javascript:;" (click)="addmoreSocialLink()">
         <img src="../../../assets/images/icons/icon_add.svg" alt="icons" class="mr-2 icon-size-16"> 
          <span>{{moreAccLabelBaseLanguage}}</span> / <span>{{moreAccLabelOtherLanguage}}</span>
         </a> 
-    </div>
+    </div> -->
 
     <div class="contact-btn mt-5">
-      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()">
-        <span>{{btnLabelBaseLanguage}}</span> / <span>{{btnLabelOtherLanguage}}</span>
-     </button>
+    <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" 
+        [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length">
+       <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
+     </button> -->
+    <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
+      <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
+    </button>
     </div>
   </form>
 

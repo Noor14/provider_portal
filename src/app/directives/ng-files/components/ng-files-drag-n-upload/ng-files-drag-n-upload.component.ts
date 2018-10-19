@@ -27,7 +27,8 @@ export class NgFilesDragNUploadComponent implements OnInit, DoCheck {
 
   @Input() configId = 'shared';
 
-  @Output() filesSelect: EventEmitter<NgFilesSelected> = new EventEmitter<NgFilesSelected>();
+  // @Output() filesSelect: EventEmitter<NgFilesSelected> = new EventEmitter<NgFilesSelected>();
+  @Output() filesSelect: EventEmitter<any> = new EventEmitter<any>();
 
   @HostListener('dragenter', ['$event'])
   public onDragEnter(event: any) {
@@ -72,18 +73,20 @@ export class NgFilesDragNUploadComponent implements OnInit, DoCheck {
       return;
     }
 
-    this.filesSelect.emit(
-      this.ngFilesUtilsService.verifyFiles(files, this.configId)
-    );
+    // this.filesSelect.emit(
+    //   this.ngFilesUtilsService.verifyFiles(files, this.configId)
+    // );
+    this.filesSelect.emit(files);
   }
   ngDoCheck() {
     this.changeDetector.detectChanges();
   }
 
   private dropFilesHandler(files: FileList) {
-    this.filesSelect.emit(
-      this.ngFilesUtilsService.verifyFiles(files, this.configId)
-    );
+    // this.filesSelect.emit(
+    //   this.ngFilesUtilsService.verifyFiles(files, this.configId)
+    // );
+    this.filesSelect.emit(files);
   }
 
   private preventEvent(event: any): void {

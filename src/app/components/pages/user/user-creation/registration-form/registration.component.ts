@@ -147,8 +147,8 @@ export class RegistrationComponent implements OnInit {
         Validators.pattern(EMAIL_REGEX),
         Validators.maxLength(320)
       ]),
-      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(9)]),
-      transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(9)]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
+      transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
       jobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
       transLangjobTitle: new FormControl('', [CustomValidator.bind(this), Validators.minLength(3), Validators.maxLength(100)]),
     });
@@ -249,7 +249,7 @@ export class RegistrationComponent implements OnInit {
   accountList(region) {
     this._userCreationService.getAccountSetup(region.id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
-        this.accountSetup = JSON.parse(res.returnObject);
+        this.accountSetup = res.returnObject;
         this.showTranslatedLangSide = (region.desc[0].RegionCode == 'MET') ? true : false;
         this.regForm.reset();
         this.transLangEmail = '';
@@ -371,7 +371,7 @@ export class RegistrationComponent implements OnInit {
       countryPhoneCode: this.transPhoneCode,
       phoneCodeCountryID: this.phoneCountryId,
       LanguageID : this.selectedLangIdbyCountry,
-      jobTitle: (typeof data.transLangjobTitle === "object")? data.transLangjobTitle.otherLanguage : data.transLangjobTitle 
+      jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.otherLanguage : data.transLangjobTitle 
     };
     let obj = {
       accountSetupID: this.accountId,
@@ -384,7 +384,7 @@ export class RegistrationComponent implements OnInit {
         primaryPhone: this.phoneCode + data.phone,
         countryPhoneCode: this.phoneCode,
         phoneCodeCountryID: this.phoneCountryId,
-        jobTitle: (typeof data.jobTitle === "object")? data.jobTitle.baseLanguage : data.jobTitle
+        jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.baseLanguage : data.jobTitle
       },
       userOtherLanguageData: (this.showTranslatedLangSide) ? otherLangObj : null
     }

@@ -6,7 +6,7 @@
     h2 {
         font-weight: 700;
         font-family: proxima, sans-serif;
-        font-size: $font-size-large + 0.8;
+        font-size: $font-size-large + 0.72;
     }
     h5 {
         margin-top: 3rem;
@@ -94,21 +94,25 @@
         .documentInfo {
             margin-bottom: 3rem;
             border: 1px dashed #e1d8d8;
-            padding: 20px;
             .uploaded-file {
                 border: 1px solid $secondary-color;
                 border-radius: 3px;
-                margin-bottom: 20px;
+                margin: 15px;
                 .fileIcon {
                     width: 35px;
                     height: 35px;
                 }
             }
             .file-uploader {
-                padding: 25px;
                 text-align: center;
+                app-ng-files-drag-n-upload {
+                    label {
+                        padding: 60px
+                    }
+                }
             }
         }
+        
         .social-accounts {
             .info_text {
                 p {

@@ -10,6 +10,8 @@ import { UserBusinessService } from '../../user-business.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { element } from 'protractor';
+import { DocumentUpload } from '../../../../../../interfaces/document.interface';
+
 
 
 @Component({
@@ -21,9 +23,9 @@ import { element } from 'protractor';
 })
 export class DirectorinfoComponent implements OnInit {
 
-  public showTranslatedLangSide: boolean = true;
+  public showTranslatedLangSide: boolean;
 
-  public selectedDocx: any;
+  public selectedDocx: any[] = [];
   private sharedConfig: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', , 'pdf', 'bmp'],
     maxFilesCount: 2,
@@ -109,6 +111,9 @@ export class DirectorinfoComponent implements OnInit {
   directorForm;
   managementForm;
 
+  public formOneObj;
+  public uploadDocs: Array<DocumentUpload> = []
+
   constructor(
     private _sharedService: SharedService,
     private _commonService: CommonService,
@@ -118,14 +123,14 @@ export class DirectorinfoComponent implements OnInit {
     private _router: Router,
   ) {
 
-  }
+ }
 
   ngOnInit() {
-
     this.ngFilesService.addConfig(this.sharedConfig, 'config');
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnObject) {
       this.userProfile = userInfo.returnObject;
+      this.showTranslatedLangSide = (this.userProfile.regionCode == "MET") ? true : false;
     }
 
     this.directorForm = new FormGroup({
@@ -143,8 +148,8 @@ export class DirectorinfoComponent implements OnInit {
         Validators.pattern(EMAIL_REGEX),
         Validators.maxLength(320)
       ]),
-      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(10)]),
-      transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(10)]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
+      transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
     });
 
 
@@ -154,7 +159,7 @@ export class DirectorinfoComponent implements OnInit {
       lastName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
       transLanglastName: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(2), Validators.maxLength(100)]),
       jobDesgType: new FormControl(null, [Validators.required]),
-      jobDesgTypeAr: new FormControl(null, [Validators.required]),
+      jobDesgTypeAr: new FormControl(null, [CustomValidator.bind(this)]),
     });
 
 
@@ -170,19 +175,22 @@ export class DirectorinfoComponent implements OnInit {
       if (state) {
         let copy = Object.assign([], state)
         this.docTypes = copy.filter(element => !element.BusinessLogic)
+        this.uploadDocs = copy.filter(element => element.BusinessLogic)
+        console.log(this.uploadDocs);
+
       }
-
     });
-
 
 
     this._sharedService.jobTitleList.subscribe((state: any) => {
       this.jobTypeList = state;
     });
+
+
+    this._sharedService.businessDetailObj.subscribe((state: any) => {
+      this.formOneObj = state;
+    });
   }
-
-
-
 
   jobType(type) {
     if (type && type != 'undefined') {
@@ -197,14 +205,6 @@ export class DirectorinfoComponent implements OnInit {
       this.selectedjobDesgAr = type;
     }
   }
-
-
-
-
-
-
-
-
 
   selectdocType(index, obj) {
     // this.docxId = obj.AccountID;
@@ -483,28 +483,168 @@ export class DirectorinfoComponent implements OnInit {
 
 
 
-  selectDocx(selectedFiles: NgFilesSelected): void {
-
-    if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.status == 1) this._toastr.error('Please select only two files', '')
-      else if (selectedFiles.status == 2) this._toastr.error('Please select a correct file format', '')
-      // this.selectedFiles = selectedFiles.status;
-      return;
+  selectDocx(selectedFiles: any): void {
+    console.log(selectedFiles)
+    try {
+      this.onFileChange(selectedFiles)
+    } catch (error) {
+      console.log(error);
     }
-    this.selectedDocx = selectedFiles.files;
+
+    // if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
+    //   if (selectedFiles.status == 1) this._toastr.error('Please select only two file to upload', '')
+    //   else if (selectedFiles.status == 2) this._toastr.error('File format is not supported please select supported format file', '')
+    //   // this.selectedFiles = selectedFiles.status;
+    //   return;
+    // }
+    // this.selectedDocx = selectedFiles.files;
 
 
   }
+
+  onFileChange(event) {
+
+
+    if (event) {
+      try {
+        for (let index = 0; index < event.length; index++) {
+          let reader = new FileReader();
+          const element = event[index];
+          let file = element
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+
+            let selectedFile: DocumentFile = {
+              fileName: file.name,
+              fileType: file.type,
+              fileBaseString: reader.result.split(',')[1]
+            }
+            console.log('you file content:', selectedFile);
+            this.selectedDocx.push(selectedFile)
+          }
+
+        }
+        
+      }
+      catch (err) {
+        console.log(err);
+      }
+    }
+
+  }
   submitBusinessInfo() {
-    let obj = {};
-    this._userbusinessService.submitBusinessInfo(obj).subscribe((res: any) => {
-      if (res.status == "Success") {
-        console.log(res);
+
+    const { license, logo } = this.formOneObj
+
+    this.uploadDocs.forEach(docObj => {
+      // docObj.
+      if (docObj.BusinessLogic === 'COMPANY_LOGO') {
+        docObj.DocumentFileContent = license.fileBaseString
+        docObj.DocumentName = license.fileName
+        docObj.DocumentUploadedFileType = license.fileType
+      }
+
+      if (docObj.BusinessLogic === 'TRADE_LICENSE') {
+        docObj.DocumentFileContent = logo.fileBaseString
+        docObj.DocumentName = logo.fileName
+        docObj.DocumentUploadedFileType = logo.fileType
       }
     })
 
+    let obj = {
+      userID: this.userProfile.userID,
+      providerID: this.userProfile.providerID,
+      companyID: this.userProfile.companyID,
+      businessProfileBL: {
+        licenseNo: this.formOneObj.informationForm.licenseNo,
+        issueDate: this.formOneObj.issueDate,
+        expiryDate: this.formOneObj.expiryDate,
+        vatNo: this.formOneObj.informationForm.vatNo,
+        organizationTypeID: this.formOneObj.busiType.ID,
+        organizationName: this.formOneObj.organizationForm.orgName,
+        address: this.formOneObj.businessLocForm.address,
+        poBox: this.formOneObj.businessLocForm.poBoxNo,
+        telephone: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.phone,
+        faxNo: this.formOneObj.contactInfoForm.fax,
+        managementInfo: [
+          {
+            jobTitleID: 0,
+            firstName: "string",
+            lastName: "string"
+          }
+        ],
+        directorInfo: [
+          {
+            firstName: "string",
+            lastName: "string",
+            email: "string",
+            mobileNo: "string"
+          }
+        ]
+      },
+      businessProfileOL: {
+        licenseNo: this.formOneObj.informationForm.licenseNoAr,
+        issueDate: this.formOneObj.issueDate,
+        expiryDate: this.formOneObj.expiryDate,
+        vatNo: this.formOneObj.informationForm.vatNoAr,
+        organizationTypeID: this.formOneObj.busiType.ID,
+        organizationName: this.formOneObj.organizationForm.transLangOrgName,
+        address: this.formOneObj.businessLocForm.transAddress,
+        poBox: this.formOneObj.businessLocForm.poBoxNoAr,
+        telephone: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.transLangPhone,
+        faxNo: this.formOneObj.contactInfoForm.transLangFax,
+        managementInfo: [
+          {
+            jobTitleID: 0,
+            firstName: "string",
+            lastName: "string"
+          }
+        ],
+        directorInfo: [
+          {
+            firstName: "string",
+            lastName: "string",
+            email: "string",
+            mobileNo: "string"
+          }
+        ]
+      },
+      socialAccount: [
+        {
+          providerSocialMediaAccountsID: 0,
+          providerSocialMediaCode: "",
+          shortName: "",
+          providerID: 605,
+          socialMediaPortalsID: 100,
+          carrierID: 0,
+          companyID: 598,
+          userID: 630,
+          linkURL: "texpo.com",
+          isDelete: true,
+          isActive: true,
+          createdBy: "string",
+          createdDateTime: "2018-10-05T07:43:40.333Z",
+          modifiedBy: "string",
+          modifiedDateTime: "2018-10-05T07:43:40.333Z"
+        }
+      ],
+      providerLogisticServiceList: this.formOneObj.logisticsService,
+      businessLocation: {
+        latitude: this.formOneObj.location.lat.toString(),
+        longitude: this.formOneObj.location.lng.toString()
+      },
+      doc: this.uploadDocs
 
-    this._router.navigate(['/profile-completion']);
+    };
+
+    this._userbusinessService.submitBusinessInfo(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        localStorage.setItem('userInfo', JSON.stringify(res));
+        this._router.navigate(['/profile-completion']);
+
+      }
+    })
+
   }
 
   removeSelectedDocx(index) {
@@ -513,3 +653,8 @@ export class DirectorinfoComponent implements OnInit {
 
 }
 
+export interface DocumentFile {
+  fileBaseString: string
+  fileName: string
+  fileType: string
+}
