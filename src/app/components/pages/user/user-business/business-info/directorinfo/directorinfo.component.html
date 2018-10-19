@@ -5,9 +5,12 @@
   <ngb-accordion [closeOthers]="true" activeIds="directorInfo">
     <ngb-panel id="directorInfo">
       <ng-template ngbPanelTitle>
-          <h5>
-            <i class="fa fa-angle-down"></i> Directors Info
-          </h5>
+          
+        <h5 class="d-flex justify-content-between">
+          <span>
+            <i class="fa fa-angle-down"></i> Directors Info</span>
+          <span *ngIf="showTranslatedLangSide" class="text-right"> الإدارة</span>
+        </h5>
       </ng-template>
       <ng-template ngbPanelContent>
           <form autocomplete="off" novalidate [formGroup]="directorForm" class="animated fadeIn">
@@ -169,9 +172,11 @@
     </ngb-panel>
     <ngb-panel id="managementInfo">
       <ng-template ngbPanelTitle>
-          <h5>
-              <i class="fa fa-angle-down"></i> Management Info
-          </h5>
+        <h5 class="d-flex justify-content-between">
+          <span>
+            <i class="fa fa-angle-down"></i >Management Info</span>
+          <span *ngIf="showTranslatedLangSide" class="text-right"> معلومات الإدارة</span>
+        </h5>
       </ng-template>
       <ng-template ngbPanelContent>
           <form autocomplete="off" novalidate [formGroup]="managementForm" class="animated fadeIn">
@@ -297,7 +302,7 @@
                 <div class="file-uploader">
                    <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event)" [configId]="'config'">
                       <img src="../../../assets/images/icons/manager-icon.png">
-                      <p class="m-0"> Drag here or browse to upload</p>
+                      <p class="m-0 mt-3"> Drag here or browse to upload</p>
                       <small> (supported types: pdf,jpeg,png,Maximum size per document: 4 MB) </small>
                    </app-ng-files-drag-n-upload>
                 </div>

@@ -4,12 +4,12 @@
         font-family: $font-NeoSansArabic-Regular;
     }
     h2 {
-        font-weight: 700;
-        font-family: proxima, sans-serif;
-        font-size: $font-size-large + 0.72;
+        font-family: $font-pragmatica;
+        font-weight: $font-weight-mid;
+        color: $text-color-default;
     }
     h5 {
-        margin-top: 3rem;
+        margin-top: 2.8rem;
         span:nth-child(2){
             font-family: $font-NeoSansArabic-Medium;
         }
@@ -94,6 +94,7 @@
         .documentInfo {
             margin-bottom: 3rem;
             border: 1px dashed #e1d8d8;
+            border-radius: 4px;
             .uploaded-file {
                 border: 1px solid $secondary-color;
                 border-radius: 3px;
@@ -104,6 +105,9 @@
                 }
             }
             .file-uploader {
+                small {
+                    color: $text-grey;
+                }
                 text-align: center;
                 app-ng-files-drag-n-upload {
                     label {
@@ -125,6 +129,7 @@
         }
     }
     .contact-btn {
+        margin-top:3.5rem;
         .btn {
             font-weight: 600;
             padding: 0.75rem 3.75rem;

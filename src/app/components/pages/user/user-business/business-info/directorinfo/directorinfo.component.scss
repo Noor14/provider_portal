@@ -1,9 +1,21 @@
 @import '../../../../../../../assets/scss/_variables';
 .directors-info {
     h2 {
-        font-weight: 600;
-        font-family: $font-proxima;
-    } // p {
+        font-family: $font-pragmatica;
+        font-weight: $font-weight-mid;
+        color: $text-color-default;
+        span:nth-child(2) {
+            font-family: $font-NeoSansArabic-Medium;
+        }
+    }
+    h5 {
+        margin-top: 1.3rem;
+        span:nth-child(2) {
+            font-family: $font-NeoSansArabic-Medium;
+        }
+    }
+    
+    // p {
     //     margin-bottom: 2.3rem;
     // }
     .accordion {
@@ -45,7 +57,7 @@
         }
     }
     .documentInfo {
-        margin-bottom: 3rem;
+        margin-bottom: 1.5rem;
         background: $white-color;
         padding: 20px;
         .uploaded-file {
@@ -61,6 +73,9 @@
             padding: 25px;
             border: 1px dashed #e1d8d8;
             text-align: center;
+            small {
+                color: $text-grey;
+            }
         }
     }
 }

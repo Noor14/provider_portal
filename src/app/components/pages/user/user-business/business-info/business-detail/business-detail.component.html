@@ -224,15 +224,23 @@
       <div class="file-uploader" *ngIf="!selectedLicense || (selectedLicense && !selectedLicense.fileName)">
          <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'license')" [configId]="'docConfig'">
             <img src="../../../assets/images/icons/manager-icon.png">
-            <p class="m-0"> Drag here or browse to upload</p>
+            <p class="m-0 mt-3"> Drag here or browse to upload</p>
             <small> (supported types: pdf,jpeg,png,Maximum size per document: 4 MB) </small>
          </app-ng-files-drag-n-upload>
       </div>
     </div>
     </div>
   </form>
-  <h5 class="m-0"> Company Activities</h5>
-  <small> Select the activities listed on your trade license </small>
+  <h5 class="d-flex justify-content-between mt-5">
+    <span >Company Activities</span>
+    <span>أنشطة الشركة</span>
+  </h5>
+
+  <small  class="d-flex justify-content-between" >
+    <span> Select the activities listed on your trade license </span> 
+    <span>حدد الأنشطة المدرجة على الترخيص التجاري الخاص بك</span>
+  </small>
+
   <hr class="hr-solid">
   <div class="row">
     <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let service of serviceOffered">
@@ -249,7 +257,7 @@
   <hr class="hr-solid">
 
   <div class="business-map">
-    <div class="map-box">
+    <div class="map-box mb-2">
       <input type="text" class="form-control searchAddress" #search placeholder="Search">
       <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
         <agm-marker [latitude]="location.lat" [longitude]="location.lng" [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
@@ -630,7 +638,7 @@
         </a> 
     </div> -->
 
-    <div class="contact-btn mt-5">
+    <div class="contact-btn">
     <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" 
         [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length">
        <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
