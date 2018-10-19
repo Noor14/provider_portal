@@ -76,6 +76,8 @@ export class BusinessDetailComponent implements OnInit {
   public pastYears: any[] = [];
   public futureYears: any[] = [];
   public dates: any[] = [];
+
+
   public months: any[] = [
     {
       name: 'Jan',
@@ -126,6 +128,10 @@ export class BusinessDetailComponent implements OnInit {
       arabicName: 'ديسمبر'
     }
   ]
+  
+  public issueMonths = Object.assign([], this.months);
+  public expiryMonths = Object.assign([], this.months);
+
   public arabicNumbers: any = [
     { baseNumber: '0', arabicNumber: '۰' },
     { baseNumber: '1', arabicNumber: '۱' },
@@ -865,12 +871,13 @@ export class BusinessDetailComponent implements OnInit {
         this.IssueDate = selectedDate;
         this.selectedIssueDate = selectedDate.dateNormal;
         this.selectedIssueDateAr = selectedDate.dateArabic;
-        this.datenMonthValidator(date)
+        this.datenMonthValidator(date, type)
       }
       else {
         this.IssueDate = {};
         this.selectedIssueDate = date;
         this.selectedIssueDateAr = date;
+        this.datenMonthValidator(date, type)
       }
     }
     else if (type == "expire") {
@@ -879,24 +886,49 @@ export class BusinessDetailComponent implements OnInit {
         this.ExpireDate = selectedDate;
         this.selectedExpireDate = selectedDate.dateNormal;
         this.selectedExpireDateAr = selectedDate.dateArabic;
+        this.datenMonthValidator(date, type)
+        
       }
       else {
         this.ExpireDate = {};
         this.selectedExpireDate = date;
         this.selectedExpireDateAr = date;
+        this.datenMonthValidator(date, type)
+        
       }
     }
   }
-  datenMonthValidator(date){
+
+  datenMonthValidator(date, type){
+    if(type== 'issue'){
     if(date >= 28){
       for(let key in this.dateValObj){
         if (key == date){
-          this.months = this.dateValObj[key];
+          this.issueMonths = this.dateValObj[key];
         }
+        // else {
+        //   this.issueMonths = this.dateValObj.allMonths;
+        // }
       }
     }
     else{
-      this.months = this.dateValObj.allMonths;
+      this.issueMonths = this.dateValObj.allMonths;
+    }
+    }
+    if (type == 'expire') {
+      if (date >= 28) {
+        for (let key in this.dateValObj) {
+          if (key == date) {
+            this.expiryMonths = this.dateValObj[key];
+          }
+          // else{
+          //   this.expiryMonths = this.dateValObj.allMonths;
+          // }
+        }
+      }
+      else {
+        this.expiryMonths = this.dateValObj.allMonths;
+      }
     }
   }
   organizationType(type) {

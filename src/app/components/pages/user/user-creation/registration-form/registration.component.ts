@@ -249,7 +249,7 @@ export class RegistrationComponent implements OnInit {
   accountList(region) {
     this._userCreationService.getAccountSetup(region.id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
-        this.accountSetup = JSON.parse(res.returnObject);
+        this.accountSetup = res.returnObject;
         this.showTranslatedLangSide = (region.desc[0].RegionCode == 'MET') ? true : false;
         this.regForm.reset();
         this.transLangEmail = '';

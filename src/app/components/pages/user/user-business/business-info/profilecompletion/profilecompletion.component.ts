@@ -9,6 +9,7 @@ import { UserService } from '../../../user.service';
 })
 export class ProfilecompletionComponent implements OnInit {
 
+  public showTranslatedLangSide:boolean;
   public headingBaseLanguage;
   public headingOtherLanguage;
   public subheadingBaseLanguage;
@@ -33,6 +34,8 @@ export class ProfilecompletionComponent implements OnInit {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnCode) {
       this.userAPPno = userInfo.returnCode;
+      this.showTranslatedLangSide = (userInfo.returnObject.regionCode == "MET") ? true : false;
+      
     }
     this._sharedService.formProgress.next(60);
     this._userService.getlabelsDescription('BusinessVerification').subscribe((res:any)=>{
