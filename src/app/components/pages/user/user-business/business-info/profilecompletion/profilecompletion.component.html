@@ -15,7 +15,7 @@
                   {{subheadingBaseLanguage}}
                 </h5>
           </div>
-          <div class="col dir-otherLanguage">
+          <div class="col dir-otherLanguage" *ngIf="showTranslatedLangSide">
               <h2 class="thankyou-heading text-right">
                   {{headingOtherLanguage}}
                 </h2>
@@ -33,7 +33,7 @@
                  {{desc2BaseLanguage}}
               </p>
           </div>
-          <div class="col dir-otherLanguage">
+          <div class="col dir-otherLanguage" *ngIf="showTranslatedLangSide">
               <p class="text text-right">
                   {{desc1OtherLanguage}}
                 </p>
@@ -53,7 +53,7 @@
                  {{finishContentBaseLanguage}}
                 </p>
           </div>
-          <div class="col dir-otherLanguage">
+          <div class="col dir-otherLanguage" *ngIf="showTranslatedLangSide">
               <h5 class="thankyou-sub-heading text-right">
                   {{finishHeadingOtherLanguage}}
                 </h5>
@@ -67,7 +67,7 @@
 
         <div class="proceed-btn mt-4">
           <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right">
-            <span>{{btnTextBaseLanguage}}</span> / <span>{{btnTextOtherLanguage}}</span> 
+            <span>{{btnTextBaseLanguage}}</span><span *ngIf="showTranslatedLangSide"> / {{btnTextOtherLanguage}}</span> 
           </a>
         </div>
       </div>

@@ -23,7 +23,7 @@ import { DocumentUpload } from '../../../../../../interfaces/document.interface'
 })
 export class DirectorinfoComponent implements OnInit {
 
-  public showTranslatedLangSide: boolean = true;
+  public showTranslatedLangSide: boolean;
 
   public selectedDocx: any[] = [];
   private sharedConfig: NgFilesConfig = {
@@ -130,6 +130,7 @@ export class DirectorinfoComponent implements OnInit {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnObject) {
       this.userProfile = userInfo.returnObject;
+      this.showTranslatedLangSide = (this.userProfile.regionCode == "MET") ? true : false;
     }
 
     this.directorForm = new FormGroup({
@@ -158,7 +159,7 @@ export class DirectorinfoComponent implements OnInit {
       lastName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
       transLanglastName: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(2), Validators.maxLength(100)]),
       jobDesgType: new FormControl(null, [Validators.required]),
-      jobDesgTypeAr: new FormControl(null, [Validators.required]),
+      jobDesgTypeAr: new FormControl(null, [CustomValidator.bind(this)]),
     });
 
 

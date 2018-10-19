@@ -61,7 +61,7 @@
               <select id="inputState" class="form-control" placeholder="MM" name="issueMonth" 
               [(ngModel)]="selectedIssueMonth" (change)="selectMonth($event.target.value, 'issue')" formControlName='issueMonth'>
                 <option value="undefined">MM</option>
-                <option *ngFor="let month of months">{{month.name}}</option>
+                <option *ngFor="let month of issueMonths">{{month.name}}</option>
               </select>
             </div>
             <div class="col-4">
@@ -90,7 +90,7 @@
               <select id="inputState" class="form-control" placeholder="MM" name="issueMonthArabic" 
               [(ngModel)]="selectedIssueMonthAr" (change)="selectMonth($event.target.value, 'issue')" formControlName='issueMonthArabic'>
                 <option value="undefined">MM</option>
-                <option *ngFor="let month of months">{{month.arabicName}}</option>
+                <option *ngFor="let month of issueMonths">{{month.arabicName}}</option>
               </select>
             </div>
             <div class="col-4">
@@ -121,7 +121,7 @@
               <select id="inputState" class="form-control" placeholder="MM" name="expireMonth"
               [(ngModel)]="selectedExpireMonth" (change)="selectMonth($event.target.value, 'expire')" formControlName='expireMonth'>
                 <option value="undefined">MM</option>
-                <option *ngFor="let month of months">{{month.name}}</option>
+                <option *ngFor="let month of expiryMonths">{{month.name}}</option>
               </select>
             </div>
             <div class="col-4">
@@ -150,7 +150,7 @@
               <select id="inputState" class="form-control" placeholder="MM" name="expireMonthArabic"
               [(ngModel)]="selectedExpireMonthAr" (change)= "selectMonth($event.target.value, 'expire')" formControlName='expireMonthArabic'>
                 <option value="undefined">MM</option>
-                <option *ngFor="let month of months">{{month.arabicName}}</option>
+                <option *ngFor="let month of expiryMonths">{{month.arabicName}}</option>
               </select>
             </div>
             <div class="col-4">
@@ -631,13 +631,13 @@
     </div> -->
 
     <div class="contact-btn mt-5">
-    <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" 
+    <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" 
         [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length">
-        <span>{{btnLabelBaseLanguage}}</span> / <span>{{btnLabelOtherLanguage}}</span>
-     </button>
-    <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
-      <span>{{btnLabelBaseLanguage}}</span> / <span>{{btnLabelOtherLanguage}}</span>
-    </button> -->
+       <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
+     </button> -->
+    <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
+      <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
+    </button>
     </div>
   </form>
 
