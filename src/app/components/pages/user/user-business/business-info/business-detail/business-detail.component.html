@@ -61,7 +61,7 @@
               <select id="inputState" class="form-control" placeholder="MM" name="issueMonth" 
               [(ngModel)]="selectedIssueMonth" (change)="selectMonth($event.target.value, 'issue')" formControlName='issueMonth'>
                 <option value="undefined">MM</option>
-                <option *ngFor="let month of issueMonths">{{month.name}}</option>
+                <option *ngFor="let month of issueMonths" [selected]='month.name == selectedIssueMonth'>{{month.name}}</option>
               </select>
             </div>
             <div class="col-4">
@@ -75,7 +75,7 @@
 
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide"> 
+      <div class="col-lg-6 col-md-6 col-sm-12"> 
         <div class="form-group dir-otherLanguage">
           <label for="Trade-License">{{issueDateLabelOtherLanguage}}</label>
           <div class="row">
@@ -90,7 +90,7 @@
               <select id="inputState" class="form-control" placeholder="MM" name="issueMonthArabic" 
               [(ngModel)]="selectedIssueMonthAr" (change)="selectMonth($event.target.value, 'issue')" formControlName='issueMonthArabic'>
                 <option value="undefined">MM</option>
-                <option *ngFor="let month of issueMonths">{{month.arabicName}}</option>
+                <option *ngFor="let month of issueMonths" [selected]='month.arabicName == selectedIssueMonthAr'>{{month.arabicName}}</option>
               </select>
             </div>
             <div class="col-4">
@@ -121,7 +121,7 @@
               <select id="inputState" class="form-control" placeholder="MM" name="expireMonth"
               [(ngModel)]="selectedExpireMonth" (change)="selectMonth($event.target.value, 'expire')" formControlName='expireMonth'>
                 <option value="undefined">MM</option>
-                <option *ngFor="let month of expiryMonths">{{month.name}}</option>
+                <option *ngFor="let month of expiryMonths" [selected]='month.name == selectedExpireMonth'>{{month.name}}</option>
               </select>
             </div>
             <div class="col-4">
@@ -135,7 +135,7 @@
 
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
+      <div class="col-lg-6 col-md-6 col-sm-12" >
         <div class="form-group dir-otherLanguage">
           <label for="Trade-License">{{expiryDateLabelOtherLanguage}}</label>
           <div class="row">
@@ -150,7 +150,7 @@
               <select id="inputState" class="form-control" placeholder="MM" name="expireMonthArabic"
               [(ngModel)]="selectedExpireMonthAr" (change)= "selectMonth($event.target.value, 'expire')" formControlName='expireMonthArabic'>
                 <option value="undefined">MM</option>
-                <option *ngFor="let month of expiryMonths">{{month.arabicName}}</option>
+                <option *ngFor="let month of expiryMonths"[selected]='month.arabicName == selectedExpireMonthAr'>{{month.arabicName}}</option>
               </select>
             </div>
             <div class="col-4">

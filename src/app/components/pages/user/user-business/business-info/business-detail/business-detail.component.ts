@@ -899,7 +899,7 @@ export class BusinessDetailComponent implements OnInit {
       if (date && date != 'undefined') {
         let selectedDate = this.issueDates.find(obj => (obj.dateNormal == date || obj.dateArabic == date));
         this.IssueDate = selectedDate;
-        this.datenMonthValidator(date, type)
+        this.datenMonthValidator(selectedDate.dateNormal, type)
         this.selectedIssueDate = selectedDate.dateNormal;
         this.selectedIssueDateAr = selectedDate.dateArabic;
       }
@@ -915,7 +915,7 @@ export class BusinessDetailComponent implements OnInit {
       if (date && date != 'undefined') {
         let selectedDate = this.expiryDates.find(obj => (obj.dateNormal == date || obj.dateArabic == date));
         this.ExpireDate = selectedDate;
-        this.datenMonthValidator(date, type)
+        this.datenMonthValidator(selectedDate.dateNormal, type)
         this.selectedExpireDate = selectedDate.dateNormal;
         this.selectedExpireDateAr = selectedDate.dateArabic;
         
@@ -931,31 +931,29 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   datenMonthValidator(date, type){
-    if(type== 'issue'){
+    
+    if(type == 'issue'){
     if(date >= 30){
       for(let key in this.dateValObj){
-        if (key == date && date !=30){
+        if (key == date && date != 30){
           this.issueMonths = this.dateValObj[key];
           return;
         }
         else if (key == date && date == 30){
           let arr = this.dateValObj[key].concat(this.dateValObj[31]);
           this.issueMonths = arr.sort((a,b)=>{
-              return this.months.indexOf(a) > this.months.indexOf(b);
+              return arr.indexOf(a) > arr.indexOf(b);
           });
           console.log(this.issueMonths,'sjjWW', arr)
           return;
         }
-        // else {
-        //   this.issueMonths = this.dateValObj.allMonths;
-        // }
       }
     }
     else{
       this.issueMonths = this.dateValObj.allMonths;
     }
     }
-    if (type == 'expire') {
+    else if (type == 'expire') {
       if (date >= 30) {
         for (let key in this.dateValObj) {
           if (key == date && date != 30) {
