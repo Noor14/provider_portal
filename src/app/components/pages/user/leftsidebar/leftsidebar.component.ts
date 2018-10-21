@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SharedService } from '../../../../services/shared.service';
 
 @Component({
@@ -10,13 +10,17 @@ export class LeftsidebarComponent implements OnInit {
 
 
   public percentProgress: number = 0;
+  
+  @ViewChild('progresCircle') public progress : ElementRef;
+  
   constructor(
-    private _sharedService: SharedService,
+    private _sharedService: SharedService
   ) { }
 
   ngOnInit() {
     this._sharedService.formProgress.subscribe(state => {
         this.percentProgress = state;
+        this.progress.nativeElement.attributes["data-progress"].nodeValue = this.percentProgress;
     })
   }
 

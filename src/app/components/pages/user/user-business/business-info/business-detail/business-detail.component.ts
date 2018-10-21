@@ -939,7 +939,11 @@ export class BusinessDetailComponent implements OnInit {
           return;
         }
         else if (key == date && date == 30){
-          this.issueMonths = this.dateValObj[key].concat(this.dateValObj[31]);
+          let arr = this.dateValObj[key].concat(this.dateValObj[31]);
+          this.issueMonths = arr.sort((a,b)=>{
+              return this.months.indexOf(a) > this.months.indexOf(b);
+          });
+          console.log(this.issueMonths,'sjjWW', arr)
           return;
         }
         // else {
@@ -958,7 +962,7 @@ export class BusinessDetailComponent implements OnInit {
             this.expiryMonths = this.dateValObj[key];
           }
           else if (key == date && date == 30) {
-            this.issueMonths = this.dateValObj[key].concat(this.dateValObj[31]);
+            this.expiryMonths = this.dateValObj[key].concat(this.dateValObj[31]);
             return;
           }
         }

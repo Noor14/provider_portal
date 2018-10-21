@@ -23,8 +23,11 @@ import { DocumentUpload } from '../../../../../../interfaces/document.interface'
 })
 export class DirectorinfoComponent implements OnInit {
 
-  public showTranslatedLangSide: boolean;
 
+  public showTranslatedLangSide: boolean;
+  public activeIds = ["directorInfo", "managementInfo"];
+  public panelObj: any = {};
+  public panelObjDr: any = {};
   public selectedDocx: any[] = [];
   private sharedConfig: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', , 'pdf', 'bmp'],
@@ -191,6 +194,36 @@ export class DirectorinfoComponent implements OnInit {
       this.formOneObj = state;
     });
   }
+  
+  
+  
+  panelChanger(event){
+    if(event.panelId == 'directorInfo'){
+       this.panelObjDr = {
+      panelId:event.panelId,
+      openState: event.nextState
+    }
+    }
+      else{
+       this.panelObj = {
+      panelIdMang:event.panelId,
+      openState: event.nextState
+    }
+    }
+  
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   jobType(type) {
     if (type && type != 'undefined') {

@@ -2,11 +2,12 @@
 
   <h2> Business Profile </h2>
   <p>It takes only a few minutes to add your business and get started</p>
-  <ngb-accordion [closeOthers]="true" activeIds="directorInfo">
+  <ngb-accordion  [activeIds]="activeIds" (panelChange)="panelChanger($event)">
     <ngb-panel id="directorInfo">
       <ng-template ngbPanelTitle>
           <h5>
-            <i class="fa fa-angle-down"></i> Directors Info
+            <i class="fa fa-angle-up" 
+            [ngClass]="{'arrow-down' : (panelObjDr.panelId == 'directorInfo' && !panelObjDr.openState)}"></i> Directors Info
           </h5>
       </ng-template>
       <ng-template ngbPanelContent>
@@ -170,7 +171,8 @@
     <ngb-panel id="managementInfo">
       <ng-template ngbPanelTitle>
           <h5>
-              <i class="fa fa-angle-down"></i> Management Info
+              <i class="fa fa-angle-up"
+              [ngClass]="{'arrow-down' : (panelObj.panelIdMang =='managementInfo' && !panelObj.openState)}"></i> Management Info
           </h5>
       </ng-template>
       <ng-template ngbPanelContent>
