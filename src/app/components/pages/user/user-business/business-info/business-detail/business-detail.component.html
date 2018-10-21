@@ -75,7 +75,7 @@
 
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12"> 
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide"> 
         <div class="form-group dir-otherLanguage">
           <label for="Trade-License">{{issueDateLabelOtherLanguage}}</label>
           <div class="row">
@@ -135,7 +135,7 @@
 
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12" >
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="Trade-License">{{expiryDateLabelOtherLanguage}}</label>
           <div class="row">
@@ -156,7 +156,7 @@
             <div class="col-4">
               <select id="inputState" class="form-control" name="expiryYearArabic" 
               [(ngModel)]="selectedExpiryYearAr" (change)="selectYear($event.target.value, 'expire')" formControlName='expiryYearArabic'>
-                <option selected>YYYY</option>
+                <option value="undefined">YYYY</option>
                 <option *ngFor="let year of futureYears">{{year.yearArabic}}</option>
               </select>
             </div>
