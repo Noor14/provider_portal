@@ -18,6 +18,9 @@ export const ValidateEmail = (email: string): boolean => {
     }
     return true
   }
+  export function leapYear(year){
+     return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+  }
 
 export function CustomValidator(control: AbstractControl) {
     if (this.showTranslatedLangSide) {

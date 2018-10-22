@@ -9,7 +9,7 @@ import { } from '@types/googlemaps';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../../../../../services/common.service';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../../directives/ng-files';
-import { CustomValidator, ValidateEmail, EMAIL_REGEX } from '../../../../../../constants/globalFunctions'
+import { CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear } from '../../../../../../constants/globalFunctions'
 import { UserBusinessService } from '../../user-business.service';
 
 @Component({
@@ -1179,13 +1179,34 @@ issueValidate(date, type, from){
       }
     }
   }
-
+// leapvalid(type){
+//   if(type=='issue'){
+//     if(this.selectedIssueDate !=undefined && this.selectedIssueDate == 29 &&  this.selectedIssueYear !=undefined){
+//       if(!leapYear(this.selectedIssueYear)){
+//         let index= this.issueMonths.map(obj=>obj.name).indexOf('Feb');
+//         this.issueMonths.splice(0,index);
+//       }
+//        else{
+//          this.issueMonths =this.months;
+//        }
+//     }
+//   }
+ 
+// }
 monthndatefill(val ,type){
   if(type == 'year'){
   if(val !=undefined && val == this.date.getFullYear()){
-    this.getDates(this.date.getDate(), 'issue')
     let months =  Object.assign([], this.months);
     this.issueMonths = months.slice(0, this.date.getMonth()+1);
+    if(!this.selectedIssueMonth){
+     this.getDates(this.date.getDate(), 'issue');
+    }
+    else if(this.selectedIssueMonth){
+      let ind = this.months.map(obj=>obj.name).indexOf(this.selectedIssueMonth);
+      if(ind == this.date.getMonth()){
+      this.getDates(this.date.getDate(), 'issue');
+      }
+    }
   }
     else{
     this.getDates(31, 'issue');
