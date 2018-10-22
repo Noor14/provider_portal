@@ -1209,7 +1209,7 @@ monthndatefill(val ,type){
     }
   }
     else{
-    this.getDates(31, 'issue');
+    // this.getDates(31, 'issue');
     this.issueMonths = Object.assign([], this.months);
     
   }
@@ -1219,11 +1219,11 @@ monthndatefill(val ,type){
       let index = this.months.map(obj => obj.name).indexOf(val);
       if(index == this.date.getMonth()) this.getDates(this.date.getDate(), 'issue')
     }
-    else{
-    this.getDates(31, 'issue');
-    this.issueMonths = Object.assign([], this.months);
+  //   else{
+  //   this.getDates(31, 'issue');
+  //   this.issueMonths = Object.assign([], this.months);
     
-  }
+  // }
   }
 
 }
