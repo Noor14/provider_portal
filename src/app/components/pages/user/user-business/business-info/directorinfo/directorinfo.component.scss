@@ -61,8 +61,10 @@
     }
     .documentInfo {
         margin-bottom: 1.5rem;
-        background: $white-color;
+        background: $modal-header-background;
         padding: 20px;
+        border: 1px solid #e9ecf0;
+        border-radius: 4px !important;
         h6,
         p {
             span:nth-child(2) {
@@ -85,6 +87,7 @@
         }
         .file-uploader {
             padding: 25px;
+            background: $white-color;
             border: 1px dashed #e1d8d8;
             text-align: center;
             .drag-support {
