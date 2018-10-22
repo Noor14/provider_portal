@@ -24,9 +24,6 @@ import { ScrollbarComponent } from 'ngx-scrollbar';
 })
 export class BusinessInfoComponent implements OnInit {
 
-  @ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
-  @ViewChild(ScrollbarComponent) scrollReftwo: ScrollbarComponent;
-
   isLeftVisible = true;
   constructor(
     private _sharedService: SharedService,

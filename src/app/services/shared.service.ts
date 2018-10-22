@@ -18,6 +18,7 @@ export class SharedService {
   private userLocation = new BehaviorSubject<any>(null);
   public getLocation = this.userLocation.asObservable();
   
+  public formChanger = new BehaviorSubject<boolean>(true);
   public formProgress = new BehaviorSubject<number>(0)
   public formChange = new BehaviorSubject<boolean>(true)
 

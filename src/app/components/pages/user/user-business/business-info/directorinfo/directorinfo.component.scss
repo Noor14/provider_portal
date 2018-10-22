@@ -50,10 +50,15 @@
         h5 {
             color: #212529;
             text-decoration: none;
-        }
-        .fa-angle-down {
-            font-size: 1.2rem;
-            margin-right: 1rem;
+            .fa-angle-up {
+                font-size: 1.2rem;
+                margin-right: 1rem;
+                transition: ease-in 0.5s;
+                &.arrow-down {
+                    transition: ease-in 0.5s;
+                    transform: rotate(180deg);
+                }
+            }
         }
     }
     .documentInfo {
@@ -77,6 +82,17 @@
                 color: $text-grey;
             }
         }
+        .fancyRadioBoxes {
+            label {
+                font-size: $font-size-large !important;
+                line-height: 1;
+            }
+            &.dir-otherLanguage {
+                label {
+                    font-family: $font-NeoSansArabic-Regular;
+                }
+            }
+        }
     }
 }
 
@@ -88,6 +104,9 @@
         padding-top: 0.59rem;
     }
     a {
+        span:nth-child(2) {
+            font-family: $font-NeoSansArabic-Regular;
+        }
         @extend p;
         &:hover {
             text-decoration: none;
@@ -108,5 +127,4 @@
             font-family: $font-NeoSansArabic-Regular;
         }
     }
-
 }

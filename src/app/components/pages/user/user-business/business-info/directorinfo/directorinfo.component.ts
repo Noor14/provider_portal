@@ -23,8 +23,11 @@ import { DocumentUpload } from '../../../../../../interfaces/document.interface'
 })
 export class DirectorinfoComponent implements OnInit {
 
-  public showTranslatedLangSide: boolean;
 
+  public showTranslatedLangSide: boolean;
+  public activeIds = ["directorInfo", "managementInfo"];
+  public panelObj: any = {};
+  public panelObjDr: any = {};
   public selectedDocx: any[] = [];
   private sharedConfig: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', , 'pdf', 'bmp'],
@@ -108,6 +111,32 @@ export class DirectorinfoComponent implements OnInit {
   public selectedjobDesgAr;
   public desgType;
 
+  public directorNameBaseLanguage
+  public directorNameOtherLanguage;
+  public managementNameBaseLanguage
+  public managementNameOtherLanguage;
+  public firstNameBaseLanguage
+  public firstNameOtherLanguage;
+  public lastNameBaseLanguage
+  public lastNameOtherLanguage;
+  public emailLblBaseLanguage
+  public emailLblOtherLanguage;
+  public mobLblBaseLanguage
+  public mobLblOtherLanguage;
+  public jobtitleLblBaseLanguage;
+  public jobtitleLblOtherLanguage;
+  public addmoreLblBaseLanguage
+  public addmoreLblOtherLanguage;
+  public textBackbtnBaseLanguage;
+  public textBackbtnOtherLanguage;
+  public textbtnSubmitBaseLanguage
+  public textbtnSubmitOtherLanguage;
+  public identityLblBaseLanguage;
+  public identityLblOtherLanguage;
+  public identityTypeLblBaseLanguage;
+  public identityTypeLblOtherLanguage;
+
+
   directorForm;
   managementForm;
 
@@ -127,6 +156,7 @@ export class DirectorinfoComponent implements OnInit {
 
   ngOnInit() {
     this.ngFilesService.addConfig(this.sharedConfig, 'config');
+    this.getLabels();
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnObject) {
       this.userProfile = userInfo.returnObject;
@@ -191,6 +221,86 @@ export class DirectorinfoComponent implements OnInit {
       this.formOneObj = state;
     });
   }
+  
+  getLabels() {
+    this._sharedService.businessProfileJsonLabels.subscribe((state: any) => {
+      if (state) {
+        let data = state;
+        console.log(data, 'translation')
+        data.forEach(element => {
+          if (element.keyCode == "lbl_DirectorInfo") {
+            this.directorNameBaseLanguage = element.baseLang;
+            this.directorNameOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_ManagementInfo") {
+            this.managementNameBaseLanguage = element.baseLang;
+            this.managementNameOtherLanguage = element.otherLang;
+          }
+
+         else if (element.keyCode == "lbl_FirstName") {
+            this.firstNameBaseLanguage = element.baseLang;
+            this.firstNameOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_LastName") {
+            this.lastNameBaseLanguage = element.baseLang;
+            this.lastNameOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_Email") {
+            this.emailLblBaseLanguage = element.baseLang;
+            this.emailLblOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_Mobile") {
+            this.mobLblBaseLanguage = element.baseLang;
+            this.mobLblOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_JobTitle") {
+            this.jobtitleLblBaseLanguage = element.baseLang;
+            this.jobtitleLblOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == 'lbl_Identity'){
+            this.identityLblBaseLanguage = element.baseLang;
+            this.identityLblOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == 'lbl_IdType') {
+            this.identityTypeLblBaseLanguage = element.baseLang;
+            this.identityTypeLblOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_AddMore") {
+            this.addmoreLblBaseLanguage = element.baseLang;
+            this.addmoreLblOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "btn_Back") {
+            this.textBackbtnBaseLanguage = element.baseLang;
+            this.textBackbtnOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "btn_Submit") {
+            this.textbtnSubmitBaseLanguage = element.baseLang;
+            this.textbtnSubmitOtherLanguage = element.otherLang;
+          }
+         
+        });
+      }
+    });
+
+  }
+  
+  panelChanger(event){
+    if(event.panelId == 'directorInfo'){
+       this.panelObjDr = {
+      panelId:event.panelId,
+      openState: event.nextState
+    }
+    }
+      else{
+       this.panelObj = {
+      panelIdMang:event.panelId,
+      openState: event.nextState
+    }
+    }
+  
+  }
+  
+
 
   jobType(type) {
     if (type && type != 'undefined') {
@@ -535,9 +645,9 @@ export class DirectorinfoComponent implements OnInit {
   submitBusinessInfo() {
 
     const { license, logo } = this.formOneObj
-
+    
     this.uploadDocs.forEach(docObj => {
-      // docObj.
+ 
       if (docObj.BusinessLogic === 'COMPANY_LOGO') {
         docObj.DocumentFileContent = license.fileBaseString
         docObj.DocumentName = license.fileName
@@ -568,17 +678,17 @@ export class DirectorinfoComponent implements OnInit {
         faxNo: this.formOneObj.contactInfoForm.fax,
         managementInfo: [
           {
-            jobTitleID: 0,
-            firstName: "string",
-            lastName: "string"
+            jobTitleID: this.desgType.ID,
+            firstName: this.managementForm.value.firstName,
+            lastName: this.managementForm.value.lastName
           }
         ],
         directorInfo: [
           {
-            firstName: "string",
-            lastName: "string",
-            email: "string",
-            mobileNo: "string"
+            firstName: this.directorForm.value.firstName,
+            lastName: this.directorForm.value.lastName,
+            email: this.directorForm.value.email,
+            mobileNo:this.phoneCode + this.directorForm.value.phone
           }
         ]
       },
@@ -595,17 +705,17 @@ export class DirectorinfoComponent implements OnInit {
         faxNo: this.formOneObj.contactInfoForm.transLangFax,
         managementInfo: [
           {
-            jobTitleID: 0,
-            firstName: "string",
-            lastName: "string"
+            jobTitleID: this.desgType.ID,
+            firstName: this.managementForm.value.transLangfirstName,
+            lastName: this.managementForm.value.transLanglastName
           }
         ],
         directorInfo: [
           {
-            firstName: "string",
-            lastName: "string",
-            email: "string",
-            mobileNo: "string"
+            firstName: this.directorForm.value.transLangfirstName,
+            lastName: this.directorForm.value.transLanglastName,
+            email: this.directorForm.value.transLangEmail,
+            mobileNo: this.directorForm.value.transLangPhone,
           }
         ]
       },

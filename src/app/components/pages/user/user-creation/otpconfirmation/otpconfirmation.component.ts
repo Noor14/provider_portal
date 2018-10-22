@@ -5,6 +5,7 @@ import { UserService } from '../../user.service';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../../../../../services/shared.service';
 import { UserCreationService } from '../user-creation.service';
+import { loading } from '../../../../../constants/globalFunctions';
 
 
 @Component({
@@ -64,6 +65,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
   getlabelsDescription(obj){
     this._userService.getlabelsDescription('otp').subscribe((res:any)=>{
       if(res.returnStatus =='Success'){
+        loading(false);
        this.headingBaseLanguage = res.returnObject[0].baseLang.replace('{firstName}', obj.FirstName);
        this.headingOtherLanguage = res.returnObject[0].otherLang.replace('{firstName}', obj.FirstNameOL);
        this.descBaseLanguage = res.returnObject[1].baseLang.replace('{emailAddress}', obj.PrimaryEmail);
@@ -74,6 +76,9 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
        this.otpbtnOtherlang = res.returnObject[3].otherLang;
        this.otpResendBaselang = res.returnObject[4].baseLang;
        this.otpResendOtherlang = res.returnObject[4].otherLang;
+      }
+      else if(res.returnStatus == "Error"){
+        loading(false);
       }
     })
   }
@@ -110,6 +115,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
     }
   }
  UserInfofromOtp(keyCode){
+   loading(true)
     this._userCreationService.getUserInfoByOtp(keyCode).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
       this.userInfo = JSON.parse(res.returnObject);
@@ -128,6 +134,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
   // }
 
   resendOtp(){ 
+    loading(true);
     let obj= {
       LanguageID: this.userInfo.LanguageID,
       key: this.userInfo.Key,
@@ -138,6 +145,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
     };
     this._userCreationService.resendOtpCode(obj).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
+        loading(false);
         console.log(res.returnObject.otpCode);
         this.userInfo.OTPCode = res.returnObject.otpCode;
         this.userInfo.Timer = res.returnObject.timer;
@@ -147,9 +155,13 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
           this.countDown(this.userInfo.Timer); 
         }
       }
+      else if (res.returnStatus == "Error") {
+        loading(false);
+      }
     })
   }
   submitOtp(){
+    loading(true);
     let obj= {
       otpid: this.userInfo.OTPID,
       key: this.userInfo.Key,
@@ -157,7 +169,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
     };
     this._userCreationService.sendOtpCode(obj).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
-        console.log(res);
+        loading(false);
         this._toast.success(res.returnText,'');
         let otpKey = JSON.parse(res.returnObject);
         if(otpKey)
@@ -165,7 +177,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
         
       }
       else if(res.returnStatus == "Error"){
-        console.log(res);
+        loading(false);
         this._toast.error(res.returnText,'');
       }
     })

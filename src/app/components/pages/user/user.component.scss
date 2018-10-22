@@ -9,13 +9,10 @@
             background: #243748;
             .card {
                 &-body {
-               
                     p {
                         font-family: $font-pragmatica;
                         font-size: 1rem;
                         margin-bottom: 0.5rem;
-
-              
                         a {
                             color: $color-white;
                             &:hover {
@@ -25,7 +22,7 @@
                     }
                     small {
                         font-size: 0.75rem;
-                        letter-spacing:1px;
+                        letter-spacing: 1px;
                         font-family: $font-proxima;
                         text-transform: uppercase;
                         opacity: 0.502;
@@ -33,7 +30,7 @@
                     }
                     color:$color-white;
                     background:#243748;
-                    padding: 18px 20px 10px 5px;
+                    padding: 20px 20px 20px 5px;
                 }
             }
         }

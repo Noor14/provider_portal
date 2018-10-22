@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { loading } from '../../constants/globalFunctions';
 
 @Component({
   selector: 'app-pages',
@@ -11,5 +12,7 @@ export class PagesComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  ngAfterViewInit() {
+    loading(false);
+  }
 }
