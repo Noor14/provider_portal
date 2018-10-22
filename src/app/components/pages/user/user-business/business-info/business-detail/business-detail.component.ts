@@ -250,6 +250,8 @@ export class BusinessDetailComponent implements OnInit {
   public userProfile;
 
 
+  public socialSites;
+  public socialInputValidate;
 
 
   //--------------- labels
@@ -388,6 +390,8 @@ export class BusinessDetailComponent implements OnInit {
       transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
       fax: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
       transLangFax: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
+      socialUrl: new FormControl(null, [Validators.required, Validators.minLength(15), Validators.maxLength(25)]),
+      socialUrlOther: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(15), Validators.maxLength(25)]),
 
     });
 
@@ -1142,6 +1146,19 @@ export class BusinessDetailComponent implements OnInit {
     return true;
   }
 
+  socialLinkValidate(){
+    let title = 'Website';
+    if (this.socialSites && this.selectedSocialsite && this.selectedSocialsite.title){
+      let index = this.selectedSocialsite.title.toLowerCase().indexOf(this.socialSites.toLowerCase());
+    this.socialInputValidate =  (index < 0)? 'Your social url is not valid':'';
+    }
+    else{
+      let index = title.toLowerCase().indexOf(this.socialSites.toLowerCase());
+      this.socialInputValidate = (index < 0) ? 'Your social url is not valid' : ''; 
+    }
+  }
+
+
   selectPhoneCode(list) {
     this.countryFlagImage = list.code;
     let description = list.desc;
@@ -1405,7 +1422,8 @@ export class BusinessDetailComponent implements OnInit {
 
   selectedSocialLink(obj, index) {
     this.selectedSocialsite = obj;
-    console.log(obj)
+    this.socialLinkValidate();
+
   }
 
 }
