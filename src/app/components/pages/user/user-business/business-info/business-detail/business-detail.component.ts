@@ -1198,10 +1198,7 @@ monthndatefill(val ,type){
   if(val !=undefined && val == this.date.getFullYear()){
     let months =  Object.assign([], this.months);
     this.issueMonths = months.slice(0, this.date.getMonth()+1);
-    if(!this.selectedIssueMonth){
-     this.getDates(this.date.getDate(), 'issue');
-    }
-    else if(this.selectedIssueMonth){
+    if(this.selectedIssueMonth){
       let ind = this.months.map(obj=>obj.name).indexOf(this.selectedIssueMonth);
       if(ind == this.date.getMonth()){
       this.getDates(this.date.getDate(), 'issue');
@@ -1217,13 +1214,17 @@ monthndatefill(val ,type){
   else if(type=='month'){
     if(val !=undefined){
       let index = this.months.map(obj => obj.name).indexOf(val);
-      if(index == this.date.getMonth()) this.getDates(this.date.getDate(), 'issue')
+      if(index == this.date.getMonth()) this.getDates(this.date.getDate(), 'issue');
+      if (this.selectedIssueYear == this.date.getFullYear()){
+        let months = Object.assign([], this.months);
+        this.issueMonths = months.slice(0, this.date.getMonth() + 1);
+      }
     }
-  //   else{
-  //   this.getDates(31, 'issue');
-  //   this.issueMonths = Object.assign([], this.months);
+    else{
+    // this.getDates(31, 'issue');
+    this.issueMonths = Object.assign([], this.months);
     
-  // }
+  }
   }
 
 }
