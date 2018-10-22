@@ -399,6 +399,7 @@ export class BusinessDetailComponent implements OnInit {
     this._sharedService.businessProfileJsonLabels.subscribe((state: any) => {
       if (state) {
         let data = state;
+        console.log(data,'translation')
         data.forEach(element => {
 
           if (element.keyCode == "lbl_Heading") {

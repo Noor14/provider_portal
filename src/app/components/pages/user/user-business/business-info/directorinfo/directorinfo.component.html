@@ -15,7 +15,7 @@
           <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-12">
                 <div class="form-group">
-                  <label for="first name">First Name</label>
+                  <label for="first name">{{firstNameBaseLanguage}}</label>
                   <input type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': firstNameError && directorForm.controls['firstName'].errors}" (focusout)="errorValidate()" (blur)="activeFirstName=false" (focus)="firstNameError=false; activeFirstName=true" (ngModelChange)="onModelChange(activeTransFirstName, activeFirstName, 'transLangfirstName', 'en', 'ar' ,$event)" class="form-control" placeholder="eg: John" formControlName="firstName">
                   <span *ngIf="firstNameError && directorForm.controls['firstName'].errors">
                     <p class="inputError animated fadeIn" *ngIf="directorForm.controls['firstName'].hasError('required') && (directorForm.controls.firstName.dirty || directorForm.controls.firstName.touched)">{{requiredFields}}</p>
@@ -28,7 +28,7 @@
         
               <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
                 <div class="form-group dir-otherLanguage">
-                  <label for="first name">الاسم الاول </label>
+                  <label for="first name">{{firstNameOtherLanguage}}</label>
                   <input type="text" maxlength="100" class="form-control" id="rightFirstName" [ngClass]="{'inputError': transfirstNameError && directorForm.controls['transLangfirstName'].errors}" (focusout)="errorValidate()" (blur)="activeTransFirstName=false" (focus)="transfirstNameError=false; activeTransFirstName=true" (ngModelChange)="onTransModel(activeFirstName, activeTransFirstName, 'firstName' ,$event)"  placeholder="المثال : جون" formControlName= "transLangfirstName">
                   <span *ngIf="transfirstNameError && directorForm.controls['transLangfirstName'].errors">
                     <p class="inputError animated fadeIn" *ngIf="directorForm.controls['transLangfirstName'].hasError('required') && (directorForm.controls.transLangfirstName.dirty || directorForm.controls.transLangfirstName.touched)">{{requiredFieldsOthrLng}}</p>
@@ -42,7 +42,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12">
                   <div class="form-group">
-                    <label for="last name">Last Name</label>
+                    <label for="last name">{{lastNameBaseLanguage}}</label>
                     <input type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': lastNameError && directorForm.controls['lastName'].errors}" (focusout)="errorValidate()" (blur)="activeLastName=false" (focus)="lastNameError=false; activeLastName=true" (ngModelChange)="onModelChange(activeTransLastName, activeLastName, 'transLanglastName', 'en', 'ar' ,$event)" class="form-control" id="leftLastName" placeholder="eg: Smith" formControlName="lastName">
                     <span *ngIf="lastNameError && directorForm.controls['lastName'].errors">
                       <p class="inputError animated fadeIn" *ngIf="directorForm.controls['lastName'].hasError('required') && (directorForm.controls.lastName.dirty || directorForm.controls.lastName.touched)">{{requiredFields}}</p>
@@ -55,7 +55,7 @@
           
                 <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
                   <div class="form-group dir-otherLanguage">
-                    <label for="last name">الاسم الاخير</label>
+                    <label for="last name">{{lastNameOtherLanguage}}</label>
                     <input type="text" maxlength="100" class="form-control" id="leftLastName" placeholder="المثال : سمىت" [ngClass]="{'inputError': translastNameError && directorForm.controls['transLanglastName'].errors}" (focusout)="errorValidate()" (blur)="activeTransLastName=false" (focus)="translastNameError=false; activeTransLastName=true" (ngModelChange)="onTransModel(activeLastName, activeTransLastName, 'lastName' ,$event)" formControlName="transLanglastName">
                     <span *ngIf="translastNameError && directorForm.controls['transLanglastName'].errors">
                       <p class="inputError animated fadeIn" *ngIf="directorForm.controls['transLanglastName'].hasError('required') && (directorForm.controls.transLanglastName.dirty || directorForm.controls.transLanglastName.touched)">{{requiredFieldsOthrLng}}</p>
@@ -69,7 +69,7 @@
               <div class="row">
                   <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group">
-                      <label>Mobile No</label>
+                      <label>{{mobLblBaseLanguage}}</label>
                       <div class="select-number">
                         <div class="input-group-prepend">
                           <div ngbDropdown>
@@ -103,7 +103,7 @@
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
                     <div class="form-group dir-otherLanguage">
-                        <label>رقم الهاتف المتحرك</label>
+                        <label>{{mobLblOtherLanguage}}</label>
                         <div class="select-number">
                           <div class="input-group-append">
                             <div ngbDropdown>
@@ -140,7 +140,7 @@
                 <div class="row">
                   <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group">
-                      <label for="address">Email Address</label>
+                      <label for="address">{{emailLblBaseLanguage}}</label>
                       <input type="email" autocomplete="nope" (focusout)="errorValidate()" (focus)="EmailError=false" [ngClass]="{'inputError': EmailError && directorForm.controls['email'].errors}" (keypress)="spaceHandler($event)" class="form-control" [(ngModel)]="transLangEmail" placeholder="eg: john@company.com" formControlName="email">
                       <span *ngIf="EmailError && directorForm.controls['email'].errors">
                           <p class="inputError animated fadeIn" *ngIf="directorForm.controls['email'].hasError('required') && (directorForm.controls.email.dirty || directorForm.controls.email.touched)">{{requiredFields}}</p>
@@ -151,7 +151,7 @@
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
                     <div class="form-group dir-otherLanguage">
-                      <label for="address">البريد الإلكتروني</label>
+                      <label for="address">{{emailLblOtherLanguage}}</label>
                       <input type="email" class="form-control" placeholder="eg: john@company.com" (focusout)="errorValidate()" (focus)="transEmailError=false" [ngClass]="{'inputError': transEmailError && directorForm.controls['transLangEmail'].errors}" (keypress)="spaceHandler($event)" [(ngModel)]="transLangEmail" formControlName="transLangEmail">
                       <span *ngIf="transEmailError && directorForm.controls['transLangEmail'].errors">
                           <p class="inputError animated fadeIn" *ngIf="directorForm.controls['transLangEmail'].hasError('required') && (directorForm.controls.transLangEmail.dirty || directorForm.controls.transLangEmail.touched)">{{requiredFieldsOthrLng}}</p>
@@ -177,11 +177,10 @@
       </ng-template>
       <ng-template ngbPanelContent>
           <form autocomplete="off" novalidate [formGroup]="managementForm" class="animated fadeIn">
-
               <div class="row justify-content-between">
                 <div class="col-3">
                   <div class="form-group">
-                    <label for="jobType">Job Title </label>
+                    <label for="jobType">{{jobtitleLblBaseLanguage}}</label>
                     <select class="form-control" id="jobType" [(ngModel)]="selectedjobDesg" name="jobDesgType"
                      (change) = "jobType($event.target.value)" formControlName="jobDesgType">
                       <option *ngFor="let list of jobTypeList">{{list.BaseLang}}</option>
@@ -191,7 +190,7 @@
           
                 <div class="col-3" *ngIf="showTranslatedLangSide">
                   <div class="form-group dir-otherLanguage">
-                    <label for="jobTypeAr">المسمى الوظيفي </label>
+                    <label for="jobTypeAr">{{jobtitleLblOtherLanguage}}</label>
                     <select class="form-control" id="jobTypeAr" name="jobDesgTypeAr"
                     [(ngModel)]="selectedjobDesgAr" (change) = "jobType($event.target.value)" formControlName="jobDesgTypeAr">
                         <option *ngFor="let list of jobTypeList">{{list.OtherLang}}</option>
@@ -205,7 +204,7 @@
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12">
                   <div class="form-group">
-                    <label for="first name">First Name</label>
+                    <label for="first name">{{firstNameBaseLanguage}}</label>
                     <input type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': firstNameErrorMng && managementForm.controls['firstName'].errors}" (focusout)="errorValidate()" (blur)="activeFirstNameMng=false" (focus)="firstNameErrorMng=false; activeFirstNameMng=true" (ngModelChange)="onModelChangeMng(activeTransFirstNameMng, activeFirstNameMng, 'transLangfirstName', 'en', 'ar' ,$event)" class="form-control" placeholder="eg: John" formControlName="firstName">
                     <span *ngIf="firstNameErrorMng && managementForm.controls['firstName'].errors">
                       <p class="inputError animated fadeIn" *ngIf="managementForm.controls['firstName'].hasError('required') && (managementForm.controls.firstName.dirty || managementForm.controls.firstName.touched)">{{requiredFields}}</p>
@@ -218,7 +217,7 @@
           
                 <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
                   <div class="form-group dir-otherLanguage">
-                    <label for="first name">الاسم الاول </label>
+                    <label for="first name">{{firstNameOtherLanguage}}</label>
                     <input type="text" maxlength="100" class="form-control" id="rightFirstName" [ngClass]="{'inputError': transfirstNameErrorMng && managementForm.controls['transLangfirstName'].errors}" (focusout)="errorValidate()" (blur)="activeTransFirstNameMng=false" (focus)="transfirstNameErrorMng=false; activeTransFirstNameMng=true" (ngModelChange)="onTransModelMng(activeFirstNameMng, activeTransFirstNameMng, 'firstName' ,$event)"  placeholder="المثال : جون" formControlName= "transLangfirstName">
                     <span *ngIf="transfirstNameErrorMng && managementForm.controls['transLangfirstName'].errors">
                       <p class="inputError animated fadeIn" *ngIf="managementForm.controls['transLangfirstName'].hasError('required') && (managementForm.controls.transLangfirstName.dirty || managementForm.controls.transLangfirstName.touched)">{{requiredFieldsOthrLng}}</p>
@@ -234,7 +233,7 @@
           
                 <div class="col-lg-6 col-md-6 col-sm-12">
                   <div class="form-group">
-                    <label for="first name">Last Name</label>
+                    <label for="first name">{{lastNameBaseLanguage}}</label>
                     <input type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': lastNameErrorMng && managementForm.controls['lastName'].errors}" (focusout)="errorValidate()" (blur)="activeLastNameMng=false" (focus)="lastNameErrorMng=false; activeLastNameMng=true" (ngModelChange)="onModelChangeMng(activeTransLastNameMng, activeLastNameMng, 'transLanglastName', 'en', 'ar' ,$event)" class="form-control" id="leftLastName" placeholder="eg: Smith" formControlName="lastName">
                     <span *ngIf="lastNameErrorMng && managementForm.controls['lastName'].errors">
                       <p class="inputError animated fadeIn" *ngIf="managementForm.controls['lastName'].hasError('required') && (managementForm.controls.lastName.dirty || managementForm.controls.lastName.touched)">{{requiredFields}}</p>
@@ -248,7 +247,7 @@
           
                 <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
                   <div class="form-group dir-otherLanguage">
-                    <label for="first name">الاسم الأخير</label>
+                    <label for="first name">{{lastNameOtherLanguage}}</label>
                     <input type="text" maxlength="100" class="form-control" id="leftLastName" placeholder="المثال : سمىت" [ngClass]="{'inputError': translastNameErrorMng && managementForm.controls['transLanglastName'].errors}" (focusout)="errorValidate()" (blur)="activeTransLastNameMng=false" (focus)="translastNameErrorMng=false; activeTransLastNameMng=true" (ngModelChange)="onTransModelMng(activeLastNameMng, activeTransLastNameMng, 'lastName' ,$event)" formControlName="transLanglastName">
                     <span *ngIf="translastNameErrorMng && managementForm.controls['transLanglastName'].errors">
                       <p class="inputError animated fadeIn" *ngIf="managementForm.controls['transLanglastName'].hasError('required') && (managementForm.controls.transLanglastName.dirty || managementForm.controls.transLanglastName.touched)">{{requiredFieldsOthrLng}}</p>
@@ -263,7 +262,15 @@
 
               <div class="documentInfo d-flex flex-column p-4 mt-3">
                 <div class="docList mt-3 mb-3">
-               
+                  <h6 class="d-flex justify-content-between">
+                  <span>{{identityLblBaseLanguage}} <img class="icon-size-16 ml-1" src="../../../../../../../../assets/images/icons/icon_info.svg"></span>
+                  <span *ngIf="showTranslatedLangSide" class="text-right"><img class="icon-size-16 mr-1" src="../../../../../../../../assets/images/icons/icon_info.svg">
+                    {{identityLblOtherLanguage}}</span>
+                  </h6>
+                  <p class="d-flex justify-content-between">
+                    <span>{{identityTypeLblBaseLanguage}} </span>
+                    <span *ngIf="showTranslatedLangSide" class="text-right"> {{identityTypeLblOtherLanguage}} </span>
+                  </p>
                   <div class="row" *ngFor="let doc of docTypes; let i = index">
                       <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="fancyRadioBoxes">
@@ -318,7 +325,8 @@
   <div class="info_text">
     <a class="text" href="javascript:;" (click)="previousForm()">
       <img alt="icons" class="icon-size-16" src="../../../assets/images/icons/icon_arrow_left.svg">
-      <span>GO BACK </span> <span *ngIf="showTranslatedLangSide">/ الى الخلف</span>
+      <span>{{textBackbtnBaseLanguage}}</span> 
+      <span *ngIf="showTranslatedLangSide"> {{textBackbtnOtherLanguage}}</span>
     </a>
   </div>
 

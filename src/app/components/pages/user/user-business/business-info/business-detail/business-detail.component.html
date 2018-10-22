@@ -630,14 +630,14 @@
         </a> 
     </div> -->
 
-    <div class="contact-btn mt-5">
-    <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" 
+    <div class="contact-btn mt-5"> -->
+  <!--  <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" 
         [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length">
        <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
-     </button>
-    <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
+     </button> -->
+    <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
       <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
-    </button> -->
+    </button>
     </div>
   </form>
 

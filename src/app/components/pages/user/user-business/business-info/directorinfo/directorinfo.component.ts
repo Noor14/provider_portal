@@ -111,6 +111,32 @@ export class DirectorinfoComponent implements OnInit {
   public selectedjobDesgAr;
   public desgType;
 
+  public directorNameBaseLanguage
+  public directorNameOtherLanguage;
+  public managementNameBaseLanguage
+  public managementNameOtherLanguage;
+  public firstNameBaseLanguage
+  public firstNameOtherLanguage;
+  public lastNameBaseLanguage
+  public lastNameOtherLanguage;
+  public emailLblBaseLanguage
+  public emailLblOtherLanguage;
+  public mobLblBaseLanguage
+  public mobLblOtherLanguage;
+  public jobtitleLblBaseLanguage;
+  public jobtitleLblOtherLanguage;
+  public addmoreLblBaseLanguage
+  public addmoreLblOtherLanguage;
+  public textBackbtnBaseLanguage;
+  public textBackbtnOtherLanguage;
+  public textbtnSubmitBaseLanguage
+  public textbtnSubmitOtherLanguage;
+  public identityLblBaseLanguage;
+  public identityLblOtherLanguage;
+  public identityTypeLblBaseLanguage;
+  public identityTypeLblOtherLanguage;
+
+
   directorForm;
   managementForm;
 
@@ -130,6 +156,7 @@ export class DirectorinfoComponent implements OnInit {
 
   ngOnInit() {
     this.ngFilesService.addConfig(this.sharedConfig, 'config');
+    this.getLabels();
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnObject) {
       this.userProfile = userInfo.returnObject;
@@ -195,7 +222,67 @@ export class DirectorinfoComponent implements OnInit {
     });
   }
   
-  
+  getLabels() {
+    this._sharedService.businessProfileJsonLabels.subscribe((state: any) => {
+      if (state) {
+        let data = state;
+        console.log(data, 'translation')
+        data.forEach(element => {
+          if (element.keyCode == "lbl_DirectorInfo") {
+            this.directorNameBaseLanguage = element.baseLang;
+            this.directorNameOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_ManagementInfo") {
+            this.managementNameBaseLanguage = element.baseLang;
+            this.managementNameOtherLanguage = element.otherLang;
+          }
+
+         else if (element.keyCode == "lbl_FirstName") {
+            this.firstNameBaseLanguage = element.baseLang;
+            this.firstNameOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_LastName") {
+            this.lastNameBaseLanguage = element.baseLang;
+            this.lastNameOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_Email") {
+            this.emailLblBaseLanguage = element.baseLang;
+            this.emailLblOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_Mobile") {
+            this.mobLblBaseLanguage = element.baseLang;
+            this.mobLblOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_JobTitle") {
+            this.jobtitleLblBaseLanguage = element.baseLang;
+            this.jobtitleLblOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == 'lbl_Identity'){
+            this.identityLblBaseLanguage = element.baseLang;
+            this.identityLblOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == 'lbl_IdType') {
+            this.identityTypeLblBaseLanguage = element.baseLang;
+            this.identityTypeLblOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_AddMore") {
+            this.addmoreLblBaseLanguage = element.baseLang;
+            this.addmoreLblOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "btn_Back") {
+            this.textBackbtnBaseLanguage = element.baseLang;
+            this.textBackbtnOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "btn_Submit") {
+            this.textbtnSubmitBaseLanguage = element.baseLang;
+            this.textbtnSubmitOtherLanguage = element.otherLang;
+          }
+         
+        });
+      }
+    });
+
+  }
   
   panelChanger(event){
     if(event.panelId == 'directorInfo'){
