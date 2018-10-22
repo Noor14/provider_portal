@@ -1,6 +1,6 @@
 @import '../../../../../../../assets/scss/_variables';
 .business-profile {
-    .arabicLng{
+    .arabicLng {
         font-family: $font-NeoSansArabic-Regular;
     }
     h2 {
@@ -10,16 +10,16 @@
     }
     h5 {
         margin-top: 2.8rem;
-        span:nth-child(2){
+        span:nth-child(2) {
             font-family: $font-NeoSansArabic-Medium;
         }
     }
     .dir-otherLanguage {
-        h2{
+        h2 {
             font-size: $font-size-large + 0.7;
             font-family: $font-NeoSansArabic-Medium;
         }
-        p{
+        p {
             font-family: $font-NeoSansArabic-Regular;
         }
     }
@@ -29,7 +29,7 @@
         background: $white-color;
         height: 60px;
         position: relative;
-        span:nth-child(2){
+        span:nth-child(2) {
             font-family: $font-NeoSansArabic-Regular;
         }
         &.active {
@@ -48,7 +48,6 @@
             }
         }
     }
- 
     .business-map {
         .map-box {
             position: relative;
@@ -66,7 +65,6 @@
     }
     .add-more {
         a {
-      
             font-size: 0.875rem;
             font-family: $font-proxima;
             font-weight: $font-weight-mid;
@@ -74,7 +72,7 @@
             &:hover {
                 text-decoration: none
             }
-            span:last-child{
+            span:last-child {
                 font-family: $font-NeoSansArabic-Regular;
             }
         }
@@ -85,7 +83,6 @@
                 clear: both;
             }
         }
-
         .trade-license-box {
             small {
                 color: #afafaf;
@@ -105,8 +102,13 @@
                 }
             }
             .file-uploader {
-                small {
+                .drag-support {
                     color: $text-grey;
+                    font-size: 0.8em;
+                }
+                .browse-span {
+                    color: $secondary-color;
+                    font-weight: 500;
                 }
                 text-align: center;
                 app-ng-files-drag-n-upload {
@@ -116,7 +118,6 @@
                 }
             }
         }
-        
         .social-accounts {
             .info_text {
                 p {
@@ -129,11 +130,11 @@
         }
     }
     .contact-btn {
-        margin-top:3.5rem;
+        margin-top: 3.5rem;
         .btn {
             font-weight: 600;
             padding: 0.75rem 3.75rem;
-            span:nth-child(2){
+            span:nth-child(2) {
                 font-family: $font-NeoSansArabic-Regular;
             }
         }

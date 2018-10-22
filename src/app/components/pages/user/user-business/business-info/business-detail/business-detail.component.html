@@ -224,8 +224,8 @@
       <div class="file-uploader" *ngIf="!selectedLicense || (selectedLicense && !selectedLicense.fileName)">
          <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'license')" [configId]="'docConfig'">
             <img src="../../../assets/images/icons/manager-icon.png">
-            <p class="m-0 mt-3"> Drag here or browse to upload</p>
-            <small> (supported types: pdf,jpeg,png,Maximum size per document: 4 MB) </small>
+            <p class="m-0 mt-3"> Drag here or <span class="browse-span">browse</span> to upload</p>
+            <small class="drag-support"> (supported types: pdf,jpeg,png,Maximum size per document: 4 MB) </small>
          </app-ng-files-drag-n-upload>
       </div>
     </div>
@@ -363,8 +363,8 @@
             <div class="file-uploader" *ngIf="!selectedLogo || (selectedLogo && !selectedLogo.fileName)">
                <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'logo')" [configId]="'docConfig'">
                   <img src="../../../assets/images/icons/manager-icon.png">
-                  <p class="m-0"> Drag here or browse to upload</p>
-                  <small> (supported types: pdf,jpeg,png,Maximum size per document: 4 MB) </small>
+                  <p class="m-0 mt-3"> Drag here or <span class="browse-span">browse</span> to upload</p>
+                  <small class="drag-support"> (supported types: pdf,jpeg,png,Maximum size per document: 4 MB) </small>
                </app-ng-files-drag-n-upload>
             </div>
           </div>
