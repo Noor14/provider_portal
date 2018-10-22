@@ -1,17 +1,24 @@
 @import '../../../../../../../assets/scss/_variables';
 .thankyou {
-    .dir-otherLanguage{
-        h2,h5{
-        font-family: $font-NeoSansArabic-Medium;
-         }
-         p{
-        font-family: $font-NeoSansArabic-Regular;
-         }
+    .dir-otherLanguage {
+        h2,
+        h5 {
+            font-family: $font-NeoSansArabic-Medium;
+        }
+        p {
+            font-family: $font-NeoSansArabic-Regular;
+        }
+    }
+    .thankyou-icon {
+        margin-bottom: 28px;
+        img {
+            width: 300px;
+            height: auto;
+        }
     }
     &-icon {
         display: flex;
     }
-  
     &-heading {
         font-family: $font-pragmatica;
         font-weight: $font-weight-mid;
@@ -20,14 +27,13 @@
         text-transform: capitalize;
         text-align: center;
     }
-    &-sub-heading{
+    &-sub-heading {
         @extend .thankyou-heading;
         font-size: $font-size-large + 0.15;
-        
     }
     .text {
         font-family: $font-proxima; // padding: 0 6.5rem 0 6.5rem;
-        
+        color: $secondary-text-color;
     }
     .proceed-btn {
         text-align: center;
@@ -35,7 +41,7 @@
             font-size: 0.8rem;
             font-weight: 500;
             margin-top: 0.5rem;
-            color: #738593;
+            color: $secondary-grey;
         }
         a {
             text-transform: uppercase;
