@@ -300,17 +300,7 @@ export class DirectorinfoComponent implements OnInit {
   
   }
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
 
   jobType(type) {
     if (type && type != 'undefined') {
@@ -655,9 +645,9 @@ export class DirectorinfoComponent implements OnInit {
   submitBusinessInfo() {
 
     const { license, logo } = this.formOneObj
-
+    
     this.uploadDocs.forEach(docObj => {
-      // docObj.
+ 
       if (docObj.BusinessLogic === 'COMPANY_LOGO') {
         docObj.DocumentFileContent = license.fileBaseString
         docObj.DocumentName = license.fileName
@@ -688,17 +678,17 @@ export class DirectorinfoComponent implements OnInit {
         faxNo: this.formOneObj.contactInfoForm.fax,
         managementInfo: [
           {
-            jobTitleID: 0,
-            firstName: "string",
-            lastName: "string"
+            jobTitleID: this.desgType.ID,
+            firstName: this.managementForm.value.firstName,
+            lastName: this.managementForm.value.lastName
           }
         ],
         directorInfo: [
           {
-            firstName: "string",
-            lastName: "string",
-            email: "string",
-            mobileNo: "string"
+            firstName: this.directorForm.value.firstName,
+            lastName: this.directorForm.value.lastName,
+            email: this.directorForm.value.email,
+            mobileNo:this.phoneCode + this.directorForm.value.phone
           }
         ]
       },
@@ -715,17 +705,17 @@ export class DirectorinfoComponent implements OnInit {
         faxNo: this.formOneObj.contactInfoForm.transLangFax,
         managementInfo: [
           {
-            jobTitleID: 0,
-            firstName: "string",
-            lastName: "string"
+            jobTitleID: this.desgType.ID,
+            firstName: this.managementForm.value.transLangfirstName,
+            lastName: this.managementForm.value.transLanglastName
           }
         ],
         directorInfo: [
           {
-            firstName: "string",
-            lastName: "string",
-            email: "string",
-            mobileNo: "string"
+            firstName: this.directorForm.value.transLangfirstName,
+            lastName: this.directorForm.value.transLanglastName,
+            email: this.directorForm.value.transLangEmail,
+            mobileNo: this.directorForm.value.transLangPhone,
           }
         ]
       },
