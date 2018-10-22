@@ -8,7 +8,6 @@
             margin-right: 0.5rem;
             width: 162px;
             margin: 10px 0;
-            
             border-radius: 5px;
             text-align: center;
             background-color: transparent;
@@ -37,9 +36,8 @@
                     background: #f7f8fa;
                     bottom: -3px;
                 }
-
                 .progress-circle {
-                    background-color: #e6e8ec;
+                    background-color: $probar-bg;
                     border-radius: 50%;
                     display: inline-block;
                     height: 130px;
@@ -47,11 +45,37 @@
                     width: 130px;
                     margin-bottom: 12px;
                     margin-top: 10px;
+                    .red-shadow {
+                        position: absolute;
+                        top: 10px;
+                        height: 110px;
+                        left: 10px;
+                        width: 110px;
+                        box-shadow: 0 0 5px 6px rgba(255, 255, 255, 0.3);
+                        border-radius: 50%;
+                        background-color: rgba(255, 255, 255, 0.2);
+                        transition: -webkit-transform 0.2s ease;
+                        transition: transform 0.2s ease;
+                        transition: transform 0.2s ease, -webkit-transform 0.2s ease;
+                        &:hover {
+                            -webkit-transform: scale(0.9);
+                            transform: scale(0.9);
+                        }
+                        &:after {
+                            content: "%";
+                            font-weight: bold;
+                            color: #000;
+                            font-size: 14px;
+                            position: absolute;
+                            top: 40px;
+                            right: 25px;
+                        }
+                    }
                     &:before {
                         align-items: center;
                         background-color: #eef1f5;
                         border-radius: 50%;
-                        content: attr(data-progress) '%';
+                        content: attr(data-progress);
                         display: flex;
                         justify-content: center;
                         position: absolute;
@@ -64,55 +88,75 @@
                         transition: transform 0.2s ease, -webkit-transform 0.2s ease;
                         box-shadow: 0 0px 0px 1px rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) 0 -1px 5px -1px inset;
                         color: #000;
-                        font-size: 25px;
+                        font-size: 32px;
                         font-weight: 500;
-                      }
-                      &:after {
-                        background-color: #d2272a;
+                        padding-right: 7px;
+                    }
+                    &:after {
+                        background-color: $probar-color;
                         border-radius: 50%;
                         content: '';
                         display: inline-block;
                         height: 100%;
                         width: 100%;
                         box-shadow: 0 1px 1px 0.8px inset rgba(0, 0, 0, 0.1);
-                      }
-                      &:hover:before,
-                        &:focus:before {
-                            -webkit-transform: scale(0.9);
-                                    transform: scale(0.9);
+                    }
+                    &:hover:before,
+                    &:focus:before {
+                        -webkit-transform: scale(0.9);
+                        transform: scale(0.9);
+                    }
+                    &[data-progress="0"] {
+                        &:after {
+                            background-image: linear-gradient(90deg, $probar-bg 50%, transparent 50%, transparent), linear-gradient(90deg, $probar-color 50%, $probar-bg 50%, $probar-bg);
                         }
-                      &[data-progress="0"]:after {
-                        background-image: linear-gradient(90deg, #e6e8ec 50%, transparent 50%, transparent), linear-gradient(90deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
-                      }
-                      &[data-progress="20"]:after {
-                        background-image: linear-gradient(90deg, #e6e8ec 50%, transparent 50%, transparent), linear-gradient(162deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
-                      }
-                      &[data-progress="30"]:after {
-                        background-image: linear-gradient(90deg, #e6e8ec 50%, transparent 50%, transparent), linear-gradient(198deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
-                      }
-                      &[data-progress="40"]:after {
-                        background-image: linear-gradient(90deg, #e6e8ec 50%, transparent 50%, transparent), linear-gradient(234deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
-                      }
-                      &[data-progress="50"]:after {
-                        background-image: linear-gradient(-90deg, #d2272a 50%, transparent 50%, transparent), linear-gradient(270deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
-                      }
-                      &[data-progress="60"]:after {
-                        background-image: linear-gradient(-54deg, #d2272a 50%, transparent 50%, transparent), linear-gradient(270deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
-                      }
-                      &[data-progress="70"]:after {
-                        background-image: linear-gradient(-18deg, #d2272a 50%, transparent 50%, transparent), linear-gradient(270deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
-                      }
-                      &[data-progress="80"]:after {
-                        background-image: linear-gradient(18deg, #d2272a 50%, transparent 50%, transparent), linear-gradient(270deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
-                      }
-                      &[data-progress="90"]:after {
-                        background-image: linear-gradient(54deg, #d2272a 50%, transparent 50%, transparent), linear-gradient(270deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
-                      }
-                      &[data-progress="100"]:after {
-                        background-image: linear-gradient(90deg, #d2272a 50%, transparent 50%, transparent), linear-gradient(270deg, #d2272a 50%, #e6e8ec 50%, #e6e8ec);
-                      }
-                  }
-                
+                        &:before {
+                            padding-right: 7px;
+                        }
+                        .red-shadow {
+                            &:after {
+                                right: 35px;
+                            }
+                        }
+                    }
+                    &[data-progress="20"]:after {
+                        background-image: linear-gradient(90deg, $probar-bg 50%, transparent 50%, transparent), linear-gradient(162deg, $probar-color 50%, $probar-bg 50%, $probar-bg);
+                    }
+                    &[data-progress="30"]:after {
+                        background-image: linear-gradient(90deg, $probar-bg 50%, transparent 50%, transparent), linear-gradient(198deg, $probar-color 50%, $probar-bg 50%, $probar-bg);
+                    }
+                    &[data-progress="40"]:after {
+                        background-image: linear-gradient(90deg, $probar-bg 50%, transparent 50%, transparent), linear-gradient(234deg, $probar-color 50%, $probar-bg 50%, $probar-bg);
+                    }
+                    &[data-progress="50"]:after {
+                        background-image: linear-gradient(-90deg, $probar-color 50%, transparent 50%, transparent), linear-gradient(270deg, $probar-color 50%, $probar-bg 50%, $probar-bg);
+                    }
+                    &[data-progress="60"]:after {
+                        background-image: linear-gradient(-54deg, $probar-color 50%, transparent 50%, transparent), linear-gradient(270deg, $probar-color 50%, $probar-bg 50%, $probar-bg);
+                    }
+                    &[data-progress="70"]:after {
+                        background-image: linear-gradient(-18deg, $probar-color 50%, transparent 50%, transparent), linear-gradient(270deg, $probar-color 50%, $probar-bg 50%, $probar-bg);
+                    }
+                    &[data-progress="80"]:after {
+                        background-image: linear-gradient(18deg, $probar-color 50%, transparent 50%, transparent), linear-gradient(270deg, $probar-color 50%, $probar-bg 50%, $probar-bg);
+                    }
+                    &[data-progress="90"]:after {
+                        background-image: linear-gradient(54deg, $probar-color 50%, transparent 50%, transparent), linear-gradient(270deg, $probar-color 50%, $probar-bg 50%, $probar-bg);
+                    }
+                    &[data-progress="100"] {
+                        &:after {
+                            background-image: linear-gradient(90deg, $probar-color 50%, transparent 50%, transparent), linear-gradient(270deg, $probar-color 50%, $probar-bg 50%, $probar-bg);
+                        }
+                        &:before {
+                            padding-right: 17px;
+                        }
+                        .red-shadow {
+                            &:after {
+                                right: 21px;
+                            }
+                        }
+                    }
+                }
             }
             svg {
                 margin-top: 0.8rem;
@@ -139,11 +183,11 @@
                     path {
                         fill: transparent !important;
                     }
-                } 
+                }
                 svg#eb6db949-8587-45a7-94bb-b3cd8c3892a4 {
                     g {
                         path {
-                            fill:  $white-color !important;
+                            fill: $white-color !important;
                         }
                     }
                 }

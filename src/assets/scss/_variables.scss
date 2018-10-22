@@ -1,10 +1,12 @@
-
 // Default for size for body
 $body-fontsize: 16px;
-$body-fontfamily: 'pragmatica', sans-serif;
+$body-fontfamily: 'pragmatica',
+sans-serif;
 // Hashmove fonts - font-family and font-weight variables
-$font-pragmatica: 'pragmatica', sans-serif;
-$font-proxima: 'proxima-nova', sans-serif;
+$font-pragmatica: 'pragmatica',
+sans-serif;
+$font-proxima: 'proxima-nova',
+sans-serif;
 // base font for root - HTML/Body
 // FONT SIZES VARIABLES
 $root-font-size: 1rem;
@@ -18,9 +20,7 @@ $font-weight-normal: 400;
 $font-weight-mid: 500;
 $font-weight-bold: 700;
 $font-proxima-weight-semibold: 600;
-
 // --  user portal variables  -- //
-
 $btn-grey-color: #b3bcc3;
 $light-grey:#d1d8de;
 $color-white: #ffffff;
@@ -78,11 +78,8 @@ $light-grey-border: #f1f1f1;
 $footer-border:#8f9da9;
 $checkboxes-border-color:#2a96da;
 $checkboxes-border: #e0e0e0;
-$sidebar-border-color: rgb(229,
-229,
-229);
-$left-sidebar-border-color: rgba($sidebar-border-color,
-0.502);
+$sidebar-border-color: rgb(229, 229, 229);
+$left-sidebar-border-color: rgba($sidebar-border-color, 0.502);
 $boxes-border-grey:#eff2f5;
 //--- COLORS --///
 $secondary-color: #02bdb6;
@@ -109,16 +106,7 @@ $shipping-active-color:#00a1df;
 $shipping-subcar-active:#243748;
 $shipping-subcat-border:#8999a6;
 $shipping-subcat-text:#dbdfe2;
-
-
-
-
-
-
-
-
 //   provider Portal
-
 // Default for size for body
 $body-fontsize: 16px;
 $body-fontfamily: 'pragmatica',
@@ -128,11 +116,9 @@ $font-pragmatica: 'pragmatica',
 sans-serif;
 $font-proxima: 'proxima-nova',
 sans-serif;
-
 $font-NeoSansArabic-Regular: 'NeoSansArabic-Regular';
 $font-NeoSansArabic-Medium: 'NeoSansArabic-Medium';
 // base font for root - HTML/Body
-
 // FONT SIZES VARIABLES
 $root-font-size: 1rem;
 $font-size-base: $root-font-size - 0.25; // font-size: 12px
@@ -145,7 +131,6 @@ $font-weight-normal: 400;
 $font-weight-mid: 500;
 $font-weight-bold: 700;
 $font-proxima-weight-semibold: 600;
-
 // colors variable
 $left-sidebar-background:#eff1f6;
 $right-side-background:#f7f8fc;
@@ -154,17 +139,14 @@ $text-color-default: #2b2b2b;
 $provider-input-border:#e9ecf0;
 $dark-blue-background:#243748;
 $grey-border: #e5e5e5;
-
-
-
 //disable colors
 $btn-disable-background:#e3e7e9;
 $btn-disable-color:$dark-grey-blue;
 $dropdown-color:#e4e9ec;
 
-
-
+//progress circle
+$probar-bg: #e6e8ec;
+$probar-color: #d2272a;
 // Responsives Screens variables
 $screen-xs-max: 768px;
 $screen-xs-five-hundred:500px;
-

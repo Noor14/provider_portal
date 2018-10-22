@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { } from '@types/googlemaps';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { CustomValidator, ValidateEmail, EMAIL_REGEX } from '../../../../../constants/globalFunctions'
+import { CustomValidator, ValidateEmail, EMAIL_REGEX, loading } from '../../../../../constants/globalFunctions'
 import { UserService } from '../../user.service';
 import { UserCreationService } from '../user-creation.service';
 import { SharedService } from '../../../../../services/shared.service';
@@ -243,10 +243,12 @@ export class RegistrationComponent implements OnInit {
         this.emailInfoTextOtherlang = res.returnObject[8].otherLang;
         this.regBtnBaseLang = res.returnObject[9].baseLang;
         this.regBtnOtherLang = res.returnObject[9].otherLang;
+        loading(false);
       }
     })
   }
   accountList(region) {
+    loading(true);
     this._userCreationService.getAccountSetup(region.id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.accountSetup = res.returnObject;
@@ -277,7 +279,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   selectAccountSetup(id, obj) {
-    this.accountId = obj.AccountID;
+    this.accountId = obj.accountID;
     let elem = document.getElementsByClassName('fancyRadioBoxes') as any;
     for (let i = 0; i < elem.length; i++) {
       if (elem[i].children[0].id == id) {
@@ -352,6 +354,7 @@ export class RegistrationComponent implements OnInit {
 
 
   createAccount(data) {
+    loading(true);
     let valid: boolean = ValidateEmail(data.email);
     if (!this.accountId) {
       this._toastr.error("Account setup field is required", '');
@@ -393,8 +396,10 @@ export class RegistrationComponent implements OnInit {
       if (res.returnStatus == "Success") {
         this._toastr.success(res.returnText, '');
         this._router.navigate(['/otp', res.returnObject.otpKey])
+        loading(false);
       }
       else {
+        loading(false);
         this._toastr.error(res.returnText, '');
       }
     })

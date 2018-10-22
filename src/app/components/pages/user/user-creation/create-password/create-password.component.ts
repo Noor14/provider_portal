@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../../../../../services/shared.service';
 import { UserCreationService } from '../user-creation.service';
+import { loading } from '../../../../../constants/globalFunctions';
 
 
 @Component({
@@ -93,13 +94,17 @@ export class CreatePasswordComponent implements OnInit {
        this.lblPasswordOtherlang = res.returnObject[2].otherLang;
        this.btnBaselang = res.returnObject[3].baseLang;
        this.btnOtherlang = res.returnObject[3].otherLang;
-      
+        loading(false);
+      }
+      else if (res.returnStatus == 'Error'){
+        loading(false)
       }
     })
   }
 
 
   UserInfofromOtp(keyCode){
+    loading(true)
     this._userCreationService.getUserOtpVerified(keyCode, "Used").subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
       this.userInfo = res.returnObject;
@@ -111,15 +116,20 @@ export class CreatePasswordComponent implements OnInit {
     })
   }
   passwordSubmit(data){
+    loading(true);
     let obj={
       otpKey: this.userInfo.key,
       password: data.password
     }
     this._userCreationService.createPaasword(obj).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
+        loading(false);
         localStorage.setItem('userInfo', JSON.stringify(res));
         this._toast.success('Account successfully created','');
         this._router.navigate(['/business-profile']);
+      }
+      else if (res.returnStatus == "Error"){
+        loading(false);
       }
     })
   }

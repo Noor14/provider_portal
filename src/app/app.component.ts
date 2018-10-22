@@ -3,6 +3,7 @@ import { CommonService } from './services/common.service';
 import { SharedService } from './services/shared.service';
 import { ScrollbarComponent } from 'ngx-scrollbar';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
+import '../assets/scss/_loader.css';
 
 
 
