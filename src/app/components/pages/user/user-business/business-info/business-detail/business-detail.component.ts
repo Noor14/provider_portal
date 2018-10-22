@@ -1218,7 +1218,7 @@ export class BusinessDetailComponent implements OnInit {
                   this.getDates(key, 'issue');
                   return
                 }
-                else if (!obj && name == 'Feb' || name == 'فبراير') {
+                else if (!obj && this.selectedIssueMonth == 'Feb' || this.selectedIssueMonthAr == 'فبراير') {
                   this.getDates(28, 'issue');
                   return
 
