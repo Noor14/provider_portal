@@ -1249,7 +1249,7 @@ export class BusinessDetailComponent implements OnInit {
     else if (type == 'month') {
       if (val != undefined) {
         let index = this.months.map(obj => obj.name).indexOf(val);
-        if (index == this.date.getMonth()) this.getDates(this.date.getDate(), 'issue');
+        if (index == this.date.getMonth() && this.selectedIssueYear == this.date.getFullYear()) this.getDates(this.date.getDate(), 'issue');
         if (this.selectedIssueYear == this.date.getFullYear()) {
           let months = Object.assign([], this.months);
           this.issueMonths = months.slice(0, this.date.getMonth() + 1);
