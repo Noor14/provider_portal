@@ -9,8 +9,8 @@
         <h5 class="d-flex justify-content-between">
           <span>
             <i class="fa fa-angle-up" 
-            [ngClass]="{'arrow-down' : (panelObjDr.panelId == 'directorInfo' && !panelObjDr.openState)}"></i> Directors Info</span>
-          <span *ngIf="showTranslatedLangSide" class="text-right"> الإدارة</span>
+            [ngClass]="{'arrow-down' : (panelObjDr.panelId == 'directorInfo' && !panelObjDr.openState)}"></i> {{directorNameBaseLanguage}}</span>
+          <span *ngIf="showTranslatedLangSide" class="text-right">{{directorNameOtherLanguage}}</span>
         </h5>
       </ng-template>
       <ng-template ngbPanelContent>
@@ -176,8 +176,8 @@
         <h5 class="d-flex justify-content-between">
           <span>
             <i class="fa fa-angle-up"
-              [ngClass]="{'arrow-down' : (panelObj.panelIdMang =='managementInfo' && !panelObj.openState)}"></i> Management Info</span>
-          <span *ngIf="showTranslatedLangSide" class="text-right"> معلومات الإدارة</span>
+              [ngClass]="{'arrow-down' : (panelObj.panelIdMang =='managementInfo' && !panelObj.openState)}"></i> {{managementNameBaseLanguage}}</span>
+          <span *ngIf="showTranslatedLangSide" class="text-right">{{managementNameOtherLanguage}}</span>
         </h5>
       </ng-template>
       <ng-template ngbPanelContent>
