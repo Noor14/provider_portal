@@ -599,9 +599,9 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" [ngClass]="{'inputError': socialInputValidate}" formControlName="socialUrl" (focus) = " socialInputValidate=''" [(ngModel)]="socialSites" (focusout)="socialLinkValidate()" maxlength="100" placeholder="www.company.com" />
+              <input type="text" class="form-control"  formControlName="socialUrl" (focus) = " socialInputValidate = ''" [(ngModel)]="socialSites" (focusout)="socialLinkValidate()" maxlength="100" placeholder="www.company.com" />
             </div>
-            <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p> -->
           </div>
        
         </div>
@@ -624,9 +624,9 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" formControlName="socialUrlOther" [ngClass]="{'inputError': socialInputValidate}" (focus) = " socialInputValidate=''" [(ngModel)]="socialSites" (focusout)="socialLinkValidate()" maxlength="100" placeholder="www.company.com" />
+              <input type="text" class="form-control" formControlName="socialUrlOther"  [(ngModel)]="socialSites" (focusout)="socialLinkValidate()" maxlength="100" placeholder="www.company.com" />
             </div>
-            <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p> -->
           </div>
         </div>
       </div>
