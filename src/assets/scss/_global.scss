@@ -33,20 +33,17 @@ body {
         app-footer {
             flex-shrink: 0;
         }
-    }
-    // direction RTL
+    } // direction RTL
     .dir-otherLanguage {
         direction: rtl;
         label {
             font-family: $font-NeoSansArabic-Regular;
             float: right;
         }
-    }
-    //hr 
+    } //hr 
     .hr-solid {
         margin-top: 0.5rem;
-    }
-    // link Hover
+    } // link Hover
     a.link-hover {
         transition: all 0.5s ease;
         position: relative;
@@ -69,8 +66,7 @@ body {
                 transition: transform .5s ease;
             }
         }
-    }
-    // Pointer
+    } // Pointer
     .pointer {
         cursor: pointer;
     }
@@ -419,6 +415,7 @@ input[type="radio"]:focus+label>span {
             .dropdown {
                 margin-left: 0;
                 margin-right: 12px;
+                right: 15px;
             }
             .country-section {
                 left: 0 !important;
