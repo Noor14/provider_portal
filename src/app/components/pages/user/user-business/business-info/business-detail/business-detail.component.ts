@@ -376,8 +376,8 @@ export class BusinessDetailComponent implements OnInit {
       expiryYearArabic: new FormControl(null, [CustomValidator.bind(this)]),
     });
     this.businessLocForm = new FormGroup({
-      address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
-      transAddress: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
+      address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      transAddress: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       poBoxNo: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
       poBoxNoAr: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(16), Validators.minLength(4)]),
     });
