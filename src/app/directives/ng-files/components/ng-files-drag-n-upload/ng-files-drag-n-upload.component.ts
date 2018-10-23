@@ -73,20 +73,20 @@ export class NgFilesDragNUploadComponent implements OnInit, DoCheck {
       return;
     }
 
-    // this.filesSelect.emit(
-    //   this.ngFilesUtilsService.verifyFiles(files, this.configId)
-    // );
-    this.filesSelect.emit(files);
+    this.filesSelect.emit(
+      this.ngFilesUtilsService.verifyFiles(files, this.configId)
+    );
+    // this.filesSelect.emit(files);
   }
   ngDoCheck() {
     this.changeDetector.detectChanges();
   }
 
   private dropFilesHandler(files: FileList) {
-    // this.filesSelect.emit(
-    //   this.ngFilesUtilsService.verifyFiles(files, this.configId)
-    // );
-    this.filesSelect.emit(files);
+    this.filesSelect.emit(
+      this.ngFilesUtilsService.verifyFiles(files, this.configId)
+    );
+    // this.filesSelect.emit(files);
   }
 
   private preventEvent(event: any): void {

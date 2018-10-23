@@ -592,44 +592,49 @@ export class DirectorinfoComponent implements OnInit {
 
 
 
-  selectDocx(selectedFiles: any): void {
-    console.log(selectedFiles)
-    try {
-      this.onFileChange(selectedFiles)
-    } catch (error) {
-      console.log(error);
+  selectDocx(selectedFiles: NgFilesSelected): void {
+
+
+    if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
+      if (selectedFiles.status == 1) this._toastr.error('Please select two or less file(s) to upload.', '')
+      else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 4 MB. Please upload smaller file.', '')
+      else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
+        return;
     }
-
-    // if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-    //   if (selectedFiles.status == 1) this._toastr.error('Please select only two file to upload', '')
-    //   else if (selectedFiles.status == 2) this._toastr.error('File format is not supported please select supported format file', '')
-    //   // this.selectedFiles = selectedFiles.status;
-    //   return;
-    // }
-    // this.selectedDocx = selectedFiles.files;
-
+    else{
+      try {
+        this.onFileChange(selectedFiles)
+      } catch (error) {
+        console.log(error);
+      }
+      
+    }
 
   }
 
   onFileChange(event) {
 
-
     if (event) {
       try {
-        for (let index = 0; index < event.length; index++) {
+        for (let index = 0; index < event.files.length; index++) {
           let reader = new FileReader();
-          const element = event[index];
+          const element = event.files[index];
           let file = element
           reader.readAsDataURL(file);
-          reader.onload = () => {
 
             let selectedFile: DocumentFile = {
               fileName: file.name,
               fileType: file.type,
               fileBaseString: reader.result.split(',')[1]
             }
-            console.log('you file content:', selectedFile);
-            this.selectedDocx.push(selectedFile)
+          if(this.selectedDocx && this.selectedDocx.length && event.files.length > 1 && index == 0){
+            this._toastr.error('Please select only two file to upload', '');
+            return;
+          } else if (this.selectedDocx && this.selectedDocx.length < 2){
+            this.selectedDocx.push(selectedFile);
+          }
+          else{
+            this._toastr.error('Please select only two file to upload', '');
           }
 
         }
@@ -739,25 +744,26 @@ export class DirectorinfoComponent implements OnInit {
         directorInfo: (type == 'skip') ? null : objDirInfo.otherLang,
           
       },
-      socialAccount: [
-        {
-          providerSocialMediaAccountsID: 0,
-          providerSocialMediaCode: "",
-          shortName: "",
-          providerID: 605,
-          socialMediaPortalsID: 100,
-          carrierID: 0,
-          companyID: 598,
-          userID: 630,
-          linkURL: "texpo.com",
-          isDelete: true,
-          isActive: true,
-          createdBy: "string",
-          createdDateTime: "2018-10-05T07:43:40.333Z",
-          modifiedBy: "string",
-          modifiedDateTime: "2018-10-05T07:43:40.333Z"
-        }
-      ],
+      socialAccount: null,
+      // [
+      //   {
+      //     providerSocialMediaAccountsID: 0,
+      //     providerSocialMediaCode: "",
+      //     shortName: "",
+      //     providerID: 605,
+      //     socialMediaPortalsID: 100,
+      //     carrierID: 0,
+      //     companyID: 598,
+      //     userID: 630,
+      //     linkURL: "texpo.com",
+      //     isDelete: true,
+      //     isActive: true,
+      //     createdBy: "string",
+      //     createdDateTime: "2018-10-05T07:43:40.333Z",
+      //     modifiedBy: "string",
+      //     modifiedDateTime: "2018-10-05T07:43:40.333Z"
+      //   }
+      // ]
       providerLogisticServiceList: this.formOneObj.logisticsService,
       businessLocation: {
         latitude: this.formOneObj.location.lat.toString(),
@@ -769,6 +775,10 @@ export class DirectorinfoComponent implements OnInit {
 
     this._userbusinessService.submitBusinessInfo(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
+        res.returnObject.regionCode = this.userProfile.regionCode;
+        res.returnObject.countryID = this.userProfile.countryID;
+        res.returnObject.firstNameBL = this.userProfile.firstNameBL;
+        res.returnObject.firstNameOL = this.userProfile.firstNameOL;
         localStorage.setItem('userInfo', JSON.stringify(res));
         this._router.navigate(['/profile-completion']);
 
