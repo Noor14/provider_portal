@@ -370,11 +370,7 @@ input[type="radio"]:focus+label>span {
                 position: absolute;
                 margin-left: 12px;
             }
-            img {
-                width: 20px;
-                height: 15px;
-                margin-right: 5px;
-            }
+            //img {        width: 20px;               height: 15px;                margin-right: 5px;            }
             .phone {
                 span {
                     font-size: $font-size-medium;
@@ -415,7 +411,7 @@ input[type="radio"]:focus+label>span {
             .dropdown {
                 margin-left: 0;
                 margin-right: 12px;
-                right: 15px;
+                top: 12px;
             }
             .country-section {
                 left: 0 !important;
@@ -427,5 +423,76 @@ input[type="radio"]:focus+label>span {
         }
     }
 }
-
 // }
+.input-group-prepend, .input-group-append {
+    position: relative;
+        .dropdown{
+            top: 12px;
+        }
+}
+
+.select-number{
+    .dropdown{
+        .dropdown-toggle{
+            &:after{
+            color: $color-topmenu;
+            vertical-align: 2px !important;
+            margin-left: -2px;
+            }
+            .flag-container{
+                width: 16px;
+                height: 12px;
+                float: left;
+                margin-right: 9px;
+            }
+            span{
+                margin-top: 3px;
+                display: inline-flex;
+            }
+        }
+    }
+}
+.dir-otherLanguage{
+    .select-number{
+        .dropdown{
+            .dropdown-toggle{
+                .flag-container{
+                    float: right;
+                    margin-left: 9px;
+                    margin-right: 0px;
+                }
+            }
+        }
+    }
+}
+.dir-otherLanguage{
+    .country-section{
+        &.dropdown-menu{
+            ul{
+                li{
+                    .flag-container{
+                        width: 16px;
+                        height: 12px;
+                        float: right;
+                        margin-left: 9px;
+                        margin-right: 0px;
+                    }
+                }
+            }
+        }
+    }
+}
+.country-section{
+    &.dropdown-menu{
+        ul{
+            li{
+                .flag-container{
+                    width: 16px;
+                    height: 12px;
+                    float: left;
+                    margin-right: 9px; 
+                }
+            }
+        }
+    }
+}

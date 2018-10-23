@@ -440,16 +440,18 @@
             <div class="input-group-prepend">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                  <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
-                  class="img-responsive">
-                <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
-                  alt="flags" class="img-responsive">
+                  <div class="flag-container">
+                    <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  </div>
                <span>{{phoneCode}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                   <ul class="list-group">
                     <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
-                      <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}">
+                      <div class="flag-container">
+                      <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}" class="mw-100 w-auto h-auto mh-100">
+                      </div>
                       <span> {{list.desc[0].CountryPhoneCode}}</span>
                     </li>
                   </ul>
@@ -476,16 +478,18 @@
             <div class="input-group-append">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                  <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
-                          class="img-responsive">
-                        <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
-                          alt="flags" class="img-responsive">
+                  <div class="flag-container">
+                    <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                    <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  </div>
                    <span>{{transPhoneCode}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                   <ul class="list-group">
                     <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
-                      <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}">
+                      <div class="flag-container">
+                        <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}" class="mw-100 w-auto h-auto mh-100">
+                      </div>
                     <span> {{list.desc[0].CountryPhoneCode_OtherLang}}</span>
                   </li>
                   </ul>
@@ -515,16 +519,18 @@
             <div class="input-group-prepend">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                    <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
-                    class="img-responsive">
-                  <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
-                    alt="flags" class="img-responsive">
+                  <div class="flag-container">
+                    <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                    <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  </div>
                  <span>{{phoneCode}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                   <ul class="list-group">
                       <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
-                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}">
+                        <div class="flag-container">
+                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}" class="mw-100 w-auto h-auto mh-100">
+                        </div>
                           <span> {{list.desc[0].CountryPhoneCode}}</span>
                       </li>
                   </ul>
@@ -550,16 +556,18 @@
             <div class="input-group-append">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                    <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
-                    class="img-responsive">
-                  <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
-                    alt="flags" class="img-responsive">
+                  <div class="flag-container">
+                    <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                    <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  </div>
                  <span>{{transPhoneCode}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                   <ul class="list-group">
                       <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
-                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}">
+                        <div class="flag-container">
+                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}" class="mw-100 w-auto h-auto mh-100">
+                        </div>
                         <span> {{list.desc[0].CountryPhoneCode_OtherLang}}</span>
                       </li>
                   </ul>

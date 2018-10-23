@@ -1,6 +1,28 @@
 @import '../../../../../../assets/scss/_variables';
 
 .registration {
+    .country-select{
+        .flag-container{
+            width: 16px;
+            height: 12px;
+            float: left;
+            margin-right: 9px;
+            position: absolute;
+            left: 8px;
+            top: 6px;
+        }
+        .dropdown-menu{
+            &.show{
+                .dropdown-item{
+                    .flag-container{
+                        position: relative;
+                        left: auto;
+                        top: auto;
+                    }
+                }
+            }
+        }
+    }
     &-title {
         font-family: $font-pragmatica;
         font-weight: $font-weight-mid;
@@ -119,6 +141,7 @@ input.blinking {
     
    
 }
+
 
 @-webkit-keyframes blink {
    from {  
