@@ -206,7 +206,6 @@ export class DirectorinfoComponent implements OnInit {
         let copy = Object.assign([], state)
         this.docTypes = copy.filter(element => !element.BusinessLogic)
         this.uploadDocs = copy.filter(element => element.BusinessLogic)
-        console.log(this.uploadDocs);
 
       }
     });
@@ -642,24 +641,69 @@ export class DirectorinfoComponent implements OnInit {
     }
 
   }
-  submitBusinessInfo() {
+  submitBusinessInfo(type) {
 
     const { license, logo } = this.formOneObj
-    
     this.uploadDocs.forEach(docObj => {
- 
       if (docObj.BusinessLogic === 'COMPANY_LOGO') {
-        docObj.DocumentFileContent = license.fileBaseString
-        docObj.DocumentName = license.fileName
-        docObj.DocumentUploadedFileType = license.fileType
+
+        docObj.DocumentFileContent = null;
+        docObj.DocumentName = null;
+        docObj.DocumentUploadedFileType = null;
+        docObj.FileContent = [
+          {
+          documentFileName: logo.fileName,
+          documentFile: logo.fileBaseString,
+          documentUploadedFileType: logo.fileType
+          }
+        ]
       }
 
       if (docObj.BusinessLogic === 'TRADE_LICENSE') {
-        docObj.DocumentFileContent = logo.fileBaseString
-        docObj.DocumentName = logo.fileName
-        docObj.DocumentUploadedFileType = logo.fileType
+
+        docObj.DocumentFileContent = null;
+        docObj.DocumentName = null;
+        docObj.DocumentUploadedFileType = null;
+        docObj.FileContent = [
+          {
+            documentFileName: license.fileName,
+            documentFile: license.fileBaseString,
+            documentUploadedFileType: license.fileType
+          }
+        ]
+       
       }
     })
+    let objMangInfo = {
+      baseLang : [{
+        jobTitleID: (this.desgType && this.desgType.ID) ? this.desgType.ID : null,
+        firstName: this.managementForm.value.firstName,
+        lastName: this.managementForm.value.lastName
+      }],
+      otherLang: [
+          {
+            jobTitleID: (this.desgType && this.desgType.ID) ? this.desgType.ID : null,
+            firstName: this.managementForm.value.transLangfirstName,
+            lastName: this.managementForm.value.transLanglastName
+          }
+      ]
+    }
+    let objDirInfo = {
+      baseLang: [{
+        firstName: this.directorForm.value.firstName,
+        lastName: this.directorForm.value.lastName,
+        email: this.directorForm.value.email,
+        mobileNo: this.phoneCode + this.directorForm.value.phone
+      }],
+      otherLang: [
+        {
+          firstName: this.directorForm.value.transLangfirstName,
+          lastName: this.directorForm.value.transLanglastName,
+          email: this.directorForm.value.transLangEmail,
+          mobileNo: this.directorForm.value.transLangPhone,
+        }
+      ]
+    }
 
     let obj = {
       userID: this.userProfile.userID,
@@ -676,21 +720,9 @@ export class DirectorinfoComponent implements OnInit {
         poBox: this.formOneObj.businessLocForm.poBoxNo,
         telephone: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.phone,
         faxNo: this.formOneObj.contactInfoForm.fax,
-        managementInfo: [
-          {
-            jobTitleID: (this.desgType && this.desgType.ID)? this.desgType.ID : null,
-            firstName: this.managementForm.value.firstName,
-            lastName: this.managementForm.value.lastName
-          }
-        ],
-        directorInfo: [
-          {
-            firstName: this.directorForm.value.firstName,
-            lastName: this.directorForm.value.lastName,
-            email: this.directorForm.value.email,
-            mobileNo:this.phoneCode + this.directorForm.value.phone
-          }
-        ]
+        managementInfo: (type == 'skip')? null : objMangInfo.baseLang,
+        directorInfo: (type == 'skip') ? null : objDirInfo.baseLang,
+        
       },
       businessProfileOL: {
         licenseNo: this.formOneObj.informationForm.licenseNoAr,
@@ -703,21 +735,9 @@ export class DirectorinfoComponent implements OnInit {
         poBox: this.formOneObj.businessLocForm.poBoxNoAr,
         telephone: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.transLangPhone,
         faxNo: this.formOneObj.contactInfoForm.transLangFax,
-        managementInfo: [
-          {
-            jobTitleID: (this.desgType && this.desgType.ID) ? this.desgType.ID : null,
-            firstName: this.managementForm.value.transLangfirstName,
-            lastName: this.managementForm.value.transLanglastName
-          }
-        ],
-        directorInfo: [
-          {
-            firstName: this.directorForm.value.transLangfirstName,
-            lastName: this.directorForm.value.transLanglastName,
-            email: this.directorForm.value.transLangEmail,
-            mobileNo: this.directorForm.value.transLangPhone,
-          }
-        ]
+        managementInfo: (type == 'skip') ? null : objMangInfo.otherLang,
+        directorInfo: (type == 'skip') ? null : objDirInfo.otherLang,
+          
       },
       socialAccount: [
         {

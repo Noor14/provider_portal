@@ -11,6 +11,7 @@ import { CommonService } from '../../../../../../services/common.service';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../../directives/ng-files';
 import { CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear } from '../../../../../../constants/globalFunctions'
 import { UserBusinessService } from '../../user-business.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-business-detail',
@@ -330,7 +331,6 @@ export class BusinessDetailComponent implements OnInit {
       this.userProfile = userInfo.returnObject;
       this.showTranslatedLangSide = (this.userProfile.regionCode == "MET") ? true : false;
       this.getLabels(this.userProfile);
-      // this.firstNameBL = userInfo.returnObject.firstNameBL;
     }
     this.getsocialList();
     this.getOrganizationList();
@@ -341,7 +341,10 @@ export class BusinessDetailComponent implements OnInit {
       if (res.returnStatus == 'Success') {
         this.serviceOffered = JSON.parse(res.returnObject);
       }
+    },(err: HttpErrorResponse) => {
+      console.log(err);
     })
+
     this._sharedService.countryList.subscribe((state: any) => {
       if (state) {
         this.countryList = state;

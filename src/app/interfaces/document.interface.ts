@@ -27,4 +27,10 @@ export interface DocumentUpload {
     BusinessLogic?: any;
     CopyOfDocTypeID?: any;
     MetaInfoKeysDetail?: any;
+    FileContent:fileContent[]
+}
+export interface fileContent{
+    documentFileName: string,
+    documentFile: string,
+    documentUploadedFileType: string
 }

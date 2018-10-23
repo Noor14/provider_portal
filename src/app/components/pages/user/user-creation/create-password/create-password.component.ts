@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../../../../../services/shared.service';
 import { UserCreationService } from '../user-creation.service';
 import { loading } from '../../../../../constants/globalFunctions';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -99,6 +100,8 @@ export class CreatePasswordComponent implements OnInit {
       else if (res.returnStatus == 'Error'){
         loading(false)
       }
+    },(err: HttpErrorResponse) => {
+      console.log(err);
     })
   }
 
@@ -113,6 +116,9 @@ export class CreatePasswordComponent implements OnInit {
       this._sharedService.formProgress.next(30);
       console.log(this.userInfo);
     } 
+    },(err: HttpErrorResponse) => {
+      loading(false);
+      console.log(err);
     })
   }
   passwordSubmit(data){
@@ -131,6 +137,9 @@ export class CreatePasswordComponent implements OnInit {
       else if (res.returnStatus == "Error"){
         loading(false);
       }
+    },(err: HttpErrorResponse) => {
+      loading(false);
+      console.log(err);
     })
   }
 }

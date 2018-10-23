@@ -4,6 +4,7 @@ import { SharedService } from '../../../../../services/shared.service';
 import { UserBusinessService } from '../user-business.service';
 import { UserService } from '../../user.service';
 import { ScrollbarComponent } from 'ngx-scrollbar';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -46,12 +47,16 @@ export class BusinessInfoComponent implements OnInit {
       if (res.returnStatus == 'Success') {
         this._sharedService.jobTitleList.next(JSON.parse(res.returnObject));
       }
+    },(err: HttpErrorResponse) => {
+      console.log(err);
     })
 
     this._userService.getlabelsDescription('BusinessProfile').subscribe((res:any)=>{
       if (res.returnStatus == 'Success') {
         this._sharedService.businessProfileJsonLabels.next(res.returnObject);
       }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
     })
   }
   getDocType(id) {
@@ -60,6 +65,8 @@ export class BusinessInfoComponent implements OnInit {
         console.log(res.returnObject)
         this._sharedService.documentList.next(res.returnObject);
       }
+    },(err: HttpErrorResponse) => {
+      console.log(err);
     })
   }
 
