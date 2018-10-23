@@ -390,8 +390,8 @@ export class BusinessDetailComponent implements OnInit {
       transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
       fax: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
       transLangFax: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
-      socialUrl: new FormControl(null, [Validators.minLength(15), Validators.maxLength(25)]),
-      socialUrlOther: new FormControl(null, [Validators.minLength(15), Validators.maxLength(25)]),
+      socialUrl: new FormControl(null),
+      socialUrlOther: new FormControl(null),
 
     });
 

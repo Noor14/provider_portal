@@ -678,7 +678,7 @@ export class DirectorinfoComponent implements OnInit {
         faxNo: this.formOneObj.contactInfoForm.fax,
         managementInfo: [
           {
-            jobTitleID: this.desgType.ID,
+            jobTitleID: (this.desgType && this.desgType.ID)? this.desgType.ID : null,
             firstName: this.managementForm.value.firstName,
             lastName: this.managementForm.value.lastName
           }
@@ -705,7 +705,7 @@ export class DirectorinfoComponent implements OnInit {
         faxNo: this.formOneObj.contactInfoForm.transLangFax,
         managementInfo: [
           {
-            jobTitleID: this.desgType.ID,
+            jobTitleID: (this.desgType && this.desgType.ID) ? this.desgType.ID : null,
             firstName: this.managementForm.value.transLangfirstName,
             lastName: this.managementForm.value.transLanglastName
           }
