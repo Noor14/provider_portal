@@ -717,10 +717,9 @@ export class BusinessDetailComponent implements OnInit {
               return
             }
             else if (!obj && name == 'Feb' || name == 'فبراير') {
-              this.getDates(28, type);
+              this.leapValid(type, 'month');  
               this.issueValidate(selectedMonth.name, type, "month");
-              this.issueValidate(selectedMonth.name, type, "month");
-              return
+              return;
             }
 
           }
@@ -748,7 +747,7 @@ export class BusinessDetailComponent implements OnInit {
               return
             }
             else if (!obj && name == 'Feb' || name == 'فبراير') {
-              this.getDates(28, type);
+              this.leapValid(type, 'month');  
               this.issueValidate(selectedMonth.name, type, "month");
               return
             }
@@ -1188,6 +1187,7 @@ export class BusinessDetailComponent implements OnInit {
         this.ExpiryYear = selectedYear;
         this.selectedExpiryYear = selectedYear.yearNormal;
         this.selectedExpiryYearAr = selectedYear.yearArabic;
+        this.leapValid(type, 'year');
         this.issueValidate(selectedYear.yearNormal, type, 'year');
       }
       else {
@@ -1197,20 +1197,46 @@ export class BusinessDetailComponent implements OnInit {
       }
     }
   }
-  // leapvalid(type){
-  //   if(type=='issue'){
-  //     if(this.selectedIssueDate !=undefined && this.selectedIssueDate == 29 &&  this.selectedIssueYear !=undefined){
-  //       if(!leapYear(this.selectedIssueYear)){
-  //         let index= this.issueMonths.map(obj=>obj.name).indexOf('Feb');
-  //         this.issueMonths.splice(0,index);
-  //       }
-  //        else{
-  //          this.issueMonths =this.months;
-  //        }
-  //     }
-  //   }
+  leapValid(type, from){
+    if(type =='issue'){
+      if(from=='month'){
+         if(this.selectedIssueYear !=undefined){
+          (!leapYear(this.selectedIssueYear))?this.getDates(28, 'issue'):this.getDates(29, 'issue');
+      }
+      }
+         else if(from=='year'){
+        if(this.selectedIssueMonth == 'Feb'){
+          (!leapYear(this.selectedIssueYear))?this.getDates(28, 'issue'):this.getDates(29, 'issue');
+      } 
+      }
+    }
+  
+     else if(type =='expire'){
+       if(from =='month'){
+          if(this.selectedExpiryYear !=undefined){
+          (!leapYear(this.selectedExpiryYear))?this.getDates(28, 'expire'):this.getDates(29, 'expire');
+      }
+       }
+       else if(from=='year'){
+           if(this.selectedExpireMonth != undefined){
+            for (const key in this.dateValObj) {
+              if (this.dateValObj.hasOwnProperty(key)) {
+                let obj = this.dateValObj[key].find(obj => (obj.name == this.selectedExpireMonth || obj.arabicName == this.selectedExpireMonthAr));
+                if (obj && Object.keys(obj).length) {
+                  this.getDates(key, 'expire');
+                  return
+                }
+                else if (!obj && this.selectedExpireMonth == 'Feb' || this.selectedExpireMonthAr == 'فبراير') {
+                  (!leapYear(this.selectedExpiryYear))?this.getDates(28, 'expire'):this.getDates(29, 'expire');
+                  return
 
-  // }
+              }
+            }
+          }
+        }
+       }
+    }
+  }
   monthndatefill(val, type) {
     if (type == 'year') {
       if (val != undefined && val == this.date.getFullYear()) {
@@ -1221,6 +1247,23 @@ export class BusinessDetailComponent implements OnInit {
           if (ind == this.date.getMonth()) {
             this.getDates(this.date.getDate(), 'issue');
           }
+            else if (this.selectedIssueMonth != undefined){
+            for (const key in this.dateValObj) {
+              if (this.dateValObj.hasOwnProperty(key)) {
+                let obj = this.dateValObj[key].find(obj => (obj.name == this.selectedIssueMonth || obj.arabicName == this.selectedIssueMonthAr));
+                if (obj && Object.keys(obj).length) {
+                  this.getDates(key, 'issue');
+                  return
+                }
+                else if (!obj && this.selectedIssueMonth == 'Feb' || this.selectedIssueMonthAr == 'فبراير') {
+                  // this.getDates(28, 'issue');
+                  this.leapValid('issue', type)
+                  return
+
+              }
+            }
+          }
+        }
         }
       }
       else {
@@ -1237,9 +1280,8 @@ export class BusinessDetailComponent implements OnInit {
                   return
                 }
                 else if (!obj && this.selectedIssueMonth == 'Feb' || this.selectedIssueMonthAr == 'فبراير') {
-                  this.getDates(28, 'issue');
+                  this.leapValid('issue', type)
                   return
-
               }
             }
           }
