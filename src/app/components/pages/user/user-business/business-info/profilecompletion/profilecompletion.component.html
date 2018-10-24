@@ -66,10 +66,10 @@
 
 
         <div class="proceed-btn mt-2">
-          <a href="javascript:;" class="btn btn-primary btn-register hvr-sweep-to-right">
+          <button class="btn btn-primary btn-register hvr-sweep-to-right" (click)="proceed()">
             <span>{{btnTextBaseLanguage}}</span>
             <span *ngIf="showTranslatedLangSide"> / {{btnTextOtherLanguage}}</span>
-          </a>
+          </button>
         </div>
       </div>
     </div>

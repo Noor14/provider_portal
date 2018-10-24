@@ -55,7 +55,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
     this.paramSubscriber = this._route.params.subscribe(params => {
       let keyCode = params.keys; // (+) converts string 'id' to a number
       if (keyCode) {
-        this.UserInfofromOtp(keyCode);
+        this.UserInfofromOtp();
       }
     });
   }
@@ -118,9 +118,9 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
       return false;
     }
   }
- UserInfofromOtp(keyCode){
+ UserInfofromOtp(){
    loading(true)
-    this._userCreationService.getUserInfoByOtp(keyCode).subscribe((res:any)=>{
+    this._sharedService.getUserInfoByOtp.subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
       this.userInfo = JSON.parse(res.returnObject);
       this.showTranslatedLangSide = (this.userInfo && this.userInfo.RegionCode == "MET")? true : false;

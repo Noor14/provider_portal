@@ -17,9 +17,9 @@ const routes: Routes = [
         { path: 'registration', component: RegistrationComponent, canActivate: [UserGuard]},
         { path: 'otp/:keys', component: OtpconfirmationComponent, canActivate: [UserGuard] },
         { path: 'password/:keys', component: CreatePasswordComponent, canActivate: [UserGuard]},
-        { path: 'business-profile', component : BusinessInfoComponent },
-        { path: 'business-setup', component : ShippingInfoComponent },
-        { path: 'profile-completion', component : ProfilecompletionComponent },
+        { path: 'business-profile', component: BusinessInfoComponent, canActivate: [UserGuard] },
+        { path: 'profile-completion', component: ProfilecompletionComponent, canActivate: [UserGuard] },
+        { path: 'business-setup', component: ShippingInfoComponent },
         { path: 'bookings', component :BookingsComponent },
         { path: '**', redirectTo: 'registration', pathMatch: 'full' }
      ]
