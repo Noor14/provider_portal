@@ -1,3 +1,158 @@
-<p>
-  bookings works!
-</p>
+<div class="user-dashboard bookings">
+    <!-- row -->
+    <div class="user-dashborad-welcome-section">
+        <!-- <app-placeholder [heading]="'head'"></app-placeholder> -->
+        <h3>Hey beryl Logistics,
+            <span>Welcome Back</span>
+        </h3>
+        <!-- <p  class="user-info">Last logged in loginLogs.LastLoginDate | date : "d MMM, yyyy" loginLogs.LastLoginDate | date : "H:mm" from loginLogs.LastLoginCountryName
+      </p> -->
+    </div>
+    <!--/ row -->
+
+      <!-- booking summery -->
+  <div  class="row">
+    <div class="summary-section col-md-12 pr-0">
+      <!-- <app-placeholder [heading]="'head'"></app-placeholder> -->
+      <h4 class="summary-title">Booking</h4>
+      <div class="booking-summery">
+        <div class="row pointer">
+          <!-- Booking Summery Col -->
+          <div class="summary-section-boxes col-xl-4 col-md-4 col-sm-12">
+            <!-- <div class="booking-summary">
+              <app-placeholder></app-placeholder>
+            </div> -->
+            <div class="summarybox booking-summary">
+              <div class="summary-icon">
+                <img src="../../../../../assets/images/icons/icon_booking_current.svg">
+              </div>
+              <div class="summary-box-title">
+                <h5>Current Bookings</h5>
+              </div>
+              <div class="summery-quantity">
+                <span></span>
+              </div>
+            </div>
+          </div>
+          <!--/ Booking Summery Col -->
+          <!-- Booking Summery Col2 -->
+          <div class="summary-section-boxes col-xl-4 col-md-4 col-sm-12">
+            <!-- <div class="booking-summary">
+              <app-placeholder></app-placeholder>
+            </div> -->
+            <div class="summarybox booking-summary">
+              <div class="summary-icon">
+                <img src="../../../../../assets/images/icons/icon_booking_saved.svg">
+              </div>
+              <div class="summary-box-title">
+                <h5>Saved Bookings</h5>
+              </div>
+              <div class="summery-quantity">
+                <span></span>
+              </div>
+            </div>
+          </div>
+          <!--/ Booking Summery Col2 -->
+          <!-- Booking Summery Col3 -->
+          <div class="summary-section-boxes col-xl-4 col-md-4 col-sm-12">
+            <!-- <div class="booking-summary">
+              <app-placeholder></app-placeholder>
+            </div> -->
+            <div class="summarybox booking-summary">
+              <div class="summary-icon">
+                <img src="../../../../../assets/images/icons/icon_booking_total.svg">
+              </div>
+              <div class="summary-box-title">
+                <h5>Total Bookings</h5>
+              </div>
+              <div class="summery-quantity">
+                <span></span>
+              </div>
+            </div>
+          </div>
+          <!--/ Booking Summery Col3 -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ booking summery -->
+
+    <!-- booking summery -->
+    <div class="row">
+        <div class="summary-section col-md-12 pr-0">
+            <!-- <app-placeholder [heading]="'head'"></app-placeholder> -->
+            <h4 class="summary-title">Booking</h4>
+            <div class="booking-summery">
+                <div class="row pointer">
+                    <!-- Booking Summery Col -->
+                    <div class="summary-section-boxes col-xl-6 col-md-6 col-sm-12">
+                        <!-- <div class="booking-summary">
+                <app-placeholder></app-placeholder>
+              </div> -->
+                        <div class="summarybox booking-summary">
+                            <div class="summary-icon">
+                                <img src="../../../../../assets/images/icons/icon_booking_current.svg">
+                            </div>
+                            <div class="summary-box-title">
+                                <h5>Current Bookings</h5>
+                            </div>
+                            <div class="summery-quantity">
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/ Booking Summery Col -->
+
+                    <!-- Booking Summery Col2 -->
+                    <div class="summary-section-boxes col-xl-6 col-md-6 col-sm-12">
+                        <!-- <div class="booking-summary">
+                <app-placeholder></app-placeholder>
+              </div> -->
+                        <div class="summarybox booking-summary">
+                            <div class="summary-icon">
+                                <img src="../../../../../assets/images/icons/icon_booking_total.svg">
+                            </div>
+                            <div class="summary-box-title">
+                                <h5>Total Bookings</h5>
+                            </div>
+                            <div class="summery-quantity">
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/ Booking Summery Col3 -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ booking summery -->
+
+    <!-- booking lists -->
+    <div class="row">
+        <!-- Booking List -->
+        <div class="col-12 bookings-table pr-0">
+            <div class="pull-right bookings-selected">
+                <div ngbDropdown #myDrop="ngbDropdown">
+                    <div class="pointer" id="dropdowncountry" ngbDropdownToggle>
+                        <span> selectedBooking</span>
+                    </div>
+                    <div class="sortFilter animated fadeIn country-section" ngbDropdownMenu aria-labelledby="dropdowncountry">
+                        <!-- <ng-scrollbar [trackX]="false" [autoHide]="true"> -->
+                        <ul class="list-group" style="position: relative; max-width: 160px; max-height: 180px;">
+                            <li class="list-group-item pointer">
+                                <span>Current Bookings</span>
+                            </li>
+                            <li class="list-group-item pointer">
+                                <span>Saved Bookings</span>
+                            </li>
+
+                        </ul>
+                        <!-- </ng-scrollbar> -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!--/ booking lists -->

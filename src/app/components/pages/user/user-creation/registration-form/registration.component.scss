@@ -5,6 +5,7 @@
         font-family: $font-pragmatica;
         font-weight: $font-weight-mid;
         color: $text-color-default;
+        font-size: 2rem;
     }
     &-paragraph {
         font-family: $font-proxima;
@@ -36,7 +37,7 @@
        
     }
     &-map-section {
-        margin-top: 50px;
+        margin-top: 46px;
         agm-map {
             height: 360px;
             margin-bottom: 58px;
@@ -80,7 +81,7 @@
 }
     .hr-solid {
         margin-top: 0.5rem !important;
-        margin-bottom: 1.5rem !important;
+        margin-bottom: 1rem !important;
     }
     .fancyRadioBoxes {
         label {
@@ -96,6 +97,7 @@
     }
 
     .btn-register {
+        margin-top:0.5rem;
         font-size: $font-size-large;
         color: $white-color;
         text-transform: uppercase;

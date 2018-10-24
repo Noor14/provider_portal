@@ -1,6 +1,6 @@
 <section class="registration">
-  <h3 class="registration-title">Registration Details</h3>
-  <small class="registration-paragraph">It takes only a few minutes to setup your account.</small>
+  <h2 class="registration-title">Registration Details</h2>
+  <small class="registration-paragraph pt-1">It takes only a few minutes to setup your account.</small>
   <section class="registration-map-section">
     <h5 class="registration-head-titles">
       Select Your Country
@@ -22,13 +22,13 @@
     </agm-map>
   </section>
 
-  <section class="registration-form animated fadeInUp pt-2" *ngIf="registrationForm">
-    <h5 class="registration-head-titles mt-5 d-flex justify-content-between">
-      <span>{{lblAccSetupBaseLang}}</span>
-      <span *ngIf="showTranslatedLangSide" class="text-right">{{lblAccSetupOtherLang}}</span>
+  <section class="registration-form animated fadeInUp pt-3" *ngIf="registrationForm">
+    <h5 class="registration-head-titles mt-5 pt-2 d-flex justify-content-between">
+      <span >{{lblAccSetupBaseLang}}</span>
+      <span *ngIf="showTranslatedLangSide" class="text-right ">{{lblAccSetupOtherLang}}</span>
     </h5>
     <hr class="hr-solid">
-    <div class="row mb-1" *ngFor="let account of accountSetup; let i = index">
+    <div class="row pt-2 mb-0 " *ngFor="let account of accountSetup; let i = index">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="fancyRadioBoxes">
           <input id="{{i}}" name="accountSetup" type="radio" (click)="selectAccountSetup(i, account)">
@@ -182,7 +182,7 @@
         </div> -->
       </div>
 
-      <h5 class="registration-head-titles mt-5 d-flex justify-content-between">
+      <h5 class="registration-head-titles pt-1 mt-5 d-flex justify-content-between">
         <span>{{lblContactDetailBaseLang}}</span>
         <span *ngIf="showTranslatedLangSide" class="text-right">{{lblContactDetailOtherLang}}</span>
       </h5>
