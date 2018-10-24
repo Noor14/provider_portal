@@ -133,7 +133,14 @@
     }
    
 }
-
+.registration-form{
+    .fancyRadioBoxes {
+        margin-bottom: 16px;
+        label{
+            align-items: center;
+        }
+    }
+}
 input.blinking {
     -webkit-animation: 1.4s linear infinite blink;
     animation: 1.4s linear infinite blink;
@@ -141,8 +148,6 @@ input.blinking {
     
    
 }
-
-
 @-webkit-keyframes blink {
    from {  
        box-shadow: 0px 0px 4px 1px #ced4da;
