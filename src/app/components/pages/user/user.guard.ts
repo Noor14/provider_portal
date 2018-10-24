@@ -23,48 +23,48 @@ export class UserGuard implements CanActivate {
    
     // if user go to otp direct page
     // return true;
-    if(state.url.indexOf('otp') >= 0){
-      let otpKey = state.url.split('/').pop(); 
-      return this._userCreationService.getUserInfoByOtp(otpKey).map((res: any) => {
-        if (res.returnStatus == "Success") {
-          return true;
-        }
-        else{
-          this.router.navigate(['/registration']);
-          return false;
-        }
-      }, (err: HttpErrorResponse) => {
-        this.router.navigate(['/registration']);
-        return Observable.of(false);
-      })
+    // if(state.url.indexOf('otp') >= 0){
+    //   let otpKey = state.url.split('/').pop(); 
+    //   return this._userCreationService.getUserInfoByOtp(otpKey).map((res: any) => {
+    //     if (res.returnStatus == "Success") {
+    //       return true;
+    //     }
+    //     else{
+    //       this.router.navigate(['/registration']);
+    //       return false;
+    //     }
+    //   }, (err: HttpErrorResponse) => {
+    //     this.router.navigate(['/registration']);
+    //     return Observable.of(false);
+    //   })
    
-    }
+    // }
     
-    // if user go to password direct page
+    // // if user go to password direct page
 
-    if (state.url.indexOf('password') >= 0) {
-      let otpKey = state.url.split('/').pop();
-      return this._userCreationService.getUserOtpVerified(otpKey, 'Used').map((res: any) => {
-        if (res.returnStatus == "Success") {
-          return true;
-        }
-        else {
-          this.router.navigate(['/registration']);
-          return false;
-        }
-      }, (err: HttpErrorResponse) => {
-        this.router.navigate(['/registration']);
-        return Observable.of(false);
-      })
+    // if (state.url.indexOf('password') >= 0) {
+    //   let otpKey = state.url.split('/').pop();
+    //   return this._userCreationService.getUserOtpVerified(otpKey, 'Used').map((res: any) => {
+    //     if (res.returnStatus == "Success") {
+    //       return true;
+    //     }
+    //     else {
+    //       this.router.navigate(['/registration']);
+    //       return false;
+    //     }
+    //   }, (err: HttpErrorResponse) => {
+    //     this.router.navigate(['/registration']);
+    //     return Observable.of(false);
+    //   })
 
-    }
+    // }
       
 
     // if user back from otp to registration page
 
-    if(state.url){
+    // if(state.url){
       return true 
-    }
+    // }
 
   }
 }
