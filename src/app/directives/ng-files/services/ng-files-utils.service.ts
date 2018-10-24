@@ -54,10 +54,8 @@ export class NgFilesUtilsService {
                 .split(', ')
                 .map(extension => extension.slice(1))
                 .join('|');
-
             const regexp = NgFilesUtilsService.getRegExp(extensionsList);
-
-            return !regexp.test(file.name);
+            return !regexp.test(file.name.toLowerCase());
         });
 
         if (filesNotMatchExtensions.length) {

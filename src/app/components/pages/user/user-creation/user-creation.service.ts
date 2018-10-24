@@ -10,8 +10,8 @@ export class UserCreationService {
     let url: string = `usersprovider/AccountSetup/${id}`;
     return this._http.get(baseApi + url);
   }
-  getjobTitles() {
-    let url: string = "job/GetJobTitles";
+  getjobTitles(id) {
+    let url: string = `job/GetJobTitles/${id}`;
     return this._http.get(baseApi + url);
   }
   

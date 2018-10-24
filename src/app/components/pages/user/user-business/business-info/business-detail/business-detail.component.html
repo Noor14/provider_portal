@@ -209,11 +209,12 @@
           </div>
       </div>
  
-      <div class="documentInfo d-flex flex-column mt-3">
+      <div class="documentInfo d-flex flex-column mt-3" [ngClass]="{'removeBorder': selectedLicense && selectedLicense.fileName}">
       <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLicense && selectedLicense.fileName">
         <div class="fileDesc">
           <img *ngIf="selectedLicense.fileType == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
           <img *ngIf="selectedLicense.fileType == 'image/png' || selectedLicense.fileType == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
+          <img *ngIf="selectedLicense.fileType == 'image/docx'" src="../../../../../../assets/images/icons/icon_docx.svg" alt="img" class="fileIcon mr-3">
           <span>{{selectedLicense.fileName}}</span>
         </div>
         <div class="del">
@@ -270,13 +271,13 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label for="address">{{addLabelBaseLanguage}}</label>
-          <input type="text" (keypress)="textValidation($event)" class="form-control" maxlength="200" formControlName="address" (focusout)="errorValidate()" 
+          <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200" formControlName="address" (focusout)="errorValidate()" 
           (focus)="addressError = false" [ngClass]="{'inputError': addressError && businessLocForm.controls['address'].errors}" [(ngModel)]="addressAr">
           <span *ngIf="addressError && businessLocForm.controls['address'].errors">
               <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['address'].hasError('required') && (businessLocForm.controls.address.dirty || businessLocForm.controls.address.touched)">{{requiredFields}}</p>
               <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['address'].hasError('pattern') && (businessLocForm.controls.address.dirty || businessLocForm.controls.address.touched)">Please enter valid information</p>
               <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['address'].hasError('maxlength') && (businessLocForm.controls.address.dirty || businessLocForm.controls.address.touched)">Address should not exceed from 200 characters</p>
-              <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['address'].hasError('minlength') && (businessLocForm.controls.address.dirty || businessLocForm.controls.address.touched)">Address should be minimum 20 characters</p>
+              <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['address'].hasError('minlength') && (businessLocForm.controls.address.dirty || businessLocForm.controls.address.touched)">Address should be minimum 10 characters</p>
             </span>
         </div>
        
@@ -284,13 +285,13 @@
       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="address">{{addLabelOtherLanguage}}</label>
-          <input type="text" class="form-control" (keypress)="textValidation($event)" maxlength="200" formControlName="transAddress" (focusout)="errorValidate()" 
+          <input type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transAddress" (focusout)="errorValidate()" 
           (focus)="addressArError = false" [ngClass]="{'inputError': addressArError && businessLocForm.controls['transAddress'].errors}" [(ngModel)]="addressAr">
           <span *ngIf="addressArError && businessLocForm.controls['transAddress'].errors">
               <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transAddress'].hasError('required') && (businessLocForm.controls.transAddress.dirty || businessLocForm.controls.transAddress.touched)">{{requiredFieldsOthrLng}}</p>
               <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transAddress'].hasError('pattern') && (businessLocForm.controls.transAddress.dirty || businessLocForm.controls.transAddress.touched)">يرجى إدخال معلومات صحيحة</p>
               <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transAddress'].hasError('maxlength') && (businessLocForm.controls.transAddress.dirty || businessLocForm.controls.transAddress.touched)">يجب ألا يتجاوز العنوان 200 حرف</p>
-              <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transAddress'].hasError('minlength') && (businessLocForm.controls.transAddress.dirty || businessLocForm.controls.transAddress.touched)">يجب أن يكون العنوان 20 حرفًا كحد أدنى</p>
+              <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transAddress'].hasError('minlength') && (businessLocForm.controls.transAddress.dirty || businessLocForm.controls.transAddress.touched)">يجب أن يكون العنوان 10 حرفًا كحد أدنى</p>
             </span>
         </div>
        
@@ -348,12 +349,13 @@
       <div class="col-12">
         <div class="form-group">
            <label for="address">{{uploadlogoLabelBaseLanguage}}</label>
-           <div class="documentInfo d-flex flex-column mt-3">
+           <div class="documentInfo d-flex flex-column mt-3" [ngClass]="{'removeBorder': selectedLogo && selectedLogo.fileName}">
             <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLogo && selectedLogo.fileName">
               <div class="fileDesc">
                   <img *ngIf="selectedLogo.fileType == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
                   <img *ngIf="selectedLogo.fileType == 'image/png' || selectedLogo.fileType == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
-                   <span>{{selectedLogo.fileName}}</span>
+                  <img *ngIf="selectedLogo.fileType == 'image/docx'" src="../../../../../../assets/images/icons/icon_docx.svg" alt="img" class="fileIcon mr-3">
+                  <span>{{selectedLogo.fileName}}</span>
               </div>
               <div class="del">
                 <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx('logo')">
@@ -456,7 +458,7 @@
                 </div>
               </div>
               <input type="text" class="form-control" 
-               maxlength="13" placeholder="12 345 6789" formControlName="phone" [ngClass]="{'inputError': phoneError && contactInfoForm.controls['phone'].errors}" (focusout)="errorValidate()" 
+               maxlength="13" placeholder="123456789" formControlName="phone" [ngClass]="{'inputError': phoneError && contactInfoForm.controls['phone'].errors}" (focusout)="errorValidate()" 
                (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
                (keypress)="NumberValid($event)" />
               </div>
@@ -493,7 +495,7 @@
               </div>
               <input type="text" class="form-control" formControlName="transLangPhone" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true"
                [ngClass]="{'inputError': translangPhoneError && contactInfoForm.controls['transLangPhone'].errors}" 
-              (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="13" placeholder="۶۷۸۹ ۳۴۵ ۱۲" (keypress)="NumberValid($event)">
+              (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="13" placeholder="۹۸۷۶۵۴۳۲۱" (keypress)="NumberValid($event)">
             </div>
             <span class="animated fadeIn" *ngIf="translangPhoneError && contactInfoForm.controls['transLangPhone'].errors">
                 <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['transLangPhone'].hasError('required') && (contactInfoForm.controls.transLangPhone.dirty || contactInfoForm.controls.transLangPhone.touched)">{{requiredFieldsOthrLng}}</p>
@@ -530,7 +532,7 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" maxlength="13" placeholder="12 345 6789" formControlName="fax" [ngClass]="{'inputError': faxError && contactInfoForm.controls['fax'].errors}" (focusout)="errorValidate()" (blur)="activeFax=false"
+              <input type="text" class="form-control" maxlength="13" placeholder="123456789" formControlName="fax" [ngClass]="{'inputError': faxError && contactInfoForm.controls['fax'].errors}" (focusout)="errorValidate()" (blur)="activeFax=false"
               (ngModelChange)="onModelFaxChange(activeTransFax, activeFax, 'transLangFax', $event)" (focus)="faxError=false; activeFax=true"
               (keypress)="NumberValid($event)" />
             </div>
@@ -565,7 +567,7 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" maxlength="13" placeholder="۶۷۸۹ ۳۴۵ ۱۲" formControlName="transLangFax" (focusout)="errorValidate()" (blur)="activeTransFax=false" (focus)="translangFaxError = false; activeTransFax=true"
+              <input type="text" class="form-control" maxlength="13" placeholder="۹۸۷۶۵۴۳۲۱" formControlName="transLangFax" (focusout)="errorValidate()" (blur)="activeTransFax=false" (focus)="translangFaxError = false; activeTransFax=true"
               [ngClass]="{'inputError': translangFaxError && contactInfoForm.controls['transLangFax'].errors}" 
              (ngModelChange)="onModelTransFaxChange(activeFax, activeTransFax, 'fax', $event)" (keypress)="NumberValid($event)">
             </div>
@@ -640,14 +642,14 @@
     </div> -->
 
     <div class="contact-btn">
-    <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" 
+    <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" 
         [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length">
        <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
-     </button>
+     </button> -->
 
-    <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
+    <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
       <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
-    </button> -->
+    </button>
     
     </div>
   </form>

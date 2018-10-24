@@ -11,6 +11,7 @@ import { CommonService } from '../../../../../../services/common.service';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../../directives/ng-files';
 import { CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear } from '../../../../../../constants/globalFunctions'
 import { UserBusinessService } from '../../user-business.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-business-detail',
@@ -29,7 +30,7 @@ export class BusinessDetailComponent implements OnInit {
   public selectedSocialsite: any = {};
 
   private config: NgFilesConfig = {
-    acceptExtensions: ['jpg', 'png', 'pdf', 'bmp'],
+    acceptExtensions: ['jpeg', 'jpg', 'png', 'pdf', 'bmp'],
     maxFilesCount: 1,
     maxFileSize: 4096000,
     totalFilesSize: 4096000
@@ -330,7 +331,6 @@ export class BusinessDetailComponent implements OnInit {
       this.userProfile = userInfo.returnObject;
       this.showTranslatedLangSide = (this.userProfile.regionCode == "MET") ? true : false;
       this.getLabels(this.userProfile);
-      // this.firstNameBL = userInfo.returnObject.firstNameBL;
     }
     this.getsocialList();
     this.getOrganizationList();
@@ -341,7 +341,10 @@ export class BusinessDetailComponent implements OnInit {
       if (res.returnStatus == 'Success') {
         this.serviceOffered = JSON.parse(res.returnObject);
       }
+    },(err: HttpErrorResponse) => {
+      console.log(err);
     })
+
     this._sharedService.countryList.subscribe((state: any) => {
       if (state) {
         this.countryList = state;
@@ -373,8 +376,8 @@ export class BusinessDetailComponent implements OnInit {
       expiryYearArabic: new FormControl(null, [CustomValidator.bind(this)]),
     });
     this.businessLocForm = new FormGroup({
-      address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(20)]),
-      transAddress: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(200), Validators.minLength(20)]),
+      address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      transAddress: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       poBoxNo: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
       poBoxNoAr: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(16), Validators.minLength(4)]),
     });
@@ -557,8 +560,8 @@ export class BusinessDetailComponent implements OnInit {
           //get the place result
           let place: google.maps.places.PlaceResult = autocomplete.getPlace();
           console.log(place)
-          this.businessLocForm.controls['address'].setValue(place.formatted_address);
-          this.businessLocForm.controls['transAddress'].setValue(place.formatted_address);
+          // this.businessLocForm.controls['address'].setValue(place.formatted_address);
+          // this.businessLocForm.controls['transAddress'].setValue(place.formatted_address);
 
           //verify result
           if (place.geometry === undefined || place.geometry === null) {
@@ -600,6 +603,18 @@ export class BusinessDetailComponent implements OnInit {
     }
     else {
       return true;
+    }
+  }
+  oneSpaceHandler(event){
+    if (event.target.value) {
+      var end = event.target.selectionEnd;
+      if (event.keyCode == 32 && (event.target.value[end - 1] == " " || event.target.value[end] == " ")) {
+        event.preventDefault();
+        return false;
+      }
+    }
+    else if (event.target.selectionEnd == 0 && event.keyCode == 32){
+      return false;
     }
   }
 
@@ -685,8 +700,8 @@ export class BusinessDetailComponent implements OnInit {
         if (results[0]) {
           console.log('aaaa');
           console.log(results[0].formatted_address);
-          this.businessLocForm.controls['address'].setValue(results[0].formatted_address);
-          this.businessLocForm.controls['transAddress'].setValue(results[0].formatted_address);
+          // this.businessLocForm.controls['address'].setValue(results[0].formatted_address);
+          // this.businessLocForm.controls['transAddress'].setValue(results[0].formatted_address);
           this.searchElement.nativeElement.value = results[0].formatted_address;
           // console.log(this.searchElementRef.nativeElement.value);
           // infowindow.setContent(results[0].formatted_address);
@@ -1389,43 +1404,37 @@ export class BusinessDetailComponent implements OnInit {
 
 
 
-  SelectDocx(selectedFiles: any, type): void {
-    console.log(selectedFiles)
+  SelectDocx(selectedFiles: NgFilesSelected, type): void {
+
     if (type == 'license') {
-
-      // if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      //   if (selectedFiles.status == 1) this._toastr.error('Please select only one file to upload', '')
-      //   else if (selectedFiles.status == 2) this._toastr.error('File format is not supported please select supported format file', '')
-      //   // this.selectedFiles = selectedFiles.status;
-      //   console.log('in if');
-      //   return;
-      // } else {
-      // console.log('in else ');
-
-      try {
-        this.onFileChange(selectedFiles, 'license')
-      } catch (error) {
-        console.log(error);
+      if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
+        if (selectedFiles.status == 1) this._toastr.error('Please select only one (1) file to upload.', '')
+        else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 4 MB. Please upload smaller file.', '')
+        else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
+       return;
+      } else {
+        try {
+          this.onFileChange(selectedFiles, 'license')
+        } catch (error) {
+          console.log(error);
+        }
       }
-      // }
+  
     }
     else if (type == 'logo') {
 
-      // if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      //   if (selectedFiles.status == 1) this._toastr.error('Please select only one file to upload', '')
-      //   else if (selectedFiles.status == 2) this._toastr.error('File format is not supported please select supported format file', '')
-      //   // this.selectedFiles = selectedFiles.status;
-      //   console.log('in if');
-      //   return;
-      // } else {
-      //   console.log('in else ');
-
+      if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
+        if (selectedFiles.status == 1) this._toastr.error('Please select only one (1) file to upload.', '')
+        else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 4 MB. Please upload smaller file.', '')
+        else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
+        return;
+      } else {
       try {
         this.onFileChange(selectedFiles, 'logo')
       } catch (error) {
         console.log(error);
       }
-      // }
+      }
     }
   }
 
@@ -1434,10 +1443,8 @@ export class BusinessDetailComponent implements OnInit {
 
     if (event) {
       try {
-        let file = event[0];
+        let file = event.files[0];
         reader.readAsDataURL(file);
-        reader.onload = () => {
-
           let selectedFile: DocumentFile = {
             fileName: file.name,
             fileType: file.type,
@@ -1453,8 +1460,6 @@ export class BusinessDetailComponent implements OnInit {
           if (type === 'logo') {
             this.selectedLogo = selectedFile
           }
-
-        };
       } catch (err) {
         console.log(err);
       }

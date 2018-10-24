@@ -8,15 +8,15 @@ import { CreatePasswordComponent } from './user-creation/create-password/create-
 import { ProfilecompletionComponent } from './user-business/business-info/profilecompletion/profilecompletion.component';
 import { ShippingInfoComponent } from './user-business/shipping-info/shipping-info.component';
 import { BookingsComponent } from './bookings/bookings.component';
-
+import { UserGuard } from './user.guard';
 
 const routes: Routes = [
     { path: '', 
       component : UserComponent,
       children:[
-        { path: 'registration', component : RegistrationComponent },
-        { path: 'otp/:keys', component : OtpconfirmationComponent },
-        { path: 'password/:keys', component : CreatePasswordComponent },
+        { path: 'registration', component: RegistrationComponent, canActivate: [UserGuard]},
+        { path: 'otp/:keys', component: OtpconfirmationComponent, canActivate: [UserGuard] },
+        { path: 'password/:keys', component: CreatePasswordComponent, canActivate: [UserGuard]},
         { path: 'business-profile', component : BusinessInfoComponent },
         { path: 'business-setup', component : ShippingInfoComponent },
         { path: 'profile-completion', component : ProfilecompletionComponent },

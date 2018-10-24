@@ -13,7 +13,7 @@ import { UserService } from './user.service';
 import { UserCreationModule } from './user-creation/user-creation.module';
 import { UserBusinessModule } from './user-business/user-business.module';
 import { BookingsComponent } from './bookings/bookings.component';
-
+import { UserGuard } from './user.guard'
 
 @NgModule({
   imports: [
@@ -36,6 +36,6 @@ import { BookingsComponent } from './bookings/bookings.component';
     UserComponent,
     BookingsComponent,
   ],
-  providers: [UserService],
+  providers: [UserGuard,UserService],
 })
 export class UserModule { }

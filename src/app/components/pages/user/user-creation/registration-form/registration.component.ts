@@ -11,6 +11,7 @@ import { UserCreationService } from '../user-creation.service';
 import { SharedService } from '../../../../../services/shared.service';
 import { CommonService } from '../../../../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-registration',
@@ -176,12 +177,6 @@ export class RegistrationComponent implements OnInit {
       }
     })
 
-    this._userCreationService.getjobTitles().subscribe((res: any) => {
-      if (res.returnStatus == 'Success') {
-        this.jobTitles = res.returnObject;
-      }
-    })
-
   }
 
   errorValidate() {
@@ -221,8 +216,6 @@ export class RegistrationComponent implements OnInit {
   getlabelsDescription() {
     this._userService.getlabelsDescription('registration').subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
-        // console.log(res.returnObject);
-        // console.log(this.regForm.controls.firstName);
         this.lblAccSetupBaseLang = res.returnObject[0].baseLang;
         this.lblAccSetupOtherLang = res.returnObject[0].otherLang;
         this.lblPersonalInfoBaseLang = res.returnObject[1].baseLang;
@@ -245,6 +238,9 @@ export class RegistrationComponent implements OnInit {
         this.regBtnOtherLang = res.returnObject[9].otherLang;
         loading(false);
       }
+    },(err: HttpErrorResponse) => {
+      loading(false);
+      console.log(err);
     })
   }
   accountList(region) {
@@ -261,6 +257,18 @@ export class RegistrationComponent implements OnInit {
         this.getlabelsDescription();
 
       }
+    },(err: HttpErrorResponse) => {
+      loading(false);
+      console.log(err);
+    })
+  }
+  getListJobTitle(id){
+    this._userCreationService.getjobTitles(id).subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
+        this.jobTitles = res.returnObject;
+      }
+    },(err: HttpErrorResponse) => {
+      console.log(err);
     })
   }
 
@@ -273,8 +281,11 @@ export class RegistrationComponent implements OnInit {
           this.selectedLangIdbyCountry = selectedCountry.desc[0].LanguageID;
           this.selectPhoneCode(selectedCountry);
           this.accountList(region);
+          this.getListJobTitle(region.id);
         }
       }
+    },(err: HttpErrorResponse) => {
+      console.log(err);
     })
   }
 
@@ -402,6 +413,9 @@ export class RegistrationComponent implements OnInit {
         loading(false);
         this._toastr.error(res.returnText, '');
       }
+    },(err: HttpErrorResponse) => {
+      loading(false);
+      console.log(err);
     })
 
   }

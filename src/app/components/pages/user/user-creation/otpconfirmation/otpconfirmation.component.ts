@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../../../../../services/shared.service';
 import { UserCreationService } from '../user-creation.service';
 import { loading } from '../../../../../constants/globalFunctions';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -80,6 +81,9 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
       else if(res.returnStatus == "Error"){
         loading(false);
       }
+    },(err: HttpErrorResponse) => {
+      loading(false);
+      console.log(err);
     })
   }
 
@@ -125,6 +129,9 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
       this._sharedService.formProgress.next(20)
       console.log(this.userInfo);
     } 
+    },(err: HttpErrorResponse) => {
+      loading(false);
+      console.log(err);
     })
   }
   // timerClass(){
@@ -158,6 +165,9 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
       else if (res.returnStatus == "Error") {
         loading(false);
       }
+    }, (err: HttpErrorResponse) => {
+      loading(false);
+      console.log(err);
     })
   }
   submitOtp(){
@@ -180,6 +190,9 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
         loading(false);
         this._toast.error(res.returnText,'');
       }
+    },(err: HttpErrorResponse) => {
+      loading(false);
+      console.log(err);
     })
   }
 
