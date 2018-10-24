@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../../../../services/shared.service';
-import { EMAIL_REGEX, CustomValidator } from '../../../../../../constants/globalFunctions';
+import { EMAIL_REGEX, CustomValidator, loading } from '../../../../../../constants/globalFunctions';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CommonService } from '../../../../../../services/common.service';
@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { element } from 'protractor';
 import { DocumentUpload } from '../../../../../../interfaces/document.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 
@@ -316,7 +317,7 @@ export class DirectorinfoComponent implements OnInit {
   }
 
   selectdocType(index, obj) {
-    // this.docxId = obj.AccountID;
+    this.docxId = obj.DocumentTypeID;
     let elem = document.getElementsByClassName('fancyRadioBoxes') as any;
     for (let i = 0; i < elem.length; i++) {
       if (elem[i].children[0].id == index) {
@@ -772,6 +773,7 @@ export class DirectorinfoComponent implements OnInit {
       doc: this.uploadDocs
 
     };
+    loading(true);
 
     this._userbusinessService.submitBusinessInfo(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
@@ -781,8 +783,14 @@ export class DirectorinfoComponent implements OnInit {
         res.returnObject.firstNameOL = this.userProfile.firstNameOL;
         localStorage.setItem('userInfo', JSON.stringify(res));
         this._router.navigate(['/profile-completion']);
-
+        loading(false)
       }
+      else{
+        loading(false)
+        
+      }
+    },(err:HttpErrorResponse)=>{
+      loading(false)
     })
 
   }

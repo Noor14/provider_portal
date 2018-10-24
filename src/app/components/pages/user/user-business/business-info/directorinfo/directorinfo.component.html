@@ -93,7 +93,7 @@
                             </div>
                           </div>
                           <input type="text" class="form-control" [ngClass]="{'inputError': phoneError && directorForm.controls['phone'].errors}" (focusout)="errorValidate()" (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
-                           maxlength="13" placeholder="12 345 6789" (keypress)="NumberValid($event)" formControlName="phone">
+                           maxlength="13" placeholder="123456789" (keypress)="NumberValid($event)" formControlName="phone">
                         </div>
                         <span *ngIf="phoneError">
                             <p class="inputError animated fadeIn" *ngIf="directorForm.controls['phone'].hasError('required') && (directorForm.controls.phone.dirty || directorForm.controls.phone.touched)">{{requiredFields}}</p>
@@ -128,7 +128,7 @@
                             </div>
                             <input type="text" class="form-control" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true" [ngClass]="{'inputError': translangPhoneError && directorForm.controls['transLangPhone'].errors}" 
                             (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="13"
-                             placeholder="۶۷۸۹ ۳۴۵ ۱۲" (keypress)="NumberValid($event)" formControlName="transLangPhone">
+                             placeholder="۹۸۷۶۵۴۳۲۱" (keypress)="NumberValid($event)" formControlName="transLangPhone">
                           </div>
                           <span *ngIf="translangPhoneError">
                               <p class="inputError animated fadeIn" *ngIf="directorForm.controls['transLangPhone'].hasError('required') && (directorForm.controls.transLangPhone.dirty || directorForm.controls.transLangPhone.touched)">{{requiredFieldsOthrLng}}</p>
@@ -301,14 +301,15 @@
                   <div class="fileDesc">
                       <img *ngIf="file.fileType == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
                       <img *ngIf="file.fileType == 'image/png' || file.fileType == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
-                    <span>{{file.fileName}}</span>
+                      <img *ngIf="file.fileType == 'image/docx'" src="../../../../../../assets/images/icons/icon_docx.svg" alt="img" class="fileIcon mr-3">
+                      <span>{{file.fileName}}</span>
                   </div>
                   <div class="del">
                     <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx(i)">
                   </div>
                 </div>  
                 
-                <div class="file-uploader" *ngIf="!selectedDocx || (selectedDocx && selectedDocx.length < 2)">
+                <div class="file-uploader" *ngIf="(!selectedDocx || (selectedDocx && selectedDocx.length < 2)) && docxId">
                    <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event)" [configId]="'config'">
                       <img src="../../../assets/images/icons/manager-icon.png">
                       <p class="m-0 mt-3"> Drag here or <span class="browse-span">browse</span> to upload</p>
