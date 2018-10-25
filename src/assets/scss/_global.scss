@@ -319,6 +319,7 @@ input[type="radio"]:focus+label>span {
 .form-group {
     margin-bottom: 0.5rem;
     select {
+        height:48px !important;
         border-color: $provider-input-border !important;
         &:focus {
             box-shadow: none !important;
