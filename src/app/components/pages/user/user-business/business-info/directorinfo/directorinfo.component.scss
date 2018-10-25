@@ -20,6 +20,9 @@
         .card {
             border: 0;
             background-color: $right-side-background;
+            &.ng-star-inserted{
+                position: inherit;
+            }
             &-header {
                 padding: 0.5rem 0rem;
                 border: 0;
