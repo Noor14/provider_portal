@@ -68,7 +68,7 @@
               <select id="inputState" class="form-control" name="issueYear" 
               [(ngModel)]="selectedIssueYear" (change)="selectYear($event.target.value, 'issue')" formControlName='issueYear'>
                 <option value="undefined">YYYY</option>
-                <option *ngFor="let year of pastYears">{{year.yearNormal}}</option>
+                <option *ngFor="let year of pastYears" [selected]='year.yearNormal == selectedIssueYear'>{{year.yearNormal}}</option>
               </select>
             </div>
           </div>
@@ -97,7 +97,7 @@
               <select id="inputState" class="form-control" name="issueYearArabic" 
               [(ngModel)]="selectedIssueYearAr" (change)="selectYear($event.target.value, 'issue')" formControlName='issueYearArabic'>
                 <option value="undefined">YYYY</option>
-                <option *ngFor="let year of pastYears">{{year.yearArabic}}</option>
+                <option *ngFor="let year of pastYears" [selected]='year.yearArabic == selectedIssueYearAr'>{{year.yearArabic}}</option>
               </select>
             </div>
           </div>
@@ -128,7 +128,7 @@
               <select id="inputState" class="form-control" name="expiryYear" 
               [(ngModel)]="selectedExpiryYear" (change)="selectYear($event.target.value, 'expire')" formControlName='expiryYear'>
                 <option value="undefined">YYYY</option>
-                <option *ngFor="let year of futureYears">{{year.yearNormal}}</option>
+                <option *ngFor="let year of futureYears" [selected]='year.yearNormal == selectedExpiryYear'>{{year.yearNormal}}</option>
               </select>
             </div>
           </div>
@@ -157,7 +157,7 @@
               <select id="inputState" class="form-control" name="expiryYearArabic" 
               [(ngModel)]="selectedExpiryYearAr" (change)="selectYear($event.target.value, 'expire')" formControlName='expiryYearArabic'>
                 <option value="undefined">YYYY</option>
-                <option *ngFor="let year of futureYears">{{year.yearArabic}}</option>
+                <option *ngFor="let year of futureYears" [selected]='year.yearArabic == selectedExpiryYearAr'>{{year.yearArabic}}</option>
               </select>
             </div>
           </div>
@@ -212,10 +212,13 @@
       <div class="documentInfo d-flex flex-column mt-3" [ngClass]="{'removeBorder': selectedLicense && selectedLicense.fileName}">
       <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLicense && selectedLicense.fileName">
         <div class="fileDesc">
+          <!-- <img src="{{selectedLicense.fileUrl}}" alt=""> -->
+          <a href="{{selectedLicense.fileUrl}}" download="{{selectedLicense.fileName}}">
           <img *ngIf="selectedLicense.fileType == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
           <img *ngIf="selectedLicense.fileType == 'image/png' || selectedLicense.fileType == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
           <img *ngIf="selectedLicense.fileType == 'image/docx'" src="../../../../../../assets/images/icons/icon_docx.svg" alt="img" class="fileIcon mr-3">
           <span>{{selectedLicense.fileName}}</span>
+           </a>
         </div>
         <div class="del">
           <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx('license')">
@@ -352,11 +355,13 @@
            <div class="documentInfo d-flex flex-column mt-3" [ngClass]="{'removeBorder': selectedLogo && selectedLogo.fileName}">
             <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLogo && selectedLogo.fileName">
               <div class="fileDesc">
+                <a href="{{selectedLogo.fileUrl}}" download="{{selectedLogo.fileName}}">
                   <img *ngIf="selectedLogo.fileType == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
                   <img *ngIf="selectedLogo.fileType == 'image/png' || selectedLogo.fileType == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
                   <img *ngIf="selectedLogo.fileType == 'image/docx'" src="../../../../../../assets/images/icons/icon_docx.svg" alt="img" class="fileIcon mr-3">
                   <span>{{selectedLogo.fileName}}</span>
-              </div>
+                  </a>
+                </div>
               <div class="del">
                 <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx('logo')">
               </div>
@@ -650,14 +655,14 @@
     </div> -->
 
     <div class="contact-btn">
-    <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" 
+    <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" 
         [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length">
        <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
-     </button> -->
+     </button>
 
-    <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
+    <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
       <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
-    </button>
+    </button> -->
     
     </div>
   </form>

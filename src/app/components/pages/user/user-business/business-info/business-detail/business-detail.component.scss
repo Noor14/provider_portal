@@ -93,9 +93,17 @@
             .uploaded-file {
                 border: 1px solid $secondary-color;
                 border-radius: 3px;
-                .fileIcon {
-                    width: 35px;
-                    height: 35px;
+                .fileDesc {
+                    a {
+                        text-decoration: none;
+                    .fileIcon {
+                        width: 35px;
+                        height: 35px; 
+                        }
+                        span {
+                            color: $text-color-default;
+                        }
+                    }
                 }
             }
             .file-uploader {

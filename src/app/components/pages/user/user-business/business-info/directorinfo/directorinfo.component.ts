@@ -622,12 +622,15 @@ export class DirectorinfoComponent implements OnInit {
           const element = event.files[index];
           let file = element
           reader.readAsDataURL(file);
-
+          reader.onload = () => {
             let selectedFile: DocumentFile = {
               fileName: file.name,
               fileType: file.type,
+              fileUrl: reader.result,
               fileBaseString: reader.result.split(',')[1]
             }
+          console.log('you file content:', selectedFile);
+
           if(this.selectedDocx && this.selectedDocx.length && event.files.length > 1 && index == 0){
             this._toastr.error('Please select only two file to upload', '');
             return;
@@ -639,6 +642,7 @@ export class DirectorinfoComponent implements OnInit {
           }
 
         }
+      }
         
       }
       catch (err) {
@@ -651,7 +655,7 @@ export class DirectorinfoComponent implements OnInit {
 
     const { license, logo } = this.formOneObj
     this.uploadDocs.forEach(docObj => {
-      if (docObj.BusinessLogic === 'COMPANY_LOGO') {
+      if (docObj.BusinessLogic === 'COMPANY_LOGO' && logo.fileBaseString) {
 
         docObj.DocumentFileContent = null;
         docObj.DocumentName = null;
@@ -805,4 +809,5 @@ export interface DocumentFile {
   fileBaseString: string
   fileName: string
   fileType: string
+  fileUrl: string
 }

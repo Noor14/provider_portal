@@ -148,18 +148,22 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
       FirstName: this.userInfo.FirstName,
       FirstNameOL: this.userInfo.FirstNameOL,
       redirectUrl: window.location.protocol + "//" + window.location.host + "/otp"
-      
     };
+    
     this._userCreationService.resendOtpCode(obj).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
         loading(false);
         console.log(res.returnObject.otpCode);
         this.userInfo.OTPCode = res.returnObject.otpCode;
         this.userInfo.Timer = res.returnObject.timer;
-        this._toast.success("Resend OTP Successfully", '');
+        this._toast.success(res.returnText, '');
         if(this.userInfo.Timer > 0) {
           clearInterval(this.countTime);
           this.countDown(this.userInfo.Timer); 
+        }
+        else{
+          clearInterval(this.countTime);
+          this.remainingTime = undefined;
         }
       }
       else if (res.returnStatus == "Error") {

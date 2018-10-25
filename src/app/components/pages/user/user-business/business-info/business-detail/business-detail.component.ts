@@ -334,14 +334,15 @@ export class BusinessDetailComponent implements OnInit {
     }
     this.getsocialList();
     this.getOrganizationList();
-    this.getTenYears();
+    this.getTenYears('issue', 0);
+    this.getTenYears('expire', 0);
     this.getDates(31, 'both');
 
     this._userbusinessService.getServiceOffered().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.serviceOffered = JSON.parse(res.returnObject);
       }
-    },(err: HttpErrorResponse) => {
+    }, (err: HttpErrorResponse) => {
       console.log(err);
     })
 
@@ -406,7 +407,7 @@ export class BusinessDetailComponent implements OnInit {
     this._sharedService.businessProfileJsonLabels.subscribe((state: any) => {
       if (state) {
         let data = state;
-        console.log(data,'translation')
+        console.log(data, 'translation')
         data.forEach(element => {
 
           if (element.keyCode == "lbl_Heading") {
@@ -605,7 +606,7 @@ export class BusinessDetailComponent implements OnInit {
       return true;
     }
   }
-  oneSpaceHandler(event){
+  oneSpaceHandler(event) {
     if (event.target.value) {
       var end = event.target.selectionEnd;
       if (event.keyCode == 32 && (event.target.value[end - 1] == " " || event.target.value[end] == " ")) {
@@ -613,7 +614,7 @@ export class BusinessDetailComponent implements OnInit {
         return false;
       }
     }
-    else if (event.target.selectionEnd == 0 && event.keyCode == 32){
+    else if (event.target.selectionEnd == 0 && event.keyCode == 32) {
       return false;
     }
   }
@@ -722,18 +723,19 @@ export class BusinessDetailComponent implements OnInit {
         this.IssueMonth = selectedMonth;
         this.selectedIssueMonth = selectedMonth.name;
         this.selectedIssueMonthAr = selectedMonth.arabicName;
+        this.monthndatefill(selectedMonth.name, "month");
+        this.fillerValidate(selectedMonth.name, type, "month");
         for (const key in this.dateValObj) {
           if (this.dateValObj.hasOwnProperty(key)) {
             let obj = this.dateValObj[key].find(obj => (obj.name == name || obj.arabicName == name));
             if (obj && Object.keys(obj).length) {
               this.getDates(key, type);
-              this.issueValidate(selectedMonth.name, type, "month");
-              this.monthndatefill(selectedMonth.name, "month");
-              return
+              // this.issueValidate(selectedMonth.name, type, "month");
+              return;
             }
             else if (!obj && name == 'Feb' || name == 'فبراير') {
-              this.leapValid(type, 'month');  
-              this.issueValidate(selectedMonth.name, type, "month");
+              this.leapValid(type, 'month');
+              // this.issueValidate(selectedMonth.name, type, "month");
               return;
             }
 
@@ -753,22 +755,24 @@ export class BusinessDetailComponent implements OnInit {
         this.ExpireMonth = selectedMonth;
         this.selectedExpireMonth = selectedMonth.name;
         this.selectedExpireMonthAr = selectedMonth.arabicName;
-        for (const key in this.dateValObj) {
-          if (this.dateValObj.hasOwnProperty(key)) {
-            let obj = this.dateValObj[key].find(obj => (obj.name == name || obj.arabicName == name));
-            if (obj && Object.keys(obj).length) {
-              this.getDates(key, type);
-              this.issueValidate(selectedMonth.name, type, "month");
-              return
-            }
-            else if (!obj && name == 'Feb' || name == 'فبراير') {
-              this.leapValid(type, 'month');  
-              this.issueValidate(selectedMonth.name, type, "month");
-              return
-            }
+        this.fillerValidate(selectedMonth.name, type, "month");
 
-          }
-        }
+        // for (const key in this.dateValObj) {
+        //   if (this.dateValObj.hasOwnProperty(key)) {
+        //     let obj = this.dateValObj[key].find(obj => (obj.name == name || obj.arabicName == name));
+        //     if (obj && Object.keys(obj).length) {
+        //       this.getDates(key, type);
+        //       // this.issueValidate(selectedMonth.name, type, "month");
+        //       return
+        //     }
+        //     else if (!obj && name == 'Feb' || name == 'فبراير') {
+        //       this.leapValid(type, 'month');
+        //       // this.issueValidate(selectedMonth.name, type, "month");
+        //       return
+        //     }
+
+        //   }
+        // }
       }
       else {
         this.ExpireMonth = {};
@@ -923,7 +927,8 @@ export class BusinessDetailComponent implements OnInit {
         let selectedDate = this.issueDates.find(obj => (obj.dateNormal == date || obj.dateArabic == date));
         this.IssueDate = selectedDate;
         this.datenMonthValidator(selectedDate.dateNormal, type);
-        this.issueValidate(selectedDate.dateNormal, type, "date");
+        // this.issueValidate(selectedDate.dateNormal, type, "date");
+        this.fillerValidate(selectedDate.dateNormal, type, "date");
         this.selectedIssueDate = selectedDate.dateNormal;
         this.selectedIssueDateAr = selectedDate.dateArabic;
       }
@@ -939,165 +944,242 @@ export class BusinessDetailComponent implements OnInit {
       if (date && date != 'undefined') {
         let selectedDate = this.expiryDates.find(obj => (obj.dateNormal == date || obj.dateArabic == date));
         this.ExpireDate = selectedDate;
-        this.datenMonthValidator(selectedDate.dateNormal, type);
-        this.issueValidate(selectedDate.dateNormal, type, 'date');
+        // this.datenMonthValidator(selectedDate.dateNormal, type);
+        this.fillerValidate(selectedDate.dateNormal, type, 'date');
+        // this.issueValidate(selectedDate.dateNormal, type, 'date');
         this.selectedExpireDate = selectedDate.dateNormal;
         this.selectedExpireDateAr = selectedDate.dateArabic;
 
       }
       else {
         this.ExpireDate = {};
-        this.datenMonthValidator(date, type);
+        // this.datenMonthValidator(date, type);
         this.selectedExpireDate = date;
         this.selectedExpireDateAr = date;
 
       }
     }
   }
-  issueValidate(date, type, from) {
-    if (type == "issue" && from == 'date') {
-      if (this.selectedIssueMonth != undefined && this.selectedIssueYear != undefined) {
-        if (this.selectedIssueYear < this.date.getFullYear()) return;
-        else if (this.selectedIssueYear == this.date.getFullYear()) {
-          for (let index = 0; index < this.months.length; index++) {
-            if (this.months[index].name == this.selectedIssueMonth) {
-              if (index == this.date.getMonth()) {
-                if (date < this.date.getDate()) return;
-                else if (date > this.date.getDate()) {
-                  let dateValidate = "Issue date can not exceed from current date";
-                  this._toastr.error(dateValidate, '');
-                  console.log(dateValidate);
-                  return;
-                };
-              }
-              else if (index < this.date.getMonth()) return;
-              else {
-                let dateValidate = "Issue date can not exceed from current date";
-                this._toastr.error(dateValidate, '');
-                return;
-              }
-            }
-          }
+  monthSorter(date){
+    if (date >= 30) {
+      for (let key in this.dateValObj) {
+        if (key == date && date != 30) {
+          this.expiryMonths = this.dateValObj[key];
+        }
+        else if (key == date && date == 30) {
+          let arr = this.dateValObj[key].concat(this.dateValObj[31]);
+          this.expiryMonths = arr.sort((a, b) => {
+            return this.months.map(obj => obj.name).indexOf(a.name) - this.months.map(obj => obj.name).indexOf(b.name);
+          });
+          return;
         }
       }
     }
-    else if (type == "issue" && from == 'month') {
-      if (this.selectedIssueDate != undefined && this.selectedIssueYear != undefined) {
-        if (this.selectedIssueYear < this.date.getFullYear()) return;
-        else if (this.selectedIssueYear == this.date.getFullYear()) {
-          for (let index = 0; index < this.months.length; index++) {
-            if (this.months[index].name == date) {
-              if (index == this.date.getMonth()) {
-                if (this.selectedIssueDate < this.date.getDate()) return;
-                else if (date > this.date.getDate()) {
-                  let dateValidate = "Issue date can not exceed from current date";
-                  this._toastr.error(dateValidate, '');
-                  return;
-                };
-              }
-              else if (index < this.date.getMonth()) return;
-              else {
-                let dateValidate = "Issue date can not exceed from current date";
-                this._toastr.error(dateValidate, '');
-                return;
-              }
-            }
-          }
-        }
-      }
-    }
-    else if (type == "issue" && from == 'year') {
-      if (this.selectedIssueDate != undefined && this.selectedIssueMonth != undefined) {
-        if (date < this.date.getFullYear()) return;
-        else if (date == this.date.getFullYear()) {
-          for (let index = 0; index < this.months.length; index++) {
-            if (this.months[index].name == this.selectedIssueMonth) {
-              if (index == this.date.getMonth()) {
-                if (this.selectedIssueDate < this.date.getDate()) return;
-                else if (this.selectedIssueDate > this.date.getDate()) {
-                  let dateValidate = "Issue date can not exceed from current date";
-                  this._toastr.error(dateValidate, '');
-                  return;
-                };
-              }
-              else if (index < this.date.getMonth()) return;
-              else {
-                let dateValidate = "Issue date can not exceed from current date";
-                this._toastr.error(dateValidate, '');
-                return;
-              }
-            }
-          }
-        }
-      }
-    }
-    else if (type == "expire" && from == 'date') {
-      if (this.selectedExpireMonth != undefined && this.selectedExpiryYear != undefined) {
-        if (this.selectedIssueYear != undefined && this.selectedIssueYear == this.selectedExpiryYear) {
-          let expiryIndex = this.months.map((obj) => obj.name).indexOf(this.selectedExpireMonth);
-          let issueIndex = this.months.map((obj) => obj.name).indexOf(this.selectedIssueMonth);
-          if (issueIndex < expiryIndex) return;
-          else if (issueIndex == expiryIndex) {
-            if (this.selectedIssueDate <= date) return;
-            else {
-              let dateValidate = "Expiry date can not be less than from issue date";
-              this._toastr.error(dateValidate, '');
-              return;
-            }
-          }
-          else {
-            let dateValidate = "Expiry date can not be less than from issue date";
-            this._toastr.error(dateValidate, '');
-            return;
-          }
-        }
-      }
-    }
-    else if (type == "expire" && from == 'month') {
-      if (this.selectedExpireDate != undefined && this.selectedExpiryYear != undefined) {
-        if (this.selectedIssueYear != undefined && this.selectedIssueYear == this.selectedExpiryYear) {
-          let expiryIndex = this.months.map((obj) => obj.name).indexOf(date);
-          let issueIndex = this.months.map((obj) => obj.name).indexOf(this.selectedIssueMonth);
-          if (issueIndex < expiryIndex) return;
-          else if (issueIndex == expiryIndex) {
-            if (this.selectedIssueDate <= this.selectedExpireDate) return;
-            else {
-              let dateValidate = "Expiry date can not be less than from issue date";
-              this._toastr.error(dateValidate, '');
-              return;
-            }
-          }
-          else {
-            let dateValidate = "Expiry date can not be less than from issue date";
-            this._toastr.error(dateValidate, '');
-            return;
-          }
-        }
-      }
-    }
-    else if (type == "expire" && from == 'year') {
-      if (this.selectedExpireMonth != undefined && this.selectedExpireDate != undefined) {
-        if (this.selectedIssueYear != undefined && this.selectedIssueYear == date) {
-          let expiryIndex = this.months.map((obj) => obj.name).indexOf(this.selectedExpireMonth);
-          let issueIndex = this.months.map((obj) => obj.name).indexOf(this.selectedIssueMonth);
-          if (issueIndex < expiryIndex) return;
-          else if (issueIndex == expiryIndex) {
-            if (this.selectedIssueDate <= this.selectedExpireDate) return;
-            else {
-              let dateValidate = "Expiry date can not be less than from issue date";
-              this._toastr.error(dateValidate, '');
-              return;
-            }
-          }
-          else {
-            let dateValidate = "Expiry date can not be less than from issue date";
-            this._toastr.error(dateValidate, '');
-            return;
-          }
-        }
-      }
+    else {
+      this.expiryMonths = this.dateValObj.allMonths;
     }
   }
+
+  expireDateSorter(month){
+       for (const key in this.dateValObj) {
+              if (this.dateValObj.hasOwnProperty(key)) {
+                let obj = this.dateValObj[key].find(obj => (obj.name == month));
+                if (obj && Object.keys(obj).length) {
+                  this.expiryDate(1, key);
+                  return
+                }
+                else if (!obj && this.selectedExpireMonth == 'Feb' || this.selectedExpireMonthAr == 'فبراير') {
+                  // this.leapValid('issue', type)
+                  return
+                }
+         }
+        }
+  }
+
+
+
+  fillerValidate(date, type, from) {
+    if (type == 'issue') {
+      if (from == 'date') {
+        if (this.selectedIssueMonth != undefined) {
+          let index = this.months.map(obj => obj.name).indexOf(this.selectedIssueMonth);
+          if (index == this.date.getMonth()) {
+            if (date <= this.date.getDate()) {
+              this.getTenYears(type, 0);
+            }
+            else {
+              this.getTenYears(type, 1);
+            }
+          }
+          else if (index < this.date.getMonth()) {
+            this.getTenYears(type, 0);
+          }
+          else {
+            this.getTenYears(type, 1);
+          }
+        }
+      }
+      else if (from == 'month') {
+        if (this.selectedIssueDate != undefined) {
+          let index = this.months.map(obj => obj.name).indexOf(date);
+          if (index == this.date.getMonth()) {
+            if (this.selectedIssueDate <= this.date.getDate()) {
+              this.getTenYears(type, 0);
+            }
+            else {
+              this.getTenYears(type, 1);
+            }
+          }
+          else if (index < this.date.getMonth()) {
+            this.getTenYears(type, 0);
+          }
+          else {
+            this.getTenYears(type, 1);
+          }
+        }
+      }
+
+    }
+    
+    else if (type == 'expire') {
+      if (from == 'date') {
+        this.monthSorter(date);
+
+
+        // if (this.selectedExpireMonth != undefined) {
+        //   let index = this.months.map(obj => obj.name).indexOf(this.selectedExpireMonth);
+        //   if (index < this.date.getMonth()) {
+        //     this.getTenYears(type, 1);
+        //   }
+        //   else if (index == this.date.getMonth()) {
+        //     if (date <= this.date.getDate()) {
+        //       this.getTenYears(type, 1);
+        //     }
+        //     else {
+        //       this.getTenYears(type, 0);
+        //     }
+        //   }
+        //   else {
+        //     this.getTenYears(type, 0);
+        //   }
+        // }
+        // else if (this.selectedExpiryYear != undefined){
+        //   if (this.selectedExpiryYear == this.date.getFullYear()){
+        //     let months = Object.assign([], this.months);
+        //       this.expiryMonths = [];
+        //       this.expiryMonths = months.slice(this.date.getMonth());
+          
+        //   }
+        //   else {
+        //     this.expiryMonths = this.months;
+        //   }
+        // }
+      }
+      else if (from == 'month') {
+        if (this.selectedExpireDate && this.selectedExpireDate != "undefined" && !this.selectedExpiryYear && this.selectedExpireDate == "undefined") {
+          let index = this.months.map(obj => obj.name).indexOf(date);
+          if (index < this.date.getMonth()) {
+            this.getTenYears(type, 1);
+            this.expireDateSorter(date);
+          }
+          else if (index == this.date.getMonth()) {
+            if (this.selectedExpireDate <= this.date.getDate()) {
+              this.getTenYears(type, 1);
+              this.expireDateSorter(date);
+              
+            }
+            else {
+                this.getTenYears(type, 0);
+              this.expireDateSorter(date);
+                
+            }
+          }
+          else {
+            this.getTenYears(type, 0);
+            this.expireDateSorter(date);
+            
+          }
+        }
+        else if (this.selectedExpireDate && this.selectedExpireDate != "undefined" && this.selectedExpiryYear && this.selectedExpiryYear != 'undefined'){
+          if (this.selectedExpiryYear == this.date.getFullYear()){
+          let index = this.months.map(obj => obj.name).indexOf(date);
+          if (index == this.date.getMonth()){
+            for (const key in this.dateValObj) {
+              if (this.dateValObj.hasOwnProperty(key)) {
+                let obj = this.dateValObj[key].find(obj => (obj.name == date));
+                if (obj && Object.keys(obj).length) {
+                  this.expiryDate(this.date.getDate()+1, key);
+                  return
+                }
+              }
+            }
+          }
+          else if (index < this.date.getMonth()){
+            this.getTenYears(type, 1);
+          }
+          else{
+            this.getTenYears(type, 0);
+          }
+          }
+        }
+        else{
+          this.expireDateSorter(date);
+        }
+        //   let index = this.months.map(obj => obj.name).indexOf(date);
+        //   if (index == this.date.getMonth() && this.selectedExpiryYear == this.date.getFullYear()) {
+        //     for (const key in this.dateValObj) {
+        //       if (this.dateValObj.hasOwnProperty(key)) {
+        //         let obj = this.dateValObj[key].find(obj => (obj.name == this.selectedExpireMonth || obj.arabicName == this.selectedExpireMonthAr));
+        //         if (obj && Object.keys(obj).length) {
+        //           this.expiryDate(this.date.getDate()+1, key);
+        //           return
+        //         }
+        //         else if (!obj && this.selectedExpireMonth == 'Feb' || this.selectedExpireMonthAr == 'فبراير') {
+        //           this.leapValid('issue', type)
+        //           return
+
+        //         }
+        //       }
+        //     }
+           
+        //   }
+        //   else{
+        //     for (const key in this.dateValObj) {
+        //       if (this.dateValObj.hasOwnProperty(key)) {
+        //         let obj = this.dateValObj[key].find(obj => (obj.name == this.selectedExpireMonth || obj.arabicName == this.selectedExpireMonthAr));
+        //         if (obj && Object.keys(obj).length) {
+        //           this.getDates(key, type);
+        //           return
+        //         }
+        //         else if (!obj && this.selectedExpireMonth == 'Feb' || this.selectedExpireMonthAr == 'فبراير') {
+        //           this.leapValid('issue', type)
+        //           return
+
+        //         }
+        //       }
+        //     }
+        //   }
+        // }
+      }
+
+    }
+  }
+
+  expiryDate(startLimit, endLimit){
+    let persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+    let persianMap = persianDigits.split("");
+      this.expiryDates = [];
+      for (let i = startLimit; i <= endLimit; i++) {
+        let convertedNumber = i.toString().replace(/\d/g, (m: string) => {
+          return persianMap[parseInt(m)]
+        });
+        this.expiryDates.push({ dateNormal: i, dateArabic: convertedNumber });
+      }
+  }
+
+
+
+
   datenMonthValidator(date, type) {
 
     if (type == 'issue') {
@@ -1160,15 +1242,15 @@ export class BusinessDetailComponent implements OnInit {
     return true;
   }
 
-  socialLinkValidate(){
+  socialLinkValidate() {
     let title = 'Website';
-    if (this.socialSites && this.selectedSocialsite && this.selectedSocialsite.title){
+    if (this.socialSites && this.selectedSocialsite && this.selectedSocialsite.title) {
       let index = this.selectedSocialsite.title.toLowerCase().indexOf(this.socialSites.toLowerCase());
-    this.socialInputValidate =  (index < 0)? 'Your social url is not valid':'';
+      this.socialInputValidate = (index < 0) ? 'Your social url is not valid' : '';
     }
-    else{
+    else {
       let index = title.toLowerCase().indexOf(this.socialSites.toLowerCase());
-      this.socialInputValidate = (index < 0) ? 'Your social url is not valid' : ''; 
+      this.socialInputValidate = (index < 0) ? 'Your social url is not valid' : '';
     }
   }
 
@@ -1187,7 +1269,7 @@ export class BusinessDetailComponent implements OnInit {
         this.IssueYear = selectedYear;
         this.selectedIssueYear = selectedYear.yearNormal;
         this.selectedIssueYearAr = selectedYear.yearArabic;
-        this.issueValidate(selectedYear.yearNormal, type, 'year');
+        // this.issueValidate(selectedYear.yearNormal, type, 'year');
         this.monthndatefill(selectedYear.yearNormal, 'year');
       }
       else {
@@ -1202,8 +1284,9 @@ export class BusinessDetailComponent implements OnInit {
         this.ExpiryYear = selectedYear;
         this.selectedExpiryYear = selectedYear.yearNormal;
         this.selectedExpiryYearAr = selectedYear.yearArabic;
-        this.leapValid(type, 'year');
-        this.issueValidate(selectedYear.yearNormal, type, 'year');
+        this.expirymonthFiller(year);
+        // this.leapValid(type, 'year');
+        // this.issueValidate(selectedYear.yearNormal, type, 'year');
       }
       else {
         this.ExpiryYear = {};
@@ -1212,44 +1295,82 @@ export class BusinessDetailComponent implements OnInit {
       }
     }
   }
-  leapValid(type, from){
-    if(type =='issue'){
-      if(from=='month'){
-         if(this.selectedIssueYear !=undefined){
-          (!leapYear(this.selectedIssueYear))?this.getDates(28, 'issue'):this.getDates(29, 'issue');
-      }
-      }
-         else if(from=='year'){
-        if(this.selectedIssueMonth == 'Feb'){
-          (!leapYear(this.selectedIssueYear))?this.getDates(28, 'issue'):this.getDates(29, 'issue');
-      } 
+
+  expirymonthFiller(year){
+    let months = Object.assign([], this.months);
+    if(year == this.date.getFullYear()){
+      this.expiryMonths = [];
+      this.expiryMonths = months.slice(this.date.getMonth());
+      if(this.selectedExpireMonth != undefined){
+        let index = this.months.map(obj => obj.name).indexOf(this.selectedExpireMonth);
+        if (index == this.date.getMonth()) {
+          for (const key in this.dateValObj) {
+            if (this.dateValObj.hasOwnProperty(key)) {
+              let obj = this.dateValObj[key].find(obj => (obj.name == this.selectedExpireMonth || obj.arabicName == this.selectedExpireMonthAr));
+              if (obj && Object.keys(obj).length) {
+                this.expiryDate(this.date.getDate() + 1, key);
+                return
+              }
+              else if (!obj && this.selectedExpireMonth == 'Feb' || this.selectedExpireMonthAr == 'فبراير') {
+                this.leapValid('expire', 'year')
+                return
+
+              }
+            }
+          }
+
+        }
       }
     }
-  
-     else if(type =='expire'){
-       if(from =='month'){
-          if(this.selectedExpiryYear !=undefined){
-          (!leapYear(this.selectedExpiryYear))?this.getDates(28, 'expire'):this.getDates(29, 'expire');
+    else{
+      this.expiryMonths = months;
+    }
+  }
+
+  leapValid(type, from) {
+    if (type == 'issue') {
+      if (from == 'month') {
+        if (this.selectedIssueYear != undefined) {
+          (!leapYear(this.selectedIssueYear)) ? this.getDates(28, 'issue') : this.getDates(29, 'issue');
+        }
+        else{
+          this.getDates(28, 'issue');
+        }
       }
-       }
-       else if(from=='year'){
-           if(this.selectedExpireMonth != undefined){
-            for (const key in this.dateValObj) {
-              if (this.dateValObj.hasOwnProperty(key)) {
-                let obj = this.dateValObj[key].find(obj => (obj.name == this.selectedExpireMonth || obj.arabicName == this.selectedExpireMonthAr));
-                if (obj && Object.keys(obj).length) {
-                  this.getDates(key, 'expire');
-                  return
-                }
-                else if (!obj && this.selectedExpireMonth == 'Feb' || this.selectedExpireMonthAr == 'فبراير') {
-                  (!leapYear(this.selectedExpiryYear))?this.getDates(28, 'expire'):this.getDates(29, 'expire');
-                  return
+      else if (from == 'year') {
+        if (this.selectedIssueMonth == 'Feb') {
+          (!leapYear(this.selectedIssueYear)) ? this.getDates(28, 'issue') : this.getDates(29, 'issue');
+        }
+      }
+    }
+
+    else if (type == 'expire') {
+      if (from == 'month') {
+        if (this.selectedExpiryYear != undefined) {
+          (!leapYear(this.selectedExpiryYear)) ? this.getDates(28, 'expire') : this.getDates(29, 'expire');
+        }
+        else{
+          this.getDates(28, 'expire');
+        }
+      }
+      else if (from == 'year') {
+        if (this.selectedExpireMonth != undefined) {
+          for (const key in this.dateValObj) {
+            if (this.dateValObj.hasOwnProperty(key)) {
+              let obj = this.dateValObj[key].find(obj => (obj.name == this.selectedExpireMonth || obj.arabicName == this.selectedExpireMonthAr));
+              if (obj && Object.keys(obj).length) {
+                this.getDates(key, 'expire');
+                return
+              }
+              else if (!obj && this.selectedExpireMonth == 'Feb' || this.selectedExpireMonthAr == 'فبراير') {
+                (!leapYear(this.selectedExpiryYear)) ? this.getDates(28, 'expire') : this.getDates(29, 'expire');
+                return
 
               }
             }
           }
         }
-       }
+      }
     }
   }
   monthndatefill(val, type) {
@@ -1262,7 +1383,7 @@ export class BusinessDetailComponent implements OnInit {
           if (ind == this.date.getMonth()) {
             this.getDates(this.date.getDate(), 'issue');
           }
-            else if (this.selectedIssueMonth != undefined){
+          else if (this.selectedIssueMonth != undefined) {
             for (const key in this.dateValObj) {
               if (this.dateValObj.hasOwnProperty(key)) {
                 let obj = this.dateValObj[key].find(obj => (obj.name == this.selectedIssueMonth || obj.arabicName == this.selectedIssueMonthAr));
@@ -1275,28 +1396,28 @@ export class BusinessDetailComponent implements OnInit {
                   this.leapValid('issue', type)
                   return
 
+                }
               }
             }
           }
-        }
         }
       }
       else {
         this.issueMonths = Object.assign([], this.months);
         if (this.selectedIssueMonth == undefined || !this.selectedIssueMonth) {
-        this.getDates(31, 'issue');
+          this.getDates(31, 'issue');
         }
-        else if (this.selectedIssueMonth != undefined){
-            for (const key in this.dateValObj) {
-              if (this.dateValObj.hasOwnProperty(key)) {
-                let obj = this.dateValObj[key].find(obj => (obj.name == this.selectedIssueMonth || obj.arabicName == this.selectedIssueMonthAr));
-                if (obj && Object.keys(obj).length) {
-                  this.getDates(key, 'issue');
-                  return
-                }
-                else if (!obj && this.selectedIssueMonth == 'Feb' || this.selectedIssueMonthAr == 'فبراير') {
-                  this.leapValid('issue', type)
-                  return
+        else if (this.selectedIssueMonth != undefined) {
+          for (const key in this.dateValObj) {
+            if (this.dateValObj.hasOwnProperty(key)) {
+              let obj = this.dateValObj[key].find(obj => (obj.name == this.selectedIssueMonth || obj.arabicName == this.selectedIssueMonthAr));
+              if (obj && Object.keys(obj).length) {
+                this.getDates(key, 'issue');
+                return
+              }
+              else if (!obj && this.selectedIssueMonth == 'Feb' || this.selectedIssueMonthAr == 'فبراير') {
+                this.leapValid('issue', type)
+                return
               }
             }
           }
@@ -1343,24 +1464,30 @@ export class BusinessDetailComponent implements OnInit {
 
   }
 
-  getTenYears() {
+  getTenYears(type, limit) {
     let date = new Date();
     let persianDigits = "۰۱۲۳۴۵۶۷۸۹";
     let persianMap = persianDigits.split("");
-    for (let i = 0; i < 11; i++) {
-      let pastyear = date.getFullYear() - i;
-      let convertedPastYear = pastyear.toString().replace(/\d/g, (m: string) => {
-        return persianMap[parseInt(m)]
-      });
-      this.pastYears.push({ yearNormal: pastyear, yearArabic: convertedPastYear });
-    };
-    for (let i = 0; i < 2; i++) {
-      let futureyear = date.getFullYear() + i
-      let convertedFutureYear = futureyear.toString().replace(/\d/g, (m: string) => {
-        return persianMap[parseInt(m)]
-      });
-      this.futureYears.push({ yearNormal: futureyear, yearArabic: convertedFutureYear });
+    if (type == 'issue') {
+      this.pastYears = [];
+      for (let i = limit; i < 11; i++) {
+        let pastyear = date.getFullYear() - i;
+        let convertedPastYear = pastyear.toString().replace(/\d/g, (m: string) => {
+          return persianMap[parseInt(m)]
+        });
+        this.pastYears.push({ yearNormal: pastyear, yearArabic: convertedPastYear });
+      };
+    }
+    else if (type == 'expire') {
+      this.futureYears = [];
+      for (let i = limit; i < 2; i++) {
+        let futureyear = date.getFullYear() + i
+        let convertedFutureYear = futureyear.toString().replace(/\d/g, (m: string) => {
+          return persianMap[parseInt(m)]
+        });
+        this.futureYears.push({ yearNormal: futureyear, yearArabic: convertedFutureYear });
 
+      }
     }
   }
 
@@ -1411,7 +1538,7 @@ export class BusinessDetailComponent implements OnInit {
         if (selectedFiles.status == 1) this._toastr.error('Please select only one (1) file to upload.', '')
         else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 4 MB. Please upload smaller file.', '')
         else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
-       return;
+        return;
       } else {
         try {
           this.onFileChange(selectedFiles, 'license')
@@ -1419,7 +1546,7 @@ export class BusinessDetailComponent implements OnInit {
           console.log(error);
         }
       }
-  
+
     }
     else if (type == 'logo') {
 
@@ -1429,11 +1556,11 @@ export class BusinessDetailComponent implements OnInit {
         else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
         return;
       } else {
-      try {
-        this.onFileChange(selectedFiles, 'logo')
-      } catch (error) {
-        console.log(error);
-      }
+        try {
+          this.onFileChange(selectedFiles, 'logo')
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   }
@@ -1445,21 +1572,23 @@ export class BusinessDetailComponent implements OnInit {
       try {
         let file = event.files[0];
         reader.readAsDataURL(file);
+        reader.onload = () => {
           let selectedFile: DocumentFile = {
             fileName: file.name,
             fileType: file.type,
+            fileUrl: reader.result,
             fileBaseString: reader.result.split(',')[1]
           }
-
-          console.log('you file content:', selectedFile);
-
+          // console.log('you file content:', selectedFile);
           if (type === 'license') {
-            this.selectedLicense = selectedFile
+            this.selectedLicense = selectedFile;
           }
 
-          if (type === 'logo') {
-            this.selectedLogo = selectedFile
+          else if (type === 'logo') {
+            this.selectedLogo = selectedFile;
           }
+        }
+
       } catch (err) {
         console.log(err);
       }
@@ -1479,4 +1608,5 @@ export interface DocumentFile {
   fileBaseString: string
   fileName: string
   fileType: string
+  fileUrl: string
 }
