@@ -197,7 +197,7 @@
             <label>{{lblFormMobileBaseLang}}</label>
             <div class="select-number">
               <div class="input-group-prepend">
-                <div ngbDropdown>
+                <div ngbDropdown class="select-country-list">
                   <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                     <div class="flag-container">
                       <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml"
@@ -218,7 +218,7 @@
                     </ul>
                   </div>
                 </div>
-                <input type="text" class="form-control" [ngClass]="{'inputError': phoneError && regForm.controls['phone'].errors}" (focusout)="errorValidate()" (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
+                <input type="text" class="form-control select-country-code" [ngClass]="{'inputError': phoneError && regForm.controls['phone'].errors}" (focusout)="errorValidate()" (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
                  maxlength="13" placeholder="123456789" (keypress)="NumberValid($event)" formControlName="phone">
               </div>
               <span *ngIf="phoneError">
@@ -235,7 +235,7 @@
               <label>{{lblFormMobileOtherLang}}</label>
               <div class="select-number">
                 <div class="input-group-append">
-                  <div ngbDropdown>
+                  <div ngbDropdown class="select-country-list">
                     <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                         <div class="flag-container">
                         <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml"
@@ -256,7 +256,7 @@
                       </ul>
                     </div>
                   </div>
-                  <input type="text" class="form-control" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true" [ngClass]="{'inputError': translangPhoneError && regForm.controls['transLangPhone'].errors}" 
+                  <input type="text" class="form-control select-country-code" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true" [ngClass]="{'inputError': translangPhoneError && regForm.controls['transLangPhone'].errors}" 
                   (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="13"
                    placeholder="۹۸۷۶۵۴۳۲۱" (keypress)="NumberValid($event)" formControlName="transLangPhone">
                 </div>
