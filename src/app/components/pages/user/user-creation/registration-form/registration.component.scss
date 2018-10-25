@@ -1,6 +1,28 @@
 @import '../../../../../../assets/scss/_variables';
 
 .registration {
+    .country-select{
+        .flag-container{
+            width: 16px;
+            height: 12px;
+            float: left;
+            margin-right: 9px;
+            position: absolute;
+            left: 8px;
+            top: 6px;
+        }
+        .dropdown-menu{
+            &.show{
+                .dropdown-item{
+                    .flag-container{
+                        position: relative;
+                        left: auto;
+                        top: auto;
+                    }
+                }
+            }
+        }
+    }
     &-title {
         font-family: $font-pragmatica;
         font-weight: $font-weight-mid;
@@ -113,7 +135,14 @@
     }
    
 }
-
+.registration-form{
+    .fancyRadioBoxes {
+        margin-bottom: 16px;
+        label{
+            align-items: center;
+        }
+    }
+}
 input.blinking {
     -webkit-animation: 1.4s linear infinite blink;
     animation: 1.4s linear infinite blink;
@@ -121,7 +150,6 @@ input.blinking {
     
    
 }
-
 @-webkit-keyframes blink {
    from {  
        box-shadow: 0px 0px 4px 1px #ced4da;

@@ -50,7 +50,7 @@
         <div class="form-group">
           <label for="Trade-License">{{issueDateLabelBaseLanguage}}</label>
           <div class="row">
-            <div class="col-3 pr-0">
+            <div class="col-4">
               <select id="inputState" class="form-control" placeholder="DD" name="issueDate"
               [(ngModel)]="selectedIssueDate" (change) = "selectDate($event.target.value, 'issue')" formControlName='issueDate'>
                 <option value="undefined">DD</option>
@@ -64,7 +64,7 @@
                 <option *ngFor="let month of issueMonths" [selected]='month.name == selectedIssueMonth'>{{month.name}}</option>
               </select>
             </div>
-            <div class="col-4 pl-0">
+            <div class="col-4">
               <select id="inputState" class="form-control" name="issueYear" 
               [(ngModel)]="selectedIssueYear" (change)="selectYear($event.target.value, 'issue')" formControlName='issueYear'>
                 <option value="undefined">YYYY</option>
@@ -79,7 +79,7 @@
         <div class="form-group dir-otherLanguage">
           <label for="Trade-License">{{issueDateLabelOtherLanguage}}</label>
           <div class="row">
-            <div class="col-3 pl-0">
+            <div class="col-4">
               <select id="inputState" class="form-control" placeholder="DD" name="issueDateArabic"
               [(ngModel)]="selectedIssueDateAr" (change) = "selectDate($event.target.value, 'issue')" formControlName='issueDateArabic'>
                 <option value="undefined">DD</option>
@@ -93,7 +93,7 @@
                 <option *ngFor="let month of issueMonths" [selected]='month.arabicName == selectedIssueMonthAr'>{{month.arabicName}}</option>
               </select>
             </div>
-            <div class="col-4 pr-0">
+            <div class="col-4">
               <select id="inputState" class="form-control" name="issueYearArabic" 
               [(ngModel)]="selectedIssueYearAr" (change)="selectYear($event.target.value, 'issue')" formControlName='issueYearArabic'>
                 <option value="undefined">YYYY</option>
@@ -110,7 +110,7 @@
         <div class="form-group">
           <label for="Trade-License">{{expiryDateLabelBaseLanguage}}</label>
           <div class="row">
-            <div class="col-3 pr-0">
+            <div class="col-4">
               <select id="inputState" class="form-control" placeholder="DD" name="expireDate"
               [(ngModel)]="selectedExpireDate" (change) = "selectDate($event.target.value, 'expire')" formControlName='expireDate'>
                 <option value="undefined">DD</option>
@@ -124,7 +124,7 @@
                 <option *ngFor="let month of expiryMonths" [selected]='month.name == selectedExpireMonth'>{{month.name}}</option>
               </select>
             </div>
-            <div class="col-4 pl-0">
+            <div class="col-4">
               <select id="inputState" class="form-control" name="expiryYear" 
               [(ngModel)]="selectedExpiryYear" (change)="selectYear($event.target.value, 'expire')" formControlName='expiryYear'>
                 <option value="undefined">YYYY</option>
@@ -139,7 +139,7 @@
         <div class="form-group dir-otherLanguage">
           <label for="Trade-License">{{expiryDateLabelOtherLanguage}}</label>
           <div class="row">
-            <div class="col-3 pl-0">
+            <div class="col-4">
               <select id="inputState" class="form-control" placeholder="DD" name="expireDateArabic"
               [(ngModel)]="selectedExpireDateAr" (change)= "selectDate($event.target.value, 'expire')" formControlName='expireDateArabic'>
                 <option value="undefined">DD</option>
@@ -153,7 +153,7 @@
                 <option *ngFor="let month of expiryMonths"[selected]='month.arabicName == selectedExpireMonthAr'>{{month.arabicName}}</option>
               </select>
             </div>
-            <div class="col-4 pr-0">
+            <div class="col-4">
               <select id="inputState" class="form-control" name="expiryYearArabic" 
               [(ngModel)]="selectedExpiryYearAr" (change)="selectYear($event.target.value, 'expire')" formControlName='expiryYearArabic'>
                 <option value="undefined">YYYY</option>
@@ -442,16 +442,18 @@
             <div class="input-group-prepend">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                  <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
-                  class="img-responsive">
-                <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
-                  alt="flags" class="img-responsive">
+                  <div class="flag-container">
+                    <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  </div>
                <span>{{phoneCode}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                   <ul class="list-group">
                     <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
-                      <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}">
+                      <div class="flag-container">
+                      <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}" class="mw-100 w-auto h-auto mh-100">
+                      </div>
                       <span> {{list.desc[0].CountryPhoneCode}}</span>
                     </li>
                   </ul>
@@ -478,16 +480,18 @@
             <div class="input-group-append">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                  <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
-                          class="img-responsive">
-                        <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
-                          alt="flags" class="img-responsive">
+                  <div class="flag-container">
+                    <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                    <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  </div>
                    <span>{{transPhoneCode}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                   <ul class="list-group">
                     <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
-                      <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}">
+                      <div class="flag-container">
+                        <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}" class="mw-100 w-auto h-auto mh-100">
+                      </div>
                     <span> {{list.desc[0].CountryPhoneCode_OtherLang}}</span>
                   </li>
                   </ul>
@@ -517,16 +521,18 @@
             <div class="input-group-prepend">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                    <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
-                    class="img-responsive">
-                  <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
-                    alt="flags" class="img-responsive">
+                  <div class="flag-container">
+                    <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                    <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  </div>
                  <span>{{phoneCode}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                   <ul class="list-group">
                       <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
-                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}">
+                        <div class="flag-container">
+                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}" class="mw-100 w-auto h-auto mh-100">
+                        </div>
                           <span> {{list.desc[0].CountryPhoneCode}}</span>
                       </li>
                   </ul>
@@ -552,16 +558,18 @@
             <div class="input-group-append">
               <div ngbDropdown>
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                    <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
-                    class="img-responsive">
-                  <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
-                    alt="flags" class="img-responsive">
+                  <div class="flag-container">
+                    <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                    <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  </div>
                  <span>{{transPhoneCode}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                   <ul class="list-group">
                       <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
-                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}">
+                        <div class="flag-container">
+                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}" class="mw-100 w-auto h-auto mh-100">
+                        </div>
                         <span> {{list.desc[0].CountryPhoneCode_OtherLang}}</span>
                       </li>
                   </ul>

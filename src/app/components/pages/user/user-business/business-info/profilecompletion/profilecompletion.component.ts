@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../../../../../services/shared.service';
 import { UserService } from '../../../user.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-profilecompletion',
@@ -27,7 +28,8 @@ export class ProfilecompletionComponent implements OnInit {
   public userAPPno;
   constructor(
     private _sharedService: SharedService,
-    private _userService: UserService ) { }
+    private _userService: UserService,
+    private _router: Router,  ) { }
 
   ngOnInit() {
 
@@ -75,6 +77,11 @@ export class ProfilecompletionComponent implements OnInit {
       }
     })
     
+  }
+
+  proceed(){
+    localStorage.removeItem('userInfo');
+    this._router.navigate(['/registration'])
   }
 
 }

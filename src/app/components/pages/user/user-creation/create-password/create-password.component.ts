@@ -53,7 +53,7 @@ export class CreatePasswordComponent implements OnInit {
     this.paramSubscriber = this._route.params.subscribe(params => {
       let keyCode = params.keys; // (+) converts string 'id' to a number
       if (keyCode) {
-        this.UserInfofromOtp(keyCode);
+        this.UserInfofromOtp();
       }
     });
   }
@@ -106,9 +106,9 @@ export class CreatePasswordComponent implements OnInit {
   }
 
 
-  UserInfofromOtp(keyCode){
+  UserInfofromOtp(){
     loading(true)
-    this._userCreationService.getUserOtpVerified(keyCode, "Used").subscribe((res:any)=>{
+    this._sharedService.getUserOtpVerified.subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
       this.userInfo = res.returnObject;
       this.showTranslatedLangSide = (this.userInfo && this.userInfo.regionCode == "MET")? true : false;

@@ -10,6 +10,8 @@ export class SharedService {
   public countryList = new BehaviorSubject<any>(null);
   // public countryList = this.countries.asObservable();
 
+  public getUserInfoByOtp = new BehaviorSubject<any>(null);
+  public getUserOtpVerified = new BehaviorSubject<any>(null);
   public documentList = new BehaviorSubject<any>(null);
   public businessProfileJsonLabels = new BehaviorSubject<any>(null);
   public jobTitleList = new BehaviorSubject<any>(null);

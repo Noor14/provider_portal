@@ -90,8 +90,6 @@
         }
         .documentInfo {
             margin-bottom: 3rem;
-            border: 1px dashed #e1d8d8;
-            border-radius: 4px;
             .uploaded-file {
                 border: 1px solid $secondary-color;
                 border-radius: 3px;
@@ -101,6 +99,8 @@
                 }
             }
             .file-uploader {
+                border: 1px dashed #e1d8d8;
+                border-radius: 4px;
                 .drag-support {
                     color: $text-grey;
                     font-size: 0.8em;
