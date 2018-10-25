@@ -43,6 +43,14 @@ body {
   } //hr 
   .hr-solid {
     margin-top: 0.5rem;
+    &:before{
+      content: " ";
+      background: #fbfbfd;
+      height: 2px;
+      position: absolute;
+      width: 100%;
+      margin-top: 0px;
+    }
   } // link Hover
   a.link-hover {
     transition: all 0.5s ease;
@@ -369,7 +377,8 @@ input[type="radio"]:focus+label>span {
     .input-group-prepend {
       align-items: center;
       input[type="text"] {
-        padding-left: 18% !important;
+        // padding-left: 18% !important;
+        padding-left:110px;
       }
       .dropdown {
         position: absolute;
@@ -406,7 +415,8 @@ input[type="radio"]:focus+label>span {
       @extend .input-group-prepend;
       input[type="text"] {
         padding-left: 0;
-        padding-right: 18%;
+        // padding-right: 18%;
+        padding-right:115px;
       }
       img {
         margin-right: 0px;
@@ -461,10 +471,21 @@ input[type="radio"]:focus+label>span {
 
 .dir-otherLanguage {
   .select-number {
+    .input-group-append{
+      input {
+        font-size: $font-size-large + 0.25rem;
+        margin: 0;
+        font-weight: $font-weight-mid;
+        font-family:$font-proxima;
+      }
+    }
     .dropdown {
       .dropdown-toggle {
-        span {
+        span{
           direction: ltr;
+          font-size: $font-size-large + 0.25rem;
+          margin: 0;
+          font-weight: $font-weight-mid;
         }
         .flag-container {
           float: right;
@@ -527,22 +548,14 @@ input[type="radio"]:focus+label>span {
 .dir-otherLanguage {
   input {
     &::placeholder {
-      font-family: $font-NeoSansArabic-Regular;
-    }
-    &:-ms-input-placeholder {
-      font-family: $font-NeoSansArabic-Regular;
-    }
-    &::-ms-input-placeholder {
-      font-family: $font-NeoSansArabic-Regular;
-    }
-    &::-webkit-input-placeholder {
-      font-family: $font-NeoSansArabic-Regular;
+      font-family: $font-proxima;
     }
   }
   .select-number {
     input {
       &::placeholder {
-        font-family: $font-pragmatica;
+        font-family: $font-proxima;
+        font-size:$font-size-large + 0.15rem;
       }
     }
   }

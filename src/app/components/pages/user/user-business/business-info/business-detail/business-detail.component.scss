@@ -14,6 +14,23 @@
       font-family: $font-NeoSansArabic-Medium;
     }
   }
+  .business-option {
+    select {
+      color: $text-grey;
+      font-family: $font-proxima;
+      font-weight: $font-weight-mid;
+      font-size: $font-size-medium;
+      option {
+        color: $text-color-default !important;
+      }
+    }
+    &.dir-otherLanguage {
+      select,
+      option {
+        font-family: $font-NeoSansArabic-Medium;
+      }
+    }
+  }
   .dir-otherLanguage {
     h2 {
       font-size: $font-size-large + 0.7;
@@ -55,8 +72,11 @@
         position: absolute;
         left: 15px;
         top: 15px;
-        width: calc(8em + 100px);
+        max-width:410px;
+        border-radius: 4px;
+        box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.15);
         z-index: 1;
+        height: 48px;
       }
       agm-map {
         height: 350px;
@@ -103,7 +123,9 @@
         border-radius: 4px;
         .drag-support {
           color: $text-grey;
-          font-size: 0.8em;
+          font-size: $font-size-medium;
+          position: relative;
+          top: 35px;
         }
         .browse-span {
           color: $secondary-color;
@@ -112,7 +134,7 @@
         text-align: center;
         app-ng-files-drag-n-upload {
           label {
-            padding: 60px
+            padding: 2.88rem 60px;
           }
         }
       }
@@ -127,6 +149,28 @@
           font-family: $font-proxima;
           color: $secondary-text-color;
           padding-top: 0.59rem;
+        }
+      }
+    }
+    .licenseNaming {
+      label {
+        font-size: $font-size-large;
+        font-family: $font-proxima;
+        font-weight: $font-weight-mid;
+        color: $text-color-default;
+      }
+      small {
+        font-size: $font-size-medium;
+        font-family: $font-proxima;
+        font-weight: $font-weight-mid;
+        color: $secondary-text-color;
+      }
+      &.dir-otherLanguage {
+        label {
+          font-family: $font-NeoSansArabic-Medium;
+        }
+        small {
+          font-family: $font-NeoSansArabic-Regular;
         }
       }
     }
