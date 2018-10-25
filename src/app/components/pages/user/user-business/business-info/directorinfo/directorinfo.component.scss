@@ -1,5 +1,6 @@
 @import '../../../../../../../assets/scss/_variables';
 .directors-info {
+    &
     h2 {
         font-family: $font-pragmatica;
         font-weight: $font-weight-mid;
@@ -44,6 +45,7 @@
                 }
             }
             &-body {
+                padding-top: 0.875rem;
                 padding-left: 0;
                 padding-right: 0;
             }
@@ -119,14 +121,15 @@
 
 .info_text {
     p {
-        font-size: 0.875rem;
-        font-family: $font-proxima;
-        color: $secondary-text-color;
+        font-size: $font-size-medium;
+        font-family: $font-proxima-weight-semibold;
+        color:#75838f;
         padding-top: 0.59rem;
     }
     a {
         span:nth-child(2) {
             font-family: $font-NeoSansArabic-Regular;
+            font-size: $font-size-medium;
         }
         @extend p;
         &:hover {

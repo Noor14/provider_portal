@@ -1,12 +1,9 @@
 // Default for size for body
 $body-fontsize: 16px;
-$body-fontfamily: 'pragmatica',
-sans-serif;
+$body-fontfamily: 'pragmatica', sans-serif;
 // Hashmove fonts - font-family and font-weight variables
-$font-pragmatica: 'pragmatica',
-sans-serif;
-$font-proxima: 'proxima-nova',
-sans-serif;
+$font-pragmatica: 'pragmatica', sans-serif;
+$font-proxima: 'proxima-nova', sans-serif;
 // base font for root - HTML/Body
 // FONT SIZES VARIABLES
 $root-font-size: 1rem;
@@ -107,6 +104,24 @@ $shipping-subcar-active:#243748;
 $shipping-subcat-border:#8999a6;
 $shipping-subcat-text:#dbdfe2;
 //   provider Portal
+
+// bookings/ dashboard 
+$blue-box:#00a3e0;
+$warning-color:hsl(37, 91%, 55%);
+$table-head: #ecf0f3;
+$table-border: #dce2e7;
+$route-tab-Active-color: #00a2df;
+$route-tab-InActive-color: #b2bac2;
+$route-small-title-color: #738592;
+$route-large-title-color: #2b2b2b;
+$route-arrow-color: #b9c2c9;
+// Search Result Message Box
+$icon-air-ship-color: $color-topmenuactive;
+$search-message-box-background: #ebeef0;
+$search-message-box-fontcolor: #3f5165;
+$search-message-box-border: #cbd2df;
+
+
 // Default for size for body
 $body-fontsize: 16px;
 $body-fontfamily: 'pragmatica',
