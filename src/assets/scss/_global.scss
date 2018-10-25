@@ -322,6 +322,7 @@ input[type="radio"]:focus+label>span {
         border-color: $provider-input-border !important;
         &:focus {
             box-shadow: none !important;
+            border-color: #80bdff !important;
         }
     }
     p.inputError {
