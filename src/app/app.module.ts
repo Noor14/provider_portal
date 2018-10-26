@@ -5,11 +5,12 @@ import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { CommonService } from './services/common.service';
 import { SharedService } from './services/shared.service';
 import { ToastrModule } from 'ngx-toastr';
 import { ScrollbarModule } from 'ngx-scrollbar';
+import { Interceptor } from './http-interceptors/interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +29,11 @@ import { ScrollbarModule } from 'ngx-scrollbar';
     }),
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi: true
+    },
     CommonService,
     SharedService
   ],
