@@ -45,6 +45,7 @@
                 font-size: 0.875rem;
                 font-family: $font-proxima;
                 color: $secondary-text-color;
+                padding-top: 0.59rem;
                 img {
                     width: 16px;
                     vertical-align: text-top;
@@ -74,6 +75,10 @@
             input#typeahead {
                 width: calc(100% + 8em);
                 padding-left: 1.8rem;
+                border-radius: 4px;
+                box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.15);
+                z-index: 1;
+                height: 48px;
             }
             img {
                 width: 16px;
@@ -128,15 +133,6 @@
         }
         span:nth-child(2) {
             font-family: $font-NeoSansArabic-Regular;
-        }
-    }
-}
-
-.registration-form {
-    .fancyRadioBoxes {
-        margin-bottom: 16px;
-        label {
-            align-items: center;
         }
     }
 }

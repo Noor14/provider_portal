@@ -286,7 +286,7 @@
                   </p>
                   <div class="row" *ngFor="let doc of docTypes; let i = index">
                       <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="fancyRadioBoxes">
+                        <div class="fancyRadioBoxes pt-2">
                           <input id="{{i}}" name="name" type="radio" (click)="selectdocType(i, doc)">
                           <label for="{{i}}">
                             <span></span>
@@ -295,7 +295,7 @@
                         </div>
                       </div>
                       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
-                        <div class="fancyRadioBoxes dir-otherLanguage">
+                        <div class="fancyRadioBoxes pt-2 dir-otherLanguage">
                           <input id="{{i}}" name="nameAr" type="radio" (click)="selectdocType(i, doc)">
                           <label for="{{i}}">
                             <span class="mr-0 ml-2"></span>
@@ -337,7 +337,7 @@
 
   </ngb-accordion>
 
-<div class="d-flex justify-content-between align-items-center mt-4">
+<div class="d-flex justify-content-between align-items-center mt-5">
   <div class="info_text">
     <a class="text" href="javascript:;" (click)="previousForm()">
       <img alt="icons" class="icon-size-16" src="../../../assets/images/icons/icon_arrow_left.svg">

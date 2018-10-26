@@ -18,6 +18,9 @@
     // }
     .accordion {
         .card {
+            &.ng-star-inserted{
+                position: inherit;
+            }
             border: 0;
             background-color: $right-side-background;
             &.ng-star-inserted {
@@ -35,7 +38,7 @@
                 }
                 &::after {
                     content: " ";
-                    position: absolute;
+                  //  position: absolute;
                     width: 100%;
                     height: 1px;
                     background: #fbfbfd;
@@ -64,7 +67,7 @@
         }
     }
     .documentInfo {
-        margin-bottom: 1.5rem;
+        margin-bottom: 2.9rem;
         background: $modal-header-background;
         padding: 20px;
         border: 1px solid #e9ecf0;
@@ -134,7 +137,7 @@
         padding-top: 0.59rem;
     }
     a {
-        span:nth-child(2) {
+        span:last-child{
             font-family: $font-NeoSansArabic-Regular;
             font-size: $font-size-medium;
         }
