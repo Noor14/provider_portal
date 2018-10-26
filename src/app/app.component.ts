@@ -3,6 +3,7 @@ import { CommonService } from './services/common.service';
 import { SharedService } from './services/shared.service';
 import { ScrollbarComponent } from 'ngx-scrollbar';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import '../assets/scss/_loader.css';
 
 
@@ -23,13 +24,13 @@ export class AppComponent implements OnInit{
     ){}
   
   ngOnInit() {
+    this._router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.scrollTop();
+    });
 
 
-    // this._router.events
-    //   .filter(event => event instanceof NavigationEnd)
-    //   .subscribe((event: NavigationEnd) => {
-    //    this.scrollTop();
-    //   });
 
     this._sharedService.formChange.subscribe((state: any) => {
       this.scrollTop();

@@ -87,22 +87,25 @@
         }
     }
     ngb-typeahead-window {
-        max-height: 200px;
-        overflow-y: auto;
-        &.dropdown-menu {
-            &#ngb-typeahead-2 {
+            max-height: 200px;
+            overflow-y: auto;
+        .dropdown-item {
+            &.active,
+            &:active {
+                background: $primary-grey;
+            }
+        }
+    }
+    .dir-otherLanguage {
+        ngb-typeahead-window {
+            &.dropdown-menu {
                 top: auto !important;
                 left: auto !important;
                 text-align: right;
             }
-            .dropdown-item {
-                &.active,
-                &:active {
-                    background: $primary-grey;
-                }
-            }
         }
-    }
+    } 
+
     .hr-solid {
         margin-top: 0.5rem !important;
         margin-bottom: 1rem !important;
@@ -119,7 +122,7 @@
         }
     }
     .btn-register {
-        padding-top: 0.5rem;
+        margin-top: 0.5rem;
         font-size: $font-size-large;
         color: $white-color;
         text-transform: uppercase;
@@ -140,6 +143,12 @@ input.blinking {
     -ms-animation: 1.4s linear infinite blink;
 }
 
+.radioError {
+    -webkit-animation: 2s linear infinite blink;
+    animation: 2s linear infinite blink;
+    -ms-animation: 2s linear infinite blink;
+}
+
 @-webkit-keyframes blink {
     from {
         box-shadow: 0px 0px 4px 1px #ced4da;
@@ -147,7 +156,7 @@ input.blinking {
     }
     to {
         border: solid 1px;
-        box-shadow: 0px 0px 4px 1px $danger-color;
+        box-shadow: 0px 0px 4px 1px rgba(211, 32, 32, 0.4);
         transition: ease;
     }
 }
@@ -158,9 +167,9 @@ input.blinking {
         transition: ease-in 2s;
     }
     to {
-        border: solid 1px $danger-color;
+        //       border: solid 1px $danger-color;
         box-shadow: 0px 0px 4px 1px $danger-color;
-        transition: ease;
+        transition: ease-in-out;
     }
 }
 

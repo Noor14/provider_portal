@@ -1,7 +1,6 @@
 @import '../../../../../../../assets/scss/_variables';
 .directors-info {
-    &
-    h2 {
+    & h2 {
         font-family: $font-pragmatica;
         font-weight: $font-weight-mid;
         color: $text-color-default;
@@ -24,7 +23,7 @@
             }
             border: 0;
             background-color: $right-side-background;
-            &.ng-star-inserted{
+            &.ng-star-inserted {
                 position: inherit;
             }
             &-header {
@@ -89,10 +88,17 @@
             border: 1px solid $secondary-color;
             border-radius: 3px;
             margin-bottom: 20px;
-            margin-top:40px;
-            .fileIcon {
-                width: 35px;
-                height: 35px;
+            .fileDesc {
+                a {
+                    text-decoration: none;
+                    .fileIcon {
+                        width: 35px;
+                        height: 35px;
+                    }
+                    span {
+                        color: $text-color-default;
+                    }
+                }
             }
         }
         .file-uploader {
@@ -127,7 +133,7 @@
     p {
         font-size: $font-size-medium;
         font-family: $font-proxima-weight-semibold;
-        color:#75838f;
+        color: #75838f;
         padding-top: 0.59rem;
     }
     a {
@@ -156,4 +162,3 @@
         }
     }
 }
-

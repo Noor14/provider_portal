@@ -343,6 +343,23 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
+  inputValidate(id,){
+    for (let index = id-1; index > 0; index--) {
+      let elem = document.getElementById(id) as HTMLInputElement; 
+      let value = elem.value;
+      if(!value){
+        this.regForm.controls[elem.name].errors=true;
+        elem.classList.add('inputError');
+      }
+      else{
+        this.regForm.controls[elem.name].errors=false;
+        elem.classList.remove('inputError');
+      }
+      
+    }
+  }
+
+
   selectPhoneCode(list) {
     this.countryFlagImage = list.code;
     let description = list.desc;

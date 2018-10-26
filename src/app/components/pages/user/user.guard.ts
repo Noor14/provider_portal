@@ -39,7 +39,11 @@ export class UserGuard implements CanActivate {
       if (otpKey != 'password') {
         return this.checkPassword(otpKey);
       }
-      else {
+      else if (localStorage.getItem('userInfo') && Object.keys('userInfo').length){
+        this.router.navigate(['/business-profile']);    // "previous url hard code"
+        return true;
+      }
+      else{
         this.router.navigate(['/registration']);
         return true;
       }
@@ -68,6 +72,21 @@ export class UserGuard implements CanActivate {
 
       }
     }
+
+    // if user go to thank You page
+
+    if (state.url == '/profile-completion') {
+      if (localStorage.getItem('userInfo')) {
+        return true;
+      }
+      else {
+        this.router.navigate(['/business-profile']);
+        return true;
+
+      }
+    }
+
+
 
   }
 
