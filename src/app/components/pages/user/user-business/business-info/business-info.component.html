@@ -6,4 +6,39 @@
 <app-business-detail [hidden]="!isLeftVisible"></app-business-detail>
 <app-directorinfo [hidden]="isLeftVisible"></app-directorinfo>
 
-{{isLeftVisible}}
+
+
+
+
+
+
+
+
+<!-- 
+<div class="form-row">
+    <div class="form-group col-md-3">
+        <label for="inputMonth">Expiry Date</label>
+        <select id="inputMonth" class="form-control" formControlName="ccMonth" (change)="onMonthChangeEvent($event)">
+            <option selected value="0">DD</option>
+            <option *ngFor="let date of dateList" [value]="date">{{date}}</option>
+        </select>
+
+    </div>
+        <div class="form-group col-md-3">
+     
+        <label for="inputMonth">Expiry Month</label>
+            <select id="inputMonth" class="form-control" formControlName="ccMonth" (change)="onMonthChangeEvent($event)">
+                <option selected value="0">MM</option>
+                <option *ngFor="let month of monthList" [value]="month">{{month}}</option>
+            </select>
+    
+        </div>
+    <div class="form-group col-md-3">
+        <label for="inputYear">Expiry Year</label>
+        <select id="inputYear" class="form-control" formControlName="ccYear">
+            <option selected value="0">YYYY</option>
+            <option *ngFor="let year of yearList" [value]="year">{{year}}</option>
+        </select>
+
+    </div>
+</div> -->

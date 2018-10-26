@@ -26,6 +26,18 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class BusinessInfoComponent implements OnInit {
 
   isLeftVisible = true;
+
+
+  // public dateList: Array<number> = Array(31).fill(0).map((x, i) => i + 1)
+  // public monthList: Array<number> = Array(12).fill(0).map((x, i) => i + 1)
+  // public yearList: Array<number> = Array(10).fill(0).map((x, i) => i + new Date().getFullYear())
+
+
+
+
+
+
+
   constructor(
     private _sharedService: SharedService,
     private _userbusinessService: UserBusinessService,
@@ -33,6 +45,7 @@ export class BusinessInfoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnObject) {
       let userProfile = userInfo.returnObject;
@@ -59,6 +72,30 @@ export class BusinessInfoComponent implements OnInit {
       console.log(err);
     })
   }
+
+
+
+
+  // onMonthChangeEvent({ target }) {
+  //   if (target.value) {
+  //     const selectedMonth = target.value
+  //     const currentMonth = new Date().getMonth() + 1
+  //     if (selectedMonth < currentMonth) {
+  //       const newYears = new Date().getFullYear() + 1
+  //       this.yearList = Array(10).fill(0).map((x, i) => i + newYears)
+  //     } else {
+  //       this.yearList = Array(10).fill(0).map((x, i) => i + new Date().getFullYear())
+  //     }
+  //   }
+  // }
+
+
+
+
+
+
+
+
   getDocType(id) {
     this._userbusinessService.getDocByCountrytype('provider', 0 , id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
