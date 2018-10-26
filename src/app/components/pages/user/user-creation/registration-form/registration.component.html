@@ -7,16 +7,21 @@
     </h5>
     <hr class="hr-solid">
     <div class="select-city country-select">
-      <div class="flag-container">
-        <img *ngIf="selectedRegion && selectedRegion.code" src="{{'../../../../../assets/images/flags/4x3/' + (selectedRegion.code | lowercase) + '.svg'}}"  type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+      <div class="flag-container d-flex justify-content-center">
+        <img *ngIf="selectedRegion && selectedRegion.code" src="{{'../../../../../assets/images/flags/4x3/' + (selectedRegion.code | lowercase) + '.svg'}}"
+          type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
       </div>
-      <input id="typeahead" type="text" class="form-control" [ngClass]= "{'blinking': !selectedRegion.id || !selectedRegion }" [(ngModel)]="selectedRegion" [ngbTypeahead]="search"
-        [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Please enter your country name to proceed" (ngModelChange)="getAccountList(selectedRegion, $event)" />
+      <input id="typeahead" type="text" class="form-control" [ngClass]="{'blinking': !selectedRegion.id || !selectedRegion }"
+        [(ngModel)]="selectedRegion" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter"
+        placeholder="Please enter your country name to proceed" (ngModelChange)="getAccountList(selectedRegion, $event)" />
+
       <ng-template #rt let-r="result">
-        <div class="flag-container">
-        <img src="{{'../../../../../assets/images/flags/4x3/' + (r.code | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100 mr-1">
+        <div class="d-flex">
+          <div class="flag-container mr-1">
+            <img src="{{'../../../../../assets/images/flags/4x3/' + (r.code | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
+          </div>
+          <ngb-highlight [result]="r.title"></ngb-highlight>
         </div>
-        <ngb-highlight [result]="r.title"></ngb-highlight>
       </ng-template>
 
     </div>
@@ -27,7 +32,7 @@
 
   <section class="registration-form animated fadeInUp pt-3" *ngIf="registrationForm">
     <h5 class="registration-head-titles mt-5 pt-2 d-flex justify-content-between">
-      <span >{{lblAccSetupBaseLang}}</span>
+      <span>{{lblAccSetupBaseLang}}</span>
       <span *ngIf="showTranslatedLangSide" class="text-right ">{{lblAccSetupOtherLang}}</span>
     </h5>
     <hr class="hr-solid">
@@ -37,7 +42,7 @@
           <input id="{{i}}" name="accountSetup" type="radio" (click)="selectAccountSetup(i, account)">
           <label for="{{i}}">
             <span></span>
-              {{account.AccountNameBaseLang}}
+            {{account.AccountNameBaseLang}}
           </label>
         </div>
       </div>
@@ -46,7 +51,7 @@
           <input id="{{i}}" name="accountSetupArb" type="radio" (click)="selectAccountSetup(i, account)">
           <label for="{{i}}">
             <span class="mr-0 ml-2"></span>
-              {{account.AccountNameOtherLang}}
+            {{account.AccountNameOtherLang}}
           </label>
         </div>
       </div>
@@ -64,25 +69,37 @@
         <div class="col-lg-6 col-md-6 col-sm-12">
           <div class="form-group">
             <label for="leftFirstName">{{lblFormfirstNameBaseLang}}</label>
-            <input type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': firstNameError && regForm.controls['firstName'].errors}" (focusout)="errorValidate()" (blur)="activeFirstName=false" (focus)="firstNameError=false; activeFirstName=true" (ngModelChange)="onModelChange(activeTransFirstName, activeFirstName, 'transLangfirstName', 'en', 'ar' ,$event)" class="form-control" id="leftFirstName" placeholder="eg: John" formControlName="firstName">
+            <input type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': firstNameError && regForm.controls['firstName'].errors}"
+              (focusout)="errorValidate()" (blur)="activeFirstName=false" (focus)="firstNameError=false; activeFirstName=true"
+              (ngModelChange)="onModelChange(activeTransFirstName, activeFirstName, 'transLangfirstName', 'en', 'ar' ,$event)"
+              class="form-control" id="leftFirstName" placeholder="eg: John" formControlName="firstName">
             <span *ngIf="firstNameError && regForm.controls['firstName'].errors">
-                <p class="inputError animated fadeIn" *ngIf="regForm.controls['firstName'].hasError('required') && (regForm.controls.firstName.dirty || regForm.controls.firstName.touched)">{{requiredFields}}</p>
-                <p class="inputError animated fadeIn" *ngIf="!regForm.controls['firstName'].hasError('pattern') && regForm.controls['firstName'].hasError('minlength') && (regForm.controls.firstName.dirty || regForm.controls.firstName.touched)">First name must be at least 2 characters long</p>
-                <p class="inputError animated fadeIn" *ngIf="!regForm.controls['firstName'].hasError('pattern') && regForm.controls['firstName'].hasError('maxlength') && (regForm.controls.firstName.dirty || regForm.controls.firstName.touched)">First name should not exceed from 100 characters</p>
-                <p class="inputError animated fadeIn" *ngIf="regForm.controls['firstName'].hasError('pattern') && (regForm.controls.firstName.dirty || regForm.controls.firstName.touched)">Please enter valid information</p>
+              <p class="inputError animated fadeIn" *ngIf="regForm.controls['firstName'].hasError('required') && (regForm.controls.firstName.dirty || regForm.controls.firstName.touched)">{{requiredFields}}</p>
+              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['firstName'].hasError('pattern') && regForm.controls['firstName'].hasError('minlength') && (regForm.controls.firstName.dirty || regForm.controls.firstName.touched)">First
+                name must be at least 2 characters long</p>
+              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['firstName'].hasError('pattern') && regForm.controls['firstName'].hasError('maxlength') && (regForm.controls.firstName.dirty || regForm.controls.firstName.touched)">First
+                name should not exceed from 100 characters</p>
+              <p class="inputError animated fadeIn" *ngIf="regForm.controls['firstName'].hasError('pattern') && (regForm.controls.firstName.dirty || regForm.controls.firstName.touched)">Please
+                enter valid information</p>
             </span>
           </div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
           <div class="form-group dir-otherLanguage">
             <label for="rightFirstName">{{lblFormfirstNameOtherLang}}</label>
-            <input type="text" maxlength="100" class="form-control" id="rightFirstName" [ngClass]="{'inputError': transfirstNameError && regForm.controls['transLangfirstName'].errors}" (focusout)="errorValidate()" (blur)="activeTransFirstName=false" (focus)="transfirstNameError=false; activeTransFirstName=true" (ngModelChange)="onTransModel(activeFirstName, activeTransFirstName, 'firstName' ,$event)"  placeholder="المثال : جون" formControlName= "transLangfirstName">
+            <input type="text" maxlength="100" class="form-control" id="rightFirstName" [ngClass]="{'inputError': transfirstNameError && regForm.controls['transLangfirstName'].errors}"
+              (focusout)="errorValidate()" (blur)="activeTransFirstName=false" (focus)="transfirstNameError=false; activeTransFirstName=true"
+              (ngModelChange)="onTransModel(activeFirstName, activeTransFirstName, 'firstName' ,$event)" placeholder="المثال : جون"
+              formControlName="transLangfirstName">
             <span *ngIf="transfirstNameError && regForm.controls['transLangfirstName'].errors">
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangfirstName'].hasError('required') && (regForm.controls.transLangfirstName.dirty || regForm.controls.transLangfirstName.touched)">{{requiredFieldsOthrLng}}</p>
-              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangfirstName'].hasError('pattern') && regForm.controls['transLangfirstName'].hasError('minlength') && (regForm.controls.transLangfirstName.dirty || regForm.controls.transLangfirstName.touched)">يجب أن يتكون الاسم الأول من حرفين على الأقل</p>
-              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangfirstName'].hasError('pattern') && regForm.controls['transLangfirstName'].hasError('maxlength') && (regForm.controls.transLangfirstName.dirty || regForm.controls.transLangfirstName.touched)">يجب ألا يتجاوز الاسم الأول 100 حرف</p>
-              <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangfirstName'].hasError('pattern') && (regForm.controls.transLangfirstName.dirty || regForm.controls.transLangfirstName.touched)">يرجى إدخال معلومات صحيحة</p>
-          </span>
+              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangfirstName'].hasError('pattern') && regForm.controls['transLangfirstName'].hasError('minlength') && (regForm.controls.transLangfirstName.dirty || regForm.controls.transLangfirstName.touched)">يجب
+                أن يتكون الاسم الأول من حرفين على الأقل</p>
+              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangfirstName'].hasError('pattern') && regForm.controls['transLangfirstName'].hasError('maxlength') && (regForm.controls.transLangfirstName.dirty || regForm.controls.transLangfirstName.touched)">يجب
+                ألا يتجاوز الاسم الأول 100 حرف</p>
+              <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangfirstName'].hasError('pattern') && (regForm.controls.transLangfirstName.dirty || regForm.controls.transLangfirstName.touched)">يرجى
+                إدخال معلومات صحيحة</p>
+            </span>
           </div>
         </div>
       </div>
@@ -90,67 +107,85 @@
         <div class="col-lg-6 col-md-6 col-sm-12">
           <div class="form-group">
             <label for="leftLastName">{{lblFormlastNameBaseLang}}</label>
-            <input type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': lastNameError && regForm.controls['lastName'].errors}" (focusout)="errorValidate()" (blur)="activeLastName=false" (focus)="lastNameError=false; activeLastName=true" (ngModelChange)="onModelChange(activeTransLastName, activeLastName, 'transLanglastName', 'en', 'ar' ,$event)" class="form-control" id="leftLastName" placeholder="eg: Smith" formControlName="lastName">
+            <input type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': lastNameError && regForm.controls['lastName'].errors}"
+              (focusout)="errorValidate()" (blur)="activeLastName=false" (focus)="lastNameError=false; activeLastName=true"
+              (ngModelChange)="onModelChange(activeTransLastName, activeLastName, 'transLanglastName', 'en', 'ar' ,$event)"
+              class="form-control" id="leftLastName" placeholder="eg: Smith" formControlName="lastName">
             <span *ngIf="lastNameError && regForm.controls['lastName'].errors">
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['lastName'].hasError('required') && (regForm.controls.lastName.dirty || regForm.controls.lastName.touched)">{{requiredFields}}</p>
-              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['lastName'].hasError('pattern') && regForm.controls['lastName'].hasError('minlength') && (regForm.controls.lastName.dirty || regForm.controls.lastName.touched)">Last name must be at least 2 characters long</p>
-              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['lastName'].hasError('pattern') && regForm.controls['lastName'].hasError('maxlength') && (regForm.controls.lastName.dirty || regForm.controls.lastName.touched)">Last name should not exceed from 100 characters</p>
-              <p class="inputError animated fadeIn" *ngIf="regForm.controls['lastName'].hasError('pattern') && (regForm.controls.lastName.dirty || regForm.controls.lastName.touched)">Please enter valid information</p>
+              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['lastName'].hasError('pattern') && regForm.controls['lastName'].hasError('minlength') && (regForm.controls.lastName.dirty || regForm.controls.lastName.touched)">Last
+                name must be at least 2 characters long</p>
+              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['lastName'].hasError('pattern') && regForm.controls['lastName'].hasError('maxlength') && (regForm.controls.lastName.dirty || regForm.controls.lastName.touched)">Last
+                name should not exceed from 100 characters</p>
+              <p class="inputError animated fadeIn" *ngIf="regForm.controls['lastName'].hasError('pattern') && (regForm.controls.lastName.dirty || regForm.controls.lastName.touched)">Please
+                enter valid information</p>
             </span>
           </div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
           <div class="form-group dir-otherLanguage">
             <label for="leftLastName">{{lblFormlastNameOtherLang}}</label>
-            <input type="text" maxlength="100" class="form-control" id="leftLastName" placeholder="المثال : سمىت" [ngClass]="{'inputError': translastNameError && regForm.controls['transLanglastName'].errors}" (focusout)="errorValidate()" (blur)="activeTransLastName=false" (focus)="translastNameError=false; activeTransLastName=true" (ngModelChange)="onTransModel(activeLastName, activeTransLastName, 'lastName' ,$event)" formControlName="transLanglastName">
+            <input type="text" maxlength="100" class="form-control" id="leftLastName" placeholder="المثال : سمىت"
+              [ngClass]="{'inputError': translastNameError && regForm.controls['transLanglastName'].errors}" (focusout)="errorValidate()"
+              (blur)="activeTransLastName=false" (focus)="translastNameError=false; activeTransLastName=true"
+              (ngModelChange)="onTransModel(activeLastName, activeTransLastName, 'lastName' ,$event)" formControlName="transLanglastName">
             <span *ngIf="translastNameError && regForm.controls['transLanglastName'].errors">
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLanglastName'].hasError('required') && (regForm.controls.transLanglastName.dirty || regForm.controls.transLanglastName.touched)">{{requiredFieldsOthrLng}}</p>
-              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLanglastName'].hasError('pattern') && regForm.controls['transLanglastName'].hasError('minlength') && (regForm.controls.transLanglastName.dirty || regForm.controls.transLanglastName.touched)">يجب ألا يقل الاسم الأخير عن 2 حرف</p>
-              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLanglastName'].hasError('pattern') && regForm.controls['transLanglastName'].hasError('maxlength') && (regForm.controls.transLanglastName.dirty || regForm.controls.transLanglastName.touched)">يجب ألا يتجاوز الاسم الأخير 100 حرف</p>
-              <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLanglastName'].hasError('pattern') && (regForm.controls.transLanglastName.dirty || regForm.controls.transLanglastName.touched)">يرجى إدخال معلومات صحيحة</p>
+              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLanglastName'].hasError('pattern') && regForm.controls['transLanglastName'].hasError('minlength') && (regForm.controls.transLanglastName.dirty || regForm.controls.transLanglastName.touched)">يجب
+                ألا يقل الاسم الأخير عن 2 حرف</p>
+              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLanglastName'].hasError('pattern') && regForm.controls['transLanglastName'].hasError('maxlength') && (regForm.controls.transLanglastName.dirty || regForm.controls.transLanglastName.touched)">يجب
+                ألا يتجاوز الاسم الأخير 100 حرف</p>
+              <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLanglastName'].hasError('pattern') && (regForm.controls.transLanglastName.dirty || regForm.controls.transLanglastName.touched)">يرجى
+                إدخال معلومات صحيحة</p>
             </span>
           </div>
         </div>
       </div>
 
       <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="lefttransLangjobTitle">{{lblFormjobTitleBaseLang}}</label>
-                <input type="text" maxlength="100" class="form-control" id="typeaheadother" (keypress)="textValidation($event)"
-                placeholder="eg: Manager" [ngClass]="{'inputError': jobTitleError && regForm.controls['jobTitle'].errors}" formControlName="jobTitle" [(ngModel)]="selectedjobTitle" [ngbTypeahead]="jobSearch"
-                [resultTemplate]="jt" [inputFormatter]="formatterjob" formControlName="jobTitle" (focusout)="errorValidate(); onModeljobtitle(activeTransjobTitle, !activejobTitle, 'transLangjobTitle', 'en', 'ar' ,selectedjobTitle)"
-                (focus)="jobTitleError=false; activejobTitle=true" (blur)="activejobTitle=false">
-                <ng-template #jt let-r="result">
-                    <ngb-highlight [result]="r.baseLanguage"></ngb-highlight>
-                </ng-template>
-                <span *ngIf="jobTitleError && regForm.controls['jobTitle'].errors">
-                  <p class="inputError animated fadeIn" *ngIf="regForm.controls['jobTitle'].hasError('required') && (regForm.controls.jobTitle.dirty || regForm.controls.jobTitle.touched)">{{requiredFields}}</p>
-                  <p class="inputError animated fadeIn" *ngIf="!regForm.controls['jobTitle'].hasError('pattern') && regForm.controls['jobTitle'].hasError('minlength') && (regForm.controls.jobTitle.dirty || regForm.controls.jobTitle.touched)">Job title must be at least 3 characters long</p>
-                  <p class="inputError animated fadeIn" *ngIf="!regForm.controls['jobTitle'].hasError('pattern') && regForm.controls['jobTitle'].hasError('maxlength') && (regForm.controls.jobTitle.dirty || regForm.controls.jobTitle.touched)">Job title should not exceed from 100 characters</p>
-                  <p class="inputError animated fadeIn" *ngIf="regForm.controls['jobTitle'].hasError('pattern') && (regForm.controls.jobTitle.dirty || regForm.controls.jobTitle.touched)">Please enter valid information</p>
-                </span>
-               </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
-              <div class="form-group dir-otherLanguage">
-                <label for="leftJobTitle">{{lblFormjobTitleOtherLang}}</label>
-                <input type="text" maxlength="100" class="form-control" [(ngModel)]="selectedjobTitle" placeholder="المثال : مدير" 
-                [ngbTypeahead]="jobSearchOtherLng" [resultTemplate]="jto" placement="right" [inputFormatter]="formatterjobOtherLng" 
-                [ngClass]="{'inputError': transjobTitleError && regForm.controls['transLangjobTitle'].errors}" (focusout)="errorValidate(); onTransModeljobTitle(activejobTitle, !activeTransjobTitle, 'jobTitle' ,selectedjobTitle)"
-                formControlName="transLangjobTitle" (focus)="transjobTitleError=false; activeTransjobTitle=true"
-                (blur)="activeTransjobTitle=false">
-                <ng-template #jto let-r="result">
-                    <ngb-highlight [result]="r.otherLanguage"></ngb-highlight>
-                </ng-template> 
-                <span *ngIf="transjobTitleError && regForm.controls['transLangjobTitle'].errors">
-                  <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangjobTitle'].hasError('required') && (regForm.controls.transLangjobTitle.dirty || regForm.controls.transLangjobTitle.touched)">{{requiredFieldsOthrLng}}</p>
-                  <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangjobTitle'].hasError('pattern') && regForm.controls['transLangjobTitle'].hasError('minlength') && (regForm.controls.transLangjobTitle.dirty || regForm.controls.transLangjobTitle.touched)">يجب أن يكون عنوان الوظيفة 3 أحرف على الأقل</p>
-                  <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangjobTitle'].hasError('pattern') && regForm.controls['transLangjobTitle'].hasError('maxlength') && (regForm.controls.transLangjobTitle.dirty || regForm.controls.transLangjobTitle.touched)">يجب ألا يتجاوز عنوان الوظيفة 100 حرف</p>
-                  <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangjobTitle'].hasError('pattern') && (regForm.controls.transLangjobTitle.dirty || regForm.controls.transLangjobTitle.touched)">يرجى إدخال معلومات صحيحة</p>
-                </span>
-               </div>
-            </div> 
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label for="lefttransLangjobTitle">{{lblFormjobTitleBaseLang}}</label>
+            <input type="text" maxlength="100" class="form-control" id="typeaheadother" (keypress)="textValidation($event)"
+              placeholder="eg: Manager" [ngClass]="{'inputError': jobTitleError && regForm.controls['jobTitle'].errors}"
+              formControlName="jobTitle" [(ngModel)]="selectedjobTitle" [ngbTypeahead]="jobSearch" [resultTemplate]="jt"
+              [inputFormatter]="formatterjob" formControlName="jobTitle" (focusout)="errorValidate(); onModeljobtitle(activeTransjobTitle, !activejobTitle, 'transLangjobTitle', 'en', 'ar' ,selectedjobTitle)"
+              (focus)="jobTitleError=false; activejobTitle=true" (blur)="activejobTitle=false">
+            <ng-template #jt let-r="result">
+              <ngb-highlight [result]="r.baseLanguage"></ngb-highlight>
+            </ng-template>
+            <span *ngIf="jobTitleError && regForm.controls['jobTitle'].errors">
+              <p class="inputError animated fadeIn" *ngIf="regForm.controls['jobTitle'].hasError('required') && (regForm.controls.jobTitle.dirty || regForm.controls.jobTitle.touched)">{{requiredFields}}</p>
+              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['jobTitle'].hasError('pattern') && regForm.controls['jobTitle'].hasError('minlength') && (regForm.controls.jobTitle.dirty || regForm.controls.jobTitle.touched)">Job
+                title must be at least 3 characters long</p>
+              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['jobTitle'].hasError('pattern') && regForm.controls['jobTitle'].hasError('maxlength') && (regForm.controls.jobTitle.dirty || regForm.controls.jobTitle.touched)">Job
+                title should not exceed from 100 characters</p>
+              <p class="inputError animated fadeIn" *ngIf="regForm.controls['jobTitle'].hasError('pattern') && (regForm.controls.jobTitle.dirty || regForm.controls.jobTitle.touched)">Please
+                enter valid information</p>
+            </span>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
+          <div class="form-group dir-otherLanguage">
+            <label for="leftJobTitle">{{lblFormjobTitleOtherLang}}</label>
+            <input type="text" maxlength="100" class="form-control" [(ngModel)]="selectedjobTitle" placeholder="المثال : مدير"
+              [ngbTypeahead]="jobSearchOtherLng" [resultTemplate]="jto" placement="right" [inputFormatter]="formatterjobOtherLng"
+              [ngClass]="{'inputError': transjobTitleError && regForm.controls['transLangjobTitle'].errors}" (focusout)="errorValidate(); onTransModeljobTitle(activejobTitle, !activeTransjobTitle, 'jobTitle' ,selectedjobTitle)"
+              formControlName="transLangjobTitle" (focus)="transjobTitleError=false; activeTransjobTitle=true" (blur)="activeTransjobTitle=false">
+            <ng-template #jto let-r="result">
+              <ngb-highlight [result]="r.otherLanguage"></ngb-highlight>
+            </ng-template>
+            <span *ngIf="transjobTitleError && regForm.controls['transLangjobTitle'].errors">
+              <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangjobTitle'].hasError('required') && (regForm.controls.transLangjobTitle.dirty || regForm.controls.transLangjobTitle.touched)">{{requiredFieldsOthrLng}}</p>
+              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangjobTitle'].hasError('pattern') && regForm.controls['transLangjobTitle'].hasError('minlength') && (regForm.controls.transLangjobTitle.dirty || regForm.controls.transLangjobTitle.touched)">يجب
+                أن يكون عنوان الوظيفة 3 أحرف على الأقل</p>
+              <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangjobTitle'].hasError('pattern') && regForm.controls['transLangjobTitle'].hasError('maxlength') && (regForm.controls.transLangjobTitle.dirty || regForm.controls.transLangjobTitle.touched)">يجب
+                ألا يتجاوز عنوان الوظيفة 100 حرف</p>
+              <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangjobTitle'].hasError('pattern') && (regForm.controls.transLangjobTitle.dirty || regForm.controls.transLangjobTitle.touched)">يرجى
+                إدخال معلومات صحيحة</p>
+            </span>
+          </div>
+        </div>
         <!-- <div class="col-lg-6 col-md-6 col-sm-12">
           <div class="form-group">
             <label for="lefttransLangjobTitle">{{lblFormjobTitleBaseLang}}</label>
@@ -200,73 +235,82 @@
                 <div ngbDropdown class="select-country-list">
                   <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                     <div class="flag-container">
-                      <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml"
-                        class="mw-100 w-auto h-auto mh-100">
+                      <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
+                        type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                       <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
                         alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
-                      </div>
+                    </div>
                     <span>{{phoneCode}}</span>
                   </div>
                   <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                     <ul class="list-group">
                       <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
                         <div class="flag-container">
-                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}" class="mw-100 w-auto h-auto mh-100">
+                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}"
+                            class="mw-100 w-auto h-auto mh-100">
                         </div>
                         <span> {{list.desc[0].CountryPhoneCode}}</span>
                       </li>
                     </ul>
                   </div>
                 </div>
-                <input type="text" class="form-control select-country-code" (focusout)="errorValidate()" (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
-                 maxlength="13" placeholder="123456789" (keypress)="NumberValid($event)" formControlName="phone">
+                <input type="text" class="form-control select-country-code" (focusout)="errorValidate()" (blur)="activePhone=false"
+                  (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
+                  maxlength="13" placeholder="123456789" (keypress)="NumberValid($event)" formControlName="phone">
               </div>
               <span *ngIf="phoneError">
                 <p class="inputError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('required') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">{{requiredFields}}</p>
-                <p class="inputError animated fadeIn" *ngIf="!regForm.controls['phone'].hasError('pattern') && regForm.controls['phone'].hasError('minlength') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Phone number should be minimum 7 digits</p>
-                <p class="inputError animated fadeIn" *ngIf="!regForm.controls['phone'].hasError('pattern') && regForm.controls['phone'].hasError('maxlength') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Phone number should not exceed from 13 digits</p>
-                <p class="inputError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('pattern') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Please enter valid information</p>
+                <p class="inputError animated fadeIn" *ngIf="!regForm.controls['phone'].hasError('pattern') && regForm.controls['phone'].hasError('minlength') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Phone
+                  number should be minimum 7 digits</p>
+                <p class="inputError animated fadeIn" *ngIf="!regForm.controls['phone'].hasError('pattern') && regForm.controls['phone'].hasError('maxlength') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Phone
+                  number should not exceed from 13 digits</p>
+                <p class="inputError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('pattern') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">Please
+                  enter valid information</p>
               </span>
             </div>
           </div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
           <div class="form-group dir-otherLanguage">
-              <label>{{lblFormMobileOtherLang}}</label>
-              <div class="select-number">
-                <div class="input-group-append" [ngClass]="{'inputError': translangPhoneError && regForm.controls['transLangPhone'].errors}">
-                  <div ngbDropdown class="select-country-list">
-                    <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                        <div class="flag-container">
-                        <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml"
-                          class="mw-100 w-auto h-auto mh-100">
-                        <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
-                          alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
-                        </div>
-                      <span>{{transPhoneCode}}</span>
+            <label>{{lblFormMobileOtherLang}}</label>
+            <div class="select-number">
+              <div class="input-group-append" [ngClass]="{'inputError': translangPhoneError && regForm.controls['transLangPhone'].errors}">
+                <div ngbDropdown class="select-country-list">
+                  <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                    <div class="flag-container">
+                      <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
+                        type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                      <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
+                        alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                     </div>
-                    <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
-                      <ul class="list-group text-justify">
-                        <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
-                            <div class="flag-container">
-                            <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}" class="mw-100 w-auto h-auto mh-100">
-                            </div>
-                          <span> {{list.desc[0].CountryPhoneCode_OtherLang}}</span>
-                        </li>
-                      </ul>
-                    </div>
+                    <span>{{transPhoneCode}}</span>
                   </div>
-                  <input type="text" class="form-control select-country-code" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true" 
-                  (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="13"
-                   placeholder="۹۸۷۶۵۴۳۲۱" (keypress)="NumberValid($event)" formControlName="transLangPhone">
+                  <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                    <ul class="list-group text-justify">
+                      <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
+                        <div class="flag-container">
+                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}"
+                            class="mw-100 w-auto h-auto mh-100">
+                        </div>
+                        <span> {{list.desc[0].CountryPhoneCode_OtherLang}}</span>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-                <span *ngIf="translangPhoneError">
-                  <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangPhone'].hasError('required') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">{{requiredFieldsOthrLng}}</p>
-                  <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangPhone'].hasError('pattern') && regForm.controls['transLangPhone'].hasError('minlength') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">يجب أن يكون رقم الهاتف 7 أرقام كحد أدنى</p>
-                  <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangPhone'].hasError('pattern') && regForm.controls['transLangPhone'].hasError('maxlength') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">يجب ألا يتجاوز رقم الهاتف  13 أرقام</p>
-                  <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangPhone'].hasError('pattern') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">يرجى إدخال معلومات صحيحة</p>
-                </span>
+                <input type="text" class="form-control select-country-code" (focusout)="errorValidate()" (blur)="activeTransPhone=false"
+                  (focus)="translangPhoneError=false; activeTransPhone=true" (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)"
+                  maxlength="13" placeholder="۹۸۷۶۵۴۳۲۱" (keypress)="NumberValid($event)" formControlName="transLangPhone">
               </div>
+              <span *ngIf="translangPhoneError">
+                <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangPhone'].hasError('required') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">{{requiredFieldsOthrLng}}</p>
+                <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangPhone'].hasError('pattern') && regForm.controls['transLangPhone'].hasError('minlength') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">يجب
+                  أن يكون رقم الهاتف 7 أرقام كحد أدنى</p>
+                <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangPhone'].hasError('pattern') && regForm.controls['transLangPhone'].hasError('maxlength') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">يجب
+                  ألا يتجاوز رقم الهاتف 13 أرقام</p>
+                <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangPhone'].hasError('pattern') && (regForm.controls.transLangPhone.dirty || regForm.controls.transLangPhone.touched)">يرجى
+                  إدخال معلومات صحيحة</p>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -274,22 +318,30 @@
         <div class="col-lg-6 col-md-6 col-sm-12">
           <div class="form-group">
             <label for="address">{{lblFormEmailBaseLang}}</label>
-            <input type="email" autocomplete="nope" (focusout)="errorValidate()" (focus)="EmailError=false" [ngClass]="{'inputError': EmailError && regForm.controls['email'].errors}" (keypress)="spaceHandler($event)" class="form-control" [(ngModel)]="transLangEmail" placeholder="eg: john@company.com" formControlName="email">
+            <input type="email" autocomplete="nope" (focusout)="errorValidate()" (focus)="EmailError=false" [ngClass]="{'inputError': EmailError && regForm.controls['email'].errors}"
+              (keypress)="spaceHandler($event)" class="form-control" [(ngModel)]="transLangEmail" placeholder="eg: john@company.com"
+              formControlName="email">
             <span *ngIf="EmailError && regForm.controls['email'].errors">
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['email'].hasError('required') && (regForm.controls.email.dirty || regForm.controls.email.touched)">{{requiredFields}}</p>
-              <p class="inputError animated fadeIn" *ngIf="regForm.controls['email'].hasError('pattern') && (regForm.controls.email.dirty || regForm.controls.email.touched)">Please enter valid information</p>
-              <p class="inputError animated fadeIn" *ngIf="regForm.controls['email'].hasError('maxlength') && (regForm.controls.email.dirty || regForm.controls.email.touched)">Email should not exceed from 320 characters</p>
+              <p class="inputError animated fadeIn" *ngIf="regForm.controls['email'].hasError('pattern') && (regForm.controls.email.dirty || regForm.controls.email.touched)">Please
+                enter valid information</p>
+              <p class="inputError animated fadeIn" *ngIf="regForm.controls['email'].hasError('maxlength') && (regForm.controls.email.dirty || regForm.controls.email.touched)">Email
+                should not exceed from 320 characters</p>
             </span>
           </div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
           <div class="form-group dir-otherLanguage">
             <label for="address">{{lblFormEmailOtherLang}}</label>
-            <input type="email" class="form-control" placeholder="eg: john@company.com" (focusout)="errorValidate()" (focus)="transEmailError=false" [ngClass]="{'inputError': transEmailError && regForm.controls['transLangEmail'].errors}" (keypress)="spaceHandler($event)" [(ngModel)]="transLangEmail" formControlName="transLangEmail">
+            <input type="email" class="form-control" placeholder="eg: john@company.com" (focusout)="errorValidate()"
+              (focus)="transEmailError=false" [ngClass]="{'inputError': transEmailError && regForm.controls['transLangEmail'].errors}"
+              (keypress)="spaceHandler($event)" [(ngModel)]="transLangEmail" formControlName="transLangEmail">
             <span *ngIf="transEmailError && regForm.controls['transLangEmail'].errors">
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangEmail'].hasError('required') && (regForm.controls.transLangEmail.dirty || regForm.controls.transLangEmail.touched)">{{requiredFieldsOthrLng}}</p>
-              <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangEmail'].hasError('pattern') && (regForm.controls.transLangEmail.dirty || regForm.controls.transLangEmail.touched)">يرجى إدخال معلومات صحيحة</p>
-              <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangEmail'].hasError('maxlength') && (regForm.controls.transLangEmail.dirty || regForm.controls.transLangEmail.touched)">يجب ألا يتجاوز البريد الإلكتروني 320 حرفًا</p>
+              <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangEmail'].hasError('pattern') && (regForm.controls.transLangEmail.dirty || regForm.controls.transLangEmail.touched)">يرجى
+                إدخال معلومات صحيحة</p>
+              <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangEmail'].hasError('maxlength') && (regForm.controls.transLangEmail.dirty || regForm.controls.transLangEmail.touched)">يجب
+                ألا يتجاوز البريد الإلكتروني 320 حرفًا</p>
             </span>
           </div>
         </div>
@@ -297,12 +349,12 @@
 
       <div class="info-text d-flex justify-content-between">
         <span>
-          <img src="../../../assets/images/icons/icon_info.svg" alt="icons" class="mr-2"> 
+          <img src="../../../assets/images/icons/icon_info.svg" alt="icons" class="mr-2">
           {{emailInfoTextBaselang}}
         </span>
         <span *ngIf="showTranslatedLangSide">
-            {{emailInfoTextOtherlang}}
-            <img src="../../../assets/images/icons/icon_info.svg" alt="icons" class="ml-2"> 
+          {{emailInfoTextOtherlang}}
+          <img src="../../../assets/images/icons/icon_info.svg" alt="icons" class="ml-2">
         </span>
       </div>
       <div class="row mt-5">

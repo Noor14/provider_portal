@@ -4,12 +4,11 @@
     .country-select{
         .flag-container{
             width: 16px;
-            height: 12px;
-            float: left;
-            margin-right: 9px;
+            height: 100%;
+            align-items: center;      
             position: absolute;
             left: 8px;
-            top: 6px;
+            
         }
         .dropdown-menu{
             &.show{
