@@ -43,6 +43,14 @@ body {
   } //hr 
   .hr-solid {
     margin-top: 0.5rem;
+    &:before {
+      content: " ";
+      background: #fbfbfd;
+      height: 2px;
+      position: absolute;
+      width: 100%;
+      margin-top: 0px;
+    }
   } // link Hover
   a.link-hover {
     transition: all 0.5s ease;
@@ -318,6 +326,54 @@ input[type="radio"]:focus+label>span {
 // .form-row {
 .form-group {
   margin-bottom: 0.5rem;
+  input,
+  select {
+    height: 3rem;
+    border: 1px solid $provider-input-border;
+  }
+  .business-option {
+    select {
+      color: $text-grey;
+      font-family: $font-proxima;
+      font-weight: $font-weight-mid;
+      font-size: $font-size-medium;
+      option {
+        color: $text-color-default !important;
+      }
+    }
+    &.dir-otherLanguage {
+      select,
+      option {
+        font-family: $font-NeoSansArabic-Medium;
+      }
+    }
+  }
+   
+  .licenseNaming,
+  .license {
+
+    label {
+      font-size: $font-size-large;
+      font-family: $font-proxima;
+      font-weight: $font-weight-mid;
+      color: $text-color-default;
+    }
+    small {
+      font-size: $font-size-medium;
+      font-family: $font-proxima;
+      font-weight: $font-weight-mid;
+      color: $secondary-text-color;
+    }
+    &.dir-otherLanguage {
+      label {
+        font-family: $font-NeoSansArabic-Medium;
+      }
+      small {
+        font-family: $font-NeoSansArabic-Regular;
+      }
+    }
+  }
+
   &.dir-otherLanguage {
     select {
       background-position: center left 10px;
@@ -353,6 +409,10 @@ input[type="radio"]:focus+label>span {
   label {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+    font-family: $font-proxima;
+    font-size: $font-size-large;
+    font-weight: $font-weight-mid;
+    color: $text-color-default;
   }
   input {
     outline: 0;
@@ -505,6 +565,10 @@ input[type="radio"]:focus+label>span {
       .dropdown-toggle {
         span {
           direction: ltr;
+          font-family: $font-proxima;
+          font-size: $font-size-large + .25rem;
+          font-weight: $font-weight-mid;
+          margin: 0;
         }
         .flag-container {
           float: right;
@@ -512,6 +576,9 @@ input[type="radio"]:focus+label>span {
           margin-right: 0px;
         }
       }
+    }
+    input {
+      padding-top: 15px;
     }
   }
 }

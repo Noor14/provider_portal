@@ -35,10 +35,10 @@
   }
   .dir-otherLanguage {
     select,
-      option {
-        font-family: $font-NeoSansArabic-Medium;
-        color: $text-grey;
-      }
+    option {
+      font-family: $font-NeoSansArabic-Medium;
+      color: $text-grey;
+    }
     h2 {
       font-size: $font-size-large + 0.7;
       font-family: $font-NeoSansArabic-Medium;
@@ -79,7 +79,7 @@
         position: absolute;
         left: 15px;
         top: 15px;
-        max-width:410px;
+        max-width: 410px;
         border-radius: 4px;
         box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.15);
         z-index: 1;
@@ -191,6 +191,15 @@
         }
       }
     }
+    .header {
+      small {
+        span {
+          font-family: $font-proxima;
+          font-weight: $font-weight-mid;
+          color: $secondary-text-color;
+        }
+      }
+    }
   }
   .contact-btn {
     margin-top: 3.5rem;
@@ -200,6 +209,17 @@
       span:nth-child(2) {
         font-family: $font-NeoSansArabic-Regular;
       }
+    }
+  }
+}
+
+.header {
+  small {
+    span {
+      font-family: $font-proxima;
+      font-weight: $font-weight-mid;
+      color: $secondary-text-color;
+      font-size: $font-size-medium;
     }
   }
 }
