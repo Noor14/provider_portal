@@ -1,11 +1,11 @@
 <section class="business-profile pt-0 pl-1 pr-1">
   <div class="row">
     <div class="col d-flex flex-column align-items-start">
-        <h2>{{headingBaseLanguage}}</h2>
+        <span [innerHTML]='headingBaseLanguage'></span>
         <p>{{statementBaseLanguage}}</p>
     </div>
     <div class="col d-flex flex-column align-items-start dir-otherLanguage text-right" *ngIf="showTranslatedLangSide">
-        <h2>{{headingOtherLanguage}}</h2>
+        <span [innerHTML]='headingOtherLanguage'></span>
         <p>{{statementOtherLanguage}}</p>
     </div>
   </div>
@@ -236,13 +236,13 @@
     </div>
   </form>
   <h5 class="d-flex justify-content-between mt-5">
-    <span >Company Activities</span>
-    <span>أنشطة الشركة</span>
+    <span>Company Activities</span>
+    <span *ngIf="showTranslatedLangSide">أنشطة الشركة</span>
   </h5>
 
   <small  class="d-flex justify-content-between" >
     <span> Select the activities listed on your trade license </span> 
-    <span>حدد الأنشطة المدرجة على الترخيص التجاري الخاص بك</span>
+    <span *ngIf="showTranslatedLangSide">حدد الأنشطة المدرجة على الترخيص التجاري الخاص بك</span>
   </small>
 
   <hr class="hr-solid">
@@ -250,7 +250,7 @@
     <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let service of serviceOffered">
       <div #selectService class="service-btn text-center d-flex flex-column justify-content-center pointer" (click)="serviceSelection(service, selectService)">
         <span>{{service.ServiceNameBaseLang}}</span>
-        <span>{{service.ServiceNameOtherLang}}</span>
+        <span *ngIf="showTranslatedLangSide">{{service.ServiceNameOtherLang}}</span>
       </div>
     </div>
   </div>
