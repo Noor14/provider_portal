@@ -10,7 +10,7 @@ import { CommonService } from './services/common.service';
 import { SharedService } from './services/shared.service';
 import { ToastrModule } from 'ngx-toastr';
 import { ScrollbarModule } from 'ngx-scrollbar';
-import { Interceptor } from './http-interceptors/interceptor';
+// import { UserService } from './components/pages/user/user.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,13 +29,9 @@ import { Interceptor } from './http-interceptors/interceptor';
     }),
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: Interceptor,
-      multi: true
-    },
-    CommonService,
-    SharedService
+    CommonService,                                                               
+    SharedService,
+    // UserService
   ],
   bootstrap: [AppComponent]
 })

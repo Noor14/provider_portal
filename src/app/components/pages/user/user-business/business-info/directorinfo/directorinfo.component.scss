@@ -159,3 +159,33 @@
         }
     }
 }
+
+.radioError {
+    -webkit-animation: 2s linear infinite blink;
+    animation: 2s linear infinite blink;
+    -ms-animation: 2s linear infinite blink;
+}
+
+@-webkit-keyframes blink {
+    from {
+        box-shadow: 0px 0px 4px 1px #ced4da;
+        transition: ease-in 2s;
+    }
+    to {
+        border: solid 1px;
+        box-shadow: 0px 0px 4px 1px rgba(211, 32, 32, 0.4);
+        transition: ease;
+    }
+}
+
+@keyframes blink {
+    from {
+        box-shadow: 0px 0px 4px 1px #ced4da;
+        transition: ease-in 2s;
+    }
+    to {
+        //       border: solid 1px $danger-color;
+        box-shadow: 0px 0px 4px 1px $danger-color;
+        transition: ease-in-out;
+    }
+}

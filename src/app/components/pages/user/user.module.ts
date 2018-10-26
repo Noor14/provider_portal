@@ -14,6 +14,7 @@ import { UserCreationModule } from './user-creation/user-creation.module';
 import { UserBusinessModule } from './user-business/user-business.module';
 import { BookingsComponent } from './bookings/bookings.component';
 import { UserGuard } from './user.guard'
+import { Interceptor } from '../../../http-interceptors/interceptor';
 
 @NgModule({
   imports: [
@@ -36,6 +37,13 @@ import { UserGuard } from './user.guard'
     UserComponent,
     BookingsComponent,
   ],
-  providers: [UserGuard,UserService],
+  providers: [
+    UserGuard,
+    UserService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi: true
+    },],
 })
 export class UserModule { }

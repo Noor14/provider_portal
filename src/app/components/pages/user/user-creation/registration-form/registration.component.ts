@@ -345,10 +345,10 @@ export class RegistrationComponent implements OnInit {
 
   inputValidate(id){
     for (let index = id-1; index > 0; index--) {
-      let elem = document.getElementById(id) as HTMLInputElement; 
+      let elem = document.getElementById(index.toString()) as HTMLInputElement; 
       let value = elem.value;
       if(!value){
-        this.regForm.controls[elem.name].errors=true;
+      this.regForm.controls[elem.name].errors=true;
         elem.classList.add('inputError');
       }
       else{

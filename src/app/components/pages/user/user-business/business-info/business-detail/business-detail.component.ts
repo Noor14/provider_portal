@@ -1,4 +1,5 @@
 import { Component, OnInit, NgZone, ElementRef, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../../../../services/shared.service';
 import { Observable, Subject } from 'rxjs';
@@ -315,7 +316,8 @@ export class BusinessDetailComponent implements OnInit {
     private _userbusinessService: UserBusinessService,
     private _toastr: ToastrService,
     private _commonService: CommonService,
-    private ngFilesService: NgFilesService
+    private ngFilesService: NgFilesService,
+    private sanitizer: DomSanitizer
 
   ) {
   }
@@ -387,7 +389,7 @@ export class BusinessDetailComponent implements OnInit {
       organizationType: new FormControl(null, [Validators.required]),
       organizationTypeAr: new FormControl(null, [CustomValidator.bind(this)]),
       orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4)]),
-      transLangOrgName: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(100), Validators.minLength(4)]),
+      transLangOrgName: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(100), Validators.minLength(2)]),
     });
     this.contactInfoForm = new FormGroup({
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
@@ -1594,7 +1596,9 @@ export class BusinessDetailComponent implements OnInit {
       }
     }
   }
-
+  sanitize(url: string) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
 
   selectedSocialLink(obj, index) {
     this.selectedSocialsite = obj;

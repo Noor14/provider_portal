@@ -34,8 +34,8 @@
     <div class="row pt-2 mb-0 " *ngFor="let account of accountSetup; let i = index">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="fancyRadioBoxes">
-          <input id="{{i}}" name="accountSetup" type="radio" (click)="selectAccountSetup(i, account)">
-          <label for="{{i}}">
+          <input id="{{i + 'setup'}}" name="accountSetup" type="radio" (click)="selectAccountSetup(i + 'setup', account)">
+          <label for="{{i + 'setup'}}">
             <span [ngClass]="{'radioError': !accountId}"></span>
               {{account.AccountNameBaseLang}}
           </label>
@@ -43,8 +43,8 @@
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="fancyRadioBoxes dir-otherLanguage">
-          <input id="{{i}}" name="accountSetupArb" type="radio" (click)="selectAccountSetup(i, account)">
-          <label for="{{i}}">
+          <input id="{{i + 'setup'}}" name="accountSetupArb" type="radio" (click)="selectAccountSetup(i + 'setup', account)">
+          <label for="{{i + 'setup'}}">
             <span class="mr-0 ml-2" [ngClass]="{'radioError': !accountId}"></span>
               {{account.AccountNameOtherLang}}
           </label>
@@ -64,7 +64,7 @@
         <div class="col-lg-6 col-md-6 col-sm-12">
           <div class="form-group">
             <label for="leftFirstName">{{lblFormfirstNameBaseLang}}</label>
-            <input id="1" type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': firstNameError && regForm.controls['firstName'].errors}" (focusout)="errorValidate()" (blur)="activeFirstName=false" (focus)="firstNameError=false; activeFirstName=true" (ngModelChange)="onModelChange(activeTransFirstName, activeFirstName, 'transLangfirstName', 'en', 'ar' ,$event)" class="form-control" id="leftFirstName" placeholder="eg: John" formControlName="firstName" name="firstName">
+            <input id="1" type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': firstNameError && regForm.controls['firstName'].errors}" (focusout)="errorValidate()" (blur)="activeFirstName=false" (focus)="firstNameError=false; activeFirstName=true; ; inputValidate(1)" (ngModelChange)="onModelChange(activeTransFirstName, activeFirstName, 'transLangfirstName', 'en', 'ar' ,$event)" class="form-control" placeholder="eg: John" formControlName="firstName" name="firstName">
             <span *ngIf="firstNameError && regForm.controls['firstName'].errors">
                 <p class="inputError animated fadeIn" *ngIf="regForm.controls['firstName'].hasError('required') && (regForm.controls.firstName.dirty || regForm.controls.firstName.touched)">{{requiredFields}}</p>
                 <p class="inputError animated fadeIn" *ngIf="!regForm.controls['firstName'].hasError('pattern') && regForm.controls['firstName'].hasError('minlength') && (regForm.controls.firstName.dirty || regForm.controls.firstName.touched)">First name must be at least 2 characters long</p>
@@ -76,7 +76,7 @@
         <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
           <div class="form-group dir-otherLanguage">
             <label for="rightFirstName">{{lblFormfirstNameOtherLang}}</label>
-            <input id="2" type="text" maxlength="100" class="form-control" id="rightFirstName" [ngClass]="{'inputError': transfirstNameError && regForm.controls['transLangfirstName'].errors}" (focusout)="errorValidate()" (blur)="activeTransFirstName=false" (focus)="transfirstNameError=false; activeTransFirstName=true" (ngModelChange)="onTransModel(activeFirstName, activeTransFirstName, 'firstName' ,$event)"  placeholder="المثال : جون" formControlName= "transLangfirstName" name="transLangfirstName">
+            <input id="2" type="text" maxlength="100" class="form-control" [ngClass]="{'inputError': transfirstNameError && regForm.controls['transLangfirstName'].errors}" (focusout)="errorValidate()" (blur)="activeTransFirstName=false" (focus)="transfirstNameError=false; activeTransFirstName=true; inputValidate(2)" (ngModelChange)="onTransModel(activeFirstName, activeTransFirstName, 'firstName' ,$event)"  placeholder="المثال : جون" formControlName= "transLangfirstName" name="transLangfirstName">
             <span *ngIf="transfirstNameError && regForm.controls['transLangfirstName'].errors">
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangfirstName'].hasError('required') && (regForm.controls.transLangfirstName.dirty || regForm.controls.transLangfirstName.touched)">{{requiredFieldsOthrLng}}</p>
               <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLangfirstName'].hasError('pattern') && regForm.controls['transLangfirstName'].hasError('minlength') && (regForm.controls.transLangfirstName.dirty || regForm.controls.transLangfirstName.touched)">يجب أن يتكون الاسم الأول من حرفين على الأقل</p>
@@ -90,7 +90,7 @@
         <div class="col-lg-6 col-md-6 col-sm-12">
           <div class="form-group">
             <label for="leftLastName">{{lblFormlastNameBaseLang}}</label>
-            <input id="3" type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': lastNameError && regForm.controls['lastName'].errors}" (focusout)="errorValidate()" (blur)="activeLastName=false" (focus)="lastNameError=false; activeLastName=true" (ngModelChange)="onModelChange(activeTransLastName, activeLastName, 'transLanglastName', 'en', 'ar' ,$event)" class="form-control" id="leftLastName" placeholder="eg: Smith" formControlName="lastName" name="lastName">
+            <input id="3" type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': lastNameError && regForm.controls['lastName'].errors}" (focusout)="errorValidate()" (blur)="activeLastName=false" (focus)="lastNameError=false; activeLastName=true; inputValidate(3)" (ngModelChange)="onModelChange(activeTransLastName, activeLastName, 'transLanglastName', 'en', 'ar' ,$event)" class="form-control"  placeholder="eg: Smith" formControlName="lastName" name="lastName">
             <span *ngIf="lastNameError && regForm.controls['lastName'].errors">
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['lastName'].hasError('required') && (regForm.controls.lastName.dirty || regForm.controls.lastName.touched)">{{requiredFields}}</p>
               <p class="inputError animated fadeIn" *ngIf="!regForm.controls['lastName'].hasError('pattern') && regForm.controls['lastName'].hasError('minlength') && (regForm.controls.lastName.dirty || regForm.controls.lastName.touched)">Last name must be at least 2 characters long</p>
@@ -102,7 +102,7 @@
         <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
           <div class="form-group dir-otherLanguage">
             <label for="leftLastName">{{lblFormlastNameOtherLang}}</label>
-            <input id="4" type="text" maxlength="100" class="form-control" id="leftLastName" name="transLanglastName" placeholder="المثال : سمىت" [ngClass]="{'inputError': translastNameError && regForm.controls['transLanglastName'].errors}" (focusout)="errorValidate()" (blur)="activeTransLastName=false" (focus)="translastNameError=false; activeTransLastName=true" (ngModelChange)="onTransModel(activeLastName, activeTransLastName, 'lastName' ,$event)" formControlName="transLanglastName">
+            <input id="4" type="text" maxlength="100" class="form-control"  name="transLanglastName" placeholder="المثال : سمىت" [ngClass]="{'inputError': translastNameError && regForm.controls['transLanglastName'].errors}" (focusout)="errorValidate()" (blur)="activeTransLastName=false" (focus)="translastNameError=false; activeTransLastName=true; inputValidate(4)" (ngModelChange)="onTransModel(activeLastName, activeTransLastName, 'lastName' ,$event)" formControlName="transLanglastName">
             <span *ngIf="translastNameError && regForm.controls['transLanglastName'].errors">
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLanglastName'].hasError('required') && (regForm.controls.transLanglastName.dirty || regForm.controls.transLanglastName.touched)">{{requiredFieldsOthrLng}}</p>
               <p class="inputError animated fadeIn" *ngIf="!regForm.controls['transLanglastName'].hasError('pattern') && regForm.controls['transLanglastName'].hasError('minlength') && (regForm.controls.transLanglastName.dirty || regForm.controls.transLanglastName.touched)">يجب ألا يقل الاسم الأخير عن 2 حرف</p>
@@ -117,10 +117,10 @@
           <div class="col-lg-6 col-md-6 col-sm-12">
               <div class="form-group">
                 <label for="lefttransLangjobTitle">{{lblFormjobTitleBaseLang}}</label>
-                <input id="5" type="text" maxlength="100" class="form-control" id="typeaheadother" (keypress)="textValidation($event)"
+                <input id="5" type="text" maxlength="100" class="form-control"  (keypress)="textValidation($event)"
                 placeholder="eg: Manager" [ngClass]="{'inputError': jobTitleError && regForm.controls['jobTitle'].errors}" formControlName="jobTitle" [(ngModel)]="selectedjobTitle" [ngbTypeahead]="jobSearch"
                 [resultTemplate]="jt" [inputFormatter]="formatterjob" formControlName="jobTitle" name="jobTitle" (focusout)="errorValidate(); onModeljobtitle(activeTransjobTitle, !activejobTitle, 'transLangjobTitle', 'en', 'ar' ,selectedjobTitle)"
-                (focus)="jobTitleError=false; activejobTitle=true" (blur)="activejobTitle=false">
+                (focus)="jobTitleError=false; activejobTitle=true; inputValidate(5)" (blur)="activejobTitle=false">
                 <ng-template #jt let-r="result">
                     <ngb-highlight [result]="r.baseLanguage"></ngb-highlight>
                 </ng-template>
@@ -138,7 +138,7 @@
                 <input id="6" type="text" maxlength="100" class="form-control" [(ngModel)]="selectedjobTitle" placeholder="المثال : مدير" 
                 [ngbTypeahead]="jobSearchOtherLng" [resultTemplate]="jto" placement="right" [inputFormatter]="formatterjobOtherLng" 
                 [ngClass]="{'inputError': transjobTitleError && regForm.controls['transLangjobTitle'].errors}" (focusout)="errorValidate(); onTransModeljobTitle(activejobTitle, !activeTransjobTitle, 'jobTitle' ,selectedjobTitle)"
-                formControlName="transLangjobTitle" name="transLangjobTitle" (focus)="transjobTitleError=false; activeTransjobTitle=true"
+                formControlName="transLangjobTitle" name="transLangjobTitle" (focus)="transjobTitleError=false; activeTransjobTitle=true; inputValidate(6)"
                 (blur)="activeTransjobTitle=false">
                 <ng-template #jto let-r="result">
                     <ngb-highlight [result]="r.otherLanguage"></ngb-highlight>
@@ -218,7 +218,7 @@
                     </ul>
                   </div>
                 </div>
-                <input id="7" type="text" class="form-control" [ngClass]="{'inputError': phoneError && regForm.controls['phone'].errors}" (focusout)="errorValidate()" (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
+                <input id="7" type="text" class="form-control" [ngClass]="{'inputError': phoneError && regForm.controls['phone'].errors}" (focusout)="errorValidate()" (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true; inputValidate(7)"
                  maxlength="13" placeholder="123456789" (keypress)="NumberValid($event)" formControlName="phone" name="phone">
               </div>
               <span *ngIf="phoneError">
@@ -256,7 +256,7 @@
                       </ul>
                     </div>
                   </div>
-                  <input id="8" type="text" class="form-control" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true" [ngClass]="{'inputError': translangPhoneError && regForm.controls['transLangPhone'].errors}" 
+                  <input id="8" type="text" class="form-control" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true; inputValidate(8)" [ngClass]="{'inputError': translangPhoneError && regForm.controls['transLangPhone'].errors}" 
                   (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="13"
                    placeholder="۹۸۷۶۵۴۳۲۱" (keypress)="NumberValid($event)" formControlName="transLangPhone" name="transLangPhone">
                 </div>
@@ -285,7 +285,7 @@
         <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
           <div class="form-group dir-otherLanguage">
             <label for="address">{{lblFormEmailOtherLang}}</label>
-            <input id="10" type="email" class="form-control" placeholder="eg: john@company.com" (focusout)="errorValidate()" (focus)="transEmailError=false" [ngClass]="{'inputError': transEmailError && regForm.controls['transLangEmail'].errors}" (keypress)="spaceHandler($event)" [(ngModel)]="transLangEmail" formControlName="transLangEmail" name="transLangEmail">
+            <input id="10" type="email" class="form-control" placeholder="eg: john@company.com" (focusout)="errorValidate()" (focus)="transEmailError=false; inputValidate(10)" [ngClass]="{'inputError': transEmailError && regForm.controls['transLangEmail'].errors}" (keypress)="spaceHandler($event)" [(ngModel)]="transLangEmail" formControlName="transLangEmail" name="transLangEmail">
             <span *ngIf="transEmailError && regForm.controls['transLangEmail'].errors">
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangEmail'].hasError('required') && (regForm.controls.transLangEmail.dirty || regForm.controls.transLangEmail.touched)">{{requiredFieldsOthrLng}}</p>
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangEmail'].hasError('pattern') && (regForm.controls.transLangEmail.dirty || regForm.controls.transLangEmail.touched)">يرجى إدخال معلومات صحيحة</p>

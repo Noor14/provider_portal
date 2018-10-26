@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../../../../services/shared.service';
 import { EMAIL_REGEX, CustomValidator, loading } from '../../../../../../constants/globalFunctions';
@@ -151,6 +152,8 @@ export class DirectorinfoComponent implements OnInit {
     private ngFilesService: NgFilesService,
     private _toastr: ToastrService,
     private _router: Router,
+    private sanitizer: DomSanitizer
+    
   ) {
 
  }
@@ -213,7 +216,12 @@ export class DirectorinfoComponent implements OnInit {
 
 
     this._sharedService.jobTitleList.subscribe((state: any) => {
+      if (state){
       this.jobTypeList = state;
+      this.desgType = this.jobTypeList[0];
+      this.selectedjobDesg = this.desgType.BaseLang;
+      this.selectedjobDesgAr = this.desgType.OtherLang;
+      }
     });
 
 
@@ -651,6 +659,10 @@ export class DirectorinfoComponent implements OnInit {
     }
 
   }
+  sanitize(url: string) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
+
   submitBusinessInfo(type) {
 
     const { license, logo } = this.formOneObj
