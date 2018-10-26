@@ -439,7 +439,7 @@
         <div class="form-group">
           <label>{{telPhoneLabelBaseLanguage}}</label>
           <div class="select-number">
-            <div class="input-group-prepend">
+            <div class="input-group-prepend" [ngClass]="{'inputError': phoneError && contactInfoForm.controls['phone'].errors}" (focusout)="errorValidate()">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <div class="flag-container">
@@ -459,7 +459,7 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control select-country-code" maxlength="13" placeholder="123456789" formControlName="phone" [ngClass]="{'inputError': phoneError && contactInfoForm.controls['phone'].errors}" (focusout)="errorValidate()" 
+              <input type="text" class="form-control select-country-code" maxlength="13" placeholder="123456789" formControlName="phone"  
                (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
                (keypress)="NumberValid($event)" />
               </div>
@@ -476,7 +476,7 @@
         <div class="form-group dir-otherLanguage">
           <label>{{telPhoneLabelOtherLanguage}}</label>
           <div class="select-number">
-            <div class="input-group-append">
+            <div class="input-group-append" [ngClass]="{'inputError': translangPhoneError && contactInfoForm.controls['transLangPhone'].errors}">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <div class="flag-container">
@@ -496,8 +496,7 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control select-country-code" formControlName="transLangPhone" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true"
-               [ngClass]="{'inputError': translangPhoneError && contactInfoForm.controls['transLangPhone'].errors}" 
+              <input type="text" class="form-control select-country-code" formControlName="transLangPhone" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true" 
               (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="13" placeholder="۹۸۷۶۵۴۳۲۱" (keypress)="NumberValid($event)">
             </div>
             <span class="animated fadeIn" *ngIf="translangPhoneError && contactInfoForm.controls['transLangPhone'].errors">
@@ -517,7 +516,7 @@
         <div class="form-group">
           <label>{{faxLabelBaseLanguage}}</label>
           <div class="select-number">
-            <div class="input-group-prepend">
+            <div class="input-group-prepend" [ngClass]="{'inputError': faxError && contactInfoForm.controls['fax'].errors}" (focusout)="errorValidate()" (blur)="activeFax=false">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <div class="flag-container">
@@ -537,7 +536,7 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control select-country-code" maxlength="13" placeholder="123456789" formControlName="fax" [ngClass]="{'inputError': faxError && contactInfoForm.controls['fax'].errors}" (focusout)="errorValidate()" (blur)="activeFax=false"
+              <input type="text" class="form-control select-country-code" maxlength="13" placeholder="123456789" formControlName="fax"
               (ngModelChange)="onModelFaxChange(activeTransFax, activeFax, 'transLangFax', $event)" (focus)="faxError=false; activeFax=true"
               (keypress)="NumberValid($event)" />
             </div>
@@ -554,7 +553,7 @@
         <div class="form-group dir-otherLanguage">
           <label>{{faxLabelOtherLanguage}}</label>
           <div class="select-number">
-            <div class="input-group-append">
+            <div class="input-group-append" [ngClass]="{'inputError': translangFaxError && contactInfoForm.controls['transLangFax'].errors}">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <div class="flag-container">
@@ -574,8 +573,7 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control select-country-code" maxlength="13" placeholder="۹۸۷۶۵۴۳۲۱" formControlName="transLangFax" (focusout)="errorValidate()" (blur)="activeTransFax=false" (focus)="translangFaxError = false; activeTransFax=true"
-              [ngClass]="{'inputError': translangFaxError && contactInfoForm.controls['transLangFax'].errors}" 
+              <input type="text" class="form-control select-country-code" maxlength="13" placeholder="۹۸۷۶۵۴۳۲۱" formControlName="transLangFax" (focusout)="errorValidate()" (blur)="activeTransFax=false" (focus)="translangFaxError = false; activeTransFax=true" 
              (ngModelChange)="onModelTransFaxChange(activeFax, activeTransFax, 'fax', $event)" (keypress)="NumberValid($event)">
             </div>
             <span class="animated fadeIn" *ngIf="translangFaxError">

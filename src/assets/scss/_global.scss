@@ -460,6 +460,7 @@ input[type="radio"]:focus+label>span {
                     }
                 }
             }
+            
         }
     }
 }
@@ -470,6 +471,11 @@ input[type="radio"]:focus+label>span {
     position: relative;
     .dropdown {
         top: 12px;
+    }
+    &.inputError {
+        border: 1px solid $danger-color !important;
+        left: auto;
+        right: auto;
     }
 }
 
