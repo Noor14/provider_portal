@@ -251,7 +251,7 @@
       </div>
     </div>
   </div>
-  <h5 class="d-flex justify-content-between">
+  <h5 class="d-flex justify-content-between mt-4">
     <span>{{busLocLabelBaseLanguage}}</span> 
     <span class="text-right" *ngIf="showTranslatedLangSide">{{busLocLabelOtherLanguage}}</span> 
   </h5>
@@ -268,7 +268,7 @@
 
   <form autocomplete="off" novalidate [formGroup]="businessLocForm">
     <div class="row ">
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-lg-6 col-md-6 col-sm-12 ">
         <div class="form-group">
           <label for="address">{{addLabelBaseLanguage}}</label>
           <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200" formControlName="address" (focusout)="errorValidate()" 
@@ -416,7 +416,7 @@
       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="exampleFormControlSelect1">{{orgTypeLabelOtherLanguage}}</label>
-          <select class="form-control" id="exampleFormControlSelect2" name="orgTypeAr"
+          <select class="form-control arabic-styles" id="exampleFormControlSelect2" name="orgTypeAr"
             [(ngModel)]="selectedOrgTypeAr" (change) = "organizationType($event.target.value)" formControlName="organizationTypeAr">
             <option value="undefined">يرجى الاختيار</option>
             <option *ngFor="let type of organizationList">{{type.OtherLang}}</option>

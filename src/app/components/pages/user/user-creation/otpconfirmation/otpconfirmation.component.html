@@ -2,17 +2,17 @@
   <div class="row">
       <div class="col">
       <h2 class="profile-verify-title text-left" innerHTML=" {{headingBaseLanguage}}"></h2>
-      <p class="profile-verify-paragraph text-left" innerHTML="{{descBaseLanguage}}"></p>
+      <p class="profile-verify-paragraph text-left mb-2" innerHTML="{{descBaseLanguage}}"></p>
       </div>
     <div class="col" *ngIf="showTranslatedLangSide">
-      <h2 class="profile-verify-title text-right dir-otherLanguage" innerHTML="{{headingOtherLanguage}}"></h2>
-      <p class="profile-verify-paragraph text-right dir-otherLanguage" innerHTML="{{descOtherLanguage}}"></p>
+      <h2 class="profile-verify-title text-right dir-otherLanguage " innerHTML="{{headingOtherLanguage}}"></h2>
+      <p class="profile-verify-paragraph text-right dir-otherLanguage mb-2" innerHTML="{{descOtherLanguage}}"></p>
     </div>
   </div>
 
   <hr class="hr-solid">
 
-  <div class="row justify-content-center">
+  <div class="row justify-content-center mt-5">
     <div class="col-lg-6 col-md-6 col-sm-8 otp-form">
       <div class="form-froup">
         <form autocomplete="off" novalidate [formGroup]="otpForm" (ngSubmit)="submitOtp(otpForm.value)">

@@ -21,17 +21,24 @@
       font-weight: $font-weight-mid;
       font-size: $font-size-medium;
       option {
-        color: $text-color-default !important;
+        color: $text-grey;
+        font-family: $font-NeoSansArabic-Medium;
       }
     }
     &.dir-otherLanguage {
       select,
       option {
         font-family: $font-NeoSansArabic-Medium;
+        color: $text-grey;
       }
     }
   }
   .dir-otherLanguage {
+    select,
+      option {
+        font-family: $font-NeoSansArabic-Medium;
+        color: $text-grey;
+      }
     h2 {
       font-size: $font-size-large + 0.7;
       font-family: $font-NeoSansArabic-Medium;
@@ -101,6 +108,11 @@
     .dir-otherLanguage {
       .row {
         clear: both;
+        select,
+        option {
+          font-family: $font-NeoSansArabic-Medium;
+          color: $text-grey;
+        }
       }
     }
     .trade-license-box {
@@ -171,6 +183,11 @@
         }
         small {
           font-family: $font-NeoSansArabic-Regular;
+        }
+        select,
+        option {
+          font-family: $font-NeoSansArabic-Medium;
+          color: $text-grey;
         }
       }
     }
