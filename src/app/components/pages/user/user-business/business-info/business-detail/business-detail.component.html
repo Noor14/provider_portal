@@ -50,21 +50,21 @@
         <div class="form-group">
           <label for="Trade-License">{{issueDateLabelBaseLanguage}}</label>
           <div class="row">
-            <div class="col-4">
+            <div class="col-3">
               <select id="inputState" class="form-control" placeholder="DD" name="issueDate"
               [(ngModel)]="selectedIssueDate" (change) = "selectDate($event.target.value, 'issue')" formControlName='issueDate'>
                 <option value="undefined">DD</option>
                 <option *ngFor="let date of issueDates" [selected]='date.dateNormal == selectedIssueDate'>{{date.dateNormal}}</option>
               </select>
             </div>
-            <div class="col-4">
+            <div class="col-3">
               <select id="inputState" class="form-control" placeholder="MM" name="issueMonth" 
               [(ngModel)]="selectedIssueMonth" (change)="selectMonth($event.target.value, 'issue')" formControlName='issueMonth'>
                 <option value="undefined">MM</option>
                 <option *ngFor="let month of issueMonths" [selected]='month.name == selectedIssueMonth'>{{month.name}}</option>
               </select>
             </div>
-            <div class="col-4">
+            <div class="col-6">
               <select id="inputState" class="form-control" name="issueYear" 
               [(ngModel)]="selectedIssueYear" (change)="selectYear($event.target.value, 'issue')" formControlName='issueYear'>
                 <option value="undefined">YYYY</option>
@@ -79,21 +79,21 @@
         <div class="form-group dir-otherLanguage">
           <label for="Trade-License">{{issueDateLabelOtherLanguage}}</label>
           <div class="row">
-            <div class="col-4">
+            <div class="col-3">
               <select id="inputState" class="form-control" placeholder="DD" name="issueDateArabic"
               [(ngModel)]="selectedIssueDateAr" (change) = "selectDate($event.target.value, 'issue')" formControlName='issueDateArabic'>
                 <option value="undefined">DD</option>
                 <option *ngFor="let date of issueDates" [selected]='date.dateArabic == selectedIssueDateAr'>{{date.dateArabic}}</option>
               </select>
             </div>
-            <div class="col-4">
+            <div class="col-3">
               <select id="inputState" class="form-control" placeholder="MM" name="issueMonthArabic" 
               [(ngModel)]="selectedIssueMonthAr" (change)="selectMonth($event.target.value, 'issue')" formControlName='issueMonthArabic'>
                 <option value="undefined">MM</option>
                 <option *ngFor="let month of issueMonths" [selected]='month.arabicName == selectedIssueMonthAr'>{{month.arabicName}}</option>
               </select>
             </div>
-            <div class="col-4">
+            <div class="col-6">
               <select id="inputState" class="form-control" name="issueYearArabic" 
               [(ngModel)]="selectedIssueYearAr" (change)="selectYear($event.target.value, 'issue')" formControlName='issueYearArabic'>
                 <option value="undefined">YYYY</option>
@@ -110,21 +110,21 @@
         <div class="form-group">
           <label for="Trade-License">{{expiryDateLabelBaseLanguage}}</label>
           <div class="row">
-            <div class="col-4">
+            <div class="col-3">
               <select id="inputState" class="form-control" placeholder="DD" name="expireDate"
               [(ngModel)]="selectedExpireDate" (change) = "selectDate($event.target.value, 'expire')" formControlName='expireDate'>
                 <option value="undefined">DD</option>
                 <option *ngFor="let date of expiryDates" [selected]='date.dateNormal == selectedExpireDate'>{{date.dateNormal}}</option>
               </select>
             </div>
-            <div class="col-4">
+            <div class="col-3">
               <select id="inputState" class="form-control" placeholder="MM" name="expireMonth"
               [(ngModel)]="selectedExpireMonth" (change)="selectMonth($event.target.value, 'expire')" formControlName='expireMonth'>
                 <option value="undefined">MM</option>
                 <option *ngFor="let month of expiryMonths" [selected]='month.name == selectedExpireMonth'>{{month.name}}</option>
               </select>
             </div>
-            <div class="col-4">
+            <div class="col-6">
               <select id="inputState" class="form-control" name="expiryYear" 
               [(ngModel)]="selectedExpiryYear" (change)="selectYear($event.target.value, 'expire')" formControlName='expiryYear'>
                 <option value="undefined">YYYY</option>
@@ -139,21 +139,21 @@
         <div class="form-group dir-otherLanguage">
           <label for="Trade-License">{{expiryDateLabelOtherLanguage}}</label>
           <div class="row">
-            <div class="col-4">
+            <div class="col-3">
               <select id="inputState" class="form-control" placeholder="DD" name="expireDateArabic"
               [(ngModel)]="selectedExpireDateAr" (change)= "selectDate($event.target.value, 'expire')" formControlName='expireDateArabic'>
                 <option value="undefined">DD</option>
                 <option *ngFor="let date of expiryDates" [selected]='date.dateArabic == selectedExpireDateAr'>{{date.dateArabic}}</option>
               </select>
             </div>
-            <div class="col-4">
+            <div class="col-3">
               <select id="inputState" class="form-control" placeholder="MM" name="expireMonthArabic"
               [(ngModel)]="selectedExpireMonthAr" (change)= "selectMonth($event.target.value, 'expire')" formControlName='expireMonthArabic'>
                 <option value="undefined">MM</option>
                 <option *ngFor="let month of expiryMonths"[selected]='month.arabicName == selectedExpireMonthAr'>{{month.arabicName}}</option>
               </select>
             </div>
-            <div class="col-4">
+            <div class="col-6">
               <select id="inputState" class="form-control" name="expiryYearArabic" 
               [(ngModel)]="selectedExpiryYearAr" (change)="selectYear($event.target.value, 'expire')" formControlName='expiryYearArabic'>
                 <option value="undefined">YYYY</option>
@@ -444,8 +444,8 @@
         <div class="form-group">
           <label>{{telPhoneLabelBaseLanguage}}</label>
           <div class="select-number">
-            <div class="input-group-prepend">
-              <div ngbDropdown>
+            <div class="input-group-prepend" [ngClass]="{'inputError': phoneError && contactInfoForm.controls['phone'].errors}" (focusout)="errorValidate()">
+              <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <div class="flag-container">
                     <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
@@ -464,8 +464,7 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" 
-               maxlength="13" placeholder="123456789" formControlName="phone" [ngClass]="{'inputError': phoneError && contactInfoForm.controls['phone'].errors}" (focusout)="errorValidate()" 
+              <input type="text" class="form-control select-country-code" maxlength="13" placeholder="123456789" formControlName="phone"  
                (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
                (keypress)="NumberValid($event)" />
               </div>
@@ -482,8 +481,8 @@
         <div class="form-group dir-otherLanguage">
           <label>{{telPhoneLabelOtherLanguage}}</label>
           <div class="select-number">
-            <div class="input-group-append">
-              <div ngbDropdown>
+            <div class="input-group-append" [ngClass]="{'inputError': translangPhoneError && contactInfoForm.controls['transLangPhone'].errors}">
+              <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <div class="flag-container">
                     <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
@@ -502,8 +501,7 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" formControlName="transLangPhone" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true"
-               [ngClass]="{'inputError': translangPhoneError && contactInfoForm.controls['transLangPhone'].errors}" 
+              <input type="text" class="form-control select-country-code" formControlName="transLangPhone" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true" 
               (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="13" placeholder="۹۸۷۶۵۴۳۲۱" (keypress)="NumberValid($event)">
             </div>
             <span class="animated fadeIn" *ngIf="translangPhoneError && contactInfoForm.controls['transLangPhone'].errors">
@@ -523,8 +521,8 @@
         <div class="form-group">
           <label>{{faxLabelBaseLanguage}}</label>
           <div class="select-number">
-            <div class="input-group-prepend">
-              <div ngbDropdown>
+            <div class="input-group-prepend" [ngClass]="{'inputError': faxError && contactInfoForm.controls['fax'].errors}" (focusout)="errorValidate()" (blur)="activeFax=false">
+              <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <div class="flag-container">
                     <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
@@ -543,7 +541,7 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" maxlength="13" placeholder="123456789" formControlName="fax" [ngClass]="{'inputError': faxError && contactInfoForm.controls['fax'].errors}" (focusout)="errorValidate()" (blur)="activeFax=false"
+              <input type="text" class="form-control select-country-code" maxlength="13" placeholder="123456789" formControlName="fax"
               (ngModelChange)="onModelFaxChange(activeTransFax, activeFax, 'transLangFax', $event)" (focus)="faxError=false; activeFax=true"
               (keypress)="NumberValid($event)" />
             </div>
@@ -560,8 +558,8 @@
         <div class="form-group dir-otherLanguage">
           <label>{{faxLabelOtherLanguage}}</label>
           <div class="select-number">
-            <div class="input-group-append">
-              <div ngbDropdown>
+            <div class="input-group-append" [ngClass]="{'inputError': translangFaxError && contactInfoForm.controls['transLangFax'].errors}">
+              <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <div class="flag-container">
                     <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
@@ -580,8 +578,7 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" maxlength="13" placeholder="۹۸۷۶۵۴۳۲۱" formControlName="transLangFax" (focusout)="errorValidate()" (blur)="activeTransFax=false" (focus)="translangFaxError = false; activeTransFax=true"
-              [ngClass]="{'inputError': translangFaxError && contactInfoForm.controls['transLangFax'].errors}" 
+              <input type="text" class="form-control select-country-code" maxlength="13" placeholder="۹۸۷۶۵۴۳۲۱" formControlName="transLangFax" (focusout)="errorValidate()" (blur)="activeTransFax=false" (focus)="translangFaxError = false; activeTransFax=true" 
              (ngModelChange)="onModelTransFaxChange(activeFax, activeTransFax, 'fax', $event)" (keypress)="NumberValid($event)">
             </div>
             <span class="animated fadeIn" *ngIf="translangFaxError">
@@ -601,7 +598,7 @@
           <label>{{socialMedLabelBaseLanguage}}</label>
           <div class="select-number mt-2"  *ngFor = "let i of socialAccounts">
             <div class="input-group-prepend">
-              <div ngbDropdown>
+              <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <span *ngIf="!selectedSocialsite.title">Website</span>
                   <span *ngIf="selectedSocialsite.title">{{selectedSocialsite.title}}</span>
@@ -614,7 +611,7 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control"  formControlName="socialUrl" (focus) = " socialInputValidate = ''" [(ngModel)]="socialSites" (focusout)="socialLinkValidate()" maxlength="100" placeholder="www.company.com" />
+              <input type="text" class="form-control select-country-code"  formControlName="socialUrl" (focus) = " socialInputValidate = ''" [(ngModel)]="socialSites" (focusout)="socialLinkValidate()" maxlength="100" placeholder="www.company.com" />
             </div>
             <!-- <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p> -->
           </div>
@@ -626,7 +623,7 @@
           <label class="d-flex justify-content-end arabicLng">{{socialMedLabelOtherLanguage}}</label>
           <div class="select-number mt-3"  *ngFor = "let i of socialAccounts">
             <div class="input-group-prepend">
-              <div ngbDropdown>
+              <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <span *ngIf="!selectedSocialsite.title">Website</span>
                   <span *ngIf="selectedSocialsite.title">{{selectedSocialsite.title}}</span>
@@ -639,7 +636,7 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control" formControlName="socialUrlOther"  [(ngModel)]="socialSites" (focusout)="socialLinkValidate()" maxlength="100" placeholder="www.company.com" />
+              <input type="text" class="form-control select-country-code" formControlName="socialUrlOther"  [(ngModel)]="socialSites" (focusout)="socialLinkValidate()" maxlength="100" placeholder="www.company.com" />
             </div>
             <!-- <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p> -->
           </div>
