@@ -540,27 +540,33 @@ input[type="radio"]:focus+label>span {
                     height: 12px;
                     float: left;
                     margin-right: 9px;
+
+                    
                 }
             }
         }
     }
 }
-
-// select.ng-untouched {
-//     &.ng-pristine {
-//         &.ng-invalid {
-//             color: $place-holder-color;
-//             font-family: $font-proxima;
-//             font-size: 14px;
-//         }
-//     }
-// }
-// select[ng-reflect-model="undefined"],
-// select[ng-reflect-model="undefined"]:focus {
-//     color: $place-holder-color;
-//     font-family: $font-proxima;
-//     font-size: 14px;
-// }
+@supports (-ms-accelerator:true) {
+    .flag-container{
+        img {
+            width: 16px !important;
+            height: 12px !important;
+        }
+    }
+ }
+ select{
+    font-size: 14px;
+    option[value="undefined"], &:focus, &.ng-invalid {
+    color: $place-holder-color;
+    }    
+    &.ng-valid{
+        color: inherit;
+    }
+    &[ng-reflect-model="undefined"] {
+        color: $place-holder-color;
+    }
+ }
 .dir-otherLanguage {
     input {
         &::placeholder {
