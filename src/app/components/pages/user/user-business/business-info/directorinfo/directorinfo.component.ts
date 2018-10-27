@@ -324,11 +324,11 @@ export class DirectorinfoComponent implements OnInit {
     }
   }
 
-  selectdocType(index, obj) {
+  selectdocType(id, obj) {
     this.docxId = obj.DocumentTypeID;
     let elem = document.getElementsByClassName('fancyRadioBoxes') as any;
     for (let i = 0; i < elem.length; i++) {
-      if (elem[i].children[0].id == index) {
+      if (elem[i].children[0].id == id) {
         elem[i].children[0].checked = true;
       }
 
