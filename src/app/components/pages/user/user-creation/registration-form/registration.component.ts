@@ -346,13 +346,14 @@ export class RegistrationComponent implements OnInit {
   inputValidate(id){
     for (let index = id-1; index > 0; index--) {
       let elem = document.getElementById(index.toString()) as HTMLInputElement; 
+      if (!elem && !this.showTranslatedLangSide && index%2 == 0) continue;
       let value = elem.value;
       if(!value){
-      this.regForm.controls[elem.name].errors=true;
+        // this.regForm.controls[elem.name].errors=true;
         elem.classList.add('inputError');
       }
       else{
-        this.regForm.controls[elem.name].errors=false;
+        // this.regForm.controls[elem.name].errors=false;
         elem.classList.remove('inputError');
       }
       

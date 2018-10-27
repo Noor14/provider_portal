@@ -998,8 +998,6 @@ export class BusinessDetailComponent implements OnInit {
         }
   }
 
-
-
   fillerValidate(date, type, from) {
     if (type == 'issue') {
       if (from == 'date') {
@@ -1046,8 +1044,6 @@ export class BusinessDetailComponent implements OnInit {
     else if (type == 'expire') {
       if (from == 'date') {
         this.monthSorter(date);
-
-
         // if (this.selectedExpireMonth != undefined) {
         //   let index = this.months.map(obj => obj.name).indexOf(this.selectedExpireMonth);
         //   if (index < this.date.getMonth()) {
@@ -1286,7 +1282,7 @@ export class BusinessDetailComponent implements OnInit {
         this.ExpiryYear = selectedYear;
         this.selectedExpiryYear = selectedYear.yearNormal;
         this.selectedExpiryYearAr = selectedYear.yearArabic;
-        this.expirymonthFiller(year);
+        // this.expirymonthFiller(year);
         // this.leapValid(type, 'year');
         // this.issueValidate(selectedYear.yearNormal, type, 'year');
       }
@@ -1531,7 +1527,22 @@ export class BusinessDetailComponent implements OnInit {
     }
   }
 
+  inputValidate(id) {
+    for (let index = id - 1; index > 0; index--) {
+      let elem = document.getElementById(index.toString()) as any;
+      if (!elem && !this.showTranslatedLangSide && index % 2 == 0) continue;
+      let value = elem.value;
+      if (!value) {
+        // this.regForm.controls[elem.name].errors=true;
+        elem.classList.add('inputError');
+      }
+      else {
+        // this.regForm.controls[elem.name].errors=false;
+        elem.classList.remove('inputError');
+      }
 
+    }
+  }
 
   SelectDocx(selectedFiles: NgFilesSelected, type): void {
 

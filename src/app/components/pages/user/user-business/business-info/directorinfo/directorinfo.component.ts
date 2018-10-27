@@ -667,7 +667,7 @@ export class DirectorinfoComponent implements OnInit {
 
     const { license, logo } = this.formOneObj
     this.uploadDocs.forEach(docObj => {
-      if (docObj.BusinessLogic === 'COMPANY_LOGO' && logo.fileBaseString) {
+      if (docObj.BusinessLogic === 'COMPANY_LOGO' && logo && logo.fileBaseString) {
 
         docObj.DocumentFileContent = null;
         docObj.DocumentName = null;
@@ -793,10 +793,6 @@ export class DirectorinfoComponent implements OnInit {
 
     this._userbusinessService.submitBusinessInfo(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        res.returnObject.regionCode = this.userProfile.regionCode;
-        res.returnObject.countryID = this.userProfile.countryID;
-        res.returnObject.firstNameBL = this.userProfile.firstNameBL;
-        res.returnObject.firstNameOL = this.userProfile.firstNameOL;
         localStorage.setItem('userInfo', JSON.stringify(res));
         this._router.navigate(['/profile-completion']);
         loading(false)
