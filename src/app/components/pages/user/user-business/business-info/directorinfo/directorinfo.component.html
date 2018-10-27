@@ -294,6 +294,7 @@
                     <span>{{identityTypeLblBaseLanguage}} </span>
                     <span *ngIf="showTranslatedLangSide" class="text-right"> {{identityTypeLblOtherLanguage}} </span>
                   </p>
+             
                   <div class="row" *ngFor="let doc of docTypes; let i = index">
                       <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="fancyRadioBoxes pt-2">
@@ -314,7 +315,11 @@
                         </div>
                       </div>
                     </div>
-                </div>   
+                </div>
+                <div class="d-flex justify-content-between mt-2 selected-type-id">
+                      <p>Note: Upload both the sides of selected id type</p>
+                      <p class="dir-otherLanguage text-right" *ngIf="showTranslatedLangSide">ملاحظة: قم بتحميل جانبي بطاقة هوية دولة الإمارات الخاصة بك</p>
+                </div>
                 <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngFor = "let file of selectedDocx ; let i = index">
                   <div class="fileDesc">
                     <a [href]="sanitize(file.fileUrl)" download="{{file.fileName}}">

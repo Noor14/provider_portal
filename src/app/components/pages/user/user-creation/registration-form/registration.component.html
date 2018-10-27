@@ -191,7 +191,11 @@
           <div class="form-group">
             <label>{{lblFormMobileBaseLang}}</label>
             <div class="select-number">
-              <div id="7" class="input-group-prepend" (focus)="inputValidate(7)" [ngClass]="{'inputError': phoneError && regForm.controls['phone'].errors, 'inputErrorRemove': regForm.controls['phone'].value && !phoneError}">
+              <div id="7" class="input-group-prepend"  
+              [ngClass]="{
+                'inputErrorRemove': regForm.controls['phone'].value && !phoneError,
+               'inputError': phoneError && regForm.controls['phone'].errors
+                 }" >
                 <div ngbDropdown class="select-country-list">
                   <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                     <div class="flag-container">
@@ -215,7 +219,7 @@
                   </div>
                 </div>
                 <input  type="text" class="form-control select-country-code" (focusout)="errorValidate()" (blur)="activePhone=false"
-                  (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
+                  (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true; inputValidate(7)"
                   maxlength="13" placeholder="123456789" (keypress)="NumberValid($event)" formControlName="phone">
               </div>
               <span *ngIf="phoneError">
@@ -234,7 +238,7 @@
           <div class="form-group dir-otherLanguage">
             <label>{{lblFormMobileOtherLang}}</label>
             <div class="select-number">
-              <div class="input-group-append" id="8" (focus)="inputValidate(8)" 
+              <div class="input-group-append" id="8" 
               [ngClass]="{
                 'inputError': translangPhoneError && regForm.controls['transLangPhone'].errors, 
                 'inputErrorRemove': regForm.controls['transLangPhone'].value && !translangPhoneError
@@ -262,7 +266,7 @@
                   </div>
                 </div>
                 <input type="text" class="form-control select-country-code" (focusout)="errorValidate()" (blur)="activeTransPhone=false"
-                  (focus)="translangPhoneError=false; activeTransPhone=true" (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)"
+                  (focus)="translangPhoneError=false; activeTransPhone=true; inputValidate(8)" (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)"
                   maxlength="13" placeholder="۹۸۷۶۵۴۳۲۱" (keypress)="NumberValid($event)" formControlName="transLangPhone">
               </div>
               <span *ngIf="translangPhoneError">
@@ -282,7 +286,12 @@
         <div class="col-lg-6 col-md-6 col-sm-12">
           <div class="form-group">
             <label for="address">{{lblFormEmailBaseLang}}</label>
-            <input id="9" type="email" autocomplete="nope" (focusout)="errorValidate()" (focus)="EmailError=false; inputValidate(9)" [ngClass]="{'inputError': EmailError && regForm.controls['email'].errors, 'inputErrorRemove': regForm.controls['email'].value && !EmailError}" (keypress)="spaceHandler($event)" class="form-control" [(ngModel)]="transLangEmail" placeholder="eg: john@company.com" formControlName="email" name="email">
+            <input id="9" type="email" autocomplete="nope" (focusout)="errorValidate()" (focus)="EmailError=false; inputValidate(9)" 
+             [(ngModel)]="transLangEmail"
+            [ngClass]="{
+              'inputError': EmailError && regForm.controls['email'].errors, 
+              'inputErrorRemove': regForm.controls['email'].value && !EmailError
+            }" (keypress)="spaceHandler($event)" class="form-control" placeholder="eg: john@company.com" formControlName="email" name="email">
             <span *ngIf="EmailError && regForm.controls['email'].errors">
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['email'].hasError('required') && (regForm.controls.email.dirty || regForm.controls.email.touched)">{{requiredFields}}</p>
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['email'].hasError('pattern') && (regForm.controls.email.dirty || regForm.controls.email.touched)">Please
@@ -295,7 +304,11 @@
         <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
           <div class="form-group dir-otherLanguage">
             <label for="address">{{lblFormEmailOtherLang}}</label>
-            <input id="10" type="email" class="form-control" placeholder="eg: john@company.com" (focusout)="errorValidate()" (focus)="transEmailError=false; inputValidate(10)" [ngClass]="{'inputError': transEmailError && regForm.controls['transLangEmail'].errors, 'inputErrorRemove': regForm.controls['transLangEmail'].value}" (keypress)="spaceHandler($event)" [(ngModel)]="transLangEmail" formControlName="transLangEmail" name="transLangEmail">
+            <input id="10" type="email" class="form-control" placeholder="eg: john@company.com" (focusout)="errorValidate()" (focus)="transEmailError=false; inputValidate(10)" 
+            [ngClass]="{
+              'inputError': transEmailError && regForm.controls['transLangEmail'].errors, 
+              'inputErrorRemove': regForm.controls['transLangEmail'].value
+            }" (keypress)="spaceHandler($event)" [(ngModel)]="transLangEmail" formControlName="transLangEmail" name="transLangEmail">
             <span *ngIf="transEmailError && regForm.controls['transLangEmail'].errors">
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangEmail'].hasError('required') && (regForm.controls.transLangEmail.dirty || regForm.controls.transLangEmail.touched)">{{requiredFieldsOthrLng}}</p>
               <p class="inputError animated fadeIn" *ngIf="regForm.controls['transLangEmail'].hasError('pattern') && (regForm.controls.transLangEmail.dirty || regForm.controls.transLangEmail.touched)">يرجى

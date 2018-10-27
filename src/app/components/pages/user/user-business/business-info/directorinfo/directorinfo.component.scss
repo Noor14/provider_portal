@@ -140,6 +140,17 @@
                 }
             }
         }
+        .selected-type-id {
+            p {
+                color: $danger-color;
+                font-family: $font-proxima;
+                font-size: $body-fontsize;
+                margin-bottom: 8px;
+            }
+            .dir-otherLanguage {
+                font-family: $font-NeoSansArabic-Regular
+            }
+        }
     }
 }
 

@@ -21,7 +21,11 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label for="Trade-License">{{tradeLabelBaseLanguage}}</label>
-          <input id="1" type="text" maxlength="10" (focusout)="errorValidate()" (focus)="licenseError = false; inputValidate(1)" [ngClass]="{'inputError': licenseError && informationForm.controls['licenseNo'].errors}"
+          <input id="1" type="text" maxlength="10" (focusout)="errorValidate()" (focus)="licenseError = false; inputValidate(1)" 
+          [ngClass]="{
+            'inputError': licenseError && informationForm.controls['licenseNo'].errors,
+           'inputErrorRemove': informationForm.controls['licenseNo'].value && !licenseError
+          }"
             (keypress)="spaceHandler($event)" class="form-control" [(ngModel)]="licenseNoAr" formControlName="licenseNo">
           <span *ngIf="licenseError && informationForm.controls['licenseNo'].errors">
             <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('required') && (informationForm.controls.licenseNo.dirty || informationForm.controls.licenseNo.touched)">{{requiredFields}}</p>
@@ -35,7 +39,11 @@
         <div class="form-group dir-otherLanguage">
           <label for="Issue-Date">{{tradeLabelOtherLanguage}}</label>
           <input id="2" type="text" class="form-control" maxlength="10" formControlName='licenseNoAr' (focusout)="errorValidate()" (focus)="translicenseError=false;inputValidate(2)"
-            [ngClass]="{'inputError': translicenseError && informationForm.controls['licenseNoAr'].errors}" (keypress)="spaceHandler($event)"
+            [ngClass]="{
+              'inputError': translicenseError && informationForm.controls['licenseNoAr'].errors,
+               'inputErrorRemove': informationForm.controls['licenseNoAr'].value && !translicenseError
+            }" 
+            (keypress)="spaceHandler($event)"
             [(ngModel)]="licenseNoAr">
           <span *ngIf="translicenseError && informationForm.controls['licenseNoAr'].errors">
             <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNoAr'].hasError('required') && (informationForm.controls.licenseNoAr.dirty || informationForm.controls.licenseNoAr.touched)">{{requiredFieldsOthrLng}}</p>
@@ -52,21 +60,27 @@
           <label for="Trade-License">{{issueDateLabelBaseLanguage}}</label>
           <div class="row">
             <div class="col-3">
-              <select id="inputState" class="form-control" placeholder="DD" name="issueDate" [(ngModel)]="selectedIssueDate" (change)="selectDate($event.target.value, 'issue')"
+              <select id="100" class="form-control" placeholder="DD" name="issueDate" [(ngModel)]="selectedIssueDate" 
+               [ngClass]="{'inputErrorRemove': selectedIssueDate && selectedIssueDate != 'undefiend'}"
+              (change)="selectDate($event.target.value, 'issue')"
                 formControlName='issueDate'>
                 <option value="undefined">DD</option>
                 <option *ngFor="let date of issueDates" [selected]='date.dateNormal == selectedIssueDate'>{{date.dateNormal}}</option>
               </select>
             </div>
             <div class="col-3">
-              <select id="inputState" class="form-control" placeholder="MM" name="issueMonth" [(ngModel)]="selectedIssueMonth" (change)="selectMonth($event.target.value, 'issue')"
+              <select id="101" class="form-control" placeholder="MM" name="issueMonth" [(ngModel)]="selectedIssueMonth"
+               [ngClass]="{'inputErrorRemove': selectedIssueMonth && selectedIssueMonth != 'undefiend'}"
+              (change)="selectMonth($event.target.value, 'issue')"
                 formControlName='issueMonth'>
                 <option value="undefined">MM</option>
                 <option *ngFor="let month of issueMonths" [selected]='month.name == selectedIssueMonth'>{{month.name}}</option>
               </select>
             </div>
             <div class="col-6">
-              <select id="inputState" class="form-control" name="issueYear" [(ngModel)]="selectedIssueYear" (change)="selectYear($event.target.value, 'issue')"
+              <select id="102" class="form-control" name="issueYear" [(ngModel)]="selectedIssueYear"
+               [ngClass]="{'inputErrorRemove': selectedIssueYear && selectedIssueYear != 'undefiend'}"
+              (change)="selectYear($event.target.value, 'issue')"
                 formControlName='issueYear'>
                 <option value="undefined">YYYY</option>
                 <option *ngFor="let year of pastYears" [selected]='year.yearNormal == selectedIssueYear'>{{year.yearNormal}}</option>
@@ -81,21 +95,26 @@
           <label for="Trade-License">{{issueDateLabelOtherLanguage}}</label>
           <div class="row">
             <div class="col-3">
-              <select id="inputState" class="form-control" placeholder="DD" name="issueDateArabic" [(ngModel)]="selectedIssueDateAr" (change)="selectDate($event.target.value, 'issue')"
+              <select id="103" class="form-control" placeholder="DD" name="issueDateArabic" [(ngModel)]="selectedIssueDateAr"
+               [ngClass]="{'inputErrorRemove': selectedIssueDateAr && selectedIssueDateAr != 'undefiend'}"
+              (change)="selectDate($event.target.value, 'issue')"
                 formControlName='issueDateArabic'>
                 <option value="undefined">DD</option>
                 <option *ngFor="let date of issueDates" [selected]='date.dateArabic == selectedIssueDateAr'>{{date.dateArabic}}</option>
               </select>
             </div>
             <div class="col-3">
-              <select id="inputState" class="form-control" placeholder="MM" name="issueMonthArabic" [(ngModel)]="selectedIssueMonthAr"
+              <select id="104" class="form-control" placeholder="MM" name="issueMonthArabic" [(ngModel)]="selectedIssueMonthAr"
+               [ngClass]="{'inputErrorRemove': selectedIssueMonthAr && selectedIssueMonthAr != 'undefiend'}"
                 (change)="selectMonth($event.target.value, 'issue')" formControlName='issueMonthArabic'>
                 <option value="undefined">MM</option>
                 <option *ngFor="let month of issueMonths" [selected]='month.arabicName == selectedIssueMonthAr'>{{month.arabicName}}</option>
               </select>
             </div>
             <div class="col-6">
-              <select id="inputState" class="form-control" name="issueYearArabic" [(ngModel)]="selectedIssueYearAr" (change)="selectYear($event.target.value, 'issue')"
+              <select id="105" class="form-control" name="issueYearArabic" [(ngModel)]="selectedIssueYearAr"
+               [ngClass]="{'inputErrorRemove': selectedIssueYearAr && selectedIssueYearAr != 'undefiend'}"
+              (change)="selectYear($event.target.value, 'issue')"
                 formControlName='issueYearArabic'>
                 <option value="undefined">YYYY</option>
                 <option *ngFor="let year of pastYears" [selected]='year.yearArabic == selectedIssueYearAr'>{{year.yearArabic}}</option>
@@ -112,21 +131,27 @@
           <label for="Trade-License">{{expiryDateLabelBaseLanguage}}</label>
           <div class="row">
             <div class="col-3">
-              <select id="inputState" class="form-control" placeholder="DD" name="expireDate" [(ngModel)]="selectedExpireDate" (change)="selectDate($event.target.value, 'expire')"
+              <select id="106" class="form-control" placeholder="DD" name="expireDate" [(ngModel)]="selectedExpireDate" 
+               [ngClass]="{'inputErrorRemove': selectedExpireDate && selectedExpireDate != 'undefiend'}"
+              (change)="selectDate($event.target.value, 'expire')"
                 formControlName='expireDate'>
                 <option value="undefined">DD</option>
                 <option *ngFor="let date of expiryDates" [selected]='date.dateNormal == selectedExpireDate'>{{date.dateNormal}}</option>
               </select>
             </div>
             <div class="col-3">
-              <select id="inputState" class="form-control" placeholder="MM" name="expireMonth" [(ngModel)]="selectedExpireMonth" (change)="selectMonth($event.target.value, 'expire')"
+              <select id="107" class="form-control" placeholder="MM" name="expireMonth" 
+               [ngClass]="{'inputErrorRemove': selectedExpireMonth && selectedExpireMonth != 'undefiend'}"
+              [(ngModel)]="selectedExpireMonth" (change)="selectMonth($event.target.value, 'expire')"
                 formControlName='expireMonth'>
                 <option value="undefined">MM</option>
                 <option *ngFor="let month of expiryMonths" [selected]='month.name == selectedExpireMonth'>{{month.name}}</option>
               </select>
             </div>
             <div class="col-6">
-              <select id="inputState" class="form-control" name="expiryYear" [(ngModel)]="selectedExpiryYear" (change)="selectYear($event.target.value, 'expire')"
+              <select id="108" class="form-control" name="expiryYear" [(ngModel)]="selectedExpiryYear" 
+               [ngClass]="{'inputErrorRemove': selectedExpiryYear && selectedExpiryYear != 'undefiend'}"
+              (change)="selectYear($event.target.value, 'expire')"
                 formControlName='expiryYear'>
                 <option value="undefined">YYYY</option>
                 <option *ngFor="let year of futureYears" [selected]='year.yearNormal == selectedExpiryYear'>{{year.yearNormal}}</option>
@@ -141,21 +166,25 @@
           <label for="Trade-License">{{expiryDateLabelOtherLanguage}}</label>
           <div class="row">
             <div class="col-3">
-              <select id="inputState" class="form-control" placeholder="DD" name="expireDateArabic" [(ngModel)]="selectedExpireDateAr"
+              <select id="109" class="form-control" placeholder="DD" name="expireDateArabic"  [(ngModel)]="selectedExpireDateAr"
+               [ngClass]="{'inputErrorRemove': selectedExpireDateAr && selectedExpireDateAr != 'undefiend'}"
                 (change)="selectDate($event.target.value, 'expire')" formControlName='expireDateArabic'>
                 <option value="undefined">DD</option>
                 <option *ngFor="let date of expiryDates" [selected]='date.dateArabic == selectedExpireDateAr'>{{date.dateArabic}}</option>
               </select>
             </div>
             <div class="col-3">
-              <select id="inputState" class="form-control" placeholder="MM" name="expireMonthArabic" [(ngModel)]="selectedExpireMonthAr"
-                (change)="selectMonth($event.target.value, 'expire')" formControlName='expireMonthArabic'>
+              <select id="110" class="form-control" placeholder="MM" name="expireMonthArabic" [(ngModel)]="selectedExpireMonthAr"
+               [ngClass]="{'inputErrorRemove': selectedExpireMonthAr && selectedExpireMonthAr != 'undefiend'}"
+              (change)="selectMonth($event.target.value, 'expire')" formControlName='expireMonthArabic'>
                 <option value="undefined">MM</option>
                 <option *ngFor="let month of expiryMonths" [selected]='month.arabicName == selectedExpireMonthAr'>{{month.arabicName}}</option>
               </select>
             </div>
             <div class="col-6">
-              <select id="inputState" class="form-control" name="expiryYearArabic" [(ngModel)]="selectedExpiryYearAr" (change)="selectYear($event.target.value, 'expire')"
+              <select id="111" class="form-control" name="expiryYearArabic" [(ngModel)]="selectedExpiryYearAr" 
+               [ngClass]="{'inputErrorRemove': selectedExpiryYearAr && selectedExpiryYearAr != 'undefiend'}"
+              (change)="selectYear($event.target.value, 'expire')"
                 formControlName='expiryYearArabic'>
                 <option value="undefined">YYYY</option>
                 <option *ngFor="let year of futureYears" [selected]='year.yearArabic == selectedExpiryYearAr'>{{year.yearArabic}}</option>
@@ -171,7 +200,10 @@
         <div class="form-group">
           <label for="trade-license">{{vatNoLabelBaseLanguage}}</label>
           <input id="3" type="text" class="form-control" maxlength="12" (focusout)="errorValidate()" (focus)="vatError = false; inputValidate(3)"
-          [ngClass]="{'inputError': vatError && informationForm.controls['vatNo'].errors}"
+          [ngClass]="{
+            'inputError': vatError && informationForm.controls['vatNo'].errors,
+            'inputErrorRemove': informationForm.controls['vatNo'].value && !vatError
+          }"
             (keypress)="NumberValid($event)" class="form-control" [(ngModel)]="vatNoAr" formControlName="vatNo">
           <span *ngIf="vatError && informationForm.controls['vatNo'].errors">
             <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNo'].hasError('required') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">{{requiredFields}}</p>
@@ -186,7 +218,10 @@
         <div class="form-group dir-otherLanguage">
           <label for="vat-no">{{vatNoLabelOtherLanguage}}</label>
           <input id="4" type="text" class="form-control" maxlength="12" (focusout)="errorValidate()" (focus)="vatNoArError = false; inputValidate(4)"
-          [ngClass]="{'inputError': vatNoArError && informationForm.controls['vatNoAr'].errors}"
+          [ngClass]="{
+            'inputError': vatNoArError && informationForm.controls['vatNoAr'].errors,
+            'inputErrorRemove': informationForm.controls['vatNo'].value && !vatNoArError
+          }"
             (keypress)="NumberValid($event)" class="form-control" [(ngModel)]="vatNoAr" formControlName="vatNoAr">
           <span *ngIf="vatNoArError && informationForm.controls['vatNoAr'].errors">
             <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNoAr'].hasError('required') && (informationForm.controls.vatNoAr.dirty || informationForm.controls.vatNoAr.touched)">{{requiredFieldsOthrLng}}</p>
@@ -285,13 +320,17 @@
         <div class="form-group">
           <label for="address">{{addLabelBaseLanguage}}</label>
           <input id="5" type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200" formControlName="address" (focusout)="errorValidate()"
-            (focus)="addressError = false; inputValidate(5) " [ngClass]="{'inputError': addressError && businessLocForm.controls['address'].errors}"
+            (focus)="addressError = false; inputValidate(5) " 
+            [ngClass]="{
+              'inputError': addressError && businessLocForm.controls['address'].errors,
+              'inputErrorRemove': businessLocForm.controls['address'].value && !addressError
+            }"
             [(ngModel)]="addressAr">
           <span *ngIf="addressError && businessLocForm.controls['address'].errors">
             <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['address'].hasError('required') && (businessLocForm.controls.address.dirty || businessLocForm.controls.address.touched)">{{requiredFields}}</p>
             <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['address'].hasError('pattern') && (businessLocForm.controls.address.dirty || businessLocForm.controls.address.touched)">Please enter valid information</p>
-            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['address'].hasError('maxlength') && (businessLocForm.controls.address.dirty || businessLocForm.controls.address.touched)">Address should not exceed from 200 characters</p>
-            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['address'].hasError('minlength') && (businessLocForm.controls.address.dirty || businessLocForm.controls.address.touched)">Address should be minimum 10 characters</p>
+            <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['address'].hasError('pattern')&& businessLocForm.controls['address'].hasError('maxlength') && (businessLocForm.controls.address.dirty || businessLocForm.controls.address.touched)">Address should not exceed from 200 characters</p>
+            <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['address'].hasError('pattern') && businessLocForm.controls['address'].hasError('minlength') && (businessLocForm.controls.address.dirty || businessLocForm.controls.address.touched)">Address should be minimum 10 characters</p>
           </span>
         </div>
 
@@ -300,13 +339,17 @@
         <div class="form-group dir-otherLanguage">
           <label for="address">{{addLabelOtherLanguage}}</label>
           <input id="6" type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transAddress"
-            (focusout)="errorValidate()" (focus)="addressArError = false;  inputValidate(6)" [ngClass]="{'inputError': addressArError && businessLocForm.controls['transAddress'].errors}"
+            (focusout)="errorValidate()" (focus)="addressArError = false;  inputValidate(6)" 
+            [ngClass]="{
+              'inputError': addressArError && businessLocForm.controls['transAddress'].errors,
+               'inputErrorRemove': businessLocForm.controls['transAddress'].value && !addressArError
+            }"
             [(ngModel)]="addressAr">
           <span *ngIf="addressArError && businessLocForm.controls['transAddress'].errors">
             <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transAddress'].hasError('required') && (businessLocForm.controls.transAddress.dirty || businessLocForm.controls.transAddress.touched)">{{requiredFieldsOthrLng}}</p>
             <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transAddress'].hasError('pattern') && (businessLocForm.controls.transAddress.dirty || businessLocForm.controls.transAddress.touched)">يرجى إدخال معلومات صحيحة</p>
-            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transAddress'].hasError('maxlength') && (businessLocForm.controls.transAddress.dirty || businessLocForm.controls.transAddress.touched)">يجب ألا يتجاوز العنوان 200 حرف</p>
-            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transAddress'].hasError('minlength') && (businessLocForm.controls.transAddress.dirty || businessLocForm.controls.transAddress.touched)">يجب أن يكون العنوان 10 حرفًا كحد أدنى</p>
+            <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['transAddress'].hasError('pattern') && businessLocForm.controls['transAddress'].hasError('maxlength') && (businessLocForm.controls.transAddress.dirty || businessLocForm.controls.transAddress.touched)">يجب ألا يتجاوز العنوان 200 حرف</p>
+            <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['transAddress'].hasError('pattern') && businessLocForm.controls['transAddress'].hasError('minlength') && (businessLocForm.controls.transAddress.dirty || businessLocForm.controls.transAddress.touched)">يجب أن يكون العنوان 10 حرفًا كحد أدنى</p>
           </span>
         </div>
 
@@ -319,7 +362,11 @@
           <div class="col-5">
             <div class="form-group">
               <label for="address">{{poBoxLabelBaseLanguage}}</label>
-              <input id="7" type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; inputValidate(7)" [ngClass]="{'inputError': poBoxError && businessLocForm.controls['address'].errors}"
+              <input id="7" type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; inputValidate(7)"
+               [ngClass]="{
+                 'inputError': poBoxError && businessLocForm.controls['poBoxNo'].errors,
+                 'inputErrorRemove': businessLocForm.controls['poBoxNo'].value && !poBoxError
+                }"
                 [(ngModel)]="poBoxAr" formControlName="poBoxNo">
               <span *ngIf="poBoxError && businessLocForm.controls['poBoxNo'].errors">
                 <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNo'].hasError('required') && (businessLocForm.controls.poBoxNo.dirty || businessLocForm.controls.poBoxNo.touched)">{{requiredFields}}</p>
@@ -337,7 +384,11 @@
           <div class="col-5">
             <div class="form-group dir-otherLanguage">
               <label for="address">{{poBoxLabelOtherLanguage}}</label>
-              <input id="8" type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxArError = false; inputValidate(8)" [ngClass]="{'inputError': poBoxArError && businessLocForm.controls['poBoxNoAr'].errors}"
+              <input id="8" type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxArError = false; inputValidate(8)" 
+              [ngClass]="{
+                'inputError': poBoxArError && businessLocForm.controls['poBoxNoAr'].errors,
+               'inputErrorRemove': businessLocForm.controls['poBoxNoAr'].value && !poBoxArError
+              }"
                 [(ngModel)]="poBoxAr" formControlName="poBoxNoAr">
               <span *ngIf="poBoxArError && businessLocForm.controls['poBoxNoAr'].errors">
                 <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNoAr'].hasError('required') && (businessLocForm.controls.poBoxNoAr.dirty || businessLocForm.controls.poBoxNoAr.touched)">{{requiredFieldsOthrLng}}</p>
@@ -397,7 +448,11 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label for="9">{{orgNameLabelBaseLanguage}}</label>
-          <input id="9" type="text" class="form-control" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': orgNameError && organizationForm.controls['orgName'].errors}"
+          <input id="9" type="text" class="form-control" maxlength="100" (keypress)="textValidation($event)" 
+          [ngClass]="{
+            'inputError': orgNameError && organizationForm.controls['orgName'].errors,
+            'inputErrorRemove': organizationForm.controls['orgName'].value && !orgNameError
+          }"
             (focusout)="errorValidate()" (blur)="activeOrgName=false" (focus)="orgNameError=false; activeOrgName=true; inputValidate(9) " (ngModelChange)="onModelChange(activeTransOrgName, activeOrgName, 'transLangOrgName', 'en', 'ar' ,$event)"
             placeholder="Organization Name" formControlName="orgName">
           <span *ngIf="orgNameError && organizationForm.controls['orgName'].errors">
@@ -412,7 +467,10 @@
       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="10" >{{orgNameLabelOtherLanguage}}</label>
-          <input id="10" type="text" class="form-control" [ngClass]="{'inputError': transorgNameError && organizationForm.controls['transLangOrgName'].errors}"
+          <input id="10" type="text" class="form-control" 
+          [ngClass]="{
+            'inputError': transorgNameError && organizationForm.controls['transLangOrgName'].errors,
+            'inputErrorRemove': organizationForm.controls['transLangOrgName'].value && !transorgNameError}"
             (focusout)="errorValidate()" (blur)="activeTransOrgName=false" (focus)="transorgNameError=false; activeTransOrgName=true; inputValidate(10)"
             (ngModelChange)="onTransModel(activeOrgName, activeTransOrgName, 'orgName' ,$event)" placeholder="اسم المنظمة"
             formControlName="transLangOrgName">
@@ -431,7 +489,9 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label for="11">{{orgTypeLabelBaseLanguage}}</label>
-          <select class="form-control" id="11" (focus)="inputValidate(11)" name="orgType" [(ngModel)]="selectedOrgType" (change)="organizationType($event.target.value)"
+          <select class="form-control" id="11" 
+          [ngClass]="{'inputErrorRemove': selectedOrgType && selectedOrgType != 'undefiend'}" (focus)="inputValidate(11)" name="orgType" 
+          [(ngModel)]="selectedOrgType" (change)="organizationType($event.target.value)"
             formControlName="organizationType">
             <option value="undefined">Please select</option>
             <option *ngFor="let type of organizationList">{{type.BaseLang}}</option>
@@ -441,7 +501,9 @@
       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="12">{{orgTypeLabelOtherLanguage}}</label>
-          <select class="form-control arabic-styles" id="12" (focus)="inputValidate(12)" name="orgTypeAr" [(ngModel)]="selectedOrgTypeAr"
+          <select class="form-control arabic-styles" id="12" 
+           [ngClass]="{'inputErrorRemove': selectedOrgTypeAr && selectedOrgTypeAr != 'undefiend'}"
+          (focus)="inputValidate(12)" name="orgTypeAr" [(ngModel)]="selectedOrgTypeAr"
             (change)="organizationType($event.target.value)" formControlName="organizationTypeAr">
             <option value="undefined">يرجى الاختيار</option>
             <option *ngFor="let type of organizationList">{{type.OtherLang}}</option>
@@ -464,7 +526,10 @@
         <div class="form-group">
           <label>{{telPhoneLabelBaseLanguage}}</label>
           <div class="select-number">
-            <div id="13" class="input-group-prepend"  (focus)="inputValidate(13)" [ngClass]="{'inputError': phoneError && contactInfoForm.controls['phone'].errors}" (focusout)="errorValidate()">
+            <div id="13" class="input-group-prepend"
+            [ngClass]="{
+              'inputError': phoneError && contactInfoForm.controls['phone'].errors,
+             'inputErrorRemove': contactInfoForm.controls['phone'].value && !phoneError}" (focusout)="errorValidate()">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <div class="flag-container">
@@ -487,7 +552,7 @@
               </div>
               <input type="text" class="form-control select-country-code" maxlength="13" placeholder="123456789" formControlName="phone"
                 (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)"
-                (focus)="phoneError=false; activePhone=true" (keypress)="NumberValid($event)" />
+                (focus)="phoneError=false; activePhone=true; inputValidate(13)" (keypress)="NumberValid($event)" />
             </div>
             <span class="animated fadeIn" *ngIf="phoneError && contactInfoForm.controls['phone'].errors">
               <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['phone'].hasError('required') && (contactInfoForm.controls.phone.dirty || contactInfoForm.controls.phone.touched)">{{requiredFields}}</p>
@@ -502,7 +567,11 @@
         <div class="form-group dir-otherLanguage">
           <label>{{telPhoneLabelOtherLanguage}}</label>
           <div class="select-number">
-            <div id="14" class="input-group-append"  (focus)="inputValidate(14)" [ngClass]="{'inputError': translangPhoneError && contactInfoForm.controls['transLangPhone'].errors}">
+            <div id="14" class="input-group-append"
+             [ngClass]="{
+               'inputError': translangPhoneError && contactInfoForm.controls['transLangPhone'].errors,
+               'inputErrorRemove': contactInfoForm.controls['transLangPhone'].value && !translangPhoneError
+              }" >
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <div class="flag-container">
@@ -524,7 +593,7 @@
                 </div>
               </div>
               <input type="text" class="form-control select-country-code" formControlName="transLangPhone" (focusout)="errorValidate()"
-                (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true" (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)"
+                (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true; inputValidate(14)" (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)"
                 maxlength="13" placeholder="۹۸۷۶۵۴۳۲۱" (keypress)="NumberValid($event)">
             </div>
             <span class="animated fadeIn" *ngIf="translangPhoneError && contactInfoForm.controls['transLangPhone'].errors">
@@ -544,7 +613,12 @@
         <div class="form-group">
           <label>{{faxLabelBaseLanguage}}</label>
           <div class="select-number">
-            <div id="15" (focus)="inputValidate(15)" class="input-group-prepend" [ngClass]="{'inputError': faxError && contactInfoForm.controls['fax'].errors}" (focusout)="errorValidate()"
+            <div id="15" class="input-group-prepend" 
+            [ngClass]="{
+              'inputError': faxError && contactInfoForm.controls['fax'].errors,
+               'inputErrorRemove': contactInfoForm.controls['fax'].value && !faxError
+            }"
+             (focusout)="errorValidate()"
               (blur)="activeFax=false">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
@@ -567,7 +641,7 @@
                 </div>
               </div>
               <input type="text" class="form-control select-country-code" maxlength="13" placeholder="123456789" formControlName="fax"
-                (ngModelChange)="onModelFaxChange(activeTransFax, activeFax, 'transLangFax', $event)" (focus)="faxError=false; activeFax=true"
+                (ngModelChange)="onModelFaxChange(activeTransFax, activeFax, 'transLangFax', $event)" (focus)="faxError=false; activeFax=true; inputValidate(15)"
                 (keypress)="NumberValid($event)" />
             </div>
             <span class="animated fadeIn" *ngIf="faxError">
@@ -583,7 +657,11 @@
         <div class="form-group dir-otherLanguage">
           <label>{{faxLabelOtherLanguage}}</label>
           <div class="select-number">
-            <div id="16" class="input-group-append" (focus)="inputValidate(16)" [ngClass]="{'inputError': translangFaxError && contactInfoForm.controls['transLangFax'].errors}">
+            <div id="16" class="input-group-append"
+            [ngClass]="{
+              'inputError': translangFaxError && contactInfoForm.controls['transLangFax'].errors,
+             'inputErrorRemove': contactInfoForm.controls['transLangFax'].value && !translangFaxError
+            }">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <div class="flag-container">
@@ -605,7 +683,7 @@
                 </div>
               </div>
               <input type="text" class="form-control select-country-code" maxlength="13" placeholder="۹۸۷۶۵۴۳۲۱" formControlName="transLangFax"
-                (focusout)="errorValidate()" (blur)="activeTransFax=false" (focus)="translangFaxError = false; activeTransFax=true"
+                (focusout)="errorValidate()" (blur)="activeTransFax=false" (focus)="translangFaxError = false; activeTransFax=true; inputValidate(16)"
                 (ngModelChange)="onModelTransFaxChange(activeFax, activeTransFax, 'fax', $event)" (keypress)="NumberValid($event)">
             </div>
             <span class="animated fadeIn" *ngIf="translangFaxError">
@@ -681,7 +759,7 @@
     </div> -->
 
     <div class="contact-btn">
-      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length">
+      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length || validateDates()">
         <span>{{btnLabelBaseLanguage}} </span>
         <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
       </button>

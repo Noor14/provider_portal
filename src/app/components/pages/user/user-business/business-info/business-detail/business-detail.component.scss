@@ -1,5 +1,11 @@
 @import '../../../../../../../assets/scss/_variables';
 .business-profile {
+    select.inputError {
+        border: 1px solid $danger-color !important;
+    }
+    select.inputErrorRemove {
+        border: 1px solid $provider-input-border !important;
+    }
     .sub-title {
         color: $pagination-text-color;
     }
@@ -119,7 +125,6 @@
                         }
                     }
                 }
-       
             }
             .file-uploader {
                 border: 1px dashed #e1d8d8;

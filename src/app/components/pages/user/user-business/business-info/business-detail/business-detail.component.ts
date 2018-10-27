@@ -695,7 +695,7 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   markerDragEnd($event) {
-    console.log($event);
+    // console.log($event);
     this.geoCoder.geocode({ 'location': { lat: $event.coords.lat, lng: $event.coords.lng } }, (results, status) => {
       console.log(results);
       console.log(status);
@@ -961,6 +961,26 @@ export class BusinessDetailComponent implements OnInit {
 
       }
     }
+  
+
+  }
+
+
+  validateDates():boolean{
+
+      let elemissueDate = document.getElementById('100') as any;
+      let elemissueMonth = document.getElementById('101') as any;
+      let elemissueYear = document.getElementById('102') as any;
+      let elemExpDate = document.getElementById('106') as any;
+      let elemExpMonth = document.getElementById('107') as any;
+      let elemExpYear = document.getElementById('108') as any;
+
+    return (
+      elemExpDate.value == 'DD' || elemExpMonth.value == 'MM' || elemExpYear.value == "YYYY" || elemissueDate.value == 'DD' || elemissueMonth.value == 'MM' || elemissueYear.value == "YYYY" ||
+      elemExpDate.value == 'undefined' || elemExpMonth.value == 'undefined' || elemExpYear.value == "undefined" || elemissueDate.value == 'undefined' || elemissueMonth.value == 'undefined' || elemissueYear.value == "undefined"
+    );
+
+    
   }
   monthSorter(date){
     if (date >= 30) {
@@ -999,6 +1019,7 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   fillerValidate(date, type, from) {
+
     if (type == 'issue') {
       if (from == 'date') {
         if (this.selectedIssueMonth != undefined) {
@@ -1043,30 +1064,32 @@ export class BusinessDetailComponent implements OnInit {
     
     else if (type == 'expire') {
       if (from == 'date') {
-        this.monthSorter(date);
-        // if (this.selectedExpireMonth != undefined) {
-        //   let index = this.months.map(obj => obj.name).indexOf(this.selectedExpireMonth);
-        //   if (index < this.date.getMonth()) {
-        //     this.getTenYears(type, 1);
-        //   }
-        //   else if (index == this.date.getMonth()) {
-        //     if (date <= this.date.getDate()) {
-        //       this.getTenYears(type, 1);
-        //     }
-        //     else {
-        //       this.getTenYears(type, 0);
-        //     }
-        //   }
-        //   else {
-        //     this.getTenYears(type, 0);
-        //   }
-        // }
+        // this.monthSorter(date);
+        if (this.selectedExpireMonth != undefined) {
+          let index = this.months.map(obj => obj.name).indexOf(this.selectedExpireMonth);
+          if (index < this.date.getMonth()) {
+            this.getTenYears(type, 1);
+          }
+          else if (index == this.date.getMonth()) {
+            if (date <= this.date.getDate()) {
+              this.getTenYears(type, 1);
+            }
+            else {
+              this.getTenYears(type, 0);
+            }
+          }
+          else if (index < this.date.getMonth()) {
+            this.getTenYears(type, 1);
+          }
+          else {
+            this.getTenYears(type, 0);
+          }
+        }
         // else if (this.selectedExpiryYear != undefined){
         //   if (this.selectedExpiryYear == this.date.getFullYear()){
         //     let months = Object.assign([], this.months);
         //       this.expiryMonths = [];
         //       this.expiryMonths = months.slice(this.date.getMonth());
-          
         //   }
         //   else {
         //     this.expiryMonths = this.months;
@@ -1074,7 +1097,7 @@ export class BusinessDetailComponent implements OnInit {
         // }
       }
       else if (from == 'month') {
-        if (this.selectedExpireDate && this.selectedExpireDate != "undefined" && !this.selectedExpiryYear && this.selectedExpireDate == "undefined") {
+        if (this.selectedExpireDate && this.selectedExpireDate != "undefined" && !this.selectedExpiryYear) {
           let index = this.months.map(obj => obj.name).indexOf(date);
           if (index < this.date.getMonth()) {
             this.getTenYears(type, 1);
@@ -1087,7 +1110,7 @@ export class BusinessDetailComponent implements OnInit {
               
             }
             else {
-                this.getTenYears(type, 0);
+              this.getTenYears(type, 0);
               this.expireDateSorter(date);
                 
             }
@@ -1095,13 +1118,15 @@ export class BusinessDetailComponent implements OnInit {
           else {
             this.getTenYears(type, 0);
             this.expireDateSorter(date);
-            
           }
         }
         else if (this.selectedExpireDate && this.selectedExpireDate != "undefined" && this.selectedExpiryYear && this.selectedExpiryYear != 'undefined'){
           if (this.selectedExpiryYear == this.date.getFullYear()){
           let index = this.months.map(obj => obj.name).indexOf(date);
           if (index == this.date.getMonth()){
+            if (this.selectedExpireDate > this.date.getDate()) {
+              this.getTenYears(type, 0);
+            }
             for (const key in this.dateValObj) {
               if (this.dateValObj.hasOwnProperty(key)) {
                 let obj = this.dateValObj[key].find(obj => (obj.name == date));
@@ -1111,17 +1136,90 @@ export class BusinessDetailComponent implements OnInit {
                 }
               }
             }
+        
           }
           else if (index < this.date.getMonth()){
             this.getTenYears(type, 1);
+            this.expireDateSorter(date);
+            
           }
           else{
             this.getTenYears(type, 0);
+            this.expireDateSorter(date);
+            
           }
           }
+          else if(this.selectedExpiryYear > this.date.getFullYear()){
+            let index = this.months.map(obj => obj.name).indexOf(date);
+            if (index < this.date.getMonth()) {
+              this.getTenYears(type, 1);
+              this.expireDateSorter(date);
+              }
+            else if (index > this.date.getMonth()) {
+              this.getTenYears(type, 0);
+              this.expireDateSorter(date);
+            }
+            else{
+              if (this.selectedExpireDate > this.date.getDate()) {
+                this.getTenYears(type, 0);
+                this.expireDateSorter(date);
+                for (const key in this.dateValObj) {
+                  if (this.dateValObj.hasOwnProperty(key)) {
+                    let obj = this.dateValObj[key].find(obj => (obj.name == date));
+                    if (obj && Object.keys(obj).length) {
+                      this.expiryDate(this.date.getDate() + 1, key);
+                      return
+                    }
+                  }
+                }
+              }
+              else {
+                for (const key in this.dateValObj) {
+                  if (this.dateValObj.hasOwnProperty(key)) {
+                    let obj = this.dateValObj[key].find(obj => (obj.name == date));
+                    if (obj && Object.keys(obj).length) {
+                      this.getDates(key, 'expire');
+                      return
+                    }
+                  }
+                }
+              }
+       
+            }
+          }
+          
         }
         else{
-          this.expireDateSorter(date);
+          let index = this.months.map(obj => obj.name).indexOf(date);
+          if (index == this.date.getMonth() && this.selectedExpiryYear == this.date.getFullYear()) {
+            if (this.selectedExpireDate > this.date.getDate()) {
+              this.getTenYears(type, 0);
+              for (const key in this.dateValObj) {
+                if (this.dateValObj.hasOwnProperty(key)) {
+                  let obj = this.dateValObj[key].find(obj => (obj.name == date));
+                  if (obj && Object.keys(obj).length) {
+                    this.expiryDate(this.date.getDate() + 1, key);
+                    return
+                  }
+                }
+              }
+            }
+            else{
+            for (const key in this.dateValObj) {
+              if (this.dateValObj.hasOwnProperty(key)) {
+                let obj = this.dateValObj[key].find(obj => (obj.name == date));
+                if (obj && Object.keys(obj).length) {
+                  this.getDates(key, 'expire');
+                  return
+                }
+              }
+            }
+            }
+
+          }
+          else{
+            this.expireDateSorter(date);
+          }
         }
         //   let index = this.months.map(obj => obj.name).indexOf(date);
         //   if (index == this.date.getMonth() && this.selectedExpiryYear == this.date.getFullYear()) {
@@ -1162,6 +1260,8 @@ export class BusinessDetailComponent implements OnInit {
 
     }
   }
+
+
 
   expiryDate(startLimit, endLimit){
     let persianDigits = "۰۱۲۳۴۵۶۷۸۹";
@@ -1282,7 +1382,7 @@ export class BusinessDetailComponent implements OnInit {
         this.ExpiryYear = selectedYear;
         this.selectedExpiryYear = selectedYear.yearNormal;
         this.selectedExpiryYearAr = selectedYear.yearArabic;
-        // this.expirymonthFiller(year);
+        this.expirymonthFiller(year);
         // this.leapValid(type, 'year');
         // this.issueValidate(selectedYear.yearNormal, type, 'year');
       }
@@ -1318,10 +1418,40 @@ export class BusinessDetailComponent implements OnInit {
           }
 
         }
+        else if (index > this.date.getMonth()){
+          for (const key in this.dateValObj) {
+            if (this.dateValObj.hasOwnProperty(key)) {
+              let obj = this.dateValObj[key].find(obj => (obj.name == this.selectedExpireMonth || obj.arabicName == this.selectedExpireMonthAr));
+              if (obj && Object.keys(obj).length) {
+                this.getDates(key, 'expire');
+                return
+              }
+              else if (!obj && this.selectedExpireMonth == 'Feb' || this.selectedExpireMonthAr == 'فبراير') {
+                this.leapValid('expire', 'year')
+                return
+
+              }
+            }
+          }
+        }
       }
     }
     else{
       this.expiryMonths = months;
+      for (const key in this.dateValObj) {
+        if (this.dateValObj.hasOwnProperty(key)) {
+          let obj = this.dateValObj[key].find(obj => (obj.name == this.selectedExpireMonth || obj.arabicName == this.selectedExpireMonthAr));
+          if (obj && Object.keys(obj).length) {
+            this.getDates(key, 'expire');
+            return
+          }
+          else if (!obj && this.selectedExpireMonth == 'Feb' || this.selectedExpireMonthAr == 'فبراير') {
+            this.leapValid('expire', 'year')
+            return
+
+          }
+        }
+      }
     }
   }
 
@@ -1528,11 +1658,39 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   inputValidate(id) {
-    for (let index = id - 1; index > 0; index--) {
+    for (var index = id - 1; index > 0; index--) {
       let elem = document.getElementById(index.toString()) as any;
+      if (index <= 3){
+        var datanumber = index;
+      }
+      if (elem.nodeName == 'Div') {
+        elem = elem.children[1];
+      }
       if (!elem && !this.showTranslatedLangSide && index % 2 == 0) continue;
       let value = elem.value;
-      if (!value) {
+      if (!value || value == "undefined") {
+        // this.regForm.controls[elem.name].errors=true;
+        elem.classList.add('inputError');
+      }
+      else {
+        // this.regForm.controls[elem.name].errors=false;
+        elem.classList.remove('inputError');
+      }
+    
+    }
+    if (index == 0 && datanumber <= 3) {
+      this.issueExpirySelectborder();
+    }
+  }
+
+
+  issueExpirySelectborder(){
+    for (var index = 100; index > 12; index++) {
+
+      let elem = document.getElementById(index.toString()) as any;
+      if (!elem && !this.showTranslatedLangSide) continue;
+      let value = elem.value;
+      if (!value || value == "undefined") {
         // this.regForm.controls[elem.name].errors=true;
         elem.classList.add('inputError');
       }
@@ -1543,6 +1701,8 @@ export class BusinessDetailComponent implements OnInit {
 
     }
   }
+
+
 
   SelectDocx(selectedFiles: NgFilesSelected, type): void {
 
