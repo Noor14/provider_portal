@@ -7,7 +7,7 @@
         </div>
 
         <div class="row mt-4 mb-2">
-          <div class="col">
+          <div class="col" [ngClass]="(showTranslatedLangSide)? 'creatpass-arb' : 'creatpass-eng'">
             <h2 class="thankyou-heading text-left mb-3">
               {{headingBaseLanguage}}
             </h2>
@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col">
+          <div class="col" [ngClass]="(showTranslatedLangSide)? 'creatpass-arb' : 'creatpass-eng'">
             <p class="text text-left">
               {{desc1BaseLanguage}}
             </p>
@@ -45,7 +45,7 @@
 
         <hr class="hr-solid">
         <div class="row">
-          <div class="col">
+          <div class="col" [ngClass]="(showTranslatedLangSide)? 'creatpass-arb' : 'creatpass-eng'">
             <h5 class="thankyou-sub-heading text-left">
               {{finishHeadingBaseLanguage}}
             </h5>

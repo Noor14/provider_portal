@@ -75,7 +75,7 @@
                       <label>{{mobLblBaseLanguage}}</label>
                       <div class="select-number">
                         <div class="input-group-prepend">
-                          <div ngbDropdown>
+                          <div ngbDropdown class="select-country-list">
                             <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                               <div class="flag-container">
                                 <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
@@ -96,7 +96,7 @@
                               </ul>
                             </div>
                           </div>
-                          <input type="text" class="form-control" [ngClass]="{'inputError': phoneError && directorForm.controls['phone'].errors}" (focusout)="errorValidate()" (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
+                          <input type="text" class="form-control select-country-code" [ngClass]="{'inputError': phoneError && directorForm.controls['phone'].errors}" (focusout)="errorValidate()" (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
                            maxlength="13" placeholder="123456789" (keypress)="NumberValid($event)" formControlName="phone">
                         </div>
                         <span *ngIf="phoneError">
@@ -113,7 +113,7 @@
                         <label>{{mobLblOtherLanguage}}</label>
                         <div class="select-number">
                           <div class="input-group-append">
-                            <div ngbDropdown>
+                            <div ngbDropdown class="select-country-list">
                               <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                                <div class="flag-container">
                                   <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
@@ -134,7 +134,7 @@
                                 </ul>
                               </div>
                             </div>
-                            <input type="text" class="form-control" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true" [ngClass]="{'inputError': translangPhoneError && directorForm.controls['transLangPhone'].errors}" 
+                            <input type="text" class="form-control select-country-code" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true" [ngClass]="{'inputError': translangPhoneError && directorForm.controls['transLangPhone'].errors}" 
                             (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="13"
                              placeholder="۹۸۷۶۵۴۳۲۱" (keypress)="NumberValid($event)" formControlName="transLangPhone">
                           </div>
@@ -286,7 +286,7 @@
                   </p>
                   <div class="row" *ngFor="let doc of docTypes; let i = index">
                       <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="fancyRadioBoxes">
+                        <div class="fancyRadioBoxes pt-2">
                           <input id="{{i}}" name="name" type="radio" (click)="selectdocType(i, doc)">
                           <label for="{{i}}">
                             <span [ngClass]="{'radioError': !docxId}"></span>
@@ -295,7 +295,7 @@
                         </div>
                       </div>
                       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
-                        <div class="fancyRadioBoxes dir-otherLanguage">
+                        <div class="fancyRadioBoxes pt-2 dir-otherLanguage">
                           <input id="{{i}}" name="nameAr" type="radio" (click)="selectdocType(i, doc)">
                           <label for="{{i}}">
                             <span class="mr-0 ml-2" [ngClass]="{'radioError': !docxId}"></span>
@@ -337,7 +337,7 @@
 
   </ngb-accordion>
 
-<div class="d-flex justify-content-between align-items-center mt-4">
+<div class="d-flex justify-content-between align-items-center mt-5">
   <div class="info_text">
     <a class="text" href="javascript:;" (click)="previousForm()">
       <img alt="icons" class="icon-size-16" src="../../../assets/images/icons/icon_arrow_left.svg">

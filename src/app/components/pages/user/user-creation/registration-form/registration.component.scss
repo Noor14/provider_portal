@@ -1,14 +1,19 @@
 @import '../../../../../../assets/scss/_variables';
 .registration {
     .country-select {
+        input {
+        &::-ms-clear, &::-ms-reveal {
+            display: none;
+          }
+        }
         .flag-container {
             width: 16px;
             height: 12px;
-            float: left;
-            margin-right: 9px;
+            align-items: center;      
             position: absolute;
             left: 8px;
-            top: 6px;
+            top: 10px;
+            
         }
         .dropdown-menu {
             &.show {
@@ -45,6 +50,7 @@
                 font-size: 0.875rem;
                 font-family: $font-proxima;
                 color: $secondary-text-color;
+                padding-top: 0.59rem;
                 img {
                     width: 16px;
                     vertical-align: text-top;
@@ -74,11 +80,12 @@
             input#typeahead {
                 width: calc(100% + 8em);
                 padding-left: 1.8rem;
+                border-radius: 4px;
+                box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.15);
+                z-index: 1;
+                height: 48px;
             }
-            img {
-                width: 16px;
-                height: 12px;
-            }
+            
         }
     }
     ngb-typeahead-window {
@@ -131,11 +138,10 @@
         }
     }
 }
-
-.registration-form {
+.registration-form{
     .fancyRadioBoxes {
         margin-bottom: 16px;
-        label {
+        label{
             align-items: center;
         }
     }
