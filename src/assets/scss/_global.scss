@@ -682,3 +682,13 @@ select {
     text-align: center !important;
   }
 }
+
+.fileDesc {
+  a {
+    text-decoration: none;
+  }
+  span {
+    color: $text-color-default;
+  }
+}
+
