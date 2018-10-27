@@ -43,6 +43,7 @@ body {
     } //hr 
     .hr-solid {
         margin-top: 0.5rem;
+        position: relative;
         &:before {
             content: " ";
             background: #fbfbfd;
@@ -171,145 +172,7 @@ body {
             }
         }
     }
-  } // direction RTL
-  .dir-otherLanguage {
-    direction: rtl;
-    label {
-      font-family: $font-NeoSansArabic-Regular;
-      float: right;
-    }
-  } //hr 
-  .hr-solid {
-    margin-top: 0.5rem;
-    position: relative;
-    &:before {
-      content: " ";
-      background: #fbfbfd;
-      height: 2px;
-      position: absolute;
-      width: 100%;
-      margin-top: 0px;
-    }
-  } // link Hover
-  a.link-hover {
-    transition: all 0.5s ease;
-    position: relative;
-    &:before {
-      content: '';
-      position: absolute;
-      transition: transform .5s ease;
-      transform: scaleX(0);
-    }
-    &:hover {
-      text-decoration: none;
-      &:before {
-        top: 16px;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: 1px;
-        background: darken($primary-color, 3%);
-        transform: scaleX(1);
-        transition: transform .5s ease;
-      }
-    }
-  } // Pointer
-  .pointer {
-    cursor: pointer;
-  }
-  /* from user portal */
-  .hvr-sweep-to-right.btn-primary {
-    &:before {
-      background: #18a7a1 !important;
-      border-color: #18a7a1 !important;
-      color: $color-white; //color: $secondary-color !important;
-    }
-    &:hover {
-      //color: $secondary-color !important; //font-weight: $font-weight-mid;
-      color: $color-white !important;
-    }
-    &:focus {
-      //color: $secondary-color !important; //font-weight: $font-weight-mid;
-      color: $color-white !important;
-    }
-  }
-  .hvr-sweep-to-right.btn-danger {
-    &:before {
-      background: #8e161f; // color: $danger-color !important;
-    }
-    &:hover {
-      // color: $danger-color !important; //font-weight: $font-weight-mid;
-      background: #8e161f;
-    }
-    &:focus {
-      // color: $danger-color !important; //font-weight: $font-weight-mid;
-      background: #8e161f;
-    }
-  }
-  .hvr-sweep-to-right.btn-outline-primary {
-    &:before {
-      background: $secondary-color;
-      color: $white-color !important;
-    }
-    &:focus {
-      background: $secondary-color;
-      color: $white-color !important;
-    }
-  } // Btn scss or hover effect
-  .btn {
-    transition: all 0.5s ease;
-    font-size: $base-font-size;
-    font-family: $font-proxima;
-    border-radius: 3px;
-    font-weight: 400;
-    &:hover {
-      box-shadow: 0 12px 20px -12px rgba(98, 100, 101, 0.95) !important;
-    }
-    &-primary {
-      background-color: $secondary-color !important;
-      border-color: $secondary-color;
-      &:hover,
-      &:focus,
-      &:active,
-      &.focus,
-      &:not(:disabled):not(.disabled):active {
-        background-color: darken($secondary-color, 0.8);
-        border-color: darken($secondary-color, 0.8);
-        box-shadow: 0px 0px 0px;
-      }
-    }
-    &-outline-primary {
-      color: $secondary-color !important;
-      border-color: $secondary-color;
-      &:disabled {
-        color: $dropdown-shipping;
-      }
-      &:hover,
-      &:active,
-      &:focus,
-      &:not(:disabled):not(.disabled):active {
-        color: $white-color !important;
-        background-color: $secondary-color;
-        border-color: $secondary-color;
-        box-shadow: 0px 0px 0px;
-      }
-    }
-    &:disabled {
-      cursor: not-allowed;
-      border: 1px solid $btn-disable-background;
-      background: $btn-disable-background !important;
-      color: $color-topmenu !important;
-      &:before {
-        background: none !important;
-        color: $color-topmenu !important;
-        box-shadow: 0px 0px 0px !important;
-      }
-      &:hover {
-        box-shadow: 0px 0px 0px !important;
-        color: $color-topmenu !important;
-      }
-    }
-  }
+}
 
 // icon size base class
 .icon-size-12 {
@@ -655,11 +518,6 @@ input[type="radio"]:focus+label>span {
         left: auto;
         right: auto;
     }
-    &.inputErrorRemove {
-        border: 1px solid $provider-input-border !important;
-        left: auto;
-        right: auto;
-    }
 }
 
 .select-number {
@@ -772,30 +630,15 @@ select {
 }
 
 .dir-otherLanguage {
-  input {
-    font-family: $font-NeoSansArabic-Regular;
-    &::placeholder {
-      font-family: $font-NeoSansArabic-Regular;
-    }
-    &:-ms-input-placeholder {
-      font-family: $font-NeoSansArabic-Regular;
-    }    
-    &:-webkit-input-placeholder {
-      font-family: $font-NeoSansArabic-Regular;
-    }
-  }
-  .select-number {
     input {
+        font-family: $font-NeoSansArabic-Regular;
         &::placeholder {
             font-family: $font-NeoSansArabic-Regular;
         }
         &:-ms-input-placeholder {
             font-family: $font-NeoSansArabic-Regular;
         }
-        &::-ms-input-placeholder {
-            font-family: $font-NeoSansArabic-Regular;
-        }
-        &::-webkit-input-placeholder {
+        &:-webkit-input-placeholder {
             font-family: $font-NeoSansArabic-Regular;
         }
     }
@@ -828,5 +671,4 @@ select {
     h5 {
         text-align: center !important;
     }
-}
 }
