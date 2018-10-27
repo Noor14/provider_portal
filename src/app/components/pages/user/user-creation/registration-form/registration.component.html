@@ -7,7 +7,7 @@
     </h5>
     <hr class="hr-solid">
     <div class="select-city country-select">
-      <div class="flag-container d-flex justify-content-center">
+      <div class="flag-container">
         <img *ngIf="selectedRegion && selectedRegion.code" src="{{'../../../../../assets/images/flags/4x3/' + (selectedRegion.code | lowercase) + '.svg'}}"
           type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
       </div>
@@ -245,8 +245,9 @@
                     </ul>
                   </div>
                 </div>
-                <input id="7" type="text" class="form-control" [ngClass]="{'inputError': phoneError && regForm.controls['phone'].errors}" (focusout)="errorValidate()" (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
-                 maxlength="13" placeholder="123456789" (keypress)="NumberValid($event)" formControlName="phone" name="phone">
+                <input type="text" class="form-control select-country-code" (focusout)="errorValidate()" (blur)="activePhone=false"
+                  (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)" (focus)="phoneError=false; activePhone=true"
+                  maxlength="13" placeholder="123456789" (keypress)="NumberValid($event)" formControlName="phone">
               </div>
               <span *ngIf="phoneError">
                 <p class="inputError animated fadeIn" *ngIf="regForm.controls['phone'].hasError('required') && (regForm.controls.phone.dirty || regForm.controls.phone.touched)">{{requiredFields}}</p>
@@ -286,9 +287,6 @@
                       </li>
                     </ul>
                   </div>
-                  <input id="8" type="text" class="form-control" (focusout)="errorValidate()" (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; activeTransPhone=true" [ngClass]="{'inputError': translangPhoneError && regForm.controls['transLangPhone'].errors}" 
-                  (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="13"
-                   placeholder="۹۸۷۶۵۴۳۲۱" (keypress)="NumberValid($event)" formControlName="transLangPhone" name="transLangPhone">
                 </div>
                 <input type="text" class="form-control select-country-code" (focusout)="errorValidate()" (blur)="activeTransPhone=false"
                   (focus)="translangPhoneError=false; activeTransPhone=true" (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)"

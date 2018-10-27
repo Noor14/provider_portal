@@ -1,12 +1,18 @@
 @import '../../../../../../assets/scss/_variables';
 .registration {
     .country-select {
+        input {
+        &::-ms-clear, &::-ms-reveal {
+            display: none;
+          }
+        }
         .flag-container {
             width: 16px;
-            height: 100%;
+            height: 12px;
             align-items: center;      
             position: absolute;
             left: 8px;
+            top: 10px;
             
         }
         .dropdown-menu {
@@ -129,6 +135,14 @@
         }
         span:nth-child(2) {
             font-family: $font-NeoSansArabic-Regular;
+        }
+    }
+}
+.registration-form{
+    .fancyRadioBoxes {
+        margin-bottom: 16px;
+        label{
+            align-items: center;
         }
     }
 }

@@ -1,5 +1,8 @@
 @import '../../../../../../../assets/scss/_variables';
 .business-profile {
+  .sub-title {
+    color:$pagination-text-color;
+  }
   .arabicLng {
     font-family: $font-NeoSansArabic-Regular;
   }
@@ -14,33 +17,15 @@
       font-family: $font-NeoSansArabic-Medium;
     }
   }
-  .business-option {
-    select {
-      color: $text-grey;
-      font-family: $font-proxima;
-      font-weight: $font-weight-mid;
-      font-size: $font-size-medium;
-      option {
-        color: $text-grey;
-        font-family: $font-NeoSansArabic-Medium;
-      }
-    }
-    &.dir-otherLanguage {
-      select,
-      option {
-        font-family: $font-NeoSansArabic-Medium;
-        color: $text-grey;
-      }
-    }
-  }
+
+
   .dir-otherLanguage {
-    select,
-    option {
-      font-family: $font-NeoSansArabic-Medium;
-      color: $text-grey;
-    }
+
     h2 {
       font-size: $font-size-large + 0.7;
+      font-family: $font-NeoSansArabic-Medium;
+    }
+    h3 {
       font-family: $font-NeoSansArabic-Medium;
     }
     p {
@@ -108,11 +93,7 @@
     .dir-otherLanguage {
       .row {
         clear: both;
-        select,
-        option {
-          font-family: $font-NeoSansArabic-Medium;
-          color: $text-grey;
-        }
+        
       }
     }
     .trade-license-box {
@@ -186,7 +167,7 @@
         }
         select,
         option {
-          font-family: $font-NeoSansArabic-Medium;
+        
           color: $text-grey;
         }
       }

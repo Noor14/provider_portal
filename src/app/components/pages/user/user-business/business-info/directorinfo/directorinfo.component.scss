@@ -1,5 +1,8 @@
 @import '../../../../../../../assets/scss/_variables';
 .directors-info {
+    .subtitle {
+     color:$pagination-text-color;
+    }
     & h2 {
         font-family: $font-pragmatica;
         font-weight: $font-weight-mid;

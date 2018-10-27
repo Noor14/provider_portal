@@ -237,6 +237,7 @@ body {
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ebebeb', GradientType=0);
       /* IE6-9 */
       box-shadow: inset 0px 1px 1px 0px rgba(24, 23, 24, 0.07);
+      
       &:after {
         border-radius: 2px !important;
         border: 2px;
@@ -282,8 +283,8 @@ body {
         background: linear-gradient(top, rgb(30, 172, 227) 0%, rgb(42, 150, 218) 100%);
         /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ebebeb', GradientType=0);
-        /* IE6-9 */
-        background-image: -ms-linear-gradient( displaynone);
+       
+        background-color: rgb(237, 239, 240);
       }
     }
   }
@@ -330,24 +331,11 @@ input[type="radio"]:focus+label>span {
   select {
     height: 3rem;
     border: 1px solid $provider-input-border;
+      &::-ms-clear, &::-ms-reveal {
+          display: none;
+        }
   }
-  .business-option {
-    select {
-      color: $text-grey;
-      font-family: $font-proxima;
-      font-weight: $font-weight-mid;
-      font-size: $font-size-medium;
-      option {
-        color: $text-color-default !important;
-      }
-    }
-    &.dir-otherLanguage {
-      select,
-      option {
-        font-family: $font-NeoSansArabic-Medium;
-      }
-    }
-  }
+
    
   .licenseNaming,
   .license {
@@ -627,7 +615,6 @@ input[type="radio"]:focus+label>span {
 }
 
 select {
-  font-size: 14px;
   option[value="undefined"],
   &:focus,
   &.ng-invalid {
@@ -642,9 +629,15 @@ select {
 }
 
 .dir-otherLanguage {
+  select {
+    font-family: $font-NeoSansArabic-Regular;
+  }
+}
+
+.dir-otherLanguage {
   input {
     &::placeholder {
-      font-family: $font-proxima;
+      font-family: $font-NeoSansArabic-Regular;
     }
   }
   .select-number {

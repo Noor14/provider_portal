@@ -2,11 +2,11 @@
   <div class="row">
     <div class="col d-flex flex-column align-items-start">
       <span [innerHTML]='headingBaseLanguage'></span>
-      <p>{{statementBaseLanguage}}</p>
+      <p class="sub-title">{{statementBaseLanguage}}</p>
     </div>
     <div class="col d-flex flex-column align-items-start dir-otherLanguage text-right" *ngIf="showTranslatedLangSide">
       <span [innerHTML]='headingOtherLanguage'></span>
-      <p>{{statementOtherLanguage}}</p>
+      <p  class="sub-title">{{statementOtherLanguage}}</p>
     </div>
   </div>
 
@@ -255,14 +255,14 @@
 
   <hr class="hr-solid">
   <div class="row">
-    <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let service of serviceOffered">
-      <div #selectService class="service-btn text-center d-flex flex-column justify-content-center pointer" (click)="serviceSelection(service, selectService)">
+    <div class="col-lg-3 col-md-6 col-sm-12 " *ngFor="let service of serviceOffered">
+      <div #selectService class="service-btn text-center d-flex flex-column justify-content-center mb-2 pointer" (click)="serviceSelection(service, selectService)">
         <span>{{service.ServiceNameBaseLang}}</span>
         <span *ngIf="showTranslatedLangSide">{{service.ServiceNameOtherLang}}</span>
       </div>
     </div>
   </div>
-  <h5 class="d-flex justify-content-between mt-4">
+  <h5 class="d-flex justify-content-between pt-2 mt-5">
     <span>{{busLocLabelBaseLanguage}}</span>
     <span class="text-right" *ngIf="showTranslatedLangSide">{{busLocLabelOtherLanguage}}</span>
   </h5>
@@ -351,7 +351,7 @@
     </div>
   </form>
 
-  <h5 class="d-flex justify-content-between ">
+  <h5 class="d-flex justify-content-between mt-5 pt-1 ">
     <span>{{busInfoLabelBaseLanguage}}</span>
     <span class="text-right" *ngIf="showTranslatedLangSide">{{busInfoLabelOtherLanguage}}</span>
   </h5>
@@ -450,7 +450,7 @@
   </form>
 
 
-  <h5 class="d-flex justify-content-between">
+  <h5 class="d-flex justify-content-between mt-5 pt-1">
     <span>{{conDetailLabelBaseLanguage}}</span>
     <span class="text-right" *ngIf="showTranslatedLangSide">{{conDetailLabelOtherLanguage}}</span>
   </h5>
@@ -679,14 +679,14 @@
     </div> -->
 
     <div class="contact-btn">
-      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length">
+      <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length">
         <span>{{btnLabelBaseLanguage}} </span>
         <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
-      </button>
+      </button> -->
 
-      <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
+      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
       <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
-    </button> -->
+    </button>
 
     </div>
   </form>
