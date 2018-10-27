@@ -682,7 +682,6 @@ export class DirectorinfoComponent implements OnInit {
       }
 
       if (docObj.BusinessLogic === 'TRADE_LICENSE') {
-
         docObj.DocumentFileContent = null;
         docObj.DocumentName = null;
         docObj.DocumentUploadedFileType = null;
@@ -693,6 +692,21 @@ export class DirectorinfoComponent implements OnInit {
             documentUploadedFileType: license.fileType
           }
         ]
+        docObj.MetaInfoKeysDetail.forEach(element => {
+          if (element.KeyName == "VAT"){
+            element.KeyValue = this.formOneObj.informationForm.vatNo
+          }
+          else if (element.KeyName == "LCNC"){
+            element.KeyValue = this.formOneObj.informationForm.licenseNo
+          }
+          else if (element.KeyName == "EXPD") {
+            element.KeyValue = this.formOneObj.expiryDate
+          }
+          else if (element.KeyName == "ISUE") {
+            element.KeyValue = this.formOneObj.issueDate
+          }
+
+        });
        
       }
     })
