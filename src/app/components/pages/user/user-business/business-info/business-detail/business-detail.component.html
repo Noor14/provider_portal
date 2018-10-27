@@ -464,7 +464,7 @@
         <div class="form-group">
           <label>{{telPhoneLabelBaseLanguage}}</label>
           <div class="select-number">
-            <div class="input-group-prepend" id="13" (focus)="inputValidate(13)" [ngClass]="{'inputError': phoneError && contactInfoForm.controls['phone'].errors}" (focusout)="errorValidate()">
+            <div id="13" class="input-group-prepend"  (focus)="inputValidate(13)" [ngClass]="{'inputError': phoneError && contactInfoForm.controls['phone'].errors}" (focusout)="errorValidate()">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <div class="flag-container">
@@ -502,7 +502,7 @@
         <div class="form-group dir-otherLanguage">
           <label>{{telPhoneLabelOtherLanguage}}</label>
           <div class="select-number">
-            <div class="input-group-append" id="14" (focus)="inputValidate(14)" [ngClass]="{'inputError': translangPhoneError && contactInfoForm.controls['transLangPhone'].errors}">
+            <div id="14" class="input-group-append"  (focus)="inputValidate(14)" [ngClass]="{'inputError': translangPhoneError && contactInfoForm.controls['transLangPhone'].errors}">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <div class="flag-container">
@@ -681,14 +681,14 @@
     </div> -->
 
     <div class="contact-btn">
-      <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length">
+      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length">
         <span>{{btnLabelBaseLanguage}} </span>
         <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
-      </button> -->
+      </button>
 
-    <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
+    <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
       <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
-    </button>
+    </button> -->
 
     </div>
   </form>
