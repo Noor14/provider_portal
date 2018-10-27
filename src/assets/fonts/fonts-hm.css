@@ -35,6 +35,7 @@
   @font-face {
     font-family: 'NeoSansArabic-Regular';
     src: url('./arabic/NeoSansArabic.ttf') format('truetype');
+    src: url('./arabic/NeoSansArabic.eot?#iefix') format('embedded-opentype');
     font-weight: 600;
     font-style: normal;
   }
@@ -42,6 +43,7 @@
   @font-face {
     font-family: 'NeoSansArabic-Medium';
     src: url('./arabic/NeoSansArabic-Medium.ttf') format('truetype');
+    src: url('./arabic/NeoSansArabic-Medium.eot?#iefix') format('embedded-opentype');
     font-weight: 500;
     font-style: normal;
   }

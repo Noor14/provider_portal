@@ -373,9 +373,11 @@ input[type="radio"]:focus+label>span {
     -moz-appearance: none;
     -o-appearance: none;
     background: url("assets/images/select-arrow.png") no-repeat center right 10px $color-white;
-    select::-ms-expand {
+    &::-ms-expand {
       display: none;
     }
+  
+    
     &:focus {
       box-shadow: none !important;
       border-color: #80bdff !important;
@@ -639,6 +641,15 @@ select {
     &::placeholder {
       font-family: $font-NeoSansArabic-Regular;
     }
+    &:-ms-input-placeholder {
+      font-family: $font-NeoSansArabic-Regular;
+    }
+    &::-ms-input-placeholder {
+      font-family: $font-NeoSansArabic-Regular;
+    }
+    &::-webkit-input-placeholder {
+      font-family: $font-NeoSansArabic-Regular;
+    }
   }
   .select-number {
     input {
@@ -646,6 +657,19 @@ select {
         font-family: $font-proxima;
         font-size: $font-size-large + 0.15rem;
       }
+      &:-ms-input-placeholder {
+        font-family: $font-proxima;
+        font-size: $font-size-large + 0.15rem;
+      }
+      &::-ms-input-placeholder {
+        font-family: $font-proxima;
+        font-size: $font-size-large + 0.15rem;
+      }
+      &::-webkit-input-placeholder {
+        font-family: $font-proxima;
+        font-size: $font-size-large + 0.15rem;
+      }
+    
     }
   }
 }
