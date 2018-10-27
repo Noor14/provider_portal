@@ -117,6 +117,8 @@ export class DirectorinfoComponent implements OnInit {
   public directorNameOtherLanguage;
   public managementNameBaseLanguage
   public managementNameOtherLanguage;
+  public statementBaseLanguage;
+  public statementOtherLanguage;
   public firstNameBaseLanguage
   public firstNameOtherLanguage;
   public lastNameBaseLanguage
@@ -244,7 +246,10 @@ export class DirectorinfoComponent implements OnInit {
             this.managementNameBaseLanguage = element.baseLang;
             this.managementNameOtherLanguage = element.otherLang;
           }
-
+          else if (element.keyCode == "lbl_Content") {
+            this.statementBaseLanguage = element.baseLang;
+            this.statementOtherLanguage = element.otherLang;
+          }
          else if (element.keyCode == "lbl_FirstName") {
             this.firstNameBaseLanguage = element.baseLang;
             this.firstNameOtherLanguage = element.otherLang;

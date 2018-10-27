@@ -58,6 +58,7 @@ export class BusinessInfoComponent implements OnInit {
 
     this._userService.getlabelsDescription('BusinessProfile').subscribe((res:any)=>{
       if (res.returnStatus == 'Success') {
+        console.log(res)
         this._sharedService.businessProfileJsonLabels.next(res.returnObject);
       }
     }, (err: HttpErrorResponse) => {

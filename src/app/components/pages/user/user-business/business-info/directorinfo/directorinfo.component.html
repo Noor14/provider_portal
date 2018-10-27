@@ -1,7 +1,17 @@
 <section class="directors-info pl-1 pr-1">
 
-  <h2> Business Profile </h2>
-  <p>It takes only a few minutes to add your business and get started</p>
+    <div class="row">
+      <div class="col d-flex flex-column align-items-start">
+        <h2> Business Profile </h2>
+        <p class="sub-title">{{statementBaseLanguage}}</p>
+      </div>
+      <div class="col d-flex flex-column align-items-start dir-otherLanguage text-right" *ngIf="showTranslatedLangSide">
+        <h2> الملف التجاري </h2>
+        <p class="sub-title">{{statementOtherLanguage}}</p>
+      </div>
+    </div>
+  
+  <!-- <p>It takes only a few minutes to add your business and get started</p> -->
   <ngb-accordion  [activeIds]="activeIds" (panelChange)="panelChanger($event)">
     <ngb-panel id="directorInfo">
       <ng-template ngbPanelTitle>
