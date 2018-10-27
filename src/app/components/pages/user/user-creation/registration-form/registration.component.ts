@@ -345,7 +345,7 @@ export class RegistrationComponent implements OnInit {
 
   inputValidate(id){
     for (let index = id-1; index > 0; index--) {
-      let elem = document.getElementById(index.toString()) as HTMLInputElement; 
+      let elem = document.getElementById(index.toString()) as any; 
       if (!elem && !this.showTranslatedLangSide && index%2 == 0) continue;
       let value = elem.value;
       if(!value){
