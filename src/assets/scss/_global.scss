@@ -43,6 +43,7 @@ body {
   } //hr 
   .hr-solid {
     margin-top: 0.5rem;
+    position: relative;
     &:before {
       content: " ";
       background: #fbfbfd;
