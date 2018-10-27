@@ -638,16 +638,14 @@ select {
 
 .dir-otherLanguage {
   input {
+    font-family: $font-NeoSansArabic-Regular;
     &::placeholder {
       font-family: $font-NeoSansArabic-Regular;
     }
     &:-ms-input-placeholder {
       font-family: $font-NeoSansArabic-Regular;
-    }
-    &::-ms-input-placeholder {
-      font-family: $font-NeoSansArabic-Regular;
-    }
-    &::-webkit-input-placeholder {
+    }    
+    &:-webkit-input-placeholder {
       font-family: $font-NeoSansArabic-Regular;
     }
   }
