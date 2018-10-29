@@ -213,3 +213,11 @@
         }
     }
 }
+.input-group-prepend {
+    .social-link-del {
+        position: absolute;
+        right: -23.5px;
+        top: 15px;
+        z-index: 9;
+    }
+}

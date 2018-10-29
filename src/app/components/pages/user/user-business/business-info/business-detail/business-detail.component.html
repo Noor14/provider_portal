@@ -791,7 +791,7 @@
                 [(ngModel)]="socialSites"  maxlength="100" placeholder="www.company.com" />
 
               <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" 
-               *ngIf="i > 0" class="pointer icon-size-16" (click)="removeSocialSite(i)">  
+               *ngIf="i > 0" class="pointer icon-size-16 social-link-del" (click)="removeSocialSite(i)">  
             </div>
             <!-- <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p> -->
           </div>
@@ -818,7 +818,7 @@
               <input type="text" class="form-control select-country-code" [formControlName] = "i" [(ngModel)]="socialSites"
                 maxlength="100" placeholder="www.company.com" />
 
-                <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" *ngIf="i > 0" class="pointer icon-size-16"
+                <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" *ngIf="i > 0" class="pointer icon-size-16 social-link-del"
                   (click)="removeSocialSite(i)">
             </div>
             <!-- <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p> -->
