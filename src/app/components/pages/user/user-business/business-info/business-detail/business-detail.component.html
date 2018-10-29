@@ -280,13 +280,13 @@
 
   <div class="header">
     <h5 class="d-flex justify-content-between pt-3 mt-4 ">
-      <span>Company Activities</span>
-      <span *ngIf="showTranslatedLangSide">أنشطة الشركة</span>
+      <span>{{comLabelBaseLanguage}}</span>
+      <span *ngIf="showTranslatedLangSide">{{comLabelOtherLanguage}}</span>
     </h5>
 
     <small class="d-flex justify-content-between">
-      <span> Select the activities listed on your trade license </span>
-      <span *ngIf="showTranslatedLangSide" class="arabicLng">حدد الأنشطة المدرجة على الترخيص التجاري الخاص بك</span>
+      <span> {{comSubLabelBaseLanguage}} </span>
+      <span *ngIf="showTranslatedLangSide" class="arabicLng">{{comSubLabelOtherLanguage}}</span>
     </small>
   </div>
 

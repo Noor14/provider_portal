@@ -286,6 +286,10 @@ export class BusinessDetailComponent implements OnInit {
   public tradeliscenseLabelOtherLanguage;
   public docLabelBaseLanguage;
   public docLabelOtherLanguage;
+  public comSubLabelBaseLanguage;
+  public comSubLabelOtherLanguage;
+  public comLabelBaseLanguage;
+  public comLabelOtherLanguage;
   public busLocLabelBaseLanguage;
   public busLocLabelOtherLanguage;
   public addLabelBaseLanguage;
@@ -470,6 +474,14 @@ export class BusinessDetailComponent implements OnInit {
           else if (element.keyCode == "lbl_Document") {
             this.docLabelBaseLanguage = element.baseLang;
             this.docLabelOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_CompanyActivities") {
+            this.comSubLabelBaseLanguage = element.baseLang;
+            this.comSubLabelOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_CompanyActivitiesHeading") {
+            this.comLabelBaseLanguage = element.baseLang;
+            this.comLabelOtherLanguage = element.otherLang;
           }
           else if (element.keyCode == "lbl_BusinessLoc") {
             this.busLocLabelBaseLanguage = element.baseLang;
