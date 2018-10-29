@@ -27,7 +27,7 @@ export class RegistrationComponent implements OnInit {
   public phoneCode: string;
   public transPhoneCode: string;
   public countryFlagImage: string;
-  public accountId: number;
+  public accountId: null;
   public countryList: any[];
   public accountSetup: any;
   public jobTitles: any;
@@ -244,23 +244,23 @@ export class RegistrationComponent implements OnInit {
     })
   }
   accountList(region) {
-    loading(true);
-    this._userCreationService.getAccountSetup(region.id).subscribe((res: any) => {
-      if (res.returnStatus == 'Success') {
-        this.accountSetup = res.returnObject;
+    // loading(true);
+    // this._userCreationService.getAccountSetup(region.id).subscribe((res: any) => {
+    //   if (res.returnStatus == 'Success') {
+        // this.accountSetup = res.returnObject;
         this.showTranslatedLangSide = (region.desc[0].RegionCode == 'MET') ? true : false;
         this.regForm.reset();
         this.transLangEmail = '';
-        this.accountId = undefined;
+        this.accountId = null;
         this.selectedjobTitle = undefined;
         this.registrationForm = true;
         this.getlabelsDescription();
 
-      }
-    },(err: HttpErrorResponse) => {
-      loading(false);
-      console.log(err);
-    })
+      // }
+    // },(err: HttpErrorResponse) => {
+    //   loading(false);
+    //   console.log(err);
+    // })
   }
   getListJobTitle(id){
     this._userCreationService.getjobTitles(id).subscribe((res: any) => {
@@ -388,10 +388,10 @@ export class RegistrationComponent implements OnInit {
   createAccount(data) {
     loading(true);
     let valid: boolean = ValidateEmail(data.email);
-    if (!this.accountId) {
-      this._toastr.error("Account setup field is required", '');
-      return;
-    }
+    // if (!this.accountId) {
+    //   this._toastr.error("Account setup field is required", '');
+    //   return;
+    // }
     if (this.regForm.invalid) {
       return;
     }

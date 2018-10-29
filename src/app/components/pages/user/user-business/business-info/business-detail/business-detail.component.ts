@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone, ElementRef, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { SharedService } from '../../../../../../services/shared.service';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -13,6 +13,7 @@ import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '.
 import { CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear } from '../../../../../../constants/globalFunctions'
 import { UserBusinessService } from '../../user-business.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DocumentUpload } from '../../../../../../interfaces/document.interface';
 
 @Component({
   selector: 'app-business-detail',
@@ -29,6 +30,8 @@ export class BusinessDetailComponent implements OnInit {
   public selectedLicense;
   public selectedLogo;
   public selectedSocialsite: any = {};
+  
+  public uploadDocs: Array<DocumentUpload> = []
 
   private config: NgFilesConfig = {
     acceptExtensions: ['jpeg', 'jpg', 'png', 'pdf', 'bmp'],
@@ -396,12 +399,18 @@ export class BusinessDetailComponent implements OnInit {
       transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
       fax: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
       transLangFax: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
-      socialUrl: new FormControl(null),
-      socialUrlOther: new FormControl(null),
+      socialUrl: new FormArray([ new FormControl(null)]),
+      // socialUrlOther: new FormArray(null),
 
     });
 
+    this._sharedService.documentList.subscribe((state: any) => {
+      if (state) {
+        let copy = Object.assign([], state)
+        this.uploadDocs = copy.filter(element => element.BusinessLogic)
 
+      }
+    });
 
   }
 
@@ -689,7 +698,8 @@ export class BusinessDetailComponent implements OnInit {
     this._userbusinessService.socialList().subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.socialLink = res.returnObject;
-        console.log(this.socialLink);
+        this.selectedSocialsite = this.socialLink.pop();
+        // console.log(this.socialLink);
       }
     })
   }
@@ -919,8 +929,12 @@ export class BusinessDetailComponent implements OnInit {
 
 
   addmoreSocialLink() {
-    this.countAccount++
-    this.socialAccounts.push(this.countAccount);
+    (<FormArray>this.contactInfoForm.get('socialUrl')).push(new FormControl(null))
+    // this.countAccount++
+    // this.socialAccounts.push(this.countAccount);
+  }
+  removeSocialSite(index){
+    (<FormArray>this.contactInfoForm.get('socialUrl')).removeAt(index)
   }
 
   selectDate(date, type) {
@@ -1641,7 +1655,8 @@ export class BusinessDetailComponent implements OnInit {
       license: this.selectedLicense,
       busiType: this.orgType,
       OtherLangPhoneCode: this.transPhoneCode,
-      baseLangPhoneCode: this.phoneCode
+      baseLangPhoneCode: this.phoneCode,
+      socialSites: this.selectedSocialsite
 
     }
     this._sharedService.businessDetailObj.next(businessDetail);
@@ -1755,10 +1770,12 @@ export class BusinessDetailComponent implements OnInit {
           // console.log('you file content:', selectedFile);
           if (type === 'license') {
             this.selectedLicense = selectedFile;
+            this.uploadDocx(this.selectedLicense, 'TRADE_LICENSE');
           }
 
           else if (type === 'logo') {
             this.selectedLogo = selectedFile;
+            this.uploadDocx(this.selectedLogo, 'COMPANY_LOGO');
           }
         }
 
@@ -1767,14 +1784,63 @@ export class BusinessDetailComponent implements OnInit {
       }
     }
   }
+
+
+
+  uploadDocx(selectedFile, type){
+    let object = this.uploadDocs.find(Obj => Obj.BusinessLogic == type);
+    // if (docObj.BusinessLogic === 'COMPANY_LOGO' && selectedFile && selectedFile.fileBaseString) {
+      object.UserID = this.userProfile.userID;
+      object.ProviderID = this.userProfile.providerID;
+      object.DocumentFileContent = null;
+      object.DocumentName = null;
+      object.DocumentUploadedFileType = null;
+      object.FileContent = [
+        {
+          documentFileName: selectedFile.fileName,
+          documentFile: selectedFile.fileBaseString,
+          documentUploadedFileType: selectedFile.fileType.split('/').pop()
+        }
+      ]
+    // if (docObj.BusinessLogic === 'TRADE_LICENSE' && selectedFile && selectedFile.fileBaseString) {
+    //   docObj.DocumentFileContent = null;
+    //   docObj.DocumentName = null;
+    //   docObj.DocumentUploadedFileType = null;
+    //   docObj.FileContent = [
+    //     {
+    //       documentFileName: selectedFile.fileName,
+    //       documentFile: selectedFile.fileBaseString,
+    //       documentUploadedFileType: selectedFile.fileType
+    //     }
+    //   ]
+
+    this._userbusinessService.docUpload(object).subscribe((res:any)=>{
+      if(res.returnStatus='Success'){
+        this._toastr.success("File upload successfully", "");
+      }
+    })
+
+
+}
+
+
+
+
+
+
+
+
   sanitize(url: string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
-  selectedSocialLink(obj, index) {
-    this.selectedSocialsite = obj;
-    this.socialLinkValidate();
-
+  selectedSocialLink(obj) {
+    console.log(obj)
+    this.selectedSocialsite = {
+      mediaId: obj.socialMediaPortalsID,
+      // mediaUrl: Object.assign('', this.socialSites)
+    }
+    // this.socialLinkValidate();
   }
 
 }

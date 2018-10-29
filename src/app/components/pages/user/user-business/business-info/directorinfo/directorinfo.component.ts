@@ -145,7 +145,7 @@ export class DirectorinfoComponent implements OnInit {
   managementForm;
 
   public formOneObj;
-  public uploadDocs: Array<DocumentUpload> = []
+  // public uploadDocs: Array<DocumentUpload> = []
 
   constructor(
     private _sharedService: SharedService,
@@ -211,7 +211,7 @@ export class DirectorinfoComponent implements OnInit {
       if (state) {
         let copy = Object.assign([], state)
         this.docTypes = copy.filter(element => !element.BusinessLogic)
-        this.uploadDocs = copy.filter(element => element.BusinessLogic)
+        // this.uploadDocs = copy.filter(element => element.BusinessLogic)
 
       }
     });
@@ -236,7 +236,6 @@ export class DirectorinfoComponent implements OnInit {
     this._sharedService.businessProfileJsonLabels.subscribe((state: any) => {
       if (state) {
         let data = state;
-        console.log(data, 'translation')
         data.forEach(element => {
           if (element.keyCode == "lbl_DirectorInfo") {
             this.directorNameBaseLanguage = element.baseLang;
@@ -670,51 +669,52 @@ export class DirectorinfoComponent implements OnInit {
 
   submitBusinessInfo(type) {
 
-    const { license, logo } = this.formOneObj
-    this.uploadDocs.forEach(docObj => {
-      if (docObj.BusinessLogic === 'COMPANY_LOGO' && logo && logo.fileBaseString) {
+    const { license, logo } = this.formOneObj;
 
-        docObj.DocumentFileContent = null;
-        docObj.DocumentName = null;
-        docObj.DocumentUploadedFileType = null;
-        docObj.FileContent = [
-          {
-          documentFileName: logo.fileName,
-          documentFile: logo.fileBaseString,
-          documentUploadedFileType: logo.fileType
-          }
-        ]
-      }
+    // this.uploadDocs.forEach(docObj => {
+    //   if (docObj.BusinessLogic === 'COMPANY_LOGO' && logo && logo.fileBaseString) {
 
-      if (docObj.BusinessLogic === 'TRADE_LICENSE') {
-        docObj.DocumentFileContent = null;
-        docObj.DocumentName = null;
-        docObj.DocumentUploadedFileType = null;
-        docObj.FileContent = [
-          {
-            documentFileName: license.fileName,
-            documentFile: license.fileBaseString,
-            documentUploadedFileType: license.fileType
-          }
-        ]
-        docObj.MetaInfoKeysDetail.forEach(element => {
-          if (element.KeyName == "VAT"){
-            element.KeyValue = this.formOneObj.informationForm.vatNo
-          }
-          else if (element.KeyName == "LCNC"){
-            element.KeyValue = this.formOneObj.informationForm.licenseNo
-          }
-          else if (element.KeyName == "EXPD") {
-            element.KeyValue = this.formOneObj.expiryDate
-          }
-          else if (element.KeyName == "ISUE") {
-            element.KeyValue = this.formOneObj.issueDate
-          }
+    //     docObj.DocumentFileContent = null;
+    //     docObj.DocumentName = null;
+    //     docObj.DocumentUploadedFileType = null;
+    //     docObj.FileContent = [
+    //       {
+    //       documentFileName: logo.fileName,
+    //       documentFile: logo.fileBaseString,
+    //       documentUploadedFileType: logo.fileType
+    //       }
+    //     ]
+    //   }
 
-        });
+    //   if (docObj.BusinessLogic === 'TRADE_LICENSE') {
+    //     docObj.DocumentFileContent = null;
+    //     docObj.DocumentName = null;
+    //     docObj.DocumentUploadedFileType = null;
+    //     docObj.FileContent = [
+    //       {
+    //         documentFileName: license.fileName,
+    //         documentFile: license.fileBaseString,
+    //         documentUploadedFileType: license.fileType
+    //       }
+    //     ]
+    //     docObj.MetaInfoKeysDetail.forEach(element => {
+    //       if (element.KeyName == "VAT"){
+    //         element.KeyValue = this.formOneObj.informationForm.vatNo
+    //       }
+    //       else if (element.KeyName == "LCNC"){
+    //         element.KeyValue = this.formOneObj.informationForm.licenseNo
+    //       }
+    //       else if (element.KeyName == "EXPD") {
+    //         element.KeyValue = this.formOneObj.expiryDate
+    //       }
+    //       else if (element.KeyName == "ISUE") {
+    //         element.KeyValue = this.formOneObj.issueDate
+    //       }
+
+    //     });
        
-      }
-    })
+    //   }
+    // })
     let objMangInfo = {
       baseLang : [{
         jobTitleID: (this.desgType && this.desgType.ID) ? this.desgType.ID : null,
@@ -760,7 +760,7 @@ export class DirectorinfoComponent implements OnInit {
         address: this.formOneObj.businessLocForm.address,
         poBox: this.formOneObj.businessLocForm.poBoxNo,
         telephone: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.phone,
-        faxNo: this.formOneObj.contactInfoForm.fax,
+        faxNo: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.fax,
         managementInfo: (type == 'skip')? null : objMangInfo.baseLang,
         directorInfo: (type == 'skip') ? null : objDirInfo.baseLang,
         
@@ -775,37 +775,28 @@ export class DirectorinfoComponent implements OnInit {
         address: this.formOneObj.businessLocForm.transAddress,
         poBox: this.formOneObj.businessLocForm.poBoxNoAr,
         telephone: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.transLangPhone,
-        faxNo: this.formOneObj.contactInfoForm.transLangFax,
+        faxNo: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.transLangFax,
         managementInfo: (type == 'skip') ? null : objMangInfo.otherLang,
         directorInfo: (type == 'skip') ? null : objDirInfo.otherLang,
           
       },
-      socialAccount: null,
-      // [
-      //   {
-      //     providerSocialMediaAccountsID: 0,
-      //     providerSocialMediaCode: "",
-      //     shortName: "",
-      //     providerID: 605,
-      //     socialMediaPortalsID: 100,
-      //     carrierID: 0,
-      //     companyID: 598,
-      //     userID: 630,
-      //     linkURL: "texpo.com",
-      //     isDelete: true,
-      //     isActive: true,
-      //     createdBy: "string",
-      //     createdDateTime: "2018-10-05T07:43:40.333Z",
-      //     modifiedBy: "string",
-      //     modifiedDateTime: "2018-10-05T07:43:40.333Z"
-      //   }
-      // ]
+      socialAccount:
+      [
+        {
+          providerSocialMediaAccountsID: 0,
+          providerID: this.userProfile.providerID,
+          socialMediaPortalsID: 100,
+          companyID: this.userProfile.companyID,
+          userID: this.userProfile.userID,
+          linkURL: "texpo.com",
+        }
+      ],
       providerLogisticServiceList: this.formOneObj.logisticsService,
       businessLocation: {
         latitude: this.formOneObj.location.lat.toString(),
         longitude: this.formOneObj.location.lng.toString()
       },
-      doc: this.uploadDocs
+      // doc: this.uploadDocs
 
     };
     loading(true);

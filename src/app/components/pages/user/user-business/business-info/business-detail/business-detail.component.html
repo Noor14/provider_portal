@@ -700,24 +700,26 @@
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
-          <label>{{socialMedLabelBaseLanguage}}</label>
-          <div class="select-number mt-2" *ngFor="let i of socialAccounts">
+          <label class="d-flex justify-content-start">{{socialMedLabelBaseLanguage}}</label>
+          <div class="select-number mt-2" *ngFor="let social of contactInfoForm.get('socialUrl').controls; let i = index">
             <div class="input-group-prepend">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                  <span *ngIf="!selectedSocialsite.title">Website</span>
                   <span *ngIf="selectedSocialsite.title">{{selectedSocialsite.title}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="social">
                   <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let link of socialLink" (click)="selectedSocialLink(link, i)">
+                    <li class="list-group-item" *ngFor="let link of socialLink" (click)="selectedSocialLink(link)">
                       <span>{{link.title}}</span>
                     </li>
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control select-country-code" formControlName="socialUrl" (focus)=" socialInputValidate = ''"
-                [(ngModel)]="socialSites" (focusout)="socialLinkValidate()" maxlength="100" placeholder="www.company.com" />
+              <input type="text" class="form-control select-country-code" [formControlName] = "i"
+                [(ngModel)]="socialSites"  maxlength="100" placeholder="www.company.com" />
+
+              <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" 
+               *ngIf="i > 0" class="pointer icon-size-16" (click)="removeSocialSite(i)">  
             </div>
             <!-- <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p> -->
           </div>
@@ -727,11 +729,10 @@
       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group">
           <label class="d-flex justify-content-end arabicLng">{{socialMedLabelOtherLanguage}}</label>
-          <div class="select-number mt-3" *ngFor="let i of socialAccounts">
+          <div class="select-number mt-2" *ngFor="let social of contactInfoForm.get('socialUrl').controls; let i = index">
             <div class="input-group-prepend">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                  <span *ngIf="!selectedSocialsite.title">Website</span>
                   <span *ngIf="selectedSocialsite.title">{{selectedSocialsite.title}}</span>
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="social">
@@ -742,8 +743,11 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control select-country-code" formControlName="socialUrlOther" [(ngModel)]="socialSites" (focusout)="socialLinkValidate()"
+              <input type="text" class="form-control select-country-code" [formControlName] = "i" [(ngModel)]="socialSites"
                 maxlength="100" placeholder="www.company.com" />
+
+                <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" *ngIf="i > 0" class="pointer icon-size-16"
+                  (click)="removeSocialSite(i)">
             </div>
             <!-- <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p> -->
           </div>
@@ -751,12 +755,12 @@
       </div>
     </div>
 
-    <!-- <div class="add-more">
+    <div class="add-more">
         <a href="javascript:;" (click)="addmoreSocialLink()">
         <img src="../../../assets/images/icons/icon_add.svg" alt="icons" class="mr-2 icon-size-16"> 
          <span>{{moreAccLabelBaseLanguage}}</span> / <span>{{moreAccLabelOtherLanguage}}</span>
         </a> 
-    </div> -->
+    </div>
 
     <div class="contact-btn">
       <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length || validateDates()">

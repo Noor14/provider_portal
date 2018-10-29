@@ -1,6 +1,6 @@
 <section class="registration">
-  <h2 class="registration-title">Registration Details</h2>
-  <small class="registration-paragraph pt-1">It takes only a few minutes to setup your account.</small>
+  <h2 class="registration-title">Request to Join our Partner Network</h2>
+  <small class="registration-paragraph pt-1">It takes only a few minutes to send us your basic information.</small>
   <section class="registration-map-section">
     <h5 class="registration-head-titles">
       Select Your Country
@@ -31,7 +31,7 @@
   </section>
 
   <section class="registration-form animated fadeInUp pt-3" *ngIf="registrationForm">
-    <h5 class="registration-head-titles mt-5 pt-2 d-flex justify-content-between">
+    <!-- <h5 class="registration-head-titles mt-5 pt-2 d-flex justify-content-between">
       <span>{{lblAccSetupBaseLang}}</span>
       <span *ngIf="showTranslatedLangSide" class="text-right ">{{lblAccSetupOtherLang}}</span>
     </h5>
@@ -55,7 +55,7 @@
           </label>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <h5 class="registration-head-titles mt-5 d-flex justify-content-between">
       <span>{{lblPersonalInfoBaseLang}}</span>
@@ -320,7 +320,7 @@
         </div>
       </div>
 
-      <div class="info-text d-flex justify-content-between">
+      <!-- <div class="info-text d-flex justify-content-between">
         <span>
           <img src="../../../assets/images/icons/icon_info.svg" alt="icons" class="mr-2">
           {{emailInfoTextBaselang}}
@@ -329,10 +329,10 @@
           {{emailInfoTextOtherlang}}
           <img src="../../../assets/images/icons/icon_info.svg" alt="icons" class="ml-2">
         </span>
-      </div>
+      </div> -->
       <div class="row mt-5">
         <div class="col">
-          <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" type="submit" [disabled]="regForm.invalid || !accountId">
+          <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" type="submit" [disabled]="regForm.invalid">
             <span>{{regBtnBaseLang}}</span><span *ngIf="showTranslatedLangSide"> / {{regBtnOtherLang}}</span>
           </button>
         </div>
