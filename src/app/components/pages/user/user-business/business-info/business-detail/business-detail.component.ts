@@ -1739,7 +1739,7 @@ export class BusinessDetailComponent implements OnInit {
       if (index <= 3){
         var datanumber = index;
       }
-      if (elem.nodeName == 'Div') {
+      if (elem.nodeName == 'DIV') {
         elem = elem.children[1];
       }
       if (!elem && !this.showTranslatedLangSide && index % 2 == 0) continue;

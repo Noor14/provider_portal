@@ -1,19 +1,32 @@
 @import '../../../../../../assets/scss/_variables';
 .registration {
+    .heading {
+        small {
+            span {
+                font-family: $font-proxima;
+                font-weight: $font-weight-mid;
+                color: $secondary-text-color;
+                font-size: $font-size-medium;
+                &:nth-child(2) {
+                    font-family: $font-NeoSansArabic-Regular !important;
+                }
+            }
+        }
+    }
     .country-select {
         input {
-        &::-ms-clear, &::-ms-reveal {
-            display: none;
-          }
+            &::-ms-clear,
+            &::-ms-reveal {
+                display: none;
+            }
         }
         .flag-container {
             width: 16px;
             height: 12px;
-            align-items: center;      
+            align-items: center;
             position: absolute;
             left: 8px;
             top: 10px;
-            
         }
         .dropdown-menu {
             &.show {
@@ -85,12 +98,11 @@
                 z-index: 1;
                 height: 48px;
             }
-            
         }
     }
     ngb-typeahead-window {
-            max-height: 200px;
-            overflow-y: auto;
+        max-height: 200px;
+        overflow-y: auto;
         .dropdown-item {
             &.active,
             &:active {
@@ -106,8 +118,7 @@
                 text-align: right;
             }
         }
-    } 
-
+    }
     .hr-solid {
         margin-top: 0.5rem !important;
         margin-bottom: 1rem !important;
@@ -138,10 +149,11 @@
         }
     }
 }
-.registration-form{
+
+.registration-form {
     .fancyRadioBoxes {
         margin-bottom: 16px;
-        label{
+        label {
             align-items: center;
         }
     }

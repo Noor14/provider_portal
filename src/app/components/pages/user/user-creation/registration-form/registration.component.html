@@ -56,12 +56,20 @@
         </div>
       </div>
     </div> -->
-
+    <div class="heading">
     <h5 class="registration-head-titles mt-5 d-flex justify-content-between">
       <span>{{lblPersonalInfoBaseLang}}</span>
-      <span *ngIf="showTranslatedLangSide" class="text-right">{{lblPersonalInfoOtherLang}}</span>
+      <span *ngIf="showTranslatedLangSide" class="text-right arabicLng">{{lblPersonalInfoOtherLang}}</span>
     </h5>
-
+      <small class="d-flex justify-content-between">
+        <span> 
+          {{lblsubPersonalInfoBaseLang}}
+        </span>
+        <span *ngIf="showTranslatedLangSide" class="text-right">
+          {{lblsubPersonalInfoOtherLang}}
+        </span>
+      </small>
+   </div>
     <hr class="hr-solid">
 
     <form autocomplete="off" novalidate [formGroup]="regForm" (ngSubmit)="createAccount(regForm.value)">

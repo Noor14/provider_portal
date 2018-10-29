@@ -16,6 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class CreatePasswordComponent implements OnInit {
   
+
   public requiredFields: string = "This field is required";
   public paramSubscriber: any;
   public userInfo: any;
@@ -31,6 +32,8 @@ export class CreatePasswordComponent implements OnInit {
   public descOtherLanguage: string;
   public lblPasswordOtherlang: string;
   public lblPasswordBaselang: string;
+  public lblEmailBaselang: string;
+  public lblEmailOtherlang: string;
   public btnBaselang: string;
   public btnOtherlang: string;
 
@@ -49,6 +52,7 @@ export class CreatePasswordComponent implements OnInit {
   ngOnInit() {
     this.passForm = new FormGroup({
       password: new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(30)]),
+      email: new FormControl(null),
     });
     this.paramSubscriber = this._route.params.subscribe(params => {
       let keyCode = params.keys; // (+) converts string 'id' to a number
@@ -93,8 +97,10 @@ export class CreatePasswordComponent implements OnInit {
        this.descOtherLanguage = res.returnObject[1].otherLang;
        this.lblPasswordBaselang = res.returnObject[2].baseLang;
        this.lblPasswordOtherlang = res.returnObject[2].otherLang;
-       this.btnBaselang = res.returnObject[3].baseLang;
-       this.btnOtherlang = res.returnObject[3].otherLang;
+        this.btnBaselang = res.returnObject[3].baseLang;
+        this.btnOtherlang = res.returnObject[3].otherLang; 
+        this.lblEmailBaselang = res.returnObject[5].baseLang;
+        this.lblEmailOtherlang = res.returnObject[5].otherLang;
         loading(false);
       }
       else if (res.returnStatus == 'Error'){
@@ -111,6 +117,7 @@ export class CreatePasswordComponent implements OnInit {
     this._sharedService.getUserOtpVerified.subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
       this.userInfo = res.returnObject;
+      this.passForm.controls['email'].setValue(this.userInfo.primaryEmail); 
       this.showTranslatedLangSide = (this.userInfo && this.userInfo.regionCode == "MET")? true : false;
       this.getlabelsDescription(this.userInfo);
       this._sharedService.formProgress.next(30);

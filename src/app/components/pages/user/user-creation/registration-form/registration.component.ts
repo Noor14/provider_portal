@@ -116,6 +116,8 @@ export class RegistrationComponent implements OnInit {
   public emailInfoTextOtherlang: string;
   public regBtnBaseLang: string;
   public regBtnOtherLang: string;
+  public lblsubPersonalInfoBaseLang: string;
+  public lblsubPersonalInfoOtherLang: string;
 
 
 
@@ -236,6 +238,8 @@ export class RegistrationComponent implements OnInit {
         this.emailInfoTextOtherlang = res.returnObject[8].otherLang;
         this.regBtnBaseLang = res.returnObject[9].baseLang;
         this.regBtnOtherLang = res.returnObject[9].otherLang;
+        this.lblsubPersonalInfoBaseLang = res.returnObject[21].baseLang;
+        this.lblsubPersonalInfoOtherLang = res.returnObject[21].otherLang;
         loading(false);
       }
     },(err: HttpErrorResponse) => {
@@ -346,7 +350,7 @@ export class RegistrationComponent implements OnInit {
   inputValidate(id){
     for (let index = id-1; index > 0; index--) {
       let elem = document.getElementById(index.toString()) as any;
-      if (elem.nodeName == 'Div'){
+      if (elem.nodeName == 'DIV'){
        elem = elem.children[1];
       }
       if (!elem && !this.showTranslatedLangSide && index%2 == 0) continue;

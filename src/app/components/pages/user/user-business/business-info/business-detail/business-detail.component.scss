@@ -12,7 +12,6 @@
     .arabicLng {
         font-family: $font-NeoSansArabic-Regular;
     }
-
     h3 {
         font-family: $font-pragmatica;
         font-weight: $font-weight-mid;
@@ -187,6 +186,7 @@
                     font-family: $font-proxima;
                     font-weight: $font-weight-mid;
                     color: $secondary-text-color;
+                    font-size: $font-size-medium;
                 }
             }
         }
@@ -201,23 +201,9 @@
             }
         }
     }
-}
-
-.header {
-    small {
-        span {
-            font-family: $font-proxima;
-            font-weight: $font-weight-mid;
-            color: $secondary-text-color;
-            font-size: $font-size-medium;
-        }
-    }
-}
-.input-group-prepend {
     .social-link-del {
         position: absolute;
-        right: -23.5px;
+        right: 15px;
         top: 15px;
-        z-index: 9;
     }
 }
