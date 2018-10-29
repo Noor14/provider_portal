@@ -12,11 +12,6 @@
     .arabicLng {
         font-family: $font-NeoSansArabic-Regular;
     }
-    h2 {
-        font-family: $font-pragmatica;
-        font-weight: $font-weight-mid;
-        color: $text-color-default;
-    }
     h3 {
         font-family: $font-pragmatica;
         font-weight: $font-weight-mid;
@@ -30,7 +25,6 @@
     }
     .dir-otherLanguage {
         h2 {
-            font-size: $font-size-large + 0.7;
             font-family: $font-NeoSansArabic-Medium;
         }
         h3 {
