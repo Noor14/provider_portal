@@ -35,8 +35,12 @@ export class UserBusinessService {
 
 
   docUpload(doc){
-    let url: string = "document/Post ";
+    let url: string = "document/Post";
     return this._http.post(baseApi + url, doc);
+  }
+  removeDoc(id) {
+    let url: string = "document/Put";
+    return this._http.put(baseApi + url, id);
   }
 
   submitBusinessInfo(obj){

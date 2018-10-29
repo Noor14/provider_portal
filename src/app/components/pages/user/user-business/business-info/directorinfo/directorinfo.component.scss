@@ -69,11 +69,11 @@
         h5 {
             color: #212529;
             text-decoration: none;
-            .fa-angle-up {
+            .fa-angle-down {
                 font-size: 1.2rem;
                 margin-right: 1rem;
                 transition: ease-in 0.5s;
-                &.arrow-down {
+                &.arrow-up {
                     transition: ease-in 0.5s;
                     transform: rotate(180deg);
                 }

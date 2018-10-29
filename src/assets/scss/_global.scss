@@ -283,7 +283,7 @@ body {
                 background: linear-gradient(top, rgb(30, 172, 227) 0%, rgb(42, 150, 218) 100%);
                 /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ebebeb', GradientType=0);
-                background-color: rgb(237, 239, 240);
+                background-color: $checkboxes-border-color;
             }
         }
     }
@@ -383,12 +383,6 @@ input[type="radio"]:focus+label>span {
         margin-top: 6px;
         color: $danger-color;
         font-size: $font-size-medium - 0.025;
-        right: 15px;
-    }
-    &.dir-otherLanguage {
-        .inputError {
-            left: 15px;
-        }
     }
     label {
         margin-top: 0.5rem;
@@ -425,7 +419,7 @@ input[type="radio"]:focus+label>span {
             font-family: $font-proxima;
         }
         &.inputError {
-            border: 1px solid $danger-color;
+            border: 1px solid $danger-color
         }
         &:focus {
             box-shadow: none !important;
@@ -439,7 +433,7 @@ input[type="radio"]:focus+label>span {
             input.select-country-code {
                 background: none;
                 border: none;
-                width: 80%;
+                width: 65%;
                 padding-left: 34px;
             }
             .select-country-list {
@@ -517,9 +511,6 @@ input[type="radio"]:focus+label>span {
         border: 1px solid $danger-color !important;
         left: auto;
         right: auto;
-    }
-    &.inputErrorRemove {
-        border: 1px solid $provider-input-border !important;
     }
 }
 

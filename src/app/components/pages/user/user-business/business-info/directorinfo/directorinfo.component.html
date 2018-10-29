@@ -12,14 +12,14 @@
     </div>
   
   <!-- <p>It takes only a few minutes to add your business and get started</p> -->
-  <ngb-accordion  [activeIds]="activeIds" (panelChange)="panelChanger($event)">
+  <ngb-accordion  (panelChange)="panelChanger($event)">
     <ngb-panel id="directorInfo">
       <ng-template ngbPanelTitle>
           
         <h5 class="d-flex justify-content-between">
           <span>
-            <i class="fa fa-angle-up" 
-            [ngClass]="{'arrow-down' : (panelObjDr.panelId == 'directorInfo' && !panelObjDr.openState)}"></i> {{directorNameBaseLanguage}}</span>
+            <i class="fa fa-angle-down" 
+            [ngClass]="{'arrow-up' : (panelObjDr.panelId == 'directorInfo' && panelObjDr.openState)}"></i> {{directorNameBaseLanguage}}</span>
           <span *ngIf="showTranslatedLangSide" class="text-right">{{directorNameOtherLanguage}}</span>
         </h5>
       </ng-template>
@@ -193,8 +193,8 @@
       <ng-template ngbPanelTitle>
         <h5 class="d-flex justify-content-between">
           <span>
-            <i class="fa fa-angle-up"
-              [ngClass]="{'arrow-down' : (panelObj.panelIdMang =='managementInfo' && !panelObj.openState)}"></i> {{managementNameBaseLanguage}}</span>
+            <i class="fa fa-angle-down"
+              [ngClass]="{'arrow-up' : (panelObj.panelIdMang =='managementInfo' && panelObj.openState)}"></i> {{managementNameBaseLanguage}}</span>
           <span *ngIf="showTranslatedLangSide" class="text-right">{{managementNameOtherLanguage}}</span>
         </h5>
       </ng-template>

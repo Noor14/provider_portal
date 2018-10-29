@@ -219,6 +219,8 @@ export class BusinessDetailComponent implements OnInit {
   public vatNoAr: any;
   public poBoxAr: any;
   public addressAr: any;
+  public addressAr2: any;
+  public cityAr: any;
 
   // global Input
   public Globalinputfrom: any;
@@ -241,6 +243,10 @@ export class BusinessDetailComponent implements OnInit {
   public transorgNameError: boolean;
   public addressArError: boolean;
   public addressError: boolean;
+  public addressArError2: boolean;
+  public addressError2: boolean;
+  public cityArError: boolean;
+  public cityError: boolean;
   public vatError: boolean;
   public vatNoArError: boolean;
   public poBoxError: boolean;
@@ -284,6 +290,10 @@ export class BusinessDetailComponent implements OnInit {
   public busLocLabelOtherLanguage;
   public addLabelBaseLanguage;
   public addLabelOtherLanguage;
+  public addLabel2BaseLanguage;
+  public addLabel2OtherLanguage;
+  public cityLabelBaseLanguage;
+  public cityLabelOtherLanguage;
   public poBoxLabelBaseLanguage;
   public poBoxLabelOtherLanguage;
   public busInfoLabelBaseLanguage;
@@ -356,8 +366,8 @@ export class BusinessDetailComponent implements OnInit {
         this.countryList = state;
         let selectedCountry = this.countryList.find(obj => obj.id == this.userProfile.countryID);
         this.selectPhoneCode(selectedCountry);
-        this.getplacemapLoc(selectedCountry.code.toLowerCase());
-        this.getMapLatlng(selectedCountry.title);
+        // this.getplacemapLoc(selectedCountry.code.toLowerCase());
+        // this.getMapLatlng(selectedCountry.title);
       }
 
     });
@@ -365,8 +375,8 @@ export class BusinessDetailComponent implements OnInit {
     this.informationForm = new FormGroup({
       licenseNo: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(10)]),
       licenseNoAr: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(4), Validators.maxLength(10)]),
-      vatNo: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(5), Validators.maxLength(12)]),
-      vatNoAr: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(5), Validators.maxLength(12)]),
+      vatNo: new FormControl(null, [Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(5), Validators.maxLength(12)]),
+      vatNoAr: new FormControl(null, [Validators.minLength(5), Validators.maxLength(12)]),
 
       issueDate: new FormControl(null, [Validators.required]),
       issueMonth: new FormControl(null, [Validators.required]),
@@ -384,6 +394,10 @@ export class BusinessDetailComponent implements OnInit {
     this.businessLocForm = new FormGroup({
       address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       transAddress: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      address2: new FormControl(null, [Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      transAddress2: new FormControl(null, [Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      city: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      transCity: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),  
       poBoxNo: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
       poBoxNoAr: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(16), Validators.minLength(4)]),
     });
@@ -397,8 +411,8 @@ export class BusinessDetailComponent implements OnInit {
     this.contactInfoForm = new FormGroup({
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
       transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
-      fax: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
-      transLangFax: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
+      fax: new FormControl(null, [Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
+      transLangFax: new FormControl(null, [Validators.minLength(7), Validators.maxLength(13)]),
       socialUrl: new FormArray([ new FormControl(null)]),
       // socialUrlOther: new FormArray(null),
 
@@ -464,6 +478,14 @@ export class BusinessDetailComponent implements OnInit {
           else if (element.keyCode == "lbl_Address") {
             this.addLabelBaseLanguage = element.baseLang;
             this.addLabelOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_AddressLine2") {
+            this.addLabel2BaseLanguage = element.baseLang;
+            this.addLabel2OtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_City") {
+            this.cityLabelBaseLanguage = element.baseLang;
+            this.cityLabelOtherLanguage = element.otherLang;
           }
           else if (element.keyCode == "lbl_POBox") {
             this.poBoxLabelBaseLanguage = element.baseLang;
@@ -642,6 +664,18 @@ export class BusinessDetailComponent implements OnInit {
     }
     if (this.businessLocForm.controls.transAddress.status == "INVALID" && this.businessLocForm.controls.transAddress.touched) {
       this.addressArError = true;
+    }
+    if (this.businessLocForm.controls.address2.status == "INVALID" && this.businessLocForm.controls.address2.touched) {
+      this.addressError2 = true;
+    }
+    if (this.businessLocForm.controls.transAddress2.status == "INVALID" && this.businessLocForm.controls.transAddress2.touched) {
+      this.addressArError2 = true;
+    }
+    if (this.businessLocForm.controls.city.status == "INVALID" && this.businessLocForm.controls.city.touched) {
+      this.cityError = true;
+    }
+    if (this.businessLocForm.controls.transCity.status == "INVALID" && this.businessLocForm.controls.transCity.touched) {
+      this.cityArError = true;
     }
     if (this.businessLocForm.controls.poBoxNo.status == "INVALID" && this.businessLocForm.controls.poBoxNo.touched) {
       this.poBoxError = true;
@@ -1648,7 +1682,7 @@ export class BusinessDetailComponent implements OnInit {
       contactInfoForm: this.contactInfoForm.value,
       issueDate: this.informationForm.value.issueDate + '/' + this.informationForm.value.issueMonth + '/' + this.informationForm.value.issueYear,
       expiryDate: this.informationForm.value.expireDate + '/' + this.informationForm.value.expireMonth + '/' + this.informationForm.value.expiryYear,
-      location: this.location,
+      // location: this.location,
       logisticsService: this.serviceIds,
       licenseDocx: this.selectedLicense,
       logo: this.selectedLogo,
@@ -1663,15 +1697,30 @@ export class BusinessDetailComponent implements OnInit {
 
   }
 
-  removeSelectedDocx(type) {
+  removeSelectedDocx(type, id) {
     if (type == "license") {
-      this.selectedLicense = {}
+      this.selectedLicense = {};
     }
     else if (type == "logo") {
       this.selectedLogo = {}
     }
+    this.removeDoc(id);
+
+
   }
 
+  removeDoc(id){
+    this._userbusinessService.removeDoc([id.toString()]).subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
+        this._toastr.success('Remove selected document succesfully', "");
+      }
+      else {
+        this._toastr.error('Error Occured', "");
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
+  }
   inputValidate(id) {
     for (var index = id - 1; index > 0; index--) {
       let elem = document.getElementById(index.toString()) as any;
@@ -1816,8 +1865,19 @@ export class BusinessDetailComponent implements OnInit {
 
     this._userbusinessService.docUpload(object).subscribe((res:any)=>{
       if(res.returnStatus='Success'){
+        if (type == 'TRADE_LICENSE'){
+          this.selectedLicense.docId = JSON.parse(res.returnText)[0].DocumentID;
+        }
+        else{
+          this.selectedLogo.docId = JSON.parse(res.returnText[0].DocumentID);
+        }
         this._toastr.success("File upload successfully", "");
       }
+      else{
+        this._toastr.success("Error occured on upload", "");
+      }
+    },(err:HttpErrorResponse)=>{
+      console.log(err);
     })
 
 
@@ -1850,4 +1910,5 @@ export interface DocumentFile {
   fileName: string
   fileType: string
   fileUrl: string
+  docId?: string
 }

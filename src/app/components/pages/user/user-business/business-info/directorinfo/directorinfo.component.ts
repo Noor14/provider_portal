@@ -757,7 +757,9 @@ export class DirectorinfoComponent implements OnInit {
         vatNo: this.formOneObj.informationForm.vatNo,
         organizationTypeID: this.formOneObj.busiType.ID,
         organizationName: this.formOneObj.organizationForm.orgName,
-        address: this.formOneObj.businessLocForm.address,
+        addressLine1: this.formOneObj.businessLocForm.address,
+        addressLine2: this.formOneObj.businessLocForm.addres2,
+        city: this.formOneObj.businessLocForm.city,
         poBox: this.formOneObj.businessLocForm.poBoxNo,
         telephone: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.phone,
         faxNo: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.fax,
@@ -772,7 +774,9 @@ export class DirectorinfoComponent implements OnInit {
         vatNo: this.formOneObj.informationForm.vatNoAr,
         organizationTypeID: this.formOneObj.busiType.ID,
         organizationName: this.formOneObj.organizationForm.transLangOrgName,
-        address: this.formOneObj.businessLocForm.transAddress,
+        addressLine1: this.formOneObj.businessLocForm.transAddress,
+        addressLine2: this.formOneObj.businessLocForm.transAddress2,
+        city: this.formOneObj.businessLocForm.transCity,
         poBox: this.formOneObj.businessLocForm.poBoxNoAr,
         telephone: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.transLangPhone,
         faxNo: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.transLangFax,
@@ -792,10 +796,10 @@ export class DirectorinfoComponent implements OnInit {
         }
       ],
       providerLogisticServiceList: this.formOneObj.logisticsService,
-      businessLocation: {
-        latitude: this.formOneObj.location.lat.toString(),
-        longitude: this.formOneObj.location.lng.toString()
-      },
+      // businessLocation: {
+      //   latitude: this.formOneObj.location.lat.toString(),
+      //   longitude: this.formOneObj.location.lng.toString()
+      // },
       // doc: this.uploadDocs
 
     };
