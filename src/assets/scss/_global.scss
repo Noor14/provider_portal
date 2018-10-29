@@ -442,6 +442,7 @@ input[type="radio"]:focus+label>span {
        border: none;
        width: 65%;
        padding-left: 34px;
+       font-size: 0.875rem;
      }
      .select-country-list {
        margin-left: 19px;
@@ -552,9 +553,10 @@ input[type="radio"]:focus+label>span {
         span {
           direction: ltr;
           font-family: $font-proxima;
-          font-size: $font-size-large + .25rem;
+          font-size: $root-font-size;
           font-weight: $font-weight-mid;
           margin: 0;
+          line-height: 1.8;
         }
         .flag-container {
           float: right;
@@ -563,8 +565,11 @@ input[type="radio"]:focus+label>span {
         }
       }
     }
+    .select-country-code{
+      font-size: $root-font-size !important;;
+    }
     input {
-      padding-top: 15px;
+      padding-top: 13px !important;
     }
   }
 }
