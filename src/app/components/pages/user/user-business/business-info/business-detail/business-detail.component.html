@@ -247,7 +247,8 @@
         </div>
       </div>
 
-      <div class="documentInfo d-flex flex-column mt-3" [ngClass]="{'removeBorder': selectedLicense && selectedLicense.fileName}">
+      <div class="documentInfo d-flex flex-column mt-3" #tradeDoc 
+      [ngClass]="{'removeBorder': selectedLicense && selectedLicense.fileName}" >
         <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLicense && selectedLicense.fileName">
           <div class="fileDesc">
             <!-- <img src="{{selectedLicense.fileUrl}}" alt=""> -->
@@ -266,7 +267,9 @@
           </div>
         </div>
 
-        <div class="file-uploader" *ngIf="!selectedLicense || (selectedLicense && !selectedLicense.fileName)">
+        <div class="file-uploader" 
+         
+         *ngIf="!selectedLicense || (selectedLicense && !selectedLicense.fileName)">
           <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'license')" [configId]="'docConfig'">
             <img src="../../../assets/images/icons/manager-icon.png">
             <p class="m-0 mt-3"> Drag here or
@@ -293,7 +296,8 @@
   <hr class="hr-solid">
   <div class="row">
     <div class="col-lg-3 col-md-6 col-sm-12 " *ngFor="let service of serviceOffered">
-      <div #selectService class="service-btn text-center d-flex flex-column justify-content-center mb-2 pointer" (click)="serviceSelection(service, selectService)">
+      <div #selectService class="service-btn text-center d-flex flex-column justify-content-center mb-2 pointer" 
+        (click)="serviceSelection(service, selectService)">
         <span>{{service.ServiceNameBaseLang}}</span>
         <span *ngIf="showTranslatedLangSide">{{service.ServiceNameOtherLang}}</span>
       </div>
@@ -362,7 +366,7 @@
               <label for="address">{{addLabel2BaseLanguage}}</label>
               <input id="7" type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200"
                formControlName="address2" (focusout)="errorValidate()" 
-               (focus)="addressError = false; inputValidate(7)" [ngClass]="{
+               (focus)="addressError2 = false; inputValidate(7)" [ngClass]="{
                       'inputError': addressError2 && businessLocForm.controls['address2'].errors,
                       'inputErrorRemove': businessLocForm.controls['address2'].value && !addressError2
                     }" [(ngModel)]="addressAr2">
@@ -379,7 +383,8 @@
             <div class="form-group dir-otherLanguage">
               <label for="address">{{addLabel2OtherLanguage}}</label>
               <input id="8" type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transAddress2"
-                (focusout)="errorValidate()" (focus)="addressArError = false;  inputValidate(8)" [ngClass]="{
+                (focusout)="errorValidate()" (focus)="addressArError2 = false;  inputValidate(8)"
+                 [ngClass]="{
                       'inputError': addressArError2 && businessLocForm.controls['transAddress2'].errors,
                        'inputErrorRemove': businessLocForm.controls['transAddress2'].value && !addressArError2
                     }" [(ngModel)]="addressAr2">
@@ -405,8 +410,8 @@
                   <span *ngIf="cityError && businessLocForm.controls['city'].errors">
                     <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['city'].hasError('required') && (businessLocForm.controls.city.dirty || businessLocForm.controls.city.touched)">{{requiredFields}}</p>
                     <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['city'].hasError('pattern') && (businessLocForm.controls.city.dirty || businessLocForm.controls.city.touched)">Please enter valid information</p>
-                    <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['city'].hasError('pattern')&& businessLocForm.controls['city'].hasError('maxlength') && (businessLocForm.controls.city.dirty || businessLocForm.controls.city.touched)">city should not exceed from 200 characters</p>
-                    <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['city'].hasError('pattern') && businessLocForm.controls['city'].hasError('minlength') && (businessLocForm.controls.city.dirty || businessLocForm.controls.city.touched)">city should be minimum 10 characters</p>
+                    <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['city'].hasError('pattern')&& businessLocForm.controls['city'].hasError('maxlength') && (businessLocForm.controls.city.dirty || businessLocForm.controls.city.touched)">city should not exceed from 100 characters</p>
+                    <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['city'].hasError('pattern') && businessLocForm.controls['city'].hasError('minlength') && (businessLocForm.controls.city.dirty || businessLocForm.controls.city.touched)">city should be minimum 3 characters</p>
                   </span>
                 </div>
             
@@ -422,8 +427,8 @@
                   <span *ngIf="cityArError && businessLocForm.controls['transCity'].errors">
                     <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transCity'].hasError('required') && (businessLocForm.controls.transCity.dirty || businessLocForm.controls.transCity.touched)">{{requiredFieldsOthrLng}}</p>
                     <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transCity'].hasError('pattern') && (businessLocForm.controls.transCity.dirty || businessLocForm.controls.transCity.touched)">يرجى إدخال معلومات صحيحة</p>
-                    <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['transCity'].hasError('pattern') && businessLocForm.controls['transCity'].hasError('maxlength') && (businessLocForm.controls.transCity.dirty || businessLocForm.controls.transCity.touched)">يجب ألا يتجاوز العنوان 200 حرف</p>
-                    <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['transCity'].hasError('pattern') && businessLocForm.controls['transCity'].hasError('minlength') && (businessLocForm.controls.transCity.dirty || businessLocForm.controls.transCity.touched)">يجب أن يكون العنوان 10 حرفًا كحد أدنى</p>
+                    <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['transCity'].hasError('pattern') && businessLocForm.controls['transCity'].hasError('maxlength') && (businessLocForm.controls.transCity.dirty || businessLocForm.controls.transCity.touched)">يجب ألا يتجاوز العنوان 100 حرف</p>
+                    <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['transCity'].hasError('pattern') && businessLocForm.controls['transCity'].hasError('minlength') && (businessLocForm.controls.transCity.dirty || businessLocForm.controls.transCity.touched)">يجب أن يكون العنوان 3 حرفًا كحد أدنى</p>
                   </span>
                 </div>
             
@@ -522,11 +527,15 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label for="13">{{orgNameLabelBaseLanguage}}</label>
+          <small>
+            <img src="../../../../../../../assets/images/icons/icon_info.svg" alt="hint" class="icon-size-16">
+            {{orgHintLabelBaseLanguage}}
+          </small>
           <input id="13" type="text" class="form-control" maxlength="100" (keypress)="textValidation($event)" 
           [ngClass]="{
             'inputError': orgNameError && organizationForm.controls['orgName'].errors,
             'inputErrorRemove': organizationForm.controls['orgName'].value && !orgNameError
-          }"
+            }"
             (focusout)="errorValidate()" (blur)="activeOrgName=false" (focus)="orgNameError=false; activeOrgName=true; inputValidate(13) " (ngModelChange)="onModelChange(activeTransOrgName, activeOrgName, 'transLangOrgName', 'en', 'ar' ,$event)"
             placeholder="Organization Name" formControlName="orgName">
           <span *ngIf="orgNameError && organizationForm.controls['orgName'].errors">
@@ -539,8 +548,12 @@
 
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
-        <div class="form-group dir-otherLanguage">
+        <div class="form-group dir-otherLanguage text-right">
           <label for="14" >{{orgNameLabelOtherLanguage}}</label>
+          <small class="arabicLng">
+            <img src="../../../../../../../assets/images/icons/icon_info.svg" alt="hint" class="icon-size-16">
+            {{orgHintLabelOtherLanguage}}
+          </small>
           <input id="14" type="text" class="form-control" 
           [ngClass]="{
             'inputError': transorgNameError && organizationForm.controls['transLangOrgName'].errors,
@@ -775,7 +788,7 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label class="d-flex justify-content-start">{{socialMedLabelBaseLanguage}}</label>
-          <div class="select-number mt-2" *ngFor="let social of contactInfoForm.get('socialUrl').controls; let i = index">
+          <div class="select-number" *ngFor="let social of contactInfoForm.get('socialUrl').controls; let i = index">
             <div class="input-group-prepend">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
@@ -789,8 +802,8 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control select-country-code" [formControlName] = "i"
-                [(ngModel)]="socialSites"  maxlength="100" placeholder="www.company.com" />
+              <input type="text" class="form-control select-country-code" formControlName="{{i}}"
+                [(ngModel)]="socialSites"  maxlength="100" placeholder="www.company.com" (focus)="inputValidate(19)" />
 
               <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" 
                *ngIf="i > 0" class="pointer icon-size-16 social-link-del" (click)="removeSocialSite(i)">  
@@ -802,8 +815,8 @@
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group">
-          <label class="d-flex justify-content-end arabicLng">{{socialMedLabelOtherLanguage}}</label>
-          <div class="select-number mt-2" *ngFor="let social of contactInfoForm.get('socialUrl').controls; let i = index">
+          <label class="arabicLng text-right">{{socialMedLabelOtherLanguage}}</label>
+          <div class="select-number" *ngFor="let social of contactInfoForm.get('socialUrl').controls; let i = index" >
             <div class="input-group-prepend">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
@@ -817,8 +830,9 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control select-country-code" [formControlName] = "i" [(ngModel)]="socialSites"
-                maxlength="100" placeholder="www.company.com" />
+
+              <input type="text" class="form-control select-country-code" formControlName="{{i}}" [(ngModel)]="socialSites"
+                maxlength="100" placeholder="www.company.com" (focus)="inputValidate(19)" />
 
                 <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" *ngIf="i > 0" class="pointer icon-size-16 social-link-del"
                   (click)="removeSocialSite(i)">
@@ -829,12 +843,12 @@
       </div>
     </div>
 
-    <div class="add-more">
+    <!-- <div class="add-more">
         <a href="javascript:;" (click)="addmoreSocialLink()">
         <img src="../../../assets/images/icons/icon_add.svg" alt="icons" class="mr-2 icon-size-16"> 
          <span>{{moreAccLabelBaseLanguage}}</span> / <span>{{moreAccLabelOtherLanguage}}</span>
         </a> 
-    </div>
+    </div> -->
 
     <div class="contact-btn">
       <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length || validateDates()">

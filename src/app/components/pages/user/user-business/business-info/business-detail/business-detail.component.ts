@@ -14,6 +14,7 @@ import { CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear } from '../../../
 import { UserBusinessService } from '../../user-business.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DocumentUpload } from '../../../../../../interfaces/document.interface';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-business-detail',
@@ -24,6 +25,9 @@ import { DocumentUpload } from '../../../../../../interfaces/document.interface'
 export class BusinessDetailComponent implements OnInit {
 
   @ViewChild('search') public searchElement: ElementRef;
+  @ViewChild('selectService') public serviceMode: ElementRef;
+  @ViewChild('tradeDoc') public tradeDoc: ElementRef;
+
   public debounceInput: Subject<string> = new Subject();
   public requiredFields: string = "This field is required";
   public requiredFieldsOthrLng: string = "هذه الخانة مطلوبه";
@@ -306,6 +310,8 @@ export class BusinessDetailComponent implements OnInit {
   public uploadlogoLabelOtherLanguage;
   public orgNameLabelBaseLanguage;
   public orgNameLabelOtherLanguage;
+  public orgHintLabelBaseLanguage;
+  public orgHintLabelOtherLanguage;
   public orgTypeLabelBaseLanguage;
   public orgTypeLabelOtherLanguage;
   public conDetailLabelBaseLanguage;
@@ -400,8 +406,8 @@ export class BusinessDetailComponent implements OnInit {
       transAddress: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       address2: new FormControl(null, [Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       transAddress2: new FormControl(null, [Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
-      city: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
-      transCity: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),  
+      city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      transCity: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),  
       poBoxNo: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
       poBoxNoAr: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(16), Validators.minLength(4)]),
     });
@@ -510,6 +516,10 @@ export class BusinessDetailComponent implements OnInit {
           else if (element.keyCode == "lbl_UploadLogo") {
             this.uploadlogoLabelBaseLanguage = element.baseLang;
             this.uploadlogoLabelOtherLanguage = element.otherLang;
+          }
+          else if (element.keyCode == "lbl_OrganizationTextHint") {
+            this.orgHintLabelBaseLanguage = element.baseLang;
+            this.orgHintLabelOtherLanguage = element.otherLang;
           }
           else if (element.keyCode == "lbl_OrganizationName") {
             this.orgNameLabelBaseLanguage = element.baseLang;
@@ -1647,6 +1657,8 @@ export class BusinessDetailComponent implements OnInit {
     if ((this.serviceIds && !this.serviceIds.length) || (i == this.serviceIds.length)) {
       selectedItem.add('active');
       this.serviceIds.push(obj);
+      this.glowElement();
+      
     }
     console.log(this.serviceIds);
 
@@ -1716,7 +1728,7 @@ export class BusinessDetailComponent implements OnInit {
     else if (type == "logo") {
       this.selectedLogo = {}
     }
-    this.removeDoc(id);
+    // this.removeDoc(id);
 
 
   }
@@ -1735,22 +1747,30 @@ export class BusinessDetailComponent implements OnInit {
   }
   inputValidate(id) {
     for (var index = id - 1; index > 0; index--) {
+      divElement = undefined;
       let elem = document.getElementById(index.toString()) as any;
       if (index <= 3){
         var datanumber = index;
       }
+      if (index >= 4) {
+        this.glowElement();
+      }
+      if (index == 3 || index == 4 || index == 7 || index == 8 || index == 19 || index == 20) continue;
+    
       if (elem.nodeName == 'DIV') {
+        var divElement = elem;
         elem = elem.children[1];
       }
       if (!elem && !this.showTranslatedLangSide && index % 2 == 0) continue;
       let value = elem.value;
       if (!value || value == "undefined") {
         // this.regForm.controls[elem.name].errors=true;
-        elem.classList.add('inputError');
+        (divElement && divElement.nodeName == 'DIV')? divElement.classList.add('inputError'):elem.classList.add('inputError');
       }
       else {
         // this.regForm.controls[elem.name].errors=false;
-        elem.classList.remove('inputError');
+        (divElement && divElement.nodeName == 'DIV') ? divElement.classList.remove('inputError') : elem.classList.remove('inputError');
+        
       }
     
     }
@@ -1758,11 +1778,31 @@ export class BusinessDetailComponent implements OnInit {
       this.issueExpirySelectborder();
     }
   }
+  
 
+  glowElement(){
+
+  let mainELement = this.serviceMode.nativeElement.parentElement.parentElement.children;
+    if(!this.serviceIds.length){
+      for (let index = 0; index < mainELement.length; index++) {
+        mainELement[index].children[0].classList.add('glowElement');
+      }
+    }
+    else {
+      for (let index = 0; index < mainELement.length; index++) {
+        if (mainELement[index].children[0].classList.contains('glowElement')){
+          mainELement[index].children[0].classList.remove('glowElement');
+      }
+      }
+    }
+    (!this.selectedLicense || this.selectedLicense && !this.selectedLicense.fileName)?
+      this.tradeDoc.nativeElement.classList.add('glowElement') : this.tradeDoc.nativeElement.classList.remove('glowElement');
+
+  }
 
   issueExpirySelectborder(){
-    for (var index = 100; index > 12; index++) {
-      if(index == 112) return;
+    for (var index = 100; index < 112; index++) {
+
       let elem = document.getElementById(index.toString()) as any;
       if (!elem && !this.showTranslatedLangSide) continue;
       let value = elem.value;
@@ -1831,6 +1871,7 @@ export class BusinessDetailComponent implements OnInit {
           // console.log('you file content:', selectedFile);
           if (type === 'license') {
             this.selectedLicense = selectedFile;
+            this.glowElement();
             this.uploadDocx(this.selectedLicense, 'TRADE_LICENSE');
           }
 
@@ -1878,15 +1919,15 @@ export class BusinessDetailComponent implements OnInit {
     this._userbusinessService.docUpload(object).subscribe((res:any)=>{
       if(res.returnStatus='Success'){
         if (type == 'TRADE_LICENSE'){
-          this.selectedLicense.docId = JSON.parse(res.returnText)[0].DocumentID;
+          this.selectedLicense.docId = JSON.parse(res.returnText).DocumentID;
         }
         else{
-          this.selectedLogo.docId = JSON.parse(res.returnText[0].DocumentID);
+          this.selectedLogo.docId = JSON.parse(res.returnText).DocumentID;
         }
         this._toastr.success("File upload successfully", "");
       }
       else{
-        this._toastr.success("Error occured on upload", "");
+        this._toastr.error("Error occured on upload", "");
       }
     },(err:HttpErrorResponse)=>{
       console.log(err);
@@ -1908,10 +1949,10 @@ export class BusinessDetailComponent implements OnInit {
 
   selectedSocialLink(obj) {
     console.log(obj)
-    this.selectedSocialsite = {
-      mediaId: obj.socialMediaPortalsID,
-      // mediaUrl: Object.assign('', this.socialSites)
-    }
+    // this.selectedSocialsite = {
+    //   mediaId: obj.socialMediaPortalsID,
+    //   // mediaUrl: Object.assign('', this.socialSites)
+    // }
     // this.socialLinkValidate();
   }
 

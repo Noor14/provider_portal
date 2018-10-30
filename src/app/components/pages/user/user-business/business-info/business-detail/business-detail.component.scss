@@ -207,3 +207,9 @@
         top: 15px;
     }
 }
+
+.glowElement {
+    -webkit-animation: 2s linear infinite blink;
+    animation: 2s linear infinite blink;
+    -ms-animation: 2s linear infinite blink;
+}

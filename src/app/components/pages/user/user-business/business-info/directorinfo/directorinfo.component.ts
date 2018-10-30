@@ -629,7 +629,7 @@ export class DirectorinfoComponent implements OnInit {
 
     if (event) {
       try {
-        for (let index = 0; index < event.files.length; index++) {
+        for (var index = 0; index < event.files.length; index++) {
           let reader = new FileReader();
           const element = event.files[index];
           let file = element
@@ -655,7 +655,12 @@ export class DirectorinfoComponent implements OnInit {
 
         }
       }
-        
+        if (index == event.files.length){
+          this.uploadDocx(this.selectedDocx);
+        } 
+        // else if (index == event.files.length && this.selectedDocx.length){
+        //   this.uploadDocx(this.selectedDocx.slice(-1));
+        // }
       }
       catch (err) {
         console.log(err);
@@ -663,13 +668,68 @@ export class DirectorinfoComponent implements OnInit {
     }
 
   }
+
+  uploadDocx(selectedFile) {
+    let object = this.docTypes.find(Obj => Obj.DocumentTypeID == this.docxId);
+    object.UserID = this.userProfile.userID;
+    object.ProviderID = this.userProfile.providerID;
+    object.DocumentFileContent = null;
+    object.DocumentName = null;
+    object.DocumentUploadedFileType = null;
+    object.FileContent = selectedFile.map(element => {
+      return {
+        documentFileName: element.fileName,
+        documentFile: element.fileBaseString,
+        documentUploadedFileType: element.fileType.split('/').pop()
+      }
+    });
+   
+    this._userbusinessService.docUpload(object).subscribe((res: any) => {
+      if (res.returnStatus = 'Success') {
+ 
+        this._toastr.success("File upload successfully", "");
+      }
+      else {
+        this._toastr.error("Error occured on upload", "");
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
+
+
+  }
+
+  removeDoc(id) {
+    this._userbusinessService.removeDoc([id.toString()]).subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
+        this._toastr.success('Remove selected document succesfully', "");
+      }
+      else {
+        this._toastr.error('Error Occured', "");
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
+  }
+
+
+
+
+
+
+
+
+
+
+
+
   sanitize(url: string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   submitBusinessInfo(type) {
 
-    const { license, logo } = this.formOneObj;
+    // const { license, logo } = this.formOneObj;
 
     // this.uploadDocs.forEach(docObj => {
     //   if (docObj.BusinessLogic === 'COMPANY_LOGO' && logo && logo.fileBaseString) {
@@ -758,7 +818,7 @@ export class DirectorinfoComponent implements OnInit {
         organizationTypeID: this.formOneObj.busiType.ID,
         organizationName: this.formOneObj.organizationForm.orgName,
         addressLine1: this.formOneObj.businessLocForm.address,
-        addressLine2: this.formOneObj.businessLocForm.addres2,
+        addressLine2: this.formOneObj.businessLocForm.address2,
         city: this.formOneObj.businessLocForm.city,
         poBox: this.formOneObj.businessLocForm.poBoxNo,
         telephone: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.phone,
