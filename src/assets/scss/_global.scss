@@ -403,6 +403,7 @@ input[type="radio"]:focus+label>span {
     border: 1px solid $provider-input-border;
     border-radius: 4px !important;
     height: 48px !important;
+    line-height: 48px !important;
     &::placeholder {
       color: $place-holder-color;
       opacity: 1;
