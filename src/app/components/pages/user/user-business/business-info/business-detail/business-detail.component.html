@@ -338,8 +338,9 @@
       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="address">{{addLabelOtherLanguage}}</label>
-          <input id="6" type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transAddress"
-            (focusout)="errorValidate()" (focus)="addressArError = false;  inputValidate(6)" 
+          <input id="6" type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" 
+           formControlName="transAddress" (focusout)="errorValidate()" 
+           (focus)="addressArError = false;  inputValidate(6)" 
             [ngClass]="{
               'inputError': addressArError && businessLocForm.controls['transAddress'].errors,
                'inputErrorRemove': businessLocForm.controls['transAddress'].value && !addressArError
@@ -356,11 +357,12 @@
       </div>
     </div>
         <div class="row ">
-          <div class="col-lg-6 col-md-6 col-sm-12 ">
+          <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="form-group">
               <label for="address">{{addLabel2BaseLanguage}}</label>
-              <input id="7" type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200" formControlName="address"
-                (focusout)="errorValidate()" (focus)="addressError = false; inputValidate(7) " [ngClass]="{
+              <input id="7" type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200"
+               formControlName="address2" (focusout)="errorValidate()" 
+               (focus)="addressError = false; inputValidate(7)" [ngClass]="{
                       'inputError': addressError2 && businessLocForm.controls['address2'].errors,
                       'inputErrorRemove': businessLocForm.controls['address2'].value && !addressError2
                     }" [(ngModel)]="addressAr2">
@@ -376,7 +378,7 @@
           <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
             <div class="form-group dir-otherLanguage">
               <label for="address">{{addLabel2OtherLanguage}}</label>
-              <input id="8" type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transAddress"
+              <input id="8" type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transAddress2"
                 (focusout)="errorValidate()" (focus)="addressArError = false;  inputValidate(8)" [ngClass]="{
                       'inputError': addressArError2 && businessLocForm.controls['transAddress2'].errors,
                        'inputErrorRemove': businessLocForm.controls['transAddress2'].value && !addressArError2

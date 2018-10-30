@@ -1762,7 +1762,7 @@ export class BusinessDetailComponent implements OnInit {
 
   issueExpirySelectborder(){
     for (var index = 100; index > 12; index++) {
-
+      if(index == 112) return;
       let elem = document.getElementById(index.toString()) as any;
       if (!elem && !this.showTranslatedLangSide) continue;
       let value = elem.value;

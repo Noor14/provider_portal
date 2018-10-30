@@ -778,8 +778,8 @@ export class DirectorinfoComponent implements OnInit {
         addressLine2: this.formOneObj.businessLocForm.transAddress2,
         city: this.formOneObj.businessLocForm.transCity,
         poBox: this.formOneObj.businessLocForm.poBoxNoAr,
-        telephone: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.transLangPhone,
-        faxNo: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.transLangFax,
+        telephone: this.formOneObj.OtherLangPhoneCode + this.formOneObj.contactInfoForm.transLangPhone,
+        faxNo: this.formOneObj.OtherLangPhoneCode + this.formOneObj.contactInfoForm.transLangFax,
         managementInfo: (type == 'skip') ? null : objMangInfo.otherLang,
         directorInfo: (type == 'skip') ? null : objDirInfo.otherLang,
           
