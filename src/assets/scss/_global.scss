@@ -364,140 +364,65 @@ input[type="radio"]:focus+label>span {
 
   &.dir-otherLanguage {
     select {
-        border-color: $provider-input-border !important;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        -o-appearance: none;
-        background: url("assets/images/select-arrow.png") no-repeat center right 10px $color-white;
-        &::-ms-expand {
-            display: none;
-        }
-        &:focus {
-            box-shadow: none !important;
-            border-color: #80bdff !important;
-        }
+      background-position: center left 10px;
     }
-    p.inputError {
-        position: absolute;
-        line-height: 1;
-        margin-top: 6px;
-        color: $danger-color;
-        font-size: $font-size-medium - 0.025;
+  }
+  select {
+    border-color: $provider-input-border !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    background: url("assets/images/select-arrow.png") no-repeat center right 10px $color-white;
+    &::-ms-expand {
+      display: none;
     }
-    label {
-        margin-top: 0.5rem;
-        margin-bottom: 0.5rem;
-        font-family: $font-proxima;
-        font-size: $font-size-large;
-        font-weight: $font-weight-mid;
-        color: $text-color-default;
+  
+    
+    &:focus {
+      box-shadow: none !important;
+      border-color: #80bdff !important;
     }
-    input {
-        outline: 0;
-        border: 1px solid $provider-input-border;
-        border-radius: 4px !important;
-        height: 48px !important;
-        line-height: 48px;
-        &::placeholder {
-            color: $place-holder-color;
-            opacity: 1;
-            font-family: $font-proxima;
-            font-size: 14px;
-        }
-        &:-ms-input-placeholder {
-            color: $place-holder-color;
-            opacity: 1;
-            font-family: $font-proxima;
-        }
-        &::-ms-input-placeholder {
-            color: $place-holder-color;
-            opacity: 1;
-            font-family: $font-proxima;
-        }
-        &::-webkit-input-placeholder {
-            color: $place-holder-color;
-            opacity: 1;
-            font-family: $font-proxima;
-        }
-        &.inputError {
-            border: 1px solid $danger-color
-        }
-        &:focus {
-            box-shadow: none !important;
-        }
+  }
+  p.inputError {
+    position: absolute;
+    line-height: 1;
+    margin-top: 6px;
+    color: $danger-color;
+    font-size: $font-size-medium - 0.025;
+  }
+  label {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-family: $font-proxima;
+    font-size: $font-size-large;
+    font-weight: $font-weight-mid;
+    color: $text-color-default;
+  }
+  input {
+    outline: 0;
+    border: 1px solid $provider-input-border;
+    border-radius: 4px !important;
+    height: 48px !important;
+    &::placeholder {
+      color: $place-holder-color;
+      opacity: 1;
+      font-family: $font-proxima;
+      font-size: 14px;
     }
-    .select-number {
-        .input-group-prepend {
-            background: #fff;
-            border-radius: 4px;
-            border: 1px solid $provider-input-border;
-            input.select-country-code {
-                background: none;
-                border: none;
-                width: 65%;
-                padding-left: 34px;
-            }
-            .select-country-list {
-                margin-left: 19px;
-            }
-            .phone {
-                span {
-                    font-size: $font-size-medium;
-                }
-            }
-            .country-section {
-                border: 0px;
-                top: 29px !important;
-                left: -20px !important;
-                background: transparent;
-                ul {
-                    border: 0px;
-                    max-height: 200px;
-                    overflow-y: scroll;
-                    li.list-group-item {
-                        padding-top: 0.45rem;
-                        padding-bottom: 0.45rem;
-                        border: none;
-                        cursor: pointer;
-                        img {
-                            border: 1px solid $grey-border;
-                        }
-                    }
-                }
-            }
-        }
-        .input-group-append {
-            width: 100%;
-            @extend .input-group-prepend;
-            input[type="text"] {
-                padding-left: .75rem;
-                padding-right: 34px;
-            }
-            img {
-                margin-right: 0px;
-                margin-left: 5px;
-            }
-            .dropdown {
-                margin-left: 0;
-                margin-right: 12px;
-                top: 12px;
-            }
-            .country-section {
-                left: 0 !important;
-                right: -12px !important;
-                ul {
-                    padding-right: 0;
-                }
-            }
-            .select-country-list {
-                .dropdown-toggle {
-                    &:after {
-                        right: auto;
-                        left: -19px;
-                    }
-                }
-            }
-        }
+    &:-ms-input-placeholder {
+      color: $place-holder-color;
+      opacity: 1;
+      font-family: $font-proxima;
+    }
+    &::-ms-input-placeholder {
+      color: $place-holder-color;
+      opacity: 1;
+      font-family: $font-proxima;
+    }
+    &::-webkit-input-placeholder {
+      color: $place-holder-color;
+      opacity: 1;
+      font-family: $font-proxima;
     }
     &.inputError {
       border: 1px solid $danger-color
@@ -586,15 +511,15 @@ input[type="radio"]:focus+label>span {
 // }
 .input-group-prepend,
 .input-group-append {
-    position: relative;
-    .dropdown {
-        top: 12px;
-    }
-    &.inputError {
-        border: 1px solid $danger-color !important;
-        left: auto;
-        right: auto;
-    }
+  position: relative;
+  .dropdown {
+    top: 12px;
+  }
+  &.inputError {
+    border: 1px solid $danger-color !important;
+    left: auto;
+    right: auto;
+  }
 }
 
 .select-number {
