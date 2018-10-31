@@ -10,7 +10,7 @@ import { } from '@types/googlemaps';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../../../../../services/common.service';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../../directives/ng-files';
-import { CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear } from '../../../../../../constants/globalFunctions'
+import { CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear, patternValidator } from '../../../../../../constants/globalFunctions'
 import { UserBusinessService } from '../../user-business.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DocumentUpload } from '../../../../../../interfaces/document.interface';
@@ -423,7 +423,7 @@ export class BusinessDetailComponent implements OnInit {
       transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
       fax: new FormControl(null, [Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
       transLangFax: new FormControl(null, [Validators.minLength(7), Validators.maxLength(13)]),
-      socialUrl: new FormArray([new FormControl(null)]),
+      socialUrl: new FormArray([new FormControl(null, [patternValidator(URL_REGEX)])]),
       // socialUrlOther: new FormArray(null),
 
     });
@@ -2033,12 +2033,8 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   selectedSocialLink(obj) {
-    console.log(obj)
-    // this.selectedSocialsite = {
-    //   mediaId: obj.socialMediaPortalsID,
-    //   // mediaUrl: Object.assign('', this.socialSites)
-    // }
-    // this.socialLinkValidate();
+    this.selectedSocialsite = obj;
+    this.socialLinkValidate();
   }
 
 }
@@ -2050,3 +2046,5 @@ export interface DocumentFile {
   fileUrl: string
   docId?: string
 }
+
+export const URL_REGEX: RegExp = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/

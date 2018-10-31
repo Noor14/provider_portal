@@ -20,6 +20,15 @@ export const ValidateEmail = (email: string): boolean => {
 }
 
 
+export function patternValidator(regexp: RegExp): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } => {
+    const value = control.value;
+    if (value === '') {
+      return null;
+    }
+    return !regexp.test(value) ? { 'patternInvalid': { regexp } } : null;
+  };
+}
 
 export function leapYear(year) {
   return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
