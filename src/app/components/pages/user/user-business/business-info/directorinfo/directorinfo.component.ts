@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { element } from 'protractor';
 import { DocumentUpload } from '../../../../../../interfaces/document.interface';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { baseApi } from '../../../../../../constants/base.url';
 
 
 @Component({
@@ -146,6 +146,7 @@ export class DirectorinfoComponent implements OnInit {
 
   public formOneObj;
   private selectid;
+  private docTypeId = null;
   // public uploadDocs: Array<DocumentUpload> = []
 
   constructor(
@@ -334,6 +335,7 @@ export class DirectorinfoComponent implements OnInit {
     this.docxId = obj.DocumentTypeID;
     
     if (!this.selectedDocx.length){
+    this.docTypeId = null;
     for (let i = 0; i < elem.length; i++) {
       if (elem[i].children[0].id == id) {
         this.selectid = id;
@@ -662,7 +664,6 @@ export class DirectorinfoComponent implements OnInit {
             this._toastr.error('Please select only two file to upload', '');
             return;
           } else if (this.selectedDocx && this.selectedDocx.length < 2){
-            this.selectedDocx.push(selectedFile);
             this.uploadDocx(selectedFile);
             
           }
@@ -693,6 +694,7 @@ export class DirectorinfoComponent implements OnInit {
     object.DocumentFileContent = null;
     object.DocumentName = null;
     object.DocumentUploadedFileType = null;
+    object.DocumentID = this.docTypeId;
 
     object.FileContent = [{
         documentFileName: selectedFile.fileName,
@@ -702,7 +704,13 @@ export class DirectorinfoComponent implements OnInit {
    
     this._userbusinessService.docUpload(object).subscribe((res: any) => {
       if (res.returnStatus = 'Success') {
- 
+        let resObj = JSON.parse(res.returnText);
+        this.docTypeId = resObj.DocumentID;
+        let fileObj= JSON.parse(resObj.DocumentFile);
+        fileObj.forEach(element => {
+          element.DocumentFile = baseApi.split("/api").shift() + element.DocumentFile;
+          });
+        this.selectedDocx = fileObj;
         this._toastr.success("File upload successfully", "");
       }
       else {
@@ -712,13 +720,16 @@ export class DirectorinfoComponent implements OnInit {
       console.log(err);
     })
 
-
   }
 
-  removeDoc(id) {
-    this._userbusinessService.removeDoc([id.toString()]).subscribe((res: any) => {
+  removeDoc(obj, index) {
+    obj.DocumentFile = obj.DocumentFile.split(baseApi.split("/api").shift()).pop();
+    obj.DocumentID = this.docTypeId;
+    this._userbusinessService.removeDoc(obj).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this._toastr.success('Remove selected document succesfully', "");
+        this.selectedDocx.splice(index, 1);
+        
       }
       else {
         this._toastr.error('Error Occured', "");
@@ -728,69 +739,12 @@ export class DirectorinfoComponent implements OnInit {
     })
   }
 
-
-
-
-
-
-
-
-
-
-
-
   sanitize(url: string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   submitBusinessInfo(type) {
 
-    // const { license, logo } = this.formOneObj;
-
-    // this.uploadDocs.forEach(docObj => {
-    //   if (docObj.BusinessLogic === 'COMPANY_LOGO' && logo && logo.fileBaseString) {
-
-    //     docObj.DocumentFileContent = null;
-    //     docObj.DocumentName = null;
-    //     docObj.DocumentUploadedFileType = null;
-    //     docObj.FileContent = [
-    //       {
-    //       documentFileName: logo.fileName,
-    //       documentFile: logo.fileBaseString,
-    //       documentUploadedFileType: logo.fileType
-    //       }
-    //     ]
-    //   }
-
-    //   if (docObj.BusinessLogic === 'TRADE_LICENSE') {
-    //     docObj.DocumentFileContent = null;
-    //     docObj.DocumentName = null;
-    //     docObj.DocumentUploadedFileType = null;
-    //     docObj.FileContent = [
-    //       {
-    //         documentFileName: license.fileName,
-    //         documentFile: license.fileBaseString,
-    //         documentUploadedFileType: license.fileType
-    //       }
-    //     ]
-    //     docObj.MetaInfoKeysDetail.forEach(element => {
-    //       if (element.KeyName == "VAT"){
-    //         element.KeyValue = this.formOneObj.informationForm.vatNo
-    //       }
-    //       else if (element.KeyName == "LCNC"){
-    //         element.KeyValue = this.formOneObj.informationForm.licenseNo
-    //       }
-    //       else if (element.KeyName == "EXPD") {
-    //         element.KeyValue = this.formOneObj.expiryDate
-    //       }
-    //       else if (element.KeyName == "ISUE") {
-    //         element.KeyValue = this.formOneObj.issueDate
-    //       }
-
-    //     });
-       
-    //   }
-    // })
     let objMangInfo = {
       baseLang : [{
         jobTitleID: (this.desgType && this.desgType.ID) ? this.desgType.ID : null,
@@ -872,13 +826,8 @@ export class DirectorinfoComponent implements OnInit {
         }
       ],
       providerLogisticServiceList: this.formOneObj.logisticsService,
-      // businessLocation: {
-      //   latitude: this.formOneObj.location.lat.toString(),
-      //   longitude: this.formOneObj.location.lng.toString()
-      // },
-      // doc: this.uploadDocs
-
     };
+    
     loading(true);
 
     this._userbusinessService.submitBusinessInfo(obj).subscribe((res: any) => {
@@ -897,8 +846,8 @@ export class DirectorinfoComponent implements OnInit {
 
   }
 
-  removeSelectedDocx(index) {
-    this.selectedDocx.splice(index, 1);
+  removeSelectedDocx(index, file) {
+    this.removeDoc(file, index)
   }
 
 }

@@ -248,28 +248,28 @@
       </div>
 
       <div class="documentInfo d-flex flex-column mt-3" #tradeDoc 
-      [ngClass]="{'removeBorder': selectedLicense && selectedLicense.fileName}" >
-        <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLicense && selectedLicense.fileName">
+      [ngClass]="{'removeBorder': selectedLicense && selectedLicense.DocumentFileName}" >
+        <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLicense && selectedLicense.DocumentFileName">
           <div class="fileDesc">
             <!-- <img src="{{selectedLicense.fileUrl}}" alt=""> -->
-            <a [href]="sanitize(selectedLicense.fileUrl)" download="{{selectedLicense.fileName}}">
-              <img *ngIf="selectedLicense.fileType == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs"
+            <a [href]="selectedLicense.DocumentFile" target="_blank">
+              <img *ngIf="selectedLicense.DocumentUploadedFileType == 'pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs"
                 class="fileIcon mr-3">
-              <img *ngIf="selectedLicense.fileType == 'image/png' || selectedLicense.fileType == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg"
+              <img *ngIf="selectedLicense.DocumentUploadedFileType == 'png' || selectedLicense.DocumentUploadedFileType == 'jpeg'" src="../../../../../../assets/images/icons/icon_img.svg"
                 alt="img" class="fileIcon mr-3">
-              <img *ngIf="selectedLicense.fileType == 'image/docx'" src="../../../../../../assets/images/icons/icon_docx.svg" alt="img"
+              <img *ngIf="selectedLicense.DocumentUploadedFileType == 'docx'" src="../../../../../../assets/images/icons/icon_docx.svg" alt="img"
                 class="fileIcon mr-3">
-              <span>{{selectedLicense.fileName}}</span>
+              <span>{{selectedLicense.DocumentFileName}}</span>
             </a>
           </div>
           <div class="del">
-            <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx('license', selectedLicense.docId)">
+            <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx('license', selectedLicense)">
           </div>
         </div>
 
         <div class="file-uploader" 
          
-         *ngIf="!selectedLicense || (selectedLicense && !selectedLicense.fileName)">
+         *ngIf="!selectedLicense || (selectedLicense && !selectedLicense.DocumentFileName)">
           <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'license')" [configId]="'docConfig'">
             <img src="../../../assets/images/icons/manager-icon.png">
             <p class="m-0 mt-3"> Drag here or
@@ -493,25 +493,28 @@
     <div class="row">
       <div class="col-12">
         <div class="form-group">
-          <label for="address">{{uploadlogoLabelBaseLanguage}}</label>
-          <div class="documentInfo d-flex flex-column mt-3" [ngClass]="{'removeBorder': selectedLogo && selectedLogo.fileName}">
-            <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLogo && selectedLogo.fileName">
+          <label for="logo">
+            <span>{{uploadlogoLabelBaseLanguage}}</span>
+            <span *ngIf="showTranslatedLangSide" class="arabicLng">{{uploadlogoLabelOtherLanguage}}</span> 
+          </label>
+          <div class="documentInfo d-flex flex-column mt-3" [ngClass]="{'removeBorder': selectedLogo && selectedLogo.DocumentFileName}">
+            <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedLogo && selectedLogo.DocumentFileName">
               <div class="fileDesc">
-                <a [href]="sanitize(selectedLogo.fileUrl)" download="{{selectedLogo.fileName}}">
-                  <img *ngIf="selectedLogo.fileType == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs"
+                <a [href]="selectedLogo.DocumentFile" target="_blank">
+                  <img *ngIf="selectedLogo.DocumentUploadedFileType == 'pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs"
                     class="fileIcon mr-3">
-                  <img *ngIf="selectedLogo.fileType == 'image/png' || selectedLogo.fileType == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg"
+                  <img *ngIf="selectedLogo.DocumentUploadedFileType == 'png' || selectedLogo.DocumentUploadedFileType == 'jpeg'" src="../../../../../../assets/images/icons/icon_img.svg"
                     alt="img" class="fileIcon mr-3">
-                  <img *ngIf="selectedLogo.fileType == 'image/docx'" src="../../../../../../assets/images/icons/icon_docx.svg" alt="img" class="fileIcon mr-3">
-                  <span>{{selectedLogo.fileName}}</span>
+                  <img *ngIf="selectedLogo.DocumentUploadedFileType == 'docx'" src="../../../../../../assets/images/icons/icon_docx.svg" alt="img" class="fileIcon mr-3">
+                  <span>{{selectedLogo.DocumentFileName}}</span>
                 </a>
               </div>
               <div class="del">
-                <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx('logo', selectedLogo.docId)">
+                <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx('logo', selectedLogo)">
               </div>
             </div>
 
-            <div class="file-uploader" *ngIf="!selectedLogo || (selectedLogo && !selectedLogo.fileName)">
+            <div class="file-uploader" *ngIf="!selectedLogo || (selectedLogo && !selectedLogo.DocumentFileName)">
               <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'logo')" [configId]="'docConfig'">
                 <img src="../../../assets/images/icons/manager-icon.png">
                 <p class="m-0 mt-3"> Drag here or
@@ -527,17 +530,14 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label for="13">{{orgNameLabelBaseLanguage}}</label>
-          <small>
-            <img src="../../../../../../../assets/images/icons/icon_info.svg" alt="hint" class="icon-size-16">
-            {{orgHintLabelBaseLanguage}}
-          </small>
+      
           <input id="13" type="text" class="form-control" maxlength="100" (keypress)="textValidation($event)" 
           [ngClass]="{
             'inputError': orgNameError && organizationForm.controls['orgName'].errors,
             'inputErrorRemove': organizationForm.controls['orgName'].value && !orgNameError
             }"
             (focusout)="errorValidate()" (blur)="activeOrgName=false" (focus)="orgNameError=false; activeOrgName=true; inputValidate(13) " (ngModelChange)="onModelChange(activeTransOrgName, activeOrgName, 'transLangOrgName', 'en', 'ar' ,$event)"
-            placeholder="Organization Name" formControlName="orgName">
+            placeholder="{{orgHintLabelBaseLanguage}}" formControlName="orgName">
           <span *ngIf="orgNameError && organizationForm.controls['orgName'].errors">
             <p class="inputError animated fadeIn" *ngIf="organizationForm.controls['orgName'].hasError('required') && (organizationForm.controls.orgName.dirty || organizationForm.controls.orgName.touched)">{{requiredFields}}</p>
             <p class="inputError animated fadeIn" *ngIf="!organizationForm.controls['orgName'].hasError('pattern') && organizationForm.controls['orgName'].hasError('minlength') && (organizationForm.controls.orgName.dirty || organizationForm.controls.orgName.touched)">Org name must be at least 4 characters long</p>
@@ -550,16 +550,13 @@
       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage text-right">
           <label for="14" >{{orgNameLabelOtherLanguage}}</label>
-          <small class="arabicLng">
-            <img src="../../../../../../../assets/images/icons/icon_info.svg" alt="hint" class="icon-size-16">
-            {{orgHintLabelOtherLanguage}}
-          </small>
+       
           <input id="14" type="text" class="form-control" 
           [ngClass]="{
             'inputError': transorgNameError && organizationForm.controls['transLangOrgName'].errors,
             'inputErrorRemove': organizationForm.controls['transLangOrgName'].value && !transorgNameError}"
             (focusout)="errorValidate()" (blur)="activeTransOrgName=false" (focus)="transorgNameError=false; activeTransOrgName=true; inputValidate(14)"
-            (ngModelChange)="onTransModel(activeOrgName, activeTransOrgName, 'orgName' ,$event)" placeholder="اسم المنظمة"
+            (ngModelChange)="onTransModel(activeOrgName, activeTransOrgName, 'orgName' ,$event)" placeholder="{{orgHintLabelOtherLanguage}}"
             formControlName="transLangOrgName">
           <span *ngIf="transorgNameError && organizationForm.controls['transLangOrgName'].errors">
             <p class="inputError animated fadeIn" *ngIf="organizationForm.controls['transLangOrgName'].hasError('required') && (organizationForm.controls.transLangOrgName.dirty || organizationForm.controls.transLangOrgName.touched)">{{requiredFieldsOthrLng}}</p>
@@ -851,7 +848,7 @@
     </div> -->
 
     <div class="contact-btn">
-      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.fileName || !this.serviceIds.length || validateDates()">
+      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()" [disabled]="informationForm.invalid || businessLocForm.invalid || organizationForm.invalid || contactInfoForm.invalid || !selectedLicense.DocumentFileName || !this.serviceIds.length || validateDates()">
         <span>{{btnLabelBaseLanguage}} </span>
         <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
       </button> 

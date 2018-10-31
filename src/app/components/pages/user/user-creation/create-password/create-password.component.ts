@@ -142,6 +142,7 @@ export class CreatePasswordComponent implements OnInit {
         this._router.navigate(['/business-profile']);
       }
       else if (res.returnStatus == "Error"){
+        this._toast.success(res.returnText, '');
         loading(false);
       }
     },(err: HttpErrorResponse) => {

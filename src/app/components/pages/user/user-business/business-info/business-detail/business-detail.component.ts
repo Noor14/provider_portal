@@ -15,6 +15,7 @@ import { UserBusinessService } from '../../user-business.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DocumentUpload } from '../../../../../../interfaces/document.interface';
 import { element } from 'protractor';
+import { baseApi } from '../../../../../../constants/base.url';
 
 @Component({
   selector: 'app-business-detail',
@@ -1721,20 +1722,21 @@ export class BusinessDetailComponent implements OnInit {
 
   }
 
-  removeSelectedDocx(type, id) {
+  removeSelectedDocx(type, obj) {
     if (type == "license") {
       this.selectedLicense = {};
     }
     else if (type == "logo") {
       this.selectedLogo = {}
     }
-    // this.removeDoc(id);
+    this.removeDoc(obj);
 
 
   }
 
-  removeDoc(id){
-    this._userbusinessService.removeDoc([id.toString()]).subscribe((res: any) => {
+  removeDoc(obj) {
+    obj.DocumentFile = obj.DocumentFile.split(baseApi.split("/api").shift()).pop();
+    this._userbusinessService.removeDoc(obj).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this._toastr.success('Remove selected document succesfully', "");
       }
@@ -1796,7 +1798,7 @@ export class BusinessDetailComponent implements OnInit {
       }
       }
     }
-    (!this.selectedLicense || this.selectedLicense && !this.selectedLicense.fileName)?
+    (!this.selectedLicense || this.selectedLicense && !this.selectedLicense.DocumentFileName)?
       this.tradeDoc.nativeElement.classList.add('glowElement') : this.tradeDoc.nativeElement.classList.remove('glowElement');
 
   }
@@ -1871,14 +1873,11 @@ export class BusinessDetailComponent implements OnInit {
           }
           // console.log('you file content:', selectedFile);
           if (type === 'license') {
-            this.selectedLicense = selectedFile;
-            this.glowElement();
-            this.uploadDocx(this.selectedLicense, 'TRADE_LICENSE');
+            this.uploadDocx(selectedFile, 'TRADE_LICENSE');
           }
 
           else if (type === 'logo') {
-            this.selectedLogo = selectedFile;
-            this.uploadDocx(this.selectedLogo, 'COMPANY_LOGO');
+            this.uploadDocx(selectedFile, 'COMPANY_LOGO');
           }
         }
 
@@ -1919,11 +1918,19 @@ export class BusinessDetailComponent implements OnInit {
 
     this._userbusinessService.docUpload(object).subscribe((res:any)=>{
       if(res.returnStatus='Success'){
+        let resObj = JSON.parse(res.returnText);
+        
         if (type == 'TRADE_LICENSE'){
-          this.selectedLicense.docId = JSON.parse(res.returnText).DocumentID;
+          this.selectedLicense = JSON.parse(resObj.DocumentFile)[0];
+          this.selectedLicense.DocumentFile = baseApi.split("/api").shift() + this.selectedLicense.DocumentFile;
+          this.selectedLicense.DocumentID = resObj.DocumentID;
+          this.glowElement();
         }
         else{
-          this.selectedLogo.docId = JSON.parse(res.returnText).DocumentID;
+          this.selectedLogo = JSON.parse(resObj.DocumentFile)[0];
+          this.selectedLogo.DocumentFile = baseApi.split("/api").shift() + this.selectedLogo.DocumentFile;
+          this.selectedLogo.DocumentID = resObj.DocumentID;
+          
         }
         this._toastr.success("File upload successfully", "");
       }

@@ -322,15 +322,15 @@
                 </div>
                 <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngFor = "let file of selectedDocx ; let i = index">
                   <div class="fileDesc">
-                    <a [href]="sanitize(file.fileUrl)" download="{{file.fileName}}">
-                      <img *ngIf="file.fileType == 'application/pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
-                      <img *ngIf="file.fileType == 'image/png' || file.fileType == 'image/jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
-                      <img *ngIf="file.fileType == 'image/docx'" src="../../../../../../assets/images/icons/icon_docx.svg" alt="img" class="fileIcon mr-3">
-                      <span>{{file.fileName}}</span>
+                    <a [href]="file.DocumentFile" target="_blank">
+                      <img *ngIf="file.DocumentUploadedFileType == 'pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs" class="fileIcon mr-3">
+                      <img *ngIf="file.DocumentUploadedFileType == 'png' || file.DocumentUploadedFileType == 'jpeg'" src="../../../../../../assets/images/icons/icon_img.svg" alt="img" class="fileIcon mr-3">
+                      <img *ngIf="file.DocumentUploadedFileType == 'docx'" src="../../../../../../assets/images/icons/icon_docx.svg" alt="img" class="fileIcon mr-3">
+                      <span>{{file.DocumentFileName}}</span>
                     </a>
                   </div>
                   <div class="del">
-                    <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx(i)">
+                    <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx(i, file)">
                   </div>
                 </div>  
                 
