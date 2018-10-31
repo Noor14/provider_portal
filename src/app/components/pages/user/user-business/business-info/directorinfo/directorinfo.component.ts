@@ -156,10 +156,10 @@ export class DirectorinfoComponent implements OnInit {
     private _toastr: ToastrService,
     private _router: Router,
     private sanitizer: DomSanitizer
-    
+
   ) {
 
- }
+  }
 
   ngOnInit() {
     this.ngFilesService.addConfig(this.sharedConfig, 'config');
@@ -219,11 +219,11 @@ export class DirectorinfoComponent implements OnInit {
 
 
     this._sharedService.jobTitleList.subscribe((state: any) => {
-      if (state){
-      this.jobTypeList = state;
-      this.desgType = this.jobTypeList[0];
-      this.selectedjobDesg = this.desgType.BaseLang;
-      this.selectedjobDesgAr = this.desgType.OtherLang;
+      if (state) {
+        this.jobTypeList = state;
+        this.desgType = this.jobTypeList[0];
+        this.selectedjobDesg = this.desgType.BaseLang;
+        this.selectedjobDesgAr = this.desgType.OtherLang;
       }
     });
 
@@ -232,7 +232,7 @@ export class DirectorinfoComponent implements OnInit {
       this.formOneObj = state;
     });
   }
-  
+
   getLabels() {
     this._sharedService.businessProfileJsonLabels.subscribe((state: any) => {
       if (state) {
@@ -250,7 +250,7 @@ export class DirectorinfoComponent implements OnInit {
             this.statementBaseLanguage = element.baseLang;
             this.statementOtherLanguage = element.otherLang;
           }
-         else if (element.keyCode == "lbl_FirstName") {
+          else if (element.keyCode == "lbl_FirstName") {
             this.firstNameBaseLanguage = element.baseLang;
             this.firstNameOtherLanguage = element.otherLang;
           }
@@ -270,7 +270,7 @@ export class DirectorinfoComponent implements OnInit {
             this.jobtitleLblBaseLanguage = element.baseLang;
             this.jobtitleLblOtherLanguage = element.otherLang;
           }
-          else if (element.keyCode == 'lbl_Identity'){
+          else if (element.keyCode == 'lbl_Identity') {
             this.identityLblBaseLanguage = element.baseLang;
             this.identityLblOtherLanguage = element.otherLang;
           }
@@ -290,29 +290,29 @@ export class DirectorinfoComponent implements OnInit {
             this.textbtnSubmitBaseLanguage = element.baseLang;
             this.textbtnSubmitOtherLanguage = element.otherLang;
           }
-         
+
         });
       }
     });
 
   }
-  
-  panelChanger(event){
-    if(event.panelId == 'directorInfo'){
-       this.panelObjDr = {
-      panelId:event.panelId,
-      openState: event.nextState
+
+  panelChanger(event) {
+    if (event.panelId == 'directorInfo') {
+      this.panelObjDr = {
+        panelId: event.panelId,
+        openState: event.nextState
+      }
     }
+    else {
+      this.panelObj = {
+        panelIdMang: event.panelId,
+        openState: event.nextState
+      }
     }
-      else{
-       this.panelObj = {
-      panelIdMang:event.panelId,
-      openState: event.nextState
-    }
-    }
-  
+
   }
-  
+
 
 
   jobType(type) {
@@ -332,22 +332,22 @@ export class DirectorinfoComponent implements OnInit {
   selectdocType(id, obj) {
     let elem = document.getElementsByClassName('fancyRadioBoxes') as any;
     this.docxId = obj.DocumentTypeID;
-    
-    if (!this.selectedDocx.length){
-    for (let i = 0; i < elem.length; i++) {
-      if (elem[i].children[0].id == id) {
-        this.selectid = id;
-        elem[i].children[0].checked = true;
+
+    if (!this.selectedDocx.length) {
+      for (let i = 0; i < elem.length; i++) {
+        if (elem[i].children[0].id == id) {
+          this.selectid = id;
+          elem[i].children[0].checked = true;
+        }
+
       }
 
     }
-
-  }
     else {
       for (let i = 0; i < elem.length; i++) {
         if (elem[i].children[0].id == this.selectid) {
           elem[i].children[0].checked = true;
-        }else{
+        } else {
           elem[i].children[0].checked = false;
         }
       }
@@ -364,40 +364,52 @@ export class DirectorinfoComponent implements OnInit {
 
     if (this.managementForm.controls.firstName.status == "INVALID" && this.managementForm.controls.firstName.touched) {
       this.firstNameErrorMng = true;
+      this.transfirstNameErrorMng = true;
     }
     if (this.managementForm.controls.transLangfirstName.status == "INVALID" && this.managementForm.controls.transLangfirstName.touched) {
       this.transfirstNameErrorMng = true;
+      this.firstNameErrorMng = true;
     }
     if (this.managementForm.controls.lastName.status == "INVALID" && this.managementForm.controls.lastName.touched) {
       this.lastNameErrorMng = true;
+      this.translastNameErrorMng = true;
     }
     if (this.managementForm.controls.transLanglastName.status == "INVALID" && this.managementForm.controls.transLanglastName.touched) {
       this.translastNameErrorMng = true;
+      this.lastNameErrorMng = true;
     }
 
     if (this.directorForm.controls.firstName.status == "INVALID" && this.directorForm.controls.firstName.touched) {
       this.firstNameError = true;
+      this.transfirstNameError = true;
     }
     if (this.directorForm.controls.transLangfirstName.status == "INVALID" && this.directorForm.controls.transLangfirstName.touched) {
       this.transfirstNameError = true;
+      this.firstNameError = true;
     }
     if (this.directorForm.controls.lastName.status == "INVALID" && this.directorForm.controls.lastName.touched) {
       this.lastNameError = true;
+      this.translastNameError = true;
     }
     if (this.directorForm.controls.transLanglastName.status == "INVALID" && this.directorForm.controls.transLanglastName.touched) {
       this.translastNameError = true;
+      this.lastNameError = true;
     }
     if (this.directorForm.controls.phone.status == "INVALID" && this.directorForm.controls.phone.touched) {
       this.phoneError = true;
+      this.translangPhoneError = true;
     }
     if (this.directorForm.controls.transLangPhone.status == "INVALID" && this.directorForm.controls.transLangPhone.touched) {
       this.translangPhoneError = true;
+      this.phoneError = true;
     }
     if (this.directorForm.controls.email.status == "INVALID" && this.directorForm.controls.email.touched) {
       this.EmailError = true;
+      this.transEmailError = true;
     }
     if (this.directorForm.controls.transLangEmail.status == "INVALID" && this.directorForm.controls.transLangEmail.touched) {
       this.transEmailError = true;
+      this.EmailError = true;
     }
 
 
@@ -533,6 +545,66 @@ export class DirectorinfoComponent implements OnInit {
     // }
   }
 
+  isOdd(num) { return num % 2; }
+  inputValidate(id) {
+    console.log(id);
+
+    let numberType = this.isOdd(id);
+    if (numberType === 0) {
+      let x = id - 1;
+      let elem = document.getElementById(id.toString()) as any;
+      let elem2 = document.getElementById(x.toString()) as any;
+      if (!elem.value) {
+        // this.informationForm.controls[elem.name].errors = true;
+        (elem && elem.nodeName == 'DIV') ? elem.classList.add('inputError') : elem.classList.add('inputError');
+      }
+      else {
+        // this.informationForm.controls[elem.name].errors = false;
+        (elem && elem.nodeName == 'DIV') ? elem.classList.remove('inputError') : elem.classList.remove('inputError');
+      }
+      elem2.classList.remove('inputError');
+      for (var index = id - 1; index > 0; index--) {
+        divElement = undefined;
+        let genElem = document.getElementById(index.toString()) as any;
+        if (genElem.nodeName == 'DIV') {
+          var divElement = genElem;
+          genElem = genElem.children[1];
+        }
+        if (!genElem && !this.showTranslatedLangSide && index % 2 == 0) continue;
+        let value = genElem.value;
+        if (!value) {
+          (divElement && divElement.nodeName == 'DIV') ? divElement.classList.add('inputError') : genElem.classList.add('inputError');
+        }
+        else {
+          (divElement && divElement.nodeName == 'DIV') ? divElement.classList.remove('inputError') : genElem.classList.remove('inputError');
+        }
+      }
+    } else if (numberType === 1) {
+      let y = id + 1;
+      let elem = document.getElementById(id.toString()) as any;
+      let elem3 = document.getElementById(y.toString()) as any;
+      if (!elem.value) {
+        (elem && elem.nodeName == 'DIV') ? elem.classList.remove('inputError') : elem.classList.remove('inputError');
+        (elem3 && elem3.nodeName == 'DIV') ? elem3.classList.remove('inputError') : elem3.classList.remove('inputError');
+      }
+      for (var index = id - 1; index > 0; index--) {
+        divElement = undefined;
+        let genElem = document.getElementById(index.toString()) as any;
+        if (genElem.nodeName == 'DIV') {
+          var divElement = genElem;
+          genElem = genElem.children[1];
+        }
+        if (!genElem && !this.showTranslatedLangSide && index % 2 == 0) continue;
+        let value = genElem.value;
+        if (!value) {
+          (divElement && divElement.nodeName == 'DIV') ? divElement.classList.add('inputError') : genElem.classList.add('inputError');
+        }
+        else {
+          (divElement && divElement.nodeName == 'DIV') ? divElement.classList.remove('inputError') : genElem.classList.remove('inputError');
+        }
+      }
+    }
+  }
 
   onModelChangeMng(fromActive, currentActive, $controlName, source, target, $value) {
     setTimeout(() => {
@@ -627,15 +699,15 @@ export class DirectorinfoComponent implements OnInit {
       if (selectedFiles.status == 1) this._toastr.error('Please select two or less file(s) to upload.', '')
       else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 4 MB. Please upload smaller file.', '')
       else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
-        return;
+      return;
     }
-    else{
+    else {
       try {
         this.onFileChange(selectedFiles)
       } catch (error) {
         console.log(error);
       }
-      
+
     }
 
   }
@@ -656,22 +728,22 @@ export class DirectorinfoComponent implements OnInit {
               fileUrl: reader.result,
               fileBaseString: reader.result.split(',')[1]
             }
-          console.log('you file content:', selectedFile);
+            console.log('you file content:', selectedFile);
 
-          if(this.selectedDocx && this.selectedDocx.length && event.files.length > 1 && index == 0){
-            this._toastr.error('Please select only two file to upload', '');
-            return;
-          } else if (this.selectedDocx && this.selectedDocx.length < 2){
-            this.selectedDocx.push(selectedFile);
-            this.uploadDocx(selectedFile);
-            
-          }
-          else{
-            this._toastr.error('Please select only two file to upload', '');
-          }
+            if (this.selectedDocx && this.selectedDocx.length && event.files.length > 1 && index == 0) {
+              this._toastr.error('Please select only two file to upload', '');
+              return;
+            } else if (this.selectedDocx && this.selectedDocx.length < 2) {
+              this.selectedDocx.push(selectedFile);
+              this.uploadDocx(selectedFile);
 
+            }
+            else {
+              this._toastr.error('Please select only two file to upload', '');
+            }
+
+          }
         }
-      }
         // if (index == event.files.length){
         //   this.uploadDocx(this.selectedDocx);
         // } 
@@ -695,14 +767,14 @@ export class DirectorinfoComponent implements OnInit {
     object.DocumentUploadedFileType = null;
 
     object.FileContent = [{
-        documentFileName: selectedFile.fileName,
-        documentFile: selectedFile.fileBaseString,
-        documentUploadedFileType: selectedFile.fileType.split('/').pop()
-      }]
-   
+      documentFileName: selectedFile.fileName,
+      documentFile: selectedFile.fileBaseString,
+      documentUploadedFileType: selectedFile.fileType.split('/').pop()
+    }]
+
     this._userbusinessService.docUpload(object).subscribe((res: any) => {
       if (res.returnStatus = 'Success') {
- 
+
         this._toastr.success("File upload successfully", "");
       }
       else {
@@ -788,21 +860,21 @@ export class DirectorinfoComponent implements OnInit {
     //       }
 
     //     });
-       
+
     //   }
     // })
     let objMangInfo = {
-      baseLang : [{
+      baseLang: [{
         jobTitleID: (this.desgType && this.desgType.ID) ? this.desgType.ID : null,
         firstName: this.managementForm.value.firstName,
         lastName: this.managementForm.value.lastName
       }],
       otherLang: [
-          {
-            jobTitleID: (this.desgType && this.desgType.ID) ? this.desgType.ID : null,
-            firstName: this.managementForm.value.transLangfirstName,
-            lastName: this.managementForm.value.transLanglastName
-          }
+        {
+          jobTitleID: (this.desgType && this.desgType.ID) ? this.desgType.ID : null,
+          firstName: this.managementForm.value.transLangfirstName,
+          lastName: this.managementForm.value.transLanglastName
+        }
       ]
     }
     let objDirInfo = {
@@ -838,10 +910,10 @@ export class DirectorinfoComponent implements OnInit {
         city: this.formOneObj.businessLocForm.city,
         poBox: this.formOneObj.businessLocForm.poBoxNo,
         telephone: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.phone,
-        faxNo: (this.formOneObj.contactInfoForm.fax)?this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.fax : null,
-        managementInfo: (type == 'skip')? null : objMangInfo.baseLang,
+        faxNo: (this.formOneObj.contactInfoForm.fax) ? this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.fax : null,
+        managementInfo: (type == 'skip') ? null : objMangInfo.baseLang,
         directorInfo: (type == 'skip') ? null : objDirInfo.baseLang,
-        
+
       },
       businessProfileOL: {
         licenseNo: this.formOneObj.informationForm.licenseNoAr,
@@ -855,22 +927,22 @@ export class DirectorinfoComponent implements OnInit {
         city: this.formOneObj.businessLocForm.transCity,
         poBox: this.formOneObj.businessLocForm.poBoxNoAr,
         telephone: this.formOneObj.OtherLangPhoneCode + this.formOneObj.contactInfoForm.transLangPhone,
-        faxNo: (this.formOneObj.contactInfoForm.transLangFax)? this.formOneObj.OtherLangPhoneCode + this.formOneObj.contactInfoForm.transLangFax:null,
+        faxNo: (this.formOneObj.contactInfoForm.transLangFax) ? this.formOneObj.OtherLangPhoneCode + this.formOneObj.contactInfoForm.transLangFax : null,
         managementInfo: (type == 'skip') ? null : objMangInfo.otherLang,
         directorInfo: (type == 'skip') ? null : objDirInfo.otherLang,
-          
+
       },
       socialAccount:
-      [
-        {
-          providerSocialMediaAccountsID: 0,
-          providerID: this.userProfile.providerID,
-          socialMediaPortalsID: 100,
-          companyID: this.userProfile.companyID,
-          userID: this.userProfile.userID,
-          linkURL: "texpo.com",
-        }
-      ],
+        [
+          {
+            providerSocialMediaAccountsID: 0,
+            providerID: this.userProfile.providerID,
+            socialMediaPortalsID: 100,
+            companyID: this.userProfile.companyID,
+            userID: this.userProfile.userID,
+            linkURL: "texpo.com",
+          }
+        ],
       providerLogisticServiceList: this.formOneObj.logisticsService,
       // businessLocation: {
       //   latitude: this.formOneObj.location.lat.toString(),
@@ -887,11 +959,11 @@ export class DirectorinfoComponent implements OnInit {
         this._router.navigate(['/profile-completion']);
         loading(false)
       }
-      else{
+      else {
         loading(false)
-        
+
       }
-    },(err:HttpErrorResponse)=>{
+    }, (err: HttpErrorResponse) => {
       loading(false)
     })
 
