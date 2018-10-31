@@ -677,59 +677,77 @@ export class BusinessDetailComponent implements OnInit {
   errorValidate() {
     if (this.organizationForm.controls.orgName.status == "INVALID" && this.organizationForm.controls.orgName.touched) {
       this.orgNameError = true;
+      this.transorgNameError = true;
     }
     if (this.organizationForm.controls.transLangOrgName.status == "INVALID" && this.organizationForm.controls.transLangOrgName.touched) {
       this.transorgNameError = true;
+      this.orgNameError = true;
     }
     if (this.businessLocForm.controls.address.status == "INVALID" && this.businessLocForm.controls.address.touched) {
       this.addressError = true;
+      this.addressArError = true;
     }
     if (this.businessLocForm.controls.transAddress.status == "INVALID" && this.businessLocForm.controls.transAddress.touched) {
       this.addressArError = true;
+      this.addressError = true;
     }
     if (this.businessLocForm.controls.address2.status == "INVALID" && this.businessLocForm.controls.address2.touched) {
       this.addressError2 = true;
+      this.addressArError2 = true;
     }
     if (this.businessLocForm.controls.transAddress2.status == "INVALID" && this.businessLocForm.controls.transAddress2.touched) {
+      this.addressError2 = true;
       this.addressArError2 = true;
     }
     if (this.businessLocForm.controls.city.status == "INVALID" && this.businessLocForm.controls.city.touched) {
       this.cityError = true;
+      this.cityArError = true;
     }
     if (this.businessLocForm.controls.transCity.status == "INVALID" && this.businessLocForm.controls.transCity.touched) {
+      this.cityError = true;
       this.cityArError = true;
     }
     if (this.businessLocForm.controls.poBoxNo.status == "INVALID" && this.businessLocForm.controls.poBoxNo.touched) {
       this.poBoxError = true;
+      this.poBoxArError = true;
     }
     if (this.businessLocForm.controls.poBoxNoAr.status == "INVALID" && this.businessLocForm.controls.poBoxNoAr.touched) {
+      this.poBoxError = true;
       this.poBoxArError = true;
     }
 
     if (this.informationForm.controls.licenseNo.status == "INVALID" && this.informationForm.controls.licenseNo.touched) {
       this.licenseError = true;
+      this.translicenseError = true;
     }
     if (this.informationForm.controls.licenseNoAr.status == "INVALID" && this.informationForm.controls.licenseNoAr.touched) {
+      this.licenseError = true;
       this.translicenseError = true;
     }
     if (this.informationForm.controls.vatNo.status == "INVALID" && this.informationForm.controls.vatNo.touched) {
       this.vatError = true;
+      this.vatNoArError = true;
     }
     if (this.informationForm.controls.vatNoAr.status == "INVALID" && this.informationForm.controls.vatNoAr.touched) {
+      this.vatError = true;
       this.vatNoArError = true;
     }
 
     if (this.contactInfoForm.controls.phone.status == "INVALID" && this.contactInfoForm.controls.phone.touched) {
       this.phoneError = true;
+      this.translangPhoneError = true;
     }
     if (this.contactInfoForm.controls.transLangPhone.status == "INVALID" && this.contactInfoForm.controls.transLangPhone.touched) {
+      this.phoneError = true;
       this.translangPhoneError = true;
     }
 
     if (this.contactInfoForm.controls.fax.status == "INVALID" && this.contactInfoForm.controls.fax.touched) {
       this.faxError = true;
+      this.translangFaxError = true;
     }
     if (this.contactInfoForm.controls.transLangFax.status == "INVALID" && this.contactInfoForm.controls.transLangFax.touched) {
+      this.faxError = true;
       this.translangFaxError = true;
     }
 
