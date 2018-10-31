@@ -1749,7 +1749,8 @@ export class BusinessDetailComponent implements OnInit {
     for (var index = id - 1; index > 0; index--) {
       divElement = undefined;
       let elem = document.getElementById(index.toString()) as any;
-      if (index <= 3){
+      if (!elem && !this.showTranslatedLangSide && index % 2 == 0) continue;
+      if (index <= 3) {
         var datanumber = index;
       }
       if (index >= 4) {
@@ -1761,7 +1762,7 @@ export class BusinessDetailComponent implements OnInit {
         var divElement = elem;
         elem = elem.children[1];
       }
-      if (!elem && !this.showTranslatedLangSide && index % 2 == 0) continue;
+      
       let value = elem.value;
       if (!value || value == "undefined") {
         // this.regForm.controls[elem.name].errors=true;

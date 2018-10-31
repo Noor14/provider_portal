@@ -329,13 +329,26 @@ export class DirectorinfoComponent implements OnInit {
   }
 
   selectdocType(id, obj) {
-    this.docxId = obj.DocumentTypeID;
     let elem = document.getElementsByClassName('fancyRadioBoxes') as any;
+    this.docxId = obj.DocumentTypeID;
+    let selectid =  id;
+    if (!this.selectedDocx.length){
     for (let i = 0; i < elem.length; i++) {
       if (elem[i].children[0].id == id) {
         elem[i].children[0].checked = true;
       }
 
+    }
+
+  }
+    else {
+      for (let i = 0; i < elem.length; i++) {
+        if (elem[i].children[0].id == selectid) {
+          elem[i].children[0].checked = true;
+        }else{
+          elem[i].children[0].checked = false;
+        }
+      }
     }
   }
 
@@ -648,6 +661,8 @@ export class DirectorinfoComponent implements OnInit {
             return;
           } else if (this.selectedDocx && this.selectedDocx.length < 2){
             this.selectedDocx.push(selectedFile);
+            this.uploadDocx(selectedFile);
+            
           }
           else{
             this._toastr.error('Please select only two file to upload', '');
@@ -655,9 +670,9 @@ export class DirectorinfoComponent implements OnInit {
 
         }
       }
-        if (index == event.files.length){
-          this.uploadDocx(this.selectedDocx);
-        } 
+        // if (index == event.files.length){
+        //   this.uploadDocx(this.selectedDocx);
+        // } 
         // else if (index == event.files.length && this.selectedDocx.length){
         //   this.uploadDocx(this.selectedDocx.slice(-1));
         // }
@@ -676,13 +691,12 @@ export class DirectorinfoComponent implements OnInit {
     object.DocumentFileContent = null;
     object.DocumentName = null;
     object.DocumentUploadedFileType = null;
-    object.FileContent = selectedFile.map(element => {
-      return {
-        documentFileName: element.fileName,
-        documentFile: element.fileBaseString,
-        documentUploadedFileType: element.fileType.split('/').pop()
-      }
-    });
+
+    object.FileContent = [{
+        documentFileName: selectedFile.fileName,
+        documentFile: selectedFile.fileBaseString,
+        documentUploadedFileType: selectedFile.fileType.split('/').pop()
+      }]
    
     this._userbusinessService.docUpload(object).subscribe((res: any) => {
       if (res.returnStatus = 'Success') {
@@ -822,7 +836,7 @@ export class DirectorinfoComponent implements OnInit {
         city: this.formOneObj.businessLocForm.city,
         poBox: this.formOneObj.businessLocForm.poBoxNo,
         telephone: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.phone,
-        faxNo: this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.fax,
+        faxNo: (this.formOneObj.contactInfoForm.fax)?this.formOneObj.baseLangPhoneCode + this.formOneObj.contactInfoForm.fax : null,
         managementInfo: (type == 'skip')? null : objMangInfo.baseLang,
         directorInfo: (type == 'skip') ? null : objDirInfo.baseLang,
         
@@ -839,7 +853,7 @@ export class DirectorinfoComponent implements OnInit {
         city: this.formOneObj.businessLocForm.transCity,
         poBox: this.formOneObj.businessLocForm.poBoxNoAr,
         telephone: this.formOneObj.OtherLangPhoneCode + this.formOneObj.contactInfoForm.transLangPhone,
-        faxNo: this.formOneObj.OtherLangPhoneCode + this.formOneObj.contactInfoForm.transLangFax,
+        faxNo: (this.formOneObj.contactInfoForm.transLangFax)? this.formOneObj.OtherLangPhoneCode + this.formOneObj.contactInfoForm.transLangFax:null,
         managementInfo: (type == 'skip') ? null : objMangInfo.otherLang,
         directorInfo: (type == 'skip') ? null : objDirInfo.otherLang,
           

@@ -114,8 +114,12 @@ export class UserGuard implements CanActivate {
 
   checkPassword(otpKey): Observable<boolean> {
     return this._userCreationService.getUserOtpVerified(otpKey, 'Used').map((res: any) => {
-      if (res.returnStatus == "Success") {
+      if (res.returnStatus == "Success" && res.returnId == 1) {
         this._sharedService.getUserOtpVerified.next(res);
+        return true;
+      }
+      else if (res.returnId == 2){
+        this.router.navigate(['/business-profile']);
         return true;
       }
       else {
