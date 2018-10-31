@@ -145,6 +145,7 @@ export class DirectorinfoComponent implements OnInit {
   managementForm;
 
   public formOneObj;
+  private selectid;
   // public uploadDocs: Array<DocumentUpload> = []
 
   constructor(
@@ -331,10 +332,11 @@ export class DirectorinfoComponent implements OnInit {
   selectdocType(id, obj) {
     let elem = document.getElementsByClassName('fancyRadioBoxes') as any;
     this.docxId = obj.DocumentTypeID;
-    let selectid =  id;
+    
     if (!this.selectedDocx.length){
     for (let i = 0; i < elem.length; i++) {
       if (elem[i].children[0].id == id) {
+        this.selectid = id;
         elem[i].children[0].checked = true;
       }
 
@@ -343,7 +345,7 @@ export class DirectorinfoComponent implements OnInit {
   }
     else {
       for (let i = 0; i < elem.length; i++) {
-        if (elem[i].children[0].id == selectid) {
+        if (elem[i].children[0].id == this.selectid) {
           elem[i].children[0].checked = true;
         }else{
           elem[i].children[0].checked = false;
