@@ -835,7 +835,7 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label class="d-flex justify-content-start">{{socialMedLabelBaseLanguage}}</label>
-          <div class="select-number" *ngFor="let social of contactInfoForm.get('socialUrl').controls; let i = index">
+          <div class="select-number">
             <div class="input-group-prepend">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
@@ -849,10 +849,10 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control select-country-code" formControlName="{{i}}" [(ngModel)]="socialSites"
+              <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites"
                 maxlength="100" placeholder="www.company.com" (focus)="inputValidate(19)" />
-              <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" *ngIf="i > 0" class="pointer icon-size-16 social-link-del"
-                (click)="removeSocialSite(i)">
+              <!-- <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" *ngIf="i > 0" class="pointer icon-size-16 social-link-del"
+                (click)="removeSocialSite()"> -->
             </div>
             <!-- <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p> -->
           </div>
@@ -862,7 +862,7 @@
       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group">
           <label class="arabicLng text-right">{{socialMedLabelOtherLanguage}}</label>
-          <div class="select-number" *ngFor="let social of contactInfoForm.get('socialUrl').controls; let i = index">
+          <div class="select-number">
             <div class="input-group-prepend">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
@@ -870,18 +870,18 @@
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="social">
                   <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let link of socialLink" (click)="selectedSocialLink(link, i)">
+                    <li class="list-group-item" *ngFor="let link of socialLink" (click)="selectedSocialLink(link)">
                       <span>{{link.title}}</span>
                     </li>
                   </ul>
                 </div>
               </div>
 
-              <input type="text" class="form-control select-country-code" formControlName="{{i}}" [(ngModel)]="socialSites"
+              <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites"
                 maxlength="100" placeholder="www.company.com" (focus)="inputValidate(19)" />
 
-              <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" *ngIf="i > 0" class="pointer icon-size-16 social-link-del"
-                (click)="removeSocialSite(i)">
+              <!-- <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" *ngIf="i > 0" class="pointer icon-size-16 social-link-del"
+                (click)="removeSocialSite(i)"> -->
             </div>
             <!-- <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p> -->
           </div>

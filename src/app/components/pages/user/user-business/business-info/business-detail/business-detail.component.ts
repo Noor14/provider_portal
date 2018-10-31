@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { UserService } from '../../../user.service';
 import { MapsAPILoader } from '@agm/core';
-import { } from '@types/googlemaps';
+// import { } from '@types/googlemaps';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../../../../../services/common.service';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../../directives/ng-files';
@@ -423,7 +423,8 @@ export class BusinessDetailComponent implements OnInit {
       transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
       fax: new FormControl(null, [Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
       transLangFax: new FormControl(null, [Validators.minLength(7), Validators.maxLength(13)]),
-      socialUrl: new FormArray([new FormControl(null, [patternValidator(URL_REGEX)])]),
+      // socialUrl: new FormArray([new FormControl(null, [patternValidator(URL_REGEX)])]),
+      socialUrl: new FormControl(null, [patternValidator(URL_REGEX)]),
       // socialUrlOther: new FormArray(null),
 
     });
