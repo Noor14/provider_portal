@@ -2,7 +2,7 @@
   <div class="row">
       <div class="col" [ngClass]="(showTranslatedLangSide)? 'creatpass-arb' : 'creatpass-eng'">
       <span class="profile-verify-title text-left" innerHTML=" {{headingBaseLanguage}}"></span>
-      <p class="profile-verify-paragraph text-left mb-2" innerHTML="{{descBaseLanguage}}"></p>
+      <p class="profile-verify-paragraph text-left mb-0" innerHTML="{{descBaseLanguage}}"></p>
       </div>
     <div class="col" *ngIf="showTranslatedLangSide" [ngClass]="{'arabic-class': showTranslatedLangSide}">
       <span class="profile-verify-title text-right dir-otherLanguage" innerHTML="{{headingOtherLanguage}}"></span>

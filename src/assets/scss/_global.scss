@@ -57,6 +57,11 @@ body {
   a.link-hover {
     transition: all 0.5s ease;
     position: relative;
+    &:-moz-focusring {
+      border: none;
+      box-shadow: none;
+      outline: none;
+    }
     &:before {
       content: '';
       position: absolute;
@@ -381,7 +386,10 @@ input[type="radio"]:focus+label>span {
       display: none;
     }
   
-    
+    &:-moz-focusring {
+      border: none;
+      box-shadow: none;
+    }
     &:focus {
       box-shadow: none !important;
       border-color: #80bdff !important;
@@ -401,13 +409,16 @@ input[type="radio"]:focus+label>span {
     font-size: $font-size-large;
     font-weight: $font-weight-mid;
     color: $text-color-default;
+    small {
+      margin: 0 10px;
+    }
   }
   input {
     outline: 0;
     border: 1px solid $provider-input-border;
     border-radius: 4px !important;
     height: 48px !important;
-    line-height: 48px !important;
+    line-height: 3 !important;
     &::placeholder {
       color: $place-holder-color;
       opacity: 1;
@@ -435,6 +446,10 @@ input[type="radio"]:focus+label>span {
     &:focus {
       box-shadow: none !important;
     }
+    &:-moz-focusring {
+      border: none;
+      box-shadow: none;
+    }
   }
  .select-number {
    .input-group-prepend {
@@ -447,6 +462,7 @@ input[type="radio"]:focus+label>span {
        width: 65%;
        padding-left: 34px;
        font-size: 0.875rem;
+       padding-top: 8px;
      }
      .select-country-list {
        margin-left: 19px;
@@ -573,7 +589,7 @@ input[type="radio"]:focus+label>span {
       font-size: $root-font-size !important;;
     }
     input {
-      padding-top: 13px !important;
+      padding-top: 12px !important;
     }
   }
 }
@@ -680,10 +696,31 @@ select {
 }
 
 .creatpass-eng {
-  h3,
-  p,
-  h2,
-  h5 {
+  text-align: center;
+  h3,  p,  h2, h5 {
     text-align: center !important;
   }
+  p {
+    display: inline-block;
+    width: 70%;
+  }
 }
+
+//Internet Explorar css start
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .form-group {
+    input {
+      line-height: 1 !important;
+    }
+    .select-number {
+      .input-group-prepend, .input-group-append {
+        input.select-country-code {
+          padding-top: 9px;
+        }
+      }
+    }
+  }
+}
+
+//Internet Explorar css end
