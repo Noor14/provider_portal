@@ -352,38 +352,6 @@
             </div>
           </div>
 
-          <div class="documentInfo d-flex flex-column mt-2">
-            <div class="docList pt-2 mb-3">
-              <h6 class="d-flex justify-content-between pt-2">
-                <span>{{identityLblBaseLanguage}} <img class="icon-size-16 ml-1" src="../../../../../../../../assets/images/icons/icon_info.svg"></span>
-                <span *ngIf="showTranslatedLangSide" class="text-right"><img class="icon-size-16 mr-1" src="../../../../../../../../assets/images/icons/icon_info.svg">
-                  {{identityLblOtherLanguage}}</span>
-              </h6>
-              <p class="d-flex justify-content-between selectIDtype mt-4">
-                <span>{{identityTypeLblBaseLanguage}} </span>
-                <span *ngIf="showTranslatedLangSide" class="text-right"> {{identityTypeLblOtherLanguage}} </span>
-              </p>
-
-              <div class="row" *ngFor="let doc of docTypes; let i = index">
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                  <div class="fancyRadioBoxes pt-2">
-                    <input id="{{i + 'doctype'}}" name="doc" type="radio" (click)="selectdocType(i + 'doctype', doc)">
-                    <label for="{{i + 'doctype'}}">
-                      <span [ngClass]="{'radioError': !docxId}"></span>
-                      {{doc.DocumentTypeName}}
-                    </label>
-                  </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
-                  <div class="fancyRadioBoxes pt-2 dir-otherLanguage">
-                    <input id="{{i + 'doctype'}}" name="docAr" type="radio" (click)="selectdocType(i + 'doctype', doc)">
-                    <label for="{{i + 'doctype'}}">
-                      <span class="mr-0 ml-2" [ngClass]="{'radioError': !docxId}"></span>
-                      {{doc.DocumentTypeNameOL}}
-                    </label>
-                  </div>
-                </div>
-              </div>
 
               <div class="documentInfo d-flex flex-column mt-2">
                 <div class="docList pt-2 mb-3">
@@ -450,9 +418,6 @@
                   </app-ng-files-drag-n-upload>
                 </div>
               </div>
-
-            </div>
-          </div>
 
           <!-- <div class="info_text">
                 <p><img src="../../../assets/images/icons/icon_add.svg" class="icon-size-16"  alt="icons">Add More / إضافة المزيد </p>
