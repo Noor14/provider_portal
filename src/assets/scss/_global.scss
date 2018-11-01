@@ -392,12 +392,11 @@ input[type="radio"]:focus+label>span {
         }
     }
     p.inputError {
-        position: relative;
         line-height: 1;
-        margin-top: 6px;
-        margin-bottom: 0px;
+        margin-top: 0.5rem;
         color: $danger-color;
         font-size: $font-size-medium - 0.025;
+        margin-bottom: 0;
     }
     label {
         margin-top: 0.5rem;
@@ -588,6 +587,9 @@ input[type="radio"]:focus+label>span {
         input {
             padding-top: 12px !important;
         }
+    }
+    p.inputError {
+        text-align: right;
     }
 }
 
