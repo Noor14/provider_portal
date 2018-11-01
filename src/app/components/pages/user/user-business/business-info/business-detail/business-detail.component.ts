@@ -1135,7 +1135,7 @@ export class BusinessDetailComponent implements OnInit {
     
     else if (type == 'expire') {
       if (from == 'date') {
-        // this.monthSorter(date);
+        this.monthSorter(date);
         if (this.selectedExpireMonth != undefined) {
           let index = this.months.map(obj => obj.name).indexOf(this.selectedExpireMonth);
           if (index < this.date.getMonth()) {
