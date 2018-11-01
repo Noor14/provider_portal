@@ -6,11 +6,11 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { UserService } from '../../../user.service';
 import { MapsAPILoader } from '@agm/core';
-import { } from '@types/googlemaps';
+// import { } from '@types/googlemaps';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../../../../../services/common.service';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../../directives/ng-files';
-import { CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear } from '../../../../../../constants/globalFunctions'
+import { CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear, patternValidator } from '../../../../../../constants/globalFunctions'
 import { UserBusinessService } from '../../user-business.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DocumentUpload } from '../../../../../../interfaces/document.interface';
@@ -35,7 +35,7 @@ export class BusinessDetailComponent implements OnInit {
   public selectedLicense;
   public selectedLogo;
   public selectedSocialsite: any = {};
-  
+
   public uploadDocs: Array<DocumentUpload> = []
 
   private config: NgFilesConfig = {
@@ -408,7 +408,7 @@ export class BusinessDetailComponent implements OnInit {
       address2: new FormControl(null, [Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       transAddress2: new FormControl(null, [Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
-      transCity: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),  
+      transCity: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       poBoxNo: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
       poBoxNoAr: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(16), Validators.minLength(4)]),
     });
@@ -424,7 +424,8 @@ export class BusinessDetailComponent implements OnInit {
       transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
       fax: new FormControl(null, [Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
       transLangFax: new FormControl(null, [Validators.minLength(7), Validators.maxLength(13)]),
-      socialUrl: new FormArray([ new FormControl(null)]),
+      // socialUrl: new FormArray([new FormControl(null, [patternValidator(URL_REGEX)])]),
+      socialUrl: new FormControl(null, [patternValidator(URL_REGEX)]),
       // socialUrlOther: new FormArray(null),
 
     });
@@ -678,59 +679,77 @@ export class BusinessDetailComponent implements OnInit {
   errorValidate() {
     if (this.organizationForm.controls.orgName.status == "INVALID" && this.organizationForm.controls.orgName.touched) {
       this.orgNameError = true;
+      this.transorgNameError = true;
     }
     if (this.organizationForm.controls.transLangOrgName.status == "INVALID" && this.organizationForm.controls.transLangOrgName.touched) {
       this.transorgNameError = true;
+      this.orgNameError = true;
     }
     if (this.businessLocForm.controls.address.status == "INVALID" && this.businessLocForm.controls.address.touched) {
       this.addressError = true;
+      this.addressArError = true;
     }
     if (this.businessLocForm.controls.transAddress.status == "INVALID" && this.businessLocForm.controls.transAddress.touched) {
       this.addressArError = true;
+      this.addressError = true;
     }
     if (this.businessLocForm.controls.address2.status == "INVALID" && this.businessLocForm.controls.address2.touched) {
       this.addressError2 = true;
+      this.addressArError2 = true;
     }
     if (this.businessLocForm.controls.transAddress2.status == "INVALID" && this.businessLocForm.controls.transAddress2.touched) {
+      this.addressError2 = true;
       this.addressArError2 = true;
     }
     if (this.businessLocForm.controls.city.status == "INVALID" && this.businessLocForm.controls.city.touched) {
       this.cityError = true;
+      this.cityArError = true;
     }
     if (this.businessLocForm.controls.transCity.status == "INVALID" && this.businessLocForm.controls.transCity.touched) {
+      this.cityError = true;
       this.cityArError = true;
     }
     if (this.businessLocForm.controls.poBoxNo.status == "INVALID" && this.businessLocForm.controls.poBoxNo.touched) {
       this.poBoxError = true;
+      this.poBoxArError = true;
     }
     if (this.businessLocForm.controls.poBoxNoAr.status == "INVALID" && this.businessLocForm.controls.poBoxNoAr.touched) {
+      this.poBoxError = true;
       this.poBoxArError = true;
     }
 
     if (this.informationForm.controls.licenseNo.status == "INVALID" && this.informationForm.controls.licenseNo.touched) {
       this.licenseError = true;
+      this.translicenseError = true;
     }
     if (this.informationForm.controls.licenseNoAr.status == "INVALID" && this.informationForm.controls.licenseNoAr.touched) {
+      this.licenseError = true;
       this.translicenseError = true;
     }
     if (this.informationForm.controls.vatNo.status == "INVALID" && this.informationForm.controls.vatNo.touched) {
       this.vatError = true;
+      this.vatNoArError = true;
     }
     if (this.informationForm.controls.vatNoAr.status == "INVALID" && this.informationForm.controls.vatNoAr.touched) {
+      this.vatError = true;
       this.vatNoArError = true;
     }
 
     if (this.contactInfoForm.controls.phone.status == "INVALID" && this.contactInfoForm.controls.phone.touched) {
       this.phoneError = true;
+      this.translangPhoneError = true;
     }
     if (this.contactInfoForm.controls.transLangPhone.status == "INVALID" && this.contactInfoForm.controls.transLangPhone.touched) {
+      this.phoneError = true;
       this.translangPhoneError = true;
     }
 
     if (this.contactInfoForm.controls.fax.status == "INVALID" && this.contactInfoForm.controls.fax.touched) {
       this.faxError = true;
+      this.translangFaxError = true;
     }
     if (this.contactInfoForm.controls.transLangFax.status == "INVALID" && this.contactInfoForm.controls.transLangFax.touched) {
+      this.faxError = true;
       this.translangFaxError = true;
     }
 
@@ -990,7 +1009,7 @@ export class BusinessDetailComponent implements OnInit {
     // this.countAccount++
     // this.socialAccounts.push(this.countAccount);
   }
-  removeSocialSite(index){
+  removeSocialSite(index) {
     (<FormArray>this.contactInfoForm.get('socialUrl')).removeAt(index)
   }
 
@@ -1032,28 +1051,28 @@ export class BusinessDetailComponent implements OnInit {
 
       }
     }
-  
+
 
   }
 
 
-  validateDates():boolean{
+  validateDates(): boolean {
 
-      let elemissueDate = document.getElementById('100') as any;
-      let elemissueMonth = document.getElementById('101') as any;
-      let elemissueYear = document.getElementById('102') as any;
-      let elemExpDate = document.getElementById('106') as any;
-      let elemExpMonth = document.getElementById('107') as any;
-      let elemExpYear = document.getElementById('108') as any;
+    let elemissueDate = document.getElementById('100') as any;
+    let elemissueMonth = document.getElementById('101') as any;
+    let elemissueYear = document.getElementById('102') as any;
+    let elemExpDate = document.getElementById('106') as any;
+    let elemExpMonth = document.getElementById('107') as any;
+    let elemExpYear = document.getElementById('108') as any;
 
     return (
       elemExpDate.value == 'DD' || elemExpMonth.value == 'MM' || elemExpYear.value == "YYYY" || elemissueDate.value == 'DD' || elemissueMonth.value == 'MM' || elemissueYear.value == "YYYY" ||
       elemExpDate.value == 'undefined' || elemExpMonth.value == 'undefined' || elemExpYear.value == "undefined" || elemissueDate.value == 'undefined' || elemissueMonth.value == 'undefined' || elemissueYear.value == "undefined"
     );
 
-    
+
   }
-  monthSorter(date){
+  monthSorter(date) {
     if (date >= 30) {
       for (let key in this.dateValObj) {
         if (key == date && date != 30) {
@@ -1073,20 +1092,20 @@ export class BusinessDetailComponent implements OnInit {
     }
   }
 
-  expireDateSorter(month){
-       for (const key in this.dateValObj) {
-              if (this.dateValObj.hasOwnProperty(key)) {
-                let obj = this.dateValObj[key].find(obj => (obj.name == month));
-                if (obj && Object.keys(obj).length) {
-                  this.expiryDate(1, key);
-                  return
-                }
-                else if (!obj && this.selectedExpireMonth == 'Feb' || this.selectedExpireMonthAr == 'فبراير') {
-                  // this.leapValid('issue', type)
-                  return
-                }
-         }
+  expireDateSorter(month) {
+    for (const key in this.dateValObj) {
+      if (this.dateValObj.hasOwnProperty(key)) {
+        let obj = this.dateValObj[key].find(obj => (obj.name == month));
+        if (obj && Object.keys(obj).length) {
+          this.expiryDate(1, key);
+          return
         }
+        else if (!obj && this.selectedExpireMonth == 'Feb' || this.selectedExpireMonthAr == 'فبراير') {
+          // this.leapValid('issue', type)
+          return
+        }
+      }
+    }
   }
 
   fillerValidate(date, type, from) {
@@ -1132,7 +1151,7 @@ export class BusinessDetailComponent implements OnInit {
       }
 
     }
-    
+
     else if (type == 'expire') {
       if (from == 'date') {
         this.monthSorter(date);
@@ -1178,12 +1197,12 @@ export class BusinessDetailComponent implements OnInit {
             if (this.selectedExpireDate <= this.date.getDate()) {
               this.getTenYears(type, 1);
               this.expireDateSorter(date);
-              
+
             }
             else {
               this.getTenYears(type, 0);
               this.expireDateSorter(date);
-                
+
             }
           }
           else {
@@ -1191,46 +1210,46 @@ export class BusinessDetailComponent implements OnInit {
             this.expireDateSorter(date);
           }
         }
-        else if (this.selectedExpireDate && this.selectedExpireDate != "undefined" && this.selectedExpiryYear && this.selectedExpiryYear != 'undefined'){
-          if (this.selectedExpiryYear == this.date.getFullYear()){
-          let index = this.months.map(obj => obj.name).indexOf(date);
-          if (index == this.date.getMonth()){
-            if (this.selectedExpireDate > this.date.getDate()) {
-              this.getTenYears(type, 0);
-            }
-            for (const key in this.dateValObj) {
-              if (this.dateValObj.hasOwnProperty(key)) {
-                let obj = this.dateValObj[key].find(obj => (obj.name == date));
-                if (obj && Object.keys(obj).length) {
-                  this.expiryDate(this.date.getDate()+1, key);
-                  return
+        else if (this.selectedExpireDate && this.selectedExpireDate != "undefined" && this.selectedExpiryYear && this.selectedExpiryYear != 'undefined') {
+          if (this.selectedExpiryYear == this.date.getFullYear()) {
+            let index = this.months.map(obj => obj.name).indexOf(date);
+            if (index == this.date.getMonth()) {
+              if (this.selectedExpireDate > this.date.getDate()) {
+                this.getTenYears(type, 0);
+              }
+              for (const key in this.dateValObj) {
+                if (this.dateValObj.hasOwnProperty(key)) {
+                  let obj = this.dateValObj[key].find(obj => (obj.name == date));
+                  if (obj && Object.keys(obj).length) {
+                    this.expiryDate(this.date.getDate() + 1, key);
+                    return
+                  }
                 }
               }
+
             }
-        
+            else if (index < this.date.getMonth()) {
+              this.getTenYears(type, 1);
+              this.expireDateSorter(date);
+
+            }
+            else {
+              this.getTenYears(type, 0);
+              this.expireDateSorter(date);
+
+            }
           }
-          else if (index < this.date.getMonth()){
-            this.getTenYears(type, 1);
-            this.expireDateSorter(date);
-            
-          }
-          else{
-            this.getTenYears(type, 0);
-            this.expireDateSorter(date);
-            
-          }
-          }
-          else if(this.selectedExpiryYear > this.date.getFullYear()){
+          else if (this.selectedExpiryYear > this.date.getFullYear()) {
             let index = this.months.map(obj => obj.name).indexOf(date);
             if (index < this.date.getMonth()) {
               this.getTenYears(type, 1);
               this.expireDateSorter(date);
-              }
+            }
             else if (index > this.date.getMonth()) {
               this.getTenYears(type, 0);
               this.expireDateSorter(date);
             }
-            else{
+            else {
               if (this.selectedExpireDate > this.date.getDate()) {
                 this.getTenYears(type, 0);
                 this.expireDateSorter(date);
@@ -1255,12 +1274,12 @@ export class BusinessDetailComponent implements OnInit {
                   }
                 }
               }
-       
+
             }
           }
-          
+
         }
-        else{
+        else {
           let index = this.months.map(obj => obj.name).indexOf(date);
           if (index == this.date.getMonth() && this.selectedExpiryYear == this.date.getFullYear()) {
             if (this.selectedExpireDate > this.date.getDate()) {
@@ -1275,20 +1294,20 @@ export class BusinessDetailComponent implements OnInit {
                 }
               }
             }
-            else{
-            for (const key in this.dateValObj) {
-              if (this.dateValObj.hasOwnProperty(key)) {
-                let obj = this.dateValObj[key].find(obj => (obj.name == date));
-                if (obj && Object.keys(obj).length) {
-                  this.getDates(key, 'expire');
-                  return
+            else {
+              for (const key in this.dateValObj) {
+                if (this.dateValObj.hasOwnProperty(key)) {
+                  let obj = this.dateValObj[key].find(obj => (obj.name == date));
+                  if (obj && Object.keys(obj).length) {
+                    this.getDates(key, 'expire');
+                    return
+                  }
                 }
               }
             }
-            }
 
           }
-          else{
+          else {
             this.expireDateSorter(date);
           }
         }
@@ -1308,7 +1327,7 @@ export class BusinessDetailComponent implements OnInit {
         //         }
         //       }
         //     }
-           
+
         //   }
         //   else{
         //     for (const key in this.dateValObj) {
@@ -1334,16 +1353,16 @@ export class BusinessDetailComponent implements OnInit {
 
 
 
-  expiryDate(startLimit, endLimit){
+  expiryDate(startLimit, endLimit) {
     let persianDigits = "۰۱۲۳۴۵۶۷۸۹";
     let persianMap = persianDigits.split("");
-      this.expiryDates = [];
-      for (let i = startLimit; i <= endLimit; i++) {
-        let convertedNumber = i.toString().replace(/\d/g, (m: string) => {
-          return persianMap[parseInt(m)]
-        });
-        this.expiryDates.push({ dateNormal: i, dateArabic: convertedNumber });
-      }
+    this.expiryDates = [];
+    for (let i = startLimit; i <= endLimit; i++) {
+      let convertedNumber = i.toString().replace(/\d/g, (m: string) => {
+        return persianMap[parseInt(m)]
+      });
+      this.expiryDates.push({ dateNormal: i, dateArabic: convertedNumber });
+    }
   }
 
 
@@ -1465,12 +1484,12 @@ export class BusinessDetailComponent implements OnInit {
     }
   }
 
-  expirymonthFiller(year){
+  expirymonthFiller(year) {
     let months = Object.assign([], this.months);
-    if(year == this.date.getFullYear()){
+    if (year == this.date.getFullYear()) {
       this.expiryMonths = [];
       this.expiryMonths = months.slice(this.date.getMonth());
-      if(this.selectedExpireMonth != undefined){
+      if (this.selectedExpireMonth != undefined) {
         let index = this.months.map(obj => obj.name).indexOf(this.selectedExpireMonth);
         if (index == this.date.getMonth()) {
           for (const key in this.dateValObj) {
@@ -1489,7 +1508,7 @@ export class BusinessDetailComponent implements OnInit {
           }
 
         }
-        else if (index > this.date.getMonth()){
+        else if (index > this.date.getMonth()) {
           for (const key in this.dateValObj) {
             if (this.dateValObj.hasOwnProperty(key)) {
               let obj = this.dateValObj[key].find(obj => (obj.name == this.selectedExpireMonth || obj.arabicName == this.selectedExpireMonthAr));
@@ -1507,7 +1526,7 @@ export class BusinessDetailComponent implements OnInit {
         }
       }
     }
-    else{
+    else {
       this.expiryMonths = months;
       for (const key in this.dateValObj) {
         if (this.dateValObj.hasOwnProperty(key)) {
@@ -1532,7 +1551,7 @@ export class BusinessDetailComponent implements OnInit {
         if (this.selectedIssueYear != undefined) {
           (!leapYear(this.selectedIssueYear)) ? this.getDates(28, 'issue') : this.getDates(29, 'issue');
         }
-        else{
+        else {
           this.getDates(28, 'issue');
         }
       }
@@ -1548,7 +1567,7 @@ export class BusinessDetailComponent implements OnInit {
         if (this.selectedExpiryYear != undefined) {
           (!leapYear(this.selectedExpiryYear)) ? this.getDates(28, 'expire') : this.getDates(29, 'expire');
         }
-        else{
+        else {
           this.getDates(28, 'expire');
         }
       }
@@ -1659,7 +1678,7 @@ export class BusinessDetailComponent implements OnInit {
       selectedItem.add('active');
       this.serviceIds.push(obj);
       this.glowElement();
-      
+
     }
     console.log(this.serviceIds);
 
@@ -1734,9 +1753,14 @@ export class BusinessDetailComponent implements OnInit {
 
   }
 
+<<<<<<< HEAD
   removeDoc(obj) {
     obj.DocumentFile = obj.DocumentFile.split(baseApi.split("/api").shift()).pop();
     this._userbusinessService.removeDoc(obj).subscribe((res: any) => {
+=======
+  removeDoc(id) {
+    this._userbusinessService.removeDoc([id.toString()]).subscribe((res: any) => {
+>>>>>>> ahm-31st-oct
       if (res.returnStatus == 'Success') {
         this._toastr.success('Remove selected document succesfully', "");
       }
@@ -1747,7 +1771,7 @@ export class BusinessDetailComponent implements OnInit {
       console.log(err);
     })
   }
-  inputValidate(id) {
+  inputValidate2(id) {
     for (var index = id - 1; index > 0; index--) {
       divElement = undefined;
       let elem = document.getElementById(index.toString()) as any;
@@ -1759,51 +1783,139 @@ export class BusinessDetailComponent implements OnInit {
         this.glowElement();
       }
       if (index == 3 || index == 4 || index == 7 || index == 8 || index == 19 || index == 20) continue;
-    
+
       if (elem.nodeName == 'DIV') {
         var divElement = elem;
         elem = elem.children[1];
       }
-      
+
       let value = elem.value;
       if (!value || value == "undefined") {
         // this.regForm.controls[elem.name].errors=true;
-        (divElement && divElement.nodeName == 'DIV')? divElement.classList.add('inputError'):elem.classList.add('inputError');
+        (divElement && divElement.nodeName == 'DIV') ? divElement.classList.add('inputError') : elem.classList.add('inputError');
       }
       else {
         // this.regForm.controls[elem.name].errors=false;
         (divElement && divElement.nodeName == 'DIV') ? divElement.classList.remove('inputError') : elem.classList.remove('inputError');
-        
       }
-    
     }
     if (index == 0 && datanumber <= 3) {
       this.issueExpirySelectborder();
     }
   }
-  
 
-  glowElement(){
 
-  let mainELement = this.serviceMode.nativeElement.parentElement.parentElement.children;
-    if(!this.serviceIds.length){
+  isOdd(num) { return num % 2; }
+  inputValidate(id) {
+    let numberType = this.isOdd(id);
+    if (numberType === 0) {
+      let x = id - 1;
+      let elem = document.getElementById(id.toString()) as any;
+      let elem2 = document.getElementById(x.toString()) as any;
+      if (!elem.value) {
+        // this.informationForm.controls[elem.name].errors = true;
+        (elem && elem.nodeName == 'DIV') ? elem.classList.add('inputError') : elem.classList.add('inputError');
+      }
+      else {
+        // this.informationForm.controls[elem.name].errors = false;
+        (elem && elem.nodeName == 'DIV') ? elem.classList.remove('inputError') : elem.classList.remove('inputError');
+      }
+      elem2.classList.remove('inputError');
+      for (var index = id - 1; index > 0; index--) {
+        divElement = undefined;
+        let genElem = document.getElementById(index.toString()) as any;
+        if (genElem.nodeName == 'DIV') {
+          var divElement = genElem;
+          genElem = genElem.children[1];
+        }
+        if (!genElem && !this.showTranslatedLangSide && index % 2 == 0) continue;
+        if (index <= 3) {
+          var datanumber = index;
+        }
+        if (index >= 4) {
+          this.glowElement();
+        }
+        if (index == 3 || index == 4 || index == 7 || index == 8 || index == 19 || index == 20) continue;
+        let value = genElem.value;
+        if (!value) {
+          (divElement && divElement.nodeName == 'DIV') ? divElement.classList.add('inputError') : genElem.classList.add('inputError');
+        }
+        else {
+          (divElement && divElement.nodeName == 'DIV') ? divElement.classList.remove('inputError') : genElem.classList.remove('inputError');
+        }
+        // if (index == 0 && datanumber <= 3) {
+        //   this.issueExpirySelectborder();
+        // }
+      }
+    } else if (numberType === 1) {
+      let y = id + 1;
+      let elem = document.getElementById(id.toString()) as any;
+      let elem3 = document.getElementById(y.toString()) as any;
+      if (!elem.value) {
+        // this.informationForm.controls[elem.name].errors = true;
+        // this.informationForm.controls[elem3.name].errors = true;
+        (elem && elem.nodeName == 'DIV') ? elem.classList.remove('inputError') : elem.classList.remove('inputError');
+        (elem3 && elem3.nodeName == 'DIV') ? elem3.classList.remove('inputError') : elem3.classList.remove('inputError');
+      }
+      for (var index = id - 1; index > 0; index--) {
+        divElement = undefined;
+        let genElem = document.getElementById(index.toString()) as any;
+        if (genElem.nodeName == 'DIV') {
+          var divElement = genElem;
+          genElem = genElem.children[1];
+        }
+        if (!genElem && !this.showTranslatedLangSide && index % 2 == 0) continue;
+        if (index <= 3) {
+          var datanumber = index;
+        }
+        if (index >= 4) {
+          this.glowElement();
+        }
+        if (index == 3 || index == 4 || index == 7 || index == 8 || index == 19 || index == 20) continue;
+
+        let value = genElem.value;
+        if (!value) {
+          (divElement && divElement.nodeName == 'DIV') ? divElement.classList.add('inputError') : genElem.classList.add('inputError');
+        }
+        else {
+          (divElement && divElement.nodeName == 'DIV') ? divElement.classList.remove('inputError') : genElem.classList.remove('inputError');
+        }
+        // if (index == 0 && datanumber <= 3) {
+        //   this.issueExpirySelectborder();
+        // }
+      }
+    }
+    if (index == 0 && datanumber <= 3) {
+      this.issueExpirySelectborder();
+    }
+  }
+
+
+  glowElement() {
+
+    let mainELement = this.serviceMode.nativeElement.parentElement.parentElement.children;
+    if (!this.serviceIds.length) {
       for (let index = 0; index < mainELement.length; index++) {
         mainELement[index].children[0].classList.add('glowElement');
       }
     }
     else {
       for (let index = 0; index < mainELement.length; index++) {
-        if (mainELement[index].children[0].classList.contains('glowElement')){
+        if (mainELement[index].children[0].classList.contains('glowElement')) {
           mainELement[index].children[0].classList.remove('glowElement');
-      }
+        }
       }
     }
+<<<<<<< HEAD
     (!this.selectedLicense || this.selectedLicense && !this.selectedLicense.DocumentFileName)?
+=======
+    (!this.selectedLicense || this.selectedLicense && !this.selectedLicense.fileName) ?
+>>>>>>> ahm-31st-oct
       this.tradeDoc.nativeElement.classList.add('glowElement') : this.tradeDoc.nativeElement.classList.remove('glowElement');
 
   }
 
-  issueExpirySelectborder(){
+  issueExpirySelectborder() {
     for (var index = 100; index < 112; index++) {
 
       let elem = document.getElementById(index.toString()) as any;
@@ -1889,21 +2001,21 @@ export class BusinessDetailComponent implements OnInit {
 
 
 
-  uploadDocx(selectedFile, type){
+  uploadDocx(selectedFile, type) {
     let object = this.uploadDocs.find(Obj => Obj.BusinessLogic == type);
     // if (docObj.BusinessLogic === 'COMPANY_LOGO' && selectedFile && selectedFile.fileBaseString) {
-      object.UserID = this.userProfile.userID;
-      object.ProviderID = this.userProfile.providerID;
-      object.DocumentFileContent = null;
-      object.DocumentName = null;
-      object.DocumentUploadedFileType = null;
-      object.FileContent = [
-        {
-          documentFileName: selectedFile.fileName,
-          documentFile: selectedFile.fileBaseString,
-          documentUploadedFileType: selectedFile.fileType.split('/').pop()
-        }
-      ]
+    object.UserID = this.userProfile.userID;
+    object.ProviderID = this.userProfile.providerID;
+    object.DocumentFileContent = null;
+    object.DocumentName = null;
+    object.DocumentUploadedFileType = null;
+    object.FileContent = [
+      {
+        documentFileName: selectedFile.fileName,
+        documentFile: selectedFile.fileBaseString,
+        documentUploadedFileType: selectedFile.fileType.split('/').pop()
+      }
+    ]
     // if (docObj.BusinessLogic === 'TRADE_LICENSE' && selectedFile && selectedFile.fileBaseString) {
     //   docObj.DocumentFileContent = null;
     //   docObj.DocumentName = null;
@@ -1916,6 +2028,7 @@ export class BusinessDetailComponent implements OnInit {
     //     }
     //   ]
 
+<<<<<<< HEAD
     this._userbusinessService.docUpload(object).subscribe((res:any)=>{
       if(res.returnStatus='Success'){
         let resObj = JSON.parse(res.returnText);
@@ -1931,18 +2044,27 @@ export class BusinessDetailComponent implements OnInit {
           this.selectedLogo.DocumentFile = baseApi.split("/api").shift() + this.selectedLogo.DocumentFile;
           this.selectedLogo.DocumentID = resObj.DocumentID;
           
+=======
+    this._userbusinessService.docUpload(object).subscribe((res: any) => {
+      if (res.returnStatus = 'Success') {
+        if (type == 'TRADE_LICENSE') {
+          this.selectedLicense.docId = JSON.parse(res.returnText).DocumentID;
+        }
+        else {
+          this.selectedLogo.docId = JSON.parse(res.returnText).DocumentID;
+>>>>>>> ahm-31st-oct
         }
         this._toastr.success("File upload successfully", "");
       }
-      else{
+      else {
         this._toastr.error("Error occured on upload", "");
       }
-    },(err:HttpErrorResponse)=>{
+    }, (err: HttpErrorResponse) => {
       console.log(err);
     })
 
 
-}
+  }
 
 
 
@@ -1956,12 +2078,8 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   selectedSocialLink(obj) {
-    console.log(obj)
-    // this.selectedSocialsite = {
-    //   mediaId: obj.socialMediaPortalsID,
-    //   // mediaUrl: Object.assign('', this.socialSites)
-    // }
-    // this.socialLinkValidate();
+    this.selectedSocialsite = obj;
+    this.socialLinkValidate();
   }
 
 }
@@ -1973,3 +2091,5 @@ export interface DocumentFile {
   fileUrl: string
   docId?: string
 }
+
+export const URL_REGEX: RegExp = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/

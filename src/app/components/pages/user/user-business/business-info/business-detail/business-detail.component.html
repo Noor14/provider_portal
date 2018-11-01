@@ -21,14 +21,14 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label for="Trade-License">{{tradeLabelBaseLanguage}}</label>
-          <input id="1" type="text" maxlength="10" (focusout)="errorValidate()" (focus)="licenseError = false; inputValidate(1)"
+          <input id="1" type="text" maxlength="10" (focusout)="errorValidate()" (focus)="translicenseError=false; licenseError = false; inputValidate(1)"
             [ngClass]="{
             'inputError': licenseError && informationForm.controls['licenseNo'].errors,
            'inputErrorRemove': informationForm.controls['licenseNo'].value && !licenseError
           }"
             (keypress)="spaceHandler($event)" class="form-control" [(ngModel)]="licenseNoAr" formControlName="licenseNo">
           <span *ngIf="licenseError && informationForm.controls['licenseNo'].errors">
-            <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('required') && (informationForm.controls.licenseNo.dirty || informationForm.controls.licenseNo.touched)">{{requiredFields}}</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('required') && (informationForm.controls.licenseNo.dirty || informationForm.controls.licenseNo.touched)">{{requiredFields}}</p> -->
             <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('pattern') && (informationForm.controls.licenseNo.dirty || informationForm.controls.licenseNo.touched)">Please
               enter valid information</p>
             <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('maxlength') && (informationForm.controls.licenseNo.dirty || informationForm.controls.licenseNo.touched)">Trade
@@ -42,13 +42,13 @@
         <div class="form-group dir-otherLanguage">
           <label for="Issue-Date">{{tradeLabelOtherLanguage}}</label>
           <input id="2" type="text" class="form-control" maxlength="10" formControlName='licenseNoAr' (focusout)="errorValidate()"
-            (focus)="translicenseError=false;inputValidate(2)" [ngClass]="{
+            (focus)="translicenseError=false;licenseError = false; inputValidate(2)" [ngClass]="{
               'inputError': translicenseError && informationForm.controls['licenseNoAr'].errors,
                'inputErrorRemove': informationForm.controls['licenseNoAr'].value && !translicenseError
             }"
             (keypress)="spaceHandler($event)" [(ngModel)]="licenseNoAr">
           <span *ngIf="translicenseError && informationForm.controls['licenseNoAr'].errors">
-            <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNoAr'].hasError('required') && (informationForm.controls.licenseNoAr.dirty || informationForm.controls.licenseNoAr.touched)">{{requiredFieldsOthrLng}}</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNoAr'].hasError('required') && (informationForm.controls.licenseNoAr.dirty || informationForm.controls.licenseNoAr.touched)">{{requiredFieldsOthrLng}}</p> -->
             <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNoAr'].hasError('pattern') && (informationForm.controls.licenseNoAr.dirty || informationForm.controls.licenseNoAr.touched)">يرجى
               إدخال معلومات صحيحة</p>
             <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNoAr'].hasError('maxlength') && (informationForm.controls.licenseNoAr.dirty || informationForm.controls.licenseNoAr.touched)">يجب
@@ -198,7 +198,7 @@
           }"
             (keypress)="NumberValid($event)" class="form-control" [(ngModel)]="vatNoAr" formControlName="vatNo">
           <span *ngIf="vatError && informationForm.controls['vatNo'].errors">
-            <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNo'].hasError('required') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">{{requiredFields}}</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNo'].hasError('required') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">{{requiredFields}}</p> -->
             <p class="inputError animated fadeIn" *ngIf="!informationForm.controls['vatNo'].hasError('pattern') && informationForm.controls['vatNo'].hasError('minlength') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">Vat
               no should be minimum 5 characters</p>
             <p class="inputError animated fadeIn" *ngIf="!informationForm.controls['vatNo'].hasError('pattern') && informationForm.controls['vatNo'].hasError('maxlength') && (informationForm.controls.vatNo.dirty || informationForm.controls.vatNo.touched)">Vat
@@ -219,7 +219,7 @@
           }"
             (keypress)="NumberValid($event)" class="form-control" [(ngModel)]="vatNoAr" formControlName="vatNoAr">
           <span *ngIf="vatNoArError && informationForm.controls['vatNoAr'].errors">
-            <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNoAr'].hasError('required') && (informationForm.controls.vatNoAr.dirty || informationForm.controls.vatNoAr.touched)">{{requiredFieldsOthrLng}}</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNoAr'].hasError('required') && (informationForm.controls.vatNoAr.dirty || informationForm.controls.vatNoAr.touched)">{{requiredFieldsOthrLng}}</p> -->
             <p class="inputError animated fadeIn" *ngIf="informationForm.controls['vatNoAr'].hasError('pattern') && (informationForm.controls.vatNoAr.dirty || informationForm.controls.vatNoAr.touched)">يرجى
               إدخال معلومات صحيحة</p>
             <p class="inputError animated fadeIn" *ngIf="!informationForm.controls['vatNo'].hasError('pattern') &&  informationForm.controls['vatNoAr'].hasError('maxlength') && (informationForm.controls.vatNoAr.dirty || informationForm.controls.vatNoAr.touched)">يجب
@@ -329,7 +329,7 @@
             }"
             [(ngModel)]="addressAr">
           <span *ngIf="addressError && businessLocForm.controls['address'].errors">
-            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['address'].hasError('required') && (businessLocForm.controls.address.dirty || businessLocForm.controls.address.touched)">{{requiredFields}}</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['address'].hasError('required') && (businessLocForm.controls.address.dirty || businessLocForm.controls.address.touched)">{{requiredFields}}</p> -->
             <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['address'].hasError('pattern') && (businessLocForm.controls.address.dirty || businessLocForm.controls.address.touched)">Please
               enter valid information</p>
             <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['address'].hasError('pattern')&& businessLocForm.controls['address'].hasError('maxlength') && (businessLocForm.controls.address.dirty || businessLocForm.controls.address.touched)">Address
@@ -351,7 +351,7 @@
             }"
             [(ngModel)]="addressAr">
           <span *ngIf="addressArError && businessLocForm.controls['transAddress'].errors">
-            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transAddress'].hasError('required') && (businessLocForm.controls.transAddress.dirty || businessLocForm.controls.transAddress.touched)">{{requiredFieldsOthrLng}}</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transAddress'].hasError('required') && (businessLocForm.controls.transAddress.dirty || businessLocForm.controls.transAddress.touched)">{{requiredFieldsOthrLng}}</p> -->
             <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transAddress'].hasError('pattern') && (businessLocForm.controls.transAddress.dirty || businessLocForm.controls.transAddress.touched)">يرجى
               إدخال معلومات صحيحة</p>
             <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['transAddress'].hasError('pattern') && businessLocForm.controls['transAddress'].hasError('maxlength') && (businessLocForm.controls.transAddress.dirty || businessLocForm.controls.transAddress.touched)">يجب
@@ -375,7 +375,7 @@
                     }"
             [(ngModel)]="addressAr2">
           <span *ngIf="addressError2 && businessLocForm.controls['address2'].errors">
-            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['address2'].hasError('required') && (businessLocForm.controls.address2.dirty || businessLocForm.controls.address2.touched)">{{requiredFields}}</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['address2'].hasError('required') && (businessLocForm.controls.address2.dirty || businessLocForm.controls.address2.touched)">{{requiredFields}}</p> -->
             <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['address2'].hasError('pattern') && (businessLocForm.controls.address2.dirty || businessLocForm.controls.address2.touched)">Please
               enter valid information</p>
             <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['address2'].hasError('pattern')&& businessLocForm.controls['address2'].hasError('maxlength') && (businessLocForm.controls.address2.dirty || businessLocForm.controls.address2.touched)">Address
@@ -397,7 +397,7 @@
                     }"
             [(ngModel)]="addressAr2">
           <span *ngIf="addressArError2 && businessLocForm.controls['transAddress2'].errors">
-            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transAddress2'].hasError('required') && (businessLocForm.controls.transAddress2.dirty || businessLocForm.controls.transAddress2.touched)">{{requiredFieldsOthrLng}}</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transAddress2'].hasError('required') && (businessLocForm.controls.transAddress2.dirty || businessLocForm.controls.transAddress2.touched)">{{requiredFieldsOthrLng}}</p> -->
             <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transAddress2'].hasError('pattern') && (businessLocForm.controls.transAddress2.dirty || businessLocForm.controls.transAddress2.touched)">يرجى
               إدخال معلومات صحيحة</p>
             <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['transAddress2'].hasError('pattern') && businessLocForm.controls['transAddress2'].hasError('maxlength') && (businessLocForm.controls.transAddress2.dirty || businessLocForm.controls.transAddress2.touched)">يجب
@@ -421,7 +421,7 @@
                         }"
             [(ngModel)]="cityAr">
           <span *ngIf="cityError && businessLocForm.controls['city'].errors">
-            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['city'].hasError('required') && (businessLocForm.controls.city.dirty || businessLocForm.controls.city.touched)">{{requiredFields}}</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['city'].hasError('required') && (businessLocForm.controls.city.dirty || businessLocForm.controls.city.touched)">{{requiredFields}}</p> -->
             <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['city'].hasError('pattern') && (businessLocForm.controls.city.dirty || businessLocForm.controls.city.touched)">Please
               enter valid information</p>
             <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['city'].hasError('pattern')&& businessLocForm.controls['city'].hasError('maxlength') && (businessLocForm.controls.city.dirty || businessLocForm.controls.city.touched)">city
@@ -443,7 +443,7 @@
                         }"
             [(ngModel)]="cityAr">
           <span *ngIf="cityArError && businessLocForm.controls['transCity'].errors">
-            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transCity'].hasError('required') && (businessLocForm.controls.transCity.dirty || businessLocForm.controls.transCity.touched)">{{requiredFieldsOthrLng}}</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transCity'].hasError('required') && (businessLocForm.controls.transCity.dirty || businessLocForm.controls.transCity.touched)">{{requiredFieldsOthrLng}}</p> -->
             <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['transCity'].hasError('pattern') && (businessLocForm.controls.transCity.dirty || businessLocForm.controls.transCity.touched)">يرجى
               إدخال معلومات صحيحة</p>
             <p class="inputError animated fadeIn" *ngIf="!businessLocForm.controls['transCity'].hasError('pattern') && businessLocForm.controls['transCity'].hasError('maxlength') && (businessLocForm.controls.transCity.dirty || businessLocForm.controls.transCity.touched)">يجب
@@ -469,7 +469,7 @@
                 }"
                 [(ngModel)]="poBoxAr" formControlName="poBoxNo">
               <span *ngIf="poBoxError && businessLocForm.controls['poBoxNo'].errors">
-                <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNo'].hasError('required') && (businessLocForm.controls.poBoxNo.dirty || businessLocForm.controls.poBoxNo.touched)">{{requiredFields}}</p>
+                <!-- <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNo'].hasError('required') && (businessLocForm.controls.poBoxNo.dirty || businessLocForm.controls.poBoxNo.touched)">{{requiredFields}}</p> -->
                 <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNo'].hasError('pattern') && (businessLocForm.controls.poBoxNo.dirty || businessLocForm.controls.poBoxNo.touched)">Please
                   enter valid information</p>
                 <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNo'].hasError('maxlength') && (businessLocForm.controls.poBoxNo.dirty || businessLocForm.controls.poBoxNo.touched)">PO
@@ -494,7 +494,7 @@
               }"
                 [(ngModel)]="poBoxAr" formControlName="poBoxNoAr">
               <span *ngIf="poBoxArError && businessLocForm.controls['poBoxNoAr'].errors">
-                <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNoAr'].hasError('required') && (businessLocForm.controls.poBoxNoAr.dirty || businessLocForm.controls.poBoxNoAr.touched)">{{requiredFieldsOthrLng}}</p>
+                <!-- <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNoAr'].hasError('required') && (businessLocForm.controls.poBoxNoAr.dirty || businessLocForm.controls.poBoxNoAr.touched)">{{requiredFieldsOthrLng}}</p> -->
                 <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNoAr'].hasError('pattern') && (businessLocForm.controls.poBoxNoAr.dirty || businessLocForm.controls.poBoxNoAr.touched)">يرجى
                   إدخال معلومات صحيحة</p>
                 <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNoAr'].hasError('maxlength') && (businessLocForm.controls.poBoxNoAr.dirty || businessLocForm.controls.poBoxNoAr.touched)">يجب
@@ -557,16 +557,15 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label for="13">{{orgNameLabelBaseLanguage}}</label>
-      
-          <input id="13" type="text" class="form-control" maxlength="100" (keypress)="textValidation($event)" 
-          [ngClass]="{
+          <input id="13" type="text" class="form-control" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{
             'inputError': orgNameError && organizationForm.controls['orgName'].errors,
             'inputErrorRemove': organizationForm.controls['orgName'].value && !orgNameError
             }"
-            (focusout)="errorValidate()" (blur)="activeOrgName=false" (focus)="orgNameError=false; activeOrgName=true; inputValidate(13) " (ngModelChange)="onModelChange(activeTransOrgName, activeOrgName, 'transLangOrgName', 'en', 'ar' ,$event)"
-            placeholder="{{orgHintLabelBaseLanguage}}" formControlName="orgName">
+            (focusout)="errorValidate()" (blur)="activeOrgName=false" (focus)="orgNameError=false; activeOrgName=true; inputValidate(13) "
+            (ngModelChange)="onModelChange(activeTransOrgName, activeOrgName, 'transLangOrgName', 'en', 'ar' ,$event)"
+             placeholder="{{orgHintLabelBaseLanguage}}" formControlName="orgName">
           <span *ngIf="orgNameError && organizationForm.controls['orgName'].errors">
-            <p class="inputError animated fadeIn" *ngIf="organizationForm.controls['orgName'].hasError('required') && (organizationForm.controls.orgName.dirty || organizationForm.controls.orgName.touched)">{{requiredFields}}</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="organizationForm.controls['orgName'].hasError('required') && (organizationForm.controls.orgName.dirty || organizationForm.controls.orgName.touched)">{{requiredFields}}</p> -->
             <p class="inputError animated fadeIn" *ngIf="!organizationForm.controls['orgName'].hasError('pattern') && organizationForm.controls['orgName'].hasError('minlength') && (organizationForm.controls.orgName.dirty || organizationForm.controls.orgName.touched)">Org
               name must be at least 4 characters long</p>
             <p class="inputError animated fadeIn" *ngIf="!organizationForm.controls['orgName'].hasError('pattern') && organizationForm.controls['orgName'].hasError('maxlength') && (organizationForm.controls.orgName.dirty || organizationForm.controls.orgName.touched)">Org
@@ -579,17 +578,15 @@
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage text-right">
-          <label for="14" >{{orgNameLabelOtherLanguage}}</label>
-       
-          <input id="14" type="text" class="form-control" 
-          [ngClass]="{
+          <label for="14">{{orgNameLabelOtherLanguage}}</label>
+          <input id="14" type="text" class="form-control" [ngClass]="{
             'inputError': transorgNameError && organizationForm.controls['transLangOrgName'].errors,
             'inputErrorRemove': organizationForm.controls['transLangOrgName'].value && !transorgNameError}"
             (focusout)="errorValidate()" (blur)="activeTransOrgName=false" (focus)="transorgNameError=false; activeTransOrgName=true; inputValidate(14)"
             (ngModelChange)="onTransModel(activeOrgName, activeTransOrgName, 'orgName' ,$event)" placeholder="{{orgHintLabelOtherLanguage}}"
             formControlName="transLangOrgName">
           <span *ngIf="transorgNameError && organizationForm.controls['transLangOrgName'].errors">
-            <p class="inputError animated fadeIn" *ngIf="organizationForm.controls['transLangOrgName'].hasError('required') && (organizationForm.controls.transLangOrgName.dirty || organizationForm.controls.transLangOrgName.touched)">{{requiredFieldsOthrLng}}</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="organizationForm.controls['transLangOrgName'].hasError('required') && (organizationForm.controls.transLangOrgName.dirty || organizationForm.controls.transLangOrgName.touched)">{{requiredFieldsOthrLng}}</p> -->
             <p class="inputError animated fadeIn" *ngIf="!organizationForm.controls['transLangOrgName'].hasError('pattern') && organizationForm.controls['transLangOrgName'].hasError('minlength') && (organizationForm.controls.transLangOrgName.dirty || organizationForm.controls.transLangOrgName.touched)">يجب
               ألا يقل اسم المؤسسة عن 4 أحرف</p>
             <p class="inputError animated fadeIn" *ngIf="!organizationForm.controls['transLangOrgName'].hasError('pattern') && organizationForm.controls['transLangOrgName'].hasError('maxlength') && (organizationForm.controls.transLangOrgName.dirty || organizationForm.controls.transLangOrgName.touched)">يجب
@@ -672,7 +669,7 @@
                 (focus)="phoneError=false; activePhone=true; inputValidate(17)" (keypress)="NumberValid($event)" />
             </div>
             <span class="animated fadeIn" *ngIf="phoneError && contactInfoForm.controls['phone'].errors">
-              <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['phone'].hasError('required') && (contactInfoForm.controls.phone.dirty || contactInfoForm.controls.phone.touched)">{{requiredFields}}</p>
+              <!-- <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['phone'].hasError('required') && (contactInfoForm.controls.phone.dirty || contactInfoForm.controls.phone.touched)">{{requiredFields}}</p> -->
               <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['phone'].hasError('pattern') && contactInfoForm.controls['phone'].hasError('minlength') && (contactInfoForm.controls.phone.dirty || contactInfoForm.controls.phone.touched)">Phone
                 number should be minimum 7 digits</p>
               <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['phone'].hasError('pattern') && contactInfoForm.controls['phone'].hasError('maxlength') && (contactInfoForm.controls.phone.dirty || contactInfoForm.controls.phone.touched)">Phone
@@ -719,7 +716,7 @@
                 placeholder="۹۸۷۶۵۴۳۲۱" (keypress)="NumberValid($event)">
             </div>
             <span class="animated fadeIn" *ngIf="translangPhoneError && contactInfoForm.controls['transLangPhone'].errors">
-              <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['transLangPhone'].hasError('required') && (contactInfoForm.controls.transLangPhone.dirty || contactInfoForm.controls.transLangPhone.touched)">{{requiredFieldsOthrLng}}</p>
+              <!-- <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['transLangPhone'].hasError('required') && (contactInfoForm.controls.transLangPhone.dirty || contactInfoForm.controls.transLangPhone.touched)">{{requiredFieldsOthrLng}}</p> -->
               <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['transLangPhone'].hasError('pattern') && contactInfoForm.controls['transLangPhone'].hasError('minlength') && (contactInfoForm.controls.transLangPhone.dirty || contactInfoForm.controls.transLangPhone.touched)">يجب
                 أن يكون رقم الهاتف 7 أرقام كحد أدنى</p>
               <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['transLangPhone'].hasError('pattern') && contactInfoForm.controls['transLangPhone'].hasError('maxlength') && (contactInfoForm.controls.transLangPhone.dirty || contactInfoForm.controls.transLangPhone.touched)">يجب
@@ -770,7 +767,7 @@
                 (focus)="faxError=false; activeFax=true; inputValidate(19)" (keypress)="NumberValid($event)" />
             </div>
             <span class="animated fadeIn" *ngIf="faxError">
-              <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['fax'].hasError('required') && (contactInfoForm.controls.fax.dirty || contactInfoForm.controls.fax.touched)">{{requiredFields}}</p>
+              <!-- <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['fax'].hasError('required') && (contactInfoForm.controls.fax.dirty || contactInfoForm.controls.fax.touched)">{{requiredFields}}</p> -->
               <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['fax'].hasError('pattern') && contactInfoForm.controls['fax'].hasError('minlength') && (contactInfoForm.controls.fax.dirty || contactInfoForm.controls.fax.touched)">Fax
                 number should be minimum 7 digits</p>
               <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['fax'].hasError('pattern') && contactInfoForm.controls['fax'].hasError('maxlength') && (contactInfoForm.controls.fax.dirty || contactInfoForm.controls.fax.touched)">Fax
@@ -816,7 +813,7 @@
                 (ngModelChange)="onModelTransFaxChange(activeFax, activeTransFax, 'fax', $event)" (keypress)="NumberValid($event)">
             </div>
             <span class="animated fadeIn" *ngIf="translangFaxError">
-              <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['transLangFax'].hasError('required') && (contactInfoForm.controls.transLangFax.dirty || contactInfoForm.controls.transLangFax.touched)">{{requiredFieldsOthrLng}}</p>
+              <!-- <p class="inputError animated fadeIn" *ngIf="contactInfoForm.controls['transLangFax'].hasError('required') && (contactInfoForm.controls.transLangFax.dirty || contactInfoForm.controls.transLangFax.touched)">{{requiredFieldsOthrLng}}</p> -->
               <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['transLangFax'].hasError('pattern') && contactInfoForm.controls['transLangFax'].hasError('minlength') && (contactInfoForm.controls.transLangFax.dirty || contactInfoForm.controls.transLangFax.touched)">يجب
                 أن يكون رقم الفاكس 7 أرقام كحد أدنى</p>
               <p class="inputError animated fadeIn" *ngIf="!contactInfoForm.controls['transLangFax'].hasError('pattern') && contactInfoForm.controls['transLangFax'].hasError('maxlength') && (contactInfoForm.controls.transLangFax.dirty || contactInfoForm.controls.transLangFax.touched)">يجب
@@ -833,7 +830,7 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label class="d-flex justify-content-start">{{socialMedLabelBaseLanguage}}</label>
-          <div class="select-number" *ngFor="let social of contactInfoForm.get('socialUrl').controls; let i = index">
+          <div class="select-number">
             <div class="input-group-prepend">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
@@ -847,11 +844,10 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control select-country-code" formControlName="{{i}}" [(ngModel)]="socialSites"
+              <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites"
                 maxlength="100" placeholder="www.company.com" (focus)="inputValidate(19)" />
-
-              <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" *ngIf="i > 0" class="pointer icon-size-16 social-link-del"
-                (click)="removeSocialSite(i)">
+              <!-- <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" *ngIf="i > 0" class="pointer icon-size-16 social-link-del"
+                (click)="removeSocialSite()"> -->
             </div>
             <!-- <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p> -->
           </div>
@@ -861,7 +857,7 @@
       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
         <div class="form-group">
           <label class="arabicLng text-right">{{socialMedLabelOtherLanguage}}</label>
-          <div class="select-number" *ngFor="let social of contactInfoForm.get('socialUrl').controls; let i = index">
+          <div class="select-number">
             <div class="input-group-prepend">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
@@ -869,18 +865,18 @@
                 </div>
                 <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="social">
                   <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let link of socialLink" (click)="selectedSocialLink(link, i)">
+                    <li class="list-group-item" *ngFor="let link of socialLink" (click)="selectedSocialLink(link)">
                       <span>{{link.title}}</span>
                     </li>
                   </ul>
                 </div>
               </div>
 
-              <input type="text" class="form-control select-country-code" formControlName="{{i}}" [(ngModel)]="socialSites"
+              <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites"
                 maxlength="100" placeholder="www.company.com" (focus)="inputValidate(19)" />
 
-              <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" *ngIf="i > 0" class="pointer icon-size-16 social-link-del"
-                (click)="removeSocialSite(i)">
+              <!-- <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" *ngIf="i > 0" class="pointer icon-size-16 social-link-del"
+                (click)="removeSocialSite(i)"> -->
             </div>
             <!-- <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p> -->
           </div>
@@ -902,9 +898,9 @@
         <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
       </button>
 
-      <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()">
-        <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
-      </button> -->
+      <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
+      <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
+    </button> -->
 
     </div>
   </form>
