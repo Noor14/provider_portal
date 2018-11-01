@@ -1,5 +1,8 @@
 @import '../../../../assets/scss/_variables';
 .user {
+    .h-100 {
+        background: $right-side-background;
+    }
     .left-section {
         background-color: $left-sidebar-background;
         display: flex;
@@ -37,7 +40,7 @@
     }
     .right-section-portal {
         background-color: $right-side-background;
-        padding: 75px 6% !important;
+        padding: 75px 0 !important;
     }
 }
 

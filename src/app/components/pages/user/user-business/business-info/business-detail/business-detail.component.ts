@@ -1886,7 +1886,7 @@ export class BusinessDetailComponent implements OnInit {
         if (index == 3 || index == 4 || index == 7 || index == 8 || index == 19 || index == 20) continue;
 
         let value = genElem.value;
-        if (!value) {
+        if (!value || value == 'undefined') {
           (divElement && divElement.nodeName == 'DIV') ? divElement.classList.add('inputError') : genElem.classList.add('inputError');
         }
         else {

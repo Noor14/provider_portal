@@ -85,18 +85,25 @@
             z-index: 1;
             margin-top: 15px; // top: 0;
             margin-left: 15px;
+            width: 340px;
             .prepend-flag {
                 position: absolute;
                 top: 12px;
                 left: 8px;
             }
             input#typeahead {
-                width: calc(100% + 8em);
+                width: 100%;
                 padding-left: 1.8rem;
                 border-radius: 4px;
                 box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.15);
                 z-index: 1;
                 height: 48px;
+                &[ng-reflect-model="[object Object]"] {
+                    padding-left: 1.8rem;
+                }
+                &.blinking {
+                    padding-left: .75rem;
+                }
             }
         }
     }
