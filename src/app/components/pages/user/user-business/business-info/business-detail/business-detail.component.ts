@@ -360,17 +360,11 @@ export class BusinessDetailComponent implements OnInit {
     }
     this.getsocialList();
     this.getOrganizationList();
+    this.getServices();
     this.getTenYears('issue', 0);
     this.getTenYears('expire', 0);
     this.getDates(31, 'both');
 
-    this._userbusinessService.getServiceOffered().subscribe((res: any) => {
-      if (res.returnStatus == 'Success') {
-        this.serviceOffered = JSON.parse(res.returnObject);
-      }
-    }, (err: HttpErrorResponse) => {
-      console.log(err);
-    })
 
     this._sharedService.countryList.subscribe((state: any) => {
       if (state) {
@@ -437,6 +431,18 @@ export class BusinessDetailComponent implements OnInit {
 
       }
     });
+
+  }
+
+
+  getServices(){
+    this._userbusinessService.getServiceOffered().subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
+        this.serviceOffered = JSON.parse(res.returnObject);
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
 
   }
 
@@ -1753,14 +1759,9 @@ export class BusinessDetailComponent implements OnInit {
 
   }
 
-<<<<<<< HEAD
   removeDoc(obj) {
     obj.DocumentFile = obj.DocumentFile.split(baseApi.split("/api").shift()).pop();
     this._userbusinessService.removeDoc(obj).subscribe((res: any) => {
-=======
-  removeDoc(id) {
-    this._userbusinessService.removeDoc([id.toString()]).subscribe((res: any) => {
->>>>>>> ahm-31st-oct
       if (res.returnStatus == 'Success') {
         this._toastr.success('Remove selected document succesfully', "");
       }
@@ -1906,11 +1907,7 @@ export class BusinessDetailComponent implements OnInit {
         }
       }
     }
-<<<<<<< HEAD
     (!this.selectedLicense || this.selectedLicense && !this.selectedLicense.DocumentFileName)?
-=======
-    (!this.selectedLicense || this.selectedLicense && !this.selectedLicense.fileName) ?
->>>>>>> ahm-31st-oct
       this.tradeDoc.nativeElement.classList.add('glowElement') : this.tradeDoc.nativeElement.classList.remove('glowElement');
 
   }
@@ -2028,7 +2025,6 @@ export class BusinessDetailComponent implements OnInit {
     //     }
     //   ]
 
-<<<<<<< HEAD
     this._userbusinessService.docUpload(object).subscribe((res:any)=>{
       if(res.returnStatus='Success'){
         let resObj = JSON.parse(res.returnText);
@@ -2044,15 +2040,6 @@ export class BusinessDetailComponent implements OnInit {
           this.selectedLogo.DocumentFile = baseApi.split("/api").shift() + this.selectedLogo.DocumentFile;
           this.selectedLogo.DocumentID = resObj.DocumentID;
           
-=======
-    this._userbusinessService.docUpload(object).subscribe((res: any) => {
-      if (res.returnStatus = 'Success') {
-        if (type == 'TRADE_LICENSE') {
-          this.selectedLicense.docId = JSON.parse(res.returnText).DocumentID;
-        }
-        else {
-          this.selectedLogo.docId = JSON.parse(res.returnText).DocumentID;
->>>>>>> ahm-31st-oct
         }
         this._toastr.success("File upload successfully", "");
       }

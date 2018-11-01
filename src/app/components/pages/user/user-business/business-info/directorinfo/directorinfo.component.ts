@@ -730,21 +730,21 @@ export class DirectorinfoComponent implements OnInit {
               fileUrl: reader.result,
               fileBaseString: reader.result.split(',')[1]
             }
-          // console.log('you file content:', selectedFile);
+            // console.log('you file content:', selectedFile);
 
-          if(this.selectedDocx && this.selectedDocx.length && event.files.length > 1 && index == 0){
-            this._toastr.error('Please select only two file to upload', '');
-            return;
-          } else if (this.selectedDocx && this.selectedDocx.length < 2){
-            this.uploadDocx(selectedFile);
-            
-          }
-          else{
-            this._toastr.error('Please select only two file to upload', '');
-          }
+            if (this.selectedDocx && this.selectedDocx.length && event.files.length > 1 && index == 0) {
+              this._toastr.error('Please select only two file to upload', '');
+              return;
+            } else if (this.selectedDocx && this.selectedDocx.length < 2) {
+              this.uploadDocx(selectedFile);
 
+            }
+            else {
+              this._toastr.error('Please select only two file to upload', '');
+            }
+
+          }
         }
-      }
         // if (index == event.files.length){
         //   this.uploadDocx(this.selectedDocx);
         // } 
@@ -778,10 +778,10 @@ export class DirectorinfoComponent implements OnInit {
       if (res.returnStatus = 'Success') {
         let resObj = JSON.parse(res.returnText);
         this.docTypeId = resObj.DocumentID;
-        let fileObj= JSON.parse(resObj.DocumentFile);
+        let fileObj = JSON.parse(resObj.DocumentFile);
         fileObj.forEach(element => {
           element.DocumentFile = baseApi.split("/api").shift() + element.DocumentFile;
-          });
+        });
         this.selectedDocx = fileObj;
         this._toastr.success("File upload successfully", "");
       }
