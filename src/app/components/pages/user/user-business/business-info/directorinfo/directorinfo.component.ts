@@ -658,7 +658,7 @@ export class DirectorinfoComponent implements OnInit {
               fileUrl: reader.result,
               fileBaseString: reader.result.split(',')[1]
             }
-          console.log('you file content:', selectedFile);
+          // console.log('you file content:', selectedFile);
 
           if(this.selectedDocx && this.selectedDocx.length && event.files.length > 1 && index == 0){
             this._toastr.error('Please select only two file to upload', '');

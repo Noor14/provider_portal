@@ -58,7 +58,7 @@ export class BusinessInfoComponent implements OnInit {
 
     this._userService.getlabelsDescription('BusinessProfile').subscribe((res:any)=>{
       if (res.returnStatus == 'Success') {
-        console.log(res)
+        // console.log(res)
         this._sharedService.businessProfileJsonLabels.next(res.returnObject);
       }
     }, (err: HttpErrorResponse) => {
@@ -69,7 +69,7 @@ export class BusinessInfoComponent implements OnInit {
   getDocType(id) {
     this._userbusinessService.getDocByCountrytype('provider', 0 , id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
-        console.log(res.returnObject)
+        // console.log(res.returnObject)
         this._sharedService.documentList.next(res.returnObject);
       }
     },(err: HttpErrorResponse) => {

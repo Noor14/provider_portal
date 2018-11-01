@@ -127,7 +127,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
       this.getlabelsDescription(this.userInfo);
       if (this.userInfo.Timer > 0) this.countDown(this.userInfo.Timer);  
       this._sharedService.formProgress.next(20)
-      console.log(this.userInfo);
+      // console.log(this.userInfo);
     } 
     },(err: HttpErrorResponse) => {
       loading(false);
@@ -153,7 +153,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
     this._userCreationService.resendOtpCode(obj).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
         loading(false);
-        console.log(res.returnObject.otpCode);
+        // console.log(res.returnObject.otpCode);
         this.userInfo.OTPCode = res.returnObject.otpCode;
         this.userInfo.Timer = res.returnObject.timer;
         if(this.userInfo.Timer > 0) {

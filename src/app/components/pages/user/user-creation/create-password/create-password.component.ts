@@ -90,7 +90,7 @@ export class CreatePasswordComponent implements OnInit {
   getlabelsDescription(obj){
     this._userService.getlabelsDescription('createpassword').subscribe((res:any)=>{
       if(res.returnStatus =='Success'){
-        console.log(res.returnObject);
+        // console.log(res.returnObject);
        this.headingBaseLanguage = res.returnObject[0].baseLang.replace('{firstName}', obj.firstName);
        this.headingOtherLanguage = res.returnObject[0].otherLang.replace('{firstName}', obj.firstNameOL);
        this.descBaseLanguage = res.returnObject[1].baseLang;
@@ -121,7 +121,7 @@ export class CreatePasswordComponent implements OnInit {
       this.showTranslatedLangSide = (this.userInfo && this.userInfo.regionCode == "MET")? true : false;
       this.getlabelsDescription(this.userInfo);
       this._sharedService.formProgress.next(30);
-      console.log(this.userInfo);
+      // console.log(this.userInfo);
     } 
     },(err: HttpErrorResponse) => {
       loading(false);
