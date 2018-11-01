@@ -825,6 +825,13 @@ export class DirectorinfoComponent implements OnInit {
           linkURL: "texpo.com",
         }
       ],
+      businessLocation: {
+        addressLine1: this.formOneObj.businessLocForm.address,
+        addressLine2: this.formOneObj.businessLocForm.address2,
+        city: this.formOneObj.businessLocForm.city,
+        // latitude: this.formOneObj.location.lat.toString(),
+        // longitude: this.formOneObj.location.lng.toString()
+      },
       providerLogisticServiceList: this.formOneObj.logisticsService,
     };
     
