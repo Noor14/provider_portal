@@ -29,7 +29,7 @@
             (keypress)="spaceHandler($event)" class="form-control" [(ngModel)]="licenseNoAr" formControlName="licenseNo">
           <span *ngIf="licenseError && informationForm.controls['licenseNo'].errors">
             <!-- <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('required') && (informationForm.controls.licenseNo.dirty || informationForm.controls.licenseNo.touched)">{{requiredFields}}</p> -->
-            <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('required')">{{requiredFields}}</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('required')">{{requiredFields}}</p> -->
             <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('pattern') && (informationForm.controls.licenseNo.dirty || informationForm.controls.licenseNo.touched)">Please
               enter valid information</p>
             <p class="inputError animated fadeIn" *ngIf="informationForm.controls['licenseNo'].hasError('maxlength') && (informationForm.controls.licenseNo.dirty || informationForm.controls.licenseNo.touched)">Trade
@@ -833,7 +833,9 @@
         <div class="form-group">
           <label class="d-flex justify-content-start">{{socialMedLabelBaseLanguage}}</label>
           <div class="select-number">
-            <div class="input-group-prepend">
+            <div class="input-group-prepend" [ngClass]=" { 
+              'inputError': socialInputValidate && contactInfoForm.controls['socialUrl'].errors
+            }">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <span *ngIf="selectedSocialsite.title">{{selectedSocialsite.title}}</span>
@@ -861,7 +863,9 @@
         <div class="form-group">
           <label class="arabicLng text-right">{{socialMedLabelOtherLanguage}}</label>
           <div class="select-number">
-            <div class="input-group-prepend">
+            <div class="input-group-prepend"[ngClass]="{
+               'inputError': socialInputValidate && contactInfoForm.controls['socialUrl'].errors
+               }">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                   <span *ngIf="selectedSocialsite.title">{{selectedSocialsite.title}}</span>
@@ -901,8 +905,8 @@
         <span>{{btnLabelBaseLanguage}} </span>
         <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
       </button>
-
-      <!-- <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
+    <!-- 
+    <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="nextForm()"> 
       <span>{{btnLabelBaseLanguage}} </span> <span *ngIf="showTranslatedLangSide">/ {{btnLabelOtherLanguage}}</span>
     </button> -->
 

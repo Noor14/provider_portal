@@ -419,7 +419,7 @@ export class BusinessDetailComponent implements OnInit {
       fax: new FormControl(null, [Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
       transLangFax: new FormControl(null, [Validators.minLength(7), Validators.maxLength(13)]),
       // socialUrl: new FormArray([new FormControl(null, [patternValidator(URL_REGEX)])]),
-      socialUrl: new FormControl(null, [patternValidator(this.selectedRegex)]),
+      socialUrl: new FormControl(null),
       // socialUrlOther: new FormArray(null),
 
     });
@@ -435,7 +435,7 @@ export class BusinessDetailComponent implements OnInit {
   }
 
 
-  getServices(){
+  getServices() {
     this._userbusinessService.getServiceOffered().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.serviceOffered = JSON.parse(res.returnObject);
@@ -780,8 +780,10 @@ export class BusinessDetailComponent implements OnInit {
     this._userbusinessService.socialList().subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.socialLink = res.returnObject;
-        this.selectedSocialsite = this.socialLink.pop();
-        // console.log(this.socialLink);
+        this.selectedSocialsite = this.socialLink[this.socialLink.length-1];
+        if (this.selectedSocialsite.socialMediaPortalsID === 105) {
+          this.contactInfoForm.controls['socialUrl'].setValidators([patternValidator(GEN_URL)]);
+        }
       }
     })
   }
@@ -1440,10 +1442,15 @@ export class BusinessDetailComponent implements OnInit {
     // let title = 'Website';
     // console.log(this.contactInfoForm.controls['socialUrl']);
     // console.log(this.selectedSocialsite)
+ 
     if (this.selectedSocialsite && this.contactInfoForm.controls['socialUrl'].value && this.contactInfoForm.controls['socialUrl'].status === 'INVALID') {
       // let index = this.selectedSocialsite.title.toLowerCase().indexOf(this.socialSites.toLowerCase());
       this.socialInputValidate = 'Your social url is not valid';
-    } else {
+    }
+    else if (!this.contactInfoForm.controls['socialUrl'].value) {
+      this.socialInputValidate = '';
+    }
+    else {
       this.socialInputValidate = '';
     }
     // else {
@@ -1744,8 +1751,8 @@ export class BusinessDetailComponent implements OnInit {
       busiType: this.orgType,
       OtherLangPhoneCode: this.transPhoneCode,
       baseLangPhoneCode: this.phoneCode,
-      socialSites: this.selectedSocialsite
-
+      socialSites: this.selectedSocialsite,
+      socialurl: this.socialSites
     }
     this._sharedService.businessDetailObj.next(businessDetail);
 
@@ -1911,7 +1918,7 @@ export class BusinessDetailComponent implements OnInit {
         }
       }
     }
-    (!this.selectedLicense || this.selectedLicense && !this.selectedLicense.DocumentFileName)?
+    (!this.selectedLicense || this.selectedLicense && !this.selectedLicense.DocumentFileName) ?
       this.tradeDoc.nativeElement.classList.add('glowElement') : this.tradeDoc.nativeElement.classList.remove('glowElement');
 
   }
@@ -2029,21 +2036,21 @@ export class BusinessDetailComponent implements OnInit {
     //     }
     //   ]
 
-    this._userbusinessService.docUpload(object).subscribe((res:any)=>{
-      if(res.returnStatus='Success'){
+    this._userbusinessService.docUpload(object).subscribe((res: any) => {
+      if (res.returnStatus = 'Success') {
         let resObj = JSON.parse(res.returnText);
-        
-        if (type == 'TRADE_LICENSE'){
+
+        if (type == 'TRADE_LICENSE') {
           this.selectedLicense = JSON.parse(resObj.DocumentFile)[0];
           this.selectedLicense.DocumentFile = baseApi.split("/api").shift() + this.selectedLicense.DocumentFile;
           this.selectedLicense.DocumentID = resObj.DocumentID;
           this.glowElement();
         }
-        else{
+        else {
           this.selectedLogo = JSON.parse(resObj.DocumentFile)[0];
           this.selectedLogo.DocumentFile = baseApi.split("/api").shift() + this.selectedLogo.DocumentFile;
           this.selectedLogo.DocumentID = resObj.DocumentID;
-          
+
         }
         this._toastr.success("File upload successfully", "");
       }
@@ -2057,26 +2064,21 @@ export class BusinessDetailComponent implements OnInit {
 
   }
 
-
-
-
-
-
-
-
   sanitize(url: string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   selectedSocialLink(obj) {
     this.selectedSocialsite = obj;
-    if (obj.socialMediaPortalsID === 101) {
-      this.contactInfoForm.controls['socialUrl'].setValidators([patternValidator(TWITTER_REGEX)]);
-      this.socialLinkValidate()
-    } else if (obj.socialMediaPortalsID === 100) {
+    this.contactInfoForm.controls['socialUrl'].reset();
+     if (obj.socialMediaPortalsID === 100) {
       this.contactInfoForm.controls['socialUrl'].setValidators([patternValidator(FACEBOOK_REGEX)]);
       this.socialLinkValidate()
-    } else if (obj.socialMediaPortalsID === 102) {
+    }
+    else if (obj.socialMediaPortalsID === 101) {
+      this.contactInfoForm.controls['socialUrl'].setValidators([patternValidator(TWITTER_REGEX)]);
+      this.socialLinkValidate()
+    }  else if (obj.socialMediaPortalsID === 102) {
       this.contactInfoForm.controls['socialUrl'].setValidators([patternValidator(INSTAGRAM_REGEX)]);
       this.socialLinkValidate()
     } else if (obj.socialMediaPortalsID === 103) {
@@ -2084,6 +2086,10 @@ export class BusinessDetailComponent implements OnInit {
       this.socialLinkValidate()
     } else if (obj.socialMediaPortalsID === 104) {
       this.contactInfoForm.controls['socialUrl'].setValidators([patternValidator(YOUTUBE_REGEX)]);
+      this.socialLinkValidate()
+    }
+    else{
+      this.contactInfoForm.controls['socialUrl'].setValidators([patternValidator(GEN_URL)]);
       this.socialLinkValidate()
     }
   }
@@ -2102,4 +2108,5 @@ export const FACEBOOK_REGEX: RegExp = /^(?:(?:http|https):\/\/)?(?:www.)?faceboo
 export const TWITTER_REGEX: RegExp = /(?:http:\/\/)?(?:www\.)?twitter\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/
 export const LINKEDIN_REGEX: RegExp = /(http|https):\/\/?((www|\w\w)\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
 export const INSTAGRAM_REGEX: RegExp = /(https?:\/\/(www\.)?)?instagram\.com(\/\w+\/?)/
-// export const URL_REGEX: RegExp = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+export const URL_REGEX: RegExp = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+export const GEN_URL: RegExp = /^(?: (?: https ?| ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;

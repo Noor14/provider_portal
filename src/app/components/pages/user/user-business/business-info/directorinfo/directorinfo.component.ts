@@ -847,6 +847,16 @@ export class DirectorinfoComponent implements OnInit {
         }
       ]
     }
+    let socialUrlObj = [
+      {
+        providerSocialMediaAccountsID: 0,
+        providerID: this.userProfile.providerID,
+        socialMediaPortalsID: this.formOneObj.socialSites.socialMediaPortalsID,
+        companyID: this.userProfile.companyID,
+        userID: this.userProfile.userID,
+        linkURL: this.formOneObj.socialurl,
+      }
+    ];
 
     let obj = {
       userID: this.userProfile.userID,
@@ -886,17 +896,8 @@ export class DirectorinfoComponent implements OnInit {
         directorInfo: (type == 'skip') ? null : objDirInfo.otherLang,
 
       },
-      socialAccount:
-      [
-        {
-          providerSocialMediaAccountsID: 0,
-          providerID: this.userProfile.providerID,
-          socialMediaPortalsID: 100,
-          companyID: this.userProfile.companyID,
-          userID: this.userProfile.userID,
-          linkURL: "texpo.com",
-        }
-      ],
+      socialAccount: (this.formOneObj.socialurl) ? socialUrlObj : null,
+  
       businessLocation: {
         addressLine1: this.formOneObj.businessLocForm.address,
         addressLine2: this.formOneObj.businessLocForm.address2,
