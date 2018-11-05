@@ -817,19 +817,29 @@ export class DirectorinfoComponent implements OnInit {
 
   submitBusinessInfo(type) {
 
+    let otherLngMngInfo = [
+      {
+        jobTitleID: (this.desgType && this.desgType.ID) ? this.desgType.ID : null,
+        firstName: this.managementForm.value.transLangfirstName,
+        lastName: this.managementForm.value.transLanglastName
+      }
+    ]
+    let otherLangDirInfo = [
+      {
+        firstName: this.directorForm.value.transLangfirstName,
+        lastName: this.directorForm.value.transLanglastName,
+        email: this.directorForm.value.transLangEmail,
+        mobileNo: this.directorForm.value.transLangPhone,
+      }
+    ]
+
     let objMangInfo = {
       baseLang: [{
         jobTitleID: (this.desgType && this.desgType.ID) ? this.desgType.ID : null,
         firstName: this.managementForm.value.firstName,
         lastName: this.managementForm.value.lastName
       }],
-      otherLang: [
-        {
-          jobTitleID: (this.desgType && this.desgType.ID) ? this.desgType.ID : null,
-          firstName: this.managementForm.value.transLangfirstName,
-          lastName: this.managementForm.value.transLanglastName
-        }
-      ]
+      otherLang: (this.showTranslatedLangSide)? otherLngMngInfo : null
     }
     let objDirInfo = {
       baseLang: [{
@@ -838,14 +848,7 @@ export class DirectorinfoComponent implements OnInit {
         email: this.directorForm.value.email,
         mobileNo: this.phoneCode + this.directorForm.value.phone
       }],
-      otherLang: [
-        {
-          firstName: this.directorForm.value.transLangfirstName,
-          lastName: this.directorForm.value.transLanglastName,
-          email: this.directorForm.value.transLangEmail,
-          mobileNo: this.directorForm.value.transLangPhone,
-        }
-      ]
+      otherLang: (this.showTranslatedLangSide) ? otherLangDirInfo : null
     }
     let socialUrlObj = [
       {
@@ -857,6 +860,25 @@ export class DirectorinfoComponent implements OnInit {
         linkURL: this.formOneObj.socialurl,
       }
     ];
+
+
+    let businessProfOtherLng = {
+      licenseNo: this.formOneObj.informationForm.licenseNoAr,
+      issueDate: this.formOneObj.issueDate,
+      expiryDate: this.formOneObj.expiryDate,
+      vatNo: this.formOneObj.informationForm.vatNoAr,
+      organizationTypeID: this.formOneObj.busiType.ID,
+      organizationName: this.formOneObj.organizationForm.transLangOrgName,
+      addressLine1: this.formOneObj.businessLocForm.transAddress,
+      addressLine2: this.formOneObj.businessLocForm.transAddress2,
+      city: this.formOneObj.businessLocForm.transCity,
+      poBox: this.formOneObj.businessLocForm.poBoxNoAr,
+      telephone: this.formOneObj.OtherLangPhoneCode + this.formOneObj.contactInfoForm.transLangPhone,
+      faxNo: (this.formOneObj.contactInfoForm.transLangFax) ? this.formOneObj.OtherLangPhoneCode + this.formOneObj.contactInfoForm.transLangFax : null,
+      managementInfo: (type == 'skip') ? null : objMangInfo.otherLang,
+      directorInfo: (type == 'skip') ? null : objDirInfo.otherLang,
+
+    }
 
     let obj = {
       userID: this.userProfile.userID,
@@ -879,23 +901,7 @@ export class DirectorinfoComponent implements OnInit {
         directorInfo: (type == 'skip') ? null : objDirInfo.baseLang,
 
       },
-      businessProfileOL: {
-        licenseNo: this.formOneObj.informationForm.licenseNoAr,
-        issueDate: this.formOneObj.issueDate,
-        expiryDate: this.formOneObj.expiryDate,
-        vatNo: this.formOneObj.informationForm.vatNoAr,
-        organizationTypeID: this.formOneObj.busiType.ID,
-        organizationName: this.formOneObj.organizationForm.transLangOrgName,
-        addressLine1: this.formOneObj.businessLocForm.transAddress,
-        addressLine2: this.formOneObj.businessLocForm.transAddress2,
-        city: this.formOneObj.businessLocForm.transCity,
-        poBox: this.formOneObj.businessLocForm.poBoxNoAr,
-        telephone: this.formOneObj.OtherLangPhoneCode + this.formOneObj.contactInfoForm.transLangPhone,
-        faxNo: (this.formOneObj.contactInfoForm.transLangFax) ? this.formOneObj.OtherLangPhoneCode + this.formOneObj.contactInfoForm.transLangFax : null,
-        managementInfo: (type == 'skip') ? null : objMangInfo.otherLang,
-        directorInfo: (type == 'skip') ? null : objDirInfo.otherLang,
-
-      },
+      businessProfileOL: (this.showTranslatedLangSide)? businessProfOtherLng : null,
       socialAccount: (this.formOneObj.socialurl) ? socialUrlObj : null,
   
       businessLocation: {
