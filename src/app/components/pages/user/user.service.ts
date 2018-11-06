@@ -29,7 +29,7 @@ export class UserService {
   }
 
   userLogin(data) {
-    let url = "users/ValidateUser"
+    let url = "usersprovider/ValidateProvider"
     return this._http.post(baseApi + url, data);
   }
 

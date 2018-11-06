@@ -28,6 +28,9 @@ export class SharedService {
   setMapLocation(data) {
     this.userLocation.next(data);
   }
+  getMapLocation() {
+    this.userLocation.getValue();
+  }
   // setCountries(data) {
   //   this.countries.next(data);
   // }

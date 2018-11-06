@@ -13,6 +13,14 @@ body {
     /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eff1f6', endColorstr='#f7f8fc', GradientType=1);
     /* IE6-9 */
+    a {
+        text-decoration: none !important;
+    }
+    .small-modal {
+        .modal-dialog {
+            max-width: 400px !important;
+        }
+    }
     .container {
         max-width: 1350px;
     }

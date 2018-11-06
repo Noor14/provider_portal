@@ -1,14 +1,18 @@
 @import '../../../assets/scss/_variables';
 @import '../../../assets/scss/_global';
 header {
-  background: $white-color;
-  padding: 6px 0;
-  border-bottom: 1px solid $grey-border;
-  .logo {
-    width: 180px;
-    height: auto;
-  }
-  .navbar-header {
-    text-align: right;
-  }
+    background: $white-color;
+    padding: 6px 0;
+    border-bottom: 1px solid $grey-border;
+    .navbar {
+        padding-left: 2.4em;
+        padding-right: 2.4em;
+        .logo {
+            width: 180px;
+            height: auto;
+        }
+        .loginLink{
+          color: $secondary-color;
+        }
+    }
 }

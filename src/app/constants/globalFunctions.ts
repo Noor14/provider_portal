@@ -20,10 +20,11 @@ export const ValidateEmail = (email: string): boolean => {
 }
 
 
+
 export function patternValidator(regexp: RegExp): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
     const value = control.value;
-    if (value === '') {
+    if (!value) {
       return null;
     }
     return !regexp.test(value) ? { 'patternInvalid': { regexp } } : null;

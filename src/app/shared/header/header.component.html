@@ -1,11 +1,22 @@
 <header id="header">
-    <div class="container-fluid">
-      <nav class="navbar navbar-default">
-        <div class="navbar-header col-xl-2 col-lg-2 col-md-3 col-sm-12">
-          <a class="navbar-brand pull-left" title="hashmove" href="http://www.hashmove.com">
-            <img class="logo" src="../../../assets/images/hashmove-logo.png" alt="logo">
+  <div class="container-fluid">
+    <nav class="navbar navbar-default justify-content-between">
+      <a class="navbar-brand" title="HashMove" href="http://www.hashmove.com">
+        <img class="logo" src="../../../assets/images/hashmove-logo.png" alt="logo">
+      </a>
+      <ul class="navbar-nav flex-row">
+        <li class="nav-item" (click)="login()">
+          <a class="nav-link loginLink" href="javascript:;">
+            LOG IN
+            <img src="../../../assets/images/icons/icon_arrow_right_secondary.svg" alt="arrow" class="icon-size-16 mb-1">
           </a>
-        </div>
-      </nav>
-    </div>
+        </li>
+        <li class="nav-item" (click)="logOut()">
+          <a class="nav-link text-danger" href="javascript:;">
+           SIGN OUT
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </header>
