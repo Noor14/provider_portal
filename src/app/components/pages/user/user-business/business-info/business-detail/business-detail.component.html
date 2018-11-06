@@ -4,7 +4,7 @@
       <span [innerHTML]='headingBaseLanguage'></span>
       <p class="sub-title">{{statementBaseLanguage}}</p>
     </div>
-    <div class="col d-flex flex-column align-items-start dir-otherLanguage text-right" *ngIf="showTranslatedLangSide">
+    <div class="col flex-column align-items-start dir-otherLanguage text-right" *ngIf="showTranslatedLangSide">
       <span [innerHTML]='headingOtherLanguage'></span>
       <p class="sub-title">{{statementOtherLanguage}}</p>
     </div>
@@ -242,7 +242,7 @@
         <div class="licenseNaming col-6 dir-otherLanguage" *ngIf="showTranslatedLangSide">
           <label for="trade-license" class="m-0">{{tradeliscenseLabelOtherLanguage}}</label>
           <br>
-          <small class="d-flex arabicLng">{{docLabelOtherLanguage}}</small>
+          <small class="arabicLng">{{docLabelOtherLanguage}}</small>
         </div>
       </div>
 
