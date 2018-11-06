@@ -705,6 +705,10 @@
                 font-weight: $font-proxima-weight-semibold;
                 color: $primary-color;
             }
+            span {
+                background: #fcf0f1!important;
+                color: #d32020!important;
+            }
         }
         small {
             font-family: $font-proxima;
@@ -721,7 +725,7 @@
             }
             &-direction {
                 margin: 0 20px;
-                margin-left: 0px;
+                margin-left: 10px;
             }
             &-label {
                 font-size: $font-size-medium;
@@ -749,7 +753,7 @@
                 font-family: $font-proxima;
                 vertical-align: bottom;
                 line-height: 1.2;
-                max-width: 66px;
+                max-width: 86px;
                 text-align: left;
             }
         }

@@ -1288,7 +1288,7 @@ export class BusinessDetailComponent implements OnInit {
             }
 
           }
-          else{
+          else {
             this.expireDateSorter(date);
           }
         }
