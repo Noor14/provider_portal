@@ -1,14 +1,5 @@
 @import '../../../../../../../assets/scss/_variables';
 .thankyou {
-    .dir-otherLanguage {
-        h2,
-        h5 {
-            font-family: $font-NeoSansArabic-Medium;
-        }
-        p {
-            font-family: $font-NeoSansArabic-Regular;
-        }
-    }
     .thankyou-icon {
         margin-bottom: 28px;
         img {
@@ -18,22 +9,6 @@
     }
     &-icon {
         display: flex;
-    }
-    &-heading {
-        font-family: $font-pragmatica;
-        font-weight: $font-weight-mid;
-        font-size: $font-size-large + 0.65;
-        color: $text-color-default;
-        text-transform: capitalize;
-        text-align: center;
-    }
-    &-sub-heading {
-        @extend .thankyou-heading;
-        font-size: $font-size-large + 0.15;
-    }
-    .text {
-        font-family: $font-proxima; // padding: 0 6.5rem 0 6.5rem;
-        color: $secondary-text-color;
     }
     .proceed-btn {
         text-align: center;

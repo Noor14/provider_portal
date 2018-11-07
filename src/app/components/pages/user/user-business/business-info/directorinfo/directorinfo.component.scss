@@ -1,195 +1,170 @@
 @import '../../../../../../../assets/scss/_variables';
 .directors-info {
-    .sub-title {
-        color: $pagination-text-color;
-    }
-    h2 {
-        font-family: $font-pragmatica;
-        font-weight: $font-weight-mid;
-        color: $text-color-default;
-        span:nth-child(2) {
-            font-family: $font-NeoSansArabic-Medium;
-        }
-    }
-    h5 {
-        margin-top: 1.3rem;
-        span:nth-child(2) {
-            font-family: $font-NeoSansArabic-Medium;
-        }
-    } // p {
-    //     margin-bottom: 2.3rem;
-    // }
-    .dir-otherLanguage {
-        h2 {
-            font-size: $font-size-large + 0.7;
-            font-family: $font-NeoSansArabic-Medium;
-        }
-        h3 {
-            font-family: $font-NeoSansArabic-Medium;
-        }
-        p {
-            font-family: $font-NeoSansArabic-Regular;
-        }
-    }
-    .accordion {
-        .card {
-            &.ng-star-inserted {
-                position: inherit;
-            }
-            border: 0;
-            background-color: $right-side-background;
-            &.ng-star-inserted {
-                position: inherit;
-            }
-            &-header {
-                padding: 0.5rem 0rem;
-                border: 0;
-                background-color: $right-side-background;
-                border-bottom: 1px solid $grey-border;
-                a {
-                    &:hover {
-                        text-decoration: none;
-                    }
-                }
-                &::after {
-                    content: " "; //  position: absolute;
-                    width: 100%;
-                    height: 1px;
-                    background: #fbfbfd;
-                    bottom: -1px;
-                    z-index: 1;
-                }
-            }
-            &-body {
-                padding-top: 0.875rem;
-                padding-left: 0;
-                padding-right: 0;
-            }
-        }
-        h5 {
-            color: #212529;
-            text-decoration: none;
-            .fa-angle-down {
-                font-size: 1.2rem;
-                margin-right: 1rem;
-                transition: ease-in 0.5s;
-                &.arrow-up {
-                    transition: ease-in 0.5s;
-                    transform: rotate(180deg);
-                }
-            }
-        }
-    }
-    .documentInfo {
-        margin-bottom: 2.9rem;
-        background: $modal-header-background;
-        padding: 20px;
-        border: 1px solid #e9ecf0;
-        border-radius: 4px;
-        padding-top: 0 !important;
-        h6,
-        p {
-            span:nth-child(2) {
-                font-family: $font-NeoSansArabic-Medium;
-            }
-        }
-        .selectIDtype {
-            color: $dark-grey-blue;
-            font-weight: 500;
-            font-size: 0.9em;
-        }
-        .uploaded-file {
-            border: 1px solid $secondary-color;
-            border-radius: 3px;
-            margin-bottom: 20px;
-            .fileDesc {
-                a {
-                    text-decoration: none;
-                    .fileIcon {
-                        width: 35px;
-                        height: 35px;
-                    }
-                    span {
-                        color: $text-color-default;
-                    }
-                }
-            }
-        }
-        .file-uploader {
-            padding: 25px;
-            background: $white-color;
-            border: 1px dashed #e1d8d8;
-            text-align: center;
-            border-radius: 4px;
-            .drag-support {
-                color: $text-grey;
-                font-size: 0.8em;
-            }
-            .browse-span {
-                color: $secondary-color;
-                font-weight: 500;
-            }
-        }
-        .fancyRadioBoxes {
-            label {
-                font-size: $font-size-large !important;
-            }
-            &.dir-otherLanguage {
-                label {
-                    font-family: $font-NeoSansArabic-Regular;
-                }
-            }
-        }
-        .selected-type-id {
-            p {
-                color: $danger-color;
-                font-family: $font-proxima;
-                font-size: $body-fontsize;
-                margin-bottom: 8px;
-            }
-            .dir-otherLanguage {
-                font-family: $font-NeoSansArabic-Regular
-            }
-        }
-    }
+	h5 {
+		margin-top: 1.3rem;
+		span:nth-child(2) {
+			font-family: $font-NeoSansArabic-Medium;
+		}
+	}
+	.accordion {
+		.card {
+			&.ng-star-inserted {
+				position: inherit;
+			}
+			border: 0;
+			background-color: $right-side-background;
+			&.ng-star-inserted {
+				position: inherit;
+			}
+			&-header {
+				padding: 0.5rem 0rem;
+				border: 0;
+				background-color: $right-side-background;
+				border-bottom: 1px solid $grey-border;
+				a {
+					&:hover {
+						text-decoration: none;
+					}
+				}
+				&::after {
+					content: " "; //  position: absolute;
+					width: 100%;
+					height: 1px;
+					background: #fbfbfd;
+					bottom: -1px;
+					z-index: 1;
+				}
+			}
+			&-body {
+				padding-top: 0.875rem;
+				padding-left: 0;
+				padding-right: 0;
+			}
+		}
+		h5 {
+			color: #212529;
+			text-decoration: none;
+			.fa-angle-down {
+				font-size: 1.2rem;
+				margin-right: 1rem;
+				transition: ease-in 0.5s;
+				&.arrow-up {
+					transition: ease-in 0.5s;
+					transform: rotate(180deg);
+				}
+			}
+		}
+	}
+	.documentInfo {
+		margin-bottom: 2.9rem;
+		background: $modal-header-background;
+		padding: 20px;
+		border: 1px solid #e9ecf0;
+		border-radius: 4px;
+		padding-top: 0 !important;
+		h6,
+		p {
+			span:nth-child(2) {
+				font-family: $font-NeoSansArabic-Medium;
+			}
+		}
+		.selectIDtype {
+			color: $dark-grey-blue;
+			font-weight: 500;
+			font-size: 0.9em;
+		}
+		.uploaded-file {
+			border: 1px solid $secondary-color;
+			border-radius: 3px;
+			margin-bottom: 20px;
+			.fileDesc {
+				a {
+					text-decoration: none;
+					.fileIcon {
+						width: 35px;
+						height: 35px;
+					}
+					span {
+						color: $text-color-default;
+					}
+				}
+			}
+		}
+		.file-uploader {
+			padding: 25px;
+			background: $white-color;
+			border: 1px dashed #e1d8d8;
+			text-align: center;
+			border-radius: 4px;
+			.drag-support {
+				color: $text-grey;
+				font-size: 0.8em;
+			}
+			.browse-span {
+				color: $secondary-color;
+				font-weight: 500;
+			}
+		}
+		.fancyRadioBoxes {
+			label {
+				font-size: $font-size-large !important;
+			}
+			&.dir-otherLanguage {
+				label {
+					font-family: $font-NeoSansArabic-Regular;
+				}
+			}
+		}
+		.selected-type-id {
+			p {
+				color: $danger-color;
+				font-family: $font-proxima;
+				font-size: $body-fontsize;
+				margin-bottom: 8px;
+			}
+			.dir-otherLanguage {
+				font-family: $font-NeoSansArabic-Regular
+			}
+		}
+	}
 }
 
 .info_text {
-    p {
-        font-size: $font-size-medium;
-        font-family: $font-proxima-weight-semibold;
-        color: #75838f;
-        padding-top: 0.59rem;
-    }
-    a {
-        span:last-child {
-            font-family: $font-NeoSansArabic-Regular;
-            font-size: $font-size-medium;
-        }
-        @extend p;
-        &:hover {
-            text-decoration: none;
-        }
-    }
-    img {
-        display: inline;
-        margin-right: 0.5rem;
-        vertical-align: text-top;
-    }
+	p {
+		font-size: $font-size-medium;
+		font-family: $font-proxima-weight-semibold;
+		color: #75838f;
+		padding-top: 0.59rem;
+	}
+	a {
+		span:last-child {
+			font-family: $font-NeoSansArabic-Regular;
+			font-size: $font-size-medium;
+		}
+		@extend p;
+		&:hover {
+			text-decoration: none;
+		}
+	}
+	img {
+		display: inline;
+		margin-right: 0.5rem;
+		vertical-align: text-top;
+	}
 }
 
 .submit-btn {
-    .btn {
-        font-weight: 600;
-        padding: 0.75rem 3.75rem;
-        span:nth-child(2) {
-            font-family: $font-NeoSansArabic-Regular;
-        }
-    }
+	.btn {
+		font-weight: 600;
+		padding: 0.75rem 3.75rem;
+		span:nth-child(2) {
+			font-family: $font-NeoSansArabic-Regular;
+		}
+	}
 }
 
 .radioError {
-    -webkit-animation: 2s linear infinite blink;
-    animation: 2s linear infinite blink;
-    -ms-animation: 2s linear infinite blink;
+	-webkit-animation: 2s linear infinite blink;
+	animation: 2s linear infinite blink;
+	-ms-animation: 2s linear infinite blink;
 }

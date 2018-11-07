@@ -325,7 +325,7 @@ input[type="radio"]:focus+label>span {
 		margin-bottom: 0.5rem;
 		font-family: $font-proxima;
 		font-size: $font-size-large;
-		font-weight: $font-weight-mid;
+		font-weight: $font-weight-normal;
 		color: $text-color-default;
 		small {
 			margin: 0 10px;
@@ -353,7 +353,10 @@ input[type="radio"]:focus+label>span {
 		}
 		&.inputError {
 			border: 1px solid $danger-color
-		}
+        }
+        &.inputErrorRemove {
+            border: 1px solid $provider-input-border;
+        }
 		&:focus {
 			box-shadow: none !important;
 		}
@@ -370,14 +373,16 @@ input[type="radio"]:focus+label>span {
 		height: 3rem;
 		border: 1px solid $provider-input-border;
 		border-radius: 4px !important;
-		line-height: 3 !important;
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		-o-appearance: none;
 		background: url("assets/images/select-arrow.png") no-repeat center right 10px $color-white;
 		&.inputError {
 			border: 1px solid $danger-color
-		}
+        }
+        &.inputErrorRemove {
+            border: 1px solid $provider-input-border;
+        }
 		&::-ms-expand {
 			display: none;
 		}
@@ -613,6 +618,37 @@ input[type="radio"]:focus+label>span {
 		}
 	}
 }
+
+//out of form-group
+.sub-title {
+    color: $pagination-text-color;
+    font-family: $font-proxima;
+}
+h2, h3, h5 {
+    color: $route-large-title-color;
+    text-transform: capitalize;
+    font-weight: 500;
+    font-family: $font-pragmatica;
+}
+h2 {font-size: 1.65rem; margin-bottom: 0.8rem;}
+h5 {font-size: 1.15rem;}
+
+.dir-otherLanguage {
+    direction: rtl;
+    .sub-title, p {
+        font-family: $font-NeoSansArabic-Regular;;
+    }
+    h2, h3, h5 {
+        font-family: $font-NeoSansArabic-Medium;
+    }
+}
+.glowElement {
+	-webkit-animation: 1.4s linear infinite blink;
+	animation: 1.4s linear infinite blink;
+	-ms-animation: 1.4s linear infinite blink;
+}
+
+//out of form-group end
 
 .licenseNaming,
 .license {

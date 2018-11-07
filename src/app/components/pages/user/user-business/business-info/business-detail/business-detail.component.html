@@ -280,16 +280,16 @@
     </div>
   </form>
 
-  <div class="header">
-    <h5 class="d-flex justify-content-between pt-3 mt-4 ">
-      <span>{{comLabelBaseLanguage}}</span>
-      <span *ngIf="showTranslatedLangSide">{{comLabelOtherLanguage}}</span>
-    </h5>
+  <div class="row">
+    <div class="licenseNaming col-6">
+      <h5 class="m-0">{{comLabelBaseLanguage}}</h5>
+      <small *ngIf="showTranslatedLangSide">{{comSubLabelBaseLanguage}}</small>
+    </div>
 
-    <small class="d-flex justify-content-between">
-      <span> {{comSubLabelBaseLanguage}} </span>
-      <span *ngIf="showTranslatedLangSide" class="arabicLng">{{comSubLabelOtherLanguage}}</span>
-    </small>
+    <div class="licenseNaming col-6 dir-otherLanguage" *ngIf="showTranslatedLangSide">
+        <h5 class="m-0">{{comLabelOtherLanguage}}</h5>
+        <small *ngIf="showTranslatedLangSide" class="arabicLng">{{comSubLabelOtherLanguage}}</small>
+      </div>
   </div>
 
   <hr class="hr-solid">
