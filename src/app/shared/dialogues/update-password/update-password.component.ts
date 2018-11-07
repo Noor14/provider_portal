@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location, PlatformLocation } from '@angular/common';
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 // import { AuthService } from './../../../services/authservice/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute} from '@angular/router';
+import { UserService } from '../../../components/pages/user/user.service';
 
 @Component({
   selector: 'app-update-password',
@@ -14,17 +15,17 @@ import { Router, ActivatedRoute} from '@angular/router';
   styleUrls: ['./update-password.component.scss'],
   encapsulation: ViewEncapsulation.None,  
 })
-export class UpdatePasswordComponent implements OnInit, AfterViewInit {
+export class UpdatePasswordComponent implements OnInit {
   
   public colorEye;
   public passwordError;
   closeResult: string;
   currentJustify = 'justified';
-  updateForm: FormGroup;
+  updatePassForm;
 
 
   constructor(
-    // private authService: AuthService,
+    private _userService: UserService,
     private activeModal: NgbActiveModal, 
     private modalService: NgbModal,
     private _toast: ToastrService,
@@ -37,19 +38,13 @@ export class UpdatePasswordComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.updateForm = new FormGroup({
-      password: new FormControl('', {validators:[Validators.required, Validators.minLength(6), Validators.maxLength(15)]})
+    this.updatePassForm = new FormGroup({
+      updatePassword: new FormControl(null, {validators:[Validators.required, Validators.minLength(6), Validators.maxLength(30)]})
     });
   }
-  ngAfterViewInit(){
-    // this.updateForm = new FormGroup({
-    //   password: new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(15)]),
-     
-    // });
-  }
+
   errorMessages(){
- 
-    if(this.updateForm.controls.password.status == "INVALID" && this.updateForm.controls.password.touched){
+    if(this.updatePassForm.controls.updatePassword.status == "INVALID" && this.updatePassForm.controls.updatePassword.touched){
       this.passwordError = true;
     }
   }
@@ -100,26 +95,27 @@ export class UpdatePasswordComponent implements OnInit, AfterViewInit {
 
 
   updatePassword(obj){
-    this.errorMessages();
-    if (this.updateForm.invalid) {
+    // this.errorMessages();
+    if (this.updatePassForm.invalid) {
       return;
     }
     let object={
       Code: this.activatedRoute.snapshot.queryParams.code,
-      Password : obj.password
+      Password: obj.updatePassword
     };
-    // this.authService.userupdatepassword(object).subscribe((res: any) => {
-    //   if (res.returnStatus == "Error") {
-    //     this._toast.error(res.returnText);
-    //   }
-    //   else if (res.returnStatus == "Success") {
-    //     this._toast.success("Password updated successfully.");
-    //     this.updateForm.reset();
-    //     this.loginModal(); 
-    //     this._location.replaceState('home');
-    //   }
-    // }, (err: HttpErrorResponse) => {
-    // })
+    this._userService.userupdatepassword(object).subscribe((res: any) => {
+      if (res.returnStatus == "Error") {
+        this._toast.error(res.returnText);
+      }
+      else if (res.returnStatus == "Success") {
+        this._toast.success("Password updated successfully.");
+        this.updatePassForm.reset();
+        this.loginModal(); 
+        this._location.replaceState('registration');
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err)
+    })
   }
 
 

@@ -33,6 +33,18 @@ export class UserService {
     return this._http.post(baseApi + url, data);
   }
 
+  userLogOut(data){
+    let url = "usersprovider/ValidateProvider"
+    return this._http.post(baseApi + url, data);
+  }
+  userforgetpassword(data){
+    let url = "usersprovider/ForgotPassword"
+    return this._http.post(baseApi + url, data);
+  }
+  userupdatepassword(data) {
+    let url = "usersprovider/UpdatePassword"
+    return this._http.put(baseApi + url, data);
+  }
 
   getJwtToken() {
     return localStorage.getItem('token');

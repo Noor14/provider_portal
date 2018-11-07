@@ -56,7 +56,7 @@ export class LoginDialogComponent implements OnInit {
         this.saveUserData = JSON.parse(localStorage.getItem('userInfo'))
         this.savedUser = true;
         this.placeholder = "Enter your unique password";
-        this.userName = this.saveUserData.FirstName + ' ' + this.saveUserData.LastName
+        this.userName = this.saveUserData.FirstNameBL + ' ' + this.saveUserData.LastNameBL
       }
     }
     this.createForm()
@@ -134,11 +134,10 @@ export class LoginDialogComponent implements OnInit {
           }
 
           let loginData = JSON.parse(resp.returnText)
-          loginData.IsLogedOut = false
-
-  
-
-          localStorage.setItem('userInfo', JSON.stringify(loginData))
+          loginData.IsLogedOut = false;
+          localStorage.setItem('userInfo', JSON.stringify(loginData));
+          this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
+          
 
         } else {
           this.toastr.warning("Please Enable Cookies to use this app", "Cookies Disabled")
@@ -148,12 +147,10 @@ export class LoginDialogComponent implements OnInit {
           return;
         }
 
-        // this._dataService.reloadHeader.next(true)
-
         this.toastr.success('Login Successful!', 'Success');
         this.activeModal.close(JSON.parse(resp.returnText));
         document.getElementsByTagName('html')[0].style.overflowY = 'auto';
-   
+        this._router.navigate(['bookings']);
 
       } else {
         this.loading = false;

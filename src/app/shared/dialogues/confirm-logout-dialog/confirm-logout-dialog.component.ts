@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { PlatformLocation } from '@angular/common';
+import { UserService } from '../../../components/pages/user/user.service';
+import { SharedService } from '../../../services/shared.service';
+
 // import { HashStorage, Tea } from '../../../constants/globalfunctions';
 // import { DataService } from '../../../services/commonservice/data.service';
 // import { AuthService } from '../../../services/authservice/auth.service';
-import { PlatformLocation } from '@angular/common';
 
 @Component({
   selector: 'app-confirm-logout-dialog',
@@ -13,20 +16,20 @@ import { PlatformLocation } from '@angular/common';
 })
 export class ConfirmLogoutDialogComponent implements OnInit {
 
-  isRouting: boolean = false
+  public loading: boolean = false;
 
   constructor(
     private _router: Router,
     private _activeModal: NgbActiveModal,
-    // private _dataService: DataService,
-    // private _authService: AuthService,
+    private _sharedService: SharedService,
+    private _userService: UserService,
     private location: PlatformLocation
   ) {
     location.onPopState(() => this.closeModal());
   }
 
   ngOnInit() {
-    this.isRouting = false
+    
   }
 
   closeModal() {
@@ -36,31 +39,26 @@ export class ConfirmLogoutDialogComponent implements OnInit {
   }
 
   onConfirmClick() {
-    // let loginData = JSON.parse(Tea.getItem('loginUser'))
-    // loginData.IsLogedOut = true
-    // HashStorage.removeItem('loginUser')
-    // Tea.setItem('loginUser', JSON.stringify(loginData))
     
-    // let data = {
-    //   PrimaryEmail: loginData.PrimaryEmail,
-    //   UserLoginID: loginData.UserLoginID,
-    //   LogoutDate: new Date().toLocaleString(),
-    //   LogoutRemarks: ""
-    // }
-    // this._dataService.reloadCurrencyConfig.next(true)
+    this.loading = true
+    let loginData = JSON.parse(localStorage.getItem('userInfo'))
+    loginData.IsLogedOut = true
+    localStorage.setItem('userInfo', JSON.stringify(loginData))
+    let data = {
+      PrimaryEmail: loginData.PrimaryEmail,
+      UserLoginID: loginData.UserID,
+      LogoutDate: new Date().toLocaleString(),
+      LogoutRemarks: null
+    }
     
-    // console.log(data);
-    // this._authService.userLogOut(data).subscribe(res => {
-    //   console.log('logout response : ', res);
-    // })
+    this._userService.userLogOut(data).subscribe(res => {
+    })
 
-    // this.isRouting = true
-    // this._router.navigate(['home']).then(() => {
-    //   this._dataService.reloadHeader.next(true)
-    //   this.closeModal()
-    //   document.getElementById('preloader2').classList.add('logout');
-    //   this.isRouting = false
-    // })
+    this._router.navigate(['registration']).then(() => {
+      this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
+      this.closeModal();
+      this.loading = false;
+    })
   }
 
 

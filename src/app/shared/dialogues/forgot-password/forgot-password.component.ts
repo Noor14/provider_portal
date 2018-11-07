@@ -5,8 +5,8 @@ import { FormControl, FormGroup, Validators} from '@angular/forms';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 import { UpdatePasswordComponent } from '../update-password/update-password.component';
 import { ToastrService } from 'ngx-toastr';
-// import { AuthService } from './../../../services/authservice/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UserService } from '../../../components/pages/user/user.service';
 
 
 
@@ -19,15 +19,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ForgotPasswordComponent implements OnInit {
 
   public emailSend: boolean = false;
-  closeResult: string;
-  currentJustify = 'justified';
-  resetForm;
+  public resetForm;
   
 
 
 
   constructor(
-    // private authService: AuthService,
+    private _userService: UserService,
     private activeModal: NgbActiveModal, 
     private modalService: NgbModal,
     private _toast: ToastrService,
@@ -89,23 +87,23 @@ export class ForgotPasswordComponent implements OnInit {
     }
     let object = {
       loginUserID: obj.email,
-      RedirectUrl: window.location.protocol + "//" + window.location.host + "/home"
+      RedirectUrl: window.location.protocol + "//" + window.location.host + "/registration"
     }
-    // this.authService.userforgetpassword(object).subscribe((res: any) => {
-    //   if (res.returnStatus == "Error") {
-    //     this._toast.error(res.returnText);
-    //     this.resetForm.reset();
-    //     this.emailSend = false;        
+    this._userService.userforgetpassword(object).subscribe((res: any) => {
+      if (res.returnStatus == "Error") {
+        this._toast.error(res.returnText);
+        this.resetForm.reset();
+        this.emailSend = false;        
         
-    //   }
-    //   else if (res.returnStatus == "Success") {
-    //     this._toast.success("A reset password link is on its way to your inbox.");
-    //     this.emailSend = true;
+      }
+      else if (res.returnStatus == "Success") {
+        this._toast.success("A reset password link is on its way to your inbox.");
+        this.emailSend = true;
         
-    //   }
-    // }, (err: HttpErrorResponse) => {
-    //   this.emailSend = false;        
-    // })
+      }
+    }, (err: HttpErrorResponse) => {
+      this.emailSend = false;        
+    })
   }
 
 

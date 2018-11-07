@@ -20,6 +20,32 @@ body {
         .modal-dialog {
             max-width: 400px !important;
         }
+    } // Toast Styles
+    .alert-warning {
+        background: $alert-warning--background-color;
+        color: $text-color-default;
+        padding: 0.75rem 0.87rem;
+        border: 1px solid $default-yellow;
+        p {
+            margin: 0;
+            color: $text-color-default;
+            font-size: $font-size-medium;
+            font-family: $font-proxima;
+            font-weight: $font-weight-normal;
+        }
+    }
+    .alert-secondary {
+        background: #e9f8f8;
+        color: $text-color-default;
+        padding: 0.75rem 0.87rem;
+        border: 1px solid $secondary-color;
+        p {
+            margin: 0;
+            color: $text-color-default;
+            font-size: $font-size-medium;
+            font-family: $font-proxima;
+            font-weight: $font-weight-normal;
+        }
     }
     .container {
         max-width: 1350px;

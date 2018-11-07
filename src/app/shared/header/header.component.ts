@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginDialogComponent } from '../dialogues/login-dialog/login-dialog.component';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmLogoutDialogComponent } from '../dialogues/confirm-logout-dialog/confirm-logout-dialog.component';
+import { SharedService } from '../../services/shared.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -9,12 +10,21 @@ import { ConfirmLogoutDialogComponent } from '../dialogues/confirm-logout-dialog
 })
 export class HeaderComponent implements OnInit {
 
-  
+  isLoggedIn:boolean;
   constructor(
     private modalService: NgbModal,
+    private _sharedService: SharedService
   ) { }
 
   ngOnInit() {
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    this._sharedService.IsloggedIn.subscribe((state: any) => {
+      if(state == null){
+        this.isLoggedIn = (userInfo && Object.keys('userInfo').length)? userInfo.IsLogedOut : true;
+      }else{
+        this.isLoggedIn = state;
+      }
+    })
   }
   login() {
     this.modalService.open(LoginDialogComponent, {
