@@ -39,9 +39,9 @@ export class BusinessInfoComponent implements OnInit {
   ngOnInit() {
 
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if (userInfo && userInfo.returnObject) {
-      let userProfile = userInfo.returnObject;
-      this.getDocType(userProfile.countryID);
+    if (userInfo && userInfo.returnText) {
+      let userProfile = JSON.parse(userInfo.returnText);
+      this.getDocType(userProfile.CountryID);
 
     }
     this._sharedService.formChange.subscribe((state: any) => {

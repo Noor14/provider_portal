@@ -53,7 +53,8 @@ export class LoginDialogComponent implements OnInit {
   ngOnInit() {
     if (localStorage) {
       if (localStorage.getItem('userInfo') && Object.keys('userInfo').length) {
-        this.saveUserData = JSON.parse(localStorage.getItem('userInfo'))
+        let userObj = JSON.parse(localStorage.getItem('userInfo'));
+        this.saveUserData = JSON.parse(userObj.returnText)
         this.savedUser = true;
         this.placeholder = "Enter your unique password";
         this.userName = this.saveUserData.FirstNameBL + ' ' + this.saveUserData.LastNameBL
@@ -69,7 +70,7 @@ export class LoginDialogComponent implements OnInit {
     });
 
     if (this.savedUser) {
-      this.loginForm.controls['loginUserID'].setValue(this.saveUserData.LoginID)
+      this.loginForm.controls['loginUserID'].setValue(this.saveUserData.PrimaryEmail)
     }
   }
 
@@ -135,7 +136,7 @@ export class LoginDialogComponent implements OnInit {
 
           let loginData = JSON.parse(resp.returnText)
           loginData.IsLogedOut = false;
-          localStorage.setItem('userInfo', JSON.stringify(loginData));
+          localStorage.setItem('userInfo', JSON.stringify(resp));
           this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
           
 
@@ -148,7 +149,7 @@ export class LoginDialogComponent implements OnInit {
         }
 
         this.toastr.success('Login Successful!', 'Success');
-        this.activeModal.close(JSON.parse(resp.returnText));
+        this.activeModal.close();
         document.getElementsByTagName('html')[0].style.overflowY = 'auto';
         this._router.navigate(['bookings']);
 

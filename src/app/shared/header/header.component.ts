@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._sharedService.IsloggedIn.subscribe((state: any) => {
       if(state == null){
-        this.isLoggedIn = (userInfo && Object.keys('userInfo').length)? userInfo.IsLogedOut : true;
+        this.isLoggedIn = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
       }else{
         this.isLoggedIn = state;
       }

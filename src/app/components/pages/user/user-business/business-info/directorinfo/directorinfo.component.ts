@@ -166,9 +166,9 @@ export class DirectorinfoComponent implements OnInit {
     this.ngFilesService.addConfig(this.sharedConfig, 'config');
     this.getLabels();
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if (userInfo && userInfo.returnObject) {
-      this.userProfile = userInfo.returnObject;
-      this.showTranslatedLangSide = (this.userProfile.regionCode == "MET") ? true : false;
+    if (userInfo && userInfo.returnText) {
+      this.userProfile = JSON.parse(userInfo.returnText);
+      this.showTranslatedLangSide = (this.userProfile.RegionCode == "MET") ? true : false;
     }
 
     this.directorForm = new FormGroup({
@@ -761,8 +761,8 @@ export class DirectorinfoComponent implements OnInit {
 
   uploadDocx(selectedFile) {
     let object = this.docTypes.find(Obj => Obj.DocumentTypeID == this.docxId);
-    object.UserID = this.userProfile.userID;
-    object.ProviderID = this.userProfile.providerID;
+    object.UserID = this.userProfile.UserID;
+    object.ProviderID = this.userProfile.ProviderID;
     object.DocumentFileContent = null;
     object.DocumentName = null;
     object.DocumentUploadedFileType = null;
@@ -853,10 +853,10 @@ export class DirectorinfoComponent implements OnInit {
     let socialUrlObj = [
       {
         providerSocialMediaAccountsID: 0,
-        providerID: this.userProfile.providerID,
+        providerID: this.userProfile.ProviderID,
         socialMediaPortalsID: this.formOneObj.socialSites.socialMediaPortalsID,
-        companyID: this.userProfile.companyID,
-        userID: this.userProfile.userID,
+        companyID: this.userProfile.CompanyID,
+        userID: this.userProfile.UserID,
         linkURL: this.formOneObj.socialurl,
       }
     ];
@@ -881,9 +881,9 @@ export class DirectorinfoComponent implements OnInit {
     }
 
     let obj = {
-      userID: this.userProfile.userID,
-      providerID: this.userProfile.providerID,
-      companyID: this.userProfile.companyID,
+      userID: this.userProfile.UserID,
+      providerID: this.userProfile.ProviderID,
+      companyID: this.userProfile.CompanyID,
       businessProfileBL: {
         licenseNo: this.formOneObj.informationForm.licenseNo,
         issueDate: this.formOneObj.issueDate,

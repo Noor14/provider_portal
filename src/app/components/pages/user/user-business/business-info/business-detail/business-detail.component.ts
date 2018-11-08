@@ -353,9 +353,9 @@ export class BusinessDetailComponent implements OnInit {
     this._sharedService.formProgress.next(40);
 
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if (userInfo && userInfo.returnObject) {
-      this.userProfile = userInfo.returnObject;
-      this.showTranslatedLangSide = (this.userProfile.regionCode == "MET") ? true : false;
+    if (userInfo && userInfo.returnText) {
+      this.userProfile = JSON.parse(userInfo.returnText);
+      this.showTranslatedLangSide = (this.userProfile.RegionCode == "MET") ? true : false;
       this.getLabels(this.userProfile);
     }
     this.getsocialList();
@@ -369,7 +369,7 @@ export class BusinessDetailComponent implements OnInit {
     this._sharedService.countryList.subscribe((state: any) => {
       if (state) {
         this.countryList = state;
-        let selectedCountry = this.countryList.find(obj => obj.id == this.userProfile.countryID);
+        let selectedCountry = this.countryList.find(obj => obj.id == this.userProfile.CountryID);
         this.selectPhoneCode(selectedCountry);
         // this.getplacemapLoc(selectedCountry.code.toLowerCase());
         // this.getMapLatlng(selectedCountry.title);
@@ -454,8 +454,8 @@ export class BusinessDetailComponent implements OnInit {
         data.forEach(element => {
 
           if (element.keyCode == "lbl_Heading") {
-            this.headingBaseLanguage = element.baseLang.replace('{firstName}', obj.firstNameBL);
-            this.headingOtherLanguage = element.otherLang.replace('{firstName}', obj.firstNameOL);
+            this.headingBaseLanguage = element.baseLang.replace('{firstName}', obj.FirstNameBL);
+            this.headingOtherLanguage = element.otherLang.replace('{firstName}', obj.FirstNameOL);
           }
           else if (element.keyCode == "lbl_Content") {
             this.statementBaseLanguage = element.baseLang;
@@ -2012,8 +2012,8 @@ export class BusinessDetailComponent implements OnInit {
   uploadDocx(selectedFile, type) {
     let object = this.uploadDocs.find(Obj => Obj.BusinessLogic == type);
     // if (docObj.BusinessLogic === 'COMPANY_LOGO' && selectedFile && selectedFile.fileBaseString) {
-    object.UserID = this.userProfile.userID;
-    object.ProviderID = this.userProfile.providerID;
+    object.UserID = this.userProfile.UserID;
+    object.ProviderID = this.userProfile.ProviderID;
     object.DocumentFileContent = null;
     object.DocumentName = null;
     object.DocumentUploadedFileType = null;

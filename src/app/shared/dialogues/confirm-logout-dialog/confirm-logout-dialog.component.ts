@@ -41,9 +41,11 @@ export class ConfirmLogoutDialogComponent implements OnInit {
   onConfirmClick() {
     
     this.loading = true
-    let loginData = JSON.parse(localStorage.getItem('userInfo'))
-    loginData.IsLogedOut = true
-    localStorage.setItem('userInfo', JSON.stringify(loginData))
+    let userObj = JSON.parse(localStorage.getItem('userInfo'));
+    let loginData = JSON.parse(userObj.returnText);
+    loginData.IsLogedOut = true;
+    userObj.returnText = JSON.stringify(loginData);
+    localStorage.setItem('userInfo', JSON.stringify(userObj));
     let data = {
       PrimaryEmail: loginData.PrimaryEmail,
       UserLoginID: loginData.UserID,

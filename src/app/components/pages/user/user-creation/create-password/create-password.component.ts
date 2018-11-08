@@ -140,6 +140,7 @@ export class CreatePasswordComponent implements OnInit {
         localStorage.setItem('userInfo', JSON.stringify(res));
         this._toast.success('Account successfully created','');
         this._router.navigate(['/business-profile']);
+        this._sharedService.IsloggedIn.next(JSON.parse(res.returnText).IsLogedOut);
       }
       else if (res.returnStatus == "Error"){
         this._toast.success(res.returnText, '');

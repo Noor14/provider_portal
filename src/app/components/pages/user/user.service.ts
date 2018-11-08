@@ -34,7 +34,7 @@ export class UserService {
   }
 
   userLogOut(data){
-    let url = "usersprovider/ValidateProvider"
+    let url = "users/UserLogout"
     return this._http.post(baseApi + url, data);
   }
   userforgetpassword(data){

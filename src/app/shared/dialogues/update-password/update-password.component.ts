@@ -95,8 +95,8 @@ export class UpdatePasswordComponent implements OnInit {
 
 
   updatePassword(obj){
-    // this.errorMessages();
     if (this.updatePassForm.invalid) {
+      this.errorMessages();
       return;
     }
     let object={

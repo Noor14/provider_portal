@@ -36,7 +36,7 @@ export class ProfilecompletionComponent implements OnInit {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnCode) {
       this.userAPPno = userInfo.returnCode;
-      this.showTranslatedLangSide = (userInfo.returnObject.regionCode == "MET") ? true : false;
+      this.showTranslatedLangSide = (JSON.parse(userInfo.returnText).RegionCode == "MET") ? true : false;
       
     }
     this._sharedService.formProgress.next(60);
@@ -80,8 +80,8 @@ export class ProfilecompletionComponent implements OnInit {
   }
 
   proceed(){
-    localStorage.removeItem('userInfo');
-    this._router.navigate(['/registration'])
+    // localStorage.removeItem('userInfo');
+    this._router.navigate(['/bookings'])
   }
 
 }
