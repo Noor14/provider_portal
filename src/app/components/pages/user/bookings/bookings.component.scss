@@ -248,8 +248,8 @@
             .summary-icon {
                 float: left;
                 img {
-                    width: 20px;
-                    height: 20px;
+                    width: 24px;
+                    height: 24px;
                 }
             }
             .summary-box-title {
@@ -265,10 +265,18 @@
                 }
             }
             .summery-quantity {
+                padding-left: 2.8rem;
+                padding-top: 0.625rem;   
+                small {
+
+                    font-size: $font-size-medium ;
+                    font-family:$font-proxima;
+                    font-weight: $font-weight-mid;
+                }       
                 span {
-                    padding-left: 32px;
                     font-size: $font-size-large + $font-size-large;
                     font-weight: $font-weight-mid;
+                    margin-left: 0.625rem; 
                 }
             }
             .summarybox.booking-summary {
@@ -697,19 +705,30 @@
         float: left;
         width: 100%;
         &-number {
-            line-height: 0.6;
-            padding-top: 3px;
+            // line-height: 0.6;
+            // padding-top: 3px;
             a {
                 font-size: $font-size-large;
                 font-family: $font-proxima;
                 font-weight: $font-proxima-weight-semibold;
                 color: $primary-color;
             }
+
             span {
-                background: #fcf0f1!important;
-                color: #d32020!important;
+                font-size: $font-size-large;
+                font-family:$font-proxima;
+                color: rgb(43, 43, 43);   
+                line-height: 1;             
+                text-align: left;
+                img {
+                    width:16px;
+                    height:16px;
+                    margin-right:0.625rem;
+                }
             }
+    
         }
+  
         small {
             font-family: $font-proxima;
             font-size: $font-size-base;
@@ -743,18 +762,53 @@
                     margin-bottom: 0;
                 }
             }
+            &-calendar {
+                span {
+                    font-size: $font-size-medium;
+                    font-family:$font-proxima;   
+                    color: rgb(43, 43, 43); 
+                    line-height: 1.25;
+                    text-align: left;       
+                }
+
+            }
+            .pending {
+                font-size: $font-size-large;
+                font-family: $font-proxima;
+                color: rgb(211, 32, 32);    
+               line-height: 1.25;
+              
+            }
+            .secondary {
+                font-size: $font-size-large;
+                font-family: $font-proxima;
+                color: rgb(2, 189, 182);   
+               line-height: 1.25;
+              
+            }
             img.detail-icon {
                 margin-right: 5px;
             }
             small {
-                font-size: $font-size-medium;
-                color: $text-color-default;
-                font-weight: $font-weight-mid;
+                font-size: $font-size-base;
                 font-family: $font-proxima;
+                color: rgb(115, 133, 147);       
+                text-transform: uppercase; 
+                line-height: 1.2; 
                 vertical-align: bottom;
-                line-height: 1.2;
-                max-width: 86px;
                 text-align: left;
+            }
+            span {
+                font-size:$font-size-large;
+                font-family: $font-proxima;
+                color: rgb(43, 43, 43);
+                text-align: left;
+        
+                img {
+                margin-right:0.625rem;
+                width: 16px;
+                height:16px;
+                }
             }
         }
     }

@@ -724,3 +724,54 @@ select {
 }
 
 //Internet Explorar css end
+
+// css badge 
+// Badge Styles
+.badge {
+  font-size: $font-size-base !important;
+  font-family: $font-proxima;
+  font-weight: $font-proxima-weight-semibold;
+  font-style: normal;
+  padding: 0.45em 1em;
+  text-transform: uppercase;
+  border-radius: 20px;
+  &-success {
+    background-color: $secondary-color;
+    border: 1px solid $secondary-color;
+  }
+  &.hashmove-badge {
+    &-warning {
+      background: $badge-yellow !important;
+      color: $default-yellow !important;
+    }
+    &-danger {
+      background: $danger-light-color !important;
+      color: $danger-color !important;
+    }
+    &-primary-grey {
+      background-color: rgba($primary-grey, 0.9);
+      color: $white-color;
+    }
+    &-secondary {
+      background-color: rgba($secondary-color, 0.2);
+      color: $secondary-color-dark;
+    }
+    &-active {
+      color: $active-text-color;
+      background: $badge-light-blue;
+      border: solid 1px $active-text-color;
+    }
+  }
+  &-small {
+    font-size: $font-size-medium !important;
+    padding: 0 6.5px;
+    color: $white-color;
+    line-height: 1.5;
+    font-weight: $font-weight-normal !important;
+    min-width: 22px;
+    min-height: 20px; // padding: 0;
+  }
+}
+
+// css badge 
+// Badge Styles
