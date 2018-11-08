@@ -4,7 +4,7 @@
       <span [innerHTML]='headingBaseLanguage'></span>
       <p class="sub-title">{{statementBaseLanguage}}</p>
     </div>
-    <div class="col d-flex flex-column align-items-start dir-otherLanguage text-right" *ngIf="showTranslatedLangSide">
+    <div class="col flex-column align-items-start dir-otherLanguage text-right" *ngIf="showTranslatedLangSide">
       <span [innerHTML]='headingOtherLanguage'></span>
       <p class="sub-title">{{statementOtherLanguage}}</p>
     </div>
@@ -242,7 +242,7 @@
         <div class="licenseNaming col-6 dir-otherLanguage" *ngIf="showTranslatedLangSide">
           <label for="trade-license" class="m-0">{{tradeliscenseLabelOtherLanguage}}</label>
           <br>
-          <small class="d-flex arabicLng">{{docLabelOtherLanguage}}</small>
+          <small class="arabicLng">{{docLabelOtherLanguage}}</small>
         </div>
       </div>
 
@@ -280,16 +280,16 @@
     </div>
   </form>
 
-  <div class="header">
-    <h5 class="d-flex justify-content-between pt-3 mt-4 ">
-      <span>{{comLabelBaseLanguage}}</span>
-      <span *ngIf="showTranslatedLangSide">{{comLabelOtherLanguage}}</span>
-    </h5>
+  <div class="row">
+    <div class="licenseNaming col-6">
+      <h5 class="m-0">{{comLabelBaseLanguage}}</h5>
+      <small *ngIf="showTranslatedLangSide">{{comSubLabelBaseLanguage}}</small>
+    </div>
 
-    <small class="d-flex justify-content-between">
-      <span> {{comSubLabelBaseLanguage}} </span>
-      <span *ngIf="showTranslatedLangSide" class="arabicLng">{{comSubLabelOtherLanguage}}</span>
-    </small>
+    <div class="licenseNaming col-6 dir-otherLanguage" *ngIf="showTranslatedLangSide">
+        <h5 class="m-0">{{comLabelOtherLanguage}}</h5>
+        <small *ngIf="showTranslatedLangSide" class="arabicLng">{{comSubLabelOtherLanguage}}</small>
+      </div>
   </div>
 
   <hr class="hr-solid">

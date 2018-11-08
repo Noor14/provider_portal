@@ -1,71 +1,41 @@
 @import "../../../../../../assets/scss/_variables";
 .profile-verify {
-    
-    &-title {
-        font-size: 2rem;
-        color: $text-color-default;
-        font-weight: $font-weight-mid;
-        font-family: $font-pragmatica;
-        &.dir-otherLanguage{
-            font-size: $font-size-large + 0.6;
-            font-family: $font-NeoSansArabic-Medium;
-        }
-    }
-    &-paragraph {
-        font-size: $font-size-large;
-        color: $secondary-text-color;
-        font-family: $font-proxima;
-        font-weight: $font-weight-normal;
-        &.dir-otherLanguage{
-            font-family: $font-NeoSansArabic-Regular;
-        }
-    }
-    .hr-solid {
-        margin-top: 0.9375rem !important;
-        margin-bottom: 1.5rem !important;
-    }
-    .otp-form {
-        label {
-            font-size: $font-size-large;
-            font-family: $font-proxima;
-            font-weight: $font-weight-normal;
-            color: $text-color-default;
-            span:nth-child(2){
-                font-family: $font-NeoSansArabic-Regular
-            }
-        }
-        .btn {
-            font-size: $font-size-large;
-            font-family: $font-proxima;
-            font-weight: $font-proxima-weight-semibold;
-            color: $white-color;
-            text-transform: uppercase;
-            line-height: 35px;
-            height: 48px;
-            span:nth-child(2){
-                font-family: $font-NeoSansArabic-Regular;
-              }
-        }
-        &-msg {
-            a{
-                font-size: $font-size-medium;
-                color: $dark-grey-blue;
-                font-family: $font-proxima;
-                font-weight: $font-proxima-weight-semibold;
-                cursor: pointer !important;
-                &:hover{
-                    text-decoration: none;
-                }
-            
-                span:nth-child(2){
-                    font-family: $font-NeoSansArabic-Regular
-                }
-            }
-            b{
-                @extend a;
-                cursor: default !important;
-            } 
-           
-        }
-    }
+	.otp-form {
+		label {
+			span:nth-child(2) {
+				font-family: $font-NeoSansArabic-Regular
+			}
+		}
+		.btn {
+			font-size: $font-size-large;
+			font-family: $font-proxima;
+			font-weight: $font-proxima-weight-semibold;
+			color: $white-color;
+			text-transform: uppercase;
+			line-height: 35px;
+			height: 48px;
+			span:nth-child(2) {
+				font-family: $font-NeoSansArabic-Regular;
+			}
+		}
+		&-msg {
+			a {
+				font-size: $font-size-medium;
+				color: $dark-grey-blue;
+				font-family: $font-proxima;
+				font-weight: $font-proxima-weight-semibold;
+				cursor: pointer !important;
+				&:hover {
+					text-decoration: none;
+				}
+				span:nth-child(2) {
+					font-family: $font-NeoSansArabic-Regular
+				}
+			}
+			b {
+				@extend a;
+				cursor: default !important;
+			}
+		}
+	}
 }
