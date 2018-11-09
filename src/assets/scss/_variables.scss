@@ -1,9 +1,12 @@
 // Default for size for body
 $body-fontsize: 16px;
-$body-fontfamily: 'pragmatica', sans-serif;
+$body-fontfamily: 'pragmatica',
+sans-serif;
 // Hashmove fonts - font-family and font-weight variables
-$font-pragmatica: 'pragmatica', sans-serif;
-$font-proxima: 'proxima-nova', sans-serif;
+$font-pragmatica: 'pragmatica',
+sans-serif;
+$font-proxima: 'proxima-nova',
+sans-serif;
 // base font for root - HTML/Body
 // FONT SIZES VARIABLES
 $root-font-size: 1rem;
@@ -104,7 +107,6 @@ $shipping-subcar-active:#243748;
 $shipping-subcat-border:#8999a6;
 $shipping-subcat-text:#dbdfe2;
 //   provider Portal
-
 // bookings/ dashboard 
 $blue-box:#00a3e0;
 $warning-color:hsl(37, 91%, 55%);
@@ -120,8 +122,6 @@ $icon-air-ship-color: $color-topmenuactive;
 $search-message-box-background: #ebeef0;
 $search-message-box-fontcolor: #3f5165;
 $search-message-box-border: #cbd2df;
-
-
 // Default for size for body
 $body-fontsize: 16px;
 $body-fontfamily: 'pragmatica',
@@ -159,17 +159,15 @@ $form-control-focus: #80bdff;
 $btn-disable-background:#e3e7e9;
 $btn-disable-color:$dark-grey-blue;
 $dropdown-color:#e4e9ec;
-
 //progress circle
 $probar-bg: #e6e8ec;
 $probar-color: #d2272a;
 // Responsives Screens variables
 $screen-xs-max: 768px;
 $screen-xs-five-hundred:500px;
-
+$screen-lg-eight-fourty: 840px;
 //hr border
 $hr-border-color: #fbfbfd;
-
 //button background
 $btn-bg-primary: #18a7a1;
 $btn-bg-danger: #8e161f;
