@@ -25,6 +25,7 @@ export class SharedService {
   public formChange = new BehaviorSubject<boolean>(true);
 
   public IsloggedIn = new BehaviorSubject<boolean>(null);
+  public IsloggedInShow = new BehaviorSubject<boolean>(true);
 
 
   setMapLocation(data) {

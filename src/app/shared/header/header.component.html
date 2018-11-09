@@ -5,7 +5,7 @@
         <img class="logo" src="../../../assets/images/hashmove-logo.png" alt="logo">
       </a>
       <ul class="navbar-nav flex-row">
-        <li class="nav-item" (click)="login()" *ngIf="isLoggedIn">
+        <li class="nav-item" (click)="login()" *ngIf="isLoggedIn && IsloggedInShow">
           <a class="nav-link loginLink" href="javascript:;">
             LOG IN
             <img src="../../../assets/images/icons/icon_arrow_right_secondary.svg" alt="arrow" class="icon-size-16 mb-1">

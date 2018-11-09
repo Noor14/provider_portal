@@ -10,6 +10,7 @@ import { SharedService } from '../../services/shared.service';
 })
 export class HeaderComponent implements OnInit {
 
+  IsloggedInShow: boolean;
   isLoggedIn:boolean;
   constructor(
     private modalService: NgbModal,
@@ -24,6 +25,9 @@ export class HeaderComponent implements OnInit {
       }else{
         this.isLoggedIn = state;
       }
+    })
+    this._sharedService.IsloggedInShow.subscribe((state: any) => {
+      this.IsloggedInShow = state;
     })
   }
   login() {

@@ -47,6 +47,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
    ) { }
 
   ngOnInit() {
+    this._sharedService.IsloggedInShow.next(false);
 
     this.otpForm = new FormGroup({
       otp: new FormControl(null, [Validators.required]),
