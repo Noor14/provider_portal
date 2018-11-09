@@ -171,31 +171,32 @@
         .registration-map-section {
             input#typeahead {
                 font-size: 12px;
-                .select-city {
-                    width: 86%;
-                }
+            }
+            .select-city {
+                width: 86%;
             }
         }
     }
-    @media (max-width: $screen-lg-eight-fourty) {
-        .select-number {
-            .input-group-prepend {
-                input.select-country-code {
-                    width: 50% !important;
-                    padding-left: 20px !important;
-                }
-                .select-country-list {
-                    margin-left: 10px !important;
-                }
+}
+
+@media (max-width: $screen-lg-eight-fourty) {
+    .select-number {
+        .input-group-prepend {
+            input.select-country-code {
+                width: 50% !important;
+                padding-left: 20px !important;
             }
-            .input-group-append {
-                input.select-country-code {
-                    width: 50% !important;
-                    padding-right: 20px !important;
-                }
-                .select-country-list {
-                    margin-right: 10px !important;
-                }
+            .select-country-list {
+                margin-left: 10px !important;
+            }
+        }
+        .input-group-append {
+            input.select-country-code {
+                width: 50% !important;
+                padding-right: 20px !important;
+            }
+            .select-country-list {
+                margin-right: 10px !important;
             }
         }
     }
