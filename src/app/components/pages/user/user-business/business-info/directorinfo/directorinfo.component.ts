@@ -744,7 +744,6 @@ export class DirectorinfoComponent implements OnInit {
               const docFile = this.generateDocObject(selectedFile);
               allDocsArr.push(docFile);
               flag++
-              console.log(flag, fileLenght, "my girl")
               if (flag === fileLenght) {
                 this.uploadDocuments(allDocsArr)
               }
