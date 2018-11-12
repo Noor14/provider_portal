@@ -34,4 +34,9 @@ export class CommonService {
     let url: string = 'http://ip-api.com/json';
     return this._http.get(url);
   }
+  
+  getHelpSupport(cache: boolean) {
+    let url: string = "general/GetHMHelpSupportDetail";
+    return this._http.get((baseApi + url))
+  }
 }

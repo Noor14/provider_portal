@@ -14,6 +14,7 @@ import { element } from 'protractor';
 import { DocumentUpload } from '../../../../../../interfaces/document.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { baseApi } from '../../../../../../constants/base.url';
+import { JsonResponse } from '../../../../../../interfaces/JsonResponse';
 
 
 @Component({
@@ -333,14 +334,14 @@ export class DirectorinfoComponent implements OnInit {
   selectdocType(id, obj) {
     let elem = document.getElementsByClassName('fancyRadioBoxes') as any;
     this.docxId = obj.DocumentTypeID;
-    
-    if (!this.selectedDocx.length){
-    this.docTypeId = null;
-    for (let i = 0; i < elem.length; i++) {
-      if (elem[i].children[0].id == id) {
-        this.selectid = id;
-        elem[i].children[0].checked = true;
-      }
+
+    if (!this.selectedDocx.length) {
+      this.docTypeId = null;
+      for (let i = 0; i < elem.length; i++) {
+        if (elem[i].children[0].id == id) {
+          this.selectid = id;
+          elem[i].children[0].checked = true;
+        }
 
       }
 
@@ -716,15 +717,19 @@ export class DirectorinfoComponent implements OnInit {
 
   onFileChange(event) {
 
+    let flag = 0
+
     if (event) {
       try {
-        for (var index = 0; index < event.files.length; index++) {
+        const allDocsArr = []
+        const fileLenght: number = event.files.length
+        for (let index = 0; index < fileLenght; index++) {
           let reader = new FileReader();
           const element = event.files[index];
           let file = element
           reader.readAsDataURL(file);
           reader.onload = () => {
-            let selectedFile: DocumentFile = {
+            const selectedFile: DocumentFile = {
               fileName: file.name,
               fileType: file.type,
               fileUrl: reader.result,
@@ -736,27 +741,73 @@ export class DirectorinfoComponent implements OnInit {
               this._toastr.error('Please select only two file to upload', '');
               return;
             } else if (this.selectedDocx && this.selectedDocx.length < 2) {
-              this.uploadDocx(selectedFile);
-
+              const docFile = this.generateDocObject(selectedFile);
+              allDocsArr.push(docFile);
+              flag++
+              console.log(flag, fileLenght, "my girl")
+              if (flag === fileLenght) {
+                this.uploadDocuments(allDocsArr)
+              }
             }
             else {
               this._toastr.error('Please select only two file to upload', '');
             }
-
           }
         }
-        // if (index == event.files.length){
-        //   this.uploadDocx(this.selectedDocx);
-        // } 
-        // else if (index == event.files.length && this.selectedDocx.length){
-        //   this.uploadDocx(this.selectedDocx.slice(-1));
-        // }
       }
       catch (err) {
         console.log(err);
       }
     }
 
+  }
+
+  generateDocObject(selectedFile): any {
+    let object = this.docTypes.find(Obj => Obj.DocumentTypeID == this.docxId);
+    object.UserID = this.userProfile.UserID;
+    object.ProviderID = this.userProfile.ProviderID;
+    object.DocumentFileContent = null;
+    object.DocumentName = null;
+    object.DocumentUploadedFileType = null;
+    object.DocumentID = this.docTypeId;
+    object.FileContent = [{
+      documentFileName: selectedFile.fileName,
+      documentFile: selectedFile.fileBaseString,
+      documentUploadedFileType: selectedFile.fileType.split('/').pop()
+    }]
+    return object;
+  }
+
+  async uploadDocuments(docFiles: Array<any>) {
+    const totalDocLenght: number = docFiles.length
+    for (let index = 0; index < totalDocLenght; index++) {
+      try {
+        const resp: JsonResponse = await this.docSendService(docFiles[index])
+        if (resp.returnStatus = 'Success') {
+          let resObj = JSON.parse(resp.returnText);
+          this.docTypeId = resObj.DocumentID;
+          let fileObj = JSON.parse(resObj.DocumentFile);
+          fileObj.forEach(element => {
+            element.DocumentFile = baseApi.split("/api").shift() + element.DocumentFile;
+          });
+          if (index !== (totalDocLenght - 1)) {
+            docFiles[index + 1].DocumentID = resObj.DocumentID
+          }
+          this.selectedDocx = fileObj;
+          this._toastr.success("File upload successfully", "");
+        }
+        else {
+          this._toastr.error("Error occured on upload", "");
+        }
+      } catch (error) {
+        this._toastr.error("Error occured on upload", "");
+      }
+    }
+  }
+
+  async docSendService(doc: any) {
+    const resp: JsonResponse = await this._userbusinessService.docUpload(doc).toPromise()
+    return resp
   }
 
   uploadDocx(selectedFile) {
@@ -767,7 +818,6 @@ export class DirectorinfoComponent implements OnInit {
     object.DocumentName = null;
     object.DocumentUploadedFileType = null;
     object.DocumentID = this.docTypeId;
-
     object.FileContent = [{
       documentFileName: selectedFile.fileName,
       documentFile: selectedFile.fileBaseString,
@@ -801,7 +851,7 @@ export class DirectorinfoComponent implements OnInit {
       if (res.returnStatus == 'Success') {
         this._toastr.success('Remove selected document succesfully', "");
         this.selectedDocx.splice(index, 1);
-        
+
       }
       else {
         this._toastr.error('Error Occured', "");
@@ -839,7 +889,7 @@ export class DirectorinfoComponent implements OnInit {
         firstName: this.managementForm.value.firstName,
         lastName: this.managementForm.value.lastName
       }],
-      otherLang: (this.showTranslatedLangSide)? otherLngMngInfo : null
+      otherLang: (this.showTranslatedLangSide) ? otherLngMngInfo : null
     }
     let objDirInfo = {
       baseLang: [{
@@ -901,9 +951,9 @@ export class DirectorinfoComponent implements OnInit {
         directorInfo: (type == 'skip') ? null : objDirInfo.baseLang,
 
       },
-      businessProfileOL: (this.showTranslatedLangSide)? businessProfOtherLng : null,
+      businessProfileOL: (this.showTranslatedLangSide) ? businessProfOtherLng : null,
       socialAccount: (this.formOneObj.socialurl) ? socialUrlObj : null,
-  
+
       businessLocation: {
         addressLine1: this.formOneObj.businessLocForm.address,
         addressLine2: this.formOneObj.businessLocForm.address2,
@@ -913,7 +963,7 @@ export class DirectorinfoComponent implements OnInit {
       },
       providerLogisticServiceList: this.formOneObj.logisticsService,
     };
-    
+
     loading(true);
 
     this._userbusinessService.submitBusinessInfo(obj).subscribe((res: any) => {

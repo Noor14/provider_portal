@@ -1,7 +1,6 @@
 import { AbstractControl, ValidatorFn, FormControl } from '@angular/forms';
-
-
-
+import { baseExternalAssets } from './base.url';
+import { Base64 } from 'js-base64';
 
 
 export const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -88,4 +87,66 @@ export function CustomValidator(control: AbstractControl) {
 
   }
 
+
+  
+
 };
+
+export const encryptBookingID = (bookingId: number): string => {
+  const toEncrypt: string = bookingId + '00000' + bookingId
+
+  console.log('toEncrypt:', toEncrypt);
+  const toSend: string = Base64.encode(toEncrypt)
+  console.log('toSend:', toSend);
+
+  return toSend
+}
+
+export enum ImageSource {
+  FROM_SERVER,
+  FROM_ASSETS
+}
+
+export enum ImageRequiredSize {
+  original,
+  _96x96,
+  _80x80,
+  _48x48,
+  _32x32,
+  _24x24,
+  _16x16,
+}
+
+
+
+export const getImagePath = (fileSource: ImageSource, fileName: string, reqSize: ImageRequiredSize): string => {
+
+  let url = ''
+  if (fileSource === ImageSource.FROM_ASSETS) {
+
+  }
+
+  if (fileSource === ImageSource.FROM_SERVER) {
+    try {
+      if (reqSize === ImageRequiredSize.original) {
+        url = baseExternalAssets + fileName
+      } else if (reqSize === ImageRequiredSize._96x96) {
+        url = baseExternalAssets + fileName.replace("original", "96x96")
+      } else if (reqSize === ImageRequiredSize._80x80) {
+        url = baseExternalAssets + fileName.replace("original", "80x80")
+      } else if (reqSize === ImageRequiredSize._48x48) {
+        url = baseExternalAssets + fileName.replace("original", "48x48")
+      } else if (reqSize === ImageRequiredSize._32x32) {
+        url = baseExternalAssets + fileName.replace("original", "32x32")
+      } else if (reqSize === ImageRequiredSize._24x24) {
+        url = baseExternalAssets + fileName.replace("original", "24x24")
+      } else if (reqSize === ImageRequiredSize._16x16) {
+        url = baseExternalAssets + fileName.replace("original", "16x16")
+      }
+    } catch (error) {
+      url = baseExternalAssets + fileName
+    }
+  }
+
+  return url
+}

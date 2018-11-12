@@ -15,6 +15,8 @@ import { UserBusinessModule } from './user-business/user-business.module';
 import { BookingsComponent } from './bookings/bookings.component';
 import { UserGuard } from './user.guard'
 import { Interceptor } from '../../../http-interceptors/interceptor';
+import { ViewBookingComponent } from './view-booking/view-booking.component';
+import { BookingService } from './booking.service';
 
 @NgModule({
   imports: [
@@ -36,10 +38,12 @@ import { Interceptor } from '../../../http-interceptors/interceptor';
     LeftsidebarComponent,
     UserComponent,
     BookingsComponent,
+    ViewBookingComponent,
   ],
   providers: [
     UserGuard,
     UserService,
+    BookingService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: Interceptor,

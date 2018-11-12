@@ -8,6 +8,7 @@ import { CreatePasswordComponent } from './user-creation/create-password/create-
 import { ProfilecompletionComponent } from './user-business/business-info/profilecompletion/profilecompletion.component';
 import { ShippingInfoComponent } from './user-business/shipping-info/shipping-info.component';
 import { BookingsComponent } from './bookings/bookings.component';
+import { ViewBookingComponent } from './view-booking/view-booking.component';
 import { UserGuard } from './user.guard';
 
 const routes: Routes = [
@@ -20,7 +21,8 @@ const routes: Routes = [
         { path: 'business-profile', component: BusinessInfoComponent, canActivate: [UserGuard] },
         { path: 'profile-completion', component: ProfilecompletionComponent, canActivate: [UserGuard] },
         { path: 'business-setup', component: ShippingInfoComponent },
-        { path: 'bookings', component :BookingsComponent },
+        { path: 'bookings', component: BookingsComponent },
+        { path: 'view-booking/:id', component: ViewBookingComponent },
         { path: '**', redirectTo: 'registration', pathMatch: 'full' }
      ]
   }
