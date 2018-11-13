@@ -5,10 +5,11 @@ import { SideBarComponent } from './side-bar/side-bar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ViewBookingComponent } from './view-booking/view-booking.component';
 import { BookingService } from './booking.service';
-
+import { UserDeskRoutingModule } from './user-desk-routing.module';
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    UserDeskRoutingModule
   ],
   declarations: [
     UserDeskComponent, 
