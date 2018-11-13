@@ -1,5 +1,5 @@
 @import '../../../../assets/scss/_variables';
-.user {
+.user-creation {
     .h-100 {
         background: $right-side-background;
     }
@@ -45,7 +45,7 @@
 }
 
 @media (max-width: $screen-xs-max) {
-    .user {
+    .user-creation {
         .left-section {
             display: none;
         }

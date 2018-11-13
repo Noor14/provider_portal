@@ -1,3 +1,12 @@
-<p>
-  user-desk works!
-</p>
+<section class="user-desk h-100">
+  <div class="row h-100">
+    <div class="col-xl-2 col-lg-3 col-md-3 p-0 left-section">
+      <app-side-bar></app-side-bar>
+    </div>
+    <div class="offset-xl-1 offset-md-1 col-xl-8 col-lg-7 col-md-7 col-sm-12 p-0 right-section-portal">
+      <div class="container">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</section>

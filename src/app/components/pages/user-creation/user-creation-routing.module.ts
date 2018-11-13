@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-// import { BookingsComponent } from './bookings/bookings.component';
-// import { ViewBookingComponent } from './view-booking/view-booking.component';
 import { UserGuard } from './user.guard';
 import { RegistrationComponent } from './basic-info/registration-form/registration.component';
 import { OtpconfirmationComponent } from './basic-info/otpconfirmation/otpconfirmation.component';
@@ -22,8 +20,6 @@ const routes: Routes = [
       { path: 'business-profile', component: BusinessInfoComponent, canActivate: [UserGuard] },
       { path: 'profile-completion', component: ProfilecompletionComponent, canActivate: [UserGuard] },
       { path: 'business-setup', component: ShippingInfoComponent },
-      // { path: 'bookings', component: BookingsComponent },
-      // { path: 'view-booking/:id', component: ViewBookingComponent },
       { path: '**', redirectTo: 'registration', pathMatch: 'full' }
     ]
   }
