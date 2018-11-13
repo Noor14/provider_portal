@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { PlatformLocation } from '@angular/common';
-import { UserService } from '../../../components/pages/user/user.service';
+import { UserCreationService } from '../../../components/pages/user-creation/user-creation.service';
 import { SharedService } from '../../../services/shared.service';
 
 // import { HashStorage, Tea } from '../../../constants/globalfunctions';
 // import { DataService } from '../../../services/commonservice/data.service';
 // import { AuthService } from '../../../services/authservice/auth.service';
-
 @Component({
   selector: 'app-confirm-logout-dialog',
   templateUrl: './confirm-logout-dialog.component.html',
@@ -22,7 +21,7 @@ export class ConfirmLogoutDialogComponent implements OnInit {
     private _router: Router,
     private _activeModal: NgbActiveModal,
     private _sharedService: SharedService,
-    private _userService: UserService,
+    private _userCreationService: UserCreationService,
     private location: PlatformLocation
   ) {
     location.onPopState(() => this.closeModal());
@@ -53,7 +52,7 @@ export class ConfirmLogoutDialogComponent implements OnInit {
       LogoutRemarks: null
     }
     
-    this._userService.userLogOut(data).subscribe(res => {
+    this._userCreationService.userLogOut(data).subscribe(res => {
     })
 
     this._router.navigate(['registration']).then(() => {

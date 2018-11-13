@@ -7,8 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 // import { AuthService } from './../../../services/authservice/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute} from '@angular/router';
-import { UserService } from '../../../components/pages/user/user.service';
-
+import { UserCreationService } from '../../../components/pages/user-creation/user-creation.service';
 @Component({
   selector: 'app-update-password',
   templateUrl: './update-password.component.html',
@@ -25,7 +24,7 @@ export class UpdatePasswordComponent implements OnInit {
 
 
   constructor(
-    private _userService: UserService,
+    private _userCreationService: UserCreationService,
     private activeModal: NgbActiveModal, 
     private modalService: NgbModal,
     private _toast: ToastrService,
@@ -103,7 +102,7 @@ export class UpdatePasswordComponent implements OnInit {
       Code: this.activatedRoute.snapshot.queryParams.code,
       Password: obj.updatePassword
     };
-    this._userService.userupdatepassword(object).subscribe((res: any) => {
+    this._userCreationService.userupdatepassword(object).subscribe((res: any) => {
       if (res.returnStatus == "Error") {
         this._toast.error(res.returnText);
       }

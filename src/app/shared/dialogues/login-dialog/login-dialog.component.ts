@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 // import { DataService } from '../../../services/commonservice/data.service';
 import * as moment from 'moment';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
-import { UserService } from '../../../components/pages/user/user.service';
+import { UserCreationService } from '../../../components/pages/user-creation/user-creation.service';
 import { SharedService } from '../../../services/shared.service';
 
 
@@ -40,7 +40,7 @@ export class LoginDialogComponent implements OnInit {
     private _http: HttpClient,
     private activeModal: NgbActiveModal,
     private modalService: NgbModal,
-    private _userService: UserService,
+    private _userCreationService: UserCreationService,
     private toastr: ToastrService,
     private _router: Router,
     // private _dataService: DataService,
@@ -124,14 +124,14 @@ export class LoginDialogComponent implements OnInit {
       LoginDate: moment(Date.now()).format(),
       LoginRemarks: ""
     }
-    this._userService.userLogin(toSend).subscribe((response: JsonResponse) => {
+    this._userCreationService.userLogin(toSend).subscribe((response: JsonResponse) => {
       let resp = response
       if (resp.returnStatus == "Success" && resp.returnId > 0) {
         this.loading = false;
         if (localStorage) {
           if (resp.returnObject) {
-            this._userService.saveJwtToken(resp.returnObject.token)
-            this._userService.saveRefreshToken(resp.returnObject.refreshToken)
+            this._userCreationService.saveJwtToken(resp.returnObject.token)
+            this._userCreationService.saveRefreshToken(resp.returnObject.refreshToken)
           }
 
           let loginData = JSON.parse(resp.returnText)

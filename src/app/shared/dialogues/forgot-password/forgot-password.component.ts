@@ -6,8 +6,7 @@ import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 import { UpdatePasswordComponent } from '../update-password/update-password.component';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UserService } from '../../../components/pages/user/user.service';
-
+import { UserCreationService } from '../../../components/pages/user-creation/user-creation.service';
 
 
 @Component({
@@ -25,7 +24,7 @@ export class ForgotPasswordComponent implements OnInit {
 
 
   constructor(
-    private _userService: UserService,
+    private _userCreationService: UserCreationService,
     private activeModal: NgbActiveModal, 
     private modalService: NgbModal,
     private _toast: ToastrService,
@@ -89,7 +88,7 @@ export class ForgotPasswordComponent implements OnInit {
       loginUserID: obj.email,
       RedirectUrl: window.location.protocol + "//" + window.location.host + "/registration"
     }
-    this._userService.userforgetpassword(object).subscribe((res: any) => {
+    this._userCreationService.userforgetpassword(object).subscribe((res: any) => {
       if (res.returnStatus == "Error") {
         this._toast.error(res.returnText);
         this.resetForm.reset();

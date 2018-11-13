@@ -11,7 +11,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordComponent } from '../../shared/dialogues/forgot-password/forgot-password.component';
 import { UpdatePasswordComponent } from '../../shared/dialogues/update-password/update-password.component';
 import { ConfirmLogoutDialogComponent } from '../../shared/dialogues/confirm-logout-dialog/confirm-logout-dialog.component';
-import { UserService } from './user/user.service';
+import { UserCreationComponent } from './user-creation/user-creation.component';
+import { UserCreationService } from './user-creation/user-creation.service';
  
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { UserService } from './user/user.service';
     ForgotPasswordComponent,
     UpdatePasswordComponent,
     ConfirmLogoutDialogComponent,
+    UserCreationComponent,
     // CancelBookingDialogComponent,
     // ConfirmModifySearchComponent,
     // ShareshippingComponent,
@@ -44,7 +46,7 @@ import { UserService } from './user/user.service';
  
   ],
   providers: [
-    UserService,
+    UserCreationService,
    ]
 })
 export class PagesModule { }

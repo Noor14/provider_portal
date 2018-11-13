@@ -3,7 +3,7 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/c
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import 'rxjs/add/operator/do';
 import { flatMap } from 'rxjs/operators';
-import { UserService } from '../components/pages/user/user.service';
+import { UserCreationService } from '../components/pages/user-creation/user-creation.service';
 @Injectable()
 export class Interceptor implements HttpInterceptor {
     private refreshTokenInProgress = false;
@@ -12,7 +12,7 @@ export class Interceptor implements HttpInterceptor {
     private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
         null
     );
-    constructor(public _auth: UserService) { }
+    constructor(public _auth: UserCreationService) { }
 
     intercept(mainRequest: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 

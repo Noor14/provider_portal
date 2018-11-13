@@ -7,7 +7,7 @@ const routes: Routes = [
     path: '',
     component: PagesComponent,
     children: [
-      { path: '', loadChildren: 'app/components/pages/user/user.module#UserModule' },
+      { path: '', loadChildren: 'app/components/pages/user-creation/user-creation.module#UserCreationModule' },
     ]
   }
 ];
