@@ -17,7 +17,7 @@ import { SetupMapComponent } from './shipping-info/setup-map/setup-map.component
 import { SlidePanelComponent } from '../../../../directives/slide-panel/slide-panel.component';
 import { NgFilesModule } from '../../../../directives/ng-files/';
 
-import { UserBusinessService } from './user-business.service';
+import { CompanyInfoService } from './company-info.service';
 import { ComapnyInfoComponent } from './comapny-info.component';
 @NgModule({
   imports: [
@@ -26,13 +26,13 @@ import { ComapnyInfoComponent } from './comapny-info.component';
     HttpClientModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
-      libraries: ["places","geometry"]
+      libraries: ["places", "geometry"]
     }),
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
   ],
-  declarations:[ 
+  declarations: [
     ComapnyInfoComponent,
     BusinessInfoComponent,
     ShippingInfoComponent,
@@ -40,13 +40,13 @@ import { ComapnyInfoComponent } from './comapny-info.component';
     DirectorinfoComponent,
     ProfilecompletionComponent,
     BusinessSetupComponent,
-    SetupMapComponent,    
+    SetupMapComponent,
     ShippingLinesComponent,
     SlidePanelComponent
 
-    ],
-    providers:[
-      UserBusinessService
-    ]
+  ],
+  providers: [
+    CompanyInfoService
+  ]
 })
-export class UserBusinessModule { }
+export class CompanyInfoModule { }

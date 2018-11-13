@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../../../../../services/common.service';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../../directives/ng-files';
 import { CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear, patternValidator } from '../../../../../../constants/globalFunctions'
-import { UserBusinessService } from '../../user-business.service';
+import { CompanyInfoService } from '../../company-info.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DocumentUpload } from '../../../../../../interfaces/document.interface';
 import { element } from 'protractor';
@@ -337,7 +337,7 @@ export class BusinessDetailComponent implements OnInit {
     private ngZone: NgZone,
     private _sharedService: SharedService,
     private _userCreationService: UserCreationService,
-    private _userbusinessService: UserBusinessService,
+    private _companyInfoService: CompanyInfoService,
     private _toastr: ToastrService,
     private _commonService: CommonService,
     private ngFilesService: NgFilesService,
@@ -436,7 +436,7 @@ export class BusinessDetailComponent implements OnInit {
 
 
   getServices() {
-    this._userbusinessService.getServiceOffered().subscribe((res: any) => {
+    this._companyInfoService.getServiceOffered().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.serviceOffered = JSON.parse(res.returnObject);
       }
@@ -770,14 +770,14 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   getOrganizationList() {
-    this._userbusinessService.getOrganizationType().subscribe((res: any) => {
+    this._companyInfoService.getOrganizationType().subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.organizationList = JSON.parse(res.returnObject);
       }
     })
   }
   getsocialList() {
-    this._userbusinessService.socialList().subscribe((res: any) => {
+    this._companyInfoService.socialList().subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.socialLink = res.returnObject;
         this.selectedSocialsite = this.socialLink[this.socialLink.length-1];
@@ -1772,7 +1772,7 @@ export class BusinessDetailComponent implements OnInit {
 
   removeDoc(obj) {
     obj.DocumentFile = obj.DocumentFile.split(baseApi.split("/api").shift()).pop();
-    this._userbusinessService.removeDoc(obj).subscribe((res: any) => {
+    this._companyInfoService.removeDoc(obj).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this._toastr.success('Remove selected document succesfully', "");
       }
@@ -2036,7 +2036,7 @@ export class BusinessDetailComponent implements OnInit {
     //     }
     //   ]
 
-    this._userbusinessService.docUpload(object).subscribe((res: any) => {
+    this._companyInfoService.docUpload(object).subscribe((res: any) => {
       if (res.returnStatus = 'Success') {
         let resObj = JSON.parse(res.returnText);
 

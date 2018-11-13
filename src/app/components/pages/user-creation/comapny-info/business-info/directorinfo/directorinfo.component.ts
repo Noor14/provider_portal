@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CommonService } from '../../../../../../services/common.service';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../../directives/ng-files';
-import { UserBusinessService } from '../../user-business.service';
+import { CompanyInfoService } from '../../company-info.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { element } from 'protractor';
@@ -153,7 +153,7 @@ export class DirectorinfoComponent implements OnInit {
   constructor(
     private _sharedService: SharedService,
     private _commonService: CommonService,
-    private _userbusinessService: UserBusinessService,
+    private _companyInfoService: CompanyInfoService,
     private ngFilesService: NgFilesService,
     private _toastr: ToastrService,
     private _router: Router,
@@ -805,7 +805,7 @@ export class DirectorinfoComponent implements OnInit {
   }
 
   async docSendService(doc: any) {
-    const resp: JsonResponse = await this._userbusinessService.docUpload(doc).toPromise()
+    const resp: JsonResponse = await this._companyInfoService.docUpload(doc).toPromise()
     return resp
   }
 
@@ -823,7 +823,7 @@ export class DirectorinfoComponent implements OnInit {
       documentUploadedFileType: selectedFile.fileType.split('/').pop()
     }]
 
-    this._userbusinessService.docUpload(object).subscribe((res: any) => {
+    this._companyInfoService.docUpload(object).subscribe((res: any) => {
       if (res.returnStatus = 'Success') {
         let resObj = JSON.parse(res.returnText);
         this.docTypeId = resObj.DocumentID;
@@ -846,7 +846,7 @@ export class DirectorinfoComponent implements OnInit {
   removeDoc(obj, index) {
     obj.DocumentFile = obj.DocumentFile.split(baseApi.split("/api").shift()).pop();
     obj.DocumentID = this.docTypeId;
-    this._userbusinessService.removeDoc(obj).subscribe((res: any) => {
+    this._companyInfoService.removeDoc(obj).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this._toastr.success('Remove selected document succesfully', "");
         this.selectedDocx.splice(index, 1);
@@ -965,7 +965,7 @@ export class DirectorinfoComponent implements OnInit {
 
     loading(true);
 
-    this._userbusinessService.submitBusinessInfo(obj).subscribe((res: any) => {
+    this._companyInfoService.submitBusinessInfo(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         localStorage.setItem('userInfo', JSON.stringify(res));
         this._router.navigate(['/profile-completion']);

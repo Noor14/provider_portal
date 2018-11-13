@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { SharedService } from '../../../../../services/shared.service';
-import { UserBusinessService } from '../user-business.service';
+import { CompanyInfoService } from '../company-info.service';
 import { UserCreationService } from '../../user-creation.service';
 import { ScrollbarComponent } from 'ngx-scrollbar';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -29,7 +29,7 @@ export class BusinessInfoComponent implements OnInit {
 
   constructor(
     private _sharedService: SharedService,
-    private _userbusinessService: UserBusinessService,
+    private _companyInfoService: CompanyInfoService,
     private _userCreationService: UserCreationService,
   ) { 
 
@@ -48,7 +48,7 @@ export class BusinessInfoComponent implements OnInit {
       this.isLeftVisible = state;
     })
     
-    this._userbusinessService.getDesgTitle().subscribe((res: any) => {
+    this._companyInfoService.getDesgTitle().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this._sharedService.jobTitleList.next(JSON.parse(res.returnObject));
       }
@@ -67,7 +67,7 @@ export class BusinessInfoComponent implements OnInit {
   }
 
   getDocType(id) {
-    this._userbusinessService.getDocByCountrytype('provider', 0 , id).subscribe((res: any) => {
+    this._companyInfoService.getDocByCountrytype('provider', 0 , id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         // console.log(res.returnObject)
         this._sharedService.documentList.next(res.returnObject);

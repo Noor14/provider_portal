@@ -15,8 +15,7 @@ import { UserCreationRoutingModule } from './user-creation-routing.module';
 import { UserCreationComponent } from './user-creation.component';
 import { UserCreationService } from './user-creation.service';
 import { BasicInfoModule } from './basic-info/basic-info.module';
-import { UserBusinessModule } from './comapny-info/user-business.module';
-
+import { CompanyInfoModule } from './comapny-info/company-info.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -30,7 +29,7 @@ import { UserBusinessModule } from './comapny-info/user-business.module';
     ReactiveFormsModule,
     NgbModule,
     BasicInfoModule,
-    UserBusinessModule
+    CompanyInfoModule
   ],
   declarations: [
     LeftsidebarComponent,
