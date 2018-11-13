@@ -114,12 +114,12 @@ export class LoginDialogComponent implements OnInit {
       this.toastr.error('Invalid email entered.', 'Error');
       return
     }
-    const loc = this._sharedService.getMapLocation();
+    const loc: any = this._sharedService.getMapLocation();
     this.loading = true;
     let toSend = {
       password: data.password,
       loginUserID: data.loginUserID,
-      CountryCode: (loc)? loc : 'DEFAULT AE',
+      CountryCode: (loc)? loc.countryCode : 'DEFAULT AE',
       LoginIpAddress: "0.0.0.0",
       LoginDate: moment(Date.now()).format(),
       LoginRemarks: ""

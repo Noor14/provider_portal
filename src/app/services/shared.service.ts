@@ -32,7 +32,7 @@ export class SharedService {
     this.userLocation.next(data);
   }
   getMapLocation() {
-    this.userLocation.getValue();
+    return this.userLocation.getValue();
   }
   // setCountries(data) {
   //   this.countries.next(data);
