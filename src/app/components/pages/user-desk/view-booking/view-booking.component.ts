@@ -9,7 +9,7 @@ import { BookingDetails } from '../../../../interfaces/bookingDetails';
 // import { OptionalBillingComponent } from '../../../shared/optional-billing/optional-billing.component';
 // import { DataService } from '../../../services/commonservice/data.service';
 import { CommonService } from '../../../../services/common.service';
-import { BookingService } from '../booking.service';
+import { ViewBookingService } from './view-booking.service';
 
 @Component({
   selector: 'app-view-booking',
@@ -28,7 +28,7 @@ export class ViewBookingComponent implements OnInit {
   constructor(
     private _modalService: NgbModal,
     private _toast: ToastrService,
-    private _bookingService: BookingService,
+    private _viewBookingService: ViewBookingService,
     private _router: ActivatedRoute,
     // private _dataService: DataService,
     private _commonService: CommonService,
@@ -56,7 +56,7 @@ export class ViewBookingComponent implements OnInit {
   }
   getBookingDetail(bookingId) {
     loading(true);
-    this._bookingService.getBookingDetails(bookingId).subscribe((res: any) => {
+    this._viewBookingService.getBookingDetails(bookingId).subscribe((res: any) => {
       loading(false);
       if (res.returnId > 0) {
         this.bookingDetails = JSON.parse(res.returnText);

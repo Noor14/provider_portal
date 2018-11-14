@@ -151,7 +151,7 @@ export class LoginDialogComponent implements OnInit {
         this.toastr.success('Login Successful!', 'Success');
         this.activeModal.close();
         document.getElementsByTagName('html')[0].style.overflowY = 'auto';
-        this._router.navigate(['bookings']);
+        this._router.navigate(['provider/dashboard']);
 
       } else {
         this.loading = false;

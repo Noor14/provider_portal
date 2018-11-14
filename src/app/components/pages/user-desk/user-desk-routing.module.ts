@@ -13,8 +13,7 @@ const routes: Routes = [
         children: [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'view-booking', component: ViewBookingComponent },
-  
-            { path: '**', redirectTo: 'registration', pathMatch: 'full' }
+            { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
     }
 ];

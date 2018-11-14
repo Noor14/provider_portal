@@ -10,12 +10,10 @@ import { UserGuard } from './user.guard'
 import { Interceptor } from '../../../http-interceptors/interceptor';
 // import { BookingService } from './booking.service';
 import { UserCreationRoutingModule } from './user-creation-routing.module';
-// import { BasicInfoComponent } from './basic-info/basic-info.component';
-// import { ComapnyInfoComponent } from './comapny-info/comapny-info.component';
 import { UserCreationComponent } from './user-creation.component';
 import { UserCreationService } from './user-creation.service';
 import { BasicInfoModule } from './basic-info/basic-info.module';
-import { CompanyInfoModule } from './comapny-info/company-info.module';
+import { CompanyInfoModule } from './company-info/company-info.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -36,8 +34,6 @@ import { CompanyInfoModule } from './comapny-info/company-info.module';
     UserCreationComponent,
     // BookingsComponent,
     // ViewBookingComponent,
-    // BasicInfoComponent,
-    // ComapnyInfoComponent,
   ],
   providers: [
     UserGuard,

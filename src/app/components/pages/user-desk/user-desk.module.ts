@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserDeskComponent } from './user-desk.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ViewBookingComponent } from './view-booking/view-booking.component';
-import { BookingService } from './booking.service';
 import { UserDeskRoutingModule } from './user-desk-routing.module';
+import { ViewBookingService } from './view-booking/view-booking.service';
 @NgModule({
   imports: [
     CommonModule,
+    NgbModule,
     UserDeskRoutingModule
   ],
   declarations: [
@@ -18,7 +20,7 @@ import { UserDeskRoutingModule } from './user-desk-routing.module';
     ViewBookingComponent
   ],
   providers:[
-    BookingService
+    ViewBookingService
   ]
 })
 export class UserDeskModule { }

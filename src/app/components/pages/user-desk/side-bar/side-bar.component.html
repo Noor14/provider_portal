@@ -11,8 +11,8 @@
       <ul class="nav flex-column leftsidebar-column">
         <li>
           <!-- <app-placeholder [heading]="'sidenav'"></app-placeholder> -->
-          <a href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/user/dashboard')"
-            [ngClass]="getClass('/user/dashboard')">
+          <a href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/provider/dashboard')"
+            [ngClass]="getClass('/provider/dashboard')">
             <i class="icon-svg">
               <svg class="icon" xmlns="http://www.w3.org/2000/svg" id="1baabaa8-6727-4ed0-8ff0-af9057ae92cc" data-name="Layer 1"
                 viewBox="0 0 24 24">
@@ -31,8 +31,8 @@
         </li>
         <li>
           <!-- <app-placeholder [heading]="'sidenav'"></app-placeholder> -->
-          <a href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/user/bookings')"
-            [ngClass]="getClass('/user/bookings')">
+          <a href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/provider/bookings')"
+            [ngClass]="getClass('/provider/bookings')">
             <i class="icon-svg">
               <svg class="icon" xmlns="http://www.w3.org/2000/svg" id="e44d6743-0a22-494c-8fef-fdb82a3ce8d4" data-name="Layer 1"
                 viewBox="0 0 24 24">
@@ -67,13 +67,13 @@
             <span class="menu-text">
               Bookings
             </span>
-            <span class="badge badge-primary" *ngIf="currentBookings && currentBookings.length">{{currentBookings.length}}</span>
+            <!-- <span class="badge badge-primary" *ngIf="currentBookings && currentBookings.length">{{currentBookings.length}}</span> -->
           </a>
         </li>
         <li>
           <!-- <app-placeholder [heading]="'sidenav'"></app-placeholder> -->
-          <a href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/user/billing')"
-            [ngClass]="getClass('/user/billing')">
+          <a href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/provider/billing')"
+            [ngClass]="getClass('/provider/billing')">
             <i class="icon-svg">
               <svg class="icon" xmlns="http://www.w3.org/2000/svg" id="c81dd9e7-2f3e-464d-9f69-1c124011dc06" data-name="Layer 1"
                 viewBox="0 0 24 24">
@@ -107,8 +107,8 @@
         </li>
         <li>
           <!-- <app-placeholder [heading]="'sidenav'"></app-placeholder> -->
-          <a href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/user/analytics')"
-            [ngClass]="getClass('/user/analytics')">
+          <a href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/provider/analytics')"
+            [ngClass]="getClass('/provider/analytics')">
             <i class="icon-svg">
               <svg class="icon" xmlns="http://www.w3.org/2000/svg" id="938364f1-cee0-4e40-a2b2-7b06fbf0c4b6" data-name="Layer 1"
                 viewBox="0 0 24 24">
@@ -133,8 +133,7 @@
           </a>
         </li>
         <li>
-          <!-- <app-placeholder [heading]="'sidenav'"></app-placeholder> -->
-          <a *ngIf="IsAdmin || nonAdminUser" href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/user/all-users')"
+          <!-- <a *ngIf="IsAdmin || nonAdminUser" href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/user/all-users')"
             [ngClass]="getClass('/user/all-users')">
             <i class="icon-svg">
               <svg class="icon" xmlns="http://www.w3.org/2000/svg" id="29ed0112-4bdc-461f-a7b1-1543f205fc17" data-name="Layer 1"
@@ -156,7 +155,7 @@
             </span>
 
             <span class="badge badge-primary" *ngIf="dashboardData.CompanyUserCount > 0">{{dashboardData.CompanyUserCount}}</span>
-          </a>
+          </a> -->
         </li>
       </ul>
     </div>
@@ -179,7 +178,7 @@
                 </g>
               </svg>
             </i>
-            <span class="menu-text" (click)="tonavigate('/user/settings')" [ngClass]="getClass('/user/settings')">
+            <span class="menu-text" (click)="tonavigate('/provider/settings')" [ngClass]="getClass('/provider/settings')">
               Settings
             </span>
           </a>
@@ -203,7 +202,7 @@
                 </g>
               </svg>
             </i>
-            <span class="menu-text" (click)="tonavigate('/user/support')" [ngClass]="getClass('/user/support')">
+            <span class="menu-text" (click)="tonavigate('/provider/support')" [ngClass]="getClass('/provider/support')">
               Support
             </span>
           </a>

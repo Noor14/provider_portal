@@ -1,17 +1,18 @@
 @import '../../../../assets/scss/_variables';
 .user-desk {
     .h-100 {
-        background: $right-side-background;
+        background: #fdfdff;
     }
     .left-section {
-        background-color: $left-sidebar-background;
-        // display: flex;
-        // flex-direction: column;
-        // justify-content: space-between;
+        //     background-color: $left-sidebar-background;
+        //     display: flex;
+        //     flex-direction: column;
+        //     justify-content: space-between;
+        padding-top: 40px;
     }
     .right-section-portal {
-        background-color: $right-side-background;
-        padding: 75px 0 !important;
+        // background-color: $right-side-background;
+        padding: 40px 0 !important;
     }
 }
 

@@ -6,9 +6,11 @@ $left-nave-link: $text-color-default;
 $left-nave-badge-primary: $secondary-grey;
 $leftsidebar-h3-color: #c6c8ca;
 .user-dashboard-leftsidebar {
-    width: 85%;
+    width: 100%;
     position: sticky;
     top: 0;
+    display: flex;
+    flex-direction: row-reverse;
     .nav-left {
         .leftsidebar-help {
             .leftsidebar-column {
@@ -42,6 +44,8 @@ $leftsidebar-h3-color: #c6c8ca;
                     padding: 10px 0 0;
                     .nav-link {
                         color: $left-nave-link;
+                        display: flex;
+                        align-items: center;
                         &.active {
                             color: $primary-color;
                         }
