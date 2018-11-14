@@ -1,10 +1,11 @@
-<div class="user-dashboard bookings">
+<div class="user-dashboard bookings" *ngIf="providerInfo">
   <!-- row -->
   <div class="user-dashborad-welcome-section">
-  <h3>Hey {{providerInfo.CompanyName}},
+    <h3>Hey {{providerInfo.CompanyName}},
       <span>Welcome Back</span>
     </h3>
-    <p class="user-info">Last logged in login in 3 days back from 123.12346782 United Arab Emirates </p>
+    <p class="user-info" *ngIf="providerInfo.LoginRank > 1">Last logged in <span *ngIf="providerInfo.LastLoginDays">{{providerInfo.LastLoginDays}}
+        days back</span> from {{providerInfo.LastLoginCountryName}} </p>
   </div>
   <!--/ row -->
 
@@ -24,17 +25,14 @@
                 <h5>Total Customers</h5>
               </div>
               <div class="summery-quantity pl-4">
-              <span class="ml-3">{{providerInfo.TotalCustomers}}</span>
+                <span class="ml-3">{{providerInfo.TotalCustomers}}</span>
               </div>
             </div>
           </div>
           <!--/ Booking Summery Col -->
-          <!-- Booking Summery Col2 -->
-
-          <!--/ Booking Summery Col2 -->
-          <!-- Booking Summery Col3 -->
+          <!-- Booking Summery Col -->
           <div class="summary-section-boxes col-xl-6 col-md-6 col-sm-12">
-      
+
             <div class="summarybox booking-summary">
               <div class="summary-icon">
                 <img src="../../../../../assets/images/icons/icon_billing.svg">
@@ -44,7 +42,7 @@
               </div>
               <div class="summery-quantity d-flex">
                 <small>{{providerInfo.BillingCurrencyCode}}</small>
-                <span>{{providerInfo.BillingTillDate}}</span>
+                <span>{{providerInfo.BillingTillDate | number: '1.2-2'}}</span>
               </div>
             </div>
           </div>
@@ -63,7 +61,7 @@
         <div class="row pointer">
           <!-- Booking Summery Col -->
           <div class="summary-section-boxes col-xl-6 col-md-6 col-sm-12">
-      
+
             <div class="summarybox booking-summary">
               <div class="summary-icon">
                 <img src="../../../../../assets/images/icons/icon_booking_current.svg">
@@ -72,7 +70,7 @@
                 <h5>Current Bookings</h5>
               </div>
               <div class="summery-quantity pl-4">
-              <span class="ml-3">{{providerInfo.CurrentBookingCount}}</span>
+                <span class="ml-3">{{providerInfo.CurrentBookingCount}}</span>
               </div>
             </div>
           </div>
@@ -80,7 +78,7 @@
 
           <!-- Booking Summery Col2 -->
           <div class="summary-section-boxes col-xl-6 col-md-6 col-sm-12">
- 
+
             <div class="summarybox booking-summary">
               <div class="summary-icon">
                 <img src="../../../../../assets/images/icons/icon_booking_total.svg">
@@ -89,7 +87,7 @@
                 <h5>Total Bookings</h5>
               </div>
               <div class="summery-quantity pl-4">
-              <span class="ml-3">{{providerInfo.TotalBookingCount}}</span>
+                <span class="ml-3">{{providerInfo.TotalBookingCount}}</span>
               </div>
             </div>
           </div>
@@ -99,9 +97,23 @@
     </div>
   </div>
   <!--/ booking summery -->
-
-  <div class="row">
-    <div class="col-12 pr-0 pt-2 mt-4">
+<!-- <div  class="bookingType">
+ <select name="bookingmode">
+   <option value="Confirmed">CURRENT BOOKINGS</option>
+   <option value="Draft">SAVED BOOKINGS</option>
+ </select>
+</div> -->
+  <div ngbDropdown class="d-inline-block">
+    <button class="btn btn-outline-primary" id="bookingMode" ngbDropdownToggle>
+      {{selectedBookingMode}}
+    </button>
+    <div ngbDropdownMenu aria-labelledby="bookingMode">
+      <button class="dropdown-item" (click)="selectedBookingMode = 'CURRENT BOOKINGS'">CURRENT BOOKINGS</button>
+      <button class="dropdown-item" (click)="selectedBookingMode = 'SAVED BOOKINGS'">SAVED BOOKINGS</button>
+    </div>
+  </div>
+  <div class="row" *ngIf="providerInfo.BookingDetails">
+    <div class="col-12 pr-0 pt-2 mt-4" *ngFor="let booking of bookings | BookingMode : selectedBookingMode">
       <div class="card">
         <div class="card-body pt-2">
           <!-- booking top row -->
@@ -111,13 +123,17 @@
                 <div class="bookings-route-number d-flex no-gutters">
                   <div class="col-xl-6 ">
                     <a href="javascript:;">
-                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg"> HM1823JDF323
+                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg"> 
+                      {{booking.HashMoveBookingNum}}
                     </a>
-                    <small class="d-block pl-1 ml-4">Booked on 6 nov 2018 </small>
+                    <small class="d-block pl-1 ml-4">Booked on {{booking.HashMoveBookingDate | date : "d MMM  y"}} </small>
                   </div>
                   <div class="col-xl-6 mt-2">
                     <span class="pull-right">
-                      <img src="../../../../../assets/images/logos/carrierlogo.jpg">Maersk Line</span>
+                      <img src="../../../../../assets/images/logos/carrierlogo.jpg">
+                      <!-- <img [src]="baseExternalAssets + booking.CarrierImage"> -->
+                      {{booking.CarrierName}}
+                    </span>
                   </div>
                 </div>
                 <hr class="hr-solid">
@@ -132,10 +148,12 @@
                 <div class="ports pull-left">
                   <div class="ports d-inline-block">
                     <small class="d-block mb-3">From</small>
-                    <label class="ports-label">AEAJEA</label>
-                    <span class="d-block mb-3">Port of Jebal Ali,Dubai</span>
+                    <label class="ports-label">{{booking.PolCode}}</label>
+                    <span class="d-block mb-3">Port of {{booking.PolCountry}}</span>
                     <span>
-                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg">12 Jul,2018 3:11 </span>
+                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg">
+                     {{booking.EtdLcl | date : "d MMM, yyyy"}} {{booking.EtdLcl | date : "H:mm"}}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -145,11 +163,13 @@
                 <div class="ports pull-left">
                   <div class="ports d-inline-block">
                     <small class="d-block mb-3">to</small>
-                    <label class="ports-label">AEAJEA</label>
-                    <span class="d-block mb-3">Port of Felixstowe, UK</span>
+                    <label class="ports-label">{{booking.PodCode}}</label>
+                    <span class="d-block mb-3">Port of {{booking.PodCountry}}</span>
                     <div class="ports-calendar">
                       <span>
-                        <img src="../../../../../assets/images/icons/Icons_Calendar.svg">12 Jul,2018 3:11 </span>
+                        <img src="../../../../../assets/images/icons/Icons_Calendar.svg">
+                         {{booking.EtaLcl | date : "d MMM, yyyy"}} {{booking.EtaLcl | date : "H:mm"}}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -166,9 +186,10 @@
                       <img src="../../../../../assets/images/logos/companylogo.jpg">
                     </div>
                     <label class="ports-label mt-1">
-                      TEXPO LLC</label>
+                      {{booking.CustomerName}}
+                    </label>
                     <small class="d-block  pt-3  mt-4 mb-1">DOCUMENT STATUS</small>
-                    <span class="pending">Pending</span>
+                    <span class="pending">{{booking.DocumentStatus}}</span>
                   </div>
                 </div>
               </div>
@@ -180,9 +201,9 @@
                 <div class="ports pull-left">
                   <div class="ports d-inline-block">
                     <small class="d-block mb-3">Price</small>
-                    <label class="ports-label">AED 2750.00</label>
-                    <small class="d-block pt-2 mt-4 mb-1">DOCUMENT STATUS</small>
-                    <span class="secondary">In Transit</span>
+                    <label class="ports-label">{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}</label>
+                    <small class="d-block pt-2 mt-4 mb-1">SHIPPING STATUS</small>
+                    <span class="secondary">{{booking.ShippingStatus}}</span>
                   </div>
                 </div>
               </div>
@@ -192,3 +213,5 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>

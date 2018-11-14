@@ -1,23 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SharedService } from '../../../../services/shared.service';
-
+import { baseExternalAssets } from '../../../../constants/base.url';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   public providerInfo;
+  public dashboardSubscriber;
+  public bookings;
+  public baseExternalAssets :string = baseExternalAssets;
+  public selectedBookingMode = 'CURRENT BOOKINGS';
   constructor(private _sharedService: SharedService) { }
 
   ngOnInit() {
-    this._sharedService.dashboardDetail.subscribe((state: any) => {
+    this.dashboardSubscriber= this._sharedService.dashboardDetail.subscribe((state: any) => {
       if (state) {
          this.providerInfo = state;
-        console.log(this.providerInfo);
+         this.bookings = this.providerInfo.BookingDetails
       }
     });
   }
+  ngOnDestroy(){
+    this.dashboardSubscriber.unsubscribe();
+    }
 
 }

@@ -8,21 +8,25 @@ import { ViewBookingComponent } from './view-booking/view-booking.component';
 import { UserDeskRoutingModule } from './user-desk-routing.module';
 import { ViewBookingService } from './view-booking/view-booking.service';
 import { DashboardService } from './dashboard/dashboard.service';
+import { SearchBookingMode } from '../../../constants/dashboardBookingsFilter';
 @NgModule({
   imports: [
     CommonModule,
     NgbModule,
-    UserDeskRoutingModule
+    UserDeskRoutingModule,
+    
   ],
   declarations: [
     UserDeskComponent, 
     SideBarComponent,
     DashboardComponent,
-    ViewBookingComponent
+    ViewBookingComponent,
+    
   ],
   providers:[
     ViewBookingService,
-    DashboardService
+    DashboardService,
+    SearchBookingMode
   ]
 })
 export class UserDeskModule { }

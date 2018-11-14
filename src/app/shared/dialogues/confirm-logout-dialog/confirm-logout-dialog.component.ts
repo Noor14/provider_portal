@@ -4,6 +4,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { PlatformLocation } from '@angular/common';
 import { UserCreationService } from '../../../components/pages/user-creation/user-creation.service';
 import { SharedService } from '../../../services/shared.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 // import { HashStorage, Tea } from '../../../constants/globalfunctions';
 // import { DataService } from '../../../services/commonservice/data.service';
@@ -52,14 +53,19 @@ export class ConfirmLogoutDialogComponent implements OnInit {
       LogoutRemarks: null
     }
     
-    this._userCreationService.userLogOut(data).subscribe(res => {
+    this._userCreationService.userLogOut(data).subscribe((res:any) => {
+      if (res.returnStatus === "Success"){
+        this.loading = false;
+        this._sharedService.dashboardDetail.next(null);
+        this._router.navigate(['registration']).then(() => {
+          this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
+          this.closeModal();
+        })
+      }
+    }, (err:HttpErrorResponse)=>{
+      console.log(err);
     })
 
-    this._router.navigate(['registration']).then(() => {
-      this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
-      this.closeModal();
-      this.loading = false;
-    })
   }
 
 
