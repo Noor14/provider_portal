@@ -81,7 +81,7 @@ export class ProfilecompletionComponent implements OnInit {
 
   proceed(){
     // localStorage.removeItem('userInfo');
-    this._router.navigate(['/bookings'])
+    this._router.navigate(['/provider/dashboard'])
   }
 
 }

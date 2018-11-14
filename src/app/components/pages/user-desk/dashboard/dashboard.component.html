@@ -1,7 +1,7 @@
 <div class="user-dashboard bookings">
   <!-- row -->
   <div class="user-dashborad-welcome-section">
-    <h3>Hey beryl Logistics,
+  <h3>Hey {{providerInfo.CompanyName}},
       <span>Welcome Back</span>
     </h3>
     <p class="user-info">Last logged in login in 3 days back from 123.12346782 United Arab Emirates </p>
@@ -21,10 +21,10 @@
                 <img src="../../../../../assets/images/icons/icon_user02.svg">
               </div>
               <div class="summary-box-title ml-2">
-                <h5>Total in voice Amount</h5>
+                <h5>Total Customers</h5>
               </div>
               <div class="summery-quantity pl-4">
-                <span class="ml-3">16</span>
+              <span class="ml-3">{{providerInfo.TotalCustomers}}</span>
               </div>
             </div>
           </div>
@@ -43,8 +43,8 @@
                 <h5>total Revenue</h5>
               </div>
               <div class="summery-quantity d-flex">
-                <small>USD</small>
-                <span>1,000,0000.00</span>
+                <small>{{providerInfo.BillingCurrencyCode}}</small>
+                <span>{{providerInfo.BillingTillDate}}</span>
               </div>
             </div>
           </div>
@@ -72,7 +72,7 @@
                 <h5>Current Bookings</h5>
               </div>
               <div class="summery-quantity pl-4">
-                <span class="ml-3">16</span>
+              <span class="ml-3">{{providerInfo.CurrentBookingCount}}</span>
               </div>
             </div>
           </div>
@@ -89,7 +89,7 @@
                 <h5>Total Bookings</h5>
               </div>
               <div class="summery-quantity pl-4">
-                <span class="ml-3">13</span>
+              <span class="ml-3">{{providerInfo.TotalBookingCount}}</span>
               </div>
             </div>
           </div>
@@ -163,7 +163,7 @@
                     <small class="d-block">CUSTOMER</small>
                     <div class="dashboard-image-box">
 
-                      <img src="../../../../../assets/images/logos/comapnylogo.jpg">
+                      <img src="../../../../../assets/images/logos/companylogo.jpg">
                     </div>
                     <label class="ports-label mt-1">
                       TEXPO LLC</label>

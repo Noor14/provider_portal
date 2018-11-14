@@ -7,6 +7,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ViewBookingComponent } from './view-booking/view-booking.component';
 import { UserDeskRoutingModule } from './user-desk-routing.module';
 import { ViewBookingService } from './view-booking/view-booking.service';
+import { DashboardService } from './dashboard/dashboard.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -20,7 +21,8 @@ import { ViewBookingService } from './view-booking/view-booking.service';
     ViewBookingComponent
   ],
   providers:[
-    ViewBookingService
+    ViewBookingService,
+    DashboardService
   ]
 })
 export class UserDeskModule { }

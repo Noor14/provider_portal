@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { DashboardService } from './dashboard/dashboard.service';
+import { SharedService } from '../../../services/shared.service';
 
 @Component({
   selector: 'app-user-desk',
@@ -7,9 +10,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserDeskComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _dashboardService: DashboardService,
+    private _sharedService: SharedService
+    ) { }
 
   ngOnInit() {
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo && userInfo.returnText) {
+      let userProfile = JSON.parse(userInfo.returnText);
+      this.getDashboardData(userProfile.UserID);
+
+    }
+  }
+
+  getDashboardData(id){
+    this._dashboardService.getdashboardDetails(id).subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
+        this._sharedService.dashboardDetail.next(res.returnObject);
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
   }
 
 }
