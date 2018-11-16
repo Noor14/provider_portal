@@ -21,12 +21,12 @@ import { SearchBookingMode } from '../../../constants/dashboardBookingsFilter';
     SideBarComponent,
     DashboardComponent,
     ViewBookingComponent,
-    
+    SearchBookingMode,
   ],
   providers:[
     ViewBookingService,
     DashboardService,
-    SearchBookingMode
+    
   ]
 })
 export class UserDeskModule { }

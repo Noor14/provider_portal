@@ -113,8 +113,9 @@
     </div>
   </div>
   <div class="row" *ngIf="providerInfo.BookingDetails">
-    <div class="col-12 pr-0 pt-2 mt-4" *ngFor="let booking of bookings | BookingMode : selectedBookingMode">
-      <div class="card">
+  <div class="col-12 pr-0 pt-2 mt-4" *ngFor="let booking of bookings | BookingMode : selectedBookingMode let i = index" 
+   (click)="viewBookingDetails(booking.BookingID)">
+      <div class="card pointer" *ngIf="i < 5">
         <div class="card-body pt-2">
           <!-- booking top row -->
           <div class="row">

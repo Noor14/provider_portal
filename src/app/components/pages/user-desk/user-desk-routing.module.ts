@@ -12,7 +12,7 @@ const routes: Routes = [
         component: UserDeskComponent,
         children: [
             { path: 'dashboard', component: DashboardComponent },
-            { path: 'view-booking', component: ViewBookingComponent },
+            { path: 'booking-detail/:id', component: ViewBookingComponent },
             { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
     }
