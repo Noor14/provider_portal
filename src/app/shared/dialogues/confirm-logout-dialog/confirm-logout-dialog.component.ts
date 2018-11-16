@@ -57,10 +57,9 @@ export class ConfirmLogoutDialogComponent implements OnInit {
       if (res.returnStatus === "Success"){
         this.loading = false;
         this._sharedService.dashboardDetail.next(null);
-        this._router.navigate(['registration']).then(() => {
-          this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
-          this.closeModal();
-        })
+        this.closeModal();
+        this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
+        this._router.navigate(['registration']);
       }
     }, (err:HttpErrorResponse)=>{
       console.log(err);
