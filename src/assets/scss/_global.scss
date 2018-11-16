@@ -6,9 +6,13 @@ body {
     a {
         text-decoration: none !important;
     }
+    .overflow-hidden{
+        overflow: hidden;
+    } 
     .small-modal {
         .modal-dialog {
             max-width: 400px !important;
+            margin: auto;
         }
     } // Toast Styles
     .alert-warning {
@@ -773,9 +777,6 @@ select {
 }
 
 //Internet Explorar css end
-
-
-
 // scss badge 
 // Badge Styles
 .badge {

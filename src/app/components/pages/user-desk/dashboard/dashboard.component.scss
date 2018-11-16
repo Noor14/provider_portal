@@ -228,23 +228,24 @@
     }
     .summary-section {
         margin-bottom: 20px;
-        .summary-title {
-            font-size: $font-size-large + 0.25rem;
-            font-family: $font-pragmatica;
-            font-weight: $font-weight-mid;
-            margin-top: 0.9375rem;
-            margin-bottom: 1.25rem;
-            color: $text-color-default;
-        }
         .booking-summery {
             background: #fff;
             border-right: 0px solid #eaeaea;
-            padding: 0px 32px 18px;
-            padding-top: 20px;
+            padding: 23px 35px 17px 35px;
             border: 1px solid #e9e9e9;
         }
         &-boxes {
-            border-right: 0px solid #e9e9e9;
+            // &:after {
+            //     content: "";
+            //     height: 86px;
+            //     width: 1px;
+            //     background: none;
+            //     position: absolute;
+            //     right: 25px;
+            //     border: 1px dashed #e8e8e8;
+            //     border-collapse: collapse;
+            //     top: -14px;
+            // }
             .summary-icon {
                 float: left;
                 img {
@@ -265,8 +266,8 @@
                 }
             }
             .summery-quantity {
-                padding-left: 2.8rem;
-                padding-top: 0.625rem;
+                padding-left: 2.6rem;
+                padding-top: 0.4em;
                 small {
                     font-size: $font-size-medium;
                     font-family: $font-proxima;
@@ -276,16 +277,24 @@
                     font-size: $font-size-large + $font-size-large;
                     font-weight: $font-weight-mid;
                     margin-left: 0.625rem;
+                    line-height: 1;
                 }
             }
-            .summarybox.booking-summary {
-                border-right: 1px solid #e9e9e9;
-                padding: 0px 0px;
+            &:after {
+                content: "";
+                height: 86px;
+                width: 1px;
+                background: none;
+                position: absolute;
+                right: 25px;
+                border-right: 1px dashed #e5e5e5;
+                border-collapse: collapse;
+                top: -6px;
             }
-        }
-        .summary-section-boxes:last-child {
-            .summarybox {
-                border-right: 0px !important;
+            &:last-child {
+                &:after {
+                    border: none;
+                }
             }
         }
     }
@@ -411,11 +420,6 @@
     }
     .user-dashborad-welcome-section {
         margin-top: 25px;
-        h3 {
-            font-weight: $font-weight-mid;
-            font-size: $font-size-large + $font-size-large;
-            font-family: $font-pragmatica;
-        }
         .user-info {
             font-size: $font-size-base;
             color: $text-grey;
@@ -735,8 +739,10 @@
                 font-weight: $font-proxima-weight-semibold;
                 color: $primary-color;
                 img {
-                    width: 24px;
-                    height: 24px;
+                    width: 33px;
+                    height: 33px;
+                    float: left;
+                    margin-right: 0.96rem;
                 }
             }
             span {
@@ -748,7 +754,7 @@
                 img {
                     width: 28px;
                     height: 28px;
-                    margin-right: 0.625rem;
+                    margin-right: 0.55rem;
                 }
             }
         }
@@ -831,6 +837,7 @@
                 line-height: 1.2;
                 vertical-align: bottom;
                 text-align: left;
+                margin-top: 0.84375rem;
             }
             span {
                 font-size: $font-size-large;
@@ -991,6 +998,58 @@
         &:before,
         &:after {
             right: 4px !important;
+        }
+    }
+}
+
+.bookings-selected span {
+    font-size: .75rem;
+    text-transform: uppercase;
+    color: #738593;
+    font-weight: 500;
+    position: relative;
+    text-decoration: none;
+    line-height: 24px;
+    width: auto;
+    span {
+        &:after,
+        &:before {
+            color: #02bdb6;
+            content: '';
+            position: absolute;
+            -webkit-transition: -webkit-transform .5s ease;
+            transition: -webkit-transform .5s ease;
+            transition: transform .5s ease;
+            transition: transform .5s ease, -webkit-transform .5s ease;
+        }
+    }
+    .sortFilter {
+        padding: 0;
+        background: #fff;
+        border: 1px solid #00a2df !important;
+        -webkit-box-shadow: 0 0 1px 0 #00a2df !important;
+        box-shadow: 0 0 1px 0 #00a2df !important;
+        left: -17px !important;
+        ul {
+            position: relative;
+            max-width: 160px;
+            max-height: 180px;
+            li {
+                border: none;
+                padding: 13px 10px 13px 15px;
+                line-height: 1;
+                -webkit-transition: .8s;
+                transition: .8s;
+                span {
+                    font-size: .75rem;
+                    -webkit-transition: .8s;
+                    transition: .8s;
+                }
+                &:first-child {
+                    border-top-left-radius: .25rem;
+                    border-top-right-radius: .25rem;
+                }
+            }
         }
     }
 }

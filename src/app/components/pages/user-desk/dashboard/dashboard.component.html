@@ -5,18 +5,47 @@
       <span>Welcome Back</span>
     </h3>
     <p class="user-info" *ngIf="providerInfo.LoginRank > 1">Last logged in <span *ngIf="providerInfo.LastLoginDays">{{providerInfo.LastLoginDays}}
-        days back</span> from {{providerInfo.LastLoginCountryName}} </p>
+        days back</span> from {{providerInfo.LastLoginCountryName}}
+    </p>
   </div>
   <!--/ row -->
 
   <!-- booking summery -->
   <div class="row">
-    <div class="summary-section col-md-12 pr-0">
-      <h4 class="summary-title">Revenue Summary</h4>
+    <div class="summary-section col-md-12 mt-3 pr-0">
+      <div class="row">
+        <div class="col-6">
+          <h5 class="summary-title  mb-1 pb-3">Overview</h5>
+        </div>
+        <div class="col-6 ">
+          <div class="pull-right bookings-selected ">
+            <div ngbDropdown class="dropdown">
+              <div class="pointer dropdown-toggle" id="sortByYear" ngbDropdownToggle>
+                <span>2017-2018</span>
+              </div>
+              <div aria-labelledby="sortByYear" class="sortFilter animated fadeIn dropdown-menu" ngbDropdownMenu
+                x-placement="bottom-left" style="top: 24px; left: 0px;">
+
+                <ul class="list-group" style="position: relative; max-width: 160px; max-height: 180px;">
+                  <li class="list-group-item pointer">
+                    <span>2016</span>
+                  </li>
+                  <li class="list-group-item pointer">
+                    <span>2015</span>
+                  </li>
+                </ul>
+
+              </div>
+            </div>
+           
+          </div>
+        </div>
+      </div>
       <div class="booking-summery">
         <div class="row pointer">
           <!-- Booking Summery Col -->
           <div class="summary-section-boxes col-xl-6 col-md-6 col-sm-12">
+
             <div class="summarybox booking-summary">
               <div class="summary-icon">
                 <img src="../../../../../assets/images/icons/icon_user02.svg">
@@ -24,18 +53,19 @@
               <div class="summary-box-title ml-2">
                 <h5>Total Customers</h5>
               </div>
-              <div class="summery-quantity pl-4">
+              <div class="summery-quantity pt-2 pl-4 pb-2">
                 <span class="ml-3">{{providerInfo.TotalCustomers}}</span>
               </div>
             </div>
           </div>
           <!--/ Booking Summery Col -->
-          <!-- Booking Summery Col -->
+
+          <!-- Booking Summery Col3 -->
           <div class="summary-section-boxes col-xl-6 col-md-6 col-sm-12">
 
             <div class="summarybox booking-summary">
               <div class="summary-icon">
-                <img src="../../../../../assets/images/icons/icon_billing.svg">
+                <img src="../../../../../assets/images/icons/icon_revenue.svg">
               </div>
               <div class="summary-box-title ml-2">
                 <h5>total Revenue</h5>
@@ -56,12 +86,15 @@
   <!-- booking summery -->
   <div class="row">
     <div class="summary-section col-md-12 pr-0">
-      <h4 class="summary-title mt-2">Bookings</h4>
+      <!-- <app-placeholder [heading]="'head'"></app-placeholder> -->
+      <h5 class="summary-title  mt-2 pt-1 mb-1 pb-3">Bookings</h5>
       <div class="booking-summery">
         <div class="row pointer">
           <!-- Booking Summery Col -->
           <div class="summary-section-boxes col-xl-6 col-md-6 col-sm-12">
-
+            <!-- <div class="booking-summary">
+                <app-placeholder></app-placeholder>
+              </div> -->
             <div class="summarybox booking-summary">
               <div class="summary-icon">
                 <img src="../../../../../assets/images/icons/icon_booking_current.svg">
@@ -69,7 +102,7 @@
               <div class="summary-box-title ml-2">
                 <h5>Current Bookings</h5>
               </div>
-              <div class="summery-quantity pl-4">
+              <div class="summery-quantity  pt-2 pl-4 pb-2">
                 <span class="ml-3">{{providerInfo.CurrentBookingCount}}</span>
               </div>
             </div>
@@ -78,7 +111,9 @@
 
           <!-- Booking Summery Col2 -->
           <div class="summary-section-boxes col-xl-6 col-md-6 col-sm-12">
-
+            <!-- <div class="booking-summary">
+                <app-placeholder></app-placeholder>
+              </div> -->
             <div class="summarybox booking-summary">
               <div class="summary-icon">
                 <img src="../../../../../assets/images/icons/icon_booking_total.svg">
@@ -86,7 +121,7 @@
               <div class="summary-box-title ml-2">
                 <h5>Total Bookings</h5>
               </div>
-              <div class="summery-quantity pl-4">
+              <div class="summery-quantity  pt-2 pl-4 pb-2">
                 <span class="ml-3">{{providerInfo.TotalBookingCount}}</span>
               </div>
             </div>
@@ -97,63 +132,76 @@
     </div>
   </div>
   <!--/ booking summery -->
-<!-- <div  class="bookingType">
- <select name="bookingmode">
-   <option value="Confirmed">CURRENT BOOKINGS</option>
-   <option value="Draft">SAVED BOOKINGS</option>
- </select>
-</div> -->
-  <div ngbDropdown class="d-inline-block">
-    <button class="btn btn-outline-primary" id="bookingMode" ngbDropdownToggle>
-      {{selectedBookingMode}}
-    </button>
-    <div ngbDropdownMenu aria-labelledby="bookingMode">
-      <button class="dropdown-item" (click)="selectedBookingMode = 'CURRENT BOOKINGS'">CURRENT BOOKINGS</button>
-      <button class="dropdown-item" (click)="selectedBookingMode = 'SAVED BOOKINGS'">SAVED BOOKINGS</button>
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="pull-right bookings-selected">
+        <div ngbDropdown class="dropdown">
+          <div class="pointer dropdown-toggle" id="bookingMode" ngbDropdownToggle>
+            <span>{{selectedBookingMode}}</span>
+          </div>
+          <div aria-labelledby="bookingMode" class="sortFilter animated fadeIn dropdown-menu" ngbDropdownMenu
+            x-placement="bottom-left" style="top: 24px; left: 0px;">
+
+            <ul class="list-group" style="position: relative; max-width: 160px; max-height: 180px;">
+              <li class="list-group-item pointer" (click)="selectedBookingMode = 'CURRENT BOOKINGS'">
+                <span>CURRENT BOOKINGS</span>
+              </li>
+              <li class="list-group-item pointer" (click)="selectedBookingMode = 'PAST BOOKINGS'">
+                <span>PAST BOOKINGS</span>
+              </li>
+                <!-- <li class="list-group-item pointer" (click)="selectedBookingMode = 'ALL BOOKINGS'">
+                  <span>ALL BOOKINGS</span>
+                </li> -->
+            </ul>
+
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="row" *ngIf="providerInfo.BookingDetails">
-  <div class="col-12 pr-0 pt-2 mt-4" *ngFor="let booking of bookings | BookingMode : selectedBookingMode let i = index" 
-   (click)="viewBookingDetails(booking.BookingID)">
-      <div class="card pointer" *ngIf="i < 5">
+<div class="row overflow-hidden" *ngIf="providerInfo.BookingDetails">
+    <div class="col-12 pr-0 pt-2" *ngFor="let booking of bookings | BookingMode : selectedBookingMode let i = index"
+      (click)="viewBookingDetails(booking.BookingID)">
+      <div class="card animated bounceInDown pointer" *ngIf="i < 5">
         <div class="card-body pt-2">
           <!-- booking top row -->
           <div class="row">
             <div class="col-12">
-              <div class="bookings-route border-right-0 ">
+              <div class="bookings-route border-right-0">
                 <div class="bookings-route-number d-flex no-gutters">
                   <div class="col-xl-6 ">
                     <a href="javascript:;">
-                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg"> 
+                      <img src="../../../../../assets/images/icons/icon_pin_sea.svg">
                       {{booking.HashMoveBookingNum}}
                     </a>
-                    <small class="d-block pl-1 ml-4">Booked on {{booking.HashMoveBookingDate | date : "d MMM  y"}} </small>
+                    <small class="d-block ml-4 pt-1 mb-1">Booked on {{booking.HashMoveBookingDate | date : "d MMM
+                      y"}} </small>
                   </div>
-                  <div class="col-xl-6 mt-2">
-                    <span class="pull-right">
-                      <img src="../../../../../assets/images/logos/carrierlogo.jpg">
-                      <!-- <img [src]="baseExternalAssets + booking.CarrierImage"> -->
-                      {{booking.CarrierName}}
-                    </span>
+                  <div class="col-xl-6 ">
+                    <span class="pull-right justify-content-center">
+                      <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
+                      {{booking.CarrierName}}</span>
                   </div>
                 </div>
-                <hr class="hr-solid">
+                <hr class="hr-solid mt-0">
               </div>
             </div>
           </div>
           <!-- booking top row -->
+
           <!-- booking bottom row -->
           <div class="row">
             <div class="col-3 mt-1">
               <div class="bookings-route border-right-0 right-arrow">
                 <div class="ports pull-left">
                   <div class="ports d-inline-block">
-                    <small class="d-block mb-3">From</small>
-                    <label class="ports-label">{{booking.PolCode}}</label>
-                    <span class="d-block mb-3">Port of {{booking.PolCountry}}</span>
+                    <small class="d-block mb-2">From</small>
+                    <label class="ports-label mt-1">{{booking.PolCode}}</label>
+                    <span class="d-block mb-2">Port of {{booking.PolCountry}}</span>
                     <span>
                       <img src="../../../../../assets/images/icons/Icons_Calendar.svg">
-                     {{booking.EtdLcl | date : "d MMM, yyyy"}} {{booking.EtdLcl | date : "H:mm"}}
+                      {{booking.EtdLcl | date : "d MMM, yyyy"}} {{booking.EtdLcl | date : "H:mm"}}
                     </span>
                   </div>
                 </div>
@@ -163,13 +211,13 @@
               <div class="bookings-route">
                 <div class="ports pull-left">
                   <div class="ports d-inline-block">
-                    <small class="d-block mb-3">to</small>
-                    <label class="ports-label">{{booking.PodCode}}</label>
+                    <small class="d-block mb-2">to</small>
+                    <label class="ports-label mt-1">{{booking.PodCode}}</label>
                     <span class="d-block mb-3">Port of {{booking.PodCountry}}</span>
                     <div class="ports-calendar">
                       <span>
                         <img src="../../../../../assets/images/icons/Icons_Calendar.svg">
-                         {{booking.EtaLcl | date : "d MMM, yyyy"}} {{booking.EtaLcl | date : "H:mm"}}
+                        {{booking.EtaLcl | date : "d MMM, yyyy"}} {{booking.EtaLcl | date : "H:mm"}}
                       </span>
                     </div>
                   </div>
@@ -182,14 +230,13 @@
                 <div class="ports pull-left">
                   <div class="ports d-inline-block ">
                     <small class="d-block">CUSTOMER</small>
-                    <div class="dashboard-image-box">
+                    <div class="dashboard-image-box mt-1">
 
-                      <img src="../../../../../assets/images/logos/companylogo.jpg">
+                      <img src="../../../../../assets/images/logos/logo.jpg">
                     </div>
                     <label class="ports-label mt-1">
-                      {{booking.CustomerName}}
-                    </label>
-                    <small class="d-block  pt-3  mt-4 mb-1">DOCUMENT STATUS</small>
+                      {{booking.CustomerName}}</label>
+                    <small class="d-block pt-4 mb-1 mt-3">DOCUMENT STATUS</small>
                     <span class="pending">{{booking.DocumentStatus}}</span>
                   </div>
                 </div>
@@ -201,8 +248,10 @@
               <div class="bookings-route border-right-0">
                 <div class="ports pull-left">
                   <div class="ports d-inline-block">
-                    <small class="d-block mb-3">Price</small>
-                    <label class="ports-label">{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}</label>
+                    <small class="d-block mb-2">Price</small>
+                    <label class="ports-label mt-1">
+                      {{booking.CurrencyCode}} {{booking.BookingTotalAmount | number:'1.2-2'}}
+                    </label>
                     <small class="d-block pt-2 mt-4 mb-1">SHIPPING STATUS</small>
                     <span class="secondary">{{booking.ShippingStatus}}</span>
                   </div>

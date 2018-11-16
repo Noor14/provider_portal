@@ -60,6 +60,7 @@ export class ViewBookingComponent implements OnInit {
       loading(false);
       if (res.returnId > 0) {
         this.bookingDetails = JSON.parse(res.returnText);
+        // console.log(this.bookingDetails, "agaya farha baji ka data")
         this.bookingDetails.ProviderDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.ProviderImage, ImageRequiredSize._48x48)
         this.bookingDetails.CarrierDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.CarrierImage, ImageRequiredSize._48x48)
         this.ProviderEmails = this.bookingDetails.ProviderEmail.split(',');

@@ -5,12 +5,10 @@
 
     <div class="leftsidebar-main">
       <h3>
-        <!-- <app-placeholder [heading]="'single-heading'"></app-placeholder> -->
         <span class="grey-placeholder">Main</span>
       </h3>
       <ul class="nav flex-column leftsidebar-column">
         <li>
-          <!-- <app-placeholder [heading]="'sidenav'"></app-placeholder> -->
           <a href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/provider/dashboard')"
             [ngClass]="getClass('/provider/dashboard')">
             <i class="icon-svg">
@@ -30,7 +28,6 @@
           </a>
         </li>
         <li>
-          <!-- <app-placeholder [heading]="'sidenav'"></app-placeholder> -->
           <a href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/provider/bookings')"
             [ngClass]="getClass('/provider/bookings')">
             <i class="icon-svg">
@@ -71,7 +68,6 @@
           </a>
         </li>
         <li>
-          <!-- <app-placeholder [heading]="'sidenav'"></app-placeholder> -->
           <a href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/provider/billing')"
             [ngClass]="getClass('/provider/billing')">
             <i class="icon-svg">
@@ -106,7 +102,6 @@
           </a>
         </li>
         <li>
-          <!-- <app-placeholder [heading]="'sidenav'"></app-placeholder> -->
           <a href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/provider/analytics')"
             [ngClass]="getClass('/provider/analytics')">
             <i class="icon-svg">
@@ -128,45 +123,74 @@
               </svg>
             </i>
             <span class="menu-text">
-              Analytics
+              Reports
             </span>
           </a>
         </li>
-        <li>
-          <!-- <a *ngIf="IsAdmin || nonAdminUser" href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/user/all-users')"
-            [ngClass]="getClass('/user/all-users')">
-            <i class="icon-svg">
-              <svg class="icon" xmlns="http://www.w3.org/2000/svg" id="29ed0112-4bdc-461f-a7b1-1543f205fc17" data-name="Layer 1"
-                viewBox="0 0 24 24">
-                <g id="19900aba-a63c-4a4b-b087-ac05c2afdf0b" data-name="users">
-                  <path id="2aa6c80d-5d32-4815-9a35-71dc74f96b34" data-name="&lt;Compound Path&gt;" class="dab1c0f6-a1d0-4780-9ca0-37ee009cd367"
-                    d="M10,18v2a2,2,0,0,1-2,2H2V20a2,2,0,0,1,2-2h6m2-2H4a4,4,0,0,0-4,4v4H8a4,4,0,0,0,4-4V16Z" />
-                  <path id="9c28e70d-ba1c-4734-92f7-ee223d8fbc4c" data-name="&lt;Compound Path&gt;" class="dab1c0f6-a1d0-4780-9ca0-37ee009cd367"
-                    d="M7.3,7A1.2,1.2,0,0,1,8.5,8.2V9.8A1.2,1.2,0,0,1,7.3,11H5.7A1.2,1.2,0,0,1,4.5,9.8V8.2A1.2,1.2,0,0,1,5.7,7H7.3m0-2H5.7A3.2,3.2,0,0,0,2.5,8.2V9.8A3.2,3.2,0,0,0,5.7,13H7.3a3.2,3.2,0,0,0,3.2-3.2V8.2A3.2,3.2,0,0,0,7.3,5Z" />
-                  <path id="d04a621e-115e-4ed1-a64d-a326731835b5" data-name="&lt;Compound Path&gt;" class="dab1c0f6-a1d0-4780-9ca0-37ee009cd367"
-                    d="M22,12v2a2,2,0,0,1-2,2H14V14a2,2,0,0,1,2-2h6m2-2H16a4,4,0,0,0-4,4v4h8a4,4,0,0,0,4-4V10Z" />
-                  <path id="47c15b02-f732-45d0-9b31-ab713aae72e3" data-name="&lt;Compound Path&gt;" class="dab1c0f6-a1d0-4780-9ca0-37ee009cd367"
-                    d="M18.8,2A1.2,1.2,0,0,1,20,3.2V4.8A1.2,1.2,0,0,1,18.8,6H17.2A1.2,1.2,0,0,1,16,4.8V3.2A1.2,1.2,0,0,1,17.2,2h1.6m0-2H17.2A3.2,3.2,0,0,0,14,3.2V4.8A3.2,3.2,0,0,0,17.2,8h1.6A3.2,3.2,0,0,0,22,4.8V3.2A3.2,3.2,0,0,0,18.8,0Z" />
-                </g>
-              </svg>
-            </i>
-            <span class="menu-text">
-              Users
-            </span>
-
-            <span class="badge badge-primary" *ngIf="dashboardData.CompanyUserCount > 0">{{dashboardData.CompanyUserCount}}</span>
-          </a> -->
-        </li>
+              <li>
+                <a href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/provider/analytics')" [ngClass]="getClass('/provider/analytics')">
+                  <i class="icon-svg">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" id="938364f1-cee0-4e40-a2b2-7b06fbf0c4b6" data-name="Layer 1" viewBox="0 0 24 24">
+              
+                      <g id="cc013ae8-f8be-41bb-bb66-30c1744f3b3a" data-name="analytics">
+                        <path class="12f18174-89eb-418f-970b-b8b03e643295" d="M3,20a1,1,0,1,1-1,1,1,1,0,0,1,1-1m0-2a3,3,0,1,0,3,3,3,3,0,0,0-3-3Z"
+                        />
+                        <path class="12f18174-89eb-418f-970b-b8b03e643295" d="M7,10a1,1,0,1,1-1,1,1,1,0,0,1,1-1M7,8a3,3,0,1,0,3,3A3,3,0,0,0,7,8Z"
+                        />
+                        <rect class="12f18174-89eb-418f-970b-b8b03e643295" x="2.307" y="15" width="5.385" height="2.001" transform="translate(-11.712 14.699) rotate(-68.193)"
+                        />
+                        <path class="12f18174-89eb-418f-970b-b8b03e643295" d="M17,12a1,1,0,1,1-1,1,1,1,0,0,1,1-1m0-2a3,3,0,1,0,3,3,3,3,0,0,0-3-3Z"
+                        />
+                        <path class="12f18174-89eb-418f-970b-b8b03e643295" d="M21,2a1,1,0,1,1-1,1,1,1,0,0,1,1-1m0-2a3,3,0,1,0,3,3,3,3,0,0,0-3-3Z"
+                        />
+                        <rect class="12f18174-89eb-418f-970b-b8b03e643295" x="16.307" y="7" width="5.385" height="2.001" transform="translate(4.514 22.669) rotate(-68.193)"
+                        />
+                        <rect class="12f18174-89eb-418f-970b-b8b03e643295" x="11" y="9.307" width="2" height="5.385" transform="translate(-3.598 18.685) rotate(-68.199)"
+                        />
+                      </g>
+                    </svg>
+                  </i>
+                  <span class="menu-text">
+                    Manage Rates
+                  </span>
+                </a>
+              </li>
+      <li>
+        <a href="javascript:void(0)" class="nav-link grey-placeholder" (click)="tonavigate('/provider/analytics')" [ngClass]="getClass('/provider/analytics')">
+          <i class="icon-svg">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" id="938364f1-cee0-4e40-a2b2-7b06fbf0c4b6" data-name="Layer 1" viewBox="0 0 24 24">
+      
+              <g id="cc013ae8-f8be-41bb-bb66-30c1744f3b3a" data-name="analytics">
+                <path class="12f18174-89eb-418f-970b-b8b03e643295" d="M3,20a1,1,0,1,1-1,1,1,1,0,0,1,1-1m0-2a3,3,0,1,0,3,3,3,3,0,0,0-3-3Z"
+                />
+                <path class="12f18174-89eb-418f-970b-b8b03e643295" d="M7,10a1,1,0,1,1-1,1,1,1,0,0,1,1-1M7,8a3,3,0,1,0,3,3A3,3,0,0,0,7,8Z"
+                />
+                <rect class="12f18174-89eb-418f-970b-b8b03e643295" x="2.307" y="15" width="5.385" height="2.001" transform="translate(-11.712 14.699) rotate(-68.193)"
+                />
+                <path class="12f18174-89eb-418f-970b-b8b03e643295" d="M17,12a1,1,0,1,1-1,1,1,1,0,0,1,1-1m0-2a3,3,0,1,0,3,3,3,3,0,0,0-3-3Z"
+                />
+                <path class="12f18174-89eb-418f-970b-b8b03e643295" d="M21,2a1,1,0,1,1-1,1,1,1,0,0,1,1-1m0-2a3,3,0,1,0,3,3,3,3,0,0,0-3-3Z"
+                />
+                <rect class="12f18174-89eb-418f-970b-b8b03e643295" x="16.307" y="7" width="5.385" height="2.001" transform="translate(4.514 22.669) rotate(-68.193)"
+                />
+                <rect class="12f18174-89eb-418f-970b-b8b03e643295" x="11" y="9.307" width="2" height="5.385" transform="translate(-3.598 18.685) rotate(-68.199)"
+                />
+              </g>
+            </svg>
+          </i>
+          <span class="menu-text">
+            Manage Deals
+          </span>
+        </a>
+      </li>
       </ul>
     </div>
     <div class="leftsidebar-help">
       <h3>
-        <!-- <app-placeholder [heading]="'single-heading'"></app-placeholder> -->
         <span class="grey-placeholder">Help</span>
       </h3>
       <ul class="nav flex-column leftsidebar-column">
         <li>
-          <!-- <app-placeholder [heading]="'sidenav'"></app-placeholder> -->
           <a href="javascript:void(0)" class="nav-link grey-placeholder">
             <i class="icon-svg">
               <svg class="icon" xmlns="http://www.w3.org/2000/svg" id="c1a26c25-dd77-49c2-99d9-df0cd5340645" data-name="Layer 1"
@@ -184,7 +208,6 @@
           </a>
         </li>
         <li>
-          <!-- <app-placeholder [heading]="'sidenav'"></app-placeholder> -->
           <a href="javascript:void(0)" class="nav-link grey-placeholder">
             <i class="icon-svg">
               <svg class="icon" xmlns="http://www.w3.org/2000/svg" id="09da9ef4-560b-4c50-b937-a692aefeb8bf" data-name="Layer 1"

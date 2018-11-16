@@ -7,11 +7,27 @@ import * as moment from 'moment';
 export class SearchBookingMode implements PipeTransform {
     transform(data: any, sel: any): any {
         if (sel == "CURRENT BOOKINGS"){
-            return sel ? data.filter(obj => obj.BookingTab === 'Current') : data;
-
+          let bookings = data.filter(obj => obj.BookingTab === 'Current');
+            return this.filterByDate(bookings);
+      
         }
         else if (sel == "SAVED BOOKINGS"){
-            return sel ? data.filter(obj => obj.BookingTab === 'Saved') : data;
+            let bookings = data.filter(obj => obj.BookingTab === 'Saved');
+            return this.filterByDate(bookings)
         }
+        else if (sel == "PAST BOOKINGS") {
+            let bookings = data.filter(obj => obj.BookingTab === 'Past');
+            return this.filterByDate(bookings)
+        }
+        else{
+            return this.filterByDate(data)
+        }
+    }
+    filterByDate(bookings){
+        return bookings.sort(function compare(a, b) {
+            let dateA: any = new Date(a.HashMoveBookingDate);
+            let dateB: any = new Date(b.HashMoveBookingDate);
+            return dateB - dateA;
+        });
     }
 }
