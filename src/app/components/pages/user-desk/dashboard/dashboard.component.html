@@ -1,10 +1,10 @@
-<div class="user-dashboard bookings" *ngIf="providerInfo">
+<div class="provider-dashboard bookings" *ngIf="providerInfo">
   <!-- row -->
-  <div class="user-dashborad-welcome-section">
+  <div class="provider-dashborad-welcome-section">
     <h3>Hey {{providerInfo.CompanyName}},
       <span>Welcome Back</span>
     </h3>
-    <p class="user-info" *ngIf="providerInfo.LoginRank > 1">Last logged in <span *ngIf="providerInfo.LastLoginDays">{{providerInfo.LastLoginDays}}
+    <p class="provider-info" *ngIf="providerInfo.LoginRank > 1">Last logged in <span *ngIf="providerInfo.LastLoginDays">{{providerInfo.LastLoginDays}}
         days back</span> from {{providerInfo.LastLoginCountryName}}
     </p>
   </div>
@@ -198,7 +198,7 @@
                   <div class="ports d-inline-block">
                     <small class="d-block mb-2">From</small>
                     <label class="ports-label mt-1">{{booking.PolCode}}</label>
-                    <span class="d-block mb-2">Port of {{booking.PolCountry}}</span>
+                    <span class="d-block mb-3">Port of {{booking.PolCountry}}</span>
                     <span>
                       <img src="../../../../../assets/images/icons/Icons_Calendar.svg">
                       {{booking.EtdLcl | date : "d MMM, yyyy"}} {{booking.EtdLcl | date : "H:mm"}}
