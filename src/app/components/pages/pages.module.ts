@@ -12,6 +12,7 @@ import { ForgotPasswordComponent } from '../../shared/dialogues/forgot-password/
 import { UpdatePasswordComponent } from '../../shared/dialogues/update-password/update-password.component';
 import { ConfirmLogoutDialogComponent } from '../../shared/dialogues/confirm-logout-dialog/confirm-logout-dialog.component';
 import { UserCreationService } from './user-creation/user-creation.service';
+import { BookingInvoiceComponent } from './user-desk/booking-invoice/booking-invoice.component';
  
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { UserCreationService } from './user-creation/user-creation.service';
     ForgotPasswordComponent,
     UpdatePasswordComponent,
     ConfirmLogoutDialogComponent,
+    BookingInvoiceComponent,
     // CancelBookingDialogComponent,
     // ConfirmModifySearchComponent,
     // ShareshippingComponent,
@@ -41,6 +43,7 @@ import { UserCreationService } from './user-creation/user-creation.service';
     ForgotPasswordComponent,
     UpdatePasswordComponent,
     ConfirmLogoutDialogComponent,
+    BookingInvoiceComponent
  
   ],
   providers: [
