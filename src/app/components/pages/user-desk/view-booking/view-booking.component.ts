@@ -27,16 +27,13 @@ export class ViewBookingComponent implements OnInit {
   public HelpDataLoaded: boolean;
   public ProviderEmails: any[];
   public helpSupport; any;
-  // public coordinates=[
-  //   {
-  //     lat:"23.4241",
-  //     lng:"53.8478"
-  //   },
-  //   {
-  //     lat: "30.3753",
-  //     lng: "69.3451"
-  //   }
-  // ]
+  public icon = {
+    url: "../../../../../assets/images/icons/Icons_Location_blue.svg",
+    scaledSize: {
+      width: 25,
+      height: 25
+    }
+  }
   public polyOptions: IconSequence = {
     icon: {
       path: 'M 0,-1 0,1',
@@ -85,7 +82,7 @@ export class ViewBookingComponent implements OnInit {
         // console.log(this.bookingDetails, "agaya farha baji ka data")
         this.bookingDetails.ProviderDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.ProviderImage, ImageRequiredSize._48x48)
         this.bookingDetails.CarrierDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.CarrierImage, ImageRequiredSize._48x48)
-        this.ProviderEmails = this.bookingDetails.ProviderEmail.split(',');
+        // this.ProviderEmails = this.bookingDetails.ProviderEmail.split(',');
 
       } else {
         this._toast.error('Unable to find this booking. Please check the link and try again', 'Failed to Fetch Data')
