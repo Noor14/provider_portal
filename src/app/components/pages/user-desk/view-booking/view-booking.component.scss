@@ -404,6 +404,32 @@
     }
     &-document {
         margin-bottom: 16px;
+        .card {
+            .list-group {
+                .list-group-item {
+                    padding-left: 20px !important;
+                    .primary-text {
+                        color: $primary-color;
+                        font-family: $font-proxima;
+                        font-weight: 500;
+                        .sub-text {
+                            font-family: inherit;
+                            font-size: 0.75rem;
+                            color: $place-holder-color;
+                            line-height: 1;
+                        }
+                        &:before {
+                            content: url(../../../../../assets/images/icons/icon_check.svg);
+                            height: 9px;
+                            width: 12px;
+                            position: absolute;
+                            left: 0;
+                            top: 13px;
+                        }
+                    }
+                }
+            }
+        }
         &-heading {
             margin-bottom: 16px !important;
             font-family: $font-pragmatica;

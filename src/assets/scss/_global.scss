@@ -431,7 +431,27 @@ input[type="radio"]:focus+label>span {
         &::-ms-reveal {
             display: none;
         }
-    } // direction RTL
+    } 
+    textarea {
+        border: 1px solid $provider-input-border;
+        border-radius: 4px !important;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -o-appearance: none;
+
+        &:focus {
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border-color: $form-control-focus !important;
+        }
+        &::placeholder {
+            color: $place-holder-color;
+            opacity: 1;
+            font-family: $font-proxima;
+            font-size: 14px;
+        }
+    }
+    // direction RTL
     &.dir-otherLanguage {
         direction: rtl;
         label {
@@ -746,6 +766,15 @@ select {
     p {
         display: inline-block;
         width: 70%;
+    }
+}
+.grey-anc-btn {
+    span {
+        color: $dark-grey-blue;
+        font-size: 0.75rem;
+        font-weight: 500;
+        font-family: $font-proxima;
+        text-transform: uppercase;
     }
 }
 
