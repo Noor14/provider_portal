@@ -6,10 +6,11 @@ import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-
 import { loading, getImagePath, ImageSource, ImageRequiredSize, encryptBookingID } from "../../../../constants/globalFunctions";
 import { HttpErrorResponse } from '@angular/common/http';
 import { BookingDetails } from '../../../../interfaces/bookingDetails';
-// import { OptionalBillingComponent } from '../../../shared/optional-billing/optional-billing.component';
 // import { DataService } from '../../../services/commonservice/data.service';
 import { CommonService } from '../../../../services/common.service';
 import { ViewBookingService } from './view-booking.service';
+import { BookingInvoiceComponent } from '../booking-invoice/booking-invoice.component';
+import { ReUploadDocComponent } from '../../../../shared/dialogues/re-upload-doc/re-upload-doc.component';
 
 @Component({
   selector: 'app-view-booking',
@@ -76,22 +77,34 @@ export class ViewBookingComponent implements OnInit {
 
 
   viewInvoice() {
-    // this._dataService.setBookingsData(this.bookingDetails);
-    // const modalRef = this._modalService.open(OptionalBillingComponent, {
-    //   size: 'lg',
-    //   centered: true,
-    //   windowClass: 'small-modal',
-    //   backdrop: 'static',
-    //   keyboard: false
-    // });
-    // modalRef.componentInstance.closeIcon = true;
-    // setTimeout(() => {
-    //   if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
-    //     document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
-    //   }
-    // }, 0);
+    const modalRef = this._modalService.open(BookingInvoiceComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.componentInstance.BookingInvoiceDet = this.bookingDetails;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
   }
-
+  reuploadDoc(){
+    this._modalService.open(ReUploadDocComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
 
   printDetail() {
     let doc = window as any;

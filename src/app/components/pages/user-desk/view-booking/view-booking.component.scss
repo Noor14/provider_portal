@@ -414,16 +414,19 @@
         }
         &-title {
             font-size: $font-size-medium;
-            font-family: $font-proxima;
-            font-weight: $font-proxima-weight-semibold;
+            font-family: $font-proxima; // font-weight: $font-proxima-weight-semibold;
             color: $dark-grey-blue;
             text-transform: uppercase;
             margin: 1.875rem 1.25rem 0;
+            border-bottom: 1px dashed rgba(0, 0, 0, .125);
+            padding-bottom: 10px;
         }
         .list-group {
+            margin-top: 15px;
             &-item {
                 border: 0px;
-                border-bottom: 1px dashed rgba(0, 0, 0, .125);
+                display: flex;
+                justify-content: space-between;
                 margin: 0 1.25rem;
                 padding: .75rem 0rem !important;
                 font-family: $font-proxima;
