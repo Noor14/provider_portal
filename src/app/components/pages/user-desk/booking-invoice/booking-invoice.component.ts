@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { PlatformLocation } from '@angular/common';
 
 @Component({
   selector: 'app-booking-invoice',
@@ -8,7 +9,11 @@ import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-
 })
 export class BookingInvoiceComponent implements OnInit {
   @Input() BookingInvoiceDet: any;
-  constructor(private _activeModal: NgbActiveModal) { }
+  constructor(
+    private _activeModal: NgbActiveModal,
+    private location: PlatformLocation ) {
+    location.onPopState(() => this.closeModal());
+   }
   public billingData;
   public freightData;
   public additionalData;

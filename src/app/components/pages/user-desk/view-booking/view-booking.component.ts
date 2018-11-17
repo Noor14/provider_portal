@@ -10,6 +10,7 @@ import { BookingDetails } from '../../../../interfaces/bookingDetails';
 import { CommonService } from '../../../../services/common.service';
 import { ViewBookingService } from './view-booking.service';
 import { BookingInvoiceComponent } from '../booking-invoice/booking-invoice.component';
+import { ReUploadDocComponent } from '../../../../shared/dialogues/re-upload-doc/re-upload-doc.component';
 
 @Component({
   selector: 'app-view-booking',
@@ -90,7 +91,20 @@ export class ViewBookingComponent implements OnInit {
       }
     }, 0);
   }
-
+  reuploadDoc(){
+    this._modalService.open(ReUploadDocComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
 
   printDetail() {
     let doc = window as any;
