@@ -66,6 +66,8 @@ export interface BookingDetails {
   ShippingModeCode: string;
   ShippingCatName: string;
   ShippingSubCatName: string;
+  origin?: string;
+  destination?: string;
   PolID: number
   PolCode: string;
   PolName: string;

@@ -189,71 +189,34 @@
             border-top: 0px;
         }
         &-right {
-            // .card {
-            //     &-title {
-            //         font-size: $font-size-medium;
-            //         color: $dark-grey-blue;
-            //         font-weight: $font-proxima-weight-semibold;
-            //         font-family: $font-proxima;
-            //         text-transform: uppercase;
-            //     }
-            //     &-text {
-            //         font-size: $font-size-medium;
-            //         color: $secondary-text-color;
-            //         font-weight: $font-weight-normal;
-            //         font-family: $font-proxima;
-            //         font-style: italic;
-            //     }
-            //     .ports {
-            //         img.detail-icon {
-            //             margin-right: 5px;
-            //         }
-            //         small {
-            //             font-size: $font-size-medium;
-            //             color: $text-color-default;
-            //             font-weight: $font-weight-mid;
-            //             font-family: $font-proxima;
-            //             vertical-align: bottom;
-            //             line-height: 1.2;
-            //         }
-            //     }
-            //     .secondary-anc-btn {
-            //         font-size: $font-size-medium;
-            //         margin-bottom: 0.20rem;
-            //         transition: 0.7s;
-            //         &:hover {
-            //             color: $text-color-default;
-            //         }
-            //     }
-            // }
             /*----BILLING SECTION - Start ----*/
-            .billing-box {
-                hr {
-                    margin: 1rem 0;
-                    border-top: 1px dashed $grey-border;
-                }
-                .card {
-                    border-radius: 0.2rem;
-                    border: 1px solid $light-grey-border;
-                    &-title {
-                        font-size: $font-size-base;
-                        text-transform: uppercase;
-                        font-family: $font-proxima;
-                        color: $secondary-grey;
-                        font-weight: 500;
-                        word-spacing: 3px;
-                        img {
-                            width: 16px;
-                            height: 16px;
+            .card {
+                .map {
+                    agm-map {
+                        height: 300px;
+                        agm-marker {
+                            width: 20px
                         }
                     }
-                    &-body {
-                        h6 {
-                            font-weight: 600;
-                            font-family: $font-proxima;
-                            font-size: $font-size-large;
-                            margin-bottom: 0;
-                        }
+                }
+                &-title {
+                    font-size: $font-size-base;
+                    text-transform: uppercase;
+                    font-family: $font-proxima;
+                    color: $secondary-grey;
+                    font-weight: 500;
+                    word-spacing: 3px;
+                    img {
+                        width: 16px;
+                        height: 16px;
+                    }
+                }
+                &-body {
+                    h6 {
+                        font-weight: 600;
+                        font-family: $font-proxima;
+                        font-size: $font-size-large;
+                        margin-bottom: 0;
                     }
                 }
                 .list-group {
@@ -404,32 +367,6 @@
     }
     &-document {
         margin-bottom: 16px;
-        .card {
-            .list-group {
-                .list-group-item {
-                    padding-left: 20px !important;
-                    .primary-text {
-                        color: $primary-color;
-                        font-family: $font-proxima;
-                        font-weight: 500;
-                        .sub-text {
-                            font-family: inherit;
-                            font-size: 0.75rem;
-                            color: $place-holder-color;
-                            line-height: 1;
-                        }
-                        &:before {
-                            content: url(../../../../../assets/images/icons/icon_check.svg);
-                            height: 9px;
-                            width: 12px;
-                            position: absolute;
-                            left: 0;
-                            top: 13px;
-                        }
-                    }
-                }
-            }
-        }
         &-heading {
             margin-bottom: 16px !important;
             font-family: $font-pragmatica;
@@ -440,7 +377,8 @@
         }
         &-title {
             font-size: $font-size-medium;
-            font-family: $font-proxima; // font-weight: $font-proxima-weight-semibold;
+            font-family: $font-proxima;
+            font-weight: $font-proxima-weight-semibold;
             color: $dark-grey-blue;
             text-transform: uppercase;
             margin: 1.875rem 1.25rem 0;

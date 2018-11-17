@@ -94,11 +94,7 @@ export function CustomValidator(control: AbstractControl) {
 
 export const encryptBookingID = (bookingId: number): string => {
   const toEncrypt: string = bookingId + '00000' + bookingId
-
-  console.log('toEncrypt:', toEncrypt);
   const toSend: string = Base64.encode(toEncrypt)
-  console.log('toSend:', toSend);
-
   return toSend
 }
 

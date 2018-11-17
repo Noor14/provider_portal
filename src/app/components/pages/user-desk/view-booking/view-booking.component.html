@@ -182,40 +182,45 @@
       </div>
       <!-- document required -->
       <h5 class="view-booking-document-heading">Documents Required</h5>
-       <div class="row view-booking-document">
+      <div class="row view-booking-document">
         <div class="col-12">
           <div class="card">
-            <label class="view-booking-document-title">For Jebel Ali, United Arab Emirates</label>
+
+            <label class="view-booking-document-title">
+              <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.origin | lowercase) + '.svg'}}" class="mr-2"
+                width="20"> For Jebel Ali, United Arab Emirates
+            </label>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
-                <span class="primary-text">Certificate of Origin
-                  <div class="sub-text">Uploaded on 2 Sept, 2018 18 : 30</div>
-                </span>
-                <button class="btn btn-outline-primary hvr-sweep-to-right" (click)="reuploadDoc()">ASK TO RE-UPLOAD</button>
+                <span>Certificate of Origin</span>
+                <button class="btn btn-outline-primary" (click)="reuploadDoc()">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
-                <span>Invoice</span> 
-              <button class="btn btn-outline-primary hvr-sweep-to-right">ASK TO RE-UPLOAD</button>
+                <span>Invoice</span>
+                <button class="btn btn-outline-primary" (click)="reuploadDoc()">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
                 <span>Packing List</span>
-               <button class="btn btn-outline-primary hvr-sweep-to-right">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary" (click)="reuploadDoc()">ASK TO RE-UPLOAD</button>
               </li>
             </ul>
-            <label class="view-booking-document-title">For Karachi, Pakistan</label>
+            <label class="view-booking-document-title">
+              <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.destination | lowercase) + '.svg'}}"
+                class="mr-2" width="20"> For Karachi, Pakistan
+            </label>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
                 <span>Invoice</span>
-                <button class="btn btn-outline-primary hvr-sweep-to-right">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary" (click)="reuploadDoc()">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
                 <span>Packing List</span>
-                <button class="btn btn-outline-primary hvr-sweep-to-right">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary" (click)="reuploadDoc()">ASK TO RE-UPLOAD</button>
               </li>
-                <li class="list-group-item">
-                  <span>Bill of Lading</span>
-                  <button class="btn btn-outline-primary hvr-sweep-to-right">ASK TO RE-UPLOAD</button>
-                </li>
+              <li class="list-group-item">
+                <span>Bill of Lading</span>
+                <button class="btn btn-outline-primary" (click)="reuploadDoc()">ASK TO RE-UPLOAD</button>
+              </li>
             </ul>
           </div>
         </div>
@@ -223,41 +228,27 @@
       <!--/ document required -->
     </div>
     <div class="col-xl-4 view-booking-shipment-detail-right">
-      <!-- <div class="card">
-        <div class="card-body">
-          <h6 class="card-title">Goods</h6>
-          <div class="ports" >
-            <img alt="containerIcon" class="icon-size-24 detail-icon" src="../../../../assets/images/icons/icons_container_grey.svg">
-            <small>
-                {{bookingDetails.ContainerLoad}} {{bookingDetails.totalContainers}} x Containers
-            </small>
-          </div>
-          <p class="card-text mt-4">
-            This shipment is not insured. You can still purchase insurance from a HashMove approved partner at competetive
-            rates.
-          </p>
-          <button class="secondary-anc-btn">Purchase Insurance</button>
-        
-        </div>
-      </div> -->
+
       <!-- Help & Support -->
       <div class="card mb-4">
+        <div class="map">
+          <agm-map [zoom]="1" [mapDraggable]="false" [zoomControl]="false" [streetViewControl]="false">
+          <agm-marker  [iconUrl]="'../../../../../assets/images/icons/Icons_Location_blue.svg'" [latitude]="23.4241" [longitude]="53.8478" >
+          </agm-marker>
+          <agm-marker [iconUrl]="'../../../../../assets/images/icons/Icons_Location_blue.svg'" [latitude]="30.3753" [longitude]="69.3451">
+          </agm-marker>
+          <agm-polyline [strokeWeight]="3" [strokeColor]="'#2196f3'">
+            <agm-polyline-point [latitude]="23.4241" [longitude]="53.8478">
+             </agm-polyline-point>
+            <agm-polyline-point [latitude]="30.3753" [longitude]="69.3451">
+            </agm-polyline-point>
+          </agm-polyline>
+            <!-- <agm-marker [latitude]="location.lat" [longitude]="location.lng"></agm-marker> -->
+          </agm-map>
+        </div>
+
         <div class="card-body">
           <div class="billing-box">
-            <h5 class="card-title">
-              <img src="../../../../assets/images/icons/icon_summary.svg" alt="umbrella-icon"> Order Summary
-            </h5>
-            <ul class="list-group list-group-flush mt-1">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span> Port of Loading</span>
-                <span>{{bookingDetails.PolName}}</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span>Port of Destination</span>
-                <span>{{bookingDetails.PodName}}</span>
-              </li>
-            </ul>
-            <hr>
             <h5 class="card-title">
               <img src="../../../../assets/images/icons/icon_container.svg" alt="umbrella-icon"> Cargo Details
             </h5>

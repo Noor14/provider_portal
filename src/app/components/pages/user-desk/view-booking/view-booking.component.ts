@@ -6,11 +6,11 @@ import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-
 import { loading, getImagePath, ImageSource, ImageRequiredSize, encryptBookingID } from "../../../../constants/globalFunctions";
 import { HttpErrorResponse } from '@angular/common/http';
 import { BookingDetails } from '../../../../interfaces/bookingDetails';
-// import { DataService } from '../../../services/commonservice/data.service';
 import { CommonService } from '../../../../services/common.service';
 import { ViewBookingService } from './view-booking.service';
 import { BookingInvoiceComponent } from '../booking-invoice/booking-invoice.component';
 import { ReUploadDocComponent } from '../../../../shared/dialogues/re-upload-doc/re-upload-doc.component';
+import { IconSequence } from '@agm/core/services/google-maps-types';
 
 @Component({
   selector: 'app-view-booking',
@@ -20,18 +20,37 @@ import { ReUploadDocComponent } from '../../../../shared/dialogues/re-upload-doc
 })
 export class ViewBookingComponent implements OnInit {
 
-
+  public zoomlevel: number = 2;
+  public location: any = { lat: undefined, lng: undefined };
   public bookingDetails: BookingDetails;
   public paramSubscriber: any;
   public HelpDataLoaded: boolean;
   public ProviderEmails: any[];
   public helpSupport; any;
+  // public coordinates=[
+  //   {
+  //     lat:"23.4241",
+  //     lng:"53.8478"
+  //   },
+  //   {
+  //     lat: "30.3753",
+  //     lng: "69.3451"
+  //   }
+  // ]
+  public polyOptions: IconSequence = {
+    icon: {
+      path: 'M 0,-1 0,1',
+      strokeOpacity: 1,
+      scale: 4
+    },
+    offset: '0',
+    repeat: '20px'
+  }
   constructor(
     private _modalService: NgbModal,
     private _toast: ToastrService,
     private _viewBookingService: ViewBookingService,
     private _router: ActivatedRoute,
-    // private _dataService: DataService,
     private _commonService: CommonService,
   ) { }
 
@@ -61,6 +80,8 @@ export class ViewBookingComponent implements OnInit {
       loading(false);
       if (res.returnId > 0) {
         this.bookingDetails = JSON.parse(res.returnText);
+        this.bookingDetails.origin = this.bookingDetails.PolCode.split(' ')[0];
+        this.bookingDetails.destination = this.bookingDetails.PodCode.split(' ')[0];
         // console.log(this.bookingDetails, "agaya farha baji ka data")
         this.bookingDetails.ProviderDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.ProviderImage, ImageRequiredSize._48x48)
         this.bookingDetails.CarrierDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.CarrierImage, ImageRequiredSize._48x48)

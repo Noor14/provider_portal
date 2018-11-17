@@ -1,6 +1,6 @@
-<div class="provider-modal animated fadeIn">
+<div class="user-modal animated fadeIn">
   <div class="modal-header">
-    <h4 class="provider-modal-title">Reason</h4>
+    <h4 class="user-modal-title">Reason</h4>
     <a class="pointer crossIcon" (click)="closeModal()">
       <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
     </a>
@@ -11,16 +11,14 @@
       <form>
         <div class="form-group">
           <select class="form-control" placeholder="Select" name="reason">
-            <option value="undefined">Reason1</option>
-            <option value="undefined">Reason2</option>
+            <option [value]="reason.ReasonID" *ngFor="let reason of docsReasons">{{reason.ReasonName}}</option>
           </select>
         </div>
         <div class="form-group">
-          <textarea type="text" class="form-control" placeholder="Detail (Opional)"></textarea>
+          <textarea type="text" rows="4" class="form-control" placeholder="Detail (Opional)"></textarea>
         </div>
-        <button class="btn btn-primary btn-lg hvr-sweep-to-right w-50 mt-3 mb-3">Submit</button>
       </form>
-
+        <button class="btn btn-primary btn-lg">Submit</button>
     </div>
   </div>
 </div>
