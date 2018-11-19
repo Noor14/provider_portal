@@ -10,11 +10,11 @@
 
           <a href="javascript:;" class="hvr-icon-forward mr-5" (click)="printDetail()">
             <img src="../../../../../assets/images/icons/icon_print.svg" alt="icon" class="icon-size-16 mr-2">
-            <span class="link-hover-1">Print</span>
+            <span class="link-hover-grey">Print</span>
           </a>
           <a href="javascript:;" class="hvr-icon-forward">
             <img src="../../../../../assets/images/icons/icon_share_blue.svg" alt="icon" class="icon-size-16 mr-2">
-            <span class="link-hover-1">Share</span>
+            <span class="link-hover-grey">Share</span>
           </a>
         </div>
       </div>
@@ -23,7 +23,7 @@
       <div class="col-12 pr-0 pl-0">
         <a class="hvr-icon-back grey-anc-btn mt-4" href="javascript:;" title="Back to Bookings" routerLink='/user/bookings'>
           <img src="../../../../../assets/images/icons/icon_arrow_left.svg" alt="icon" class="icon-size-14 hvr-icon">
-          <span class="link-hover-1">Back to Bookings </span>
+          <span class="link-hover-grey">Back to Bookings </span>
         </a>
       </div>
     </div>
@@ -62,7 +62,7 @@
               <strong>
                 {{bookingDetails.CurrencyCode}} {{bookingDetails.BookingTotalAmount | number: '1.2-2'}}
                 <a class="pull-right hvr-icon-forward" href="javascript:;" (click)="viewInvoice()">
-                  <span class="link-hover-1">View Invoice</span>
+                  <span class="link-hover-secondary">View Invoice</span>
                   <i class="fa fa-angle-right hvr-icon"></i>
                 </a>
               </strong>
@@ -295,8 +295,8 @@
             <div class="helpSupport-footer">
               <p>
                 For complaints or issues regarding your order, visit our
-                <a href="{{helpSupport[0].HMSupportWebAdd}}" class="link-hover-1" target="_blank">Help Center</a> or send us an email at
-                <a class="link-hover-1" href="{{'mailto:' + helpSupport[0].HMSupportEmail}}">{{helpSupport[0].HMSupportEmail}}</a>
+                <a href="{{helpSupport[0].HMSupportWebAdd}}" class="link-hover-black" target="_blank">Help Center</a> or send us an email at
+                <a class="link-hover-black" href="{{'mailto:' + helpSupport[0].HMSupportEmail}}">{{helpSupport[0].HMSupportEmail}}</a>
               </p>
             </div>
           </div>

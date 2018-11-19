@@ -1,4 +1,4 @@
-<div class="billing" id="Billing" [ngClass]="{'hasInsurance' : !showVAS}">
+<div class="billing" id="Billing" >
   <div class="card">
 
     <div class="close">
@@ -35,21 +35,21 @@
         </li>
       </ul>
       <hr *ngIf="additionalData.length">
-      <h6 *ngIf="showVasSection">Value Added Services</h6>
-      <ul class="list-group list-group-flush" *ngIf="showVasSection">
-        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of vasData">
+      <!-- <h6 *ngIf="showVasSection">Value Added Services</h6> -->
+      <!-- <ul class="list-group list-group-flush" *ngIf="showVasSection"> -->
+        <!-- <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of vasData"> -->
           <!-- <span class="long-text" placement="top" ngbTooltip="{{item.SurchargeName}}">{{item.SurchargeCode}} - {{item.SurchargeName}}</span>
           <span class="amount-text">{{item.CurrencyCode}} {{item.TotalAmount | number: '1.2-2'}}</span> -->
-          <span class="long-text" [ngClass]="{'text-danger' : item.active}" *ngIf="item.TotalAmount > 0">{{item.SurchargeCode}} - {{item.SurchargeName}}</span>
-          <span class="amount-text" [ngClass]="{'text-danger' : item.active}" *ngIf="item.TotalAmount > 0">{{item.CurrencyCode}} {{item.TotalAmount | number: '1.2-2'}}</span>
-        </li>
-      </ul>
-      <hr *ngIf="showVasSection">
+          <!-- <span class="long-text" [ngClass]="{'text-danger' : item.active}" *ngIf="item.TotalAmount > 0">{{item.SurchargeCode}} - {{item.SurchargeName}}</span> -->
+          <!-- <span class="amount-text" [ngClass]="{'text-danger' : item.active}" *ngIf="item.TotalAmount > 0">{{item.CurrencyCode}} {{item.TotalAmount | number: '1.2-2'}}</span> -->
+        <!-- </li> -->
+      <!-- </ul> -->
+      <!-- <hr *ngIf="showVasSection"> -->
       <ul class="list-group list-group-flush">
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <strong class="text-primary">Total</strong>
           <span class="text-primary">
-            <strong>{{currencyCode}} {{subTotal | number: '1.2-2'}}</strong>
+            <!-- <strong>{{currencyCode}} {{subTotal | number: '1.2-2'}}</strong> -->
           </span>
           <!-- <span *ngIf="insuranceAmount > 0 && includeInsuranceAmount" class="text-primary">
             <strong>{{currencyCode}} {{subTotal + insuranceAmount - prevInsurance| number: '1.2-2'}}</strong>

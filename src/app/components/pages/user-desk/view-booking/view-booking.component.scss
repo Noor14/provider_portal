@@ -20,34 +20,7 @@
             font-weight: $font-proxima-weight-semibold;
             font-family: $font-proxima;
             text-transform: uppercase;
-            span {
-                position: relative;
-                color: inherit;
-                text-decoration: none;
-                line-height: 24px;
-                width: auto;
-                &:before,
-                &:after {
-                    content: '';
-                    position: absolute;
-                    transition: transform .5s ease;
-                }
-                &.link-hover-1 {
-                    padding-top: 10px;
-                    &:before {
-                        top: 25px;
-                        left: 0;
-                        bottom: 0;
-                        width: 100%;
-                        height: 1px;
-                        background: darken(#738593, 3%);
-                        transform: scaleX(0);
-                    }
-                    &:hover:before {
-                        transform: scaleX(1);
-                    }
-                }
-            }
+
         }
     }
     .status {
@@ -79,33 +52,6 @@
                 font-family: $font-proxima;
                 font-weight: $font-proxima-weight-semibold;
                 margin-top: 0.25rem;
-                span {
-                    position: relative;
-                    text-decoration: none;
-                    line-height: 24px;
-                    width: auto;
-                    &:before,
-                    &:after {
-                        content: '';
-                        position: absolute;
-                        transition: transform .5s ease;
-                    }
-                    &.link-hover-1 {
-                        padding-top: 10px;
-                        &:before {
-                            top: 28px;
-                            left: 0;
-                            bottom: 0;
-                            width: 100%;
-                            height: 1px;
-                            background: darken(#02bdb6, 3%);
-                            transform: scaleX(0);
-                        }
-                        &:hover:before {
-                            transform: scaleX(1);
-                        }
-                    }
-                }
                 &:focus {
                     outline: 0
                 }
@@ -305,27 +251,6 @@
                             line-height: 24px;
                             font-weight: $font-weight-mid;
                             width: auto;
-                            &:before,
-                            &:after {
-                                content: '';
-                                position: absolute;
-                                transition: transform .5s ease;
-                            }
-                            &.link-hover-1 {
-                                padding-top: 10px;
-                                &:before {
-                                    top: 28px;
-                                    left: 0;
-                                    bottom: 0;
-                                    width: 100%;
-                                    height: 1px;
-                                    background: darken(#2b2b2b, 3%);
-                                    transform: scaleX(0);
-                                }
-                                &:hover:before {
-                                    transform: scaleX(1);
-                                }
-                            }
                         }
                     }
                 }
