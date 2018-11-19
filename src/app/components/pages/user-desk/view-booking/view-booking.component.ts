@@ -27,7 +27,7 @@ export class ViewBookingComponent implements OnInit {
   public paramSubscriber: any;
   public HelpDataLoaded: boolean;
   public ProviderEmails: any[];
-  public helpSupport; any;
+  public helpSupport: any;
   public baseExternalAssets: string = baseExternalAssets;
   
   public icon = {
