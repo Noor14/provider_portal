@@ -91,7 +91,7 @@ export interface BookingDetails {
   FreeTimeAtPort: number;
   ProviderID: number;
   ProviderName: string;
-  ProviderImage: string;
+  ProviderImage: any;
   ProviderEmail: string;
   ProviderPhone: string;   
   CarrierID: number;

@@ -11,6 +11,7 @@ import { ViewBookingService } from './view-booking.service';
 import { BookingInvoiceComponent } from '../booking-invoice/booking-invoice.component';
 import { ReUploadDocComponent } from '../../../../shared/dialogues/re-upload-doc/re-upload-doc.component';
 import { IconSequence } from '@agm/core/services/google-maps-types';
+import { baseExternalAssets } from '../../../../constants/base.url';
 
 @Component({
   selector: 'app-view-booking',
@@ -27,6 +28,8 @@ export class ViewBookingComponent implements OnInit {
   public HelpDataLoaded: boolean;
   public ProviderEmails: any[];
   public helpSupport; any;
+  public baseExternalAssets: string = baseExternalAssets;
+  
   public icon = {
     url: "../../../../../assets/images/icons/Icons_Location_blue.svg",
     scaledSize: {
@@ -79,9 +82,9 @@ export class ViewBookingComponent implements OnInit {
         this.bookingDetails = JSON.parse(res.returnText);
         this.bookingDetails.origin = this.bookingDetails.PolCode.split(' ')[0];
         this.bookingDetails.destination = this.bookingDetails.PodCode.split(' ')[0];
-        // console.log(this.bookingDetails, "agaya farha baji ka data")
-        this.bookingDetails.ProviderDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.ProviderImage, ImageRequiredSize._48x48)
-        this.bookingDetails.CarrierDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.CarrierImage, ImageRequiredSize._48x48)
+        // this.bookingDetails.ProviderDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.ProviderImage[0].ProviderLogo, ImageRequiredSize._48x48)
+        // this.bookingDetails.CarrierDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.CarrierImage, ImageRequiredSize._48x48)
+        this.bookingDetails.ProviderDisplayImage = baseExternalAssets + JSON.parse(this.bookingDetails.ProviderImage)[0].ProviderLogo;
         // this.ProviderEmails = this.bookingDetails.ProviderEmail.split(',');
 
       } else {

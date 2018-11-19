@@ -15,12 +15,12 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./create-password.component.scss']
 })
 export class CreatePasswordComponent implements OnInit {
-  
+
 
   public requiredFields: string = "This field is required";
   public paramSubscriber: any;
   public userInfo: any;
-  public passwordError:boolean
+  public passwordError: boolean
   public passForm;
   public colorEye;
 
@@ -47,11 +47,11 @@ export class CreatePasswordComponent implements OnInit {
     private _sharedService: SharedService,
     private _basicInfoService: BasicInfoService,
 
-   ) { }
+  ) { }
 
   ngOnInit() {
     this._sharedService.IsloggedInShow.next(false);
-    
+
     this.passForm = new FormGroup({
       password: new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(30)]),
       email: new FormControl(null),
@@ -76,80 +76,80 @@ export class CreatePasswordComponent implements OnInit {
 
     };
   }
-  passSpaceHandler(event){
-    if (event.keyCode == 32) {
+  passSpaceHandler(event) {
+    if (event.keyCode == 32 || event.which == 32) {
       event.preventDefault();
       return false;
     }
   }
 
-  validate(){
+  validate() {
     if (this.passForm.controls.password.status == "INVALID" && this.passForm.controls.password.touched) {
       this.passwordError = true;
     }
   }
 
-  getlabelsDescription(obj){
-    this._userCreationService.getlabelsDescription('createpassword').subscribe((res:any)=>{
-      if(res.returnStatus =='Success'){
+  getlabelsDescription(obj) {
+    this._userCreationService.getlabelsDescription('createpassword').subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
         // console.log(res.returnObject);
-       this.headingBaseLanguage = res.returnObject[0].baseLang.replace('{firstName}', obj.firstName);
-       this.headingOtherLanguage = res.returnObject[0].otherLang.replace('{firstName}', obj.firstNameOL);
-       this.descBaseLanguage = res.returnObject[1].baseLang;
-       this.descOtherLanguage = res.returnObject[1].otherLang;
-       this.lblPasswordBaselang = res.returnObject[2].baseLang;
-       this.lblPasswordOtherlang = res.returnObject[2].otherLang;
+        this.headingBaseLanguage = res.returnObject[0].baseLang.replace('{firstName}', obj.firstName);
+        this.headingOtherLanguage = res.returnObject[0].otherLang.replace('{firstName}', obj.firstNameOL);
+        this.descBaseLanguage = res.returnObject[1].baseLang;
+        this.descOtherLanguage = res.returnObject[1].otherLang;
+        this.lblPasswordBaselang = res.returnObject[2].baseLang;
+        this.lblPasswordOtherlang = res.returnObject[2].otherLang;
         this.btnBaselang = res.returnObject[3].baseLang;
-        this.btnOtherlang = res.returnObject[3].otherLang; 
+        this.btnOtherlang = res.returnObject[3].otherLang;
         this.lblEmailBaselang = res.returnObject[5].baseLang;
         this.lblEmailOtherlang = res.returnObject[5].otherLang;
         loading(false);
       }
-      else if (res.returnStatus == 'Error'){
+      else if (res.returnStatus == 'Error') {
         loading(false)
       }
-    },(err: HttpErrorResponse) => {
+    }, (err: HttpErrorResponse) => {
       console.log(err);
     })
   }
 
 
-  UserInfofromOtp(){
+  UserInfofromOtp() {
     loading(true)
-    this._sharedService.getUserOtpVerified.subscribe((res:any)=>{
-      if(res.returnStatus == "Success"){
-      this.userInfo = res.returnObject;
-      this.passForm.controls['email'].setValue(this.userInfo.primaryEmail); 
-      this.showTranslatedLangSide = (this.userInfo && this.userInfo.regionCode == "MET")? true : false;
-      this.getlabelsDescription(this.userInfo);
-      this._sharedService.formProgress.next(30);
-      // console.log(this.userInfo);
-    } 
-    },(err: HttpErrorResponse) => {
+    this._sharedService.getUserOtpVerified.subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this.userInfo = res.returnObject;
+        this.passForm.controls['email'].setValue(this.userInfo.primaryEmail);
+        this.showTranslatedLangSide = (this.userInfo && this.userInfo.regionCode == "MET") ? true : false;
+        this.getlabelsDescription(this.userInfo);
+        this._sharedService.formProgress.next(30);
+        // console.log(this.userInfo);
+      }
+    }, (err: HttpErrorResponse) => {
       loading(false);
       console.log(err);
     })
   }
-  passwordSubmit(data){
+  passwordSubmit(data) {
     loading(true);
-    let obj={
+    let obj = {
       otpKey: this.userInfo.key,
       password: data.password
     }
-    this._basicInfoService.createPaasword(obj).subscribe((res:any)=>{
-      if(res.returnStatus == "Success"){
+    this._basicInfoService.createPaasword(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
         loading(false);
         localStorage.setItem('userInfo', JSON.stringify(res));
-        this._toast.success('Account successfully created','');
+        this._toast.success('Account successfully created', '');
         this._router.navigate(['/business-profile']);
         this._sharedService.IsloggedIn.next(JSON.parse(res.returnText).IsLogedOut);
         this._sharedService.IsloggedInShow.next(true);
       }
-      else if (res.returnStatus == "Error"){
+      else if (res.returnStatus == "Error") {
         this._toast.success(res.returnText, '');
         loading(false);
       }
-    },(err: HttpErrorResponse) => {
+    }, (err: HttpErrorResponse) => {
       loading(false);
       console.log(err);
     })

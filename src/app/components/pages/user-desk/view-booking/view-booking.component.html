@@ -86,7 +86,7 @@
             </h5>
           </div>
           <div class="logo">
-            <img alt="icon" src="{{'../../../../assets/images/logos/' + bookingDetails.ProviderImage}}">
+            <img alt="icon" [src]="bookingDetails.ProviderDisplayImage">
           </div>
           <div class="company">
             <span>Your're shipping with</span>
@@ -166,7 +166,7 @@
               <div class="row mt-4">
                 <div class="media col-12">
                   <div class="align-self-start mr-3">
-                    <img src="{{'../../../../assets/images/logos/shippping-lines/' + bookingDetails.CarrierImage}}" alt="icon" width="62px" height="62px">
+                    <img [src]="baseExternalAssets + '/' + bookingDetails.CarrierImage" alt="icon" width="62px" height="62px">
                   </div>
                   <div class="media-body">
                     <div class="details">
