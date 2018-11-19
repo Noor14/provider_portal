@@ -9,7 +9,7 @@
     <p>Please tell the reason for asking the document again</p>
     <div class="text-center text-area">
       <form>
-        <div class="form-group">
+        <div class="form-group mb-3">
           <select class="form-control" placeholder="Select" name="reason">
             <option [value]="reason.ReasonID" *ngFor="let reason of docsReasons">{{reason.ReasonName}}</option>
           </select>

@@ -116,7 +116,7 @@ export class ViewBookingComponent implements OnInit {
     this._modalService.open(ReUploadDocComponent, {
       size: 'lg',
       centered: true,
-      windowClass: 'small-modal',
+      windowClass: 're-upload-modal',
       backdrop: 'static',
       keyboard: false
     });

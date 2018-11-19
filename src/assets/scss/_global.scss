@@ -14,6 +14,12 @@ body {
             max-width: 400px !important;
             margin: auto;
         }
+    }
+    .re-upload-modal {
+        .modal-dialog {
+            max-width: 460px !important;
+            margin: auto;
+        }
     } // Toast Styles
     .alert-warning {
         background: $alert-warning--background-color;
@@ -74,14 +80,13 @@ body {
             margin-top: 0px;
         }
     }
-    a.grey-anc-btn{
+    a.grey-anc-btn {
         color: #738593;
         font-size: .75rem;
         font-family: proxima-nova, sans-serif;
         font-weight: 600;
         text-transform: uppercase;
-    } 
-    // link Hover
+    } // link Hover
     .link-hover {
         transition: all 0.5s ease;
         position: relative;
