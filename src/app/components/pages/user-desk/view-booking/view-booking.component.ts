@@ -29,6 +29,10 @@ export class ViewBookingComponent implements OnInit {
   public ProviderEmails: any[];
   public helpSupport: any;
   public baseExternalAssets: string = baseExternalAssets;
+  public certOrigin;
+  public ladingBill;
+  public invoiceDoc;
+  public packingListDoc;
   
   public icon = {
     url: "../../../../../assets/images/icons/Icons_Location_blue.svg",
@@ -84,9 +88,9 @@ export class ViewBookingComponent implements OnInit {
         this.bookingDetails.destination = this.bookingDetails.PodCode.split(' ')[0];
         // this.bookingDetails.ProviderDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.ProviderImage[0].ProviderLogo, ImageRequiredSize._48x48)
         // this.bookingDetails.CarrierDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.CarrierImage, ImageRequiredSize._48x48)
-        this.bookingDetails.ProviderDisplayImage = baseExternalAssets + JSON.parse(this.bookingDetails.ProviderImage)[0].ProviderLogo;
+        // this.bookingDetails.ProviderDisplayImage = baseExternalAssets + JSON.parse(this.bookingDetails.ProviderImage)[0].ProviderLogo;
         // this.ProviderEmails = this.bookingDetails.ProviderEmail.split(',');
-
+        this.bookingDocs();
       } else {
         this._toast.error('Unable to find this booking. Please check the link and try again', 'Failed to Fetch Data')
       }
@@ -96,7 +100,25 @@ export class ViewBookingComponent implements OnInit {
     })
   }
 
-
+bookingDocs(){
+  this.bookingDetails.BookingDocumentDetail.forEach((obj)=>{
+    if (obj.DocumentNature == "CERTIFICATE"){
+     this.certOrigin = obj;
+    }
+    else if (obj.DocumentNature == "CUSTOM_DOC") {
+      this.ladingBill = obj;
+    }
+    else if (obj.DocumentNature == "CUSTOM_DOC") {
+      this.ladingBill = obj;
+    }
+    else if (obj.DocumentNature == "INVOICE") {
+      this.invoiceDoc = obj;
+    }
+    else if (obj.DocumentNature == "PACKING_LIST") {
+      this.packingListDoc = obj;
+    }
+  })
+}
   viewInvoice() {
     const modalRef = this._modalService.open(BookingInvoiceComponent, {
       size: 'lg',
@@ -112,14 +134,19 @@ export class ViewBookingComponent implements OnInit {
       }
     }, 0);
   }
-  reuploadDoc(){
-    this._modalService.open(ReUploadDocComponent, {
+  reuploadDoc(docTypeId, docId){
+    const modalRef = this._modalService.open(ReUploadDocComponent, {
       size: 'lg',
       centered: true,
       windowClass: 're-upload-modal',
       backdrop: 'static',
       keyboard: false
     });
+    let obj ={
+      docTypeID: docTypeId,
+      docID: docId
+    }
+    modalRef.componentInstance.documentObj = obj;
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
