@@ -153,7 +153,9 @@
                     }
                 }
                 &-body {
-                    border-bottom: 1px solid rgba(0,0,0,.125);
+                    &.d-flex {
+                        border-bottom: 1px solid $boxes-border-grey;
+                    }
                     h6 {
                         font-weight: 600;
                         font-family: $font-proxima;
