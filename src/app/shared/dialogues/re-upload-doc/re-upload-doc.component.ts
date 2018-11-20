@@ -21,7 +21,7 @@ export class ReUploadDocComponent implements OnInit {
     private _viewBookingService: ViewBookingService,
     private _toast: ToastrService,
     
-  ) { location.onPopState(() => this.closeModal()); }
+  ) { location.onPopState(() => this.closeModal(null)); }
 
   ngOnInit() {
     this.getDocReason();
@@ -42,18 +42,22 @@ export class ReUploadDocComponent implements OnInit {
       documentID: this.documentObj.docID,
       documentTypeID: this.documentObj.docTypeID,
       reasonID: this.docReasonForm.value.reasonType,
-      reason: this.docReasonForm.value.reasonDesc
+      documentStausRemarks: this.docReasonForm.value.reasonDesc,
+      documentStaus: "RE-UPLOAD",
+      documentStausDate: new Date(),
+      documentLastApproverID: this.documentObj.userID,
+      approverIDType: "PROVIDER",
     }
     this._viewBookingService.uploadDocReason(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.closeModal();
+        this.closeModal(res.returnStatus);
         this._toast.success(res.returnText);
       }
     })
   }
 
-  closeModal() {
-    this._activeModal.close();
+  closeModal(status) {
+    this._activeModal.close(status);
     document.getElementsByTagName('html')[0].style.overflowY = 'auto';
 
   }

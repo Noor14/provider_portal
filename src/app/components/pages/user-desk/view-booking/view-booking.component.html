@@ -192,21 +192,21 @@
             </label>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
-                <a [href]="baseExternalAssets + certOrigin.DocumentFileName" target="_blank" class="primary-text" [ngClass]="{'primary-text': certOrigin && certOrigin.DocumentFileName}" >
+                <a [href]="certOrigin.DocumentFileName?  baseExternalAssets + certOrigin.DocumentFileName : 'javascript:void(0)' | safeUrl" target="_blank" class="primary-text" [ngClass]="{'primary-text': certOrigin && certOrigin.DocumentFileName}" >
                   Certificate of Origin
                   <label class="sub-text d-flex" *ngIf="certOrigin && certOrigin.DocumentFileName">Uploaded on {{certOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{certOrigin.DocumentUploadDate | date : "H:mm"}}</label>
                 </a>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="certOrigin && certOrigin.DocumentFileName" (click)="reuploadDoc(certOrigin.DocumentTypeID, certOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
-                <a [href]="baseExternalAssets + invoiceDoc.DocumentFileName" target="_blank"[ngClass]="{'primary-text': invoiceDoc && invoiceDoc.DocumentFileName}">
+                <a [href]="invoiceDoc.DocumentFileName? baseExternalAssets + invoiceDoc.DocumentFileName : 'javascript:void(0)' | safeUrl" target="_blank"[ngClass]="{'primary-text': invoiceDoc && invoiceDoc.DocumentFileName}">
                   Invoice
                   <label class="sub-text d-flex" *ngIf="invoiceDoc && invoiceDoc.DocumentFileName">>Uploaded on {{invoiceDoc.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDoc.DocumentUploadDate | date : "H:mm"}}</label>
                 </a>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDoc && invoiceDoc.DocumentFileName" (click)="reuploadDoc(invoiceDoc.DocumentTypeID, invoiceDoc.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
-                <a [href]="baseExternalAssets + packingListDoc.DocumentFileName" target="_blank"[ngClass]="{'primary-text': packingListDoc && packingListDoc.DocumentFileName}">
+                <a [href]="packingListDoc.DocumentFileName? baseExternalAssets + packingListDoc.DocumentFileName : 'javascript:void(0)' | safeUrl" target="_blank"[ngClass]="{'primary-text': packingListDoc && packingListDoc.DocumentFileName}">
                   Packing List
                   <label class="sub-text d-flex" *ngIf="packingListDoc && packingListDoc.DocumentFileName">Uploaded on {{packingListDoc.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDoc.DocumentUploadDate | date : "H:mm"}}</label>
                 </a>
@@ -219,21 +219,21 @@
             </label>
             <ul class="list-group list-group-flush mb-3">
               <li class="list-group-item">
-                <a [href]="baseExternalAssets + invoiceDoc.DocumentFileName"  target="_blank" [ngClass]="{'primary-text': invoiceDoc && invoiceDoc.DocumentFileName}">
+                <a [href]="invoiceDoc.DocumentFileName? baseExternalAssets + invoiceDoc.DocumentFileName : 'javascript:void(0)' | safeUrl"  target="_blank" [ngClass]="{'primary-text': invoiceDoc && invoiceDoc.DocumentFileName}">
                   Invoice
                   <label class="sub-text d-flex" *ngIf="invoiceDoc && invoiceDoc.DocumentFileName">Uploaded on {{invoiceDoc.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDoc.DocumentUploadDate | date : "H:mm"}}</label>
                 </a>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDoc && invoiceDoc.DocumentFileName" (click)="reuploadDoc(invoiceDoc.DocumentTypeID, invoiceDoc.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
-                <a [href]="baseExternalAssets + packingListDoc.DocumentFileName" target="_blank" [ngClass]="{'primary-text': packingListDoc && packingListDoc.DocumentFileName}">
+                <a [href]="packingListDoc.DocumentFileName? baseExternalAssets + packingListDoc.DocumentFileName : 'javascript:void(0)' | safeUrl" target="_blank" [ngClass]="{'primary-text': packingListDoc && packingListDoc.DocumentFileName}">
                   Packing List
                   <label class="sub-text d-flex" *ngIf="packingListDoc && packingListDoc.DocumentFileName">Uploaded on {{packingListDoc.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDoc.DocumentUploadDate | date : "H:mm"}}</label>
                 </a>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDoc && packingListDoc.DocumentFileName" (click)="reuploadDoc(packingListDoc.DocumentTypeID, packingListDoc.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
-                <a [href]="baseExternalAssets + ladingBill.DocumentFileName" target="_blank" [ngClass]="{'primary-text': ladingBill && ladingBill.DocumentFileName}">
+                <a [href]="ladingBill.DocumentFileName? baseExternalAssets + ladingBill.DocumentFileName : 'javascript:void(0)' | safeUrl" target="_blank" [ngClass]="{'primary-text': ladingBill && ladingBill.DocumentFileName}">
                   Bill of Lading
                   <label class="sub-text d-flex" *ngIf="ladingBill && ladingBill.DocumentFileName">Uploaded on {{ladingBill.DocumentUploadDate | date : "d MMM, yyyy"}} {{ladingBill.DocumentUploadDate | date : "H:mm"}}</label>
                 </a>
@@ -250,18 +250,13 @@
       <!-- Help & Support -->
       <div class="card mb-4">
         <div class="map">
-          <agm-map [zoom]="1" [mapDraggable]="false" [zoomControl]="false" [streetViewControl]="false">
-            <agm-marker [iconUrl]="icon" [latitude]="23.4241" [longitude]="53.8478">
-            </agm-marker>
-            <agm-marker [iconUrl]="icon" [latitude]="30.3753" [longitude]="69.3451">
+          <agm-map #agmMap [zoom]="zoomlevel" [mapDraggable]="false" [zoomControl]="false" [streetViewControl]="false">
+            <agm-marker [iconUrl]="icon" *ngFor="let marker of mapOrgiToDest" [latitude]="marker.lat" [longitude]="marker.lng">
             </agm-marker>
             <agm-polyline [strokeWeight]="3" [strokeColor]="'#2196f3'">
-              <agm-polyline-point [latitude]="23.4241" [longitude]="53.8478">
-              </agm-polyline-point>
-              <agm-polyline-point [latitude]="30.3753" [longitude]="69.3451">
+              <agm-polyline-point *ngFor="let marker of mapOrgiToDest" [latitude]="marker.lat" [longitude]="marker.lng">
               </agm-polyline-point>
             </agm-polyline>
-            <!-- <agm-marker [latitude]="location.lat" [longitude]="location.lng"></agm-marker> -->
           </agm-map>
         </div>
         <div class="card-body d-flex justify-content-between">

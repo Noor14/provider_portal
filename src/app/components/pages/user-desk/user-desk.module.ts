@@ -9,6 +9,7 @@ import { UserDeskRoutingModule } from './user-desk-routing.module';
 import { ViewBookingService } from './view-booking/view-booking.service';
 import { DashboardService } from './dashboard/dashboard.service';
 import { SearchBookingMode } from '../../../constants/dashboardBookingsFilter';
+import { SafeUrl } from '../../../constants/safeurlfilter'
 import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
@@ -27,6 +28,7 @@ import { AgmCoreModule } from '@agm/core';
     DashboardComponent,
     ViewBookingComponent,
     SearchBookingMode,
+    SafeUrl,
   ],
   providers:[
     ViewBookingService,

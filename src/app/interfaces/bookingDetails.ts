@@ -124,6 +124,10 @@ export interface BookingDetails {
   ProviderImage: any;
   ProviderEmail: string;
   ProviderPhone: string;
+  PolLatitude: string,
+  PolLongitude: string,
+  PodLatitude: string,
+  PodLongitude: string,
   CarrierID: number;
   CarrierName: string;
   CarrierImage: string;

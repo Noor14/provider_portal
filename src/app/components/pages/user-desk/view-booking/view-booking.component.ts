@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, AfterViewInit, AfterContentInit } from '@angular/core';
 import { PlatformLocation } from '@angular/common';
 import { ToastrService } from "ngx-toastr";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -12,6 +12,8 @@ import { BookingInvoiceComponent } from '../booking-invoice/booking-invoice.comp
 import { ReUploadDocComponent } from '../../../../shared/dialogues/re-upload-doc/re-upload-doc.component';
 import { IconSequence } from '@agm/core/services/google-maps-types';
 import { baseExternalAssets } from '../../../../constants/base.url';
+import { GoogleMapsAPIWrapper, AgmMap, LatLngBounds, LatLngBoundsLiteral, MapsAPILoader } from '@agm/core';
+declare const google: any;
 
 @Component({
   selector: 'app-view-booking',
@@ -33,7 +35,9 @@ export class ViewBookingComponent implements OnInit {
   public ladingBill;
   public invoiceDoc;
   public packingListDoc;
-  
+  private userProfile;
+  private bookingId;
+  public mapOrgiToDest: any = [];
   public icon = {
     url: "../../../../../assets/images/icons/Icons_Location_blue.svg",
     scaledSize: {
@@ -50,6 +54,7 @@ export class ViewBookingComponent implements OnInit {
     offset: '0',
     repeat: '20px'
   }
+  @ViewChild('agmMap') agmMap: AgmMap;
   constructor(
     private _modalService: NgbModal,
     private _toast: ToastrService,
@@ -59,11 +64,15 @@ export class ViewBookingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo && userInfo.returnText) {
+      this.userProfile = JSON.parse(userInfo.returnText);
+    }
     this.paramSubscriber = this._router.params.subscribe(params => {
-      let bookingId = params['id'];
-       // (+) converts string 'id' to a number
-      if (bookingId) {
-        this.getBookingDetail(bookingId);
+      this.bookingId = params['id'];
+      // (+) converts string 'id' to a number
+      if (this.bookingId) {
+        this.getBookingDetail(this.bookingId);
       }
     });
 
@@ -74,6 +83,30 @@ export class ViewBookingComponent implements OnInit {
       }
     })
 
+  }
+
+  mapInit() {
+    setTimeout(() => {
+      if (this.mapOrgiToDest && this.mapOrgiToDest.length) {
+        this.agmMap.mapReady.subscribe(map => {
+          const bounds: LatLngBounds = new google.maps.LatLngBounds();
+          this.mapOrgiToDest.forEach(element => {
+            bounds.extend(new google.maps.LatLng(element.lat, element.lng));
+          });
+          map.fitBounds(bounds);
+        });
+      }
+    }, 200)
+  }
+
+
+  FileOpen(doc){
+    if (doc){
+      return baseExternalAssets + doc
+    }
+    else{
+      return 'javascript';
+    }
   }
   ngOnDestroy() {
     this.paramSubscriber.unsubscribe();
@@ -90,6 +123,10 @@ export class ViewBookingComponent implements OnInit {
         // this.bookingDetails.CarrierDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.CarrierImage, ImageRequiredSize._48x48)
         this.bookingDetails.ProviderDisplayImage = baseExternalAssets + JSON.parse(this.bookingDetails.ProviderImage)[0].ProviderLogo;
         this.ProviderEmails = this.bookingDetails.ProviderEmail.split(',');
+        this.mapOrgiToDest.push(
+          { lat: Number(this.bookingDetails.PolLatitude), lng: Number(this.bookingDetails.PolLongitude) },
+          { lat: Number(this.bookingDetails.PodLatitude), lng: Number(this.bookingDetails.PodLongitude) });
+        this.mapInit();
         this.bookingDocs();
       } else {
         this._toast.error('Unable to find this booking. Please check the link and try again', 'Failed to Fetch Data')
@@ -100,25 +137,25 @@ export class ViewBookingComponent implements OnInit {
     })
   }
 
-bookingDocs(){
-  this.bookingDetails.BookingDocumentDetail.forEach((obj)=>{
-    if (obj.DocumentNature == "CERTIFICATE"){
-     this.certOrigin = obj;
-    }
-    else if (obj.DocumentNature == "CUSTOM_DOC") {
-      this.ladingBill = obj;
-    }
-    else if (obj.DocumentNature == "CUSTOM_DOC") {
-      this.ladingBill = obj;
-    }
-    else if (obj.DocumentNature == "INVOICE") {
-      this.invoiceDoc = obj;
-    }
-    else if (obj.DocumentNature == "PACKING_LIST") {
-      this.packingListDoc = obj;
-    }
-  })
-}
+  bookingDocs() {
+    this.bookingDetails.BookingDocumentDetail.forEach((obj) => {
+      if (obj.DocumentNature == "CERTIFICATE") {
+        this.certOrigin = obj;
+      }
+      else if (obj.DocumentNature == "CUSTOM_DOC") {
+        this.ladingBill = obj;
+      }
+      else if (obj.DocumentNature == "CUSTOM_DOC") {
+        this.ladingBill = obj;
+      }
+      else if (obj.DocumentNature == "INVOICE") {
+        this.invoiceDoc = obj;
+      }
+      else if (obj.DocumentNature == "PACKING_LIST") {
+        this.packingListDoc = obj;
+      }
+    })
+  }
   viewInvoice() {
     const modalRef = this._modalService.open(BookingInvoiceComponent, {
       size: 'lg',
@@ -134,7 +171,7 @@ bookingDocs(){
       }
     }, 0);
   }
-  reuploadDoc(docTypeId, docId){
+  reuploadDoc(docTypeId, docId) {
     const modalRef = this._modalService.open(ReUploadDocComponent, {
       size: 'lg',
       centered: true,
@@ -142,11 +179,21 @@ bookingDocs(){
       backdrop: 'static',
       keyboard: false
     });
-    let obj ={
+    let obj = {
       docTypeID: docTypeId,
-      docID: docId
+      docID: docId,
+      userID: this.userProfile.UserID
     }
+    modalRef.result.then((result) => {
+      // console.log(result);
+      // if (result=="Success"){
+      //   this.getBookingDetail(this.bookingId);
+      // }
+    }, (reason) => {
+      // console.log("reason");
+    });
     modalRef.componentInstance.documentObj = obj;
+
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
