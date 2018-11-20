@@ -268,7 +268,7 @@
           <div class="ports">
             <span class="d-block ports-title">Pick up</span>
             <div class="icon flag-icon-20-12 align-top mr-2 pull-left">
-              <img alt="flag icon" src="../../../../assets/images/flags/4x3/ae.svg">
+              <img alt="flag icon" src=src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.origin | lowercase) + '.svg'}}">
             </div>
             <div class="d-flex mt-2">
               <label class="ports-label">{{bookingDetails.PolCode}}</label>
@@ -279,7 +279,7 @@
           <div class="ports">
             <span class="d-block ports-title">Destination</span>
             <div class="icon flag-icon-20-12 align-top mr-2 pull-left">
-              <img alt="flag icon" src="../../../../assets/images/flags/4x3/pk.svg">
+              <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.destination | lowercase) + '.svg'}}">
             </div>
             <div class="d-flex mt-2">
               <label class="ports-label">{{bookingDetails.PodCode}}</label>
