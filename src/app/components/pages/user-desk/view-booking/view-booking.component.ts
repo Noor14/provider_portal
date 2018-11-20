@@ -99,15 +99,6 @@ export class ViewBookingComponent implements OnInit {
     }, 200)
   }
 
-
-  FileOpen(doc){
-    if (doc){
-      return baseExternalAssets + doc
-    }
-    else{
-      return 'javascript';
-    }
-  }
   ngOnDestroy() {
     this.paramSubscriber.unsubscribe();
   }
