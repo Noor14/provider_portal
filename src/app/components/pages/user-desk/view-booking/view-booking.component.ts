@@ -88,8 +88,8 @@ export class ViewBookingComponent implements OnInit {
         this.bookingDetails.destination = this.bookingDetails.PodCode.split(' ')[0];
         // this.bookingDetails.ProviderDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.ProviderImage[0].ProviderLogo, ImageRequiredSize._48x48)
         // this.bookingDetails.CarrierDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.CarrierImage, ImageRequiredSize._48x48)
-        // this.bookingDetails.ProviderDisplayImage = baseExternalAssets + JSON.parse(this.bookingDetails.ProviderImage)[0].ProviderLogo;
-        // this.ProviderEmails = this.bookingDetails.ProviderEmail.split(',');
+        this.bookingDetails.ProviderDisplayImage = baseExternalAssets + JSON.parse(this.bookingDetails.ProviderImage)[0].ProviderLogo;
+        this.ProviderEmails = this.bookingDetails.ProviderEmail.split(',');
         this.bookingDocs();
       } else {
         this._toast.error('Unable to find this booking. Please check the link and try again', 'Failed to Fetch Data')
