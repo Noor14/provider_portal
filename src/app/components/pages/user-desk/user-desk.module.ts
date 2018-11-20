@@ -9,12 +9,17 @@ import { UserDeskRoutingModule } from './user-desk-routing.module';
 import { ViewBookingService } from './view-booking/view-booking.service';
 import { DashboardService } from './dashboard/dashboard.service';
 import { SearchBookingMode } from '../../../constants/dashboardBookingsFilter';
+import { AgmCoreModule } from '@agm/core';
+
 @NgModule({
   imports: [
     CommonModule,
     NgbModule,
     UserDeskRoutingModule,
-    
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
+      libraries: ["places", "geometry"]
+    }),
   ],
   declarations: [
     UserDeskComponent, 

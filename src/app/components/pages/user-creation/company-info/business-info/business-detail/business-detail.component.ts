@@ -14,7 +14,6 @@ import { CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear, patternValidator
 import { CompanyInfoService } from '../../company-info.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DocumentUpload } from '../../../../../../interfaces/document.interface';
-import { element } from 'protractor';
 import { baseApi } from '../../../../../../constants/base.url';
 
 @Component({
@@ -52,8 +51,8 @@ export class BusinessDetailComponent implements OnInit {
 
 
   public showTranslatedLangSide: boolean;
-  public zoomlevel: number = 6;
-  public draggable: boolean = true;
+  // public zoomlevel: number = 6;
+  // public draggable: boolean = true;
   public location: any = { lat: undefined, lng: undefined };
   public countAccount = 1
   public socialAccounts: any[] = [this.countAccount];
@@ -426,15 +425,12 @@ export class BusinessDetailComponent implements OnInit {
 
     this._sharedService.documentList.subscribe((state: any) => {
       if (state) {
-        let copy = Object.assign([], state)
+        let copy = Object.assign([], state);
         this.uploadDocs = copy.filter(element => element.BusinessLogic)
-
       }
     });
 
   }
-
-
   getServices() {
     this._companyInfoService.getServiceOffered().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
@@ -605,42 +601,42 @@ export class BusinessDetailComponent implements OnInit {
     }
   }
 
-  getMapLatlng(region) {
-    this._userCreationService.getLatlng(region).subscribe((res: any) => {
-      if (res.status == "OK") {
-        this.location = res.results[0].geometry.location;
-      }
-    })
-  }
+  // getMapLatlng(region) {
+  //   this._userCreationService.getLatlng(region).subscribe((res: any) => {
+  //     if (res.status == "OK") {
+  //       this.location = res.results[0].geometry.location;
+  //     }
+  //   })
+  // }
 
-  getplacemapLoc(countryBound) {
-    this.mapsAPILoader.load().then(() => {
-      this.geoCoder = new google.maps.Geocoder;
-      let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
-      autocomplete.setComponentRestrictions(
-        { 'country': [countryBound] });
-      autocomplete.addListener("place_changed", () => {
-        this.ngZone.run(() => {
-          //get the place result
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-          console.log(place)
-          // this.businessLocForm.controls['address'].setValue(place.formatted_address);
-          // this.businessLocForm.controls['transAddress'].setValue(place.formatted_address);
+  // getplacemapLoc(countryBound) {
+  //   this.mapsAPILoader.load().then(() => {
+  //     this.geoCoder = new google.maps.Geocoder;
+  //     let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
+  //     autocomplete.setComponentRestrictions(
+  //       { 'country': [countryBound] });
+  //     autocomplete.addListener("place_changed", () => {
+  //       this.ngZone.run(() => {
+  //         //get the place result
+  //         let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+  //         console.log(place)
+  //         // this.businessLocForm.controls['address'].setValue(place.formatted_address);
+  //         // this.businessLocForm.controls['transAddress'].setValue(place.formatted_address);
 
-          //verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
+  //         //verify result
+  //         if (place.geometry === undefined || place.geometry === null) {
+  //           return;
+  //         }
 
-          //set latitude, longitude and zoom
-          this.location.lat = place.geometry.location.lat();
-          this.location.lng = place.geometry.location.lng();
-          this.zoomlevel = 14;
-        });
-      });
-    });
+  //         //set latitude, longitude and zoom
+  //         this.location.lat = place.geometry.location.lat();
+  //         this.location.lng = place.geometry.location.lng();
+  //         this.zoomlevel = 14;
+  //       });
+  //     });
+  //   });
 
-  }
+  // }
   textValidation(event) {
     const pattern = /^[a-zA-Z0-9_]*$/;
     let inputChar = String.fromCharCode(event.charCode);

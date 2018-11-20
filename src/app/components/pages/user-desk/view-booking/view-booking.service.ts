@@ -5,9 +5,17 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 @Injectable()
 export class ViewBookingService {
   constructor(private _http: HttpClient) { }
+
   getBookingDetails(bookingId) {
     let url = `booking/GetBookingSummary/${bookingId}`;
     return this._http.get(baseApi + url);
   }
-
+  getDocReasons() {
+  let url = "Document/GetDocumentReuploadReason";
+    return this._http.get(baseApi + url);
+  }
+  uploadDocReason(obj){
+    let url = "Document/AddReuploadReason";
+    return this._http.post(baseApi + url ,obj);
+  }
 }

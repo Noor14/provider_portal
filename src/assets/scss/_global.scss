@@ -6,12 +6,18 @@ body {
     a {
         text-decoration: none !important;
     }
-    .overflow-hidden{
+    .overflow-hidden {
         overflow: hidden;
-    } 
+    }
     .small-modal {
         .modal-dialog {
             max-width: 400px !important;
+            margin: auto;
+        }
+    }
+    .re-upload-modal {
+        .modal-dialog {
+            max-width: 460px !important;
             margin: auto;
         }
     } // Toast Styles
@@ -73,8 +79,15 @@ body {
             width: 100%;
             margin-top: 0px;
         }
+    }
+    a.grey-anc-btn {
+        color: #738593;
+        font-size: .75rem;
+        font-family: proxima-nova, sans-serif;
+        font-weight: 600;
+        text-transform: uppercase;
     } // link Hover
-    a.link-hover {
+    .link-hover {
         transition: all 0.5s ease;
         position: relative;
         &:-moz-focusring {
@@ -82,7 +95,7 @@ body {
             box-shadow: none;
             outline: none;
         }
-        &:before {
+        &:after {
             content: '';
             position: absolute;
             transition: transform .5s ease;
@@ -90,15 +103,38 @@ body {
         }
         &:hover {
             text-decoration: none;
-            &:before {
-                top: 16px;
+            &:after {
                 left: 0;
-                bottom: 0;
+                bottom: -1px;
                 width: 100%;
                 height: 1px;
                 background: darken($primary-color, 3%);
                 transform: scaleX(1);
                 transition: transform .5s ease;
+            }
+        }
+    }
+    .link-hover-secondary {
+        @extend .link-hover;
+        &:hover {
+            &:after {
+                background: darken($secondary-color, 3%); // transform: scaleX(1);
+            }
+        }
+    }
+    .link-hover-grey {
+        @extend .link-hover;
+        &:hover {
+            &:after {
+                background: darken(#738593, 3%); // transform: scaleX(1);
+            }
+        }
+    }
+    .link-hover-black {
+        @extend .link-hover;
+        &:hover {
+            &:after {
+                background: darken(#2b2b2b, 3%); // transform: scaleX(1);
             }
         }
     } // Pointer
@@ -434,14 +470,13 @@ input[type="radio"]:focus+label>span {
         &::-ms-reveal {
             display: none;
         }
-    } 
+    }
     textarea {
         border: 1px solid $provider-input-border;
         border-radius: 4px !important;
         -webkit-appearance: none;
         -moz-appearance: none;
         -o-appearance: none;
-
         &:focus {
             -webkit-box-shadow: none !important;
             box-shadow: none !important;
@@ -453,7 +488,7 @@ input[type="radio"]:focus+label>span {
             font-family: $font-proxima;
             font-size: 14px;
         }
-    }
+    } 
     // direction RTL
     &.dir-otherLanguage {
         direction: rtl;
@@ -769,15 +804,6 @@ select {
     p {
         display: inline-block;
         width: 70%;
-    }
-}
-.grey-anc-btn {
-    span {
-        color: $dark-grey-blue;
-        font-size: 0.75rem;
-        font-weight: 500;
-        font-family: $font-proxima;
-        text-transform: uppercase;
     }
 }
 

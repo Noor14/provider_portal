@@ -20,34 +20,6 @@
             font-weight: $font-proxima-weight-semibold;
             font-family: $font-proxima;
             text-transform: uppercase;
-            span {
-                position: relative;
-                color: inherit;
-                text-decoration: none;
-                line-height: 24px;
-                width: auto;
-                &:before,
-                &:after {
-                    content: '';
-                    position: absolute;
-                    transition: transform .5s ease;
-                }
-                &.link-hover-1 {
-                    padding-top: 10px;
-                    &:before {
-                        top: 25px;
-                        left: 0;
-                        bottom: 0;
-                        width: 100%;
-                        height: 1px;
-                        background: darken(#738593, 3%);
-                        transform: scaleX(0);
-                    }
-                    &:hover:before {
-                        transform: scaleX(1);
-                    }
-                }
-            }
         }
     }
     .status {
@@ -79,33 +51,6 @@
                 font-family: $font-proxima;
                 font-weight: $font-proxima-weight-semibold;
                 margin-top: 0.25rem;
-                span {
-                    position: relative;
-                    text-decoration: none;
-                    line-height: 24px;
-                    width: auto;
-                    &:before,
-                    &:after {
-                        content: '';
-                        position: absolute;
-                        transition: transform .5s ease;
-                    }
-                    &.link-hover-1 {
-                        padding-top: 10px;
-                        &:before {
-                            top: 28px;
-                            left: 0;
-                            bottom: 0;
-                            width: 100%;
-                            height: 1px;
-                            background: darken(#02bdb6, 3%);
-                            transform: scaleX(0);
-                        }
-                        &:hover:before {
-                            transform: scaleX(1);
-                        }
-                    }
-                }
                 &:focus {
                     outline: 0
                 }
@@ -189,71 +134,34 @@
             border-top: 0px;
         }
         &-right {
-            // .card {
-            //     &-title {
-            //         font-size: $font-size-medium;
-            //         color: $dark-grey-blue;
-            //         font-weight: $font-proxima-weight-semibold;
-            //         font-family: $font-proxima;
-            //         text-transform: uppercase;
-            //     }
-            //     &-text {
-            //         font-size: $font-size-medium;
-            //         color: $secondary-text-color;
-            //         font-weight: $font-weight-normal;
-            //         font-family: $font-proxima;
-            //         font-style: italic;
-            //     }
-            //     .ports {
-            //         img.detail-icon {
-            //             margin-right: 5px;
-            //         }
-            //         small {
-            //             font-size: $font-size-medium;
-            //             color: $text-color-default;
-            //             font-weight: $font-weight-mid;
-            //             font-family: $font-proxima;
-            //             vertical-align: bottom;
-            //             line-height: 1.2;
-            //         }
-            //     }
-            //     .secondary-anc-btn {
-            //         font-size: $font-size-medium;
-            //         margin-bottom: 0.20rem;
-            //         transition: 0.7s;
-            //         &:hover {
-            //             color: $text-color-default;
-            //         }
-            //     }
-            // }
             /*----BILLING SECTION - Start ----*/
-            .billing-box {
-                hr {
-                    margin: 1rem 0;
-                    border-top: 1px dashed $grey-border;
-                }
-                .card {
-                    border-radius: 0.2rem;
-                    border: 1px solid $light-grey-border;
-                    &-title {
-                        font-size: $font-size-base;
-                        text-transform: uppercase;
-                        font-family: $font-proxima;
-                        color: $secondary-grey;
-                        font-weight: 500;
-                        word-spacing: 3px;
-                        img {
-                            width: 16px;
-                            height: 16px;
+            .card {
+                .map {
+                    agm-map {
+                        height: 300px;
+                        agm-marker {
+                            width: 20px
                         }
                     }
-                    &-body {
-                        h6 {
-                            font-weight: 600;
-                            font-family: $font-proxima;
-                            font-size: $font-size-large;
-                            margin-bottom: 0;
-                        }
+                }
+                &-title {
+                    font-size: $font-size-base;
+                    text-transform: uppercase;
+                    font-family: $font-proxima;
+                    color: $secondary-grey;
+                    font-weight: 500;
+                    word-spacing: 3px;
+                    img {
+                        width: 16px;
+                        height: 16px;
+                    }
+                }
+                &-body {
+                    h6 {
+                        font-weight: 600;
+                        font-family: $font-proxima;
+                        font-size: $font-size-large;
+                        margin-bottom: 0;
                     }
                 }
                 .list-group {
@@ -342,27 +250,6 @@
                             line-height: 24px;
                             font-weight: $font-weight-mid;
                             width: auto;
-                            &:before,
-                            &:after {
-                                content: '';
-                                position: absolute;
-                                transition: transform .5s ease;
-                            }
-                            &.link-hover-1 {
-                                padding-top: 10px;
-                                &:before {
-                                    top: 28px;
-                                    left: 0;
-                                    bottom: 0;
-                                    width: 100%;
-                                    height: 1px;
-                                    background: darken(#2b2b2b, 3%);
-                                    transform: scaleX(0);
-                                }
-                                &:hover:before {
-                                    transform: scaleX(1);
-                                }
-                            }
                         }
                     }
                 }
@@ -408,106 +295,107 @@
             .list-group {
                 .list-group-item {
                     padding-left: 20px !important;
-                    a{
+                    a {
                         color: inherit;
-                    &.primary-text {
-                        color: $primary-color;
-                        font-family: $font-proxima;
-                        font-weight: 500;
-                        .sub-text {
-                            font-family: inherit;
-                            font-size: 0.75rem;
-                            color: $place-holder-color;
-                            line-height: 1;
-                        }
-                        &:before {
-                            content: url(../../../../../assets/images/icons/icon_check.svg);
-                            height: 9px;
-                            width: 12px;
-                            position: absolute;
-                            left: 0;
-                            top: 13px;
+                        &.primary-text {
+                            color: $primary-color;
+                            font-family: $font-proxima;
+                            font-weight: 500;
+                            .sub-text {
+                                font-family: inherit;
+                                font-size: 0.75rem;
+                                color: $place-holder-color;
+                                line-height: 1;
+                            }
+                            &:before {
+                                content: url(../../../../../assets/images/icons/icon_check.svg);
+                                height: 9px;
+                                width: 12px;
+                                position: absolute;
+                                left: 0;
+                                top: 13px;
+                            }
                         }
                     }
                 }
             }
         }
-    }
-    &-heading {
-        margin-bottom: 16px !important;
-        font-family: $font-pragmatica;
-        font-size: $font-size-large + 0.25rem;
-        color: $text-color-default;
-        font-weight: $font-weight-mid;
-        margin-top: 42px;
-    }
-    &-title {
-        font-size: $font-size-medium;
-        font-family: $font-proxima; // font-weight: $font-proxima-weight-semibold;
-        color: $dark-grey-blue;
-        text-transform: uppercase;
-        margin: 1.875rem 1.25rem 0;
-        border-bottom: 1px dashed rgba(0, 0, 0, .125);
-        padding-bottom: 10px;
-    }
-    .list-group {
-        margin-top: 15px;
-        &-item {
-            border: 0px;
-            display: flex;
-            justify-content: space-between;
-            margin: 0 1.25rem;
-            padding: .75rem 0rem !important;
-            font-family: $font-proxima;
-            font-size: $font-size-large;
+        &-heading {
+            margin-bottom: 16px !important;
+            font-family: $font-pragmatica;
+            font-size: $font-size-large + 0.25rem;
             color: $text-color-default;
-            font-weight: $font-weight-normal;
-            &:last-child {
+            font-weight: $font-weight-mid;
+            margin-top: 42px;
+        }
+        &-title {
+            font-size: $font-size-medium;
+            font-family: $font-proxima;
+            font-weight: $font-proxima-weight-semibold;
+            color: $dark-grey-blue;
+            text-transform: uppercase;
+            margin: 1.875rem 1.25rem 0;
+            border-bottom: 1px dashed rgba(0, 0, 0, .125);
+            padding-bottom: 10px;
+        }
+        .list-group {
+            margin-top: 15px;
+            &-item {
                 border: 0px;
+                display: flex;
+                justify-content: space-between;
+                margin: 0 1.25rem;
+                padding: .75rem 0rem !important;
+                font-family: $font-proxima;
+                font-size: $font-size-large;
+                color: $text-color-default;
+                font-weight: $font-weight-normal;
+                &:last-child {
+                    border: 0px;
+                }
             }
         }
     }
-}
-
-.popover {
-    border: 0;
-    &-body {
-        background: $white-color;
-        box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.2);
-        width: 240px;
-        height: 120px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        border-radius: 4px;
-        .contact-popup {
-            a {
-                font-size: $font-size-large;
-                font-family: $font-proxima;
-                margin-bottom: 5px;
-                display: block;
-                min-width: 180px;
-                color: $dark-grey-blue;
-            }
-            p {
-                font-size: $font-size-large + .125rem;
-                font-family: $font-proxima;
-                margin-bottom: 0;
-            }
-            .link-hover-1 {
-                padding-top: 10px;
-                &:before {
-                    top: 28px;
-                    left: 0;
-                    bottom: 0;
-                    width: 100%;
-                    height: 1px;
-                    background: darken(#2b2b2b, 3%);
-                    transform: scaleX(0);
+    .popover {
+        border: 0;
+        &-body {
+            background: $white-color;
+            box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.2);
+            width: 240px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 4px;
+            .contact-popup {
+                a {
+                    font-size: $font-size-large;
+                    font-family: $font-proxima;
+                    margin-bottom: 5px;
+                    display: block;
+                    min-width: 180px;
+                    color: $dark-grey-blue;
                 }
-                &:hover:before {
-                    transform: scaleX(1);
+                p {
+                    font-size: $font-size-large + .125rem;
+                    font-family: $font-proxima;
+                    margin-bottom: 0;
+                }
+                .link-hover-1 {
+                    padding-top: 10px;
+                    &:before {
+                        top: 28px;
+                        left: 0;
+                        bottom: 0;
+                        width: 100%;
+                        height: 1px;
+                        background: darken(#2b2b2b, 3%);
+                        transform: scaleX(0);
+                    }
+                    &:hover:before {
+                        transform: scaleX(1);
+                    }
                 }
             }
         }

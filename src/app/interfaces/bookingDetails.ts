@@ -54,7 +54,37 @@ export interface EnquiryDetail {
   ProviderImage: string;
   ProviderEmail: string;
 }
-
+export interface docDetail{
+  DocumentTypeID: number,
+  DocumentTypeCode: string,
+  DocumentTypeName: string,
+  DocumentTypeNameOL: string,
+  DocumentTypeDesc: string,
+  SortingOrder: number,
+  DocumentNature: string,
+  DocumentSubProcess: string,
+  DocumentID: number,
+  UserID: number,
+  BookingID: number,
+  CompanyID: number,
+  ProviderID: number,
+  DocumentName: string,
+  DocumentDesc: string,
+  DocumentFileName: string,
+  DocumentFileContent: any,
+  DocumentUploadedFileType: string,
+  DocumentLastStatus: string,
+  ExpiryStatusCode: string,
+  ExpiryStatusMessage: string,
+  DocumentUploadDate: null,
+  IsDownloadable: boolean,
+  IsUploadable: boolean,
+  IsApprovalRequired: false,
+  BusinessLogic: string,
+  CopyOfDocTypeID: any,
+  MetaInfoKeysDetail: any,
+  FileContent: any
+}
 export interface BookingDetails {
   BookingID: number;
   HashMoveBookingNum: string;
@@ -66,6 +96,8 @@ export interface BookingDetails {
   ShippingModeCode: string;
   ShippingCatName: string;
   ShippingSubCatName: string;
+  origin?: string;
+  destination?: string;
   PolID: number
   PolCode: string;
   PolName: string;
@@ -89,9 +121,9 @@ export interface BookingDetails {
   FreeTimeAtPort: number;
   ProviderID: number;
   ProviderName: string;
-  ProviderImage: string;
+  ProviderImage: any;
   ProviderEmail: string;
-  ProviderPhone: string;   
+  ProviderPhone: string;
   CarrierID: number;
   CarrierName: string;
   CarrierImage: string;
@@ -115,7 +147,8 @@ export interface BookingDetails {
   BookingRouteDetail: RouteDetail[];
   BookingPriceDetail: PriceDetail[];
   BookingEnquiryDetail: EnquiryDetail[];
-  BookingStatus:string;
+  BookingDocumentDetail: docDetail[];
+  BookingStatus: string;
   DiscountPrice?: number;
   DiscountPercent?: number;
   IDlist?: string;
@@ -128,11 +161,11 @@ export interface BookingDetails {
   BaseCurrencyCode: string;
   BaseCurrTotalAmount: number;
   ExchangeRate: number;
-  ProviderDisplayImage?:string;
-  CarrierDisplayImage?:string;
-  UserName:string;
-  UserCountryName:string;
-  UserCityName:string;
+  ProviderDisplayImage?: string;
+  CarrierDisplayImage?: string;
+  UserName: string;
+  UserCountryName: string;
+  UserCityName: string;
 }
 
 

@@ -10,11 +10,11 @@
 
           <a href="javascript:;" class="hvr-icon-forward mr-5" (click)="printDetail()">
             <img src="../../../../../assets/images/icons/icon_print.svg" alt="icon" class="icon-size-16 mr-2">
-            <span class="link-hover-1">Print</span>
+            <span class="link-hover-grey">Print</span>
           </a>
           <a href="javascript:;" class="hvr-icon-forward">
             <img src="../../../../../assets/images/icons/icon_share_blue.svg" alt="icon" class="icon-size-16 mr-2">
-            <span class="link-hover-1">Share</span>
+            <span class="link-hover-grey">Share</span>
           </a>
         </div>
       </div>
@@ -23,7 +23,7 @@
       <div class="col-12 pr-0 pl-0">
         <a class="hvr-icon-back grey-anc-btn mt-4" href="javascript:;" title="Back to Bookings" routerLink='/user/bookings'>
           <img src="../../../../../assets/images/icons/icon_arrow_left.svg" alt="icon" class="icon-size-14 hvr-icon">
-          <span class="link-hover-1">Back to Bookings </span>
+          <span class="link-hover-grey">Back to Bookings </span>
         </a>
       </div>
     </div>
@@ -62,7 +62,7 @@
               <strong>
                 {{bookingDetails.CurrencyCode}} {{bookingDetails.BookingTotalAmount | number: '1.2-2'}}
                 <a class="pull-right hvr-icon-forward" href="javascript:;" (click)="viewInvoice()">
-                  <span class="link-hover-1">View Invoice</span>
+                  <span class="link-hover-secondary">View Invoice</span>
                   <i class="fa fa-angle-right hvr-icon"></i>
                 </a>
               </strong>
@@ -86,7 +86,7 @@
             </h5>
           </div>
           <div class="logo">
-            <img alt="icon" src="{{'../../../../assets/images/logos/' + bookingDetails.ProviderImage}}">
+            <img alt="icon" [src]="bookingDetails.ProviderDisplayImage">
           </div>
           <div class="company">
             <span>Your're shipping with</span>
@@ -97,7 +97,7 @@
           <ng-template #contact>
             <div class="contact-popup fadeIn animated">
               <a *ngFor="let email of ProviderEmails" href="{{'mailto:' + email}}">
-                <img src="../../../../assets/images/icons/icon_email.svg" alt="mail_Icon" class="icon-size-16">
+                <img src="../../../../../assets/images/icons/icon_email.svg" alt="mail_Icon" class="icon-size-16">
                 <span>{{email}}</span>
               </a>
               <p>
@@ -166,7 +166,7 @@
               <div class="row mt-4">
                 <div class="media col-12">
                   <div class="align-self-start mr-3">
-                    <img src="{{'../../../../assets/images/logos/shippping-lines/' + bookingDetails.CarrierImage}}" alt="icon" width="62px" height="62px">
+                    <img [src]="baseExternalAssets + '/' + bookingDetails.CarrierImage" alt="icon" width="62px" height="62px">
                   </div>
                   <div class="media-body">
                     <div class="details">
@@ -185,37 +185,59 @@
       <div class="row view-booking-document">
         <div class="col-12">
           <div class="card">
-            <label class="view-booking-document-title">For Jebel Ali, United Arab Emirates</label>
+
+            <label class="view-booking-document-title">
+              <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.origin | lowercase) + '.svg'}}" class="mr-2"
+                width="20"> For Jebel Ali, United Arab Emirates
+            </label>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
-                <a class="primary-text" href="javascript:;">
+                <a [href]="baseExternalAssets + certOrigin.DocumentFileName" target="_blank" class="primary-text" [ngClass]="{'primary-text': certOrigin && certOrigin.DocumentFileName}" >
                   Certificate of Origin
-                  <label class="sub-text d-flex">Uploaded on 2 Sept, 2018 18 : 30</label>
+                  <label class="sub-text d-flex" *ngIf="certOrigin && certOrigin.DocumentFileName">Uploaded on {{certOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{certOrigin.DocumentUploadDate | date : "H:mm"}}</label>
                 </a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right" (click)="reuploadDoc()">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="certOrigin && certOrigin.DocumentFileName" (click)="reuploadDoc(certOrigin.DocumentTypeID, certOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
-                <a href="javascript:;">Invoice</a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right">ASK TO RE-UPLOAD</button>
+                <a [href]="baseExternalAssets + invoiceDoc.DocumentFileName" target="_blank"[ngClass]="{'primary-text': invoiceDoc && invoiceDoc.DocumentFileName}">
+                  Invoice
+                  <label class="sub-text d-flex" *ngIf="invoiceDoc && invoiceDoc.DocumentFileName">>Uploaded on {{invoiceDoc.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDoc.DocumentUploadDate | date : "H:mm"}}</label>
+                </a>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDoc && invoiceDoc.DocumentFileName" (click)="reuploadDoc(invoiceDoc.DocumentTypeID, invoiceDoc.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
-                <a href="javascript:;">Packing List</a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right">ASK TO RE-UPLOAD</button>
+                <a [href]="baseExternalAssets + packingListDoc.DocumentFileName" target="_blank"[ngClass]="{'primary-text': packingListDoc && packingListDoc.DocumentFileName}">
+                  Packing List
+                  <label class="sub-text d-flex" *ngIf="packingListDoc && packingListDoc.DocumentFileName">Uploaded on {{packingListDoc.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDoc.DocumentUploadDate | date : "H:mm"}}</label>
+                </a>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDoc && packingListDoc.DocumentFileName" (click)="reuploadDoc(packingListDoc.DocumentTypeID, packingListDoc.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
             </ul>
-            <label class="view-booking-document-title">For Karachi, Pakistan</label>
+            <label class="view-booking-document-title">
+              <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.destination | lowercase) + '.svg'}}"
+                class="mr-2" width="20"> For Karachi, Pakistan
+            </label>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
-                <a href="javascript:;">Invoice</a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right">ASK TO RE-UPLOAD</button>
+                <a [href]="baseExternalAssets + invoiceDoc.DocumentFileName"  target="_blank" [ngClass]="{'primary-text': invoiceDoc && invoiceDoc.DocumentFileName}">
+                  Invoice
+                  <label class="sub-text d-flex" *ngIf="invoiceDoc && invoiceDoc.DocumentFileName">Uploaded on {{invoiceDoc.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDoc.DocumentUploadDate | date : "H:mm"}}</label>
+                </a>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDoc && invoiceDoc.DocumentFileName" (click)="reuploadDoc(invoiceDoc.DocumentTypeID, invoiceDoc.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
-                <a href="javascript:;">Packing List</a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right">ASK TO RE-UPLOAD</button>
+                <a [href]="baseExternalAssets + packingListDoc.DocumentFileName" target="_blank" [ngClass]="{'primary-text': packingListDoc && packingListDoc.DocumentFileName}">
+                  Packing List
+                  <label class="sub-text d-flex" *ngIf="packingListDoc && packingListDoc.DocumentFileName">Uploaded on {{packingListDoc.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDoc.DocumentUploadDate | date : "H:mm"}}</label>
+                </a>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDoc && packingListDoc.DocumentFileName" (click)="reuploadDoc(packingListDoc.DocumentTypeID, packingListDoc.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
-                <a href="javascript:;">Bill of Lading</a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right">ASK TO RE-UPLOAD</button>
+                <a [href]="baseExternalAssets + ladingBill.DocumentFileName" target="_blank" [ngClass]="{'primary-text': ladingBill && ladingBill.DocumentFileName}">
+                  Bill of Lading
+                  <label class="sub-text d-flex" *ngIf="ladingBill && ladingBill.DocumentFileName">Uploaded on {{ladingBill.DocumentUploadDate | date : "d MMM, yyyy"}} {{ladingBill.DocumentUploadDate | date : "H:mm"}}</label>
+                </a>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="ladingBill && ladingBill.DocumentFileName" (click)="reuploadDoc(ladingBill.DocumentTypeID, ladingBill.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
             </ul>
           </div>
@@ -224,41 +246,27 @@
       <!--/ document required -->
     </div>
     <div class="col-xl-4 view-booking-shipment-detail-right">
-      <!-- <div class="card">
-        <div class="card-body">
-          <h6 class="card-title">Goods</h6>
-          <div class="ports" >
-            <img alt="containerIcon" class="icon-size-24 detail-icon" src="../../../../assets/images/icons/icons_container_grey.svg">
-            <small>
-                {{bookingDetails.ContainerLoad}} {{bookingDetails.totalContainers}} x Containers
-            </small>
-          </div>
-          <p class="card-text mt-4">
-            This shipment is not insured. You can still purchase insurance from a HashMove approved partner at competetive
-            rates.
-          </p>
-          <button class="secondary-anc-btn">Purchase Insurance</button>
-        
-        </div>
-      </div> -->
+
       <!-- Help & Support -->
       <div class="card mb-4">
+        <div class="map">
+          <agm-map [zoom]="1" [mapDraggable]="false" [zoomControl]="false" [streetViewControl]="false">
+            <agm-marker [iconUrl]="icon" [latitude]="23.4241" [longitude]="53.8478">
+            </agm-marker>
+            <agm-marker [iconUrl]="icon" [latitude]="30.3753" [longitude]="69.3451">
+            </agm-marker>
+            <agm-polyline [strokeWeight]="3" [strokeColor]="'#2196f3'">
+              <agm-polyline-point [latitude]="23.4241" [longitude]="53.8478">
+              </agm-polyline-point>
+              <agm-polyline-point [latitude]="30.3753" [longitude]="69.3451">
+              </agm-polyline-point>
+            </agm-polyline>
+            <!-- <agm-marker [latitude]="location.lat" [longitude]="location.lng"></agm-marker> -->
+          </agm-map>
+        </div>
+
         <div class="card-body">
           <div class="billing-box">
-            <h5 class="card-title">
-              <img src="../../../../assets/images/icons/icon_summary.svg" alt="umbrella-icon"> Order Summary
-            </h5>
-            <ul class="list-group list-group-flush mt-1">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span> Port of Loading</span>
-                <span>{{bookingDetails.PolName}}</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span>Port of Destination</span>
-                <span>{{bookingDetails.PodName}}</span>
-              </li>
-            </ul>
-            <hr>
             <h5 class="card-title">
               <img src="../../../../assets/images/icons/icon_container.svg" alt="umbrella-icon"> Cargo Details
             </h5>
@@ -305,8 +313,8 @@
             <div class="helpSupport-footer">
               <p>
                 For complaints or issues regarding your order, visit our
-                <a href="{{helpSupport[0].HMSupportWebAdd}}" class="link-hover-1" target="_blank">Help Center</a> or send us an email at
-                <a class="link-hover-1" href="{{'mailto:' + helpSupport[0].HMSupportEmail}}">{{helpSupport[0].HMSupportEmail}}</a>
+                <a href="{{helpSupport[0].HMSupportWebAdd}}" class="link-hover-black" target="_blank">Help Center</a> or send us an email at
+                <a class="link-hover-black" href="{{'mailto:' + helpSupport[0].HMSupportEmail}}">{{helpSupport[0].HMSupportEmail}}</a>
               </p>
             </div>
           </div>
@@ -316,7 +324,6 @@
     </div>
   </div>
   <!--/ shipping details -->
-
 
 </div>
 <!--/ view booking -->
