@@ -217,7 +217,7 @@
               <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.destination | lowercase) + '.svg'}}"
               class="mr-2" width="20"> For {{bookingDetails.PodName}}, {{bookingDetails.PodCountry}}
             </label>
-            <ul class="list-group list-group-flush">
+            <ul class="list-group list-group-flush mb-3">
               <li class="list-group-item">
                 <a [href]="baseExternalAssets + invoiceDoc.DocumentFileName"  target="_blank" [ngClass]="{'primary-text': invoiceDoc && invoiceDoc.DocumentFileName}">
                   Invoice

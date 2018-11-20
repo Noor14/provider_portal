@@ -93,7 +93,7 @@
             background-color: $white-color;
             position: relative;
             img {
-                width: 100%;
+                width: 90%;
                 margin: 0;
                 background: transparent;
                 position: absolute;
@@ -145,8 +145,7 @@
                     }
                 }
                 &-title {
-                    font-size: $font-size-base;
-                    text-transform: uppercase;
+                    font-size: .875rem;
                     font-family: $font-proxima;
                     color: $secondary-grey;
                     font-weight: 500;
@@ -157,6 +156,7 @@
                     }
                 }
                 &-body {
+                    border-bottom: 1px solid rgba(0,0,0,.125);
                     h6 {
                         font-weight: 600;
                         font-family: $font-proxima;
@@ -211,21 +211,24 @@
                         font-size: $font-size-base;
                         padding: 0.2rem;
                         border: 0;
-                        text-transform: uppercase;
                         display: flex;
                         justify-content: space-between;
                         .long-text {
                             font-family: $font-proxima;
-                            font-size: $font-size-base;
-                            color: $secondary-text-color;
+                            font-size: .875rem;
+                            color: $route-large-title-color;
+                            font-weight: $font-proxima-weight-semibold;
+                            line-height: 1;
                         }
                         .catDetail {
                             display: flex;
                             flex-direction: column;
                             .amount-text {
-                                font-size: $font-size-base;
-                                text-align: right;
-                                color: $secondary-text-color;
+                                font-family: $font-proxima;
+                                font-size: .875rem;
+                                color: $route-large-title-color;
+                                font-weight: $font-proxima-weight-semibold;
+                                line-height: 1;
                             }
                         }
                         &:last-child {
