@@ -245,7 +245,7 @@
       <ng-template ngbPanelContent>
         <form autocomplete="off" novalidate [formGroup]="managementForm" class="animated fadeIn">
           <div class="row justify-content-between">
-            <div class="col-3">
+            <div class="col-lg-6 col-md-6 col-sm-12">
               <div class="form-group">
                 <label for="jobType">{{jobtitleLblBaseLanguage}}</label>
                 <select class="form-control" id="jobType" [(ngModel)]="selectedjobDesg" name="jobDesgType" (change)="jobType($event.target.value)"
@@ -255,7 +255,7 @@
               </div>
             </div>
 
-            <div class="col-3" *ngIf="showTranslatedLangSide">
+            <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
               <div class="form-group dir-otherLanguage">
                 <label for="jobTypeAr">{{jobtitleLblOtherLanguage}}</label>
                 <select class="form-control" id="jobTypeAr" name="jobDesgTypeAr" [(ngModel)]="selectedjobDesgAr"
@@ -430,22 +430,26 @@
   </ngb-accordion>
 
   <div class="d-flex justify-content-between align-items-center mt-5">
-    <div class="info_text">
-      <a class="text" href="javascript:;" (click)="previousForm()">
-        <img alt="icons" class="icon-size-16" src="../../../assets/images/icons/icon_arrow_left.svg">
-        <span>{{textBackbtnBaseLanguage}}</span>
-        <span *ngIf="showTranslatedLangSide"> {{textBackbtnOtherLanguage}}</span>
-      </a>
-    </div>
-
-    <div class="submit-btn d-flex align-items-center">
+    <div class="col-4">
       <div class="info_text">
+        <a class="text" href="javascript:;" (click)="previousForm()">
+          <img alt="icons" class="icon-size-16" src="../../../assets/images/icons/icon_arrow_left.svg">
+          <span>{{textBackbtnBaseLanguage}}</span>
+          <span *ngIf="showTranslatedLangSide"> {{textBackbtnOtherLanguage}}</span>
+        </a>
+      </div>
+    </div>
+    <div class="col-5 text-right">
+      <div class="info_text d-inline-block">
         <a class="text mr-2" href="javascript:;" (click)="submitBusinessInfo('skip')">
           <span>SKIP & PROCEED </span>
-          <span *ngIf="showTranslatedLangSide"> / تخطي والمضي قدما</span>
+          <span class="dir-otherLanguage" *ngIf="showTranslatedLangSide"> / تخطي والمضي قدما</span>
           <img alt="icons" class="icon-size-16" src="../../../assets/images/icons/icon_arrow_right.svg">
         </a>
       </div>
+    </div>
+
+    <div class="col-3 submit-btn d-flex align-items-center">
       <button class="btn btn-primary btn-register hvr-sweep-to-right" [disabled]="managementForm.invalid || directorForm.invalid || !selectedDocx.length || !docxId"
         (click)="submitBusinessInfo('submit')">
         <span>Proceed</span><span *ngIf="showTranslatedLangSide"> / تخطي</span>

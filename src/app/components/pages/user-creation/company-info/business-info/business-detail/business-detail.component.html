@@ -459,53 +459,43 @@
 
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
-        <div class="row">
-          <div class="col-5">
-            <div class="form-group">
-              <label for="Address">{{poBoxLabelBaseLanguage}}</label>
-              <input id="11" type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; poBoxArError = false; inputValidate(11)"
-                [ngClass]="{
-                 'inputError': poBoxError && businessLocForm.controls['poBoxNo'].errors,
-                 'inputErrorRemove': businessLocForm.controls['poBoxNo'].value && !poBoxError
-                }"
-                [(ngModel)]="poBoxAr" formControlName="poBoxNo">
-              <span *ngIf="poBoxError && businessLocForm.controls['poBoxNo'].errors">
-                <!-- <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNo'].hasError('required') && (businessLocForm.controls.poBoxNo.dirty || businessLocForm.controls.poBoxNo.touched)">{{requiredFields}}</p> -->
-                <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNo'].hasError('pattern') && (businessLocForm.controls.poBoxNo.dirty || businessLocForm.controls.poBoxNo.touched)">Please
-                  enter valid information</p>
-                <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNo'].hasError('maxlength') && (businessLocForm.controls.poBoxNo.dirty || businessLocForm.controls.poBoxNo.touched)">PO
-                  address should not exceed from 16 characters</p>
-                <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNo'].hasError('minlength') && (businessLocForm.controls.poBoxNo.dirty || businessLocForm.controls.poBoxNo.touched)">PO
-                  address should be minimum 4 characters</p>
-              </span>
-            </div>
-
-          </div>
+        <div class="form-group">
+          <label for="Address">{{poBoxLabelBaseLanguage}}</label>
+          <input id="11" type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; poBoxArError = false; inputValidate(11)"
+            [ngClass]="{
+             'inputError': poBoxError && businessLocForm.controls['poBoxNo'].errors,
+             'inputErrorRemove': businessLocForm.controls['poBoxNo'].value && !poBoxError
+            }"
+            [(ngModel)]="poBoxAr" formControlName="poBoxNo">
+          <span *ngIf="poBoxError && businessLocForm.controls['poBoxNo'].errors">
+            <!-- <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNo'].hasError('required') && (businessLocForm.controls.poBoxNo.dirty || businessLocForm.controls.poBoxNo.touched)">{{requiredFields}}</p> -->
+            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNo'].hasError('pattern') && (businessLocForm.controls.poBoxNo.dirty || businessLocForm.controls.poBoxNo.touched)">Please
+              enter valid information</p>
+            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNo'].hasError('maxlength') && (businessLocForm.controls.poBoxNo.dirty || businessLocForm.controls.poBoxNo.touched)">PO
+              address should not exceed from 16 characters</p>
+            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNo'].hasError('minlength') && (businessLocForm.controls.poBoxNo.dirty || businessLocForm.controls.poBoxNo.touched)">PO
+              address should be minimum 4 characters</p>
+          </span>
         </div>
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
-        <div class="row row justify-content-end">
-          <div class="col-5">
-            <div class="form-group dir-otherLanguage">
-              <label for="address">{{poBoxLabelOtherLanguage}}</label>
-              <input id="12" type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; poBoxArError = false; inputValidate(12)"
-                [ngClass]="{
-                'inputError': poBoxArError && businessLocForm.controls['poBoxNoAr'].errors,
-               'inputErrorRemove': businessLocForm.controls['poBoxNoAr'].value && !poBoxArError
-              }"
-                [(ngModel)]="poBoxAr" formControlName="poBoxNoAr">
-              <span *ngIf="poBoxArError && businessLocForm.controls['poBoxNoAr'].errors">
-                <!-- <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNoAr'].hasError('required') && (businessLocForm.controls.poBoxNoAr.dirty || businessLocForm.controls.poBoxNoAr.touched)">{{requiredFieldsOthrLng}}</p> -->
-                <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNoAr'].hasError('pattern') && (businessLocForm.controls.poBoxNoAr.dirty || businessLocForm.controls.poBoxNoAr.touched)">يرجى
-                  إدخال معلومات صحيحة</p>
-                <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNoAr'].hasError('maxlength') && (businessLocForm.controls.poBoxNoAr.dirty || businessLocForm.controls.poBoxNoAr.touched)">يجب
-                  ألا يتجاوز عنوان PO من 16 حرفًا</p>
-                <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNoAr'].hasError('minlength') && (businessLocForm.controls.poBoxNoAr.dirty || businessLocForm.controls.poBoxNoAr.touched)">يجب
-                  أن يكون عنوان PO 4 أحرف كحد أدنى</p>
-              </span>
-            </div>
-
-          </div>
+        <div class="form-group dir-otherLanguage">
+          <label for="address">{{poBoxLabelOtherLanguage}}</label>
+          <input id="12" type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; poBoxArError = false; inputValidate(12)"
+            [ngClass]="{
+            'inputError': poBoxArError && businessLocForm.controls['poBoxNoAr'].errors,
+           'inputErrorRemove': businessLocForm.controls['poBoxNoAr'].value && !poBoxArError
+          }"
+            [(ngModel)]="poBoxAr" formControlName="poBoxNoAr">
+          <span *ngIf="poBoxArError && businessLocForm.controls['poBoxNoAr'].errors">
+            <!-- <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNoAr'].hasError('required') && (businessLocForm.controls.poBoxNoAr.dirty || businessLocForm.controls.poBoxNoAr.touched)">{{requiredFieldsOthrLng}}</p> -->
+            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNoAr'].hasError('pattern') && (businessLocForm.controls.poBoxNoAr.dirty || businessLocForm.controls.poBoxNoAr.touched)">يرجى
+              إدخال معلومات صحيحة</p>
+            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNoAr'].hasError('maxlength') && (businessLocForm.controls.poBoxNoAr.dirty || businessLocForm.controls.poBoxNoAr.touched)">يجب
+              ألا يتجاوز عنوان PO من 16 حرفًا</p>
+            <p class="inputError animated fadeIn" *ngIf="businessLocForm.controls['poBoxNoAr'].hasError('minlength') && (businessLocForm.controls.poBoxNoAr.dirty || businessLocForm.controls.poBoxNoAr.touched)">يجب
+              أن يكون عنوان PO 4 أحرف كحد أدنى</p>
+          </span>
         </div>
       </div>
     </div>
