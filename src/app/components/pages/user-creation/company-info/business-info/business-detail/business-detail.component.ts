@@ -1691,9 +1691,8 @@ export class BusinessDetailComponent implements OnInit {
       selectedItem.add('active');
       this.serviceIds.push(obj);
       this.glowElement();
-
     }
-    console.log(this.serviceIds);
+
 
   }
 
