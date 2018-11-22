@@ -437,7 +437,7 @@ input[type="radio"]:focus+label>span {
         &::-ms-reveal {
             display: none;
         }
-        &.create-pass {
+        &[type= "password"] {
             padding-right: 40px;
         }
     }
@@ -488,8 +488,7 @@ input[type="radio"]:focus+label>span {
             font-family: $font-proxima;
             font-size: 14px;
         }
-    } 
-    // direction RTL
+    } // direction RTL
     &.dir-otherLanguage {
         direction: rtl;
         label {
