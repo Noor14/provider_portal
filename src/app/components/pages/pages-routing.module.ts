@@ -10,6 +10,7 @@ const routes: Routes = [
     children: [
       { path: 'on-boarding', component: OnBoardingComponent },
       { path: 'provider', loadChildren: 'app/components/pages/user-desk/user-desk.module#UserDeskModule' }, 
+      { path: '**', redirectTo: 'on-boarding', pathMatch: 'full' },
       { path: '', loadChildren: 'app/components/pages/user-creation/user-creation.module#UserCreationModule' }, 
     ]
   }

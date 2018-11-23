@@ -21,44 +21,6 @@
     </div>
   </div>
   <form autocomplete="off" novalidate [formGroup]="organizationForm">
-   <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-12">
-        <div class="form-group">
-          <label>Country</label>
-          <div class="countryBox">
-            <div class="flag-container">
-              <img *ngIf="selected_country && selected_country.code" src="{{'../../../../../assets/images/flags/4x3/' + (selected_country.code | lowercase) + '.svg'}}"
-                type="image/svg+xml" class="imgLeft mw-100 w-auto h-auto mh-100 flag-icon-20-12">
-            </div>
-            <input [ngModelOptions]="{standalone: true}" type="text" class="inputLeft form-control" (keypress)="textValidation($event)" name="country"
-              [(ngModel)]="selected_country" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Your country"
-            />
-          </div>
-          <ng-template #rt let-r="result">
-            <div class="d-flex">
-              <div class="flag-container mr-1">
-                <img src="{{'../../../../../assets/images/flags/4x3/' + (r.code | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100 flag-icon-20-12">
-              </div>
-              <ngb-highlight [result]="r.title"></ngb-highlight>
-            </div>
-          </ng-template>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
-        <div class="form-group dir-otherLanguage text-right">
-          <label>بلد</label>
-          <div class="countryBox">
-            <input [ngModelOptions]="{standalone: true}" type="text" class="inputRight form-control" (keypress)="textValidation($event)" name="countryAr"
-              [(ngModel)]="selected_country" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Your country" />
-            <div class="flag-container">
-              <img *ngIf="selected_country && selected_country.code" src="{{'../../../../../assets/images/flags/4x3/' + (selected_country.code | lowercase) + '.svg'}}"
-                type="image/svg+xml" class="imgRight mw-100 w-auto h-auto mh-100 flag-icon-20-12">
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
     <div class="row">
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
@@ -95,6 +57,45 @@
 
       </div>
     </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label>Country</label>
+            <div class="countryBox">
+              <div class="flag-container">
+                <img *ngIf="selected_country && selected_country.code" src="{{'../../../../../assets/images/flags/4x3/' + (selected_country.code | lowercase) + '.svg'}}"
+                  type="image/svg+xml" class="imgLeft mw-100 w-auto h-auto mh-100 flag-icon-20-12">
+              </div>
+              <input [ngModelOptions]="{standalone: true}" type="text" class="inputLeft form-control" (keypress)="textValidation($event)"
+                name="country" [(ngModel)]="selected_country" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter"
+                placeholder="Your country" />
+            </div>
+            <ng-template #rt let-r="result">
+              <div class="d-flex">
+                <div class="flag-container mr-1">
+                  <img src="{{'../../../../../assets/images/flags/4x3/' + (r.code | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100 flag-icon-20-12">
+                </div>
+                <ngb-highlight [result]="r.title"></ngb-highlight>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group dir-otherLanguage text-right">
+            <label>بلد</label>
+            <div class="countryBox">
+              <input [ngModelOptions]="{standalone: true}" type="text" class="inputRight form-control" (keypress)="textValidation($event)"
+                name="countryAr" [(ngModel)]="selected_country" [ngbTypeahead]="search" placement="right" [resultTemplate]="rt" [inputFormatter]="formatter"
+                placeholder="Your country" />
+              <div class="flag-container">
+                <img *ngIf="selected_country && selected_country.code" src="{{'../../../../../assets/images/flags/4x3/' + (selected_country.code | lowercase) + '.svg'}}"
+                  type="image/svg+xml" class="imgRight mw-100 w-auto h-auto mh-100 flag-icon-20-12">
+              </div>
+            </div>
+      
+          </div>
+        </div>
+      </div>
   </form>
   <h5 class="d-flex justify-content-between mt-5 pt-1">
     <span>Company Contact Details</span>
