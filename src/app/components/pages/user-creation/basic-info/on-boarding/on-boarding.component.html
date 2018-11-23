@@ -616,7 +616,7 @@
   <div class="row mt-5">
     <div class="col">
       <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" type="submit" (click)="registration()"
-       [disabled]="businessForm.invalid || personalInfoForm.invalid || !this.serviceIds.length">
+       [disabled]="businessForm.invalid || personalInfoForm.invalid">
         <span>Register</span>
         <span class="dir-otherLanguage" *ngIf="showTranslatedLangSide"> / تسجيل</span>
       </button>
