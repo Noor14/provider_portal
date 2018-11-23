@@ -27,7 +27,7 @@ export class OnBoardingComponent implements OnInit {
   public jobTitles: any
   public transLangEmail: any;
   
-
+  public selected_country: any;
   public countryList: any;
   public countryFlagImage: string;
   public transPhoneCode : string;
@@ -106,7 +106,7 @@ export class OnBoardingComponent implements OnInit {
     
   ) { 
   let elem =  document.getElementsByTagName('header') as any;
-    console.log(elem[0].children[0].children[0].children[1].style.display='none')
+   elem[0].children[0].children[0].children[1].style.display='none';
   }
 
   ngOnInit() {
@@ -531,6 +531,13 @@ export class OnBoardingComponent implements OnInit {
     }
   }
 
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 3) ? []
+        : this.countryList.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1))
+    )
+  formatter = (x: { title: string }) => x.title;
 
   jobSearch = (text$: Observable<string>) =>
     text$.pipe(
