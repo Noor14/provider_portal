@@ -7,6 +7,7 @@ import { Observable, Subject } from 'rxjs';
 import { CommonService } from '../../../../../services/common.service';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { EMAIL_REGEX } from '../../../../../constants/globalFunctions';
+import { BasicInfoService } from '../basic-info.service';
 
 @Component({
   selector: 'app-on-boarding',
@@ -22,6 +23,10 @@ export class OnBoardingComponent implements OnInit {
   public Globalinputto: any
   public serviceIds: any[] = [];
   public serviceOffered: any;
+  public selectedjobTitle: any
+  public jobTitles: any
+  public transLangEmail: any;
+  
 
   public countryList: any;
   public countryFlagImage: string;
@@ -40,7 +45,8 @@ export class OnBoardingComponent implements OnInit {
   public organizationForm: any;
   public contactInfoForm: any;
   public businessLocForm: any;
-  public regForm: any;
+  public personalInfoForm: any;
+  public personalCntInfoForm: any;
   
   public addressAr: any;
   public addressAr2: any;
@@ -66,7 +72,20 @@ export class OnBoardingComponent implements OnInit {
   public lastNameError: boolean;
   public activeLastName: any;
   public activeTransLastName: any;
-  
+
+  public jobTitleError: boolean;
+  public transjobTitleError: boolean;
+  public activejobTitle: any;
+  public activeTransjobTitle: any;
+
+
+  public transEmailError: boolean;
+  public EmailError: boolean;
+  public telephoneError: boolean;
+  public translangtelephoneError: boolean;
+  public activetelephone: boolean;
+  public activeTransTelephone: boolean;
+
   public arabicNumbers: any = [
     { baseNumber: '0', arabicNumber: '۰' },
     { baseNumber: '1', arabicNumber: '۱' },
@@ -83,6 +102,8 @@ export class OnBoardingComponent implements OnInit {
     private _companyInfoService: CompanyInfoService,
     private _sharedService: SharedService,
     private _commonService: CommonService,
+    private _basicInfoService: BasicInfoService
+    
   ) { }
 
   ngOnInit() {
@@ -107,11 +128,16 @@ export class OnBoardingComponent implements OnInit {
     });
 
 
-    this.regForm = new FormGroup({
+    this.personalInfoForm = new FormGroup({
       firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
       transLangfirstName: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
       lastName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
       transLanglastName: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
+      jobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+      transLangjobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+    });
+
+    this.personalCntInfoForm = new FormGroup({
       email: new FormControl(null, [
         Validators.required,
         Validators.pattern(EMAIL_REGEX),
@@ -122,12 +148,11 @@ export class OnBoardingComponent implements OnInit {
         Validators.pattern(EMAIL_REGEX),
         Validators.maxLength(320)
       ]),
-      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
-      transLangPhone: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(13)]),
-      jobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
-      transLangjobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+      telephone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
+      transLangtelephone: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(13)]),
     });
-
+      
+    
     this._sharedService.countryList.subscribe((state: any) => {
       if (state) {
         this.countryList = state;
@@ -138,6 +163,18 @@ export class OnBoardingComponent implements OnInit {
     });
     this.getServices();
   }
+
+  getListJobTitle(id) {
+    this._basicInfoService.getjobTitles(id).subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
+        this.jobTitles = res.returnObject;
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
+  }
+
+
 
   selectPhoneCode(list) {
     this.countryFlagImage = list.code;
@@ -285,8 +322,6 @@ export class OnBoardingComponent implements OnInit {
       this.poBoxArError = true;
     }
 
-
-
     if (this.contactInfoForm.controls.phone.status == "INVALID" && this.contactInfoForm.controls.phone.touched) {
       this.phoneError = true;
       this.translangPhoneError = true;
@@ -295,9 +330,46 @@ export class OnBoardingComponent implements OnInit {
       this.phoneError = true;
       this.translangPhoneError = true;
     }
-
-
-
+    if (this.personalInfoForm.controls.firstName.status == "INVALID" && this.personalInfoForm.controls.firstName.touched) {
+      this.firstNameError = true;
+      this.transfirstNameError = true;
+    }
+    if (this.personalInfoForm.controls.transLangfirstName.status == "INVALID" && this.personalInfoForm.controls.transLangfirstName.touched) {
+      this.transfirstNameError = true;
+      this.firstNameError = true;
+    }
+    if (this.personalInfoForm.controls.lastName.status == "INVALID" && this.personalInfoForm.controls.lastName.touched) {
+      this.lastNameError = true;
+      this.translastNameError = true;
+    }
+    if (this.personalInfoForm.controls.transLanglastName.status == "INVALID" && this.personalInfoForm.controls.transLanglastName.touched) {
+      this.translastNameError = true;
+      this.lastNameError = true;
+    }
+    if (this.personalInfoForm.controls.jobTitle.status == "INVALID" && this.personalInfoForm.controls.jobTitle.touched) {
+      this.jobTitleError = true;
+      this.transjobTitleError = true;
+    }
+    if (this.personalInfoForm.controls.transLangjobTitle.status == "INVALID" && this.personalInfoForm.controls.transLangjobTitle.touched) {
+      this.transjobTitleError = true;
+      this.jobTitleError = true;
+    }
+    if (this.personalCntInfoForm.controls.telephone.status == "INVALID" && this.personalCntInfoForm.controls.telephone.touched) {
+      this.telephoneError = true;
+      this.translangtelephoneError = true;
+    }
+    if (this.personalCntInfoForm.controls.transLangtelephone.status == "INVALID" && this.personalCntInfoForm.controls.transLangtelephone.touched) {
+      this.translangtelephoneError = true;
+      this.telephoneError = true;
+    }
+    if (this.personalCntInfoForm.controls.email.status == "INVALID" && this.personalCntInfoForm.controls.email.touched) {
+      this.EmailError = true;
+      this.transEmailError = true;
+    }
+    if (this.personalCntInfoForm.controls.transLangEmail.status == "INVALID" && this.personalCntInfoForm.controls.transLangEmail.touched) {
+      this.transEmailError = true;
+      this.EmailError = true;
+    }
   }
   onModelPhoneChange(fromActive, currentActive, $controlName, $value) {
     // if (!this.showTranslatedLangSide) return;
@@ -330,6 +402,85 @@ export class OnBoardingComponent implements OnInit {
     }
 
   }
+
+
+  onModelTelephoneChange(fromActive, currentActive, $controlName, $value) {
+    // if (!this.showTranslatedLangSide) return;
+    if (currentActive && !fromActive) {
+      let number = $value.split('');
+      for (let i = 0; i < number.length; i++) {
+        this.arabicNumbers.forEach((obj, index) => {
+          if (number[i] == obj.baseNumber) {
+            number.splice(i, 1, obj.arabicNumber)
+          }
+        })
+      }
+      this.personalCntInfoForm.controls[$controlName].patchValue(number.reverse().join(''));
+    }
+  }
+
+  onModelTransTelephoneChange(fromActive, currentActive, $controlName, $value) {
+    // if (!this.showTranslatedLangSide) return;
+    if (currentActive && !fromActive) {
+      let number = $value.split('');
+      for (let i = 0; i < number.length; i++) {
+        this.arabicNumbers.forEach((obj, index) => {
+          if (number[i] == obj.baseNumber || number[i] == obj.arabicNumber) {
+            number.splice(i, 1, obj.baseNumber)
+          }
+        })
+
+      }
+      this.personalCntInfoForm.controls[$controlName].patchValue(number.join(''));
+    }
+
+  }
+
+  onModeljobtitle(fromActive, currentActive, $controlName, source, target, $value) {
+    // if (!this.showTranslatedLangSide) return;
+    setTimeout(() => {
+      if (typeof this.selectedjobTitle == 'object') return;
+      if ($value && currentActive && source && target && !fromActive) {
+        this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
+          this.personalInfoForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+          let obj = {
+            baseLanguage: $value,
+            otherLanguage: res.data.translations[0].translatedText,
+          }
+          this.selectedjobTitle = obj
+        })
+      }
+
+    }, 200)
+  }
+  onTransModeljobTitle(fromActive, currentActive, $controlName, $value) {
+
+    // if (!this.showTranslatedLangSide) return;
+    setTimeout(() => {
+      if (typeof this.selectedjobTitle == 'object') return;
+      if (currentActive && $value && !fromActive) {
+        this.debounceInput.next($value);
+        this.debounceInput.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
+          this._commonService.detectedLanguage(value).subscribe((res: any) => {
+            let sourceLang = res.data.detections[0][0].language;
+            let target = "en";
+            if (sourceLang && target && value) {
+              this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+                this.personalInfoForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+                let obj = {
+                  baseLanguage: res.data.translations[0].translatedText,
+                  otherLanguage: $value
+                }
+                this.selectedjobTitle = obj
+              })
+            }
+          })
+        });
+      }
+    }, 200)
+  }
+
+
   oneSpaceHandler(event) {
     if (event.target.value) {
       var end = event.target.selectionEnd;
@@ -339,6 +490,12 @@ export class OnBoardingComponent implements OnInit {
       }
     }
     else if (event.target.selectionEnd == 0 && event.keyCode == 32) {
+      return false;
+    }
+  }
+  spaceHandler(event) {
+    if (event.charCode == 32) {
+      event.preventDefault();
       return false;
     }
   }
@@ -370,4 +527,24 @@ export class OnBoardingComponent implements OnInit {
       return true;
     }
   }
+
+
+  jobSearch = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 3) ? []
+        : this.jobTitles.filter(v => v.baseLanguage.toLowerCase().indexOf(term.toLowerCase()) > -1))
+    )
+  formatterjob = (x: { baseLanguage: string }) => x.baseLanguage;
+
+  jobSearchOtherLng = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map((term: string) => (!term || term.length < 3) ? []
+        : this.jobTitles.filter(v => v.baseLanguage.toLowerCase().indexOf(term.toLowerCase()) > -1 || (v.otherLanguage && v.otherLanguage.indexOf(term) > -1))))
+
+
+  formatterjobOtherLng = (x: { otherLanguage: string }) => x.otherLanguage;
+
+
 }
