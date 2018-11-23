@@ -43,28 +43,35 @@ h5 {
             right: 10px;
             top: 65%;
         }
-        .inputLeft {
-            padding-left: 40px;
-        }
-        .inputRight {
-            padding-right: 40px;
-        }
-        ngb-typeahead-window {
-            max-height: 200px;
-            overflow-y: auto;
-            .dropdown-item {
-                &.active,
-                &:active {
-                    background: $primary-grey;
-                }
+        input {
+            .ng-untouched {
+                padding-left: .75rem !important;
+            }
+            &[ng-reflect-model="[object Object]"] {
+                padding-left: 40px;
             }
         }
-        .dir-otherLanguage {
             ngb-typeahead-window {
-                &.dropdown-menu {
-                    top: auto !important;
+                .dropdown-menu[role="listbox"] {
+                    .dropdown-item {
+                        &.active,
+                        &:active {
+                            background-color: #3f5165; 
+                        }
+                    }
+                }
+            }
+    }
+    .dir-otherLanguage {
+        .countryBox {
+            input {
+                &[ng-reflect-model="[object Object]"] {
+                    padding-right: 40px;
+                }
+            }
+            ngb-typeahead-window {
+                .dropdown-menu {
                     left: auto !important;
-                    text-align: right;
                 }
             }
         }
