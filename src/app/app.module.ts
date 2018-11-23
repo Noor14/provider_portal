@@ -10,10 +10,10 @@ import { CommonService } from './services/common.service';
 import { SharedService } from './services/shared.service';
 import { ToastrModule } from 'ngx-toastr';
 import { ScrollbarModule } from 'ngx-scrollbar';
-// import { UserService } from './components/pages/user/user.service';
+
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +31,6 @@ import { ScrollbarModule } from 'ngx-scrollbar';
   providers: [
     CommonService,                                                               
     SharedService,
-    // UserService
   ],
   bootstrap: [AppComponent]
 })

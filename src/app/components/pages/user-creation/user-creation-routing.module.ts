@@ -8,14 +8,14 @@ import { CreatePasswordComponent } from './basic-info/create-password/create-pas
 import { UserCreationComponent } from './user-creation.component';
 import { ShippingInfoComponent } from './company-info/shipping-info/shipping-info.component';
 import { BusinessInfoComponent } from './company-info/business-info/business-info.component';
-import { OnBoardingComponent } from './basic-info/on-boarding/on-boarding.component';
+// import { OnBoardingComponent } from './basic-info/on-boarding/on-boarding.component';
 
 const routes: Routes = [
   {
     path: '',
     component: UserCreationComponent,
     children: [
-      { path: 'on-boarding', component: OnBoardingComponent },
+      // { path: 'on-boarding', component: OnBoardingComponent },
       { path: 'registration', component: RegistrationComponent },
       { path: 'otp/:keys', component: OtpconfirmationComponent, canActivate: [UserGuard] },
       { path: 'password/:keys', component: CreatePasswordComponent, canActivate: [UserGuard] },

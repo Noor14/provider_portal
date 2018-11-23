@@ -104,7 +104,10 @@ export class OnBoardingComponent implements OnInit {
     private _commonService: CommonService,
     private _basicInfoService: BasicInfoService
     
-  ) { }
+  ) { 
+  let elem =  document.getElementsByTagName('header') as any;
+    console.log(elem[0].children[0].children[0].children[1].style.display='none')
+  }
 
   ngOnInit() {
     this.organizationForm = new FormGroup({
