@@ -277,6 +277,7 @@ export class OnBoardingComponent implements OnInit {
 
 
   onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
+    if (!this.showTranslatedLangSide) return;
     setTimeout(() => {
       if (currentActive && !fromActive && $value) {
         this.Globalinputfrom = false;
@@ -299,7 +300,7 @@ export class OnBoardingComponent implements OnInit {
   }
 
   onTransModel(fromActive, currentActive, $controlName, $value) {
-    // if (!this.showTranslatedLangSide) return;
+    if (!this.showTranslatedLangSide) return;
     if (currentActive && !fromActive && $value) {
       this.Globalinputto = false;
     }
@@ -319,7 +320,7 @@ export class OnBoardingComponent implements OnInit {
       });
     }
     else if (currentActive && $value && fromActive == undefined) {
-    // if (!this.showTranslatedLangSide) return;
+    if (!this.showTranslatedLangSide) return;
       this.debounceInput.next($value);
       this.debounceInput.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
         this._commonService.detectedLanguage(value).subscribe((res: any) => {
@@ -340,7 +341,7 @@ export class OnBoardingComponent implements OnInit {
   }
 
   onNameModelChange(fromActive, currentActive, $controlName, source, target, $value) {
-    // if (!this.showTranslatedLangSide) return;
+    if (!this.showTranslatedLangSide) return;
     setTimeout(() => {
       if (currentActive && !fromActive && $value) {
         this.Globalinputfrom = false;
@@ -364,8 +365,7 @@ export class OnBoardingComponent implements OnInit {
   }
 
   onTransNameModel(fromActive, currentActive, $controlName, $value) {
-
-    // if (!this.showTranslatedLangSide) return;
+    if (!this.showTranslatedLangSide) return;
     if (currentActive && !fromActive && $value) {
       this.Globalinputto = false;
     }
@@ -728,8 +728,8 @@ export class OnBoardingComponent implements OnInit {
       countryID: this.selected_country.id,
       countryPhoneCode: this.phoneCode,
       telePhone: this.phoneCode + this.businessForm.value.phone,
-      socialAccountID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length) ? this.selectedSocialsite.socialMediaPortalsID : null,
-      socialAccountName: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length) ? this.socialSites: null,
+      socialAccountID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.selectedSocialsite.socialMediaPortalsID : null,
+      socialAccountName: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.socialSites: null,
       addressLine1: this.businessForm.value.address,
       addressLine2: this.businessForm.value.address2,
       city: this.businessForm.value.city,
