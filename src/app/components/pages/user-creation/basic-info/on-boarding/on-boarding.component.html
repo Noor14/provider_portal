@@ -1,4 +1,4 @@
-<section class="on-boarding col-lg-8 offset-2 mt-4 mb-4">
+<section class="on-boarding col-lg-8 offset-lg-2 mt-4 mb-4">
   <h3 class="registration-title">Request to Join our Partner Network</h3>
   <p class="sub-title">It takes only a few minutes to send us your basic information.</p>
   <div class="row">
@@ -13,7 +13,7 @@
   </div>
   <hr class="hr-solid">
   <div class="row">
-    <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let service of serviceOffered">
+    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of serviceOffered">
       <div #selectService class="service-btn text-center d-flex flex-column justify-content-center mb-2 pointer" (click)="serviceSelection(service, selectService)">
         <span>{{service.ServiceNameBaseLang}}</span>
         <span>{{service.ServiceNameOtherLang}}</span>
@@ -22,14 +22,14 @@
   </div>
   <form autocomplete="off" novalidate [formGroup]="organizationForm">
     <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
           <label>Country</label>
           <input type="text" class="form-control" maxlength="100" (keypress)="textValidation($event)">
 
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group dir-otherLanguage text-right">
           <label>بلد</label>
           <input type="text" class="form-control">
@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
           <label>Organization Name</label>
           <input type="text" class="form-control" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{
@@ -55,7 +55,7 @@
         </div>
 
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group dir-otherLanguage text-right">
           <label>اسم المنظمة</label>
           <input type="text" class="form-control" [ngClass]="{
@@ -76,12 +76,12 @@
   </form>
   <h5 class="d-flex justify-content-between mt-5 pt-1">
     <span>Contact Details</span>
-    <span class="text-right">بيانات المتصل</span>
+    <span class="text-right dir-otherLanguage">بيانات المتصل</span>
   </h5>
   <hr class="hr-solid">
   <form autocomplete="off" novalidate [formGroup]="contactInfoForm">
     <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
           <label>Telephone</label>
           <div class="select-number">
@@ -121,7 +121,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group dir-otherLanguage">
           <label>هاتف</label>
           <div class="select-number">
@@ -164,12 +164,12 @@
   </form>
   <h5 class="d-flex justify-content-between pt-2 mt-5">
     <span>Business Location</span>
-    <span class="text-right">موقع العمل</span>
+    <span class="text-right dir-otherLanguage">موقع العمل</span>
   </h5>
   <hr class="hr-solid">
   <form autocomplete="off" novalidate [formGroup]="businessLocForm">
     <div class="row ">
-      <div class="col-lg-6 col-md-6 col-sm-12 ">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
           <label for="address">Address Line 1</label>
           <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200" formControlName="address" (focusout)="errorValidate()"
@@ -185,7 +185,7 @@
         </div>
 
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group dir-otherLanguage">
           <label for="address">العنوان السطر 1</label>
           <input type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transAddress"
@@ -203,7 +203,7 @@
       </div>
     </div>
     <div class="row ">
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
           <label for="address">Address Line 2 (Optional)</label>
           <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200" formControlName="address2" (focusout)="errorValidate()"
@@ -219,7 +219,7 @@
         </div>
 
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group dir-otherLanguage">
           <label for="address">سطر العنوان 2 (اختياري)</label>
           <input type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transAddress2"
@@ -237,7 +237,7 @@
       </div>
     </div>
     <div class="row ">
-      <div class="col-lg-6 col-md-6 col-sm-12 ">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
           <label for="city">City</label>
           <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200" formControlName="city" (focusout)="errorValidate()"
@@ -253,7 +253,7 @@
         </div>
 
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group dir-otherLanguage">
           <label for="city">مدينة</label>
           <input type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transCity"
@@ -271,7 +271,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
           <label for="Address">P.O Box</label>
           <input type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; poBoxArError = false"
@@ -286,7 +286,7 @@
           </span>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group dir-otherLanguage">
           <label for="address">صندوق بريد</label>
           <input type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; poBoxArError = false"
@@ -303,20 +303,20 @@
       </div>
     </div>
   </form>
-  <div class="heading">
-    <h5 class="registration-head-titles mt-5 d-flex justify-content-between">
-      <span>Your Personal Information</span>
-      <span class="text-right arabicLng">المعلومات الشخصية الخاصة بك</span>
-    </h5>
-    <small class="d-flex justify-content-between">
-      <span>We require your personal information to get in touch with you</span>
-      <span class="text-right">نطلب المعلومات الشخصية الخاصة بك للحصول على اتصال معكم</span>
-    </small>
+  <div class="row mt-5">
+    <div class="licenseNaming col-6">
+      <h5 class="m-0">Your Personal Information</h5>
+      <small>We require your personal information to get in touch with you</small>
+    </div>
+    <div class="licenseNaming col-6 dir-otherLanguage">
+      <h5 class="m-0">المعلومات الشخصية الخاصة بك</h5>
+      <small class="arabicLng">نطلب المعلومات الشخصية الخاصة بك للحصول على اتصال معكم</small>
+    </div>
   </div>
   <hr class="hr-solid">
   <form autocomplete="off" novalidate [formGroup]="personalInfoForm">
     <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
           <label for="leftFirstName">First Name</label>
           <input id="1" type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': firstNameError && personalInfoForm.controls['firstName'].errors}"
@@ -331,7 +331,7 @@
           </span>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group dir-otherLanguage">
           <label for="rightFirstName">الاسم الاول</label>
           <input id="2" type="text" maxlength="100" class="form-control" [ngClass]="{'inputError': transfirstNameError && personalInfoForm.controls['transLangfirstName'].errors}"
@@ -348,7 +348,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
           <label for="leftLastName">Last Name</label>
           <input type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': lastNameError && personalInfoForm.controls['lastName'].errors}"
@@ -363,7 +363,7 @@
           </span>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group dir-otherLanguage">
           <label for="leftLastName">الاسم الاخير</label>
           <input type="text" maxlength="100" class="form-control" placeholder="المثال : سمىت" [ngClass]="{'inputError': translastNameError && personalInfoForm.controls['transLanglastName'].errors}"
@@ -380,7 +380,7 @@
     </div>
 
     <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
           <label for="lefttransLangjobTitle">Job Title</label>
           <input id="5" type="text" maxlength="100" class="form-control" (keypress)="textValidation($event)" placeholder="eg: Manager"
@@ -399,7 +399,7 @@
           </span>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group dir-otherLanguage">
           <label for="leftJobTitle">عنوان</label>
           <input id="6" type="text" maxlength="100" class="form-control" [(ngModel)]="selectedjobTitle" placeholder="المثال : مدير"
@@ -422,12 +422,12 @@
   </form>
   <h5 class="registration-head-titles pt-1 mt-5 d-flex justify-content-between">
     <span>Contact Details</span>
-    <span class="text-right">بيانات المتصل</span>
+    <span class="text-right dir-otherLanguage">بيانات المتصل</span>
   </h5>
   <hr class="hr-solid">
   <form autocomplete="off" novalidate [formGroup]="personalCntInfoForm">
     <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
           <label>Mobile Number</label>
           <div class="select-number">
@@ -467,7 +467,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group dir-otherLanguage">
           <label>رقم الهاتف المحمول</label>
           <div class="select-number">
@@ -509,7 +509,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
           <label for="address">Email Address</label>
           <input type="email" autocomplete="nope" (focusout)="errorValidate()" (focus)="transEmailError=false; EmailError=false" [(ngModel)]="transLangEmail"
@@ -524,7 +524,7 @@
           </span>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group dir-otherLanguage">
           <label for="address">عنوان بريد الكتروني</label>
           <input type="email" class="form-control" placeholder="eg: john@company.com" (focusout)="errorValidate()" (focus)="transEmailError=false; EmailError=false"
@@ -545,7 +545,7 @@
     <div class="col">
       <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" type="submit">
         <span>Register</span>
-        <span> / تسجيل</span>
+        <span class="dir-otherLanguage"> / تسجيل</span>
       </button>
     </div>
   </div>
