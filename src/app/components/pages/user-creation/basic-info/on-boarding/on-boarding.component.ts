@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CompanyInfoService } from '../../company-info/company-info.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
@@ -12,6 +12,7 @@ import { BasicInfoService } from '../basic-info.service';
 @Component({
   selector: 'app-on-boarding',
   templateUrl: './on-boarding.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./on-boarding.component.scss']
 })
 export class OnBoardingComponent implements OnInit {

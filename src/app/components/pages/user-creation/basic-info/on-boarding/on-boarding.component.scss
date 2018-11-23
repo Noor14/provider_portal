@@ -1,6 +1,6 @@
 @import '../../../../../../assets/scss/_variables';
 .on-boarding {
-h5 {
+    h5 {
         .dir-otherLanguage {
             font-family: $font-NeoSansArabic-Medium;
         }
@@ -49,23 +49,23 @@ h5 {
         .inputRight {
             padding-right: 40px;
         }
-        ngb-typeahead-window {
-            max-height: 200px;
-            overflow-y: auto;
-            .dropdown-item {
-                &.active,
-                &:active {
-                    background: $primary-grey;
-                }
+    }
+    ngb-typeahead-window {
+        max-height: 200px;
+        overflow-y: auto;
+        .dropdown-item {
+            &.active,
+            &:active {
+                background: $primary-grey;
             }
         }
-        .dir-otherLanguage {
-            ngb-typeahead-window {
-                &.dropdown-menu {
-                    top: auto !important;
-                    left: auto !important;
-                    text-align: right;
-                }
+    }
+    .dir-otherLanguage {
+        ngb-typeahead-window {
+            &.dropdown-menu {
+                top: auto !important;
+                left: auto !important;
+                text-align: right;
             }
         }
     }
