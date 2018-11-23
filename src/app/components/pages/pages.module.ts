@@ -17,6 +17,7 @@ import { ReUploadDocComponent } from '../../shared/dialogues/re-upload-doc/re-up
 import { OnBoardingComponent } from './user-creation/basic-info/on-boarding/on-boarding.component';
 import { BasicInfoService } from './user-creation/basic-info/basic-info.service';
 import { CompanyInfoService } from './user-creation/company-info/company-info.service';
+import { ThankyouComponent } from './user-creation/basic-info/thankyou/thankyou.component';
  
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { CompanyInfoService } from './user-creation/company-info/company-info.se
     BookingInvoiceComponent,
     ReUploadDocComponent,
     OnBoardingComponent,
+    ThankyouComponent
     // CancelBookingDialogComponent,
     // ConfirmModifySearchComponent,
     // ShareshippingComponent,

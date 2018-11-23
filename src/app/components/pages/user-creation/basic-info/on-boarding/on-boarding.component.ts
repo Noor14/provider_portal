@@ -6,8 +6,13 @@ import { SharedService } from '../../../../../services/shared.service';
 import { Observable, Subject } from 'rxjs';
 import { CommonService } from '../../../../../services/common.service';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { EMAIL_REGEX } from '../../../../../constants/globalFunctions';
+import {
+  loading, CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear, patternValidator,
+  YOUTUBE_REGEX, FACEBOOK_REGEX, TWITTER_REGEX, LINKEDIN_REGEX, INSTAGRAM_REGEX, URL_REGEX, GEN_URL
+} from '../../../../../constants/globalFunctions';
 import { BasicInfoService } from '../basic-info.service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-on-boarding',
@@ -36,6 +41,11 @@ export class OnBoardingComponent implements OnInit {
   public activeTransPhone: any;
   public phoneCountryId: any;
   public phoneCode;
+
+  public mobileCountFlagImage: string;
+  public mobileCode;
+  public transmobileCode;
+
   public orgNameError: boolean;
   public transorgNameError: boolean;
   public activeOrgName: boolean;
@@ -43,11 +53,8 @@ export class OnBoardingComponent implements OnInit {
   public phoneError: boolean;
   public translangPhoneError: boolean;
 
-  public organizationForm: any;
-  public contactInfoForm: any;
-  public businessLocForm: any;
+  public businessForm: any;
   public personalInfoForm: any;
-  public personalCntInfoForm: any;
   
   public addressAr: any;
   public addressAr2: any;
@@ -87,6 +94,13 @@ export class OnBoardingComponent implements OnInit {
   public activetelephone: boolean;
   public activeTransTelephone: boolean;
 
+
+  public selectedSocialsite: any;
+  public socialSites;
+  public socialInputValidate;
+  public socialLink: any;
+  
+
   public arabicNumbers: any = [
     { baseNumber: '0', arabicNumber: '۰' },
     { baseNumber: '1', arabicNumber: '۱' },
@@ -108,57 +122,51 @@ export class OnBoardingComponent implements OnInit {
     private _companyInfoService: CompanyInfoService,
     private _sharedService: SharedService,
     private _commonService: CommonService,
-    private _basicInfoService: BasicInfoService
-    
+    private _basicInfoService: BasicInfoService,
+    private _toastr: ToastrService,
+    private _router: Router, 
   ) { 
   let elem =  document.getElementsByTagName('header') as any;
    elem[0].children[0].children[0].children[1].style.display='none';
   }
 
   ngOnInit() {
-    this.organizationForm = new FormGroup({
+    this.businessForm = new FormGroup({
       orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4)]),
-      transLangOrgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4)]),
-    });
-    this.contactInfoForm = new FormGroup({
+      transLangOrgName: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(100), Validators.minLength(2)]),
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
-      transLangPhone: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(13)]),
-    });
-
-    this.businessLocForm = new FormGroup({
+      transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
       address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
-      transAddress: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      transAddress: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       address2: new FormControl(null, [Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       transAddress2: new FormControl(null, [Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
-      transCity: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      transCity: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       poBoxNo: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
-      poBoxNoAr: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
+      poBoxNoAr: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(16), Validators.minLength(4)]),
+      socialUrl: new FormControl(null)
     });
 
 
     this.personalInfoForm = new FormGroup({
       firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
-      transLangfirstName: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
+      transLangfirstName: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(2), Validators.maxLength(100)]),
       lastName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
-      transLanglastName: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
+      transLanglastName: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(2), Validators.maxLength(100)]),
       jobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
-      transLangjobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
-    });
-
-    this.personalCntInfoForm = new FormGroup({
+      transLangjobTitle: new FormControl('', [CustomValidator.bind(this), Validators.minLength(3), Validators.maxLength(100)]),
       email: new FormControl(null, [
         Validators.required,
         Validators.pattern(EMAIL_REGEX),
         Validators.maxLength(320)
       ]),
       transLangEmail: new FormControl(null, [
-        Validators.required,
+        CustomValidator.bind(this),
         Validators.pattern(EMAIL_REGEX),
         Validators.maxLength(320)
       ]),
       telephone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
-      transLangtelephone: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(13)]),
+      transLangtelephone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
     });
       
     
@@ -170,19 +178,72 @@ export class OnBoardingComponent implements OnInit {
       }
 
     });
-    this.getServices();
+    this.getCompanyActivities();
+    this.getsocialList();
   }
-
+  getsocialList() {
+    this._companyInfoService.socialList().subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this.socialLink = res.returnObject;
+        this.selectedSocialsite = this.socialLink[this.socialLink.length - 1];
+        if (this.selectedSocialsite.socialMediaPortalsID === 105) {
+          this.businessForm.controls['socialUrl'].setValidators([patternValidator(GEN_URL)]);
+        }
+      }
+    })
+  }
   getListJobTitle(id) {
     this._basicInfoService.getjobTitles(id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.jobTitles = res.returnObject;
+        this.businessForm.reset();
+        this.personalInfoForm.reset();
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
     })
   }
+  selectedSocialLink(obj) {
+    this.selectedSocialsite = obj;
+    this.businessForm.controls['socialUrl'].reset();
+    if (obj.socialMediaPortalsID === 100) {
+      this.businessForm.controls['socialUrl'].setValidators([patternValidator(FACEBOOK_REGEX)]);
+      this.socialLinkValidate()
+    }
+    else if (obj.socialMediaPortalsID === 101) {
+      this.businessForm.controls['socialUrl'].setValidators([patternValidator(TWITTER_REGEX)]);
+      this.socialLinkValidate()
+    } else if (obj.socialMediaPortalsID === 102) {
+      this.businessForm.controls['socialUrl'].setValidators([patternValidator(INSTAGRAM_REGEX)]);
+      this.socialLinkValidate()
+    } else if (obj.socialMediaPortalsID === 103) {
+      this.businessForm.controls['socialUrl'].setValidators([patternValidator(LINKEDIN_REGEX)]);
+      this.socialLinkValidate()
+    } else if (obj.socialMediaPortalsID === 104) {
+      this.businessForm.controls['socialUrl'].setValidators([patternValidator(YOUTUBE_REGEX)]);
+      this.socialLinkValidate()
+    }
+    else {
+      this.businessForm.controls['socialUrl'].setValidators([patternValidator(GEN_URL)]);
+      this.socialLinkValidate()
+    }
+  }
 
+
+  socialLinkValidate() {
+
+    if (this.selectedSocialsite && this.businessForm.controls['socialUrl'].value && this.businessForm.controls['socialUrl'].status === 'INVALID') {
+      // let index = this.selectedSocialsite.title.toLowerCase().indexOf(this.socialSites.toLowerCase());
+      this.socialInputValidate = 'Your social url is not valid';
+    }
+    else if (!this.businessForm.controls['socialUrl'].value) {
+      this.socialInputValidate = '';
+    }
+    else {
+      this.socialInputValidate = '';
+    }
+   
+  }
   getjobList(country){
     if (country.id) {
       this.getListJobTitle(country.id);
@@ -191,6 +252,7 @@ export class OnBoardingComponent implements OnInit {
       // this.selectedLangIdbyCountry = selectedCountry.desc[0].LanguageID;
       this.onBoardingForm = true;
       this.selectPhoneCode(selectedCountry);
+      this.selectTelCode(selectedCountry);
     }
     else {
       this.onBoardingForm = false;
@@ -205,21 +267,29 @@ export class OnBoardingComponent implements OnInit {
     this.phoneCountryId = list.id
   }
 
+  selectTelCode(list) {
+    this.mobileCountFlagImage = list.code;
+    let description = list.desc;
+    this.mobileCode = description[0].CountryPhoneCode;
+    this.transmobileCode = description[0].CountryPhoneCode_OtherLang;
+    // this.phoneCountryId = list.id
+  }
+
 
   onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
     setTimeout(() => {
       if (currentActive && !fromActive && $value) {
         this.Globalinputfrom = false;
       }
-      if (fromActive == false && currentActive && this.organizationForm.controls[$controlName].errors || this.Globalinputto) {
+      if (fromActive == false && currentActive && this.businessForm.controls[$controlName].errors || this.Globalinputto) {
         this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
-          this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+          this.businessForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
           this.Globalinputto = true;
         })
       }
       else if ($value && currentActive && source && target && fromActive == undefined) {
         this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
-          this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+          this.businessForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
         })
       }
       // else if(currentActive && !$value){
@@ -233,7 +303,7 @@ export class OnBoardingComponent implements OnInit {
     if (currentActive && !fromActive && $value) {
       this.Globalinputto = false;
     }
-    if (currentActive && fromActive == false && this.organizationForm.controls[$controlName].errors || this.Globalinputfrom) {
+    if (currentActive && fromActive == false && this.businessForm.controls[$controlName].errors || this.Globalinputfrom) {
       this.debounceInput.next($value);
       this.debounceInput.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
         this._commonService.detectedLanguage(value).subscribe((res: any) => {
@@ -241,7 +311,7 @@ export class OnBoardingComponent implements OnInit {
           let target = "en";
           if (sourceLang && target && value) {
             this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
-              this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+              this.businessForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
               this.Globalinputfrom = true;
             })
           }
@@ -260,7 +330,7 @@ export class OnBoardingComponent implements OnInit {
           // }
           if (sourceLang && target && value) {
             this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
-              this.organizationForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+              this.businessForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
             })
           }
         })
@@ -341,7 +411,7 @@ export class OnBoardingComponent implements OnInit {
       return false;
     return true;
   }
-  getServices() {
+  getCompanyActivities() {
     this._companyInfoService.getServiceOffered().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.serviceOffered = JSON.parse(res.returnObject);
@@ -369,98 +439,98 @@ export class OnBoardingComponent implements OnInit {
     }
   }
   errorValidate() {
-    if (this.organizationForm.controls.orgName.status == "INVALID" && this.organizationForm.controls.orgName.dirty) {
+    if (this.businessForm.controls.orgName.status == "INVALID" && this.businessForm.controls.orgName.dirty) {
       this.orgNameError = true;
       this.transorgNameError = true;
     }
-    if (this.organizationForm.controls.transLangOrgName.status == "INVALID" && this.organizationForm.controls.transLangOrgName.dirty) {
+    if (this.businessForm.controls.transLangOrgName.status == "INVALID" && this.businessForm.controls.transLangOrgName.dirty) {
       this.transorgNameError = true;
       this.orgNameError = true;
     }
-    if (this.businessLocForm.controls.address.status == "INVALID" && this.businessLocForm.controls.address.touched) {
+    if (this.businessForm.controls.address.status == "INVALID" && this.businessForm.controls.address.dirty) {
       this.addressError = true;
       this.addressArError = true;
     }
-    if (this.businessLocForm.controls.transAddress.status == "INVALID" && this.businessLocForm.controls.transAddress.touched) {
+    if (this.businessForm.controls.transAddress.status == "INVALID" && this.businessForm.controls.transAddress.dirty) {
       this.addressArError = true;
       this.addressError = true;
     }
-    if (this.businessLocForm.controls.address2.status == "INVALID" && this.businessLocForm.controls.address2.touched) {
+    if (this.businessForm.controls.address2.status == "INVALID" && this.businessForm.controls.address2.dirty) {
       this.addressError2 = true;
       this.addressArError2 = true;
     }
-    if (this.businessLocForm.controls.transAddress2.status == "INVALID" && this.businessLocForm.controls.transAddress2.touched) {
+    if (this.businessForm.controls.transAddress2.status == "INVALID" && this.businessForm.controls.transAddress2.dirty) {
       this.addressError2 = true;
       this.addressArError2 = true;
     }
-    if (this.businessLocForm.controls.city.status == "INVALID" && this.businessLocForm.controls.city.touched) {
+    if (this.businessForm.controls.city.status == "INVALID" && this.businessForm.controls.city.dirty) {
       this.cityError = true;
       this.cityArError = true;
     }
-    if (this.businessLocForm.controls.transCity.status == "INVALID" && this.businessLocForm.controls.transCity.touched) {
+    if (this.businessForm.controls.transCity.status == "INVALID" && this.businessForm.controls.transCity.dirty) {
       this.cityError = true;
       this.cityArError = true;
     }
-    if (this.businessLocForm.controls.poBoxNo.status == "INVALID" && this.businessLocForm.controls.poBoxNo.touched) {
+    if (this.businessForm.controls.poBoxNo.status == "INVALID" && this.businessForm.controls.poBoxNo.dirty) {
       this.poBoxError = true;
       this.poBoxArError = true;
     }
-    if (this.businessLocForm.controls.poBoxNoAr.status == "INVALID" && this.businessLocForm.controls.poBoxNoAr.touched) {
+    if (this.businessForm.controls.poBoxNoAr.status == "INVALID" && this.businessForm.controls.poBoxNoAr.dirty) {
       this.poBoxError = true;
       this.poBoxArError = true;
     }
 
-    if (this.contactInfoForm.controls.phone.status == "INVALID" && this.contactInfoForm.controls.phone.touched) {
+    if (this.businessForm.controls.phone.status == "INVALID" && this.businessForm.controls.phone.dirty) {
       this.phoneError = true;
       this.translangPhoneError = true;
     }
-    if (this.contactInfoForm.controls.transLangPhone.status == "INVALID" && this.contactInfoForm.controls.transLangPhone.touched) {
+    if (this.businessForm.controls.transLangPhone.status == "INVALID" && this.businessForm.controls.transLangPhone.dirty) {
       this.phoneError = true;
       this.translangPhoneError = true;
     }
-    if (this.personalInfoForm.controls.firstName.status == "INVALID" && this.personalInfoForm.controls.firstName.touched) {
+    if (this.personalInfoForm.controls.firstName.status == "INVALID" && this.personalInfoForm.controls.firstName.dirty) {
       this.firstNameError = true;
       this.transfirstNameError = true;
     }
-    if (this.personalInfoForm.controls.transLangfirstName.status == "INVALID" && this.personalInfoForm.controls.transLangfirstName.touched) {
+    if (this.personalInfoForm.controls.transLangfirstName.status == "INVALID" && this.personalInfoForm.controls.transLangfirstName.dirty) {
       this.transfirstNameError = true;
       this.firstNameError = true;
     }
-    if (this.personalInfoForm.controls.lastName.status == "INVALID" && this.personalInfoForm.controls.lastName.touched) {
+    if (this.personalInfoForm.controls.lastName.status == "INVALID" && this.personalInfoForm.controls.lastName.dirty) {
       this.lastNameError = true;
       this.translastNameError = true;
     }
-    if (this.personalInfoForm.controls.transLanglastName.status == "INVALID" && this.personalInfoForm.controls.transLanglastName.touched) {
+    if (this.personalInfoForm.controls.transLanglastName.status == "INVALID" && this.personalInfoForm.controls.transLanglastName.dirty) {
       this.translastNameError = true;
       this.lastNameError = true;
     }
-    if (this.personalInfoForm.controls.jobTitle.status == "INVALID" && this.personalInfoForm.controls.jobTitle.touched) {
+    if (this.personalInfoForm.controls.jobTitle.status == "INVALID" && this.personalInfoForm.controls.jobTitle.dirty) {
       this.jobTitleError = true;
       this.transjobTitleError = true;
     }
-    if (this.personalInfoForm.controls.transLangjobTitle.status == "INVALID" && this.personalInfoForm.controls.transLangjobTitle.touched) {
+    if (this.personalInfoForm.controls.transLangjobTitle.status == "INVALID" && this.personalInfoForm.controls.transLangjobTitle.dirty) {
       this.transjobTitleError = true;
       this.jobTitleError = true;
     }
-    if (this.personalCntInfoForm.controls.telephone.status == "INVALID" && this.personalCntInfoForm.controls.telephone.touched) {
+    if (this.personalInfoForm.controls.telephone.status == "INVALID" && this.personalInfoForm.controls.telephone.dirty) {
       this.telephoneError = true;
       this.translangtelephoneError = true;
     }
-    if (this.personalCntInfoForm.controls.transLangtelephone.status == "INVALID" && this.personalCntInfoForm.controls.transLangtelephone.touched) {
+    if (this.personalInfoForm.controls.transLangtelephone.status == "INVALID" && this.personalInfoForm.controls.transLangtelephone.dirty) {
       this.translangtelephoneError = true;
       this.telephoneError = true;
     }
-    if (this.personalCntInfoForm.controls.email.status == "INVALID" && this.personalCntInfoForm.controls.email.touched) {
+    if (this.personalInfoForm.controls.email.status == "INVALID" && this.personalInfoForm.controls.email.dirty) {
       this.EmailError = true;
       this.transEmailError = true;
     }
-    if (this.personalCntInfoForm.controls.transLangEmail.status == "INVALID" && this.personalCntInfoForm.controls.transLangEmail.touched) {
+    if (this.personalInfoForm.controls.transLangEmail.status == "INVALID" && this.personalInfoForm.controls.transLangEmail.dirty) {
       this.transEmailError = true;
       this.EmailError = true;
     }
   }
   onModelPhoneChange(fromActive, currentActive, $controlName, $value) {
-    // if (!this.showTranslatedLangSide) return;
+    if (!this.showTranslatedLangSide) return;
     if (currentActive && !fromActive) {
       let number = $value.split('');
       for (let i = 0; i < number.length; i++) {
@@ -470,12 +540,12 @@ export class OnBoardingComponent implements OnInit {
           }
         })
       }
-      this.contactInfoForm.controls[$controlName].patchValue(number.reverse().join(''));
+      this.businessForm.controls[$controlName].patchValue(number.reverse().join(''));
     }
   }
 
   onModelTransPhoneChange(fromActive, currentActive, $controlName, $value) {
-    // if (!this.showTranslatedLangSide) return;
+    if (!this.showTranslatedLangSide) return;
     if (currentActive && !fromActive) {
       let number = $value.split('');
       for (let i = 0; i < number.length; i++) {
@@ -486,14 +556,14 @@ export class OnBoardingComponent implements OnInit {
         })
 
       }
-      this.contactInfoForm.controls[$controlName].patchValue(number.join(''));
+      this.businessForm.controls[$controlName].patchValue(number.join(''));
     }
 
   }
 
 
   onModelTelephoneChange(fromActive, currentActive, $controlName, $value) {
-    // if (!this.showTranslatedLangSide) return;
+    if (!this.showTranslatedLangSide) return;
     if (currentActive && !fromActive) {
       let number = $value.split('');
       for (let i = 0; i < number.length; i++) {
@@ -503,12 +573,12 @@ export class OnBoardingComponent implements OnInit {
           }
         })
       }
-      this.personalCntInfoForm.controls[$controlName].patchValue(number.reverse().join(''));
+      this.personalInfoForm.controls[$controlName].patchValue(number.reverse().join(''));
     }
   }
 
   onModelTransTelephoneChange(fromActive, currentActive, $controlName, $value) {
-    // if (!this.showTranslatedLangSide) return;
+    if (!this.showTranslatedLangSide) return;
     if (currentActive && !fromActive) {
       let number = $value.split('');
       for (let i = 0; i < number.length; i++) {
@@ -519,13 +589,13 @@ export class OnBoardingComponent implements OnInit {
         })
 
       }
-      this.personalCntInfoForm.controls[$controlName].patchValue(number.join(''));
+      this.personalInfoForm.controls[$controlName].patchValue(number.join(''));
     }
 
   }
 
   onModeljobtitle(fromActive, currentActive, $controlName, source, target, $value) {
-    // if (!this.showTranslatedLangSide) return;
+    if (!this.showTranslatedLangSide) return;
     setTimeout(() => {
       if (typeof this.selectedjobTitle == 'object') return;
       if ($value && currentActive && source && target && !fromActive) {
@@ -542,8 +612,7 @@ export class OnBoardingComponent implements OnInit {
     }, 200)
   }
   onTransModeljobTitle(fromActive, currentActive, $controlName, $value) {
-
-    // if (!this.showTranslatedLangSide) return;
+    if (!this.showTranslatedLangSide) return;
     setTimeout(() => {
       if (typeof this.selectedjobTitle == 'object') return;
       if (currentActive && $value && !fromActive) {
@@ -641,5 +710,74 @@ export class OnBoardingComponent implements OnInit {
 
   formatterjobOtherLng = (x: { otherLanguage: string }) => x.otherLanguage;
 
+  registration(){
+    loading(true);
+    let valid: boolean = ValidateEmail(this.personalInfoForm.value.email);
+    if (this.businessForm.invalid || this.personalInfoForm.invalid) {
+      loading(false);
+      this._toastr.error('Some thing missing', 'Failed');
+      return;
+    }
+    else if (!valid) {
+      this._toastr.error('Invalid email entered.', 'Failed');
+      loading(false);
+      return
+    }
+    let PreSalesRegistration = {
+      organizationName: this.businessForm.value.orgName,
+      countryID: this.selected_country.id,
+      countryPhoneCode: this.phoneCode,
+      telePhone: this.phoneCode + this.businessForm.value.phone,
+      socialAccountID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length) ? this.selectedSocialsite.socialMediaPortalsID : null,
+      socialAccountName: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length) ? this.socialSites: null,
+      addressLine1: this.businessForm.value.address,
+      addressLine2: this.businessForm.value.address2,
+      city: this.businessForm.value.city,
+      poBox: this.businessForm.value.poBoxNo,
+      firstName: this.personalInfoForm.value.firstName,
+      lastName: this.personalInfoForm.value.lastName,
+      jobTitle: (typeof this.selectedjobTitle === "object")? this.selectedjobTitle.baseLanguage : this.personalInfoForm.value.jobTitle,
+      mobileNumber: this.mobileCode + this.personalInfoForm.value.telephone,
+      emailAddress: this.personalInfoForm.value.email,
+    }
+    let PreSalesRegistrationOL = {
+      organizationName: this.businessForm.value.transLangOrgName,
+      countryID: this.selected_country.id,
+      countryPhoneCode: this.transPhoneCode,
+      telePhone: this.businessForm.value.transLangPhone + this.transPhoneCode,
+      socialAccountID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length) ? this.selectedSocialsite.socialMediaPortalsID : null,
+      socialAccountName: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length) ? this.socialSites : null,
 
+      addressLine1: this.businessForm.value.transAddress,
+      addressLine2: this.businessForm.value.transAddress2,
+      city: this.businessForm.value.transCity,
+      poBox: this.businessForm.value.poBoxNoAr,
+      firstName: this.personalInfoForm.value.transLangfirstName,
+      lastName: this.personalInfoForm.value.transLanglastName,
+      jobTitle: (typeof this.selectedjobTitle === "object")? this.selectedjobTitle.otherLanguage : this.personalInfoForm.value.transLangjobTitle,
+      mobileNumber: this.personalInfoForm.value.transLangtelephone + this.transmobileCode,
+      emailAddress: this.personalInfoForm.value.transLangEmail,
+    }
+
+   let obj = {
+     CompanyActivities: JSON.stringify(this.serviceIds),
+     detailBL: PreSalesRegistration,
+     detailOL: (this.showTranslatedLangSide)? PreSalesRegistrationOL: null
+    }
+
+    this._basicInfoService.createProviderAccount(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toastr.success(res.returnText, '');
+        this._router.navigate(['/thankYou'])
+        loading(false);
+      }
+      else {
+        loading(false);
+        this._toastr.error(res.returnText, '');
+      }
+    }, (err: HttpErrorResponse) => {
+      loading(false);
+      console.log(err);
+    })
+  }
 }

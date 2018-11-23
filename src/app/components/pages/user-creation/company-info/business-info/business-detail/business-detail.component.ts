@@ -10,7 +10,8 @@ import { MapsAPILoader } from '@agm/core';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../../../../../services/common.service';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../../directives/ng-files';
-import { CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear, patternValidator } from '../../../../../../constants/globalFunctions'
+import { CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear, patternValidator,
+  YOUTUBE_REGEX, FACEBOOK_REGEX, TWITTER_REGEX, LINKEDIN_REGEX, INSTAGRAM_REGEX, URL_REGEX, GEN_URL } from '../../../../../../constants/globalFunctions';
 import { CompanyInfoService } from '../../company-info.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DocumentUpload } from '../../../../../../interfaces/document.interface';
@@ -2098,10 +2099,3 @@ export interface DocumentFile {
   fileUrl: string
   docId?: string
 }
-export const YOUTUBE_REGEX: RegExp = /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/
-export const FACEBOOK_REGEX: RegExp = /^(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.php\?id=(?=\d.*))?([\w\-]*)?/
-export const TWITTER_REGEX: RegExp = /(?:http:\/\/)?(?:www\.)?twitter\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/
-export const LINKEDIN_REGEX: RegExp = /(http|https):\/\/?((www|\w\w)\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
-export const INSTAGRAM_REGEX: RegExp = /(https?:\/\/(www\.)?)?instagram\.com(\/\w+\/?)/
-export const URL_REGEX: RegExp = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
-export const GEN_URL: RegExp = /^(?: (?: https ?| ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
