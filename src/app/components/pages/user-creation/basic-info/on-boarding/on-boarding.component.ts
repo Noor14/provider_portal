@@ -6,6 +6,7 @@ import { SharedService } from '../../../../../services/shared.service';
 import { Observable, Subject } from 'rxjs';
 import { CommonService } from '../../../../../services/common.service';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { EMAIL_REGEX } from '../../../../../constants/globalFunctions';
 
 @Component({
   selector: 'app-on-boarding',
@@ -39,6 +40,8 @@ export class OnBoardingComponent implements OnInit {
   public organizationForm: any;
   public contactInfoForm: any;
   public businessLocForm: any;
+  public regForm: any;
+  
   public addressAr: any;
   public addressAr2: any;
   public addressArError: boolean;
@@ -53,6 +56,16 @@ export class OnBoardingComponent implements OnInit {
   public poBoxError: boolean;
   public poBoxArError: boolean;
   public poBoxAr: any;
+  
+  public firstNameError: boolean;
+  public transfirstNameError: boolean;
+  public activeFirstName: any;
+  public activeTransFirstName: any;
+
+  public translastNameError: boolean;
+  public lastNameError: boolean;
+  public activeLastName: any;
+  public activeTransLastName: any;
   
   public arabicNumbers: any = [
     { baseNumber: '0', arabicNumber: '۰' },
@@ -93,6 +106,27 @@ export class OnBoardingComponent implements OnInit {
       poBoxNoAr: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
     });
 
+
+    this.regForm = new FormGroup({
+      firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
+      transLangfirstName: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
+      lastName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
+      transLanglastName: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
+      email: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(EMAIL_REGEX),
+        Validators.maxLength(320)
+      ]),
+      transLangEmail: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(EMAIL_REGEX),
+        Validators.maxLength(320)
+      ]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
+      transLangPhone: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(13)]),
+      jobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+      transLangjobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+    });
 
     this._sharedService.countryList.subscribe((state: any) => {
       if (state) {
@@ -251,22 +285,7 @@ export class OnBoardingComponent implements OnInit {
       this.poBoxArError = true;
     }
 
-    // if (this.informationForm.controls.licenseNo.status == "INVALID" && this.informationForm.controls.licenseNo.touched) {
-    //   this.licenseError = true;
-    //   this.translicenseError = true;
-    // }
-    // if (this.informationForm.controls.licenseNoAr.status == "INVALID" && this.informationForm.controls.licenseNoAr.touched) {
-    //   this.licenseError = true;
-    //   this.translicenseError = true;
-    // }
-    // if (this.informationForm.controls.vatNo.status == "INVALID" && this.informationForm.controls.vatNo.touched) {
-    //   this.vatError = true;
-    //   this.vatNoArError = true;
-    // }
-    // if (this.informationForm.controls.vatNoAr.status == "INVALID" && this.informationForm.controls.vatNoAr.touched) {
-    //   this.vatError = true;
-    //   this.vatNoArError = true;
-    // }
+
 
     if (this.contactInfoForm.controls.phone.status == "INVALID" && this.contactInfoForm.controls.phone.touched) {
       this.phoneError = true;
@@ -277,14 +296,6 @@ export class OnBoardingComponent implements OnInit {
       this.translangPhoneError = true;
     }
 
-    // if (this.contactInfoForm.controls.fax.status == "INVALID" && this.contactInfoForm.controls.fax.touched) {
-    //   this.faxError = true;
-    //   this.translangFaxError = true;
-    // }
-    // if (this.contactInfoForm.controls.transLangFax.status == "INVALID" && this.contactInfoForm.controls.transLangFax.touched) {
-    //   this.faxError = true;
-    //   this.translangFaxError = true;
-    // }
 
 
   }
