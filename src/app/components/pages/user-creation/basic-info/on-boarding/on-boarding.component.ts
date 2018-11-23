@@ -715,7 +715,7 @@ export class OnBoardingComponent implements OnInit {
     let valid: boolean = ValidateEmail(this.personalInfoForm.value.email);
     if (this.businessForm.invalid || this.personalInfoForm.invalid || !this.serviceIds.length) {
       loading(false);
-      (!this.serviceIds.length)? this._toastr.error('Some thing missing', 'Failed') : this._toastr.error('Please select company activities') ;
+      (!this.serviceIds.length)? this._toastr.error('Please select company activities') : this._toastr.error('Some thing missing', 'Failed');
       return;
     }
     else if (!valid) {
