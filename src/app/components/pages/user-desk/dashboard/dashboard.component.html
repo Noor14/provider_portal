@@ -2,7 +2,7 @@
   <!-- row -->
   <div class="provider-dashborad-welcome-section">
     <h3>Hey {{providerInfo.CompanyName}},
-      <span>Welcome Back</span>
+      <span>Welcome Back!</span>
     </h3>
     <p class="provider-info" *ngIf="providerInfo.LoginRank > 1">Last logged in {{providerInfo.LastLoginDate | date : "d MMM, yyyy"}} {{providerInfo.LastLoginDate | date : "H:mm"}} from {{providerInfo.LastLoginCountryName}}
     </p>
