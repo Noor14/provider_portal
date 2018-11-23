@@ -211,6 +211,38 @@
     <div class="row">
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
+          <label for="Address">P.O Box</label>
+          <input type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; poBoxArError = false"
+            [ngClass]="{
+                 'inputError': poBoxError && businessForm.controls['poBoxNo'].errors
+                }" [(ngModel)]="poBoxAr" formControlName="poBoxNo">
+          <span *ngIf="poBoxError && businessForm.controls['poBoxNo'].errors">
+            <!-- <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('required') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">{{requiredFields}}</p> -->
+            <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('pattern') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">Please enter valid information</p>
+            <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('maxlength') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">PO address should not exceed from 16 characters</p>
+            <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('minlength') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">PO address should be minimum 4 characters</p>
+          </span>
+        </div>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
+        <div class="form-group dir-otherLanguage">
+          <label for="address">صندوق بريد</label>
+          <input type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; poBoxArError = false"
+            [ngClass]="{
+                'inputError': poBoxArError && businessForm.controls['poBoxNoAr'].errors
+              }" [(ngModel)]="poBoxAr" formControlName="poBoxNoAr">
+          <span *ngIf="poBoxArError && businessForm.controls['poBoxNoAr'].errors">
+            <!-- <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('required') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">{{requiredFieldsOthrLng}}</p> -->
+            <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('pattern') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">يرجى إدخال معلومات صحيحة</p>
+            <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('maxlength') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">يجب ألا يتجاوز عنوان PO من 16 حرفًا</p>
+            <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('minlength') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">يجب أن يكون عنوان PO 4 أحرف كحد أدنى</p>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="form-group">
           <label>Telephone</label>
           <div class="select-number">
             <div class="input-group-prepend" [ngClass]="{
@@ -348,38 +380,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <div class="form-group">
-          <label for="Address">P.O Box</label>
-          <input type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; poBoxArError = false"
-            [ngClass]="{
-             'inputError': poBoxError && businessForm.controls['poBoxNo'].errors
-            }" [(ngModel)]="poBoxAr" formControlName="poBoxNo">
-          <span *ngIf="poBoxError && businessForm.controls['poBoxNo'].errors">
-            <!-- <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('required') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">{{requiredFields}}</p> -->
-            <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('pattern') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">Please enter valid information</p>
-            <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('maxlength') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">PO address should not exceed from 16 characters</p>
-            <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('minlength') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">PO address should be minimum 4 characters</p>
-          </span>
-        </div>
-      </div>
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
-        <div class="form-group dir-otherLanguage">
-          <label for="address">صندوق بريد</label>
-          <input type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; poBoxArError = false"
-            [ngClass]="{
-            'inputError': poBoxArError && businessForm.controls['poBoxNoAr'].errors
-          }" [(ngModel)]="poBoxAr" formControlName="poBoxNoAr">
-          <span *ngIf="poBoxArError && businessForm.controls['poBoxNoAr'].errors">
-            <!-- <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('required') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">{{requiredFieldsOthrLng}}</p> -->
-            <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('pattern') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">يرجى إدخال معلومات صحيحة</p>
-            <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('maxlength') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">يجب ألا يتجاوز عنوان PO من 16 حرفًا</p>
-            <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('minlength') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">يجب أن يكون عنوان PO 4 أحرف كحد أدنى</p>
-          </span>
-        </div>
-      </div>
-    </div>
+    
   </form>
   <div class="row mt-5">
     <div class="licenseNaming col-6">
@@ -503,7 +504,7 @@
           <label>Mobile Number</label>
           <div class="select-number">
             <div id="7" class="input-group-prepend" [ngClass]="{
-                             'inputError': telephoneError && personalInfoForm.controls['phone'].errors
+                             'inputError': telephoneError && personalInfoForm.controls['telephone'].errors
                                }">
               <div ngbDropdown class="select-country-list">
                 <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
