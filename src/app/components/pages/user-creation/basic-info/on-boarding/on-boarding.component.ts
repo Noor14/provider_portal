@@ -768,7 +768,12 @@ export class OnBoardingComponent implements OnInit {
     this._basicInfoService.createProviderAccount(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toastr.success(res.returnText, '');
-        this._router.navigate(['/thankYou'])
+        let obj = {
+          firstNameBL: this.personalInfoForm.value.firstName,
+          firstNameOL: (this.showTranslatedLangSide) ? this.personalInfoForm.value.transLangfirstName : null
+        }
+        localStorage.setItem('thankYouObject', JSON.stringify(obj));
+        this._router.navigate(['/thankYou']);
         loading(false);
       }
       else {

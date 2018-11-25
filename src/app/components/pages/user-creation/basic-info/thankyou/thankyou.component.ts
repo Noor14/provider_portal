@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThankyouComponent implements OnInit {
 
+  public userData
   constructor() { }
 
   ngOnInit() {
+    let info =localStorage.getItem('thankYouObject');
+    this.userData = JSON.parse(info)
   }
 
 }
