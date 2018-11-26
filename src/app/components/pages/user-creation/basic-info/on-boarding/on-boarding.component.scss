@@ -70,8 +70,9 @@ h5 {
                 }
             }
             ngb-typeahead-window {
-                .dropdown-menu {
+                &.dropdown-menu {
                     left: auto !important;
+                    top: auto !important;
                 }
             }
         }

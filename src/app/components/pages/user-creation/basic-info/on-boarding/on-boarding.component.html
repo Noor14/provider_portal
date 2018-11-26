@@ -1,12 +1,12 @@
 <section class="on-boarding col-lg-8 offset-lg-2 mt-4 mb-4">
-  <h3 class="registration-title">Request to Join our Partner Network</h3>
+  <h3 class="registration-title">Registration Details</h3>
   <p class="sub-title">It takes only a few minutes to send us your basic information.</p>
   <div class="row">
     <div class="licenseNaming col-6">
       <h5 class="m-0">Company Activities</h5>
       <small>Your company provides expertise in the following</small>
     </div>
-    <div class="licenseNaming col-6 dir-otherLanguage">
+    <div class="licenseNaming col-6 dir-otherLanguage" >
       <h5 class="m-0">نشاطات الشركة</h5>
       <small class="arabicLng">توفر شركتك الخبرة في ما يلي</small>
     </div>
@@ -21,7 +21,7 @@
     </div>
   </div>
   <form autocomplete="off" novalidate [formGroup]="organizationForm">
-   <div class="row">
+    <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
           <label>Country</label>
@@ -30,14 +30,14 @@
               <img *ngIf="selected_country && selected_country.code" src="{{'../../../../../assets/images/flags/4x3/' + (selected_country.code | lowercase) + '.svg'}}"
                 type="image/svg+xml" class="imgLeft mw-100 w-auto h-auto mh-100 flag-icon-20-12">
             </div>
-            <input [ngModelOptions]="{standalone: true}" type="text" class="inputLeft form-control" (keypress)="textValidation($event)" name="country"
-              [(ngModel)]="selected_country" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Your country"
-            />
+            <input [ngModelOptions]="{standalone: true}" type="text" class="inputLeft form-control" (keypress)="textValidation($event)"
+              name="country" [(ngModel)]="selected_country" (ngModelChange)="getjobList(selected_country, $event)" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter"
+              placeholder="Your country" />
           </div>
           <ng-template #rt let-r="result">
             <div class="d-flex">
               <div class="flag-container mr-1">
-                <img src="{{'../../../../../assets/images/flags/4x3/' + (r.code | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100 flag-icon-20-12">
+                <img src="{{'../../../../../assets/images/flags/4x3/' + (r.code | lowercase) + '.svg'}}" class="mw-100 w-auto ml-1 h-auto mh-100 flag-icon-20-12">
               </div>
               <ngb-highlight [result]="r.title"></ngb-highlight>
             </div>
@@ -48,14 +48,15 @@
         <div class="form-group dir-otherLanguage text-right">
           <label>بلد</label>
           <div class="countryBox">
-            <input [ngModelOptions]="{standalone: true}" type="text" class="inputRight form-control" (keypress)="textValidation($event)" name="countryAr"
-              [(ngModel)]="selected_country" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Your country" />
+            <input [ngModelOptions]="{standalone: true}" type="text" class="inputRight form-control" (keypress)="textValidation($event)"
+              name="countryAr" [(ngModel)]="selected_country" (ngModelChange)="getjobList(selected_country, $event)" [ngbTypeahead]="search" placement="right" [resultTemplate]="rt" [inputFormatter]="formatter"
+              placeholder="Your country" />
             <div class="flag-container">
               <img *ngIf="selected_country && selected_country.code" src="{{'../../../../../assets/images/flags/4x3/' + (selected_country.code | lowercase) + '.svg'}}"
                 type="image/svg+xml" class="imgRight mw-100 w-auto h-auto mh-100 flag-icon-20-12">
             </div>
           </div>
-
+    
         </div>
       </div>
     </div>
@@ -96,9 +97,11 @@
       </div>
     </div>
   </form>
+
+  <section class="animated fadeInUp" *ngIf="onBoardingForm">
   <h5 class="d-flex justify-content-between mt-5 pt-1">
     <span>Company Contact Details</span>
-    <span class="text-right dir-otherLanguage">شركة بيانات المتصل</span>
+<span class="text-right dir-otherLanguage" *ngIf="showTranslatedLangSide">شركة بيانات المتصل</span>
   </h5>
   <hr class="hr-solid">
   <form autocomplete="off" novalidate [formGroup]="contactInfoForm">
@@ -143,7 +146,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label>هاتف</label>
           <div class="select-number">
@@ -186,7 +189,7 @@
   </form>
   <h5 class="d-flex justify-content-between pt-2 mt-5">
     <span>Business Location</span>
-    <span class="text-right dir-otherLanguage">موقع العمل</span>
+<span class="text-right dir-otherLanguage" *ngIf="showTranslatedLangSide">موقع العمل</span>
   </h5>
   <hr class="hr-solid">
   <form autocomplete="off" novalidate [formGroup]="businessLocForm">
@@ -207,7 +210,7 @@
         </div>
 
       </div>
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="address">العنوان السطر 1</label>
           <input type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transAddress"
@@ -241,7 +244,7 @@
         </div>
 
       </div>
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="address">سطر العنوان 2 (اختياري)</label>
           <input type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transAddress2"
@@ -275,7 +278,7 @@
         </div>
 
       </div>
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="city">مدينة</label>
           <input type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transCity"
@@ -308,7 +311,7 @@
           </span>
         </div>
       </div>
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="address">صندوق بريد</label>
           <input type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; poBoxArError = false"
@@ -330,7 +333,7 @@
       <h5 class="m-0">Your Personal Information</h5>
       <small>We require your personal information to get in touch with you</small>
     </div>
-    <div class="licenseNaming col-6 dir-otherLanguage">
+    <div class="licenseNaming col-6 dir-otherLanguage" *ngIf="showTranslatedLangSide">
       <h5 class="m-0">المعلومات الشخصية الخاصة بك</h5>
       <small class="arabicLng">نطلب المعلومات الشخصية الخاصة بك للحصول على اتصال معكم</small>
     </div>
@@ -343,7 +346,7 @@
           <label for="leftFirstName">First Name</label>
           <input id="1" type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': firstNameError && personalInfoForm.controls['firstName'].errors}"
             (focusout)="errorValidate()" (blur)="activeFirstName=false" (focus)="firstNameError=false; transfirstNameError=false; activeFirstName=true"
-            (ngModelChange)="onModelChange(activeTransFirstName, activeFirstName, 'transLangfirstName', 'en', 'ar' ,$event)"
+            (ngModelChange)="onNameModelChange(activeTransFirstName, activeFirstName, 'transLangfirstName', 'en', 'ar' ,$event)"
             class="form-control" placeholder="eg: John" formControlName="firstName" name="firstName">
           <span *ngIf="firstNameError && personalInfoForm.controls['firstName'].errors">
             <p class="inputError animated fadeIn" *ngIf="personalInfoForm.controls['firstName'].hasError('required') && (personalInfoForm.controls.firstName.dirty || personalInfoForm.controls.firstName.touched)">{{requiredFields}}</p>
@@ -353,12 +356,12 @@
           </span>
         </div>
       </div>
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="rightFirstName">الاسم الاول</label>
           <input id="2" type="text" maxlength="100" class="form-control" [ngClass]="{'inputError': transfirstNameError && personalInfoForm.controls['transLangfirstName'].errors}"
             (focusout)="errorValidate()" (blur)="activeTransFirstName=false" (focus)="transfirstNameError=false; firstNameError=false;  activeTransFirstName=true"
-            (ngModelChange)="onTransModel(activeFirstName, activeTransFirstName, 'firstName' ,$event)" placeholder="المثال : جون"
+            (ngModelChange)="onTransNameModel(activeFirstName, activeTransFirstName, 'firstName' ,$event)" placeholder="المثال : جون"
             formControlName="transLangfirstName">
           <span *ngIf="transfirstNameError && personalInfoForm.controls['transLangfirstName'].errors">
             <p class="inputError animated fadeIn" *ngIf="personalInfoForm.controls['transLangfirstName'].hasError('required') && (personalInfoForm.controls.transLangfirstName.dirty || personalInfoForm.controls.transLangfirstName.touched)">{{requiredFieldsOthrLng}}</p>
@@ -375,7 +378,7 @@
           <label for="leftLastName">Last Name</label>
           <input type="text" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{'inputError': lastNameError && personalInfoForm.controls['lastName'].errors}"
             (focusout)="errorValidate()" (blur)="activeLastName=false" (focus)="lastNameError=false; translastNameError=false; activeLastName=true"
-            (ngModelChange)="onModelChange(activeTransLastName, activeLastName, 'transLanglastName', 'en', 'ar' ,$event)" class="form-control"
+            (ngModelChange)="onNameModelChange(activeTransLastName, activeLastName, 'transLanglastName', 'en', 'ar' ,$event)" class="form-control"
             placeholder="eg: Smith" formControlName="lastName">
           <span *ngIf="lastNameError && personalInfoForm.controls['lastName'].errors">
             <p class="inputError animated fadeIn" *ngIf="personalInfoForm.controls['lastName'].hasError('required') && (personalInfoForm.controls.lastName.dirty || personalInfoForm.controls.lastName.touched)">{{requiredFields}}</p>
@@ -385,12 +388,12 @@
           </span>
         </div>
       </div>
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="leftLastName">الاسم الاخير</label>
           <input type="text" maxlength="100" class="form-control" placeholder="المثال : سمىت" [ngClass]="{'inputError': translastNameError && personalInfoForm.controls['transLanglastName'].errors}"
             (focusout)="errorValidate()" (blur)="activeTransLastName=false" (focus)="lastNameError=false; translastNameError=false; activeTransLastName=true"
-            (ngModelChange)="onTransModel(activeLastName, activeTransLastName, 'lastName' ,$event)" formControlName="transLanglastName">
+            (ngModelChange)="onTransNameModel(activeLastName, activeTransLastName, 'lastName' ,$event)" formControlName="transLanglastName">
           <span *ngIf="translastNameError && personalInfoForm.controls['transLanglastName'].errors">
             <p class="inputError animated fadeIn" *ngIf="personalInfoForm.controls['transLanglastName'].hasError('required') && (personalInfoForm.controls.transLanglastName.dirty || personalInfoForm.controls.transLanglastName.touched)">{{requiredFieldsOthrLng}}</p>
             <p class="inputError animated fadeIn" *ngIf="!personalInfoForm.controls['transLanglastName'].hasError('pattern') && personalInfoForm.controls['transLanglastName'].hasError('minlength') && (personalInfoForm.controls.transLanglastName.dirty || personalInfoForm.controls.transLanglastName.touched)">يجب ألا يقل الاسم الأخير عن 2 حرف</p>
@@ -421,7 +424,7 @@
           </span>
         </div>
       </div>
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="leftJobTitle">عنوان</label>
           <input id="6" type="text" maxlength="100" class="form-control" [(ngModel)]="selectedjobTitle" placeholder="المثال : مدير"
@@ -444,7 +447,7 @@
   </form>
   <h5 class="registration-head-titles pt-1 mt-5 d-flex justify-content-between">
     <span>Personal Contact Details</span>
-    <span class="text-right dir-otherLanguage">الشخصية بيانات المتصل</span>
+    <span class="text-right dir-otherLanguage" *ngIf="showTranslatedLangSide">الشخصية بيانات المتصل</span>
   </h5>
   <hr class="hr-solid">
   <form autocomplete="off" novalidate [formGroup]="personalCntInfoForm">
@@ -489,7 +492,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label>رقم الهاتف المحمول</label>
           <div class="select-number">
@@ -546,7 +549,7 @@
           </span>
         </div>
       </div>
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
         <div class="form-group dir-otherLanguage">
           <label for="address">عنوان بريد الكتروني</label>
           <input type="email" class="form-control" placeholder="eg: john@company.com" (focusout)="errorValidate()" (focus)="transEmailError=false; EmailError=false"
@@ -567,8 +570,9 @@
     <div class="col">
       <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" type="submit">
         <span>Register</span>
-        <span class="dir-otherLanguage"> / تسجيل</span>
+        <span class="dir-otherLanguage" *ngIf="showTranslatedLangSide"> / تسجيل</span>
       </button>
     </div>
   </div>
+</section>
 </section>

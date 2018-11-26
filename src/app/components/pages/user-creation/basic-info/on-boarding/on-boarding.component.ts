@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CompanyInfoService } from '../../company-info/company-info.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
@@ -12,6 +12,7 @@ import { BasicInfoService } from '../basic-info.service';
 @Component({
   selector: 'app-on-boarding',
   templateUrl: './on-boarding.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./on-boarding.component.scss']
 })
 export class OnBoardingComponent implements OnInit {
@@ -98,6 +99,11 @@ export class OnBoardingComponent implements OnInit {
     { baseNumber: '8', arabicNumber: '۸' },
     { baseNumber: '9', arabicNumber: '۹' }
   ]
+
+
+
+  public onBoardingForm;
+  public showTranslatedLangSide;
   constructor(
     private _companyInfoService: CompanyInfoService,
     private _sharedService: SharedService,
@@ -112,7 +118,7 @@ export class OnBoardingComponent implements OnInit {
   ngOnInit() {
     this.organizationForm = new FormGroup({
       orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4)]),
-      transLangOrgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(2)]),
+      transLangOrgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4)]),
     });
     this.contactInfoForm = new FormGroup({
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
@@ -177,7 +183,19 @@ export class OnBoardingComponent implements OnInit {
     })
   }
 
-
+  getjobList(country){
+    if (country.id) {
+      this.getListJobTitle(country.id);
+      this.showTranslatedLangSide = (country.desc[0].RegionCode == 'MET') ? true : false;
+      let selectedCountry = this.countryList.find(obj => obj.title.toLowerCase() == country.title.toLowerCase());
+      // this.selectedLangIdbyCountry = selectedCountry.desc[0].LanguageID;
+      this.onBoardingForm = true;
+      this.selectPhoneCode(selectedCountry);
+    }
+    else {
+      this.onBoardingForm = false;
+    }
+  }
 
   selectPhoneCode(list) {
     this.countryFlagImage = list.code;
@@ -250,6 +268,73 @@ export class OnBoardingComponent implements OnInit {
     }
 
   }
+
+  onNameModelChange(fromActive, currentActive, $controlName, source, target, $value) {
+    // if (!this.showTranslatedLangSide) return;
+    setTimeout(() => {
+      if (currentActive && !fromActive && $value) {
+        this.Globalinputfrom = false;
+      }
+      if (fromActive == false && currentActive && this.personalInfoForm.controls[$controlName].errors || this.Globalinputto) {
+        this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
+          this.personalInfoForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+          this.Globalinputto = true;
+        })
+      }
+      else if ($value && currentActive && source && target && fromActive == undefined) {
+        this._commonService.translatedLanguage(source, target, $value).subscribe((res: any) => {
+          this.personalInfoForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+
+        })
+      }
+      // else if(currentActive && !$value){
+      //   this.fromActive(fromActive);
+      // }
+    }, 100)
+  }
+
+  onTransNameModel(fromActive, currentActive, $controlName, $value) {
+
+    // if (!this.showTranslatedLangSide) return;
+    if (currentActive && !fromActive && $value) {
+      this.Globalinputto = false;
+    }
+    if (currentActive && fromActive == false && this.personalInfoForm.controls[$controlName].errors || this.Globalinputfrom) {
+      this.debounceInput.next($value);
+      this.debounceInput.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
+        this._commonService.detectedLanguage(value).subscribe((res: any) => {
+          let sourceLang = res.data.detections[0][0].language;
+          let target = "en";
+          if (sourceLang && target && value) {
+            this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+              this.personalInfoForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+              this.Globalinputfrom = true;
+            })
+          }
+        })
+      });
+    }
+    else if (currentActive && $value && fromActive == undefined) {
+      this.debounceInput.next($value);
+      this.debounceInput.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
+        this._commonService.detectedLanguage(value).subscribe((res: any) => {
+          let sourceLang = res.data.detections[0][0].language;
+          let target = "en";
+          // if (sourceLang && target && value) {
+          //   this.onModelChange(fromActive, currentActive, $controlName, sourceLang, target, value);
+          // }
+          if (sourceLang && target && value) {
+            this._commonService.translatedLanguage(sourceLang, target, value).subscribe((res: any) => {
+              this.personalInfoForm.controls[$controlName].patchValue(res.data.translations[0].translatedText);
+            })
+          }
+        })
+      });
+    }
+   
+  }
+
+
   NumberValid(evt) {
     let charCode = (evt.which) ? evt.which : evt.keyCode
     if (charCode > 31 && (charCode < 48 || charCode > 57))
@@ -284,11 +369,11 @@ export class OnBoardingComponent implements OnInit {
     }
   }
   errorValidate() {
-    if (this.organizationForm.controls.orgName.status == "INVALID" && this.organizationForm.controls.orgName.touched) {
+    if (this.organizationForm.controls.orgName.status == "INVALID" && this.organizationForm.controls.orgName.dirty) {
       this.orgNameError = true;
       this.transorgNameError = true;
     }
-    if (this.organizationForm.controls.transLangOrgName.status == "INVALID" && this.organizationForm.controls.transLangOrgName.touched) {
+    if (this.organizationForm.controls.transLangOrgName.status == "INVALID" && this.organizationForm.controls.transLangOrgName.dirty) {
       this.transorgNameError = true;
       this.orgNameError = true;
     }
