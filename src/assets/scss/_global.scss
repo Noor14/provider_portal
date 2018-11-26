@@ -72,6 +72,7 @@ body {
     .hr-solid {
         margin-top: 0.5rem;
         position: relative;
+        width: 100%;
         &:before {
             content: " ";
             background: $hr-border-color;
@@ -831,6 +832,24 @@ select {
         img {
             width: 16px !important;
             height: 12px !important;
+        }
+    }
+}
+
+@media (max-width: $screen-md-screen) {
+    .border-md-0 {
+        border: none !important;
+        &-right {
+            border-right: 0px !important;
+        }
+        &-left {
+            border-left: 0px !important;
+        }
+        &-bottom {
+            border-bottom: 0px !important;
+        }
+        &-top {
+            border-top: 0px !important;
         }
     }
 }

@@ -3,32 +3,35 @@
   <div class="row">
     <div class="col-12">
       <div class="row">
-        <h4 class="view-booking-title col-xl-6 col-sm-12">
-          {{bookingDetails.HashMoveBookingNum}}
-        </h4>
-        <div class="col-xl-6 col-sm-12 view-booking-top-btn mt-1 text-right mb-2">
-
-          <a href="javascript:;" class="hvr-icon-forward mr-5" (click)="printDetail()">
-            <img src="../../../../../assets/images/icons/icon_print.svg" alt="icon" class="icon-size-16 mr-2">
-            <span class="link-hover-grey">Print</span>
-          </a>
-          <a href="javascript:;" class="hvr-icon-forward">
-            <img src="../../../../../assets/images/icons/icon_share_blue.svg" alt="icon" class="icon-size-16 mr-2">
-            <span class="link-hover-grey">Share</span>
-          </a>
+        <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
+            <h4 class="view-booking-title">
+                {{bookingDetails.HashMoveBookingNum}}
+              </h4>
+            <small class="view-booking-info">Booked by {{bookingDetails.UserName}} on {{bookingDetails.HashMoveBookingDate | date : "d MMM yyyy"}} at {{bookingDetails.HashMoveBookingDate
+                | date : "shortTime"}}</small>
+        </div>
+        <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+            <div class="view-booking-top-btn mt-1 text-right mb-2">
+                <a href="javascript:;" class="hvr-icon-forward mr-5" (click)="printDetail()">
+                  <img src="../../../../../assets/images/icons/icon_print.svg" alt="icon" class="icon-size-16 mr-2">
+                  <span class="link-hover-grey">Print</span>
+                </a>
+                <a href="javascript:;" class="hvr-icon-forward">
+                  <img src="../../../../../assets/images/icons/icon_share_blue.svg" alt="icon" class="icon-size-16 mr-2">
+                  <span class="link-hover-grey">Share</span>
+                </a>
+              </div>
         </div>
       </div>
-      <small class="view-booking-info">Booked by {{bookingDetails.UserName}} on {{bookingDetails.HashMoveBookingDate | date : "d MMM yyyy"}} at {{bookingDetails.HashMoveBookingDate
-        | date : "shortTime"}}</small>
+      
       <div class="col-12 pr-0 pl-0">
         <a class="hvr-icon-back grey-anc-btn mt-4" href="javascript:;" title="Back to Bookings" routerLink='/user/bookings'>
           <img src="../../../../../assets/images/icons/icon_arrow_left.svg" alt="icon" class="icon-size-14 hvr-icon">
           <span class="link-hover-grey">Back to Bookings </span>
         </a>
       </div>
+      <hr class="hr-solid mt-4">
     </div>
-
-    <hr class="col-12 hr-solid mt-4">
   </div>
   <!-- status -->
   <div class="row mt-3">
@@ -36,13 +39,13 @@
       <div class="card">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-4 border-right">
+            <div class="col-md-4 border-right border-md-0">
               <label class="status-label">Booking</label>
               <strong *ngIf="bookingDetails.BookingStatus == 'Current'">Confirmed</strong>
               <strong *ngIf="bookingDetails.BookingStatus == 'Past'">Confirmed</strong>
               <strong *ngIf="bookingDetails.BookingStatus == 'Saved'">Saved</strong>
             </div>
-            <div class="col-md-4 border-right">
+            <div class="col-md-4 border-right border-md-0">
               <label class="status-label">Shipping</label>
               <strong *ngIf="bookingDetails.BookingStatus == 'Current'">
                 In-Transit
@@ -290,12 +293,12 @@
         <div class="card-body">
           <div class="billing-box">
             <h5 class="card-title">
-              <img src="../../../../assets/images/icons/icon_container.svg" alt="umbrella-icon"> Cargo Details
+               Cargo Details
             </h5>
             <ul class="list-group list-group-flush mt-1">
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div class="category">
-                  <span class="long-text">{{bookingDetails.ShippingCatName}}</span>
+                  <img src="../../../../assets/images/icons/icon_container.svg" alt="umbrella-icon" class="icon"><span class="long-text">{{bookingDetails.ShippingCatName}}</span>
                 </div>
                 <div class="catDetail">
                   <span class="amount-text" *ngFor="let contDetail of bookingDetails.BookingContainerDetail">
