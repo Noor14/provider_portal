@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Location, PlatformLocation } from '@angular/common';
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
@@ -14,7 +14,7 @@ import { UserCreationService } from '../../../components/pages/user-creation/use
   styleUrls: ['./update-password.component.scss'],
   encapsulation: ViewEncapsulation.None,  
 })
-export class UpdatePasswordComponent implements OnInit {
+export class UpdatePasswordComponent implements OnInit, AfterViewInit {
   
   public colorEye;
   public passwordError;
@@ -47,16 +47,6 @@ export class UpdatePasswordComponent implements OnInit {
       this.passwordError = true;
     }
   }
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
   confirmPassword(event) {
     let element = event.currentTarget.nextSibling.nextElementSibling;
     if(element.type === "password" && element.value){
@@ -117,5 +107,8 @@ export class UpdatePasswordComponent implements OnInit {
     })
   }
 
+  ngAfterViewInit(){
+    setTimeout(() => this.updatePassForm.reset(), 100)
+  }
 
 }

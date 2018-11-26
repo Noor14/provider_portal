@@ -6,8 +6,8 @@ $left-nave-link: $text-color-default;
 $left-nave-badge-primary: $secondary-grey;
 $leftsidebar-h3-color: #c6c8ca;
 .user-dashboard-leftsidebar {
-    width: 100%;
     position: sticky;
+    max-height: 100%;
     top: 0;
     display: flex;
     flex-direction: row-reverse;

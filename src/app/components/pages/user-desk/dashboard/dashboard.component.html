@@ -2,7 +2,7 @@
   <!-- row -->
   <div class="provider-dashborad-welcome-section">
     <h3>Hey {{providerInfo.CompanyName}},
-      <span>Welcome Back</span>
+      <span>Welcome Back!</span>
     </h3>
     <p class="provider-info" *ngIf="providerInfo.LoginRank > 1">Last logged in {{providerInfo.LastLoginDate | date : "d MMM, yyyy"}} {{providerInfo.LastLoginDate | date : "H:mm"}} from {{providerInfo.LastLoginCountryName}}
     </p>
@@ -174,8 +174,9 @@
                       <img src="../../../../../assets/images/icons/icon_pin_sea.svg">
                       {{booking.HashMoveBookingNum}}
                     </a>
-                    <small class="d-block ml-4 pt-1 mb-1">Booked on {{booking.HashMoveBookingDate | date : "d MMM
-                      y"}} </small>
+                    <small class="d-block ml-4 pt-1 mb-1">
+                      Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}
+                     </small>
                   </div>
                   <div class="col-xl-6 ">
                     <span class="pull-right justify-content-center">
@@ -230,7 +231,6 @@
                   <div class="ports d-inline-block ">
                     <small class="d-block">CUSTOMER</small>
                     <div class="dashboard-image-box mt-1">
-
                       <img src="../../../../../assets/images/logos/logo.jpg">
                     </div>
                     <label class="ports-label mt-1">

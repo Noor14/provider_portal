@@ -76,20 +76,20 @@
 
   <!-- shipping details -->
   <div class="row view-booking-shipment-detail">
-    <h5 class="d-block col-12">Shipment Details</h5>
+    <h5 class="d-block col-12">Customer Details</h5>
     <div class="col-xl-8">
       <div class="card mb-0">
         <div class="card-body">
           <div class="card-title">
             <h5>
-              <img src="../../../../assets/images/icons/Icons_Info_grey.svg" width="20px" height="20px" title="logo"> SHIPPING INFORMATION
+              <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16" title="logo"> INFORMATION
             </h5>
           </div>
           <div class="logo">
             <img alt="icon" [src]="bookingDetails.ProviderDisplayImage">
           </div>
           <div class="company">
-            <span>Your're shipping with</span>
+            <span>Your customer is</span>
             <p>{{bookingDetails.ProviderName}}</p>
           </div>
           <button class="btn btn-outline-primary hvr-sweep-to-right pull-right view-booking-shipment-detail-btn mt-4" placement="bottom"
@@ -201,7 +201,7 @@
               <li class="list-group-item">
                 <a [href]="invoiceDoc.DocumentFileName? baseExternalAssets + invoiceDoc.DocumentFileName : 'javascript:void(0)' | safeUrl : 'url'" target="_blank"[ngClass]="{'primary-text': invoiceDoc && invoiceDoc.DocumentFileName}">
                   Invoice
-                  <label class="sub-text d-flex" *ngIf="invoiceDoc && invoiceDoc.DocumentFileName">>Uploaded on {{invoiceDoc.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDoc.DocumentUploadDate | date : "H:mm"}}</label>
+                  <label class="sub-text d-flex" *ngIf="invoiceDoc && invoiceDoc.DocumentFileName">Uploaded on {{invoiceDoc.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDoc.DocumentUploadDate | date : "H:mm"}}</label>
                 </a>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDoc && invoiceDoc.DocumentFileName" (click)="reuploadDoc(invoiceDoc.DocumentTypeID, invoiceDoc.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
