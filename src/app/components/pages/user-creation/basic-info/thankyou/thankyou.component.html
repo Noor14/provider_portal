@@ -1,0 +1,38 @@
+<section class="thankyou col-lg-8 offset-lg-2 mt-4 mb-4">
+  <div class="container">
+    <div class="row ">
+      <div class="col-12">
+        <div class="thankyou-icon">
+          <img class="rounded mx-auto d-block" src="../../../assets/images/icons/protected_pass_icon.svg">
+        </div>
+
+        <div class="row">
+          <div class="col" *ngIf="userData && userData.firstNameBL" [ngClass]="{'creatpass-eng' : userData && !userData.firstNameOL}">
+            <h2 class="thankyou-heading text-left">
+              Thank You For signing up
+            </h2>
+            <h5 class="thankyou-sub-heading text-left">
+              Dear {{userData.firstNameBL}}
+            </h5>
+            <p class="sub-title">
+              Welcome to HashMove. Our Smart Logistics Marketplace connects shippers and logistic providers to simplify the experience
+              of shipping goods. One of our team members will be getting in touch with you soon.
+            </p>
+          </div>
+          <div class="col dir-otherLanguage text-right" *ngIf="userData && userData.firstNameOL">
+            <h2 class="thankyou-heading text-right">
+              شكرا لك على التسجيل
+            </h2>
+            <h5 class="thankyou-sub-heading text-right">
+               عزيزي {{userData.firstNameOL}}
+            </h5>
+            <p class="sub-title ">
+              مرحبًا بك في HashMove. تربط سوق الخدمات اللوجستية الذكية بين الشاحنين والمزودين اللوجيستيين لتبسيط تجربة شحن البضائع. سيتواصل
+              أحد أعضاء فريقنا معك قريبًا.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

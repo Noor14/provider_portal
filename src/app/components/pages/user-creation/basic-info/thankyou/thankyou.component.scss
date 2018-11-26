@@ -1,0 +1,14 @@
+@import '../../../../../../assets/scss/_variables';
+.thankyou {
+    .thankyou-icon {
+        margin-bottom: 28px;
+        img {
+            width: 350px;
+            height: 150px;
+        }
+    }
+    &-icon {
+        display: flex;
+    }
+
+}

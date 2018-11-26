@@ -47,5 +47,10 @@ export class BasicInfoService {
     return this._http.post(baseApi + url, obj);
   }
 
+  createProviderAccount(obj) {
+    let url: string = "presales/Registration";
+    return this._http.post(baseApi + url, obj);
+  }
+
 
 }

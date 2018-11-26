@@ -493,7 +493,7 @@ input[type="radio"]:focus+label>span {
     &.dir-otherLanguage {
         direction: rtl;
         label {
-            font-family: $font-NeoSansArabic-Regular;
+            font-family: $font-NeoSansArabic-Regular !important;
             float: right;
             text-align: right;
         }
@@ -735,7 +735,7 @@ h5 {
 
 .dir-otherLanguage {
     direction: rtl;
-    font-family: $font-NeoSansArabic-Regular;
+    font-family: $font-NeoSansArabic-Regular !important;
     .sub-title,
     p {
         font-family: $font-NeoSansArabic-Regular;

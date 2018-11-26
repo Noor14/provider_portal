@@ -9,7 +9,6 @@ import { OtpconfirmationComponent } from './otpconfirmation/otpconfirmation.comp
 import { CreatePasswordComponent } from './create-password/create-password.component';
 import { BasicInfoService } from './basic-info.service';
 import { BasicInfoComponent } from './basic-info.component';
-// import { OnBoardingComponent } from './on-boarding/on-boarding.component';
 
 @NgModule({
   imports: [
@@ -28,7 +27,6 @@ import { BasicInfoComponent } from './basic-info.component';
     RegistrationComponent,
     OtpconfirmationComponent,
     CreatePasswordComponent,
-    // OnBoardingComponent
   ],
   providers: [
     BasicInfoService
