@@ -1,5 +1,4 @@
-
-<svg class="icon" xmlns="http://www.w3.org/2000/svg" id="e44d6743-0a22-494c-8fef-fdb82a3ce8d4" data-name="Layer 1"
+              <svg class="icon" xmlns="http://www.w3.org/2000/svg" id="e44d6743-0a22-494c-8fef-fdb82a3ce8d4" data-name="Layer 1"
                 viewBox="0 0 24 24">
                 <defs>
                   <style>
@@ -9,6 +8,9 @@
 
                     .e8197418-ac9c-4514-94d4-b7c285ea457b {
                       fill: #fff;
+                    }
+                    path, .beacf530-5e58-46ba-b8e5-c396dcf6e995{
+                      fill: #00a2df;
                     }
 
                   </style>

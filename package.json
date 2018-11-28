@@ -6,6 +6,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
+    "prod": "ng build --prod --env=prod --aot=true --build-optimizer",
+    "dev": "ng build --prod --env=dev --aot=true --build-optimizer",
+    "qa": "ng build --prod --env=qa --aot=true --build-optimizer",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

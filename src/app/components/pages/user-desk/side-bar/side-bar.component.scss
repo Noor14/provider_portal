@@ -1,8 +1,6 @@
 @import '../../../../../assets/scss/_variables'; // Local Variables
-$left-nav-icon-color-2: #76858d;
 $left-nav-icon-width: 20px;
 $left-nav-icon-height:20px;
-$left-nave-link: $text-color-default;
 $left-nave-badge-primary: $secondary-grey;
 $leftsidebar-h3-color: #c6c8ca;
 .user-dashboard-leftsidebar {
@@ -11,95 +9,36 @@ $leftsidebar-h3-color: #c6c8ca;
     top: 0;
     display: flex;
     flex-direction: row-reverse;
-    .nav-left {
-        .leftsidebar-help {
-            .leftsidebar-column {
-                li {
-                    .nav-link {
-                        .icon {
-                            fill: $left-nav-icon-color-2 !important;
-                        }
-                        &.active {
-                            .menu-text {
-                                color: $primary-color;
-                            }
-                        }
-                    }
-                }
-            }
+    .navbar-nav {
+        h3 {
+            font-size: $font-size-base;
+            font-weight: $font-weight-mid;
+            color: $leftsidebar-h3-color;
+            text-transform: uppercase;
+            margin: 0px;
         }
-        .leftsidebar-main,
-        .leftsidebar-help {
-            margin: 20px 0;
-            h3 {
-                font-size: $font-size-base;
-                font-weight: $font-weight-mid;
-                color: $leftsidebar-h3-color;
-                text-transform: uppercase;
-                margin: 0px 0px -1px;
-            }
-            .leftsidebar-column {
-                margin-left: 8px;
-                li {
-                    padding: 10px 0 0;
-                    .nav-link {
-                        color: $left-nave-link;
-                        display: flex;
-                        align-items: center;
-                        &.active {
+        ul {
+            margin-left: 8px;
+            li {
+                padding: 10px 0 0;
+                .nav-link {
+                    color: $text-color-default;
+                    font-size: $font-size-large;
+                    font-weight: $font-weight-mid;
+                    font-family: $font-proxima;
+                    img {
+                        width: $left-nav-icon-width;
+                        height: $left-nav-icon-height;
+                        margin-right: 10px;
+                        vertical-align: sub;
+                    }
+                    &.active {
+                        .menu-text {
                             color: $primary-color;
                         }
-                        .icon {
-                            fill: $primary-color;
-                            width: $left-nav-icon-width;
-                            height: $left-nav-icon-height;
-                            margin-right: 14px;
-                        }
-                        .menu-text {
-                            vertical-align: super;
-                            font-size: $font-size-large;
-                            font-weight: $font-weight-mid;
-                            margin-top: 5px;
-                            font-family: $font-proxima;
-                            line-height: 0.8;
-                            &:hover,
-                            &.active {
-                                color: $primary-color;
-                            }
-                        }
-                        .badge-primary {
-                            background-color: $left-nave-badge-primary; // min-width: 20px;
-                            // min-height: 20px;
-                            border-radius: 1rem;
-                            font-size: $font-size-medium;
-                            font-family: $font-proxima;
-                            font-weight: $font-weight-mid;
-                            padding: .25em .5em;
-                            float: right;
-                            margin-top: 1px;
-                            margin-right: 10px; //padding-top: 4px;
-                        }
                     }
                 }
             }
         }
-    }
-}
-
-.isBlur {
-    .grey-placeholder {
-        display: none;
-    }
-    .timeline-wrapper {
-        display: block;
-    }
-}
-
-.isNotBlur {
-    .timeline-wrapper {
-        display: none;
-    }
-    .grey-placeholder {
-        display: inherit;
     }
 }
