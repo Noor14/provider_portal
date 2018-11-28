@@ -33,8 +33,10 @@ export class ViewBookingComponent implements OnInit {
   public baseExternalAssets: string = baseExternalAssets;
   public certOrigin;
   public ladingBill;
-  public invoiceDoc;
-  public packingListDoc;
+  public invoiceDocOrigin;
+  public invoiceDocDestination;
+  public packingListDocOrigin;
+  public packingListDocDestination;
   private userProfile;
   private bookingId;
   public mapOrgiToDest: any = [];
@@ -140,10 +142,20 @@ export class ViewBookingComponent implements OnInit {
         this.ladingBill = obj;
       }
       else if (obj.DocumentNature == "INVOICE") {
-        this.invoiceDoc = obj;
+        if (obj.DocumentSubProcess == "ORIGIN"){
+        this.invoiceDocOrigin = obj;
+        }
+        else{
+          this.invoiceDocDestination= obj;
+        }
       }
       else if (obj.DocumentNature == "PACKING_LIST") {
-        this.packingListDoc = obj;
+        if (obj.DocumentSubProcess == "ORIGIN") {
+          this.packingListDocOrigin = obj;
+        }
+        else {
+          this.packingListDocDestination = obj;
+        }
       }
     })
   }

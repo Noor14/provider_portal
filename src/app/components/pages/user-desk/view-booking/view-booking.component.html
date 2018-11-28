@@ -196,21 +196,21 @@
                   Certificate of Origin
                   <label class="sub-text d-flex" *ngIf="certOrigin && certOrigin.DocumentFileName">Uploaded on {{certOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{certOrigin.DocumentUploadDate | date : "H:mm"}}</label>
                 </a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="certOrigin && certOrigin.DocumentFileName" (click)="reuploadDoc(certOrigin.DocumentTypeID, certOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable" (click)="reuploadDoc(certOrigin.DocumentTypeID, certOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
-                <a [href]="invoiceDoc.DocumentFileName? baseExternalAssets + invoiceDoc.DocumentFileName : 'javascript:void(0)' | safeUrl : 'url'" target="_blank"[ngClass]="{'primary-text': invoiceDoc && invoiceDoc.DocumentFileName}">
+                <a [href]="invoiceDocOrigin.DocumentFileName? baseExternalAssets + invoiceDocOrigin.DocumentFileName : 'javascript:void(0)' | safeUrl : 'url'" target="_blank"[ngClass]="{'primary-text': invoiceDocOrigin && invoiceDocOrigin.DocumentFileName}">
                   Invoice
-                  <label class="sub-text d-flex" *ngIf="invoiceDoc && invoiceDoc.DocumentFileName">Uploaded on {{invoiceDoc.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDoc.DocumentUploadDate | date : "H:mm"}}</label>
+                  <label class="sub-text d-flex" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName">Uploaded on {{invoiceDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDocOrigin.DocumentUploadDate | date : "H:mm"}}</label>
                 </a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDoc && invoiceDoc.DocumentFileName" (click)="reuploadDoc(invoiceDoc.DocumentTypeID, invoiceDoc.DocumentID)">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable" (click)="reuploadDoc(invoiceDocOrigin.DocumentTypeID, invoiceDocOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
-                <a [href]="packingListDoc.DocumentFileName? baseExternalAssets + packingListDoc.DocumentFileName : 'javascript:void(0)' | safeUrl : 'url'" target="_blank"[ngClass]="{'primary-text': packingListDoc && packingListDoc.DocumentFileName}">
+                <a [href]="packingListDocOrigin.DocumentFileName? baseExternalAssets + packingListDocOrigin.DocumentFileName : 'javascript:void(0)' | safeUrl : 'url'" target="_blank"[ngClass]="{'primary-text': packingListDocOrigin && packingListDocOrigin.DocumentFileName}">
                   Packing List
-                  <label class="sub-text d-flex" *ngIf="packingListDoc && packingListDoc.DocumentFileName">Uploaded on {{packingListDoc.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDoc.DocumentUploadDate | date : "H:mm"}}</label>
+                  <label class="sub-text d-flex" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName">Uploaded on {{packingListDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDocOrigin.DocumentUploadDate | date : "H:mm"}}</label>
                 </a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDoc && packingListDoc.DocumentFileName" (click)="reuploadDoc(packingListDoc.DocumentTypeID, packingListDoc.DocumentID)">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable" (click)="reuploadDoc(packingListDocOrigin.DocumentTypeID, packingListDocOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
             </ul>
             <label class="view-booking-document-title">
@@ -219,25 +219,25 @@
             </label>
             <ul class="list-group list-group-flush mb-3">
               <li class="list-group-item">
-                <a [href]="invoiceDoc.DocumentFileName? baseExternalAssets + invoiceDoc.DocumentFileName : 'javascript:void(0)' | safeUrl : 'url'"  target="_blank" [ngClass]="{'primary-text': invoiceDoc && invoiceDoc.DocumentFileName}">
+                <a [href]="invoiceDocDestination.DocumentFileName? baseExternalAssets + invoiceDocDestination.DocumentFileName : 'javascript:void(0)' | safeUrl : 'url'"  target="_blank" [ngClass]="{'primary-text': invoiceDocDestination && invoiceDocDestination.DocumentFileName}">
                   Invoice
-                  <label class="sub-text d-flex" *ngIf="invoiceDoc && invoiceDoc.DocumentFileName">Uploaded on {{invoiceDoc.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDoc.DocumentUploadDate | date : "H:mm"}}</label>
+                  <label class="sub-text d-flex" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName">Uploaded on {{invoiceDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDocDestination.DocumentUploadDate | date : "H:mm"}}</label>
                 </a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDoc && invoiceDoc.DocumentFileName" (click)="reuploadDoc(invoiceDoc.DocumentTypeID, invoiceDoc.DocumentID)">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable" (click)="reuploadDoc(invoiceDocDestination.DocumentTypeID, invoiceDocDestination.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
-                <a [href]="packingListDoc.DocumentFileName? baseExternalAssets + packingListDoc.DocumentFileName : 'javascript:void(0)' | safeUrl : 'url'" target="_blank" [ngClass]="{'primary-text': packingListDoc && packingListDoc.DocumentFileName}">
+                <a [href]="packingListDocDestination.DocumentFileName? baseExternalAssets + packingListDocDestination.DocumentFileName : 'javascript:void(0)' | safeUrl : 'url'" target="_blank" [ngClass]="{'primary-text': packingListDocDestination && packingListDocDestination.DocumentFileName}">
                   Packing List
-                  <label class="sub-text d-flex" *ngIf="packingListDoc && packingListDoc.DocumentFileName">Uploaded on {{packingListDoc.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDoc.DocumentUploadDate | date : "H:mm"}}</label>
+                  <label class="sub-text d-flex" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName">Uploaded on {{packingListDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDocDestination.DocumentUploadDate | date : "H:mm"}}</label>
                 </a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDoc && packingListDoc.DocumentFileName" (click)="reuploadDoc(packingListDoc.DocumentTypeID, packingListDoc.DocumentID)">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable" (click)="reuploadDoc(packingListDocDestination.DocumentTypeID, packingListDocDestination.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
                 <a [href]="ladingBill.DocumentFileName? baseExternalAssets + ladingBill.DocumentFileName : 'javascript:void(0)' | safeUrl : 'url'" target="_blank" [ngClass]="{'primary-text': ladingBill && ladingBill.DocumentFileName}">
                   Bill of Lading
                   <label class="sub-text d-flex" *ngIf="ladingBill && ladingBill.DocumentFileName">Uploaded on {{ladingBill.DocumentUploadDate | date : "d MMM, yyyy"}} {{ladingBill.DocumentUploadDate | date : "H:mm"}}</label>
                 </a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="ladingBill && ladingBill.DocumentFileName" (click)="reuploadDoc(ladingBill.DocumentTypeID, ladingBill.DocumentID)">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable" (click)="reuploadDoc(ladingBill.DocumentTypeID, ladingBill.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
             </ul>
           </div>
