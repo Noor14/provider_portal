@@ -37,6 +37,9 @@ $leftsidebar-h3-color: #c6c8ca;
                             color: $primary-color;
                         }
                     }
+                    &:hover{
+                    color:  $primary-color;
+                    }
                 }
             }
         }
