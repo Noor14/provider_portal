@@ -6,6 +6,9 @@
         font-weight: $font-weight-mid;
         color: $text-color-default;
         margin-bottom: 0px;
+        @media (max-width: $screen-xs-five-hundred) {
+            font-size: 1.5rem;
+        }
     }
     &-info {
         font-size: $font-size-base;
@@ -32,6 +35,12 @@
             border-radius: 2px;
             &-body {
                 padding: 1.56rem 1.55rem;
+                .billing-rate {
+                    @media (max-width: $screen-md-screen) {
+                        display: flex;
+                        flex-direction: column;
+                    }
+                }
             }
         }
         &-label {
