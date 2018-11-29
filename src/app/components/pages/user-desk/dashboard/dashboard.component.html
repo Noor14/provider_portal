@@ -1,11 +1,12 @@
-<div class="provider-dashboard bookings" *ngIf="providerInfo">
+<section class="provider-dashboard bookings" *ngIf="providerInfo">
   <!-- row -->
-  <div class="provider-dashborad-welcome-section">
-    <h3>Hey {{providerInfo.CompanyName}},
-      <span>Welcome Back!</span>
-    </h3>
-    <p class="provider-info" *ngIf="providerInfo.LoginRank > 1">Last logged in {{providerInfo.LastLoginDate | date : "d MMM, yyyy"}} {{providerInfo.LastLoginDate | date : "H:mm"}} from {{providerInfo.LastLoginCountryName}}
-    </p>
+  <div class="provider-dashborad-welcome-section row">
+    <div class="col-12">
+        <h3>Hey {{providerInfo.CompanyName}},
+           <span>Welcome Back!</span>
+        </h3>
+          <p class="provider-info" *ngIf="providerInfo.LoginRank > 1">Last logged in {{providerInfo.LastLoginDate | date : "d MMM, yyyy"}} {{providerInfo.LastLoginDate | date : "H:mm"}} from {{providerInfo.LastLoginCountryName}}</p>
+    </div>
   </div>
   <!--/ row -->
 
@@ -261,4 +262,4 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
