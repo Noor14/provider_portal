@@ -14,10 +14,8 @@ import { ConfirmLogoutDialogComponent } from '../../shared/dialogues/confirm-log
 import { UserCreationService } from './user-creation/user-creation.service';
 import { BookingInvoiceComponent } from './user-desk/booking-invoice/booking-invoice.component';
 import { ReUploadDocComponent } from '../../shared/dialogues/re-upload-doc/re-upload-doc.component';
-import { OnBoardingComponent } from './user-creation/basic-info/on-boarding/on-boarding.component';
 import { BasicInfoService } from './user-creation/basic-info/basic-info.service';
 import { CompanyInfoService } from './user-creation/company-info/company-info.service';
-import { ThankyouComponent } from './user-creation/basic-info/thankyou/thankyou.component';
  
 @NgModule({
   imports: [
@@ -38,8 +36,6 @@ import { ThankyouComponent } from './user-creation/basic-info/thankyou/thankyou.
     ConfirmLogoutDialogComponent,
     BookingInvoiceComponent,
     ReUploadDocComponent,
-    OnBoardingComponent,
-    ThankyouComponent
     // CancelBookingDialogComponent,
     // ConfirmModifySearchComponent,
     // ShareshippingComponent,

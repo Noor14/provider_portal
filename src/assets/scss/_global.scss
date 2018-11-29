@@ -439,7 +439,7 @@ input[type="radio"]:focus+label>span {
         &::-ms-reveal {
             display: none;
         }
-        &.create-pass {
+        &[type= "password"] {
             padding-right: 40px;
         }
     }

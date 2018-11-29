@@ -160,7 +160,7 @@
     </div>
   </div>
 <div class="row overflow-hidden" *ngIf="providerInfo.BookingDetails">
-    <div class="col-12 pr-0 pt-2" *ngFor="let booking of bookings | BookingMode : selectedBookingMode let i = index"
+    <div class="col-12 pr-0 pt-2" *ngFor="let booking of bookings | BookingMode : selectedBookingMode"
       (click)="viewBookingDetails(booking.BookingID)">
       <div class="card animated bounceInDown pointer">
         <div class="card-body pt-2">
@@ -174,8 +174,9 @@
                       <img src="../../../../../assets/images/icons/icon_pin_sea.svg">
                       {{booking.HashMoveBookingNum}}
                     </a>
-                    <small class="d-block ml-4 pt-1 mb-1">Booked on {{booking.HashMoveBookingDate | date : "d MMM
-                      y"}} </small>
+                    <small class="d-block ml-4 pt-1 mb-1">
+                      Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}
+                     </small>
                   </div>
                   <div class="col-xl-6 ">
                     <span class="pull-right justify-content-center">
@@ -230,7 +231,6 @@
                   <div class="ports d-inline-block ">
                     <small class="d-block">CUSTOMER</small>
                     <div class="dashboard-image-box mt-1">
-
                       <img src="../../../../../assets/images/logos/logo.jpg">
                     </div>
                     <label class="ports-label mt-1">

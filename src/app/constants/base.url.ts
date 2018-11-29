@@ -11,7 +11,6 @@ if (environment.qa) {
 else if (environment.prod) {
     // QA URL
     baseApi = "http://partner.hashmove.com:81/api/";
-    // baseApi = "http://210.2.139.184:81/api/";
     baseExternalAssets = "http://partner.hashmove.com:81";
     
 

@@ -150,15 +150,14 @@ $not-account: #3f5165;
               color: #afafaf;
             }
           }
-          input {
-            height: 50px;
-            border: 1px solid $input-border;
-            color: $text-color-default;
-            font-size: $font-size-medium;
-            padding-left: 15px;
-            font-weight: 100;
-            padding-right:35px;
-          }
+          // input {
+          //   border: 1px solid $input-border;
+          //   color: $text-color-default;
+          //   font-size: $font-size-medium;
+          //   padding-left: 15px;
+          //   font-weight: 100;
+          //   padding-right:35px;
+          // }
           input:focus {
             border-color: $primary-color;
             transition: ease-in .8s;

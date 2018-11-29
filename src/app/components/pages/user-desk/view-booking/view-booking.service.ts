@@ -15,7 +15,7 @@ export class ViewBookingService {
     return this._http.get(baseApi + url);
   }
   uploadDocReason(obj){
-    let url = "Document/AddReuploadReason";
+    let url = "Document/AddReason";
     return this._http.post(baseApi + url ,obj);
   }
 }
