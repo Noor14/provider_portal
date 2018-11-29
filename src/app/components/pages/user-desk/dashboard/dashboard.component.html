@@ -37,7 +37,7 @@
 
               </div>
             </div>
-           
+
           </div>
         </div>
       </div>
@@ -140,8 +140,8 @@
           <div class="pointer dropdown-toggle" id="bookingMode" ngbDropdownToggle>
             <span>{{selectedBookingMode}}</span>
           </div>
-          <div aria-labelledby="bookingMode" class="sortFilter animated fadeIn dropdown-menu" ngbDropdownMenu
-            x-placement="bottom-left" style="top: 24px; left: 0px;">
+          <div aria-labelledby="bookingMode" class="sortFilter animated fadeIn dropdown-menu" ngbDropdownMenu x-placement="bottom-left"
+            style="top: 24px; left: 0px;">
 
             <ul class="list-group" style="position: relative; max-width: 160px; max-height: 180px;">
               <li class="list-group-item pointer" (click)="selectedBookingMode = 'CURRENT BOOKINGS'">
@@ -150,7 +150,7 @@
               <li class="list-group-item pointer" (click)="selectedBookingMode = 'PAST BOOKINGS'">
                 <span>PAST BOOKINGS</span>
               </li>
-                <!-- <li class="list-group-item pointer" (click)="selectedBookingMode = 'ALL BOOKINGS'">
+              <!-- <li class="list-group-item pointer" (click)="selectedBookingMode = 'ALL BOOKINGS'">
                   <span>ALL BOOKINGS</span>
                 </li> -->
             </ul>
@@ -160,9 +160,8 @@
       </div>
     </div>
   </div>
-<div class="row overflow-hidden" *ngIf="providerInfo.BookingDetails">
-    <div class="col-12 pr-0 pt-2" *ngFor="let booking of bookings | BookingMode : selectedBookingMode"
-      (click)="viewBookingDetails(booking.BookingID)">
+  <div class="row overflow-hidden" *ngIf="providerInfo.BookingDetails">
+    <div class="col-12 pr-0 pt-2" *ngFor="let booking of bookings | BookingMode : selectedBookingMode" (click)="viewBookingDetails(booking.BookingID)">
       <div class="card animated bounceInDown pointer">
         <div class="card-body pt-2">
           <!-- booking top row -->
@@ -172,17 +171,16 @@
                 <div class="bookings-route-number d-flex no-gutters">
                   <div class="col-xl-6 ">
                     <a href="javascript:;">
-                      <img src="../../../../../assets/images/icons/icon_pin_sea.svg">
-                      {{booking.HashMoveBookingNum}}
+                      <img src="../../../../../assets/images/icons/icon_pin_sea.svg"> {{booking.HashMoveBookingNum}}
                     </a>
                     <small class="d-block ml-4 pt-1 mb-1">
                       Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}
-                     </small>
+                    </small>
                   </div>
                   <div class="col-xl-6 ">
                     <span class="pull-right justify-content-center">
-                      <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
-                      {{booking.CarrierName}}</span>
+                      <img [src]="baseExternalAssets +'/'+ booking.CarrierImage"> {{booking.CarrierName}}
+                    </span>
                   </div>
                 </div>
                 <hr class="hr-solid mt-0">
@@ -201,8 +199,7 @@
                     <label class="ports-label mt-1">{{booking.PolCode}}</label>
                     <span class="d-block mb-3">Port of {{booking.PolCountry}}</span>
                     <span>
-                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg">
-                      {{booking.EtdLcl | date : "d MMM, yyyy"}} {{booking.EtdLcl | date : "H:mm"}}
+                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg"> {{booking.EtdLcl | date : "d MMM, yyyy"}} {{booking.EtdLcl | date : "H:mm"}}
                     </span>
                   </div>
                 </div>
@@ -217,8 +214,7 @@
                     <span class="d-block mb-3">Port of {{booking.PodCountry}}</span>
                     <div class="ports-calendar">
                       <span>
-                        <img src="../../../../../assets/images/icons/Icons_Calendar.svg">
-                        {{booking.EtaLcl | date : "d MMM, yyyy"}} {{booking.EtaLcl | date : "H:mm"}}
+                        <img src="../../../../../assets/images/icons/Icons_Calendar.svg"> {{booking.EtaLcl | date : "d MMM, yyyy"}} {{booking.EtaLcl | date : "H:mm"}}
                       </span>
                     </div>
                   </div>
@@ -262,4 +258,18 @@
         </div>
       </div>
     </div>
-  </section>
+  </div>
+  <div class="row">
+  <div class="col-12">
+    <div class="card">
+      <p class="text-center">
+        You don't have any bookings yet.
+      </p>
+    </div>
+  </div>
+  </div>
+  <a class="hvr-icon-forward grey-anc-btn mt-3 pull-right pointer">
+    <span class="link-hover-grey">View All Bookings</span>
+    <img alt="icon" class="icon-size-14 hvr-icon" src="../../../../../assets/images/icons/icon_arrow_right.svg">
+  </a>
+</div>
