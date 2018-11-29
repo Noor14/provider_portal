@@ -116,7 +116,7 @@
           <div class="row mt-1">
             <div class="col-xl-12 col-sm-12 details">
               <div class="row">
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-6 mb-4">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-6 mb-4 d-flex">
                   <img src="../../../../assets/images/icons/icon_anchor.svg" alt="icon" class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">port cut off
@@ -124,7 +124,7 @@
                     <p>{{bookingDetails.PortCutOffLcl | date : "d MMM, yyyy"}}</p>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-6 mb-4">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-6 mb-4 d-flex">
                   <img src="../../../../../assets/images/icons/Icons_Clock-28.svg" alt="icon" class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Departure
@@ -132,7 +132,7 @@
                     <p>{{bookingDetails.EtdLcl | date : "d MMM, yyyy"}}</p>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-6 mb-4">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-6 mb-4 d-flex">
                   <img src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon" class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Transit Time
@@ -140,7 +140,7 @@
                     <p>+/- {{bookingDetails.TransitTime}} Days</p>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-6 mb-4">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-6 mb-4 d-flex">
                   <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Voyage #
@@ -148,14 +148,14 @@
                     <p>{{bookingDetails.VoyageRefNum}}</p>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-6 mb-4">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-6 mb-4 d-flex">
                   <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Vessel Name</h5>
                     <p>{{bookingDetails.VesselName}}</p>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-6 mb-4">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-6 mb-4 d-flex">
                   <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Vessel #
@@ -249,10 +249,10 @@
       <!-- Help & Support -->
       <div class="card mb-4">
         <div class="map">
-          <agm-map #agmMap [zoom]="zoomlevel" [mapDraggable]="false" [zoomControl]="false" [streetViewControl]="false">
+          <agm-map (mapReady)="mapInit($event)" [zoom]="zoomlevel" [mapDraggable]="false" [zoomControl]="false" [streetViewControl]="false">
             <agm-marker [iconUrl]="icon" *ngFor="let marker of mapOrgiToDest" [latitude]="marker.lat" [longitude]="marker.lng">
             </agm-marker>
-            <agm-polyline [strokeWeight]="3" [strokeColor]="'#2196f3'">
+            <agm-polyline  [strokeWeight]="3" [strokeColor]="'#2196f3'">
               <agm-polyline-point *ngFor="let marker of mapOrgiToDest" [latitude]="marker.lat" [longitude]="marker.lng">
               </agm-polyline-point>
             </agm-polyline>
