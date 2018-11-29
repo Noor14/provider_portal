@@ -252,7 +252,7 @@
           <agm-map (mapReady)="mapInit($event)" [zoom]="zoomlevel" [mapDraggable]="false" [zoomControl]="false" [streetViewControl]="false">
             <agm-marker [iconUrl]="icon" *ngFor="let marker of mapOrgiToDest" [latitude]="marker.lat" [longitude]="marker.lng">
             </agm-marker>
-            <agm-polyline  [strokeWeight]="3" [strokeColor]="'#2196f3'">
+            <agm-polyline  [strokeWeight]="2" [strokeColor]="'#2196f3'">
               <agm-polyline-point *ngFor="let marker of mapOrgiToDest" [latitude]="marker.lat" [longitude]="marker.lng">
               </agm-polyline-point>
             </agm-polyline>
