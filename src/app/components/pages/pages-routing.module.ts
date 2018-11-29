@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PagesComponent } from './pages.component';
-import { OnBoardingComponent } from './user-creation/basic-info/on-boarding/on-boarding.component';
-import { ThankyouComponent } from './user-creation/basic-info/thankyou/thankyou.component';
+
 
 const routes: Routes = [
   {
