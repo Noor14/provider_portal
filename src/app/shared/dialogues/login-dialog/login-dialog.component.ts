@@ -3,7 +3,7 @@ import { PlatformLocation } from '@angular/common';
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { FormGroup, FormControl, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
-import { ToastrService, Overlay } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { JsonResponse } from '../../../interfaces/JsonResponse'
 // import { EMAIL_REGEX, ValidateEmail, HashStorage, Tea, CurrencyControl, getDefaultCountryCode } from '../../../constants/globalfunctions';
 import { EMAIL_REGEX, ValidateEmail, patternValidator } from '../../../constants/globalFunctions';
