@@ -1,7 +1,6 @@
 @import "../../../../../assets/scss/_variables";
 .provider-dashboard {
     .summary-section {
-        margin-bottom: 20px;
         .booking-summery {
             background: #fff;
             border-right: 0px solid #eaeaea;
@@ -41,6 +40,12 @@
                     font-weight: $font-weight-mid;
                     margin-left: 0.625rem;
                     line-height: 1;
+                    word-break: break-all;
+                }
+            }
+            @media (max-width: $screen-sm-screen) {
+                &:after {
+                    display: none;
                 }
             }
             &:after {
@@ -71,34 +76,40 @@
     }
 }
 
+.right-arrow {
+    &:before {
+        content: "";
+        height: 70px;
+        width: 1px;
+        background: #6c757d2b;
+        position: absolute;
+        transform: rotate(35deg);
+        top: 63px;
+        right: 7px;
+    }
+    &:after {
+        content: "";
+        height: 70px;
+        width: 1px;
+        background: #6c757d2b;
+        position: absolute;
+        transform: rotate(-35deg);
+        top: 5px;
+        right: 7px;
+    }
+    @media (max-width: $screen-xs-screen) {
+        &:after, &:before {
+            display: none;
+        }
+    }
+}
+
 .bookings {
     &-route {
         float: left;
         width: 100%;
         border-right: 1px solid #6c757d2b;
         position: relative;
-        &.right-arrow {
-            &:before {
-                content: "";
-                height: 70px;
-                width: 1px;
-                background: #6c757d2b;
-                position: absolute;
-                transform: rotate(35deg);
-                top: 63px;
-                right: 25px;
-            }
-            &:after {
-                content: "";
-                height: 70px;
-                width: 1px;
-                background: #6c757d2b;
-                position: absolute;
-                transform: rotate(-35deg);
-                top: 5px;
-                right: 25px;
-            }
-        }
         &-number {
             line-height: 1.1;
             a {
@@ -109,29 +120,53 @@
                 img {
                     width: 33px;
                     height: 33px;
-                    float: left;
-                    margin-right: 0.96rem;
+                    position: absolute;
+                    @media (max-width: $screen-xs-screen) {
+                        position: relative;
+                    }
+                }
+                .bookings-route-number-text {
+                    padding-left: 3rem;
+                    @media (max-width: $screen-xs-screen) {
+                        padding-left: 0px;
+                        padding-top: 10px;
+                    }
+                    small {
+                        font-family: $font-proxima;
+                        font-size: $font-size-base;
+                        color: $text-grey;
+                        font-weight: $font-weight-normal;
+                    }
                 }
             }
-            span {
+            .bookings-route-company {
                 font-size: $font-size-large;
                 font-family: $font-proxima;
                 color: $color-menuheading-black;
                 line-height: 1;
                 text-align: left;
+                &-name {
+                    padding-left: 39px;
+                    margin-top: 5px;
+                    @media (max-width: $screen-xs-screen) {
+                        padding-left: 0px;
+                        margin-top: 10px;
+                    }
+
+                }
                 img {
                     width: 28px;
                     height: 28px;
-                    margin-right: 0.55rem;
+                    position: absolute;
+                    @media (max-width: $screen-xs-screen) {
+                        position: relative;
+                        width: 33px;
+                        height: 33px;
+                    }
                 }
             }
         }
-        small {
-            font-family: $font-proxima;
-            font-size: $font-size-base;
-            color: $text-grey;
-            font-weight: $font-weight-normal;
-        }
+        
         .ports {
             font-family: $font-proxima;
             font-size: $font-size-base;
@@ -189,6 +224,13 @@
                     height: 16px;
                     margin-bottom: 0.5rem
                 }
+            }
+        }
+        @media (max-width: $screen-lg-screen) {
+            margin-bottom: 40px;
+
+            &:last-child, &:last-child(2) {
+                margin-bottom: 0px;
             }
         }
     }

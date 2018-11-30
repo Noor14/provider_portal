@@ -795,6 +795,17 @@ select {
     }
 }
 
+.no-record {
+    color: #ccc;
+    border: 1px dashed #ccc;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {margin-bottom: 20px;}
+}
+
 .creatpass-eng {
     text-align: center;
     h3,
@@ -836,8 +847,42 @@ select {
     }
 }
 
-@media (max-width: $screen-md-screen) {
+@media (max-width: $screen-sm-screen) {
     .border-md-0 {
+        border: none !important;
+        &-right {
+            border-right: 0px !important;
+        }
+        &-left {
+            border-left: 0px !important;
+        }
+        &-bottom {
+            border-bottom: 0px !important;
+        }
+        &-top {
+            border-top: 0px !important;
+        }
+    }
+}
+@media (max-width: $screen-lg-screen) {
+    .border-lg-0 {
+        border: none !important;
+        &-right {
+            border-right: 0px !important;
+        }
+        &-left {
+            border-left: 0px !important;
+        }
+        &-bottom {
+            border-bottom: 0px !important;
+        }
+        &-top {
+            border-top: 0px !important;
+        }
+    }
+}
+@media (max-width: $screen-xs-screen) {
+    .border-xs-0 {
         border: none !important;
         &-right {
             border-right: 0px !important;

@@ -128,12 +128,12 @@
 		}
 	}
 	.action-btns {
-		@media (max-width: $screen-lg-screen) {
+		@media (max-width: $screen-md-screen) {
             .back {
 				margin-bottom: 30px;
 			}
 		}
-		@media (max-width: $screen-xs-five-hundred) {
+		@media (max-width: $screen-xs-screen) {
             .skip {
 				margin-bottom: 20px;
 			}

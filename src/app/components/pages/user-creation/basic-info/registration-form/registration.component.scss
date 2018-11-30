@@ -166,7 +166,7 @@
     -ms-animation: 2s linear infinite blink;
 }
 
-@media (max-width: $screen-xs-five-hundred) {
+@media (max-width: $screen-xs-screen) {
     section.registration {
         .registration-map-section {
             input#typeahead {

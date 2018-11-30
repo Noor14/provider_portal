@@ -6,7 +6,7 @@
         font-weight: $font-weight-mid;
         color: $text-color-default;
         margin-bottom: 0px;
-        @media (max-width: $screen-xs-five-hundred) {
+        @media (max-width: $screen-xs-screen) {
             font-size: 1.5rem;
         }
     }
@@ -17,7 +17,7 @@
         text-transform: uppercase;
     }
     &-top-btn {
-        @media (max-width: $screen-lg-screen) {
+        @media (max-width: $screen-md-screen) {
             text-align: left !important;
         }
         a {
@@ -36,7 +36,7 @@
             &-body {
                 padding: 1.56rem 1.55rem;
                 .billing-rate {
-                    @media (max-width: $screen-md-screen) {
+                    @media (max-width: $screen-sm-screen) {
                         display: flex;
                         flex-direction: column;
                     }

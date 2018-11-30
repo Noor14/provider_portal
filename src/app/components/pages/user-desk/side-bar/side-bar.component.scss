@@ -44,4 +44,7 @@ $leftsidebar-h3-color: #c6c8ca;
             }
         }
     }
+    @media (max-width: $screen-lg-screen) {
+        justify-content: flex-end;
+    }
 }

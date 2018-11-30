@@ -5,14 +5,14 @@
         <h3>Hey {{providerInfo.CompanyName}},
            <span>Welcome Back!</span>
         </h3>
-          <p class="provider-info" *ngIf="providerInfo.LoginRank > 1">Last logged in {{providerInfo.LastLoginDate | date : "d MMM, yyyy"}} {{providerInfo.LastLoginDate | date : "H:mm"}} from {{providerInfo.LastLoginCountryName}}</p>
+        <p class="provider-info" *ngIf="providerInfo.LoginRank > 1">Last logged in {{providerInfo.LastLoginDate | date : "d MMM, yyyy"}} {{providerInfo.LastLoginDate | date : "H:mm"}} from {{providerInfo.LastLoginCountryName}}</p>
     </div>
   </div>
   <!--/ row -->
 
   <!-- booking summery -->
   <div class="row">
-    <div class="summary-section col-md-12 mt-3 pr-0">
+    <div class="summary-section col-md-12 mt-3 mb-4">
       <div class="row">
         <div class="col-6">
           <h5 class="summary-title  mb-1 pb-3">Overview</h5>
@@ -85,7 +85,7 @@
 
   <!-- booking summery -->
   <div class="row">
-    <div class="summary-section col-md-12 pr-0">
+    <div class="summary-section col-md-12">
       <!-- <app-placeholder [heading]="'head'"></app-placeholder> -->
       <h5 class="summary-title  mt-2 pt-1 mb-1 pb-3">Bookings</h5>
       <div class="booking-summery">
@@ -161,7 +161,7 @@
     </div>
   </div>
   <div class="row overflow-hidden" *ngIf="providerInfo.BookingDetails">
-    <div class="col-12 pr-0 pt-2" *ngFor="let booking of bookings | BookingMode : selectedBookingMode" (click)="viewBookingDetails(booking.BookingID)">
+    <div class="col-12 pt-2" *ngFor="let booking of bookings | BookingMode : selectedBookingMode" (click)="viewBookingDetails(booking.BookingID)">
       <div class="card animated bounceInDown pointer">
         <div class="card-body pt-2">
           <!-- booking top row -->
@@ -171,15 +171,20 @@
                 <div class="bookings-route-number d-flex no-gutters">
                   <div class="col-xl-6 ">
                     <a href="javascript:;">
-                      <img src="../../../../../assets/images/icons/icon_pin_sea.svg"> {{booking.HashMoveBookingNum}}
+                      <img src="../../../../../assets/images/icons/icon_pin_sea.svg"> 
+                      <div class="bookings-route-number-text">
+                          {{booking.HashMoveBookingNum}}
+                          <small class="d-block pt-1 mb-1">
+                              Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}
+                            </small>
+                      </div>
                     </a>
-                    <small class="d-block ml-4 pt-1 mb-1">
-                      Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}
-                    </small>
+                    
                   </div>
                   <div class="col-xl-6 ">
-                    <span class="pull-right justify-content-center">
-                      <img [src]="baseExternalAssets +'/'+ booking.CarrierImage"> {{booking.CarrierName}}
+                    <span class="pull-right position-relative bookings-route-company">
+                      <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
+                      <div class="bookings-route-company-name">{{booking.CarrierName}}</div>
                     </span>
                   </div>
                 </div>
@@ -191,8 +196,8 @@
 
           <!-- booking bottom row -->
           <div class="row">
-            <div class="col-3 mt-1">
-              <div class="bookings-route border-right-0 right-arrow">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mt-1 right-arrow">
+              <div class="bookings-route border-right-0">
                 <div class="ports pull-left">
                   <div class="ports d-inline-block">
                     <small class="d-block mb-2">From</small>
@@ -205,8 +210,8 @@
                 </div>
               </div>
             </div>
-            <div class="col-3 mt-1 pl-4">
-              <div class="bookings-route">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mt-1 pl-4">
+              <div class="bookings-route border-lg-0-right">
                 <div class="ports pull-left">
                   <div class="ports d-inline-block">
                     <small class="d-block mb-2">to</small>
@@ -222,8 +227,8 @@
               </div>
             </div>
 
-            <div class="col-3 mt-1 pl-4">
-              <div class="bookings-route">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mt-1 pl-4 ">
+              <div class="bookings-route border-xs-0-right">
                 <div class="ports pull-left">
                   <div class="ports d-inline-block ">
                     <small class="d-block">CUSTOMER</small>
@@ -240,7 +245,7 @@
             </div>
 
 
-            <div class="col-3 mt-1 pl-4">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mt-1 pl-4">
               <div class="bookings-route border-right-0">
                 <div class="ports pull-left">
                   <div class="ports d-inline-block">
@@ -259,17 +264,16 @@
       </div>
     </div>
   </div>
-  <div class="row">
-  <div class="col-12">
-    <div class="card">
-      <p class="text-center">
-        You don't have any bookings yet.
-      </p>
+  <div class="row mt-5">
+    <div class="col-12 text-center">
+        <p class="text-center mt-2 mb-2 no-record">
+          You don't have any bookings yet.
+        </p>
+      <a class="hvr-icon-forward grey-anc-btn mt-3 pull-right pointer">
+          <span class="link-hover-grey">View All Bookings</span>
+          <img alt="icon" class="icon-size-14 hvr-icon" src="../../../../../assets/images/icons/icon_arrow_right.svg">
+        </a>
     </div>
   </div>
-  </div>
-  <a class="hvr-icon-forward grey-anc-btn mt-3 pull-right pointer">
-    <span class="link-hover-grey">View All Bookings</span>
-    <img alt="icon" class="icon-size-14 hvr-icon" src="../../../../../assets/images/icons/icon_arrow_right.svg">
-  </a>
-</div>
+
+</section>
