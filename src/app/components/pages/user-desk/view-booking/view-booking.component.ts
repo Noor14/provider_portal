@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, AfterViewInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { PlatformLocation } from '@angular/common';
 import { ToastrService } from "ngx-toastr";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -12,8 +12,8 @@ import { BookingInvoiceComponent } from '../booking-invoice/booking-invoice.comp
 import { ReUploadDocComponent } from '../../../../shared/dialogues/re-upload-doc/re-upload-doc.component';
 import { IconSequence } from '@agm/core/services/google-maps-types';
 import { baseExternalAssets } from '../../../../constants/base.url';
-import { GoogleMapsAPIWrapper, AgmMap, LatLngBounds, LatLngBoundsLiteral, MapsAPILoader } from '@agm/core';
-declare const google: any;
+import { LatLngBounds } from '@agm/core';
+declare var google: any;
 
 @Component({
   selector: 'app-view-booking',
@@ -56,7 +56,6 @@ export class ViewBookingComponent implements OnInit {
     offset: '0',
     repeat: '20px'
   }
-  @ViewChild('agmMap') agmMap: AgmMap;
   constructor(
     private _modalService: NgbModal,
     private _toast: ToastrService,
@@ -87,18 +86,12 @@ export class ViewBookingComponent implements OnInit {
 
   }
 
-  mapInit() {
-    setTimeout(() => {
-      if (this.mapOrgiToDest && this.mapOrgiToDest.length) {
-        this.agmMap.mapReady.subscribe(map => {
-          const bounds: LatLngBounds = new google.maps.LatLngBounds();
-          this.mapOrgiToDest.forEach(element => {
-            bounds.extend(new google.maps.LatLng(element.lat, element.lng));
-          });
-          map.fitBounds(bounds);
-        });
+  mapInit(map) {
+      const bounds: LatLngBounds = new google.maps.LatLngBounds();
+      for (const mm of this.mapOrgiToDest) {
+        bounds.extend(new google.maps.LatLng(mm.lat, mm.lng));
       }
-    }, 200)
+      map.fitBounds(bounds);
   }
 
   ngOnDestroy() {
@@ -119,7 +112,7 @@ export class ViewBookingComponent implements OnInit {
         this.mapOrgiToDest.push(
           { lat: Number(this.bookingDetails.PolLatitude), lng: Number(this.bookingDetails.PolLongitude) },
           { lat: Number(this.bookingDetails.PodLatitude), lng: Number(this.bookingDetails.PodLongitude) });
-        this.mapInit();
+        // this.mapInit();
         this.bookingDocs();
       } else {
         this._toast.error('Unable to find this booking. Please check the link and try again', 'Failed to Fetch Data')
