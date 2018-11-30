@@ -14,7 +14,7 @@ const routes: Routes = [
     path: '',
     component: UserCreationComponent,
     children: [
-      { path: 'registration', component: RegistrationComponent },
+      { path: 'registration', component: RegistrationComponent, canActivate: [UserGuard] },
       { path: 'otp/:keys', component: OtpconfirmationComponent, canActivate: [UserGuard] },
       { path: 'password/:keys', component: CreatePasswordComponent, canActivate: [UserGuard] },
       { path: 'business-profile', component: BusinessInfoComponent, canActivate: [UserGuard] },

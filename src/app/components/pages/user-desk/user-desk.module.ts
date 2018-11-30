@@ -11,7 +11,7 @@ import { DashboardService } from './dashboard/dashboard.service';
 import { SearchBookingMode } from '../../../constants/dashboardBookingsFilter';
 import { SafeUrlPipe } from '../../../constants/safeurlfilter'
 import { AgmCoreModule } from '@agm/core';
-
+import { UserGuard } from '../user-creation/user.guard';
 @NgModule({
   imports: [
     CommonModule,
@@ -33,7 +33,7 @@ import { AgmCoreModule } from '@agm/core';
   providers:[
     ViewBookingService,
     DashboardService,
-    
+    UserGuard,
   ]
 })
 export class UserDeskModule { }

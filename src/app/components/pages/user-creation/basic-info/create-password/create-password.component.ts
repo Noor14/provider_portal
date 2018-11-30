@@ -176,7 +176,8 @@ export class CreatePasswordComponent implements OnInit {
           loginData.IsLogedOut = false;
           localStorage.setItem('userInfo', JSON.stringify(resp));
           this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
-
+          this._toast.success('Account successfully created', '');
+          this._router.navigate(['business-profile']);
 
         } else {
           this._toast.warning("Please Enable Cookies to use this app", "Cookies Disabled")
@@ -184,8 +185,6 @@ export class CreatePasswordComponent implements OnInit {
           return;
         }
 
-        this._toast.success('Account successfully created', '');
-        this._router.navigate(['business-profile']);
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);

@@ -97,16 +97,6 @@ export class LoginDialogComponent implements OnInit {
     document.getElementsByTagName('html')[0].style.overflowY = 'auto';
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
 
   loginUser(data) {
     let valid: boolean = ValidateEmail(data.loginUserID)
@@ -138,7 +128,10 @@ export class LoginDialogComponent implements OnInit {
           loginData.IsLogedOut = false;
           localStorage.setItem('userInfo', JSON.stringify(resp));
           this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
-          
+          this.toastr.success('Login Successful!', 'Success');
+          this.activeModal.close();
+          document.getElementsByTagName('html')[0].style.overflowY = 'auto';
+          this._router.navigate(['provider/dashboard']);
 
         } else {
           this.toastr.warning("Please Enable Cookies to use this app", "Cookies Disabled")
@@ -148,10 +141,6 @@ export class LoginDialogComponent implements OnInit {
           return;
         }
 
-        this.toastr.success('Login Successful!', 'Success');
-        this.activeModal.close();
-        document.getElementsByTagName('html')[0].style.overflowY = 'auto';
-        this._router.navigate(['provider/dashboard']);
 
       } else {
         this.loading = false;
