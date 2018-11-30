@@ -897,6 +897,21 @@ select {
             border-top: 0px !important;
         }
     }
+    .border-xs {
+        border: none !important;
+        &-right {
+            border-right: 1px solid #6c757d2b !important;
+        }
+        &-left {
+            border-left: 1px solid #6c757d2b !important;
+        }
+        &-bottom {
+            border-bottom: 1px solid #6c757d2b !important;
+        }
+        &-top {
+            border-top: 1px solid #6c757d2b !important;
+        }
+    }
 }
 
 //Internet Explorar css end

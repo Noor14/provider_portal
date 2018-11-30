@@ -127,6 +127,7 @@
                 }
                 .bookings-route-number-text {
                     padding-left: 3rem;
+                    word-break: break-all;
                     @media (max-width: $screen-xs-screen) {
                         padding-left: 0px;
                         padding-top: 10px;
@@ -224,13 +225,6 @@
                     height: 16px;
                     margin-bottom: 0.5rem
                 }
-            }
-        }
-        @media (max-width: $screen-lg-screen) {
-            margin-bottom: 40px;
-
-            &:last-child, &:last-child(2) {
-                margin-bottom: 0px;
             }
         }
     }
