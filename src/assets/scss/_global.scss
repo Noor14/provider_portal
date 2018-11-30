@@ -451,6 +451,9 @@ input[type="radio"]:focus+label>span {
         -moz-appearance: none;
         -o-appearance: none;
         background: url("assets/images/select-arrow.png") no-repeat center right 10px $color-white;
+        @media (max-width: $screen-fourteen-hundred) {
+            font-size: 0.8rem;
+        }
         &.inputError {
             border: 1px solid $danger-color
         }
