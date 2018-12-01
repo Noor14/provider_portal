@@ -143,11 +143,11 @@
           <div aria-labelledby="bookingMode" class="sortFilter animated fadeIn dropdown-menu" ngbDropdownMenu x-placement="bottom-left"
             style="top: 24px; left: 0px;">
 
-            <ul class="list-group" style="position: relative; max-width: 160px; max-height: 180px;">
-              <li class="list-group-item pointer" (click)="selectedBookingMode = 'CURRENT BOOKINGS'">
+            <ul class="list-group">
+              <li class="list-group-item pointer" (click)="selectedBookingMode = 'CURRENT BOOKINGS'" [ngClass]="{'active': selectedBookingMode == 'CURRENT BOOKINGS'}">
                 <span>CURRENT BOOKINGS</span>
               </li>
-              <li class="list-group-item pointer" (click)="selectedBookingMode = 'PAST BOOKINGS'">
+              <li class="list-group-item pointer" (click)="selectedBookingMode = 'PAST BOOKINGS'" [ngClass]="{'active': selectedBookingMode == 'PAST BOOKINGS'}">
                 <span>PAST BOOKINGS</span>
               </li>
               <!-- <li class="list-group-item pointer" (click)="selectedBookingMode = 'ALL BOOKINGS'">
@@ -160,7 +160,7 @@
       </div>
     </div>
   </div>
-  <div class="row overflow-hidden" *ngIf="providerInfo.BookingDetails">
+  <div class="row overflow-hidden bookings-card" *ngIf="providerInfo.BookingDetails">
     <div class="col-12 pt-2" *ngFor="let booking of bookings | BookingMode : selectedBookingMode" (click)="viewBookingDetails(booking.BookingID)">
       <div class="card animated bounceInDown pointer">
         <div class="card-body pt-2">
@@ -264,9 +264,9 @@
       </div>
     </div>
   </div>
-  <div class="row mt-5">
+  <div class="row overflow-hidden mt-5">
     <div class="col-12 text-center">
-        <p class="text-center mt-2 mb-2 no-record">
+        <p class="text-center mt-2 mb-2 no-record animated bounceInDown" *ngIf="!providerInfo.BookingDetails.length || !(providerInfo.BookingDetails | BookingMode : selectedBookingMode).length">
           You don't have any bookings yet.
         </p>
       <a class="hvr-icon-forward grey-anc-btn mt-3 pull-right pointer">
