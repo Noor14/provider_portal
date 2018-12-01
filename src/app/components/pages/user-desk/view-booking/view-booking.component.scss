@@ -175,7 +175,7 @@
                         margin-bottom: 0;
                     }
                     .ports {
-                        font-family: proxima-nova,sans-serif;
+                        font-family: proxima-nova, sans-serif;
                         font-size: .75rem;
                         max-width: 94px;
                         width: 100%;
@@ -187,7 +187,7 @@
                         }
                         &-title {
                             font-size: .875rem;
-                            font-family: proxima-nova,sans-serif;
+                            font-family: proxima-nova, sans-serif;
                             font-weight: 500;
                             color: #738593;
                             margin-bottom: 5px;
@@ -197,18 +197,18 @@
                             color: #2b2b2b;
                             margin-bottom: 0;
                             font-weight: 600;
-                            font-family: proxima-nova,sans-serif;
+                            font-family: proxima-nova, sans-serif;
                             line-height: 1;
                         }
                         .d-flex {
-                            display: -ms-grid!important;
-                            display: grid!important;
+                            display: -ms-grid !important;
+                            display: grid !important;
                             small {
-                                max-width: 100%!important;
+                                max-width: 100% !important;
                                 font-size: .875rem;
                                 color: #afafaf;
                                 font-weight: 500;
-                                font-family: proxima-nova,sans-serif;
+                                font-family: proxima-nova, sans-serif;
                                 vertical-align: bottom;
                                 line-height: 1.2;
                                 max-width: 78px;
@@ -362,7 +362,9 @@
                     padding-left: 20px !important;
                     a {
                         color: inherit;
+                        cursor: default;
                         &.primary-text {
+                            cursor: pointer;
                             color: $primary-color;
                             font-family: $font-proxima;
                             font-weight: 500;
@@ -466,7 +468,6 @@
         }
     }
 }
-
 
 .billing {
     .list-group-item {

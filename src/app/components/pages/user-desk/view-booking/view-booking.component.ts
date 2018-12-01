@@ -167,6 +167,14 @@ export class ViewBookingComponent implements OnInit {
       }
     }, 0);
   }
+  downloadDoc(object, event){
+    if (object && object.DocumentFileName && object.IsDownloadable){
+      window.open(this.baseExternalAssets + object.DocumentFileName, '_blank')
+    }
+    else{
+      event.preventDefault();
+    }
+  }
   reuploadDoc(docTypeId, docId) {
     const modalRef = this._modalService.open(ReUploadDocComponent, {
       size: 'lg',
