@@ -7,8 +7,7 @@
             <h4 class="view-booking-title">
                 {{bookingDetails.HashMoveBookingNum}}
               </h4>
-            <small class="view-booking-info">Booked by {{bookingDetails.UserName}} on {{bookingDetails.HashMoveBookingDate | date : "d MMM yyyy"}} at {{bookingDetails.HashMoveBookingDate
-                | date : "shortTime"}}</small>
+            <small class="view-booking-info">Booked by {{bookingDetails.UserName}} on {{bookingDetails.HashMoveBookingDate | date : "d MMM yyyy"}} at {{bookingDetails.HashMoveBookingDate | date : "H:mm" }}</small>
         </div>
         <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
             <div class="view-booking-top-btn mt-1 text-right mb-2">
