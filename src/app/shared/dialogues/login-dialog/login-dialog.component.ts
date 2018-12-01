@@ -66,7 +66,7 @@ export class LoginDialogComponent implements OnInit {
   private createForm() {
     this.loginForm = new FormGroup({
       loginUserID: new FormControl(null, [Validators.required, Validators.pattern(EMAIL_REGEX), Validators.maxLength(320)]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+      password: new FormControl(null, [Validators.required]),
     });
 
     if (this.savedUser) {
