@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, NavigationStart, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { BasicInfoService } from './basic-info/basic-info.service';
@@ -7,10 +7,10 @@ import { SharedService } from '../../../services/shared.service';
 import { UserCreationService } from './user-creation.service';
 
 @Injectable()
-export class UserGuard implements CanActivate, OnInit {
+export class UserGuard implements CanActivate {
 
   public previousUrl;
-  private islogOut : boolean = true;
+  private islogOut : boolean;
   private userID;
   constructor(
     private _basicInfoService: BasicInfoService, 
@@ -24,30 +24,12 @@ export class UserGuard implements CanActivate, OnInit {
     //     console.log('prev:', this.previousUrl);
     //     this.previousUrl = event.url;
     //   });
-    let object = localStorage.getItem('userInfo') as any;
-    if (object) {
-      let data = JSON.parse(object);
-      let info = JSON.parse(data.returnText);
-      this.userID = info.UserID;
-      this.islogOut = info.IsLogedOut;
-    }
- 
-  }
-  ngOnInit() {
-    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    this._sharedService.IsloggedIn.subscribe((state: any) => {
-      if (state == null) {
-        this.islogOut = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
-      } else {
-        this.islogOut = state;
-      }
-    })
-    this._sharedService.IsloggedInShow.subscribe((state: any) => {
-      this.islogOut = state;
-    })
   }
 
+
   canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
+
+     this.getloginStatus();
 
     // if user go to otp direct page
      if (state.url.indexOf('otp') >= 0) {
@@ -96,32 +78,27 @@ export class UserGuard implements CanActivate, OnInit {
         return true;
       }
       else {
-        this.router.navigate(['/business-profile']);
-        return true;
+        this.router.navigate(['/provider/dashboard']);
       }
     }
    // if user go to user desk pages
     if (state.url.indexOf('provider') >= 0) {
-      // if (!this.islogOut) {
+      if (!this.islogOut) {
         return this.getProfileStatus(this.userID);
-      // }
+      }
     }
   }
   getProfileStatus(id): Observable<boolean>{
     return this._userCreationService.getUserProfileStatus(id).map((res: any) => {
       if (res.returnStatus == "Success") {
-        return true;
+        if (res.returnText == "Warehouse Pending"){
+          return true;
+        }
+        else{
+          this.router.navigate(['/business-profile']);
+          return true;
+        }
       }
-      // else {
-      //   if (this.checkPassword(otpKey)) {
-      //     this.router.navigate(['/password', otpKey]);
-      //     return true;
-
-      //   } else {
-      //     this.router.navigate(['/registration']);
-      //     return true;
-      //   }
-      // }
     }, (err: HttpErrorResponse) => {
       this.router.navigate(['/registration']);
       return true;
@@ -168,5 +145,20 @@ export class UserGuard implements CanActivate, OnInit {
       return Observable.of(true);
     })
   }
-
+  async getloginStatus(){
+  let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  let info = JSON.parse(userInfo.returnText);
+  this.userID = info.UserID;
+  this._sharedService.IsloggedIn.subscribe((state: any) => {
+    if (state == null) {
+      this.islogOut = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
+    } 
+    else {
+      this.islogOut = state;
+    }
+  })
+  // this._sharedService.IsloggedInShow.subscribe((state: any) => {
+  //   this.islogOut = state;
+  // })
+}
 }
