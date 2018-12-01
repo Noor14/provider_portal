@@ -146,7 +146,8 @@ export class UserGuard implements CanActivate {
     })
   }
   async getloginStatus(){
-  let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  let userInfo = JSON.parse(localStorage.getItem('userInfo')); 
+  if (userInfo && userInfo.returnText){
   let info = JSON.parse(userInfo.returnText);
   this.userID = info.UserID;
   this._sharedService.IsloggedIn.subscribe((state: any) => {
@@ -157,6 +158,9 @@ export class UserGuard implements CanActivate {
       this.islogOut = state;
     }
   })
+    }else{
+      this.islogOut = true;
+    }
   // this._sharedService.IsloggedInShow.subscribe((state: any) => {
   //   this.islogOut = state;
   // })
