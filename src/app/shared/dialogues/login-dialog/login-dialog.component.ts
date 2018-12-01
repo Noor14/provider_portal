@@ -65,8 +65,8 @@ export class LoginDialogComponent implements OnInit {
 
   private createForm() {
     this.loginForm = new FormGroup({
-      loginUserID: new FormControl(null, [Validators.required, patternValidator(EMAIL_REGEX), Validators.maxLength(320)]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(1)]),
+      loginUserID: new FormControl(null, [Validators.required, Validators.pattern(EMAIL_REGEX), Validators.maxLength(320)]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
     });
 
     if (this.savedUser) {
@@ -172,8 +172,8 @@ export class LoginDialogComponent implements OnInit {
 
 
   notMyAccount() {
-    this.savedUser = !this.savedUser;
     this.loginForm.reset();
+    this.savedUser = !this.savedUser;
     this.placeholder = "Your unique password";
 
   }
