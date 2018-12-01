@@ -35,16 +35,16 @@
         </li>
       </ul>
       <hr *ngIf="additionalData.length">
-      <!-- <h6 *ngIf="showVasSection">Value Added Services</h6> -->
-      <!-- <ul class="list-group list-group-flush" *ngIf="showVasSection"> -->
-        <!-- <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of vasData"> -->
-          <!-- <span class="long-text" placement="top" ngbTooltip="{{item.SurchargeName}}">{{item.SurchargeCode}} - {{item.SurchargeName}}</span>
-          <span class="amount-text">{{item.CurrencyCode}} {{item.TotalAmount | number: '1.2-2'}}</span> -->
+      <h6 *ngIf="valueAddedData.length">Value Added Services</h6>
+      <ul class="list-group list-group-flush" *ngIf="valueAddedData">
+        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of valueAddedData">
+          <span class="long-text" placement="top" ngbTooltip="{{item.SurchargeName}}">{{item.SurchargeCode}} - {{item.SurchargeName}}</span>
+          <span class="amount-text">{{item.CurrencyCode}} {{item.TotalAmount | number: '1.2-2'}}</span>
           <!-- <span class="long-text" [ngClass]="{'text-danger' : item.active}" *ngIf="item.TotalAmount > 0">{{item.SurchargeCode}} - {{item.SurchargeName}}</span> -->
           <!-- <span class="amount-text" [ngClass]="{'text-danger' : item.active}" *ngIf="item.TotalAmount > 0">{{item.CurrencyCode}} {{item.TotalAmount | number: '1.2-2'}}</span> -->
-        <!-- </li> -->
-      <!-- </ul> -->
-      <!-- <hr *ngIf="showVasSection"> -->
+        </li>
+      </ul>
+      <hr *ngIf="valueAddedData.length">
       <ul class="list-group list-group-flush">
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <strong class="text-primary">Total</strong>
