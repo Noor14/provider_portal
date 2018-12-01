@@ -73,7 +73,7 @@ export class UserGuard implements CanActivate {
 
     // if user go to registration page
 
-    if (state.url == '/registration') {
+    if (state.url == '/registration' || state.url.indexOf('registration') >= 0) {
       if (this.islogOut) {
         return true;
       }
