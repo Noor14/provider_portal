@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-// import { UserGuard } from './user.guard';
+import { UserGuard } from '../user-creation/user.guard';
 
 import { UserDeskComponent } from './user-desk.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -10,6 +10,7 @@ const routes: Routes = [
     {
         path: '',
         component: UserDeskComponent,
+        canActivate: [UserGuard],
         children: [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'booking-detail/:id', component: ViewBookingComponent },

@@ -1,168 +1,123 @@
-<section class="provider-dashboard bookings" *ngIf="providerInfo">
+<Section class="dashboard" *ngIf="providerInfo">
   <!-- row -->
-  <div class="provider-dashborad-welcome-section row">
-    <div class="col-12">
-        <h3>Hey {{providerInfo.CompanyName}},
-           <span>Welcome Back!</span>
-        </h3>
-        <p class="provider-info" *ngIf="providerInfo.LoginRank > 1">Last logged in {{providerInfo.LastLoginDate | date : "d MMM, yyyy"}} {{providerInfo.LastLoginDate | date : "H:mm"}} from {{providerInfo.LastLoginCountryName}}</p>
+  <div class="welcomeSection">
+    <h3>Hey {{providerInfo.CompanyName}}, Welcome<span *ngIf="providerInfo.LoginRank > 1"> Back</span>!</h3>
+    <p class="provider-info" *ngIf="providerInfo.LoginRank > 1">
+      Last logged in {{providerInfo.LastLoginDate | date : "d MMM, yyyy"}} {{providerInfo.LastLoginDate | date :
+      "H:mm"}} from {{providerInfo.LastLoginCountryName}}
+    </p>
+  </div>
+
+  <!-- Booking Summary -->
+  <div class="titleSection d-flex justify-content-between">
+    <h5 class="m-0">Overview</h5>
+    <div ngbDropdown class="dropdown">
+      <div class="pointer" id="sortByYear" ngbDropdownToggle>
+        <span>2017-2018</span>
+      </div>
+      <div aria-labelledby="sortByYear" class="sortFilter animated fadeIn dropdown-menu" ngbDropdownMenu x-placement="bottom-left">
+        <ul class="list-group">
+          <li class="list-group-item pointer">
+            <span>2016</span>
+          </li>
+          <li class="list-group-item pointer">
+            <span>2015</span>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
-  <!--/ row -->
+
+<section class="bookingSummary mt-3">
+  <div class="row">
+  <div class="summarySection col-xl-6 col-md-6 col-sm-12">
+    <div class="summaryTitle">
+      <h5><img src="../../../../../assets/images/icons/icon_user02.svg" class="icon-size-24 mr-3"> Total Customers</h5>
+    </div>
+    <div class="summaryQuantity pt-2 pb-2">
+      <div class="rates">
+      <span>{{providerInfo.TotalCustomers}}</span>
+      </div>
+    </div>
+  </div>
+
+<div class="summarySection col-xl-6 col-md-6 col-sm-12">
+    <div class="summaryTitle">
+     <h5><img src="../../../../../assets/images/icons/icon_revenue.svg" class="icon-size-24 mr-3"> total Revenue</h5>
+    </div>
+    <div class="summaryQuantity d-flex pt-2 pb-2">
+      <div class="rates">
+      <small class="mr-2">{{providerInfo.BillingCurrencyCode}}</small>
+      <span>{{providerInfo.BillingTillDate | number: '1.2-2'}}</span>
+      </div>
+    </div>
+</div>
+  </div>
+  </section>
+
+  <!-- Booking Summary End -->
+
+
 
   <!-- booking summery -->
+<div class="titleSection d-flex justify-content-between">
+  <h5 class="m-0">Bookings</h5>
+</div>
+
+<section class="bookingSummary">
   <div class="row">
-    <div class="summary-section col-md-12 mt-3 mb-4">
-      <div class="row">
-        <div class="col-6">
-          <h5 class="summary-title  mb-1 pb-3">Overview</h5>
-        </div>
-        <div class="col-6 ">
-          <div class="pull-right bookings-selected ">
-            <div ngbDropdown class="dropdown">
-              <div class="pointer dropdown-toggle" id="sortByYear" ngbDropdownToggle>
-                <span>2017-2018</span>
-              </div>
-              <div aria-labelledby="sortByYear" class="sortFilter animated fadeIn dropdown-menu" ngbDropdownMenu
-                x-placement="bottom-left" style="top: 24px; left: 0px;">
-
-                <ul class="list-group" style="position: relative; max-width: 160px; max-height: 180px;">
-                  <li class="list-group-item pointer">
-                    <span>2016</span>
-                  </li>
-                  <li class="list-group-item pointer">
-                    <span>2015</span>
-                  </li>
-                </ul>
-
-              </div>
-            </div>
-
-          </div>
+    <div class="summarySection col-xl-6 col-md-6 col-sm-12">
+      <div class="summaryTitle">
+        <h5>
+          <img src="../../../../../assets/images/icons/icon_booking_current.svg" class="icon-size-24 mr-3">Current Bookings</h5>
+      </div>
+      <div class="summaryQuantity pt-2 pb-2">
+        <div class="rates">
+          <span>{{providerInfo.CurrentBookingCount}}</span>
         </div>
       </div>
-      <div class="booking-summery">
-        <div class="row pointer">
-          <!-- Booking Summery Col -->
-          <div class="summary-section-boxes col-xl-6 col-md-6 col-sm-12">
+    </div>
 
-            <div class="summarybox booking-summary">
-              <div class="summary-icon">
-                <img src="../../../../../assets/images/icons/icon_user02.svg">
-              </div>
-              <div class="summary-box-title ml-2">
-                <h5>Total Customers</h5>
-              </div>
-              <div class="summery-quantity pt-2 pl-4 pb-2">
-                <span class="ml-3">{{providerInfo.TotalCustomers}}</span>
-              </div>
-            </div>
-          </div>
-          <!--/ Booking Summery Col -->
-
-          <!-- Booking Summery Col3 -->
-          <div class="summary-section-boxes col-xl-6 col-md-6 col-sm-12">
-
-            <div class="summarybox booking-summary">
-              <div class="summary-icon">
-                <img src="../../../../../assets/images/icons/icon_revenue.svg">
-              </div>
-              <div class="summary-box-title ml-2">
-                <h5>total Revenue</h5>
-              </div>
-              <div class="summery-quantity d-flex">
-                <small>{{providerInfo.BillingCurrencyCode}}</small>
-                <span>{{providerInfo.BillingTillDate | number: '1.2-2'}}</span>
-              </div>
-            </div>
-          </div>
-          <!--/ Booking Summery Col3 -->
+    <div class="summarySection col-xl-6 col-md-6 col-sm-12">
+      <div class="summaryTitle">
+        <h5>
+          <img src="../../../../../assets/images/icons/icon_booking_total.svg" class="icon-size-24 mr-3">Total Bookings</h5>
+      </div>
+      <div class="summaryQuantity d-flex pt-2 pb-2">
+        <div class="rates">
+          <span>{{providerInfo.TotalBookingCount}}</span>
         </div>
       </div>
     </div>
   </div>
-  <!--/ booking summery -->
+</section>
 
-  <!-- booking summery -->
-  <div class="row">
-    <div class="summary-section col-md-12">
-      <!-- <app-placeholder [heading]="'head'"></app-placeholder> -->
-      <h5 class="summary-title  mt-2 pt-1 mb-1 pb-3">Bookings</h5>
-      <div class="booking-summery">
-        <div class="row pointer">
-          <!-- Booking Summery Col -->
-          <div class="summary-section-boxes col-xl-6 col-md-6 col-sm-12">
-            <!-- <div class="booking-summary">
-                <app-placeholder></app-placeholder>
-              </div> -->
-            <div class="summarybox booking-summary">
-              <div class="summary-icon">
-                <img src="../../../../../assets/images/icons/icon_booking_current.svg">
-              </div>
-              <div class="summary-box-title ml-2">
-                <h5>Current Bookings</h5>
-              </div>
-              <div class="summery-quantity  pt-2 pl-4 pb-2">
-                <span class="ml-3">{{providerInfo.CurrentBookingCount}}</span>
-              </div>
-            </div>
-          </div>
-          <!--/ Booking Summery Col -->
-
-          <!-- Booking Summery Col2 -->
-          <div class="summary-section-boxes col-xl-6 col-md-6 col-sm-12">
-            <!-- <div class="booking-summary">
-                <app-placeholder></app-placeholder>
-              </div> -->
-            <div class="summarybox booking-summary">
-              <div class="summary-icon">
-                <img src="../../../../../assets/images/icons/icon_booking_total.svg">
-              </div>
-              <div class="summary-box-title ml-2">
-                <h5>Total Bookings</h5>
-              </div>
-              <div class="summery-quantity  pt-2 pl-4 pb-2">
-                <span class="ml-3">{{providerInfo.TotalBookingCount}}</span>
-              </div>
-            </div>
-          </div>
-          <!--/ Booking Summery Col3 -->
-        </div>
+<!-- booking summery end -->
+  <div class="bookingTypeSection d-flex justify-content-end mt-3">
+    <div ngbDropdown class="dropdown">
+      <div class="pointer" id="bookingMode" ngbDropdownToggle>
+        <span>{{selectedBookingMode}}</span>
       </div>
-    </div>
-  </div>
-  <!--/ booking summery -->
-
-  <div class="row">
-    <div class="col-xl-12">
-      <div class="pull-right bookings-selected">
-        <div ngbDropdown class="dropdown">
-          <div class="pointer dropdown-toggle" id="bookingMode" ngbDropdownToggle>
-            <span>{{selectedBookingMode}}</span>
-          </div>
-          <div aria-labelledby="bookingMode" class="sortFilter animated fadeIn dropdown-menu" ngbDropdownMenu x-placement="bottom-left"
-            style="top: 24px; left: 0px;">
-
-            <ul class="list-group">
-              <li class="list-group-item pointer" (click)="selectedBookingMode = 'CURRENT BOOKINGS'" [ngClass]="{'active': selectedBookingMode == 'CURRENT BOOKINGS'}">
-                <span>CURRENT BOOKINGS</span>
-              </li>
-              <li class="list-group-item pointer" (click)="selectedBookingMode = 'PAST BOOKINGS'" [ngClass]="{'active': selectedBookingMode == 'PAST BOOKINGS'}">
-                <span>PAST BOOKINGS</span>
-              </li>
-              <!-- <li class="list-group-item pointer" (click)="selectedBookingMode = 'ALL BOOKINGS'">
-                  <span>ALL BOOKINGS</span>
+      <div aria-labelledby="bookingMode" class="sortFilter animated fadeIn dropdown-menu" ngbDropdownMenu x-placement="bottom-left">
+  
+        <ul class="list-group">
+          <li class="list-group-item pointer" (click)="selectedBookingMode = 'CURRENT BOOKINGS'">
+            <span>CURRENT BOOKINGS</span>
+          </li>
+          <li class="list-group-item pointer" (click)="selectedBookingMode = 'PAST BOOKINGS'">
+            <span>PAST BOOKINGS</span>
+          </li>
+          <!-- <li class="list-group-item pointer" (click)="selectedBookingMode = 'ALL BOOKINGS'">
+                        <span>ALL BOOKINGS</span>
                 </li> -->
-            </ul>
-
-          </div>
-        </div>
+        </ul>
+  
       </div>
     </div>
   </div>
-  <div class="row overflow-hidden bookings-card" *ngIf="providerInfo.BookingDetails">
-    <div class="col-12 pt-2" *ngFor="let booking of bookings | BookingMode : selectedBookingMode" (click)="viewBookingDetails(booking.BookingID)">
-      <div class="card animated bounceInDown pointer">
+
+  <div class="bookingCard overflow-hidden" *ngIf="providerInfo.BookingDetails">
+      <div class="card animated bounceInDown pointer mt-2" *ngFor="let booking of bookings | BookingMode : selectedBookingMode" (click)="viewBookingDetails(booking.BookingID)"> 
         <div class="card-body pt-2">
           <!-- booking top row -->
           <div class="row">
@@ -171,20 +126,16 @@
                 <div class="bookings-route-number d-flex no-gutters">
                   <div class="col-xl-6 ">
                     <a href="javascript:;">
-                      <img src="../../../../../assets/images/icons/icon_pin_sea.svg"> 
-                      <div class="bookings-route-number-text">
-                          {{booking.HashMoveBookingNum}}
-                          <small class="d-block pt-1 mb-1">
-                              Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}
-                            </small>
-                      </div>
+                      <img src="../../../../../assets/images/icons/icon_pin_sea.svg"> {{booking.HashMoveBookingNum}}
                     </a>
-                    
+                    <small class="d-block ml-4 pt-1 mb-1">
+                      Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date
+                      : "H:mm"}}
+                    </small>
                   </div>
                   <div class="col-xl-6 ">
-                    <span class="pull-right position-relative bookings-route-company">
-                      <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
-                      <div class="bookings-route-company-name">{{booking.CarrierName}}</div>
+                    <span class="pull-right justify-content-center">
+                      <img [src]="baseExternalAssets +'/'+ booking.CarrierImage"> {{booking.CarrierName}}
                     </span>
                   </div>
                 </div>
@@ -196,22 +147,23 @@
 
           <!-- booking bottom row -->
           <div class="row">
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mt-1 right-arrow">
-              <div class="bookings-route border-right-0 border-xs-bottom">
+            <div class="col-3 mt-1">
+              <div class="bookings-route border-right-0 right-arrow">
                 <div class="ports pull-left">
                   <div class="ports d-inline-block">
                     <small class="d-block mb-2">From</small>
                     <label class="ports-label mt-1">{{booking.PolCode}}</label>
                     <span class="d-block mb-3">Port of {{booking.PolCountry}}</span>
                     <span>
-                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg"> {{booking.EtdLcl | date : "d MMM, yyyy"}} {{booking.EtdLcl | date : "H:mm"}}
+                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg"> {{booking.EtdLcl | date : "d
+                      MMM, yyyy"}} {{booking.EtdLcl | date : "H:mm"}}
                     </span>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mt-1 pl-4">
-              <div class="bookings-route border-lg-0-right border-xs-bottom">
+            <div class="col-3 mt-1 pl-4">
+              <div class="bookings-route">
                 <div class="ports pull-left">
                   <div class="ports d-inline-block">
                     <small class="d-block mb-2">to</small>
@@ -219,7 +171,8 @@
                     <span class="d-block mb-3">Port of {{booking.PodCountry}}</span>
                     <div class="ports-calendar">
                       <span>
-                        <img src="../../../../../assets/images/icons/Icons_Calendar.svg"> {{booking.EtaLcl | date : "d MMM, yyyy"}} {{booking.EtaLcl | date : "H:mm"}}
+                        <img src="../../../../../assets/images/icons/Icons_Calendar.svg"> {{booking.EtaLcl | date : "d
+                        MMM, yyyy"}} {{booking.EtaLcl | date : "H:mm"}}
                       </span>
                     </div>
                   </div>
@@ -227,8 +180,8 @@
               </div>
             </div>
 
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mt-1 pl-4 ">
-              <div class="bookings-route border-xs-0-right border-xs-bottom">
+            <div class="col-3 mt-1 pl-4">
+              <div class="bookings-route">
                 <div class="ports pull-left">
                   <div class="ports d-inline-block ">
                     <small class="d-block">CUSTOMER</small>
@@ -245,7 +198,7 @@
             </div>
 
 
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mt-1 pl-4">
+            <div class="col-3 mt-1 pl-4">
               <div class="bookings-route border-right-0">
                 <div class="ports pull-left">
                   <div class="ports d-inline-block">
@@ -262,18 +215,15 @@
           </div>
         </div>
       </div>
-    </div>
   </div>
-  <div class="row overflow-hidden mt-5">
-    <div class="col-12 text-center">
-        <p class="text-center mt-2 mb-2 no-record animated bounceInDown" *ngIf="!providerInfo.BookingDetails.length || !(providerInfo.BookingDetails | BookingMode : selectedBookingMode).length">
-          You don't have any bookings yet.
-        </p>
-      <a class="hvr-icon-forward grey-anc-btn mt-3 pull-right pointer">
-          <span class="link-hover-grey">View All Bookings</span>
-          <img alt="icon" class="icon-size-14 hvr-icon" src="../../../../../assets/images/icons/icon_arrow_right.svg">
-        </a>
+  <div class="overflow-hidden" *ngIf="!providerInfo.BookingDetails || (providerInfo.BookingDetails && !providerInfo.BookingDetails.length || !(providerInfo.BookingDetails | BookingMode : selectedBookingMode).length)">
+    <div class="animated bounceInDown card text-center p-1">
+      <p class="mb-0">You don't have any bookings yet </p>
     </div>
   </div>
 
-</section>
+  <a href="javascript:;" class="hvr-icon-forward grey-anc-btn mt-3 pull-right pointer">
+    <span class="link-hover-grey">View All Bookings</span>
+    <img alt="icon" class="icon-size-14 hvr-icon" src="../../../../../assets/images/icons/icon_arrow_right.svg">
+  </a>
+</Section>

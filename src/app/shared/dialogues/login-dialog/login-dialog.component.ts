@@ -3,7 +3,7 @@ import { PlatformLocation } from '@angular/common';
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { FormGroup, FormControl, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
-import { ToastrService, Overlay } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { JsonResponse } from '../../../interfaces/JsonResponse'
 // import { EMAIL_REGEX, ValidateEmail, HashStorage, Tea, CurrencyControl, getDefaultCountryCode } from '../../../constants/globalfunctions';
 import { EMAIL_REGEX, ValidateEmail, patternValidator } from '../../../constants/globalFunctions';
@@ -65,8 +65,8 @@ export class LoginDialogComponent implements OnInit {
 
   private createForm() {
     this.loginForm = new FormGroup({
-      loginUserID: new FormControl(null, [Validators.required, patternValidator(EMAIL_REGEX), Validators.maxLength(320)]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(1)]),
+      loginUserID: new FormControl(null, [Validators.required, Validators.pattern(EMAIL_REGEX), Validators.maxLength(320)]),
+      password: new FormControl(null, [Validators.required]),
     });
 
     if (this.savedUser) {
@@ -95,16 +95,6 @@ export class LoginDialogComponent implements OnInit {
   closeModal() {
     this.activeModal.close();
     document.getElementsByTagName('html')[0].style.overflowY = 'auto';
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
   }
 
 
@@ -138,7 +128,10 @@ export class LoginDialogComponent implements OnInit {
           loginData.IsLogedOut = false;
           localStorage.setItem('userInfo', JSON.stringify(resp));
           this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
-          
+          this.toastr.success('Login Successful!', 'Success');
+          this.activeModal.close();
+          document.getElementsByTagName('html')[0].style.overflowY = 'auto';
+          this._router.navigate(['provider/dashboard']);
 
         } else {
           this.toastr.warning("Please Enable Cookies to use this app", "Cookies Disabled")
@@ -148,10 +141,6 @@ export class LoginDialogComponent implements OnInit {
           return;
         }
 
-        this.toastr.success('Login Successful!', 'Success');
-        this.activeModal.close();
-        document.getElementsByTagName('html')[0].style.overflowY = 'auto';
-        this._router.navigate(['provider/dashboard']);
 
       } else {
         this.loading = false;
@@ -183,8 +172,8 @@ export class LoginDialogComponent implements OnInit {
 
 
   notMyAccount() {
-    this.savedUser = !this.savedUser;
     this.loginForm.reset();
+    this.savedUser = !this.savedUser;
     this.placeholder = "Your unique password";
 
   }

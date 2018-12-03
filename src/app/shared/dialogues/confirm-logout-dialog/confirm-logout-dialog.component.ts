@@ -5,6 +5,7 @@ import { PlatformLocation } from '@angular/common';
 import { UserCreationService } from '../../../components/pages/user-creation/user-creation.service';
 import { SharedService } from '../../../services/shared.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import * as moment from 'moment';
 
 // import { HashStorage, Tea } from '../../../constants/globalfunctions';
 // import { DataService } from '../../../services/commonservice/data.service';
@@ -49,7 +50,7 @@ export class ConfirmLogoutDialogComponent implements OnInit {
     let data = {
       PrimaryEmail: loginData.PrimaryEmail,
       UserLoginID: loginData.UserID,
-      LogoutDate: new Date().toLocaleString(),
+      LogoutDate: moment(Date.now()).format(),
       LogoutRemarks: null
     }
     

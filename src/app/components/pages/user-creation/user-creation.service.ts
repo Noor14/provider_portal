@@ -61,5 +61,9 @@ export class UserCreationService {
   getRefreshToken() {
     return localStorage.getItem('refreshToken');
   }
+  getUserProfileStatus(userID){
+    let url = `usersprovider/GetUserProfileStatus/${userID}`;
+    return this._http.get(baseApi + url)
+  }
 
 }

@@ -21,10 +21,10 @@
             <label>Email</label>
             <!-- <input type="email"  (focusout)="errorMessages()" (focus)="emailError=false" autocomplete="off" formControlName="loginUserID" class="form-control" [ngClass]="(emailError)?'user-invalid':''" -->
             <input type="email" (focusout)="emailError=true" (focus)="emailError=false" autocomplete="off" formControlName="loginUserID"
-              class="form-control" [ngClass]="{'user-invalid': loginForm.controls['loginUserID'].errors && !loginForm.controls['loginUserID'].pristine && emailError}"
+              class="form-control" [ngClass]="{'user-invalid': loginForm.controls['loginUserID'].hasError('pattern') && emailError}"
               placeholder="John@company.com" required>
             <span *ngIf="emailError">
-              <p class="animated fadeIn invalid-error" *ngIf="(loginForm.controls['loginUserID'].errors && !loginForm.controls['loginUserID'].pristine)">Please enter valid information</p>
+              <p class="animated fadeIn invalid-error" *ngIf="loginForm.controls['loginUserID'].errors && loginForm.controls['loginUserID'].hasError('pattern')">Please enter valid information</p>
             </span>
 
           </div>
@@ -38,13 +38,8 @@
           <div class="col">
             <label *ngIf="!savedUser">Password</label>
             <i class="fa fa-eye pointer" aria-hidden="true" [ngClass]="colorEye" (click)=confirmPassword($event)></i>
-            <input type="password" autocomplete="off" (focusout)="passError=true" (focus)="passError=false" autocomplete="off" formControlName="password"
-              class="form-control" placeholder="{{placeholder}}" [ngClass]="{'user-invalid' : loginForm.controls['password'].errors && !loginForm.controls['password'].pristine && passError}"
-              required>
-
-            <span *ngIf="passError">
-              <p class="animated fadeIn invalid-error" *ngIf="(loginForm.controls['password'].errors && !loginForm.controls['password'].pristine )">Please enter atleast 1 character</p>
-            </span>
+            <input type="password" autocomplete="off" autocomplete="off" formControlName="password"
+              class="form-control" placeholder="{{placeholder}}" required >
 
           </div>
         </div>
