@@ -116,37 +116,24 @@
     </div>
   </div>
 
-  <div class="bookingCard overflow-hidden" *ngIf="providerInfo.BookingDetails">
+  <div class="bookings overflow-hidden" *ngIf="providerInfo.BookingDetails">
       <div class="card animated bounceInDown pointer mt-2" *ngFor="let booking of bookings | BookingMode : selectedBookingMode" (click)="viewBookingDetails(booking.BookingID)"> 
         <div class="card-body pt-2">
           <!-- booking top row -->
-          <div class="row">
-            <div class="col-12">
-              <div class="bookings-route border-right-0">
-                <div class="bookings-route-number d-flex no-gutters">
-                  <div class="col-xl-6 ">
-                    <a href="javascript:;">
-                      <img src="../../../../../assets/images/icons/icon_pin_sea.svg"> 
-                      <div class="bookings-route-number-text">
-                          {{booking.HashMoveBookingNum}}
-                          <small class="d-block pt-1 mb-1">
-                              Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}
-                            </small>
-                      </div>
-                    </a>
-                    
-                  </div>
-                  <div class="col-xl-6 ">
-                    <span class="pull-right position-relative bookings-route-company">
-                      <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
-                      <div class="bookings-route-company-name">{{booking.CarrierName}}</div>
-                    </span>
+              <div class="bookings-header d-flex justify-content-between">
+                <div class="d-flex bookingNumber">
+                  <img src="../../../../../assets/images/icons/icon_pin_sea.svg">
+                  <div class="d-flex flex-column">
+                    <span>{{booking.HashMoveBookingNum}}</span>
+                    <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}</small>
                   </div>
                 </div>
-                <hr class="hr-solid mt-0">
+                <div class="d-flex mt-1 companyName">
+                  <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
+                  <span>{{booking.CarrierName}}</span>
+                </div>
               </div>
-            </div>
-          </div>
+              <hr class="hr-solid mt-0">
           <!-- booking top row -->
 
           <!-- booking bottom row -->
