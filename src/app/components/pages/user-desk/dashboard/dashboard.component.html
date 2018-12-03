@@ -126,16 +126,20 @@
                 <div class="bookings-route-number d-flex no-gutters">
                   <div class="col-xl-6 ">
                     <a href="javascript:;">
-                      <img src="../../../../../assets/images/icons/icon_pin_sea.svg"> {{booking.HashMoveBookingNum}}
+                      <img src="../../../../../assets/images/icons/icon_pin_sea.svg"> 
+                      <div class="bookings-route-number-text">
+                          {{booking.HashMoveBookingNum}}
+                          <small class="d-block pt-1 mb-1">
+                              Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}
+                            </small>
+                      </div>
                     </a>
-                    <small class="d-block ml-4 pt-1 mb-1">
-                      Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date
-                      : "H:mm"}}
-                    </small>
+                    
                   </div>
                   <div class="col-xl-6 ">
-                    <span class="pull-right justify-content-center">
-                      <img [src]="baseExternalAssets +'/'+ booking.CarrierImage"> {{booking.CarrierName}}
+                    <span class="pull-right position-relative bookings-route-company">
+                      <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
+                      <div class="bookings-route-company-name">{{booking.CarrierName}}</div>
                     </span>
                   </div>
                 </div>
