@@ -7,7 +7,7 @@ export class ViewBookingService {
   constructor(private _http: HttpClient) { }
 
   getBookingDetails(bookingId) {
-    let url = `booking/GetBookingSummary/${bookingId}`;
+    let url = `booking/GetProviderBookingSummary/${bookingId}`;
     return this._http.get(baseApi + url);
   }
   getDocReasons() {

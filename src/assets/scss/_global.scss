@@ -438,7 +438,7 @@ input[type="radio"]:focus+label>span {
         &::-ms-reveal {
             display: none;
         }
-        &[type= "password"] {
+        &[type = "password"] {
             padding-right: 40px;
         }
     }
@@ -795,17 +795,6 @@ select {
     &[ng-reflect-model="undefined"] {
         color: $place-holder-color;
     }
-}
-
-.no-record {
-    color: #ccc;
-    border: 1px dashed #ccc;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    img {margin-bottom: 20px;}
 }
 
 .creatpass-eng {

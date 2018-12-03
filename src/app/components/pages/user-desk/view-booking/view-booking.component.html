@@ -88,23 +88,34 @@
             </h5>
           </div>
           <div class="logo">
-            <img alt="icon" [src]="bookingDetails.ProviderDisplayImage">
+            <img alt="icon" [src]="baseExternalAssets + bookingDetails.BookingUserInfo.UserImage">
           </div>
           <div class="company">
             <span>Your customer is</span>
-            <p>{{bookingDetails.ProviderName}}</p>
+            <p *ngIf="bookingDetails.BookingUserInfo.UserType=='CORPORATE'; else custname">{{bookingDetails.BookingUserInfo.CompanyName}}</p>
+            <ng-template #custname>
+             <p>{{bookingDetails.BookingUserInfo.FirstName}} {{bookingDetails.BookingUserInfo.LastName}}</p>
+            </ng-template>
           </div>
           <button class="btn btn-outline-primary hvr-sweep-to-right pull-right view-booking-shipment-detail-btn mt-4" placement="bottom"
             [ngbPopover]="contact">Contact</button>
           <ng-template #contact>
             <div class="contact-popup fadeIn animated">
-              <a *ngFor="let email of ProviderEmails" href="{{'mailto:' + email}}">
+              <a [href]="(bookingDetails.BookingUserInfo.UserType =='CORPORATE')? 'mailto:' + bookingDetails.BookingUserInfo.CompanyEmail : 'mailto:' + bookingDetails.BookingUserInfo.PrimaryEmail">
                 <img src="../../../../../assets/images/icons/icon_email.svg" alt="mail_Icon" class="icon-size-16">
-                <span>{{email}}</span>
+                <span *ngIf="bookingDetails.BookingUserInfo.UserType=='CORPORATE'; else custemail">
+                  {{bookingDetails.BookingUserInfo.CompanyEmail}}
+                </span>
+                <ng-template #custemail>
+                <span>{{bookingDetails.BookingUserInfo.PrimaryEmail}}</span>
+                </ng-template>
               </a>
               <p>
                 <img src="../../../../assets/images/icons/mob-icon.svg" alt="Contact_Icon" class="icon-size-16">
-                <strong style="vertical-align: middle;">{{bookingDetails.ProviderPhone}}</strong>
+                <strong align="middle" *ngIf="bookingDetails.BookingUserInfo.UserType=='CORPORATE'; else custcont">{{bookingDetails.BookingUserInfo.CompanyPhone}}</strong>
+                <ng-template #custcont>
+                <strong align="middle">{{bookingDetails.BookingUserInfo.PrimaryPhone}}</strong>
+                </ng-template>
               </p>
             </div>
           </ng-template>

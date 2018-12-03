@@ -98,6 +98,9 @@
 }
 
 .bookings {
+    .border-separated {
+        border-right: 1px solid #6c757d2b
+    }
     &-header {
         font-family: $font-proxima;
         small {
@@ -107,17 +110,17 @@
             font-weight: $font-weight-normal;
             margin-bottom: 1px;
         }
-        .bookingNumber {
+        &-number {
             font-size: $font-size-large;
             font-weight: $font-proxima-weight-semibold;
             color: $primary-color;
-            img{
+            img {
                 width: 33px;
                 height: 33px;
                 margin-right: 15px;
             }
         }
-        .companyName {
+        &-company {
             img {
                 width: 28px;
                 height: 28px;
@@ -125,12 +128,53 @@
             }
         }
     }
-    &-route {
-        float: left;
-        width: 100%;
-        border-right: 1px solid #6c757d2b;
-        position: relative;
-        &.right-arrow {
+    &-detail {
+        .ports {
+            font-family: $font-proxima;
+            font-size: $font-size-base;
+            &-label {
+                font-size: $font-size-large;
+                color: $text-color-default;
+                margin-bottom: 0;
+                font-weight: $font-proxima-weight-semibold;
+            }
+            .pending {
+                font-size: $font-size-large;
+                color: rgb(211, 32, 32);
+                line-height: 1.25;
+            }
+            .secondary {
+                font-size: $font-size-large;
+                color: rgb(2, 189, 182);
+                line-height: 1.25;
+            }
+            .customer-image {
+                width: 44px;
+                height: 40px;
+                border: 1px solid #6c757d2b;
+                padding: 0.4375rem;
+                img {
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+            small {
+                font-size: $font-size-base;
+                color: $color-topmenu;
+                text-transform: uppercase;
+                line-height: 1.2;
+                vertical-align: bottom;
+                text-align: left;
+                margin-top: 0.84375rem;
+            }
+            span {
+                font-size: $font-size-large;
+                font-family: $font-proxima;
+                color: rgb(43, 43, 43);
+                text-align: left;
+            }
+        }
+        &.angle-arrow {
             &:before {
                 content: "";
                 height: 70px;
@@ -152,172 +196,23 @@
                 right: 25px;
             }
         }
-        &-number {
-            line-height: 1.1;
-            a {
-                font-size: $font-size-large;
-                font-family: $font-proxima;
-                font-weight: $font-proxima-weight-semibold;
-                color: $primary-color;
-                img {
-                    width: 33px;
-                    height: 33px;
-                    position: absolute;
-                    @media (max-width: $screen-xs-screen) {
-                        position: relative;
-                    }
-                }
-                .bookings-route-number-text {
-                    padding-left: 3rem;
-                    word-break: break-all;
-                    @media (max-width: $screen-xs-screen) {
-                        padding-left: 0px;
-                        padding-top: 10px;
-                    }
-                    small {
-                        font-family: $font-proxima;
-                        font-size: $font-size-base;
-                        color: $text-grey;
-                        font-weight: $font-weight-normal;
-                    }
-                }
-            }
-        }
-        .bookings-route-company {
-            font-size: $font-size-large;
-            font-family: $font-proxima;
-            color: $color-menuheading-black;
-            line-height: 1;
-            text-align: left;
-            &-name {
-                padding-left: 39px;
-                margin-top: 5px;
-                @media (max-width: $screen-xs-screen) {
-                    padding-left: 0px;
-                    margin-top: 10px;
-                }
-            }
-            img {
-                width: 28px;
-                height: 28px;
-                position: absolute;
-                @media (max-width: $screen-xs-screen) {
-                    position: relative;
-                    width: 33px;
-                    height: 33px;
-                }
-            }
-        }
-        .ports {
-            font-family: $font-proxima;
-            font-size: $font-size-base;
-            &-label {
-                font-size: $font-size-large;
-                color: $text-color-default;
-                margin-bottom: 0;
-                font-weight: $font-proxima-weight-semibold;
-                font-family: $font-proxima;
-            }
-            .pending {
-                font-size: $font-size-large;
-                font-family: $font-proxima;
-                color: rgb(211, 32, 32);
-                line-height: 1.25;
-            }
-            .secondary {
-                font-size: $font-size-large;
-                font-family: $font-proxima;
-                color: rgb(2, 189, 182);
-                line-height: 1.25;
-            }
-            .dashboard-image-box {
-                width: 44px;
-                height: 40px;
-                border: 1px solid #6c757d2b;
-                float: left;
-                margin-left: 0.0625rem;
-                margin-right: 0.625rem;
-                margin-top: 0.5rem;
-                padding: 0.4375rem;
-                img {
-                    height: 100%;
-                    width: 100%;
-                }
-            }
-            small {
-                font-size: $font-size-base;
-                font-family: $font-proxima;
-                color: $color-topmenu;
-                text-transform: uppercase;
-                line-height: 1.2;
-                vertical-align: bottom;
-                text-align: left;
-                margin-top: 0.84375rem;
-            }
-            span {
-                font-size: $font-size-large;
-                font-family: $font-proxima;
-                color: rgb(43, 43, 43);
-                text-align: left;
-                img {
-                    margin-right: 0.625rem;
-                    width: 16px;
-                    height: 16px;
-                    margin-bottom: 0.5rem
+        @media (max-width: $screen-fourteen-hundred) {
+            .angle-arrow {
+                &:before,
+                &:after {
+                    right: 15px !important;
                 }
             }
         }
     }
-    &-selected {
-        span {
-            font-size: $font-size-base;
-            text-transform: uppercase;
-            color: $dark-grey-blue;
-            font-weight: $font-weight-mid;
-            position: relative;
-            text-decoration: none;
-            line-height: 24px;
-            width: auto;
-            &:before,
-            &:after {
-                color: $secondary-color;
-                content: '';
-                position: absolute;
-                transition: transform .5s ease;
-            }
-            &.link-hover-1 {
-                padding-top: 10px;
-                &:before {
-                    top: 25px;
-                    left: 0;
-                    bottom: 0;
-                    width: 100%;
-                    height: 1px;
-                    background: darken(#738593, 3%);
-                    transform: scaleX(0);
-                }
-                &:hover:before {
-                    transform: scaleX(1);
-                }
-            }
+    @media (max-width: $screen-md-screen) {
+        .border-separated {
+            border-right: 0px;
+            border-bottom: 1px solid #6c757d2b;
+            padding-bottom: 10px;
         }
-        .pointer {
-            &:after {
-                color: #738593;
-            }
-        }
-    }
-    .card {
-        border-radius: 0px;
-        border-color: #e9e9e9;
-    }
-}
-
-@media (max-width: $screen-fourteen-hundred) {
-    .right-arrow {
-        &:before,
-        &:after {
-            right: 4px !important;
+        .hr-solid {
+            margin-top: 10px !important;
         }
     }
 }

@@ -11,7 +11,7 @@ export class UserGuard implements CanActivate {
 
   public previousUrl;
   private islogOut : boolean;
-  private userID;
+  private infoObj;
   constructor(
     private _basicInfoService: BasicInfoService, 
     private router: Router, 
@@ -84,26 +84,36 @@ export class UserGuard implements CanActivate {
    // if user go to user desk pages
     if (state.url.indexOf('provider') >= 0) {
       if (!this.islogOut) {
-        return this.getProfileStatus(this.userID);
-      }
-    }
-  }
-  getProfileStatus(id): Observable<boolean>{
-    return this._userCreationService.getUserProfileStatus(id).map((res: any) => {
-      if (res.returnStatus == "Success") {
-        if (res.returnText == "Warehouse Pending"){
+        if (this.infoObj.UserProfileStatus == "Warehouse Pending"){
           return true;
         }
-        else{
+        else if (this.infoObj.UserProfileStatus == "Business Profile Pending"){
           this.router.navigate(['/business-profile']);
           return true;
         }
       }
-    }, (err: HttpErrorResponse) => {
-      this.router.navigate(['/registration']);
-      return true;
-    })
+      else {
+        this.router.navigate(['/business-profile']);
+        return true;
+      }
+    }
   }
+  // getProfileStatus(id): Observable<boolean>{
+  //   return this._userCreationService.getUserProfileStatus(id).map((res: any) => {
+  //     if (res.returnStatus == "Success") {
+  //       if (res.returnText == "Warehouse Pending"){
+  //         return true;
+  //       }
+  //       else{
+  //         this.router.navigate(['/business-profile']);
+  //         return true;
+  //       }
+  //     }
+  //   }, (err: HttpErrorResponse) => {
+  //     this.router.navigate(['/registration']);
+  //     return true;
+  //   })
+  // }
   checkOtp(otpKey): Observable<boolean> {
     return this._basicInfoService.getUserInfoByOtp(otpKey).map((res: any) => {
       if (res.returnStatus == "Success") {
@@ -145,11 +155,11 @@ export class UserGuard implements CanActivate {
       return Observable.of(true);
     })
   }
-  async getloginStatus(){
+   getloginStatus(){
   let userInfo = JSON.parse(localStorage.getItem('userInfo')); 
   if (userInfo && userInfo.returnText){
-  let info = JSON.parse(userInfo.returnText);
-  this.userID = info.UserID;
+   this.infoObj = JSON.parse(userInfo.returnText);
+
   this._sharedService.IsloggedIn.subscribe((state: any) => {
     if (state == null) {
       this.islogOut = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
