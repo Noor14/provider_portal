@@ -147,23 +147,22 @@
 
           <!-- booking bottom row -->
           <div class="row">
-            <div class="col-3 mt-1">
-              <div class="bookings-route border-right-0 right-arrow">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mt-1 right-arrow">
+              <div class="bookings-route border-right-0 border-xs-bottom">
                 <div class="ports pull-left">
                   <div class="ports d-inline-block">
                     <small class="d-block mb-2">From</small>
                     <label class="ports-label mt-1">{{booking.PolCode}}</label>
                     <span class="d-block mb-3">Port of {{booking.PolCountry}}</span>
                     <span>
-                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg"> {{booking.EtdLcl | date : "d
-                      MMM, yyyy"}} {{booking.EtdLcl | date : "H:mm"}}
+                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg"> {{booking.EtdLcl | date : "d MMM, yyyy"}} {{booking.EtdLcl | date : "H:mm"}}
                     </span>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-3 mt-1 pl-4">
-              <div class="bookings-route">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mt-1 pl-4">
+              <div class="bookings-route border-lg-0-right border-xs-bottom">
                 <div class="ports pull-left">
                   <div class="ports d-inline-block">
                     <small class="d-block mb-2">to</small>
@@ -171,8 +170,7 @@
                     <span class="d-block mb-3">Port of {{booking.PodCountry}}</span>
                     <div class="ports-calendar">
                       <span>
-                        <img src="../../../../../assets/images/icons/Icons_Calendar.svg"> {{booking.EtaLcl | date : "d
-                        MMM, yyyy"}} {{booking.EtaLcl | date : "H:mm"}}
+                        <img src="../../../../../assets/images/icons/Icons_Calendar.svg"> {{booking.EtaLcl | date : "d MMM, yyyy"}} {{booking.EtaLcl | date : "H:mm"}}
                       </span>
                     </div>
                   </div>
@@ -180,8 +178,8 @@
               </div>
             </div>
 
-            <div class="col-3 mt-1 pl-4">
-              <div class="bookings-route">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mt-1 pl-4 ">
+              <div class="bookings-route border-xs-0-right border-xs-bottom">
                 <div class="ports pull-left">
                   <div class="ports d-inline-block ">
                     <small class="d-block">CUSTOMER</small>
@@ -198,7 +196,7 @@
             </div>
 
 
-            <div class="col-3 mt-1 pl-4">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mt-1 pl-4">
               <div class="bookings-route border-right-0">
                 <div class="ports pull-left">
                   <div class="ports d-inline-block">
@@ -215,7 +213,7 @@
           </div>
         </div>
       </div>
-  </div>
+    </div>
   <div class="overflow-hidden" *ngIf="!providerInfo.BookingDetails || (providerInfo.BookingDetails && !providerInfo.BookingDetails.length || !(providerInfo.BookingDetails | BookingMode : selectedBookingMode).length)">
     <div class="animated bounceInDown card text-center p-1">
       <p class="mb-0">You don't have any bookings yet </p>
