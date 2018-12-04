@@ -3,6 +3,8 @@ import { LoginDialogComponent } from '../dialogues/login-dialog/login-dialog.com
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmLogoutDialogComponent } from '../dialogues/confirm-logout-dialog/confirm-logout-dialog.component';
 import { SharedService } from '../../services/shared.service';
+
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -10,11 +12,12 @@ import { SharedService } from '../../services/shared.service';
 })
 export class HeaderComponent implements OnInit {
 
-  IsloggedInShow: boolean;
+  logoutDisplay: boolean;
   isLoggedIn:boolean;
   constructor(
     private modalService: NgbModal,
-    private _sharedService: SharedService
+    private _sharedService: SharedService,
+    
   ) { }
 
   ngOnInit() {
@@ -26,9 +29,8 @@ export class HeaderComponent implements OnInit {
         this.isLoggedIn = state;
       }
     })
-    this._sharedService.IsloggedInShow.subscribe((state: any) => {
-      this.IsloggedInShow = state;
-    })
+
+    this.logoutDisplay = (location.pathname.indexOf('otp') < 0 || location.pathname.indexOf('password') < 0) ? true : false ;
   }
   login() {
     this.modalService.open(LoginDialogComponent, {

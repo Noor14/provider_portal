@@ -966,18 +966,13 @@ export class DirectorinfoComponent implements OnInit {
     loading(true);
 
     this._companyInfoService.submitBusinessInfo(obj).subscribe((res: any) => {
+      loading(false);
       if (res.returnStatus == "Success") {
-        let obj = JSON.parse(res.returnText);
-        obj.UserProfileStatus == "Business Profile Complete";
-        console.log(res);
+       JSON.parse(res.returnText).UserProfileStatus = "Business Profile Complete";
         localStorage.setItem('userInfo', JSON.stringify(res));
-        this._router.navigate(['/profile-completion']);
-        loading(false)
+        this._router.navigate(['/profile-completion']);  
       }
-      else {
-        loading(false)
-
-      }
+      
     }, (err: HttpErrorResponse) => {
       loading(false)
     })

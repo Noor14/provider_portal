@@ -39,7 +39,6 @@ export class UserGuard implements CanActivate {
       }
       else {
         this.router.navigate(['/registration']);
-        return true;
       }
     }
 
@@ -52,11 +51,9 @@ export class UserGuard implements CanActivate {
       }
       else if (!this.islogOut){
         this.router.navigate(['/business-profile']);    // "previous url hard code"
-        return true;
       }
       else{
         this.router.navigate(['/registration']);
-        return true;
       }
     }
 
@@ -75,7 +72,6 @@ export class UserGuard implements CanActivate {
       }
       else {
         this.router.navigate(['/registration']);
-        return true;
       }
     }
 
@@ -84,7 +80,7 @@ export class UserGuard implements CanActivate {
     if (state.url == '/profile-completion') {
       if (!this.islogOut) {
         if (this.infoObj.UserProfileStatus == "Business Profile Complete") {
-          return true
+          return true;
         }
         else if (this.infoObj.UserProfileStatus == "Warehouse Pending") {
           this.router.navigate(['/provider/dashboard']);
@@ -111,6 +107,9 @@ export class UserGuard implements CanActivate {
         else if (this.infoObj.UserProfileStatus == "Business Profile Pending") {
           this.router.navigate(['/business-profile']);
         }
+        else if (this.infoObj.UserProfileStatus == "Business Profile Complete") {
+          this.router.navigate(['/profile-completion']);
+        }
       }
     }
    // if user go to user desk pages
@@ -121,12 +120,13 @@ export class UserGuard implements CanActivate {
         }
         else if (this.infoObj.UserProfileStatus == "Business Profile Pending"){
           this.router.navigate(['/business-profile']);
-          return true;
+        }
+        else if (this.infoObj.UserProfileStatus == "Business Profile Complete") {
+          this.router.navigate(['/profile-completion']);
         }
       }
       else {
-        this.router.navigate(['/business-profile']);
-        return true;
+        this.router.navigate(['/registration']);
       }
     }
   }
@@ -203,8 +203,6 @@ export class UserGuard implements CanActivate {
     }else{
       this.islogOut = true;
     }
-  // this._sharedService.IsloggedInShow.subscribe((state: any) => {
-  //   this.islogOut = state;
-  // })
+
 }
 }
