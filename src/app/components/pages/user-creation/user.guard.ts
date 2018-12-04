@@ -63,7 +63,12 @@ export class UserGuard implements CanActivate {
     // if user go to direct business profile page or profile-completion page
     if (state.url == '/business-profile' || state.url == '/profile-completion') {
       if (!this.islogOut) {
-        return true;
+        if (this.infoObj.UserProfileStatus == "Warehouse Pending") {
+          this.router.navigate(['/provider/dashboard']);
+        }
+        else if (this.infoObj.UserProfileStatus == "Business Profile Pending") {
+          return true;
+        }
       }
       else {
         this.router.navigate(['/registration']);
@@ -78,7 +83,12 @@ export class UserGuard implements CanActivate {
         return true;
       }
       else {
-        this.router.navigate(['/provider/dashboard']);
+        if (this.infoObj.UserProfileStatus == "Warehouse Pending") {
+          this.router.navigate(['/provider/dashboard']);
+        }
+        else if (this.infoObj.UserProfileStatus == "Business Profile Pending") {
+          this.router.navigate(['/business-profile']);
+        }
       }
     }
    // if user go to user desk pages
