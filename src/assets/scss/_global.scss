@@ -553,6 +553,10 @@ input[type="radio"]:focus+label>span {
                                     margin-left: 9px;
                                     margin-right: 0px;
                                 }
+                                span {
+                                    direction: ltr;
+                                    display: inline-block;
+                                }
                             }
                         }
                     }
