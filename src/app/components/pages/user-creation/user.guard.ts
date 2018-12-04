@@ -60,14 +60,17 @@ export class UserGuard implements CanActivate {
       }
     }
 
-    // if user go to direct business profile page or profile-completion page
-    if (state.url == '/business-profile' || state.url == '/profile-completion') {
+    // if user go to direct business profile page
+    if (state.url == '/business-profile') {
       if (!this.islogOut) {
         if (this.infoObj.UserProfileStatus == "Warehouse Pending") {
           this.router.navigate(['/provider/dashboard']);
         }
         else if (this.infoObj.UserProfileStatus == "Business Profile Pending") {
           return true;
+        }
+        else if (this.infoObj.UserProfileStatus == "Business Profile Complete") {
+          this.router.navigate(['/profile-completion']);
         }
       }
       else {
@@ -76,6 +79,25 @@ export class UserGuard implements CanActivate {
       }
     }
 
+    // if user go to direct thankYou page
+
+    if (state.url == '/profile-completion') {
+      if (!this.islogOut) {
+        if (this.infoObj.UserProfileStatus == "Business Profile Complete") {
+          return true
+        }
+        else if (this.infoObj.UserProfileStatus == "Warehouse Pending") {
+          this.router.navigate(['/provider/dashboard']);
+        }
+        else if (this.infoObj.UserProfileStatus == "Business Profile Pending") {
+          this.router.navigate(['/business-profile']);    // "previous url hard code"
+        }
+      }
+      else {
+        this.router.navigate(['/registration']);
+        return true;
+      }
+    }
     // if user go to registration page
 
     if (state.url == '/registration' || state.url.indexOf('registration') >= 0) {

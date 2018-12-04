@@ -31,31 +31,7 @@
   </section>
 
   <section class="registration-form animated fadeInUp pt-3" *ngIf="registrationForm">
-    <!-- <h5 class="registration-head-titles mt-5 pt-2 d-flex justify-content-between">
-      <span>{{lblAccSetupBaseLang}}</span>
-      <span *ngIf="showTranslatedLangSide" class="text-right ">{{lblAccSetupOtherLang}}</span>
-    </h5>
-    <hr class="hr-solid">
-    <div class="row pt-2 mb-0 " *ngFor="let account of accountSetup; let i = index">
-      <div class="col-lg-6 col-md-6 col-sm-12">
-        <div class="fancyRadioBoxes">
-          <input id="{{i + 'setup'}}" name="accountSetup" type="radio" (click)="selectAccountSetup(i + 'setup', account)">
-          <label for="{{i + 'setup'}}">
-            <span [ngClass]="{'radioError': !accountId}"></span>
-              {{account.AccountNameBaseLang}}
-          </label>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
-        <div class="fancyRadioBoxes dir-otherLanguage">
-          <input id="{{i + 'setup'}}" name="accountSetupArb" type="radio" (click)="selectAccountSetup(i + 'setup', account)">
-          <label for="{{i + 'setup'}}">
-            <span class="mr-0 ml-2" [ngClass]="{'radioError': !accountId}"></span>
-              {{account.AccountNameOtherLang}}
-          </label>
-        </div>
-      </div>
-    </div> -->
+   
     <div class="heading">
       <h5 class="registration-head-titles mt-5 d-flex justify-content-between">
         <span>{{lblPersonalInfoBaseLang}}</span>
