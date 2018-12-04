@@ -7,8 +7,6 @@ import { SharedService } from '../../../../../services/shared.service';
 import { BasicInfoService } from '../basic-info.service';
 import { loading } from '../../../../../constants/globalFunctions';
 import { HttpErrorResponse } from '@angular/common/http';
-import { JsonResponse } from '../../../../../interfaces/JsonResponse';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-create-password',
