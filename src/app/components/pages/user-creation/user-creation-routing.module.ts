@@ -8,26 +8,36 @@ import { CreatePasswordComponent } from './basic-info/create-password/create-pas
 import { UserCreationComponent } from './user-creation.component';
 import { ShippingInfoComponent } from './company-info/shipping-info/shipping-info.component';
 import { BusinessInfoComponent } from './company-info/business-info/business-info.component';
+import { BusinessSetupComponent } from './company-info/shipping-info/business-setup/business-setup.component';
+import { SetupMapComponent } from './company-info/shipping-info/setup-map/setup-map.component';
+import { ShippingLinesComponent } from './company-info/shipping-info/shipping-lines/shipping-lines.component';
+
+import { WarehouseListComponent } from './company-info/shipping-info/warehouse-list/warehouse-list.component';
+import { WarehouseDetailComponent } from './company-info/shipping-info/warehouse-detail/warehouse-detail.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: UserCreationComponent,
-    children: [
-      { path: 'registration', component: RegistrationComponent, canActivate: [UserGuard] },
-      { path: 'otp/:keys', component: OtpconfirmationComponent, canActivate: [UserGuard] },
-      { path: 'password/:keys', component: CreatePasswordComponent, canActivate: [UserGuard] },
-      { path: 'business-profile', component: BusinessInfoComponent, canActivate: [UserGuard] },
-      { path: 'profile-completion', component: ProfilecompletionComponent, canActivate: [UserGuard] },
-      { path: 'business-setup', component: ShippingInfoComponent },
-      { path: '**', redirectTo: 'registration', pathMatch: 'full' }
-    ]
-  }
+{
+path: '',
+component: UserCreationComponent,
+children: [
+{ path: 'registration', component: RegistrationComponent, canActivate: [UserGuard] },
+{ path: 'otp/:keys', component: OtpconfirmationComponent, canActivate: [UserGuard] },
+{ path: 'password/:keys', component: CreatePasswordComponent, canActivate: [UserGuard] },
+{ path: 'business-profile', component: BusinessInfoComponent, canActivate: [UserGuard] },
+{ path: 'profile-completion', component: ProfilecompletionComponent, canActivate: [UserGuard] },
+{ path: 'business-setup', component: BusinessSetupComponent },
+{ path: 'setup-map', component: SetupMapComponent },
+{ path: 'shippinglines', component: ShippingLinesComponent },
+{ path: 'warehouse-detail', component: WarehouseDetailComponent },
+{ path: 'warehouse-list', component: WarehouseListComponent },
+{ path: '**', redirectTo: 'registration', pathMatch: 'full' }
+]
+}
 ];
 
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+imports: [RouterModule.forChild(routes)],
+exports: [RouterModule]
 })
 export class UserCreationRoutingModule { }

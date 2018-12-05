@@ -1,0 +1,40 @@
+@import '../../../../../../../assets/scss/_variables';
+
+.sub-title {
+    &.noti {
+      padding-left: 1.5rem;
+      position: relative;
+      margin-top: 10px;
+      display: inline-block;
+      &:before {
+        content: url("../../../../../../../assets/images/icons/icon_info.svg");
+        position: absolute;
+        left: 0px;
+        top: 2px;
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+  .add-hours {
+      padding-left: 2.5rem;
+      position: relative;
+      margin-top: 10px;
+      display: inline-block;
+    &:before {
+      content: url("../../../../../../../assets/images/icons/icon_add.svg");
+      position: absolute;
+      left: 15px;
+      top: 2px;
+      width: 16px;
+      height: 16px;
+    }
+  }
+  
+  .racked {
+    color: $secondary-grey;
+    font-family: $font-proxima;
+    font-weight: $font-weight-mid;
+    font-size: $font-size-medium;
+  }
+  

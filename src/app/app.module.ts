@@ -10,7 +10,6 @@ import { CommonService } from './services/common.service';
 import { SharedService } from './services/shared.service';
 import { ToastrModule } from 'ngx-toastr';
 import { ScrollbarModule } from 'ngx-scrollbar';
-
 @NgModule({
   declarations: [
     AppComponent

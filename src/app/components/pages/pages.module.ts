@@ -23,7 +23,8 @@ import { CompanyInfoService } from './user-creation/company-info/company-info.se
     PagesRoutingModule,
     FormsModule, 
     ReactiveFormsModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+
   ],
   declarations: [
     PagesComponent,

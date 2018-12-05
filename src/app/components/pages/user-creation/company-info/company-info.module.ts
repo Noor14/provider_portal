@@ -19,11 +19,16 @@ import { NgFilesModule } from '../../../../directives/ng-files/';
 
 import { CompanyInfoService } from './company-info.service';
 import { ComapnyInfoComponent } from './comapny-info.component';
+import { WarehouseListComponent } from './shipping-info/warehouse-list/warehouse-list.component';
+import { UiSwitchModule } from 'ngx-toggle-switch';
+import { WarehouseDetailComponent } from './shipping-info/warehouse-detail/warehouse-detail.component';
+
 @NgModule({
   imports: [
     CommonModule,
     NgFilesModule,
     HttpClientModule,
+    UiSwitchModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
       libraries: ["places", "geometry"]
@@ -42,7 +47,9 @@ import { ComapnyInfoComponent } from './comapny-info.component';
     BusinessSetupComponent,
     SetupMapComponent,
     ShippingLinesComponent,
-    SlidePanelComponent
+    SlidePanelComponent,
+    WarehouseListComponent,
+    WarehouseDetailComponent
 
   ],
   providers: [
