@@ -51,15 +51,8 @@
         </p>
       </ngx-step>
     </ngx-stepper>
-  
-  
-    <button (click)="stepper.prev()">
-      Back </button>
-  
-        <button *ngIf="!stepper.lastStepActive" (click)="stepper.next()">
-          Next
-        </button>
-  
+    <button (click)="stepper.prev()" *ngIf="stepper.activeStep">  Back </button>
+    <button *ngIf="!stepper.lastStepActive" (click)="stepper.next()"> Next </button>
   </div>
   
   

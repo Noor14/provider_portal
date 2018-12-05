@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-warehouse-info',
@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./warehouse-info.component.scss']
 })
 export class WarehouseInfoComponent implements OnInit {
-
+  @ViewChild('stepper') public stepper: ElementRef;
   constructor() { }
 
   ngOnInit() {
+    // console.log(this.stepper);
   }
 
 }
