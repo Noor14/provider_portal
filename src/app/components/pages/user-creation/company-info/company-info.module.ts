@@ -24,6 +24,7 @@ import { UiSwitchModule } from 'ngx-toggle-switch';
 import { WarehouseDetailComponent } from './shipping-info/warehouse-detail/warehouse-detail.component';
 import { WarehouseInfoComponent } from './warehouse-info/warehouse-info.component';
 import { NgStepperModule } from '../../../../directives/stepper/stepper.module';
+import { WarehouseCategoryComponent } from './warehouse-info/warehouse-category/warehouse-category.component';
 
 @NgModule({
   imports: [
@@ -53,7 +54,8 @@ import { NgStepperModule } from '../../../../directives/stepper/stepper.module';
     SlidePanelComponent,
     WarehouseInfoComponent
     WarehouseListComponent,
-    WarehouseDetailComponent
+    WarehouseDetailComponent,
+    WarehouseCategoryComponent
 
   ],
   providers: [
