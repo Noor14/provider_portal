@@ -5,6 +5,7 @@ import { ConfirmLogoutDialogComponent } from '../dialogues/confirm-logout-dialog
 import { SharedService } from '../../services/shared.service';
 
 
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -12,7 +13,7 @@ import { SharedService } from '../../services/shared.service';
 })
 export class HeaderComponent implements OnInit {
 
-  logoutDisplay: boolean = true;
+  logoutDisplay: boolean;
   isLoggedIn: boolean;
   constructor(
     private modalService: NgbModal,
@@ -29,8 +30,10 @@ export class HeaderComponent implements OnInit {
         this.isLoggedIn = state;
       }
     })
-
-    this.signOutToggler();
+    this._sharedService.signOutToggler.subscribe((state: any) => {
+        this.signOutToggler();
+    })
+    
   }
 
   signOutToggler() {

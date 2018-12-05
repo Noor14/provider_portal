@@ -50,6 +50,7 @@ export class CreatePasswordComponent implements OnInit {
 
   ngOnInit() {
     this._sharedService.IsloggedIn.next(false);
+    this._sharedService.signOutToggler.next(false);
 
     this.passForm = new FormGroup({
       password: new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(30)]),
@@ -147,6 +148,7 @@ export class CreatePasswordComponent implements OnInit {
           loginData.IsLogedOut = false;
           localStorage.setItem('userInfo', JSON.stringify(res));
           this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
+          this._sharedService.signOutToggler.next(true);          
           this._toast.success('Account successfully created', '');
           this._router.navigate(['business-profile']);
         } else {
