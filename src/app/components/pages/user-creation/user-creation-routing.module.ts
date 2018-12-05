@@ -6,8 +6,8 @@ import { OtpconfirmationComponent } from './basic-info/otpconfirmation/otpconfir
 import { ProfilecompletionComponent } from './company-info/business-info/profilecompletion/profilecompletion.component';
 import { CreatePasswordComponent } from './basic-info/create-password/create-password.component';
 import { UserCreationComponent } from './user-creation.component';
-import { ShippingInfoComponent } from './company-info/shipping-info/shipping-info.component';
 import { BusinessInfoComponent } from './company-info/business-info/business-info.component';
+import { WarehouseInfoComponent } from './company-info/warehouse-info/warehouse-info.component';
 
 const routes: Routes = [
   {
@@ -19,7 +19,7 @@ const routes: Routes = [
       { path: 'password/:keys', component: CreatePasswordComponent, canActivate: [UserGuard] },
       { path: 'business-profile', component: BusinessInfoComponent, canActivate: [UserGuard] },
       { path: 'profile-completion', component: ProfilecompletionComponent, canActivate: [UserGuard] },
-      { path: 'business-setup', component: ShippingInfoComponent },
+      { path: 'warehouse-setup', component: WarehouseInfoComponent },
       { path: '**', redirectTo: 'registration', pathMatch: 'full' }
     ]
   }

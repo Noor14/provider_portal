@@ -19,11 +19,14 @@ import { NgFilesModule } from '../../../../directives/ng-files/';
 
 import { CompanyInfoService } from './company-info.service';
 import { ComapnyInfoComponent } from './comapny-info.component';
+import { WarehouseInfoComponent } from './warehouse-info/warehouse-info.component';
+import { NgStepperModule } from '../../../../directives/stepper/stepper.module';
 @NgModule({
   imports: [
     CommonModule,
     NgFilesModule,
     HttpClientModule,
+    NgStepperModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
       libraries: ["places", "geometry"]
@@ -42,7 +45,8 @@ import { ComapnyInfoComponent } from './comapny-info.component';
     BusinessSetupComponent,
     SetupMapComponent,
     ShippingLinesComponent,
-    SlidePanelComponent
+    SlidePanelComponent,
+    WarehouseInfoComponent
 
   ],
   providers: [
