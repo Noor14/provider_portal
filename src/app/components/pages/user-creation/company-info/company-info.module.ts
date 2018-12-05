@@ -52,7 +52,7 @@ import { WarehouseListComponent } from './warehouse-info/warehouse-list/warehous
     SetupMapComponent,
     ShippingLinesComponent,
     SlidePanelComponent,
-    WarehouseInfoComponent
+    WarehouseInfoComponent,
     WarehouseListComponent,
     WarehouseDetailComponent,
     WarehouseCategoryComponent
