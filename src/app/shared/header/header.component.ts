@@ -3,6 +3,9 @@ import { LoginDialogComponent } from '../dialogues/login-dialog/login-dialog.com
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmLogoutDialogComponent } from '../dialogues/confirm-logout-dialog/confirm-logout-dialog.component';
 import { SharedService } from '../../services/shared.service';
+
+
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -10,26 +13,41 @@ import { SharedService } from '../../services/shared.service';
 })
 export class HeaderComponent implements OnInit {
 
-  IsloggedInShow: boolean;
-  isLoggedIn:boolean;
+  logoutDisplay: boolean;
+  isLoggedIn: boolean;
   constructor(
     private modalService: NgbModal,
-    private _sharedService: SharedService
+    private _sharedService: SharedService,
+
   ) { }
 
   ngOnInit() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._sharedService.IsloggedIn.subscribe((state: any) => {
-      if(state == null){
+      if (state == null) {
         this.isLoggedIn = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
-      }else{
+      } else {
         this.isLoggedIn = state;
       }
     })
-    this._sharedService.IsloggedInShow.subscribe((state: any) => {
-      this.IsloggedInShow = state;
+    this._sharedService.signOutToggler.subscribe((state: any) => {
+        this.signOutToggler();
     })
+    
   }
+
+  signOutToggler() {
+    if (location.pathname.indexOf('otp') >= 0) {
+      this.logoutDisplay = false;
+    }
+    else if (location.pathname.indexOf('password') >= 0) {
+      this.logoutDisplay = false;
+    }
+    else {
+      this.logoutDisplay = true;
+    }
+  }
+
   login() {
     this.modalService.open(LoginDialogComponent, {
       size: 'lg',

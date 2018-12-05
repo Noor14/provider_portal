@@ -7,8 +7,6 @@ import { SharedService } from '../../../../../services/shared.service';
 import { BasicInfoService } from '../basic-info.service';
 import { loading } from '../../../../../constants/globalFunctions';
 import { HttpErrorResponse } from '@angular/common/http';
-import { JsonResponse } from '../../../../../interfaces/JsonResponse';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-create-password',
@@ -51,7 +49,8 @@ export class CreatePasswordComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this._sharedService.IsloggedInShow.next(false);
+    this._sharedService.IsloggedIn.next(false);
+    this._sharedService.signOutToggler.next(false);
 
     this.passForm = new FormGroup({
       password: new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(30)]),
@@ -139,8 +138,24 @@ export class CreatePasswordComponent implements OnInit {
     }
     this._basicInfoService.createPaasword(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this._sharedService.IsloggedInShow.next(true);
-        this.loginUser();
+        loading(false);
+        if (localStorage) {
+          if (res.returnObject) {
+            this._userCreationService.saveJwtToken(res.returnObject.token)
+            this._userCreationService.saveRefreshToken(res.returnObject.refreshToken)
+          }
+          let loginData = JSON.parse(res.returnText)
+          loginData.IsLogedOut = false;
+          localStorage.setItem('userInfo', JSON.stringify(res));
+          this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
+          this._sharedService.signOutToggler.next(true);          
+          this._toast.success('Account successfully created', '');
+          this._router.navigate(['business-profile']);
+        } else {
+          this._toast.warning("Please Enable Cookies to use this app", "Cookies Disabled")
+          // this._router.navigate(['enable-cookies']);
+          return;
+        }
       }
       else if (res.returnStatus == "Error") {
         this._toast.success(res.returnText, '');
@@ -152,47 +167,6 @@ export class CreatePasswordComponent implements OnInit {
     })
   }
 
-  loginUser() {
-    const loc: any = this._sharedService.getMapLocation();
-    let toSend = {
-      password: this.passForm.value.password,
-      loginUserID: this.userInfo.primaryEmail,
-      CountryCode: (loc) ? loc.countryCode : 'DEFAULT AE',
-      LoginIpAddress: "0.0.0.0",
-      LoginDate: moment(Date.now()).format(),
-      LoginRemarks: ""
-    }
-    this._userCreationService.userLogin(toSend).subscribe((response: JsonResponse) => {
-      let resp = response;
-      if (resp.returnStatus == "Success" && resp.returnId > 0) {
-        loading(false);
-        if (localStorage) {
-          if (resp.returnObject) {
-            this._userCreationService.saveJwtToken(resp.returnObject.token)
-            this._userCreationService.saveRefreshToken(resp.returnObject.refreshToken)
-          }
-
-          let loginData = JSON.parse(resp.returnText)
-          loginData.IsLogedOut = false;
-          localStorage.setItem('userInfo', JSON.stringify(resp));
-          this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
-          this._toast.success('Account successfully created', '');
-          this._router.navigate(['business-profile']);
-
-        } else {
-          this._toast.warning("Please Enable Cookies to use this app", "Cookies Disabled")
-          // this._router.navigate(['enable-cookies']);
-          return;
-        }
-
-      }
-    }, (err: HttpErrorResponse) => {
-      console.log(err);
-      this._toast.error('Invalid email or password.', 'Failed')
-    })
-
-  }
-
-
+ 
 
 }

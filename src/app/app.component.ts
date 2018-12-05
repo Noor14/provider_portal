@@ -57,36 +57,9 @@ export class AppComponent implements OnInit{
       }
     })
 
-    // this.getGuestToken();
 
     
   }
-
-  // async getGuestToken() {
-
-  //   const toSend = {
-  //     password: 'h@shMove123',
-  //     loginUserID: 'support@hashmove.com',
-  //     CountryCode: 'PK',
-  //     LoginIpAddress: "0.0.0.0",
-  //     LoginDate: moment(Date.now()).format(),
-  //     LoginRemarks: ""
-  //   }
-
-  //   this._auth.userLogin(toSend).subscribe((resp: any) => {
-
-  //     console.log(resp);
-  //     if (resp.returnId > 0 && resp.returnObject) {
-  //       this._auth.saveJwtToken(resp.returnObject.token)
-  //       this._auth.saveRefreshToken(resp.returnObject.refreshToken)
-  //     }
-     
-  //   }, (err: HttpErrorResponse) => {
-  //     console.log(err);
-  //   })
-
-  // }
-
 
   scrollTop(){
     if (this.scrollRef) {

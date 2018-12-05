@@ -22,6 +22,8 @@ import { ComapnyInfoComponent } from './comapny-info.component';
 import { WarehouseListComponent } from './shipping-info/warehouse-list/warehouse-list.component';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { WarehouseDetailComponent } from './shipping-info/warehouse-detail/warehouse-detail.component';
+import { WarehouseInfoComponent } from './warehouse-info/warehouse-info.component';
+import { NgStepperModule } from '../../../../directives/stepper/stepper.module';
 
 @NgModule({
   imports: [
@@ -29,6 +31,7 @@ import { WarehouseDetailComponent } from './shipping-info/warehouse-detail/wareh
     NgFilesModule,
     HttpClientModule,
     UiSwitchModule,
+    NgStepperModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
       libraries: ["places", "geometry"]
@@ -48,6 +51,7 @@ import { WarehouseDetailComponent } from './shipping-info/warehouse-detail/wareh
     SetupMapComponent,
     ShippingLinesComponent,
     SlidePanelComponent,
+    WarehouseInfoComponent
     WarehouseListComponent,
     WarehouseDetailComponent
 

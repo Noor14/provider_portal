@@ -6,7 +6,6 @@ import { OtpconfirmationComponent } from './basic-info/otpconfirmation/otpconfir
 import { ProfilecompletionComponent } from './company-info/business-info/profilecompletion/profilecompletion.component';
 import { CreatePasswordComponent } from './basic-info/create-password/create-password.component';
 import { UserCreationComponent } from './user-creation.component';
-import { ShippingInfoComponent } from './company-info/shipping-info/shipping-info.component';
 import { BusinessInfoComponent } from './company-info/business-info/business-info.component';
 import { BusinessSetupComponent } from './company-info/shipping-info/business-setup/business-setup.component';
 import { SetupMapComponent } from './company-info/shipping-info/setup-map/setup-map.component';
@@ -14,6 +13,7 @@ import { ShippingLinesComponent } from './company-info/shipping-info/shipping-li
 
 import { WarehouseListComponent } from './company-info/shipping-info/warehouse-list/warehouse-list.component';
 import { WarehouseDetailComponent } from './company-info/shipping-info/warehouse-detail/warehouse-detail.component';
+import { WarehouseInfoComponent } from './company-info/warehouse-info/warehouse-info.component';
 
 const routes: Routes = [
 {
@@ -28,6 +28,7 @@ children: [
 { path: 'business-setup', component: BusinessSetupComponent },
 { path: 'setup-map', component: SetupMapComponent },
 { path: 'shippinglines', component: ShippingLinesComponent },
+{ path: 'warehouse-setup', component: WarehouseInfoComponent },
 { path: 'warehouse-detail', component: WarehouseDetailComponent },
 { path: 'warehouse-list', component: WarehouseListComponent },
 { path: '**', redirectTo: 'registration', pathMatch: 'full' }
