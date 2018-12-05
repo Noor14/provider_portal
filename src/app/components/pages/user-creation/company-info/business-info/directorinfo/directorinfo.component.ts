@@ -968,8 +968,11 @@ export class DirectorinfoComponent implements OnInit {
     this._companyInfoService.submitBusinessInfo(obj).subscribe((res: any) => {
       loading(false);
       if (res.returnStatus == "Success") {
-       JSON.parse(res.returnText).UserProfileStatus = "Business Profile Complete";
-        localStorage.setItem('userInfo', JSON.stringify(res));
+        let resp = res;
+        let userData = JSON.parse(resp.returnText);
+        userData.UserProfileStatus = "Business Profile Complete";
+        resp.returnText = JSON.stringify(userData);
+        localStorage.setItem('userInfo', JSON.stringify(resp));
         this._router.navigate(['/profile-completion']);  
       }
       

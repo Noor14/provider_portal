@@ -191,7 +191,6 @@ export class UserGuard implements CanActivate {
   let userInfo = JSON.parse(localStorage.getItem('userInfo')); 
   if (userInfo && userInfo.returnText){
    this.infoObj = JSON.parse(userInfo.returnText);
-
   this._sharedService.IsloggedIn.subscribe((state: any) => {
     if (state == null) {
       this.islogOut = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;

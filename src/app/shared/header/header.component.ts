@@ -12,26 +12,39 @@ import { SharedService } from '../../services/shared.service';
 })
 export class HeaderComponent implements OnInit {
 
-  logoutDisplay: boolean;
-  isLoggedIn:boolean;
+  logoutDisplay: boolean = true;
+  isLoggedIn: boolean;
   constructor(
     private modalService: NgbModal,
     private _sharedService: SharedService,
-    
+
   ) { }
 
   ngOnInit() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._sharedService.IsloggedIn.subscribe((state: any) => {
-      if(state == null){
+      if (state == null) {
         this.isLoggedIn = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
-      }else{
+      } else {
         this.isLoggedIn = state;
       }
     })
 
-    this.logoutDisplay = (location.pathname.indexOf('otp') < 0 || location.pathname.indexOf('password') < 0) ? true : false ;
+    this.signOutToggler();
   }
+
+  signOutToggler() {
+    if (location.pathname.indexOf('otp') >= 0) {
+      this.logoutDisplay = false;
+    }
+    else if (location.pathname.indexOf('password') >= 0) {
+      this.logoutDisplay = false;
+    }
+    else {
+      this.logoutDisplay = true;
+    }
+  }
+
   login() {
     this.modalService.open(LoginDialogComponent, {
       size: 'lg',
