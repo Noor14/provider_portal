@@ -1,13 +1,13 @@
 
 @import '../../../../../../../assets/scss/_variables';
-.category{
+.setup{
         small {
             font-size: $font-size-medium;
             font-family: $font-proxima;
             color: $secondary-text-color;
         }
 
-    /deep/ .nav{
+.nav{
         margin-top: 2rem;
         &-item {
             flex:auto;
