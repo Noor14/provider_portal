@@ -17,7 +17,7 @@ else if (environment.prod) {
 }
 else{
     // Dev URL
-    baseApi = "http://10.20.1.13:9091/api/";
+    baseApi = "http://10.20.1.13:9095/api/";
     baseExternalAssets = "http://10.20.1.13:9095";
     
 } 
