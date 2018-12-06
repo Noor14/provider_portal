@@ -169,7 +169,12 @@ export class ViewBookingComponent implements OnInit {
   }
   downloadDoc(object, event){
     if (object && object.DocumentFileName && object.IsDownloadable){
-      window.open(this.baseExternalAssets + object.DocumentFileName, '_blank')
+      if (object.DocumentFileName.startsWith("[{")) {
+        let document = JSON.parse(object.DocumentFileName)
+        window.open(baseExternalAssets + document[0].DocumentFile, '_blank');
+      } else {
+        window.open(baseExternalAssets + object.DocumentFileName, '_blank');
+      }
     }
     else{
       event.preventDefault();
