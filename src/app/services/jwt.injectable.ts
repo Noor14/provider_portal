@@ -114,11 +114,25 @@ export class GuestService {
         this.countryCode = 'AE';
         const { guestObject } = this;
         guestObject.CountryCode = this.countryCode;
-        this._authService.guestLoginService(guestObject).subscribe((response: JWTObj) => {
+        const encObjectL: AESModel = encryptStringAES({ d1: moment(Date.now()).format().substring(0, 16), d2: JSON.stringify(guestObject)})
+        this._authService.guestLoginService(encObjectL).subscribe((response: AESModel) => {
+            console.log('guest-login-success:', response);
+
+            const decryptedData = decryptStringAES(response)
+            console.log('decryptedData:', decryptedData);
+            const { token, refreshToken } = JSON.parse(decryptedData);
+            this.token = token;
+            this.refreshToken = refreshToken;
             setTimeout(() => {
+                this.saveJwtToken(token);
+                this.saveRefreshToken(refreshToken);
                 loading(false)
             }, 0);
-            this.setJWTByApi(response);
+
+            // setTimeout(() => {
+            //     loading(false)
+            // }, 0);
+            // this.setJWTByApi(response);
         }, (error: HttpErrorResponse) => {
             console.log('error:', error);
         })
