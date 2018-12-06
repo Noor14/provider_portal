@@ -1,9 +1,14 @@
+@import '../../../../assets/scss/_variables.scss';
 :host {
     display: flex;
     align-content: center;
     align-items: center;
     justify-content: space-between;
     padding: 20px 0;
+}
+
+.stepper-head {
+    width: 33.33%;
 }
 
 .step-space-between {

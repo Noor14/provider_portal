@@ -5,13 +5,14 @@
             [stepIndex]="i"
             [activeStep]="activeStep"
             [last]="lastHeader"
+            class="stepper-head"
             [finished]="finished"
     >
         {{step.label}}
     </ngx-header-block>
 
-    <div class="step-space-between" *ngIf=" i < stepList.length-1 ">
+    <!-- <div class="step-space-between" *ngIf=" i < stepList.length-1 ">
         <span class="step-line"></span>
-    </div>
+    </div> -->
 
 </ng-container>

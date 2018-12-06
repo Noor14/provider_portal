@@ -2,7 +2,7 @@
     <h3 class="m-0"> Setup Warehouses</h3>
     <p class="sub-title mt-2 mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting <br> industry It has survived not only five centuries </p>
     
-    <ngx-stepper #stepper class="stepper">
+    <ngx-stepper #stepper class="warehouse-stepper">
       <ngx-step [label]="'SELECT CATEGORIES'">
           <app-warehouse-category></app-warehouse-category>
       </ngx-step>
@@ -51,8 +51,8 @@
         </p>
       </ngx-step>
     </ngx-stepper>
-    <button (click)="stepper.prev()" *ngIf="stepper.activeStep">  Back </button>
-    <button *ngIf="!stepper.lastStepActive" (click)="stepper.next()"> Next </button>
+    <button (click)="stepper.prev()" *ngIf="stepper.activeStep" class="btn btn-primary btn-register hvr-sweep-to-right pull-left">  Back </button>
+    <button *ngIf="!stepper.lastStepActive" (click)="stepper.next()" class="btn btn-primary btn-register hvr-sweep-to-right pull-right"> Next </button>
   </div>
   
   
