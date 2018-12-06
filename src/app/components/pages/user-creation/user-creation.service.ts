@@ -21,13 +21,6 @@ export class UserCreationService {
   }
 
 
-
-  revalidateToken(token, refreshToken) {
-    let url = "token/GenerateRefreshAccessToken"
-    let body = `token=${encodeURIComponent(token)}&refreshToken=${encodeURIComponent(refreshToken)}`
-    return this._http.post(baseApi + url, body);
-  }
-
   userLogin(data) {
     let url = "usersprovider/ValidateProvider"
     return this._http.post(baseApi + url, data);
@@ -66,4 +59,44 @@ export class UserCreationService {
     return this._http.get(baseApi + url)
   }
 
+
+  revalidateToken(body) {
+    let url = "token/ResetJWT"
+    return this._http.post(baseApi + url, body);
+  }
+
+  guestLoginService(body) {
+    // const url = 'token/CreateGuestJWT'
+    const url = 'token/GuestLogin'
+    return this._http.post(baseApi + url, body);
+  }
+
+
+  // logoutAction() {
+
+
+  //   let loginData = JSON.parse(Tea.getItem('loginUser'))
+  //   loginData.IsLogedOut = true
+  //   HashStorage.removeItem('loginUser')
+  //   Tea.setItem('loginUser', JSON.stringify(loginData))
+
+  //   const data = {
+  //     PrimaryEmail: loginData.PrimaryEmail,
+  //     UserLoginID: loginData.UserLoginID,
+  //     LogoutDate: new Date().toLocaleString(),
+  //     LogoutRemarks: ""
+  //   }
+
+  //   this.userLogOut(data).subscribe(res => {
+  //     console.log('logout response : ', res);
+  //   })
+  //   this._dataService.reloadHeader.next(true)
+  // }
+
+}
+
+
+export interface JWTObj {
+  token: string
+  refreshToken: string
 }

@@ -6,6 +6,7 @@ import { UserCreationService } from '../../../components/pages/user-creation/use
 import { SharedService } from '../../../services/shared.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as moment from 'moment';
+import { GuestService } from '../../../services/jwt.injectable';
 
 // import { HashStorage, Tea } from '../../../constants/globalfunctions';
 // import { DataService } from '../../../services/commonservice/data.service';
@@ -24,7 +25,8 @@ export class ConfirmLogoutDialogComponent implements OnInit {
     private _activeModal: NgbActiveModal,
     private _sharedService: SharedService,
     private _userCreationService: UserCreationService,
-    private location: PlatformLocation
+    private location: PlatformLocation,
+    public _jwtService: GuestService,
   ) {
     location.onPopState(() => this.closeModal());
   }
@@ -38,7 +40,6 @@ export class ConfirmLogoutDialogComponent implements OnInit {
     document.getElementsByTagName('html')[0].style.overflowY = 'auto';
 
   }
-
   onConfirmClick() {
     
     this.loading = true
@@ -61,6 +62,7 @@ export class ConfirmLogoutDialogComponent implements OnInit {
         this.closeModal();
         this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
         this._router.navigate(['registration']);
+        this._jwtService.sessionRefresh()
       }
     }, (err:HttpErrorResponse)=>{
       console.log(err);

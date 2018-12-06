@@ -31,7 +31,7 @@ import { CompanyInfoModule } from './company-info/company-info.module';
   ],
   providers: [
     UserGuard,
-    UserCreationService,
+    // UserCreationService,
     // BookingService,
     {
       provide: HTTP_INTERCEPTORS,

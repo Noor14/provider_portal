@@ -6,8 +6,7 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import '../assets/scss/_loader.css';
 import { HttpErrorResponse } from '@angular/common/http';
-// import { UserService } from './components/pages/user/user.service';
-// import * as moment from 'moment';
+
 
 
 
@@ -24,7 +23,6 @@ export class AppComponent implements OnInit{
     private _commonService : CommonService,
      private _sharedService: SharedService,
      private _router: Router,
-    // private _auth: UserService
     ){}
   
   ngOnInit() {
