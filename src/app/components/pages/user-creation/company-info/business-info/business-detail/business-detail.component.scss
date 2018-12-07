@@ -141,3 +141,13 @@
         top: 15px;
     }
 }
+@media only screen and (max-width: $screen-fourteen-hundred) and (min-width: $screen-lg-screen)  {
+
+    .business-profile  {
+         .service-btn {
+        min-height: 95px;
+        padding: 10px 30px;
+  
+    }
+    }
+}
