@@ -141,28 +141,31 @@
             <div class="col-lg-6 col-sm-12 border-separated">
               <div class="row">
               <div class="col-6">
-              <div class="bookings-detail angle-arrow">
+              <div class="bookings-detail angle-arrow eq-height d-flex justify-content-between flex-column">
                 <div class="ports">
-                    <small class="d-block mb-2">From</small>
-                    <label class="ports-label mt-1">{{booking.PolCode}}</label>
-                    <span class="d-block mb-3">Port of {{booking.PolCountry}}</span>
-                    <span>
-                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1"> {{booking.EtdLcl | date : "d MMM, yyyy"}} {{booking.EtdLcl | date : "H:mm"}}
-                    </span>
-                </div>
+                      <small class="d-block mb-2">From</small>
+                      <label class="ports-label mt-1">{{booking.PolCode}}</label>
+                      <span class="d-block mb-2">Port of {{booking.PolCountry}}</span>
+              </div>
+              <div class="ports-calendar">
+                <span>
+                  <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1"> {{booking.EtdLcl | date : "d MMM, yyyy"}} {{booking.EtdLcl | date : "H:mm"}}
+                </span>
+            </div>
               </div>
             </div>
             <div class="col-6">
-              <div class="bookings-detail">
+              <div class="bookings-detail eq-height d-flex justify-content-between flex-column">
                 <div class="ports">
-                    <small class="d-block mb-2">to</small>
-                    <label class="ports-label mt-1">{{booking.PodCode}}</label>
-                    <span class="d-block mb-3">Port of {{booking.PodCountry}}</span>
-                    <div class="ports-calendar">
-                      <span>
-                        <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1"> {{booking.EtaLcl | date : "d MMM, yyyy"}} {{booking.EtaLcl | date : "H:mm"}}
-                      </span>
-                    </div>
+                      <small class="d-block mb-2">to</small>
+                      <label class="ports-label mt-1">{{booking.PodCode}}</label>
+                      <span class="d-block mb-2">Port of {{booking.PodCountry}}</span>
+                   
+                </div>
+                <div class="ports-calendar">
+                  <span>
+                    <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1"> {{booking.EtaLcl | date : "d MMM, yyyy"}} {{booking.EtaLcl | date : "H:mm"}}
+                  </span>
                 </div>
               </div>
             </div>

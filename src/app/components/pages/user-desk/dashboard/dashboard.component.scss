@@ -130,6 +130,10 @@
         }
     }
     &-detail {
+        &.eq-height {
+            min-height: 9rem;
+            
+            }
         .ports {
             font-family: $font-proxima;
             font-size: $font-size-base;
