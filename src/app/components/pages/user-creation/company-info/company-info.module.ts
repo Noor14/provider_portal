@@ -23,6 +23,7 @@ import { UiSwitchModule } from 'ngx-toggle-switch';
 import { NgStepperModule } from '../../../../directives/stepper/stepper.module';
 import { SetupWarehouseComponent } from './setup-warehouse/setup-warehouse.component';
 import { WarehouseService } from './setup-warehouse/warehouse.service';
+import { WarehouseListComponent } from './setup-warehouse/warehouse-list/warehouse-list.component';
 
 @NgModule({
   imports: [
@@ -50,7 +51,8 @@ import { WarehouseService } from './setup-warehouse/warehouse.service';
     SetupMapComponent,
     ShippingLinesComponent,
     SlidePanelComponent,
-    SetupWarehouseComponent
+    SetupWarehouseComponent,
+    WarehouseListComponent
   ],
   providers: [
     CompanyInfoService,

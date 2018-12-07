@@ -11,6 +11,7 @@ import { BusinessSetupComponent } from './company-info/shipping-info/business-se
 import { SetupMapComponent } from './company-info/shipping-info/setup-map/setup-map.component';
 import { ShippingLinesComponent } from './company-info/shipping-info/shipping-lines/shipping-lines.component';
 import { SetupWarehouseComponent } from './company-info/setup-warehouse/setup-warehouse.component';
+import { WarehouseListComponent } from './company-info/setup-warehouse/warehouse-list/warehouse-list.component';
 
 const routes: Routes = [
 {
@@ -26,7 +27,7 @@ children: [
 // { path: 'setup-map', component: SetupMapComponent },
 // { path: 'shippinglines', component: ShippingLinesComponent },
     { path: 'setup-warehouse', component: SetupWarehouseComponent },
-// { path: 'warehouse-list', component: WarehouseListComponent },
+{ path: 'warehouse-list', component: WarehouseListComponent },
 { path: '**', redirectTo: 'registration', pathMatch: 'full' }
 ]
 }
