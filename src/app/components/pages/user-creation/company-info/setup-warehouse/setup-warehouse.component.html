@@ -18,7 +18,7 @@
             </div>
           </div>
         </div>
-        <button *ngIf="!stepper.lastStepActive" (click)="stepper.next()" [disabled]="!categoryIds.length" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">Continue</button>
+        <button *ngIf="!stepper.lastStepActive" (click)="stepper.next()" [disabled]="!categoryIds.length" class="btn btn-primary stepOne-continue-btn hvr-sweep-to-right pull-right">Continue</button>
       </section>
     </ngx-step>
     <ngx-step [label]="'ADD WAREHOUSE INFO'">
