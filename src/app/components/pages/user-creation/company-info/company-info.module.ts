@@ -20,10 +20,9 @@ import { NgFilesModule } from '../../../../directives/ng-files/';
 import { CompanyInfoService } from './company-info.service';
 import { ComapnyInfoComponent } from './comapny-info.component';
 import { UiSwitchModule } from 'ngx-toggle-switch';
-import { WarehouseInfoComponent } from './warehouse-info/warehouse-info.component';
 import { NgStepperModule } from '../../../../directives/stepper/stepper.module';
-import { WarehouseListComponent } from './warehouse-info/warehouse-list/warehouse-list.component';
-import { WarehouseService } from './warehouse-info/warehouse.service';
+import { SetupWarehouseComponent } from './setup-warehouse/setup-warehouse.component';
+import { WarehouseService } from './setup-warehouse/warehouse.service';
 
 @NgModule({
   imports: [
@@ -51,8 +50,7 @@ import { WarehouseService } from './warehouse-info/warehouse.service';
     SetupMapComponent,
     ShippingLinesComponent,
     SlidePanelComponent,
-    WarehouseInfoComponent,
-    WarehouseListComponent
+    SetupWarehouseComponent
   ],
   providers: [
     CompanyInfoService,
