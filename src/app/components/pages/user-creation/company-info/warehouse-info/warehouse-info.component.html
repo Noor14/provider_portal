@@ -1,30 +1,341 @@
-<div>
-    <h3 class="m-0"> Setup Warehouses</h3>
+<section class="warehouseSetup">
+    <h3 class="m-0">Setup Warehouses</h3>
     <p class="sub-title mt-2 mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting <br> industry It has survived not only five centuries </p>
     
     <ngx-stepper #stepper class="warehouse-stepper">
       <ngx-step [label]="'SELECT CATEGORIES'">
-          <app-warehouse-category></app-warehouse-category>
+          <section class="stepOne">
+            <h5 class="mt-3 pt-2"> Supported Categories</h5>
+            <small> Select as many of the following </small>
+            <hr class="hr-solid">
+            <div class="row">
+              <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 mb-4 mt-3" *ngFor="let cat of wareHouseCat">
+                <div #selectCategory class="setup-service text-center d-flex flex-column justify-content-center pointer" (click)="categorySelection(cat, selectCategory)">
+                  <span class="pb-2">
+                    <img src="../../../../../assets/images/shipping/Goods.png"> </span>
+                  <span> {{cat.shippingCatName}} </span>
+                </div>
+              </div>
+            </div>
+           <button *ngIf="!stepper.lastStepActive" (click)="stepper.next()" [disabled]="!categoryIds.length" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">Continue</button>
+          </section>
       </ngx-step>
       <ngx-step [label]="'ADD WAREHOUSE INFO'">
-          <app-warehouse-detail></app-warehouse-detail>
+        <section class="stepTwo">
+          <div class="row">
+            <div class="col-12">
+              <h5>General Information</h5>
+              <p class="sub-title mb-0">Please enter warehouse name and featured images / videos.</p>
+            </div>
+          </div>
+          <hr class="hr-solid">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Warehouse Name</label>
+                <input type="text" maxlength="100" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              Uploader place
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <h5>Warehouse Details</h5>
+              <p class="sub-title mb-0">Please enter your warehouse details</p>
+            </div>
+          </div>
+          <hr class="hr-solid">
+          <div class="row">
+            <div class="col-6">
+              <label for="">Usage Type</label>
+              <div class="fancyRadioBoxes pt-2">
+                <input name="doc" type="radio" id="">
+                <label for="0doctype">
+                  <span class="radioError"></span>
+                  Shared Warehouse
+                </label>
+              </div>
+              <div class="fancyRadioBoxes pt-2">
+                <input name="doc" type="radio" id="">
+                <label for="0doctype">
+                  <span class="radioError"></span>
+                  Dedicated Warehouse
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label>Total Covered Area</label>
+                <div class="input-group">
+                  <input class="form-control input-dropdown" type="text">
+                  <div class="input-group-append">
+                    <select class="form-control input-dropdown" name="weightUnit">
+                      <option value="6" class="ng-star-inserted">
+                        sqft
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <span class="sub-title noti">Estimate total warehouse space excluding any office area.</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-12" for="">Hours of Operation</label>
+            <div class="col-3">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control input-dropdown" type="text" placeholder="From">
+                  <div class="input-group-append">
+                    <select class="form-control input-dropdown" name="weightUnit">
+                      <option value="6" class="ng-star-inserted">
+                        am
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control input-dropdown" type="text" placeholder="To">
+                  <div class="input-group-append">
+                    <select class="form-control input-dropdown" name="weightUnit">
+                      <option value="6" class="ng-star-inserted">
+                        pm
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <select class="form-control">
+                  <option value="undefined">Select Days</option>
+                  <option value="undefined">1</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12 add-hours">Add</div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <h5>Capacity Details</h5>
+              <p class="sub-title mb-0">Please enter the total capacity in pallets per storage category.</p>
+            </div>
+          </div>
+          <hr class="hr-solid">
+          <div class="row">
+            <label class="col-12 racked">Racked Storage</label>
+            <div class="col-4 d-flex">
+              <div class="mr-4 ng-star-inserted">
+                <label for="" class="float-left">Do you have racked storage space available?</label>
+              </div>
+            </div>
+            <div class="col-2 switch-box">
+              <ui-switch></ui-switch>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Total Pallet Rack</label>
+                <input type="text" maxlength="100" class="form-control" placeholder="Total pallet positions in rack">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Racking</label>
+                <select class="form-control">
+                  <option value="undefined">eg: 2 High</option>
+                  <option value="undefined">2</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Max. Height</label>
+                <select class="form-control">
+                  <option value="undefined">eg: 4ft or less</option>
+                  <option value="undefined">2</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label for="">Max. Rack Weight</label>
+                <div class="input-group">
+                  <input class="form-control input-dropdown" type="text" placeholder="eg: 1,000 kg or less / pallet">
+                  <div class="input-group-append">
+                    <select class="form-control input-dropdown" name="weightUnit">
+                      <option value="6" class="ng-star-inserted">
+                        lbs
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-12 racked">Bulk Storage</label>
+            <div class="col-4 d-flex">
+              <div class="mr-4 ng-star-inserted">
+                <label for="" class="float-left">Do you have bulk storage space available?</label>
+              </div>
+            </div>
+            <div class="col-2 switch-box">
+              <ui-switch></ui-switch>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Total Pallet Bulk</label>
+                <input type="text" maxlength="100" class="form-control" placeholder="Total pallet positions in bulk">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h5>Warehousing Services</h5>
+              <p class="sub-title mb-0">Please select all available warehousing services</p>
+            </div>
+          </div>
+          <hr class="hr-solid">
+          <div class="row">
+            <div class="col-6">
+              <div class="fancyRadioBoxes pt-2">
+                <input name="doc" type="radio" id="">
+                <label for="0doctype">
+                  <span class="radioError"></span>
+                  Bonded Warehousing and Customs Clearance
+                </label>
+              </div>
+              <div class="fancyRadioBoxes pt-2">
+                <input name="doc" type="radio" id="">
+                <label for="0doctype">
+                  <span class="radioError"></span>
+                  Temperature Controlled
+                </label>
+              </div>
+              <div class="fancyRadioBoxes pt-2">
+                <input name="doc" type="radio" id="">
+                <label for="0doctype">
+                  <span class="radioError"></span>
+                  Transportation Service
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h5>Location</h5>
+              <p class="sub-title mb-0">Please enter the exact address of the warehouse</p>
+            </div>
+          </div>
+          <hr class="hr-solid">
+          <div class="row">
+            <div class="col-6">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group">
+                    <label>City</label>
+                    <input type="text" maxlength="100" class="form-control" placeholder="Enter City">
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group">
+                    <label>Address Line 1</label>
+                    <input type="text" maxlength="100" class="form-control" placeholder="Address line 1">
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group">
+                    <label>Address Line 2 (optional)</label>
+                    <input type="text" maxlength="100" class="form-control" placeholder="Address line 2">
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>P.O Box</label>
+                    <input type="text" maxlength="100" class="form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">MAP</div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h5>Warehouse Availaibility</h5>
+              <p class="sub-title mb-0">Please select the date until the offered capacity is available.</p>
+            </div>
+          </div>
+          <hr class="hr-solid">
+          <div class="row">
+            <div class="col-3">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control input-dropdown" type="text" placeholder="From">
+                  <div class="input-group-append">
+                    <select class="form-control input-dropdown" name="weightUnit">
+                      <option value="6" class="ng-star-inserted">
+                        am
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control input-dropdown" type="text" placeholder="To">
+                  <div class="input-group-append">
+                    <select class="form-control input-dropdown" name="weightUnit">
+                      <option value="6" class="ng-star-inserted">
+                        pm
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+                      <button (click)="stepper.prev()" *ngIf="stepper.activeStep" class="btn btn-primary btn-register hvr-sweep-to-right pull-left">
+                        Back </button>
+                      <button *ngIf="!stepper.lastStepActive" (click)="stepper.next()" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">
+                        Next </button>
+        </section>
       </ngx-step>
       <ngx-step [label]="'ADD RATES'">
-       
         <p>
           Section 1.10.33 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC "At vero eos et accusamus et iusto odio dignissimos
           ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint
           occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et
-          dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est
-          eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est,
-          omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet
-          ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus,
-          ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
         </p>
+            <button (click)="stepper.prev()" *ngIf="stepper.activeStep" class="btn btn-primary btn-register hvr-sweep-to-right pull-left">
+              Back </button>
       </ngx-step>
     </ngx-stepper>
-    <button (click)="stepper.prev()" *ngIf="stepper.activeStep" class="btn btn-primary btn-register hvr-sweep-to-right pull-left">  Back </button>
-    <button *ngIf="!stepper.lastStepActive" (click)="stepper.next()" class="btn btn-primary btn-register hvr-sweep-to-right pull-right"> Next </button>
-  </div>
+
+  </section>
   
   

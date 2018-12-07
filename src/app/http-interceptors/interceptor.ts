@@ -43,8 +43,6 @@ export class Interceptor implements HttpInterceptor {
             }
         } else {
             request = this.addAuthenticationToken(mainRequest)
-            console.log(request);
-            
         }
 
 
@@ -68,17 +66,14 @@ export class Interceptor implements HttpInterceptor {
                     setTimeout(() => {
                         this._toastr.warning('Redirecting to registration page', 'Session Expired');
                     }, 0);
-                    console.log('got in refresh fail');
                     this._jwtService.sessionRefresh()
-                    this._router.navigate(['home']);
+                    this._router.navigate(['registration']);
                 }
                 return Observable.throw(error);
             }
 
             // If error status is different than 401 we want to skip refresh token
             // So we check that and throw the error if it's the case
-            console.log('status Code:', error.status);
-
             if (error.status !== 401) {
                 return Observable.throw(error);
             }
@@ -102,8 +97,6 @@ export class Interceptor implements HttpInterceptor {
 
                 // Call auth.revalidateToken(this is an Observable that will be returned)
                 return this._auth.revalidateToken(refreshObj).flatMap((tokenResp: any) => {
-                    console.log('angar agaya:', tokenResp);
-
                     this._jwtService.removeTokens()
                     //When the call to refreshToken completes we reset the refreshTokenInProgress to false
                     // for the next time the token needs to be refreshed

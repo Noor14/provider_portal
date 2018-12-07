@@ -72,26 +72,7 @@ export class UserCreationService {
   }
 
 
-  // logoutAction() {
 
-
-  //   let loginData = JSON.parse(Tea.getItem('loginUser'))
-  //   loginData.IsLogedOut = true
-  //   HashStorage.removeItem('loginUser')
-  //   Tea.setItem('loginUser', JSON.stringify(loginData))
-
-  //   const data = {
-  //     PrimaryEmail: loginData.PrimaryEmail,
-  //     UserLoginID: loginData.UserLoginID,
-  //     LogoutDate: new Date().toLocaleString(),
-  //     LogoutRemarks: ""
-  //   }
-
-  //   this.userLogOut(data).subscribe(res => {
-  //     console.log('logout response : ', res);
-  //   })
-  //   this._dataService.reloadHeader.next(true)
-  // }
 
 }
 

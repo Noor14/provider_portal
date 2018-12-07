@@ -1,25 +1,8 @@
-<div class="step" style="position: relative" [ngClass]="{'isActive':active, 'completed':completed}">
-
-    <!-- <span *ngIf="!completed" class="step-number">
-        <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="10"></circle>
-            <text x="12" y="16" text-anchor="middle" font-size="12" fill="#fff">   {{stepIndex+1}}</text>
-        </svg>
-    </span> -->
-
+<div class="step" [ngClass]="{'isActive':active, 'completed':completed}">
     <span *ngIf="completed" class="completed">
-        <!-- <svg viewBox="0 0 24 24"
-             class="step-number">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>
-        </svg> -->
-        <svg aria-hidden="true" data-prefix="fas" data-icon="check" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="animated heartBeat step-number svg-inline--fa fa-check fa-w-16 fa-3x">
-            <path fill="#00a2df" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path>
-        </svg>
+        <img class="step-number animated heartBeat" src="../../../../../assets/images/icons/icon_check.svg" alt="tick">
     </span>
-
     <div class="step-title">
         <ng-content></ng-content>
     </div>
-
-
 </div>

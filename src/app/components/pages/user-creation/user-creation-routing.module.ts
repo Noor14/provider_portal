@@ -10,9 +10,7 @@ import { BusinessInfoComponent } from './company-info/business-info/business-inf
 import { BusinessSetupComponent } from './company-info/shipping-info/business-setup/business-setup.component';
 import { SetupMapComponent } from './company-info/shipping-info/setup-map/setup-map.component';
 import { ShippingLinesComponent } from './company-info/shipping-info/shipping-lines/shipping-lines.component';
-
 import { WarehouseInfoComponent } from './company-info/warehouse-info/warehouse-info.component';
-import { WarehouseDetailComponent } from './company-info/warehouse-info/warehouse-detail/warehouse-detail.component';
 import { WarehouseListComponent } from './company-info/warehouse-info/warehouse-list/warehouse-list.component';
 
 const routes: Routes = [
@@ -29,7 +27,6 @@ children: [
 // { path: 'setup-map', component: SetupMapComponent },
 // { path: 'shippinglines', component: ShippingLinesComponent },
 { path: 'setup-warehouse', component: WarehouseInfoComponent },
-// { path: 'warehouse-detail', component: WarehouseDetailComponent },
 { path: 'warehouse-list', component: WarehouseListComponent },
 { path: '**', redirectTo: 'registration', pathMatch: 'full' }
 ]
