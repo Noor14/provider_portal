@@ -13,7 +13,7 @@
           <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 mb-4 mt-3" *ngFor="let cat of wareHouseCat">
             <div #selectCategory class="setup-service text-center d-flex flex-column justify-content-center pointer" (click)="categorySelection(cat, selectCategory)">
               <span class="pb-2">
-                <img src="../../../../../assets/images/shipping/Goods.png"> </span>
+                <img src="{{'../../../../../assets/images/shipping/' + cat.shippingCatImage}}"> </span>
               <span> {{cat.shippingCatName}} </span>
             </div>
           </div>
