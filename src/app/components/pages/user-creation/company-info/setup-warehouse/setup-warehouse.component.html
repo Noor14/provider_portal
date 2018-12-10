@@ -41,17 +41,17 @@
         <div class="row">
           <div class="col-12">
             <label>Upload Featured Gallery</label>
-            <small>You may add upto 1 video and 4 photos</small>
-                      <div class="documentInfo mt-3">
-                        <div class="file-uploader  p-4">
-                          <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'logo')" [configId]="'docConfig'">
-                            <img src="../../../../../../assets/images/icons/manager-icon.png">
-                            <p class="m-0 mt-3"> Drag here or
-                              <span class="browse-span">browse</span> to upload</p>
-                            <small class="drag-support"> (supported types: pdf, jpeg, png, Maximum size per document: 4 MB) </small>
-                          </app-ng-files-drag-n-upload>
-                        </div>
-                      </div>
+            <span class="sub-title">You may add upto 1 video and 4 photos.</span>
+            <div class="documentInfo mt-3">
+              <div class="file-uploader  p-4">
+                <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'logo')" [configId]="'docConfig'">
+                  <img src="../../../../../../assets/images/icons/manager-icon.png">
+                  <p class="m-0 mt-3"> Drag here or
+                    <span class="browse-span">browse</span> to upload</p>
+                  <small class="drag-support"> (supported types: pdf, jpeg, png, Maximum size per document: 4 MB) </small>
+                </app-ng-files-drag-n-upload>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -64,8 +64,8 @@
         <hr class="hr-solid">
         <div class="row">
           <div class="col-6">
-          <label>Usage Type</label>
-            <div class="fancyRadioBoxes pt-2" *ngFor="let type of wareHouseUsageType; let i = index">
+            <label>Usage Type</label>
+            <div class="fancyOptionBoxes pt-2" *ngFor="let type of wareHouseUsageType; let i = index">
               <input id="{{i + 'type'}}" name="warehouseType" type="radio">
               <label for="{{i + 'type'}}">
                 <span></span>
@@ -146,14 +146,16 @@
             </div>
           </div>
           <div class="col-2 switch-box">
-            <ui-switch></ui-switch>
+            <ui-switch (change)="rackedStorage = !rackedStorage" [checked]="rackedStorage"></ui-switch>
           </div>
         </div>
+        <div *ngIf="rackedStorage" [@fadeInOut]>
+          <form autocomplete="off" novalidate [formGroup]="rackStorageForm">
         <div class="row">
           <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="form-group">
               <label>Total Pallet Rack</label>
-              <input type="text" maxlength="100" class="form-control" placeholder="Total pallet positions in rack">
+              <input type="text" maxlength="100" class="form-control" placeholder="Total pallet positions in rack" formControlName="pallet">
             </div>
           </div>
         </div>
@@ -161,7 +163,7 @@
           <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="form-group">
               <label>Racking</label>
-              <select class="form-control">
+              <select class="form-control" formControlName="racking">
                 <option *ngFor="let rack of racking">{{rack.UnitTypeCode}}</option>
               </select>
             </div>
@@ -171,7 +173,7 @@
           <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="form-group">
               <label>Max. Height</label>
-              <select class="form-control">
+              <select class="form-control" formControlName="maxHeight">
                 <option *ngFor="let height of maxHeight">{{height.UnitTypeCode}}</option>
               </select>
             </div>
@@ -182,9 +184,9 @@
             <div class="form-group">
               <label>Max. Rack Weight</label>
               <div class="input-group">
-                <input class="form-control input-dropdown" type="text" placeholder="eg: 1,000 kg or less / pallet">
-                <div class="input-group-append">
-                  <select class="form-control input-dropdown">
+                <input class="form-control input-dropdown" type="text" placeholder="eg: 1,000 kg or less / pallet" formControlName="rackWeight">
+                <div class="input-group-append" >
+                  <select class="form-control input-dropdown" formControlName="rackWeightUnit">
                     <option *ngFor="let weight of weightUnits">
                       {{weight.UnitTypeCode}}
                     </option>
@@ -194,18 +196,18 @@
             </div>
           </div>
         </div>
+        </form>
+      </div>
         <div class="row">
           <label class="col-12 racked">Bulk Storage</label>
-          <div class="col-4 d-flex">
-            <div class="mr-4 ng-star-inserted">
-              <label for="" class="float-left">Do you have bulk storage space available?</label>
-            </div>
+          <div class="col-4">
+              <label>Do you have bulk storage space available?</label>
           </div>
           <div class="col-2 switch-box">
-            <ui-switch></ui-switch>
+            <ui-switch (change)="bulkStorage = !bulkStorage" [checked]="bulkStorage"></ui-switch>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="bulkStorage" [@fadeInOut]>
           <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="form-group">
               <label>Total Pallet Bulk</label>
@@ -222,13 +224,13 @@
         <hr class="hr-solid">
         <div class="row">
           <div class="col-6">
-          <div class="fancyRadioBoxes pt-2" *ngFor="let service of warehouseFacilities; let i = index">
-            <input id="{{i + 'service'}}" name="wareHouseService" type="radio">
-            <label for="{{i + 'service'}}">
-              <span></span>
-              {{service.FacilitiesTypeTitle}}
-            </label>
-          </div>
+            <div class="fancyOptionBoxes pt-2" *ngFor="let service of warehouseFacilities; let i = index">
+              <input id="{{i + 'service'}}" name="wareHouseService" type="checkbox" (click)="wareHouseFacilitation(service)">
+              <label for="{{i + 'service'}}">
+                <span></span>
+                {{service.FacilitiesTypeTitle}}
+              </label>
+            </div>
           </div>
         </div>
         <div class="row">
@@ -240,37 +242,40 @@
         <hr class="hr-solid">
         <div class="row">
           <div class="col-6">
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="form-group">
-                  <label>City</label>
-                  <input type="text" maxlength="100" class="form-control" placeholder="Enter City">
-                </div>
+                <form autocomplete="off" novalidate [formGroup]="locationForm">
+              <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="form-group">
+                      <label>City</label>
+                      <input type="text" maxlength="100" class="form-control" placeholder="Enter City" formControlName="city">
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="form-group">
+                      <label>Address Line 1</label>
+                      <input type="text" maxlength="100" class="form-control" placeholder="Address line 1" formControlName="addressline1">
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="form-group">
+                      <label>Address Line 2 (optional)</label>
+                      <input type="text" maxlength="100" class="form-control" placeholder="Address line 2" formControlName="addressline1">
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                      <label>P.O Box</label>
+                      <input type="text" maxlength="100" class="form-control" formControlName="poBox">
+                    </div>
+                  </div>
               </div>
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="form-group">
-                  <label>Address Line 1</label>
-                  <input type="text" maxlength="100" class="form-control" placeholder="Address line 1">
-                </div>
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="form-group">
-                  <label>Address Line 2 (optional)</label>
-                  <input type="text" maxlength="100" class="form-control" placeholder="Address line 2">
-                </div>
-              </div>
-              <div class="col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label>P.O Box</label>
-                  <input type="text" maxlength="100" class="form-control">
-                </div>
-              </div>
-            </div>
+                </form>
+   
           </div>
           <div class="col-6">
-                 <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
-                  <agm-marker [latitude]="location.lat" [longitude]="location.lng"></agm-marker>
-                </agm-map>
+            <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
+              <agm-marker [latitude]="location.lat" [longitude]="location.lng"></agm-marker>
+            </agm-map>
           </div>
         </div>
         <div class="row">
@@ -287,8 +292,8 @@
                 <input class="form-control input-dropdown" type="text" placeholder="From">
                 <div class="input-group-append">
                   <select class="form-control input-dropdown">
-                  <option>am</option>
-                  <option>pm</option>
+                    <option>am</option>
+                    <option>pm</option>
                   </select>
                 </div>
               </div>

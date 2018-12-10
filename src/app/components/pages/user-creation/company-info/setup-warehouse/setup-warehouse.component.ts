@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { trigger, style, animate, transition } from '@angular/animations';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { WarehouseService } from './warehouse.service';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../directives/ng-files';
 import { ToastrService } from 'ngx-toastr';
@@ -10,12 +12,24 @@ import { CompanyInfoService } from '../company-info.service';
 @Component({
   selector: 'app-setup-warehouse',
   templateUrl: './setup-warehouse.component.html',
-  styleUrls: ['./setup-warehouse.component.scss']
+  styleUrls: ['./setup-warehouse.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [   // :enter is alias to 'void => *'
+        style({ opacity: 0 }),
+        animate(500, style({ opacity: 1 }))
+      ]),
+      transition(':leave', [   // :leave is alias to '* => void'
+        animate(500, style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class SetupWarehouseComponent implements OnInit {
   @ViewChild('stepper') public _stepper: any;
   public wareHouseCat: any[];
   public categoryIds: any[] = [];  
+  public whFacilitation: any[] = [];  
   public warehouseId;
   public wareHouseUsageType: any[] =[];
   public warehouseFacilities: any[] = [];
@@ -23,7 +37,7 @@ export class SetupWarehouseComponent implements OnInit {
   public weightUnits: any[] = [];
   public maxHeight: any[] = [];
   public racking: any[] = [];
-  public weekDays=['Monday, Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+  public weekDays=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
   private config: NgFilesConfig = {
     acceptExtensions: ['jpeg', 'jpg', 'png', 'pdf', 'bmp'],
     maxFilesCount: 1,
@@ -35,7 +49,12 @@ export class SetupWarehouseComponent implements OnInit {
     lng: undefined
   }
   public zoomlevel: number = 5;
+  public rackedStorage: boolean = false;
+  public bulkStorage: boolean = false;
   
+  public locationForm;
+  public rackStorageForm;
+
   constructor(
     private warehouseService: WarehouseService,
     private ngFilesService: NgFilesService,
@@ -47,6 +66,20 @@ export class SetupWarehouseComponent implements OnInit {
   ngOnInit() {
     this.ngFilesService.addConfig(this.config, 'docConfig');
     this.getWarehouseInfo();
+
+    this.locationForm = new FormGroup({
+      city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      addressline1: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      addressline2: new FormControl(null, [Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      poBox: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
+    });
+    this.rackStorageForm = new FormGroup({
+      pallet: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      racking: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      maxHeight: new FormControl(null, [Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      rackWeight: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
+      rackWeightUnit: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
+    });
   }
 
   getWarehouseInfo() {
@@ -82,6 +115,20 @@ export class SetupWarehouseComponent implements OnInit {
 
   }
 
+  wareHouseFacilitation(service){
+    if (this.whFacilitation && this.whFacilitation.length) {
+      for (var i = 0; i < this.whFacilitation.length; i++) {
+        if (this.whFacilitation[i].FacilitiesTypeID == service.FacilitiesTypeID) {
+          this.whFacilitation.splice(i, 1);
+          return;
+        }
+      }
+    }
+    if ((this.whFacilitation && !this.whFacilitation.length) || (i == this.whFacilitation.length)) {
+      this.whFacilitation.push(service)
+    }
+    console.log(this.whFacilitation)
+  }
 
   addCategory(){
     let obj = {

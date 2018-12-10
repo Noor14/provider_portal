@@ -367,7 +367,7 @@
 
                   <div class="row" *ngFor="let doc of docTypes; let i = index">
                     <div class="col-lg-6 col-md-6 col-sm-12">
-                      <div class="fancyRadioBoxes pt-2">
+                      <div class="fancyOptionBoxes pt-2">
                         <input id="{{i + 'doctype'}}" name="doc" type="radio" (click)="selectdocType(i + 'doctype', doc)">
                         <label for="{{i + 'doctype'}}">
                           <span [ngClass]="{'radioError': !docxId}"></span>
@@ -376,7 +376,7 @@
                       </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="showTranslatedLangSide">
-                      <div class="fancyRadioBoxes pt-2 dir-otherLanguage">
+                      <div class="fancyOptionBoxes pt-2 dir-otherLanguage">
                         <input id="{{i + 'doctype'}}" name="docAr" type="radio" (click)="selectdocType(i + 'doctype', doc)">
                         <label for="{{i + 'doctype'}}">
                           <span class="mr-0 ml-2" [ngClass]="{'radioError': !docxId}"></span>

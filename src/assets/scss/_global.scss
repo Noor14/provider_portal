@@ -274,14 +274,15 @@ body {
 
 /*--  Checkbox Start  --*/
 
-.fancyCheckBoxes,
-.fancyRadioBoxes {
-    input[type="radio"] {
+.fancyOptionBoxes {
+    input[type="radio"],
+    input[type="checkbox"] {
         height: 0;
         width: 0;
         display: none;
     }
-    input[type="radio"]+label {
+    input[type="radio"]+label,
+    input[type="checkbox"]+label {
         font-size: $font-size-medium;
         font-family: $font-proxima;
         color: $text-color-default;
@@ -295,8 +296,10 @@ body {
             width: 20px;
             height: 20px;
             border: 0;
+            display: flex;
             border-radius: 2px;
-            align-self: flex-start;
+            align-items: center;
+            margin-right: .58em;
             background: -moz-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
             /* FF3.6-15 */
             background: -webkit-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
@@ -316,7 +319,8 @@ body {
             }
         }
     }
-    input[type="radio"]:checked+label {
+    input[type="radio"]:checked+label,
+    input[type="checkbox"]:checked+label {
         font-size: $font-size-medium; // font-family: $font-proxima;
         color: $text-color-default;
         font-weight: $font-weight-normal;
@@ -357,26 +361,9 @@ body {
     }
 }
 
-input[type="radio"]+label>span {
-    display: flex;
-    width: 27px;
-    height: 27px;
-    align-items: center;
-    margin-right: .58em;
-    border: 1px solid #f1eded;
-    border-radius: 3px;
-    background-color: #cccccc;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#ececec), to(#fbfbfb));
-    background-image: linear-gradient(#ececec, #fbfbfb);
-    cursor: pointer;
-    -webkit-transition: all 250ms cubic-bezier(0.4, 0, 0.23, 1);
-    transition: all 250ms cubic-bezier(0.4, 0, 0.23, 1);
-    padding: 0px 0px;
-    border-radius: 5px;
-}
-
-input[type="radio"]+label span::after {
-    content: " ";
+input[type="radio"]+label span::after,
+input[type="checkbox"]+label span::after {
+    content: "";
     width: 17px;
     height: 17px;
     border: 2px solid #cccfd0;
@@ -385,10 +372,115 @@ input[type="radio"]+label span::after {
 }
 
 input[type="radio"]+label:hover>span,
-input[type="radio"]:focus+label>span {
+input[type="checkbox"]+label:hover>span,
+input[type="radio"]:focus+label>span,
+input[type="checkbox"]:focus+label>span {
     background: rgba(255, 255, 255, .1);
 }
 
+.fancyOptionBoxes {
+    input[type="radio"],
+    input[type="checkbox"] {
+        height: 0;
+        width: 0;
+        display: none;
+    }
+    input[type="radio"]+label,
+    input[type="checkbox"]+label {
+        font-size: $font-size-medium;
+        font-family: $font-proxima;
+        color: $text-color-default;
+        font-weight: $font-weight-normal;
+        position: relative;
+        cursor: pointer;
+        display: flex;
+        margin: 0;
+        transition: color 250ms cubic-bezier(.4, .0, .23, 1);
+        span {
+            width: 20px;
+            height: 20px;
+            border: 0;
+            display: flex;
+            border-radius: 2px;
+            align-items: center;
+            margin-right: .58em;
+            background: -moz-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
+            /* FF3.6-15 */
+            background: -webkit-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ebebeb', GradientType=0);
+            /* IE6-9 */
+            box-shadow: inset 0px 1px 1px 0px rgba(24, 23, 24, 0.07);
+            &:after {
+                border-radius: 2px !important;
+                border: 2px;
+                width: 12px;
+                height: 12px;
+                background-color: rgb(237, 239, 240);
+                box-shadow: inset 0px 1px 3px 0px rgba(24, 23, 24, 0.23);
+            }
+        }
+    }
+    input[type="radio"]:checked+label,
+    input[type="checkbox"]:checked+label {
+        font-size: $font-size-medium; // font-family: $font-proxima;
+        color: $text-color-default;
+        font-weight: $font-weight-normal;
+        span {
+            width: 20px;
+            height: 20px;
+            border: 0;
+            border-radius: 2px; // background-image: -moz-linear-gradient( 90deg, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
+            // background-image: -webkit-linear-gradient( 90deg, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
+            // background-image: -ms-linear-gradient( 90deg, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
+            background: -moz-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
+            /* FF3.6-15 */
+            background: -webkit-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ebebeb', GradientType=0);
+            /* IE6-9 */
+            box-shadow: inset 0px 1px 1px 0px rgba(24, 23, 24, 0.07);
+            &:after {
+                border-radius: 2px !important;
+                border: 0 !important;
+                width: 12px;
+                height: 12px; // background-image: -moz-linear-gradient( 90deg, rgb(0, 0, 0) 0%, rgb(255, 255, 255) 100%);
+                // background-image: -webkit-linear-gradient( 90deg, rgb(0, 0, 0) 0%, rgb(255, 255, 255) 100%);
+                // background-image: -ms-linear-gradient( 90deg, rgb(0, 0, 0) 0%, rgb(255, 255, 255) 100%);
+                box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.35), inset 0px 0px 1px 0px rgba(0, 0, 0, 0.5);
+                background: -moz-linear-gradient(top, rgb(30, 172, 227) 0%, rgb(42, 150, 218) 100%);
+                /* FF3.6-15 */
+                background: -webkit-linear-gradient(top, rgb(30, 172, 227) 0%, rgb(42, 150, 218) 100%);
+                /* Chrome10-25,Safari5.1-6 */
+                background: linear-gradient(top, rgb(30, 172, 227) 0%, rgb(42, 150, 218) 100%);
+                /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ebebeb', GradientType=0);
+                background-color: $checkboxes-border-color;
+            }
+        }
+    }
+}
+
+input[type="radio"]+label span::after,
+input[type="checkbox"]+label span::after {
+    content: "";
+    width: 17px;
+    height: 17px;
+    border: 2px solid #cccfd0;
+    border-radius: 4px;
+    margin: 0 4px;
+}
+
+input[type="radio"]+label:hover>span,
+input[type="checkbox"]+label:hover>span,
+input[type="radio"]:focus+label>span,
+input[type="checkbox"]:focus+label>span {
+    background: rgba(255, 255, 255, .1);
+}
 .switch-box {
     ui-switch {
         float: left;
