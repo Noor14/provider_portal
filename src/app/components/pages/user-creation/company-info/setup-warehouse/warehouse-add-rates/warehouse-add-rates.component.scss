@@ -1,0 +1,10 @@
+@import '../../../../../../../assets/scss/_variables';
+
+.add-route {
+    .nav-tabs {
+        >li.nav-item {
+            width: 50% !important;
+            background: #fff;
+        }
+    }  
+}
