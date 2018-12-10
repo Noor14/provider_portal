@@ -668,6 +668,23 @@ input[type="radio"]:focus+label>span {
             border-radius: 4px;
             border: 1px solid $provider-input-border;
             position: relative;
+            .social-link-field{
+                .social-place-label {
+                    position: absolute;
+                    left: 48px;
+                    top: 5px;
+                    font-family: inherit;
+                    color: $place-holder-color;
+                    width: auto;
+                    z-index: 0;
+                }
+                input.select-country-code {
+                    padding-left: 5.5rem;
+                    z-index: 1;
+                    position: relative;
+                    width: 100%;
+                }
+            }
             input.select-country-code {
                 background: none;
                 border: none;
