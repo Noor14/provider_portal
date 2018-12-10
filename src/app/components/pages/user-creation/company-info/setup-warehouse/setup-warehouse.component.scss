@@ -32,6 +32,27 @@
         }
     }
     .stepTwo {
+        .documentInfo {
+            margin-bottom: 2.8rem;
+            .file-uploader {
+                border: 1px dashed #e1d8d8;
+                border-radius: 4px;
+                background: $white-color;
+                text-align: center;
+                .drag-support {
+                    color: $text-grey;
+                    font-size: $font-size-medium;
+                }
+                .browse-span {
+                    color: $secondary-color;
+                    font-weight: 500;
+                }
+            }
+        }
+        agm-map {
+            height: 100%;
+            width: 100%;
+        }
         .sub-title {
             &.noti {
                 padding-left: 1.5rem;

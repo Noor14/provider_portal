@@ -14,7 +14,7 @@ export class ReUploadDocComponent implements OnInit {
   public docsReasons: any[];
   @Input() documentObj: any;
   public docReasonForm;
-  selectedReason;
+  public descError;
   constructor(
     private location: PlatformLocation,
     private _activeModal: NgbActiveModal,
@@ -26,8 +26,8 @@ export class ReUploadDocComponent implements OnInit {
   ngOnInit() {
     this.getDocReason();
     this.docReasonForm = new FormGroup({
-      reasonType: new FormControl(null, Validators.required),
-      reasonDesc: new FormControl(null)
+      reasonType: new FormControl(null, {validators: [Validators.required]}),
+      reasonDesc: new FormControl(null, {validators: [Validators.required, Validators.maxLength(1000)]})
     });
   }
   getDocReason(){

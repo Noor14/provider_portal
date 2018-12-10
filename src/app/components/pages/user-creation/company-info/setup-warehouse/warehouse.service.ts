@@ -7,9 +7,14 @@ export class WarehouseService {
 
   constructor(private _http: HttpClient) { }
 
-  getWarehouseData() {
-    let url: string = "warehousesetup/Get";
+  getWarehouseData(id) {
+    let url: string = `warehousesetup/Get/${id}`;
     return this._http.get(baseApi + url);
+  }
+
+  addWarehouse(data) {
+    let url: string = "warehousesetup/Post";
+    return this._http.post(baseApi + url, data);
   }
 
 }

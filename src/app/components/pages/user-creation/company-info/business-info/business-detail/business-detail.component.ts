@@ -14,7 +14,7 @@ import { CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear, patternValidator
   YOUTUBE_REGEX, FACEBOOK_REGEX, TWITTER_REGEX, LINKEDIN_REGEX, INSTAGRAM_REGEX, URL_REGEX, GEN_URL } from '../../../../../../constants/globalFunctions';
 import { CompanyInfoService } from '../../company-info.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { DocumentUpload } from '../../../../../../interfaces/document.interface';
+import { DocumentUpload, DocumentFile } from '../../../../../../interfaces/document.interface';
 import { baseApi } from '../../../../../../constants/base.url';
 
 @Component({
@@ -2092,10 +2092,3 @@ export class BusinessDetailComponent implements OnInit {
 
 }
 
-export interface DocumentFile {
-  fileBaseString: string
-  fileName: string
-  fileType: string
-  fileUrl: string
-  docId?: string
-}

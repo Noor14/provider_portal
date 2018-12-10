@@ -34,3 +34,9 @@ export interface fileContent{
     documentFile: string,
     documentUploadedFileType: string
 }
+export interface DocumentFile {
+    fileBaseString: string
+    fileName: string
+    fileType: string
+    fileUrl: string
+}
