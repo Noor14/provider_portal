@@ -481,6 +481,7 @@ input[type="radio"]:focus+label>span,
 input[type="checkbox"]:focus+label>span {
     background: rgba(255, 255, 255, .1);
 }
+
 .switch-box {
     ui-switch {
         float: left;
@@ -1120,6 +1121,32 @@ select {
         font-weight: $font-weight-normal !important;
         min-width: 22px;
         min-height: 20px; // padding: 0;
+    }
+}
+
+// muliselect combo box
+.multiselect-dropdown {
+    .dropdown-btn {
+        padding: 10px !important;
+        .dropdown-up,
+        .dropdown-down {
+            border-left: 5px solid transparent !important;
+            border-right: 5px solid transparent !important;
+        }
+        .dropdown-down {
+            border-top: 5px solid $secondary-grey !important;
+        }
+        .dropdown-up {
+            border-bottom: 5px solid $secondary-grey !important;
+        }
+    }
+    .dropdown-list {
+        .filter-textbox {
+            input {
+                line-height: 0 !important;
+                height: auto !important;
+            }
+        }
     }
 }
 

@@ -24,6 +24,8 @@ import { NgStepperModule } from '../../../../directives/stepper/stepper.module';
 import { SetupWarehouseComponent } from './setup-warehouse/setup-warehouse.component';
 import { WarehouseService } from './setup-warehouse/warehouse.service';
 import { WarehouseListComponent } from './setup-warehouse/warehouse-list/warehouse-list.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
 
 @NgModule({
   imports: [
@@ -39,6 +41,7 @@ import { WarehouseListComponent } from './setup-warehouse/warehouse-list/warehou
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   declarations: [
     ComapnyInfoComponent,

@@ -4,10 +4,10 @@
     <br> industry It has survived not only five centuries </p>
 
   <ngx-stepper #stepper class="warehouse-stepper">
-    <ngx-step [label]="'SELECT CATEGORIES'">
+    <ngx-step [label]="'SELECT CATEGORY'">
       <section class="stepOne">
-        <h5 class="mt-3 pt-2">Supported Categories</h5>
-        <small> Select as many of the following </small>
+        <h5 class="mt-3 pt-2">Supported Category</h5>
+        <small> Select as many of the following</small>
         <hr class="hr-solid">
         <div class="row">
           <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 mb-3 mt-3" *ngFor="let cat of wareHouseCat">
@@ -30,11 +30,12 @@
           </div>
         </div>
         <hr class="hr-solid">
+        <form autocomplete="off" novalidate [formGroup]="generalForm">
         <div class="row">
           <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="form-group">
               <label>Warehouse Name</label>
-              <input type="text" maxlength="100" class="form-control">
+              <input type="text" maxlength="100" class="form-control" formControlName="whName">
             </div>
           </div>
         </div>
@@ -48,89 +49,93 @@
                   <img src="../../../../../../assets/images/icons/manager-icon.png">
                   <p class="m-0 mt-3"> Drag here or
                     <span class="browse-span">browse</span> to upload</p>
-                  <small class="drag-support"> (supported types: pdf, jpeg, png, Maximum size per document: 4 MB) </small>
+                  <small class="drag-support"> (supported types: pdf, jpeg, png, Maximum size per document: 4 MB)
+                  </small>
                 </app-ng-files-drag-n-upload>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="row">
-          <div class="col-12">
-            <h5>Warehouse Details</h5>
-            <p class="sub-title mb-0">Please enter your warehouse details</p>
-          </div>
-        </div>
-        <hr class="hr-solid">
-        <div class="row">
-          <div class="col-6">
-            <label>Usage Type</label>
-            <div class="fancyOptionBoxes pt-2" *ngFor="let type of wareHouseUsageType; let i = index">
-              <input id="{{i + 'type'}}" name="warehouseType" type="radio">
-              <label for="{{i + 'type'}}">
-                <span></span>
-                {{type.UsageTypeTitle}}
-              </label>
+          <div class="row">
+            <div class="col-12">
+              <h5>Warehouse Details</h5>
+              <p class="sub-title mb-0">Please enter your warehouse details</p>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <div class="form-group">
-              <label>Total Covered Area</label>
-              <div class="input-group">
-                <input class="form-control input-dropdown" type="text">
-                <div class="input-group-append">
-                  <select class="form-control input-dropdown" name="weightUnit">
-                    <option value="6" class="ng-star-inserted" *ngFor="let unit of areaUnits">
-                      {{unit.UnitTypeCode}}
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <span class="sub-title noti">Estimate total warehouse space excluding any office area.</span>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <label class="col-12" for="">Hours of Operation</label>
-          <div class="col-3">
-            <div class="form-group">
-              <div class="input-group">
-                <input class="form-control input-dropdown" type="text" placeholder="From">
-                <div class="input-group-append">
-                  <select class="form-control input-dropdown">
-                    <option>am</option>
-                    <option>pm</option>
-                  </select>
-                </div>
+          <hr class="hr-solid">
+          <div class="row">
+            <div class="col-6">
+              <label>Usage Type</label>
+              <div class="fancyOptionBoxes pt-2" *ngFor="let type of wareHouseUsageType; let i = index">
+                <input id="{{i + 'type'}}" name="whUsageType" type="radio" >
+                <label for="{{i + 'type'}}">
+                  <span></span>
+                  {{type.UsageTypeTitle}}
+                </label>
               </div>
             </div>
           </div>
-          <div class="col-3">
-            <div class="form-group">
-              <div class="input-group">
-                <input class="form-control input-dropdown" type="text" placeholder="To">
-                <div class="input-group-append">
-                  <select class="form-control input-dropdown">
-                    <option>am</option>
-                    <option>pm</option>
-                  </select>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label>Total Covered Area</label>
+                <div class="input-group">
+                  <input class="form-control input-dropdown" type="text" formControlName="whArea">
+                  <div class="input-group-append">
+                    <select class="form-control input-dropdown" name="weightUnit" formControlName="whAreaUnit">
+                      <option class="ng-star-inserted" *ngFor="let unit of areaUnits">
+                        {{unit.UnitTypeCode}}
+                      </option>
+                    </select>
+                  </div>
                 </div>
+                <span class="sub-title noti">Estimate total warehouse space excluding any office area.</span>
               </div>
             </div>
           </div>
-          <div class="col-3">
-            <div class="form-group">
-              <select class="form-control">
-                <option>Select Days</option>
-                <option *ngFor="let day of weekDays">{{day}}</option>
-              </select>
-            </div>
+          <label>Hours of Operation</label>
+          <div class="row" formArrayName="whSchedule" *ngFor="let item of generalForm.controls['whSchedule'].controls; let i = index">
+              <div class="col-3">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input class="form-control input-dropdown" type="text" placeholder="From">
+                    <div class="input-group-append">
+                      <select class="form-control input-dropdown">
+                        <option>am</option>
+                        <option>pm</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input class="form-control input-dropdown" type="text" placeholder="To">
+                    <div class="input-group-append">
+                      <select class="form-control input-dropdown">
+                        <option>am</option>
+                        <option>pm</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-5">
+                <div class="form-group">
+                  <ng-multiselect-dropdown [ngModelOptions]="{standalone: true}" [placeholder]="'Select Days'" [data]="weekDays" [(ngModel)]="selectedDays" [settings]="dropdownSettings"
+                    (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                  </ng-multiselect-dropdown>
+                  <!-- <select class="form-control">
+                    <option>Select Days</option>
+                    <option *ngFor="let day of weekDays">{{day}}</option>
+                  </select> -->
+                </div>
+              </div>
+            <a *ngIf="i > 0" href="javascript:;" class="hvr-icon-back grey-anc-btn add-hours" (click)="removeRow(i)">Remove</a>
           </div>
-          <div class="col-12 add-hours">Add</div>
-        </div>
-
+            <a href="javascript:;" class="hvr-icon-back grey-anc-btn add-hours" (click)="addDays()" *ngIf="generalForm.controls['whSchedule'].controls.length < 7">Add</a>
+        </form>
         <div class="row">
           <div class="col-12">
             <h5>Capacity Details</h5>
@@ -149,72 +154,74 @@
             <ui-switch (change)="rackedStorage = !rackedStorage" [checked]="rackedStorage"></ui-switch>
           </div>
         </div>
-        <div *ngIf="rackedStorage" [@fadeInOut]>
-          <form autocomplete="off" novalidate [formGroup]="rackStorageForm">
-        <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="form-group">
-              <label>Total Pallet Rack</label>
-              <input type="text" maxlength="100" class="form-control" placeholder="Total pallet positions in rack" formControlName="pallet">
+        <form autocomplete="off" novalidate [formGroup]="capacityDetailForm">
+
+          <div *ngIf="rackedStorage" [@fadeInOut]>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label>Total Pallet Rack</label>
+                  <input type="text" maxlength="100" class="form-control" placeholder="Total pallet positions in rack" formControlName="palletRack">
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="form-group">
-              <label>Racking</label>
-              <select class="form-control" formControlName="racking">
-                <option *ngFor="let rack of racking">{{rack.UnitTypeCode}}</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="form-group">
-              <label>Max. Height</label>
-              <select class="form-control" formControlName="maxHeight">
-                <option *ngFor="let height of maxHeight">{{height.UnitTypeCode}}</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <div class="form-group">
-              <label>Max. Rack Weight</label>
-              <div class="input-group">
-                <input class="form-control input-dropdown" type="text" placeholder="eg: 1,000 kg or less / pallet" formControlName="rackWeight">
-                <div class="input-group-append" >
-                  <select class="form-control input-dropdown" formControlName="rackWeightUnit">
-                    <option *ngFor="let weight of weightUnits">
-                      {{weight.UnitTypeCode}}
-                    </option>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label>Racking</label>
+                  <select class="form-control" formControlName="racking">
+                    <option *ngFor="let rack of racking">{{rack.UnitTypeCode}}</option>
                   </select>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        </form>
-      </div>
-        <div class="row">
-          <label class="col-12 racked">Bulk Storage</label>
-          <div class="col-4">
-              <label>Do you have bulk storage space available?</label>
-          </div>
-          <div class="col-2 switch-box">
-            <ui-switch (change)="bulkStorage = !bulkStorage" [checked]="bulkStorage"></ui-switch>
-          </div>
-        </div>
-        <div class="row" *ngIf="bulkStorage" [@fadeInOut]>
-          <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="form-group">
-              <label>Total Pallet Bulk</label>
-              <input type="text" maxlength="100" class="form-control" placeholder="Total pallet positions in bulk">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label>Max. Height</label>
+                  <select class="form-control" formControlName="maxHeight">
+                    <option *ngFor="let height of maxHeight">{{height.UnitTypeCode}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Max. Rack Weight</label>
+                  <div class="input-group">
+                    <input class="form-control input-dropdown" type="text" placeholder="eg: 1,000 kg or less / pallet" formControlName="rackWeight">
+                    <div class="input-group-append">
+                      <select class="form-control input-dropdown" formControlName="rackWeightUnit">
+                        <option *ngFor="let weight of weightUnits">
+                          {{weight.UnitTypeCode}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+          <div class="row">
+            <label class="col-12 racked">Bulk Storage</label>
+            <div class="col-4">
+              <label>Do you have bulk storage space available?</label>
+            </div>
+            <div class="col-2 switch-box">
+              <ui-switch (change)="bulkStorage = !bulkStorage" [checked]="bulkStorage"></ui-switch>
+            </div>
+          </div>
+          <div class="row" *ngIf="bulkStorage" [@fadeInOut]>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Total Pallet Bulk</label>
+                <input type="text" maxlength="100" class="form-control" placeholder="Total pallet positions in bulk" formControlName="palletBulk">
+              </div>
+            </div>
+          </div>
+        </form>
+
         <div class="row">
           <div class="col-12">
             <h5>Warehousing Services</h5>
@@ -242,39 +249,39 @@
         <hr class="hr-solid">
         <div class="row">
           <div class="col-6">
-                <form autocomplete="off" novalidate [formGroup]="locationForm">
+            <form autocomplete="off" novalidate [formGroup]="locationForm">
               <div class="row">
-                  <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="form-group">
-                      <label>City</label>
-                      <input type="text" maxlength="100" class="form-control" placeholder="Enter City" formControlName="city">
-                    </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group">
+                    <label>City</label>
+                    <input type="text" maxlength="100" class="form-control" placeholder="Enter City" #searchCity formControlName="city">
                   </div>
-                  <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="form-group">
-                      <label>Address Line 1</label>
-                      <input type="text" maxlength="100" class="form-control" placeholder="Address line 1" formControlName="addressline1">
-                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group">
+                    <label>Address Line 1</label>
+                    <input type="text" maxlength="200" class="form-control" placeholder="Address line 1" formControlName="addressline1">
                   </div>
-                  <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="form-group">
-                      <label>Address Line 2 (optional)</label>
-                      <input type="text" maxlength="100" class="form-control" placeholder="Address line 2" formControlName="addressline1">
-                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group">
+                    <label>Address Line 2 (optional)</label>
+                    <input type="text" maxlength="200" class="form-control" placeholder="Address line 2" formControlName="addressline2">
                   </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group">
-                      <label>P.O Box</label>
-                      <input type="text" maxlength="100" class="form-control" formControlName="poBox">
-                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>P.O Box</label>
+                    <input type="text" maxlength="16" class="form-control" formControlName="poBox">
                   </div>
+                </div>
               </div>
-                </form>
-   
+            </form>
+
           </div>
           <div class="col-6">
             <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
-              <agm-marker [latitude]="location.lat" [longitude]="location.lng"></agm-marker>
+              <agm-marker [latitude]="location.lat" [longitude]="location.lng" [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
             </agm-map>
           </div>
         </div>
@@ -285,13 +292,14 @@
           </div>
         </div>
         <hr class="hr-solid">
+        <form autocomplete="off" novalidate [formGroup]="wareHouseAvailableForm">
         <div class="row">
           <div class="col-3">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control input-dropdown" type="text" placeholder="From">
+                <input class="form-control input-dropdown" type="text" placeholder="From" formControlName="fromHour">
                 <div class="input-group-append">
-                  <select class="form-control input-dropdown">
+                  <select class="form-control input-dropdown" formControlName="fromHourFormat">
                     <option>am</option>
                     <option>pm</option>
                   </select>
@@ -302,9 +310,9 @@
           <div class="col-3">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control input-dropdown" type="text" placeholder="To">
+                <input class="form-control input-dropdown" type="text" placeholder="To" formControlName="toHour">
                 <div class="input-group-append">
-                  <select class="form-control input-dropdown">
+                  <select class="form-control input-dropdown" formControlName="toHourFormat">
                     <option>am</option>
                     <option>pm</option>
                   </select>
@@ -313,9 +321,12 @@
             </div>
           </div>
         </div>
+        </form>
         <button (click)="backToCategory()" *ngIf="stepper.activeStep" class="btn btn-primary btn-register hvr-sweep-to-right pull-left">
           Back </button>
-        <button *ngIf="!stepper.lastStepActive" (click)="stepper.next()" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">
+        <button *ngIf="!stepper.lastStepActive" 
+        [disabled]="locationForm.invalid || capacityDetailForm.invalid || generalForm.invalid || wareHouseAvailableForm.invalid || !whFacilitation.length" 
+        (click)="putWarehouseInfo()" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">
           Next </button>
       </section>
     </ngx-step>

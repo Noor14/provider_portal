@@ -13,7 +13,6 @@ import { ScrollbarModule } from 'ngx-scrollbar';
 import { UserCreationService } from './components/pages/user-creation/user-creation.service';
 import { GuestService } from './services/jwt.injectable';
 import { Interceptor } from './http-interceptors/interceptor';
-
 export function guestServiceFactory(provider: GuestService) {
   return () => provider.load();
 }
