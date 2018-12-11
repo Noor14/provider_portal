@@ -71,8 +71,8 @@ export class SetupWarehouseComponent implements OnInit {
   singleSelection: false,
   idField: 'item_id',
   textField: 'item_text',
-  selectAllText: 'Select All',
-  unSelectAllText: 'UnSelect All',
+  selectAllText: 'Every Day',
+  unSelectAllText: 'Every Day',
   itemsShowLimit: 3,
   allowSearchFilter: true
 };
