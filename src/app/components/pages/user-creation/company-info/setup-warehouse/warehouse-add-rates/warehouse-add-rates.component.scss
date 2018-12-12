@@ -19,6 +19,18 @@
                     &.active {
                         box-shadow: 0px 3px 0px 0px $primary-color !important;
                         color: rgba($color: $primary-color, $alpha: 1);
+                        .tab-title {
+                            svg {
+                                fill: rgba($color: $primary-color, $alpha: 1);
+                            }
+                        }
+                    }
+                    .tab-title {
+                        svg {
+                            width: 25px;
+                            fill: adjust-color($color: $dark-grey-blue, $alpha: 0.6);
+                            margin-right: 15px;
+                        }
                     }
                 }
             }
@@ -28,14 +40,17 @@
                 >ngb-tabset {
                     >ul.nav-tabs {
                         border: none;
-                        border-top-left-radius: 4px;
-                        border-top-right-radius: 4px;
-                        overflow: hidden;
-                        // overflow-x: auto;
-                        // overflow-y: hidden;
+                        border-top-left-radius: 10px;
+                        border-top-right-radius: 10px;
+                        overflow-y: hidden;
+                        overflow-x: auto;
+                        width: 100%;
+                        white-space: nowrap;
+                        display: block;
                         >li.nav-item {
                             width: 20%;
                             text-align: center;
+                            display: inline-block;
                             a.nav-link {
                                 font-family: $font-proxima;
                                 font-size: $font-size-large;
