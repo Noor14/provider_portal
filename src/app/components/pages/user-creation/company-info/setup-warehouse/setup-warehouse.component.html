@@ -123,7 +123,7 @@
               </div>
               <div class="col-5">
                 <div class="form-group">
-                  <ng-multiselect-dropdown [ngModelOptions]="{standalone: true}" [placeholder]="'Select Days'" [data]="weekDays" [(ngModel)]="selectedDays" [settings]="dropdownSettings"
+                  <ng-multiselect-dropdown [placeholder]="'Select Days'" [data]="weekDays" [settings]="dropdownSettings"
                     (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
                   </ng-multiselect-dropdown>
                   <!-- <select class="form-control">

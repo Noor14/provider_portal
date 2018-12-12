@@ -59,7 +59,9 @@ export class SetupWarehouseComponent implements OnInit {
 
   public rackedStorage: boolean = false;
   public bulkStorage: boolean = false;
-  public uploadDocs: Array<DocumentUpload> = []
+  public uploadDocs: any;
+  public docTypeId= undefined;
+  public selectedDocx:any[]=[];
   public locationForm;
   public capacityDetailForm;
   public generalForm;
@@ -138,7 +140,6 @@ export class SetupWarehouseComponent implements OnInit {
   getDocType(id) {
     this._companyInfoService.getDocByCountrytype('provider', 0, id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
-        // console.log(res)
         this.uploadDocs = res.returnObject.filter(element => element.DocumentDesc == "Warehouse Gallery")
       }
     }, (err: HttpErrorResponse) => {
@@ -332,7 +333,7 @@ export class SetupWarehouseComponent implements OnInit {
               allDocsArr.push(docFile);
               flag++
               if (flag === fileLenght) {
-                // this.uploadDocuments(allDocsArr)
+                this.uploadDocuments(allDocsArr)
               }
             }
             else {
@@ -349,51 +350,51 @@ export class SetupWarehouseComponent implements OnInit {
   }
   generateDocObject(selectedFile): any {
     let object = this.uploadDocs;
-    console.log(object)
-    // object.UserID = this.userProfile.UserID;
-    // object.ProviderID = this.userProfile.ProviderID;
-    // object.DocumentFileContent = null;
-    // object.DocumentName = null;
-    // object.DocumentUploadedFileType = null;
-    // object.DocumentID = this.docTypeId;
-    // object.FileContent = [{
-    //   documentFileName: selectedFile.fileName,
-    //   documentFile: selectedFile.fileBaseString,
-    //   documentUploadedFileType: selectedFile.fileType.split('/').pop()
-    // }]
-    // return object;
+    object.UserID = this.userProfile.UserID;
+    object.ProviderID = this.userProfile.ProviderID;
+    object.DocumentFileContent = null;
+    object.DocumentName = null;
+    object.DocumentUploadedFileType = null;
+    object.DocumentID = this.docTypeId;
+    object.FileContent = [{
+      documentFileName: selectedFile.fileName,
+      documentFile: selectedFile.fileBaseString,
+      documentUploadedFileType: selectedFile.fileType.split('/').pop()
+    }]
+    return object;
   }
 
-  // async uploadDocuments(docFiles: Array<any>) {
-  //   const totalDocLenght: number = docFiles.length
-  //   for (let index = 0; index < totalDocLenght; index++) {
-  //     try {
-  //       const resp: JsonResponse = await this.docSendService(docFiles[index])
-  //       if (resp.returnStatus = 'Success') {
-  //         let resObj = JSON.parse(resp.returnText);
-  //         this.docTypeId = resObj.DocumentID;
-  //         let fileObj = JSON.parse(resObj.DocumentFile);
-  //         fileObj.forEach(element => {
-  //           element.DocumentFile = baseApi.split("/api").shift() + element.DocumentFile;
-  //         });
-  //         if (index !== (totalDocLenght - 1)) {
-  //           docFiles[index + 1].DocumentID = resObj.DocumentID
-  //         }
-  //         this.selectedDocx = fileObj;
-  //         this._toastr.success("File upload successfully", "");
-  //       }
-  //       else {
-  //         this._toastr.error("Error occured on upload", "");
-  //       }
-  //     } catch (error) {
-  //       this._toastr.error("Error occured on upload", "");
-  //     }
-  //   }
-  // }
-  // async docSendService(doc: any) {
-  //   const resp: JsonResponse = await this._companyInfoService.docUpload(doc).toPromise()
-  //   return resp
-  // }
+  async uploadDocuments(docFiles: Array<any>) {
+    const totalDocLenght: number = docFiles.length
+    for (let index = 0; index < totalDocLenght; index++) {
+      try {
+        const resp: JsonResponse = await this.docSendService(docFiles[index])
+        if (resp.returnStatus = 'Success') {
+          let resObj = JSON.parse(resp.returnText);
+          this.docTypeId = resObj.DocumentID;
+          let fileObj = JSON.parse(resObj.DocumentFile);
+          fileObj.forEach(element => {
+            element.DocumentFile = baseApi.split("/api").shift() + element.DocumentFile;
+          });
+          if (index !== (totalDocLenght - 1)) {
+            docFiles[index + 1].DocumentID = resObj.DocumentID
+          }
+          this.selectedDocx = fileObj;
+          console.log(this.selectedDocx, 'njo')
+          this._toastr.success("File upload successfully", "");
+        }
+        else {
+          this._toastr.error("Error occured on upload", "");
+        }
+      } catch (error) {
+        this._toastr.error("Error occured on upload", "");
+      }
+    }
+  }
+  async docSendService(doc: any) {
+    const resp: JsonResponse = await this._companyInfoService.docUpload(doc).toPromise()
+    return resp
+  }
 
 
   backToCategory(){
