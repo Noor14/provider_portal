@@ -11,7 +11,7 @@ import { CompanyInfoService } from '../../company-info.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { element } from 'protractor';
-import { DocumentUpload } from '../../../../../../interfaces/document.interface';
+import { DocumentUpload, DocumentFile } from '../../../../../../interfaces/document.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { baseApi } from '../../../../../../constants/base.url';
 import { JsonResponse } from '../../../../../../interfaces/JsonResponse';
@@ -332,7 +332,7 @@ export class DirectorinfoComponent implements OnInit {
   }
 
   selectdocType(id, obj) {
-    let elem = document.getElementsByClassName('fancyRadioBoxes') as any;
+    let elem = document.getElementsByClassName('fancyOptionBoxes') as any;
     this.docxId = obj.DocumentTypeID;
 
     if (!this.selectedDocx.length) {
@@ -809,39 +809,7 @@ export class DirectorinfoComponent implements OnInit {
     return resp
   }
 
-  uploadDocx(selectedFile) {
-    let object = this.docTypes.find(Obj => Obj.DocumentTypeID == this.docxId);
-    object.UserID = this.userProfile.UserID;
-    object.ProviderID = this.userProfile.ProviderID;
-    object.DocumentFileContent = null;
-    object.DocumentName = null;
-    object.DocumentUploadedFileType = null;
-    object.DocumentID = this.docTypeId;
-    object.FileContent = [{
-      documentFileName: selectedFile.fileName,
-      documentFile: selectedFile.fileBaseString,
-      documentUploadedFileType: selectedFile.fileType.split('/').pop()
-    }]
 
-    this._companyInfoService.docUpload(object).subscribe((res: any) => {
-      if (res.returnStatus = 'Success') {
-        let resObj = JSON.parse(res.returnText);
-        this.docTypeId = resObj.DocumentID;
-        let fileObj = JSON.parse(resObj.DocumentFile);
-        fileObj.forEach(element => {
-          element.DocumentFile = baseApi.split("/api").shift() + element.DocumentFile;
-        });
-        this.selectedDocx = fileObj;
-        this._toastr.success("File upload successfully", "");
-      }
-      else {
-        this._toastr.error("Error occured on upload", "");
-      }
-    }, (err: HttpErrorResponse) => {
-      console.log(err);
-    })
-
-  }
 
   removeDoc(obj, index) {
     obj.DocumentFile = obj.DocumentFile.split(baseApi.split("/api").shift()).pop();
@@ -988,9 +956,3 @@ export class DirectorinfoComponent implements OnInit {
 
 }
 
-export interface DocumentFile {
-  fileBaseString: string
-  fileName: string
-  fileType: string
-  fileUrl: string
-}

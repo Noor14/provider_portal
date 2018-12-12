@@ -25,6 +25,7 @@ import { SetupWarehouseComponent } from './setup-warehouse/setup-warehouse.compo
 import { WarehouseService } from './setup-warehouse/warehouse.service';
 import { WarehouseListComponent } from './setup-warehouse/warehouse-list/warehouse-list.component';
 import { WarehouseAddRatesComponent } from './setup-warehouse/warehouse-add-rates/warehouse-add-rates.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { WarehouseAddRatesComponent } from './setup-warehouse/warehouse-add-rate
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   declarations: [
     ComapnyInfoComponent,

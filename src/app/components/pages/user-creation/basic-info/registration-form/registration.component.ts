@@ -305,7 +305,7 @@ export class RegistrationComponent implements OnInit {
 
   selectAccountSetup(id, obj) {
     this.accountId = obj.AccountID;
-    let elem = document.getElementsByClassName('fancyRadioBoxes') as any;
+    let elem = document.getElementsByClassName('fancyOptionBoxes') as any;
     for (let i = 0; i < elem.length; i++) {
       if (elem[i].children[0].id == id) {
         elem[i].children[0].checked = true;
