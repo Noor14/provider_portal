@@ -35,37 +35,98 @@
         <span class="sub-title">Please enter the rates for the above selected route</span>
       </div>
     </div>
+</section>
 
   
-  
+<section class="add-route-tab">
   <ngb-tabset>
-      <ngb-tab>
-          <ng-template ngbTabTitle>Main Tab One</ng-template>
-        <ng-template ngbTabContent>    
-  <ngb-tabset>
-      <ngb-tab>
-          <ng-template ngbTabTitle>Main Tab One inner 1</ng-template>
-        <ng-template ngbTabContent>
-          <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-            master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-            dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-            iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-        </ng-template>
+      <ngb-tab role="tablistnoor">
+          <ng-template ngbTabTitle class="tab">
+              <span class="tab-title">rates for Full Container (FCL)</span>
+          </ng-template>
+          <ng-template ngbTabContent>  
+              <div class="row mt-3">
+                  <div class="col-4">
+                      <div class="form-group">
+                          <label>Select Shipping Line</label>
+                          <input type="text" maxlength="100" class="form-control search" placeholder="Search">
+                        </div>
+                  </div>
+                </div>  
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-3 mt-3">
+                      <div class="setup-service text-center d-flex flex-column justify-content-center pointer">
+                        <span class="pb-2">
+                          <img src=""> </span>
+                        <span> Mediterranean Shipping Company </span>
+                      </div>
+                    </div>
+                  </div>
+              <ngb-tabset>
+                  <ngb-tab>
+                      <ng-template ngbTabTitle><span class="tab-title"><img alt="icons" class="" src="../../../../../../../assets/images/shipping/Goods.png">Goods</span></ng-template>
+                    <ng-template ngbTabContent>
+                        <div class="row">
+                            <div class="col-10 offset-1">
+                                <div class="row">
+                                  <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br /> currency you can change it from the dropdown menu.</small></div>
+                                  <div class="col col-3">
+                                      <div class="form-group">
+                                          <select class="form-control">
+                                            <option value="undefined">Dirhams - AED</option>
+                                          </select>
+                                        </div>
+                                  </div>
+                                </div>
+                                <hr class="hr-solid">
+                                <div class="row">
+
+                                </div>
+                            </div>
+                          </div>
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab>
+                    <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/Autos.png">Autos</ng-template>
+                    <ng-template ngbTabContent>
+                        <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+                            master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+                            dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+                            iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab>
+                      <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/Perishables.png">Perishables</ng-template>
+                      <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
+                          <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+                              master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+                              dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+                              iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                        <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/HeavyItems.png">Heavy Items</ng-template>
+                        <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
+                            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+                                master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+                                dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+                                iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab>
+                          <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/HazardousItems.png">Hazardous</ng-template>
+                          <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
+                              <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+                                  master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+                                  dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+                                  iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                          </ng-template>
+                        </ngb-tab>
+                </ngb-tabset>
+          </ng-template>
       </ngb-tab>
       <ngb-tab>
-        <ng-template ngbTabTitle>Main Tab One inner 2</ng-template>
-        <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
-            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-                master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-                dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-                iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-        </ng-template>
-      </ngb-tab>
-    </ngb-tabset>
-        </ng-template>
-      </ngb-tab>
-      <ngb-tab>
-        <ng-template ngbTabTitle>Main Tab Two</ng-template>
+        <ng-template ngbTabTitle>Rates for Less than Container (LCL)</ng-template>
         <ng-template ngbTabContent>
             <ngb-tabset>
                 <ngb-tab>

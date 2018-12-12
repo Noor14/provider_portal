@@ -1,10 +1,108 @@
 @import '../../../../../../../assets/scss/_variables';
 
-.add-route {
-    .nav-tabs {
-        >li.nav-item {
-            width: 50% !important;
-            background: #fff;
+.add-route-tab {
+    >ngb-tabset{
+        >ul.nav-tabs {
+            border: none;
+            >li.nav-item {
+                width: 50% !important;
+                text-align: center;
+                margin-bottom: auto;
+                a {
+                    background: none;
+                    border: none;
+                    box-shadow: 0px 1px 0px 0px $grey-border;
+                    font-family: $font-proxima;
+                    font-weight: $font-weight-mid;
+                    color: adjust-color($color: $dark-grey-blue, $alpha: 0.6);
+                    text-transform: uppercase;
+                    &.active {
+                        box-shadow: 0px 3px 0px 0px $primary-color !important;
+                        color: rgba($color: $primary-color, $alpha: 1);
+                    }
+                }
+            }
         }
-    }  
+        >.tab-content {
+            >.tab-pane {
+                >ngb-tabset {
+                    >ul.nav-tabs {
+                        border: none;
+                        border-top-left-radius: 4px;
+                        border-top-right-radius: 4px;
+                        overflow: hidden;
+                        // overflow-x: auto;
+                        // overflow-y: hidden;
+                        >li.nav-item {
+                            width: 20%;
+                            text-align: center;
+                            a.nav-link {
+                                font-family: $font-proxima;
+                                font-size: $font-size-large;
+                                color: $route-large-title-color;
+                                background: $tab-inactive-bg;
+                                border-radius: 0;
+                                padding: 1.1rem 0;
+                                min-height: 66px;
+                                border: none;
+                                &.active {
+                                    background: $left-sidebar-background;
+                                    border: none;
+                                }
+                                &:hover {
+                                    border: none;
+                                }
+                                img {
+                                    margin-right: 10px;
+                                }
+                            }
+                        }
+                    }
+                    >.tab-content {
+                        .tab-pane {
+                            padding-top: 45px;
+                            padding-bottom: 30px;
+                            &.active {
+                                background: $left-sidebar-background;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .search {
+        background: #fafbfd url("../../../../../../../assets/images/icons/icon-search.svg") no-repeat right 10px center / 15px auto; 
+        border-color: $provider-input-border; 
+    }
+    .setup-service {
+        border-radius: 4px;
+        border: 1px solid $input-border;
+        background: $white-color;
+        position: relative;
+        padding: 0.7rem 4rem;
+        min-height: 118px;
+        span {
+            font-family: $font-proxima;
+            font-size: $font-size-large;
+            color: $route-large-title-color;
+            img {
+                height: 38px;
+                width: auto;
+            }
+        }
+        &.active {
+            box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
+            border: 1px solid $primary-color !important;
+            &:before {
+                content: " ";
+                background: url('../../../../../../../assets/images/icons/selection_tick.svg');
+                width: 44px;
+                height: 44px;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+        }
+    }
 }
