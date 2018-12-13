@@ -222,7 +222,9 @@ export class SetupWarehouseComponent implements OnInit {
         this.weightUnits = res.returnObject.WeightUnit;
         this.maxHeight = res.returnObject.MaxHeight;
         this.racking = res.returnObject.Racking;
-        this.uploadDocs = res.returnObject.documentType
+        this.uploadDocs = res.returnObject.documentType;
+        this.generalForm.controls['whAreaUnit'].setValue(this.areaUnits.filter(elem => elem.UnitTypeCode == 'SQFT')[0].UnitTypeCode); 
+
       }
     })
   }

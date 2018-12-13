@@ -92,7 +92,7 @@
                   <input class="form-control input-dropdown" type="text" formControlName="whArea" (keypress)="numberValid($event)">
                   <div class="input-group-append">
                     <select class="form-control input-dropdown" name="weightUnit" formControlName="whAreaUnit">
-                      <option class="ng-star-inserted" *ngFor="let unit of areaUnits" [selected]="unit.UnitTypeCode == 'SQFT'">
+                      <option *ngFor="let unit of areaUnits" [selected]="unit.UnitTypeCode == 'SQFT'">
                         {{unit.UnitTypeCode}}
                       </option>
                     </select>
@@ -207,7 +207,7 @@
                     <input class="form-control input-dropdown" type="text" placeholder="eg: 1,000 kg or less / pallet" formControlName="rackWeight">
                     <div class="input-group-append">
                       <select class="form-control input-dropdown" formControlName="rackWeightUnit">
-                        <option *ngFor="let weight of weightUnits" [selected]= "weight.UnitTypeCode == 'KG'">
+                        <option *ngFor="let weight of weightUnits">
                           {{weight.UnitTypeCode}}
                         </option>
                       </select>
@@ -326,7 +326,7 @@
         </form>
         <button (click)="backToCategory()" *ngIf="stepper.activeStep" class="btn btn-primary btn-register hvr-sweep-to-right pull-left">
           Back </button>
-        <button *ngIf="!stepper.lastStepActive" [disabled]="locationForm.invalid || capacityDetailForm.invalid || generalForm.invalid || wareHouseAvailableForm.invalid || !whFacilitation.length"
+        <button *ngIf="!stepper.lastStepActive" [disabled] = "locationForm.invalid || capacityDetailForm.invalid || generalForm.invalid || wareHouseAvailableForm.invalid || !whFacilitation.length"
           (click)="putWarehouseInfo()" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">
           Next </button>
       </section>
