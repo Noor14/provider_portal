@@ -5,8 +5,8 @@ export var baseExternalAssets;
 
 if (environment.qa) {
     // QA URL
-    baseApi = "http://10.20.1.13:8095/api/";
-    baseExternalAssets = "http://10.20.1.13:8095";
+    baseApi = "http://10.20.1.13:8090/api/";
+    baseExternalAssets = "http://10.20.1.13:8090";
 }
 else if (environment.prod) {
     // QA URL

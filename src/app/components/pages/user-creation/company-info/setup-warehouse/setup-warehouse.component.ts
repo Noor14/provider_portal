@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgZone, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, ElementRef, ViewEncapsulation } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { WarehouseService } from './warehouse.service';
@@ -17,6 +17,7 @@ import { MapsAPILoader } from '@agm/core';
   selector: 'app-setup-warehouse',
   templateUrl: './setup-warehouse.component.html',
   styleUrls: ['./setup-warehouse.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [   // :enter is alias to 'void => *'
@@ -33,10 +34,10 @@ export class SetupWarehouseComponent implements OnInit {
   @ViewChild('stepper') public _stepper: any;
   @ViewChild('searchCity') public searchElement: ElementRef;
   public wareHouseCat: any[];
-  public categoryIds: any[] = [];  
-  public whFacilitation: any[] = [];  
+  public categoryIds: any[] = [];
+  public whFacilitation: any[] = [];
   public warehouseId;
-  public wareHouseUsageType: any[] =[];
+  public wareHouseUsageType: any[] = [];
   public warehouseFacilities: any[] = [];
   public areaUnits: any[] = [];
   public weightUnits: any[] = [];
@@ -44,8 +45,8 @@ export class SetupWarehouseComponent implements OnInit {
   public racking: any[] = [];
   public weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
   private config: NgFilesConfig = {
-    acceptExtensions: ['jpeg', 'jpg', 'png', 'bmp','mp4', 'avi'],
-    maxFilesCount: 1,
+    acceptExtensions: ['jpeg', 'jpg', 'png', 'bmp', 'mp4', 'avi'],
+    maxFilesCount: 5,
     maxFileSize: 4096000,
     totalFilesSize: 4096000
   };
@@ -60,8 +61,9 @@ export class SetupWarehouseComponent implements OnInit {
   public rackedStorage: boolean = false;
   public bulkStorage: boolean = false;
   public uploadDocs: any;
-  public docTypeId= undefined;
-  public selectedDocx:any[]=[];
+  public docTypeId = undefined;
+  public fileStatus = undefined;
+  public selectedDocx: any[] = [];
   public locationForm;
   public capacityDetailForm;
   public generalForm;
@@ -70,15 +72,15 @@ export class SetupWarehouseComponent implements OnInit {
   public userProfile;
 
   public dropdownSettings = {
-  singleSelection: false,
-  idField: 'item_id',
-  textField: 'item_text',
-  selectAllText: 'Every Day',
-  unSelectAllText: 'Every Day',
-  itemsShowLimit: 3,
-  allowSearchFilter: true
-};
-  public selectedDays:any[] = [];
+    singleSelection: false,
+    idField: 'item_id',
+    textField: 'item_text',
+    selectAllText: 'Every Day',
+    unSelectAllText: 'Every Day',
+    itemsShowLimit: 3,
+    allowSearchFilter: true
+  };
+  public selectedDays: any[] = [];
 
   constructor(
     private warehouseService: WarehouseService,
@@ -89,7 +91,7 @@ export class SetupWarehouseComponent implements OnInit {
     private _userCreationService: UserCreationService,
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
-    
+
   ) { }
 
   ngOnInit() {
@@ -98,7 +100,6 @@ export class SetupWarehouseComponent implements OnInit {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
       this.warehouseId = localStorage.getItem('warehouseId');
-      this.getDocType(this.userProfile.CountryID);
       this.getWarehouseInfo(this.warehouseId, this.userProfile.UserID);
     }
     this.locationForm = new FormGroup({
@@ -121,12 +122,10 @@ export class SetupWarehouseComponent implements OnInit {
       whAreaUnit: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(2)]),
       // whUsageType: new FormControl(null, [Validators.required]),
       whSchedule: new FormArray([this.createFields()]),
-      });
+    });
     this.wareHouseAvailableForm = new FormGroup({
-      fromHour: new FormControl(null, Validators.required),
-      fromHourFormat:new FormControl(null, Validators.required),
-      toHour:new FormControl(null, Validators.required),
-      toHourFormat:new FormControl(null, Validators.required)
+      fromdate: new FormControl(null, Validators.required),
+      todate: new FormControl(null, Validators.required),
     });
 
     this._sharedService.getLocation.subscribe((state: any) => {
@@ -137,15 +136,7 @@ export class SetupWarehouseComponent implements OnInit {
     })
 
   }
-  getDocType(id) {
-    this._companyInfoService.getDocByCountrytype('provider', 0, id).subscribe((res: any) => {
-      if (res.returnStatus == 'Success') {
-        this.uploadDocs = res.returnObject.filter(element => element.DocumentDesc == "Warehouse Gallery")
-      }
-    }, (err: HttpErrorResponse) => {
-      console.log(err);
-    })
-  }
+
   createFields() {
     return new FormGroup({
       fromHour: new FormControl(null),
@@ -176,17 +167,17 @@ export class SetupWarehouseComponent implements OnInit {
       console.log(err);
     })
   }
-    getplacemapLoc() {
+  getplacemapLoc() {
     this.mapsAPILoader.load().then(() => {
       this.geoCoder = new google.maps.Geocoder;
-      let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement,);
-      autocomplete.setComponentRestrictions({ 'country': []});
+      let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, );
+      autocomplete.setComponentRestrictions({ 'country': [] });
       autocomplete.setTypes(['(cities)']);
       autocomplete.addListener("place_changed", () => {
         this.ngZone.run(() => {
           //get the place result
           let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-          console.log(place)
+          // console.log(place)
           this.locationForm.controls['city'].setValue(place.formatted_address);
           //verify result
           if (place.geometry === undefined || place.geometry === null) {
@@ -225,12 +216,13 @@ export class SetupWarehouseComponent implements OnInit {
     this.warehouseService.getWarehouseData(warehouseId = 0, userID).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.wareHouseCat = res.returnObject.WHCategories;
-        this.wareHouseUsageType = res.returnObject.WarehouseUsageType; 
+        this.wareHouseUsageType = res.returnObject.WarehouseUsageType;
         this.warehouseFacilities = res.returnObject.WarehouseFacilities;
         this.areaUnits = res.returnObject.AreaUnit;
         this.weightUnits = res.returnObject.WeightUnit;
         this.maxHeight = res.returnObject.MaxHeight;
         this.racking = res.returnObject.Racking;
+        this.uploadDocs = res.returnObject.documentType
       }
     })
   }
@@ -249,12 +241,12 @@ export class SetupWarehouseComponent implements OnInit {
     }
     if ((this.categoryIds && !this.categoryIds.length) || (i == this.categoryIds.length)) {
       selectedItem.add('active');
-      this.categoryIds.push({shippingCatID: obj.ShippingCatID});
+      this.categoryIds.push({ shippingCatID: obj.ShippingCatID });
     }
 
   }
 
-  wareHouseFacilitation(service){
+  wareHouseFacilitation(service) {
     if (this.whFacilitation && this.whFacilitation.length) {
       for (var i = 0; i < this.whFacilitation.length; i++) {
         if (this.whFacilitation[i].FacilitiesTypeID == service.FacilitiesTypeID) {
@@ -269,7 +261,7 @@ export class SetupWarehouseComponent implements OnInit {
     console.log(this.whFacilitation)
   }
 
-  addCategory(){
+  addCategory() {
     let obj = {
       whid: (this.warehouseId != "null" && this.warehouseId) ? this.warehouseId : -1,
       whCategories: this.categoryIds
@@ -281,37 +273,34 @@ export class SetupWarehouseComponent implements OnInit {
       }
     })
   }
-  putWarehouseInfo(){
-    let obj={
+  putWarehouseInfo() {
+    let obj = {
 
     }
-    this.warehouseService.PutwarehouseInfo(obj).subscribe((res:any)=>{
-      if(res.returnStatus=='Success'){
+    this.warehouseService.PutwarehouseInfo(obj).subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
         console.log(res);
         this._stepper.next();
       }
     })
   }
   SelectDocx(selectedFiles: NgFilesSelected, type): void {
-
-      if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-        if (selectedFiles.status == 1) this._toastr.error('Please select only one (1) file to upload.', '')
-        else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 4 MB. Please upload smaller file.', '')
-        else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
-        return;
-      } else {
-        try {
-          this.onFileChange(selectedFiles);
-        } catch (error) {
-          console.log(error);
-        }
+    if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
+      if (selectedFiles.status == 1) this._toastr.error('Please select only one (1) file to upload.', '')
+      else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 4 MB. Please upload smaller file.', '')
+      else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
+      return;
+    } else {
+      try {
+        this.onFileChange(selectedFiles);
+      } catch (error) {
+        console.log(error);
       }
+    }
 
   }
   onFileChange(event) {
-
     let flag = 0
-
     if (event) {
       try {
         const allDocsArr = []
@@ -328,8 +317,8 @@ export class SetupWarehouseComponent implements OnInit {
               fileUrl: reader.result,
               fileBaseString: reader.result.split(',')[1]
             }
-             if (event.files.length <= 4) {
-              const docFile = this.generateDocObject(selectedFile);
+            if (event.files.length <= 4) {
+              const docFile = JSON.parse(this.generateDocObject(selectedFile));
               allDocsArr.push(docFile);
               flag++
               if (flag === fileLenght) {
@@ -349,19 +338,21 @@ export class SetupWarehouseComponent implements OnInit {
 
   }
   generateDocObject(selectedFile): any {
-    let object = this.uploadDocs;
-    object.UserID = this.userProfile.UserID;
-    object.ProviderID = this.userProfile.ProviderID;
-    object.DocumentFileContent = null;
-    object.DocumentName = null;
-    object.DocumentUploadedFileType = null;
-    object.DocumentID = this.docTypeId;
-    object.FileContent = [{
+    let toUpload = this.uploadDocs
+    toUpload.UserID = this.userProfile.UserID;
+    toUpload.ProviderID = this.userProfile.ProviderID;
+    toUpload.WHID = this.warehouseId;
+    toUpload.DocumentID = this.docTypeId;
+    toUpload.DocumentLastStatus = this.fileStatus;
+    toUpload.DocumentFileContent = null;
+    toUpload.DocumentName = null;
+    toUpload.DocumentUploadedFileType = null;
+    toUpload.FileContent = [{
       documentFileName: selectedFile.fileName,
       documentFile: selectedFile.fileBaseString,
       documentUploadedFileType: selectedFile.fileType.split('/').pop()
     }]
-    return object;
+    return JSON.stringify(toUpload)
   }
 
   async uploadDocuments(docFiles: Array<any>) {
@@ -371,7 +362,9 @@ export class SetupWarehouseComponent implements OnInit {
         const resp: JsonResponse = await this.docSendService(docFiles[index])
         if (resp.returnStatus = 'Success') {
           let resObj = JSON.parse(resp.returnText);
+          console.log(resObj)
           this.docTypeId = resObj.DocumentID;
+          this.fileStatus = resObj.DocumentLastStaus;
           let fileObj = JSON.parse(resObj.DocumentFile);
           fileObj.forEach(element => {
             element.DocumentFile = baseApi.split("/api").shift() + element.DocumentFile;
@@ -380,7 +373,6 @@ export class SetupWarehouseComponent implements OnInit {
             docFiles[index + 1].DocumentID = resObj.DocumentID
           }
           this.selectedDocx = fileObj;
-          console.log(this.selectedDocx, 'njo')
           this._toastr.success("File upload successfully", "");
         }
         else {
@@ -396,8 +388,25 @@ export class SetupWarehouseComponent implements OnInit {
     return resp
   }
 
-
-  backToCategory(){
+  removeSelectedDocx(index, file) {
+    this.removeDoc(file, index)
+  }
+  removeDoc(obj, index) {
+    obj.DocumentFile = obj.DocumentFile.split(baseApi.split("/api").shift()).pop();
+    obj.DocumentID = this.docTypeId;
+    this._companyInfoService.removeDoc(obj).subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
+        this._toastr.success('Remove selected document succesfully', "");
+        this.selectedDocx.splice(index, 1);
+      }
+      else {
+        this._toastr.error('Error Occured', "");
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
+  }
+  backToCategory() {
     this.warehouseId = localStorage.getItem('warehouseId');
     this._stepper.prev();
   }

@@ -55,7 +55,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     ShippingLinesComponent,
     SlidePanelComponent,
     SetupWarehouseComponent,
-    WarehouseListComponent
+    WarehouseListComponent,
   ],
   providers: [
     CompanyInfoService,

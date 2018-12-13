@@ -33,7 +33,6 @@
     }
     .stepTwo {
         .documentInfo {
-            margin-bottom: 2.8rem;
             .file-uploader {
                 border: 1px dashed #e1d8d8;
                 border-radius: 4px;
@@ -48,12 +47,23 @@
                     font-weight: 500;
                 }
             }
+            .uploadedDocx {
+                video {
+                    width: inherit;
+                }
+                img {
+                    width: 100%;
+                    height: 180px;
+                }
+            }
         }
         agm-map {
             height: 100%;
             width: 100%;
         }
-  
+        ngb-datepicker{
+            top:-270px !important;
+        } 
         .sub-title {
             &.noti {
                 padding-left: 1.5rem;

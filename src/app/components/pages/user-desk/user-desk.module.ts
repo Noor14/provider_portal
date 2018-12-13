@@ -9,7 +9,6 @@ import { UserDeskRoutingModule } from './user-desk-routing.module';
 import { ViewBookingService } from './view-booking/view-booking.service';
 import { DashboardService } from './dashboard/dashboard.service';
 import { SearchBookingMode } from '../../../constants/dashboardBookingsFilter';
-import { SafeUrlPipe } from '../../../constants/safeurlfilter'
 import { AgmCoreModule } from '@agm/core';
 import { UserGuard } from '../user-creation/user.guard';
 @NgModule({
@@ -28,7 +27,6 @@ import { UserGuard } from '../user-creation/user.guard';
     DashboardComponent,
     ViewBookingComponent,
     SearchBookingMode,
-    SafeUrlPipe,
   ],
   providers:[
     ViewBookingService,
