@@ -109,16 +109,16 @@ export class SetupWarehouseComponent implements OnInit {
       poBox: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
     });
     this.capacityDetailForm = new FormGroup({
-      palletRack: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(1)]),
-      palletBulk: new FormControl(null, [Validators.maxLength(100), Validators.minLength(1)]),
+      palletRack: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(1), Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/)]),
+      // palletBulk: new FormControl(null, [Validators.maxLength(100), Validators.minLength(1), Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/)]),
       racking: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(1)]),
       maxHeight: new FormControl(null, [Validators.maxLength(200), Validators.minLength(1)]),
       rackWeight: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(1)]),
       rackWeightUnit: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(2)]),
     });
     this.generalForm = new FormGroup({
-      whName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3)]),
-      whArea: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(1)]),
+      whName: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(5)]),
+      whArea: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(1), Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/)]),
       whAreaUnit: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(2)]),
       // whUsageType: new FormControl(null, [Validators.required]),
       whSchedule: new FormArray([this.createFields()]),
@@ -406,6 +406,15 @@ export class SetupWarehouseComponent implements OnInit {
       console.log(err);
     })
   }
+
+  numberValid(evt) {
+    let charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+      return false;
+    return true;
+  }
+
+
   backToCategory() {
     this.warehouseId = localStorage.getItem('warehouseId');
     this._stepper.prev();

@@ -89,10 +89,10 @@
               <div class="form-group">
                 <label>Total Covered Area</label>
                 <div class="input-group">
-                  <input class="form-control input-dropdown" type="text" formControlName="whArea">
+                  <input class="form-control input-dropdown" type="text" formControlName="whArea" (keypress)="numberValid($event)">
                   <div class="input-group-append">
                     <select class="form-control input-dropdown" name="weightUnit" formControlName="whAreaUnit">
-                      <option class="ng-star-inserted" *ngFor="let unit of areaUnits">
+                      <option class="ng-star-inserted" *ngFor="let unit of areaUnits" [selected]="unit.UnitTypeCode == 'SQFT'">
                         {{unit.UnitTypeCode}}
                       </option>
                     </select>
@@ -167,14 +167,15 @@
             <ui-switch (change)="rackedStorage = !rackedStorage" [checked]="rackedStorage"></ui-switch>
           </div>
         </div>
-        <form autocomplete="off" novalidate [formGroup]="capacityDetailForm">
 
           <div *ngIf="rackedStorage" [@fadeInOut]>
+          <form autocomplete="off" novalidate [formGroup]="capacityDetailForm">
+            
             <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-12">
                 <div class="form-group">
                   <label>Total Pallet Rack</label>
-                  <input type="text" maxlength="100" class="form-control" placeholder="Total pallet positions in rack" formControlName="palletRack">
+                  <input type="text" maxlength="100" class="form-control" (keypress)="numberValid($event)" placeholder="Total pallet positions in rack" formControlName="palletRack">
                 </div>
               </div>
             </div>
@@ -206,7 +207,7 @@
                     <input class="form-control input-dropdown" type="text" placeholder="eg: 1,000 kg or less / pallet" formControlName="rackWeight">
                     <div class="input-group-append">
                       <select class="form-control input-dropdown" formControlName="rackWeightUnit">
-                        <option *ngFor="let weight of weightUnits">
+                        <option *ngFor="let weight of weightUnits" [selected]= "weight.UnitTypeCode == 'KG'">
                           {{weight.UnitTypeCode}}
                         </option>
                       </select>
@@ -215,6 +216,7 @@
                 </div>
               </div>
             </div>
+          </form>
           </div>
           <div class="row">
             <label class="col-12 racked">Bulk Storage</label>
@@ -229,11 +231,10 @@
             <div class="col-lg-6 col-md-6 col-sm-12">
               <div class="form-group">
                 <label>Total Pallet Bulk</label>
-                <input type="text" maxlength="100" class="form-control" placeholder="Total pallet positions in bulk" formControlName="palletBulk">
+                <input type="text" maxlength="100" class="form-control" placeholder="Total pallet positions in bulk" (keypress)="numberValid($event)">
               </div>
             </div>
           </div>
-        </form>
 
         <div class="row">
           <div class="col-12">
