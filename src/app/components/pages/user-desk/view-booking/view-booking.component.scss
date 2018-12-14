@@ -428,7 +428,7 @@
         &-body {
             background: $white-color;
             box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.2);
-            width: 240px;
+            width: 20rem;
             height: 120px;
             display: flex;
             justify-content: center;
@@ -436,6 +436,7 @@
             text-align: center;
             border-radius: 4px;
             .contact-popup {
+                text-align: left; 
                 a {
                     font-size: $font-size-large;
                     font-family: $font-proxima;
