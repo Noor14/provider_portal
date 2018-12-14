@@ -389,8 +389,8 @@ export class SetupWarehouseComponent implements OnInit {
           IsClosed: false
         }
       ],
-      warehouseRackedStorage: (this.rackedStorage) ? rackStorageObj : null,
-      warehouseBulkStorage: (this.bulkStorage) ? bulkStorageObj : null,
+      warehouseRackedStorage: (this.rackedStorage)? rackStorageObj : null,
+      warehouseBulkStorage: (this.bulkStorage)? bulkStorageObj : null,
       whAvailability: [
         {
           AvailableFromDate: this.wareHouseAvailableForm.value.fromdate.month + '/' + this.wareHouseAvailableForm.value.fromdate.day + '/' + this.wareHouseAvailableForm.value.fromdate.year,
