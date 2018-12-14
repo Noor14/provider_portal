@@ -180,7 +180,7 @@
           </div>
         </div>
 
-        <div *ngIf="rackedStorage" [@fadeInOut]>
+        <div *ngIf="rackedStorage" >
           <form autocomplete="off" novalidate [formGroup]="rackStorageForm">
             <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-12">
@@ -247,7 +247,7 @@
             <ui-switch (change)="bulkStorage = !bulkStorage" [checked]="bulkStorage"></ui-switch>
           </div>
         </div>
-        <div class="row" *ngIf="bulkStorage" [@fadeInOut]>
+        <div class="row" *ngIf="bulkStorage">
           <form autocomplete="off" novalidate [formGroup]="bulkStorageForm">
             <div class="col-lg-6 col-md-6 col-sm-12">
               <div class="form-group">
