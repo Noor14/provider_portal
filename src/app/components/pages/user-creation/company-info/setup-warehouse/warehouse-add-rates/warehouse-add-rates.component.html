@@ -1,259 +1,441 @@
 <section class="add-route">
-    <div class="row">
-      <div class="col">
-          <div class="info_text">
-              <a class="text" href="javascript:;" (click)="previousForm()">
-                <img alt="icons" class="icon-size-16" src="../../../assets/images/icons/icon_arrow_left.svg">
-                <span>Go Back</span>
-              </a>
-          </div>
-          <h2>Add Your Route</h2>
+  <div class="row">
+    <div class="col">
+      <div class="info_text">
+        <a class="text" href="javascript:;" (click)="previousForm()">
+          <img alt="icons" class="icon-size-16" src="../../../assets/images/icons/icon_arrow_left.svg">
+          <span>Go Back</span>
+        </a>
+      </div>
+      <h2>Add Your Route</h2>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-12">
+      <h5>Route Detail</h5>
+      <span class="sub-title">Please enter route detail</span>
+      <hr class="hr-solid">
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label>Port of Origin</label>
+        <input type="text" maxlength="100" class="form-control" placeholder="Enter Port of Origin">
       </div>
     </div>
-    <div class="row mt-5">
-      <div class="col-12">
-        <h5>Route Detail</h5>
-        <span class="sub-title">Please enter route detail</span>
-        <hr class="hr-solid">
-      </div>
-      <div class="col-6">
-          <div class="form-group">
-              <label>Port of Origin</label>
-              <input type="text" maxlength="100" class="form-control" placeholder="Enter Port of Origin">
-            </div>
-      </div>
-      <div class="col-6">
-          <div class="form-group">
-              <label>Port of Destination</label>
-              <input type="text" maxlength="100" class="form-control" placeholder="Enter Port of Destination">
-            </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label>Port of Destination</label>
+        <input type="text" maxlength="100" class="form-control" placeholder="Enter Port of Destination">
       </div>
     </div>
-    <div class="row mb-4 mt-5">
-      <div class="col-12">
-        <h5>Rates</h5>
-        <span class="sub-title">Please enter the rates for the above selected route</span>
-      </div>
+  </div>
+  <div class="row mb-4 mt-5">
+    <div class="col-12">
+      <h5>Rates</h5>
+      <span class="sub-title">Please enter the rates for the above selected route</span>
     </div>
+  </div>
 </section>
 
-  
+
 <section class="add-route-tab">
   <ngb-tabset>
-      <ngb-tab role="tablistnoor">
-          <ng-template ngbTabTitle class="tab">
-              <span class="tab-title">
-                  <svg id="3e0bd723-1f5e-404f-9c9e-f9fa6a56c26b" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <g id="6744cc39-0259-4947-99c3-524da0baf146" data-name="container">
-                      <path id="a13d3843-8cbe-44ec-8bff-9c9271c255f7" data-name="&lt;Compound Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce" d="M22,10V22H2V10H22m2-2H0V24H24V8Z"/>
-                      <rect id="3bc9a61b-e64a-4a26-a0db-69d1ce9d6b6e" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce" x="5" y="11" width="2" height="10"/>
-                      <rect id="15063ed6-0b45-423b-a60a-fb9e8a38780a" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce" x="11" y="11" width="2" height="10"/>
-                      <rect id="435b81d5-b0c3-4dda-b6bf-ec8fa8fd643e" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce" x="17" y="11" width="2" height="10"/>
-                      <rect id="0dc9424e-7fc7-46da-a1ac-89446f588598" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce" x="5.229" y="5" width="7.543" height="2" transform="translate(-1.607 8.121) rotate(-45)"/>
-                      <rect id="713c3bf1-8eef-4a1e-a553-96a0cf70b1ea" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce" x="14" y="2.229" width="2" height="7.543" transform="translate(0.15 12.363) rotate(-44.995)"/>
-                      <rect id="9e10ba48-acd1-4fa3-a431-1799e0b0691c" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce" x="11" width="2" height="4"/>
-                    </g>
-                  </svg>                  
-                  rates for Full Container (FCL)</span>
-          </ng-template>
-          <ng-template ngbTabContent>  
-              <div class="row mt-3">
-                  <div class="col-4">
+    <ngb-tab role="tablistnoor">
+      <ng-template ngbTabTitle class="tab">
+        <span class="tab-title">
+          <svg id="3e0bd723-1f5e-404f-9c9e-f9fa6a56c26b" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g id="6744cc39-0259-4947-99c3-524da0baf146" data-name="container">
+              <path id="a13d3843-8cbe-44ec-8bff-9c9271c255f7" data-name="&lt;Compound Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce"
+                d="M22,10V22H2V10H22m2-2H0V24H24V8Z" />
+              <rect id="3bc9a61b-e64a-4a26-a0db-69d1ce9d6b6e" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce"
+                x="5" y="11" width="2" height="10" />
+              <rect id="15063ed6-0b45-423b-a60a-fb9e8a38780a" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce"
+                x="11" y="11" width="2" height="10" />
+              <rect id="435b81d5-b0c3-4dda-b6bf-ec8fa8fd643e" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce"
+                x="17" y="11" width="2" height="10" />
+              <rect id="0dc9424e-7fc7-46da-a1ac-89446f588598" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce"
+                x="5.229" y="5" width="7.543" height="2" transform="translate(-1.607 8.121) rotate(-45)" />
+              <rect id="713c3bf1-8eef-4a1e-a553-96a0cf70b1ea" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce"
+                x="14" y="2.229" width="2" height="7.543" transform="translate(0.15 12.363) rotate(-44.995)" />
+              <rect id="9e10ba48-acd1-4fa3-a431-1799e0b0691c" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce"
+                x="11" width="2" height="4" />
+            </g>
+          </svg>
+          rates for Full Container (FCL)</span>
+      </ng-template>
+      <ng-template ngbTabContent>
+        <div class="row mt-3">
+          <div class="col-4">
+            <div class="form-group">
+              <label>Select Shipping Line</label>
+              <input type="text" maxlength="100" class="form-control search" placeholder="Search">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-3 mt-3">
+            <div class="setup-service text-center d-flex flex-column justify-content-center pointer">
+              <span class="pb-2">
+                <img src=""> </span>
+              <span> Mediterranean Shipping Company </span>
+            </div>
+          </div>
+        </div>
+        <ngb-tabset>
+
+          <ngb-tab>
+            <ng-template ngbTabTitle><span class="tab-title"><img alt="icons" class="" src="../../../../../../../assets/images/shipping/Goods.png">Goods</span></ng-template>
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-10 offset-1">
+                  <div class="row">
+                    <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br />
+                        currency you can change it from the dropdown menu.</small></div>
+                    <div class="col col-3">
                       <div class="form-group">
-                          <label>Select Shipping Line</label>
-                          <input type="text" maxlength="100" class="form-control search" placeholder="Search">
-                        </div>
-                  </div>
-                </div>  
-                <div class="row">
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-3 mt-3">
-                      <div class="setup-service text-center d-flex flex-column justify-content-center pointer">
-                        <span class="pb-2">
-                          <img src=""> </span>
-                        <span> Mediterranean Shipping Company </span>
+                        <select class="form-control">
+                          <option value="undefined">Dirhams - AED</option>
+                        </select>
                       </div>
                     </div>
                   </div>
-              <ngb-tabset>
-                  <ngb-tab>
-                      <ng-template ngbTabTitle><span class="tab-title"><img alt="icons" class="" src="../../../../../../../assets/images/shipping/Goods.png">Goods</span></ng-template>
-                    <ng-template ngbTabContent>
-                        <div class="row">
-                            <div class="col-10 offset-1">
-                                <div class="row">
-                                  <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br /> currency you can change it from the dropdown menu.</small></div>
-                                  <div class="col col-3">
-                                      <div class="form-group">
-                                          <select class="form-control">
-                                            <option value="undefined">Dirhams - AED</option>
-                                          </select>
-                                        </div>
-                                  </div>
-                                </div>
-                                <hr class="hr-solid">
-                                <div class="row">
-
-                                </div>
-                            </div>
-                        </div>
-                    </ng-template>
-                  </ngb-tab>
-                  <ngb-tab>
-                    <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/Autos.png">Autos</ng-template>
-                    <ng-template ngbTabContent>
-                        <div class="row">
-                            <div class="col-10 offset-1">
-                                <div class="row">
-                                  <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br /> currency you can change it from the dropdown menu.</small></div>
-                                  <div class="col col-3">
-                                      <div class="form-group">
-                                          <select class="form-control">
-                                            <option value="undefined">Dirhams - AED</option>
-                                          </select>
-                                        </div>
-                                  </div>
-                                </div>
-                                <hr class="hr-solid">
-                                <div class="row">
-
-                                </div>
-                            </div>
-                        </div>
-                    </ng-template>
-                  </ngb-tab>
-                  <ngb-tab>
-                      <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/Perishables.png">Perishables</ng-template>
-                      <ng-template ngbTabContent>
-                          <div class="row">
-                              <div class="col-10 offset-1">
-                                  <div class="row">
-                                    <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br /> currency you can change it from the dropdown menu.</small></div>
-                                    <div class="col col-3">
-                                        <div class="form-group">
-                                            <select class="form-control">
-                                              <option value="undefined">Dirhams - AED</option>
-                                            </select>
-                                          </div>
-                                    </div>
-                                  </div>
-                                  <hr class="hr-solid">
-                                  <div class="row">
-  
-                                  </div>
-                              </div>
+                  <hr class="hr-solid">
+                  <h4>Containers</h4>
+                  
+             <ngb-accordion [closeOthers]="true" activeIds="static-1" class="warehouse-rates">
+              <ngb-panel id="static-1">
+                <ng-template ngbPanelTitle>
+                  <span><img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction"
+                      class="icon-size-16 acc-icon">Standard 20’</span>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <div class="row">
+                    <div class="col-3"><label class="pt-3">Port to Port rate</label></div>
+                    <div class="col-4">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <input class="form-control input-dropdown" placeholder="From" type="text">
+                          <div class="input-group-append">
+                            <select class="form-control input-dropdown">
+                              <option>AED</option>
+                            </select>
                           </div>
-                      </ng-template>
-                    </ngb-tab>
-                    <ngb-tab>
-                        <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/HeavyItems.png">Heavy Items</ng-template>
-                        <ng-template ngbTabContent>
-                            <div class="row">
-                                <div class="col-10 offset-1">
-                                    <div class="row">
-                                      <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br /> currency you can change it from the dropdown menu.</small></div>
-                                      <div class="col col-3">
-                                          <div class="form-group">
-                                              <select class="form-control">
-                                                <option value="undefined">Dirhams - AED</option>
-                                              </select>
-                                            </div>
-                                      </div>
-                                    </div>
-                                    <hr class="hr-solid">
-                                    <div class="row">
-    
-                                    </div>
-                                </div>
+                        </div>
+                      </div>
+                      <a class="hvr-icon-back grey-anc-btn add-hours" href="javascript:;">Add Any Additional Charge</a>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel id="static-2">
+                <ng-template ngbPanelTitle>
+                  <span><img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction"
+                      class="icon-size-16 acc-icon">Standard 40’</span>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                  3 wolf moon officia
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel id="static-3">
+                <ng-template ngbPanelTitle>
+                  <span><img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction"
+                      class="icon-size-16 acc-icon">Open Top 20’</span>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                  3 wolf moon officia
+                </ng-template>
+              </ngb-panel>
+            </ngb-accordion> 
+                  <div class="row">
+                      <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br />
+                        currency you can change it from the dropdown menu.</small></div>
+                      <div class="col-4">
+                          <div class="form-group">
+                              <input type="text" maxlength="100" class="form-control" placeholder="Valid From">
                             </div>
-                        </ng-template>
-                      </ngb-tab>
-                      <ngb-tab>
-                          <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/HazardousItems.png">Hazardous</ng-template>
-                          <ng-template ngbTabContent>
-                              <div class="row">
-                                  <div class="col-10 offset-1">
-                                      <div class="row">
-                                        <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br /> currency you can change it from the dropdown menu.</small></div>
-                                        <div class="col col-3">
-                                            <div class="form-group">
-                                                <select class="form-control">
-                                                  <option value="undefined">Dirhams - AED</option>
-                                                </select>
-                                              </div>
-                                        </div>
-                                      </div>
-                                      <hr class="hr-solid">
-                                      <div class="row">
+                      </div>
+                      <div class="col-4">
+                          <div class="form-group">
+                              <input type="text" maxlength="100" class="form-control" placeholder="Valid Till">
+                            </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab>
+            <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/Autos.png">Autos</ng-template>
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-10 offset-1">
+                  <div class="row">
+                    <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br />
+                        currency you can change it from the dropdown menu.</small>
+                      </div>
+                    <div class="col col-3">
+                      <div class="form-group">
+                        <select class="form-control">
+                          <option>Dirhams - AED</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="hr-solid">
       
-                                      </div>
-                                  </div>
-                              </div>
-                          </ng-template>
-                        </ngb-tab>
-                      <ngb-tab>
-                          <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/HazardousItems.png">Hazardous</ng-template>
-                          <ng-template ngbTabContent>
-                              <div class="row">
-                                  <div class="col-10 offset-1">
-                                      <div class="row">
-                                        <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br /> currency you can change it from the dropdown menu.</small></div>
-                                        <div class="col col-3">
-                                            <div class="form-group">
-                                                <select class="form-control">
-                                                  <option value="undefined">Dirhams - AED</option>
-                                                </select>
-                                              </div>
-                                        </div>
-                                      </div>
-                                      <hr class="hr-solid">
-                                      <div class="row">
+              </div>
+            </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab>
+            <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/Perishables.png">Perishables</ng-template>
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-10 offset-1">
+                  <div class="row">
+                    <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br />
+                        currency you can change it from the dropdown menu.</small></div>
+                    <div class="col col-3">
+                      <div class="form-group">
+                        <select class="form-control">
+                          <option value="undefined">Dirhams - AED</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="hr-solid">
+                  <div class="row">
+
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab>
+            <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/HeavyItems.png">Heavy
+              Items</ng-template>
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-10 offset-1">
+                  <div class="row">
+                    <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br />
+                        currency you can change it from the dropdown menu.</small></div>
+                    <div class="col col-3">
+                      <div class="form-group">
+                        <select class="form-control">
+                          <option value="undefined">Dirhams - AED</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="hr-solid">
+                  <div class="row">
+
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab>
+            <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/HazardousItems.png">Hazardous</ng-template>
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-10 offset-1">
+                  <div class="row">
+                    <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br />
+                        currency you can change it from the dropdown menu.</small></div>
+                    <div class="col col-3">
+                      <div class="form-group">
+                        <select class="form-control">
+                          <option value="undefined">Dirhams - AED</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="hr-solid">
+                  <div class="row">
+
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab>
+      <ng-template ngbTabTitle class="tab">
+        <span class="tab-title">
+          <svg id="ee0cf102-a966-4a3f-95ef-2d85d2845fce" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g id="77a57afb-dc84-48f7-bcef-1ea8af6a0a74" data-name="box">
+            <path id="b7ad858c-ef80-4b01-8e89-887b6e7eba38" data-name="&lt;Compound Path&gt;" class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a"
+            d="M12,2.236l10,5v9.528l-10,5-10-5V7.236l10-5M12,0,0,6V18l12,6,12-6V6L12,0Z" />
+            <polygon id="3d2841e7-73c0-49f4-a43e-30e1679abe1b" data-name="&lt;Path&gt;" class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a"
+            points="12 12.504 0.5 7.316 1.334 5.496 12 10.307 22.666 5.496 23.5 7.316 12 12.504"
+            />
+            <rect id="221b7dca-da17-44bc-bf0a-eaf6705915cb" data-name="&lt;Path&gt;" class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a"
+            x="11" y="11" width="2" height="12" />
+            </g>
+            </svg>
+          Rates for Less than Container (LCL)</span>
+      </ng-template>
+      <ng-template ngbTabContent>
+        <ngb-tabset>
+
+          <ngb-tab>
+            <ng-template ngbTabTitle><span class="tab-title"><img alt="icons" class="" src="../../../../../../../assets/images/shipping/Goods.png">Goods</span></ng-template>
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-10 offset-1">
+                  <div class="row">
+                    <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br />
+                        currency you can change it from the dropdown menu.</small></div>
+                    <div class="col col-3">
+                      <div class="form-group">
+                        <select class="form-control">
+                          <option value="undefined">Dirhams - AED</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="hr-solid">
+                  <h4>Containers</h4>
+                  <div class="row">
+                    <div class="col-3"><label class="pt-3">Port to Port rate</label></div>
+                    <div class="col-4">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <input class="form-control input-dropdown" placeholder="From" type="text">
+                          <div class="input-group-append">
+                            <select class="form-control input-dropdown">
+                              <option>AED</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <a class="hvr-icon-back grey-anc-btn add-hours" href="javascript:;">Add Any Additional Charge</a>
+                    </div>
+                  </div>
+                  <div class="row mt-5">
+                      <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br />
+                        currency you can change it from the dropdown menu.</small></div>
+                      <div class="col-4">
+                          <div class="form-group">
+                              <input type="text" maxlength="100" class="form-control" placeholder="Valid From">
+                            </div>
+                      </div>
+                      <div class="col-4">
+                          <div class="form-group">
+                              <input type="text" maxlength="100" class="form-control" placeholder="Valid Till">
+                            </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab>
+            <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/Autos.png">Autos</ng-template>
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-10 offset-1">
+                  <div class="row">
+                    <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br />
+                        currency you can change it from the dropdown menu.</small>
+                      </div>
+                    <div class="col col-3">
+                      <div class="form-group">
+                        <select class="form-control">
+                          <option>Dirhams - AED</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="hr-solid">
       
-                                      </div>
-                                  </div>
-                              </div>
-                          </ng-template>
-                        </ngb-tab>
-                </ngb-tabset>
-          </ng-template>
-      </ngb-tab>
-      <ngb-tab>
-        <ng-template ngbTabTitle class="tab">
-            <span class="tab-title">
-              <svg id="3e0bd723-1f5e-404f-9c9e-f9fa6a56c26b" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <g id="6744cc39-0259-4947-99c3-524da0baf146" data-name="container">
-                  <path id="a13d3843-8cbe-44ec-8bff-9c9271c255f7" data-name="&lt;Compound Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce" d="M22,10V22H2V10H22m2-2H0V24H24V8Z"/>
-                  <rect id="3bc9a61b-e64a-4a26-a0db-69d1ce9d6b6e" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce" x="5" y="11" width="2" height="10"/>
-                  <rect id="15063ed6-0b45-423b-a60a-fb9e8a38780a" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce" x="11" y="11" width="2" height="10"/>
-                  <rect id="435b81d5-b0c3-4dda-b6bf-ec8fa8fd643e" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce" x="17" y="11" width="2" height="10"/>
-                  <rect id="0dc9424e-7fc7-46da-a1ac-89446f588598" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce" x="5.229" y="5" width="7.543" height="2" transform="translate(-1.607 8.121) rotate(-45)"/>
-                  <rect id="713c3bf1-8eef-4a1e-a553-96a0cf70b1ea" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce" x="14" y="2.229" width="2" height="7.543" transform="translate(0.15 12.363) rotate(-44.995)"/>
-                  <rect id="9e10ba48-acd1-4fa3-a431-1799e0b0691c" data-name="&lt;Path&gt;" class="750c96f3-85fa-4da3-ae5f-980e0f5745ce" x="11" width="2" height="4"/>
-                </g>
-              </svg> 
-              Rates for Less than Container (LCL)</span>
-        </ng-template>
-        <ng-template ngbTabContent>
-            <ngb-tabset>
-                <ngb-tab>
-                    <ng-template ngbTabTitle>Main Tab Two inner 1</ng-template>
-                  <ng-template ngbTabContent>
-                    <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-                      master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-                      dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-                      iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-                  </ng-template>
-                </ngb-tab>
-                <ngb-tab>
-                  <ng-template ngbTabTitle>Main Tab Two inner 2</ng-template>
-                  <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
-                      <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-                          master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-                          dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-                          iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-                  </ng-template>
-                </ngb-tab>
-              </ngb-tabset>
-        </ng-template>
-      </ngb-tab>
-    </ngb-tabset>
-  </section>
+              </div>
+            </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab>
+            <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/Perishables.png">Perishables</ng-template>
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-10 offset-1">
+                  <div class="row">
+                    <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br />
+                        currency you can change it from the dropdown menu.</small></div>
+                    <div class="col col-3">
+                      <div class="form-group">
+                        <select class="form-control">
+                          <option value="undefined">Dirhams - AED</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="hr-solid">
+                  <div class="row">
+
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab>
+            <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/HeavyItems.png">Heavy
+              Items</ng-template>
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-10 offset-1">
+                  <div class="row">
+                    <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br />
+                        currency you can change it from the dropdown menu.</small></div>
+                    <div class="col col-3">
+                      <div class="form-group">
+                        <select class="form-control">
+                          <option value="undefined">Dirhams - AED</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="hr-solid">
+                  <div class="row">
+
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab>
+            <ng-template ngbTabTitle><img alt="icons" class="" src="../../../../../../../assets/images/shipping/HazardousItems.png">Hazardous</ng-template>
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-10 offset-1">
+                  <div class="row">
+                    <div class="col-12"><small>You are adding rates in AED. If you would like to add rates in another<br />
+                        currency you can change it from the dropdown menu.</small></div>
+                    <div class="col col-3">
+                      <div class="form-group">
+                        <select class="form-control">
+                          <option value="undefined">Dirhams - AED</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="hr-solid">
+                  <div class="row">
+
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</section>
