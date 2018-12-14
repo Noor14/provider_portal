@@ -61,9 +61,14 @@
             height: 100%;
             width: 100%;
         }
-        ngb-datepicker{
-            top:-270px !important;
-        } 
+        ngb-datepicker {
+            top: -270px !important;
+        }
+        .radioError {
+            -webkit-animation: 2s linear infinite blink;
+            animation: 2s linear infinite blink;
+            -ms-animation: 2s linear infinite blink;
+        }
         .sub-title {
             &.noti {
                 padding-left: 1.5rem;

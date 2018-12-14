@@ -26,7 +26,7 @@ children: [
 // { path: 'business-setup', component: BusinessSetupComponent },
 // { path: 'setup-map', component: SetupMapComponent },
 // { path: 'shippinglines', component: ShippingLinesComponent },
-    { path: 'setup-warehouse', component: SetupWarehouseComponent },
+{ path: 'setup-warehouse', component: SetupWarehouseComponent },
 { path: 'warehouse-list', component: WarehouseListComponent },
 { path: '**', redirectTo: 'registration', pathMatch: 'full' }
 ]

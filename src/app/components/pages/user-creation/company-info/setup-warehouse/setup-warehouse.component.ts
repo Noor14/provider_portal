@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, NgZone, ElementRef, ViewEncapsulation } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
-import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { WarehouseService } from './warehouse.service';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../directives/ng-files';
 import { ToastrService } from 'ngx-toastr';
@@ -12,6 +12,7 @@ import { SharedService } from '../../../../../services/shared.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserCreationService } from '../../user-creation.service';
 import { MapsAPILoader } from '@agm/core';
+import { loading } from '../../../../../constants/globalFunctions';
 
 @Component({
   selector: 'app-setup-warehouse',
@@ -65,12 +66,14 @@ export class SetupWarehouseComponent implements OnInit {
   public fileStatus = undefined;
   public selectedDocx: any[] = [];
   public locationForm;
-  public capacityDetailForm;
+  public rackStorageForm;
+  public bulkStorageForm
   public generalForm;
   public wareHouseAvailableForm;
 
   public userProfile;
-
+  public wareHouseType :any;
+  public requiredFields: string = "This field is required";
   public dropdownSettings = {
     singleSelection: false,
     idField: 'item_id',
@@ -80,7 +83,7 @@ export class SetupWarehouseComponent implements OnInit {
     itemsShowLimit: 3,
     allowSearchFilter: true
   };
-  public selectedDays: any[] = [];
+
 
   constructor(
     private warehouseService: WarehouseService,
@@ -103,24 +106,25 @@ export class SetupWarehouseComponent implements OnInit {
       this.getWarehouseInfo(this.warehouseId, this.userProfile.UserID);
     }
     this.locationForm = new FormGroup({
-      city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3)]),
-      addressline1: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10)]),
-      addressline2: new FormControl(null, [Validators.maxLength(200), Validators.minLength(10)]),
+      city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      addressline1: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      addressline2: new FormControl(null, [Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       poBox: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
     });
-    this.capacityDetailForm = new FormGroup({
-      palletRack: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(1), Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/)]),
-      // palletBulk: new FormControl(null, [Validators.maxLength(100), Validators.minLength(1), Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/)]),
-      racking: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(1)]),
+    this.rackStorageForm = new FormGroup({
+      palletRack: new FormControl(null, [rackValidator.bind(this), Validators.maxLength(3), Validators.minLength(1), Validators.pattern(/^\d+$/)]),
+      racking: new FormControl(null, [rackValidator.bind(this), Validators.maxLength(200), Validators.minLength(1)]),
       maxHeight: new FormControl(null, [Validators.maxLength(200), Validators.minLength(1)]),
-      rackWeight: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(1)]),
-      rackWeightUnit: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(2)]),
+      rackWeight: new FormControl(null, [rackValidator.bind(this), Validators.maxLength(100), Validators.minLength(1)]),
+      rackWeightUnit: new FormControl(null, [rackValidator.bind(this), Validators.maxLength(5), Validators.minLength(2)]),
+    });
+    this.bulkStorageForm = new FormGroup({
+      palletBulk: new FormControl(null, [bulkValidator.bind(this), Validators.maxLength(100), Validators.minLength(5), Validators.pattern(/^\d+$/)]),
     });
     this.generalForm = new FormGroup({
-      whName: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(5)]),
-      whArea: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(1), Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/)]),
+      whName: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(5), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
+      whArea: new FormControl(null, [Validators.required, Validators.maxLength(6), Validators.minLength(3), Validators.pattern(/^\d+$/)]),
       whAreaUnit: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(2)]),
-      // whUsageType: new FormControl(null, [Validators.required]),
       whSchedule: new FormArray([this.createFields()]),
     });
     this.wareHouseAvailableForm = new FormGroup({
@@ -223,8 +227,29 @@ export class SetupWarehouseComponent implements OnInit {
         this.maxHeight = res.returnObject.MaxHeight;
         this.racking = res.returnObject.Racking;
         this.uploadDocs = res.returnObject.documentType;
-        this.generalForm.controls['whAreaUnit'].setValue(this.areaUnits.filter(elem => elem.UnitTypeCode == 'SQFT')[0].UnitTypeCode); 
+        this.setDefaultValue();
+      }
+    })
+  }
 
+  setDefaultValue(){
+    this.generalForm.controls['whAreaUnit'].setValue(this.areaUnits.filter(elem => elem.UnitTypeCode == 'SQFT')[0].UnitTypeCode);
+    this.rackStorageForm.controls['racking'].setValue(this.racking.filter(elem => elem.UnitTypeCode == '2 High')[0].UnitTypeCode);
+    this.rackStorageForm.controls['maxHeight'].setValue(this.maxHeight.filter(elem => elem.UnitTypeCode == '4ft or less')[0].UnitTypeCode);
+    this.rackStorageForm.controls['rackWeightUnit'].setValue(this.weightUnits.filter(elem => elem.UnitTypeCode == 'KG')[0].UnitTypeCode); 
+  }
+  whType(type){
+    this.wareHouseType = type;
+    this.setWarehouseType();
+  }
+
+  setWarehouseType(){
+    this.wareHouseUsageType.forEach(elem => {
+      if (elem.UsageTypeID == this.wareHouseType.UsageTypeID){
+        elem.IsAllowed = true;
+      }
+      else{
+        elem.IsAllowed = false;
       }
     })
   }
@@ -253,14 +278,27 @@ export class SetupWarehouseComponent implements OnInit {
       for (var i = 0; i < this.whFacilitation.length; i++) {
         if (this.whFacilitation[i].FacilitiesTypeID == service.FacilitiesTypeID) {
           this.whFacilitation.splice(i, 1);
+          this.setfacilitation()
           return;
         }
       }
     }
     if ((this.whFacilitation && !this.whFacilitation.length) || (i == this.whFacilitation.length)) {
-      this.whFacilitation.push(service)
+      this.whFacilitation.push(service);
+      this.setfacilitation()
     }
-    console.log(this.whFacilitation)
+  }
+  setfacilitation(){
+    this.warehouseFacilities.forEach(elem => elem.IsAllowed = false);
+    if (this.whFacilitation.length){
+      for (let i = 0; i < this.warehouseFacilities.length; i++) {
+        for (let y = 0; y < this.whFacilitation.length ; y++) {
+        if (this.whFacilitation[y].FacilitiesTypeID == this.warehouseFacilities[i].FacilitiesTypeID){
+          this.warehouseFacilities[i].IsAllowed = true;
+        }
+      }
+    }
+    }
   }
 
   addCategory() {
@@ -276,12 +314,83 @@ export class SetupWarehouseComponent implements OnInit {
     })
   }
   putWarehouseInfo() {
+    loading(true);
     let obj = {
+      whid: this.warehouseId,
+      providerID: this.userProfile.providerID,
+      whName: this.generalForm.value.whName,
+      whAddress: this.locationForm.value.addressline1,
+      whAddress2: this.locationForm.value.addressline2,
+      whPOBoxNo: this.locationForm.value.poBox,
+      countryID: 100,
+      cityID: 100,
+      gLocID: null,
+      latitude: this.location.lat,
+      longitude: this.location.lng,
+      createdBy: this.userProfile.PrimaryEmail,
+      totalCoveredArea: this.locationForm.value.whArea,
+      totalCoveredAreaUnit: this.locationForm.value.whAreaUnit,
 
+      warehouseUsageType: this.wareHouseUsageType,
+      warehouseFacilities: this.warehouseFacilities,
+      warehouseTimings: [
+        {
+          DayName: "Monday",
+          OpeningTime: "09:00 am",
+          ClosingTime: "09:00 pm",
+          IsClosed: true
+        },
+        {
+          DayName: "Tuesday",
+          OpeningTime: "09:00 am",
+          ClosingTime: "09:00 pm",
+          IsClosed: true
+        },        {
+          DayName: "Wednesday",
+          OpeningTime: "09:00 am",
+          ClosingTime: "09:00 pm",
+          IsClosed: false
+        },        {
+          DayName: "Thursday",
+          OpeningTime: "09:00 am",
+          ClosingTime: "09:00 pm",
+          IsClosed: false
+        },        {
+          DayName: "Friday",
+          OpeningTime: "09:00 am",
+          ClosingTime: "09:00 pm",
+          IsClosed: true
+        },
+        {
+          DayName: "Saturday",
+          OpeningTime: "09:00 am",
+          ClosingTime: "09:00 pm",
+          IsClosed: false
+        },
+        {
+          DayName: "Sunday",
+          OpeningTime: "09:00 am",
+          ClosingTime: "09:00 pm",
+          IsClosed: false
+        }
+      ],
+      warehouseRackedStorage: {
+        IsAvailable: this.rackedStorage,
+        Qty: this.rackStorageForm.value.palletRack,
+        Racking: this.rackStorageForm.value.racking,
+        MH: this.rackStorageForm.value.maxHeight,
+        MW: this.rackStorageForm.value.rackWeight,
+        MWUnit: this.rackStorageForm.value.rackWeight.rackWeightUnit
+      },
+      warehouseBulkStorage: {
+        isAvailable: this.bulkStorage,
+        qty: this.rackStorageForm.value.palletBulk
+      }
     }
     this.warehouseService.PutwarehouseInfo(obj).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         console.log(res);
+        loading(false);
         this._stepper.next();
       }
     })
@@ -421,4 +530,29 @@ export class SetupWarehouseComponent implements OnInit {
     this.warehouseId = localStorage.getItem('warehouseId');
     this._stepper.prev();
   }
+
+
+
 }
+
+
+export function rackValidator(control: AbstractControl) {
+  if (this.rackedStorage) {
+    if (!control.value) {
+      return {
+        required: true
+      }
+    }
+  }
+};
+export function bulkValidator(control: AbstractControl) {
+  if (this.bulkStorage) {
+    if (!control.value) {
+      return {
+        required: true
+      }
+    }
+  }
+};
+
+
