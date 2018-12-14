@@ -43,6 +43,7 @@ export class SetupWarehouseComponent implements OnInit {
   public areaUnits: any[] = [];
   public weightUnits: any[] = [];
   public maxHeight: any[] = [];
+  public maxRackWeight: any[] = [];
   public racking: any[] = [];
   public weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
   private config: NgFilesConfig = {
@@ -226,17 +227,20 @@ export class SetupWarehouseComponent implements OnInit {
         this.weightUnits = res.returnObject.WeightUnit;
         this.maxHeight = res.returnObject.MaxHeight;
         this.racking = res.returnObject.Racking;
+        this.maxRackWeight = res.returnObject.MaxRackWeight;
         this.uploadDocs = res.returnObject.documentType;
+
         this.setDefaultValue();
       }
     })
   }
 
   setDefaultValue(){
-    this.generalForm.controls['whAreaUnit'].setValue(this.areaUnits.filter(elem => elem.UnitTypeCode == 'SQFT')[0].UnitTypeCode);
+    this.generalForm.controls['whAreaUnit'].setValue(this.areaUnits.filter(elem => elem.UnitTypeCode == 'sqft')[0].UnitTypeCode);
     this.rackStorageForm.controls['racking'].setValue(this.racking.filter(elem => elem.UnitTypeCode == '2 High')[0].UnitTypeCode);
     this.rackStorageForm.controls['maxHeight'].setValue(this.maxHeight.filter(elem => elem.UnitTypeCode == '4ft or less')[0].UnitTypeCode);
-    this.rackStorageForm.controls['rackWeightUnit'].setValue(this.weightUnits.filter(elem => elem.UnitTypeCode == 'KG')[0].UnitTypeCode); 
+    this.rackStorageForm.controls['rackWeight'].setValue(this.maxRackWeight.filter(elem => elem.UnitTypeCode == '1000 kg or less')[0].UnitTypeCode); 
+    this.rackStorageForm.controls['rackWeightUnit'].setValue(this.weightUnits.filter(elem => elem.UnitTypeCode == 'kg')[0].UnitTypeCode); 
   }
   whType(type){
     this.wareHouseType = type;

@@ -222,7 +222,9 @@
                 <div class="form-group">
                   <label>Max. Rack Weight</label>
                   <div class="input-group">
-                    <input class="form-control input-dropdown" type="text" placeholder="eg: 1,000 kg or less / pallet" formControlName="rackWeight">
+                    <select class="form-control" placeholder="eg: 1,000 kg or less / pallet" formControlName="rackWeight">
+                      <option *ngFor="let weight of maxRackWeight">{{weight.UnitTypeCode}}</option>
+                    </select>
                     <div class="input-group-append">
                       <select class="form-control input-dropdown" formControlName="rackWeightUnit">
                         <option *ngFor="let weight of weightUnits">
@@ -247,19 +249,19 @@
         </div>
         <div class="row" *ngIf="bulkStorage" [@fadeInOut]>
           <form autocomplete="off" novalidate [formGroup]="bulkStorageForm">
-          <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="form-group">
-              <label>Total Pallet Bulk</label>
-              <input type="text" maxlength="100" class="form-control" formControlName="palletBulk"
-              placeholder="Total pallet positions in bulk" (keypress)="numberValid($event)">
-              <span class="animated fadeIn">
-                <p class="inputError animated fadeIn" *ngIf="bulkStorageForm.controls['palletBulk'].hasError('required') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">{{requiredFields}}</p>
-                <p class="inputError animated fadeIn" *ngIf="!bulkStorageForm.controls['palletBulk'].hasError('pattern') && bulkStorageForm.controls['palletBulk'].hasError('minlength') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">Bulk pallet must be at least 5 character long</p>
-                <p class="inputError animated fadeIn" *ngIf="!bulkStorageForm.controls['palletBulk'].hasError('pattern') && bulkStorageForm.controls['palletBulk'].hasError('maxlength') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">Bulk pallet should not exceed from 100 characters</p>
-                <p class="inputError animated fadeIn" *ngIf="bulkStorageForm.controls['palletBulk'].hasError('pattern') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">Please enter valid information</p>
-              </span>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Total Pallet Bulk</label>
+                <input type="text" maxlength="100" class="form-control" formControlName="palletBulk" placeholder="Total pallet positions in bulk"
+                  (keypress)="numberValid($event)">
+                <span class="animated fadeIn">
+                  <p class="inputError animated fadeIn" *ngIf="bulkStorageForm.controls['palletBulk'].hasError('required') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">{{requiredFields}}</p>
+                  <p class="inputError animated fadeIn" *ngIf="!bulkStorageForm.controls['palletBulk'].hasError('pattern') && bulkStorageForm.controls['palletBulk'].hasError('minlength') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">Bulk pallet must be at least 5 character long</p>
+                  <p class="inputError animated fadeIn" *ngIf="!bulkStorageForm.controls['palletBulk'].hasError('pattern') && bulkStorageForm.controls['palletBulk'].hasError('maxlength') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">Bulk pallet should not exceed from 100 characters</p>
+                  <p class="inputError animated fadeIn" *ngIf="bulkStorageForm.controls['palletBulk'].hasError('pattern') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">Please enter valid information</p>
+                </span>
+              </div>
             </div>
-          </div>
           </form>
         </div>
 
@@ -376,8 +378,7 @@
         </form>
         <button (click)="backToCategory()" *ngIf="stepper.activeStep" class="btn btn-primary btn-register hvr-sweep-to-right pull-left">
           Back </button>
-        <button *ngIf="!stepper.lastStepActive" 
-        [disabled]="locationForm.invalid || (rackStorageForm.invalid && rackedStorage) ||( bulkStorageForm.invalid && bulkStorage) || generalForm.invalid
+        <button *ngIf="!stepper.lastStepActive" [disabled]="locationForm.invalid || (rackStorageForm.invalid && rackedStorage) ||( bulkStorageForm.invalid && bulkStorage) || generalForm.invalid
         || wareHouseAvailableForm.invalid || !whFacilitation.length || !wareHouseType || (!rackedStorage && !bulkStorage)"
           (click)="putWarehouseInfo()" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">
           Next </button>
