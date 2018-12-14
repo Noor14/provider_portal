@@ -741,7 +741,7 @@ export class DirectorinfoComponent implements OnInit {
               this._toastr.error('Please select only two file to upload', '');
               return;
             } else if (this.selectedDocx && this.selectedDocx.length < 2) {
-              const docFile = this.generateDocObject(selectedFile);
+              const docFile = JSON.parse(this.generateDocObject(selectedFile));
               allDocsArr.push(docFile);
               flag++
               if (flag === fileLenght) {
@@ -774,7 +774,7 @@ export class DirectorinfoComponent implements OnInit {
       documentFile: selectedFile.fileBaseString,
       documentUploadedFileType: selectedFile.fileType.split('/').pop()
     }]
-    return object;
+    return JSON.stringify(object);
   }
 
   async uploadDocuments(docFiles: Array<any>) {
