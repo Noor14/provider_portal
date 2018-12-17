@@ -148,6 +148,7 @@ export class DirectorinfoComponent implements OnInit {
   public formOneObj;
   private selectid;
   private docTypeId = null;
+  private fileStatus = undefined;
   // public uploadDocs: Array<DocumentUpload> = []
 
   constructor(
@@ -769,6 +770,7 @@ export class DirectorinfoComponent implements OnInit {
     object.DocumentName = null;
     object.DocumentUploadedFileType = null;
     object.DocumentID = this.docTypeId;
+    object.DocumentLastStatus = this.fileStatus;
     object.FileContent = [{
       documentFileName: selectedFile.fileName,
       documentFile: selectedFile.fileBaseString,
@@ -785,12 +787,15 @@ export class DirectorinfoComponent implements OnInit {
         if (resp.returnStatus = 'Success') {
           let resObj = JSON.parse(resp.returnText);
           this.docTypeId = resObj.DocumentID;
+          this.fileStatus = resObj.DocumentLastStaus;
           let fileObj = JSON.parse(resObj.DocumentFile);
           fileObj.forEach(element => {
             element.DocumentFile = baseApi.split("/api").shift() + element.DocumentFile;
           });
           if (index !== (totalDocLenght - 1)) {
-            docFiles[index + 1].DocumentID = resObj.DocumentID
+            docFiles[index + 1].DocumentID = resObj.DocumentID;
+            docFiles[index + 1].DocumentLastStatus = resObj.DocumentLastStaus;
+            
           }
           this.selectedDocx = fileObj;
           this._toastr.success("File upload successfully", "");
