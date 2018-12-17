@@ -499,7 +499,7 @@ export class SetupWarehouseComponent implements OnInit {
       }
     })
   }
-  SelectDocx(selectedFiles: NgFilesSelected, type): void {
+  selectDocx(selectedFiles: NgFilesSelected): void {
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
       if (selectedFiles.status == 1) this._toastr.error('Please select only five files to upload.', '')
       else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 4 MB. Please upload smaller file.', '')

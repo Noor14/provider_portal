@@ -24,6 +24,7 @@ import { NgStepperModule } from '../../../../directives/stepper/stepper.module';
 import { SetupWarehouseComponent } from './setup-warehouse/setup-warehouse.component';
 import { WarehouseService } from './setup-warehouse/warehouse.service';
 import { WarehouseListComponent } from './setup-warehouse/warehouse-list/warehouse-list.component';
+import { WarehouseAddRatesComponent } from './setup-warehouse/warehouse-add-rates/warehouse-add-rates.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ClickOutsideModule } from 'ng-click-outside';
 @NgModule({
@@ -56,6 +57,7 @@ import { ClickOutsideModule } from 'ng-click-outside';
     SlidePanelComponent,
     SetupWarehouseComponent,
     WarehouseListComponent,
+    WarehouseAddRatesComponent
   ],
   providers: [
     CompanyInfoService,

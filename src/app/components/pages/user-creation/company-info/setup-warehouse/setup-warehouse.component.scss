@@ -32,6 +32,30 @@
         }
     }
     .stepTwo {
+        .sub-title {
+            &.sub-heading {
+                font-size: $font-size-medium;
+                line-height: 1;
+            }
+        }
+        h5.small-head {
+            font-size: $font-size-large;
+            font-weight: normal;
+        }
+        .fancyOptionBoxes {
+            &.usage-type {
+                float: left;
+                margin-right: 4.2rem;
+                margin-left: 1rem;
+            }
+            &.warehousing-services {
+                margin-top: 1.5rem;
+                margin-left: 1rem;
+                &:first-child {
+                    margin-top: 0.5rem !important
+                }
+            }
+        }
         .documentInfo {
             .file-uploader {
                 border: 1px dashed #e1d8d8;
@@ -48,18 +72,50 @@
                 }
             }
             .uploadedDocx {
-                video {
-                    width: inherit;
-                }
-                img {
+                .display-upload {
+                    position: relative;
                     width: 100%;
-                    height: 180px;
+                    height: 100%;
+                    display: flex;
+
+                    img {
+                        border-radius: 4px;
+                        border: 1px solid $input-border;
+                        width: 100%;
+                        min-height: 100%;
+                        max-height: 10rem;
+                        height: 100%;
+                        display: flex;
+                    }
+                    video {
+                        border-radius: 4px;
+                        border: 1px solid $input-border;
+                        width: 100%;
+                        min-height: 100%;
+                        max-height: 10rem;
+                        height: 100%;
+                        display: flex;
+                    }
+                    .delete-icon {
+                        position: absolute;
+                        top: -6px;
+                        right: -6px;
+                        min-height: auto;
+                        background: $white-color;
+                        padding: 3px;
+                        border-radius: 50%;
+                        width: 23px;
+                        height: auto;
+                        border: none;
+                    }
                 }
             }
         }
         agm-map {
-            height: 100%;
+            height: 336px;
             width: 100%;
+            margin-top: 2.5rem;
+            display: inline-block;
         }
         ngb-datepicker {
             top: -270px !important;
@@ -69,31 +125,41 @@
             animation: 2s linear infinite blink;
             -ms-animation: 2s linear infinite blink;
         }
+        .switcher-title {
+            font-family: $font-proxima;
+            font-size: $font-size-large;
+            font-weight: $font-weight-mid;
+        }
+        .switch-box {
+            ui-switch {
+                float: right !important;
+            }
+        }
         .sub-title {
             &.noti {
                 padding-left: 1.5rem;
                 position: relative;
-                margin-top: 10px;
+                margin-top: 13px;
                 display: inline-block;
                 &:before {
                     content: url("../../../../../../assets/images/icons/icon_info.svg");
                     position: absolute;
                     left: 0px;
-                    top: 2px;
+                    top: -2px;
                     width: 16px;
                     height: 16px;
                 }
             }
         }
         .add-hours {
-            padding-left: 2.5rem;
+            padding-left: 1.7rem;
             position: relative;
             margin-top: 10px;
             display: inline-block;
             &:before {
                 content: url("../../../../../../assets/images/icons/icon_add.svg");
                 position: absolute;
-                left: 15px;
+                left: 0px;
                 top: 2px;
                 width: 16px;
                 height: 16px;
@@ -104,6 +170,15 @@
             font-family: $font-proxima;
             font-weight: $font-weight-mid;
             font-size: $font-size-medium;
+            text-transform: uppercase;
+        }
+        .back {
+            font-family: $font-proxima;
+            font-size: $font-size-medium;
+            color: $color-topmenu;
+            font-weight: $font-weight-mid;
+            text-transform: uppercase;
+            line-height: 1;
         }
     }
 }

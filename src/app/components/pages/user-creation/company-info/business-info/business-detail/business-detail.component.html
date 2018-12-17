@@ -838,8 +838,11 @@
                   </ul>
                 </div>
               </div>
-              <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites"
-                 maxlength="100" placeholder="www.company.com" (focus)="inputValidate(19)" (focusout)="socialLinkValidate()" />
+              <div class="col social-link-field">
+                <label class="social-place-label">http://</label>
+                <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites"
+                  maxlength="100" placeholder="www.company.com" (focus)="inputValidate(19)" (focusout)="socialLinkValidate()" />
+              </div>
               <!-- <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" *ngIf="i > 0" class="pointer icon-size-16 social-link-del"
                 (click)="removeSocialSite()"> -->
             </div>
@@ -868,10 +871,11 @@
                   </ul>
                 </div>
               </div>
-
-              <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites"
-                 maxlength="100" placeholder="www.company.com" (focus)="inputValidate(19)" (focusout)="socialLinkValidate()" />
-
+              <div class="col social-link-field">
+                  <label class="social-place-label">http://</label>
+                  <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites"
+                    maxlength="100" placeholder="www.company.com" (focus)="inputValidate(19)" (focusout)="socialLinkValidate()" />
+              </div>
               <!-- <img src="../../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" *ngIf="i > 0" class="pointer icon-size-16 social-link-del"
                 (click)="removeSocialSite(i)"> -->
             </div>
