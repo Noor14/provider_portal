@@ -319,6 +319,18 @@ export class SetupWarehouseComponent implements OnInit {
   }
   putWarehouseInfo() {
     loading(true);
+    let rackStorageObj = {
+      IsAvailable: this.rackedStorage,
+      Qty: this.rackStorageForm.value.palletRack,
+      Racking: this.rackStorageForm.value.racking,
+      MH: this.rackStorageForm.value.maxHeight,
+      MW: this.rackStorageForm.value.rackWeight,
+      MWUnit: this.rackStorageForm.value.rackWeightUnit
+    };
+    let bulkStorageObj = {
+      isAvailable: this.bulkStorage,
+      qty: this.rackStorageForm.value.palletBulk
+    };
     let obj = {
       whid: this.warehouseId,
       providerID: this.userProfile.providerID,
@@ -332,9 +344,8 @@ export class SetupWarehouseComponent implements OnInit {
       latitude: this.location.lat,
       longitude: this.location.lng,
       createdBy: this.userProfile.PrimaryEmail,
-      totalCoveredArea: this.locationForm.value.whArea,
-      totalCoveredAreaUnit: this.locationForm.value.whAreaUnit,
-
+      totalCoveredArea: this.generalForm.value.whArea,
+      totalCoveredAreaUnit: this.generalForm.value.whAreaUnit,
       warehouseUsageType: this.wareHouseUsageType,
       warehouseFacilities: this.warehouseFacilities,
       warehouseTimings: [
@@ -378,18 +389,15 @@ export class SetupWarehouseComponent implements OnInit {
           IsClosed: false
         }
       ],
-      warehouseRackedStorage: {
-        IsAvailable: this.rackedStorage,
-        Qty: this.rackStorageForm.value.palletRack,
-        Racking: this.rackStorageForm.value.racking,
-        MH: this.rackStorageForm.value.maxHeight,
-        MW: this.rackStorageForm.value.rackWeight,
-        MWUnit: this.rackStorageForm.value.rackWeight.rackWeightUnit
-      },
-      warehouseBulkStorage: {
-        isAvailable: this.bulkStorage,
-        qty: this.rackStorageForm.value.palletBulk
-      }
+      warehouseRackedStorage: (this.rackedStorage)? rackStorageObj : null,
+      warehouseBulkStorage: (this.bulkStorage)? bulkStorageObj : null,
+      whAvailability: [
+        {
+          AvailableFromDate: this.wareHouseAvailableForm.value.fromdate.month + '/' + this.wareHouseAvailableForm.value.fromdate.day + '/' + this.wareHouseAvailableForm.value.fromdate.year,
+          AvailableToDate: this.wareHouseAvailableForm.value.todate.month + '/' + this.wareHouseAvailableForm.value.todate.day + '/' + this.wareHouseAvailableForm.value.todate.year
+        }
+      ]
+
     }
     this.warehouseService.PutwarehouseInfo(obj).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
