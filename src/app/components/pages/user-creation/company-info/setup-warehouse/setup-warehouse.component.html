@@ -97,7 +97,7 @@
                     <div class="input-group">
                       <input class="form-control input-dropdown" type="text" formControlName="whArea" (keypress)="numberValid($event)" (focus)="whAreaError=false"
                         (focusout)="errorValidate()" [ngClass]="{'inputError': generalForm.controls['whArea'].errors
-                      && whAreaError}">
+                            && whAreaError}">
                       <div class="input-group-append">
                         <select class="form-control input-dropdown" name="weightUnit" formControlName="whAreaUnit">
                           <option *ngFor="let unit of areaUnits">
@@ -135,18 +135,18 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-4 d-flex align-items-center">
+                  <div class="col-5 d-flex align-items-center">
                     <div class="form-group w-100">
                       <ng-multiselect-dropdown [placeholder]="'Select Days'" [data]="weekDays" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
                         (onSelectAll)="onSelectAll($event)">
                       </ng-multiselect-dropdown>
                       <!-- <select class="form-control">
-                            <option>Select Days</option>
-                            <option *ngFor="let day of weekDays">{{day}}</option>
-                          </select> -->
+                                  <option>Select Days</option>
+                                  <option *ngFor="let day of weekDays">{{day}}</option>
+                                </select> -->
                     </div>
                   </div>
-                  <div class="col-2 d-flex align-items-center" *ngIf="i > 0">
+                  <div class="col-1 d-flex align-items-center" *ngIf="i > 0">
                     <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="remove" (click)="removeRow(i)" class="pointer icon-size-16">
                   </div>
                 </div>
@@ -178,7 +178,7 @@
                     <label>Total Pallet Rack</label>
                     <input type="text" maxlength="100" class="form-control" (keypress)="numberValid($event)" placeholder="Total pallet positions in rack"
                       formControlName="palletRack" (focus)="palletRackError=false" (focusout)="errorValidate()" [ngClass]="{'inputError': rackStorageForm.controls['palletRack'].errors
-                      && palletRackError}">
+                                    && palletRackError}">
                     <span class="animated fadeIn" *ngIf="palletRackError">
                       <p class="inputError animated fadeIn" *ngIf="rackStorageForm.controls['palletRack'].hasError('required') && (rackStorageForm.controls.palletRack.dirty || rackStorageForm.controls.palletRack.touched)">{{requiredFields}}</p>
                       <p class="inputError animated fadeIn" *ngIf="!rackStorageForm.controls['palletRack'].hasError('pattern') && rackStorageForm.controls['palletRack'].hasError('minlength') && (rackStorageForm.controls.palletRack.dirty || rackStorageForm.controls.palletRack.touched)">Pallet rack must be at least 1 character long</p>
@@ -247,7 +247,7 @@
                     <label>Total Pallet Bulk</label>
                     <input type="text" maxlength="100" class="form-control" formControlName="palletBulk" placeholder="Total pallet positions in bulk"
                       (keypress)="numberValid($event)" (focus)="palletBulkError=false" (focusout)="errorValidate()" [ngClass]="{'inputError': bulkStorageForm.controls['palletBulk'].errors
-                      && palletBulkError}">
+                                            && palletBulkError}">
                     <span class="animated fadeIn" *ngIf="palletBulkError">
                       <p class="inputError animated fadeIn" *ngIf="bulkStorageForm.controls['palletBulk'].hasError('required') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">{{requiredFields}}</p>
                       <p class="inputError animated fadeIn" *ngIf="!bulkStorageForm.controls['palletBulk'].hasError('pattern') && bulkStorageForm.controls['palletBulk'].hasError('minlength') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">Bulk pallet must be at least 5 character long</p>
@@ -289,8 +289,7 @@
                   <div class="form-group">
                     <label>City</label>
                     <input type="text" maxlength="100" class="form-control" placeholder="Enter City" #searchCity formControlName="city" (focus)="cityError=false"
-                      (focusout)="errorValidate()" [ngClass]="{'inputError': locationForm.controls['city'].errors &&
-                      cityError}">
+                      (focusout)="errorValidate()" [ngClass]="{'inputError': locationForm.controls['city'].errors &&  cityError}">
                     <span class="animated fadeIn" *ngIf="cityError">
                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">{{requiredFields}}</p>
                       <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City should be minimum 3 characters</p>
@@ -304,7 +303,7 @@
                     <label>Address Line 1</label>
                     <input type="text" maxlength="200" class="form-control" placeholder="Address line 1" formControlName="addressline1" (focus)="addressline1Error=false"
                       (focusout)="errorValidate()" [ngClass]="{'inputError': locationForm.controls['addressline1'].errors
-                      && addressline1Error}">
+                                                    && addressline1Error}">
                     <span class="animated fadeIn" *ngIf="addressline1Error">
                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline1'].hasError('required') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">{{requiredFields}}</p>
                       <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline1'].hasError('pattern') && locationForm.controls['addressline1'].hasError('minlength') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">Address should be minimum 10 characters</p>
@@ -319,15 +318,11 @@
                     <input type="text" maxlength="200" class="form-control" (focus)="addressline2Error=false" (focusout)="errorValidate()" placeholder="Address line 2"
                       [ngClass]="{'inputError': locationForm.controls['addressline2'].errors && addressline2Error}" formControlName="addressline2">
                     <span class="animated fadeIn" *ngIf="addressline2Error">
-                      <input type="text" maxlength="200" class="form-control" (focus)="addressline2Error=false" (focusout)="errorValidate()" placeholder="Address line 2"
-                        [ngClass]="{'inputError': locationForm.controls['addressline2'].errors
-                    && addressline2Error}" formControlName="addressline2">
-                      <span class="animated fadeIn" *ngIf="addressline2Error">
-                        <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline2'].hasError('required') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">{{requiredFields}}</p>
-                        <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline2'].hasError('pattern') && locationForm.controls['addressline2'].hasError('minlength') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Address should be minimum 10 characters</p>
-                        <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline2'].hasError('pattern') && locationForm.controls['addressline2'].hasError('maxlength') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Address should not exceed from 200 characters</p>
-                        <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline2'].hasError('pattern') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Please enter valid information</p>
-                      </span>
+                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline2'].hasError('required') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">{{requiredFields}}</p>
+                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline2'].hasError('pattern') && locationForm.controls['addressline2'].hasError('minlength') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Address should be minimum 10 characters</p>
+                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline2'].hasError('pattern') && locationForm.controls['addressline2'].hasError('maxlength') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Address should not exceed from 200 characters</p>
+                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline2'].hasError('pattern') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Please enter valid information</p>
+                    </span>
                   </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12">
@@ -351,6 +346,8 @@
             </agm-map>
           </div>
         </div>
+
+
         <div class="row mt-5">
           <div class="col-12">
             <h5 class="mt-2">Warehouse Availaibility</h5>
@@ -377,8 +374,13 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-2 d-flex align-items-center" *ngIf="i > 0">
+                    <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="remove" (click)="removeSeason(i)" class="pointer icon-size-16">
+                  </div>
                 </div>
+
               </div>
+              <button class="hvr-icon-back grey-anc-btn add-hours" [disabled]="wareHouseAvailableForm.invalid" (click)="addSeasons()">Add </button>
             </form>
           </div>
         </div>
@@ -391,7 +393,7 @@
           </div>
           <div class="col-6 mt-3">
             <button *ngIf="!stepper.lastStepActive" [disabled]="locationForm.invalid || (rackStorageForm.invalid && rackedStorage) ||( bulkStorageForm.invalid && bulkStorage) || generalForm.invalid
-              || wareHouseAvailableForm.invalid || !whFacilitation.length || !wareHouseType || (!rackedStorage && !bulkStorage)"
+                            || wareHouseAvailableForm.invalid || !whFacilitation.length || !wareHouseType || (!rackedStorage && !bulkStorage)"
               (click)="putWarehouseInfo()" class="btn btn-primary btn-register hvr-sweep-to-right pull-right pl-5 pr-5">
               PROCEED </button>
           </div>
