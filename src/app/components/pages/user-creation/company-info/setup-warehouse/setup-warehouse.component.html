@@ -25,11 +25,11 @@
       <section class="stepTwo">
         <div class="row">
           <div class="col-12">
-            <h5>General Information</h5>
-            <p class="sub-title mb-0">Please enter warehouse name and featured images / videos.</p>
+            <h5 class="mt-5">General Information</h5>
+            <p class="sub-title sub-heading mb-0">Please enter warehouse name and featured images / videos.</p>
           </div>
         </div>
-        <hr class="hr-solid">
+        <hr class="hr-solid mt-3">
         <form autocomplete="off" novalidate [formGroup]="generalForm">
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12">
@@ -47,8 +47,8 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <label>Upload Featured Gallery</label>
-              <span class="sub-title">You may add upto 1 video and 4 photos.</span>
+              <h5 class="small-head mt-3">Upload Featured Gallery</h5>
+              <p class="sub-title sub-heading mb-0">You may add upto 1 video and 4 photos.</p>
               <div class="documentInfo mt-3 ">
                 <div class="file-uploader p-4 mb-3">
                   <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'logo')" [configId]="'docConfig'">
@@ -61,11 +61,13 @@
                 </div>
                 <div class="row uploadedDocx" *ngIf="selectedDocx && selectedDocx.length">
                   <div class="col-lg-3" *ngFor="let doc of selectedDocx; let i = index">
-                    <video controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
-                      <source [src]="doc.DocumentFile" type="video/mp4">
-                    </video>
-                    <img *ngIf="doc.DocumentUploadedFileType != 'mp4'" [src]="doc.DocumentFile" alt="related_images">
-                    <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx(i, doc)">
+                    <div class="display-upload delete">
+                      <video controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
+                        <source [src]="doc.DocumentFile" type="video/mp4">
+                      </video>
+                      <img *ngIf="doc.DocumentUploadedFileType != 'mp4'" [src]="doc.DocumentFile" alt="related_images">
+                      <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer delete-icon" (click)="removeSelectedDocx(i, doc)">
+                    </div>
                   </div>
                 </div>
               </div>
