@@ -532,7 +532,7 @@ export class SetupWarehouseComponent implements OnInit {
               fileUrl: reader.result,
               fileBaseString: reader.result.split(',')[1]
             }
-            if (event.files.length <= 4) {
+            if (event.files.length <= this.config.maxFilesCount) {
               const docFile = JSON.parse(this.generateDocObject(selectedFile));
               allDocsArr.push(docFile);
               flag++
