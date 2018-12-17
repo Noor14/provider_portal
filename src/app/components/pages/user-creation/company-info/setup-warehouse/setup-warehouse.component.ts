@@ -46,7 +46,7 @@ export class SetupWarehouseComponent implements OnInit {
   public maxRackWeight: any[] = [];
   public racking: any[] = [];
   public weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-  private config: NgFilesConfig = {
+  public config: NgFilesConfig = {
     acceptExtensions: ['jpeg', 'jpg', 'png', 'bmp', 'mp4', 'avi'],
     maxFilesCount: 5,
     maxFileSize: 4096000,
