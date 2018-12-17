@@ -809,25 +809,6 @@ export class DirectorinfoComponent implements OnInit {
     return resp
   }
 
-
-
-  removeDoc(obj, index) {
-    obj.DocumentFile = obj.DocumentFile.split(baseApi.split("/api").shift()).pop();
-    obj.DocumentID = this.docTypeId;
-    this._companyInfoService.removeDoc(obj).subscribe((res: any) => {
-      if (res.returnStatus == 'Success') {
-        this._toastr.success('Remove selected document succesfully', "");
-        this.selectedDocx.splice(index, 1);
-
-      }
-      else {
-        this._toastr.error('Error Occured', "");
-      }
-    }, (err: HttpErrorResponse) => {
-      console.log(err);
-    })
-  }
-
   sanitize(url: string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
@@ -950,8 +931,21 @@ export class DirectorinfoComponent implements OnInit {
 
   }
 
-  removeSelectedDocx(index, file) {
-    this.removeDoc(file, index)
+  removeSelectedDocx(index, obj) {
+    obj.DocumentFile = obj.DocumentFile.split(baseApi.split("/api").shift()).pop();
+    obj.DocumentID = this.docTypeId;
+    this._companyInfoService.removeDoc(obj).subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
+        this._toastr.success('Remove selected document succesfully', "");
+        this.selectedDocx.splice(index, 1);
+
+      }
+      else {
+        this._toastr.error('Error Occured', "");
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
   }
 
 }
