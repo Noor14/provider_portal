@@ -11,12 +11,16 @@ export class WarehouseService {
     let url: string = `warehousesetup/Get/${wid}/${userId}/${providerId}`;
     return this._http.get(baseApi + url);
   }
+  getWarehouseList(providerId) {
+    let url: string = `warehousesetup/GetAll/${providerId}`;
+    return this._http.get(baseApi + url);
+  }
 
   addWarehouse(data) {
     let url: string = "warehousesetup/Post";
     return this._http.post(baseApi + url, data);
   }
-  PutwarehouseInfo(data) {
+  putWarehouseInfo(data) {
     let url: string = "warehousesetup/Put";
     return this._http.put(baseApi + url, data);
   }

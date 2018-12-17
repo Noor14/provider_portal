@@ -295,8 +295,10 @@ export class SetupWarehouseComponent implements OnInit {
     });
   }
   getWarehouseInfo(warehouseId, userID, providerId) {
+    loading(true);
     this.warehouseService.getWarehouseData(warehouseId = 0, userID, providerId).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
+        loading(false);
         this.wareHouseCat = res.returnObject.WHCategories;
         this.wareHouseUsageType = res.returnObject.WarehouseUsageType;
         this.warehouseFacilities = res.returnObject.WarehouseFacilities;
@@ -306,9 +308,12 @@ export class SetupWarehouseComponent implements OnInit {
         this.racking = res.returnObject.Racking;
         this.maxRackWeight = res.returnObject.MaxRackWeight;
         this.uploadDocs = res.returnObject.documentType;
-
         this.setDefaultValue();
       }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+      loading(false);
+      
     })
   }
 
@@ -491,7 +496,7 @@ export class SetupWarehouseComponent implements OnInit {
       whAvailability: this.seasonAvaiablility
 
     }
-    this.warehouseService.PutwarehouseInfo(obj).subscribe((res: any) => {
+    this.warehouseService.putWarehouseInfo(obj).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         console.log(res);
         loading(false);
