@@ -46,7 +46,7 @@ export class SetupWarehouseComponent implements OnInit {
   public maxRackWeight: any[] = [];
   public racking: any[] = [];
   public weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-  private config: NgFilesConfig = {
+  public config: NgFilesConfig = {
     acceptExtensions: ['jpeg', 'jpg', 'png', 'bmp', 'mp4', 'avi'],
     maxFilesCount: 5,
     maxFileSize: 4096000,
@@ -485,7 +485,6 @@ export class SetupWarehouseComponent implements OnInit {
         const resp: JsonResponse = await this.docSendService(docFiles[index])
         if (resp.returnStatus = 'Success') {
           let resObj = JSON.parse(resp.returnText);
-          console.log(resObj)
           this.docTypeId = resObj.DocumentID;
           this.fileStatus = resObj.DocumentLastStaus;
           let fileObj = JSON.parse(resObj.DocumentFile);
@@ -494,6 +493,7 @@ export class SetupWarehouseComponent implements OnInit {
           });
           if (index !== (totalDocLenght - 1)) {
             docFiles[index + 1].DocumentID = resObj.DocumentID
+            docFiles[index + 1].DocumentLastStatus = resObj.DocumentLastStaus
           }
           this.selectedDocx = fileObj;
           this._toastr.success("File upload successfully", "");
@@ -511,10 +511,7 @@ export class SetupWarehouseComponent implements OnInit {
     return resp
   }
 
-  removeSelectedDocx(index, file) {
-    this.removeDoc(file, index)
-  }
-  removeDoc(obj, index) {
+  removeSelectedDocx(index, obj) {
     obj.DocumentFile = obj.DocumentFile.split(baseApi.split("/api").shift()).pop();
     obj.DocumentID = this.docTypeId;
     this._companyInfoService.removeDoc(obj).subscribe((res: any) => {

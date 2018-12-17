@@ -50,7 +50,7 @@
               <h5 class="small-head mt-3">Upload Featured Gallery</h5>
               <p class="sub-title sub-heading mb-0">You may add upto 1 video and 4 photos.</p>
               <div class="documentInfo mt-3 ">
-                <div class="file-uploader p-4 mb-3">
+                <div class="file-uploader p-4 mb-3" *ngIf="selectedDocx.length < this.config.maxFilesCount">
                   <app-ng-files-drag-n-upload (filesSelect)="SelectDocx($event, 'logo')" [configId]="'docConfig'">
                     <img src="../../../../../../assets/images/icons/manager-icon.png">
                     <p class="m-0 mt-3"> Drag here or
