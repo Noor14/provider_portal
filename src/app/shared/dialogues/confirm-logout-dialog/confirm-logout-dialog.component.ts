@@ -61,6 +61,7 @@ export class ConfirmLogoutDialogComponent implements OnInit {
         this._sharedService.dashboardDetail.next(null);
         this.closeModal();
         this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
+        localStorage.removeItem('warehouseId');
         this._router.navigate(['registration']);
         this._jwtService.sessionRefresh()
       }

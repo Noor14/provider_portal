@@ -40,6 +40,7 @@ export class SetupWarehouseComponent implements OnInit {
   public warehouseId;
   public wareHouseUsageType: any[] = [];
   public warehouseFacilities: any[] = [];
+  private seasonAvaiablility:any[]=[];
   public areaUnits: any[] = [];
   public weightUnits: any[] = [];
   public maxHeight: any[] = [];
@@ -85,6 +86,23 @@ export class SetupWarehouseComponent implements OnInit {
     allowSearchFilter: true
   };
 
+ public minDate : any; 
+
+
+
+
+
+
+//  errorFields
+
+  public whnameError:boolean = false;
+  public whAreaError: boolean = false;
+  public palletRackError: boolean = false;
+  public palletBulkError: boolean = false;
+  public cityError: boolean = false;
+  public addressline1Error: boolean = false;
+  public addressline2Error: boolean = false;
+  public poBoxError:boolean = false;
 
   constructor(
     private warehouseService: WarehouseService,
@@ -99,12 +117,18 @@ export class SetupWarehouseComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+  let date = new Date();
+  this.minDate = {
+    year: date.getFullYear(),
+    month: date.getMonth() + 1,
+    day: date.getDate()
+  };
     this.ngFilesService.addConfig(this.config, 'docConfig');
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
       this.warehouseId = localStorage.getItem('warehouseId');
-      this.getWarehouseInfo(this.warehouseId, this.userProfile.UserID);
+      this.getWarehouseInfo(this.warehouseId, this.userProfile.UserID, this.userProfile.ProviderID);
     }
     this.locationForm = new FormGroup({
       city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
@@ -129,8 +153,7 @@ export class SetupWarehouseComponent implements OnInit {
       whSchedule: new FormArray([this.createFields()]),
     });
     this.wareHouseAvailableForm = new FormGroup({
-      fromdate: new FormControl(null, Validators.required),
-      todate: new FormControl(null, Validators.required),
+      whavailable: new FormArray([this.createFieldsSeason()]),
     });
 
     this._sharedService.getLocation.subscribe((state: any) => {
@@ -142,6 +165,44 @@ export class SetupWarehouseComponent implements OnInit {
 
   }
 
+  errorValidate() {
+    if (this.generalForm.controls.whName.status == "INVALID" && this.generalForm.controls.whName.touched) {
+      this.whnameError = true;
+    }
+    if (this.generalForm.controls.whArea.status == "INVALID" && this.generalForm.controls.whArea.touched) {
+      this.whAreaError = true;
+    }
+    if (this.rackStorageForm.controls.palletRack.status == "INVALID" && this.rackStorageForm.controls.palletRack.touched) {
+      this.palletRackError = true;
+    }
+    if (this.bulkStorageForm.controls.palletBulk.status == "INVALID" && this.bulkStorageForm.controls.palletBulk.touched) {
+      this.palletBulkError = true;
+    }
+    if (this.locationForm.controls.city.status == "INVALID" && this.locationForm.controls.city.touched) {
+      this.cityError = true;
+    }
+    if (this.locationForm.controls.addressline1.status == "INVALID" && this.locationForm.controls.addressline1.touched) {
+      this.addressline1Error = true;
+    }
+    if (this.locationForm.controls.addressline2.status == "INVALID" && this.locationForm.controls.addressline2.touched) {
+      this.addressline2Error = true;
+    }
+    if (this.locationForm.controls.poBox.status == "INVALID" && this.locationForm.controls.poBox.touched) {
+      this.poBoxError = true;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
   createFields() {
     return new FormGroup({
       fromHour: new FormControl(null),
@@ -149,14 +210,30 @@ export class SetupWarehouseComponent implements OnInit {
       days: new FormControl(null),
     })
   }
+  createFieldsSeason() {
+    return new FormGroup({
+      fromdate: new FormControl(null, Validators.required),
+      todate: new FormControl(null, Validators.required),
+    })
+  }
+
   addDays() {
     (this.generalForm.controls['whSchedule'] as FormArray).push(this.createFields())
+  }
+
+  addSeasons() {
+    (this.wareHouseAvailableForm.controls['whavailable'] as FormArray).push(this.createFieldsSeason());
   }
 
   removeRow(index: number) {
     const control = <FormArray>this.generalForm.controls['whSchedule'];
     control.removeAt(index);
   }
+  removeSeason(index: number) {
+    const control = <FormArray>this.wareHouseAvailableForm.controls['whavailable'];
+    control.removeAt(index);
+  }
+
   onItemSelect(item: any) {
     console.log(item);
   }
@@ -217,8 +294,8 @@ export class SetupWarehouseComponent implements OnInit {
 
     });
   }
-  getWarehouseInfo(warehouseId, userID) {
-    this.warehouseService.getWarehouseData(warehouseId = 0, userID).subscribe((res: any) => {
+  getWarehouseInfo(warehouseId, userID, providerId) {
+    this.warehouseService.getWarehouseData(warehouseId = 0, userID, providerId).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.wareHouseCat = res.returnObject.WHCategories;
         this.wareHouseUsageType = res.returnObject.WarehouseUsageType;
@@ -305,9 +382,22 @@ export class SetupWarehouseComponent implements OnInit {
     }
   }
 
+  mindate(){
+    if (this.wareHouseAvailableForm.value.whavailable.length == 1){
+    return this.minDate;
+    }
+    else{
+      let index = this.wareHouseAvailableForm.value.whavailable.length - 2;
+      return this.minDate = this.wareHouseAvailableForm.value.whavailable[index].todate;
+    }
+  }
+
+
+
   addCategory() {
     let obj = {
-      whid: (this.warehouseId != "null" && this.warehouseId) ? this.warehouseId : -1,
+      whid: (this.warehouseId != "null" && this.warehouseId)? this.warehouseId : -1,
+      providerID: this.userProfile.ProviderID,
       whCategories: this.categoryIds
     };
     this.warehouseService.addWarehouse(obj).subscribe((res: any) => {
@@ -331,9 +421,16 @@ export class SetupWarehouseComponent implements OnInit {
       isAvailable: this.bulkStorage,
       qty: this.rackStorageForm.value.palletBulk
     };
+    this.wareHouseAvailableForm.value.whavailable.forEach(elem => {
+      let obj = {
+        AvailableFromDate: elem.fromdate.month + '/' + elem.fromdate.day + '/' + elem.fromdate.year,
+        AvailableToDate: elem.todate.month + '/' + elem.todate.day + '/' + elem.todate.year
+      }
+      this.seasonAvaiablility.push(obj);
+    });
     let obj = {
       whid: this.warehouseId,
-      providerID: this.userProfile.providerID,
+      providerID: this.userProfile.ProviderID,
       whName: this.generalForm.value.whName,
       whAddress: this.locationForm.value.addressline1,
       whAddress2: this.locationForm.value.addressline2,
@@ -391,12 +488,7 @@ export class SetupWarehouseComponent implements OnInit {
       ],
       warehouseRackedStorage: (this.rackedStorage)? rackStorageObj : null,
       warehouseBulkStorage: (this.bulkStorage)? bulkStorageObj : null,
-      whAvailability: [
-        {
-          AvailableFromDate: this.wareHouseAvailableForm.value.fromdate.month + '/' + this.wareHouseAvailableForm.value.fromdate.day + '/' + this.wareHouseAvailableForm.value.fromdate.year,
-          AvailableToDate: this.wareHouseAvailableForm.value.todate.month + '/' + this.wareHouseAvailableForm.value.todate.day + '/' + this.wareHouseAvailableForm.value.todate.year
-        }
-      ]
+      whAvailability: this.seasonAvaiablility
 
     }
     this.warehouseService.PutwarehouseInfo(obj).subscribe((res: any) => {
@@ -409,7 +501,7 @@ export class SetupWarehouseComponent implements OnInit {
   }
   SelectDocx(selectedFiles: NgFilesSelected, type): void {
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.status == 1) this._toastr.error('Please select only one (1) file to upload.', '')
+      if (selectedFiles.status == 1) this._toastr.error('Please select only five files to upload.', '')
       else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 4 MB. Please upload smaller file.', '')
       else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
       return;
@@ -460,6 +552,7 @@ export class SetupWarehouseComponent implements OnInit {
     }
 
   }
+
   generateDocObject(selectedFile): any {
     let toUpload = this.uploadDocs
     toUpload.UserID = this.userProfile.UserID;

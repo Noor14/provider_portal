@@ -14,7 +14,6 @@ import { UserCreationService } from './components/pages/user-creation/user-creat
 import { GuestService } from './services/jwt.injectable';
 import { Interceptor } from './http-interceptors/interceptor';
 import { SafeUrlPipe } from './constants/safeurlfilter';
-
 export function guestServiceFactory(provider: GuestService) {
   return () => provider.load();
 }
@@ -30,6 +29,7 @@ export function guestServiceFactory(provider: GuestService) {
     ScrollbarModule,
     HttpClientModule,
     AppRoutingModule,
+   
     NgbModule.forRoot(),
     ToastrModule.forRoot({
       closeButton: true,
