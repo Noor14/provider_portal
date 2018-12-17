@@ -84,7 +84,7 @@
                   <p class="sub-title sub-heading mb-0">Please enter your warehouse details</p>
                   <hr class="hr-solid">
                 </div>
-                <div class="col-6 mt-4">
+                <div class="col-6 mt-2">
                   <label class="col pl-0">Usage Type</label>
                   <div class="fancyOptionBoxes usage-type pt-2" *ngFor="let type of wareHouseUsageType; let i = index">
                     <input id="{{i + 'type'}}" name="whUsageType" type="radio" (click)="whType(type)">
@@ -404,16 +404,18 @@
             </form>
           </div>
         </div>
-        <div class="row">
-          <div class="col-6">
-            <button (click)="backToCategory()" *ngIf="stepper.activeStep" class="btn btn-primary btn-register hvr-sweep-to-right pull-left">
-              Back </button>
+        <div class="row mt-5">
+          <div class="col-6 mt-3">
+            <a (click)="backToCategory()" *ngIf="stepper.activeStep" class="back" href="javascript:;" (click)="previousForm()">
+              <img alt="icons" class="icon-size-16" src="../../../assets/images/icons/icon_arrow_left.svg">
+              <span>Go Back</span>
+            </a>
           </div>
-          <div class="col-6">
+          <div class="col-6 mt-3">
             <button *ngIf="!stepper.lastStepActive" [disabled]="locationForm.invalid || (rackStorageForm.invalid && rackedStorage) ||( bulkStorageForm.invalid && bulkStorage) || generalForm.invalid
               || wareHouseAvailableForm.invalid || !whFacilitation.length || !wareHouseType || (!rackedStorage && !bulkStorage)"
-              (click)="putWarehouseInfo()" class="btn btn-primary btn-register hvr-sweep-to-right pull-right">
-              Next </button>
+              (click)="putWarehouseInfo()" class="btn btn-primary btn-register hvr-sweep-to-right pull-right pl-5 pr-5">
+              PROCEED </button>
           </div>
         </div>
       </section>

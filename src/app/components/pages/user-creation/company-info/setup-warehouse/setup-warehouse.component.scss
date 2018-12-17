@@ -168,5 +168,13 @@
             font-size: $font-size-medium;
             text-transform: uppercase;
         }
+        .back {
+            font-family: $font-proxima;
+            font-size: $font-size-medium;
+            color: $color-topmenu;
+            font-weight: $font-weight-mid;
+            text-transform: uppercase;
+            line-height: 1;
+        }
     }
 }
