@@ -80,7 +80,7 @@
 
                     img {
                         border-radius: 4px;
-                        border: 1px solid #d5dade;
+                        border: 1px solid $input-border;
                         width: 100%;
                         min-height: 100%;
                         max-height: 10rem;
@@ -89,7 +89,7 @@
                     }
                     video {
                         border-radius: 4px;
-                        border: 1px solid #d5dade;
+                        border: 1px solid $input-border;
                         width: 100%;
                         min-height: 100%;
                         max-height: 10rem;
@@ -101,8 +101,12 @@
                         top: -6px;
                         right: -6px;
                         min-height: auto;
-                        background: #fff;
+                        background: $white-color;
                         padding: 3px;
+                        border-radius: 50%;
+                        width: 23px;
+                        height: auto;
+                        border: none;
                     }
                 }
             }

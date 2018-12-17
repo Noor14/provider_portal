@@ -104,7 +104,7 @@ export class SetupWarehouseComponent implements OnInit {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
       this.warehouseId = localStorage.getItem('warehouseId');
-      this.getWarehouseInfo(this.warehouseId, this.userProfile.UserID);
+      this.getWarehouseInfo(this.warehouseId, this.userProfile.UserID, this.userProfile.ProviderID);
     }
     this.locationForm = new FormGroup({
       city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
@@ -217,8 +217,8 @@ export class SetupWarehouseComponent implements OnInit {
 
     });
   }
-  getWarehouseInfo(warehouseId, userID) {
-    this.warehouseService.getWarehouseData(warehouseId = 0, userID).subscribe((res: any) => {
+  getWarehouseInfo(warehouseId, userID, providerID) {
+    this.warehouseService.getWarehouseData(warehouseId = 0, userID, providerID).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.wareHouseCat = res.returnObject.WHCategories;
         this.wareHouseUsageType = res.returnObject.WarehouseUsageType;

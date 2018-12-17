@@ -70,7 +70,7 @@
                           </video>
                           <img class="animated fadeIn" *ngIf="doc.DocumentUploadedFileType != 'mp4'" [src]="doc.DocumentFile"
                             alt="related_images">
-                          <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer delete-icon"
+                          <img src="../../../../../../assets/images/icons/media-del.svg" alt="del" class="pointer delete-icon"
                             (click)="removeSelectedDocx(i, doc)">
                         </div>
                       </div>
@@ -212,6 +212,7 @@
                   <div class="form-group">
                     <label>Racking</label>
                     <select class="form-control" formControlName="racking">
+                      <option value="" disabled selected>eg: 2 High</option>
                       <option *ngFor="let rack of racking">{{rack.UnitTypeCode}}</option>
                     </select>
                   </div>
