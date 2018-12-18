@@ -569,7 +569,6 @@ input[type="checkbox"]:focus+label>span {
             box-shadow: none !important;
         }
         &:-moz-focusring {
-            border: none;
             box-shadow: none;
         }
         &::-ms-clear,
@@ -583,6 +582,9 @@ input[type="checkbox"]:focus+label>span {
             border-top-right-radius: 0 !important;
             border-bottom-right-radius: 0 !important;
             border-right: 1px solid $input-border;
+        }
+        &[type="time"] {
+            line-height: 2 !important;
         }
     }
     select {
