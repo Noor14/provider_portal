@@ -7,7 +7,7 @@ export class WarehouseService {
 
   constructor(private _http: HttpClient) { }
 
-  getWarehouseData(wid, userId) {
+  getWarehouseData(userId, wid) {
     let url: string = `warehousesetup/Get/${wid}/${userId}`;
     return this._http.get(baseApi + url);
   }

@@ -2,7 +2,7 @@
   <h3 class="m-0">Setup Warehouses</h3>
   <p class="sub-title mt-2 mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting
     <br> industry It has survived not only five centuries </p>
-  <ngx-stepper #stepper class="warehouse-stepper">
+  <ngx-stepper #stepper class="warehouse-stepper" [activeStep]="activeStep">
     <ngx-step [label]="'SELECT CATEGORY'">
       <section class="stepOne">
         <h5 class="mt-3 pt-2">Supported Category</h5>
@@ -10,8 +10,7 @@
         <hr class="hr-solid">
         <div class="row">
           <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 mb-3 mt-3" *ngFor="let cat of wareHouseCat">
-            <div #selectCategory class="setup-service text-center d-flex flex-column justify-content-center pointer"
-              (click)="categorySelection(cat, selectCategory)">
+            <div #selectCategory class="setup-service text-center d-flex flex-column justify-content-center pointer" [ngClass]="{'active': cat.IsSelected}" (click)="categorySelection(cat, selectCategory)">
               <span class="pb-2">
                 <img src="{{'../../../../../assets/images/shipping/' + cat.ShippingCatImage}}"> </span>
               <span> {{cat.ShippingCatName}} </span>
@@ -304,8 +303,13 @@
                 <div class="col-lg-12 col-md-12 col-sm-12">
                   <div class="form-group">
                     <label>City</label>
-                    <input type="text" maxlength="100" class="form-control" placeholder="Enter City" #searchCity
-                      formControlName="city" (focus)="cityError=false" (focusout)="errorValidate()" [ngClass]="{'inputError': locationForm.controls['city'].errors &&  cityError}">
+                    <div class="flag-container">
+                    <img *ngIf="selectedCity && selectedCity.imageName" src="{{'../../../../../assets/images/flags/4x3/' + (locationForm.controls['city'].value.imageName | lowercase) + '.svg'}}"
+                      type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                    </div>
+                    <input type="text" id="typeahead" maxlength="100" class="form-control" placeholder="Enter City" formControlName="city" (focus)="cityError=false"
+                       [(ngModel)]="selectedCity" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (focusout)="errorValidate()" [ngClass]="{'inputError': locationForm.controls['city'].errors &&  cityError}"
+                       (ngModelChange)="(selectedCity && selectedCity.imageName)? getmapPlace(selectedCity) : return">
                     <span class="animated fadeIn" *ngIf="cityError">
                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">{{requiredFields}}</p>
                       <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
@@ -315,6 +319,14 @@
                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('pattern') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">Please
                         enter valid information</p>
                     </span>
+                    <ng-template #rt let-r="result">
+                      <div class="d-flex">
+                        <div class="flag-container mr-1 flag-icon-20-12">
+                          <img src="{{'../../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
+                        </div>
+                        <ngb-highlight [result]="r.title"></ngb-highlight>
+                      </div>
+                    </ng-template>
                   </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -371,7 +383,7 @@
           </div>
           <div class="col-6 map">
             <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
-              <agm-marker [latitude]="location.lat" [longitude]="location.lng" [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
+              <agm-marker *ngIf="selectedCity && selectedCity.imageName" [latitude]="location.lat" [longitude]="location.lng" [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
             </agm-map>
           </div>
         </div>
@@ -388,16 +400,16 @@
                   <div class="col-3">
                     <div class="form-group">
                       <div class="input-group">
-                        <input class="form-control" (click)="from.toggle()" (clickOutside)="from.close()" [minDate]="mindate()"
-                          formControlName="fromdate" placeholder="From" ngbDatepicker #from="ngbDatepicker">
+                        <input class="form-control" (click)="from.toggle()" (clickOutside)="from.close()" [exclude]="'.ngb-dp-header'"  [minDate]="mindate()" formControlName="fromdate"
+                          placeholder="From" ngbDatepicker #from="ngbDatepicker">
                       </div>
                     </div>
                   </div>
                   <div class="col-3">
                     <div class="form-group">
                       <div class="input-group">
-                        <input class="form-control" (click)="to.toggle()" (clickOutside)="to.close()" [minDate]="mindate()"
-                          formControlName="todate" placeholder="To" ngbDatepicker #to="ngbDatepicker">
+                        <input class="form-control" (click)="to.toggle()" (clickOutside)="to.close()" [exclude]="'.ngb-dp-header'" [minDate]="(!wareHouseAvailableForm.controls['whavailable'].value[i].fromdate)? mindate() : wareHouseAvailableForm.controls['whavailable'].value[i].fromdate" formControlName="todate"
+                          placeholder="To" ngbDatepicker #to="ngbDatepicker">
                       </div>
                     </div>
                   </div>
@@ -413,8 +425,9 @@
           </div>
         </div>
         <div class="row mt-5">
-          <div class="col-6 mt-3 d-flex align-self-center">
-            <a (click)="backToCategory()" *ngIf="stepper.activeStep" class="back" href="javascript:;" (click)="previousForm()">
+          <div class="col-6 mt-3">
+            <a (click)="backToCategory()" *ngIf="stepper.activeStep" class="back" href="javascript:;">
+              <img alt="icons" class="icon-size-16" src="../../../assets/images/icons/icon_arrow_left.svg">
               <span>Go Back</span>
             </a>
           </div>

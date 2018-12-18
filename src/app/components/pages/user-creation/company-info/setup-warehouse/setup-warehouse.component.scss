@@ -146,6 +146,15 @@
                 }
             }
         }
+           ngb-typeahead-window {
+            max-height: 200px;
+            overflow-y: auto;
+            .dropdown-item {
+                &.active,
+                &:active {
+                    background: $primary-grey;
+                }
+          
         agm-map {
             height: 336px;
             width: 100%;
