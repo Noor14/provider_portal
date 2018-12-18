@@ -12,6 +12,11 @@ export class CommonService {
     return this._http.get(baseApi + url);
   }
 
+  getCities() {
+    let url: string = "City/GetDropDownDetail/0";
+    return this._http.get(baseApi + url);
+  }
+
   translatedLanguage(sourceLanguage, targetLanguage, text) {
     const params = new HttpParams()
     .set('source', sourceLanguage)

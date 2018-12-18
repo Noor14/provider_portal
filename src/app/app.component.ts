@@ -49,6 +49,18 @@ export class AppComponent implements OnInit{
         }
       });
 
+    this._commonService.getCities().subscribe((res: any) => {
+      if (res && res.length) {
+        console.log(res)
+        res.map((obj) => {
+          if (typeof (obj.desc) == "string") {
+            obj.desc = JSON.parse(obj.desc);
+          }
+        })
+        this._sharedService.cityList.next(res);
+      }
+    });
+
     this._commonService.getBrowserlocation().subscribe((state:any)=>{
       if(state.status == "success"){
         this._sharedService.setMapLocation(state);

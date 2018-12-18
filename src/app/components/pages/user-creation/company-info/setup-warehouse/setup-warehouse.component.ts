@@ -13,7 +13,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UserCreationService } from '../../user-creation.service';
 import { MapsAPILoader } from '@agm/core';
 import { loading } from '../../../../../constants/globalFunctions';
-
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 @Component({
   selector: 'app-setup-warehouse',
   templateUrl: './setup-warehouse.component.html',
@@ -34,6 +35,9 @@ import { loading } from '../../../../../constants/globalFunctions';
 export class SetupWarehouseComponent implements OnInit {
   @ViewChild('stepper') public _stepper: any;
   @ViewChild('searchCity') public searchElement: ElementRef;
+
+  public activeStep = 0;
+  public cityList:any[]=[];
   public wareHouseCat: any[];
   public categoryIds: any[] = [];
   public whFacilitation: any[] = [];
@@ -57,9 +61,14 @@ export class SetupWarehouseComponent implements OnInit {
     lat: undefined,
     lng: undefined
   };
+  public selectedCity = {
+    id: undefined,
+    imageName: undefined,
+    title: undefined,
+  }
   public geoCoder;
   public zoomlevel: number = 5;
-  public draggable: boolean = true;
+  public draggable: boolean = false;
 
   public rackedStorage: boolean = false;
   public bulkStorage: boolean = false;
@@ -128,7 +137,7 @@ export class SetupWarehouseComponent implements OnInit {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
       this.warehouseId = localStorage.getItem('warehouseId');
-      this.getWarehouseInfo(this.warehouseId, this.userProfile.UserID, this.userProfile.ProviderID);
+      this.getWarehouseInfo(this.userProfile.UserID, this.warehouseId);
     }
     this.locationForm = new FormGroup({
       city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
@@ -159,9 +168,13 @@ export class SetupWarehouseComponent implements OnInit {
     this._sharedService.getLocation.subscribe((state: any) => {
       if (state && state.country) {
         this.getMapLatlng(state.country);
-        this.getplacemapLoc()
+        // this.getplacemapLoc()
       }
     })
+
+    this._sharedService.cityList.subscribe((state: any) => {
+      this.cityList = state;
+    });
 
   }
 
@@ -191,16 +204,6 @@ export class SetupWarehouseComponent implements OnInit {
       this.poBoxError = true;
     }
   }
-
-
-
-
-
-
-
-
-
-
 
 
   createFields() {
@@ -249,31 +252,40 @@ export class SetupWarehouseComponent implements OnInit {
       console.log(err);
     })
   }
-  getplacemapLoc() {
-    this.mapsAPILoader.load().then(() => {
-      this.geoCoder = new google.maps.Geocoder;
-      let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, );
-      autocomplete.setComponentRestrictions({ 'country': [] });
-      autocomplete.setTypes(['(cities)']);
-      autocomplete.addListener("place_changed", () => {
-        this.ngZone.run(() => {
-          //get the place result
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-          // console.log(place)
-          this.locationForm.controls['city'].setValue(place.formatted_address);
-          //verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
-          //set latitude, longitude and zoom
-          this.location.lat = place.geometry.location.lat();
-          this.location.lng = place.geometry.location.lng();
-          this.zoomlevel = 14;
-        });
-      });
-    });
-
+  getmapPlace(obj){
+    this._userCreationService.getLatlng(obj.title).subscribe((res: any) => {
+        if (res.status == "OK") {
+          this.location = res.results[0].geometry.location;
+        }
+      }, (err: HttpErrorResponse) => {
+        console.log(err);
+      })
   }
+  // getplacemapLoc() {
+  //   this.mapsAPILoader.load().then(() => {
+  //     this.geoCoder = new google.maps.Geocoder;
+  //     let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, );
+  //     autocomplete.setComponentRestrictions({ 'country': [] });
+  //     autocomplete.setTypes(['(cities)']);
+  //     autocomplete.addListener("place_changed", () => {
+  //       this.ngZone.run(() => {
+  //         //get the place result
+  //         let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+  //         // console.log(place)
+  //         this.locationForm.controls['city'].setValue(place.formatted_address);
+  //         //verify result
+  //         if (place.geometry === undefined || place.geometry === null) {
+  //           return;
+  //         }
+  //         //set latitude, longitude and zoom
+  //         this.location.lat = place.geometry.location.lat();
+  //         this.location.lng = place.geometry.location.lng();
+  //         this.zoomlevel = 14;
+  //       });
+  //     });
+  //   });
+
+  // }
   markerDragEnd($event) {
     // console.log($event);
     this.geoCoder.geocode({ 'location': { lat: $event.coords.lat, lng: $event.coords.lng } }, (results, status) => {
@@ -294,9 +306,9 @@ export class SetupWarehouseComponent implements OnInit {
 
     });
   }
-  getWarehouseInfo(warehouseId, userID, providerId) {
+  getWarehouseInfo(userID, warehouseId = 0) {
     loading(true);
-    this.warehouseService.getWarehouseData(warehouseId = 0, userID, providerId).subscribe((res: any) => {
+    this.warehouseService.getWarehouseData(userID, warehouseId).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         loading(false);
         this.wareHouseCat = res.returnObject.WHCategories;
@@ -308,6 +320,9 @@ export class SetupWarehouseComponent implements OnInit {
         this.racking = res.returnObject.Racking;
         this.maxRackWeight = res.returnObject.MaxRackWeight;
         this.uploadDocs = res.returnObject.documentType;
+        if (res.returnObject.UserProfileStatus == 'Warehouse Pending'){
+          this.activeStep = 1;
+        }
         this.setDefaultValue();
       }
     }, (err: HttpErrorResponse) => {
@@ -440,8 +455,8 @@ export class SetupWarehouseComponent implements OnInit {
       whAddress: this.locationForm.value.addressline1,
       whAddress2: this.locationForm.value.addressline2,
       whPOBoxNo: this.locationForm.value.poBox,
-      countryID: 100,
-      cityID: 100,
+      countryID: this.locationForm.value.city.desc[0].CountryID,
+      cityID: this.locationForm.value.city.id,
       gLocID: null,
       latitude: this.location.lat,
       longitude: this.location.lng,
@@ -638,7 +653,13 @@ export class SetupWarehouseComponent implements OnInit {
     this._stepper.prev();
   }
 
-
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 3) ? []
+        : this.cityList.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1))
+    )
+  formatter = (x: { title: string }) => x.title;
 
 }
 
