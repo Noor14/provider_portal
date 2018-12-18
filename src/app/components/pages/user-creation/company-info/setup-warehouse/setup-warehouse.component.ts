@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgZone, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, ElementRef, ViewEncapsulation, ChangeDetectorRef, AfterViewChecked  } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { WarehouseService } from './warehouse.service';
@@ -32,7 +32,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     ])
   ]
 })
-export class SetupWarehouseComponent implements OnInit {
+export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
   @ViewChild('stepper') public _stepper: any;
   @ViewChild('searchCity') public searchElement: ElementRef;
 
@@ -122,9 +122,11 @@ export class SetupWarehouseComponent implements OnInit {
     private _userCreationService: UserCreationService,
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
-
+    private cdRef: ChangeDetectorRef
   ) { }
-
+  ngAfterViewChecked() {
+    this.cdRef.detectChanges();
+  }
   ngOnInit() {
   let date = new Date();
   this.minDate = {
@@ -136,7 +138,7 @@ export class SetupWarehouseComponent implements OnInit {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
-      this.warehouseId = localStorage.getItem('warehouseId');
+      this.warehouseId = (localStorage.getItem('warehouseId')) ? localStorage.getItem('warehouseId') : 0
       this.getWarehouseInfo(this.userProfile.UserID, this.warehouseId);
     }
     this.locationForm = new FormGroup({
@@ -306,7 +308,7 @@ export class SetupWarehouseComponent implements OnInit {
 
     });
   }
-  getWarehouseInfo(userID, warehouseId = 0) {
+  getWarehouseInfo(userID, warehouseId) {
     loading(true);
     this.warehouseService.getWarehouseData(userID, warehouseId).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
@@ -333,6 +335,7 @@ export class SetupWarehouseComponent implements OnInit {
   }
 
   setDefaultValue(){
+    this.categoryIds = this.wareHouseCat.filter(elem => elem.IsSelected);
     this.generalForm.controls['whAreaUnit'].setValue(this.areaUnits.filter(elem => elem.UnitTypeCode == 'sqft')[0].UnitTypeCode);
     this.rackStorageForm.controls['racking'].setValue(this.racking.filter(elem => elem.UnitTypeCode == '2 High')[0].UnitTypeCode);
     this.rackStorageForm.controls['maxHeight'].setValue(this.maxHeight.filter(elem => elem.UnitTypeCode == '4ft or less')[0].UnitTypeCode);
@@ -359,7 +362,7 @@ export class SetupWarehouseComponent implements OnInit {
     let selectedItem = selectedCategory.classList;
     if (this.categoryIds && this.categoryIds.length) {
       for (var i = 0; i < this.categoryIds.length; i++) {
-        if (this.categoryIds[i].shippingCatID == obj.ShippingCatID) {
+        if (this.categoryIds[i].ShippingCatID == obj.ShippingCatID) {
           this.categoryIds.splice(i, 1);
           selectedItem.remove('active');
           return;
@@ -369,7 +372,7 @@ export class SetupWarehouseComponent implements OnInit {
     }
     if ((this.categoryIds && !this.categoryIds.length) || (i == this.categoryIds.length)) {
       selectedItem.add('active');
-      this.categoryIds.push({ shippingCatID: obj.ShippingCatID });
+      this.categoryIds.push(obj);
     }
 
   }

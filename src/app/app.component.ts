@@ -51,7 +51,6 @@ export class AppComponent implements OnInit{
 
     this._commonService.getCities().subscribe((res: any) => {
       if (res && res.length) {
-        console.log(res)
         res.map((obj) => {
           if (typeof (obj.desc) == "string") {
             obj.desc = JSON.parse(obj.desc);
