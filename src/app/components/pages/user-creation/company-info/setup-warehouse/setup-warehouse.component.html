@@ -293,7 +293,7 @@
                     </div>
                     <input type="text" id="typeahead" maxlength="100" class="form-control" placeholder="Enter City" formControlName="city" (focus)="cityError=false"
                        [(ngModel)]="selectedCity" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (focusout)="errorValidate()" [ngClass]="{'inputError': locationForm.controls['city'].errors &&  cityError}"
-                       (ngModelChange)="(selectedCity && selectedCity.imageName)? getmapPlace(selectedCity) : return">
+                       (ngModelChange)="(selectedCity && selectedCity.imageName)? getmapPlace(selectedCity) : 'return'">
                     <span class="animated fadeIn" *ngIf="cityError">
                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">{{requiredFields}}</p>
                       <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City should be minimum 3 characters</p>
