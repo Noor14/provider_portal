@@ -308,6 +308,12 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
 
     });
   }
+  validateAddCalender(): boolean{
+    let obj = this.wareHouseAvailableForm.value.whavailable;
+    for (let index = 0; index < obj.length; index++) {
+      if(!obj[index].fromdate || !obj[index].todate) return  true;
+    }
+  }
   getWarehouseInfo(userID, warehouseId) {
     loading(true);
     this.warehouseService.getWarehouseData(userID, warehouseId).subscribe((res: any) => {
@@ -322,9 +328,7 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
         this.racking = res.returnObject.Racking;
         this.maxRackWeight = res.returnObject.MaxRackWeight;
         this.uploadDocs = res.returnObject.documentType;
-        if (res.returnObject.UserProfileStatus == 'Warehouse Pending'){
-          this.activeStep = 1;
-        }
+        this.activeStep = (res.returnObject.UserProfileStatus == 'Warehouse Pending')? 1 : 0;
         this.setDefaultValue();
       }
     }, (err: HttpErrorResponse) => {

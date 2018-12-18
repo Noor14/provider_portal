@@ -373,7 +373,7 @@
                   <div class="col-3">
                     <div class="form-group">
                       <div class="input-group">
-                        <input class="form-control" (click)="from.toggle()" (clickOutside)="from.close()" [exclude]="'.ngb-dp-header'"  [minDate]="mindate()" formControlName="fromdate"
+                        <input class="form-control" (click)="from.toggle()"  [minDate]="mindate()" formControlName="fromdate"
                           placeholder="From" ngbDatepicker #from="ngbDatepicker">
                       </div>
                     </div>
@@ -381,7 +381,7 @@
                   <div class="col-3">
                     <div class="form-group">
                       <div class="input-group">
-                        <input class="form-control" (click)="to.toggle()" (clickOutside)="to.close()" [exclude]="'.ngb-dp-header'" [minDate]="(!wareHouseAvailableForm.controls['whavailable'].value[i].fromdate)? mindate() : wareHouseAvailableForm.controls['whavailable'].value[i].fromdate" formControlName="todate"
+                        <input class="form-control" (click)="to.toggle()"  [minDate]="(!wareHouseAvailableForm.controls['whavailable'].value[i].fromdate)? mindate() : wareHouseAvailableForm.controls['whavailable'].value[i].fromdate" formControlName="todate"
                           placeholder="To" ngbDatepicker #to="ngbDatepicker">
                       </div>
                     </div>
@@ -390,9 +390,8 @@
                     <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="remove" (click)="removeSeason(i)" class="pointer icon-size-16">
                   </div>
                 </div>
-
               </div>
-              <button class="hvr-icon-back grey-anc-btn add-hours" [disabled]="wareHouseAvailableForm.invalid" (click)="addSeasons()">Add </button>
+              <button class="hvr-icon-back grey-anc-btn add-hours" [disabled]="validateAddCalender()" (click)="addSeasons()">Add </button>
             </form>
           </div>
         </div>
