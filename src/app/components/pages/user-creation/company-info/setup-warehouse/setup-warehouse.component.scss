@@ -224,10 +224,13 @@
         }
         ngb-datepicker {
             top: -270px !important;
-            border: 1px solid #00a2df;
+            border: 1px solid $primary-color;
             .bg-light {
                 background: none !important;
                 .btn {
+                    &:hover {
+                        box-shadow: none !important;
+                    }
                     &:disabled {
                         background: none !important;
                         border: none;
@@ -238,17 +241,17 @@
                 .ngb-dp-weekdays {
                     border: none;
                     .ngb-dp-weekday {
-                        color: #777777;
+                        color: $color-date;
                         font-style: normal;
                     }
                 }
                 .ngb-dp-week {
                     .text-muted, .btn-light {
                         font-size: .875rem;
-                        &.active {
-                            background: $primary-color;
-                            border-radius: 10px 0;
-                            color: $white-color;
+                        &.active, &.bg-primary {
+                            background: $primary-color !important;
+                            border-radius: 10px 0 !important;
+                            color: $white-color !important;
                         }
                         &:hover {
                             border-radius: 10px 0;
@@ -257,7 +260,7 @@
                     div {
                         &:nth-last-child(1) {
                             .btn-light {
-                                color: red !important;
+                                color: $danger-color !important;
                             }
                         }
                     }
@@ -306,6 +309,8 @@
             font-family: $font-proxima;
             font-size: .75rem;
             text-transform: uppercase;
+            outline: 0;
+            cursor: auto;
             &:before {
                 content: url("../../../../../../assets/images/icons/icon_add.svg");
                 position: absolute;
@@ -313,6 +318,10 @@
                 top: 1px;
                 width: 16px;
                 height: 16px;
+            }
+            &[disabled] {
+                -webkit-filter: grayscale(100%);
+                filter: grayscale(100%);
             }
         }
         .racked {
