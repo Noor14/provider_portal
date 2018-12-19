@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgZone, ElementRef, ViewEncapsulation, ChangeDetectorRef, AfterViewChecked  } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, ElementRef, ViewEncapsulation, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { WarehouseService } from './warehouse.service';
@@ -15,6 +15,8 @@ import { MapsAPILoader } from '@agm/core';
 import { loading } from '../../../../../constants/globalFunctions';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
   selector: 'app-setup-warehouse',
   templateUrl: './setup-warehouse.component.html',
@@ -37,19 +39,20 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
   @ViewChild('searchCity') public searchElement: ElementRef;
 
   public activeStep = 0;
-  public cityList:any[]=[];
+  public cityList: any[] = [];
   public wareHouseCat: any[];
   public categoryIds: any[] = [];
   public whFacilitation: any[] = [];
   public warehouseId;
   public wareHouseUsageType: any[] = [];
   public warehouseFacilities: any[] = [];
-  private seasonAvaiablility:any[]=[];
+  private seasonAvaiablility: any[] = [];
   public areaUnits: any[] = [];
   public weightUnits: any[] = [];
   public maxHeight: any[] = [];
   public maxRackWeight: any[] = [];
   public racking: any[] = [];
+  public selectedDays: any[] = [];
   public weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
   public config: NgFilesConfig = {
     acceptExtensions: ['jpeg', 'jpg', 'png', 'bmp', 'mp4', 'avi'],
@@ -83,7 +86,7 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
   public wareHouseAvailableForm;
 
   public userProfile;
-  public wareHouseType :any;
+  public wareHouseType: any;
   public requiredFields: string = "This field is required";
   public dropdownSettings = {
     singleSelection: false,
@@ -92,26 +95,26 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
     selectAllText: 'Every Day',
     unSelectAllText: 'Every Day',
     itemsShowLimit: 3,
-    allowSearchFilter: true
+    allowSearchFilter: false
   };
 
- public minDate : any; 
+  public minDate: any;
 
 
 
 
 
 
-//  errorFields
+  //  errorFields
 
-  public whnameError:boolean = false;
+  public whnameError: boolean = false;
   public whAreaError: boolean = false;
   public palletRackError: boolean = false;
   public palletBulkError: boolean = false;
   public cityError: boolean = false;
   public addressline1Error: boolean = false;
   public addressline2Error: boolean = false;
-  public poBoxError:boolean = false;
+  public poBoxError: boolean = false;
 
   constructor(
     private warehouseService: WarehouseService,
@@ -122,18 +125,20 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
     private _userCreationService: UserCreationService,
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private _router: Router,
+    
   ) { }
   ngAfterViewChecked() {
     this.cdRef.detectChanges();
   }
   ngOnInit() {
-  let date = new Date();
-  this.minDate = {
-    year: date.getFullYear(),
-    month: date.getMonth() + 1,
-    day: date.getDate()
-  };
+    let date = new Date();
+    this.minDate = {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate()
+    };
     this.ngFilesService.addConfig(this.config, 'docConfig');
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
@@ -210,9 +215,9 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
 
   createFields() {
     return new FormGroup({
-      fromHour: new FormControl(null),
-      toHour: new FormControl(null),
-      days: new FormControl(null),
+      fromHour: new FormControl(null, Validators.required),
+      toHour: new FormControl(null, Validators.required),
+      days: new FormControl(null, Validators.required),
     })
   }
   createFieldsSeason() {
@@ -239,8 +244,34 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
     control.removeAt(index);
   }
 
-  onItemSelect(item: any) {
-    console.log(item);
+  onItemSelect(item: any, index, action) {
+    let arrDays = this.generalForm.controls['whSchedule'].controls[index].controls['days'].value
+    if (action === 'select') {
+      if (arrDays) {
+        arrDays.push(item)
+      } else {
+        arrDays = []
+        arrDays.push(item)
+      }
+    } else if (action === 'all') {
+      if(item && item.length > 0){
+        if (arrDays) {
+          arrDays = item
+        } else {
+          arrDays = []
+          arrDays = item
+        }
+      } else {
+        arrDays = []
+      }
+    }
+    else {
+      if (arrDays) {
+        const newArr = arrDays.filter(day => day !== item)
+        arrDays = newArr
+      }
+    }
+    this.generalForm.controls['whSchedule'].controls[index].controls['days'].setValue(arrDays)
   }
   onSelectAll(items: any) {
     console.log(items);
@@ -254,14 +285,14 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
       console.log(err);
     })
   }
-  getmapPlace(obj){
+  getmapPlace(obj) {
     this._userCreationService.getLatlng(obj.title).subscribe((res: any) => {
-        if (res.status == "OK") {
-          this.location = res.results[0].geometry.location;
-        }
-      }, (err: HttpErrorResponse) => {
-        console.log(err);
-      })
+      if (res.status == "OK") {
+        this.location = res.results[0].geometry.location;
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
   }
   // getplacemapLoc() {
   //   this.mapsAPILoader.load().then(() => {
@@ -308,16 +339,16 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
 
     });
   }
-  validateAddCalender(): boolean{
+  validateAddCalender(): boolean {
     let obj = this.wareHouseAvailableForm.value.whavailable;
     for (let index = 0; index < obj.length; index++) {
-      if(!obj[index].fromdate || !obj[index].todate) return  true;
+      if (!obj[index].fromdate || !obj[index].todate) return true;
     }
   }
   validateAddDays(): boolean {
     let obj = this.generalForm.value.whSchedule;
     for (let index = 0; index < obj.length; index++) {
-      if (!obj[index].fromHour || !obj[index].toHour) return true;
+      if (!obj[index].fromHour || !obj[index].toHour || (!obj[index].days || (obj[index].days && !obj[index].days.length))) return true;
     }
   }
   getWarehouseInfo(userID, warehouseId) {
@@ -334,35 +365,35 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
         this.racking = res.returnObject.Racking;
         this.maxRackWeight = res.returnObject.MaxRackWeight;
         this.uploadDocs = res.returnObject.documentType;
-        this.activeStep = (res.returnObject.UserProfileStatus == 'Warehouse Pending')? 1 : 0;
+        this.activeStep = (res.returnObject.UserProfileStatus == 'Warehouse Pending') ? 1 : 0;
         this.setDefaultValue();
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
       loading(false);
-      
+
     })
   }
 
-  setDefaultValue(){
+  setDefaultValue() {
     this.categoryIds = this.wareHouseCat.filter(elem => elem.IsSelected);
     this.generalForm.controls['whAreaUnit'].setValue(this.areaUnits.filter(elem => elem.UnitTypeCode == 'sqft')[0].UnitTypeCode);
     this.rackStorageForm.controls['racking'].setValue(this.racking.filter(elem => elem.UnitTypeCode == '2 High')[0].UnitTypeCode);
     this.rackStorageForm.controls['maxHeight'].setValue(this.maxHeight.filter(elem => elem.UnitTypeCode == '4ft or less')[0].UnitTypeCode);
-    this.rackStorageForm.controls['rackWeight'].setValue(this.maxRackWeight.filter(elem => elem.UnitTypeCode == '1000 kg or less')[0].UnitTypeCode); 
-    this.rackStorageForm.controls['rackWeightUnit'].setValue(this.weightUnits.filter(elem => elem.UnitTypeCode == 'kg')[0].UnitTypeCode); 
+    this.rackStorageForm.controls['rackWeight'].setValue(this.maxRackWeight.filter(elem => elem.UnitTypeCode == '1000 kg or less')[0].UnitTypeCode);
+    this.rackStorageForm.controls['rackWeightUnit'].setValue(this.weightUnits.filter(elem => elem.UnitTypeCode == 'kg')[0].UnitTypeCode);
   }
-  whType(type){
+  whType(type) {
     this.wareHouseType = type;
     this.setWarehouseType();
   }
 
-  setWarehouseType(){
+  setWarehouseType() {
     this.wareHouseUsageType.forEach(elem => {
-      if (elem.UsageTypeID == this.wareHouseType.UsageTypeID){
+      if (elem.UsageTypeID == this.wareHouseType.UsageTypeID) {
         elem.IsAllowed = true;
       }
-      else{
+      else {
         elem.IsAllowed = false;
       }
     })
@@ -402,24 +433,24 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
       this.setfacilitation()
     }
   }
-  setfacilitation(){
+  setfacilitation() {
     this.warehouseFacilities.forEach(elem => elem.IsAllowed = false);
-    if (this.whFacilitation.length){
+    if (this.whFacilitation.length) {
       for (let i = 0; i < this.warehouseFacilities.length; i++) {
-        for (let y = 0; y < this.whFacilitation.length ; y++) {
-        if (this.whFacilitation[y].FacilitiesTypeID == this.warehouseFacilities[i].FacilitiesTypeID){
-          this.warehouseFacilities[i].IsAllowed = true;
+        for (let y = 0; y < this.whFacilitation.length; y++) {
+          if (this.whFacilitation[y].FacilitiesTypeID == this.warehouseFacilities[i].FacilitiesTypeID) {
+            this.warehouseFacilities[i].IsAllowed = true;
+          }
         }
       }
     }
-    }
   }
 
-  mindate(){
-    if (this.wareHouseAvailableForm.value.whavailable.length == 1){
-    return this.minDate;
+  mindate() {
+    if (this.wareHouseAvailableForm.value.whavailable.length == 1) {
+      return this.minDate;
     }
-    else{
+    else {
       let index = this.wareHouseAvailableForm.value.whavailable.length - 2;
       return this.minDate = this.wareHouseAvailableForm.value.whavailable[index].todate;
     }
@@ -429,7 +460,7 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
 
   addCategory() {
     let obj = {
-      whid: (this.warehouseId != "null" && this.warehouseId)? this.warehouseId : -1,
+      whid: (this.warehouseId != "null" && this.warehouseId) ? this.warehouseId : -1,
       providerID: this.userProfile.ProviderID,
       whCategories: this.categoryIds
     };
@@ -455,12 +486,12 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
       qty: this.rackStorageForm.value.palletBulk
     };
     this.wareHouseAvailableForm.value.whavailable.forEach(elem => {
-      if ((elem.fromdate && Object.keys(elem.fromdate).length) &&  (elem.todate && Object.keys(elem.todate).length)){
-      let obj = {
-        AvailableFromDate: elem.fromdate.month + '/' + elem.fromdate.day + '/' + elem.fromdate.year,
-        AvailableToDate: elem.todate.month + '/' + elem.todate.day + '/' + elem.todate.year
-      }
-      this.seasonAvaiablility.push(obj);
+      if ((elem.fromdate && Object.keys(elem.fromdate).length) && (elem.todate && Object.keys(elem.todate).length)) {
+        let obj = {
+          AvailableFromDate: elem.fromdate.month + '/' + elem.fromdate.day + '/' + elem.fromdate.year,
+          AvailableToDate: elem.todate.month + '/' + elem.todate.day + '/' + elem.todate.year
+        }
+        this.seasonAvaiablility.push(obj);
       }
     });
     let obj = {
@@ -492,17 +523,17 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
           OpeningTime: "09:00 am",
           ClosingTime: "09:00 pm",
           IsClosed: true
-        },        {
+        }, {
           DayName: "Wednesday",
           OpeningTime: "09:00 am",
           ClosingTime: "09:00 pm",
           IsClosed: false
-        },        {
+        }, {
           DayName: "Thursday",
           OpeningTime: "09:00 am",
           ClosingTime: "09:00 pm",
           IsClosed: false
-        },        {
+        }, {
           DayName: "Friday",
           OpeningTime: "09:00 am",
           ClosingTime: "09:00 pm",
@@ -521,8 +552,8 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
           IsClosed: false
         }
       ],
-      warehouseRackedStorage: (this.rackedStorage)? rackStorageObj : null,
-      warehouseBulkStorage: (this.bulkStorage)? bulkStorageObj : null,
+      warehouseRackedStorage: (this.rackedStorage) ? rackStorageObj : null,
+      warehouseBulkStorage: (this.bulkStorage) ? bulkStorageObj : null,
       whAvailability: this.seasonAvaiablility
 
     }
@@ -530,7 +561,8 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
       if (res.returnStatus == 'Success') {
         console.log(res);
         loading(false);
-        this._stepper.next();
+        this._router.navigate(['warehouse-list'])
+        // this._stepper.next();
       }
     })
   }

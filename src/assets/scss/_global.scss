@@ -762,7 +762,7 @@ input[type="checkbox"]:focus+label>span {
             border-radius: 4px;
             border: 1px solid $provider-input-border;
             position: relative;
-            .social-link-field{
+            .social-link-field {
                 .social-place-label {
                     position: absolute;
                     left: 48px;
@@ -1164,12 +1164,8 @@ select {
         }
     }
     .dropdown-list {
-        .filter-textbox {
-            display:none;
-            input {
-                line-height: 0 !important;
-                height: auto !important;
-            }
+        .item1 {
+            display: none;
         }
     }
 }
