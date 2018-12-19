@@ -78,7 +78,6 @@
                     height: 100%;
                     display: flex;
                     padding: 0 0.5rem;
-
                     img {
                         border-radius: 4px;
                         border: 1px solid $input-border;
@@ -117,28 +116,34 @@
                 .dropdown-btn {
                     background: $color-white;
                     border-color: $provider-input-border;
+                    >.ng-star-inserted {
+                        color: $place-holder-color;
+                        opacity: 1;
+                        font-family: $font-proxima;
+                        font-size: 14px;
+                    }
                     .selected-item {
-                        background: $primary-color !important;
-                        border-color: $primary-color !important;
+                        background: $secondary-color !important;
+                        border-color: $secondary-color !important;
                     }
                 }
                 .dropdown-list {
-                    box-shadow: 0 1px 5px $primary-color;
-                    border-color: $primary-color;
+                    box-shadow: 0 1px 5px $secondary-color;
+                    border-color: $secondary-color;
                     ul {
                         li {
                             input {
                                 &:checked {
                                     &+div {
                                         &:before {
-                                            background: $primary-color;
+                                            background: $secondary-color;
                                         }
                                     }
                                 }
                             }
                             >div {
                                 &:before {
-                                    border-color: $primary-color;
+                                    border-color: $secondary-color;
                                 }
                             }
                         }
@@ -156,7 +161,7 @@
                 }
             }
         }
-        .select-city{
+        .select-city {
             >.flag-container {
                 width: 16px;
                 height: 12px;
@@ -169,8 +174,7 @@
                 img {
                     border: 1px solid #ccc;
                 }
-            }
-            // input {
+            } // input {
             //     &.ng-untouched, &.ng-dirty, &.open{
             //         padding-left: .75rem !important;
             //     }
@@ -178,17 +182,16 @@
             //         padding-left: 30px !important;
             //     }
             // }
-
             input#typeahead {
-                &.ng-valid, &.ng-dirty {
+                &.ng-valid,
+                &.ng-dirty {
                     padding-left: 1.8rem;
                 }
                 &.ng-untouched {
                     &.ng-pristine {
-                        &.ng-valid 
-                            {
-                                padding-left: .75rem;
-                            }
+                        &.ng-valid {
+                            padding-left: .75rem;
+                        }
                     }
                 }
                 &.ng-pristine {
@@ -209,7 +212,8 @@
                 }
                 &.ng-touched {
                     &.ng-dirty {
-                        &.ng-invalid, &.inputError {
+                        &.ng-invalid,
+                        &.inputError {
                             padding-left: .75rem;
                         }
                     }
@@ -246,9 +250,11 @@
                     }
                 }
                 .ngb-dp-week {
-                    .text-muted, .btn-light {
+                    .text-muted,
+                    .btn-light {
                         font-size: .875rem;
-                        &.active, &.bg-primary {
+                        &.active,
+                        &.bg-primary {
                             background: $primary-color !important;
                             border-radius: 10px 0 !important;
                             color: $white-color !important;
@@ -321,6 +327,7 @@
             &[disabled] {
                 -webkit-filter: grayscale(100%);
                 filter: grayscale(100%);
+                cursor: context-menu;
             }
         }
         .racked {
