@@ -116,7 +116,7 @@
                 .dropdown-btn {
                     background: $color-white;
                     border-color: $provider-input-border;
-                    >.ng-star-inserted {
+                    &:first-child {
                         color: $place-holder-color;
                         opacity: 1;
                         font-family: $font-proxima;
@@ -183,40 +183,8 @@
             //     }
             // }
             input#typeahead {
-                &.ng-valid,
-                &.ng-dirty {
+                &.citySelected {
                     padding-left: 1.8rem;
-                }
-                &.ng-untouched {
-                    &.ng-pristine {
-                        &.ng-valid {
-                            padding-left: .75rem;
-                        }
-                    }
-                }
-                &.ng-pristine {
-                    &.ng-valid {
-                        &.ng-touched {
-                            padding-left: .75rem;
-                        }
-                    }
-                }
-                &.ng-touched {
-                    &.ng-dirty {
-                        &.ng-valid {
-                            &.open {
-                                padding-left: .75rem;
-                            }
-                        }
-                    }
-                }
-                &.ng-touched {
-                    &.ng-dirty {
-                        &.ng-invalid,
-                        &.inputError {
-                            padding-left: .75rem;
-                        }
-                    }
                 }
             }
         }
