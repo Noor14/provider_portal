@@ -339,18 +339,7 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
 
     });
   }
-  validateAddCalender(): boolean {
-    let obj = this.wareHouseAvailableForm.value.whavailable;
-    for (let index = 0; index < obj.length; index++) {
-      if (!obj[index].fromdate || !obj[index].todate) return true;
-    }
-  }
-  validateAddDays(): boolean {
-    let obj = this.generalForm.value.whSchedule;
-    for (let index = 0; index < obj.length; index++) {
-      if (!obj[index].fromHour || !obj[index].toHour || (!obj[index].days || (obj[index].days && !obj[index].days.length))) return true;
-    }
-  }
+
   getWarehouseInfo(userID, warehouseId) {
     loading(true);
     this.warehouseService.getWarehouseData(userID, warehouseId).subscribe((res: any) => {

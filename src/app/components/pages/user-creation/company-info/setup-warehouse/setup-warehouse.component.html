@@ -157,7 +157,7 @@
                 </div>
                 <div class="col-12">
                   <button class="add-hours pointer" *ngIf="generalForm.controls['whSchedule'].controls.length < 7"
-                    [disabled]="validateAddDays()" (click)="addDays()">Add</button>
+                    [disabled]="generalForm.controls['whSchedule'].invalid" (click)="addDays()">Add</button>
                 </div>
               </div>
             </form>
@@ -422,7 +422,7 @@
                   </div>
                 </div>
               </div>
-              <button class="add-hours pointer" [disabled]="validateAddCalender()" (click)="addSeasons()">Add</button>
+              <button class="add-hours pointer" [disabled]="wareHouseAvailableForm.controls['whavailable'].invalid" (click)="addSeasons()">Add</button>
             </form>
           </div>
         </div>
