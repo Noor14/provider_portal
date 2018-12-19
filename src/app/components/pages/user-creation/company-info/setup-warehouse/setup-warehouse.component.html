@@ -309,7 +309,7 @@
                     </div>
                     <input type="text" id="typeahead" maxlength="100" class="form-control" placeholder="Enter City" formControlName="city" (focus)="cityError=false"
                        [(ngModel)]="selectedCity" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (focusout)="errorValidate()" [ngClass]="{'inputError': locationForm.controls['city'].errors &&  cityError}"
-                       (ngModelChange)="(selectedCity && selectedCity.imageName)? getmapPlace(selectedCity) : return">
+                       (ngModelChange)="(selectedCity && selectedCity.imageName)? getmapPlace(selectedCity) : 'return'">
                     <span class="animated fadeIn" *ngIf="cityError">
                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">{{requiredFields}}</p>
                       <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
@@ -400,7 +400,7 @@
                   <div class="col-3">
                     <div class="form-group">
                       <div class="input-group">
-                        <input class="form-control" (click)="from.toggle()" (clickOutside)="from.close()" [exclude]="'.ngb-dp-header'"  [minDate]="mindate()" formControlName="fromdate"
+                        <input class="form-control" (click)="from.toggle()"  [minDate]="mindate()" formControlName="fromdate"
                           placeholder="From" ngbDatepicker #from="ngbDatepicker">
                       </div>
                     </div>
@@ -408,7 +408,7 @@
                   <div class="col-3">
                     <div class="form-group">
                       <div class="input-group">
-                        <input class="form-control" (click)="to.toggle()" (clickOutside)="to.close()" [exclude]="'.ngb-dp-header'" [minDate]="(!wareHouseAvailableForm.controls['whavailable'].value[i].fromdate)? mindate() : wareHouseAvailableForm.controls['whavailable'].value[i].fromdate" formControlName="todate"
+                        <input class="form-control" (click)="to.toggle()"  [minDate]="(!wareHouseAvailableForm.controls['whavailable'].value[i].fromdate)? mindate() : wareHouseAvailableForm.controls['whavailable'].value[i].fromdate" formControlName="todate"
                           placeholder="To" ngbDatepicker #to="ngbDatepicker">
                       </div>
                     </div>
@@ -419,8 +419,7 @@
                   </div>
                 </div>
               </div>
-              <button class="hvr-icon-back grey-anc-btn add-hours" [disabled]="wareHouseAvailableForm.invalid" (click)="addSeasons()">Add
-              </button>
+              <button class="hvr-icon-back grey-anc-btn add-hours" [disabled]="validateAddCalender()" (click)="addSeasons()">Add </button>
             </form>
           </div>
         </div>
