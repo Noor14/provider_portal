@@ -43,6 +43,11 @@ export class WarehouseListComponent implements OnInit {
 
   createWarehouse(){
     localStorage.removeItem('warehouseId');
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    let userData = JSON.parse(userInfo.returnText);
+    userData.UserProfileStatus = "Warehouse Category Pending";
+    userInfo.returnText = JSON.stringify(userData);
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
     this._router.navigate(['setup-warehouse'])
   }
 
