@@ -38,7 +38,7 @@ export class UserGuard implements CanActivate {
         return this.checkOtp(otpKey);
       }
       else {
-        this.router.navigate(['/registration']);
+        this.router.navigate(['registration']);
       }
     }
 
@@ -50,28 +50,31 @@ export class UserGuard implements CanActivate {
         return this.checkPassword(otpKey);
       }
       else if (!this.islogOut){
-        this.router.navigate(['/business-profile']);    // "previous url hard code"
+        this.router.navigate(['business-profile']);    // "previous url hard code"
       }
       else{
-        this.router.navigate(['/registration']);
+        this.router.navigate(['registration']);
       }
     }
 
     // if user go to direct business profile page
     if (state.url == '/business-profile') {
       if (!this.islogOut) {
-        if (this.infoObj.UserProfileStatus == "Warehouse Pending") {
-          this.router.navigate(['/provider/dashboard']);
+        if (this.infoObj.UserProfileStatus == "Warehouse Pending" || this.infoObj.UserProfileStatus == "Warehouse Category Pending") {
+          this.router.navigate(['setup-warehouse']);
+        }
+        else if (this.infoObj.UserProfileStatus == "Dashboard") {
+          this.router.navigate(['provider/dashboard']);
         }
         else if (this.infoObj.UserProfileStatus == "Business Profile Pending") {
           return true;
         }
         else if (this.infoObj.UserProfileStatus == "Business Profile Complete") {
-          this.router.navigate(['/profile-completion']);
+          this.router.navigate(['profile-completion']);
         }
       }
       else {
-        this.router.navigate(['/registration']);
+        this.router.navigate(['registration']);
       }
     }
 
@@ -82,70 +85,88 @@ export class UserGuard implements CanActivate {
         if (this.infoObj.UserProfileStatus == "Business Profile Complete") {
           return true;
         }
-        else if (this.infoObj.UserProfileStatus == "Warehouse Pending") {
-          this.router.navigate(['/provider/dashboard']);
+        else if (this.infoObj.UserProfileStatus == "Warehouse Pending" || this.infoObj.UserProfileStatus == "Warehouse Category Pending") {
+          this.router.navigate(['setup-warehouse']);    
+        }
+        else if (this.infoObj.UserProfileStatus == "Dashboard") {
+          this.router.navigate(['provider/dashboard']);
+
         }
         else if (this.infoObj.UserProfileStatus == "Business Profile Pending") {
-          this.router.navigate(['/business-profile']);    // "previous url hard code"
+          this.router.navigate(['business-profile']);    // "previous url hard code"
         }
       }
       else {
-        this.router.navigate(['/registration']);
+        this.router.navigate(['registration']);
         return true;
       }
     }
-    // if user go to registration page
 
+    // if user go to registration page
     if (state.url == '/registration' || state.url.indexOf('registration') >= 0) {
       if (this.islogOut) {
         return true;
       }
       else {
-        if (this.infoObj.UserProfileStatus == "Warehouse Pending") {
-          this.router.navigate(['/provider/dashboard']);
+        if (this.infoObj.UserProfileStatus == "Warehouse Pending" || this.infoObj.UserProfileStatus == "Warehouse Category Pending") {
+          this.router.navigate(['setup-warehouse']);    
+        }
+        else if (this.infoObj.UserProfileStatus == "Dashboard") {
+          this.router.navigate(['provider/dashboard']);
         }
         else if (this.infoObj.UserProfileStatus == "Business Profile Pending") {
-          this.router.navigate(['/business-profile']);
+          this.router.navigate(['business-profile']);
         }
         else if (this.infoObj.UserProfileStatus == "Business Profile Complete") {
-          this.router.navigate(['/profile-completion']);
+          this.router.navigate(['profile-completion']);
         }
       }
     }
-   // if user go to user desk pages
-    if (state.url.indexOf('provider') >= 0) {
+
+    if (state.url == '/setup-warehouse') {
       if (!this.islogOut) {
-        if (this.infoObj.UserProfileStatus == "Warehouse Pending"){
+       if (this.infoObj.UserProfileStatus == "Warehouse Pending" || this.infoObj.UserProfileStatus == "Warehouse Category Pending") {
           return true;
         }
-        else if (this.infoObj.UserProfileStatus == "Business Profile Pending"){
-          this.router.navigate(['/business-profile']);
-        }
         else if (this.infoObj.UserProfileStatus == "Business Profile Complete") {
-          this.router.navigate(['/profile-completion']);
+          this.router.navigate(['profile-completion']);
+        }
+        else if (this.infoObj.UserProfileStatus == "Dashboard") {
+          this.router.navigate(['provider/dashboard']);
+        }
+
+        else if (this.infoObj.UserProfileStatus == "Business Profile Pending") {
+          this.router.navigate(['business-profile']);    // "previous url hard code"
         }
       }
       else {
-        this.router.navigate(['/registration']);
+        this.router.navigate(['registration']);
+        return true;
+      }
+    }
+
+   // if user go to user desk pages
+    if (state.url.indexOf('provider') >= 0) {
+      if (!this.islogOut) {
+        if (this.infoObj.UserProfileStatus == "Dashboard"){
+          return true;
+        }
+        else if (this.infoObj.UserProfileStatus == "Warehouse Pending" || this.infoObj.UserProfileStatus == "Warehouse Category Pending") {
+          this.router.navigate(['setup-warehouse']);
+        }
+        else if (this.infoObj.UserProfileStatus == "Business Profile Pending"){
+          this.router.navigate(['business-profile']);
+        }
+        else if (this.infoObj.UserProfileStatus == "Business Profile Complete") {
+          this.router.navigate(['profile-completion']);
+        }
+      }
+      else {
+        this.router.navigate(['registration']);
       }
     }
   }
-  // getProfileStatus(id): Observable<boolean>{
-  //   return this._userCreationService.getUserProfileStatus(id).map((res: any) => {
-  //     if (res.returnStatus == "Success") {
-  //       if (res.returnText == "Warehouse Pending"){
-  //         return true;
-  //       }
-  //       else{
-  //         this.router.navigate(['/business-profile']);
-  //         return true;
-  //       }
-  //     }
-  //   }, (err: HttpErrorResponse) => {
-  //     this.router.navigate(['/registration']);
-  //     return true;
-  //   })
-  // }
+
   checkOtp(otpKey): Observable<boolean> {
     return this._basicInfoService.getUserInfoByOtp(otpKey).map((res: any) => {
       if (res.returnStatus == "Success") {
@@ -154,16 +175,16 @@ export class UserGuard implements CanActivate {
       }
       else {
         if (this.checkPassword(otpKey)) {
-          this.router.navigate(['/password', otpKey]);
+          this.router.navigate(['password', otpKey]);
           return true;
 
         } else {
-          this.router.navigate(['/registration']);
+          this.router.navigate(['registration']);
           return true;
         }
       }
     }, (err: HttpErrorResponse) => {
-      this.router.navigate(['/registration']);
+      this.router.navigate(['registration']);
       return true;
     })
   }
@@ -175,15 +196,15 @@ export class UserGuard implements CanActivate {
         return true;
       }
       else if (res.returnId == 2){
-        this.router.navigate(['/business-profile']);
+        this.router.navigate(['business-profile']);
         return true;
       }
       else {
-        this.router.navigate(['/registration']);
+        this.router.navigate(['registration']);
         return true;
       }
     }, (err: HttpErrorResponse) => {
-      this.router.navigate(['/registration']);
+      this.router.navigate(['registration']);
       return Observable.of(true);
     })
   }

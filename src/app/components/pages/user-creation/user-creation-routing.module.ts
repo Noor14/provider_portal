@@ -27,7 +27,7 @@ children: [
 // { path: 'business-setup', component: BusinessSetupComponent },
 // { path: 'setup-map', component: SetupMapComponent },
 // { path: 'shippinglines', component: ShippingLinesComponent },
-{ path: 'setup-warehouse', component: SetupWarehouseComponent },
+{ path: 'setup-warehouse', component: SetupWarehouseComponent, canActivate: [UserGuard] },
 { path: 'warehouse-list', component: WarehouseListComponent },
 { path: 'warehouse-add-rates', component: WarehouseAddRatesComponent },
 { path: '**', redirectTo: 'registration', pathMatch: 'full' }
