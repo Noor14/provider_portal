@@ -314,6 +314,12 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
       if(!obj[index].fromdate || !obj[index].todate) return  true;
     }
   }
+  validateAddDays(): boolean {
+    let obj = this.generalForm.value.whSchedule;
+    for (let index = 0; index < obj.length; index++) {
+      if (!obj[index].fromHour || !obj[index].toHour) return true;
+    }
+  }
   getWarehouseInfo(userID, warehouseId) {
     loading(true);
     this.warehouseService.getWarehouseData(userID, warehouseId).subscribe((res: any) => {

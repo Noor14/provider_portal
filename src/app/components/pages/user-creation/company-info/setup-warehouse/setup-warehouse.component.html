@@ -145,10 +145,6 @@
                           <ng-multiselect-dropdown [placeholder]="'Select Days'" [data]="weekDays" [settings]="dropdownSettings"
                             (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" class="select-days">
                           </ng-multiselect-dropdown>
-                          <!-- <select class="form-control">
-                                        <option>Select Days</option>
-                                        <option *ngFor="let day of weekDays">{{day}}</option>
-                                      </select> -->
                         </div>
                       </div>
                       <div class="col-1 d-flex align-items-center" *ngIf="i > 0">
@@ -158,7 +154,7 @@
                     </div>
                   </div>
                   <div class="col-12">
-                      <button class="add-hours pointer" *ngIf="generalForm.controls['whSchedule'].controls.length < 7" [disabled]="true" (click)="addDays()">Add </button>
+                      <button class="add-hours pointer" *ngIf="generalForm.controls['whSchedule'].controls.length < 7" [disabled]="validateAddDays()" (click)="addDays()">Add</button>
                   </div>
                 </div>
               </form>
