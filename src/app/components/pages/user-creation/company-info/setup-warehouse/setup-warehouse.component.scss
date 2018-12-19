@@ -134,7 +134,12 @@
         .dropdown-btn {
           background: $color-white;
           border-color: $provider-input-border;
-
+          >.ng-star-inserted {
+            color: $place-holder-color;
+            opacity: 1;
+            font-family: $font-proxima;
+            font-size: 14px;
+          }
           .selected-item {
             background: $secondary-color !important;
             border-color: $secondary-color !important;
