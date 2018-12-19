@@ -126,6 +126,9 @@ export class LoginDialogComponent implements OnInit {
 
           let loginData = JSON.parse(resp.returnText)
           loginData.IsLogedOut = false;
+          if (loginData.WHID){
+          localStorage.setItem('warehouseId', loginData.WHID);
+         }
           localStorage.setItem('userInfo', JSON.stringify(resp));
           this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
           this.toastr.success('Login Successful!', 'Success');

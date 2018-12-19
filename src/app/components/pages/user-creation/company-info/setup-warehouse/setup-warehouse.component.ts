@@ -449,11 +449,13 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
       qty: this.rackStorageForm.value.palletBulk
     };
     this.wareHouseAvailableForm.value.whavailable.forEach(elem => {
+      if ((elem.fromdate && Object.keys(elem.fromdate).length) &&  (elem.todate && Object.keys(elem.todate).length)){
       let obj = {
         AvailableFromDate: elem.fromdate.month + '/' + elem.fromdate.day + '/' + elem.fromdate.year,
         AvailableToDate: elem.todate.month + '/' + elem.todate.day + '/' + elem.todate.year
       }
       this.seasonAvaiablility.push(obj);
+      }
     });
     let obj = {
       whid: this.warehouseId,
