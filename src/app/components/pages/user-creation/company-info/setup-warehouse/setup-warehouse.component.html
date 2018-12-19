@@ -301,7 +301,7 @@
             <form autocomplete="off" novalidate [formGroup]="locationForm">
               <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                  <div class="form-group">
+                  <div class="form-group select-city">
                     <label>City</label>
                     <div class="flag-container">
                     <img *ngIf="selectedCity && selectedCity.imageName" src="{{'../../../../../assets/images/flags/4x3/' + (locationForm.controls['city'].value.imageName | lowercase) + '.svg'}}"
@@ -425,9 +425,8 @@
           </div>
         </div>
         <div class="row mt-5">
-          <div class="col-6 mt-3">
+          <div class="col-6 mt-3 d-flex align-self-center">
             <a (click)="backToCategory()" *ngIf="stepper.activeStep" class="back" href="javascript:;">
-              <img alt="icons" class="icon-size-16" src="../../../assets/images/icons/icon_arrow_left.svg">
               <span>Go Back</span>
             </a>
           </div>
