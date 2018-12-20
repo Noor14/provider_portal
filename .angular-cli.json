@@ -23,6 +23,7 @@
       "../node_modules/ngx-toastr/toastr.css",
       "../node_modules/hover.css/css/hover.css",
       "../node_modules/animate.css/animate.css",
+      "../node_modules/ngx-lightbox/lightbox.css",
       "styles.scss"
     ],
     "scripts": [

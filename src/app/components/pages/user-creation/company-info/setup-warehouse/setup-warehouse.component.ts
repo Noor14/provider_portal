@@ -359,10 +359,6 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
         this.uploadDocs = res.returnObject.documentType;
         this.activeStep = (res.returnObject.UserProfileStatus == 'Warehouse Pending') ? 1 : 0;
         this.setDefaultValue();
-        // if (res.returnObject.UploadedGalleries && typeof (res.returnObject.UploadedGalleries) == 'string') {
-        //   let galleryFiles = JSON.parse(res.returnObject.UploadedGalleries[0].DocumentFileName);
-        //   this.setGalleries(galleryFiles);
-        // }
         if (Array.isArray(res.returnObject.UploadedGalleries) && res.returnObject.UploadedGalleries.length){
           let galleryFiles = res.returnObject.UploadedGalleries;
           if (galleryFiles[0].DocumentID && galleryFiles[0].DocumentFile){

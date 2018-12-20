@@ -4,6 +4,8 @@ import { loading } from '../../../../../../constants/globalFunctions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Lightbox } from 'ngx-lightbox';
+import { baseExternalAssets } from '../../../../../../constants/base.url';
+import { PlatformLocation } from '@angular/common';
 @Component({
   selector: 'app-warehouse-list',
   templateUrl: './warehouse-list.component.html',
@@ -17,21 +19,11 @@ export class WarehouseListComponent implements OnInit {
   constructor(
     private warehouseService: WarehouseService,
     private _router: Router,
-    private _lightbox: Lightbox
+    private _lightbox: Lightbox,
+    private location: PlatformLocation,
   ) {
-    // for (let i = 1; i <= 4; i++) {
-    //   const src = 'http://10.20.1.13:9091/documents/booking/nov2018/png/DOC_839_201811201049258205.png';
-    //   const caption = 'Image ' + i + ' caption here';
-    //   const thumb = 'demo/img/image' + i + '-thumb.jpg';
-    //   const album = {
-    //     src: src,
-    //     caption: caption,
-    //     thumb: thumb
-    //   };
-
-    //   this._albums.push(album);
-    // }
-   }
+    location.onPopState(() => this.closeLightBox());
+  }
 
   ngOnInit() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -46,6 +38,19 @@ export class WarehouseListComponent implements OnInit {
     this.warehouseService.getWarehouseList(providerId).subscribe((res:any)=>{
       if (res.returnStatus == "Success") {
         this.allWareHouseList = res.returnObject;
+        this.allWareHouseList.forEach(obj => {
+          const albumArr = []
+          obj.UploadedGalleries.forEach((elem, index)=>{
+            const album = {
+              src: baseExternalAssets + '/' + elem.DocumentFile,
+              caption: 'image ' + (index + 1),
+              thumb: baseExternalAssets + '/' + elem.DocumentFile
+            };
+            albumArr.push(album);
+            obj.gallery = albumArr;
+          })
+         
+        })
         loading(false);
       }
     }, (err: HttpErrorResponse) => {
@@ -54,13 +59,12 @@ export class WarehouseListComponent implements OnInit {
 
     })
   }
-  openLightBox(index: number): void {
-    // open lightbox
-    this._lightbox.open(this._albums, index);
+
+  openGallery(albumArr, index): void {
+    this._lightbox.open(albumArr, index);
   }
 
   closeLightBox(): void {
-    // close lightbox programmatically
     this._lightbox.close();
   }
   createWarehouse(){
