@@ -2,6 +2,37 @@
 
 .hash-search {
   .shipping-news {
+    &-company {
+      width: 180px;
+      height: 136px;
+      float: left;
+      margin-right: 28px;
+    }
+
+    .book-btn {
+      margin-top: 12px;
+      width: 188px;
+    }
+
+    .noti {
+      font-family: $font-proxima;
+      font-size: $font-size-medium;
+      color: $probar-color;
+      position: relative;
+      padding-left: 2rem;
+      margin-top: 1.5rem;
+      padding-right: 3rem;
+
+      &:before {
+        content: url("../../../../../../../assets/images/icons/icon_info_red.svg");
+        position: absolute;
+        left: 0px;
+        top: 3px;
+        width: 16px;
+        height: 16px;
+      }
+    }
+
     .card {
       border: 1px solid $left-sidebar-border-color;
       transition: all ease 0.7s;
@@ -16,6 +47,69 @@
 
         .logo {
           border: 1px solid $grey-border;
+          position: relative;
+
+          img {
+            width: 100%;
+            height: 136px;
+            object-fit: cover;
+            padding: 0;
+          }
+
+          .images-carousel:first-child {
+            position: relative; //top: 96px;
+          }
+
+          .gallery-section {
+            &-item {
+              position: absolute;
+              top: 8px;
+              right: 5px;
+              background: #000000b0;
+              color: #fff;
+              border-radius: 12px;
+              font-weight: $font-weight-bold;
+              font-family: $font-proxima;
+              font-size: $font-size-base;
+              padding: 0.21rem 0.68rem;
+            }
+          }
+        }
+
+        .warehousing-content {
+          color: $white-color;
+          display: flex;
+          flex-direction: column;
+
+          .list-group {
+            flex-direction: row;
+            display: flex;
+
+            li {
+              border: 0px;
+              padding: 0;
+              display: flex;
+              font-size: $font-size-medium;
+              font-family: $font-proxima;
+              color: $text-color-default;
+              line-height: 1;
+
+              .tooltip {
+                width: 16rem;
+
+                .tooltip-inner {
+                  width: 16rem;
+                  max-width: 16rem;
+                }
+              }
+            }
+
+            &.mt-2 {
+              li {
+                align-items: center;
+              }
+            }
+          }
         }
       }
 
@@ -57,105 +151,6 @@
           background-color: $secondary-color !important;
           border-color: $secondary-color;
           color: $white-color !important;
-        }
-      }
-    }
-  }
-
-  &.warehousing {
-    .shipping-news {
-      &-company {
-        width: 180px;
-        height: 136px;
-        float: left;
-        margin-right: 28px;
-      }
-
-      .book-btn {
-        margin-top: 12px;
-        width: 188px;
-      }
-
-      .noti {
-        font-family: $font-proxima;
-        font-size: $font-size-medium;
-        color: $probar-color;
-        position: relative;
-        padding-left: 2rem;
-        margin-top: 1.5rem;
-        padding-right: 3rem;
-
-        &:before {
-          content: url("../../../../../../../assets/images/icons/icon_info_red.svg");
-          position: absolute;
-          left: 0px;
-          top: 3px;
-          width: 16px;
-          height: 16px;
-        }
-      }
-
-      .logo {
-        img {
-          width: 100%;
-          height: 136px;
-          object-fit: cover;
-          padding: 0;
-        }
-
-        .images-carousel:first-child {
-          position: relative; //top: 96px;
-        }
-
-        .gallery-section {
-          &-item {
-            position: absolute;
-            top: 8px;
-            right: 5px;
-            background: #000000b0;
-            color: #fff;
-            border-radius: 12px;
-            font-weight: $font-weight-bold;
-            font-family: $font-proxima;
-            font-size: $font-size-base;
-            padding: 0.21rem 0.68rem;
-          }
-        }
-      }
-    }
-  }
-
-  .warehousing-content {
-    color: $white-color;
-    display: flex;
-    flex-direction: column;
-
-    .list-group {
-      flex-direction: row;
-      display: flex;
-
-      li {
-        border: 0px;
-        padding: 0;
-        display: flex;
-        font-size: $font-size-medium;
-        font-family: $font-proxima;
-        color: $text-color-default;
-        line-height: 1;
-
-        .tooltip {
-          width: 16rem;
-
-          .tooltip-inner {
-            width: 16rem;
-            max-width: 16rem;
-          }
-        }
-      }
-
-      &.mt-2 {
-        li {
-          align-items: center;
         }
       }
     }
