@@ -115,6 +115,7 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
   public palletRackError: boolean = false;
   public palletBulkError: boolean = false;
   public cityError: boolean = false;
+  public citySelError:boolean = false;
   public addressline1Error: boolean = false;
   public addressline2Error: boolean = false;
   public poBoxError: boolean = false;
@@ -466,7 +467,9 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
     }
   }
 
-
+  // cityValidate(obj){
+  //   this.citySelError = (obj && typeof obj != 'object')? true : false;
+  // }
 
   addCategory() {
     let obj = {
