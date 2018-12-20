@@ -1,18 +1,20 @@
 import { Component, OnInit, ViewChild, NgZone, ElementRef, ViewEncapsulation, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { WarehouseService } from './warehouse.service';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../directives/ng-files';
 import { ToastrService } from 'ngx-toastr';
 import { JsonResponse } from '../../../../../interfaces/JsonResponse';
 import { DocumentFile, DocumentUpload } from '../../../../../interfaces/document.interface';
-import { baseApi } from '../../../../../constants/base.url';
+import { baseApi, baseExternalAssets } from '../../../../../constants/base.url';
 import { CompanyInfoService } from '../company-info.service';
 import { SharedService } from '../../../../../services/shared.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserCreationService } from '../../user-creation.service';
 import { MapsAPILoader } from '@agm/core';
 import { loading } from '../../../../../constants/globalFunctions';
+import { NgbDateFRParserFormatter } from "../../../../../constants/ngb-date-parser-formatter";
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,6 +24,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './setup-warehouse.component.html',
   styleUrls: ['./setup-warehouse.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  providers: [{provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter}],
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [   // :enter is alias to 'void => *'
@@ -356,9 +359,19 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
         this.uploadDocs = res.returnObject.documentType;
         this.activeStep = (res.returnObject.UserProfileStatus == 'Warehouse Pending') ? 1 : 0;
         this.setDefaultValue();
-        if (res.returnObject.UploadedGalleries) {
-          let galleryFiles = res.returnObject.UploadedGalleries[0].DocumentFileName;
+        // if (res.returnObject.UploadedGalleries && typeof (res.returnObject.UploadedGalleries) == 'string') {
+        //   let galleryFiles = JSON.parse(res.returnObject.UploadedGalleries[0].DocumentFileName);
+        //   this.setGalleries(galleryFiles);
+        // }
+        if (Array.isArray(res.returnObject.UploadedGalleries) && res.returnObject.UploadedGalleries.length){
+          let galleryFiles = res.returnObject.UploadedGalleries;
+          if (galleryFiles[0].DocumentID && galleryFiles[0].DocumentFile){
           this.setGalleries(galleryFiles);
+          }
+          else{
+            this.docTypeId = galleryFiles[0].DocumentID;
+            this.fileStatus = "APPROVED";
+          }
         }
       }
     }, (err: HttpErrorResponse) => {
@@ -368,9 +381,9 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
     })
   }
   setGalleries(galleryFiles) {
-    this.selectedDocx = JSON.parse(galleryFiles);
+    this.selectedDocx = galleryFiles;
     this.selectedDocx.map(element => {
-      element.DocumentFile = baseApi.split("/api").shift() + element.DocumentFile;
+      element.DocumentFile = baseExternalAssets + element.DocumentFile;
     });
     this.docTypeId = this.selectedDocx[0].DocumentID;
     this.fileStatus = "APPROVED";
@@ -651,7 +664,7 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
           this.fileStatus = resObj.DocumentLastStaus;
           let fileObj = JSON.parse(resObj.DocumentFile);
           fileObj.forEach(element => {
-            element.DocumentFile = baseApi.split("/api").shift() + element.DocumentFile;
+            element.DocumentFile = baseExternalAssets + element.DocumentFile;
           });
           if (index !== (totalDocLenght - 1)) {
             docFiles[index + 1].DocumentID = resObj.DocumentID
@@ -674,7 +687,7 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
   }
 
   removeSelectedDocx(index, obj) {
-    obj.DocumentFile = obj.DocumentFile.split(baseApi.split("/api").shift()).pop();
+    obj.DocumentFile = obj.DocumentFile.split(baseExternalAssets).pop();
     obj.DocumentID = this.docTypeId;
     this._companyInfoService.removeDoc(obj).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {

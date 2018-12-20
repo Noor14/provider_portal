@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { element } from 'protractor';
 import { DocumentUpload, DocumentFile } from '../../../../../../interfaces/document.interface';
 import { HttpErrorResponse } from '@angular/common/http';
-import { baseApi } from '../../../../../../constants/base.url';
+import { baseApi, baseExternalAssets } from '../../../../../../constants/base.url';
 import { JsonResponse } from '../../../../../../interfaces/JsonResponse';
 
 
@@ -792,7 +792,7 @@ export class DirectorinfoComponent implements OnInit, AfterViewChecked {
           this.fileStatus = resObj.DocumentLastStaus;
           let fileObj = JSON.parse(resObj.DocumentFile);
           fileObj.forEach(element => {
-            element.DocumentFile = baseApi.split("/api").shift() + element.DocumentFile;
+            element.DocumentFile = baseExternalAssets + element.DocumentFile;
           });
           if (index !== (totalDocLenght - 1)) {
             docFiles[index + 1].DocumentID = resObj.DocumentID;
@@ -939,7 +939,7 @@ export class DirectorinfoComponent implements OnInit, AfterViewChecked {
   }
 
   removeSelectedDocx(index, obj) {
-    obj.DocumentFile = obj.DocumentFile.split(baseApi.split("/api").shift()).pop();
+    obj.DocumentFile = obj.DocumentFile.split(baseExternalAssets).pop();
     obj.DocumentID = this.docTypeId;
     this._companyInfoService.removeDoc(obj).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {

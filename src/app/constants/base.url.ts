@@ -1,7 +1,7 @@
 import { environment } from '../../environments/environment';
 
 export let baseApi;
-export var baseExternalAssets;
+export let baseExternalAssets;
 
 if (environment.qa) {
     // QA URL

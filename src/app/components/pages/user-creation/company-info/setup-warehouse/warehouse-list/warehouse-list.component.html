@@ -18,20 +18,16 @@
     <div class="hash-search warehousing">
       <!-- shipping news -->
       <div class="shipping-news">
-        <div class="card mb-4" *ngFor="let wareHouse of allWareHouseList">
+        <div class="card mb-4" *ngFor="let wareHouse of allWareHouseList; let i = index">
           <div class="card-body">
             <div class="row mt-1">
               <div class="col-sm-12 mt-1 col-md-9">
                 <div class="shipping-news-company mt-0">
-                  <div class="logo">
-                    <div class="gallery-section">
-                      <div class="images-carousel">
-                        <img src="../../../assets/images/Sentinel Storage LLC_01.png" alt="">
+                  <div class="logo" (click)="openLightBox(i)">
+                        <img src="../../../assets/images/Sentinel Storage LLC_01.png" alt="thumbnail">
                         <div class="gallery-section-item d-flex justify-content-center align-items-center">
                           <img src="../../../assets/images/icons/icon_pictures.svg" alt="" class="icon-size-14 mr-1"> {{wareHouse.UploadedGalleries.length}}
                         </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
                 <h5 class="card-title">{{wareHouse.WHName}}</h5>

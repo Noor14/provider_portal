@@ -15,7 +15,7 @@ import { CustomValidator, ValidateEmail, EMAIL_REGEX, leapYear, patternValidator
 import { CompanyInfoService } from '../../company-info.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DocumentUpload, DocumentFile } from '../../../../../../interfaces/document.interface';
-import { baseApi } from '../../../../../../constants/base.url';
+import { baseApi, baseExternalAssets } from '../../../../../../constants/base.url';
 
 @Component({
   selector: 'app-business-detail',
@@ -1769,7 +1769,7 @@ export class BusinessDetailComponent implements OnInit, AfterViewChecked {
   }
 
   removeDoc(obj) {
-    obj.DocumentFile = obj.DocumentFile.split(baseApi.split("/api").shift()).pop();
+    obj.DocumentFile = obj.DocumentFile.split(baseExternalAssets).pop();
     this._companyInfoService.removeDoc(obj).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this._toastr.success('Remove selected document succesfully', "");
@@ -2040,13 +2040,13 @@ export class BusinessDetailComponent implements OnInit, AfterViewChecked {
 
         if (type == 'TRADE_LICENSE') {
           this.selectedLicense = JSON.parse(resObj.DocumentFile)[0];
-          this.selectedLicense.DocumentFile = baseApi.split("/api").shift() + this.selectedLicense.DocumentFile;
+          this.selectedLicense.DocumentFile = baseExternalAssets + this.selectedLicense.DocumentFile;
           this.selectedLicense.DocumentID = resObj.DocumentID;
           this.glowElement();
         }
         else {
           this.selectedLogo = JSON.parse(resObj.DocumentFile)[0];
-          this.selectedLogo.DocumentFile = baseApi.split("/api").shift() + this.selectedLogo.DocumentFile;
+          this.selectedLogo.DocumentFile = baseExternalAssets + this.selectedLogo.DocumentFile;
           this.selectedLogo.DocumentID = resObj.DocumentID;
 
         }
