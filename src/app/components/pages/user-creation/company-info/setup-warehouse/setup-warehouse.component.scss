@@ -118,7 +118,7 @@
                       min-height: 29px;
                       display: flex;
                       align-items: center;
-                      padding: 0 20px !important;
+                      padding: 0 10px !important;
                       margin-right: 1rem !important;
                       position: relative;
                       font-family: $font-proxima;
@@ -366,7 +366,7 @@
                 top: 15px;
                 width: 16px;
                 height: 16px;
-                z-index: 1;
+                z-index: 4;
                 opacity: 0.5;
             }
         }
