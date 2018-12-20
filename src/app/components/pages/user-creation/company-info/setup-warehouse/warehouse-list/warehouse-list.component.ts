@@ -13,8 +13,8 @@ import { PlatformLocation } from '@angular/common';
 })
 export class WarehouseListComponent implements OnInit {
 
-  public userProfile; 
-  public allWareHouseList: any[]=[];
+  public userProfile;
+  public allWareHouseList: any[] = [];
   private _albums: any = [];
   constructor(
     private warehouseService: WarehouseService,
@@ -33,23 +33,23 @@ export class WarehouseListComponent implements OnInit {
     }
   }
 
-  getWhlist(providerId){
+  getWhlist(providerId) {
     loading(true)
-    this.warehouseService.getWarehouseList(providerId).subscribe((res:any)=>{
+    this.warehouseService.getWarehouseList(providerId).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.allWareHouseList = res.returnObject;
-        this.allWareHouseList.forEach(obj => {
+        this.allWareHouseList.forEach((obj, index) => {
           const albumArr = []
-          obj.UploadedGalleries.forEach((elem, index)=>{
+          obj.UploadedGalleries.forEach((elem, ind) => {
             const album = {
               src: baseExternalAssets + '/' + elem.DocumentFile,
-              caption: 'image ' + (index + 1),
+              caption: elem.DocumentFileName,
               thumb: baseExternalAssets + '/' + elem.DocumentFile
             };
             albumArr.push(album);
-            obj.gallery = albumArr;
+            obj.parsedGallery = albumArr;
           })
-         
+
         })
         loading(false);
       }
@@ -67,7 +67,7 @@ export class WarehouseListComponent implements OnInit {
   closeLightBox(): void {
     this._lightbox.close();
   }
-  createWarehouse(){
+  createWarehouse() {
     localStorage.removeItem('warehouseId');
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     let userData = JSON.parse(userInfo.returnText);
@@ -77,7 +77,7 @@ export class WarehouseListComponent implements OnInit {
     this._router.navigate(['setup-warehouse'])
   }
 
-  goToDashboard(){
+  goToDashboard() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     let userData = JSON.parse(userInfo.returnText);
     userData.UserProfileStatus = "Dashboard";
