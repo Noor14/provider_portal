@@ -108,10 +108,37 @@
             .multiselect-dropdown {
                 .dropdown-btn {
                     background: $color-white;
-                    border-color: $provider-input-border;
+                    border-color: $provider-input-border !important;
                     height: 48px;
                     .selected-item {
                       color: $white-color !important;
+                      background: $secondary-color !important;
+                      border-color: $secondary-color !important;
+                      font-size: 1rem !important;
+                      min-height: 29px;
+                      display: flex;
+                      align-items: center;
+                      padding: 0 20px !important;
+                      margin-right: 1rem !important;
+                      position: relative;
+                      font-family: $font-proxima;
+                      a {
+                        color: #fff !important;
+                        position: absolute;
+                        top: -5px;
+                        right: -7px;
+                        background: #d9222d;
+                        border-radius: 50%;
+                        width: 15px;
+                        height: 15px;
+                        font-weight: 700;
+                        display: flex;
+                        line-height: 1;
+                        font-size: 10px;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 3px;
+                      }
                     }
                      span {
                         &:first-child {
@@ -124,10 +151,6 @@
                             line-height: 1.2;
                         }
                     }
-                    .selected-item {
-                        background: $secondary-color !important;
-                        border-color: $secondary-color !important;
-                    }
                 }
                 .dropdown-list {
                     box-shadow: 0 1px 5px $secondary-color;
@@ -138,14 +161,14 @@
                                 &:checked {
                                     &+div {
                                         &:before {
-                                            background: $secondary-color;
+                                            background: $secondary-color !important;
                                         }
                                     }
                                 }
                             }
                             >div {
                                 &:before {
-                                    border-color: $secondary-color;
+                                    border-color: $secondary-color !important;
                                 }
                             }
                         }
