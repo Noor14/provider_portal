@@ -27,6 +27,7 @@ import { WarehouseListComponent } from './setup-warehouse/warehouse-list/warehou
 import { WarehouseAddRatesComponent } from './setup-warehouse/warehouse-add-rates/warehouse-add-rates.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ClickOutsideModule } from 'ng-click-outside';
+import { LightboxModule } from 'ngx-lightbox';
 @NgModule({
   imports: [
     CommonModule,
@@ -35,6 +36,7 @@ import { ClickOutsideModule } from 'ng-click-outside';
     UiSwitchModule,
     NgStepperModule,
     ClickOutsideModule,
+    LightboxModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
       libraries: ["places", "geometry"]

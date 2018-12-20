@@ -114,10 +114,8 @@
                     </div>
                     <span class="animated fadeIn" *ngIf="whAreaError">
                       <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whArea'].hasError('required') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">{{requiredFields}}</p>
-                      <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whArea'].hasError('pattern') && generalForm.controls['whArea'].hasError('minlength') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Warehouse
-                        area must be at least 100 characters long</p>
-                      <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whArea'].hasError('pattern') && generalForm.controls['whArea'].hasError('maxlength') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Warehouse
-                        area should not exceed from 1,00,000 characters</p>
+                      <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whArea'].hasError('pattern') && generalForm.controls['whArea'].hasError('minlength') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Range 100 to 1,00,000</p>
+                      <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whArea'].hasError('pattern') && generalForm.controls['whArea'].hasError('maxlength') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Range 100 to 1,00,000</p>
                       <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whArea'].hasError('pattern') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Please
                         enter valid information</p>
                     </span>
@@ -403,7 +401,7 @@
                   <div class="col-3">
                     <div class="form-group">
                       <div class="input-group">
-                        <input class="form-control" (click)="from.toggle()" [minDate]="mindate()" formControlName="fromdate"
+                        <input class="form-control" [ngClass]="{dateIcon : wareHouseAvailableForm.controls['whavailable'].value[i].fromdate && wareHouseAvailableForm.controls['whavailable'].value[i].fromdate.year}" (click)="from.toggle()" [minDate]="mindate()" formControlName="fromdate"
                           placeholder="From" ngbDatepicker #from="ngbDatepicker">
                       </div>
                     </div>
@@ -411,7 +409,7 @@
                   <div class="col-3">
                     <div class="form-group">
                       <div class="input-group">
-                        <input class="form-control" (click)="to.toggle()" [minDate]="(!wareHouseAvailableForm.controls['whavailable'].value[i].fromdate)? mindate() : wareHouseAvailableForm.controls['whavailable'].value[i].fromdate"
+                        <input class="form-control" [ngClass]="{dateIcon : wareHouseAvailableForm.controls['whavailable'].value[i].todate && wareHouseAvailableForm.controls['whavailable'].value[i].todate.year}" (click)="to.toggle()" [minDate]="(!wareHouseAvailableForm.controls['whavailable'].value[i].fromdate)? mindate() : wareHouseAvailableForm.controls['whavailable'].value[i].fromdate"
                           formControlName="todate" placeholder="To" ngbDatepicker #to="ngbDatepicker">
                       </div>
                     </div>
