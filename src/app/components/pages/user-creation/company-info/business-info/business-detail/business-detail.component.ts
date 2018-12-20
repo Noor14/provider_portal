@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ElementRef, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, NgZone, ElementRef, ViewChild, Output, EventEmitter, ViewEncapsulation, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { SharedService } from '../../../../../../services/shared.service';
@@ -23,7 +23,7 @@ import { baseApi } from '../../../../../../constants/base.url';
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./business-detail.component.scss']
 })
-export class BusinessDetailComponent implements OnInit {
+export class BusinessDetailComponent implements OnInit, AfterViewChecked {
 
   @ViewChild('search') public searchElement: ElementRef;
   @ViewChild('selectService') public serviceMode: ElementRef;
@@ -341,11 +341,13 @@ export class BusinessDetailComponent implements OnInit {
     private _toastr: ToastrService,
     private _commonService: CommonService,
     private ngFilesService: NgFilesService,
-    private sanitizer: DomSanitizer
-
+    private sanitizer: DomSanitizer,
+    private cdRef: ChangeDetectorRef
   ) {
   }
-
+  ngAfterViewChecked() {
+    this.cdRef.detectChanges();
+  }
   ngOnInit() {
 
     this.ngFilesService.addConfig(this.config, 'docConfig');

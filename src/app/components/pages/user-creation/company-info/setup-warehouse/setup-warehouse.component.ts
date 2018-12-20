@@ -127,7 +127,7 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
     private ngZone: NgZone,
     private cdRef: ChangeDetectorRef,
     private _router: Router,
-    
+
   ) { }
   ngAfterViewChecked() {
     this.cdRef.detectChanges();
@@ -254,7 +254,7 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
         arrDays.push(item)
       }
     } else if (action === 'all') {
-      if(item && item.length > 0){
+      if (item && item.length > 0) {
         if (arrDays) {
           arrDays = item
         } else {
@@ -339,18 +339,7 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
 
     });
   }
-  validateAddCalender(): boolean {
-    let obj = this.wareHouseAvailableForm.value.whavailable;
-    for (let index = 0; index < obj.length; index++) {
-      if (!obj[index].fromdate || !obj[index].todate) return true;
-    }
-  }
-  validateAddDays(): boolean {
-    let obj = this.generalForm.value.whSchedule;
-    for (let index = 0; index < obj.length; index++) {
-      if (!obj[index].fromHour || !obj[index].toHour || (!obj[index].days || (obj[index].days && !obj[index].days.length))) return true;
-    }
-  }
+
   getWarehouseInfo(userID, warehouseId) {
     loading(true);
     this.warehouseService.getWarehouseData(userID, warehouseId).subscribe((res: any) => {
@@ -367,12 +356,24 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
         this.uploadDocs = res.returnObject.documentType;
         this.activeStep = (res.returnObject.UserProfileStatus == 'Warehouse Pending') ? 1 : 0;
         this.setDefaultValue();
+        if (res.returnObject.UploadedGalleries) {
+          let galleryFiles = res.returnObject.UploadedGalleries[0].DocumentFileName;
+          this.setGalleries(galleryFiles);
+        }
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
       loading(false);
 
     })
+  }
+  setGalleries(galleryFiles) {
+    this.selectedDocx = JSON.parse(galleryFiles);
+    this.selectedDocx.map(element => {
+      element.DocumentFile = baseApi.split("/api").shift() + element.DocumentFile;
+    });
+    this.docTypeId = this.selectedDocx[0].DocumentID;
+    this.fileStatus = "APPROVED";
   }
 
   setDefaultValue() {
@@ -467,6 +468,7 @@ export class SetupWarehouseComponent implements OnInit, AfterViewChecked {
     this.warehouseService.addWarehouse(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._stepper.next();
+        this.warehouseId = res.returnId;
         localStorage.setItem('warehouseId', res.returnId);
       }
     })

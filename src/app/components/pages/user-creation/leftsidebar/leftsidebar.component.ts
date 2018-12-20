@@ -36,6 +36,11 @@ export class LeftsidebarComponent implements OnInit {
         return "active";
       }
     }
+    else if (type == 'My Setup') {
+      if (location.pathname == '/setup-warehouse') {
+        return "active";
+      }
+    }
  
   };
 

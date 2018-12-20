@@ -41,6 +41,7 @@
     "ng-circle-progress": "^1.0.0",
     "ng-click-outside": "^4.0.0",
     "ng-multiselect-dropdown": "^0.2.3",
+    "ngx-lightbox": "^1.2.0",
     "ngx-scrollbar": "^1.5.7",
     "ngx-toastr": "^8.4.0",
     "ngx-toggle-switch": "^2.0.5",

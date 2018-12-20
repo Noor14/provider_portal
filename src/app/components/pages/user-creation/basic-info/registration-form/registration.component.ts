@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, NgZone, state, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, NgZone, state, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./registration.component.scss']
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit, AfterViewChecked {
   public selectedjobTitle: any
   public debounceInput: Subject<string> = new Subject();
   public showTranslatedLangSide: boolean;
@@ -129,8 +129,13 @@ export class RegistrationComponent implements OnInit {
     private _basicInfoService: BasicInfoService,
     private mapsAPILoader: MapsAPILoader,
     private _router: Router,
-    private ngZone: NgZone) { }
+    private ngZone: NgZone,
+    private cdRef: ChangeDetectorRef
+  ) { }
 
+  ngAfterViewChecked() {
+    this.cdRef.detectChanges();
+  }
   ngOnInit() {
 
     this._sharedService.formProgress.next(0);

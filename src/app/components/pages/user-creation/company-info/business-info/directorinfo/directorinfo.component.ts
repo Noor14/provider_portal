@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../../../../services/shared.service';
@@ -24,7 +24,7 @@ import { JsonResponse } from '../../../../../../interfaces/JsonResponse';
   encapsulation: ViewEncapsulation.None,
 
 })
-export class DirectorinfoComponent implements OnInit {
+export class DirectorinfoComponent implements OnInit, AfterViewChecked {
 
 
   public showTranslatedLangSide: boolean;
@@ -158,12 +158,14 @@ export class DirectorinfoComponent implements OnInit {
     private ngFilesService: NgFilesService,
     private _toastr: ToastrService,
     private _router: Router,
-    private sanitizer: DomSanitizer
-
+    private sanitizer: DomSanitizer,
+    private cdRef: ChangeDetectorRef
   ) {
 
   }
-
+  ngAfterViewChecked() {
+    this.cdRef.detectChanges();
+  }
   ngOnInit() {
     this.ngFilesService.addConfig(this.sharedConfig, 'config');
     this.getLabels();
