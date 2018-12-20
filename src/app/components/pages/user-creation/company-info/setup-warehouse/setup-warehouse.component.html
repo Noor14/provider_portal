@@ -432,7 +432,7 @@
           </div>
           <div class="col-6 mt-3">
             <button *ngIf="!stepper.lastStepActive" [disabled]="locationForm.invalid || (rackStorageForm.invalid && rackedStorage) ||( bulkStorageForm.invalid && bulkStorage) || generalForm.invalid
-                              || wareHouseAvailableForm.invalid || !whFacilitation.length || !selectedDocx.length || !wareHouseType || (!rackedStorage && !bulkStorage)"
+                              || wareHouseAvailableForm.invalid || !whFacilitation.length || !selectedDocx.length || !wareHouseType || (!rackedStorage && !bulkStorage) || !(selectedCity && selectedCity.imageName)"
               (click)="putWarehouseInfo()" class="btn btn-primary btn-register hvr-sweep-to-right pull-right pl-5 pr-5">
               PROCEED </button>
           </div>
