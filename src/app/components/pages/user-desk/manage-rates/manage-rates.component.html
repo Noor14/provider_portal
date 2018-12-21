@@ -1,18 +1,43 @@
 <section class="manageRates">
   <h2>Manage Rates</h2>
   <nav class="navbar navbar-light bg-light p-0">
-    <span class="navbar-text pointer p-0" (click)="tonavigate('/provider/manage-rates/sea')">
-      SEA FREIGHT
-    </span>
-    <span class="navbar-text pointer p-0" (click)="tonavigate('/provider/manage-rates/air')">
-      AIR FREIGHT
-    </span>
-    <span class="navbar-text pointer p-0" (click)="tonavigate('/provider/manage-rates/ground')">
-      GROUND TRANSPORT
-    </span>
-    <span class="navbar-text pointer p-0" (click)="tonavigate('/provider/manage-rates/warehouse')">
-      WAREHOUSING
-    </span>
+    <ul class="nav">
+      <li>
+        <a class="nav-link active" href="javascript:;" (click)="tonavigate('/provider/manage-rates/sea')">
+          <img alt="icon_sea" src="../../../../../assets/images/icons/icon_dashboard.svg">
+          <span class="menu-text">
+            SEA FREIGHT
+          </span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/air')">
+          <img alt="icon_air" src="../../../../../assets/images/icons/icon_booking.svg">
+          <span class="menu-text">
+            AIR FREIGHT
+          </span>
+
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/ground')">
+          <img alt="icon_ground" src="../../../../../assets/images/icons/billing.svg">
+          <span class="menu-text">
+            GROUND TRANSPORT
+          </span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/warehouse')">
+          <img alt="icon_warehouse" src="../../../../../assets/images/icons/icon_report.svg">
+          <span class="menu-text">
+            WAREHOUSING
+          </span>
+        </a>
+      </li>
+
+    </ul>
+
   </nav>
   <section class="ratesPages">
     <router-outlet></router-outlet>
