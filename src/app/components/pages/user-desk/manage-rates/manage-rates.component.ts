@@ -15,4 +15,9 @@ export class ManageRatesComponent implements OnInit {
   tonavigate(url) {
     this._router.navigate([url]);
   }
+  getClass(path): string {
+    if (location.pathname === path) {
+      return 'active'
+    }
+  };
 }
