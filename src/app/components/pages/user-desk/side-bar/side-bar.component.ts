@@ -14,8 +14,10 @@ export class SideBarComponent implements OnInit {
 
   ngOnInit() {
   }
-  getClass(path) {
-    return (location.pathname === path) ? 'active' : '';
+  getClass(path): string {
+     if(location.pathname === path){
+       return 'active'
+    }
   };
   tonavigate(url) {
     this._router.navigate([url]);

@@ -15,7 +15,7 @@ const routes: Routes = [
         children: [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'booking-detail/:id', component: ViewBookingComponent },
-            { path: 'manage-rates', component: ManageRatesComponent },
+            { path: 'manage-rates', loadChildren: 'app/components/pages/user-desk/manage-rates/manage-rates.module#ManageRatesModule' },
             { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
     }
