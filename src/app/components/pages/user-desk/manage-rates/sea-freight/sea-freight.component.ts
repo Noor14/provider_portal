@@ -15,8 +15,21 @@ export class SeaFreightComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    var votes = [
+      { title: 'Apple', votes: 1 },
+      { title: 'Milk', votes: 2 },
+      { title: 'Carrot', votes: 3 },
+      { title: 'Banana', votes: 2 }
+    ];
+    votes.sort(this.multi);
+   
   }
-
+  
+  multi(vote1, vote2) {
+    console.log(vote1);
+    console.log(vote2);
+    return false;
+  }
   discardDraft() {
     this.modalService.open(DiscardDraftComponent, {
       size: 'lg',
