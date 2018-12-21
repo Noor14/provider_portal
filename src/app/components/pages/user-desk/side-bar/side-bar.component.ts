@@ -15,7 +15,7 @@ export class SideBarComponent implements OnInit {
   ngOnInit() {
   }
   getClass(path): string {
-     if(location.pathname === path){
+     if(location.pathname.indexOf(path) >= 0){
        return 'active'
     }
   };

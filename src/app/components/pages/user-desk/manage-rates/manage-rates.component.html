@@ -3,7 +3,7 @@
   <nav class="navbar navbar-light bg-light p-0">
     <ul class="nav">
       <li>
-        <a class="nav-link active" href="javascript:;" (click)="tonavigate('/provider/manage-rates/sea')">
+        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/sea')" [ngClass]="getClass('/provider/manage-rates/sea')">
           <img alt="icon_sea" src="../../../../../assets/images/icons/icon_dashboard.svg">
           <span class="menu-text">
             SEA FREIGHT
@@ -11,7 +11,7 @@
         </a>
       </li>
       <li>
-        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/air')">
+        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/air')" [ngClass]="getClass('/provider/manage-rates/air')">
           <img alt="icon_air" src="../../../../../assets/images/icons/icon_booking.svg">
           <span class="menu-text">
             AIR FREIGHT
@@ -20,7 +20,7 @@
         </a>
       </li>
       <li>
-        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/ground')">
+        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/ground')" [ngClass]="getClass('/provider/manage-rates/ground')">
           <img alt="icon_ground" src="../../../../../assets/images/icons/billing.svg">
           <span class="menu-text">
             GROUND TRANSPORT
@@ -28,7 +28,7 @@
         </a>
       </li>
       <li>
-        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/warehouse')">
+        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/warehouse')"  [ngClass]="getClass('/provider/manage-rates/warehouse')">
           <img alt="icon_warehouse" src="../../../../../assets/images/icons/icon_report.svg">
           <span class="menu-text">
             WAREHOUSING
