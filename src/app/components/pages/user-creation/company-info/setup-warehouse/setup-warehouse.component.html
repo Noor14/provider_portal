@@ -318,6 +318,7 @@
                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('pattern') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">Please
                         enter valid information</p>
                     </span>
+                    <!-- <p class="inputError animated fadeIn" *ngIf="citySelError">City should be select from dropdown</p> -->
                     <ng-template #rt let-r="result">
                       <div class="d-flex">
                         <div class="flag-container mr-1 flag-icon-20-12">
@@ -432,7 +433,7 @@
           </div>
           <div class="col-6 mt-3">
             <button *ngIf="!stepper.lastStepActive" [disabled]="locationForm.invalid || (rackStorageForm.invalid && rackedStorage) ||( bulkStorageForm.invalid && bulkStorage) || generalForm.invalid
-                              || wareHouseAvailableForm.invalid || !whFacilitation.length || !selectedDocx.length || !wareHouseType || (!rackedStorage && !bulkStorage)"
+                              || wareHouseAvailableForm.invalid || !whFacilitation.length || !selectedDocx.length || !wareHouseType || (!rackedStorage && !bulkStorage) || !(selectedCity && selectedCity.imageName)"
               (click)="putWarehouseInfo()" class="btn btn-primary btn-register hvr-sweep-to-right pull-right pl-5 pr-5">
               PROCEED </button>
           </div>

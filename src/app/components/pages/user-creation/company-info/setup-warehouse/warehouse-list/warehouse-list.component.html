@@ -4,12 +4,22 @@
     <p class="sub-title">Market your warehouse to potential customers. This will allow you to add your warehouse and create a listing of available
       capacity on HashMove.</p>
   </div>
-  <div class="col-6 d-flex align-self-center">
-    <h5 class="m-0">You have added {{allWareHouseList.length}} warehouses</h5>
-  </div>
-  <div class="col-6">
-    <button (click)="createWarehouse()" class="btn btn-primary pull-right text-uppercase pt-2 pb-2 pl-3" type="button">Add Another Warehouse</button>
-    <button (click)="goToDashboard()" class="btn btn-primary pull-right text-uppercase pt-2 pb-2 mr-1 pl-3" type="button">Go To Dashboard</button>
+  <div class="col-12">
+    <div class="row">
+      <div class="col-6">
+        <h5 class="m-0">You have added {{allWareHouseList.length}} warehouse</h5>
+      </div>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-xl-6">
+            <button (click)="goToDashboard()" class="btn btn-primary pull-right text-uppercase pt-2 pb-2 mr-1 pl-3" type="button">Go To Dashboard</button>
+          </div>
+          <div class="col-xl-6">
+            <button (click)="createWarehouse()" class="btn btn-primary pull-right text-uppercase pt-2 pb-2 pl-3" type="button">Add Another Warehouse</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <hr class="hr-solid mt-3">
@@ -24,9 +34,12 @@
               <div class="col-sm-12 mt-1 col-md-9">
                 <div class="shipping-news-company mt-0">
                   <div class="logo">
-                    <div class="gallery-section" *ngFor="let image of wareHouse.parsedGallery; let i=index" (click)="openGallery(wareHouse.parsedGallery, i)">
+                    <div class="gallery-section" *ngFor="let doc of wareHouse.parsedGallery; let i=index" (click)="openGallery(wareHouse.parsedGallery, i)">
                       <div class="images-carousel" *ngIf="i==0">
-                        <img [src]="image.thumb" alt="thumbnail">
+                        <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail">
+                        <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
+                          <source [src]="doc.DocumentFile" type="video/mp4">
+                        </video>
                         <div class="gallery-section-item d-flex justify-content-center align-items-center">
                           <img src="../../../assets/images/icons/icon_pictures.svg" alt="" class="icon-size-14 mr-1"> {{wareHouse.UploadedGalleries.length}}
                         </div>
