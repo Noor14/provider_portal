@@ -5,6 +5,7 @@ import { UserGuard } from '../user-creation/user.guard';
 import { UserDeskComponent } from './user-desk.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ViewBookingComponent } from './view-booking/view-booking.component';
+import { ManageRatesComponent } from './manage-rates/manage-rates.component';
 
 const routes: Routes = [
     {
@@ -14,6 +15,7 @@ const routes: Routes = [
         children: [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'booking-detail/:id', component: ViewBookingComponent },
+            { path: 'manage-rates', component: ManageRatesComponent },
             { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
     }

@@ -11,11 +11,14 @@ import { DashboardService } from './dashboard/dashboard.service';
 import { SearchBookingMode } from '../../../constants/dashboardBookingsFilter';
 import { AgmCoreModule } from '@agm/core';
 import { UserGuard } from '../user-creation/user.guard';
+import { ManageRatesComponent } from './manage-rates/manage-rates.component';
+import { DataTablesModule } from 'angular-datatables';
 @NgModule({
   imports: [
     CommonModule,
     NgbModule,
     UserDeskRoutingModule,
+    DataTablesModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
       libraries: ["places", "geometry"]
@@ -27,6 +30,7 @@ import { UserGuard } from '../user-creation/user.guard';
     DashboardComponent,
     ViewBookingComponent,
     SearchBookingMode,
+    ManageRatesComponent
   ],
   providers:[
     ViewBookingService,
