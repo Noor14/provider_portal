@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-rates',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageRatesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _router: Router) { }
 
   ngOnInit() {
   }
-
+  tonavigate(url) {
+    this._router.navigate([url]);
+  }
 }

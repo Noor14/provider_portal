@@ -1,15 +1,20 @@
-<nav class="navbar navbar-light bg-light">
-  <span class="navbar-text pointer">
-    SEA FREIGHT
-  </span>
-  <span class="navbar-text pointer">
-    AIR FREIGHT
-  </span>
-  <span class="navbar-text pointer">
-    GROUND TRANSPORT
-  </span>
-  <span class="navbar-text pointer">
-    WAREHOUSING
-  </span>
-</nav>
-<router-outlet></router-outlet>
+<section class="manageRates">
+  <h2>Manage Rates</h2>
+  <nav class="navbar navbar-light bg-light p-0">
+    <span class="navbar-text pointer p-0" (click)="tonavigate('/provider/manage-rates/sea')">
+      SEA FREIGHT
+    </span>
+    <span class="navbar-text pointer p-0" (click)="tonavigate('/provider/manage-rates/air')">
+      AIR FREIGHT
+    </span>
+    <span class="navbar-text pointer p-0" (click)="tonavigate('/provider/manage-rates/ground')">
+      GROUND TRANSPORT
+    </span>
+    <span class="navbar-text pointer p-0" (click)="tonavigate('/provider/manage-rates/warehouse')">
+      WAREHOUSING
+    </span>
+  </nav>
+  <section class="ratesPages">
+    <router-outlet></router-outlet>
+  </section>
+</section>
