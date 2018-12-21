@@ -16,6 +16,7 @@ import { BookingInvoiceComponent } from './user-desk/booking-invoice/booking-inv
 import { ReUploadDocComponent } from '../../shared/dialogues/re-upload-doc/re-upload-doc.component';
 import { BasicInfoService } from './user-creation/basic-info/basic-info.service';
 import { CompanyInfoService } from './user-creation/company-info/company-info.service';
+import { DiscardDraftComponent } from '../../shared/dialogues/discard-draft/discard-draft.component';
  
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { CompanyInfoService } from './user-creation/company-info/company-info.se
     ConfirmLogoutDialogComponent,
     BookingInvoiceComponent,
     ReUploadDocComponent,
+    DiscardDraftComponent
     // CancelBookingDialogComponent,
     // ConfirmModifySearchComponent,
     // ShareshippingComponent,
@@ -49,7 +51,8 @@ import { CompanyInfoService } from './user-creation/company-info/company-info.se
     UpdatePasswordComponent,
     ConfirmLogoutDialogComponent,
     BookingInvoiceComponent,
-    ReUploadDocComponent
+    ReUploadDocComponent,
+    DiscardDraftComponent
  
   ],
   providers: [
