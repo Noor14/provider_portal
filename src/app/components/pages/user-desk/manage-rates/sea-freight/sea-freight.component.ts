@@ -4,7 +4,6 @@ import { DiscardDraftComponent } from '../../../../../shared/dialogues/discard-d
 import { Subject } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { SeaFreightService } from './sea-freight.service';
-import * as data from './data.json';
 @Component({
   selector: 'app-sea-freight',
   templateUrl: './sea-freight.component.html',
