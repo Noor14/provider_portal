@@ -36,6 +36,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           width: "150"
         }
       ],
+
     };
   }
 
