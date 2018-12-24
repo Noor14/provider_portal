@@ -42,7 +42,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getAllPublishRates();
 
-
   }
   getAllPublishRates() {
     this.loading = true;
