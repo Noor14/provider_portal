@@ -1,17 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DiscardDraftComponent } from '../../../../../shared/dialogues/discard-draft/discard-draft.component';
-
+import { Subject } from 'rxjs';
+import 'rxjs/add/operator/map';
+import { SeaFreightService } from './sea-freight.service';
+import * as data from './data.json';
 @Component({
   selector: 'app-sea-freight',
   templateUrl: './sea-freight.component.html',
   styleUrls: ['./sea-freight.component.scss']
 })
-export class SeaFreightComponent implements OnInit {
+export class SeaFreightComponent implements OnInit, OnDestroy {
 
-  
+  public dtOptions: DataTables.Settings = {};
+  public dtTrigger: Subject<any> = new Subject();
+  public allRatesList;
   constructor(
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _seaFreightService: SeaFreightService
   ) { }
 
   ngOnInit() {
@@ -21,14 +27,30 @@ export class SeaFreightComponent implements OnInit {
       { title: 'Carrot', votes: 3 },
       { title: 'Banana', votes: 2 }
     ];
-    votes.sort(this.multi);
-   
-  }
+
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      responsive: true,
+      scrollX: true,
+      // columns: [
+      //   // { "width": "40%" },
+      //   // { "width": "200px" }
+      // ]  
+    };
+
   
-  multi(vote1, vote2) {
-    console.log(vote1);
-    console.log(vote2);
-    return false;
+    this._seaFreightService.getAllrates().subscribe(res => {
+      this.allRatesList = res;
+      console.log(this.allRatesList)
+        // Calling the DT trigger to manually render the table
+        this.dtTrigger.next();
+      });
+
+  }
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
   }
   discardDraft() {
     this.modalService.open(DiscardDraftComponent, {
