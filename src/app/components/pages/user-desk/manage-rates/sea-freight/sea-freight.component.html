@@ -1,65 +1,67 @@
-<table datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+<div class="publishRtaes">
+    <table  datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>First name</th>
+          <th>Last name</th>
+    
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let obj of allRatesList">
+          <td>{{ obj.id }}</td>
+          <td>{{ obj.title }}</td>
+          <td>{{ obj.shortName }}</td>
+          <td>{{ obj.title }}</td>
+          <td>{{ obj.shortName }}</td>
+          <td>{{ obj.title }}</td>
+          <td>{{ obj.shortName }}</td>
+          <td>{{ obj.title }}</td>
+          <td>{{ obj.shortName }}</td>
+          <td>{{ obj.title }}</td>
+          <td>{{ obj.shortName }}</td>
+          <td>{{ obj.title }}</td>
+          <td>{{ obj.shortName }}</td>
+          <td>{{ obj.title }}</td>
+          <td>{{ obj.shortName }}</td>
+          <td>{{ obj.title }}</td>
+          <td>{{ obj.shortName }}</td>
+          <td>{{ obj.title }}</td>
+          <td>{{ obj.shortName }}</td>
+          <td>{{ obj.title }}</td>
+          <td>{{ obj.shortName }}</td>
+          <td>{{ obj.title }}</td>
+          <td>{{ obj.shortName }}</td>
+          <td>{{ obj.title }}</td>
+          <td>{{ obj.shortName }}</td>
+    
+        </tr>
+      </tbody>
+    </table>
+   <!-- <app-loader-main ></app-loader-main> -->
+ <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button>
+</div>
 
-<thead>
-  <tr>
-    <th>ID</th>
-    <th>First name</th>
-    <th>Last name</th>
-<th>First name</th>
-<th>Last name</th>
-<th>First name</th>
-<th>Last name</th>
-<th>First name</th>
-<th>Last name</th>
-<th>First name</th>
-<th>Last name</th>
-<th>First name</th>
-<th>Last name</th>
-<th>First name</th>
-<th>Last name</th>
-<th>First name</th>
-<th>Last name</th>
-<th>First name</th>
-<th>Last name</th>
-<th>First name</th>
-<th>Last name</th>
-<th>First name</th>
-<th>Last name</th>
-<th>First name</th>
-<th>Last name</th>
-
-  </tr>
-</thead>
-<tbody>
-<tr *ngFor="let obj of allRatesList">
-    <td>{{ obj.id }}</td>
-<td>{{ obj.title }}</td>
-<td>{{ obj.shortName }}</td>
-<td>{{ obj.title }}</td>
-<td>{{ obj.shortName }}</td>
-<td>{{ obj.title }}</td>
-<td>{{ obj.shortName }}</td>
-<td>{{ obj.title }}</td>
-<td>{{ obj.shortName }}</td>
-<td>{{ obj.title }}</td>
-<td>{{ obj.shortName }}</td>
-<td>{{ obj.title }}</td>
-<td>{{ obj.shortName }}</td>
-<td>{{ obj.title }}</td>
-<td>{{ obj.shortName }}</td>
-<td>{{ obj.title }}</td>
-<td>{{ obj.shortName }}</td>
-<td>{{ obj.title }}</td>
-<td>{{ obj.shortName }}</td>
-<td>{{ obj.title }}</td>
-<td>{{ obj.shortName }}</td>
-<td>{{ obj.title }}</td>
-<td>{{ obj.shortName }}</td>
-<td>{{ obj.title }}</td>
-<td>{{ obj.shortName }}</td>
-
-  </tr>
-</tbody>
-
-</table>
-<button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button>

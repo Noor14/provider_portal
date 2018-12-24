@@ -5,7 +5,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { PagesComponent } from './pages.component';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
-import { LoaderComponent } from '../../shared/loader/loader.component'
+// import { LoaderComponent } from '../../shared/loader/loader.component'
 import { LoginDialogComponent } from '../../shared/dialogues/login-dialog/login-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordComponent } from '../../shared/dialogues/forgot-password/forgot-password.component';
@@ -24,14 +24,13 @@ import { DiscardDraftComponent } from '../../shared/dialogues/discard-draft/disc
     PagesRoutingModule,
     FormsModule, 
     ReactiveFormsModule,
-    NgbModule.forRoot(),
+    NgbModule.forRoot()
 
   ],
   declarations: [
     PagesComponent,
     HeaderComponent,
     FooterComponent,
-    LoaderComponent,
     LoginDialogComponent,
     ForgotPasswordComponent,
     UpdatePasswordComponent,

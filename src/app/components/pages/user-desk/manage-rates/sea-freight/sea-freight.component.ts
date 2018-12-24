@@ -14,42 +14,46 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   public dtOptions: DataTables.Settings = {};
   public dtTrigger: Subject<any> = new Subject();
-  public allRatesList;
+  public allRatesList: any;
+  public loading:boolean;
+
   constructor(
     private modalService: NgbModal,
     private _seaFreightService: SeaFreightService
-  ) { }
-
-  ngOnInit() {
-    var votes = [
-      { title: 'Apple', votes: 1 },
-      { title: 'Milk', votes: 2 },
-      { title: 'Carrot', votes: 3 },
-      { title: 'Banana', votes: 2 }
-    ];
-
+  ) { 
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
-      responsive: true,
       scrollX: true,
-      // columns: [
-      //   // { "width": "40%" },
-      //   // { "width": "200px" }
-      // ]  
+      searching: false,
+      lengthChange: false,
+      columnDefs: [
+        {
+          targets: 0,
+          width: 'auto'
+        }, {
+          targets: "_all",
+          width: "150"
+        }
+      ],
     };
+  }
 
-  
-    this._seaFreightService.getAllrates().subscribe(res => {
-      this.allRatesList = res;
-      console.log(this.allRatesList)
-        // Calling the DT trigger to manually render the table
-        this.dtTrigger.next();
-      });
+  ngOnInit() {
+    this.getAllPublishRates();
+
 
   }
+  getAllPublishRates() {
+    this.loading = true;
+    this._seaFreightService.getAllrates().subscribe(res => {
+      this.allRatesList = res;
+      this.dtTrigger.next();
+      this.loading = false;
+
+    });
+  }
   ngOnDestroy(): void {
-    // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
   discardDraft() {
