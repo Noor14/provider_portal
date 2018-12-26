@@ -1,67 +1,6 @@
 <div class="publishRtaes">
-    <table  datatable class="row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>First name</th>
-          <th>Last name</th>
-    
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let obj of allRatesList">
-          <td>{{ obj.id }}</td>
-          <td>{{ obj.title }}</td>
-          <td>{{ obj.shortName }}</td>
-          <td>{{ obj.title }}</td>
-          <td>{{ obj.shortName }}</td>
-          <td>{{ obj.title }}</td>
-          <td>{{ obj.shortName }}</td>
-          <td>{{ obj.title }}</td>
-          <td>{{ obj.shortName }}</td>
-          <td>{{ obj.title }}</td>
-          <td>{{ obj.shortName }}</td>
-          <td>{{ obj.title }}</td>
-          <td>{{ obj.shortName }}</td>
-          <td>{{ obj.title }}</td>
-          <td>{{ obj.shortName }}</td>
-          <td>{{ obj.title }}</td>
-          <td>{{ obj.shortName }}</td>
-          <td>{{ obj.title }}</td>
-          <td>{{ obj.shortName }}</td>
-          <td>{{ obj.title }}</td>
-          <td>{{ obj.shortName }}</td>
-          <td>{{ obj.title }}</td>
-          <td>{{ obj.shortName }}</td>
-          <td>{{ obj.title }}</td>
-          <td>{{ obj.shortName }}</td>
-    
-        </tr>
-      </tbody>
-    </table>
-   <!-- <app-loader-main ></app-loader-main> -->
+<table cellspacing="0" #dataTable class="row-border hover">
+ </table>
  <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button>
 </div>
 
