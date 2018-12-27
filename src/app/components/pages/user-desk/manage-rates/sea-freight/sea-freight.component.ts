@@ -47,7 +47,7 @@ export class SeaFreightComponent implements OnInit {
             {
               title: 'Short Name',
               data: 'shortName',
-              defaultContent: '<input type="text" value="0" size="10"/>'
+              defaultContent: '<select><option disable>-- Select --</option> <option></option></select>'
             },
             {
               title: 'Title',
@@ -56,7 +56,7 @@ export class SeaFreightComponent implements OnInit {
             {
               title: 'Short Name',
               data: 'shortName',
-              defaultContent: '<input type="text" value="0" size="10"/>'
+              defaultContent: '<input placeholder="0.00" type="text" size="10"/>'
             },
             {
               title: 'Title',
