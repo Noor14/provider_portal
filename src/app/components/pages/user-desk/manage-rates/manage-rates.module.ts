@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ManageRatesRoutingModule } from './manage-rates-routing.module';
 import { ManageRatesComponent } from './manage-rates.component';
 import { SeaFreightComponent } from './sea-freight/sea-freight.component';
@@ -16,7 +17,8 @@ import { LoaderComponent } from '../../../../shared/loader/loader.component';
     CommonModule,
     ManageRatesRoutingModule,
     DataTablesModule,
-    ScrollbarModule
+    ScrollbarModule,
+    NgbModule
   ],
   declarations: [
     ManageRatesComponent,
