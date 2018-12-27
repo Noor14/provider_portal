@@ -15,7 +15,6 @@ export class SeaFreightComponent implements OnInit {
 
   public dtOptions: DataTables.Settings = {};
   @ViewChild('dataTable') table;
-
   public dataTable: any;
   public allRatesList: any;
   public loading: boolean;
@@ -34,9 +33,9 @@ export class SeaFreightComponent implements OnInit {
 
   getAllPublishRates() {
     this.loading = true;
-    this._seaFreightService.getAllrates().subscribe((state: any) => {
-      if (state && state.length) {
-        this.allRatesList = state;
+    this._seaFreightService.getAllrates().subscribe((res: any) => {
+      if (res && res.length) {
+        this.allRatesList = res;
         this.loading = false;
         this.dtOptions = {
           data: this.allRatesList,
@@ -157,6 +156,12 @@ export class SeaFreightComponent implements OnInit {
           searching: false,
           lengthChange: false,
           responsive: true,
+          language: {
+            paginate: {
+              next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">', // or '→'
+              previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">' // or '←' 
+            }
+          },
           columnDefs: [
             {
               targets: 0,
@@ -169,6 +174,10 @@ export class SeaFreightComponent implements OnInit {
         };
         this.dataTable = $(this.table.nativeElement);
         this.dataTable.DataTable(this.dtOptions);
+        var myTable = $('table').DataTable();
+        $('table').on('click', 'tbody td', function () {
+          myTable.cell(this).edit();
+        });
        
       }
     })

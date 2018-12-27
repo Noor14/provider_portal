@@ -17,9 +17,9 @@ export class ManageRatesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this._seaFreightService.getAllrates().subscribe(res => {
-      this._sharedService.publishRatesList.next(res);
-    });
+    // this._seaFreightService.getAllrates().subscribe(res => {
+    //   this._sharedService.publishRatesList.next(res);
+    // });
   }
 
 
