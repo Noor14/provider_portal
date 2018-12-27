@@ -47,7 +47,7 @@ export class SeaFreightComponent implements OnInit {
             {
               title: 'Short Name',
               data: 'shortName',
-              defaultContent: '<select><option disable>-- Select --</option> <option></option></select>'
+              defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
             },
             {
               title: 'Title',
@@ -158,8 +158,8 @@ export class SeaFreightComponent implements OnInit {
           responsive: true,
           language: {
             paginate: {
-              next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">', // or '→'
-              previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">' // or '←' 
+              next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">', 
+              previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
             }
           },
           columnDefs: [

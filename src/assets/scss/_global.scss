@@ -1386,6 +1386,7 @@ select {
 
                 input {
                   border: none;
+                  width: 100%;
 
                   &::placeholder {
                     color: $place-holder-color;
@@ -1409,13 +1410,13 @@ select {
                   }
                 }
                 select {
-                  height: 3rem;
                   border: none;
                   border-radius: 4px !important;
                   color: $place-holder-color;
                   font-family: $font-proxima;
                   font-size: $font-size-large;
                   font-style: italic;
+                  width: 100%;
                   -webkit-appearance: none;
                   -moz-appearance: none;
                   -o-appearance: none;
@@ -1467,15 +1468,24 @@ select {
         font-size: $font-size-base;
         color: $pagination-text-color !important;
         font-weight: $font-weight-mid;
-      }
 
-      >span {
-        >.paginate_button {
-          padding: 0.2rem 0.65rem;
+        &.previous, &.next {
+          padding: 0.3rem 0.35rem;
           border: none;
           background: #ececec;
           border-radius: 5px;
           margin-right: 5px;
+        }
+      }
+
+      >span {
+        >.paginate_button {
+          padding: 0.45rem 0.65rem;
+          border: none;
+          background: #ececec;
+          border-radius: 5px;
+          margin-right: 5px;
+          line-height: 1;
 
           &.current {
             background: #f1f2f6;
