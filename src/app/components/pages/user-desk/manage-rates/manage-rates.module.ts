@@ -19,13 +19,9 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     ManageRatesRoutingModule,
     DataTablesModule,
     ScrollbarModule,
-<<<<<<< HEAD
-    NgbModule
-=======
     NgbModule,
     FormsModule,
     ReactiveFormsModule
->>>>>>> after_release-setup-screen
   ],
   declarations: [
     ManageRatesComponent,

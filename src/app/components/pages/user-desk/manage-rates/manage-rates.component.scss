@@ -103,6 +103,8 @@ $left-nav-icon-height:20px;
 
 .rates-filter {
     border: 1px solid $acc-border;
+    display: inline-block;
+    width: 100%;
     .card {
         background: $acc-bg;
 
