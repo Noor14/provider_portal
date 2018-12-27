@@ -24,7 +24,7 @@ export class SearchBookingMode implements PipeTransform {
         }
     }
     filterByDate(bookings){
-        return bookings.sort(function compare(a, b) {
+        return bookings.sort(function(a, b) {
             let dateA: any = new Date(a.HashMoveBookingDate);
             let dateB: any = new Date(b.HashMoveBookingDate);
             return dateB - dateA;

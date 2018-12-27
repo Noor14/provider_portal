@@ -1,28 +1,193 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { DiscardDraftComponent } from '../../../../../shared/dialogues/discard-draft/discard-draft.component';
+import { Subject } from 'rxjs';
+import 'rxjs/add/operator/map';
+import { SeaFreightService } from './sea-freight.service';
+import { getJwtToken } from '../../../../../services/jwt.injectable';
+declare var $;
 @Component({
   selector: 'app-sea-freight',
   templateUrl: './sea-freight.component.html',
   styleUrls: ['./sea-freight.component.scss']
 })
 export class SeaFreightComponent implements OnInit {
-  dtOptions: DataTables.Settings = {};
-  constructor() { }
 
-  ngOnInit() {
-    this.dtOptions = {
-      // scrollY:        '300px',
-      scrollX:        true,
-      // scrollCollapse: true,
-      paging:         false,
-      // columnDefs: [ {
-      //     orderable: false,
-      //     className: 'select-checkbox',
-      //     targets:   0
-      // } ],
+  public dtOptions: DataTables.Settings = {};
+  @ViewChild('dataTable') table;
 
-      // order: [[ 1, 'asc' ]]
-    };
+  public dataTable: any;
+  public allRatesList: any;
+  public loading: boolean;
+  constructor(
+    private modalService: NgbModal,
+    private _seaFreightService: SeaFreightService,
+  ) {
+
   }
 
+  ngOnInit() {
+    this.getAllPublishRates();
+
+  }
+
+
+  getAllPublishRates() {
+    this.loading = true;
+    this._seaFreightService.getAllrates().subscribe((state: any) => {
+      if (state && state.length) {
+        this.allRatesList = state;
+        this.loading = false;
+        this.dtOptions = {
+          data: this.allRatesList,
+          columns: [
+            {
+              title: 'ID',
+              data: 'id',
+            },
+            {
+              title: 'Short Name',
+              data: 'shortName',
+              defaultContent: '<input type="text" value="0" size="10"/>'
+            },
+            {
+              title: 'Title',
+              data: 'title'
+            },
+            {
+              title: 'Short Name',
+              data: 'shortName',
+              defaultContent: '<input type="text" value="0" size="10"/>'
+            },
+            {
+              title: 'Title',
+              data: 'title'
+            },
+            {
+              title: 'Short Name',
+              data: 'shortName'
+            },
+            {
+              title: 'Title',
+              data: 'title'
+            },
+            {
+              title: 'Short Name',
+              data: 'shortName'
+            },
+            {
+              title: 'Title',
+              data: 'title'
+            },
+            {
+              title: 'Short Name',
+              data: 'shortName'
+            },
+            {
+              title: 'Title',
+              data: 'title'
+            },
+            {
+              title: 'Short Name',
+              data: 'shortName'
+            },
+            {
+              title: 'Title',
+              data: 'title'
+            },
+            {
+              title: 'Short Name',
+              data: 'shortName'
+            },
+            {
+              title: 'Title',
+              data: 'title'
+            },
+            {
+              title: 'Short Name',
+              data: 'shortName'
+            },
+             {
+              title: 'Title',
+              data: 'title'
+            },
+            {
+              title: 'Short Name',
+              data: 'shortName'
+            },
+            {
+              title: 'Title',
+              data: 'title'
+            },
+            {
+              title: 'Short Name',
+              data: 'shortName'
+            },
+            {
+              title: 'Title',
+              data: 'title'
+            },
+            {
+              title: 'Short Name',
+              data: 'shortName'
+            },
+            {
+              title: 'Title',
+              data: 'title'
+            },
+            {
+              title: 'Short Name',
+              data: 'shortName'
+            },
+            {
+              title: 'Title',
+              data: 'title'
+            },
+            {
+              title: 'Short Name',
+              data: 'shortName'
+            },
+
+          ],
+          // processing: true,
+          // serverSide: true,
+          pagingType: 'full_numbers',
+          pageLength: 10,
+          scrollX: true,
+          searching: false,
+          lengthChange: false,
+          responsive: true,
+          columnDefs: [
+            {
+              targets: 0,
+              width: 'auto'
+            }, {
+              targets: "_all",
+              width: "150"
+            }
+          ]
+        };
+        this.dataTable = $(this.table.nativeElement);
+        this.dataTable.DataTable(this.dtOptions);
+       
+      }
+    })
+
+  }
+ 
+  discardDraft() {
+    this.modalService.open(DiscardDraftComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
 }
