@@ -9,6 +9,7 @@ export class SeaFreightService {
   
   getAllrates(){
     let url: string = "country/GetDropDownDetailOtherLanguage/0";
+    // let url: string = "providerratefcl/SearchRates";
     return this._http.get(baseApi + url);
   }
 }
