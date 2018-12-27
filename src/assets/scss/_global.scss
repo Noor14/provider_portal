@@ -1331,45 +1331,161 @@ select {
 
 // Data table
 
-.dataTable {
-  border: 1px solid $data-table-border;
+.ratesPages {
+  .publishRtaes {
+    .dataTables_scroll {
+      border: 1px solid #ccc;
 
-  thead {
-    background: $data-table-header-bg;
+      .dataTables_scrollHead {
+        .dataTable {
+          thead {
+            background: $data-table-header-bg;
 
-    tr {
-      th {
-        font-family: $font-proxima;
-        color: $color-topmenu !important;
-        font-size: $font-size-medium;
-        font-weight: normal !important;
-        border-bottom: 1px solid $data-table-border !important;
-        &:hover {
-          color: $primary-color;
+            tr {
+              th {
+                font-family: $font-proxima;
+                color: $color-topmenu !important;
+                font-size: $font-size-medium;
+                font-weight: normal !important;
+                border-bottom: 1px solid $data-table-border !important;
+                text-transform: uppercase;
+
+                &:hover {
+                  color: $primary-color;
+                }
+
+                &.sorting_asc {
+                  background: url("assets/images/icons/sorting_asc.svg") no-repeat;
+                  background-size: 10px !important;
+                  background-position: center right 5px !important;
+                }
+
+                &.sorting_desc {
+                  @extend .sorting_asc;
+                  background: url("assets/images/icons/sorting_desc.svg") no-repeat;
+                }
+              }
+            }
+          }
         }
+      }
 
-        &.sorting_asc {
-          background: url("assets/images/icons/sorting_asc.svg") no-repeat;
-          background-size: 10px !important;
-          background-position: center right 10px !important;
-        }
+      .dataTables_scrollBody {
+        border: none;
 
-        &.sorting_desc {
-          @extend .sorting_asc;
-          background: url("assets/images/icons/sorting_desc.svg") no-repeat;
+        .dataTable {
+          tbody {
+            tr {
+              td {
+                font-family: $font-proxima;
+                font-size: $font-size-large;
+                color: $text-color-default;
+                border-bottom: 1px solid $data-table-border !important;
+                border-top: none !important;
+                padding: 1rem;
+
+                input {
+                  border: none;
+
+                  &::placeholder {
+                    color: $place-holder-color;
+                    font-family: $font-proxima;
+                    font-size: $font-size-large;
+                    font-style: italic;
+                  }
+
+                  &::-ms-input-placeholder {
+                    color: $place-holder-color;
+                    font-family: $font-proxima;
+                    font-style: italic;
+                    font-size: $font-size-large;
+                  }
+
+                  &::-webkit-input-placeholder {
+                    color: $place-holder-color;
+                    font-family: $font-proxima;
+                    font-style: italic;
+                    font-size: $font-size-large;
+                  }
+                }
+                select {
+                  height: 3rem;
+                  border: none;
+                  border-radius: 4px !important;
+                  color: $place-holder-color;
+                  font-family: $font-proxima;
+                  font-size: $font-size-large;
+                  font-style: italic;
+                  -webkit-appearance: none;
+                  -moz-appearance: none;
+                  -o-appearance: none;
+                  background: url("assets/images/select-arrow.png") no-repeat center right 10px $color-white;
+
+                  &.non-selected {
+                    font-size: $font-size-large;
+                    color: $text-color-default;
+                  }
+
+                  &::-ms-expand {
+                    display: none;
+                  }
+              
+                  &:-moz-focusring {
+                    border: none;
+                    box-shadow: none;
+                  }
+              
+                  &:focus {
+                    box-shadow: none !important;
+                    border-color: $form-control-focus !important;
+                  }
+              
+                  &::-ms-clear,
+                  &::-ms-reveal {
+                    display: none;
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
-  }
 
-  tbody {
-    tr {
-      td {
-        font-family: $font-proxima;
-        font-size: $font-size-large;
-        color: $text-color-default;
-        border-bottom: 1px solid $data-table-border !important;
-        border-top: none !important;
+    .dataTables_info {
+      font-family: $font-proxima;
+      font-size: $font-size-medium;
+      color: $pagination-text-color;
+      padding-top: 1.3rem;
+    }
+
+    .dataTables_paginate {
+      font-family: $font-proxima;
+      padding-top: 0.9em;
+
+      a.paginate_button {
+        font-size: $font-size-base;
+        color: $pagination-text-color !important;
+        font-weight: $font-weight-mid;
+      }
+
+      >span {
+        >.paginate_button {
+          padding: 0.2rem 0.65rem;
+          border: none;
+          background: #ececec;
+          border-radius: 5px;
+          margin-right: 5px;
+
+          &.current {
+            background: #f1f2f6;
+            box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2) inset;
+
+            &:hover {
+              border: none;
+            }
+          }
+        }
       }
     }
   }
@@ -1377,29 +1493,29 @@ select {
 
 // End data table
 
-//  muliselect combo box
-.multiselect-dropdown {
-  .dropdown-btn {
-    padding: 10px !important;
+  //  muliselect combo box
+  .multiselect-dropdown {
+    .dropdown-btn {
+      padding: 10px !important;
 
-    .dropdown-up,
-    .dropdown-down {
-      border-left: 5px solid transparent !important;
-      border-right: 5px solid transparent !important;
+      .dropdown-up,
+      .dropdown-down {
+        border-left: 5px solid transparent !important;
+        border-right: 5px solid transparent !important;
+      }
+
+      .dropdown-down {
+        border-top: 5px solid $secondary-grey !important;
+      }
+
+      .dropdown-up {
+        border-bottom: 5px solid $secondary-grey !important;
+      }
     }
 
-    .dropdown-down {
-      border-top: 5px solid $secondary-grey !important;
-    }
-
-    .dropdown-up {
-      border-bottom: 5px solid $secondary-grey !important;
+    .dropdown-list {
+      .item1 {
+        display: none;
+      }
     }
   }
-
-  .dropdown-list {
-    .item1 {
-      display: none;
-    }
-  }
-}
