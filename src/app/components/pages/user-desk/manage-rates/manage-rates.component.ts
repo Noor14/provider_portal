@@ -17,12 +17,20 @@ export class ManageRatesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this._seaFreightService.getAllrates().subscribe(res => {
-    //   this._sharedService.publishRatesList.next(res);
-    // });
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo && userInfo.returnText) {
+      let userProfile = JSON.parse(userInfo.returnText);
+      this.getAllservicesBySea(userProfile.UserID, userProfile.ProviderID);
+    }
+
   }
 
-
+  getAllservicesBySea(userID, providerID){
+  this._seaFreightService.getAllLogisticServiceBySea(userID, providerID).subscribe((res:any )=> {
+    if (res.returnStatus == "Success")
+      this._sharedService.dataLogisticServiceBySea.next(res.returnObject);
+  });
+}
   tonavigate(url) {
     this._router.navigate([url]);
   }

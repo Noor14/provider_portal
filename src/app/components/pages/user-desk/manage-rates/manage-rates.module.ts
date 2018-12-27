@@ -11,6 +11,7 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
 import { SeaFreightService } from './sea-freight/sea-freight.service';
 import { ScrollbarModule } from 'ngx-scrollbar';
 import { LoaderComponent } from '../../../../shared/loader/loader.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   imports: [
@@ -18,7 +19,13 @@ import { LoaderComponent } from '../../../../shared/loader/loader.component';
     ManageRatesRoutingModule,
     DataTablesModule,
     ScrollbarModule,
+<<<<<<< HEAD
     NgbModule
+=======
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule
+>>>>>>> after_release-setup-screen
   ],
   declarations: [
     ManageRatesComponent,

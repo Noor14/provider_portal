@@ -11,6 +11,7 @@ import { DashboardService } from './dashboard/dashboard.service';
 import { SearchBookingMode } from '../../../constants/dashboardBookingsFilter';
 import { AgmCoreModule } from '@agm/core';
 import { UserGuard } from '../user-creation/user.guard';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -19,7 +20,7 @@ import { UserGuard } from '../user-creation/user.guard';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
       libraries: ["places", "geometry"]
-    }),
+    })
   ],
   declarations: [
     UserDeskComponent, 

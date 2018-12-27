@@ -1,5 +1,55 @@
-<div class="publishRtaes">
-<table cellspacing="0" #dataTable class="row-border hover"></table>
-<button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button>
-</div>
+<section class="seaFreight">
+    <section class="filteration">
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <label>Route</label>
+                    <div class="flag-container">
+                        <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
+                            type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                    </div>
+                    <input class="form-control" [(ngModel)]="filterOrigin" placeholder="Origin" type="text" [ngClass]="{'originSelected': filterOrigin && filterOrigin.CountryCode}"
+                    [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label>Route</label>
+                    <div class="flag-container">
+                        <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
+                            type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                    </div>
+                    <input placeholder="destination" [(ngModel)]="filterDestination" type="text" class="form-control" [ngClass]="{'originSelected': filterDestination && filterDestination.CountryCode}"
+                    [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
+                </div>
+            </div>
+            <ng-template #rt let-r="result">
+                <div class="d-flex">
+                    <div class="flag-container mr-1">
+                        <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
+                    </div>
+                    <ngb-highlight [result]="r.PortName"></ngb-highlight>
+                </div>
+            </ng-template>
+            <div class="col-6">
+                <div class="form-group">
+                    <label>Cargo Type</label>
+                    <select class="form-control" placeholder="Select">
+                        <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label>Date Control</label>
 
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="publishRtaes">
+        <table cellspacing="0" #dataTable class="row-border hover"></table>
+        <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button>
+    </section>
+</section>
