@@ -1,0 +1,14 @@
+@import '../../../../../../assets/scss/_variables';
+
+.seaFreight {
+    ngb-typeahead-window {
+        max-height: 200px;
+        overflow-y: auto;
+        .dropdown-item {
+            &.active,
+            &:active {
+                background: $primary-grey;
+            }
+        }
+    }
+}

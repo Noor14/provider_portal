@@ -1,14 +1,16 @@
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DiscardDraftComponent } from '../../../../../shared/dialogues/discard-draft/discard-draft.component';
-import { Subject } from 'rxjs';
-import 'rxjs/add/operator/map';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { SeaFreightService } from './sea-freight.service';
 import { getJwtToken } from '../../../../../services/jwt.injectable';
+import { SharedService } from '../../../../../services/shared.service';
 declare var $;
 @Component({
   selector: 'app-sea-freight',
   templateUrl: './sea-freight.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./sea-freight.component.scss']
 })
 export class SeaFreightComponent implements OnInit {
@@ -18,19 +20,39 @@ export class SeaFreightComponent implements OnInit {
   public dataTable: any;
   public allRatesList: any;
   public loading: boolean;
+  public allShippingLines: any[] = [];
+  public allCargoType: any[] = []
+  public allContainersType: any[] = [];
+  public allPorts: any[] = [];
+  public filterOrigin: any={};
+  public filterDestination: any = {};
   constructor(
     private modalService: NgbModal,
     private _seaFreightService: SeaFreightService,
+    private _sharedService: SharedService,
   ) {
 
   }
 
   ngOnInit() {
     this.getAllPublishRates();
-
+    this.allservicesBySea();
   }
 
-
+  allservicesBySea() {
+    this._sharedService.dataLogisticServiceBySea.subscribe(state => {
+      if (state && state.length) {
+        for (let index = 0; index < state.length; index++) {
+          if (state[index].LogServName == "SEA") {
+            this.allShippingLines = state[index].DropDownValues.ShippingLine;
+            this.allCargoType = state[index].DropDownValues.Category;
+            this.allContainersType = state[index].DropDownValues.Container;
+            this.allPorts = state[index].DropDownValues.Port
+          }
+        }
+      }
+    })
+  }
   getAllPublishRates() {
     this.loading = true;
     this._seaFreightService.getAllrates().subscribe((res: any) => {
@@ -106,7 +128,7 @@ export class SeaFreightComponent implements OnInit {
               title: 'Short Name',
               data: 'shortName'
             },
-             {
+            {
               title: 'Title',
               data: 'title'
             },
@@ -158,7 +180,7 @@ export class SeaFreightComponent implements OnInit {
           responsive: true,
           language: {
             paginate: {
-              next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">', 
+              next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
               previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
             }
           },
@@ -181,12 +203,12 @@ export class SeaFreightComponent implements OnInit {
         // $('table').on('click', 'tbody td', function () {
         //   myTable.cell(this).edit();
         // });
-       
+
       }
     })
 
   }
- 
+
   discardDraft() {
     this.modalService.open(DiscardDraftComponent, {
       size: 'lg',
@@ -202,4 +224,13 @@ export class SeaFreightComponent implements OnInit {
       }
     }, 0);
   }
+
+  ports = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 3) ? []
+        : this.allPorts.filter(v => v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1))
+    )
+  formatter = (x: {PortName: string }) => x.PortName;
+
 }

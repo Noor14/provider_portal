@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ManageRatesRoutingModule } from './manage-rates-routing.module';
 import { ManageRatesComponent } from './manage-rates.component';
 import { SeaFreightComponent } from './sea-freight/sea-freight.component';
@@ -10,13 +11,17 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
 import { SeaFreightService } from './sea-freight/sea-freight.service';
 import { ScrollbarModule } from 'ngx-scrollbar';
 import { LoaderComponent } from '../../../../shared/loader/loader.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   imports: [
     CommonModule,
     ManageRatesRoutingModule,
     DataTablesModule,
-    ScrollbarModule
+    ScrollbarModule,
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     ManageRatesComponent,

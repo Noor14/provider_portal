@@ -45,13 +45,11 @@
         <div class="card-body">
           <h5 class="card-title">Select Results for Fastest Route</h5>
           <div class="card-text animate">
-            
             <svg class="fastest-route-animate" data-name="Layer 1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-
               <g class="ng-tns-c35-1" data-name="fast_route">
-                <rect class="" data-name="<Path>" height="8" width="2" x="13" y="5"></rect>
-                <rect class="" data-name="<Path>" height="2" width="7" x="14" y="11"></rect>
-                <path class="" d="M10.667,2c-.225,0-.447.012-.667.034V4.067A4.61,4.61,0,0,1,10.667,4H22V15.333A4.672,4.672,0,0,1,17.333,20H10v2h7.333A6.667,6.667,0,0,0,24,15.333V2Z" data-name="<Path>"></path>
+                <rect data-name="<Path>" height="8" width="2" x="13" y="5"></rect>
+                <rect data-name="<Path>" height="2" width="7" x="14" y="11"></rect>
+                <path d="M10.667,2c-.225,0-.447.012-.667.034V4.067A4.61,4.61,0,0,1,10.667,4H22V15.333A4.672,4.672,0,0,1,17.333,20H10v2h7.333A6.667,6.667,0,0,0,24,15.333V2Z" data-name="<Path>"></path>
                 <rect class="slide-1" data-name="<Path>" height="2" width="8" y="5"></rect>
                 <rect class="slide-2" data-name="<Path>" height="2" width="6" x="2" y="11"></rect>
                 <rect class="slide-3" data-name="<Path>" height="2" width="4" x="4" y="17"></rect>
@@ -93,36 +91,7 @@
     </div>
   </div>
 
-  <div class="filer-temp">
-    <div class="row">
-        <div class="col-3">
-            <div class="form-group">
-            <label>Route</label>
-              <input class="form-control"  placeholder="Origin" /> 
-            </div>
-          </div>
-          <div class="col-3">
-              <div class="form-group">
-            <label>Route</label>
-                <input class="form-control"  placeholder="destination" /> 
-              </div>
-            </div>
-      <div class="col-6">
-        <div class="form-group">
-          <label>Cargo Type</label>
-          <select class="form-control"  placeholder="Select"> 
-            <option  value="100">All</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-6">
-          <div class="form-group">
-            <label>Date Control</label>
-            
-          </div>
-        </div>
-    </div>
-  </div>
+
   <section class="ratesPages">
     <router-outlet></router-outlet>
   </section>

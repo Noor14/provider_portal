@@ -26,8 +26,9 @@ export class ManageRatesComponent implements OnInit {
   }
 
   getAllservicesBySea(userID, providerID){
-  this._seaFreightService.getAllLogisticServiceBySea(userID, providerID).subscribe(res => {
-    this._sharedService.dataLogisticServiceBySea.next(res);
+  this._seaFreightService.getAllLogisticServiceBySea(userID, providerID).subscribe((res:any )=> {
+    if (res.returnStatus == "Success")
+      this._sharedService.dataLogisticServiceBySea.next(res.returnObject);
   });
 }
   tonavigate(url) {
