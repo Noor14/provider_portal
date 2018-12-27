@@ -174,10 +174,13 @@ export class SeaFreightComponent implements OnInit {
         };
         this.dataTable = $(this.table.nativeElement);
         this.dataTable.DataTable(this.dtOptions);
-        var myTable = $('table').DataTable();
-        $('table').on('click', 'tbody td', function () {
-          myTable.cell(this).edit();
-        });
+        // $('table').on('click', 'tbody td:not(:first-child)', function (e) {
+        //   editor.inline(this);
+        // });
+        // var myTable = $('table').DataTable();
+        // $('table').on('click', 'tbody td', function () {
+        //   myTable.cell(this).edit();
+        // });
        
       }
     })
