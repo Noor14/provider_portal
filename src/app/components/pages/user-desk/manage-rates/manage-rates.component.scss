@@ -5,10 +5,8 @@ $left-nav-icon-height:20px;
 .manageRates {
   .navbar {
     margin-bottom: 48px;
-
     ul {
       width: 100%;
-
       li {
         width: 25%;
         box-shadow: 0px 1px 0px 0px #e5e5e5;
@@ -42,74 +40,4 @@ $left-nav-icon-height:20px;
       }
     }
   }
-}
-
-.manage-rate-card {
-  .card {
-    &-icon {
-      height: 44px;
-      width: auto;
-      position: absolute;
-      left: 30px;
-      top: 27px;
-    }
-
-    &-body {
-      padding: 1.25rem 1.25rem 2rem 100px;
-      line-height: 1;
-
-      p {
-        margin-bottom: 0;
-      }
-    }
-
-    &:hover {
-      border-color: $primary-color;
-      box-shadow: 0 0 5px -1px $primary-color;
-    }
-  }
-
-  .routing {
-    padding: 2.2rem 0;
-
-    strong {
-      position: relative;
-      width: 100%;
-      display: inline-block;
-
-      span {
-        font-size: $font-size-large + 0.125rem;
-        font-family: $font-proxima;
-        font-weight: $font-proxima-weight-semibold;
-        background: $right-side-background;
-        padding: 0 10px;
-        z-index: 1;
-        position: relative;
-      }
-
-      &:before {
-        content: " ";
-        width: 100%;
-        height: 2px;
-        position: absolute;
-        background: $primary-color;
-        left: 0;
-        top: 12px;
-        z-index: 0;
-      }
-    }
-  }
-}
-
-.rates-filter {
-    border: 1px solid $acc-border;
-    display: inline-block;
-    width: 100%;
-    .card {
-        background: $acc-bg;
-
-        &-header {
-            background: $acc-bg;
-        }
-    }
 }

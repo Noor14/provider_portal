@@ -36,74 +36,7 @@
       </li>
     </ul>
   </nav>
-
-  <div class="row manage-rate-card mb-5">
-    <div class="col-5">
-      <div class="card">
-        <img class="card-icon" src="../../../../../assets/images/icons/manager-icon.png" alt="*" />
-        <div class="card-body">
-          <h5 class="card-title">Upload Your Rates</h5>
-          <p class="sub-title">Upload your rates if you already have it</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-2">
-      <div class="routing text-center">
-        <strong>
-          <span>OR</span>
-        </strong>
-      </div>
-    </div>
-    <div class="col-5">
-      <div class="card">
-        <img class="card-icon" src="../../../../../assets/images/icons/manager-icon.png" alt="*" />
-        <div class="card-body">
-          <h5 class="card-title">Add Your Rates Manually </h5>
-          <p class="sub-title">Use our tool to add your rates manually</p>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
-
-  <ngb-accordion [closeOthers]="true" activeIds="static-1" class="rates-filter">
-    <ngb-panel id="static-1">
-      <ng-template ngbPanelTitle>
-        <span><img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon">Filter
-          your results</span>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <div class="row">
-          <div class="col-3">
-            <div class="form-group">
-              <label>Route</label>
-              <input class="form-control" placeholder="Origin" />
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="form-group">
-              <label>Route</label>
-              <input class="form-control" placeholder="destination" />
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="form-group">
-              <label>Cargo Type</label>
-              <select class="form-control" placeholder="Select">
-                <option value="100">All</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="form-group">
-              <label>Date Control</label>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-    </ngb-panel>
-  </ngb-accordion>
-
   <section class="ratesPages mt-5">
     <router-outlet></router-outlet>
   </section>
