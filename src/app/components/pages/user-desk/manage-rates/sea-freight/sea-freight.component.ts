@@ -13,7 +13,7 @@ declare var $;
 })
 export class SeaFreightComponent implements OnInit {
 
-  public dtOptions: DataTables.Settings = {};
+  public dtOptions: DataTables.Settings | any = {};
   @ViewChild('dataTable') table;
   public dataTable: any;
   public allRatesList: any;

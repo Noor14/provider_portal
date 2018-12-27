@@ -12,4 +12,9 @@ export class SeaFreightService {
     // let url: string = "providerratefcl/SearchRates";
     return this._http.get(baseApi + url);
   }
+
+  getAllLogisticServiceBySea(userID, providerID){
+    let url: string = `provider/GetProviderLogisticService/${userID}/${providerID}`;
+    return this._http.get(baseApi + url);
+  }
 }

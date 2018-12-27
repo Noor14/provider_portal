@@ -14,7 +14,7 @@ export class SharedService {
   public getUserInfoByOtp = new BehaviorSubject<any>(null);
   public getUserOtpVerified = new BehaviorSubject<any>(null);
   public documentList = new BehaviorSubject<any>(null);
-  public publishRatesList = new BehaviorSubject<any>(null);
+  public dataLogisticServiceBySea = new BehaviorSubject<any>(null);
   public businessProfileJsonLabels = new BehaviorSubject<any>(null);
   public jobTitleList = new BehaviorSubject<any>(null);
   public businessDetailObj = new BehaviorSubject<any>(null);
