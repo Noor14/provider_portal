@@ -49,9 +49,9 @@ export class SeaFreightComponent implements OnInit {
   public allCargoType: any[] = []
   public allContainersType: any[] = [];
   public allPorts: any[] = [];
+  public allSeaDraftRates: any[] = [];
   public filterOrigin: any={};
   public filterDestination: any = {};
-
   public startDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
   public minDate: NgbDateStruct;
@@ -116,7 +116,8 @@ export class SeaFreightComponent implements OnInit {
             this.allShippingLines = state[index].DropDownValues.ShippingLine;
             this.allCargoType = state[index].DropDownValues.Category;
             this.allContainersType = state[index].DropDownValues.Container;
-            this.allPorts = state[index].DropDownValues.Port
+            this.allPorts = state[index].DropDownValues.Port;
+            this.allSeaDraftRates = state[index].DraftData;
           }
         }
       }
@@ -124,120 +125,62 @@ export class SeaFreightComponent implements OnInit {
   }
   getAllPublishRates() {
     this.loading = true;
-    this._seaFreightService.getAllrates().subscribe((res: any) => {
-      if (res && res.length) {
-        this.allRatesList = res;
+    let obj = {
+      pageNo: 1,
+      pageSize: 50,
+      carrierID: null,
+      shippingCatID: null,
+      containerSpecID: null,
+      polID: null,
+      podID: null,
+      effectiveFrom: null,
+      effectiveTo: null,
+      sortColumn: null,
+      sortColumnDirection: null
+    }
+    this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this.allRatesList = res.returnObject.data;
         this.loading = false;
         this.dtOptions = {
           data: this.allRatesList,
           columns: [
             {
               title: 'ID',
-              data: 'id',
+              data: 'carrierPricingID',
             },
             {
-              title: 'Short Name',
-              data: 'shortName',
+              title: 'SHIPPING LINE',
+              data: 'carrierName',
               defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
             },
             {
-              title: 'Title',
-              data: 'title'
+              title: 'ORIGIN',
+              data: 'polName'
             },
             {
-              title: 'Short Name',
-              data: 'shortName',
+              title: 'DEPARTURE',
+              data: 'podName',
               defaultContent: '<input placeholder="0.00" type="text" size="10"/>'
             },
             {
-              title: 'Title',
-              data: 'title'
+              title: 'CARGO TYPE',
+              data: 'shippingCatName',
+              defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
             },
             {
-              title: 'Short Name',
-              data: 'shortName'
+              title: 'CONTAINER',
+              data: 'containerSpecDesc',
+              defaultContent: '<select><option disable>-- Select --</option><option>One</option></select>'
             },
             {
-              title: 'Title',
-              data: 'title'
+              title: 'RATE',
+              data: 'price'
             },
             {
-              title: 'Short Name',
-              data: 'shortName'
+              title: 'RATE VALIDITY',
+              data: 'price'
             },
-            {
-              title: 'Title',
-              data: 'title'
-            },
-            {
-              title: 'Short Name',
-              data: 'shortName'
-            },
-            {
-              title: 'Title',
-              data: 'title'
-            },
-            {
-              title: 'Short Name',
-              data: 'shortName'
-            },
-            {
-              title: 'Title',
-              data: 'title'
-            },
-            {
-              title: 'Short Name',
-              data: 'shortName'
-            },
-            {
-              title: 'Title',
-              data: 'title'
-            },
-            {
-              title: 'Short Name',
-              data: 'shortName'
-            },
-            {
-              title: 'Title',
-              data: 'title'
-            },
-            {
-              title: 'Short Name',
-              data: 'shortName'
-            },
-            {
-              title: 'Title',
-              data: 'title'
-            },
-            {
-              title: 'Short Name',
-              data: 'shortName'
-            },
-            {
-              title: 'Title',
-              data: 'title'
-            },
-            {
-              title: 'Short Name',
-              data: 'shortName'
-            },
-            {
-              title: 'Title',
-              data: 'title'
-            },
-            {
-              title: 'Short Name',
-              data: 'shortName'
-            },
-            {
-              title: 'Title',
-              data: 'title'
-            },
-            {
-              title: 'Short Name',
-              data: 'shortName'
-            },
-
           ],
           // processing: true,
           // serverSide: true,
