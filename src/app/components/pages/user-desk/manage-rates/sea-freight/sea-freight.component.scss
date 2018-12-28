@@ -1,93 +1,199 @@
 @import '../../../../../../assets/scss/_variables';
+
 .seaFreight {
-    .manage-rate-card {
-        .card {
-            &-icon {
-                height: 44px;
-                width: auto;
-                position: absolute;
-                left: 30px;
-                top: 27px;
-            }
-            &-body {
-                padding: 1.25rem 1.25rem 2rem 100px;
-                line-height: 1;
-                p {
-                    margin-bottom: 0;
-                }
-            }
-            &:hover {
-                border-color: $primary-color;
-                box-shadow: 0 0 5px -1px $primary-color;
-            }
+  .manage-rate-card {
+    .card {
+      &-icon {
+        height: 44px;
+        width: auto;
+        position: absolute;
+        left: 30px;
+        top: 27px;
+      }
+
+      &-body {
+        padding: 1.25rem 1.25rem 2rem 100px;
+        line-height: 1;
+
+        p {
+          margin-bottom: 0;
         }
-        .routing {
-            padding: 2.2rem 0;
-            strong {
-                position: relative;
-                width: 100%;
-                display: inline-block;
-                span {
-                    font-size: $font-size-large + 0.125rem;
-                    font-family: $font-proxima;
-                    font-weight: $font-proxima-weight-semibold;
-                    background: $right-side-background;
-                    padding: 0 10px;
-                    z-index: 1;
-                    position: relative;
-                }
-                &:before {
-                    content: " ";
-                    width: 100%;
-                    height: 2px;
-                    position: absolute;
-                    background: $primary-color;
-                    left: 0;
-                    top: 12px;
-                    z-index: 0;
-                }
-            }
-        }
+      }
+
+      &:hover {
+        border-color: $primary-color;
+        box-shadow: 0 0 5px -1px $primary-color;
+      }
+
+      &-title {
+        font-size: 1.25rem;
+        margin-top: 0.2rem;
+      }
+
+      .sub-title {
+        font-size: 0.875rem;
+      }
     }
-    .rates-filter {
-        border: 1px solid $acc-border;
-        display: inline-block;
+
+    .routing {
+      padding: 2.2rem 0;
+
+      strong {
+        position: relative;
         width: 100%;
-        .card {
-            background: $acc-bg;
-            &-header {
-                background: $acc-bg;
-            }
+        display: inline-block;
+
+        span {
+          font-size: $font-size-large + 0.125rem;
+          font-family: $font-proxima;
+          font-weight: $font-proxima-weight-semibold;
+          background: $right-side-background;
+          padding: 0 10px;
+          z-index: 1;
+          position: relative;
         }
-        ngb-typeahead-window {
-            max-height: 200px;
-            overflow-y: auto;
-            .dropdown-item {
-                &.active,
-                &:active {
-                    background: $primary-grey;
-                }
-            }
+
+        &:before {
+          content: " ";
+          width: 100%;
+          height: 2px;
+          position: absolute;
+          background: $primary-color;
+          left: 0;
+          top: 12px;
+          z-index: 0;
         }
+      }
     }
-    ngb-datepicker {
-        .custom-day {
-            text-align: center;
-            padding: 0.185rem 0.25rem;
-            display: inline-block;
-            height: 2rem;
-            width: 2rem;
-            &.focused {
-                background-color: #e6e6e6;
-            }
-            &.range,
-            &:hover {
-                background-color: rgb(2, 117, 216);
-                color: white;
-            }
-            &.faded {
-                background-color: rgba(2, 117, 216, 0.5);
-            }
+  }
+
+  .rates-filter {
+    border: 1px solid $acc-border;
+    display: inline-block;
+    width: 100%;
+    z-index: 9999;
+    position: relative;
+
+    .card {
+      background: $acc-bg;
+      border: none;
+      &-header {
+        background: $acc-bg;
+        border: none;
+
+        &.active {
+          .acc-icon {
+            transform: rotate(-90deg);
+            margin-right: 30px;
+          }
         }
+
+        a {
+          color: $pagination-text-color;
+          font-weight: $font-weight-mid;
+
+          .acc-icon {
+            margin-left: 7px;
+            transform: rotate(90deg);
+            transition: ease-in 0.5s;
+          }
+
+          .filter-icon {
+            position: relative;
+            top: -2px;
+          }
+        }
+      }
+
+      &-body {
+        padding: 5px 5.25rem;
+        animation-name: fadeInUp;
+        animation-fill-mode: both;
+        animation-duration: 1s;
+
+        .combine-field {
+          background: $color-white;
+          border: 1px solid $provider-input-border;
+          border-radius: 4px;
+          margin: 0;
+
+          .dropdown-menu {
+            button {
+              .flag-container {
+                width: 15px;
+                height: 12px;
+                border: 1px solid $provider-input-border;
+                display: flex;
+                margin-top: 5px;
+                margin-right: 10px !important;
+              }
+            }
+          }
+
+          .origin,
+          .destination {
+            position: relative;
+
+            >.flag-container {
+              width: 16px;
+              height: 24px;
+              align-items: center;
+              position: absolute;
+              left: 10px;
+              top: 11px;
+            }
+
+            .routeSelected {
+              padding-left: 20px !important;
+            }
+          }
+
+          input {
+            border: none;
+          }
+
+          .origin {
+            border-right: 1px solid $provider-input-border;
+          }
+        }
+      }
     }
+
+    ngb-typeahead-window {
+      max-height: 200px;
+      overflow-y: auto;
+
+      .dropdown-item {
+
+        &.active,
+        &:active {
+          background: $primary-grey;
+        }
+      }
+    }
+  }
+
+  ngb-datepicker {
+    .custom-day {
+      text-align: center;
+      padding: 0.185rem 0.25rem;
+      display: inline-block;
+      height: 2rem;
+      width: 2rem;
+
+      &.focused {
+        background-color: #e6e6e6;
+      }
+
+      &.range,
+      &:hover {
+        background-color: rgb(2, 117, 216);
+        color: white;
+      }
+
+      &.faded {
+        background-color: rgba(2, 117, 216, 0.5);
+      }
+    }
+  }
 }

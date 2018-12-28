@@ -29,11 +29,11 @@
     </div>
   </section>
   <section class="rates-filter">
-    <ngb-accordion activeIds="filter">
-      <ngb-panel id="filter">
+    <ngb-accordion>
+      <ngb-panel>
         <ng-template ngbPanelTitle>
-          <span><img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon">Filter
-            your results</span>
+          <span><img src="../../../../../../../assets/images/icons/filter-icon.svg" alt="Filter" class="icon-size-16 mr-2">Filter
+            your results<img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon"></span>
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="row">
@@ -47,27 +47,28 @@
               </div>
             </div>
 
-            <div class="col-3">
+            <div class="col-6">
               <div class="form-group">
                 <label>Route</label>
-                <div class="flag-container">
-                  <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
-                    type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                <div class="row combine-field">
+                  <div class="col-6 origin">
+                    <div class="flag-container">
+                      <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
+                        type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                    </div>
+                    <input class="form-control" [(ngModel)]="filterOrigin" placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
+                      [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
+                  </div>
+                  <div class="col-6 destination">
+                    <div class="flag-container">
+                      <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
+                        type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                    </div>
+                    <input placeholder="Destination" [(ngModel)]="filterDestination" type="text" class="form-control"
+                      [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}" [ngbTypeahead]="ports"
+                      [resultTemplate]="rt" [inputFormatter]="formatter" />
+                  </div>
                 </div>
-                <input class="form-control" [(ngModel)]="filterOrigin" placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
-                  [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
-              </div>
-            </div>
-            <div class="col-3">
-              <div class="form-group">
-                <label>Route</label>
-                <div class="flag-container">
-                  <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
-                    type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
-                </div>
-                <input placeholder="Destination" [(ngModel)]="filterDestination" type="text" class="form-control"
-                  [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}" [ngbTypeahead]="ports"
-                  [resultTemplate]="rt" [inputFormatter]="formatter" />
               </div>
             </div>
             <ng-template #rt let-r="result">
@@ -123,4 +124,3 @@
     <app-loader-main *ngIf="loading"></app-loader-main>
   </section>
     <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button>
-</section>
