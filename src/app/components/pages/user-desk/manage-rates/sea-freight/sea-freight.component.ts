@@ -71,7 +71,6 @@ export class SeaFreightComponent implements OnInit {
   public filterbyCargoType;
   public filterbyContainerType;
 
-
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
   isInside = date => after(date, this.fromDate) && before(date, this.toDate);
@@ -97,7 +96,7 @@ export class SeaFreightComponent implements OnInit {
     this.allservicesBySea();
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
-    this.minDate = { year: now.getFullYear() - 1, month: now.getMonth() + 1, day: now.getDate() };
+    this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
 
   }
   

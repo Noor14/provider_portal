@@ -136,9 +136,9 @@
                         border: 1px solid $primary-color;
                         .ngb-dp-header {
                             background: none !important;
-                            .btn-link {
+                            .ngb-dp-arrow-btn {
                                 &:hover {
-                                    box-shadow: none;
+                                    box-shadow: none !important;
                                 }
                                 .ngb-dp-navigation-chevron {
                                     color: $primary-color !important;
@@ -152,6 +152,21 @@
                             }
                         }
                         .ngb-dp-months {
+                            .ngb-dp-month {
+                                position: relative;
+                                &:first-child {
+                                    &:after {
+                                        content: "";
+                                        width: 1px;
+                                        height: 80%;
+                                        background: $secondary-grey;
+                                        position: absolute;
+                                        top: 40px;
+                                        right: -10px;
+                                        opacity: 0.3;
+                                    }
+                                }
+                            }
                             .ngb-dp-week {
                                 background: none !important;
                                 .ngb-dp-weekday {
@@ -161,7 +176,9 @@
                                 .ngb-dp-day {
                                     font-size: .875rem;
                                     &:last-child {
-                                        color: $danger-color;
+                                        .custom-day {
+                                            color: $danger-color !important;
+                                        }
                                     }
                                     .custom-day {
                                         border-radius: 10px 0 !important;
@@ -175,6 +192,10 @@
                                             background-color: $primary-color !important;
                                             color: $color-white;
                                             border-radius: 0 !important;
+                                        }
+                                        &.faded {
+                                            background-color: $primary-color !important;
+                                            opacity: 0.5;
                                         }
                                         &:hover {
                                             background-color: #d2d2d238 !important;
