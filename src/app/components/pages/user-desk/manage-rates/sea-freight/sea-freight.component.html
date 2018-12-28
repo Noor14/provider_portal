@@ -40,8 +40,8 @@
             <div class="col-3">
               <div class="form-group">
                 <label>Shipping Lines</label>
-                <select class="form-control" [(ngModel)]="filterShippingLine" placeholder="Select" (change)="filter()">
-                  <option value="">All</option>
+                <select class="form-control" [(ngModel)]="filterbyShippingLine" placeholder="Select" (change)="filter()">
+                  <option selected value="">All</option>
                   <option *ngFor="let shipping of allShippingLines" [value]="shipping.CarrierID">{{shipping.CarrierName}}</option>
                 </select>
               </div>
@@ -82,8 +82,8 @@
             <div class="col-3">
               <div class="form-group">
                 <label>Cargo Type</label>
-                <select class="form-control" placeholder="Select">
-                  <option [value]="">All</option>
+                <select class="form-control" placeholder="Select" [(ngModel)]="filterbyCargoType" (change)="filter()">
+                  <option selected value="">All</option>
                   <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
                 </select>
               </div>
@@ -91,8 +91,8 @@
             <div class="col-3">
               <div class="form-group">
                 <label>Container</label>
-                <select class="form-control" placeholder="Select">
-                  <option [value]="">All</option>
+                <select class="form-control" placeholder="Select" [(ngModel)]="filterbyContainerType" (change)="filter()">
+                  <option selected value="">All</option>
                   <option *ngFor="let container of allContainersType" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
                 </select>
               </div>
@@ -123,4 +123,4 @@
     <table cellspacing="0" #dataTable class="row-border hover"></table>
     <app-loader-main *ngIf="loading"></app-loader-main>
   </section>
-    <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button>
+  <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button>

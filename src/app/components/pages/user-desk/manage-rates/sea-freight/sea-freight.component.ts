@@ -63,10 +63,13 @@ export class SeaFreightComponent implements OnInit {
   private _subscription: Subscription;
   private _selectSubscription: Subscription;
 
+  public userProfile:any;
 
   // filterartion variable;
 
-  public filterShippingLine;
+  public filterbyShippingLine;
+  public filterbyCargoType;
+  public filterbyContainerType;
 
 
   isHovered = date =>
@@ -86,12 +89,16 @@ export class SeaFreightComponent implements OnInit {
   }
 
   ngOnInit() {
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo && userInfo.returnText) {
+      this.userProfile = JSON.parse(userInfo.returnText);
+    }
     this.getAllPublishRates();
     this.allservicesBySea();
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear() - 1, month: now.getMonth() + 1, day: now.getDate() };
-   
+
   }
   
   filter(){
@@ -138,11 +145,12 @@ export class SeaFreightComponent implements OnInit {
   getAllPublishRates() {
     this.loading = true;
     let obj = {
+      providerID: 1047,     
       pageNo: 1,
       pageSize: 50,
-      carrierID: this.filterShippingLine,
-      shippingCatID: null,
-      containerSpecID: null,
+      carrierID: this.filterbyShippingLine,
+      shippingCatID: this.filterbyCargoType,
+      containerSpecID: this.filterbyContainerType,
       polID: null,
       podID: null,
       effectiveFrom: null,
@@ -209,7 +217,7 @@ export class SeaFreightComponent implements OnInit {
     // retrieve: true,
     destroy: true,
     pagingType: 'full_numbers',
-    pageLength: 50,
+    pageLength: 5,
     scrollX: true,
     scrollY: '60vh',
     scrollCollapse: true,

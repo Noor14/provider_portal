@@ -107,9 +107,9 @@
 
       &-body {
         padding: 5px 5.25rem;
-        animation-name: fadeInUp;
-        animation-fill-mode: both;
-        animation-duration: 1s;
+        // animation-name: fadeInUp;
+        // animation-fill-mode: both;
+        // animation-duration: 1s;
 
         .combine-field {
           background: $color-white;
@@ -195,5 +195,8 @@
         background-color: rgba(2, 117, 216, 0.5);
       }
     }
+  }
+  .publishRtaes{
+    position: relative;
   }
 }
