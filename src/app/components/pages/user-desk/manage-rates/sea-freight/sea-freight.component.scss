@@ -75,10 +75,17 @@
     .card {
       background: $acc-bg;
       border: none;
+      overflow: hidden;
 
       &-header {
         background: $acc-bg;
         border: none;
+        &.active {
+          .acc-icon {
+              transform: rotate(-90deg);
+              margin-right: 30px;
+          }
+        }
 
         a {
           color: inherit;
@@ -86,8 +93,20 @@
 
           .acc-icon {
             margin-left: 7px;
+            transform: rotate(90deg);
+            transition: ease-in 0.5s;
+          }
+          .filter-icon {
+            position: relative;
+            top: -2px;
           }
         }
+      }
+      &-body {
+        padding: 5px 5.25rem;
+        animation-name: fadeInUp;
+        animation-fill-mode: both;
+        animation-duration: 1s;
       }
     }
 
