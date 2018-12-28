@@ -7,10 +7,9 @@ export class SeaFreightService {
 
   constructor(private _http: HttpClient) { }
   
-  getAllrates(){
-    let url: string = "country/GetDropDownDetailOtherLanguage/0";
-    // let url: string = "providerratefcl/SearchRates";
-    return this._http.get(baseApi + url);
+  getAllrates(obj){
+    let url: string = "providerratefcl/SearchRates";
+    return this._http.post(baseApi + url, obj);
   }
 
   getAllLogisticServiceBySea(userID, providerID){
