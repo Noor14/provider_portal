@@ -64,6 +64,11 @@ export class SeaFreightComponent implements OnInit {
   private _selectSubscription: Subscription;
 
 
+  // filterartion variable;
+
+  public filterShippingLine;
+
+
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
   isInside = date => after(date, this.fromDate) && before(date, this.toDate);
@@ -86,7 +91,13 @@ export class SeaFreightComponent implements OnInit {
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear() - 1, month: now.getMonth() + 1, day: now.getDate() };
+   
   }
+  
+  filter(){
+    this.getAllPublishRates()
+  }
+  
   onDateSelection(date: NgbDateStruct) {
     let parsed = '';
     if (!this.fromDate && !this.toDate) {
@@ -108,6 +119,7 @@ export class SeaFreightComponent implements OnInit {
 
     this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
   }
+  
   allservicesBySea() {
     this._sharedService.dataLogisticServiceBySea.subscribe(state => {
       if (state && state.length) {
@@ -128,7 +140,7 @@ export class SeaFreightComponent implements OnInit {
     let obj = {
       pageNo: 1,
       pageSize: 50,
-      carrierID: null,
+      carrierID: this.filterShippingLine,
       shippingCatID: null,
       containerSpecID: null,
       polID: null,
@@ -142,85 +154,87 @@ export class SeaFreightComponent implements OnInit {
       if (res.returnStatus == "Success") {
         this.allRatesList = res.returnObject.data;
         this.loading = false;
-        this.dtOptions = {
-          data: this.allRatesList,
-          columns: [
-            {
-              title: 'ID',
-              data: 'carrierPricingID',
-            },
-            {
-              title: 'SHIPPING LINE',
-              data: 'carrierName',
-              defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
-            },
-            {
-              title: 'ORIGIN',
-              data: 'polName'
-            },
-            {
-              title: 'DEPARTURE',
-              data: 'podName',
-              defaultContent: '<input placeholder="0.00" type="text" size="10"/>'
-            },
-            {
-              title: 'CARGO TYPE',
-              data: 'shippingCatName',
-              defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
-            },
-            {
-              title: 'CONTAINER',
-              data: 'containerSpecDesc',
-              defaultContent: '<select><option disable>-- Select --</option><option>One</option></select>'
-            },
-            {
-              title: 'RATE',
-              data: 'price'
-            },
-            {
-              title: 'RATE VALIDITY',
-              data: 'price'
-            },
-          ],
-          // processing: true,
-          // serverSide: true,
-          pagingType: 'full_numbers',
-          pageLength: 10,
-          scrollX: true,
-          searching: false,
-          lengthChange: false,
-          responsive: true,
-          language: {
-            paginate: {
-              next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
-              previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
-            }
-          },
-          columnDefs: [
-            {
-              targets: 0,
-              width: 'auto'
-            }, {
-              targets: "_all",
-              width: "150"
-            }
-          ]
-        };
-        this.dataTable = $(this.table.nativeElement);
-        this.dataTable.DataTable(this.dtOptions);
-        // $('table').on('click', 'tbody td:not(:first-child)', function (e) {
-        //   editor.inline(this);
-        // });
-        // var myTable = $('table').DataTable();
-        // $('table').on('click', 'tbody td', function () {
-        //   myTable.cell(this).edit();
-        // });
-
+        this.filterTable(this.allRatesList);
       }
     })
 
   }
-
+  filterTable(ratesList){
+  this.dtOptions = {
+    // ajax: {
+    //   url: "http://10.20.1.13:9091/api/providerratefcl/SearchRates",
+    //   type: "POST"
+    // },
+    data: ratesList,
+    columns: [
+      {
+        title: 'ID',
+        data: 'carrierPricingID',
+      },
+      {
+        title: 'SHIPPING LINE',
+        data: 'carrierName',
+        defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
+      },
+      {
+        title: 'ORIGIN',
+        data: 'polName'
+      },
+      {
+        title: 'DEPARTURE',
+        data: 'podName',
+        defaultContent: '<input placeholder="0.00" type="text" size="10"/>'
+      },
+      {
+        title: 'CARGO TYPE',
+        data: 'shippingCatName',
+        defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
+      },
+      {
+        title: 'CONTAINER',
+        data: 'containerSpecDesc',
+        defaultContent: '<select><option disable>-- Select --</option><option>One</option></select>'
+      },
+      {
+        title: 'RATE',
+        data: 'price'
+      },
+      {
+        title: 'RATE VALIDITY',
+        data: 'price'
+      },
+    ],
+    // processing: true,
+    // serverSide: true,
+    // retrieve: true,
+    destroy: true,
+    pagingType: 'full_numbers',
+    pageLength: 50,
+    scrollX: true,
+    scrollY: '60vh',
+    scrollCollapse: true,
+    searching: false,
+    lengthChange: false,
+    responsive: true,
+    language: {
+      paginate: {
+        next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
+        previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
+      }
+    },
+    columnDefs: [
+      {
+        targets: 0,
+        width: 'auto'
+      }, {
+        targets: "_all",
+        width: "150"
+      }
+    ]
+  };
+  this.dataTable = $(this.table.nativeElement);
+  this.dataTable.DataTable(this.dtOptions);
+}
   discardDraft() {
     this.modalService.open(DiscardDraftComponent, {
       size: 'lg',

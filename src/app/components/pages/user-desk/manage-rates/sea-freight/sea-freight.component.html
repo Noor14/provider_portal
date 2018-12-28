@@ -40,8 +40,8 @@
             <div class="col-3">
               <div class="form-group">
                 <label>Shipping Lines</label>
-                <select class="form-control" placeholder="Select">
-                  <option [value]="">All</option>
+                <select class="form-control" [(ngModel)]="filterShippingLine" placeholder="Select" (change)="filter()">
+                  <option value="">All</option>
                   <option *ngFor="let shipping of allShippingLines" [value]="shipping.CarrierID">{{shipping.CarrierName}}</option>
                 </select>
               </div>
@@ -120,6 +120,7 @@
 
   <section class="publishRtaes mt-5">
     <table cellspacing="0" #dataTable class="row-border hover"></table>
-    <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button>
+    <app-loader-main *ngIf="loading"></app-loader-main>
   </section>
+    <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button>
 </section>
