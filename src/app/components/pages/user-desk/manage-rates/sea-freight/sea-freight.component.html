@@ -39,6 +39,16 @@
           <div class="row">
             <div class="col-3">
               <div class="form-group">
+                <label>Shipping Lines</label>
+                <select class="form-control" placeholder="Select">
+                  <option [value]="">All</option>
+                  <option *ngFor="let shipping of allShippingLines" [value]="shipping.CarrierID">{{shipping.CarrierName}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-3">
+              <div class="form-group">
                 <label>Route</label>
                 <div class="flag-container">
                   <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
@@ -55,7 +65,7 @@
                   <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
                     type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                 </div>
-                <input placeholder="destination" [(ngModel)]="filterDestination" type="text" class="form-control"
+                <input placeholder="Destination" [(ngModel)]="filterDestination" type="text" class="form-control"
                   [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}" [ngbTypeahead]="ports"
                   [resultTemplate]="rt" [inputFormatter]="formatter" />
               </div>
@@ -72,14 +82,24 @@
               <div class="form-group">
                 <label>Cargo Type</label>
                 <select class="form-control" placeholder="Select">
+                  <option [value]="">All</option>
                   <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
                 </select>
               </div>
             </div>
             <div class="col-3">
               <div class="form-group">
-                <label>Date Control</label>
-                <input #rangeDp class="form-control" placeholder="mm/dd/yyyy - mm/dd/yyyy" name="dp" [(ngModel)]="model"
+                <label>Container</label>
+                <select class="form-control" placeholder="Select">
+                  <option [value]="">All</option>
+                  <option *ngFor="let container of allContainersType" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Rate Validity</label>
+                <input #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp" [(ngModel)]="model"
                   ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right" [outsideDays]="true"
                   [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker"
                   (click)="dp.toggle()">
