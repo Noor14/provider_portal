@@ -77,7 +77,6 @@
     .card {
       background: $acc-bg;
       border: none;
-
       &-header {
         background: $acc-bg;
         border: none;
@@ -137,11 +136,11 @@
 
             >.flag-container {
               width: 16px;
-              height: 12px;
+              height: 24px;
               align-items: center;
               position: absolute;
               left: 10px;
-              top: 10px;
+              top: 11px;
             }
 
             .routeSelected {
