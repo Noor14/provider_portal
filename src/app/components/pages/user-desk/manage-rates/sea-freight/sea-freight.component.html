@@ -1,94 +1,105 @@
 <section class="seaFreight">
   <section class="manage-rate-card mb-5">
-      <div class="row">
-          <div class="col-5">
-            <div class="card pointer">
-              <img class="card-icon" src="../../../../../assets/images/icons/manager-icon.png" alt="*" />
-              <div class="card-body">
-                <h5 class="card-title">Upload Your Rates</h5>
-                <p class="sub-title">Upload your rates if you already have it</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-2">
-            <div class="routing text-center">
-              <strong>
-                <span>OR</span>
-              </strong>
-            </div>
-          </div>
-          <div class="col-5">
-            <div class="card pointer">
-              <img class="card-icon" src="../../../../../assets/images/icons/manager-icon.png" alt="*" />
-              <div class="card-body">
-                <h5 class="card-title">Add Your Rates Manually </h5>
-                <p class="sub-title">Use our tool to add your rates manually</p>
-              </div>
-            </div>
+    <div class="row">
+      <div class="col-5">
+        <div class="card pointer">
+          <img class="card-icon" src="../../../../../assets/images/icons/manager-icon.png" alt="*" />
+          <div class="card-body">
+            <h5 class="card-title">Upload Your Rates</h5>
+            <p class="sub-title">Upload your rates if you already have it</p>
           </div>
         </div>
+      </div>
+      <div class="col-2">
+        <div class="routing text-center">
+          <strong>
+            <span>OR</span>
+          </strong>
+        </div>
+      </div>
+      <div class="col-5">
+        <div class="card pointer">
+          <img class="card-icon" src="../../../../../assets/images/icons/manager-icon.png" alt="*" />
+          <div class="card-body">
+            <h5 class="card-title">Add Your Rates Manually </h5>
+            <p class="sub-title">Use our tool to add your rates manually</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
   <section class="rates-filter">
-  <ngb-accordion activeIds="filter">
-    <ngb-panel id="filter">
-      <ng-template ngbPanelTitle>
-        <span><img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon">Filter
-          your results</span>
-      </ng-template>
-      <ng-template ngbPanelContent>
+    <ngb-accordion activeIds="filter">
+      <ngb-panel id="filter">
+        <ng-template ngbPanelTitle>
+          <span><img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon">Filter
+            your results</span>
+        </ng-template>
+        <ng-template ngbPanelContent>
           <div class="row">
-              <div class="col-3">
-                  <div class="form-group">
-                      <label>Route</label>
-                      <div class="flag-container">
-                          <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
-                              type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
-                      </div>
-                      <input class="form-control" [(ngModel)]="filterOrigin" placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
-                      [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
-                  </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Route</label>
+                <div class="flag-container">
+                  <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
+                    type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                </div>
+                <input class="form-control" [(ngModel)]="filterOrigin" placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
+                  [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
               </div>
-              <div class="col-3">
-                  <div class="form-group">
-                      <label>Route</label>
-                      <div class="flag-container">
-                          <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
-                              type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
-                      </div>
-                      <input placeholder="destination" [(ngModel)]="filterDestination" type="text" class="form-control" [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
-                      [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
-                  </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Route</label>
+                <div class="flag-container">
+                  <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
+                    type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                </div>
+                <input placeholder="destination" [(ngModel)]="filterDestination" type="text" class="form-control"
+                  [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}" [ngbTypeahead]="ports"
+                  [resultTemplate]="rt" [inputFormatter]="formatter" />
               </div>
-              <ng-template #rt let-r="result">
-                  <div class="d-flex">
-                      <div class="flag-container mr-1">
-                          <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
-                      </div>
-                      <ngb-highlight [result]="r.PortName"></ngb-highlight>
-                  </div>
-              </ng-template>
-              <div class="col-6">
-                  <div class="form-group">
-                      <label>Cargo Type</label>
-                      <select class="form-control" placeholder="Select">
-                          <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
-                      </select>
-                  </div>
+            </div>
+            <ng-template #rt let-r="result">
+              <div class="d-flex">
+                <div class="flag-container mr-1">
+                  <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
+                </div>
+                <ngb-highlight [result]="r.PortName"></ngb-highlight>
               </div>
-              <div class="col-6">
-                  <div class="form-group">
-                      <label>Date Control</label>
-  
-                  </div>
+            </ng-template>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Cargo Type</label>
+                <select class="form-control" placeholder="Select">
+                  <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
+                </select>
               </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Date Control</label>
+                <input #myRangeInput class="form-control" placeholder="mm/dd/yyyy - mm/dd/yyyy" name="dp" [(ngModel)]="model"
+                  ngbDatepicker [dayTemplate]="t" [autoClose]="true" placement="bottom-right" [outsideDays]="true"
+                  [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate" #d="ngbDatepicker"
+                  (click)="d.toggle()">
+                <ng-template #t let-date="date" let-focused="focused">
+                  <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
+                    [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date"
+                    (mouseleave)="hoveredDate = null">
+                    {{ date.day }}
+                  </span>
+                </ng-template>
+              </div>
+            </div>
           </div>
-      </ng-template>
-    </ngb-panel>
-  </ngb-accordion>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
   </section>
 
-    <section class="publishRtaes mt-5">
-        <table cellspacing="0" #dataTable class="row-border hover"></table>
-        <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button>
-    </section>
+  <section class="publishRtaes mt-5">
+    <table cellspacing="0" #dataTable class="row-border hover"></table>
+    <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button>
+  </section>
 </section>
