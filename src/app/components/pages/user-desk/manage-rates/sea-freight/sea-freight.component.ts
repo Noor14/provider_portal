@@ -39,9 +39,9 @@ export class SeaFreightComponent implements OnInit {
 
   public dtOptions: DataTables.Settings | any = {};
   @ViewChild('dataTable') table;
-  @ViewChild("d") input: NgbInputDatepicker;
+  @ViewChild("dp") input: NgbInputDatepicker;
   // @ViewChild(NgModel) datePick: NgModel;
-  @ViewChild('myRangeInput') myRangeInput: ElementRef;
+  @ViewChild('rangeDp') rangeDp: ElementRef;
   public dataTable: any;
   public allRatesList: any;
   public loading: boolean;
@@ -62,6 +62,7 @@ export class SeaFreightComponent implements OnInit {
 
   private _subscription: Subscription;
   private _selectSubscription: Subscription;
+
 
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
@@ -105,7 +106,7 @@ export class SeaFreightComponent implements OnInit {
       parsed += ' - ' + this._parserFormatter.format(this.toDate);
     }
 
-    this.renderer.setProperty(this.myRangeInput.nativeElement, 'value', parsed);
+    this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
   }
   allservicesBySea() {
     this._sharedService.dataLogisticServiceBySea.subscribe(state => {
