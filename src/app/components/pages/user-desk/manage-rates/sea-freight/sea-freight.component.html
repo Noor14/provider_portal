@@ -32,8 +32,8 @@
     <ngb-accordion activeIds="filter">
       <ngb-panel id="filter">
         <ng-template ngbPanelTitle>
-          <span><img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon">Filter
-            your results</span>
+          <span><img src="../../../../../../../assets/images/icons/filter-icon.svg" alt="Filter" class="icon-size-16 mr-2">Filter
+            your results<img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon"></span>
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="row">
@@ -79,10 +79,10 @@
             <div class="col-3">
               <div class="form-group">
                 <label>Date Control</label>
-                <input #myRangeInput class="form-control" placeholder="mm/dd/yyyy - mm/dd/yyyy" name="dp" [(ngModel)]="model"
-                  ngbDatepicker [dayTemplate]="t" [autoClose]="true" placement="bottom-right" [outsideDays]="true"
-                  [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate" #d="ngbDatepicker"
-                  (click)="d.toggle()">
+                <input #rangeDp class="form-control" placeholder="mm/dd/yyyy - mm/dd/yyyy" name="dp" [(ngModel)]="model"
+                  ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right" [outsideDays]="true"
+                  [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker"
+                  (click)="dp.toggle()">
                 <ng-template #t let-date="date" let-focused="focused">
                   <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
                     [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date"
