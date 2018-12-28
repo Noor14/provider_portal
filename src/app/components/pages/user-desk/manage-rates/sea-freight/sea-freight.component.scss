@@ -71,24 +71,26 @@
     border: 1px solid $acc-border;
     display: inline-block;
     width: 100%;
+    z-index: 9999;
+    position: relative;
 
     .card {
       background: $acc-bg;
       border: none;
-      overflow: hidden;
 
       &-header {
         background: $acc-bg;
         border: none;
+
         &.active {
           .acc-icon {
-              transform: rotate(-90deg);
-              margin-right: 30px;
+            transform: rotate(-90deg);
+            margin-right: 30px;
           }
         }
 
         a {
-          color: inherit;
+          color: $pagination-text-color;
           font-weight: $font-weight-mid;
 
           .acc-icon {
@@ -96,17 +98,65 @@
             transform: rotate(90deg);
             transition: ease-in 0.5s;
           }
+
           .filter-icon {
             position: relative;
             top: -2px;
           }
         }
       }
+
       &-body {
         padding: 5px 5.25rem;
         animation-name: fadeInUp;
         animation-fill-mode: both;
         animation-duration: 1s;
+
+        .combine-field {
+          background: $color-white;
+          border: 1px solid $provider-input-border;
+          border-radius: 4px;
+          margin: 0;
+
+          .dropdown-menu {
+            button {
+              .flag-container {
+                width: 15px;
+                height: 12px;
+                border: 1px solid $provider-input-border;
+                display: flex;
+                margin-top: 5px;
+                margin-right: 10px !important;
+              }
+            }
+          }
+
+          .origin,
+          .destination {
+            position: relative;
+
+            >.flag-container {
+              width: 16px;
+              height: 12px;
+              align-items: center;
+              position: absolute;
+              left: 10px;
+              top: 10px;
+            }
+
+            .routeSelected {
+              padding-left: 20px !important;
+            }
+          }
+
+          input {
+            border: none;
+          }
+
+          .origin {
+            border-right: 1px solid $provider-input-border;
+          }
+        }
       }
     }
 
