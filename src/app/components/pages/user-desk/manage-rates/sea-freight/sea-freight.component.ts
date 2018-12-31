@@ -83,6 +83,7 @@ export class SeaFreightComponent implements OnInit {
   public filterbyShippingLine;
   public filterbyCargoType;
   public filterbyContainerType;
+  public checkedallpublishRates:boolean = false;
 
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
@@ -112,7 +113,7 @@ export class SeaFreightComponent implements OnInit {
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
 
   }
-  
+
   filter(){
     this.getAllPublishRates()
   }
@@ -199,7 +200,7 @@ export class SeaFreightComponent implements OnInit {
     data: ratesList,
     columns: [
       {
-        title: '<div class="fancyOptionBoxes"> <input id = "selectall" type = "checkbox"> <label for= "selectall"> <span> </span></label></div>',
+        title: '<div class="fancyOptionBoxes"> <input id = "selectallpublishRates" type = "checkbox"> <label for= "selectallpublishRates"> <span> </span></label></div>',
         data: function (data){
           return '<div class="fancyOptionBoxes"> <input id = "' + data.carrierPricingID + '" type = "checkbox"> <label for= "' + data.carrierPricingID+ '"> <span> </span></label></div>';
       }
@@ -275,7 +276,15 @@ export class SeaFreightComponent implements OnInit {
     ]
   };
   this.dataTable = $(this.table.nativeElement);
-  this.dataTable.DataTable(this.dtOptions);
+  let alltableOption = this.dataTable.DataTable(this.dtOptions);
+    $("#selectallpublishRates").click(() => {
+      var cols = alltableOption.column(0).nodes();
+       this.checkedallpublishRates = !this.checkedallpublishRates;
+      for (var i = 0; i < cols.length; i += 1) {
+        cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
+      }
+    });
+
 }
   discardDraft() {
     this.modalService.open(DiscardDraftComponent, {
