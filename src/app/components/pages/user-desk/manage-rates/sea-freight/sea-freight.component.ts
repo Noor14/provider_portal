@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy, ViewEncapsulation, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2 } from '@angular/core';
 import {
   NgbDatepicker,
   NgbInputDatepicker,
@@ -6,8 +6,7 @@ import {
   NgbCalendar,
   NgbDateAdapter,
   NgbDateParserFormatter,
-  NgbModal,
-  ModalDismissReasons
+  NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
 import { trigger, state, animate, transition, style } from '@angular/animations';
 import { DiscardDraftComponent } from '../../../../../shared/dialogues/discard-draft/discard-draft.component';
@@ -48,14 +47,13 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
     ])
   ]
 })
-export class SeaFreightComponent implements OnInit, OnDestroy {
+export class SeaFreightComponent implements OnInit {
 
   public dtOptions: DataTables.Settings | any = {};
   @ViewChild('dataTable') table;
   @ViewChild("dp") input: NgbInputDatepicker;
   // @ViewChild(NgModel) datePick: NgModel;
   @ViewChild('rangeDp') rangeDp: ElementRef;
-  public filterbyPort: Subject<string> = new Subject();
   public dataTable: any;
   public allRatesList: any;
   public loading: boolean;
@@ -113,9 +111,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this.getAllPublishRates();
     this.allservicesBySea();
   }
-  ngOnDestroy(){
-    this.filterbyPort.unsubscribe();
-  }
   filter(){
     this.getAllPublishRates()
   }
@@ -158,10 +153,18 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     })
   }
   filterByroute(obj){
-    this.filterbyPort.next(obj);
-    this.filterbyPort.pipe(debounceTime(1500), distinctUntilChanged()).subscribe(value => {
-        this.getAllPublishRates();
-    });
+    if (typeof obj == 'object') {
+      this.getAllPublishRates();
+    }
+    else if (!obj) {
+      this.getAllPublishRates();
+    }
+    else {
+      return;
+    }
+  }
+  filtertionPort(obj){
+    if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates();
   }
   getAllPublishRates() {
     this.loading = true;
