@@ -9,12 +9,14 @@ import {
   NgbModal,
   ModalDismissReasons
 } from '@ng-bootstrap/ng-bootstrap';
+import { trigger, state, animate, transition, style } from '@angular/animations';
 import { DiscardDraftComponent } from '../../../../../shared/dialogues/discard-draft/discard-draft.component';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { SeaFreightService } from './sea-freight.service';
 import { getJwtToken } from '../../../../../services/jwt.injectable';
 import { SharedService } from '../../../../../services/shared.service';
+import { baseExternalAssets } from '../../../../../constants/base.url';
 // import { NgModel } from '@angular/forms';
 declare var $;
 const now = new Date();
@@ -33,7 +35,18 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
   selector: 'app-sea-freight',
   templateUrl: './sea-freight.component.html',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./sea-freight.component.scss']
+  styleUrls: ['./sea-freight.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [   // :enter is alias to 'void => *'
+        style({ opacity: 0 }),
+        animate(500, style({ opacity: 1 }))
+      ]),
+      transition(':leave', [   // :leave is alias to '* => void'
+        animate(500, style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class SeaFreightComponent implements OnInit {
 
@@ -141,17 +154,28 @@ export class SeaFreightComponent implements OnInit {
       }
     })
   }
+  filterByroute(obj){
+    if (typeof obj == 'object'){
+      this.getAllPublishRates();
+    }
+    else if(!obj){
+      this.getAllPublishRates();
+    }
+    else{
+      return;
+    }
+  }
   getAllPublishRates() {
     this.loading = true;
     let obj = {
       providerID: 1047,     
       pageNo: 1,
       pageSize: 50,
-      carrierID: this.filterbyShippingLine,
-      shippingCatID: this.filterbyCargoType,
-      containerSpecID: this.filterbyContainerType,
-      polID: null,
-      podID: null,
+      carrierID: (this.filterbyShippingLine == 'undefined')? null : this.filterbyShippingLine,
+      shippingCatID: (this.filterbyCargoType == 'undefined') ? null : this.filterbyCargoType,
+      containerSpecID: (this.filterbyContainerType == 'undefined') ? null : this.filterbyContainerType,
+      polID: (typeof this.filterOrigin == 'object') ? this.filterOrigin.PortID: null,
+      podID: (typeof this.filterDestination == 'object') ? this.filterDestination.PortID : null,
       effectiveFrom: null,
       effectiveTo: null,
       sortColumn: null,
@@ -180,17 +204,20 @@ export class SeaFreightComponent implements OnInit {
       },
       {
         title: 'SHIPPING LINE',
-        data: 'carrierName',
+        data: function (data) {
+          let url = baseExternalAssets + "/" + data.carrierImage;
+          return "<img src='" + url + "' class='icon-size-24 mr-2' />" + data.carrierName;
+        },
         defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
       },
       {
-        title: 'ORIGIN',
-        data: 'polName'
-      },
-      {
-        title: 'DEPARTURE',
-        data: 'podName',
-        defaultContent: '<input placeholder="0.00" type="text" size="10"/>'
+        title: 'ORIGIN / DEPARTURE',
+        data: function (data) {
+          let polUrl = '../../../../../../assets/images/flags/4x3/'+ data.polCode.split(' ').shift().toLowerCase() + '.svg';
+          let podCode = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
+          const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
+          return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.polName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.podName;
+        }
       },
       {
         title: 'CARGO TYPE',
@@ -204,7 +231,7 @@ export class SeaFreightComponent implements OnInit {
       },
       {
         title: 'RATE',
-        data: 'price'
+        data: 'priceWithCode'
       },
       {
         title: 'RATE VALIDITY',
@@ -233,7 +260,12 @@ export class SeaFreightComponent implements OnInit {
       {
         targets: 0,
         width: 'auto'
-      }, {
+      },
+      {
+        targets: 2,
+        width: '235'
+      },
+       {
         targets: "_all",
         width: "150"
       }
