@@ -199,9 +199,11 @@ export class SeaFreightComponent implements OnInit {
     data: ratesList,
     columns: [
       {
-        title: 'ID',
-        data: 'carrierPricingID',
-      },
+        title: '<div class="fancyOptionBoxes"> <input id = "selectall" type = "checkbox"> <label for= "selectall"> <span> </span></label></div>',
+        data: function (data){
+          return '<div class="fancyOptionBoxes"> <input id = "' + data.carrierPricingID + '" type = "checkbox"> <label for= "' + data.carrierPricingID+ '"> <span> </span></label></div>';
+      }
+    },
       {
         title: 'SHIPPING LINE',
         data: function (data) {
@@ -259,7 +261,8 @@ export class SeaFreightComponent implements OnInit {
     columnDefs: [
       {
         targets: 0,
-        width: 'auto'
+        width: 'auto',
+        orderable: false,
       },
       {
         targets: 2,
