@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit, ViewEncapsulation, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2 } from '@angular/core';
 import {
   NgbDatepicker,
   NgbInputDatepicker,
@@ -6,8 +6,7 @@ import {
   NgbCalendar,
   NgbDateAdapter,
   NgbDateParserFormatter,
-  NgbModal,
-  ModalDismissReasons
+  NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
 import { trigger, state, animate, transition, style } from '@angular/animations';
 import { DiscardDraftComponent } from '../../../../../shared/dialogues/discard-draft/discard-draft.component';
@@ -63,7 +62,7 @@ export class SeaFreightComponent implements OnInit {
   public allContainersType: any[] = [];
   public allPorts: any[] = [];
   public allSeaDraftRates: any[] = [];
-  public filterOrigin: any={};
+  public filterOrigin: any = {};
   public filterDestination: any = {};
   public startDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
@@ -86,7 +85,7 @@ export class SeaFreightComponent implements OnInit {
   public checkedallpublishRates:boolean = false;
 
   isHovered = date =>
-    this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
+  this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
   isInside = date => after(date, this.fromDate) && before(date, this.toDate);
   isFrom = date => equals(date, this.fromDate);
   isTo = date => equals(date, this.toDate);
@@ -106,14 +105,12 @@ export class SeaFreightComponent implements OnInit {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
-    this.getAllPublishRates();
-    this.allservicesBySea();
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
-
+    this.getAllPublishRates();
+    this.allservicesBySea();
   }
-
   filter(){
     this.getAllPublishRates()
   }
@@ -156,15 +153,18 @@ export class SeaFreightComponent implements OnInit {
     })
   }
   filterByroute(obj){
-    if (typeof obj == 'object'){
+    if (typeof obj == 'object') {
       this.getAllPublishRates();
     }
-    else if(!obj){
+    else if (!obj) {
       this.getAllPublishRates();
     }
-    else{
+    else {
       return;
     }
+  }
+  filtertionPort(obj){
+    if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates();
   }
   getAllPublishRates() {
     this.loading = true;
@@ -175,8 +175,8 @@ export class SeaFreightComponent implements OnInit {
       carrierID: (this.filterbyShippingLine == 'undefined')? null : this.filterbyShippingLine,
       shippingCatID: (this.filterbyCargoType == 'undefined') ? null : this.filterbyCargoType,
       containerSpecID: (this.filterbyContainerType == 'undefined') ? null : this.filterbyContainerType,
-      polID: (typeof this.filterOrigin == 'object') ? this.filterOrigin.PortID: null,
-      podID: (typeof this.filterDestination == 'object') ? this.filterDestination.PortID : null,
+      polID: this.orgfilter(),
+      podID: this.destfilter(),
       effectiveFrom: null,
       effectiveTo: null,
       sortColumn: null,
@@ -191,6 +191,28 @@ export class SeaFreightComponent implements OnInit {
     })
 
   }
+  orgfilter() {
+    if (this.filterOrigin && typeof this.filterOrigin == "object" && Object.keys(this.filterOrigin).length) {
+    return this.filterOrigin.PortID;
+  }
+  else if (this.filterOrigin && typeof this.filterOrigin == "string") {
+    return -1;
+  }
+  else if (!this.filterOrigin) {
+    return null;
+  }
+}
+ destfilter() {
+   if (this.filterDestination && typeof this.filterDestination == "object" && Object.keys(this.filterDestination).length) {
+    return this.filterDestination.PortID;
+  }
+   else if (this.filterDestination && typeof this.filterDestination == "string") {
+    return -1;
+  }
+  else if (!this.filterDestination) {
+    return null;
+  }
+}
   filterTable(ratesList){
   this.dtOptions = {
     // ajax: {

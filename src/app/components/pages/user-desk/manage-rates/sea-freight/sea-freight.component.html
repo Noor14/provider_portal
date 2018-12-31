@@ -64,7 +64,7 @@
                       <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
                         type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                     </div>
-                    <input class="form-control" [(ngModel)]="filterOrigin" (focusout) ="filter()" (ngModelChange)="filterByroute(filterOrigin)" placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
+                    <input class="form-control" [(ngModel)]="filterOrigin" (focusout)="filtertionPort(filterOrigin)" (ngModelChange)="filterByroute(filterOrigin)" placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
                       [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
                   </div>
                   <div class="col-6 destination pl-0">
@@ -72,7 +72,7 @@
                       <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
                         type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                     </div>
-                    <input placeholder="Destination" [(ngModel)]="filterDestination" (focusout) ="filter()" (ngModelChange)="filterByroute(filterDestination)" type="text" class="form-control"
+                    <input placeholder="Destination" [(ngModel)]="filterDestination" (focusout)="filtertionPort(filterDestination)" (ngModelChange)="filterByroute(filterDestination)" type="text" class="form-control"
                       [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}" [ngbTypeahead]="ports"
                       [resultTemplate]="rt" [inputFormatter]="formatter" />
                   </div>
