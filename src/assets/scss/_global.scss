@@ -1264,15 +1264,19 @@ select {
             padding-top: 0.9em;
             a.paginate_button {
                 font-size: $font-size-base;
-                color: $pagination-text-color !important;
+                color: $secondary-text-color !important;
                 font-weight: $font-weight-mid;
                 &.previous,
                 &.next {
                     padding: 0.3rem 0.35rem;
                     border: none;
-                    background: #ececec;
+                    background: linear-gradient(to bottom,$color-white 0,$pagination-bg-color 100%);
                     border-radius: 5px;
                     margin-right: 5px;
+                    border: 1px solid $grey-border;
+                    &:hover {
+                        background: linear-gradient(to bottom,$pagination-bg-color 0,$color-white 100%);
+                    }
                 }
                 &.first,
                 &.last {
@@ -1287,25 +1291,29 @@ select {
             >span {
                 >.paginate_button {
                     padding: 0.45rem 0.65rem;
-                    border: none;
-                    background: #ececec;
+                    border: 1px solid $grey-border;
+                    background: linear-gradient(to bottom,$color-white 0,$pagination-bg-color 100%);
                     border-radius: 5px;
                     margin-right: 5px;
                     line-height: 1;
                     &.current {
                         background: #f1f2f6;
-                        box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2) inset;
+                        border: none;
+                        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
                         &:hover {
-                            border: none;
+                            background: #f1f2f6;
                         }
+                    }
+                    &:hover {
+                        background: linear-gradient(to bottom,$pagination-bg-color 0,$color-white 100%);
                     }
                 }
             }
         }
     }
 }
-
 // End data table
+
 //  muliselect combo box
 .multiselect-dropdown {
     .dropdown-btn {

@@ -1,226 +1,300 @@
 @import '../../../../../../assets/scss/_variables';
+
 .seaFreight {
-    .manage-rate-card {
-        .card {
-            &-icon {
-                height: 44px;
-                width: auto;
-                position: absolute;
-                left: 30px;
-                top: 27px;
-            }
-            &-body {
-                padding: 1.25rem 1.25rem 2rem 100px;
-                line-height: 1;
-                p {
-                    margin-bottom: 0;
-                }
-            }
-            &:hover {
-                border-color: $primary-color;
-                box-shadow: 0 0 5px -1px $primary-color;
-            }
-            &-title {
-                font-size: 1.25rem;
-                margin-top: 0.2rem;
-            }
-            .sub-title {
-                font-size: 0.875rem;
-            }
+  .manage-rate-card {
+    .card {
+      &-icon {
+        height: 44px;
+        width: auto;
+        position: absolute;
+        left: 30px;
+        top: 27px;
+      }
+
+      &-body {
+        padding: 1.25rem 1.25rem 2rem 100px;
+        line-height: 1;
+
+        p {
+          margin-bottom: 0;
         }
-        .routing {
-            padding: 2.2rem 0;
-            strong {
-                position: relative;
-                width: 100%;
-                display: inline-block;
-                span {
-                    font-size: $font-size-large + 0.125rem;
-                    font-family: $font-proxima;
-                    font-weight: $font-proxima-weight-semibold;
-                    background: $right-side-background;
-                    padding: 0 10px;
-                    z-index: 1;
-                    position: relative;
-                }
-                &:before {
-                    content: " ";
-                    width: 100%;
-                    height: 2px;
-                    position: absolute;
-                    background: $primary-color;
-                    left: 0;
-                    top: 12px;
-                    z-index: 0;
-                }
-            }
-        }
+      }
+
+      &:hover {
+        border-color: $primary-color;
+        box-shadow: 0 0 5px -1px $primary-color;
+      }
+
+      &-title {
+        font-size: 1.25rem;
+        margin-top: 0.2rem;
+      }
+
+      .sub-title {
+        font-size: 0.875rem;
+      }
     }
-    .rates-filter {
-        border: 1px solid $acc-border;
-        display: inline-block;
+
+    .routing {
+      padding: 2.2rem 0;
+
+      strong {
+        position: relative;
         width: 100%;
-        z-index: 9999;
-        position: relative;
-        .card {
-            background: $acc-bg;
+        display: inline-block;
+
+        span {
+          font-size: $font-size-large + 0.125rem;
+          font-family: $font-proxima;
+          font-weight: $font-proxima-weight-semibold;
+          background: $right-side-background;
+          padding: 0 10px;
+          z-index: 1;
+          position: relative;
+        }
+
+        &:before {
+          content: " ";
+          width: 100%;
+          height: 2px;
+          position: absolute;
+          background: $primary-color;
+          left: 0;
+          top: 12px;
+          z-index: 0;
+        }
+      }
+    }
+  }
+
+  .rates-filter {
+    border: 1px solid $acc-border;
+    display: inline-block;
+    width: 100%;
+    z-index: 9999;
+    position: relative;
+
+    .card {
+      background: $acc-bg;
+      border: none;
+
+      &-header {
+        background: $acc-bg;
+        border: none;
+
+        &.active {
+          .acc-icon {
+            transform: rotate(-90deg);
+            margin-right: 30px;
+          }
+        }
+
+        a {
+          color: $pagination-text-color;
+          font-weight: $font-weight-mid;
+
+          .acc-icon {
+            margin-left: 7px;
+            transform: rotate(90deg);
+            transition: ease-in 0.5s;
+          }
+
+          .filter-icon {
+            position: relative;
+            top: -2px;
+          }
+        }
+      }
+
+      &-body {
+        padding: 5px 5.25rem;
+
+        .combine-field {
+          background: $color-white;
+          border: 1px solid $provider-input-border;
+          border-radius: 4px;
+          margin: 0;
+
+          .dropdown-menu {
+            button {
+              .flag-container {
+                width: 15px;
+                height: 12px;
+                border: 1px solid $provider-input-border;
+                display: flex;
+                margin-top: 5px;
+                margin-right: 10px !important;
+              }
+            }
+          }
+
+          .origin,
+          .destination {
+            position: relative;
+
+            >.flag-container {
+              width: 16px;
+              height: 24px;
+              align-items: center;
+              position: absolute;
+              left: 10px;
+              top: 11px;
+            }
+
+            .routeSelected {
+              padding-left: 30px !important;
+            }
+          }
+
+          input {
             border: none;
-            &-header {
-                background: $acc-bg;
-                border: none;
-                &.active {
-                    .acc-icon {
-                        transform: rotate(-90deg);
-                        margin-right: 30px;
-                    }
-                }
-                a {
-                    color: $pagination-text-color;
-                    font-weight: $font-weight-mid;
-                    .acc-icon {
-                        margin-left: 7px;
-                        transform: rotate(90deg);
-                        transition: ease-in 0.5s;
-                    }
-                    .filter-icon {
-                        position: relative;
-                        top: -2px;
-                    }
-                }
-            }
-            &-body {
-                padding: 5px 5.25rem; // animation-name: fadeInUp;
-                // animation-fill-mode: both;
-                // animation-duration: 1s;
-                .combine-field {
-                    background: $color-white;
-                    border: 1px solid $provider-input-border;
-                    border-radius: 4px;
-                    margin: 0;
-                    .dropdown-menu {
-                        button {
-                            .flag-container {
-                                width: 15px;
-                                height: 12px;
-                                border: 1px solid $provider-input-border;
-                                display: flex;
-                                margin-top: 5px;
-                                margin-right: 10px !important;
-                            }
-                        }
-                    }
-                    .origin,
-                    .destination {
-                        position: relative;
-                        >.flag-container {
-                            width: 16px;
-                            height: 24px;
-                            align-items: center;
-                            position: absolute;
-                            left: 10px;
-                            top: 11px;
-                        }
-                        .routeSelected {
-                            padding-left: 30px !important;
-                        }
-                    }
-                    input {
-                        border: none;
-                    }
-                    .origin {
-                        border-right: 1px solid $provider-input-border;
-                    }
-                }
-                .date-control {
-                    ngb-datepicker {
-                        border: 1px solid $primary-color;
-                        .ngb-dp-header {
-                            background: none !important;
-                            .ngb-dp-arrow-btn {
-                                &:hover {
-                                    box-shadow: none !important;
-                                }
-                                .ngb-dp-navigation-chevron {
-                                    color: $primary-color !important;
-                                }
-                            }
-                            ngb-datepicker-navigation {
-                                .ngb-dp-month-name {
-                                    font-size: 0.9375rem;
-                                    color: $text-color-default;
-                                }
-                            }
-                        }
-                        .ngb-dp-months {
-                            .ngb-dp-month {
-                                position: relative;
-                                &:first-child {
-                                    &:after {
-                                        content: "";
-                                        width: 1px;
-                                        height: 80%;
-                                        background: $secondary-grey;
-                                        position: absolute;
-                                        top: 40px;
-                                        right: -10px;
-                                        opacity: 0.3;
-                                    }
-                                }
-                            }
-                            .ngb-dp-week {
-                                background: none !important;
-                                .ngb-dp-weekday {
-                                    color: $color-date;
-                                    font-style: normal !important;
-                                }
-                                .ngb-dp-day {
-                                    font-size: .875rem;
-                                    &:last-child {
-                                        .custom-day {
-                                            color: $danger-color !important;
-                                        }
-                                    }
-                                    .custom-day {
-                                        border-radius: 10px 0 !important;
-                                        width: 100%;
-                                        height: 100%;
-                                        display: flex;
-                                        align-items: center;
-                                        justify-content: center;
-                                        color: $color-date;
-                                        &.range {
-                                            background-color: $primary-color !important;
-                                            color: $color-white;
-                                            border-radius: 0 !important;
-                                        }
-                                        &.faded {
-                                            background-color: $primary-color !important;
-                                            opacity: 0.5;
-                                        }
-                                        &:hover {
-                                            background-color: #d2d2d238 !important;
-                                            color: $color-date !important;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+          }
+
+          .origin {
+            border-right: 1px solid $provider-input-border;
+          }
         }
-        ngb-typeahead-window {
-            max-height: 200px;
-            overflow-y: auto;
-            .dropdown-item {
-                &.active,
-                &:active {
-                    background: $primary-grey;
-                }
+
+        .date-control {
+          .dateIcon {
+            position: relative;
+
+            input {
+              padding-left: 2.625rem;
+
+              &::placeholder {
+                font-style: italic;
+              }
+
+              &::-ms-input-placeholder {
+                font-style: italic;
+              }
+
+              &::-webkit-input-placeholder {
+                font-style: italic;
+              }
+
             }
+
+            &:before {
+              content: url("../../../../../../assets/images/icons/Icons_Calendar.svg");
+              position: absolute;
+              left: 15px;
+              top: 14px;
+              width: 16px;
+              height: 16px;
+              z-index: 4;
+              opacity: 0.5;
+            }
+          }
+
+          ngb-datepicker {
+            border: 1px solid $primary-color;
+
+            .ngb-dp-header {
+              background: none !important;
+
+              .ngb-dp-arrow-btn {
+                &:hover {
+                  box-shadow: none !important;
+                }
+
+                .ngb-dp-navigation-chevron {
+                  color: $primary-color !important;
+                }
+              }
+
+              ngb-datepicker-navigation {
+                .ngb-dp-month-name {
+                  font-size: 0.9375rem;
+                  color: $text-color-default;
+                }
+              }
+            }
+
+            .ngb-dp-months {
+              .ngb-dp-month {
+                position: relative;
+
+                &:first-child {
+                  &:after {
+                    content: "";
+                    width: 1px;
+                    height: 80%;
+                    background: $secondary-grey;
+                    position: absolute;
+                    top: 40px;
+                    right: -10px;
+                    opacity: 0.3;
+                  }
+                }
+              }
+
+              .ngb-dp-week {
+                background: none !important;
+
+                .ngb-dp-weekday {
+                  color: $color-date;
+                  font-style: normal !important;
+                }
+
+                .ngb-dp-day {
+                  font-size: .875rem;
+
+                  &:last-child {
+                    .custom-day {
+                      color: $danger-color !important;
+                    }
+                  }
+
+                  .custom-day {
+                    border-radius: 10px 0 !important;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: $color-date;
+
+                    &.range {
+                      background-color: $primary-color !important;
+                      color: $color-white;
+                      border-radius: 0 !important;
+                    }
+
+                    &.faded {
+                      background-color: $primary-color !important;
+                      opacity: 0.5;
+                    }
+
+                    &:hover {
+                      background-color: #d2d2d238 !important;
+                      color: $color-date !important;
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
+      }
     }
-    .publishRtaes {
-        position: relative;
+
+    ngb-typeahead-window {
+      max-height: 200px;
+      overflow-y: auto;
+
+      .dropdown-item {
+
+        &.active,
+        &:active {
+          background: $primary-grey;
+        }
+      }
     }
+  }
+
+  .publishRtaes {
+    position: relative;
+  }
 }
