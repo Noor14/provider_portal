@@ -50,18 +50,19 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 export class SeaFreightComponent implements OnInit {
 
   public dtOptions: DataTables.Settings | any = {};
-  @ViewChild('dataTable') table;
+  @ViewChild('dataTabledraftBYsea') tabledraft;
+  @ViewChild('dataTablepublishBysea') tablepublishBySea;
   @ViewChild("dp") input: NgbInputDatepicker;
   // @ViewChild(NgModel) datePick: NgModel;
   @ViewChild('rangeDp') rangeDp: ElementRef;
-  public dataTable: any;
+  public dataTablepublishBysea: any;
   public allRatesList: any;
-  public loading: boolean;
+  public publishloading: boolean;
   public allShippingLines: any[] = [];
   public allCargoType: any[] = []
   public allContainersType: any[] = [];
   public allPorts: any[] = [];
-  public allSeaDraftRates: any[] = [];
+  public allSeaDraftRatesByFCL: any[] = [];
   public filterOrigin: any = {};
   public filterDestination: any = {};
   public startDate: NgbDateStruct;
@@ -110,11 +111,28 @@ export class SeaFreightComponent implements OnInit {
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.getAllPublishRates();
     this.allservicesBySea();
+
   }
+
+
   filter(){
     this.getAllPublishRates()
   }
-  
+  addRatesManually() {
+    this._seaFreightService.addDraftRates({createdBy:this.userProfile.PrimaryEmail}).subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+        }
+      })
+  }
+  addAnotherRates(){
+    this.addRatesManually();
+  }
+  addRatesByseaManually(){
+    if (!this.allSeaDraftRatesByFCL ||( this.allSeaDraftRatesByFCL && !this.allSeaDraftRatesByFCL.length)){
+      this.addRatesManually();
+    }
+  }
+
   onDateSelection(date: NgbDateStruct) {
     let parsed = '';
     if (!this.fromDate && !this.toDate) {
@@ -146,7 +164,7 @@ export class SeaFreightComponent implements OnInit {
             this.allCargoType = state[index].DropDownValues.Category;
             this.allContainersType = state[index].DropDownValues.Container;
             this.allPorts = state[index].DropDownValues.Port;
-            this.allSeaDraftRates = state[index].DraftData;
+            this.allSeaDraftRatesByFCL = state[index].DraftDataFCL;
           }
         }
       }
@@ -167,7 +185,7 @@ export class SeaFreightComponent implements OnInit {
     if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates();
   }
   getAllPublishRates() {
-    this.loading = true;
+    this.publishloading = true;
     let obj = {
       providerID: 1047,     
       pageNo: 1,
@@ -185,7 +203,8 @@ export class SeaFreightComponent implements OnInit {
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.allRatesList = res.returnObject.data;
-        this.loading = false;
+        this.publishloading = false;
+        this.checkedallpublishRates = false;
         this.filterTable(this.allRatesList);
       }
     })
@@ -297,8 +316,8 @@ export class SeaFreightComponent implements OnInit {
       }
     ]
   };
-  this.dataTable = $(this.table.nativeElement);
-  let alltableOption = this.dataTable.DataTable(this.dtOptions);
+    this.dataTablepublishBysea = $(this.tablepublishBySea.nativeElement);
+  let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptions);
     $("#selectallpublishRates").click(() => {
       var cols = alltableOption.column(0).nodes();
        this.checkedallpublishRates = !this.checkedallpublishRates;
