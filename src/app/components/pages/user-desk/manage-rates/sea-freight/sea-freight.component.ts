@@ -50,12 +50,13 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 export class SeaFreightComponent implements OnInit {
 
   public dtOptions: DataTables.Settings | any = {};
-  @ViewChild('dataTabledraftBYsea') tabledraft;
-  @ViewChild('dataTablepublishBysea') tablepublishBySea;
+  @ViewChild('draftBYsea') tabledraftBySea;
+  @ViewChild('publishBysea') tablepublishBySea;
   @ViewChild("dp") input: NgbInputDatepicker;
   // @ViewChild(NgModel) datePick: NgModel;
   @ViewChild('rangeDp') rangeDp: ElementRef;
   public dataTablepublishBysea: any;
+  public dataTabledraftBysea: any;
   public allRatesList: any;
   public publishloading: boolean;
   public draftloading: boolean;
@@ -317,8 +318,12 @@ export class SeaFreightComponent implements OnInit {
       }
     ]
   };
+    
+    this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
+    this.dataTabledraftBysea.DataTable(this.dtOptions);
+
     this.dataTablepublishBysea = $(this.tablepublishBySea.nativeElement);
-  let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptions);
+    let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptions);
     $("#selectallpublishRates").click(() => {
       var cols = alltableOption.column(0).nodes();
        this.checkedallpublishRates = !this.checkedallpublishRates;

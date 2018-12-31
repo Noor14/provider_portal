@@ -28,9 +28,12 @@
       </div>
     </div>
   </section>
-  <section class="publishRtaes mt-5">
-      <table cellspacing="0" #dataTabledraftBYsea class="row-border hover"></table>
+  <section class="publishRtaes mt-5 mb-5">
+      <table cellspacing="0" #draftBYsea class="row-border hover"></table>
       <app-loader-main *ngIf="draftloading"></app-loader-main>
+  </section>
+  <section>
+  <!-- <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button> -->
   </section>
   <section class="rates-filter">
     <ngb-accordion>
@@ -124,7 +127,6 @@
   </section>
 
   <section class="publishRtaes mt-5">
-    <table cellspacing="0" #dataTablepublishBysea class="row-border hover"></table>
+    <table cellspacing="0" #publishBysea class="row-border hover"></table>
     <app-loader-main *ngIf="publishloading"></app-loader-main>
   </section>
-  <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button>
