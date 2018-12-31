@@ -58,6 +58,7 @@ export class SeaFreightComponent implements OnInit {
   public dataTablepublishBysea: any;
   public allRatesList: any;
   public publishloading: boolean;
+  public draftloading: boolean;
   public allShippingLines: any[] = [];
   public allCargoType: any[] = []
   public allContainersType: any[] = [];
