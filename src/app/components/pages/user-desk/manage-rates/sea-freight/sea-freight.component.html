@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="col-5">
-        <div class="card pointer">
+        <div class="card pointer" (click)="addRatesByseaManually()">
           <img class="card-icon" src="../../../../../assets/images/icons/manager-icon.png" alt="*" />
           <div class="card-body">
             <h5 class="card-title">Add Your Rates Manually </h5>
@@ -36,6 +36,13 @@
         FCL / LCL Tabs
       </div>
     </div>
+  <section class="publishRtaes mt-5 mb-5">
+      <table cellspacing="0" #draftBYsea class="row-border hover"></table>
+      <app-loader-main *ngIf="draftloading"></app-loader-main>
+  </section>
+  <section>
+  <!-- <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button> -->
+  </section>
   <section class="rates-filter">
     <ngb-accordion>
       <ngb-panel>
@@ -130,7 +137,6 @@
   </section>
 
   <section class="publishRtaes mt-5">
-    <table cellspacing="0" #dataTable class="row-border hover"></table>
-    <app-loader-main *ngIf="loading"></app-loader-main>
+    <table cellspacing="0" #publishBysea class="row-border hover"></table>
+    <app-loader-main *ngIf="publishloading"></app-loader-main>
   </section>
-  <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button>
