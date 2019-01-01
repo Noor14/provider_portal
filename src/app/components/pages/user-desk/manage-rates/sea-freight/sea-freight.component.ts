@@ -117,6 +117,7 @@ export class SeaFreightComponent implements OnInit {
   }
 
   clearFilter(event){
+    event.preventDefault();
     event.stopPropagation();
   }
   filter(){
@@ -322,7 +323,6 @@ export class SeaFreightComponent implements OnInit {
       setTimeout(() => {
         this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
         this.dataTabledraftBysea.DataTable(this.dtOptions);
-        console.log(this.tablepublishBySea.nativeElement, this.tablepublishBySea)
         this.dataTablepublishBysea = $(this.tablepublishBySea.nativeElement);
         let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptions);
         $("#selectallpublishRates").click(() => {
