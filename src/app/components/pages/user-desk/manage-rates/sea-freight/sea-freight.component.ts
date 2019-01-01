@@ -116,7 +116,9 @@ export class SeaFreightComponent implements OnInit {
 
   }
 
-
+  clearFilter(event){
+    event.stopPropagation();
+  }
   filter(){
     this.getAllPublishRates()
   }

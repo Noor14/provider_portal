@@ -103,6 +103,20 @@
             position: relative;
             top: -2px;
           }
+          .clear-filter {
+            float: right;
+            font-family: $font-proxima;
+            font-size: $font-size-medium;
+            color: $color-topmenu;
+            margin-top: 5px;
+            line-height: 1;
+
+            svg {
+              width: 16px;
+              fill: #738593;
+              transform: rotate(40deg);
+            }
+          }
         }
       }
 
