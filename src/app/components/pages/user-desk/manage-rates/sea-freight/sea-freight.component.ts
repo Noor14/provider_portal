@@ -285,6 +285,7 @@ export class SeaFreightComponent implements OnInit {
       searching: false,
       lengthChange: false,
       responsive: true,
+      order: [[1, "asc"]],
       language: {
         paginate: {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
