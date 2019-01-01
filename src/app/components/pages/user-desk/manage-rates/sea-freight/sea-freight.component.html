@@ -30,7 +30,9 @@
   </section>
   <ngb-tabset>
     <ngb-tab>
-      <ng-template ngbTabTitle>FCL</ng-template>
+      <ng-template ngbTabTitle>
+      <span (click)="filterTable()">FCL</span>
+      </ng-template>
       <ng-template ngbTabContent>
         <section class="publishRtaes mt-5 mb-5">
           <table cellspacing="0" #draftBYsea class="row-border hover"></table>
@@ -147,7 +149,7 @@
         </section>
         <section class="publishRtaes mt-5">
           <table cellspacing="0" #publishBysea class="row-border hover"></table>
-          <app-loader-main *ngIf="publishloading"></app-loader-main>
+          <!-- <app-loader-main *ngIf="publishloading"></app-loader-main> -->
         </section>
       </ng-template>
     </ngb-tab>
