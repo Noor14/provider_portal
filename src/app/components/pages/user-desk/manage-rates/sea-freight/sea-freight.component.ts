@@ -283,6 +283,12 @@ export class SeaFreightComponent implements OnInit {
         title: 'RATE VALIDITY',
         data: 'price'
       },
+      // {
+      //   title: 'OPTION',
+      //   data: function(){
+      //     return '<div ngbDropdown><button class= "btn btn-outline-primary" ngbDropdownToggle> Toggle dropdown </button><div ngbDropdownMenu ><button class="dropdown-item" > Action - 1 < /button>< button class= "dropdown-item" > Another Action < /button><button class= "dropdown-item" > Something else is here</ button></div></div>'
+      //   }
+      // },
     ],
     // processing: true,
     // serverSide: true,
