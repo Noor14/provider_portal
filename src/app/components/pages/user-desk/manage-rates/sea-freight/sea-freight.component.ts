@@ -269,6 +269,7 @@ export class SeaFreightComponent implements OnInit {
             let url = '../../../../../../assets/images/icons/menu.svg';
             return "<img src='" + url + "' class='icon-size-16' />";
           },
+          className:'moreOption'
         }
       ],
       // processing: true,
