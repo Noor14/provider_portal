@@ -147,7 +147,7 @@ export class SeaFreightComponent implements OnInit {
         {
           title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRates" type = "checkbox"> <label for= "selectallDraftRates"> <span> </span></label></div>',
           data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.providerPricingDraftID + '" type = "checkbox"> <label for= "' + data.providerPricingDraftID + '"> <span> </span></label></div>';
+            return '<div class="fancyOptionBoxes"> <input id = "' + data.ProviderPricingDraftID + '" type = "checkbox"> <label for= "' + data.ProviderPricingDraftID + '"> <span> </span></label></div>';
           }
 
         },
@@ -157,7 +157,7 @@ export class SeaFreightComponent implements OnInit {
           //   let url = baseExternalAssets + "/" + data.carrierImage;
           //   return "<img src='" + url + "' class='icon-size-24 mr-2' />" + data.carrierName;
           // },
-          data:'carrierID',
+          data:'CarrierID',
           defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
         },
         {
@@ -168,29 +168,29 @@ export class SeaFreightComponent implements OnInit {
           //   const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
           //   return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.polName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.podName;
           // }
-          data:'polID',
+          data:'PolID',
           defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
           
         },
         {
           title: 'CARGO TYPE',
-          data: 'shippingCatID',
+          data: 'ShippingCatID',
           defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
         },
         {
           title: 'CONTAINER',
-          data: 'containerSpecID',
+          data: 'ContainerSpecID',
           defaultContent: '<select><option disable>-- Select --</option><option>One</option></select>'
         },
         {
           title: 'RATE',
-          data: 'price',
+          data: 'Price',
           defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
           
         },
         {
           title: 'RATE VALIDITY',
-          data: 'price',
+          data: 'Price',
           defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
           
         },
@@ -302,7 +302,7 @@ export class SeaFreightComponent implements OnInit {
           if (state[index].LogServName == "SEA") {
             this.allShippingLines = state[index].DropDownValues.ShippingLine;
             this.allCargoType = state[index].DropDownValues.Category;
-            this.allContainersType = state[index].DropDownValues.Container;
+            this.allContainersType = state[index].DropDownValues.ContainerFCL;
             this.allPorts = state[index].DropDownValues.Port;
             this.allSeaDraftRatesByFCL = state[index].DraftDataFCL;
             this.draftsfcl = this.allSeaDraftRatesByFCL;
