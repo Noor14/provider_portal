@@ -127,7 +127,7 @@ export class SeaFreightComponent implements OnInit {
     this.getAllPublishRates()
   }
   addRatesManually() {
-    this._seaFreightService.addDraftRates({ createdBy: this.userProfile.PrimaryEmail, providerID: this.userProfile.ProviderID}).subscribe((res: any) => {
+    this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID}).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
            this.draftDataBYSeaFCL.push(res.returnObject);
          this.draftsfcl = this.allSeaDraftRatesByFCL.concat(this.draftDataBYSeaFCL);
