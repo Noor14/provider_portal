@@ -72,7 +72,8 @@
     .nav-tabs {
       border: none;
       display: inline-block !important;
-width: 100%;
+      width: 100%;
+      margin-bottom: 20px;
 
       li {
         margin: 0px;
@@ -119,15 +120,18 @@ width: 100%;
 
         &:first-child {
           float: left;
+          margin-top: 10px;
+
           a {
             span {
               background: none !important;
               border: none !important;
               font-family: $font-pragmatica;
-          font-weight: $font-weight-mid;
-          color: $color-menuheading-black;
-          font-size: 1.25rem;
-          box-shadow: none !important;
+              font-weight: $font-weight-mid;
+              color: $color-menuheading-black;
+              font-size: 1.25rem;
+              box-shadow: none !important;
+              padding: 0;
             }
           }
         }
