@@ -197,7 +197,7 @@ export class SeaFreightComponent implements OnInit {
         {
           title: '',
           data: function (data) {
-            let url = '../../../../../../assets/images/icons/menu.svg';
+            let url = '../../../../../../assets/images/icons/icon_del_round.svg';
             return "<img src='" + url + "' class='icon-size-16' />";
           },
           className: 'moreOption'
