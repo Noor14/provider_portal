@@ -20,4 +20,10 @@ export class SeaFreightService {
     return this._http.post(baseApi + url, obj);
     
   }
+
+  saveDraftRate(obj){
+    let url: string = "providerratefcl/SaveDraft";
+    return this._http.post(baseApi + url, obj);
+     
+  }
 }

@@ -28,46 +28,42 @@
       </div>
     </div>
   </section>
-<ngb-tabset activeId="activeFCL">
+  <ngb-tabset activeId="activeFCL">
     <ngb-tab [disabled]="true">
       <ng-template ngbTabTitle>
         <span>Your Rates</span>
       </ng-template>
     </ngb-tab>
     <ngb-tab id="activeLCL">
-        <ng-template ngbTabTitle><span>
-            <svg data-name="Layer 1" id="ee0cf102-a966-4a3f-95ef-2d85d2845fce" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <g data-name="box" id="77a57afb-dc84-48f7-bcef-1ea8af6a0a74">
-                <path class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a" d="M12,2.236l10,5v9.528l-10,5-10-5V7.236l10-5M12,0,0,6V18l12,6,12-6V6L12,0Z"
-                  data-name="<Compound Path>" id="b7ad858c-ef80-4b01-8e89-887b6e7eba38"></path>
-                <polygon class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a" data-name="<Path>" id="3d2841e7-73c0-49f4-a43e-30e1679abe1b"
-                  points="12 12.504 0.5 7.316 1.334 5.496 12 10.307 22.666 5.496 23.5 7.316 12 12.504"></polygon>
-                <rect class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a" data-name="<Path>" height="12" id="221b7dca-da17-44bc-bf0a-eaf6705915cb"
-                  width="2" x="11" y="11"></rect>
-              </g>
-            </svg>LCL</span></ng-template>
-        <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee
-          squid.
-          <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
-            farm-to-table
-            craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
-            vinyl
-            cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS
-            salvia
-            yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable
-            jean
-            shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher
-            vero
-            sint qui sapiente accusamus tattooed echo park.</p>
-        </ng-template>
-      </ngb-tab>
+      <ng-template ngbTabTitle>
+        <span>
+          <svg data-name="Layer 1" id="ee0cf102-a966-4a3f-95ef-2d85d2845fce" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <g data-name="box" id="77a57afb-dc84-48f7-bcef-1ea8af6a0a74">
+              <path class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a" d="M12,2.236l10,5v9.528l-10,5-10-5V7.236l10-5M12,0,0,6V18l12,6,12-6V6L12,0Z"
+                data-name="<Compound Path>" id="b7ad858c-ef80-4b01-8e89-887b6e7eba38"></path>
+              <polygon class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a" data-name="<Path>" id="3d2841e7-73c0-49f4-a43e-30e1679abe1b"
+                points="12 12.504 0.5 7.316 1.334 5.496 12 10.307 22.666 5.496 23.5 7.316 12 12.504"></polygon>
+              <rect class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a" data-name="<Path>" height="12" id="221b7dca-da17-44bc-bf0a-eaf6705915cb"
+                width="2" x="11" y="11"></rect>
+            </g>
+          </svg>LCL</span>
+      </ng-template>
+      <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
+        <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
+          craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl
+          cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia
+          yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean
+          shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero
+          sint qui sapiente accusamus tattooed echo park.</p>
+      </ng-template>
+    </ngb-tab>
     <ngb-tab id="activeFCL">
       <ng-template ngbTabTitle>
         <span (click)="filterTable(); generateDraftTable()">
           <svg data-name="Layer 1" id="3e0bd723-1f5e-404f-9c9e-f9fa6a56c26b" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <g data-name="container" id="6744cc39-0259-4947-99c3-524da0baf146">
-              <path class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" d="M22,10V22H2V10H22m2-2H0V24H24V8Z"
-                data-name="<Compound Path>" id="a13d3843-8cbe-44ec-8bff-9c9271c255f7"></path>
+              <path class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" d="M22,10V22H2V10H22m2-2H0V24H24V8Z" data-name="<Compound Path>"
+                id="a13d3843-8cbe-44ec-8bff-9c9271c255f7"></path>
               <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="10" id="3bc9a61b-e64a-4a26-a0db-69d1ce9d6b6e"
                 width="2" x="5" y="11"></rect>
               <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="10" id="15063ed6-0b45-423b-a60a-fb9e8a38780a"
@@ -86,7 +82,90 @@
       </ng-template>
       <ng-template ngbTabContent>
         <section class="publishRtaes mb-5">
-          <table cellspacing="0" #draftBYsea class="row-border hover"></table>
+          <table cellspacing="0" #draftBYsea class="row-border hover">
+            <thead>
+              <tr>
+                <th>
+                  <div class="fancyOptionBoxes">
+                    <input id="selectallDraftRates" type="checkbox">
+                    <label for="selectallDraftRates">
+                      <span> </span>
+                    </label>
+                  </div>
+                </th>
+                <th>SHIPPING LINE</th>
+                <th>ORIGIN / DEPARTURE</th>
+                <th>CARGO TYPE</th>
+                <th>CONTAINER</th>
+                <th>RATE</th>
+                <th>RATE VALIDITY</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of draftsfcl; let i = index" (focusout)="savedraftrow(i+1, data)">
+                <td>
+                  <div class="fancyOptionBoxes">
+                    <input id="{{data.ProviderPricingDraftID}}" type="checkbox">
+                    <label for="{{data.ProviderPricingDraftID}}">
+                      <span> </span>
+                    </label>
+                  </div>
+                </td>
+                <td>
+                  <select id="{{i+1 + 'carrier'}}" [(ngModel)]="data.CarrierID">
+                    <option [value]="null" disabled [selected]="(!data.CarrierID)? true : false">--Select--</option>
+                    <option *ngFor="let obj of allShippingLines" [value]="obj.CarrierID">{{obj.CarrierName}}</option>
+                  </select>
+                </td>
+                    <td class="gridRoute">
+                      <!-- <div class="flag-container">
+                        <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
+                          type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                      </div>
+                      <input class="form-control" [(ngModel)]="filterOrigin" (focusout)="filtertionPort(filterOrigin)" (ngModelChange)="filterByroute(filterOrigin)"
+                        placeholder="--From--" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
+                        [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
+                          <img src="../../../../../../assets/images/icons/grid-arrow.svg" alt="arrow">
+                          <div class="flag-container">
+                            <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
+                              type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                          </div>
+                          <input placeholder="--To--" [(ngModel)]="filterDestination" (focusout)="filtertionPort(filterDestination)" (ngModelChange)="filterByroute(filterDestination)"
+                            type="text" class="form-control" [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
+                            [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" /> -->
+                    </td>
+                        <td>
+                          <select id="{{i+1 + 'shipping'}}" [(ngModel)]="data.ShippingCatID">
+                           <option [value]="null" disabled>--Select--</option>
+                            <option *ngFor="let obj of allCargoType" [value]="obj.ShippingCatID">{{obj.ShippingCatName}}</option>
+                          </select>
+                        </td>
+                          <td>
+                            <select id="{{i+1 + 'container'}}" [(ngModel)]="data.ContainerSpecID">
+                             <option [value]="null" disabled>--Select--</option>
+                              <option *ngFor="let obj of allContainersType" [value]="obj.ContainerSpecID">{{obj.ContainerSpecShortName}}</option>
+                            </select>
+                          </td>
+                          <td>
+                            <select id="{{i+1}}">
+                              <option [value]="null" disabled>--Select--</option>
+                              <option *ngFor="let obj of allShippingLines" [value]="obj.CarrierID">{{obj.CarrierID}}</option>
+                            </select>
+                          </td>
+                          <td>
+                            <select id="{{i+1}}">
+                              +<option [value]="null" disabled>--Select--</option>
+                              <option *ngFor="let obj of allShippingLines" [value]="obj.CarrierID">{{obj.CarrierID}}</option>
+                            </select>
+                          </td>
+                          <td>
+                            <img src="../../../../../../assets/images/icons/icon_del_round.svg" class='icon-size-16' />
+                          </td>
+                        
+              </tr>
+            </tbody>
+          </table>
           <span (click)="addAnotherRates()">Add Another Rates</span>
           <app-loader-main *ngIf="draftloading"></app-loader-main>
         </section>
@@ -97,15 +176,17 @@
           <ngb-accordion>
             <ngb-panel>
               <ng-template ngbPanelTitle>
-                <span><img src="../../../../../../../assets/images/icons/filter-icon.svg" alt="Filter" class="icon-size-16 mr-2">Filter
-                  your results<img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction"
-                    class="icon-size-16 acc-icon"></span>
+                <span>
+                  <img src="../../../../../../../assets/images/icons/filter-icon.svg" alt="Filter" class="icon-size-16 mr-2">Filter your results
+                  <img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction"
+                    class="icon-size-16 acc-icon">
+                </span>
                 <span class="clear-filter" (click)="clearFilter($event)">
-                  <svg id="969970e9-5f21-4072-86a7-6672decd15e6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16">
+                  <svg id="969970e9-5f21-4072-86a7-6672decd15e6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                     <g id="0d761291-d7c4-42bf-9433-98aad825bfb6" data-name="add">
                       <g id="bede06dd-acf7-4be6-a923-734e194ecf5e" data-name="sucess">
-                        <path class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" d="M8,2A6,6,0,1,1,2,8,6.007,6.007,0,0,1,8,2M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0Z" />
+                        <path class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" d="M8,2A6,6,0,1,1,2,8,6.007,6.007,0,0,1,8,2M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0Z"
+                        />
                       </g>
                       <polygon class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" points="11 7 9 7 9 5 7 5 7 7 5 7 5 9 7 9 7 11 9 11 9 9 11 9 11 7" />
                     </g>
@@ -133,8 +214,8 @@
                             <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
                               type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                           </div>
-                          <input class="form-control" [(ngModel)]="filterOrigin" (focusout)="filtertionPort(filterOrigin)"
-                            (ngModelChange)="filterByroute(filterOrigin)" placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
+                          <input class="form-control" [(ngModel)]="filterOrigin" (focusout)="filtertionPort(filterOrigin)" (ngModelChange)="filterByroute(filterOrigin)"
+                            placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
                             [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
                         </div>
                         <div class="col-6 destination pl-0">
@@ -142,9 +223,8 @@
                             <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
                               type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                           </div>
-                          <input placeholder="Destination" [(ngModel)]="filterDestination" (focusout)="filtertionPort(filterDestination)"
-                            (ngModelChange)="filterByroute(filterDestination)" type="text" class="form-control"
-                            [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
+                          <input placeholder="Destination" [(ngModel)]="filterDestination" (focusout)="filtertionPort(filterDestination)" (ngModelChange)="filterByroute(filterDestination)"
+                            type="text" class="form-control" [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
                             [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
                         </div>
                       </div>
@@ -153,8 +233,7 @@
                   <ng-template #rt let-r="result">
                     <div class="d-flex">
                       <div class="flag-container mr-1">
-                        <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}"
-                          class="mw-100 w-auto h-auto mh-100">
+                        <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
                       </div>
                       <ngb-highlight [result]="r.PortName"></ngb-highlight>
                     </div>
@@ -181,15 +260,13 @@
                     <div class="form-group date-control">
                       <label>Rate Validity</label>
                       <div class="dateIcon">
-                        <input #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp" [(ngModel)]="model"
-                          ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right" [outsideDays]="true"
-                          [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker"
-                          (click)="dp.toggle()">
+                        <input #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp" [(ngModel)]="model" ngbDatepicker [dayTemplate]="t"
+                          [autoClose]="false" placement="bottom-right" [outsideDays]="true" [navigation]="false" [displayMonths]="2"
+                          [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker" (click)="dp.toggle()">
                       </div>
                       <ng-template #t let-date="date" let-focused="focused">
-                        <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
-                          [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)"
-                          (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                        <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)" [class.faded]="isHovered(date) || isInside(date)"
+                          (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
                           {{ date.day }}
                         </span>
                       </ng-template>

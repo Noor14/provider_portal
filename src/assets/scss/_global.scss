@@ -1339,131 +1339,125 @@ select {
   .publishRtaes {
     position: relative;
 
-    .DTFC_ScrollWrapper {
-      .DTFC_LeftWrapper {
-        display: none;
-      }
+    .dataTables_scroll {
+      border: 1px solid $data-table-border;
 
-      .dataTables_scroll {
-        border: 1px solid $data-table-border;
+      .dataTables_scrollHead {
+        .dataTable {
+          thead {
+            background: $data-table-header-bg;
 
-        .dataTables_scrollHead {
-          .dataTable {
-            thead {
-              background: $data-table-header-bg;
+            tr {
+              th {
+                font-family: $font-proxima;
+                color: $color-topmenu !important;
+                font-size: $font-size-medium;
+                font-weight: normal !important;
+                border-bottom: 1px solid $data-table-border !important;
+                text-transform: uppercase;
 
-              tr {
-                th {
-                  font-family: $font-proxima;
-                  color: $color-topmenu !important;
-                  font-size: $font-size-medium;
-                  font-weight: normal !important;
-                  border-bottom: 1px solid $data-table-border !important;
-                  text-transform: uppercase;
+                &:hover {
+                  color: $primary-color;
+                }
 
-                  &:hover {
-                    color: $primary-color;
-                  }
+                &.sorting_asc {
+                  background: url("assets/images/icons/sorting_asc.svg") no-repeat;
+                  background-size: 10px !important;
+                  background-position: center right 5px !important;
+                }
 
-                  &.sorting_asc {
-                    background: url("assets/images/icons/sorting_asc.svg") no-repeat;
-                    background-size: 10px !important;
-                    background-position: center right 5px !important;
-                  }
-
-                  &.sorting_desc {
-                    @extend .sorting_asc;
-                    background: url("assets/images/icons/sorting_desc.svg") no-repeat;
-                  }
+                &.sorting_desc {
+                  @extend .sorting_asc;
+                  background: url("assets/images/icons/sorting_desc.svg") no-repeat;
                 }
               }
             }
           }
         }
+      }
 
-        .dataTables_scrollBody {
-          border: none;
+      .dataTables_scrollBody {
+        border: none;
 
-          .dataTable {
-            tbody {
-              tr {
-                td {
-                  font-family: $font-proxima;
-                  font-size: $font-size-large;
-                  color: $text-color-default;
-                  border-bottom: 1px solid $data-table-border !important;
-                  border-top: none !important;
-                  padding: 1rem;
-                  line-height: 1;
+        .dataTable {
+          tbody {
+            tr {
+              td {
+                font-family: $font-proxima;
+                font-size: $font-size-large;
+                color: $text-color-default;
+                border-bottom: 1px solid $data-table-border !important;
+                border-top: none !important;
+                padding: 1rem;
+                line-height: 1;
 
-                  input {
-                    border: none;
-                    width: 100%;
+                input {
+                  border: none;
+                  width: 100%;
 
-                    &::placeholder {
-                      color: $place-holder-color;
-                      font-family: $font-proxima;
-                      font-size: $font-size-large;
-                      font-style: italic;
-                    }
-
-                    &::-ms-input-placeholder {
-                      color: $place-holder-color;
-                      font-family: $font-proxima;
-                      font-style: italic;
-                      font-size: $font-size-large;
-                    }
-
-                    &::-webkit-input-placeholder {
-                      color: $place-holder-color;
-                      font-family: $font-proxima;
-                      font-style: italic;
-                      font-size: $font-size-large;
-                    }
-                  }
-
-                  select {
-                    border: none;
-                    border-radius: 4px !important;
+                  &::placeholder {
                     color: $place-holder-color;
                     font-family: $font-proxima;
                     font-size: $font-size-large;
                     font-style: italic;
-                    width: 100%;
-                    -webkit-appearance: none;
-                    -moz-appearance: none;
-                    -o-appearance: none;
-                    background: url("assets/images/select-arrow.png") no-repeat center right 10px $color-white;
-
-                    &.non-selected {
-                      font-size: $font-size-large;
-                      color: $text-color-default;
-                    }
-
-                    &::-ms-expand {
-                      display: none;
-                    }
-
-                    &:-moz-focusring {
-                      border: none;
-                      box-shadow: none;
-                    }
-
-                    &:focus {
-                      box-shadow: none !important;
-                      border-color: $form-control-focus !important;
-                    }
-
-                    &::-ms-clear,
-                    &::-ms-reveal {
-                      display: none;
-                    }
                   }
 
-                  &.moreOption {
-                    img {
-                      visibility: hidden;
-                    }
+                  &::-ms-input-placeholder {
+                    color: $place-holder-color;
+                    font-family: $font-proxima;
+                    font-style: italic;
+                    font-size: $font-size-large;
+                  }
+
+                  &::-webkit-input-placeholder {
+                    color: $place-holder-color;
+                    font-family: $font-proxima;
+                    font-style: italic;
+                    font-size: $font-size-large;
+                  }
+                }
+
+                select {
+                  border: none;
+                  border-radius: 4px !important;
+                  color: $text-color-default;
+                  font-family: $font-proxima;
+                  font-size: $font-size-large;
+                  font-style: italic;
+                  width: 100%;
+                  -webkit-appearance: none;
+                  -moz-appearance: none;
+                  -o-appearance: none;
+                  background: url("assets/images/select-arrow.png") no-repeat center right 10px $color-white;
+
+                  &.non-selected {
+                    font-size: $font-size-large;
+                    color: $place-holder-color;
+                  }
+
+                  &::-ms-expand {
+                    display: none;
+                  }
+
+                  &:-moz-focusring {
+                    border: none;
+                    box-shadow: none;
+                  }
+
+                  &:focus {
+                    box-shadow: none !important;
+                    border-color: $form-control-focus !important;
+                  }
+
+                  &::-ms-clear,
+                  &::-ms-reveal {
+                    display: none;
+                  }
+                }
+
+                &.moreOption {
+                  img {
+                    visibility: hidden;
                   }
                 }
               }
@@ -1471,7 +1465,12 @@ select {
           }
         }
       }
+    }
 
+    .DTFC_ScrollWrapper {
+      .DTFC_LeftWrapper {
+        display: none;
+      }
       .DTFC_RightWrapper {
         width: 35px !important;
 
