@@ -17,6 +17,7 @@ import { ReUploadDocComponent } from '../../shared/dialogues/re-upload-doc/re-up
 import { BasicInfoService } from './user-creation/basic-info/basic-info.service';
 import { CompanyInfoService } from './user-creation/company-info/company-info.service';
 import { DiscardDraftComponent } from '../../shared/dialogues/discard-draft/discard-draft.component';
+import { ConfirmDeleteDialogComponent } from '../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
  
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import { DiscardDraftComponent } from '../../shared/dialogues/discard-draft/disc
     ConfirmLogoutDialogComponent,
     BookingInvoiceComponent,
     ReUploadDocComponent,
-    DiscardDraftComponent
+    DiscardDraftComponent,
+    ConfirmDeleteDialogComponent
     // CancelBookingDialogComponent,
     // ConfirmModifySearchComponent,
     // ShareshippingComponent,
@@ -51,7 +53,8 @@ import { DiscardDraftComponent } from '../../shared/dialogues/discard-draft/disc
     ConfirmLogoutDialogComponent,
     BookingInvoiceComponent,
     ReUploadDocComponent,
-    DiscardDraftComponent
+    DiscardDraftComponent,
+    ConfirmDeleteDialogComponent
  
   ],
   providers: [

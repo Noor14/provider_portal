@@ -1423,16 +1423,15 @@ select {
                   color: $text-color-default;
                   font-family: $font-proxima;
                   font-size: $font-size-large;
-                  font-style: italic;
                   width: 100%;
                   -webkit-appearance: none;
                   -moz-appearance: none;
                   -o-appearance: none;
-                  background: url("assets/images/select-arrow.png") no-repeat center right 10px $color-white;
+                  background: url("assets/images/select-arrow.png") no-repeat center right 10px transparent;
 
                   &.non-selected {
-                    font-size: $font-size-large;
-                    color: $place-holder-color;
+                    font-style: italic;
+                    color: $place-holder-color !important;
                   }
 
                   &::-ms-expand {
@@ -1471,6 +1470,7 @@ select {
       .DTFC_LeftWrapper {
         display: none;
       }
+
       .DTFC_RightWrapper {
         width: 35px !important;
 

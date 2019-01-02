@@ -16,6 +16,7 @@ import { SeaFreightService } from './sea-freight.service';
 import { getJwtToken } from '../../../../../services/jwt.injectable';
 import { SharedService } from '../../../../../services/shared.service';
 import { baseExternalAssets } from '../../../../../constants/base.url';
+import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 // import { NgModel } from '@angular/forms';
 declare var $;
 const now = new Date();
@@ -101,7 +102,8 @@ export class SeaFreightComponent implements OnInit {
     private _sharedService: SharedService,
     private element: ElementRef,
     private renderer: Renderer2,
-    private _parserFormatter: NgbDateParserFormatter
+    private _parserFormatter: NgbDateParserFormatter,
+
   ) {
     
   }
@@ -129,7 +131,7 @@ export class SeaFreightComponent implements OnInit {
   addRatesManually() {
     this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID}).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
-          this.draftDataBYSeaFCL.unshift(res.returnObject);
+          this.draftDataBYSeaFCL.push(res.returnObject);
           if (this.allSeaDraftRatesByFCL && this.allSeaDraftRatesByFCL.length){
             this.draftsfcl = this.allSeaDraftRatesByFCL.concat(this.draftDataBYSeaFCL);
           }else{
@@ -210,6 +212,7 @@ export class SeaFreightComponent implements OnInit {
       // processing: true,
       // serverSide: true,
       // retrieve: true,
+      info: false,
       destroy: true,
       pagingType: 'full_numbers',
       pageLength: 5,
@@ -226,10 +229,10 @@ export class SeaFreightComponent implements OnInit {
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         }
       },
-      fixedColumns: {
-        leftColumns: 0,
-        rightColumns: 1
-      },
+      // fixedColumns: {
+      //   leftColumns: 0,
+      //   rightColumns: 1
+      // },
       columnDefs: [
         {
           targets: 0,
@@ -314,7 +317,6 @@ export class SeaFreightComponent implements OnInit {
             this.allPorts = state[index].DropDownValues.Port;
             this.allSeaDraftRatesByFCL = state[index].DraftDataFCL;
             this.draftsfcl = this.allSeaDraftRatesByFCL;
-            console.log(this.draftsfcl,"draftsfcl");
             this.generateDraftTable();
             this.draftloading = true;
           }
@@ -537,7 +539,6 @@ export class SeaFreightComponent implements OnInit {
     let container = document.getElementById(index+'container') as any;
     console.log(index, 'Hmmad', )
     let obj= [ 
-
       { 
     
         providerPricingDraftID: data.ProviderPricingDraftID, 
@@ -554,16 +555,38 @@ export class SeaFreightComponent implements OnInit {
         effectiveFrom: "2018-12-01T10:24:39.027Z", 
         effectiveTo: "2018-12-24T10:24:39.027Z", 
     
-      }, 
-    
-    
-    
+      }
     ]
     this._seaFreightService.saveDraftRate(obj).subscribe((res:any)=>{
-      if(res.status=="Success"){
+      if(res.returnStatus=="Success"){
 
       }
     })
+  }
+
+  deleteRow(id) {
+    console.log(id);
+    const modalRef = this.modalService.open(ConfirmDeleteDialogComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.result.then((result) => {
+      // console.log(result);
+      // if (result=="Success"){
+      //   this.getBookingDetail(this.bookingId);
+      // }
+    }, (reason) => {
+      // console.log("reason");
+    });
+    modalRef.componentInstance.deleteId = id;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
   }
 
 

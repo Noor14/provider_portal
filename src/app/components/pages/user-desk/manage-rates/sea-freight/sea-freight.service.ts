@@ -18,12 +18,18 @@ export class SeaFreightService {
   addDraftRates(obj){
     let url: string = "providerratefcl/AddDraftRow";
     return this._http.post(baseApi + url, obj);
-    
   }
 
   saveDraftRate(obj){
     let url: string = "providerratefcl/SaveDraft";
     return this._http.post(baseApi + url, obj);
      
+  }
+  deleteDraftRate(id){
+    const params = new HttpParams()
+    .set('providerPricingDraftID', id)
+  let url: string = "providerratefcl/DeleteDraftRow";
+  return this._http.delete(baseApi + url, { params });
+
   }
 }
