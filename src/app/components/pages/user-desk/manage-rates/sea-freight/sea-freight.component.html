@@ -119,8 +119,8 @@
                   </div>
                 </td>
                 <td>
-                  <select id="{{i+1 + 'carrier'}}" [(ngModel)]="data.CarrierID">
-                    <option [value]="null" disabled [selected]="(!data.CarrierID)? true : false">--Select--</option>
+                  <select id="{{i+1 + 'carrier'}}" [(ngModel)]="data.CarrierID" [ngClass]="{'non-selected': !data.CarrierID}">
+                    <option [value]="null" disabled>--Select--</option>
                     <option *ngFor="let obj of allShippingLines" [value]="obj.CarrierID">{{obj.CarrierName}}</option>
                   </select>
                 </td>
@@ -142,13 +142,13 @@
                             [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" /> -->
                 </td>
                 <td>
-                  <select id="{{i+1 + 'shipping'}}" [(ngModel)]="data.ShippingCatID">
+                  <select id="{{i+1 + 'shipping'}}" [(ngModel)]="data.ShippingCatID" [ngClass]="{'non-selected': !data.ShippingCatID}">
                     <option [value]="null" disabled>--Select--</option>
                     <option *ngFor="let obj of allCargoType" [value]="obj.ShippingCatID">{{obj.ShippingCatName}}</option>
                   </select>
                 </td>
                 <td>
-                  <select id="{{i+1 + 'container'}}" [(ngModel)]="data.ContainerSpecID">
+                  <select id="{{i+1 + 'container'}}" [(ngModel)]="data.ContainerSpecID" [ngClass]="{'non-selected': !data.ContainerSpecID}">
                     <option [value]="null" disabled>--Select--</option>
                     <option *ngFor="let obj of allContainersType" [value]="obj.ContainerSpecID">{{obj.ContainerSpecShortName}}</option>
                   </select>
@@ -173,13 +173,11 @@
             <tfoot>
               <tr>
                 <td>
-                    Add Another Rates
+                  <a href="javascript:;" (click)="addAnotherRates()">Add Another Rates</a>
                   </td>
                 </tr>
             </tfoot>
           </table>
-      
-          <span (click)="addAnotherRates()">Add Another Rates</span>
           <app-loader-main *ngIf="draftloading"></app-loader-main>
         </section>
         <section>
