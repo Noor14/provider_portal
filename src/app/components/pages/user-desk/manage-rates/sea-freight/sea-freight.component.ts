@@ -129,8 +129,12 @@ export class SeaFreightComponent implements OnInit {
   addRatesManually() {
     this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID}).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
-           this.draftDataBYSeaFCL.push(res.returnObject);
-         this.draftsfcl = this.allSeaDraftRatesByFCL.concat(this.draftDataBYSeaFCL);
+         this.draftDataBYSeaFCL.push(res.returnObject);
+          if (this.allSeaDraftRatesByFCL && this.allSeaDraftRatesByFCL.length){
+            this.draftsfcl = this.allSeaDraftRatesByFCL.concat(this.draftDataBYSeaFCL);
+          }else{
+            this.draftsfcl = this.draftDataBYSeaFCL;
+          }
          this.generateDraftTable();
         }
       })
@@ -268,8 +272,9 @@ export class SeaFreightComponent implements OnInit {
     this.addRatesManually();
   }
   addRatesByseaManually(){
-    if (!this.allSeaDraftRatesByFCL || (this.allSeaDraftRatesByFCL && !this.allSeaDraftRatesByFCL.length)){
+    if ((!this.allSeaDraftRatesByFCL || (this.allSeaDraftRatesByFCL && !this.allSeaDraftRatesByFCL.length)) && (!this.draftDataBYSeaFCL || (this.draftDataBYSeaFCL && !this.draftDataBYSeaFCL.length))){
       this.addRatesManually();
+      
     }
   }
 
