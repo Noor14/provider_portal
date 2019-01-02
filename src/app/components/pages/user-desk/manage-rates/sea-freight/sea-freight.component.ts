@@ -129,7 +129,7 @@ export class SeaFreightComponent implements OnInit {
   addRatesManually() {
     this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID}).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
-         this.draftDataBYSeaFCL.push(res.returnObject);
+          this.draftDataBYSeaFCL.unshift(res.returnObject);
           if (this.allSeaDraftRatesByFCL && this.allSeaDraftRatesByFCL.length){
             this.draftsfcl = this.allSeaDraftRatesByFCL.concat(this.draftDataBYSeaFCL);
           }else{
@@ -146,67 +146,67 @@ export class SeaFreightComponent implements OnInit {
       //   url: "http://10.20.1.13:9091/api/providerratefcl/SearchRates",
       //   type: "POST"
       // },
-      data: this.draftsfcl,
-      columns: [
-        {
-          title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRates" type = "checkbox"> <label for= "selectallDraftRates"> <span> </span></label></div>',
-          data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.ProviderPricingDraftID + '" type = "checkbox"> <label for= "' + data.ProviderPricingDraftID + '"> <span> </span></label></div>';
-          }
+      // data: this.draftsfcl,
+      // columns: [
+      //   {
+      //     title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRates" type = "checkbox"> <label for= "selectallDraftRates"> <span> </span></label></div>',
+      //     data: function (data) {
+      //       return '<div class="fancyOptionBoxes"> <input id = "' + data.ProviderPricingDraftID + '" type = "checkbox"> <label for= "' + data.ProviderPricingDraftID + '"> <span> </span></label></div>';
+      //     }
 
-        },
-        {
-          title: 'SHIPPING LINE',
-          // data: function (data) {
-          //   let url = baseExternalAssets + "/" + data.carrierImage;
-          //   return "<img src='" + url + "' class='icon-size-24 mr-2' />" + data.carrierName;
-          // },
-          data:'CarrierID',
-          defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
-        },
-        {
-          title: 'ORIGIN / DEPARTURE',
-          // data: function (data) {
-          //   let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
-          //   let podCode = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
-          //   const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-          //   return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.polName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.podName;
-          // }
-          data:'PolID',
-          defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
+      //   },
+      //   {
+      //     title: 'SHIPPING LINE',
+      //     // data: function (data) {
+      //     //   let url = baseExternalAssets + "/" + data.carrierImage;
+      //     //   return "<img src='" + url + "' class='icon-size-24 mr-2' />" + data.carrierName;
+      //     // },
+      //     data:'CarrierID',
+      //     defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
+      //   },
+      //   {
+      //     title: 'ORIGIN / DEPARTURE',
+      //     // data: function (data) {
+      //     //   let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
+      //     //   let podCode = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
+      //     //   const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
+      //     //   return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.polName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.podName;
+      //     // }
+      //     data:'PolID',
+      //     defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
           
-        },
-        {
-          title: 'CARGO TYPE',
-          data: 'ShippingCatID',
-          defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
-        },
-        {
-          title: 'CONTAINER',
-          data: 'ContainerSpecID',
-          defaultContent: '<select><option disable>-- Select --</option><option>One</option></select>'
-        },
-        {
-          title: 'RATE',
-          data: 'Price',
-          defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
+      //   },
+      //   {
+      //     title: 'CARGO TYPE',
+      //     data: 'ShippingCatID',
+      //     defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
+      //   },
+      //   {
+      //     title: 'CONTAINER',
+      //     data: 'ContainerSpecID',
+      //     defaultContent: '<select><option disable>-- Select --</option><option>One</option></select>'
+      //   },
+      //   {
+      //     title: 'RATE',
+      //     data: 'Price',
+      //     defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
           
-        },
-        {
-          title: 'RATE VALIDITY',
-          data: 'Price',
-          defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
+      //   },
+      //   {
+      //     title: 'RATE VALIDITY',
+      //     data: 'Price',
+      //     defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
           
-        },
-        {
-          title: '',
-          data: function (data) {
-            let url = '../../../../../../assets/images/icons/icon_del_round.svg';
-            return "<img src='" + url + "' class='icon-size-16' />";
-          },
-          className: 'moreOption'
-        }
-      ],
+      //   },
+      //   {
+      //     title: '',
+      //     data: function (data) {
+      //       let url = '../../../../../../assets/images/icons/icon_del_round.svg';
+      //       return "<img src='" + url + "' class='icon-size-16' />";
+      //     },
+      //     className: 'moreOption'
+      //   }
+      // ],
       // processing: true,
       // serverSide: true,
       // retrieve: true,
@@ -249,8 +249,10 @@ export class SeaFreightComponent implements OnInit {
           targets: "_all",
           width: "150"
         }
-      ]
-    };
+      ],
+
+    }
+    
     this.setdataDraftInTable();
   }
 
