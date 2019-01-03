@@ -1637,18 +1637,19 @@ select {
         }
       }
     }
+
     .actions {
-        .discard-draft {
-            font-family: $font-proxima;
-            font-weight: $font-weight-mid;
-            font-size: $font-size-medium;
-            color: $color-topmenu;
-            margin-right: 1.875rem;
-            text-transform: uppercase;
-        }
-        button {
-            width: 15%;
-        }
+      .discard-draft {
+        font-family: $font-proxima;
+        font-weight: $font-weight-mid;
+        font-size: $font-size-medium;
+        color: $color-topmenu;
+        margin-right: 1.875rem;
+      }
+
+      button {
+        width: 15%;
+      }
     }
   }
 }

@@ -578,7 +578,7 @@ export class SeaFreightComponent implements OnInit {
           if (this.draftsfcl[index].ProviderPricingDraftID == id){
             this.draftsfcl.splice(index, 1);
             console.log(this.draftsfcl);
-            this.generateDraftTable();            
+            // this.generateDraftTable();            
           }
           
         }

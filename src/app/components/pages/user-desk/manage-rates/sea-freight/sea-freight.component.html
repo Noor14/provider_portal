@@ -31,7 +31,7 @@
   <ngb-tabset activeId="activeFCL">
     <ngb-tab [disabled]="true">
       <ng-template ngbTabTitle>
-        <span>Your Rates</span>
+        <span>Add Rates</span>
       </ng-template>
     </ngb-tab>
     <ngb-tab id="activeLCL">
@@ -182,15 +182,14 @@
           <app-loader-main *ngIf="draftloading"></app-loader-main>
           <div class="row mt-4">
             <div class="col-12 text-right actions">
-              <a href="#" class="discard-draft">Discard Draft</a>
-          <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">Save Draft</button>
-          <button class="btn btn-primary btn-lg hvr-sweep-to-right">Publish Rates</button>
+              <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase" (click)="discardDraft()">Discard Draft</button>
+              <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">Save Draft</button>
+              <button class="btn btn-primary btn-lg hvr-sweep-to-right">Publish Rates</button>
             </div>
           </div>
         </section>
-        <section>
-          <!-- <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button> -->
-        </section>
+        <hr class="hr-solid">
+        <H5 class="add-rate-head mb-4 mt-4">Your Rates</H5>
         <section class="rates-filter">
           <ngb-accordion>
             <ngb-panel>
