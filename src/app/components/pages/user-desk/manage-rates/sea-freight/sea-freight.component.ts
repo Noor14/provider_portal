@@ -89,7 +89,8 @@ export class SeaFreightComponent implements OnInit {
   public filterbyShippingLine;
   public filterbyCargoType;
   public filterbyContainerType;
-  public checkedallpublishRates:boolean = false;
+  public checkedallpublishRates: boolean = false;
+  public checkedalldraftRates:boolean = false;
 
   isHovered = date =>
   this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
@@ -103,7 +104,6 @@ export class SeaFreightComponent implements OnInit {
     private element: ElementRef,
     private renderer: Renderer2,
     private _parserFormatter: NgbDateParserFormatter,
-
   ) {
     
   }
@@ -263,13 +263,13 @@ export class SeaFreightComponent implements OnInit {
     setTimeout(() => {
       this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
       let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
-      this.draftloading = false
+      this.draftloading = false;
      
       $("#selectallDraftRates").click(() => {
         var cols = alltableOption.column(0).nodes();
-        this.checkedallpublishRates = !this.checkedallpublishRates;
+        this.checkedalldraftRates = !this.checkedalldraftRates;
         for (var i = 0; i < cols.length; i += 1) {
-          cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
+          cols[i].querySelector("input[type='checkbox']").checked = this.checkedalldraftRates;
         }
       });
     }, 0);
@@ -565,7 +565,6 @@ export class SeaFreightComponent implements OnInit {
   }
 
   deleteRow(id) {
-    console.log(id);
     const modalRef = this.modalService.open(ConfirmDeleteDialogComponent, {
       size: 'lg',
       centered: true,
@@ -574,10 +573,16 @@ export class SeaFreightComponent implements OnInit {
       keyboard: false
     });
     modalRef.result.then((result) => {
-      // console.log(result);
-      // if (result=="Success"){
-      //   this.getBookingDetail(this.bookingId);
-      // }
+      if (result == "Success"){
+        for (let index = 0; index < this.draftsfcl.length; index++) {
+          if (this.draftsfcl[index].ProviderPricingDraftID == id){
+            this.draftsfcl.splice(index, 1);
+            console.log(this.draftsfcl);
+            this.generateDraftTable();            
+          }
+          
+        }
+      }
     }, (reason) => {
       // console.log("reason");
     });
