@@ -576,9 +576,12 @@ export class SeaFreightComponent implements OnInit {
       if (result == "Success"){
         for (let index = 0; index < this.draftsfcl.length; index++) {
           if (this.draftsfcl[index].ProviderPricingDraftID == id){
-            this.generateDraftTable();   
+               
             this.draftsfcl.splice(index, 1);
-            console.log(this.draftsfcl);
+            this.dataTabledraftBysea.row( $(this).parents('tr') )
+        .remove()
+        .draw();
+        this.setdataDraftInTable();
           }
           
         }
