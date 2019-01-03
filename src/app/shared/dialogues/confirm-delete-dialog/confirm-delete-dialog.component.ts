@@ -10,7 +10,7 @@ import { SeaFreightService } from '../../../components/pages/user-desk/manage-ra
 })
 export class ConfirmDeleteDialogComponent implements OnInit {
   
-  @Input() deleteId: any;
+  @Input() deleteIds: any;
   constructor(
     private seaFreightService : SeaFreightService,
     private location: PlatformLocation,
@@ -20,7 +20,7 @@ export class ConfirmDeleteDialogComponent implements OnInit {
   ngOnInit() {
   }
   delete(){
-    this.seaFreightService.deleteDraftRate(this.deleteId).subscribe((res:any)=>{
+    this.seaFreightService.deleteNDiscardDraftRate(this.deleteIds).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
         this.closeModal(res.returnStatus);
       }

@@ -25,11 +25,9 @@ export class SeaFreightService {
     return this._http.post(baseApi + url, obj);
      
   }
-  deleteDraftRate(id){
-    const params = new HttpParams()
-    .set('providerPricingDraftID', id)
-  let url: string = "providerratefcl/DeleteDraftRow";
-  return this._http.delete(baseApi + url, { params });
+  deletenDiscardDraftRate(data){
+    let url: string = "providerratefcl/DiscardDraft";
+    return this._http.request('delete', baseApi + url, { body: data });
 
   }
 }
