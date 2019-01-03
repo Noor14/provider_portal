@@ -535,7 +535,7 @@ export class SeaFreightComponent implements OnInit {
         },
         {
           targets: -2,
-          width: '270',
+          width: '200',
         },
         {
           targets: "_all",
