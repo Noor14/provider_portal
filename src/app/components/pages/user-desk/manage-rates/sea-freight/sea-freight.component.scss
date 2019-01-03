@@ -398,4 +398,18 @@
       }
     }
   }
+  .actions {
+    .discard-draft {
+      font-family: $font-proxima;
+      font-weight: $font-weight-mid;
+      font-size: $font-size-medium;
+      color: $color-topmenu;
+      margin-right: 1.875rem;
+      outline: none;
+    }
+
+    button {
+      width: 15%;
+    }
+  }
 }

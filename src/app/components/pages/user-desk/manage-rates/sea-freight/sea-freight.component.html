@@ -87,7 +87,7 @@
           FCL</span>
       </ng-template>
       <ng-template ngbTabContent>
-        <section class="publishRtaes mb-5">
+        <section class="rates-grid draft-grid">
 <table datatable [dtOptions]="dtOptionsBySeaFCLDraft" [dtTrigger]="dtTrigger" cellspacing="0" #draftBYsea class="row-border hover">
             <thead>
               <tr>
@@ -180,15 +180,15 @@
             </tfoot>
           </table>
           <app-loader-main *ngIf="draftloading"></app-loader-main>
-          <div class="row mt-4">
+        </section>
+        <div class="row mt-4">
             <div class="col-12 text-right actions">
               <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase" (click)="discardDraft()">Discard Draft</button>
               <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">Save Draft</button>
               <button class="btn btn-primary btn-lg hvr-sweep-to-right">Publish Rates</button>
             </div>
-          </div>
-        </section>
-        <hr class="hr-solid">
+        </div>
+        <hr class="hr-solid mt-4">
         <H5 class="add-rate-head mb-4 mt-4">Your Rates</H5>
         <section class="rates-filter">
           <ngb-accordion>
@@ -299,7 +299,7 @@
             </ngb-panel>
           </ngb-accordion>
         </section>
-        <section class="publishRtaes mt-5">
+        <section class="rates-grid mt-5">
           <table cellspacing="0" #publishBysea class="row-border hover"></table>
           <!-- <app-loader-main *ngIf="publishloading"></app-loader-main> -->
         </section>

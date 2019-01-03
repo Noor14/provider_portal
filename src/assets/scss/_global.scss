@@ -1348,7 +1348,7 @@ select {
 
 // Data table
 .ratesPages {
-  .publishRtaes {
+  .rates-grid {
     position: relative;
 
     .dataTables_scroll {
@@ -1390,7 +1390,6 @@ select {
 
       .dataTables_scrollBody {
         border: none;
-        padding-bottom: 3rem;
         background: $white-color;
 
         .dataTable {
@@ -1493,6 +1492,8 @@ select {
       .dataTables_scrollFoot {
         position: absolute;
         bottom: 65px;
+        background: #fff;
+        width: 98.5% !important;
 
         table {
           tfoot {
@@ -1637,19 +1638,10 @@ select {
         }
       }
     }
-
-    .actions {
-      .discard-draft {
-        font-family: $font-proxima;
-        font-weight: $font-weight-mid;
-        font-size: $font-size-medium;
-        color: $color-topmenu;
-        margin-right: 1.875rem;
-      }
-
-      button {
-        width: 15%;
-      }
+    &.draft-grid {
+        .dataTables_scrollBody{
+        padding-bottom: 3rem;
+        }
     }
   }
 }
