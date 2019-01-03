@@ -176,7 +176,20 @@ export class SeaFreightComponent implements OnInit {
   clearFilter(event){
     event.preventDefault();
     event.stopPropagation();
-  }
+    if ((this.filterbyShippingLine && this.filterbyShippingLine != 'undefined') || 
+      (this.filterbyCargoType && this.filterbyCargoType != 'undefined') ||
+      (this.filterbyContainerType && this.filterbyContainerType != 'undefined') || 
+      (this.filterDestination && Object.keys(this.filterDestination).length) || 
+      (this.filterOrigin && Object.keys(this.filterOrigin).length)
+       ){
+      this.filterbyShippingLine = 'undefined';
+      this.filterbyCargoType = 'undefined';
+      this.filterbyContainerType = 'undefined';
+      this.filterDestination = {};
+      this.filterOrigin = {};
+      this.filter();
+    }
+   }
   filter(){
     this.getAllPublishRates()
   }
