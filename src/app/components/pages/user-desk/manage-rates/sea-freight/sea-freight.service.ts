@@ -25,7 +25,7 @@ export class SeaFreightService {
     return this._http.post(baseApi + url, obj);
      
   }
-  deletenDiscardDraftRate(data){
+  deleteNDiscardDraftRate(data){
     let url: string = "providerratefcl/DiscardDraft";
     return this._http.request('delete', baseApi + url, { body: data });
 
