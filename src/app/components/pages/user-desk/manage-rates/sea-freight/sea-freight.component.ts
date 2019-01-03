@@ -111,6 +111,9 @@ export class SeaFreightComponent implements OnInit {
     private renderer: Renderer2,
     private _parserFormatter: NgbDateParserFormatter,
   ) {
+  }
+
+  ngOnInit() {
     this.dtOptionsBySeaFCLDraft = {
       info: false,
       destroy: true,
@@ -156,10 +159,6 @@ export class SeaFreightComponent implements OnInit {
 
     }
 
-
-  }
-
-  ngOnInit() {
 
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
@@ -551,7 +550,7 @@ export class SeaFreightComponent implements OnInit {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
           }
         });
-      }, 0);
+      },0);
     }
     
 

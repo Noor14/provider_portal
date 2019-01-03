@@ -19,7 +19,6 @@ export class DiscardDraftComponent implements OnInit {
   ngOnInit() {
   }
   delete() {
-    console.log(this.deleteIds)
     this.seaFreightService.deleteNDiscardDraftRate(this.deleteIds).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.closeModal(res.returnStatus);
