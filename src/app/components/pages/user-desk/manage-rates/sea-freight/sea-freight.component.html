@@ -166,7 +166,8 @@
                   </select>
                 </td>
                 <td>
-                  <img src="../../../../../../assets/images/icons/icon_del_round.svg" class='icon-size-16 pointer' (click)="deleteRow(data.ProviderPricingDraftID)" />
+                  <img src="../../../../../../assets/images/icons/icon_del_round.svg" class='icon-size-16 pointer'
+                    (click)="deleteRow(data.ProviderPricingDraftID)" />
                 </td>
               </tr>
             </tbody>
@@ -174,11 +175,18 @@
               <tr>
                 <td>
                   <a href="javascript:;" (click)="addAnotherRates()">Add Another Rates</a>
-                  </td>
-                </tr>
+                </td>
+              </tr>
             </tfoot>
           </table>
           <app-loader-main *ngIf="draftloading"></app-loader-main>
+          <div class="row mt-4">
+            <div class="col-12 text-right actions">
+              <a href="#" class="discard-draft">Discard Draft</a>
+          <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">Save Draft</button>
+          <button class="btn btn-primary btn-lg hvr-sweep-to-right">Publish Rates</button>
+            </div>
+          </div>
         </section>
         <section>
           <!-- <button class="btn btn-primary" (click)="discardDraft()">Discard Draft</button> -->
