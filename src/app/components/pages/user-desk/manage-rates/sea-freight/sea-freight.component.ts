@@ -483,7 +483,7 @@ export class SeaFreightComponent implements OnInit {
         {
           title: 'RATE VALIDITY',
           data: function(data){
-            return moment(data.effectiveFrom).format('d MMM, Y') + ' to ' + moment(data.effectiveTo).format('d MMM, Y') 
+            return moment(data.effectiveFrom).format('D MMM, Y') + ' to ' + moment(data.effectiveTo).format('D MMM, Y') 
           }
         },
         {
