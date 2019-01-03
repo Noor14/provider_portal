@@ -119,21 +119,27 @@
                   </select>
                 </td>
                 <td class="gridRoute">
-                  <div class="flag-container">
-                    <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
-                      type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  <div class="row">
+                    <div class="col-5 p-0 origin">
+                      <div class="flag-container">
+                        <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
+                          type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                      </div>
+                      <input class="form-control" placeholder="--From--" type="text" [ngbTypeahead]="ports" [resultTemplate]="drt" [inputFormatter]="formatter"
+                      />
+                    </div>
+                    <div class="col-2 d-flex align-item-center">
+                      <img src="../../../../../../assets/images/icons/grid-arrow.svg" alt="arrow">
+                    </div>
+                    <div class="col-5 p-0 destination">
+                      <div class="flag-container">
+                        <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
+                          type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                      </div>
+                      <input placeholder="--To--" type="text" class="form-control" [ngbTypeahead]="ports" [resultTemplate]="drt" [inputFormatter]="formatter"
+                      />
+                    </div>
                   </div>
-                  <input class="form-control"
-                    placeholder="--From--" type="text"
-                    [ngbTypeahead]="ports" [resultTemplate]="drt" [inputFormatter]="formatter" />
-                  <img src="../../../../../../assets/images/icons/grid-arrow.svg" alt="arrow">
-                  <div class="flag-container">
-                    <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
-                      type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
-                  </div>
-                  <input placeholder="--To--" 
-                    type="text" class="form-control" 
-                    [ngbTypeahead]="ports" [resultTemplate]="drt" [inputFormatter]="formatter" />
                   <ng-template #drt let-r="result">
                     <div class="d-flex">
                       <div class="flag-container mr-1">
@@ -156,10 +162,18 @@
                   </select>
                 </td>
                 <td>
-                  <select id="{{i+1}}">
-                    <option [value]="null" disabled>--Select--</option>
-                    <option *ngFor="let obj of allShippingLines" [value]="obj.CarrierID">{{obj.CarrierID}}</option>
-                  </select>
+                  <div class="row">
+                    <div class="col-6 p-0 d-flex align-item-center">
+                        <select id="{{i+1 + 'currencyID'}}" [(ngModel)]="data.CurrencyID">
+                          <option [value]="null" disabled>--Select--</option>
+                          <option *ngFor="let obj of allCurrencies" [value]="obj.CurrencyID">{{obj.CurrencyCode}}</option>
+                        </select>
+                    </div>
+                    <div class="col-6 p-0">
+                    <input type="text" class="form-control" placeholder="0.00" id="{{i+1 + 'price'}}" [(ngModel)]="data.Price" >
+                    </div>
+                  </div>
+                
                 </td>
                 <td>
                   <select id="{{i+1}}">
