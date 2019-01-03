@@ -566,14 +566,28 @@ export class SeaFreightComponent implements OnInit {
 }
 
   discardDraft() {
-    this.modalService.open(DiscardDraftComponent, {
+    let discardarr = [];
+    this.draftsfcl.forEach(elem=>{
+      discardarr.push(elem.ProviderPricingDraftID)
+    })
+    const modalRef =  this.modalService.open(DiscardDraftComponent, {
       size: 'lg',
       centered: true,
       windowClass: 'small-modal',
       backdrop: 'static',
       keyboard: false
     });
-
+    modalRef.result.then((result) => {
+      if (result == "Success") {
+            this.draftsfcl = [];
+            this.allSeaDraftRatesByFCL = [];
+            this.draftDataBYSeaFCL = [];
+            this.generateDraftTable();
+      }
+    }, (reason) => {
+      // console.log("reason");
+    });
+    modalRef.componentInstance.deleteIds = discardarr;
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';

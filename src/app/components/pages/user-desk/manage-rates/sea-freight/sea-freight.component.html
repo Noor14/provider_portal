@@ -88,7 +88,8 @@
       </ng-template>
       <ng-template ngbTabContent>
         <section class="rates-grid draft-grid">
-<table datatable [dtOptions]="dtOptionsBySeaFCLDraft" [dtTrigger]="dtTrigger" cellspacing="0" #draftBYsea class="row-border hover">
+          <table datatable [dtOptions]="dtOptionsBySeaFCLDraft" [dtTrigger]="dtTrigger" cellspacing="0" #draftBYsea
+            class="row-border hover">
             <thead>
               <tr>
                 <th>
@@ -182,11 +183,13 @@
           <app-loader-main *ngIf="draftloading"></app-loader-main>
         </section>
         <div class="row mt-4">
-            <div class="col-12 text-right actions">
-              <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase" (click)="discardDraft()">Discard Draft</button>
-              <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">Save Draft</button>
-              <button class="btn btn-primary btn-lg hvr-sweep-to-right">Publish Rates</button>
-            </div>
+          <div class="col-12 text-right actions">
+<button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase" [disabled]="!draftsfcl || (draftsfcl && !draftsfcl.length)"
+              (click)="discardDraft()">Discard
+              Draft</button>
+            <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">Save Draft</button>
+            <button class="btn btn-primary btn-lg hvr-sweep-to-right">Publish Rates</button>
+          </div>
         </div>
         <hr class="hr-solid mt-4">
         <H5 class="add-rate-head mb-4 mt-4">Your Rates</H5>
