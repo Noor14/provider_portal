@@ -119,21 +119,26 @@
                   </select>
                 </td>
                 <td class="gridRoute">
-                  <div class="flag-container">
-                    <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
-                      type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  <div class="origin">
+                      <div class="flag-container">
+                          <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
+                            type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                        </div>
+                        <input class="form-control"
+                          placeholder="--From--" type="text"
+                          [ngbTypeahead]="ports" [resultTemplate]="drt" [inputFormatter]="formatter" />
                   </div>
-                  <input class="form-control"
-                    placeholder="--From--" type="text"
-                    [ngbTypeahead]="ports" [resultTemplate]="drt" [inputFormatter]="formatter" />
                   <img src="../../../../../../assets/images/icons/grid-arrow.svg" alt="arrow">
-                  <div class="flag-container">
-                    <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
-                      type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  <div class="destination">
+                      <div class="flag-container">
+                          <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
+                            type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                        </div>
+                        <input placeholder="--To--" 
+                          type="text" class="form-control" 
+                          [ngbTypeahead]="ports" [resultTemplate]="drt" [inputFormatter]="formatter" />
                   </div>
-                  <input placeholder="--To--" 
-                    type="text" class="form-control" 
-                    [ngbTypeahead]="ports" [resultTemplate]="drt" [inputFormatter]="formatter" />
+                  
                   <ng-template #drt let-r="result">
                     <div class="d-flex">
                       <div class="flag-container mr-1">
