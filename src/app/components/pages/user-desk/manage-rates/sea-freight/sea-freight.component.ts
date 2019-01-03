@@ -576,9 +576,9 @@ export class SeaFreightComponent implements OnInit {
       if (result == "Success"){
         for (let index = 0; index < this.draftsfcl.length; index++) {
           if (this.draftsfcl[index].ProviderPricingDraftID == id){
+            this.generateDraftTable();   
             this.draftsfcl.splice(index, 1);
             console.log(this.draftsfcl);
-            // this.generateDraftTable();            
           }
           
         }
@@ -586,7 +586,7 @@ export class SeaFreightComponent implements OnInit {
     }, (reason) => {
       // console.log("reason");
     });
-    modalRef.componentInstance.deleteId = id;
+    modalRef.componentInstance.deleteIds = [id];
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
