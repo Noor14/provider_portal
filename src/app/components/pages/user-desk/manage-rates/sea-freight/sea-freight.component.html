@@ -48,18 +48,12 @@
             </g>
           </svg>LCL</span>
       </ng-template>
-      <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee
-        squid.
-        <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
-          farm-to-table
-          craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
-          vinyl
-          cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS
-          salvia
-          yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable
-          jean
-          shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher
-          vero
+      <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
+        <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
+          craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl
+          cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia
+          yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean
+          shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero
           sint qui sapiente accusamus tattooed echo park.</p>
       </ng-template>
     </ngb-tab>
@@ -68,8 +62,8 @@
         <span (click)="filterTable(); generateDraftTable()">
           <svg data-name="Layer 1" id="3e0bd723-1f5e-404f-9c9e-f9fa6a56c26b" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <g data-name="container" id="6744cc39-0259-4947-99c3-524da0baf146">
-              <path class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" d="M22,10V22H2V10H22m2-2H0V24H24V8Z"
-                data-name="<Compound Path>" id="a13d3843-8cbe-44ec-8bff-9c9271c255f7"></path>
+              <path class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" d="M22,10V22H2V10H22m2-2H0V24H24V8Z" data-name="<Compound Path>"
+                id="a13d3843-8cbe-44ec-8bff-9c9271c255f7"></path>
               <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="10" id="3bc9a61b-e64a-4a26-a0db-69d1ce9d6b6e"
                 width="2" x="5" y="11"></rect>
               <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="10" id="15063ed6-0b45-423b-a60a-fb9e8a38780a"
@@ -88,8 +82,7 @@
       </ng-template>
       <ng-template ngbTabContent>
         <section class="rates-grid draft-grid">
-          <table datatable [dtOptions]="dtOptionsBySeaFCLDraft" [dtTrigger]="dtTrigger" cellspacing="0" #draftBYsea
-            class="row-border hover">
+          <table datatable [dtOptions]="dtOptionsBySeaFCLDraft" [dtTrigger]="dtTrigger" cellspacing="0" class="row-border hover">
             <thead>
               <tr>
                 <th>
@@ -126,21 +119,29 @@
                   </select>
                 </td>
                 <td class="gridRoute">
-                  <!-- <div class="flag-container">
-                        <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
-                          type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  <div class="flag-container">
+                    <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
+                      type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  </div>
+                  <input class="form-control"
+                    placeholder="--From--" type="text"
+                    [ngbTypeahead]="ports" [resultTemplate]="drt" [inputFormatter]="formatter" />
+                  <img src="../../../../../../assets/images/icons/grid-arrow.svg" alt="arrow">
+                  <div class="flag-container">
+                    <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
+                      type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                  </div>
+                  <input placeholder="--To--" 
+                    type="text" class="form-control" 
+                    [ngbTypeahead]="ports" [resultTemplate]="drt" [inputFormatter]="formatter" />
+                  <ng-template #drt let-r="result">
+                    <div class="d-flex">
+                      <div class="flag-container mr-1">
+                        <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
                       </div>
-                      <input class="form-control" [(ngModel)]="filterOrigin" (focusout)="filtertionPort(filterOrigin)" (ngModelChange)="filterByroute(filterOrigin)"
-                        placeholder="--From--" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
-                        [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
-                          <img src="../../../../../../assets/images/icons/grid-arrow.svg" alt="arrow">
-                          <div class="flag-container">
-                            <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
-                              type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
-                          </div>
-                          <input placeholder="--To--" [(ngModel)]="filterDestination" (focusout)="filtertionPort(filterDestination)" (ngModelChange)="filterByroute(filterDestination)"
-                            type="text" class="form-control" [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
-                            [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" /> -->
+                      <ngb-highlight [result]="r.PortName"></ngb-highlight>
+                    </div>
+                  </ng-template>
                 </td>
                 <td>
                   <select id="{{i+1 + 'shipping'}}" [(ngModel)]="data.ShippingCatID" [ngClass]="{'non-selected': !data.ShippingCatID}">
@@ -167,8 +168,8 @@
                   </select>
                 </td>
                 <td>
-                  <img src="../../../../../../assets/images/icons/icon_del_round.svg" class='icon-size-16 pointer'
-                    (click)="deleteRow(data.ProviderPricingDraftID)" />
+                  <img src="../../../../../../assets/images/icons/icon_del_round.svg" class='icon-size-16 pointer' (click)="deleteRow(data.ProviderPricingDraftID)"
+                  />
                 </td>
               </tr>
             </tbody>
@@ -185,7 +186,8 @@
         <div class="row mt-4">
           <div class="col-12 text-right actions">
             <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase" [disabled]="!draftsfcl || (draftsfcl && !draftsfcl.length)"
-              (click)="discardDraft()">Discard Draft</button>
+              (click)="discardDraft()">Discard Draft
+            </button>
             <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">Save Draft</button>
             <button class="btn btn-primary btn-lg hvr-sweep-to-right">Publish Rates</button>
           </div>
@@ -197,16 +199,15 @@
             <ngb-panel>
               <ng-template ngbPanelTitle>
                 <span>
-                  <img src="../../../../../../../assets/images/icons/filter-icon.svg" alt="Filter" class="icon-size-16 mr-2">Filter
-                  your results
+                  <img src="../../../../../../../assets/images/icons/filter-icon.svg" alt="Filter" class="icon-size-16 mr-2">Filter your results
                   <img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon">
                 </span>
                 <span class="clear-filter" (click)="clearFilter($event)">
-                  <svg id="969970e9-5f21-4072-86a7-6672decd15e6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16">
+                  <svg id="969970e9-5f21-4072-86a7-6672decd15e6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                     <g id="0d761291-d7c4-42bf-9433-98aad825bfb6" data-name="add">
                       <g id="bede06dd-acf7-4be6-a923-734e194ecf5e" data-name="sucess">
-                        <path class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" d="M8,2A6,6,0,1,1,2,8,6.007,6.007,0,0,1,8,2M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0Z" />
+                        <path class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" d="M8,2A6,6,0,1,1,2,8,6.007,6.007,0,0,1,8,2M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0Z"
+                        />
                       </g>
                       <polygon class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" points="11 7 9 7 9 5 7 5 7 7 5 7 5 9 7 9 7 11 9 11 9 9 11 9 11 7" />
                     </g>
@@ -234,8 +235,8 @@
                             <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
                               type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                           </div>
-                          <input class="form-control" [(ngModel)]="filterOrigin" (focusout)="filtertionPort(filterOrigin)"
-                            (ngModelChange)="filterByroute(filterOrigin)" placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
+                          <input class="form-control" [(ngModel)]="filterOrigin" (focusout)="filtertionPort(filterOrigin)" (ngModelChange)="filterByroute(filterOrigin)"
+                            placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
                             [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
                         </div>
                         <div class="col-6 destination pl-0">
@@ -243,9 +244,8 @@
                             <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
                               type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                           </div>
-                          <input placeholder="Destination" [(ngModel)]="filterDestination" (focusout)="filtertionPort(filterDestination)"
-                            (ngModelChange)="filterByroute(filterDestination)" type="text" class="form-control"
-                            [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
+                          <input placeholder="Destination" [(ngModel)]="filterDestination" (focusout)="filtertionPort(filterDestination)" (ngModelChange)="filterByroute(filterDestination)"
+                            type="text" class="form-control" [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
                             [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
                         </div>
                       </div>
@@ -254,8 +254,7 @@
                   <ng-template #rt let-r="result">
                     <div class="d-flex">
                       <div class="flag-container mr-1">
-                        <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}"
-                          class="mw-100 w-auto h-auto mh-100">
+                        <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
                       </div>
                       <ngb-highlight [result]="r.PortName"></ngb-highlight>
                     </div>
@@ -282,15 +281,13 @@
                     <div class="form-group date-control">
                       <label>Rate Validity</label>
                       <div class="dateIcon">
-                        <input #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp" [(ngModel)]="model"
-                          ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right" [outsideDays]="true"
-                          [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker"
-                          (click)="dp.toggle()">
+                        <input #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp" [(ngModel)]="model" ngbDatepicker [dayTemplate]="t"
+                          [autoClose]="false" placement="bottom-right" [outsideDays]="true" [navigation]="false" [displayMonths]="2"
+                          [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker" (click)="dp.toggle()">
                       </div>
                       <ng-template #t let-date="date" let-focused="focused">
-                        <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
-                          [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)"
-                          (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                        <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)" [class.faded]="isHovered(date) || isInside(date)"
+                          (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
                           {{ date.day }}
                         </span>
                       </ng-template>

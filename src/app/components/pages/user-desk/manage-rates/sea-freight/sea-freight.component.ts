@@ -111,6 +111,9 @@ export class SeaFreightComponent implements OnInit {
     private renderer: Renderer2,
     private _parserFormatter: NgbDateParserFormatter,
   ) {
+  }
+
+  ngOnInit() {
     this.dtOptionsBySeaFCLDraft = {
       info: false,
       destroy: true,
@@ -157,10 +160,6 @@ export class SeaFreightComponent implements OnInit {
     }
 
 
-  }
-
-  ngOnInit() {
-
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
@@ -176,7 +175,20 @@ export class SeaFreightComponent implements OnInit {
   clearFilter(event){
     event.preventDefault();
     event.stopPropagation();
-  }
+    if ((this.filterbyShippingLine && this.filterbyShippingLine != 'undefined') || 
+      (this.filterbyCargoType && this.filterbyCargoType != 'undefined') ||
+      (this.filterbyContainerType && this.filterbyContainerType != 'undefined') || 
+      (this.filterDestination && Object.keys(this.filterDestination).length) || 
+      (this.filterOrigin && Object.keys(this.filterOrigin).length)
+       ){
+      this.filterbyShippingLine = 'undefined';
+      this.filterbyCargoType = 'undefined';
+      this.filterbyContainerType = 'undefined';
+      this.filterDestination = {};
+      this.filterOrigin = {};
+      this.filter();
+    }
+   }
   filter(){
     this.getAllPublishRates()
   }
@@ -538,7 +550,7 @@ export class SeaFreightComponent implements OnInit {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
           }
         });
-      }, 0);
+      },0);
     }
     
 
