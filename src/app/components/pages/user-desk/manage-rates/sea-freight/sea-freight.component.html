@@ -88,7 +88,7 @@
       </ng-template>
       <ng-template ngbTabContent>
         <section class="publishRtaes mb-5">
-          <table cellspacing="0" #draftBYsea class="row-border hover">
+<table datatable [dtOptions]="dtOptionsBySeaFCLDraft" [dtTrigger]="dtTrigger" cellspacing="0" #draftBYsea class="row-border hover">
             <thead>
               <tr>
                 <th>
