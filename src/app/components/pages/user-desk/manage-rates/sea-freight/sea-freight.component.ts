@@ -18,6 +18,7 @@ import { SharedService } from '../../../../../services/shared.service';
 import { baseExternalAssets } from '../../../../../constants/base.url';
 import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 // import { NgModel } from '@angular/forms';
+import * as moment from 'moment';
 import { DataTableDirective } from 'angular-datatables';
 declare var $;
 const now = new Date();
@@ -481,7 +482,9 @@ export class SeaFreightComponent implements OnInit {
         },
         {
           title: 'RATE VALIDITY',
-          data: 'price'
+          data: function(data){
+            return moment(data.effectiveFrom).format('d MMM, Y') + ' to ' + moment(data.effectiveTo).format('d MMM, Y') 
+          }
         },
         {
           title: '',
@@ -529,6 +532,10 @@ export class SeaFreightComponent implements OnInit {
           targets: -1,
           width: 'auto',
           orderable: false,
+        },
+        {
+          targets: -2,
+          width: '270',
         },
         {
           targets: "_all",
