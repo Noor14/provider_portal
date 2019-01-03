@@ -1483,6 +1483,47 @@ select {
                     visibility: hidden;
                   }
                 }
+
+                &.gridRoute {
+                  .dropdown-menu {
+                    button {
+                      .flag-container {
+                        width: 15px;
+                        height: 12px;
+                        border: 1px solid $provider-input-border;
+                        display: flex;
+                        margin-top: 2px;
+                        margin-right: 10px !important;
+                      }
+                    }
+                  }
+
+                  .origin,
+                  .destination {
+                    position: relative;
+
+                    >.flag-container {
+                      width: 16px;
+                      height: 24px;
+                      align-items: center;
+                      position: absolute;
+                      left: 10px;
+                      top: 11px;
+                    }
+
+                    .routeSelected {
+                      padding-left: 30px !important;
+                    }
+                  }
+
+                  input {
+                    border: none;
+                  }
+
+                  .origin {
+                    border-right: 1px solid $provider-input-border;
+                  }
+                }
               }
             }
           }
@@ -1638,10 +1679,11 @@ select {
         }
       }
     }
+
     &.draft-grid {
-        .dataTables_scrollBody{
+      .dataTables_scrollBody {
         padding-bottom: 3rem;
-        }
+      }
     }
   }
 }
