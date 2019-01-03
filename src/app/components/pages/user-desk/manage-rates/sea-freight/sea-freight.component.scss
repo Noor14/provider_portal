@@ -406,6 +406,11 @@
       color: $color-topmenu;
       margin-right: 1.875rem;
       outline: none;
+      cursor: pointer;
+
+      &:disabled{
+        cursor: no-drop;
+      }
     }
 
     button {
