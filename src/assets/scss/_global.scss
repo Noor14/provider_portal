@@ -1618,7 +1618,7 @@ select {
 
     .dataTables_paginate {
       font-family: $font-proxima;
-      padding-top: 0.9em;
+      padding-top: 4em;
 
       a.paginate_button {
         font-size: $font-size-base;
@@ -1679,7 +1679,7 @@ select {
 
     &.draft-grid {
       .dataTables_scrollBody {
-        padding-bottom: 3rem;
+        padding-bottom: 0rem;
       }
     }
   }

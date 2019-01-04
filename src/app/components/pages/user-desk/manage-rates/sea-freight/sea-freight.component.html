@@ -88,8 +88,7 @@
       </ng-template>
       <ng-template ngbTabContent>
         <section class="rates-grid draft-grid">
-          <table cellspacing="0" #draftBYsea class="row-border hover">
-          </table>
+          <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table>
           <app-loader-main *ngIf="draftloading"></app-loader-main>
         </section>
         <div class="row mt-4">

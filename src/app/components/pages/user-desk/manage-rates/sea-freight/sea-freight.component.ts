@@ -20,6 +20,7 @@ import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/co
 // import { NgModel } from '@angular/forms';
 import * as moment from 'moment';
 import { DataTableDirective } from 'angular-datatables';
+import { SeaRateDialogComponent } from '../../../../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -114,7 +115,8 @@ export class SeaFreightComponent implements OnInit {
   }
 
   ngOnInit() {
-   
+
+
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
@@ -150,7 +152,7 @@ export class SeaFreightComponent implements OnInit {
   addRatesManually() {
     this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID}).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
-          this.draftDataBYSeaFCL.push(res.returnObject);
+          this.draftDataBYSeaFCL.unshift(res.returnObject);
           if (this.allSeaDraftRatesByFCL && this.allSeaDraftRatesByFCL.length){
             this.draftsfcl = this.allSeaDraftRatesByFCL.concat(this.draftDataBYSeaFCL);
           }else{
@@ -236,9 +238,8 @@ export class SeaFreightComponent implements OnInit {
           title: '',
           data: function (data) {
             let url = '../../../../../../assets/images/icons/icon_del_round.svg';
-            return "<img id='"+data.ProviderPricingDraftID+"' src='" + url + "' class='icon-size-16 pointer' (click) = 'deleteRow(data.ProviderPricingDraftID)'  />";
-          },
-          className: 'moreOption'
+            return "<img id='"+data.ProviderPricingDraftID+"' src='" + url + "' class='icon-size-16 pointer' />";
+          }
         }
       ],
       info: false,
@@ -296,17 +297,69 @@ export class SeaFreightComponent implements OnInit {
     setTimeout(() => {
       this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
       let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
+      let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
+      let footertr = $("<tr></tr>").appendTo(footer);
+      $("<td colspan='20'> <a href='javascript:;' class ='addrow'>Add Another Rates</a> </td>").appendTo(footertr);
+      //Add footer cells
+     
       this.draftloading = false;
      
       $("#selectallDraftRates").click(() => {
-        var cols = alltableOption.column(0).nodes();
+        let cols = alltableOption.column(0).nodes();
         this.checkedalldraftRates = !this.checkedalldraftRates;
-        for (var i = 0; i < cols.length; i += 1) {
+        for (let i = 0; i < cols.length; i += 1) {
           cols[i].querySelector("input[type='checkbox']").checked = this.checkedalldraftRates;
         }
       });
+  
+      $(alltableOption.table().container()).on('click', 'img.pointer', (event)=> {
+        event.stopPropagation();
+        let delId = (<HTMLElement>event.target).id;
+        if (delId){
+          this.deleteRow(delId);
+        }
+      });
+      $(alltableOption.table().container()).on('click', 'tr', (event) => {
+        if (event) {
+          let rowId = event.currentTarget.cells[0].children[0].children[0].id;
+          this.updatePopupRates(rowId);
+        }
+      });
+      $(alltableOption.table().container()).on('click', 'tfoot tr td a', (event) => {
+          event.stopPropagation();
+          this.addAnotherRates();
+        
+      });
+
     }, 0);
   }
+
+  updatePopupRates(rowId){
+    const modalRef = this.modalService.open(SeaRateDialogComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: '',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.result.then((result) => {
+      if (result == "Success") {
+        // this.generateDraftTable();
+      }
+    }, (reason) => {
+      // console.log("reason");
+    });
+ 
+    modalRef.componentInstance.deleteIds = rowId;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+
+  }
+
+
   addAnotherRates(){
     this.addRatesManually();
   }
