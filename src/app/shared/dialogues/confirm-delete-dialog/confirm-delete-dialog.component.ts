@@ -20,11 +20,21 @@ export class ConfirmDeleteDialogComponent implements OnInit {
   ngOnInit() {
   }
   delete(){
-    this.seaFreightService.deleteNDiscardDraftRate(this.deleteIds).subscribe((res:any)=>{
-      if(res.returnStatus == "Success"){
-        this.closeModal(res.returnStatus);
-      }
-    })
+    if (this.deleteIds.type == "draftSeaRateFCL"){
+      this.seaFreightService.deleteNDiscardDraftRate(this.deleteIds.data).subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this.closeModal(res.returnStatus);
+        }
+      })
+    }
+    else if (this.deleteIds.type == "publishSeaRateFCL"){
+      this.seaFreightService.deletePublishRateFCL(this.deleteIds.data).subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this.closeModal(res.returnStatus);
+        }
+      })
+    }
+ 
   }
   closeModal(status) {
     this._activeModal.close(status);
