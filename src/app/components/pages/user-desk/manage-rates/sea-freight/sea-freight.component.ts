@@ -416,6 +416,7 @@ export class SeaFreightComponent implements OnInit {
     this.publishloading = true;
     let obj = {
       providerID: 1047,     
+      // providerID: this.userProfile.ProviderID,     
       pageNo: 1,
       pageSize: 50,
       carrierID: (this.filterbyShippingLine == 'undefined')? null : this.filterbyShippingLine,
@@ -569,7 +570,7 @@ export class SeaFreightComponent implements OnInit {
           
         });
      
-        $('#publishRateTable').on('click', 'input[type="checkbox"]', ($event) => {
+        $('#publishRateTable').on('click', 'input[type="checkbox"]', (event) => {
           let index = this.delPublishRates.indexOf((<HTMLInputElement>event.target).id)
           if (index >= 0){
             this.delPublishRates.splice(index, 1);
