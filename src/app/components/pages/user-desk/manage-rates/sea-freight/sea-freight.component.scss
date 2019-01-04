@@ -92,7 +92,7 @@
             color: #a5b2ba;
             font-size: $font-size-large;
             display: inline-block;
-            background: linear-gradient(180deg, #ececec 35%, #fff 100%) !important;
+            background: linear-gradient(180deg, #ececec 35%, $color-white 100%) !important;
             border-top: 1px solid transparent !important;
 
             svg {
@@ -200,7 +200,7 @@
 
                 svg {
                   width: 16px;
-                  fill: #738593;
+                  fill: $color-topmenu;
                   transform: rotate(45deg);
                   position: relative;
                   top: -1px;
@@ -234,7 +234,6 @@
               .origin,
               .destination {
                 position: relative;
-                
 
                 >.flag-container {
                   width: 16px;
@@ -252,7 +251,7 @@
 
               input {
                 border: none;
-                
+
               }
 
               .origin {
