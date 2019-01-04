@@ -1407,6 +1407,11 @@ select {
                 input {
                   border: none;
                   width: 100%;
+                  background: transparent;
+
+                  &:focus {
+                    box-shadow: none;
+                  }
 
                   &::placeholder {
                     color: $place-holder-color;
@@ -1514,15 +1519,6 @@ select {
                     .routeSelected {
                       padding-left: 30px !important;
                     }
-                  }
-
-                  input {
-                    border: none;
-                    background: transparent;
-                  }
-
-                  .origin {
-                    border-right: 1px solid $provider-input-border;
                   }
                 }
               }
