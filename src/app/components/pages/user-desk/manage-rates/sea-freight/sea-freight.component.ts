@@ -432,7 +432,6 @@ export class SeaFreightComponent implements OnInit {
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.allRatesList = res.returnObject.data;
-        this.publishloading = false;
         this.checkedallpublishRates = false;
         this.filterTable();
       }
@@ -554,6 +553,7 @@ export class SeaFreightComponent implements OnInit {
       setTimeout(() => {
         this.dataTablepublishBysea = $(this.tablepublishBySea.nativeElement);
         let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsBySeaFCL);
+        this.publishloading = false;
         $("#selectallpublishRates").click(() => {
           this.delPublishRates = [];
           var cols = alltableOption.column(0).nodes();
@@ -654,6 +654,7 @@ export class SeaFreightComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result == "Success") {
         this.allRatesList = [];
+        this.delPublishRates = [];
         this.filterTable();
       }
     }, (reason) => {
