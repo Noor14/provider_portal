@@ -18,6 +18,7 @@ import { SharedService } from '../../../../../services/shared.service';
 import { baseExternalAssets } from '../../../../../constants/base.url';
 import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 // import { NgModel } from '@angular/forms';
+import * as moment from 'moment';
 import { DataTableDirective } from 'angular-datatables';
 declare var $;
 const now = new Date();
@@ -72,6 +73,7 @@ export class SeaFreightComponent implements OnInit {
   public allCargoType: any[] = []
   public allContainersType: any[] = [];
   public allPorts: any[] = [];
+  public allCurrencies: any[] = [];
   public allSeaDraftRatesByFCL: any[] = [];
   public draftDataBYSeaFCL: any[] = [];
   public draftsfcl: any[] = [];
@@ -385,6 +387,7 @@ export class SeaFreightComponent implements OnInit {
             this.allCargoType = state[index].DropDownValues.Category;
             this.allContainersType = state[index].DropDownValues.ContainerFCL;
             this.allPorts = state[index].DropDownValues.Port;
+            this.allCurrencies = state[index].DropDownValues.UserCurrency;
             this.allSeaDraftRatesByFCL = state[index].DraftDataFCL;
             this.draftsfcl = this.allSeaDraftRatesByFCL;
             this.dtTrigger.next();
@@ -481,7 +484,9 @@ export class SeaFreightComponent implements OnInit {
         },
         {
           title: 'RATE VALIDITY',
-          data: 'price'
+          data: function(data){
+            return moment(data.effectiveFrom).format('D MMM, Y') + ' to ' + moment(data.effectiveTo).format('D MMM, Y') 
+          }
         },
         {
           title: '',
@@ -529,6 +534,10 @@ export class SeaFreightComponent implements OnInit {
           targets: -1,
           width: 'auto',
           orderable: false,
+        },
+        {
+          targets: -2,
+          width: '200',
         },
         {
           targets: "_all",
@@ -620,11 +629,11 @@ export class SeaFreightComponent implements OnInit {
   savedraftrow(index, data){
     let carrier = document.getElementById(index+'carrier') as any;
     let shipping = document.getElementById(index+'shipping') as any;
-    let container = document.getElementById(index+'container') as any;
-    console.log(index, 'Hmmad', )
+    let container = document.getElementById(index + 'container') as any;
+    let currencyID = document.getElementById(index + 'currencyID') as any;
+    let price = document.getElementById(index +'price') as any;
     let obj= [ 
       { 
-    
         providerPricingDraftID: data.ProviderPricingDraftID, 
         carrierID: (carrier.value=='null')? null : carrier.value, 
         providerID: this.userProfile.ProviderID, 
@@ -634,8 +643,8 @@ export class SeaFreightComponent implements OnInit {
         modeOfTrans: "SEA", 
         polID: 2007, 
         podID: 100, 
-        price: 20, 
-        currencyID: 101, 
+        price: (price.value == 'null' || !price.value)? null : price.value, 
+        currencyID: currencyID.value, 
         effectiveFrom: "2018-12-01T10:24:39.027Z", 
         effectiveTo: "2018-12-24T10:24:39.027Z", 
     
