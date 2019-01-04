@@ -11,6 +11,7 @@ import { SeaFreightService } from '../../../components/pages/user-desk/manage-ra
 export class ConfirmDeleteDialogComponent implements OnInit {
   
   @Input() deleteIds: any;
+  private userProfile: any
   constructor(
     private seaFreightService : SeaFreightService,
     private location: PlatformLocation,
@@ -18,13 +19,31 @@ export class ConfirmDeleteDialogComponent implements OnInit {
     ) { location.onPopState(() => this.closeModal(null)); }
 
   ngOnInit() {
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo && userInfo.returnText) {
+      this.userProfile = JSON.parse(userInfo.returnText);
+    }
   }
   delete(){
-    this.seaFreightService.deleteNDiscardDraftRate(this.deleteIds).subscribe((res:any)=>{
-      if(res.returnStatus == "Success"){
-        this.closeModal(res.returnStatus);
-      }
-    })
+    if (this.deleteIds.type == "draftSeaRateFCL"){
+      this.seaFreightService.deleteNDiscardDraftRate(this.deleteIds.data).subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this.closeModal(res.returnStatus);
+        }
+      })
+    }
+    else if (this.deleteIds.type == "publishSeaRateFCL"){
+      let obj = {
+        publishRateIDs: this.deleteIds.data,
+        modifiedBy: this.userProfile.LoginID
+      };
+      this.seaFreightService.deletePublishRateFCL(obj).subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this.closeModal(res.returnStatus);
+        }
+      })
+    }
+ 
   }
   closeModal(status) {
     this._activeModal.close(status);

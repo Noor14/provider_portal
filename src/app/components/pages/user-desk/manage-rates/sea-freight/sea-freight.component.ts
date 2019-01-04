@@ -77,6 +77,7 @@ export class SeaFreightComponent implements OnInit {
   public allSeaDraftRatesByFCL: any[] = [];
   public draftDataBYSeaFCL: any[] = [];
   public draftsfcl: any[] = [];
+  public delPublishRates: any[] = [];
   public filterOrigin: any = {};
   public filterDestination: any = {};
   public startDate: NgbDateStruct;
@@ -553,12 +554,32 @@ export class SeaFreightComponent implements OnInit {
         this.dataTablepublishBysea = $(this.tablepublishBySea.nativeElement);
         let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsBySeaFCL);
         $("#selectallpublishRates").click(() => {
+          this.delPublishRates = [];
           var cols = alltableOption.column(0).nodes();
           this.checkedallpublishRates = !this.checkedallpublishRates;
           for (var i = 0; i < cols.length; i += 1) {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
+            if (this.checkedallpublishRates){
+            this.delPublishRates.push(cols[i].querySelector("input[type='checkbox']").id);
+            }
           }
+          if (i == cols.length && !this.checkedallpublishRates){
+            this.delPublishRates = [];
+          }
+          
         });
+     
+        $('#publishRateTable').on('click', 'input[type="checkbox"]', ($event) => {
+          let index = this.delPublishRates.indexOf((<HTMLInputElement>event.target).id)
+          if (index >= 0){
+            this.delPublishRates.splice(index, 1);
+            
+          }else{
+            this.delPublishRates.push((<HTMLInputElement>event.target).id)
+          }
+          
+        });
+
       },0);
     }
     
@@ -608,13 +629,52 @@ export class SeaFreightComponent implements OnInit {
     }, (reason) => {
       // console.log("reason");
     });
-    modalRef.componentInstance.deleteIds = discardarr;
+    let obj = {
+      data: discardarr,
+      type: "draftSeaRateFCL"
+    }
+    modalRef.componentInstance.deleteIds = obj;
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
       }
     }, 0);
   }
+
+  deletepublishRecord(){
+    if (!this.delPublishRates.length) return;
+    const modalRef = this.modalService.open(ConfirmDeleteDialogComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.result.then((result) => {
+      if (result == "Success") {
+        this.allRatesList = [];
+        this.filterTable();
+      }
+    }, (reason) => {
+      // console.log("reason");
+    });
+    let obj = {
+      data: this.delPublishRates,
+      type:"publishSeaRateFCL"
+    }
+    modalRef.componentInstance.deleteIds = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
+
+
+
+
+
+
 
   ports = (text$: Observable<string>) =>
     text$.pipe(
@@ -677,7 +737,11 @@ export class SeaFreightComponent implements OnInit {
     }, (reason) => {
       // console.log("reason");
     });
-    modalRef.componentInstance.deleteIds = [id];
+    let obj = {
+      data: [id],
+      type: "draftSeaRateFCL"
+    }
+    modalRef.componentInstance.deleteIds = obj;
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
