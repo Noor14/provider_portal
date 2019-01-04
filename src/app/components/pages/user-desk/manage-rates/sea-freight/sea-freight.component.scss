@@ -396,6 +396,24 @@
           }
         }
       }
+      .rates-grid {
+        .grid-delete {
+          font-family: $font-proxima;
+          font-size: $font-size-medium;
+          color: $btn-bg-danger;
+          font-weight: $font-weight-mid;
+          line-height: 1;
+
+          img {
+            margin-right: 5px;
+          }
+
+          &.no-drop {
+            filter: grayscale(1);
+                opacity: 0.5;
+          }
+        }
+      }
     }
   }
 

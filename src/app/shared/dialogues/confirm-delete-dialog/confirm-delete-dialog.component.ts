@@ -34,7 +34,7 @@ export class ConfirmDeleteDialogComponent implements OnInit {
     }
     else if (this.deleteIds.type == "publishSeaRateFCL"){
       let obj = {
-        publishRateID: this.deleteIds.data,
+        publishRateIDs: this.deleteIds.data,
         modifiedBy: this.userProfile.LoginID
       };
       this.seaFreightService.deletePublishRateFCL(obj).subscribe((res: any) => {

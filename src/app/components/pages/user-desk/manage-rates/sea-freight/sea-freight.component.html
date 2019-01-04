@@ -325,10 +325,11 @@
           </ngb-accordion>
         </section>
         <section class="rates-grid mt-5">
-          <a href="javascript:;" (click)="deletepublishRecord()" [ngClass]="{'no-drop': this.delPublishRates.length}"><img
-              src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16">
-            Delete
-          </a>
+          <div class="d-flex justify-content-end mb-3">
+            <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord()" [ngClass]="{'no-drop': !this.delPublishRates.length}">
+              <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16"> Delete
+            </a>
+          </div>
           <table id="publishRateTable" cellspacing="0" #publishBysea class="row-border hover"></table>
           <!-- <app-loader-main *ngIf="publishloading"></app-loader-main> -->
         </section>
