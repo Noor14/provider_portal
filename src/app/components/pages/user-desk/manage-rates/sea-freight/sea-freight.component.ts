@@ -416,6 +416,7 @@ export class SeaFreightComponent implements OnInit {
     this.publishloading = true;
     let obj = {
       providerID: 1047,     
+      // providerID: this.userProfile.ProviderID,     
       pageNo: 1,
       pageSize: 50,
       carrierID: (this.filterbyShippingLine == 'undefined')? null : this.filterbyShippingLine,
