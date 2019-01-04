@@ -570,7 +570,7 @@ export class SeaFreightComponent implements OnInit {
           
         });
      
-        $('#publishRateTable').on('click', 'input[type="checkbox"]', ($event) => {
+        $('#publishRateTable').on('click', 'input[type="checkbox"]', (event) => {
           let index = this.delPublishRates.indexOf((<HTMLInputElement>event.target).id)
           if (index >= 0){
             this.delPublishRates.splice(index, 1);
