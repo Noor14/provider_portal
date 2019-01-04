@@ -397,6 +397,7 @@
           }
         }
       }
+
       .rates-grid {
         .grid-delete {
           font-family: $font-proxima;
@@ -411,7 +412,8 @@
 
           &.no-drop {
             filter: grayscale(1);
-                opacity: 0.5;
+            opacity: 0.5;
+            cursor: no-drop;
           }
         }
       }
