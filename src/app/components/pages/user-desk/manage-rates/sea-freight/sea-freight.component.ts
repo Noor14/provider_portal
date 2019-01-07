@@ -298,10 +298,10 @@ export class SeaFreightComponent implements OnInit {
     setTimeout(() => {
       this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
       let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
-      let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
-      let footertr = $("<tr></tr>").appendTo(footer);
-      $("<td colspan='20'> <a href='javascript:;' class ='addrow'>Add Another Rates</a> </td>").appendTo(footertr);
-      // Add footer cells
+      // let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
+      // let footertr = $("<tr></tr>").appendTo(footer);
+      // $("<td colspan='20'> <a href='javascript:;' class ='addrow'>Add Another Rates</a> </td>").appendTo(footertr);
+      // // Add footer cells
      
       this.draftloading = false;
   
@@ -312,9 +312,9 @@ export class SeaFreightComponent implements OnInit {
           this.deleteRow(delId);
         }
       });
-      $(alltableOption.table().container()).on('click', 'tr', (event) => {
-        if (event) {
-          event.stopPropagation();
+      $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
+        event.stopPropagation();
+        if (event.target.nodeName != "SPAN" || event.target.innerText) {
           let rowId = event.currentTarget.cells[0].children[0].children[0].id;
           this.updatePopupRates(rowId);
         }
@@ -326,7 +326,6 @@ export class SeaFreightComponent implements OnInit {
       });
 
       $("#selectallDraftRates").click((event) => {
-        event.stopPropagation();
         this.publishRates = [];
         var cols = alltableOption.column(0).nodes();
         this.checkedalldraftRates = !this.checkedalldraftRates;
@@ -339,10 +338,10 @@ export class SeaFreightComponent implements OnInit {
         if (i == cols.length && !this.checkedalldraftRates) {
           this.publishRates = [];
         }
-        console.log(this.publishRates)
       });
 
-      $('#draftRateTable').on('click', 'input[type="checkbox"]', (event) => {
+      $('#draftRateTable').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
+        event.stopPropagation();
         let index = this.publishRates.indexOf((<HTMLInputElement>event.target).id)
         if (index >= 0) {
           this.publishRates.splice(index, 1);
@@ -350,12 +349,8 @@ export class SeaFreightComponent implements OnInit {
         } else {
           this.publishRates.push((<HTMLInputElement>event.target).id)
         }
-        console.log(this.publishRates)
 
       });
-
-
-
 
 
     }, 0);
