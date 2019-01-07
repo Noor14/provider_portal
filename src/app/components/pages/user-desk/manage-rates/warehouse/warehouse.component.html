@@ -1,3 +1,569 @@
-<p>
-  warehouse works!
-</p>
+<section class="warehouse mt-4">
+  <h2>Add a warehouse </h2>
+  <p class="sub-title mt-2 mb-3"> Add your warehouse and create a listing of available capacity on HashMove </p>
+
+  <h5 class="mt-5">Qualification Profile </h5>
+  <p class="sub-title mt-2 mb-2">Please specify your sector and product experience </p>
+
+  <div class="row">
+    <div class="col-12">
+
+      <div #selectCategory class="warehouse-service text-center">
+        <span>
+          <img src=" ../../../../../assets/images/shipping/Goods.png ">
+        </span>
+        <span class="ml-2"> General Goods </span>
+      </div>
+
+      <div #selectCategory class="warehouse-service text-center">
+        <span>
+          <img src="../../../../../assets/images/shipping/Autos.png">
+        </span>
+        <span class="ml-2">Autos</span>
+      </div>
+
+      <div #selectCategory class="warehouse-service text-center">
+        <span>
+          <img src="../../../../../assets/images/shipping/Perishables.png" />
+        </span>
+        <span class="ml-1">Perishables</span>
+      </div>
+
+      <div #selectCategory class="warehouse-service text-center">
+        <span>
+          <img src="../../../../../assets/images/shipping/HeavyItems.png ">
+        </span>
+        <span class="ml-1">Heavy Equipment</span>
+      </div>
+
+      <div #selectCategory class="warehouse-service text-center">
+        <span>
+          <img src="../../../../../assets/images/shipping/HazardousItems.png">
+        </span>
+        <span>Hazardous items</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="warehouse-info">
+    <div class="row">
+      <div class="col-12">
+        <h5 class="mt-5">General Information</h5>
+        <p class="sub-title sub-heading mb-0">Please enter warehouse name and featured images / videos.</p>
+        <hr class="hr-solid mt-3">
+      </div>
+      <div class="col-12">
+        <form autocomplete="off" novalidate>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Warehouse Title</label>
+                <input type="text" maxlength="100" class="form-control">
+                <!-- <span class="animated fadeIn" *ngIf="whnameError">
+                  <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whName'].hasError('required') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">{{requiredFields}}</p>
+                  <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whName'].hasError('pattern') && generalForm.controls['whName'].hasError('minlength') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">Warehouse
+                    name must be at least 5 characters long</p>
+                  <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whName'].hasError('pattern') && generalForm.controls['whName'].hasError('maxlength') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">Warehouse
+                    name should not exceed from 50 characters</p>
+                  <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whName'].hasError('pattern') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">Please
+                    enter valid information</p>
+                </span> -->
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h5 class="small-head mt-3">Upload Featured Gallery</h5>
+              <p class="sub-title sub-heading mb-0">You may add upto 1 video and 4 photos.</p>
+
+              <div class="documentInfo d-flex flex-column mt-3">
+                <div class="file-uploader">
+                  <img src="../../../assets/images/icons/manager-icon.png">
+                  <p class="m-0 pt-3"> Drag here or
+                    <span class="browse-span">browse</span> to upload</p>
+                  <small class="drag-support"> (supported types: pdf, jpeg, png, Maximum size per document: 4 MB) </small>
+                </div>
+              </div>
+
+              <div class="row uploadedDocx">
+                <div class="col-lg-3 ">
+                  <div class="display-upload delete">
+                    <video class="animated fadeIn" controls>
+
+                      <source src="" type="video/mp4">
+                    </video>
+                    <img src="../../../../../../assets/images/icons/media-del.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(i, doc)">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col-12">
+              <h5 class="mt-2">Location</h5>
+              <p class="sub-title sub-heading mb-0">Please enter the exact address of the</p>
+              <hr class="hr-solid">
+            </div>
+            <div class="col-6">
+              <form autocomplete="off" novalidate>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="form-group select-city">
+                      <label>City</label>
+                      <!-- <div class="flag-container">
+                      <img src="'../../../../../assets/images/flags/4x3/ae.svg" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                    </div> -->
+                      <input type="text" maxlength="100" class="form-control" placeholder="Enter City">
+                      <!-- <span class="animated fadeIn" *ngIf="cityError">
+                        <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">{{requiredFields}}</p>
+                        <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
+                          should be minimum 3 characters</p>
+                        <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('maxlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
+                          should not exceed from 100 characters</p>
+                        <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('pattern') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">Please
+                          enter valid information</p>
+                      </span> -->
+                      <!-- <p class="inputError animated fadeIn" *ngIf="citySelError">City should be select from dropdown</p> -->
+                      <!-- <ng-template #rt let-r="result">
+                        <div class="d-flex">
+                          <div class="flag-container mr-1 flag-icon-20-12">
+                            <img src="{{'../../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
+                              class="mw-100 w-auto h-auto mh-100">
+                          </div>
+                          <ngb-highlight [result]="r.title"></ngb-highlight>
+                        </div>
+                      </ng-template> -->
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="form-group">
+                      <label>Address Line 1</label>
+                      <input type="text" maxlength="200" class="form-control" placeholder="Address line 1">
+                      <!-- <span class="animated fadeIn" *ngIf="addressline1Error">
+                        <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline1'].hasError('required') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">{{requiredFields}}</p>
+                        <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline1'].hasError('pattern') && locationForm.controls['addressline1'].hasError('minlength') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">Address
+                          should be minimum 10 characters</p>
+                        <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline1'].hasError('pattern') && locationForm.controls['addressline1'].hasError('maxlength') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">Address
+                          should not exceed from 200 characters</p>
+                        <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline1'].hasError('pattern') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">Please
+                          enter valid information</p>
+                      </span> -->
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="form-group">
+                      <label>Address Line 2</label>
+                      <input type="text" maxlength="200" class="form-control" placeholder="Address line 2">
+                      <!-- <span class="animated fadeIn" *ngIf="addressline2Error">
+                        <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline2'].hasError('required') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">{{requiredFields}}</p>
+                        <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline2'].hasError('pattern') && locationForm.controls['addressline2'].hasError('minlength') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Address
+                          should be minimum 10 characters</p>
+                        <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline2'].hasError('pattern') && locationForm.controls['addressline2'].hasError('maxlength') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Address
+                          should not exceed from 200 characters</p>
+                        <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline2'].hasError('pattern') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Please
+                          enter valid information</p>
+                      </span> -->
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                      <label>P.O Box</label>
+                      <input type="text" maxlength="16" class="form-control">
+                      <!-- <span class="animated fadeIn" *ngIf="poBoxError">
+                        <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('required') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">{{requiredFields}}</p>
+                        <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('minlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">PO
+                          address should be minimum 4 characters</p>
+                        <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('maxlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">PO
+                          address should not exceed from 16 characters</p>
+                      </span> -->
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="col-6 map">
+              <!-- <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
+                <agm-marker [latitude]="location.lat" [longitude]="location.lng"
+                  [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
+              </agm-map> -->
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-12">
+              <h5>Warehouse Details</h5>
+              <p class="sub-title sub-heading mb-0">Please enter your warehouse details</p>
+              <hr class="hr-solid">
+            </div>
+            <div class="col-6 mt-2">
+              <label class="col pl-0">Usage Type</label>
+              <div class="fancyOptionBoxes pull-left mr-5 warehousing-services">
+                <input id="Radios" name="Radios" type="radio">
+                <label for="Radios">
+                  <span></span>
+                  Shared Warehouse
+                </label>
+              </div>
+              <div class="fancyOptionBoxes pull-left warehousing-services">
+                <input id="Radios2" name="Radios" type="radio">
+                <label for="Radios2">
+                  <span></span>
+                  Dedicated Warehouse
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-6">
+              <div class="form-group">
+                <label>Total Covered Area</label>
+                <div class="input-group">
+                  <input class="form-control input-dropdown" type="text">
+                  <div class="input-group-append">
+                    <select class="form-control input-dropdown" name="weightUnit">
+                      <option value="" selected>sqft</option>
+                      <option>
+                        sqft
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <!-- <span class="animated fadeIn" *ngIf="whAreaError">
+                  <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whArea'].hasError('required') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">{{requiredFields}}</p>
+                  <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whArea'].hasError('pattern') && generalForm.controls['whArea'].hasError('minlength') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Range 100 to 1,00,000</p>
+                  <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whArea'].hasError('pattern') && generalForm.controls['whArea'].hasError('maxlength') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Range 100 to 1,00,000</p>
+                  <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whArea'].hasError('pattern') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Please
+                    enter valid information</p>
+                </span> -->
+                <span class="sub-title sub-heading noti">Estimate total warehouse space excluding any office area.</span>
+              </div>
+            </div>
+            <div class="col-12">
+              <label class="mt-3">Hours of Operation</label>
+              <div class="row">
+                <div class="col-3">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input type="time" class="form-control" placeholder="00:00 - 00:00" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <select class="form-control">
+                        <option aria-placeholder="Select Days">Select Days</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-5 d-flex align-items-center">
+                  <div class="form-group w-100">
+                    <!-- <ng-multiselect-dropdown [placeholder]="'Select Days'" [data]="weekDays" [settings]="dropdownSettings"
+                      (onDeSelect)="onItemSelect($event, i, 'de-select')" (onSelect)="onItemSelect($event, i, 'select')"
+                      class="select-days">
+                    </ng-multiselect-dropdown> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="add-icon d-flex">
+                <img src="../../../../../../assets/images/icons/icon_add.svg">
+                <span>Add More Days</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row mt-5 mb-4">
+      <div class="col-12">
+        <h5 class="mt-3">Capacity Details</h5>
+        <p class="sub-title sub-heading mb-0">Please enter the total capacity in pallets per storage category.</p>
+        <hr class="hr-solid">
+      </div>
+      <label class="col-12 racked mt-2">Racked Storage</label>
+      <div class="col-5 d-flex">
+        <div class="mr-4">
+          <label class="switcher-title">Do you have racked storage space available ?</label>
+        </div>
+      </div>
+      <div class="col-1 switch-box">
+        <ui-switch [checked]="true"></ui-switch>
+      </div>
+      <div class="col-12">
+        <form autocomplete="off">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Total Pallet Rack</label>
+                <input type="text" maxlength="100" class="form-control" placeholder="Total pallet positions in rack">
+                <!-- <span class="animated fadeIn">
+                  <p class="inputError animated fadeIn" *ngIf="rackStorageForm.controls['palletRack'].hasError('required') && (rackStorageForm.controls.palletRack.dirty || rackStorageForm.controls.palletRack.touched)">{{requiredFields}}</p>
+                  <p class="inputError animated fadeIn" *ngIf="!rackStorageForm.controls['palletRack'].hasError('pattern') && rackStorageForm.controls['palletRack'].hasError('minlength') && (rackStorageForm.controls.palletRack.dirty || rackStorageForm.controls.palletRack.touched)">Pallet
+                    rack must be at least 1 character long</p>
+                  <p class="inputError animated fadeIn" *ngIf="!rackStorageForm.controls['palletRack'].hasError('pattern') && rackStorageForm.controls['palletRack'].hasError('maxlength') && (rackStorageForm.controls.palletRack.dirty || rackStorageForm.controls.palletRack.touched)">Pallet
+                    rack should not exceed from 100 characters</p>
+                  <p class="inputError animated fadeIn" *ngIf="rackStorageForm.controls['palletRack'].hasError('pattern') && (rackStorageForm.controls.palletRack.dirty || rackStorageForm.controls.palletRack.touched)">Please
+                    enter valid information</p>
+                </span> -->
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Racking</label>
+                <select class="form-control">
+                  <option value="" selected>eg: 2 Highr</option>
+                  <option>fgf</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Max. Height</label>
+                <select class="form-control">
+                  <option value="" selected>eg: 4ft or less</option>
+                  <option>ghfh</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label>Max. Rack Weight</label>
+                <div class="input-group">
+                  <select class="form-control">
+                    <option value="" selected>eg: 1000 kg or less / pallet</option>
+                  </select>
+                  <div class="input-group-append">
+                    <select class="form-control input-dropdown">
+                      <option value="" selected>lbs</option>
+                      <option>
+                        Ibs
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <label class="col-12 racked mb-2">Bulk Storage</label>
+      <div class="col-5">
+        <label class="switcher-title">Do you have bulk storage space available?</label>
+      </div>
+      <div class="col-1 switch-box">
+        <ui-switch [checked]="true"></ui-switch>
+      </div>
+      <div class="col-12">
+        <form autocomplete="off" novalidate>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Total Pallet Bulk</label>
+                <input type="text" maxlength="100" class="form-control" placeholder="Total pallet positions in bulk">
+                <!-- <span class="animated fadeIn">
+                  <p class="inputError animated fadeIn" *ngIf="bulkStorageForm.controls['palletBulk'].hasError('required') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">{{requiredFields}}</p>
+                  <p class="inputError animated fadeIn" *ngIf="!bulkStorageForm.controls['palletBulk'].hasError('pattern') && bulkStorageForm.controls['palletBulk'].hasError('minlength') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">Bulk
+                    pallet must be at least 5 character long</p>
+                  <p class="inputError animated fadeIn" *ngIf="!bulkStorageForm.controls['palletBulk'].hasError('pattern') && bulkStorageForm.controls['palletBulk'].hasError('maxlength') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">Bulk
+                    pallet should not exceed from 100 characters</p>
+                  <p class="inputError animated fadeIn" *ngIf="bulkStorageForm.controls['palletBulk'].hasError('pattern') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">Please
+                    enter valid information</p>
+                </span> -->
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-12">
+        <h5>Warehousing Services</h5>
+        <p class="sub-title sub-heading mb-0">Please select all available warehousing services</p>
+      </div>
+      <hr class="hr-solid">
+      <div class="col-6">
+        <div class="fancyOptionBoxes warehousing-services">
+          <input id="bonded" name="bonded" type="checkbox">
+          <label for="bonded">
+            <span></span>
+            Bonded Warehouse
+          </label>
+        </div>
+        <div class="fancyOptionBoxes warehousing-services">
+          <input id="temperature" name="temperature" type="checkbox">
+          <label for="temperature">
+            <span></span>
+            Temperature Controlled
+          </label>
+        </div>
+        <div class="fancyOptionBoxes warehousing-services">
+          <input id="transportation" name="transportation" type="checkbox">
+          <label for="transportation">
+            <span></span>
+            Transportation Service
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-6 mt-3 d-flex align-self-center">
+        <button class="btn btn-primary btn-register hvr-sweep-to-right pull-left disable">
+          cancel</button>
+      </div>
+      <div class="col-6 mt-3">
+        <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right">
+          save & add pricing </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="Add-warehouse ">
+  <h5 class="mt-5">Add rates</h5>
+  <p class="sub-title mt-2 mb-2">you can add multiple rates for different dates / months </p>
+  <div class="Add-warehouse-rates mt-3">
+    <table class="table table-hover  border">
+      <thead>
+        <tr>
+          <th>VALIDITY DATE</th>
+          <th>DRY STORAGE RATES
+            <span>(per CBM per Day)</span>
+          </th>
+          <th>DRY STORAGE RATES
+            <span>(per CBM per Day)</span>
+          </th>
+          <th>COLD STORAGE RATE
+            <span>(per CBM per Day)</span>
+          </th>
+          <th>COLD STORAGE RATE
+            <span>(per CBM per Day)</span>
+          </th>
+          <th>COLD STORAGE RATE
+            <span>(per CBM per Day)</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <label>From - To-- </label>
+          </td>
+          <td>
+            <div ngbDropdown class="select-country-list pull-left mr-2">
+              <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                <span class="text">AED</span>
+              </div>
+              <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                <ul class="list-group text-justify">
+                  <li class="list-group-item">
+                    <span> 092</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <label> 0.00 </label>
+          </td>
+          <td>
+            <div ngbDropdown class="select-country-list pull-left mr-2">
+              <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                <span class="text">AED</span>
+              </div>
+              <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                <ul class="list-group text-justify">
+                  <li class="list-group-item">
+                    <span> 092</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <label> 0.00 </label>
+          </td>
+          <td>
+            <div ngbDropdown class="select-country-list pull-left mr-2">
+              <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                <span class="text">AED</span>
+              </div>
+              <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                <ul class="list-group text-justify">
+                  <li class="list-group-item">
+                    <span> 092</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <label> 0.00 </label>
+          </td>
+          <td>
+            <div ngbDropdown class="select-country-list pull-left mr-2">
+              <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                <span class="text">AED</span>
+              </div>
+              <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                <ul class="list-group text-justify">
+                  <li class="list-group-item">
+                    <span> 092</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <label> 0.00 </label>
+          </td>
+          <td>
+            <div ngbDropdown class="select-country-list pull-left mr-2">
+              <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                <span class="text">AED</span>
+              </div>
+              <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                <ul class="list-group text-justify">
+                  <li class="list-group-item">
+                    <span> 092</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <label> 0.00 </label>
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="6">
+            <span class="add-icon">
+              <img src="../../../../../../assets/images/icons/icon_add.svg"> Add Another Rate
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="row">
+    <div class="col-6 link mt-3">
+      <a href="javascript:;">go back </a>
+      <i class="fa fa-angle-right"></i>
+    </div>
+
+    <div class="col-6 mt-3">
+      <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right">
+        save rates</button>
+    </div>
+  </div>
+
+
+</section>
