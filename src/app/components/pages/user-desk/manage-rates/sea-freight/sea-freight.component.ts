@@ -66,7 +66,7 @@ export class SeaFreightComponent implements OnInit {
   public dataTabledraftBysea: any;
   public allRatesList: any;
   public publishloading: boolean;
-  public draftloading: boolean;
+  public draftloading: boolean=true;
   public allShippingLines: any[] = [];
   public allCargoType: any[] = []
   public allContainersType: any[] = [];
@@ -153,6 +153,7 @@ export class SeaFreightComponent implements OnInit {
   addRatesManually() {
     this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID}).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
+          console.log(res.returnObject);
           this.draftDataBYSeaFCL.unshift(res.returnObject);
           if (this.allSeaDraftRatesByFCL && this.allSeaDraftRatesByFCL.length){
             this.draftsfcl = this.allSeaDraftRatesByFCL.concat(this.draftDataBYSeaFCL);
@@ -181,8 +182,8 @@ export class SeaFreightComponent implements OnInit {
               return "<span>--Select--</span>"
             }
             else{
-            let url = baseExternalAssets + "/" + data.CarrierImage;
-            return "<img src='" + url + "' class='icon-size-24 mr-2' />" + data.CarrierName;
+            // let url = baseExternalAssets + "/" + data.CarrierImage;
+            return data.CarrierName;
             }
           }
           
@@ -190,10 +191,16 @@ export class SeaFreightComponent implements OnInit {
         {
           title: 'ORIGIN / DEPARTURE',
           data: function (data) {
-            // let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
-            // let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-            return " --From-- " +  " <img src='" + arrow + "' class='ml-2 mr-2' />" + "--To--";
+            if (!data.PolID || !data.PodID){
+            return "<span> --From-- </span>" + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<span> --To-- </span>";
+            }
+            else{
+              let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
+              let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
+              const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
+              return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
+            }
           }
         },
         {
@@ -210,11 +217,11 @@ export class SeaFreightComponent implements OnInit {
         {
           title: 'CONTAINER',
           data: function (data) {
-            if (!data.ContainerSpecShortName) {
+            if (!data.ContainerSpecName) {
               return "<span>--Select--</span>"
             }
             else {
-              return data.ContainerSpecShortName;
+              return data.ContainerSpecName;
             }
           }
         },
@@ -225,14 +232,19 @@ export class SeaFreightComponent implements OnInit {
               return "<span>--Select--</span>"
             }
             else {
-              return data.Price;
+              return data.CurrencyCode + ' ' + data.Price;
             }
           }
         },
         {
           title: 'RATE VALIDITY',
           data: function (data) {
-            return moment(data.effectiveFrom).format('D MMM, Y') + ' to ' + moment(data.effectiveTo).format('D MMM, Y')
+            if (!data.EffectiveFrom || !data.EffectiveTo) {
+              return "<span>--Select--</span>"
+            }
+            else {
+              return moment(data.EffectiveFrom).format('D MMM, Y') + ' to ' + moment(data.EffectiveTo).format('D MMM, Y')
+            }
           }
         },
         {
@@ -298,9 +310,9 @@ export class SeaFreightComponent implements OnInit {
     setTimeout(() => {
       this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
       let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
-      let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
-      let footertr = $("<tr></tr>").appendTo(footer);
-      $("<td colspan='20'> <a href='javascript:;' class ='addrow'>Add Another Rates</a> </td>").appendTo(footertr);
+      // let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
+      // let footertr = $("<tr></tr>").appendTo(footer);
+      // $("<td colspan='20'> <a href='javascript:;' class ='addrow'>Add Another Rates</a> </td>").appendTo(footertr);
       // Add footer cells
      
       this.draftloading = false;
@@ -319,11 +331,11 @@ export class SeaFreightComponent implements OnInit {
           this.updatePopupRates(rowId);
         }
       });
-      $(alltableOption.table().container()).on('click', 'tfoot tr td a', (event) => {
-          event.stopPropagation();
-          this.addAnotherRates();
+      // $(alltableOption.table().container()).on('click', 'tfoot tr td a', (event) => {
+      //     event.stopPropagation();
+      //     this.addAnotherRates();
         
-      });
+      // });
 
       $("#selectallDraftRates").click((event) => {
         this.publishRates = [];
@@ -372,7 +384,7 @@ export class SeaFreightComponent implements OnInit {
       // console.log("reason");
     });
  
-    modalRef.componentInstance.deleteIds = rowId;
+    modalRef.componentInstance.addRateId = rowId;
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
@@ -424,15 +436,25 @@ export class SeaFreightComponent implements OnInit {
             this.allContainersType = state[index].DropDownValues.ContainerFCL;
             this.allPorts = state[index].DropDownValues.Port;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
-            this.allSeaDraftRatesByFCL = state[index].DraftDataFCL;
+            this.allSeaDraftRatesByFCL = this.filterByDate(state[index].DraftDataFCL);
             this.draftsfcl = this.allSeaDraftRatesByFCL;
+            console.log(this.draftsfcl);
             this.generateDraftTable();
-            // this.draftloading = true;
+            this.draftloading = true;
           }
         }
       }
     })
   }
+  filterByDate(allSeaDraftRatesByFCL){
+    return allSeaDraftRatesByFCL.sort(function (a, b) {
+    let dateA: any = new Date(a.CreatedDateTime);
+    let dateB: any = new Date(b.CreatedDateTime);
+    return dateB - dateA;
+  });
+}
+
+
   filterByroute(obj){
     if (typeof obj == 'object') {
       this.getAllPublishRates();
@@ -450,8 +472,8 @@ export class SeaFreightComponent implements OnInit {
   getAllPublishRates() {
     this.publishloading = true;
     let obj = {
-      providerID: 1047,     
-      // providerID: this.userProfile.ProviderID,     
+      // providerID: 1047,     
+      providerID: this.userProfile.ProviderID,     
       pageNo: 1,
       pageSize: 50,
       carrierID: (this.filterbyShippingLine == 'undefined')? null : this.filterbyShippingLine,
@@ -605,8 +627,8 @@ export class SeaFreightComponent implements OnInit {
           
         });
      
-        $('#publishRateTable').on('click', 'input[type="checkbox"]', (event) => {
-          let index = this.delPublishRates.indexOf((<HTMLInputElement>event.target).id)
+        $('#publishRateTable').unbind().on('click', 'input[type="checkbox"]', (event) => {
+          let index = this.delPublishRates.indexOf((<HTMLInputElement>event.target).id);
           if (index >= 0){
             this.delPublishRates.splice(index, 1);
             
@@ -688,9 +710,29 @@ export class SeaFreightComponent implements OnInit {
     });
     modalRef.result.then((result) => {
       if (result == "Success") {
-        this.allRatesList = [];
-        this.delPublishRates = [];
-        this.filterTable();
+        this.checkedallpublishRates = false;
+        if (this.allRatesList.length == this.delPublishRates.length){
+          this.allRatesList = [];
+          this.delPublishRates = [];
+          
+          this.filterTable();
+                 
+        }
+        else{
+          for (var i = 0; i < this.delPublishRates.length; i++) {
+            for (let y = 0; y < this.allRatesList.length; y++){
+              if (this.delPublishRates[i] == this.allRatesList[y].carrierPricingID){
+                this.allRatesList.splice(y, 1);
+              }
+            }
+          }
+          if(i == this.delPublishRates.length){
+            this.filterTable();
+            this.delPublishRates = []; 
+            
+          }
+        }
+      
       }
     }, (reason) => {
       // console.log("reason");
@@ -710,8 +752,7 @@ export class SeaFreightComponent implements OnInit {
   publishRate(){
     this._seaFreightService.publishDraftRate(this.publishRates).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.allRatesList.unshift(res.returnObject);
-        this.filterTable();
+        this.getAllPublishRates();
       }
     })
   }

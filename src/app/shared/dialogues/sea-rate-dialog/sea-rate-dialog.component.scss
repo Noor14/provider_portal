@@ -1,0 +1,156 @@
+@import "../../../../assets/scss/_variables.scss";
+.seaRates-modal {
+    .combine-field {
+        background: $color-white;
+        border: 1px solid $provider-input-border;
+        border-radius: 4px;
+        margin: 0;
+        .dropdown-menu {
+            button {
+                .flag-container {
+                    width: 15px;
+                    height: 12px;
+                    border: 1px solid $provider-input-border;
+                    display: flex;
+                    margin-top: 5px;
+                    margin-right: 10px !important;
+                }
+            }
+        }
+        .origin,
+        .destination {
+            position: relative;
+            >.flag-container {
+                width: 16px;
+                height: 24px;
+                align-items: center;
+                position: absolute;
+                left: 10px;
+                top: 7px;
+            }
+            .routeSelected {
+                padding-left: 20px !important;
+            }
+        }
+        input {
+            border: none;
+            &:focus {
+                box-shadow: none;
+            }
+        }
+        .origin {
+            border-right: 1px solid $provider-input-border;
+        }
+    }
+    .date-control {
+        .dateIcon {
+            position: relative;
+            input {
+                padding-left: 2.625rem;
+                &::placeholder {
+                    font-style: italic;
+                }
+                &::-ms-input-placeholder {
+                    font-style: italic;
+                }
+                &::-webkit-input-placeholder {
+                    font-style: italic;
+                }
+            }
+            &:before {
+                content: url("../../../../assets/images/icons/Icons_Calendar.svg");
+                position: absolute;
+                left: 15px;
+                top: 14px;
+                width: 16px;
+                height: 16px;
+                z-index: 4;
+                opacity: 0.5;
+            }
+        }
+        ngb-datepicker {
+            border: 1px solid $primary-color;
+            .ngb-dp-header {
+                background: none !important;
+                .ngb-dp-arrow-btn {
+                    &:hover {
+                        box-shadow: none !important;
+                    }
+                    .ngb-dp-navigation-chevron {
+                        color: $primary-color !important;
+                    }
+                }
+                ngb-datepicker-navigation {
+                    .ngb-dp-month-name {
+                        font-size: 0.9375rem;
+                        color: $text-color-default;
+                    }
+                }
+            }
+            .ngb-dp-months {
+                .ngb-dp-month {
+                    position: relative;
+                    &:first-child {
+                        &:after {
+                            content: "";
+                            width: 1px;
+                            height: 80%;
+                            background: $secondary-grey;
+                            position: absolute;
+                            top: 40px;
+                            right: -10px;
+                            opacity: 0.3;
+                        }
+                    }
+                }
+                .ngb-dp-week {
+                    background: none !important;
+                    .ngb-dp-weekday {
+                        color: $color-date;
+                        font-style: normal !important;
+                    }
+                    .ngb-dp-day {
+                        font-size: .875rem;
+                        &:last-child {
+                            .custom-day {
+                                color: $danger-color !important;
+                            }
+                        }
+                        .custom-day {
+                            border-radius: 10px 0 !important;
+                            width: 100%;
+                            height: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: $color-date;
+                            &.range {
+                                background-color: $primary-color !important;
+                                color: $color-white;
+                                border-radius: 0 !important;
+                            }
+                            &.faded {
+                                background-color: $primary-color !important;
+                                opacity: 0.5;
+                            }
+                            &:hover {
+                                background-color: #d2d2d238 !important;
+                                color: $color-date !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ngb-typeahead-window {
+        max-height: 200px;
+        overflow-y: auto;
+        .dropdown-item {
+            &.active,
+            &:active {
+                background: $primary-grey;
+            }
+        }
+    }
+}

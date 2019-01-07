@@ -88,8 +88,9 @@
       </ng-template>
       <ng-template ngbTabContent>
         <section class="rates-grid draft-grid">
+          <a href="javascript:;" class="addAnother" (click)="addAnotherRates()" *ngIf="!draftloading">Add another rates</a>
           <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table>
-          <app-loader-main *ngIf="draftloading"></app-loader-main>
+          <!-- <app-loader-main *ngIf="draftloading"></app-loader-main> -->
         </section>
         <div class="row mt-4">
           <div class="col-12 text-right actions">
