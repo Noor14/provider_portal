@@ -12,6 +12,7 @@ import { SeaFreightService } from './sea-freight/sea-freight.service';
 import { ScrollbarModule } from 'ngx-scrollbar';
 import { LoaderComponent } from '../../../../shared/loader/loader.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { UiSwitchModule } from 'ngx-toggle-switch';
 
 @NgModule({
   imports: [
@@ -21,7 +22,9 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     ScrollbarModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    UiSwitchModule,
+    
   ],
   declarations: [
     ManageRatesComponent,
