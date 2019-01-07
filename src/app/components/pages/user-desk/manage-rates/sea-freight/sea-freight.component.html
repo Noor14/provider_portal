@@ -173,7 +173,7 @@
                   <div class="col-3">
                     <div class="form-group">
                       <label>Cargo Type</label>
-                      <select class="form-control" placeholder="Select" [(ngModel)]="filterbyCargoType" (change)="filter()">
+                      <select class="form-control" [(ngModel)]="filterbyCargoType" (change)="filter()">
                         <option [value]="undefined">All</option>
                         <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
                       </select>
@@ -182,7 +182,7 @@
                   <div class="col-3">
                     <div class="form-group">
                       <label>Container</label>
-                      <select class="form-control" placeholder="Select" [(ngModel)]="filterbyContainerType" (change)="filter()">
+                      <select class="form-control" [(ngModel)]="filterbyContainerType" (change)="filter()">
                         <option [value]="undefined">All</option>
                         <option *ngFor="let container of allContainersType" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
                       </select>

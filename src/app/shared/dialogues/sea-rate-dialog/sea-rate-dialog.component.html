@@ -1,6 +1,6 @@
 <div class="provider-modal animated fadeIn">
   <div class="modal-header">
-    <h4 class="provider-modal-title">Update</h4>
+    <h4 class="provider-modal-title">Add Rates</h4>
     <a class="pointer crossIcon" (click)="closeModal(null)">
       <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
     </a>
@@ -14,13 +14,17 @@
       </div>
       <div class="col-6">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Cargo Type">
+          <select class="form-control">
+           <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
+          </select>
         </div>
       </div>
 
       <div class="col-6">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Container">
+          <select class="form-control">
+            <option *ngFor="let container of allContainersType" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
+          </select>
         </div>
       </div>
       <div class="col-6">
