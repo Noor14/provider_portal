@@ -298,10 +298,10 @@ export class SeaFreightComponent implements OnInit {
     setTimeout(() => {
       this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
       let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
-      // let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
-      // let footertr = $("<tr></tr>").appendTo(footer);
-      // $("<td colspan='20'> <a href='javascript:;' class ='addrow'>Add Another Rates</a> </td>").appendTo(footertr);
-      // // Add footer cells
+      let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
+      let footertr = $("<tr></tr>").appendTo(footer);
+      $("<td colspan='20'> <a href='javascript:;' class ='addrow'>Add Another Rates</a> </td>").appendTo(footertr);
+      // Add footer cells
      
       this.draftloading = false;
   
