@@ -191,7 +191,8 @@ export class ViewBookingComponent implements OnInit {
     let obj = {
       docTypeID: docTypeId,
       docID: docId,
-      userID: this.userProfile.UserID
+      userID: this.userProfile.UserID,
+      createdBy : this.userProfile.LoginID
     }
     modalRef.result.then((result) => {
       // console.log(result);

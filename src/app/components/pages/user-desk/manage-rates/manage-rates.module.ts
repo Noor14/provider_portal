@@ -9,24 +9,27 @@ import { AirFreightComponent } from './air-freight/air-freight.component';
 import { GroundTransportComponent } from './ground-transport/ground-transport.component';
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { SeaFreightService } from './sea-freight/sea-freight.service';
-import { UiSwitchModule } from 'ngx-toggle-switch';
 import { ScrollbarModule } from 'ngx-scrollbar';
+import { LoaderComponent } from '../../../../shared/loader/loader.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   imports: [
     CommonModule,
     ManageRatesRoutingModule,
     DataTablesModule,
-    UiSwitchModule,
+    ScrollbarModule,
     NgbModule,
-    ScrollbarModule
-    ],
+    FormsModule,
+    ReactiveFormsModule
+  ],
   declarations: [
     ManageRatesComponent,
     SeaFreightComponent,
     AirFreightComponent,
     GroundTransportComponent,
-    WarehouseComponent
+    WarehouseComponent,
+    LoaderComponent
   ],
   providers: [SeaFreightService]
 })

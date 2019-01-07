@@ -1,5 +1,5 @@
 <section class="manageRates">
-  <h2>Manage Rates</h2>
+  <h2 class="mb-5">Manage Rates</h2>
   <nav class="navbar navbar-light bg-light p-0">
     <ul class="nav">
       <li>
@@ -16,7 +16,6 @@
           <span class="menu-text">
             AIR FREIGHT
           </span>
-
         </a>
       </li>
       <li>
@@ -28,18 +27,17 @@
         </a>
       </li>
       <li>
-        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/warehouse')"  [ngClass]="getClass('/provider/manage-rates/warehouse')">
+        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/warehouse')" [ngClass]="getClass('/provider/manage-rates/warehouse')">
           <img alt="icon_warehouse" src="../../../../../assets/images/icons/icon_report.svg">
           <span class="menu-text">
             WAREHOUSING
           </span>
         </a>
       </li>
-
     </ul>
-
   </nav>
-  <section class="ratesPages">
+  <section class="ratesPages mt-5">
     <router-outlet></router-outlet>
   </section>
 </section>
+  

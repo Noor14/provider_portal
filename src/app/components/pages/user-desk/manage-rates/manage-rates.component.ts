@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SeaFreightService } from './sea-freight/sea-freight.service';
+import { SharedService } from '../../../../services/shared.service';
 
 @Component({
   selector: 'app-manage-rates',
@@ -8,10 +10,27 @@ import { Router } from '@angular/router';
 })
 export class ManageRatesComponent implements OnInit {
 
-  constructor(private _router: Router) { }
+  constructor(
+    private _router: Router,
+    private _seaFreightService: SeaFreightService,
+    private _sharedService: SharedService
+  ) { }
 
   ngOnInit() {
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo && userInfo.returnText) {
+      let userProfile = JSON.parse(userInfo.returnText);
+      this.getAllservicesBySea(userProfile.UserID, userProfile.ProviderID);
+    }
+
   }
+
+  getAllservicesBySea(userID, providerID){
+  this._seaFreightService.getAllLogisticServiceBySea(userID, providerID).subscribe((res:any )=> {
+    if (res.returnStatus == "Success")
+      this._sharedService.dataLogisticServiceBySea.next(res.returnObject);
+  });
+}
   tonavigate(url) {
     this._router.navigate([url]);
   }

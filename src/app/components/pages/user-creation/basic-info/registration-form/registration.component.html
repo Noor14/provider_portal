@@ -11,7 +11,7 @@
         <img *ngIf="selectedRegion && selectedRegion.code" src="{{'../../../../../assets/images/flags/4x3/' + (selectedRegion.code | lowercase) + '.svg'}}"
           type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
       </div>
-      <input id="typeahead" type="text" class="form-control" [ngClass]="{'glowElement': !selectedRegion.id || !selectedRegion }"
+      <input id="typeahead" type="text" class="form-control" [ngClass]="{'glowElement': !selectedRegion.id || !selectedRegion, 'countrySelected': selectedRegion && selectedRegion.code}"
         [(ngModel)]="selectedRegion" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter"
         placeholder="Please enter your country name to proceed" (ngModelChange)="getAccountList(selectedRegion, $event)" />
 
