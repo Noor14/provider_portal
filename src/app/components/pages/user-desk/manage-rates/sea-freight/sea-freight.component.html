@@ -97,7 +97,7 @@
               (click)="discardDraft()">Discard Draft
             </button>
             <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">Save Draft</button>
-            <button class="btn btn-primary btn-lg hvr-sweep-to-right">Publish Rates</button>
+            <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRates.length" (click)="publishRate()">Publish Rates</button>
           </div>
         </div>
         <hr class="hr-solid mt-4">
@@ -214,7 +214,8 @@
         <section class="rates-grid mt-5">
           <div class="d-flex justify-content-end mb-3">
             <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord()" [ngClass]="{'no-drop': !this.delPublishRates.length}">
-              <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16"> Delete
+              <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16">
+              Delete
             </a>
           </div>
           <table id="publishRateTable" cellspacing="0" #publishBysea class="row-border hover"></table>
