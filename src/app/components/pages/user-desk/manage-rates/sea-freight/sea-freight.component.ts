@@ -199,11 +199,12 @@ export class SeaFreightComponent implements OnInit {
               let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
               let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
               const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-            return "<div class='row'> <div class='col-5' ><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5'><img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName + "</div> </div>";
+            return "<div class='row'> <div class='col-5'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5'><img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName + "</div> </div>";
 
               // return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
             }
           },
+      
           className:'routeCell'
         },
         {
@@ -258,6 +259,7 @@ export class SeaFreightComponent implements OnInit {
           }
         }
       ],
+
       info: false,
       destroy: true,
       // pagingType: 'full_numbers',
@@ -439,8 +441,12 @@ export class SeaFreightComponent implements OnInit {
             this.allContainersType = state[index].DropDownValues.ContainerFCL;
             this.allPorts = state[index].DropDownValues.Port;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
-            this.allSeaDraftRatesByFCL = this.filterByDate(state[index].DraftDataFCL);
-            this.draftsfcl = this.allSeaDraftRatesByFCL;
+            if (state[index].DraftDataFCL){
+              this.allSeaDraftRatesByFCL = this.filterByDate(state[index].DraftDataFCL);
+              this.draftsfcl = this.allSeaDraftRatesByFCL;
+            }else{
+              this.draftsfcl = [];
+            }
             console.log(this.draftsfcl);
             this.generateDraftTable();
             this.draftloading = true;
@@ -526,8 +532,9 @@ export class SeaFreightComponent implements OnInit {
             let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
             let podCode = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-            return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.polName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.podName;
+            return "<div class='row'> <div class='col-5' ><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.polName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5'><img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.podName + "</div> </div>";
           },
+          className : "routeCell"
         },
         {
           title: 'CARGO TYPE',
