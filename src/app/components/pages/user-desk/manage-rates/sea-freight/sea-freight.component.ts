@@ -791,6 +791,8 @@ export class SeaFreightComponent implements OnInit {
           }
         }
         if (this.publishRates.length == i){
+          this.checkedalldraftRates = false;
+          this.publishRates = [];
           this.generateDraftTable();
           this.getAllPublishRates();
         }
