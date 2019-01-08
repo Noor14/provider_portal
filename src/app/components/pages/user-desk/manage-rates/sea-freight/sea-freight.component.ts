@@ -357,7 +357,7 @@ export class SeaFreightComponent implements OnInit {
         }
       });
 
-      $('#draftRateTable').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
+      $('#draftRateTable').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
         event.stopPropagation();
         let index = this.publishRates.indexOf((<HTMLInputElement>event.target).id)
         if (index >= 0) {
@@ -715,6 +715,7 @@ export class SeaFreightComponent implements OnInit {
             this.draftsfcl = [];
             this.allSeaDraftRatesByFCL = [];
             this.draftDataBYSeaFCL = [];
+            this.publishRates = [];
             this.generateDraftTable();
       }
     }, (reason) => {
@@ -819,6 +820,8 @@ export class SeaFreightComponent implements OnInit {
           if (this.draftsfcl[index].ProviderPricingDraftID == id){
             this.draftsfcl.splice(index, 1);
             this.generateDraftTable();
+            this.publishRates = [];
+            break;
           }
         }
       }
