@@ -1,444 +1,388 @@
 @import '../../../../../../assets/scss/_variables';
-
 .seaFreight {
-  .manage-rate-card {
-    .card {
-      &-icon {
-        height: 44px;
-        width: auto;
-        position: absolute;
-        left: 30px;
-        top: 27px;
-      }
-
-      &-body {
-        padding: 1.25rem 1.25rem 2rem 100px;
-        line-height: 1;
-
-        p {
-          margin-bottom: 0;
+    .manage-rate-card {
+        .card {
+            &-icon {
+                height: 44px;
+                width: auto;
+                position: absolute;
+                left: 30px;
+                top: 27px;
+            }
+            &-body {
+                padding: 1.25rem 1.25rem 2rem 100px;
+                line-height: 1;
+                p {
+                    margin-bottom: 0;
+                }
+            }
+            &:hover {
+                border-color: $primary-color;
+                box-shadow: 0 0 5px -1px $primary-color;
+            }
+            &-title {
+                font-size: 1.25rem;
+                margin-top: 0.2rem;
+            }
+            .sub-title {
+                font-size: 0.875rem;
+            }
         }
-      }
-
-      &:hover {
-        border-color: $primary-color;
-        box-shadow: 0 0 5px -1px $primary-color;
-      }
-
-      &-title {
-        font-size: 1.25rem;
-        margin-top: 0.2rem;
-      }
-
-      .sub-title {
-        font-size: 0.875rem;
-      }
+        .routing {
+            padding: 2.2rem 0;
+            strong {
+                position: relative;
+                width: 100%;
+                display: inline-block;
+                span {
+                    font-size: $font-size-large + 0.125rem;
+                    font-family: $font-proxima;
+                    font-weight: $font-proxima-weight-semibold;
+                    background: $right-side-background;
+                    padding: 0 10px;
+                    z-index: 1;
+                    position: relative;
+                }
+                &:before {
+                    content: " ";
+                    width: 100%;
+                    height: 2px;
+                    position: absolute;
+                    background: $primary-color;
+                    left: 0;
+                    top: 12px;
+                    z-index: 0;
+                }
+            }
+        }
     }
-
-    .routing {
-      padding: 2.2rem 0;
-
-      strong {
-        position: relative;
-        width: 100%;
-        display: inline-block;
-
-        span {
-          font-size: $font-size-large + 0.125rem;
-          font-family: $font-proxima;
-          font-weight: $font-proxima-weight-semibold;
-          background: $right-side-background;
-          padding: 0 10px;
-          z-index: 1;
-          position: relative;
+    ngb-tabset {
+        .nav-tabs {
+            border: none;
+            display: inline-block !important;
+            width: 100%;
+            margin-bottom: 20px;
+            li {
+                margin: 0px;
+                overflow: hidden;
+                float: right;
+                a {
+                    padding: 0px !important;
+                    background: none !important;
+                    border: none !important;
+                    span {
+                        padding: 11px 30px;
+                        font-family: $font-proxima;
+                        font-weight: $font-weight-mid;
+                        color: #a5b2ba;
+                        font-size: $font-size-large;
+                        display: inline-block;
+                        background: linear-gradient(180deg, #ececec 35%, #fff 100%) !important;
+                        border-top: 1px solid transparent !important;
+                        svg {
+                            width: 25px;
+                            height: 25px;
+                            margin-right: 5px;
+                            fill: #a5b2ba;
+                        }
+                    }
+                    &.active {
+                        span {
+                            background: #00a1df !important;
+                            border-color: #30ccee !important; // transition: .5s;
+                            box-shadow: inset 0 -4px 6px 0 #0085d2, inset 0 1px 6px 0 #30ccee;
+                            color: $color-white;
+                            svg {
+                                fill: $color-white;
+                            }
+                        }
+                    }
+                }
+                &:first-child {
+                    float: left;
+                    margin-top: 10px;
+                    a {
+                        span {
+                            background: none !important;
+                            border: none !important;
+                            font-family: $font-pragmatica;
+                            font-weight: $font-weight-mid;
+                            color: $color-menuheading-black;
+                            font-size: 1.25rem;
+                            box-shadow: none !important;
+                            padding: 0;
+                        }
+                    }
+                }
+                &:nth-child(2) {
+                    border-top-right-radius: 4px;
+                    border-bottom-right-radius: 4px;
+                }
+                &:last-child {
+                    border-top-left-radius: 4px;
+                    border-bottom-left-radius: 4px;
+                }
+            }
         }
-
-        &:before {
-          content: " ";
-          width: 100%;
-          height: 2px;
-          position: absolute;
-          background: $primary-color;
-          left: 0;
-          top: 12px;
-          z-index: 0;
+        .add-rate-head {
+            font-size: 1.25rem;
         }
-      }
+        .tab-content {
+            .rates-filter {
+                border: 1px solid $acc-border;
+                display: inline-block;
+                width: 100%;
+                z-index: 9999;
+                position: relative;
+                .card {
+                    background: $acc-bg;
+                    border: none;
+                    &-header {
+                        background: $acc-bg;
+                        border: none;
+                        &.active {
+                            .acc-icon {
+                                transform: rotate(-90deg);
+                                margin-right: 30px;
+                            }
+                        }
+                        a {
+                            color: $pagination-text-color;
+                            font-weight: $font-weight-mid;
+                            .acc-icon {
+                                margin-left: 7px;
+                                transform: rotate(90deg);
+                                transition: ease-in 0.5s;
+                            }
+                            .filter-icon {
+                                position: relative;
+                                top: -2px;
+                            }
+                            .clear-filter {
+                                float: right;
+                                font-family: $font-proxima;
+                                font-size: $font-size-medium;
+                                color: $color-topmenu;
+                                margin-top: 5px;
+                                line-height: 1;
+                                svg {
+                                    width: 16px;
+                                    fill: #738593;
+                                    transform: rotate(45deg);
+                                    position: relative;
+                                    top: -1px;
+                                }
+                            }
+                        }
+                    }
+                    &-body {
+                        padding: 5px 5.25rem;
+                        .combine-field {
+                            background: $color-white;
+                            border: 1px solid $provider-input-border;
+                            border-radius: 4px;
+                            margin: 0;
+                            .dropdown-menu {
+                                button {
+                                    .flag-container {
+                                        width: 15px;
+                                        height: 12px;
+                                        border: 1px solid $provider-input-border;
+                                        display: flex;
+                                        margin-top: 5px;
+                                        margin-right: 10px !important;
+                                    }
+                                }
+                            }
+                            .origin,
+                            .destination {
+                                position: relative;
+                                >.flag-container {
+                                    width: 16px;
+                                    height: 24px;
+                                    align-items: center;
+                                    position: absolute;
+                                    left: 10px;
+                                    top: 11px;
+                                }
+                                .routeSelected {
+                                    padding-left: 30px !important;
+                                }
+                            }
+                            input {
+                                border: none;
+                            }
+                            .origin {
+                                border-right: 1px solid $provider-input-border;
+                            }
+                        }
+                        .date-control {
+                            .dateIcon {
+                                position: relative;
+                                input {
+                                    padding-left: 2.625rem;
+                                    &::placeholder {
+                                        font-style: italic;
+                                    }
+                                    &::-ms-input-placeholder {
+                                        font-style: italic;
+                                    }
+                                    &::-webkit-input-placeholder {
+                                        font-style: italic;
+                                    }
+                                }
+                                &:before {
+                                    content: url("../../../../../../assets/images/icons/Icons_Calendar.svg");
+                                    position: absolute;
+                                    left: 15px;
+                                    top: 14px;
+                                    width: 16px;
+                                    height: 16px;
+                                    z-index: 4;
+                                    opacity: 0.5;
+                                }
+                            }
+                            ngb-datepicker {
+                                border: 1px solid $primary-color;
+                                .ngb-dp-header {
+                                    background: none !important;
+                                    .ngb-dp-arrow-btn {
+                                        &:hover {
+                                            box-shadow: none !important;
+                                        }
+                                        .ngb-dp-navigation-chevron {
+                                            color: $primary-color !important;
+                                        }
+                                    }
+                                    ngb-datepicker-navigation {
+                                        .ngb-dp-month-name {
+                                            font-size: 0.9375rem;
+                                            color: $text-color-default;
+                                        }
+                                    }
+                                }
+                                .ngb-dp-months {
+                                    .ngb-dp-month {
+                                        position: relative;
+                                        &:first-child {
+                                            &:after {
+                                                content: "";
+                                                width: 1px;
+                                                height: 80%;
+                                                background: $secondary-grey;
+                                                position: absolute;
+                                                top: 40px;
+                                                right: -10px;
+                                                opacity: 0.3;
+                                            }
+                                        }
+                                    }
+                                    .ngb-dp-week {
+                                        background: none !important;
+                                        .ngb-dp-weekday {
+                                            color: $color-date;
+                                            font-style: normal !important;
+                                        }
+                                        .ngb-dp-day {
+                                            font-size: .875rem;
+                                            &:last-child {
+                                                .custom-day {
+                                                    color: $danger-color !important;
+                                                }
+                                            }
+                                            .custom-day {
+                                                border-radius: 10px 0 !important;
+                                                width: 100%;
+                                                height: 100%;
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: center;
+                                                color: $color-date;
+                                                &.range {
+                                                    background-color: $primary-color !important;
+                                                    color: $color-white;
+                                                    border-radius: 0 !important;
+                                                }
+                                                &.faded {
+                                                    background-color: $primary-color !important;
+                                                    opacity: 0.5;
+                                                }
+                                                &:hover {
+                                                    background-color: #d2d2d238 !important;
+                                                    color: $color-date !important;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                ngb-typeahead-window {
+                    max-height: 200px;
+                    overflow-y: auto;
+                    .dropdown-item {
+                        &.active,
+                        &:active {
+                            background: $primary-grey;
+                        }
+                    }
+                }
+            }
+            .rates-grid {
+
+                .grid-delete {
+                    font-family: $font-proxima;
+                    font-size: $font-size-medium;
+                    color: $btn-bg-danger;
+                    font-weight: $font-weight-mid;
+                    line-height: 1;
+                    img {
+                        margin-right: 5px;
+                    }
+                    &.no-drop {
+                        filter: grayscale(1);
+                        opacity: 0.5;
+                    }
+                }
+                a.addAnother {
+                    color: $primary-color;
+                    font-family: $font-proxima;
+                    font-weight: $font-weight-mid;
+                    font-size: $font-size-medium;
+                    position: absolute;
+                    padding-left: 27px;
+                    bottom: 90px;
+                    left: 20px;
+                    z-index: 1;
+                    &:before {
+                        content: url("../../../../../../assets/images/icons/icon_add.svg");
+                        position: absolute;
+                        left: 0px;
+                        top: 1px;
+                        width: 16px;
+                        height: 16px;
+                    }
+                }
+            }
+        }
     }
-  }
-
-
-  ngb-tabset {
-    .nav-tabs {
-      border: none;
-      display: inline-block !important;
-      width: 100%;
-      margin-bottom: 20px;
-
-      li {
-        margin: 0px;
-        overflow: hidden;
-        float: right;
-
-        a {
-          padding: 0px !important;
-          background: none !important;
-          border: none !important;
-
-          span {
-            padding: 11px 30px;
+    .actions {
+        .discard-draft {
             font-family: $font-proxima;
             font-weight: $font-weight-mid;
-            color: #a5b2ba;
-            font-size: $font-size-large;
-            display: inline-block;
-            background: linear-gradient(180deg, #ececec 35%, $color-white 100%) !important;
-            border-top: 1px solid transparent !important;
-
-            svg {
-              width: 25px;
-              height: 25px;
-              margin-right: 5px;
-              fill: #a5b2ba;
+            font-size: $font-size-medium;
+            color: $color-topmenu;
+            margin-right: 1.875rem;
+            outline: none;
+            cursor: pointer;
+            &:disabled {
+                cursor: no-drop;
             }
-          }
-
-          &.active {
-            span {
-              background: #00a1df !important;
-              border-color: #30ccee !important;
-              // transition: .5s;
-              box-shadow: inset 0 -4px 6px 0 #0085d2, inset 0 1px 6px 0 #30ccee;
-              color: $color-white;
-
-              svg {
-                fill: $color-white;
-              }
-            }
-          }
         }
-
-        &:first-child {
-          float: left;
-          margin-top: 10px;
-
-          a {
-            span {
-              background: none !important;
-              border: none !important;
-              font-family: $font-pragmatica;
-              font-weight: $font-weight-mid;
-              color: $color-menuheading-black;
-              font-size: 1.25rem;
-              box-shadow: none !important;
-              padding: 0;
-            }
-          }
+        button {
+            width: 15%;
         }
-
-        &:nth-child(2) {
-          border-top-right-radius: 4px;
-          border-bottom-right-radius: 4px;
-        }
-
-        &:last-child {
-          border-top-left-radius: 4px;
-          border-bottom-left-radius: 4px;
-        }
-      }
     }
-
-    .add-rate-head {
-      font-size: 1.25rem;
-    }
-
-    .tab-content {
-      .rates-filter {
-        border: 1px solid $acc-border;
-        display: inline-block;
-        width: 100%;
-        z-index: 9999;
-        position: relative;
-
-        .card {
-          background: $acc-bg;
-          border: none;
-
-          &-header {
-            background: $acc-bg;
-            border: none;
-
-            &.active {
-              .acc-icon {
-                transform: rotate(-90deg);
-                margin-right: 30px;
-              }
-            }
-
-            a {
-              color: $pagination-text-color;
-              font-weight: $font-weight-mid;
-
-              .acc-icon {
-                margin-left: 7px;
-                transform: rotate(90deg);
-                transition: ease-in 0.5s;
-              }
-
-              .filter-icon {
-                position: relative;
-                top: -2px;
-              }
-
-              .clear-filter {
-                float: right;
-                font-family: $font-proxima;
-                font-size: $font-size-medium;
-                color: $color-topmenu;
-                margin-top: 5px;
-                line-height: 1;
-
-                svg {
-                  width: 16px;
-                  fill: $color-topmenu;
-                  transform: rotate(45deg);
-                  position: relative;
-                  top: -1px;
-                }
-              }
-            }
-          }
-
-          &-body {
-            padding: 5px 5.25rem;
-
-            .combine-field {
-              background: $color-white;
-              border: 1px solid $provider-input-border;
-              border-radius: 4px;
-              margin: 0;
-
-              .dropdown-menu {
-                button {
-                  .flag-container {
-                    width: 15px;
-                    height: 12px;
-                    border: 1px solid $provider-input-border;
-                    display: flex;
-                    margin-top: 5px;
-                    margin-right: 10px !important;
-                  }
-                }
-              }
-
-              .origin,
-              .destination {
-                position: relative;
-
-                >.flag-container {
-                  width: 16px;
-                  height: 24px;
-                  align-items: center;
-                  position: absolute;
-                  left: 10px;
-                  top: 11px;
-                }
-
-                .routeSelected {
-                  padding-left: 30px !important;
-                }
-              }
-
-              input {
-                border: none;
-
-              }
-
-              .origin {
-                border-right: 1px solid $provider-input-border;
-              }
-            }
-
-            .date-control {
-              .dateIcon {
-                position: relative;
-
-                input {
-                  padding-left: 2.625rem;
-
-                  &::placeholder {
-                    font-style: italic;
-                  }
-
-                  &::-ms-input-placeholder {
-                    font-style: italic;
-                  }
-
-                  &::-webkit-input-placeholder {
-                    font-style: italic;
-                  }
-
-                }
-
-                &:before {
-                  content: url("../../../../../../assets/images/icons/Icons_Calendar.svg");
-                  position: absolute;
-                  left: 15px;
-                  top: 14px;
-                  width: 16px;
-                  height: 16px;
-                  z-index: 4;
-                  opacity: 0.5;
-                }
-              }
-
-              ngb-datepicker {
-                border: 1px solid $primary-color;
-
-                .ngb-dp-header {
-                  background: none !important;
-
-                  .ngb-dp-arrow-btn {
-                    &:hover {
-                      box-shadow: none !important;
-                    }
-
-                    .ngb-dp-navigation-chevron {
-                      color: $primary-color !important;
-                    }
-                  }
-
-                  ngb-datepicker-navigation {
-                    .ngb-dp-month-name {
-                      font-size: 0.9375rem;
-                      color: $text-color-default;
-                    }
-                  }
-                }
-
-                .ngb-dp-months {
-                  .ngb-dp-month {
-                    position: relative;
-
-                    &:first-child {
-                      &:after {
-                        content: "";
-                        width: 1px;
-                        height: 80%;
-                        background: $secondary-grey;
-                        position: absolute;
-                        top: 40px;
-                        right: -10px;
-                        opacity: 0.3;
-                      }
-                    }
-                  }
-
-                  .ngb-dp-week {
-                    background: none !important;
-
-                    .ngb-dp-weekday {
-                      color: $color-date;
-                      font-style: normal !important;
-                    }
-
-                    .ngb-dp-day {
-                      font-size: .875rem;
-
-                      &:last-child {
-                        .custom-day {
-                          color: $danger-color !important;
-                        }
-                      }
-
-                      .custom-day {
-                        border-radius: 10px 0 !important;
-                        width: 100%;
-                        height: 100%;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        color: $color-date;
-
-                        &.range {
-                          background-color: $primary-color !important;
-                          color: $color-white;
-                          border-radius: 0 !important;
-                        }
-
-                        &.faded {
-                          background-color: $primary-color !important;
-                          opacity: 0.5;
-                        }
-
-                        &:hover {
-                          background-color: #d2d2d238 !important;
-                          color: $color-date !important;
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-
-        ngb-typeahead-window {
-          max-height: 200px;
-          overflow-y: auto;
-
-          .dropdown-item {
-
-            &.active,
-            &:active {
-              background: $primary-grey;
-            }
-          }
-        }
-      }
-
-      .rates-grid {
-        .grid-delete {
-          font-family: $font-proxima;
-          font-size: $font-size-medium;
-          color: $btn-bg-danger;
-          font-weight: $font-weight-mid;
-          line-height: 1;
-
-          img {
-            margin-right: 5px;
-            top: -3px;
-            position: relative;
-          }
-
-          &.no-drop {
-            filter: grayscale(1);
-            opacity: 0.5;
-            cursor: no-drop;
-          }
-        }
-      }
-    }
-  }
-
-  .actions {
-    .discard-draft {
-      font-family: $font-proxima;
-      font-weight: $font-weight-mid;
-      font-size: $font-size-medium;
-      color: $color-topmenu;
-      margin-right: 1.875rem;
-      outline: none;
-      cursor: pointer;
-
-      &:disabled {
-        cursor: no-drop;
-      }
-    }
-
-    button {
-      width: 15%;
-    }
-  }
 }

@@ -18,6 +18,7 @@ import { BasicInfoService } from './user-creation/basic-info/basic-info.service'
 import { CompanyInfoService } from './user-creation/company-info/company-info.service';
 import { DiscardDraftComponent } from '../../shared/dialogues/discard-draft/discard-draft.component';
 import { ConfirmDeleteDialogComponent } from '../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
+import { SeaRateDialogComponent } from '../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
  
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { ConfirmDeleteDialogComponent } from '../../shared/dialogues/confirm-del
     BookingInvoiceComponent,
     ReUploadDocComponent,
     DiscardDraftComponent,
-    ConfirmDeleteDialogComponent
+    ConfirmDeleteDialogComponent,
+    SeaRateDialogComponent
     // CancelBookingDialogComponent,
     // ConfirmModifySearchComponent,
     // ShareshippingComponent,
@@ -54,7 +56,8 @@ import { ConfirmDeleteDialogComponent } from '../../shared/dialogues/confirm-del
     BookingInvoiceComponent,
     ReUploadDocComponent,
     DiscardDraftComponent,
-    ConfirmDeleteDialogComponent
+    ConfirmDeleteDialogComponent,
+    SeaRateDialogComponent
  
   ],
   providers: [
