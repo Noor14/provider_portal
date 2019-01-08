@@ -182,8 +182,8 @@ export class SeaFreightComponent implements OnInit {
               return "<span>--Select--</span>"
             }
             else{
-            // let url = baseExternalAssets + "/" + data.CarrierImage;
-            return data.CarrierName;
+            let url = baseExternalAssets + "/" + data.CarrierImage;
+              return "<img src='" + url + "' class='icon-size-24 mr-2' />" + data.CarrierName;
             }
           }
           

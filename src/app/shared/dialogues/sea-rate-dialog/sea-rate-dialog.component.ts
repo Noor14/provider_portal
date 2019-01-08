@@ -39,6 +39,7 @@ export class SeaRateDialogComponent implements OnInit {
   public allShippingLines: any[] = [];
   public allCargoType: any[] = []
   public allContainersType: any[] = [];
+  public allContainers: any[] = [];
   public allPorts: any[] = [];
   public allCurrencies: any[] = [];
   public filterOrigin: any = {};
@@ -99,6 +100,16 @@ export class SeaRateDialogComponent implements OnInit {
       }
     })
   }
+
+
+  cargoTypeChange(type){
+   let data = this.allContainersType.filter(obj => obj.ShippingCatID == type);
+    this.allContainers = data;
+    console.log(this.allContainers);
+  }
+
+
+
 
   savedraftrow() {
     let obj = [

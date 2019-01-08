@@ -18,7 +18,7 @@
       </div>
       <div class="col-6">
         <div class="form-group">
-          <select class="form-control" [(ngModel)]="selectedCategory">
+          <select class="form-control" [(ngModel)]="selectedCategory" (change)="cargoTypeChange(selectedCategory)">
             <option [value]="undefined" disabled>--Select--</option>
             <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
           </select>
@@ -26,9 +26,9 @@
       </div>
       <div class="col-6">
         <div class="form-group">
-          <select class="form-control" [(ngModel)]="selectedContSize">
+          <select class="form-control" [(ngModel)]="selectedContSize" >
             <option [value]="undefined" disabled>--Select--</option>
-            <option *ngFor="let container of allContainersType" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
+            <option *ngFor="let container of allContainers" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
           </select>
         </div>
       </div>
