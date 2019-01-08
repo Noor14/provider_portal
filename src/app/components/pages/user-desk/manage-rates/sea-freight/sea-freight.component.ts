@@ -203,7 +203,8 @@ export class SeaFreightComponent implements OnInit {
 
               // return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
             }
-          }
+          },
+          className:'routeCell'
         },
         {
           title: 'CARGO TYPE',
@@ -259,7 +260,7 @@ export class SeaFreightComponent implements OnInit {
       ],
       info: false,
       destroy: true,
-      pagingType: 'full_numbers',
+      // pagingType: 'full_numbers',
       pageLength: 5,
       scrollX: true,
       scrollY: '60vh',
@@ -526,7 +527,7 @@ export class SeaFreightComponent implements OnInit {
             let podCode = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
             return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.polName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.podName;
-          }
+          },
         },
         {
           title: 'CARGO TYPE',
@@ -561,7 +562,7 @@ export class SeaFreightComponent implements OnInit {
       // serverSide: true,
       // retrieve: true,
       destroy: true,
-      pagingType: 'full_numbers',
+      // pagingType: 'full_numbers',
       pageLength: 5,
       scrollX: true,
       scrollY: '60vh',
@@ -629,7 +630,7 @@ export class SeaFreightComponent implements OnInit {
           
         });
      
-        $('#publishRateTable').unbind().on('click', 'input[type="checkbox"]', (event) => {
+        $('#publishRateTable').off('click').on('click', 'input[type="checkbox"]', (event) => {
           let index = this.delPublishRates.indexOf((<HTMLInputElement>event.target).id);
           if (index >= 0){
             this.delPublishRates.splice(index, 1);
