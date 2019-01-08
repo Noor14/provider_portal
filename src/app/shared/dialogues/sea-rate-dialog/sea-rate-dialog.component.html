@@ -7,6 +7,23 @@
   </div>
   <div class="modal-body">
     <div class="row">
+
+      <div class="col-6">
+        <div class="form-group">
+          <select class="form-control" id="category" [(ngModel)]="selectedCategory" (change)="cargoTypeChange(selectedCategory)">
+            <option [value]="undefined" disabled>--Select--</option>
+            <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <select class="form-control" [(ngModel)]="selectedContSize" [disabled]="!selectedCategory">
+            <option [value]="undefined" disabled>--Select--</option>
+            <option *ngFor="let container of allContainers" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
+          </select>
+        </div>
+      </div>
       <div class="col-6">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Shipping Lines" [(ngModel)]="selectedShipping" [ngbTypeahead]="shippings"
@@ -18,48 +35,35 @@
       </div>
       <div class="col-6">
         <div class="form-group">
-          <select class="form-control" [(ngModel)]="selectedCategory" (change)="cargoTypeChange(selectedCategory)">
-            <option [value]="undefined" disabled>--Select--</option>
-            <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="form-group">
-          <select class="form-control" [(ngModel)]="selectedContSize" >
-            <option [value]="undefined" disabled>--Select--</option>
-            <option *ngFor="let container of allContainers" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="row combine-field">
-          <div class="col-6 origin">
-            <div class="flag-container">
-              <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
-                type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+          <div class="row combine-field">
+            <div class="col-6 origin">
+              <div class="flag-container">
+                <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
+                  type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+              </div>
+              <input class="form-control" [(ngModel)]="filterOrigin" placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
+                [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="portsFormatter" />
             </div>
-            <input class="form-control" [(ngModel)]="filterOrigin" placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
-              [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="portsFormatter" />
-          </div>
-          <div class="col-6 destination">
-            <div class="flag-container">
-              <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
-                type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+            <div class="col-6 destination">
+              <div class="flag-container">
+                <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
+                  type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+              </div>
+              <input placeholder="Destination" [(ngModel)]="filterDestination" type="text" class="form-control" [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
+                [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="portsFormatter" />
             </div>
-            <input placeholder="Destination" [(ngModel)]="filterDestination" type="text" class="form-control" [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
-              [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="portsFormatter" />
-          </div>
 
-        </div>
-        <ng-template #rt let-r="result">
-          <div class="d-flex">
-            <div class="flag-container mr-1">
-              <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
-            </div>
-            <ngb-highlight [result]="r.PortName"></ngb-highlight>
           </div>
-        </ng-template>
+          <ng-template #rt let-r="result">
+            <div class="d-flex">
+              <div class="flag-container mr-1">
+                <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
+              </div>
+              <ngb-highlight [result]="r.PortName"></ngb-highlight>
+            </div>
+          </ng-template>
+        </div>
+
       </div>
       <div class="col-6">
         <div class="form-group date-control">
@@ -80,7 +84,8 @@
         <div class="form-group">
           <div class="row combine-field">
             <div class="col-3 p-0 origin">
-              <input type="text" placeholder="Currency" [(ngModel)]="selectedCurrency" class="form-control" [ngbTypeahead]="currencies" [resultTemplate]="crt" [inputFormatter]="currencyFormatter">
+              <input type="text" placeholder="Currency" [(ngModel)]="selectedCurrency" class="form-control" [ngbTypeahead]="currencies"
+                [resultTemplate]="crt" [inputFormatter]="currencyFormatter">
             </div>
             <div class="col-9 p-0">
               <input type="text" class="form-control" placeholder="Price" [(ngModel)]="selectedPrice">

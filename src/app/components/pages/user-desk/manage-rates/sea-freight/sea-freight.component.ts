@@ -382,8 +382,8 @@ export class SeaFreightComponent implements OnInit {
       keyboard: false
     });
     modalRef.result.then((result) => {
-      if (result == "Success") {
-        // this.generateDraftTable();
+      if (result && Object.keys(result).length) {
+        this.setAddDraftData(result);
       }
     }, (reason) => {
       // console.log("reason");
@@ -398,7 +398,33 @@ export class SeaFreightComponent implements OnInit {
 
   }
 
-
+  setAddDraftData(result){
+  for (let index = 0; index < this.draftsfcl.length; index++) {
+    if (this.draftsfcl[index].ProviderPricingDraftID == result.providerPricingDraftID) {
+      this.draftsfcl[index].carrierID = result.carrierID;
+      this.draftsfcl[index].CarrierImage = result.carrierImage;
+      this.draftsfcl[index].CarrierName = result.carrierName;
+      this.draftsfcl[index].ContainerLoadType = result.containerLoadType;
+      this.draftsfcl[index].ContainerSpecID = result.containerSpecID;
+      this.draftsfcl[index].ContainerSpecName = result.containerSpecName;
+      this.draftsfcl[index].ShippingCatID = result.shippingCatID;
+      this.draftsfcl[index].ShippingCatName = result.shippingCatName;
+      this.draftsfcl[index].CurrencyID = result.currencyID;
+      this.draftsfcl[index].CurrencyCode = result.currencyCode;
+      this.draftsfcl[index].Price = result.price;
+      this.draftsfcl[index].EffectiveFrom = result.effectiveFrom;
+      this.draftsfcl[index].EffectiveTo = result.effectiveTo;
+      this.draftsfcl[index].PodCode = result.podCode;
+      this.draftsfcl[index].PolCode = result.polCode;
+      this.draftsfcl[index].PodName = result.podName;
+      this.draftsfcl[index].PolName = result.polName;
+      this.draftsfcl[index].PodID = result.podID;
+      this.draftsfcl[index].PolID = result.polName;
+      this.generateDraftTable();
+      break;
+    }
+  }
+}
   addAnotherRates(){
     this.addRatesManually();
   }
@@ -444,10 +470,7 @@ export class SeaFreightComponent implements OnInit {
             if (state[index].DraftDataFCL){
               this.allSeaDraftRatesByFCL = this.filterByDate(state[index].DraftDataFCL);
               this.draftsfcl = this.allSeaDraftRatesByFCL;
-            }else{
-              this.draftsfcl = [];
             }
-            console.log(this.draftsfcl);
             this.generateDraftTable();
             this.draftloading = true;
           }
@@ -724,9 +747,7 @@ export class SeaFreightComponent implements OnInit {
         if (this.allRatesList.length == this.delPublishRates.length){
           this.allRatesList = [];
           this.delPublishRates = [];
-          
           this.filterTable();
-                 
         }
         else{
           for (var i = 0; i < this.delPublishRates.length; i++) {
@@ -739,7 +760,6 @@ export class SeaFreightComponent implements OnInit {
           if(i == this.delPublishRates.length){
             this.filterTable();
             this.delPublishRates = []; 
-            
           }
         }
       
@@ -762,7 +782,17 @@ export class SeaFreightComponent implements OnInit {
   publishRate(){
     this._seaFreightService.publishDraftRate(this.publishRates).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.getAllPublishRates();
+        for (var i = 0; i < this.publishRates.length; i++) {
+          for (let y = 0; y < this.draftsfcl.length; y++) {
+            if (this.draftsfcl[y].ProviderPricingDraftID == this.publishRates[i]){
+              this.draftsfcl.splice(y, 1);
+            }
+          }
+        }
+        if (this.publishRates.length == i){
+          this.generateDraftTable();
+          this.getAllPublishRates();
+        }
       }
     })
   }
@@ -774,39 +804,6 @@ export class SeaFreightComponent implements OnInit {
         : this.allPorts.filter(v => v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1))
     )
   formatter = (x: {PortName: string }) => x.PortName;
-
-
-
-  savedraftrow(index, data){
-    let carrier = document.getElementById(index+'carrier') as any;
-    let shipping = document.getElementById(index+'shipping') as any;
-    let container = document.getElementById(index + 'container') as any;
-    let currencyID = document.getElementById(index + 'currencyID') as any;
-    let price = document.getElementById(index +'price') as any;
-    let obj= [ 
-      { 
-        providerPricingDraftID: data.ProviderPricingDraftID, 
-        carrierID: (carrier.value=='null')? null : carrier.value, 
-        providerID: this.userProfile.ProviderID, 
-        containerSpecID: (container.value=='null')? null : container.value, 
-        shippingCatID: (shipping.value=='null')? null : shipping.value, 
-        containerLoadType: "FCL", 
-        modeOfTrans: "SEA", 
-        polID: 2007, 
-        podID: 100, 
-        price: (price.value == 'null' || !price.value)? null : price.value, 
-        currencyID: currencyID.value, 
-        effectiveFrom: "2018-12-01T10:24:39.027Z", 
-        effectiveTo: "2018-12-24T10:24:39.027Z", 
-    
-      }
-    ]
-    this._seaFreightService.saveDraftRate(obj).subscribe((res:any)=>{
-      if(res.returnStatus=="Success"){
-
-      }
-    })
-  }
 
   deleteRow(id) {
     const modalRef = this.modalService.open(ConfirmDeleteDialogComponent, {

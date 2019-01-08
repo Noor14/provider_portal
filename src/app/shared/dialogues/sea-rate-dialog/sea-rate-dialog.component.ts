@@ -112,28 +112,45 @@ export class SeaRateDialogComponent implements OnInit {
 
 
   savedraftrow() {
+  
     let obj = [
       {
         providerPricingDraftID: this.addRateId,
         carrierID: this.selectedShipping.CarrierID,
+        carrierName: this.selectedShipping.CarrierName,
+        carrierImage: this.selectedShipping.CarrierImage,
         providerID: this.userProfile.ProviderID,
         containerSpecID: (this.selectedContSize == 'undefined') ? null : this.selectedContSize,
+        containerSpecName: this.getContSpecName(this.selectedContSize),
         shippingCatID: (this.selectedCategory == 'undefiend') ? null : this.selectedCategory,
+        shippingCatName: this.getShippingName(this.selectedCategory),
         containerLoadType: "FCL",
         modeOfTrans: "SEA",
         polID: this.filterOrigin.PortID,
+        polName: this.filterOrigin.PortName,
+        polCode: this.filterOrigin.PortCode,
         podID: this.filterDestination.PortID,
+        podName: this.filterDestination.PortName,
+        podCode: this.filterDestination.PortCode,
         price: this.selectedPrice,
         currencyID: this.selectedCurrency.CurrencyID,
+        currencyCode: this.selectedCurrency.CurrencyCode,
         effectiveFrom: this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year,
         effectiveTo: this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year,
       }
     ]
     this._seaFreightService.saveDraftRate(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.closeModal('Success');
+        this.closeModal(obj[0]);
       }
     })
+  }
+
+   getContSpecName(id){
+    return this.allContainers.find(obj => obj.ContainerSpecID == id).ContainerSpecShortName;
+  }
+  getShippingName(id) {
+    return this.allCargoType.find(obj => obj.ShippingCatID == id).ShippingCatName;
   }
 
 
