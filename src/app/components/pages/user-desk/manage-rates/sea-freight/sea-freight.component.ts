@@ -193,13 +193,15 @@ export class SeaFreightComponent implements OnInit {
           data: function (data) {
             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
             if (!data.PolID || !data.PodID){
-            return "<span> --From-- </span>" + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<span> --To-- </span>";
+            return "<div class='row'> <div class='col-5'><span> --From-- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5'><span> --To-- </span></div> </div>";
             }
             else{
               let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
               let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
               const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-              return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
+            return "<div class='row'> <div class='col-5' ><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5'><img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName + "</div> </div>";
+
+              // return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
             }
           }
         },
