@@ -19,6 +19,8 @@ else{
     // Dev URL
     baseApi = "http://10.20.1.61/api/";
     baseExternalAssets = "http://10.20.1.61";
+    // baseApi = "http://10.20.1.13:9091/api/";
+    // baseExternalAssets = "http://10.20.1.13:9091";
     
 } 
 
