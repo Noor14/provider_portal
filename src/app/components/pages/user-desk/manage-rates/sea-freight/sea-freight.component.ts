@@ -563,6 +563,7 @@ export class SeaFreightComponent implements OnInit {
   }
   setdataDraftInTable() {
     setTimeout(() => {
+      if (this.tabledraftBySea && this.tabledraftBySea.nativeElement){
       this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
       let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
       // let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
@@ -618,7 +619,7 @@ export class SeaFreightComponent implements OnInit {
         }
 
       });
-
+      }
 
     }, 0);
   }
@@ -1090,6 +1091,7 @@ export class SeaFreightComponent implements OnInit {
 
   setdataInTable() {
     setTimeout(() => {
+      if (this.tablepublishBySea && this.tablepublishBySea.nativeElement){
       this.dataTablepublishBysea = $(this.tablepublishBySea.nativeElement);
       let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsBySeaFCL);
       this.publishloading = false;
@@ -1127,7 +1129,7 @@ export class SeaFreightComponent implements OnInit {
         }
 
       });
-
+      }
     }, 0);
   }
 
