@@ -678,16 +678,20 @@ export class SeaFreightComponent implements OnInit {
     }
   }
   addAnotherRates() {
+    if (this.activeTab == "activeFCL") {
     this.addRatesManually();
+    }
+    else if (this.activeTab == "activeLCL") {
+      this.addRatesManuallyLCL();
+    }    
   }
   addRatesByseaManually() {
     if (this.activeTab == "activeFCL"){
     if ((!this.allSeaDraftRatesByFCL || (this.allSeaDraftRatesByFCL && !this.allSeaDraftRatesByFCL.length)) && (!this.draftDataBYSeaFCL || (this.draftDataBYSeaFCL && !this.draftDataBYSeaFCL.length))) {
       this.addRatesManually();
-
       }
     }
-    if (this.activeTab == "activeLCL") {
+    else if (this.activeTab == "activeLCL") {
       if ((!this.allSeaDraftRatesByLCL || (this.allSeaDraftRatesByLCL && !this.allSeaDraftRatesByLCL.length)) && (!this.draftDataBYSeaLCL || (this.draftDataBYSeaLCL && !this.draftDataBYSeaLCL.length))) {
         this.addRatesManuallyLCL();
       }
