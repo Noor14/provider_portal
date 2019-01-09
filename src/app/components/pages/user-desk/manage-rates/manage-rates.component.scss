@@ -24,7 +24,7 @@ $left-nav-icon-height:20px;
 
           img {
             width: 24px;
-            height: auto;
+            height: 24px;
             margin-right: 10px;
             vertical-align: sub;
             filter: grayscale(1);
@@ -60,4 +60,56 @@ $left-nav-icon-height:20px;
       }
     }
   }
+
+  @media only screen and (max-width: $screen-fourteen-hundred) and (min-width: $screen-lg-screen) {
+    .navbar {
+      .nav {
+        li {
+          a {
+            font-size: 0.8rem;
+
+            img {
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: $screen-lg-screen) {
+    .navbar {
+      .nav {
+        justify-content: center;
+        li {
+          width: 47%;
+          margin: 10px;
+
+          a {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: $screen-md-screen) {
+    .navbar {
+      .nav {
+        li {
+          width: 45%;
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: $screen-sm-screen) {
+    .navbar {
+      .nav {
+        li {
+          width: 100%;
+        }
+      }
+    }
+  }
+
 }
