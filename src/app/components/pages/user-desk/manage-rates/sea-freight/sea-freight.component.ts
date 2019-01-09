@@ -646,26 +646,35 @@ export class SeaFreightComponent implements OnInit {
         this.publishloading = false;
         $("#selectallpublishRates").click(() => {
           this.delPublishRates = [];
+          // debugger
           var cols = alltableOption.column(0).nodes();
+        
+          
+          
           this.checkedallpublishRates = !this.checkedallpublishRates;
           for (var i = 0; i < cols.length; i += 1) {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
             if (this.checkedallpublishRates){
             this.delPublishRates.push(cols[i].querySelector("input[type='checkbox']").id);
+              this.selectedItem('add', alltableOption)
             }
           }
           if (i == cols.length && !this.checkedallpublishRates){
             this.delPublishRates = [];
+            this.selectedItem('remove', alltableOption)
+            
           }
           
         });
      
         $('#publishRateTable').off('click').on('click', 'input[type="checkbox"]', (event) => {
           let index = this.delPublishRates.indexOf((<HTMLInputElement>event.target).id);
+          let selection = event.currentTarget.parentElement.parentElement.parentElement;
           if (index >= 0){
             this.delPublishRates.splice(index, 1);
-            
+            selection.classList.remove('selected');
           }else{
+            selection.classList.add('selected');
             this.delPublishRates.push((<HTMLInputElement>event.target).id)
           }
           
@@ -674,7 +683,22 @@ export class SeaFreightComponent implements OnInit {
       },0);
     }
     
-
+  selectedItem(type, alltableOption){
+    if(type == 'add'){
+      alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+        var data = this.node();
+        data.classList.add('selected');
+        // ... do something with data(), or this.node(), etc
+      });
+    }
+    else{
+      alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+        var data = this.node();
+        data.classList.remove('selected');
+        // ... do something with data(), or this.node(), etc
+      });
+    }
+  }
   orgfilter() {
     if (this.filterOrigin && typeof this.filterOrigin == "object" && Object.keys(this.filterOrigin).length) {
     return this.filterOrigin.PortID;
