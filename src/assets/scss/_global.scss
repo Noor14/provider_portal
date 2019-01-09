@@ -1395,6 +1395,13 @@ select {
         .dataTable {
           tbody {
             tr {
+              &.selected {
+                background: $data-table-selected-bg;
+
+                td {
+                  border-bottom: 1px solid $color-topmenuactive !important;
+                }
+              }
               td {
                 font-family: $font-proxima;
                 font-size: $font-size-large;
