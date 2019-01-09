@@ -1,7 +1,7 @@
 <section class="seaFreight">
   <section class="manage-rate-card mb-5">
     <div class="row">
-      <div class="col-5">
+      <div class="col-xl-5 col-lg-5 col-md-12">
         <div class="card pointer">
           <img class="card-icon" src="../../../../../assets/images/icons/manager-icon.png" alt="*" />
           <div class="card-body">
@@ -10,14 +10,14 @@
           </div>
         </div>
       </div>
-      <div class="col-2">
+      <div class="col-xl-2 col-lg-2 col-md-12">
         <div class="routing text-center">
           <strong>
             <span>OR</span>
           </strong>
         </div>
       </div>
-      <div class="col-5">
+      <div class="col-xl-5 col-lg-5 col-md-12">
         <div class="card pointer" (click)="addRatesByseaManually()">
           <img class="card-icon" src="../../../../../assets/images/icons/manager-icon.png" alt="*" />
           <div class="card-body">
@@ -31,7 +31,7 @@
   <ngb-tabset activeId="activeFCL">
     <ngb-tab [disabled]="true">
       <ng-template ngbTabTitle>
-        <span>Add Rates</span>
+        <span>Unpublished Rates</span>
       </ng-template>
     </ngb-tab>
     <ngb-tab id="activeLCL">
