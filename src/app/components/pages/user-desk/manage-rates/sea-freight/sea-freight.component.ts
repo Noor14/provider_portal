@@ -66,6 +66,7 @@ export class SeaFreightComponent implements OnInit {
   @ViewChild('rangeDp') rangeDp: ElementRef;
   // @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
+  public activeTab = "activeFCL"
   public dataTablepublishBysea: any;
   public dataTablepublishByseaLcl: any;
   public dataTabledraftBysea: any;
@@ -85,6 +86,7 @@ export class SeaFreightComponent implements OnInit {
   public allSeaDraftRatesByFCL: any[] = [];
   public allSeaDraftRatesByLCL: any[] = [];
   public draftDataBYSeaFCL: any[] = [];
+  public draftDataBYSeaLCL: any[] = [];
   public draftsfcl: any[] = [];
   public draftslcl: any[] = [];
   public delPublishRates: any[] = [];
@@ -136,8 +138,6 @@ export class SeaFreightComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
@@ -204,7 +204,20 @@ export class SeaFreightComponent implements OnInit {
       }
     })
   }
-
+  addRatesManuallyLCL(){
+    this._seaFreightService.addDraftRatesLCL({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        console.log(res.returnObject);
+        this.draftDataBYSeaLCL.unshift(res.returnObject);
+        if (this.allSeaDraftRatesByLCL && this.allSeaDraftRatesByLCL.length) {
+          this.draftslcl = this.allSeaDraftRatesByLCL.concat(this.draftDataBYSeaLCL);
+        } else {
+          this.draftslcl = this.draftDataBYSeaLCL;
+        }
+        this.generateDraftTableLCL();
+      }
+    })
+  }
   generateDraftTable() {
     this.dtOptionsBySeaFCLDraft = {
       data: this.draftsfcl,
@@ -667,9 +680,16 @@ export class SeaFreightComponent implements OnInit {
     this.addRatesManually();
   }
   addRatesByseaManually() {
+    if (this.activeTab == "activeFCL"){
     if ((!this.allSeaDraftRatesByFCL || (this.allSeaDraftRatesByFCL && !this.allSeaDraftRatesByFCL.length)) && (!this.draftDataBYSeaFCL || (this.draftDataBYSeaFCL && !this.draftDataBYSeaFCL.length))) {
       this.addRatesManually();
 
+      }
+    }
+    if (this.activeTab == "activeLCL") {
+      if ((!this.allSeaDraftRatesByLCL || (this.allSeaDraftRatesByLCL && !this.allSeaDraftRatesByLCL.length)) && (!this.draftDataBYSeaLCL || (this.draftDataBYSeaLCL && !this.draftDataBYSeaLCL.length))) {
+        this.addRatesManuallyLCL();
+      }
     }
   }
 
@@ -952,7 +972,7 @@ export class SeaFreightComponent implements OnInit {
         },
         {
           title: 'HANDLING UNIT',
-          data: 'shippingCatName',
+          data: 'containerSpecShortName',
         },
         {
           title: 'RATE / CBM',
@@ -1226,9 +1246,9 @@ export class SeaFreightComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result == "Success") {
         this.draftslcl = [];
-        this.allSeaDraftRatesByFCL = [];
-        this.draftDataBYSeaFCL = [];
-        this.publishRates = [];
+        this.allSeaDraftRatesByLCL = [];
+        this.draftDataBYSeaLCL = [];
+        this.publishRatesLCL = [];
         this.generateDraftTableLCL();
       }
     }, (reason) => {

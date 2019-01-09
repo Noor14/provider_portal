@@ -25,6 +25,10 @@ export class SeaFreightService {
     let url: string = "providerratefcl/AddDraftRow";
     return this._http.post(baseApi + url, obj);
   }
+  addDraftRatesLCL(obj) {
+    let url: string = "providerratelcl/AddDraftRow";
+    return this._http.post(baseApi + url, obj);
+  }
 
   saveDraftRate(obj){
     let url: string = "providerratefcl/SaveDraft";
