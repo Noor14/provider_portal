@@ -41,8 +41,16 @@ export class SeaFreightService {
     let url: string = "providerratefcl/DiscardDraft";
     return this._http.request('delete', baseApi + url, { body: data });
   }
+  deleteNDiscardDraftRateLCl(data) {
+    let url: string = "providerratelcl/DiscardDraft";
+    return this._http.request('delete', baseApi + url, { body: data });
+  }
   deletePublishRateFCL(data) {
     let url: string = "providerratefcl/DeletePublishRate";
+    return this._http.request('delete', baseApi + url, { body: data });
+  }
+  deletePublishRateLCL(data) {
+    let url: string = "providerratelcl/DeletePublishRate";
     return this._http.request('delete', baseApi + url, { body: data });
   }
 }

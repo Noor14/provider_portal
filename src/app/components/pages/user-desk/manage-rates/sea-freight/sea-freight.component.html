@@ -36,7 +36,7 @@
     </ngb-tab>
     <ngb-tab id="activeLCL">
       <ng-template ngbTabTitle>
-        <span (click)="filterTableLcl(); generateDraftTable()">
+        <span (click)="filterTableLcl(); generateDraftTableLCL()">
           <svg data-name="Layer 1" id="ee0cf102-a966-4a3f-95ef-2d85d2845fce" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <g data-name="box" id="77a57afb-dc84-48f7-bcef-1ea8af6a0a74">
               <path class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a" d="M12,2.236l10,5v9.528l-10,5-10-5V7.236l10-5M12,0,0,6V18l12,6,12-6V6L12,0Z"
@@ -51,13 +51,13 @@
       <ng-template ngbTabContent>
         <section class="rates-grid draft-grid">
           <a href="javascript:;" class="addAnother" (click)="addAnotherRates()" *ngIf="!draftloading">Add another rates</a>
-          <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table>
+          <table id="draftRateTableLCL" cellspacing="0" #draftBYseaLCL class="row-border hover"></table>
           <!-- <app-loader-main *ngIf="draftloading"></app-loader-main> -->
         </section>
         <div class="row mt-4">
           <div class="col-12 text-right actions">
             <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase" [disabled]="!draftsfcl || (draftsfcl && !draftsfcl.length)"
-              (click)="discardDraft()">Discard Draft
+              (click)="discardDraftLcl()">Discard Draft
             </button>
             <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">Save Draft</button>
             <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRates.length" (click)="publishRate()">Publish
@@ -75,7 +75,7 @@
                   your results
                   <img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon">
                 </span>
-                <span class="clear-filter" (click)="clearFilter($event)">
+                <span class="clear-filter" (click)="clearFilter($event, 'LCL')">
                   <svg id="969970e9-5f21-4072-86a7-6672decd15e6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 16 16">
                     <g id="0d761291-d7c4-42bf-9433-98aad825bfb6" data-name="add">
@@ -135,7 +135,19 @@ filterOriginLcl && filterOriginLcl.CountryCode}"
                       </select>
                     </div>
                   </div>
+
                   <div class="col-3">
+                    <div class="form-group">
+                      <label>Handling Unit</label>
+                      <select class="form-control" [(ngModel)]="filterbyHandlingType" (change)="filterLcl()">
+                        <option [value]="undefined">All</option>
+                        <option *ngFor="let handle of allHandlingType" [value]="handle.ContainerSpecID">{{handle.ContainerSpecShortName}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+
+                  <div class="col-4">
                     <div class="form-group date-control">
                       <label>Rate Validity</label>
                       <div class="dateIcon">
@@ -160,7 +172,7 @@ filterOriginLcl && filterOriginLcl.CountryCode}"
         </section>
         <section class="rates-grid mt-5">
           <div class="d-flex justify-content-end mb-3">
-            <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord()" [ngClass]="{'no-drop': !this.delPublishRates.length}">
+<a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('LCL')" [ngClass]="{'no-drop': !this.delPublishRatesLcl.length}">
               <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16">
               Delete
             </a>
@@ -220,7 +232,7 @@ filterOriginLcl && filterOriginLcl.CountryCode}"
                   your results
                   <img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon">
                 </span>
-                <span class="clear-filter" (click)="clearFilter($event)">
+                <span class="clear-filter" (click)="clearFilter($event, 'FCL')">
                   <svg id="969970e9-5f21-4072-86a7-6672decd15e6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 16 16">
                     <g id="0d761291-d7c4-42bf-9433-98aad825bfb6" data-name="add">
@@ -323,7 +335,7 @@ filterOriginLcl && filterOriginLcl.CountryCode}"
         </section>
         <section class="rates-grid mt-5">
           <div class="d-flex justify-content-end mb-3">
-            <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord()" [ngClass]="{'no-drop': !this.delPublishRates.length}">
+            <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('FCL')" [ngClass]="{'no-drop': !this.delPublishRates.length}">
               <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16">
               Delete
             </a>

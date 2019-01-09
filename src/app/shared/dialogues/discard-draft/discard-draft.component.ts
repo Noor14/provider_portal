@@ -19,11 +19,20 @@ export class DiscardDraftComponent implements OnInit {
   ngOnInit() {
   }
   delete() {
+    if (this.deleteIds.type == "draftSeaRateFCL"){
     this.seaFreightService.deleteNDiscardDraftRate(this.deleteIds.data).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.closeModal(res.returnStatus);
       }
     })
+    }
+    else if (this.deleteIds.type == "draftSeaRateLCL"){
+    this.seaFreightService.deleteNDiscardDraftRateLCl(this.deleteIds.data).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this.closeModal(res.returnStatus);
+      }
+    })
+  }
   }
   closeModal(status) {
     this._activeModal.close(status);

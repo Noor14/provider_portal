@@ -32,6 +32,17 @@ export class ConfirmDeleteDialogComponent implements OnInit {
         }
       })
     }
+    else if (this.deleteIds.type == "draftSeaRateLCL") {
+      let obj = {
+        publishRateIDs: this.deleteIds.data,
+        modifiedBy: this.userProfile.LoginID
+      };
+      this.seaFreightService.deleteNDiscardDraftRateLCl(this.deleteIds.data).subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this.closeModal(res.returnStatus);
+        }
+      })
+    }
     else if (this.deleteIds.type == "publishSeaRateFCL"){
       let obj = {
         publishRateIDs: this.deleteIds.data,
@@ -43,6 +54,20 @@ export class ConfirmDeleteDialogComponent implements OnInit {
         }
       })
     }
+    else if (this.deleteIds.type == "publishSeaRateLCL") {
+      let obj = {
+        publishRateIDs: this.deleteIds.data,
+        modifiedBy: this.userProfile.LoginID
+      };
+      this.seaFreightService.deletePublishRateLCL(obj).subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this.closeModal(res.returnStatus);
+        }
+      })
+    }
+
+ 
+
  
   }
   closeModal(status) {

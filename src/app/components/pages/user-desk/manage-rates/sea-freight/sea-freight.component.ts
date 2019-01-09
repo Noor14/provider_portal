@@ -56,7 +56,9 @@ export class SeaFreightComponent implements OnInit {
   public dtOptionsBySeaFCL: DataTables.Settings | any = {};
   public dtOptionsBySeaLCL: DataTables.Settings | any = {};
   public dtOptionsBySeaFCLDraft: DataTables.Settings | any = {};
+  public dtOptionsBySeaLCLDraft: DataTables.Settings | any = {};
   @ViewChild('draftBYsea') tabledraftBySea;
+  @ViewChild('draftBYseaLCL') tabledraftBySeaLCL;
   @ViewChild('publishBysea') tablepublishBySea;
   @ViewChild('publishByseaLcl') tablepublishBySeaLcl;
   @ViewChild("dp") input: NgbInputDatepicker;
@@ -67,22 +69,28 @@ export class SeaFreightComponent implements OnInit {
   public dataTablepublishBysea: any;
   public dataTablepublishByseaLcl: any;
   public dataTabledraftBysea: any;
+  public dataTabledraftByseaLCL: any;
   public allRatesList: any;
   public allRatesListLcL: any;
   public publishloading: boolean;
   public publishloadingLcl: boolean;
   public draftloading: boolean = true;
+  public draftloadingLCL: boolean = true;
   public allShippingLines: any[] = [];
   public allCargoType: any[] = []
   public allContainersType: any[] = [];
+  public allHandlingType: any[] = [];
   public allPorts: any[] = [];
   public allCurrencies: any[] = [];
   public allSeaDraftRatesByFCL: any[] = [];
+  public allSeaDraftRatesByLCL: any[] = [];
   public draftDataBYSeaFCL: any[] = [];
   public draftsfcl: any[] = [];
+  public draftslcl: any[] = [];
   public delPublishRates: any[] = [];
   public delPublishRatesLcl: any[] = [];
   public publishRates: any[] = [];
+  public publishRatesLCL: any[] = [];
   public filterOrigin: any = {};
   public filterDestination: any = {};
   public filterOriginLcl: any = {};
@@ -106,9 +114,11 @@ export class SeaFreightComponent implements OnInit {
   public filterbyCargoType;
   public filterbyCargoTypeLcl;
   public filterbyContainerType;
+  public filterbyHandlingType;
   public checkedallpublishRates: boolean = false;
   public checkedallpublishRatesLcl: boolean = false;
   public checkedalldraftRates: boolean = false;
+  public checkedalldraftRatesLCL: boolean = false;
 
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
@@ -141,9 +151,10 @@ export class SeaFreightComponent implements OnInit {
 
   }
 
-  clearFilter(event) {
+  clearFilter(event, type) {
     event.preventDefault();
     event.stopPropagation();
+    if(type == "FCL"){
     if ((this.filterbyShippingLine && this.filterbyShippingLine != 'undefined') ||
       (this.filterbyCargoType && this.filterbyCargoType != 'undefined') ||
       (this.filterbyContainerType && this.filterbyContainerType != 'undefined') ||
@@ -156,6 +167,21 @@ export class SeaFreightComponent implements OnInit {
       this.filterDestination = {};
       this.filterOrigin = {};
       this.filter();
+    }
+    }
+    else if (type == "LCL") {
+      if (
+        (this.filterbyCargoTypeLcl && this.filterbyCargoTypeLcl != 'undefined') ||
+        (this.filterbyHandlingType && this.filterbyHandlingType != 'undefined') ||
+        (this.filterDestinationLcl && Object.keys(this.filterDestinationLcl).length) ||
+        (this.filterOriginLcl && Object.keys(this.filterOriginLcl).length)
+      ) {
+        this.filterbyCargoTypeLcl = 'undefined';
+        this.filterbyHandlingType = 'undefined';
+        this.filterDestinationLcl = {};
+        this.filterOriginLcl = {};
+        this.filterLcl();
+      }
     }
   }
   filter() {
@@ -325,6 +351,203 @@ export class SeaFreightComponent implements OnInit {
     this.setdataDraftInTable();
   }
 
+  generateDraftTableLCL() {
+    this.dtOptionsBySeaLCLDraft = {
+      data: this.draftslcl,
+      columns: [
+        {
+          title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRatesLCL" type = "checkbox"> <label for= "selectallDraftRatesLCL"> <span> </span></label></div>',
+          data: function (data) {
+            return '<div class="fancyOptionBoxes"> <input id = "' + data.ConsolidatorPricingDraftID + '" type = "checkbox"> <label for= "' + data.ConsolidatorPricingDraftID + '"> <span> </span></label></div>';
+          }
+        },
+        {
+          title: 'ORIGIN / DEPARTURE',
+          data: function (data) {
+            const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
+            if (!data.PolID || !data.PodID) {
+              return "<div class='row'> <div class='col-5'><span> --From-- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5'><span> --To-- </span></div> </div>";
+            }
+            else {
+              let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
+              let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
+              const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
+              return "<div class='row'> <div class='col-5'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.PodName + "</div> </div>";
+
+              // return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
+            }
+          },
+
+          className: 'routeCell'
+        },
+        {
+          title: 'CARGO TYPE',
+          data: function (data) {
+            if (!data.ShippingCatName) {
+              return "<span>--Select--</span>"
+            }
+            else {
+              return data.ShippingCatName;
+            }
+          }
+        },
+        {
+          title: 'HANDLING UNIT',
+          data: function (data) {
+            if (!data.ContainerSpecShortName) {
+              return "<span>--Select--</span>"
+            }
+            else {
+              return data.ContainerSpecShortName;
+            }
+          }
+        },
+        {
+          title: 'RATE / CBM',
+          data: function (data) {
+            if (!data.Price) {
+              return "<span>--Select--</span>"
+            }
+            else {
+              return data.CurrencyCode + ' ' + data.Price;
+            }
+          }
+        },
+        {
+          title: 'RATE VALIDITY',
+          data: function (data) {
+            if (!data.EffectiveFrom || !data.EffectiveTo) {
+              return "<span>--Select--</span>"
+            }
+            else {
+              return moment(data.EffectiveFrom).format('D MMM, Y') + ' to ' + moment(data.EffectiveTo).format('D MMM, Y')
+            }
+          }
+        },
+        {
+          title: '',
+          data: function (data) {
+            let url = '../../../../../../assets/images/icons/icon_del_round.svg';
+            return "<img id='" + data.ConsolidatorPricingDraftID + "' src='" + url + "' class='icon-size-16 pointer' />";
+          }
+        }
+      ],
+
+      info: false,
+      destroy: true,
+      // pagingType: 'full_numbers',
+      pageLength: 5,
+      scrollX: true,
+      scrollY: '60vh',
+      scrollCollapse: true,
+      searching: false,
+      lengthChange: false,
+      responsive: true,
+      order: [[1, "asc"]],
+      language: {
+        paginate: {
+          next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
+          previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
+        }
+      },
+      fixedColumns: {
+        leftColumns: 0,
+        rightColumns: 1
+      },
+      columnDefs: [
+        {
+          targets: 0,
+          width: 'auto',
+          orderable: false,
+        },
+        {
+          targets: 1,
+          width: '235'
+        },
+        {
+          targets: -1,
+          width: 'auto',
+          orderable: false,
+        },
+        {
+          targets: -2,
+          width: '200',
+        },
+        {
+          targets: "_all",
+          width: "150"
+        }
+      ],
+
+    }
+
+    this.setdataDraftInTableLCL();
+  }
+
+  setdataDraftInTableLCL() {
+    setTimeout(() => {
+      
+      if (this.tabledraftBySeaLCL && this.tabledraftBySeaLCL.nativeElement){
+      this.dataTabledraftByseaLCL = $(this.tabledraftBySeaLCL.nativeElement);
+        let alltableOption = this.dataTabledraftByseaLCL.DataTable(this.dtOptionsBySeaLCLDraft);
+      // let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
+      // let footertr = $("<tr></tr>").appendTo(footer);
+      // $("<td colspan='20'> <a href='javascript:;' class ='addrow'>Add Another Rates</a> </td>").appendTo(footertr);
+      // Add footer cells
+
+      this.draftloadingLCL = false;
+
+      $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
+        event.stopPropagation();
+        let delId = (<HTMLElement>event.target).id;
+        if (delId) {
+          this.deleteRowLCL(delId);
+        }
+      });
+      $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
+        event.stopPropagation();
+        if (event.target.nodeName != "SPAN" || event.target.innerText) {
+          let rowId = event.currentTarget.cells[0].children[0].children[0].id;
+          this.updatePopupRates(rowId);
+        }
+      });
+      // $(alltableOption.table().container()).on('click', 'tfoot tr td a', (event) => {
+      //     event.stopPropagation();
+      //     this.addAnotherRates();
+
+      // });
+
+      $("#selectallDraftRatesLCL").click((event) => {
+        this.publishRatesLCL = [];
+        var cols = alltableOption.column(0).nodes();
+        this.checkedalldraftRatesLCL = !this.checkedalldraftRatesLCL;
+        for (var i = 0; i < cols.length; i += 1) {
+          cols[i].querySelector("input[type='checkbox']").checked = this.checkedalldraftRatesLCL;
+          if (this.checkedalldraftRatesLCL) {
+            this.publishRatesLCL.push(cols[i].querySelector("input[type='checkbox']").id);
+          }
+        }
+        if (i == cols.length && !this.checkedalldraftRatesLCL) {
+          this.publishRatesLCL = [];
+        }
+      });
+
+      $('#draftRateTableLCL').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
+        event.stopPropagation();
+        let index = this.publishRatesLCL.indexOf((<HTMLInputElement>event.target).id)
+        if (index >= 0) {
+          this.publishRatesLCL.splice(index, 1);
+
+        } else {
+          this.publishRatesLCL.push((<HTMLInputElement>event.target).id)
+        }
+
+      });
+
+      }
+
+    }, 0);
+  }
   setdataDraftInTable() {
     setTimeout(() => {
       this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
@@ -387,6 +610,7 @@ export class SeaFreightComponent implements OnInit {
     }, 0);
   }
 
+  
   updatePopupRates(rowId) {
     const modalRef = this.modalService.open(SeaRateDialogComponent, {
       size: 'lg',
@@ -479,26 +703,27 @@ export class SeaFreightComponent implements OnInit {
             this.allShippingLines = state[index].DropDownValues.ShippingLine;
             this.allCargoType = state[index].DropDownValues.Category;
             this.allContainersType = state[index].DropDownValues.ContainerFCL;
+            this.allHandlingType = state[index].DropDownValues.ContainerLCL;
             this.allPorts = state[index].DropDownValues.Port;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if (state[index].DraftDataFCL) {
-              this.allSeaDraftRatesByFCL = this.filterByDate(state[index].DraftDataFCL);
+              this.allSeaDraftRatesByFCL = state[index].DraftDataFCL;
               this.draftsfcl = this.allSeaDraftRatesByFCL;
             }
+            if (state[index].DraftDataLCL){
+              this.allSeaDraftRatesByLCL = state[index].DraftDataLCL;
+              this.draftslcl = this.allSeaDraftRatesByLCL;
+            }
             this.generateDraftTable();
+            this.generateDraftTableLCL();
             this.draftloading = true;
+            this.draftloadingLCL = true;
           }
         }
       }
     })
   }
-  filterByDate(allSeaDraftRatesByFCL) {
-    return allSeaDraftRatesByFCL.sort(function (a, b) {
-      let dateA: any = new Date(a.CreatedDateTime);
-      let dateB: any = new Date(b.CreatedDateTime);
-      return dateB - dateA;
-    });
-  }
+
 
 
   filterByroute(obj, type) {
@@ -570,6 +795,7 @@ export class SeaFreightComponent implements OnInit {
       pageNo: 1,
       pageSize: 50,
       shippingCatID: (this.filterbyCargoTypeLcl == 'undefined') ? null : this.filterbyCargoTypeLcl,
+      containerSpecID: (this.filterbyHandlingType == 'undefined') ? null : this.filterbyHandlingType,
       polID: this.orgfilter("LCL"),
       podID: this.destfilter("LCL"),
       effectiveFrom: null,
@@ -725,6 +951,10 @@ export class SeaFreightComponent implements OnInit {
           data: 'shippingCatName',
         },
         {
+          title: 'HANDLING UNIT',
+          data: 'shippingCatName',
+        },
+        {
           title: 'RATE / CBM',
           data: function (data) {
             return data.currencyCode + ' ' + data.price
@@ -798,8 +1028,9 @@ export class SeaFreightComponent implements OnInit {
 
   setdataInTableLcl() {
     setTimeout(() => {
+      if (this.tablepublishBySeaLcl && this.tablepublishBySeaLcl.nativeElement){
       this.dataTablepublishByseaLcl = $(this.tablepublishBySeaLcl.nativeElement);
-      let alltableOption = this.dataTablepublishByseaLcl.DataTable(this.dtOptionsBySeaLCL);
+        let alltableOption = this.dataTablepublishByseaLcl.DataTable(this.dtOptionsBySeaLCL);
       this.publishloadingLcl = false;
       $("#selectallpublishRatesLcl").click(() => {
         this.delPublishRatesLcl = [];
@@ -821,17 +1052,17 @@ export class SeaFreightComponent implements OnInit {
       });
 
       $('#publishRateTableLcl').off('click').on('click', 'input[type="checkbox"]', (event) => {
-        let index = this.delPublishRates.indexOf((<HTMLInputElement>event.target).id);
+        let index = this.delPublishRatesLcl.indexOf((<HTMLInputElement>event.target).id);
         let selection = event.currentTarget.parentElement.parentElement.parentElement;
         if (index >= 0) {
-          this.delPublishRates.splice(index, 1);
+          this.delPublishRatesLcl.splice(index, 1);
           selection.classList.remove('selected');
         } else {
           selection.classList.add('selected');
-          this.delPublishRates.push((<HTMLInputElement>event.target).id)
+          this.delPublishRatesLcl.push((<HTMLInputElement>event.target).id)
         }
       });
-
+    }
     }, 0);
   }
 
@@ -980,7 +1211,43 @@ export class SeaFreightComponent implements OnInit {
     }, 0);
   }
 
-  deletepublishRecord() {
+  discardDraftLcl(){
+    let discardarr = [];
+    this.draftslcl.forEach(elem => {
+      discardarr.push(elem.ConsolidatorPricingDraftID)
+    })
+    const modalRef = this.modalService.open(DiscardDraftComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.result.then((result) => {
+      if (result == "Success") {
+        this.draftslcl = [];
+        this.allSeaDraftRatesByFCL = [];
+        this.draftDataBYSeaFCL = [];
+        this.publishRates = [];
+        this.generateDraftTableLCL();
+      }
+    }, (reason) => {
+      // console.log("reason");
+    });
+    let obj = {
+      data: discardarr,
+      type: "draftSeaRateLCL"
+    }
+    modalRef.componentInstance.deleteIds = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
+
+
+  delFclPubRecord(){
     if (!this.delPublishRates.length) return;
     const modalRef = this.modalService.open(ConfirmDeleteDialogComponent, {
       size: 'lg',
@@ -1025,6 +1292,62 @@ export class SeaFreightComponent implements OnInit {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
       }
     }, 0);
+  }
+  delLclPubRecord(){
+    if (!this.delPublishRatesLcl.length) return;
+    const modalRef = this.modalService.open(ConfirmDeleteDialogComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.result.then((result) => {
+      if (result == "Success") {
+        this.checkedallpublishRates = false;
+        if (this.allRatesListLcL.length == this.delPublishRatesLcl.length) {
+          this.allRatesListLcL = [];
+          this.delPublishRatesLcl = [];
+          this.filterTableLcl();
+        }
+        else {
+          for (var i = 0; i < this.delPublishRatesLcl.length; i++) {
+            for (let y = 0; y < this.allRatesListLcL.length; y++) {
+              if (this.delPublishRatesLcl[i] == this.allRatesListLcL[y].consolidatorPricingID) {
+                this.allRatesListLcL.splice(y, 1);
+              }
+            }
+          }
+          if (i == this.delPublishRatesLcl.length) {
+            this.filterTableLcl();
+            this.delPublishRatesLcl = [];
+          }
+        }
+
+      }
+    }, (reason) => {
+      // console.log("reason");
+    });
+    let obj = {
+      data: this.delPublishRatesLcl,
+      type: "publishSeaRateLCL"
+    }
+    modalRef.componentInstance.deleteIds = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
+
+  deletepublishRecord(type) {
+    if(type=="FCL"){
+      this.delFclPubRecord()
+    }
+    if (type == "LCL") {
+      this.delLclPubRecord()
+    }
+   
   }
 
   publishRate() {
@@ -1080,6 +1403,42 @@ export class SeaFreightComponent implements OnInit {
     let obj = {
       data: [id],
       type: "draftSeaRateFCL"
+    }
+    modalRef.componentInstance.deleteIds = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
+
+
+
+  deleteRowLCL(id) {
+    const modalRef = this.modalService.open(ConfirmDeleteDialogComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.result.then((result) => {
+      if (result == "Success") {
+        for (let index = 0; index < this.draftslcl.length; index++) {
+          if (this.draftslcl[index].ConsolidatorPricingDraftID == id) {
+            this.draftslcl.splice(index, 1);
+            this.generateDraftTableLCL();
+            this.publishRatesLCL = [];
+            break;
+          }
+        }
+      }
+    }, (reason) => {
+      // console.log("reason");
+    });
+    let obj = {
+      data: [id],
+      type: "draftSeaRateLCL"
     }
     modalRef.componentInstance.deleteIds = obj;
     setTimeout(() => {
