@@ -11,6 +11,12 @@ export class SeaFreightService {
     let url: string = "providerratefcl/SearchRates";
     return this._http.post(baseApi + url, obj);
   }
+
+  getAllratesLCL(obj) {
+    let url: string = "providerratelcl/SearchRates";
+    return this._http.post(baseApi + url, obj);
+  }
+
   getAllLogisticServiceBySea(userID, providerID){
     let url: string = `provider/GetProviderLogisticService/${userID}/${providerID}`;
     return this._http.get(baseApi + url);
