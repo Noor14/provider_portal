@@ -2,28 +2,132 @@
 .allbookings {
     .nav-tabs {
         border: none;
-        margin-bottom: 30px;
-        .nav-item {
-            width: 33.33%;
-            text-align: center;
-            .nav-link {
-                background: none;
-                border: none;
-                box-shadow: 0px 1px 0px 0px $grey-border;
-                color: rgba(115, 133, 147, 0.6);
-                font-size: 1rem;
-                font-weight: $font-weight-mid;
-                font-family: $font-proxima;
-                &.active {
-                    box-shadow: 0px 2px 0px 0px $color-topmenuactive;
-                    color: $color-topmenuactive;
-                }
-            }
+  .nav-tabs {
+    border: none;
+    margin-bottom: 48px;
+
+    .nav-item {
+      width: 33.33%;
+      text-align: center;
+
+      .nav-link {
+        background: none;
+        border: none;
+        box-shadow: 0px 1px 0px 0px $grey-border;
+        color: rgba(115, 133, 147, 0.6);
+        font-size: 1rem;
+        font-weight: $font-weight-mid;
+        font-family: $font-proxima;
+
+        .badge {
+          opacity: 0.6;
         }
+
+        &.active {
+          box-shadow: 0px 2px 0px 0px $color-topmenuactive;
+          color: $color-topmenuactive;
+
+          .badge {
+            opacity: 1;
+            background-color: $primary-color;
+          }
+        }
+      }
     }
-    .bookings {
-        .border-separated {
-            border-right: 1px solid #6c757d2b
+  }
+
+  .ngx-pagination {
+    margin: 30px 0 0 0;
+    padding: 0;
+    float: right;
+
+    li {
+      margin-right: 5px;
+
+      a {
+        padding: 0.45rem 0.65rem;
+        border: 1px solid #e5e5e5;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ffffff), to(#ebebeb));
+        background: linear-gradient(to bottom, #ffffff 0, #ebebeb 100%);
+        border-radius: 5px;
+        line-height: 1;
+        font-size: 0.75rem;
+        color: #555555 !important;
+        font-weight: 500;
+      }
+
+      &.current {
+        padding: 0.3rem 0.65rem;
+        background: #f1f2f6;
+        border: none;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
+        color: #555555 !important;
+        border-radius: 5px;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .bookings {
+    .border-separated {
+      border-right: 1px solid #6c757d2b
+    }
+
+    &-header {
+      font-family: $font-proxima;
+
+      small {
+        font-family: $font-proxima;
+        font-size: $font-size-base;
+        color: $text-grey;
+        font-weight: $font-weight-normal;
+        margin-bottom: 1px;
+      }
+
+      &-number {
+        font-size: $font-size-large;
+        font-weight: $font-proxima-weight-semibold;
+        color: $primary-color;
+
+        img {
+          width: 33px;
+          height: 33px;
+          margin-right: 15px;
+        }
+      }
+
+      &-company {
+        img {
+          width: 28px;
+          height: 28px;
+          margin-right: 10px;
+        }
+      }
+    }
+
+    &-detail {
+      &.eq-height {
+        min-height: 9rem;
+
+      }
+
+      .ports {
+        font-family: $font-proxima;
+        font-size: $font-size-base;
+
+        &-label {
+          font-size: $font-size-large;
+          color: $text-color-default;
+          margin-bottom: 0;
+          font-weight: $font-proxima-weight-semibold;
+        }
+
+        .pending {
+          font-size: $font-size-large;
+          color: rgb(211, 32, 32);
+          line-height: 1.25;
+>>>>>>> grid-UI-change
         }
         &-header {
             font-family: $font-proxima;
