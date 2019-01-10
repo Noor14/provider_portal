@@ -12,7 +12,7 @@ import { SearchBookingMode } from '../../../constants/dashboardBookingsFilter';
 import { AgmCoreModule } from '@agm/core';
 import { UserGuard } from '../user-creation/user.guard';
 import { AllBookingsComponent } from './all-bookings/all-bookings.component';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
   imports: [
     CommonModule,
@@ -21,7 +21,8 @@ import { AllBookingsComponent } from './all-bookings/all-bookings.component';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
       libraries: ["places", "geometry"]
-    })
+    }),
+    NgxPaginationModule
   ],
   declarations: [
     UserDeskComponent, 

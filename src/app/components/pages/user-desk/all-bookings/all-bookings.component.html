@@ -5,8 +5,8 @@
       <ngb-tab>
         <ng-template ngbTabTitle>CURRENT BOOKINGS</ng-template>
         <ng-template ngbTabContent>
-          <div class="bookings overflow-hidden" *ngIf="providerInfo.BookingDetails">
-            <div class="card animated bounceInDown pointer mt-2" *ngFor="let booking of bookings" (click)="viewBookingDetails(booking.BookingID)">
+          <div class="bookings overflow-hidden" *ngIf="currentBookings.length">
+            <div class="card animated bounceInDown pointer mt-2" *ngFor="let booking of currentBookings | paginate: paginationConfig" (click)="viewBookingDetails(booking.BookingID)">
               <div class="card-body pt-2">
                 <!-- booking top row -->
                 <div class="bookings-header d-md-flex justify-content-md-between">
@@ -96,8 +96,9 @@
                 </div>
               </div>
             </div>
+           <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
           </div>
-          <div class="overflow-hidden" *ngIf="!providerInfo.BookingDetails || (providerInfo.BookingDetails && !providerInfo.BookingDetails.length || !(providerInfo.BookingDetails | BookingMode : selectedBookingMode).length)">
+          <div class="overflow-hidden" *ngIf="currentBookings && !currentBookings.length">
             <div class="animated bounceInDown card text-center p-1">
               <p class="mb-0">You don't have any bookings yet </p>
             </div>
@@ -105,10 +106,10 @@
         </ng-template>
       </ngb-tab>
       <ngb-tab>
-        <ng-template ngbTabTitle>TOTAL BOOKINGS</ng-template>
+        <ng-template ngbTabTitle>PAST BOOKINGS</ng-template>
         <ng-template ngbTabContent>
-          <div class="bookings overflow-hidden" *ngIf="providerInfo.BookingDetails">
-            <div class="card animated bounceInDown pointer mt-2" *ngFor="let booking of bookings" (click)="viewBookingDetails(booking.BookingID)">
+          <div class="bookings overflow-hidden" *ngIf="pastBookings.length">
+            <div class="card animated bounceInDown pointer mt-2" *ngFor="let booking of pastBookings" (click)="viewBookingDetails(booking.BookingID)">
               <div class="card-body pt-2">
                 <!-- booking top row -->
                 <div class="bookings-header d-md-flex justify-content-md-between">
@@ -199,7 +200,7 @@
               </div>
             </div>
           </div>
-          <div class="overflow-hidden" *ngIf="!providerInfo.BookingDetails || (providerInfo.BookingDetails && !providerInfo.BookingDetails.length || !(providerInfo.BookingDetails | BookingMode : selectedBookingMode).length)">
+          <div class="overflow-hidden" *ngIf="pastBookings && !pastBookings.length">
             <div class="animated bounceInDown card text-center p-1">
               <p class="mb-0">You don't have any bookings yet </p>
             </div>
