@@ -13,6 +13,7 @@ import { AgmCoreModule } from '@agm/core';
 import { UserGuard } from '../user-creation/user.guard';
 import { AllBookingsComponent } from './all-bookings/all-bookings.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ReportsComponent } from './reports/reports.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -30,7 +31,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     DashboardComponent,
     ViewBookingComponent,
     SearchBookingMode,
-    AllBookingsComponent
+    AllBookingsComponent,
+    ReportsComponent
   ],
   providers:[
     ViewBookingService,

@@ -1,0 +1,141 @@
+@import '../../../../../assets/scss/_variables';
+.reports {
+    .customer-revenue {
+        .customer-image {
+            background-color: $color-white;
+            width: 100px;
+            height: 78px;
+            border: 1px solid #6c757d2b;
+            padding: 0.8rem;
+            img {
+                height: 100%;
+                width: 100%;
+            }
+        }
+        ul {
+            list-style: none !important;
+            padding-left: 0.5rem !important;
+        }
+        span {
+            font-family: $font-pragmatica;
+            font-size: $font-size-large;
+            font-weight: $font-weight-mid;
+            color: $primary-color;
+        }
+        small {
+            color: $secondary-text-color;
+            font-size: $font-size-medium;
+            font-family: $font-proxima;
+        }
+        label {
+            font-weight: $font-weight-mid;
+        }
+        .link {
+            a {
+                color: $secondary-grey;
+                text-decoration: none;
+                font-size: $font-size-medium;
+                font-family: $font-proxima;
+                text-transform: uppercase;
+                margin-right: 0.3rem;
+            }
+            .fa-angle-left {
+                font-size: $root-font-size;
+                padding-right: 0.325rem;
+            }
+        }
+    }
+    .bookings {
+        border: 1px solid $booking-card-border;
+        &-header {
+            background: $white-color;
+            align-items: center;
+            border-bottom: 1px solid $booking-card-border;
+            padding: 0.3rem 0.4rem 0.4rem 4.5rem;
+            h5 {
+                font-size: $font-size-large;
+                color: $primary-color;
+                font-family: $font-proxima;
+                font-weight: $font-proxima-weight-semibold;
+            }
+            p {
+                //   line-height: 1;
+                font-size: $font-size-base;
+                color: $text-grey;
+                font-family: $font-proxima;
+                font-weight: $font-weight-normal;
+            }
+            &-icon {
+                position: absolute;
+                z-index: 1;
+                &:after {
+                    content: " ";
+                    width: 0px;
+                    height: 0px;
+                    border-top: 22px solid transparent;
+                    border-bottom: 25px solid transparent;
+                    border-left: 10px solid #02bdb6;
+                    position: absolute;
+                    left: 48px;
+                    top: 1px;
+                    z-index: -1;
+                }
+                &:before {
+                    content: " ";
+                    width: 48px;
+                    height: 48px;
+                    position: absolute;
+                    background: #02bdb6;
+                    left: 0;
+                    top: 0px;
+                    z-index: -1;
+                }
+                img.icon-size-24 {
+                    position: relative;
+                    top: 10px;
+                    left: 14px;
+                }
+            }
+        }
+        &-detail {
+            &.eq-height {
+                min-height: 6rem;
+            }
+            .ports {
+                font-family: $font-proxima;
+                font-size: $font-size-base;
+                &-label {
+                    font-size: $font-size-large;
+                    color: $text-color-default;
+                    margin-bottom: 0;
+                    font-weight: $font-proxima-weight-semibold;
+                }
+                .customer-image {
+                    width: 44px;
+                    height: 40px;
+                    border: 1px solid #6c757d2b;
+                    padding: 0.4375rem;
+                    img {
+                        height: 100%;
+                        width: 100%;
+                    }
+                }
+                small {
+                    font-size: $font-size-base;
+                    color: $color-topmenu;
+                    text-transform: uppercase;
+                    line-height: 1.2;
+                    vertical-align: bottom;
+                    text-align: left;
+                    margin-top: 0.84375rem;
+                }
+                span {
+                    font-size: $font-size-large;
+                    font-family: $font-proxima;
+                    color: rgb(43, 43, 43);
+                    text-align: left;
+                }
+            }
+        }
+    }
+}
