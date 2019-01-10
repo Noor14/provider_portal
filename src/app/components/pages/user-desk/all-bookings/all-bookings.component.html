@@ -94,7 +94,7 @@
                 </div>
               </div>
             </div>
-           <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+           <pagination-controls (pageChange)="onPageChange($event)" maxSize="maxSize" directionLinks="directionLinks" autoHide="autoHide" responsive="responsive" previousLabel="" nextLabel=""></pagination-controls>
           </div>
           <div class="overflow-hidden" *ngIf="currentBookings && !currentBookings.length">
             <div class="animated bounceInDown card text-center p-1">
@@ -196,7 +196,7 @@
                 </div>
               </div>
             </div>
-            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+            <pagination-controls (pageChange)="onPageChange($event)" maxSize="maxSize" directionLinks="directionLinks" autoHide="autoHide" responsive="responsive" previousLabel="" nextLabel=""></pagination-controls>
           </div>
           <div class="overflow-hidden" *ngIf="pastBookings && !pastBookings.length">
             <div class="animated bounceInDown card text-center p-1">
@@ -297,7 +297,7 @@
                   </div>
                 </div>
               </div>
-             <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+             <pagination-controls (pageChange)="onPageChange($event)" maxSize="maxSize" directionLinks="directionLinks" autoHide="autoHide" responsive="responsive" previousLabel="" nextLabel=""></pagination-controls>
             </div>
             <div class="overflow-hidden" *ngIf="totalBookings && !totalBookings.length">
               <div class="animated bounceInDown card text-center p-1">

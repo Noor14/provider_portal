@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { SharedService } from '../../../../services/shared.service';
 import { encryptBookingID } from '../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
+import { PaginationInstance } from 'ngx-pagination';
 
 @Component({
   selector: 'app-all-bookings',
@@ -15,7 +16,11 @@ export class AllBookingsComponent implements OnInit, OnDestroy {
   public pastBookings:any[] =[];
   public currentBookings: any[] = [];
   public totalBookings: any[] = [];
-  public paginationConfig = {
+  public maxSize: number = 7;
+  public directionLinks: boolean = true;
+  public responsive: boolean = true;
+  public autoHide: boolean = false;
+  public paginationConfig: PaginationInstance = {
      itemsPerPage: 5, currentPage: 1 
   }
 
