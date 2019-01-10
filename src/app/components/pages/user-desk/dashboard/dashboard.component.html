@@ -204,14 +204,14 @@
           </div>
         </div>
       </div>
-    </div>
+  </div>
   <div class="overflow-hidden" *ngIf="!providerInfo.BookingDetails || (providerInfo.BookingDetails && !providerInfo.BookingDetails.length || !(providerInfo.BookingDetails | BookingMode : selectedBookingMode).length)">
     <div class="animated bounceInDown card text-center p-1">
       <p class="mb-0">You don't have any bookings yet </p>
     </div>
   </div>
 
-  <a href="javascript:;" class="hvr-icon-forward grey-anc-btn mt-3 pull-right pointer">
+  <a href="javascript:;" class="hvr-icon-forward grey-anc-btn mt-3 pull-right pointer" (click)="viewAllBookings()">
     <span class="link-hover-grey">View All Bookings</span>
     <img alt="icon" class="icon-size-14 hvr-icon" src="../../../../../assets/images/icons/icon_arrow_right.svg">
   </a>

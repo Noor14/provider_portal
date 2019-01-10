@@ -11,6 +11,7 @@ import { DashboardService } from './dashboard/dashboard.service';
 import { SearchBookingMode } from '../../../constants/dashboardBookingsFilter';
 import { AgmCoreModule } from '@agm/core';
 import { UserGuard } from '../user-creation/user.guard';
+import { AllBookingsComponent } from './all-bookings/all-bookings.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { UserGuard } from '../user-creation/user.guard';
     SideBarComponent,
     DashboardComponent,
     ViewBookingComponent,
-    SearchBookingMode
+    SearchBookingMode,
+    AllBookingsComponent
   ],
   providers:[
     ViewBookingService,

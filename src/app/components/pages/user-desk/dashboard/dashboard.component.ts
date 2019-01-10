@@ -32,4 +32,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       let id = encryptBookingID(bookingId);
       this._router.navigate(['/provider/booking-detail', id]);
   }
+  
+  viewAllBookings() {
+    this._router.navigate(['/provider/allbookings']);
+  }
 }

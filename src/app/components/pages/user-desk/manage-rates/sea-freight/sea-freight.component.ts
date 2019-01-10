@@ -232,7 +232,7 @@ export class SeaFreightComponent implements OnInit {
           title: 'SHIPPING LINE',
           data: function (data) {
             if (!data.CarrierName) {
-              return "<span>--Select--</span>"
+              return "<span>-- Select --</span>"
             }
             else {
               let url = baseExternalAssets + "/" + data.CarrierImage;
@@ -246,7 +246,7 @@ export class SeaFreightComponent implements OnInit {
           data: function (data) {
             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
             if (!data.PolID || !data.PodID) {
-              return "<div class='row'> <div class='col-5'><span> --From-- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5'><span> --To-- </span></div> </div>";
+              return "<div class='row'> <div class='col-5'><span> -- From -- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5'><span> -- To -- </span></div> </div>";
             }
             else {
               let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
@@ -264,7 +264,7 @@ export class SeaFreightComponent implements OnInit {
           title: 'CARGO TYPE',
           data: function (data) {
             if (!data.ShippingCatName) {
-              return "<span>--Select--</span>"
+              return "<span>-- Select --</span>"
             }
             else {
               return data.ShippingCatName;
@@ -275,7 +275,7 @@ export class SeaFreightComponent implements OnInit {
           title: 'CONTAINER',
           data: function (data) {
             if (!data.ContainerSpecName) {
-              return "<span>--Select--</span>"
+              return "<span>-- Select --</span>"
             }
             else {
               return data.ContainerSpecName;
@@ -286,7 +286,7 @@ export class SeaFreightComponent implements OnInit {
           title: 'RATE',
           data: function (data) {
             if (!data.Price) {
-              return "<span>--Select--</span>"
+              return "<span>-- Select --</span>"
             }
             else {
               return data.CurrencyCode + ' ' + data.Price;
@@ -297,7 +297,7 @@ export class SeaFreightComponent implements OnInit {
           title: 'RATE VALIDITY',
           data: function (data) {
             if (!data.EffectiveFrom || !data.EffectiveTo) {
-              return "<span>--Select--</span>"
+              return "<span>-- Select --</span>"
             }
             else {
               return moment(data.EffectiveFrom).format('D MMM, Y') + ' to ' + moment(data.EffectiveTo).format('D MMM, Y')
@@ -379,7 +379,7 @@ export class SeaFreightComponent implements OnInit {
           data: function (data) {
             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
             if (!data.PolID || !data.PodID) {
-              return "<div class='row'> <div class='col-5'><span> --From-- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5'><span> --To-- </span></div> </div>";
+              return "<div class='row'> <div class='col-5'><span> -- From -- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5'><span> -- To -- </span></div> </div>";
             }
             else {
               let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
@@ -397,7 +397,7 @@ export class SeaFreightComponent implements OnInit {
           title: 'CARGO TYPE',
           data: function (data) {
             if (!data.ShippingCatName) {
-              return "<span>--Select--</span>"
+              return "<span>-- Select --</span>"
             }
             else {
               return data.ShippingCatName;
@@ -408,7 +408,7 @@ export class SeaFreightComponent implements OnInit {
           title: 'HANDLING UNIT',
           data: function (data) {
             if (!data.ContainerSpecShortName) {
-              return "<span>--Select--</span>"
+              return "<span>-- Select --</span>"
             }
             else {
               return data.ContainerSpecShortName;
@@ -419,7 +419,7 @@ export class SeaFreightComponent implements OnInit {
           title: 'RATE / CBM',
           data: function (data) {
             if (!data.Price) {
-              return "<span>--Select--</span>"
+              return "<span>-- Select --</span>"
             }
             else {
               return data.CurrencyCode + ' ' + data.Price;
@@ -430,7 +430,7 @@ export class SeaFreightComponent implements OnInit {
           title: 'RATE VALIDITY',
           data: function (data) {
             if (!data.EffectiveFrom || !data.EffectiveTo) {
-              return "<span>--Select--</span>"
+              return "<span>-- Select --</span>"
             }
             else {
               return moment(data.EffectiveFrom).format('D MMM, Y') + ' to ' + moment(data.EffectiveTo).format('D MMM, Y')
@@ -626,6 +626,9 @@ export class SeaFreightComponent implements OnInit {
 
   
   updatePopupRates(rowId) {
+
+    let obj = this.draftsfcl.find(obj => obj.ProviderPricingDraftID == rowId);
+
     const modalRef = this.modalService.open(SeaRateDialogComponent, {
       size: 'lg',
       centered: true,
@@ -641,7 +644,7 @@ export class SeaFreightComponent implements OnInit {
       // console.log("reason");
     });
 
-    modalRef.componentInstance.addRateId = rowId;
+    modalRef.componentInstance.selectedData = obj;
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';

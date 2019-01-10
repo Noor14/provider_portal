@@ -34,7 +34,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 export class SeaRateDialogComponent implements OnInit {
   @ViewChild("dp") input: NgbInputDatepicker;
   @ViewChild('rangeDp') rangeDp: ElementRef;
-  @Input() addRateId: any;
+  @Input() selectedData: any;
 
   public allShippingLines: any[] = [];
   public allCargoType: any[] = []
@@ -49,15 +49,26 @@ export class SeaRateDialogComponent implements OnInit {
   public selectedContSize: any;
   public selectedShipping: any;
   public selectedPrice:any;
-  public selectedCurrency:any
+  public selectedCurrency:any = {
+    CurrencyID: 101,
+    CurrencyCode: 'AED',
+  }
 
 
   public startDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
   public minDate: NgbDateStruct;
   public hoveredDate: NgbDateStruct;
-  public fromDate: any;
-  public toDate: any;
+  public fromDate: any = {
+    day : undefined,
+    month : undefined,
+    year : undefined
+  };
+  public toDate: any = {
+    day : undefined,
+    month : undefined,
+    year : undefined
+  };
   public model: any;
 
   isHovered = date =>
@@ -76,6 +87,11 @@ export class SeaRateDialogComponent implements OnInit {
   ) { location.onPopState(() => this.closeModal(null)); }
 
   ngOnInit() {
+
+
+
+
+
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
@@ -94,18 +110,39 @@ export class SeaRateDialogComponent implements OnInit {
             this.allContainersType = state[index].DropDownValues.ContainerFCL;
             this.allPorts = state[index].DropDownValues.Port;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
+            if(this.selectedData){
+              this.setData()
+            }
 
           }
         }
       }
     })
   }
+  setData(){
+      this.selectedCategory = this.selectedData.ShippingCatID;
+      this.cargoTypeChange(this.selectedCategory);
+      this.selectedContSize = this.selectedData.ContainerSpecID;
+      this.filterOrigin = this.allPorts.find(obj => obj.PortID == this.selectedData.PolID);
+      this.filterDestination = this.allPorts.find(obj => obj.PortID == this.selectedData.PodID);
+      this.selectedShipping = this.allShippingLines.find(obj => obj.CarrierID == this.selectedData.CarrierID);
+      this.selectedCurrency = this.allCurrencies.find(obj => obj.CurrencyID == this.selectedData.CurrencyID);
+      this.selectedPrice = this.selectedData.Price;
+      this.fromDate.day = new Date(this.selectedData.EffectiveFrom).getDate();
+      this.fromDate.year = new Date(this.selectedData.EffectiveFrom).getFullYear();
+      this.fromDate.month = new Date(this.selectedData.EffectiveFrom).getMonth()+1;
+      this.toDate.day = new Date(this.selectedData.EffectiveTo).getDate();
+      this.toDate.year = new Date(this.selectedData.EffectiveTo).getFullYear();
+      this.toDate.month = new Date(this.selectedData.EffectiveTo).getMonth()+1;
+      // this.model = this.fromDate;
+      this.onDateSelection(this.model)
+      console.log(this.fromDate, this.toDate)
 
+  }
 
   cargoTypeChange(type){
    let data = this.allContainersType.filter(obj => obj.ShippingCatID == type);
     this.allContainers = data;
-    console.log(this.allContainers);
   }
 
 
@@ -115,7 +152,7 @@ export class SeaRateDialogComponent implements OnInit {
   
     let obj = [
       {
-        providerPricingDraftID: this.addRateId,
+        // providerPricingDraftID: this.addRateId,
         carrierID: this.selectedShipping.CarrierID,
         carrierName: this.selectedShipping.CarrierName,
         carrierImage: this.selectedShipping.CarrierImage,
@@ -133,8 +170,8 @@ export class SeaRateDialogComponent implements OnInit {
         podName: this.filterDestination.PortName,
         podCode: this.filterDestination.PortCode,
         price: this.selectedPrice,
-        currencyID: this.selectedCurrency.CurrencyID,
-        currencyCode: this.selectedCurrency.CurrencyCode,
+        currencyID: (this.selectedCurrency.CurrencyID)? this.selectedCurrency.CurrencyID : 101,
+        currencyCode: (this.selectedCurrency.CurrencyCode)? this.selectedCurrency.CurrencyCode : 'AED',
         effectiveFrom: this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year,
         effectiveTo: this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year,
       }
@@ -175,6 +212,7 @@ export class SeaRateDialogComponent implements OnInit {
     }
 
     this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
+    console.log(this.model,"noor")
   }
 
   closeModal(status) {
