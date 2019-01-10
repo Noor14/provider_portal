@@ -13,6 +13,7 @@ import { ScrollbarModule } from 'ngx-scrollbar';
 import { LoaderComponent } from '../../../../shared/loader/loader.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UiSwitchModule } from 'ngx-toggle-switch';
+import { UniquePipe } from '../../../../constants/unique-recordFilter';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { UiSwitchModule } from 'ngx-toggle-switch';
     AirFreightComponent,
     GroundTransportComponent,
     WarehouseComponent,
-    LoaderComponent
+    LoaderComponent,
+    UniquePipe
   ],
   providers: [SeaFreightService]
 })

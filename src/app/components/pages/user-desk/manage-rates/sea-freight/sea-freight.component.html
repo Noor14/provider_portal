@@ -50,8 +50,9 @@
       </ng-template>
       <ng-template ngbTabContent>
         <section class="rates-grid draft-grid">
-           <table id="draftRateTableLCL" cellspacing="0" #draftBYseaLCL class="row-border hover"></table>
-          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloadingLCL">Add another rates</a>
+          <table id="draftRateTableLCL" cellspacing="0" #draftBYseaLCL class="row-border hover"></table>
+          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloadingLCL">Add
+            another rates</a>
           <!-- <app-loader-main *ngIf="draftloadingLCL"></app-loader-main> -->
         </section>
         <div class="row mt-4">
@@ -172,7 +173,7 @@ filterOriginLcl && filterOriginLcl.CountryCode}"
         </section>
         <section class="rates-grid mt-5">
           <div class="d-flex justify-content-end mb-3">
-              <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('LCL')" [ngClass]="{'no-drop': !this.delPublishRatesLcl.length}">
+            <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('LCL')" [ngClass]="{'no-drop': !this.delPublishRatesLcl.length}">
               <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16">
               Delete
             </a>
@@ -208,7 +209,8 @@ filterOriginLcl && filterOriginLcl.CountryCode}"
       <ng-template ngbTabContent>
         <section class="rates-grid draft-grid">
           <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table>
-          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloading">Add another rates</a>
+          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloading">Add
+            another rates</a>
           <!-- <app-loader-main *ngIf="draftloading"></app-loader-main> -->
         </section>
         <div class="row mt-4">
@@ -306,7 +308,7 @@ filterOriginLcl && filterOriginLcl.CountryCode}"
                       <label>Container</label>
                       <select class="form-control" [(ngModel)]="filterbyContainerType" (change)="filter()">
                         <option [value]="undefined">All</option>
-                        <option *ngFor="let container of allContainersType" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
+                        <option *ngFor="let container of allContainersType | unique" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
                       </select>
                     </div>
                   </div>
