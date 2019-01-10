@@ -49,7 +49,7 @@
           </svg>LCL</span>
       </ng-template>
       <ng-template ngbTabContent>
-        <section class="rates-grid draft-grid">
+        <section class="rates-grid draft-grid without-scroll">
            <table id="draftRateTableLCL" cellspacing="0" #draftBYseaLCL class="row-border hover"></table>
           <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloadingLCL">Add another rates</a>
           <!-- <app-loader-main *ngIf="draftloadingLCL"></app-loader-main> -->
