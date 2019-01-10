@@ -1,12 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { SharedService } from '../../../../services/shared.service';
 
 @Component({
   selector: 'app-all-bookings',
   templateUrl: './all-bookings.component.html',
-  styleUrls: ['./all-bookings.component.scss']
+  styleUrls: ['./all-bookings.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class AllBookingsComponent implements OnInit, OnDestroy  {
+export class AllBookingsComponent implements OnInit, OnDestroy {
 
   public allBookingsSubscriber;
   public pastBookings:any[] =[];
@@ -15,7 +16,7 @@ export class AllBookingsComponent implements OnInit, OnDestroy  {
      itemsPerPage: 5, currentPage: 1 
   }
 
-  constructor(private _sharedService : SharedService) { }
+  constructor(private _sharedService: SharedService) { }
 
   ngOnInit() {
     this.allBookingsSubscriber= this._sharedService.dashboardDetail.subscribe((state: any) => {
@@ -25,9 +26,9 @@ export class AllBookingsComponent implements OnInit, OnDestroy  {
       }
     });
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.allBookingsSubscriber.unsubscribe();
-    }
+  }
 
   onPageChange(number){
     this.paginationConfig.currentPage = number;
