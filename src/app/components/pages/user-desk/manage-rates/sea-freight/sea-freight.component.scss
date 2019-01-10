@@ -448,6 +448,12 @@
             height: 16px;
           }
         }
+        &.without-scroll {
+          a.addAnother {
+          @extend a.addAnother;
+          bottom: 75px;
+          }
+        }
       }
     }
   }
