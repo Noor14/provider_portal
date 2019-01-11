@@ -16,7 +16,7 @@ export class AllBookingsComponent implements OnInit, OnDestroy {
   public pastBookings:any[] =[];
   public currentBookings: any[] = [];
   public totalBookings: any[] = [];
-  public maxSize: number = 7;
+  public maximumSize: number = 10;
   public directionLinks: boolean = true;
   public responsive: boolean = true;
   public autoHide: boolean = false;
@@ -32,15 +32,26 @@ export class AllBookingsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.allBookingsSubscriber= this._sharedService.dashboardDetail.subscribe((state: any) => {
       if (state && state.BookingDetails && state.BookingDetails.length) {
-        this.pastBookings = state.BookingDetails.filter(obj => obj.BookingTab === 'Past');
-        this.currentBookings = state.BookingDetails.filter(obj => obj.BookingTab === 'Current');
-        this.totalBookings = state.BookingDetails;
+        let pastBookings = state.BookingDetails.filter(obj => obj.BookingTab === 'Past');
+        this.pastBookings = this.filterByDate(pastBookings);
+        let currentBookings = state.BookingDetails.filter(obj => obj.BookingTab === 'Current');
+        this.currentBookings = this.filterByDate(currentBookings);
+        let totalBookings = state.BookingDetails;
+        this.totalBookings = this.filterByDate(totalBookings);
       }
     });
   }
   ngOnDestroy() {
     this.allBookingsSubscriber.unsubscribe();
   }
+  filterByDate(bookings) {
+    return bookings.sort(function (a, b) {
+      let dateA: any = new Date(a.HashMoveBookingDate);
+      let dateB: any = new Date(b.HashMoveBookingDate);
+      return dateB - dateA;
+    });
+  }
+
   viewBookingDetails(bookingId) {
     let id = encryptBookingID(bookingId);
     this._router.navigate(['/provider/booking-detail', id]);
