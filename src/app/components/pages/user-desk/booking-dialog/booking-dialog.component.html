@@ -1,0 +1,64 @@
+<!-- <ng-template #content let-modal class="modal">
+  <div class="modal-header">
+    <h4 class="modal-title">Reject Docuemnt</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-main">
+      <div class="form-group">
+        <label>Please provide the reason of rejection.</label>
+        <select class="form-control" id="exampleFormControlSelect1">
+          <option>Select Reason</option>
+          <option>2</option>
+          <option>3</option>
+        </select>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+
+        <label>Where's the shipment?</label>
+        <select class="form-control" id="exampleFormControlSelect1">
+          <option>Select Status</option>
+          <option>2</option>
+        </select>
+        <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      </div>
+    </div>
+  </div>
+</ng-template> -->
+
+<ng-template #content let-modal>
+  <div class="provider-modal animated fadeIn">
+    <div class="modal-header">
+      <h4 class="provider-modal-title">Reject Docuemnt</h4>
+      <a class="pointer crossIcon">
+        <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
+      </a>
+    </div>
+    <div class="modal-body">
+      <div class="form">
+        <div class="form-group">
+          <label>Please provide the reason of rejection.</label>
+          <select class="form-control" id="exampleFormControlSelect1">
+            <option>Select Reason</option>
+            <option>2</option>
+            <option>3</option>
+          </select>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+
+          <label>Where's the shipment?</label>
+          <select class="form-control" id="exampleFormControlSelect1">
+            <option>Select Status</option>
+            <option>2</option>
+          </select>
+          <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+        <button class="btn btn-primary hvr-sweep-to-right form-btn-submit pull-right mb-4">submit</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<button class="btn btn-outline-primary mb-2 mr-2" (click)="openLg(content)">Large modal</button>

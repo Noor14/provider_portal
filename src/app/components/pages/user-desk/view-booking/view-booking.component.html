@@ -4,25 +4,26 @@
     <div class="col-12">
       <div class="row">
         <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
-            <h4 class="view-booking-title">
-                {{bookingDetails.HashMoveBookingNum}}
-              </h4>
-            <small class="view-booking-info">Booked by {{bookingDetails.UserName}} on {{bookingDetails.HashMoveBookingDate | date : "d MMM yyyy"}} at {{bookingDetails.HashMoveBookingDate | date : "H:mm" }}</small>
+          <h4 class="view-booking-title">
+            {{bookingDetails.HashMoveBookingNum}}
+          </h4>
+          <small class="view-booking-info">Booked by {{bookingDetails.UserName}} on {{bookingDetails.HashMoveBookingDate | date : "d MMM yyyy"}} at {{bookingDetails.HashMoveBookingDate
+            | date : "H:mm" }}</small>
         </div>
         <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
-            <div class="view-booking-top-btn mt-1 text-right mb-2">
-                <a href="javascript:;" class="hvr-icon-forward mr-5" (click)="printDetail()">
-                  <img src="../../../../../assets/images/icons/icon_print.svg" alt="icon" class="icon-size-16 mr-2">
-                  <span class="link-hover-grey">Print</span>
-                </a>
-                <a href="javascript:;" class="hvr-icon-forward">
-                  <img src="../../../../../assets/images/icons/icon_share_blue.svg" alt="icon" class="icon-size-16 mr-2">
-                  <span class="link-hover-grey">Share</span>
-                </a>
-              </div>
+          <div class="view-booking-top-btn mt-1 text-right mb-2">
+            <a href="javascript:;" class="hvr-icon-forward mr-5" (click)="printDetail()">
+              <img src="../../../../../assets/images/icons/icon_print.svg" alt="icon" class="icon-size-16 mr-2">
+              <span class="link-hover-grey">Print</span>
+            </a>
+            <a href="javascript:;" class="hvr-icon-forward">
+              <img src="../../../../../assets/images/icons/icon_share_blue.svg" alt="icon" class="icon-size-16 mr-2">
+              <span class="link-hover-grey">Share</span>
+            </a>
+          </div>
         </div>
       </div>
-      
+
       <div class="col-12 pr-0 pl-0">
         <a class="hvr-icon-back grey-anc-btn mt-4" href="javascript:;" title="Back to Bookings">
           <img src="../../../../../assets/images/icons/icon_arrow_left.svg" alt="icon" class="icon-size-14 hvr-icon">
@@ -43,6 +44,11 @@
               <strong *ngIf="bookingDetails.BookingStatus == 'Current'">Confirmed</strong>
               <strong *ngIf="bookingDetails.BookingStatus == 'Past'">Confirmed</strong>
               <strong *ngIf="bookingDetails.BookingStatus == 'Saved'">Saved</strong>
+              <strong class="billing-rates">
+                <a class="pull-right hvr-icon-forward" href="javascript:;" (click)="viewInvoice()">
+                  <span class="link-hover-danger">Cancel Booking</span>
+                </a>
+              </strong>
             </div>
             <div class="col-md-4 border-right border-md-0">
               <label class="status-label">Shipping</label>
@@ -57,6 +63,12 @@
               <strong *ngIf="bookingDetails.BookingStatus == 'Saved'">
                 --
                 <!-- <span class="badge badge-pill hashmove-badge-secondary mr-1 mt-0 pull-right">On Time</span> -->
+              </strong>
+              <strong class="billing-rates">
+                <a class="pull-right hvr-icon-forward" href="javascript:;" (click)="viewInvoice()">
+                  <span class="link-hover-secondary">Update Status</span>
+                  <i class="fa fa-angle-right hvr-icon"></i>
+                </a>
               </strong>
             </div>
             <div class="col-md-4">
@@ -94,7 +106,7 @@
             <span>Your customer is</span>
             <p *ngIf="bookingDetails.BookingUserInfo.UserType=='CORPORATE'; else custname">{{bookingDetails.BookingUserInfo.CompanyName}}</p>
             <ng-template #custname>
-             <p>{{bookingDetails.BookingUserInfo.FirstName}} {{bookingDetails.BookingUserInfo.LastName}}</p>
+              <p>{{bookingDetails.BookingUserInfo.FirstName}} {{bookingDetails.BookingUserInfo.LastName}}</p>
             </ng-template>
           </div>
           <button class="btn btn-outline-primary hvr-sweep-to-right pull-right view-booking-shipment-detail-btn mt-4" placement="bottom"
@@ -107,14 +119,14 @@
                   {{bookingDetails.BookingUserInfo.CompanyEmail}}
                 </span>
                 <ng-template #custemail>
-                <span>{{bookingDetails.BookingUserInfo.PrimaryEmail}}</span>
+                  <span>{{bookingDetails.BookingUserInfo.PrimaryEmail}}</span>
                 </ng-template>
               </a>
               <p>
                 <img src="../../../../assets/images/icons/mob-icon.svg" alt="Contact_Icon" class="icon-size-16">
                 <strong align="middle" *ngIf="bookingDetails.BookingUserInfo.UserType=='CORPORATE'; else custcont">{{bookingDetails.BookingUserInfo.CompanyPhone}}</strong>
                 <ng-template #custcont>
-                <strong align="middle">{{bookingDetails.BookingUserInfo.PrimaryPhone}}</strong>
+                  <strong align="middle">{{bookingDetails.BookingUserInfo.PrimaryPhone}}</strong>
                 </ng-template>
               </p>
             </div>
@@ -201,52 +213,64 @@
             </label>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
-                <a (click)="downloadDoc(certOrigin, $event)" href="javascript:;" class="primary-text" [ngClass]="{'primary-text': certOrigin && certOrigin.DocumentFileName}" >
+                <a (click)="downloadDoc(certOrigin, $event)" href="javascript:;" class="primary-text" [ngClass]="{'primary-text': certOrigin && certOrigin.DocumentFileName}">
                   Certificate of Origin
-                  <label class="sub-text d-flex" *ngIf="certOrigin && certOrigin.DocumentFileName">Uploaded on {{certOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{certOrigin.DocumentUploadDate | date : "H:mm"}}</label>
+                  <label class="sub-text d-flex" *ngIf="certOrigin && certOrigin.DocumentFileName">Uploaded on {{certOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{certOrigin.DocumentUploadDate |
+                    date : "H:mm"}}</label>
                 </a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable" (click)="reuploadDoc(certOrigin.DocumentTypeID, certOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable"
+                  (click)="reuploadDoc(certOrigin.DocumentTypeID, certOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
                 <a href="javascript:;" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocOrigin && invoiceDocOrigin.DocumentFileName}">
                   Invoice
-                  <label class="sub-text d-flex" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName">Uploaded on {{invoiceDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDocOrigin.DocumentUploadDate | date : "H:mm"}}</label>
+                  <label class="sub-text d-flex" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName">Uploaded on {{invoiceDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDocOrigin.DocumentUploadDate
+                    | date : "H:mm"}}</label>
                 </a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable" (click)="reuploadDoc(invoiceDocOrigin.DocumentTypeID, invoiceDocOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable"
+                  (click)="reuploadDoc(invoiceDocOrigin.DocumentTypeID, invoiceDocOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
                 <a href="javascript:;" (click)="downloadDoc(packingListDocOrigin, $event)" [ngClass]="{'primary-text': packingListDocOrigin && packingListDocOrigin.DocumentFileName}">
                   Packing List
-                  <label class="sub-text d-flex" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName">Uploaded on {{packingListDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDocOrigin.DocumentUploadDate | date : "H:mm"}}</label>
+                  <label class="sub-text d-flex" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName">Uploaded on {{packingListDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDocOrigin.DocumentUploadDate
+                    | date : "H:mm"}}</label>
                 </a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable" (click)="reuploadDoc(packingListDocOrigin.DocumentTypeID, packingListDocOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable"
+                  (click)="reuploadDoc(packingListDocOrigin.DocumentTypeID, packingListDocOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
             </ul>
             <label class="view-booking-document-title">
               <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.destination | lowercase) + '.svg'}}"
-              class="mr-2" width="20"> For {{bookingDetails.PodName}}, {{bookingDetails.PodCountry}}
+                class="mr-2" width="20"> For {{bookingDetails.PodName}}, {{bookingDetails.PodCountry}}
             </label>
             <ul class="list-group list-group-flush mb-3">
               <li class="list-group-item">
                 <a href="javascript:;" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocDestination && invoiceDocDestination.DocumentFileName}">
                   Invoice
-                  <label class="sub-text d-flex" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName">Uploaded on {{invoiceDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDocDestination.DocumentUploadDate | date : "H:mm"}}</label>
+                  <label class="sub-text d-flex" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName">Uploaded on {{invoiceDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDocDestination.DocumentUploadDate
+                    | date : "H:mm"}}</label>
                 </a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable" (click)="reuploadDoc(invoiceDocDestination.DocumentTypeID, invoiceDocDestination.DocumentID)">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable"
+                  (click)="reuploadDoc(invoiceDocDestination.DocumentTypeID, invoiceDocDestination.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
                 <a href="javascript:;" (click)="downloadDoc(packingListDocOrigin, $event)" [ngClass]="{'primary-text': packingListDocDestination && packingListDocDestination.DocumentFileName}">
                   Packing List
-                  <label class="sub-text d-flex" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName">Uploaded on {{packingListDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDocDestination.DocumentUploadDate | date : "H:mm"}}</label>
+                  <label class="sub-text d-flex" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName">Uploaded on {{packingListDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDocDestination.DocumentUploadDate
+                    | date : "H:mm"}}</label>
                 </a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable" (click)="reuploadDoc(packingListDocDestination.DocumentTypeID, packingListDocDestination.DocumentID)">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable"
+                  (click)="reuploadDoc(packingListDocDestination.DocumentTypeID, packingListDocDestination.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
               <li class="list-group-item">
                 <a href="javascript:;" (click)="downloadDoc(ladingBill, $event)" [ngClass]="{'primary-text': ladingBill && ladingBill.DocumentFileName}">
                   Bill of Lading
-                  <label class="sub-text d-flex" *ngIf="ladingBill && ladingBill.DocumentFileName">Uploaded on {{ladingBill.DocumentUploadDate | date : "d MMM, yyyy"}} {{ladingBill.DocumentUploadDate | date : "H:mm"}}</label>
+                  <label class="sub-text d-flex" *ngIf="ladingBill && ladingBill.DocumentFileName">Uploaded on {{ladingBill.DocumentUploadDate | date : "d MMM, yyyy"}} {{ladingBill.DocumentUploadDate |
+                    date : "H:mm"}}</label>
                 </a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable" (click)="reuploadDoc(ladingBill.DocumentTypeID, ladingBill.DocumentID)">ASK TO RE-UPLOAD</button>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable"
+                  (click)="reuploadDoc(ladingBill.DocumentTypeID, ladingBill.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>
             </ul>
           </div>
@@ -262,7 +286,7 @@
           <agm-map (mapReady)="mapInit($event)" [zoom]="zoomlevel" [mapDraggable]="false" [zoomControl]="false" [streetViewControl]="false">
             <agm-marker [iconUrl]="icon" *ngFor="let marker of mapOrgiToDest" [latitude]="marker.lat" [longitude]="marker.lng">
             </agm-marker>
-            <agm-polyline  [strokeWeight]="2" [strokeColor]="'#2196f3'">
+            <agm-polyline [strokeWeight]="2" [strokeColor]="'#2196f3'">
               <agm-polyline-point *ngFor="let marker of mapOrgiToDest" [latitude]="marker.lat" [longitude]="marker.lng">
               </agm-polyline-point>
             </agm-polyline>
@@ -294,12 +318,13 @@
         <div class="card-body">
           <div class="billing-box">
             <h5 class="card-title">
-               Cargo Details
+              Cargo Details
             </h5>
             <ul class="list-group list-group-flush mt-1">
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div class="category">
-                  <img src="../../../../assets/images/icons/icon_container.svg" alt="umbrella-icon" class="icon"><span class="long-text">{{bookingDetails.ShippingCatName}}</span>
+                  <img src="../../../../assets/images/icons/icon_container.svg" alt="umbrella-icon" class="icon">
+                  <span class="long-text">{{bookingDetails.ShippingCatName}}</span>
                 </div>
                 <div class="catDetail">
                   <span class="amount-text" *ngFor="let contDetail of bookingDetails.BookingContainerDetail">
@@ -352,3 +377,7 @@
 
 </div>
 <!--/ view booking -->
+
+
+
+<app-booking-dialog></app-booking-dialog>

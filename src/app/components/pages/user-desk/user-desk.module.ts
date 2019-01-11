@@ -14,6 +14,7 @@ import { UserGuard } from '../user-creation/user.guard';
 import { AllBookingsComponent } from './all-bookings/all-bookings.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ReportsComponent } from './reports/reports.component';
+import { BookingDialogComponent } from './booking-dialog/booking-dialog.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -32,7 +33,8 @@ import { ReportsComponent } from './reports/reports.component';
     ViewBookingComponent,
     SearchBookingMode,
     AllBookingsComponent,
-    ReportsComponent
+    ReportsComponent,
+    BookingDialogComponent
   ],
   providers:[
     ViewBookingService,
