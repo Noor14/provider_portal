@@ -49,10 +49,11 @@ export class SeaRateDialogComponent implements OnInit {
   public selectedContSize: any;
   public selectedShipping: any;
   public selectedPrice:any;
-  public selectedCurrency:any = {
+  public defaultCurrency:any = {
     CurrencyID: 101,
     CurrencyCode: 'AED',
   }
+  public selectedCurrency: any;
 
 
   public startDate: NgbDateStruct;
@@ -60,7 +61,7 @@ export class SeaRateDialogComponent implements OnInit {
   public minDate: NgbDateStruct;
   public hoveredDate: NgbDateStruct;
   public fromDate: any = {
-    day : undefined,
+    day : null,
     month : undefined,
     year : undefined
   };
@@ -127,16 +128,18 @@ export class SeaRateDialogComponent implements OnInit {
       this.filterDestination = this.allPorts.find(obj => obj.PortID == this.selectedData.PodID);
       this.selectedShipping = this.allShippingLines.find(obj => obj.CarrierID == this.selectedData.CarrierID);
       this.selectedCurrency = this.allCurrencies.find(obj => obj.CurrencyID == this.selectedData.CurrencyID);
-      this.selectedPrice = this.selectedData.Price;
+        this.selectedPrice = this.selectedData.Price;
       this.fromDate.day = new Date(this.selectedData.EffectiveFrom).getDate();
       this.fromDate.year = new Date(this.selectedData.EffectiveFrom).getFullYear();
       this.fromDate.month = new Date(this.selectedData.EffectiveFrom).getMonth()+1;
       this.toDate.day = new Date(this.selectedData.EffectiveTo).getDate();
       this.toDate.year = new Date(this.selectedData.EffectiveTo).getFullYear();
       this.toDate.month = new Date(this.selectedData.EffectiveTo).getMonth()+1;
-      // this.model = this.fromDate;
+      if (!this.selectedCurrency) {
+        this.selectedCurrency = this.defaultCurrency;
+      }
+    // this.model = this.fromDate + this.toDate;
       this.onDateSelection(this.model)
-      console.log(this.fromDate, this.toDate)
 
   }
 
@@ -152,15 +155,15 @@ export class SeaRateDialogComponent implements OnInit {
   
     let obj = [
       {
-        // providerPricingDraftID: this.addRateId,
+        providerPricingDraftID: this.selectedData.ProviderPricingDraftID,
         carrierID: this.selectedShipping.CarrierID,
         carrierName: this.selectedShipping.CarrierName,
         carrierImage: this.selectedShipping.CarrierImage,
         providerID: this.userProfile.ProviderID,
-        containerSpecID: (this.selectedContSize == 'undefined') ? null : this.selectedContSize,
-        containerSpecName: this.getContSpecName(this.selectedContSize),
-        shippingCatID: (this.selectedCategory == 'undefiend') ? null : this.selectedCategory,
-        shippingCatName: this.getShippingName(this.selectedCategory),
+        containerSpecID: (this.selectedContSize == 'null')? null : this.selectedContSize,
+        containerSpecName: (this.selectedContSize != 'null')? this.getContSpecName(this.selectedContSize): undefined,
+        shippingCatID: (this.selectedCategory == 'null') ? null : this.selectedCategory,
+        shippingCatName: (this.selectedCategory)? this.getShippingName(this.selectedCategory): undefined,
         containerLoadType: "FCL",
         modeOfTrans: "SEA",
         polID: this.filterOrigin.PortID,
@@ -212,7 +215,6 @@ export class SeaRateDialogComponent implements OnInit {
     }
 
     this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
-    console.log(this.model,"noor")
   }
 
   closeModal(status) {
