@@ -16,6 +16,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ReportsComponent } from './reports/reports.component';
 import { BookingDialogComponent } from './booking-dialog/booking-dialog.component';
 import { FormsModule } from '@angular/forms';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { DataMapComponent } from './data-map/data-map.component';
+import { SharedModule } from '../../../shared/shared.module'
 @NgModule({
   imports: [
     CommonModule,
@@ -26,7 +29,9 @@ import { FormsModule } from '@angular/forms';
       libraries: ["places", "geometry"]
     }),
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+    NgxEchartsModule,
+    SharedModule
   ],
   declarations: [
     UserDeskComponent, 
@@ -36,7 +41,8 @@ import { FormsModule } from '@angular/forms';
     SearchBookingMode,
     AllBookingsComponent,
     ReportsComponent,
-    BookingDialogComponent
+    BookingDialogComponent,
+    DataMapComponent
   ],
   providers:[
     ViewBookingService,

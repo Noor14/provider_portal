@@ -226,7 +226,8 @@ export class ViewBookingComponent implements OnInit {
   openDialogue(type) {
     const modalRef = this._modalService.open(BookingDialogComponent, {
       size: 'lg',
-      windowClass: 'dark-modal'
+      windowClass: 'medium-modal',
+      centered: true
     }
     );
     modalRef.componentInstance.modalData = {

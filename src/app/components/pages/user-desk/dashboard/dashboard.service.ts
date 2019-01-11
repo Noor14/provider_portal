@@ -10,4 +10,9 @@ export class DashboardService {
     let url = `usersprovider/GetProviderDashboardDetail/${userId}`;
     return this._http.get(baseApi + url);
   }
+
+  getUserGraphData(userId: number, tag: string) {
+    const url = `general/GetGraphicalDashboard/${userId}/${tag}`
+    return this._http.get(baseApi + url)
+  }
 }

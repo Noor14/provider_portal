@@ -44,4 +44,9 @@ export class CommonService {
     let url: string = "general/GetHMHelpSupportDetail";
     return this._http.get((baseApi + url))
   }
+
+  getMstCodeVal(tag: string) {
+    let url = `MstCodeVal/GetMstCodeValMultipleList/${tag}`
+    return this._http.get(baseApi + url);
+  }
 }
