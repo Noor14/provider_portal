@@ -193,7 +193,6 @@ export class SeaFreightComponent implements OnInit {
   addRatesManually() {
     this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        console.log(res.returnObject);
         this.draftDataBYSeaFCL.unshift(res.returnObject);
         if (this.allSeaDraftRatesByFCL && this.allSeaDraftRatesByFCL.length) {
           this.draftsfcl = this.allSeaDraftRatesByFCL.concat(this.draftDataBYSeaFCL);
@@ -201,13 +200,14 @@ export class SeaFreightComponent implements OnInit {
           this.draftsfcl = this.draftDataBYSeaFCL;
         }
         this.generateDraftTable();
+        this.updatePopupRates(res.returnObject.ProviderPricingDraftID);
+        
       }
     })
   }
   addRatesManuallyLCL(){
     this._seaFreightService.addDraftRatesLCL({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        console.log(res.returnObject);
         this.draftDataBYSeaLCL.unshift(res.returnObject);
         if (this.allSeaDraftRatesByLCL && this.allSeaDraftRatesByLCL.length) {
           this.draftslcl = this.allSeaDraftRatesByLCL.concat(this.draftDataBYSeaLCL);
@@ -215,6 +215,8 @@ export class SeaFreightComponent implements OnInit {
           this.draftslcl = this.draftDataBYSeaLCL;
         }
         this.generateDraftTableLCL();
+        this.updatePopupRates(res.returnObject.ConsolidatorPricingDraftID);
+        
       }
     })
   }
