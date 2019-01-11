@@ -13,6 +13,7 @@ import { ReUploadDocComponent } from '../../../../shared/dialogues/re-upload-doc
 import { IconSequence } from '@agm/core/services/google-maps-types';
 import { baseExternalAssets } from '../../../../constants/base.url';
 import { LatLngBounds } from '@agm/core';
+import { BookingDialogComponent } from '../booking-dialog/booking-dialog.component'
 declare var google: any;
 
 @Component({
@@ -56,6 +57,9 @@ export class ViewBookingComponent implements OnInit {
     offset: '0',
     repeat: '20px'
   }
+  public bookingReasons = [];
+  public bookingStatuses = [];
+  public selectedReason: any = {};
   constructor(
     private _modalService: NgbModal,
     private _toast: ToastrService,
@@ -66,6 +70,7 @@ export class ViewBookingComponent implements OnInit {
 
   ngOnInit() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
@@ -83,15 +88,14 @@ export class ViewBookingComponent implements OnInit {
         this.HelpDataLoaded = true
       }
     })
-
   }
 
   mapInit(map) {
-      const bounds: LatLngBounds = new google.maps.LatLngBounds();
-      for (const mm of this.mapOrgiToDest) {
-        bounds.extend(new google.maps.LatLng(mm.lat, mm.lng));
-      }
-      map.fitBounds(bounds);
+    const bounds: LatLngBounds = new google.maps.LatLngBounds();
+    for (const mm of this.mapOrgiToDest) {
+      bounds.extend(new google.maps.LatLng(mm.lat, mm.lng));
+    }
+    map.fitBounds(bounds);
   }
 
   ngOnDestroy() {
@@ -103,6 +107,9 @@ export class ViewBookingComponent implements OnInit {
       loading(false);
       if (res.returnId > 0) {
         this.bookingDetails = JSON.parse(res.returnText);
+        console.log(this.bookingDetails);
+        console.log(this.userProfile);
+
         this.bookingDetails.origin = this.bookingDetails.PolCode.split(' ')[0];
         this.bookingDetails.destination = this.bookingDetails.PodCode.split(' ')[0];
         // this.bookingDetails.ProviderDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.ProviderImage[0].ProviderLogo, ImageRequiredSize._48x48)
@@ -135,11 +142,11 @@ export class ViewBookingComponent implements OnInit {
         this.ladingBill = obj;
       }
       else if (obj.DocumentNature == "INVOICE") {
-        if (obj.DocumentSubProcess == "ORIGIN"){
-        this.invoiceDocOrigin = obj;
+        if (obj.DocumentSubProcess == "ORIGIN") {
+          this.invoiceDocOrigin = obj;
         }
-        else{
-          this.invoiceDocDestination= obj;
+        else {
+          this.invoiceDocDestination = obj;
         }
       }
       else if (obj.DocumentNature == "PACKING_LIST") {
@@ -167,8 +174,8 @@ export class ViewBookingComponent implements OnInit {
       }
     }, 0);
   }
-  downloadDoc(object, event){
-    if (object && object.DocumentFileName && object.IsDownloadable){
+  downloadDoc(object, event) {
+    if (object && object.DocumentFileName && object.IsDownloadable) {
       if (object.DocumentFileName.startsWith("[{")) {
         let document = JSON.parse(object.DocumentFileName)
         window.open(baseExternalAssets + document[0].DocumentFile, '_blank');
@@ -176,7 +183,7 @@ export class ViewBookingComponent implements OnInit {
         window.open(baseExternalAssets + object.DocumentFileName, '_blank');
       }
     }
-    else{
+    else {
       event.preventDefault();
     }
   }
@@ -192,7 +199,7 @@ export class ViewBookingComponent implements OnInit {
       docTypeID: docTypeId,
       docID: docId,
       userID: this.userProfile.UserID,
-      createdBy : this.userProfile.LoginID
+      createdBy: this.userProfile.LoginID
     }
     modalRef.result.then((result) => {
       // console.log(result);
@@ -214,6 +221,20 @@ export class ViewBookingComponent implements OnInit {
   printDetail() {
     let doc = window as any;
     doc.print()
+  }
+
+  openDialogue(type) {
+    const modalRef = this._modalService.open(BookingDialogComponent, {
+      size: 'lg',
+      windowClass: 'medium-modal',
+      centered: true
+    }
+    );
+    modalRef.componentInstance.modalData = {
+      type: type,
+      bookingDetails: this.bookingDetails,
+      userProfile: this.userProfile
+    }
   }
 
 }

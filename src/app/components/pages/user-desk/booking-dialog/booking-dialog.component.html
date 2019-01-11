@@ -1,0 +1,29 @@
+<div class="provider-modal animated fadeIn">
+  <div class="modal-header">
+    <h4 class="provider-modal-title">{{label}}</h4>
+    <a class="pointer crossIcon" (click)="_activeModal.close()">
+      <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
+    </a>
+  </div>
+  <div class="modal-body">
+    <div class="form">
+      <div class="form-group">
+        <label>{{description}}</label>
+        <select class="form-control" *ngIf="modalData.type === 'cancel'" id="1" name="" [(ngModel)]="selectedReason.id"
+          (change)="onModelChange(selectedReason)">
+          <option value="" selected>{{selectPlaceholder}}</option>
+          <option *ngFor="let reason of bookingReasons" [value]="reason.ReasonID">{{reason.ReasonName}}</option>
+        </select>
+        <select class="form-control" *ngIf="modalData.type === 'updated'" id="2" name="" [(ngModel)]="selectedReason.id"
+          (change)="onModelChange(selectedReason)">
+          <option value="" selected>{{selectPlaceholder}}</option>
+          <option *ngFor="let status of bookingStatuses" [value]="status.StatusID">{{status.StatusName}}</option>
+        </select>
+        <textarea placeholder="Details (optional)" class="form-control" id="exampleFormControlTextarea1" *ngIf="modalData.type === 'cancel'" [(ngModel)]="selectedReason.remarks"
+          rows="3"></textarea>
+      </div>
+      <button class="btn btn-primary hvr-sweep-to-right form-btn-submit pull-right mb-4" [disabled]="(!this.selectedReason.id && this.modalData.type === 'cancel') || (!(this.selectedReason.id && this.selectedReason.status) && this.modalData.type === 'updated')"
+        (click)="submit()">submit</button>
+    </div>
+  </div>
+</div>
