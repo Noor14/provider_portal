@@ -1,7 +1,7 @@
 <section class="allbookings">
     <ngb-tabset (tabChange)="onTabChange()">
       <ngb-tab>
-        <ng-template ngbTabTitle> CURRENT BOOKINGS <span class="badge badge-pill badge-secondary" *ngIf="currentBookings.length">{{currentBookings.length}}</span></ng-template>
+        <ng-template ngbTabTitle> <span>CURRENT BOOKINGS</span> <span class="badge badge-pill badge-secondary" *ngIf="currentBookings.length">{{currentBookings.length}}</span></ng-template>
         <ng-template ngbTabContent>
           <div class="bookings overflow-hidden" *ngIf="currentBookings.length">
             <div class="card animated bounceInDown pointer mt-2" *ngFor="let booking of currentBookings | paginate: paginationConfig" (click)="viewBookingDetails(booking.BookingID)">
@@ -106,7 +106,7 @@
   
    
       <ngb-tab>
-        <ng-template ngbTabTitle>PAST BOOKINGS <span class="badge badge-pill badge-secondary" *ngIf="pastBookings.length">{{pastBookings.length}}</span></ng-template>
+        <ng-template ngbTabTitle><span>PAST BOOKINGS</span> <span class="badge badge-pill badge-secondary" *ngIf="pastBookings.length">{{pastBookings.length}}</span></ng-template>
         <ng-template ngbTabContent>
           <div class="bookings overflow-hidden" *ngIf="pastBookings.length">
             <div class="card animated bounceInDown pointer mt-2" *ngFor="let booking of pastBookings | paginate: paginationConfig" (click)="viewBookingDetails(booking.BookingID)">
@@ -207,7 +207,7 @@
       </ngb-tab>
 
         <ngb-tab>
-          <ng-template ngbTabTitle>TOTAL BOOKINGS <span class="badge badge-pill badge-secondary" *ngIf="totalBookings.length">{{totalBookings.length}}</span></ng-template>
+          <ng-template ngbTabTitle><span>TOTAL BOOKINGS</span> <span class="badge badge-pill badge-secondary" *ngIf="totalBookings.length">{{totalBookings.length}}</span></ng-template>
           <ng-template ngbTabContent>
             <div class="bookings overflow-hidden" *ngIf="totalBookings.length">
               <div class="card animated bounceInDown pointer mt-2" *ngFor="let booking of totalBookings | paginate: paginationConfig" (click)="viewBookingDetails(booking.BookingID)">
