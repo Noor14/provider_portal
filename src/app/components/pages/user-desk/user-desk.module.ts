@@ -14,6 +14,11 @@ import { UserGuard } from '../user-creation/user.guard';
 import { AllBookingsComponent } from './all-bookings/all-bookings.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ReportsComponent } from './reports/reports.component';
+import { SupportComponent } from './support/support.component';
+import { SupportService } from './support/support.service';
+import { DealsComponent } from './deals/deals.component';
+import { BillingComponent } from './billing/billing.component';
+import { SettingsComponent } from './settings/settings.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -32,11 +37,16 @@ import { ReportsComponent } from './reports/reports.component';
     ViewBookingComponent,
     SearchBookingMode,
     AllBookingsComponent,
-    ReportsComponent
+    ReportsComponent,
+    SupportComponent,
+    DealsComponent,
+    BillingComponent,
+    SettingsComponent
   ],
   providers:[
     ViewBookingService,
     DashboardService,
+    SupportService,
     UserGuard,
   ]
 })

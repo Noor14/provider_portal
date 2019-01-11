@@ -8,6 +8,10 @@ import { ViewBookingComponent } from './view-booking/view-booking.component';
 import { ManageRatesComponent } from './manage-rates/manage-rates.component';
 import { AllBookingsComponent } from './all-bookings/all-bookings.component';
 import { ReportsComponent } from './reports/reports.component';
+import { SupportComponent } from './support/support.component';
+import { DealsComponent } from './deals/deals.component';
+import { BillingComponent } from './billing/billing.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
     {
@@ -16,8 +20,12 @@ const routes: Routes = [
         canActivate: [UserGuard],
         children: [
             { path: 'dashboard', component: DashboardComponent },
+            { path: 'billing', component: BillingComponent }, 
             { path: 'allbookings', component: AllBookingsComponent }, 
-            { path: 'reports', component: ReportsComponent}, 
+            { path: 'reports', component: ReportsComponent }, 
+            { path: 'settings', component: SettingsComponent }, 
+            { path: 'support', component: SupportComponent }, 
+            { path: 'deals', component: DealsComponent }, 
             { path: 'booking-detail/:id', component: ViewBookingComponent },
             { path: 'manage-rates', loadChildren: 'app/components/pages/user-desk/manage-rates/manage-rates.module#ManageRatesModule' },
             { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }

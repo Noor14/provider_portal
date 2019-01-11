@@ -1,0 +1,68 @@
+@import "../../../../../assets/scss/_variables";
+/*----helpSupport SECTION - Start ----*/
+
+.helpSupport {
+    &-img {
+        width: 80px;
+        height: 80px;
+        overflow: hidden;
+        img {
+            width: 100%;
+        }
+    }
+    &-head {
+        h5 {
+            font-size: $font-size-large;
+            font-weight: $font-weight-mid;
+            margin-bottom: 8px;
+            padding-top: 1px; //text-shadow: 0.5px 0px $text-color-default;
+            &:before {
+                content: url("../../../../../assets/images/icons/mob-icon.svg");
+                width: 16px;
+                height: 16px;
+                margin-right: 15px;
+                vertical-align: sub;
+            }
+        }
+        img {
+            width: 20px;
+            height: 20px;
+        }
+    }
+    &-content {
+        h4 {
+            font-size: $font-size-base;
+            color: $dark-grey-blue;
+            font-family: $font-proxima;
+            text-transform: uppercase;
+            font-weight: $font-proxima-weight-semibold;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+        .address {
+            font-size: $font-size-large;
+            font-family: $font-proxima;
+            font-weight: $font-weight-normal;
+            color: $text-color-default; // width: 85%;
+            line-height: 1.4;
+        }
+        .helpLine {
+            @extend .address
+        }
+        .dotted {
+            border-bottom: 1px dashed #e5e5e5;
+        }
+    }
+    &-footer {
+        p {
+            font-size: $font-size-medium;
+            font-family: $font-proxima;
+            padding-top: 17px;
+            margin-bottom: 0;
+            a {
+                color: $text-color-default;
+                font-weight: $font-weight-mid;
+            }
+        }
+    }
+}
