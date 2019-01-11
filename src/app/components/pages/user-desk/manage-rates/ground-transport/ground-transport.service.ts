@@ -9,7 +9,7 @@ export class GroundTransportService {
   constructor(private _http: HttpClient) { }
 
   getAllrates(obj) {
-    let url: string = "providerratefcl/SearchRates";
+    let url: string = "providerrateground/SearchRates";
     return this._http.post(baseApi + url, obj);
   }
 

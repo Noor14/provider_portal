@@ -54,9 +54,9 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 export class GroundTransportComponent implements OnInit {
 
 
-  public dtOptionsBySeaFCL: DataTables.Settings | any = {};
+  public dtOptionsByGroundFCL: DataTables.Settings | any = {};
   public dtOptionsBySeaLCL: DataTables.Settings | any = {};
-  public dtOptionsBySeaFCLDraft: DataTables.Settings | any = {};
+  public dtOptionsByGroundFCLDraft: DataTables.Settings | any = {};
   public dtOptionsBySeaLCLDraft: DataTables.Settings | any = {};
   @ViewChild('draftBYsea') tabledraftBySea;
   @ViewChild('draftBYseaLCL') tabledraftBySeaLCL;
@@ -223,7 +223,7 @@ export class GroundTransportComponent implements OnInit {
     })
   }
   generateDraftTable() {
-    this.dtOptionsBySeaFCLDraft = {
+    this.dtOptionsByGroundFCLDraft = {
       data: this.draftsfcl,
       columns: [
         {
@@ -569,7 +569,7 @@ export class GroundTransportComponent implements OnInit {
     setTimeout(() => {
       if (this.tabledraftBySea && this.tabledraftBySea.nativeElement) {
         this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
-        let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
+        let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsByGroundFCLDraft);
         // let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
         // let footertr = $("<tr></tr>").appendTo(footer);
         // $("<td colspan='20'> <a href='javascript:;' class ='addrow'>Add Another Rates</a> </td>").appendTo(footertr);
@@ -812,7 +812,7 @@ export class GroundTransportComponent implements OnInit {
     }
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.allRatesList = res.returnObject.data;
+        this.allRatesList = res.returnObject;
         this.checkedallpublishRates = false;
         this.filterTable();
       }
@@ -846,7 +846,7 @@ export class GroundTransportComponent implements OnInit {
 
 
   filterTable() {
-    this.dtOptionsBySeaFCL = {
+    this.dtOptionsByGroundFCL = {
       // ajax: {
       //   url: "http://10.20.1.13:9091/api/providerratefcl/SearchRates",
       //   type: "POST"
@@ -856,16 +856,8 @@ export class GroundTransportComponent implements OnInit {
         {
           title: '<div class="fancyOptionBoxes"> <input id = "selectallpublishRates" type = "checkbox"> <label for= "selectallpublishRates"> <span> </span></label></div>',
           data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.carrierPricingID + '" type = "checkbox"> <label for= "' + data.carrierPricingID + '"> <span> </span></label></div>';
+            return '<div class="fancyOptionBoxes"> <input id = "' + data.id + '" type = "checkbox"> <label for= "' + data.id + '"> <span> </span></label></div>';
           }
-        },
-        {
-          title: 'SHIPPING LINE',
-          data: function (data) {
-            let url = baseExternalAssets + "/" + data.carrierImage;
-            return "<img src='" + url + "' class='icon-size-24 mr-2' />" + data.carrierName;
-          },
-          defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
         },
         {
           title: 'ORIGIN / DEPARTURE',
@@ -878,12 +870,12 @@ export class GroundTransportComponent implements OnInit {
           className: "routeCell"
         },
         {
-          title: 'CARGO TYPE',
-          data: 'shippingCatName',
+          title: 'TYPE',
+          data: 'type',
         },
         {
-          title: 'CONTAINER',
-          data: 'containerSpecDesc',
+          title: 'SIZE',
+          data: 'size',
         },
         {
           title: 'RATE',
@@ -934,7 +926,7 @@ export class GroundTransportComponent implements OnInit {
           orderable: false,
         },
         {
-          targets: 2,
+          targets: 1,
           width: '235'
         },
         {
@@ -954,8 +946,6 @@ export class GroundTransportComponent implements OnInit {
     };
     this.setdataInTable();
   }
-
-
 
   filterTableLcl() {
     this.dtOptionsBySeaLCL = {
@@ -1104,7 +1094,7 @@ export class GroundTransportComponent implements OnInit {
     setTimeout(() => {
       if (this.tablepublishBySea && this.tablepublishBySea.nativeElement) {
         this.dataTablepublishBysea = $(this.tablepublishBySea.nativeElement);
-        let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsBySeaFCL);
+        let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsByGroundFCL);
         this.publishloading = false;
         $("#selectallpublishRates").click(() => {
           this.delPublishRates = [];
