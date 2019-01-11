@@ -53,6 +53,10 @@
         font-size: 0.75rem;
         color: #555555 !important;
         font-weight: 500;
+
+        .show-for-sr {
+          display: none;
+        }
       }
 
       &.current {
@@ -64,6 +68,63 @@
         border-radius: 5px;
         font-size: 0.75rem;
         font-weight: 500;
+
+        .show-for-sr {
+          display: none;
+        }
+      }
+
+      &.pagination-next {
+        a {
+          padding: 0.3rem 0.35rem;
+          top: 3px;
+          position: relative;
+
+          &:after {
+            content: url("../../../../../assets/images/icons/icon_arrow_right.svg");
+            margin: 0 !important;
+            width: 16px !important;
+            height: 16px !important;
+          }
+        }
+      }
+
+      &.pagination-previous {
+
+        &.disabled {
+          padding: 0.3rem 0.35rem;
+          top: 3px;
+          position: relative;
+          border: 1px solid #e5e5e5;
+          background: linear-gradient(to bottom, #ffffff 0, #ebebeb 100%);
+          border-radius: 5px;
+          line-height: 1;
+
+          &:before {
+            content: url("../../../../../assets/images/icons/icon_arrow_left.svg");
+            margin: 0 !important;
+            width: 16px !important;
+            height: 16px !important;
+          }
+
+        }
+
+        a {
+          padding: 0.3rem 0.35rem;
+          top: 3px;
+          position: relative;
+          border: 1px solid #e5e5e5;
+          background: linear-gradient(to bottom, #ffffff 0, #ebebeb 100%);
+          border-radius: 5px;
+          line-height: 1;
+
+          &:before {
+            content: url("../../../../../assets/images/icons/icon_arrow_left.svg");
+            margin: 0 !important;
+            width: 16px !important;
+            height: 16px !important;
+          }
+        }
       }
     }
   }
@@ -221,10 +282,12 @@
       }
     }
   }
+
   @media (max-width: $screen-sm-screen) {
     .nav-tabs {
       .nav-item {
         width: 100%;
+
         .nav-link {
           justify-content: space-between;
           display: flex;
@@ -232,5 +295,5 @@
       }
     }
   }
-  
+
 }
