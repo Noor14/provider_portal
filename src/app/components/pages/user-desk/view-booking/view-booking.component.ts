@@ -13,7 +13,7 @@ import { ReUploadDocComponent } from '../../../../shared/dialogues/re-upload-doc
 import { IconSequence } from '@agm/core/services/google-maps-types';
 import { baseExternalAssets } from '../../../../constants/base.url';
 import { LatLngBounds } from '@agm/core';
-import { Reasons } from '../../../../interfaces/reasons'
+import { BookingDialogComponent } from '../booking-dialog/booking-dialog.component'
 declare var google: any;
 
 @Component({
@@ -59,7 +59,6 @@ export class ViewBookingComponent implements OnInit {
   }
   public bookingReasons = [];
   public bookingStatuses = [];
-  public actionObj: Reasons;
   public selectedReason: any = {};
   constructor(
     private _modalService: NgbModal,
@@ -89,8 +88,6 @@ export class ViewBookingComponent implements OnInit {
         this.HelpDataLoaded = true
       }
     })
-    this.getBookingReasons()
-    this.getBookingStatuses()
   }
 
   mapInit(map) {
@@ -226,68 +223,17 @@ export class ViewBookingComponent implements OnInit {
     doc.print()
   }
 
-  getBookingStatuses() {
-    this._viewBookingService.getBookingStatuses().subscribe((res: any) => {
-      if (res.returnId > 0) {
-        this.bookingStatuses = res.returnObject
-        console.log(this.bookingStatuses);
-      }
-    }, (err: HttpErrorResponse) => {
-      loading(false);
-      console.log(err);
-    })
-  }
-
-  getBookingReasons() {
-    this._viewBookingService.getBookingReasons().subscribe((res: any) => {
-      if (res.returnId > 0) {
-        this.bookingReasons = res.returnObject
-        console.log(this.bookingReasons);
-      }
-    }, (err: HttpErrorResponse) => {
-      loading(false);
-      console.log(err);
-    })
-  }
-
-  submitCancel() {
-    this.actionObj = {
-      bookingID: this.bookingDetails.BookingID,
-      bookingStatus: this.selectedReason.status,
-      bookingStatusRemarks: this.selectedReason.remarks,
-      createdBy: this.userProfile.PrimaryEmail,
-      modifiedBy: "",
-      approverID: this.bookingDetails.ProviderID,
-      approverType: 'PROVIDER',
-      reasonID: this.selectedReason.id
+  openDialogue(type) {
+    const modalRef = this._modalService.open(BookingDialogComponent, {
+      size: 'lg',
+      windowClass: 'dark-modal'
     }
-    this._viewBookingService.cancelBooking(this.actionObj).subscribe((res: any) => {
-      console.log(res);
-
-    }, (err: HttpErrorResponse) => {
-      console.log(err);
-
-    })
-  }
-
-  submitStatus() {
-    this.actionObj = {
-      bookingID: this.bookingDetails.BookingID,
-      bookingStatus: this.selectedReason.status,
-      bookingStatusRemarks: this.selectedReason.remarks,
-      createdBy: this.userProfile.PrimaryEmail,
-      modifiedBy: "",
-      approverID: this.bookingDetails.ProviderID,
-      approverType: 'PROVIDER',
-      reasonID: this.selectedReason.id
+    );
+    modalRef.componentInstance.modalData = {
+      type: type,
+      bookingDetails: this.bookingDetails,
+      userProfile: this.userProfile
     }
-    this._viewBookingService.updateBookingStatus(this.actionObj).subscribe((res: any) => {
-      console.log(res);
-
-    }, (err: HttpErrorResponse) => {
-      console.log(err);
-
-    })
   }
 
 }

@@ -16,22 +16,22 @@ export class ViewBookingService {
   }
   
   getBookingReasons() {
-    let url = "/booking/GetBookingReason";
+    let url = "booking/GetBookingReason";
     return this._http.get(baseApi + url);
   }
 
   getBookingStatuses() {
-    let url = "/Status/GetBookingStatus";
+    let url = "Status/GetBookingStatus";
     return this._http.get(baseApi + url);
   }
 
   updateBookingStatus(data) {
-    let url = "/booking/AddBookingStatus";
+    let url = "booking/AddBookingStatus";
     return this._http.post(baseApi + url, data);
   }
 
   cancelBooking(data) {
-    let url = "/booking/CancelBooking";
+    let url = "booking/CancelBooking";
     return this._http.put(baseApi + url, data);
   }
 

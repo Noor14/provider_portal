@@ -14,6 +14,8 @@ import { UserGuard } from '../user-creation/user.guard';
 import { AllBookingsComponent } from './all-bookings/all-bookings.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ReportsComponent } from './reports/reports.component';
+import { BookingDialogComponent } from './booking-dialog/booking-dialog.component';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   imports: [
     CommonModule,
@@ -23,7 +25,8 @@ import { ReportsComponent } from './reports/reports.component';
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
       libraries: ["places", "geometry"]
     }),
-    NgxPaginationModule
+    NgxPaginationModule,
+    FormsModule
   ],
   declarations: [
     UserDeskComponent, 
@@ -32,12 +35,14 @@ import { ReportsComponent } from './reports/reports.component';
     ViewBookingComponent,
     SearchBookingMode,
     AllBookingsComponent,
-    ReportsComponent
+    ReportsComponent,
+    BookingDialogComponent
   ],
   providers:[
     ViewBookingService,
     DashboardService,
     UserGuard,
-  ]
+  ],
+  entryComponents: [BookingDialogComponent]
 })
 export class UserDeskModule { }
