@@ -43,6 +43,8 @@
               <strong *ngIf="bookingDetails.BookingStatus == 'Current'">Confirmed</strong>
               <strong *ngIf="bookingDetails.BookingStatus == 'Past'">Confirmed</strong>
               <strong *ngIf="bookingDetails.BookingStatus == 'Saved'">Saved</strong>
+              {{bookingDetails?.BookingStatus}}
+              <button (click)="submitCancel()">Cancel</button>
             </div>
             <div class="col-md-4 border-right border-md-0">
               <label class="status-label">Shipping</label>

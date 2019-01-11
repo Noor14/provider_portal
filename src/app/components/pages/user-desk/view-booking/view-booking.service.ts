@@ -14,8 +14,29 @@ export class ViewBookingService {
     let url = "/Document/GetDocumentReason";
     return this._http.get(baseApi + url);
   }
-  uploadDocReason(obj){
+  
+  getBookingReasons() {
+    let url = "/booking/GetBookingReason";
+    return this._http.get(baseApi + url);
+  }
+
+  getBookingStatuses() {
+    let url = "/Status/GetBookingStatus";
+    return this._http.get(baseApi + url);
+  }
+
+  updateBookingStatus(data) {
+    let url = "/booking/AddBookingStatus";
+    return this._http.post(baseApi + url, data);
+  }
+
+  cancelBooking(data) {
+    let url = "/booking/CancelBooking";
+    return this._http.put(baseApi + url, data);
+  }
+
+  uploadDocReason(obj) {
     let url = "Document/AddReason";
-    return this._http.post(baseApi + url ,obj);
+    return this._http.post(baseApi + url, obj);
   }
 }
