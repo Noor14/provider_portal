@@ -230,7 +230,7 @@ export class AirFreightComponent implements OnInit {
           }
         },
         {
-          title: 'SHIPPING LINE',
+          title: 'AIRLINE',
           data: function (data) {
             if (!data.CarrierName) {
               return "<span>-- Select --</span>"
@@ -272,17 +272,7 @@ export class AirFreightComponent implements OnInit {
             }
           }
         },
-        {
-          title: 'CONTAINER',
-          data: function (data) {
-            if (!data.ContainerSpecName) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return data.ContainerSpecName;
-            }
-          }
-        },
+    
         {
           title: 'RATE',
           data: function (data) {
@@ -735,24 +725,16 @@ export class AirFreightComponent implements OnInit {
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
-            this.allShippingLines = state[index].DropDownValues.ShippingLine;
+            this.allShippingLines = state[index].DropDownValues.AirLine;
             this.allCargoType = state[index].DropDownValues.Category;
-            this.allContainersType = state[index].DropDownValues.ContainerFCL;
-            this.allHandlingType = state[index].DropDownValues.ContainerLCL;
-            this.allPorts = state[index].DropDownValues.Port;
+            this.allPorts = state[index].DropDownValues.AirPort;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if (state[index].DraftDataFCL) {
               this.allSeaDraftRatesByFCL = state[index].DraftDataFCL;
               this.draftsfcl = this.allSeaDraftRatesByFCL;
             }
-            if (state[index].DraftDataLCL) {
-              this.allSeaDraftRatesByLCL = state[index].DraftDataLCL;
-              this.draftslcl = this.allSeaDraftRatesByLCL;
-            }
             this.generateDraftTable();
-            this.generateDraftTableLCL();
             this.draftloading = true;
-            this.draftloadingLCL = true;
           }
         }
       }
@@ -815,6 +797,7 @@ export class AirFreightComponent implements OnInit {
     }
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
+        debugger
         this.allRatesList = res.returnObject.data;
         this.checkedallpublishRates = false;
         this.filterTable();

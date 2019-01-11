@@ -69,83 +69,69 @@
             Reset Filter(s)</span>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div class="row" [@fadeInOut]>
-            <div class="col-6">
-              <div class="form-group">
-                <label>Route</label>
-                <div class="row combine-field">
-                  <div class="col-6 origin pl-0">
-                    <div class="flag-container">
-                      <img *ngIf="filterOriginLcl && filterOriginLcl.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOriginLcl.CountryCode | lowercase) + '.svg'}}"
-                        type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+            <div class="row" [@fadeInOut]>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Route</label>
+                        <div class="row combine-field">
+                            <div class="col-6 origin pl-0">
+                                <div class="flag-container">
+                                    <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
+                                        type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                                </div>
+                                <input class="form-control" [(ngModel)]="filterOrigin" (focusout)="filtertionPort(filterOrigin, 'FCL')" (ngModelChange)="filterByroute(filterOrigin, 'FCL')"
+                                    placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
+                                    [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter"
+                                />
+                            </div>
+                            <div class="col-6 destination pl-0">
+                                <div class="flag-container">
+                                    <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
+                                        type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                                </div>
+                                <input placeholder="Destination" [(ngModel)]="filterDestination" (focusout)="filtertionPort(filterDestination, 'FCL')" (ngModelChange)="filterByroute(filterDestination, 'FCL')"
+                                    type="text" class="form-control" [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
+                                    [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter"
+                                />
+                            </div>
+                        </div>
                     </div>
-                    <input class="form-control" [(ngModel)]="filterOriginLcl" (focusout)="filtertionPort(filterOriginLcl , 'LCL')"
-                      (ngModelChange)="filterByroute(filterOriginLcl, 'LCL')" placeholder="Origin" type="text"
-                      [ngClass]="{'routeSelected':
-filterOriginLcl && filterOriginLcl.CountryCode}" [ngbTypeahead]="ports"
-                      [resultTemplate]="rt" [inputFormatter]="formatter" />
-                  </div>
-                  <div class="col-6 destination pl-0">
-                    <div class="flag-container">
-                      <img *ngIf="filterDestinationLcl && filterDestinationLcl.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestinationLcl.CountryCode | lowercase) + '.svg'}}"
-                        type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                </div>
+                <ng-template #rt let-r="result">
+                    <div class="d-flex">
+                        <div class="flag-container mr-1">
+                            <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
+                        </div>
+                        <ngb-highlight [result]="r.PortName"></ngb-highlight>
                     </div>
-                    <input placeholder="Destination" [(ngModel)]="filterDestinationLcl" (focusout)="filtertionPort(filterDestinationLcl, 'LCL')"
-                      (ngModelChange)="filterByroute(filterDestinationLcl, 'LCL')" type="text" class="form-control"
-                      [ngClass]="{'routeSelected': filterDestinationLcl && filterDestinationLcl.CountryCode}"
-                      [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <ng-template #rt let-r="result">
-              <div class="d-flex">
-                <div class="flag-container mr-1">
-                  <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
-                </div>
-                <ngb-highlight [result]="r.PortName"></ngb-highlight>
-              </div>
-            </ng-template>
-            <div class="col-3">
-              <div class="form-group">
-                <label>Cargo Type</label>
-                <select class="form-control" [(ngModel)]="filterbyCargoTypeLcl" (change)="filterLcl()">
-                  <option [value]="undefined">All</option>
-                  <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-3">
-              <div class="form-group">
-                <label>Handling Unit</label>
-                <select class="form-control" [(ngModel)]="filterbyHandlingType" (change)="filterLcl()">
-                  <option [value]="undefined">All</option>
-                  <option *ngFor="let handle of allHandlingType" [value]="handle.ContainerSpecID">{{handle.ContainerSpecShortName}}</option>
-                </select>
-              </div>
-            </div>
-
-
-            <div class="col-4">
-              <div class="form-group date-control">
-                <label>Rate Validity</label>
-                <div class="dateIcon">
-                  <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp"
-                    [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right"
-                    [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate"
-                    #dp="ngbDatepicker" (click)="dp.toggle()">
-                </div>
-                <ng-template #t let-date="date" let-focused="focused">
-                  <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
-                    [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date"
-                    (mouseleave)="hoveredDate = null">
-                    {{ date.day }}
-                  </span>
                 </ng-template>
-              </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Traller / Container</label>
+                        <select class="form-control" [(ngModel)]="filterbyContainerType" (change)="filter()">
+                            <option [value]="undefined">All</option>
+                            <option *ngFor="let container of allContainersType" [value]="container.ContainerSpecID">{{container.ContainerWithSize}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group date-control">
+                        <label>Rate Validity</label>
+                        <div class="dateIcon">
+                            <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp" [(ngModel)]="model"
+                                ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right"
+                                [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate"
+                                [minDate]="minDate" #dp="ngbDatepicker" (click)="dp.toggle()">
+                        </div>
+                        <ng-template #t let-date="date" let-focused="focused">
+                            <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)" [class.faded]="isHovered(date) || isInside(date)"
+                                (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                                {{ date.day }}
+                            </span>
+                        </ng-template>
+                    </div>
+                </div>
             </div>
-          </div>
         </ng-template>
       </ngb-panel>
     </ngb-accordion>
