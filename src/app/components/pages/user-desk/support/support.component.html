@@ -1,0 +1,50 @@
+<section class="helpSupport">
+<div class="card">
+  <p class="text-center m-0">
+    This page is currently under progress and will be enhanced in a future release.
+  </p>
+</div>
+
+<!-- Help & Support -->
+<div class="card mt-4">
+  <div class="card-body">
+    <div *ngIf="HelpDataLoaded">
+      <div class="row">
+        <div class="col-10">
+    <div class="helpSupport-head">
+      <h5>Help &amp; Support</h5>
+    </div>
+    <div class="helpSupport-content">
+      <h4>Customer Support</h4>
+      <div *ngFor="let help of helpSupport" class="address">
+        <p class="address">
+          {{help.HMSupportAddress}}
+        </p>
+        <div class="helpLine">
+          <p>
+            Helpline : {{help.HMSupportPhone}}
+          </p>
+        </div>
+        <div class="dotted"></div>
+      </div>
+    </div>
+        </div>
+        <div class="col-2 d-flex justify-content-end">
+        <div class="helpSupport-img">
+          <img src="../../../../../assets/images/nikki.png" alt="img">
+        </div>
+        </div>
+      </div>
+  
+      <div class="helpSupport-footer">
+        <p>
+          For complaints or issues regarding your order, visit our
+          <a href="{{helpSupport[0].HMSupportWebAdd}}" class="link-hover-black" target="_blank">Help Center</a> or send us an email at
+          <a class="link-hover-black" href="{{'mailto:' + helpSupport[0].HMSupportEmail}}">{{helpSupport[0].HMSupportEmail}}</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!--/ Help & Support -->
