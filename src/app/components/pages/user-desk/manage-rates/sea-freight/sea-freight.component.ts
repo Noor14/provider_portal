@@ -291,7 +291,10 @@ export class SeaFreightComponent implements OnInit {
               return "<span>-- Select --</span>"
             }
             else {
-              return data.CurrencyCode + ' ' + data.Price;
+              return (Number(data.Price)).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: data.CurrencyCode,
+                });
             }
           }
         },
@@ -424,7 +427,10 @@ export class SeaFreightComponent implements OnInit {
               return "<span>-- Select --</span>"
             }
             else {
-              return data.CurrencyCode + ' ' + data.Price;
+              return (Number(data.Price)).toLocaleString('en-US', {
+                style: 'currency',
+                currency: data.CurrencyCode,
+              });
             }
           }
         },
@@ -885,7 +891,12 @@ export class SeaFreightComponent implements OnInit {
         },
         {
           title: 'RATE',
-          data: 'priceWithCode'
+          data: function(data){
+            return (Number(data.priceWithCode.split(' ').pop())).toLocaleString('en-US', {
+              style: 'currency',
+              currency: data.priceWithCode.split(' ').shift(),
+            });
+          },
         },
         {
           title: 'RATE VALIDITY',
@@ -987,7 +998,10 @@ export class SeaFreightComponent implements OnInit {
         {
           title: 'RATE / CBM',
           data: function (data) {
-            return data.currencyCode + ' ' + data.price
+            return (Number(data.price)).toLocaleString('en-US', {
+              style: 'currency',
+              currency: data.currencyCode ,
+            });
           }
         },
         {
