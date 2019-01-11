@@ -146,7 +146,6 @@ export class GroundTransportComponent implements OnInit {
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
-    this.getAllPublishRatesLcl();
     this.getAllPublishRates();
     this.allservicesBySea();
   }
@@ -182,16 +181,13 @@ export class GroundTransportComponent implements OnInit {
         this.filterbyHandlingType = 'undefined';
         this.filterDestinationLcl = {};
         this.filterOriginLcl = {};
-        this.filterLcl();
       }
     }
   }
   filter() {
     this.getAllPublishRates()
   }
-  filterLcl() {
-    this.getAllPublishRatesLcl()
-  }
+
   addRatesManually() {
     this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
@@ -738,24 +734,16 @@ export class GroundTransportComponent implements OnInit {
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
-            this.allShippingLines = state[index].DropDownValues.ShippingLine;
             this.allCargoType = state[index].DropDownValues.Category;
-            this.allContainersType = state[index].DropDownValues.ContainerFCL;
-            this.allHandlingType = state[index].DropDownValues.ContainerLCL;
-            this.allPorts = state[index].DropDownValues.Port;
+            this.allContainersType = state[index].DropDownValues.ContainerGround;
+            this.allPorts = state[index].DropDownValues.Port.concat(state[index].DropDownValues.GroundPort);
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if (state[index].DraftDataFCL) {
               this.allSeaDraftRatesByFCL = state[index].DraftDataFCL;
               this.draftsfcl = this.allSeaDraftRatesByFCL;
             }
-            if (state[index].DraftDataLCL) {
-              this.allSeaDraftRatesByLCL = state[index].DraftDataLCL;
-              this.draftslcl = this.allSeaDraftRatesByLCL;
-            }
             this.generateDraftTable();
-            this.generateDraftTableLCL();
             this.draftloading = true;
-            this.draftloadingLCL = true;
           }
         }
       }
@@ -764,8 +752,7 @@ export class GroundTransportComponent implements OnInit {
 
 
 
-  filterByroute(obj, type) {
-    if (type == "FCL") {
+  filterByroute(obj) {
 
       if (typeof obj == 'object') {
         this.getAllPublishRates();
@@ -776,18 +763,6 @@ export class GroundTransportComponent implements OnInit {
       else {
         return;
       }
-    }
-    else if (type == "LCL") {
-      if (typeof obj == 'object') {
-        this.getAllPublishRatesLcl();
-      }
-      else if (!obj) {
-        this.getAllPublishRatesLcl();
-      }
-      else {
-        return;
-      }
-    }
 
   }
   filtertionPort(obj, type) {
@@ -806,11 +781,9 @@ export class GroundTransportComponent implements OnInit {
       providerID: this.userProfile.ProviderID,
       pageNo: 1,
       pageSize: 50,
-      carrierID: (this.filterbyShippingLine == 'undefined') ? null : this.filterbyShippingLine,
-      shippingCatID: (this.filterbyCargoType == 'undefined') ? null : this.filterbyCargoType,
       containerSpecID: (this.filterbyContainerType == 'undefined') ? null : this.filterbyContainerType,
-      polID: this.orgfilter("FCL"),
-      podID: this.destfilter("FCL"),
+      polID: this.orgfilter(),
+      podID: this.destfilter(),
       effectiveFrom: null,
       effectiveTo: null,
       sortColumn: null,
@@ -818,7 +791,12 @@ export class GroundTransportComponent implements OnInit {
     }
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.allRatesList = res.returnObject;
+        if (!res.returnObject){
+          this.allRatesList = [];
+        }
+        else{
+          this.allRatesList = res.returnObject;
+        }
         this.checkedallpublishRates = false;
         this.filterTable();
       }
@@ -826,29 +804,7 @@ export class GroundTransportComponent implements OnInit {
 
   }
 
-  getAllPublishRatesLcl() {
-    this.publishloadingLcl = true;
-    let obj = {
-      providerID: this.userProfile.ProviderID,
-      pageNo: 1,
-      pageSize: 50,
-      shippingCatID: (this.filterbyCargoTypeLcl == 'undefined') ? null : this.filterbyCargoTypeLcl,
-      containerSpecID: (this.filterbyHandlingType == 'undefined') ? null : this.filterbyHandlingType,
-      polID: this.orgfilter("LCL"),
-      podID: this.destfilter("LCL"),
-      effectiveFrom: null,
-      effectiveTo: null,
-      sortColumn: null,
-      sortColumnDirection: null
-    }
-    this._seaFreightService.getAllratesLCL(obj).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        this.allRatesListLcL = res.returnObject.data;
-        this.checkedallpublishRatesLcl = false;
-        this.filterTableLcl();
-      }
-    })
-  }
+
 
 
   filterTable() {
@@ -1164,8 +1120,7 @@ export class GroundTransportComponent implements OnInit {
       });
     }
   }
-  orgfilter(type) {
-    if (type == "FCL") {
+  orgfilter() {
       if (this.filterOrigin && typeof this.filterOrigin == "object" && Object.keys(this.filterOrigin).length) {
         return this.filterOrigin.PortID;
       }
@@ -1175,21 +1130,9 @@ export class GroundTransportComponent implements OnInit {
       else if (!this.filterOrigin) {
         return null;
       }
-    }
-    else if (type == "LCL") {
-      if (this.filterOriginLcl && typeof this.filterOriginLcl == "object" && Object.keys(this.filterOriginLcl).length) {
-        return this.filterOriginLcl.PortID;
-      }
-      else if (this.filterOriginLcl && typeof this.filterOriginLcl == "string") {
-        return -1;
-      }
-      else if (!this.filterOriginLcl) {
-        return null;
-      }
-    }
+
   }
-  destfilter(type) {
-    if (type == "FCL") {
+  destfilter() {
       if (this.filterDestination && typeof this.filterDestination == "object" && Object.keys(this.filterDestination).length) {
         return this.filterDestination.PortID;
       }
@@ -1199,18 +1142,7 @@ export class GroundTransportComponent implements OnInit {
       else if (!this.filterDestination) {
         return null;
       }
-    }
-    if (type == "LCL") {
-      if (this.filterDestinationLcl && typeof this.filterDestinationLcl == "object" && Object.keys(this.filterDestinationLcl).length) {
-        return this.filterDestinationLcl.PortID;
-      }
-      else if (this.filterDestinationLcl && typeof this.filterDestinationLcl == "string") {
-        return -1;
-      }
-      else if (!this.filterDestinationLcl) {
-        return null;
-      }
-    }
+
   }
 
   discardDraft() {

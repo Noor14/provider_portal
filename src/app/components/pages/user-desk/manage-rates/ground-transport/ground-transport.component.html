@@ -241,16 +241,6 @@ filterOriginLcl && filterOriginLcl.CountryCode}" [ngbTypeahead]="ports" [resultT
                             </ng-template>
                             <ng-template ngbPanelContent>
                                 <div class="row" [@fadeInOut]>
-                                    <div class="col-3">
-                                        <div class="form-group">
-                                            <label>Shipping Lines</label>
-                                            <select class="form-control" [(ngModel)]="filterbyShippingLine" placeholder="Select" (change)="filter()">
-                                                <option [value]="undefined">All</option>
-                                                <option *ngFor="let shipping of allShippingLines" [value]="shipping.CarrierID">{{shipping.CarrierName}}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label>Route</label>
@@ -286,21 +276,12 @@ filterOriginLcl && filterOriginLcl.CountryCode}" [ngbTypeahead]="ports" [resultT
                                             <ngb-highlight [result]="r.PortName"></ngb-highlight>
                                         </div>
                                     </ng-template>
-                                    <div class="col-3">
+                                    <div class="col-6">
                                         <div class="form-group">
-                                            <label>Cargo Type</label>
-                                            <select class="form-control" [(ngModel)]="filterbyCargoType" (change)="filter()">
-                                                <option [value]="undefined">All</option>
-                                                <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="form-group">
-                                            <label>Container</label>
+                                            <label>Traller / Container</label>
                                             <select class="form-control" [(ngModel)]="filterbyContainerType" (change)="filter()">
                                                 <option [value]="undefined">All</option>
-                                                <option *ngFor="let container of allContainersType | unique" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
+                                                <option *ngFor="let container of allContainersType" [value]="container.ContainerSpecID">{{container.ContainerWithSize}}</option>
                                             </select>
                                         </div>
                                     </div>

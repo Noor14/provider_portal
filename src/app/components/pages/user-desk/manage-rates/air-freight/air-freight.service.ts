@@ -8,7 +8,7 @@ export class AirFreightService {
   constructor(private _http: HttpClient) { }
 
   getAllrates(obj) {
-    let url: string = "providerratefcl/SearchRates";
+    let url: string = "ProviderRateAir/SearchRates";
     return this._http.post(baseApi + url, obj);
   }
 

@@ -42,7 +42,8 @@
             <div class="col-md-4 border-right border-md-0">
               <label class="status-label">Booking</label>
               <strong *ngIf="bookingDetails.BookingStatus == 'Confirmed'">Confirmed</strong>
-              <strong *ngIf="bookingDetails.BookingStatus == 'Saved'">Saved</strong>
+              <strong *ngIf="bookingDetails.BookingStatus == 'Saved'">Draft</strong>
+              <strong *ngIf="bookingDetails.BookingStatus == 'Completed'">Completed</strong>
               <strong class="billing-rates">
                 <a class="pull-right hvr-icon-forward" href="javascript:;" (click)="openDialogue('cancel')">
                   <span class="link-hover-danger">Cancel Booking</span>
