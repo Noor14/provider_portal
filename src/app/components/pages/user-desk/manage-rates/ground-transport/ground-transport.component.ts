@@ -54,9 +54,9 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 export class GroundTransportComponent implements OnInit {
 
 
-  public dtOptionsByGroundFCL: DataTables.Settings | any = {};
+  public dtOptionsByGround: DataTables.Settings | any = {};
   public dtOptionsBySeaLCL: DataTables.Settings | any = {};
-  public dtOptionsByGroundFCLDraft: DataTables.Settings | any = {};
+  public dtOptionsByGroundDraft: DataTables.Settings | any = {};
   public dtOptionsBySeaLCLDraft: DataTables.Settings | any = {};
   @ViewChild('draftBYsea') tabledraftBySea;
   @ViewChild('draftBYseaLCL') tabledraftBySeaLCL;
@@ -219,7 +219,7 @@ export class GroundTransportComponent implements OnInit {
     })
   }
   generateDraftTable() {
-    this.dtOptionsByGroundFCLDraft = {
+    this.dtOptionsByGroundDraft = {
       data: this.draftsfcl,
       columns: [
         {
@@ -571,7 +571,7 @@ export class GroundTransportComponent implements OnInit {
     setTimeout(() => {
       if (this.tabledraftBySea && this.tabledraftBySea.nativeElement) {
         this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
-        let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsByGroundFCLDraft);
+        let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsByGroundDraft);
         // let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
         // let footertr = $("<tr></tr>").appendTo(footer);
         // $("<td colspan='20'> <a href='javascript:;' class ='addrow'>Add Another Rates</a> </td>").appendTo(footertr);
@@ -808,7 +808,7 @@ export class GroundTransportComponent implements OnInit {
 
 
   filterTable() {
-    this.dtOptionsByGroundFCL = {
+    this.dtOptionsByGround = {
       // ajax: {
       //   url: "http://10.20.1.13:9091/api/providerratefcl/SearchRates",
       //   type: "POST"
@@ -869,7 +869,7 @@ export class GroundTransportComponent implements OnInit {
       destroy: true,
       // pagingType: 'full_numbers',
       pageLength: 5,
-      scrollX: true,
+      // scrollX: true,
       scrollY: '60vh',
       scrollCollapse: true,
       searching: false,
@@ -882,10 +882,10 @@ export class GroundTransportComponent implements OnInit {
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         }
       },
-      fixedColumns: {
-        leftColumns: 0,
-        rightColumns: 1
-      },
+      // fixedColumns: {
+      //   leftColumns: 0,
+      //   rightColumns: 1
+      // },
       columnDefs: [
         {
           targets: 0,
@@ -898,7 +898,7 @@ export class GroundTransportComponent implements OnInit {
         },
         {
           targets: -1,
-          width: 'auto',
+          width: '12',
           orderable: false,
         },
         {
@@ -1064,7 +1064,7 @@ export class GroundTransportComponent implements OnInit {
     setTimeout(() => {
       if (this.tablepublishBySea && this.tablepublishBySea.nativeElement) {
         this.dataTablepublishBysea = $(this.tablepublishBySea.nativeElement);
-        let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsByGroundFCL);
+        let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsByGround);
         this.publishloading = false;
         $("#selectallpublishRates").click(() => {
           this.delPublishRates = [];

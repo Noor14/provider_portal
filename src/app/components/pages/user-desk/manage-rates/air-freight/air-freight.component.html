@@ -28,17 +28,16 @@
       </div>
     </div>
   </section>
-
-  <section class="rates-grid draft-grid without-scroll">
-    <table id="draftRateTableLCL" cellspacing="0" #draftBYseaLCL class="row-border hover"></table>
-    <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloadingLCL">Add
+  <section class="rates-grid draft-grid">
+    <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table>
+    <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloading">Add
       another rates</a>
-    <!-- <app-loader-main *ngIf="draftloadingLCL"></app-loader-main> -->
+    <!-- <app-loader-main *ngIf="draftloading"></app-loader-main> -->
   </section>
   <div class="row mt-4">
     <div class="col-12 text-right actions">
-      <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase" [disabled]="!draftslcl || (draftslcl && !draftslcl.length)"
-        (click)="discardDraftLcl()">Discard Draft
+      <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase" [disabled]="!draftsfcl || (draftsfcl && !draftsfcl.length)"
+        (click)="discardDraft()">Discard Draft
       </button>
       <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">Save Draft</button>
       <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRates.length" (click)="publishRate()">Publish
@@ -57,7 +56,7 @@
             your results
             <img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon">
           </span>
-          <span class="clear-filter" (click)="clearFilter($event, 'LCL')">
+          <span class="clear-filter" (click)="clearFilter($event, 'FCL')">
             <svg id="969970e9-5f21-4072-86a7-6672decd15e6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16">
               <g id="0d761291-d7c4-42bf-9433-98aad825bfb6" data-name="add">
@@ -71,30 +70,38 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="row" [@fadeInOut]>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Shipping Lines</label>
+                <select class="form-control" [(ngModel)]="filterbyShippingLine" placeholder="Select" (change)="filter()">
+                  <option [value]="undefined">All</option>
+                  <option *ngFor="let shipping of allShippingLines" [value]="shipping.CarrierID">{{shipping.CarrierName}}</option>
+                </select>
+              </div>
+            </div>
+
             <div class="col-6">
               <div class="form-group">
                 <label>Route</label>
                 <div class="row combine-field">
                   <div class="col-6 origin pl-0">
                     <div class="flag-container">
-                      <img *ngIf="filterOriginLcl && filterOriginLcl.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOriginLcl.CountryCode | lowercase) + '.svg'}}"
+                      <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
                         type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                     </div>
-                    <input class="form-control" [(ngModel)]="filterOriginLcl" (focusout)="filtertionPort(filterOriginLcl , 'LCL')"
-                      (ngModelChange)="filterByroute(filterOriginLcl, 'LCL')" placeholder="Origin" type="text"
-                      [ngClass]="{'routeSelected':
-filterOriginLcl && filterOriginLcl.CountryCode}" [ngbTypeahead]="ports"
-                      [resultTemplate]="rt" [inputFormatter]="formatter" />
+                    <input class="form-control" [(ngModel)]="filterOrigin" (focusout)="filtertionPort(filterOrigin, 'FCL')"
+                      (ngModelChange)="filterByroute(filterOrigin, 'FCL')" placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
+                      [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
                   </div>
                   <div class="col-6 destination pl-0">
                     <div class="flag-container">
-                      <img *ngIf="filterDestinationLcl && filterDestinationLcl.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestinationLcl.CountryCode | lowercase) + '.svg'}}"
+                      <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
                         type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                     </div>
-                    <input placeholder="Destination" [(ngModel)]="filterDestinationLcl" (focusout)="filtertionPort(filterDestinationLcl, 'LCL')"
-                      (ngModelChange)="filterByroute(filterDestinationLcl, 'LCL')" type="text" class="form-control"
-                      [ngClass]="{'routeSelected': filterDestinationLcl && filterDestinationLcl.CountryCode}"
-                      [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
+                    <input placeholder="Destination" [(ngModel)]="filterDestination" (focusout)="filtertionPort(filterDestination, 'FCL')"
+                      (ngModelChange)="filterByroute(filterDestination, 'FCL')" type="text" class="form-control"
+                      [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}" [ngbTypeahead]="ports"
+                      [resultTemplate]="rt" [inputFormatter]="formatter" />
                   </div>
                 </div>
               </div>
@@ -110,24 +117,21 @@ filterOriginLcl && filterOriginLcl.CountryCode}" [ngbTypeahead]="ports"
             <div class="col-3">
               <div class="form-group">
                 <label>Cargo Type</label>
-                <select class="form-control" [(ngModel)]="filterbyCargoTypeLcl" (change)="filterLcl()">
+                <select class="form-control" [(ngModel)]="filterbyCargoType" (change)="filter()">
                   <option [value]="undefined">All</option>
                   <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
                 </select>
               </div>
             </div>
-
             <div class="col-3">
               <div class="form-group">
-                <label>Handling Unit</label>
-                <select class="form-control" [(ngModel)]="filterbyHandlingType" (change)="filterLcl()">
+                <label>Container</label>
+                <select class="form-control" [(ngModel)]="filterbyContainerType" (change)="filter()">
                   <option [value]="undefined">All</option>
-                  <option *ngFor="let handle of allHandlingType" [value]="handle.ContainerSpecID">{{handle.ContainerSpecShortName}}</option>
+                  <option *ngFor="let container of allContainersType | unique" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
                 </select>
               </div>
             </div>
-
-
             <div class="col-4">
               <div class="form-group date-control">
                 <label>Rate Validity</label>
@@ -153,11 +157,12 @@ filterOriginLcl && filterOriginLcl.CountryCode}" [ngbTypeahead]="ports"
   </section>
   <section class="rates-grid mt-5">
     <div class="d-flex justify-content-end mb-3">
-      <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('LCL')" [ngClass]="{'no-drop': !this.delPublishRatesLcl.length}">
+      <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('FCL')" [ngClass]="{'no-drop': !this.delPublishRates.length}">
         <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16">
         Delete
       </a>
     </div>
-    <table id="publishRateTableLcl" cellspacing="0" #publishByseaLcl class="row-border hover"></table>
-    <app-loader-main *ngIf="publishloadingLcl"></app-loader-main>
+    <table id="publishRateTable" cellspacing="0" #publishBysea class="row-border hover"></table>
+    <app-loader-main *ngIf="publishloading"></app-loader-main>
   </section>
+</section>
