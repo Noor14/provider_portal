@@ -14,6 +14,8 @@ import { LoaderComponent } from '../../../../shared/loader/loader.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { UniquePipe } from '../../../../constants/unique-recordFilter';
+import { AirFreightService } from './air-freight/air-freight.service';
+import { GroundTransportService } from './ground-transport/ground-transport.service';
 
 @NgModule({
   imports: [
@@ -36,6 +38,6 @@ import { UniquePipe } from '../../../../constants/unique-recordFilter';
     LoaderComponent,
     UniquePipe
   ],
-  providers: [SeaFreightService]
+  providers: [SeaFreightService, AirFreightService, GroundTransportService]
 })
 export class ManageRatesModule { }
