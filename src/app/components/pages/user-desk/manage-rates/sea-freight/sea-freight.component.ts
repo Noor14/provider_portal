@@ -656,7 +656,7 @@ export class SeaFreightComponent implements OnInit {
   setAddDraftData(result) {
     for (let index = 0; index < this.draftsfcl.length; index++) {
       if (this.draftsfcl[index].ProviderPricingDraftID == result.providerPricingDraftID) {
-        this.draftsfcl[index].carrierID = result.carrierID;
+        this.draftsfcl[index].CarrierID = result.carrierID;
         this.draftsfcl[index].CarrierImage = result.carrierImage;
         this.draftsfcl[index].CarrierName = result.carrierName;
         this.draftsfcl[index].ContainerLoadType = result.containerLoadType;
@@ -674,7 +674,7 @@ export class SeaFreightComponent implements OnInit {
         this.draftsfcl[index].PodName = result.podName;
         this.draftsfcl[index].PolName = result.polName;
         this.draftsfcl[index].PodID = result.podID;
-        this.draftsfcl[index].PolID = result.polName;
+        this.draftsfcl[index].PolID = result.polID;
         this.generateDraftTable();
         break;
       }
