@@ -1,0 +1,46 @@
+@import "../../../../assets/scss/_variables";
+.provider-modal {
+    .modal-header {
+        background: $modal-header-background;
+        .provider-modal-title {
+            font-size: $font-size-large + 0.25rem;
+            margin: 4px 0 0 0;
+        }
+    }
+    .modal-body {
+        .form {
+            &-group {
+                label {
+                    font-size: $font-size-large;
+                    color: $text-color-default;
+                    font-family: $font-proxima;
+                    font-weight: $font-weight-mid;
+                }
+                input,
+                select {
+                    @extend label;
+                    margin-bottom: 0.875rem;
+                    color: $text-grey;
+                    font-size: $font-size-medium;
+                    font-weight: $font-weight-light;
+                    outline: 0 !important;
+                }
+            }
+            &-btn-submit {
+                font-size: $font-size-large;
+                font-family: $font-proxima;
+                font-weight: $font-weight-normal;
+                width: 200px;
+                height: 48px;
+                text-transform: uppercase;
+            }
+        }
+        p {
+            font-family: $font-proxima;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            padding: 20px 45px;
+            line-height: 20px;
+        }
+    }
+}

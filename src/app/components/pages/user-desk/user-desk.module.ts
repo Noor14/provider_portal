@@ -19,11 +19,9 @@ import { SupportService } from './support/support.service';
 import { DealsComponent } from './deals/deals.component';
 import { BillingComponent } from './billing/billing.component';
 import { SettingsComponent } from './settings/settings.component';
-import { BookingDialogComponent } from './booking-dialog/booking-dialog.component';
-import { FormsModule } from '@angular/forms';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { DataMapComponent } from './data-map/data-map.component';
-import { SharedModule } from '../../../shared/shared.module'
+import { SharedModule } from '../../../shared/shared.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -34,7 +32,6 @@ import { SharedModule } from '../../../shared/shared.module'
       libraries: ["places", "geometry"]
     }),
     NgxPaginationModule,
-    FormsModule,
     NgxEchartsModule,
     SharedModule
   ],
@@ -50,7 +47,6 @@ import { SharedModule } from '../../../shared/shared.module'
     DealsComponent,
     BillingComponent,
     SettingsComponent,
-        BookingDialogComponent,
     DataMapComponent
   ],
   providers:[
@@ -58,7 +54,6 @@ import { SharedModule } from '../../../shared/shared.module'
     DashboardService,
     SupportService,
     UserGuard,
-  ],
-  entryComponents: [BookingDialogComponent]
+  ]
 })
 export class UserDeskModule { }

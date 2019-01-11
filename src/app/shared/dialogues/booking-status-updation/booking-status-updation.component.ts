@@ -1,17 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ViewBookingService } from '../view-booking/view-booking.service';
-import { Reasons } from '../../../../interfaces/reasons';
+import { ViewBookingService } from '../../../components/pages/user-desk/view-booking/view-booking.service';
+import { Reasons } from '../../../interfaces/reasons';
 import { HttpErrorResponse } from '@angular/common/http';
-import { loading } from '../../../../constants/globalFunctions';
+import { loading } from '../../../constants/globalFunctions';
 import { ToastrService } from "ngx-toastr";
+import { PlatformLocation } from '@angular/common';
 
 @Component({
-  selector: 'app-booking-dialog',
-  templateUrl: './booking-dialog.component.html',
-  styleUrls: ['./booking-dialog.component.scss']
+  selector: 'app-booking-status-updation',
+  templateUrl: './booking-status-updation.component.html',
+  styleUrls: ['./booking-status-updation.component.scss']
 })
-export class BookingDialogComponent implements OnInit {
+export class BookingStatusUpdationComponent implements OnInit {
   @Input() modalData: any;
   public label: string;
   public description: string;
@@ -30,7 +31,8 @@ export class BookingDialogComponent implements OnInit {
     private modalService: NgbModal,
     private _viewBookingService: ViewBookingService,
     private _toast: ToastrService,
-    public _activeModal: NgbActiveModal) { }
+    private location: PlatformLocation,
+    public _activeModal: NgbActiveModal) { location.onPopState(() => this.closeModal()); }
 
   ngOnInit() {
     console.log(this.modalData.bookingDetails[0]);
@@ -46,6 +48,8 @@ export class BookingDialogComponent implements OnInit {
       this.selectPlaceholder = 'Select Status'
     }
   }
+
+
 
   getBookingReasons() {
     this._viewBookingService.getBookingReasons().subscribe((res: any) => {
@@ -95,7 +99,7 @@ export class BookingDialogComponent implements OnInit {
         }
         this._viewBookingService.cancelBooking(this.actionObj).subscribe((res: any) => {
           this._toast.success(res.returnText, 'Success')
-          this._activeModal.close()
+          this.closeModal();
         }, (err: HttpErrorResponse) => {
           console.log(err);
         })
@@ -115,11 +119,18 @@ export class BookingDialogComponent implements OnInit {
         }
         this._viewBookingService.updateBookingStatus(this.actionObj).subscribe((res: any) => {
           this._toast.success(res.returnText, 'Success')
-          this._activeModal.close()
+          this.closeModal();
         }, (err: HttpErrorResponse) => {
           console.log(err);
         })
       }
     }
   }
+  closeModal() {
+    this._activeModal.close();
+    document.getElementsByTagName('html')[0].style.overflowY = 'auto';
+
+  }
+
+
 }

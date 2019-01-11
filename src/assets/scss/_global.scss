@@ -21,12 +21,8 @@ body {
       margin: auto;
     }
   }
-  .re-upload-modal {
-    .modal-dialog {
-      max-width: 460px !important;
-      margin: auto;
-    }
-  } // Toast Styles
+
+  // Toast Styles
   .alert-warning {
     background: $alert-warning--background-color;
     color: $text-color-default;

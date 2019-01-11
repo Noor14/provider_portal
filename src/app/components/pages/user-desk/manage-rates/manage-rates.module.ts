@@ -10,7 +10,7 @@ import { GroundTransportComponent } from './ground-transport/ground-transport.co
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { SeaFreightService } from './sea-freight/sea-freight.service';
 import { ScrollbarModule } from 'ngx-scrollbar';
-import { LoaderComponent } from '../../../../shared/loader/loader.component';
+import { SharedModule } from '../../../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { UniquePipe } from '../../../../constants/unique-recordFilter';
@@ -27,7 +27,7 @@ import { GroundTransportService } from './ground-transport/ground-transport.serv
     FormsModule,
     ReactiveFormsModule,
     UiSwitchModule,
-    
+    SharedModule
   ],
   declarations: [
     ManageRatesComponent,
@@ -35,7 +35,6 @@ import { GroundTransportService } from './ground-transport/ground-transport.serv
     AirFreightComponent,
     GroundTransportComponent,
     WarehouseComponent,
-    LoaderComponent,
     UniquePipe
   ],
   providers: [SeaFreightService, AirFreightService, GroundTransportService]

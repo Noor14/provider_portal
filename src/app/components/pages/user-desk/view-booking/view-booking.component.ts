@@ -13,7 +13,7 @@ import { ReUploadDocComponent } from '../../../../shared/dialogues/re-upload-doc
 import { IconSequence } from '@agm/core/services/google-maps-types';
 import { baseExternalAssets } from '../../../../constants/base.url';
 import { LatLngBounds } from '@agm/core';
-import { BookingDialogComponent } from '../booking-dialog/booking-dialog.component'
+import { BookingStatusUpdationComponent } from '../../../../shared/dialogues/booking-status-updation/booking-status-updation.component';
 declare var google: any;
 
 @Component({
@@ -191,7 +191,7 @@ export class ViewBookingComponent implements OnInit {
     const modalRef = this._modalService.open(ReUploadDocComponent, {
       size: 'lg',
       centered: true,
-      windowClass: 're-upload-modal',
+      windowClass: 'medium-modal',
       backdrop: 'static',
       keyboard: false
     });
@@ -224,10 +224,12 @@ export class ViewBookingComponent implements OnInit {
   }
 
   openDialogue(type) {
-    const modalRef = this._modalService.open(BookingDialogComponent, {
+    const modalRef = this._modalService.open(BookingStatusUpdationComponent, {
       size: 'lg',
       windowClass: 'medium-modal',
-      centered: true
+      centered: true,
+      backdrop: 'static',
+      keyboard: false
     }
     );
     modalRef.componentInstance.modalData = {
