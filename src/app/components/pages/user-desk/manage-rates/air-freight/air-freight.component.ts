@@ -54,9 +54,9 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 })
 export class AirFreightComponent implements OnInit {
 
-  public dtOptionsBySeaFCL: DataTables.Settings | any = {};
+  public dtOptionsByAir: DataTables.Settings | any = {};
   public dtOptionsBySeaLCL: DataTables.Settings | any = {};
-  public dtOptionsBySeaFCLDraft: DataTables.Settings | any = {};
+  public dtOptionsByAirDraft: DataTables.Settings | any = {};
   public dtOptionsBySeaLCLDraft: DataTables.Settings | any = {};
   @ViewChild('draftBYsea') tabledraftBySea;
   @ViewChild('draftBYseaLCL') tabledraftBySeaLCL;
@@ -221,7 +221,7 @@ export class AirFreightComponent implements OnInit {
     })
   }
   generateDraftTable() {
-    this.dtOptionsBySeaFCLDraft = {
+    this.dtOptionsByAirDraft = {
       data: this.draftsfcl,
       columns: [
         {
@@ -563,7 +563,7 @@ export class AirFreightComponent implements OnInit {
     setTimeout(() => {
       if (this.tabledraftBySea && this.tabledraftBySea.nativeElement) {
         this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
-        let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
+        let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsByAirDraft);
         // let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
         // let footertr = $("<tr></tr>").appendTo(footer);
         // $("<td colspan='20'> <a href='javascript:;' class ='addrow'>Add Another Rates</a> </td>").appendTo(footertr);
@@ -798,7 +798,7 @@ export class AirFreightComponent implements OnInit {
     }
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.allRatesList = res.returnObject.data;
+        this.allRatesList = res.returnObject;
         this.checkedallpublishRates = false;
         this.filterTable();
       }
@@ -832,7 +832,7 @@ export class AirFreightComponent implements OnInit {
 
 
   filterTable() {
-    this.dtOptionsBySeaFCL = {
+    this.dtOptionsByAir = {
       // ajax: {
       //   url: "http://10.20.1.13:9091/api/providerratefcl/SearchRates",
       //   type: "POST"
@@ -846,7 +846,7 @@ export class AirFreightComponent implements OnInit {
           }
         },
         {
-          title: 'SHIPPING LINE',
+          title: 'AirLINE',
           data: function (data) {
             let url = baseExternalAssets + "/" + data.carrierImage;
             return "<img src='" + url + "' class='icon-size-24 mr-2' />" + data.carrierName;
@@ -1098,7 +1098,7 @@ export class AirFreightComponent implements OnInit {
     setTimeout(() => {
       if (this.tablepublishBySea && this.tablepublishBySea.nativeElement) {
         this.dataTablepublishBysea = $(this.tablepublishBySea.nativeElement);
-        let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsBySeaFCL);
+        let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsByAir);
         this.publishloading = false;
         $("#selectallpublishRates").click(() => {
           this.delPublishRates = [];
