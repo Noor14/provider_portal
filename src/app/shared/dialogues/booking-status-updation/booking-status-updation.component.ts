@@ -32,20 +32,19 @@ export class BookingStatusUpdationComponent implements OnInit {
     private _viewBookingService: ViewBookingService,
     private _toast: ToastrService,
     private location: PlatformLocation,
-    public _activeModal: NgbActiveModal) { location.onPopState(() => this.closeModal()); }
+    public _activeModal: NgbActiveModal) { location.onPopState(() => this.closeModal(null)); }
 
   ngOnInit() {
-    console.log(this.modalData.bookingDetails[0]);
-    this.getBookingStatuses()
-    this.getBookingReasons()
     if (this.modalData.type === 'cancel') {
       this.label = 'Cancel Booking'
       this.description = 'Please provide the reason of cancellation.'
-      this.selectPlaceholder = 'Select Reason'
+      this.selectPlaceholder = 'Select Reason';
+      this.getBookingReasons();
     } else if (this.modalData.type === 'updated') {
       this.label = 'Update Status'
       this.description = "Where's the Shipment?"
-      this.selectPlaceholder = 'Select Status'
+      this.selectPlaceholder = 'Select Status';
+      this.getBookingStatuses();
     }
   }
 
@@ -88,18 +87,24 @@ export class BookingStatusUpdationComponent implements OnInit {
       const { id, remarks } = this.selectedReason;
       if (id && remarks) {
         this.actionObj = {
-          bookingID: this.modalData.bookingDetails.BookingID,
-          bookingStatus: this.cancelledStatus[0].StatusName,
+          bookingID: this.modalData.bookingID,
+          bookingStatus: "CANCELLED",
           bookingStatusRemarks: remarks,
-          createdBy: this.modalData.userProfile.PrimaryEmail,
-          modifiedBy: "",
-          approverID: this.modalData.bookingDetails.ProviderID,
+          createdBy: this.modalData.loginID,
+          modifiedBy: this.modalData.loginID,
+          approverID: this.modalData.providerID,
           approverType: 'PROVIDER',
           reasonID: id
         }
         this._viewBookingService.cancelBooking(this.actionObj).subscribe((res: any) => {
-          this._toast.success(res.returnText, 'Success')
-          this.closeModal();
+          if (res.returnStatus == "Success"){
+          this._toast.success(res.returnText, 'Success');
+            let obj = {
+              status: "CANCELLED",
+              resType: "Success"
+            }
+            this.closeModal(obj);
+          }
         }, (err: HttpErrorResponse) => {
           console.log(err);
         })
@@ -108,26 +113,32 @@ export class BookingStatusUpdationComponent implements OnInit {
       const { status, id } = this.selectedReason;
       if (status && id) {
         this.actionObj = {
-          bookingID: this.modalData.bookingDetails.BookingID,
+          bookingID: this.modalData.bookingID,
           bookingStatus: status,
           bookingStatusRemarks: "",
-          createdBy: this.modalData.userProfile.PrimaryEmail,
-          modifiedBy: "",
-          approverID: this.modalData.bookingDetails.ProviderID,
+          createdBy: this.modalData.loginID,
+          modifiedBy: this.modalData.loginID,
+          approverID: this.modalData.providerID,
           approverType: 'PROVIDER',
           reasonID: id
         }
         this._viewBookingService.updateBookingStatus(this.actionObj).subscribe((res: any) => {
-          this._toast.success(res.returnText, 'Success')
-          this.closeModal();
+          if (res.returnStatus == "Success") {
+          this._toast.success(res.returnText, 'Success');
+          let obj = {
+            status: res.returnObject.bookingStatus,
+            resType : "Success"
+           }
+            this.closeModal(obj);
+        }
         }, (err: HttpErrorResponse) => {
           console.log(err);
         })
       }
     }
   }
-  closeModal() {
-    this._activeModal.close();
+  closeModal(resType) {
+    this._activeModal.close(resType);
     document.getElementsByTagName('html')[0].style.overflowY = 'auto';
 
   }
