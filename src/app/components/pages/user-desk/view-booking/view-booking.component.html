@@ -218,7 +218,7 @@
             </label>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
-                <a (click)="downloadDoc(certOrigin, $event)" href="javascript:;" class="primary-text" [ngClass]="{'primary-text': certOrigin && certOrigin.DocumentFileName}">
+                <a (click)="downloadDoc(certOrigin, $event)" href="javascript:;" class="doc-title" [ngClass]="{'primary-text': certOrigin && certOrigin.DocumentFileName}">
                   Certificate of Origin
                   <label class="sub-text d-flex" *ngIf="certOrigin && certOrigin.DocumentFileName">Uploaded on
                     {{certOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{certOrigin.DocumentUploadDate |
@@ -239,7 +239,7 @@
                 </div>
               </li>
               <li class="list-group-item">
-                <a href="javascript:;" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocOrigin && invoiceDocOrigin.DocumentFileName}">
+                <a href="javascript:;" class="doc-title" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocOrigin && invoiceDocOrigin.DocumentFileName}">
                   Invoice
                   <label class="sub-text d-flex" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName">Uploaded
                     on {{invoiceDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}}
@@ -261,7 +261,7 @@
 
               </li>
               <li class="list-group-item">
-                <a href="javascript:;" (click)="downloadDoc(packingListDocOrigin, $event)" [ngClass]="{'primary-text': packingListDocOrigin && packingListDocOrigin.DocumentFileName}">
+                <a href="javascript:;" class="doc-title" (click)="downloadDoc(packingListDocOrigin, $event)" [ngClass]="{'primary-text': packingListDocOrigin && packingListDocOrigin.DocumentFileName}">
                   Packing List
                   <label class="sub-text d-flex" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName">Uploaded
                     on {{packingListDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}}
@@ -288,7 +288,7 @@
             </label>
             <ul class="list-group list-group-flush mb-3">
               <li class="list-group-item">
-                <a href="javascript:;" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocDestination && invoiceDocDestination.DocumentFileName}">
+                <a href="javascript:;" class="doc-title" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocDestination && invoiceDocDestination.DocumentFileName}">
                   Invoice
                   <label class="sub-text d-flex" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName">Uploaded
                     on {{invoiceDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}}
@@ -310,7 +310,7 @@
 
               </li>
               <li class="list-group-item">
-                <a href="javascript:;" (click)="downloadDoc(packingListDocOrigin, $event)" [ngClass]="{'primary-text': packingListDocDestination && packingListDocDestination.DocumentFileName}">
+                <a href="javascript:;" class="doc-title" (click)="downloadDoc(packingListDocOrigin, $event)" [ngClass]="{'primary-text': packingListDocDestination && packingListDocDestination.DocumentFileName}">
                   Packing List
                   <label class="sub-text d-flex" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName">Uploaded
                     on {{packingListDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}}
@@ -332,7 +332,7 @@
 
               </li>
               <li class="list-group-item">
-                <a href="javascript:;" (click)="downloadDoc(ladingBill, $event)" [ngClass]="{'primary-text': ladingBill && ladingBill.DocumentFileName}">
+                <a href="javascript:;" (click)="downloadDoc(ladingBill, $event)" [ngClass]="{'primary-text': ladingBill && ladingBill.DocumentFileName}" class="bill-landing">
                   Bill of Lading
                   <label class="sub-text d-flex" *ngIf="ladingBill && ladingBill.DocumentFileName">Uploaded on
                     {{ladingBill.DocumentUploadDate | date : "d MMM, yyyy"}} {{ladingBill.DocumentUploadDate |
