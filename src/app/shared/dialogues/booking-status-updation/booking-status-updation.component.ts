@@ -52,8 +52,8 @@ export class BookingStatusUpdationComponent implements OnInit {
 
   getBookingReasons() {
     this._viewBookingService.getBookingReasons().subscribe((res: any) => {
-      if (res.returnId > 0) {
-        this.bookingReasons = res.returnObject
+      if (res.returnStatus == "Success") {
+        this.bookingReasons = res.returnObject.filter(e => e.BusinessLogic == null);
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
@@ -62,9 +62,9 @@ export class BookingStatusUpdationComponent implements OnInit {
 
   getBookingStatuses() {
     this._viewBookingService.getBookingStatuses().subscribe((res: any) => {
-      if (res.returnId > 0) {
-        this.bookingStatuses = res.returnObject.filter(e => e.BusinessLogic.toLowerCase() !== 'cancelled')
-        this.cancelledStatus = res.returnObject.filter(e => e.BusinessLogic.toLowerCase() === 'cancelled')
+      if (res.returnStatus == "Success") {
+        let data = res.returnObject.filter(e => e.BusinessLogic.toLowerCase() !== 'cancelled')
+        this.bookingStatuses = data.filter(e => e.BusinessLogic.toLowerCase() !== this.modalData.bookingStatus.toLowerCase())
       }
     }, (err: HttpErrorResponse) => {
       loading(false);
