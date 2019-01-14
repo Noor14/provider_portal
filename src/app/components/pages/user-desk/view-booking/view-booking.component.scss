@@ -91,11 +91,11 @@
     margin-bottom: 40px;
 
     h5 {
-      margin-bottom: 28px;
-      font-family: $font-pragmatica;
-      font-size: $font-size-large + 0.25rem;
-      color: $text-color-default;
-      font-weight: $font-weight-mid;
+      font-size: .75rem;
+      font-family: $font-proxima;
+      font-weight: 400;
+      color: $color-topmenu;
+      text-transform: uppercase;
     }
 
     .card-title {
@@ -511,7 +511,7 @@
             color: $color-topmenu !important;
 
             &:hover {
-              box-shadow: none;
+              box-shadow: none !important;
             }
           }
 
