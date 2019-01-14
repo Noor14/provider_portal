@@ -222,9 +222,11 @@
                     date : "H:mm"}}</label>
                 </a>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable"
-                  (click)="reuploadDoc(certOrigin.DocumentTypeID, certOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
-                  
-                  <button class="btn btn-outline-primary hvr-sweep-to-right">Approve</button>
+                  (click)="reuploadDoc(certOrigin.DocumentTypeID, certOrigin.DocumentID)">REJECT</button>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable">Approve</button>
+                  <span class="badge pointer mr-2 mt-1 hashmove-badge-warning" *ngIf="certOrigin && !certOrigin.DocumentFileName">
+                  AWAITING FROM CUSTOMER
+                </span>
               </li>
               <li class="list-group-item">
                 <a href="javascript:;" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocOrigin && invoiceDocOrigin.DocumentFileName}">
@@ -232,10 +234,10 @@
                   <label class="sub-text d-flex" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName">Uploaded on {{invoiceDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDocOrigin.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
-                <span class="badge pointer mr-2 mt-1 hashmove-badge-warning ng-star-inserted"> PENDING APPROVAL </span>
-                  <span class="badge pointer mr-2 mt-1 badge-success ng-star-inserted"> PENDING APPROVAL </span>
+                <!-- <span class="badge pointer mr-2 mt-1 badge-success"> PENDING APPROVAL </span> -->
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable">Approve</button>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable"
-                  (click)="reuploadDoc(invoiceDocOrigin.DocumentTypeID, invoiceDocOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
+                  (click)="reuploadDoc(invoiceDocOrigin.DocumentTypeID, invoiceDocOrigin.DocumentID)">REJECT</button>
               </li>
               <li class="list-group-item">
                 <a href="javascript:;" (click)="downloadDoc(packingListDocOrigin, $event)" [ngClass]="{'primary-text': packingListDocOrigin && packingListDocOrigin.DocumentFileName}">
@@ -243,8 +245,9 @@
                   <label class="sub-text d-flex" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName">Uploaded on {{packingListDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDocOrigin.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable">Approve</button>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable"
-                  (click)="reuploadDoc(packingListDocOrigin.DocumentTypeID, packingListDocOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
+                  (click)="reuploadDoc(packingListDocOrigin.DocumentTypeID, packingListDocOrigin.DocumentID)">REJECT</button>
               </li>
             </ul>
             <label class="view-booking-document-title">
@@ -258,8 +261,12 @@
                   <label class="sub-text d-flex" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName">Uploaded on {{invoiceDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDocDestination.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable">Approve</button>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable"
-                  (click)="reuploadDoc(invoiceDocDestination.DocumentTypeID, invoiceDocDestination.DocumentID)">ASK TO RE-UPLOAD</button>
+                  (click)="reuploadDoc(invoiceDocDestination.DocumentTypeID, invoiceDocDestination.DocumentID)">REJECT</button>
+                <span class="badge pointer mr-2 mt-1 hashmove-badge-warning" *ngIf="invoiceDocDestination && !invoiceDocDestination.DocumentFileName">
+                  AWAITING FROM CUSTOMER
+                </span>
               </li>
               <li class="list-group-item">
                 <a href="javascript:;" (click)="downloadDoc(packingListDocOrigin, $event)" [ngClass]="{'primary-text': packingListDocDestination && packingListDocDestination.DocumentFileName}">
@@ -267,8 +274,12 @@
                   <label class="sub-text d-flex" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName">Uploaded on {{packingListDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDocDestination.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
+                <span class="badge pointer mr-2 mt-1 hashmove-badge-warning" *ngIf="packingListDocDestination && !packingListDocDestination.DocumentFileName">
+                  AWAITING FROM CUSTOMER
+                </span>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable">Approve</button>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable"
-                  (click)="reuploadDoc(packingListDocDestination.DocumentTypeID, packingListDocDestination.DocumentID)">ASK TO RE-UPLOAD</button>
+                  (click)="reuploadDoc(packingListDocDestination.DocumentTypeID, packingListDocDestination.DocumentID)">REJECT</button>
               </li>
               <li class="list-group-item">
                 <a href="javascript:;" (click)="downloadDoc(ladingBill, $event)" [ngClass]="{'primary-text': ladingBill && ladingBill.DocumentFileName}">
@@ -276,8 +287,12 @@
                   <label class="sub-text d-flex" *ngIf="ladingBill && ladingBill.DocumentFileName">Uploaded on {{ladingBill.DocumentUploadDate | date : "d MMM, yyyy"}} {{ladingBill.DocumentUploadDate |
                     date : "H:mm"}}</label>
                 </a>
+                <span class="badge pointer mr-2 mt-1 hashmove-badge-warning" *ngIf="ladingBill && !ladingBill.DocumentFileName">
+                  AWAITING FROM CUSTOMER
+                </span>
+                <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable">Approve</button>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable"
-                  (click)="reuploadDoc(ladingBill.DocumentTypeID, ladingBill.DocumentID)">ASK TO RE-UPLOAD</button>
+                  (click)="reuploadDoc(ladingBill.DocumentTypeID, ladingBill.DocumentID)">REJECT</button>
               </li>
             </ul>
           </div>
