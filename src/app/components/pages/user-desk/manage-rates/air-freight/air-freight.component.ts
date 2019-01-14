@@ -272,7 +272,7 @@ export class AirFreightComponent implements OnInit {
             }
           }
         },
-    
+
         {
           title: 'RATE',
           data: function (data) {
@@ -780,22 +780,36 @@ export class AirFreightComponent implements OnInit {
 
   getAllPublishRates() {
     this.publishloading = true;
+
     let obj = {
-      // providerID: 1047,     
-      providerID: this.userProfile.ProviderID,
       pageNo: 1,
       pageSize: 50,
-      carrierID: (this.filterbyShippingLine == 'undefined') ? null : this.filterbyShippingLine,
-      shippingCatID: (this.filterbyCargoType == 'undefined') ? null : this.filterbyCargoType,
-      containerSpecID: (this.filterbyContainerType == 'undefined') ? null : this.filterbyContainerType,
-      polID: this.orgfilter("FCL"),
-      podID: this.destfilter("FCL"),
+      providerID: this.userProfile.ProviderID,
+      carrierID: null,
+      shippingCatID: null,
+      polID: null,
+      podID: null,
       effectiveFrom: null,
       effectiveTo: null,
-      sortColumn: null,
-      sortColumnDirection: null
+      sortColumn: "string",
+      sortColumnDirection: "string",
+      fromKg: 0,
+      toKg: 0
     }
+    // providerID: 1047,     
+    //   providerID: this.userProfile.ProviderID,
+    //   pageNo: 1,
+    //   pageSize: 50,
+    //   carrierID: (this.filterbyShippingLine == 'undefined') ? null : this.filterbyShippingLine,
+    //   shippingCatID: (this.filterbyCargoType == 'undefined') ? null : this.filterbyCargoType,
+    //   polID: this.orgfilter("FCL"),
+    //   podID: this.destfilter("FCL"),
+    //   effectiveFrom: null,
+    //   effectiveTo: null,
+
+    // }
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
+      debugger
       if (res.returnStatus == "Success") {
         this.allRatesList = res.returnObject.data;
         this.checkedallpublishRates = false;
