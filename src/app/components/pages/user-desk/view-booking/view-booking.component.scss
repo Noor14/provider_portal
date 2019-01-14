@@ -497,7 +497,14 @@
 
         button.btn {
           padding: 0 1.5rem 0 1.5rem;
-          line-height: 33px;
+          height: 33px;
+          line-height: 30px;
+
+          &.disable {
+            background: $btn-disable-background;
+            border: none;
+            color: $color-topmenu !important;
+          }
         }
 
       }
