@@ -236,7 +236,7 @@
               </li>
               <li class="list-group-item">
                 <a href="javascript:;" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocOrigin && invoiceDocOrigin.DocumentFileName}">
-                  Invoice{{invoiceDocOrigin.DocumentLastStatus}}
+                  Invoice
                   <label class="sub-text d-flex" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName">Uploaded on {{invoiceDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDocOrigin.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
