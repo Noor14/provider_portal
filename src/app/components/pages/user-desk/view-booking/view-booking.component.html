@@ -222,7 +222,7 @@
                   <label class="sub-text d-flex" *ngIf="certOrigin && certOrigin.DocumentFileName">Uploaded on {{certOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{certOrigin.DocumentUploadDate |
                     date : "H:mm"}}</label>
                 </a>
-                <button class="btn btn-outline-primary hvr-sweep-to-right disable" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable"
+                <button class="btn disable" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable"
                   (click)="reuploadDoc(certOrigin.DocumentTypeID, certOrigin.DocumentID)">Reject</button>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable">Approve</button>
                   <span class="badge pointer mr-2 mt-1 hashmove-badge-warning" *ngIf="certOrigin && !certOrigin.DocumentFileName">
@@ -237,7 +237,7 @@
                 </a>
                 <!-- <span class="badge pointer mr-2 mt-1 badge-success"> PENDING APPROVAL </span> -->
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable">Approve</button>
-                <button class="btn btn-outline-primary hvr-sweep-to-right disable" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable"
+                <button class="btn disable" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable"
                   (click)="reuploadDoc(invoiceDocOrigin.DocumentTypeID, invoiceDocOrigin.DocumentID)">Reject</button>
               </li>
               <li class="list-group-item">
@@ -247,7 +247,7 @@
                     | date : "H:mm"}}</label>
                 </a>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable">Approve</button>
-                <button class="btn btn-outline-primary hvr-sweep-to-right disable" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable"
+                <button class="btn disable" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable"
                   (click)="reuploadDoc(packingListDocOrigin.DocumentTypeID, packingListDocOrigin.DocumentID)">Reject</button>
               </li>
             </ul>
@@ -263,7 +263,7 @@
                     | date : "H:mm"}}</label>
                 </a>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable">Approve</button>
-                <button class="btn btn-outline-primary hvr-sweep-to-right disable" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable"
+                <button class="btn disable" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable"
                   (click)="reuploadDoc(invoiceDocDestination.DocumentTypeID, invoiceDocDestination.DocumentID)">Reject</button>
                 <span class="badge pointer mr-2 mt-1 hashmove-badge-warning" *ngIf="invoiceDocDestination && !invoiceDocDestination.DocumentFileName">
                   AWAITING FROM CUSTOMER
@@ -279,7 +279,7 @@
                   AWAITING FROM CUSTOMER
                 </span>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable">Approve</button>
-                <button class="btn btn-outline-primary hvr-sweep-to-right disable" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable"
+                <button class="btn disable" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable"
                   (click)="reuploadDoc(packingListDocDestination.DocumentTypeID, packingListDocDestination.DocumentID)">Reject</button>
               </li>
               <li class="list-group-item">
@@ -292,7 +292,7 @@
                   AWAITING FROM CUSTOMER
                 </span>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable">Approve</button>
-                <button class="btn btn-outline-primary hvr-sweep-to-right disable" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable"
+                <button class="btn disable" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable"
                   (click)="reuploadDoc(ladingBill.DocumentTypeID, ladingBill.DocumentID)">Reject</button>
               </li>
             </ul>
