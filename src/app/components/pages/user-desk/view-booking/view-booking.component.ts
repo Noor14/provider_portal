@@ -187,6 +187,7 @@ export class ViewBookingComponent implements OnInit {
       event.preventDefault();
     }
   }
+  
   reuploadDoc(docTypeId, docId) {
     const modalRef = this._modalService.open(ReUploadDocComponent, {
       size: 'lg',
@@ -232,10 +233,18 @@ export class ViewBookingComponent implements OnInit {
       keyboard: false
     }
     );
+    modalRef.result.then((result) => {
+      if (result.resType == "Success"){
+          this.bookingDetails.BookingStatus = result.status;
+      }
+    }, (reason) => {
+      // console.log("reason");
+    });
     modalRef.componentInstance.modalData = {
       type: type,
-      bookingDetails: this.bookingDetails,
-      userProfile: this.userProfile
+      bookingID: this.bookingDetails.BookingID,
+      loginID: this.userProfile.LoginID,
+      providerID: this.userProfile.ProviderID
     }
   }
 

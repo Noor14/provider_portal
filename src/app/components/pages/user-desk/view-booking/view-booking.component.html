@@ -39,39 +39,42 @@
       <div class="card">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-4 border-right border-md-0">
-              <label class="status-label">Booking</label>
-              <strong *ngIf="bookingDetails.BookingStatus == 'Confirmed'">Confirmed</strong>
-              <strong *ngIf="bookingDetails.BookingStatus == 'Saved'">Draft</strong>
-              <strong *ngIf="bookingDetails.BookingStatus == 'Completed'">Completed</strong>
-              <strong class="billing-rates">
-                <a class="pull-right hvr-icon-forward" href="javascript:;" (click)="openDialogue('cancel')">
-                  <span class="link-hover-danger">Cancel Booking</span>
-                </a>
-              </strong>
+            <div class="col-md-6 border-right border-md-0 d-flex justify-content-between">
+              <div class="statusView">
+                <label class="status-label">Booking</label>
+                <strong>{{bookingDetails.BookingStatus}}</strong>
+              </div>
+              <div class="statusUpdation align-self-end">
+                <strong class="d-flex flex-column">
+                  <a class="hvr-icon-forward m-0" href="javascript:;" (click)="openDialogue('cancel')">
+                    <span class="link-hover-danger">Cancel Booking</span>
+                  </a>
+                  <a class="hvr-icon-forward m-0" href="javascript:;" (click)="openDialogue('updated')">
+                    <span class="link-hover-secondary">Update Status</span>
+                    <i class="fa fa-angle-right hvr-icon"></i>
+                  </a>
+                </strong>
+              </div>
+
             </div>
-            <div class="col-md-4 border-right border-md-0">
+
+            <!-- <div class="col-md-4 border-right border-md-0">
               <label class="status-label">Shipping</label>
               <strong *ngIf="bookingDetails.BookingStatus == 'Current'">
-                In-Transit
-                <!-- <span class="badge badge-pill hashmove-badge-secondary mr-1 mt-0 pull-right">On Time</span> -->
-              </strong>
-              <strong *ngIf="bookingDetails.BookingStatus == 'Past'">
-                Completed
-                <!-- <span class="badge badge-pill hashmove-badge-secondary mr-1 mt-0 pull-right">On Time</span> -->
-              </strong>
-              <strong *ngIf="bookingDetails.BookingStatus == 'Saved'">
-                --
-                <!-- <span class="badge badge-pill hashmove-badge-secondary mr-1 mt-0 pull-right">On Time</span> -->
-              </strong>
-              <strong class="billing-rates">
-                <a class="pull-right hvr-icon-forward" href="javascript:;" (click)="openDialogue('updated')">
-                  <span class="link-hover-secondary">Update Status</span>
-                  <i class="fa fa-angle-right hvr-icon"></i>
-                </a>
-              </strong>
-            </div>
-            <div class="col-md-4">
+                In-Transit -->
+            <!-- <span class="badge badge-pill hashmove-badge-secondary mr-1 mt-0 pull-right">On Time</span> -->
+            <!-- </strong> -->
+            <!-- <strong *ngIf="bookingDetails.BookingStatus == 'Past'"> -->
+            <!-- Completed -->
+            <!-- <span class="badge badge-pill hashmove-badge-secondary mr-1 mt-0 pull-right">On Time</span> -->
+            <!-- </strong> -->
+            <!-- <strong *ngIf="bookingDetails.BookingStatus == 'Saved'"> -->
+            <!-- -- -->
+            <!-- <span class="badge badge-pill hashmove-badge-secondary mr-1 mt-0 pull-right">On Time</span> -->
+            <!-- </strong> -->
+
+            <!-- </div> -->
+            <div class="col-md-6">
               <label class="status-label">Billing</label>
               <strong class="billing-rate">
                 {{bookingDetails.CurrencyCode}} {{bookingDetails.BookingTotalAmount | number: '1.2-2'}}

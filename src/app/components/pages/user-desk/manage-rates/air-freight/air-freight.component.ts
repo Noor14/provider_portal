@@ -797,7 +797,6 @@ export class AirFreightComponent implements OnInit {
     }
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        debugger
         this.allRatesList = res.returnObject.data;
         this.checkedallpublishRates = false;
         this.filterTable();
