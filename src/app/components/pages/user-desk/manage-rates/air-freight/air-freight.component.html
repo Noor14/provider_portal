@@ -72,10 +72,10 @@
           <div class="row" [@fadeInOut]>
             <div class="col-3">
               <div class="form-group">
-                <label>Shipping Lines</label>
-                <select class="form-control" [(ngModel)]="filterbyShippingLine" placeholder="Select" (change)="filter()">
+                <label>AirLines</label>
+                <select class="form-control" [(ngModel)]="filterbyAirLine" placeholder="Select" (change)="filter()">
                   <option [value]="undefined">All</option>
-                  <option *ngFor="let shipping of allShippingLines" [value]="shipping.CarrierID">{{shipping.CarrierName}}</option>
+                  <option *ngFor="let air of allAirLines" [value]="air.CarrierID">{{air.CarrierName}}</option>
                 </select>
               </div>
             </div>
@@ -120,15 +120,6 @@
                 <select class="form-control" [(ngModel)]="filterbyCargoType" (change)="filter()">
                   <option [value]="undefined">All</option>
                   <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-3">
-              <div class="form-group">
-                <label>Container</label>
-                <select class="form-control" [(ngModel)]="filterbyContainerType" (change)="filter()">
-                  <option [value]="undefined">All</option>
-                  <option *ngFor="let container of allContainersType | unique" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
                 </select>
               </div>
             </div>
