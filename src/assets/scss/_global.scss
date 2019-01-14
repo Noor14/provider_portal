@@ -1134,9 +1134,11 @@ select {
   padding: 0.45em 1em;
   text-transform: uppercase;
   border-radius: 20px;
+  display: flex;
+  align-self: center;
   &-success {
-    background-color: $secondary-color;
-    border: 1px solid $secondary-color;
+    background-color: $badge-green;
+    color: $secondary-color-dark;
   }
   &.hashmove-badge {
     &-warning {
