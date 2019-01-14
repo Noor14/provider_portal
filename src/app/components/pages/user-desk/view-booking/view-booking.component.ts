@@ -60,6 +60,7 @@ export class ViewBookingComponent implements OnInit {
   public bookingReasons = [];
   public bookingStatuses = [];
   public selectedReason: any = {};
+  private approvedStatus: any
   constructor(
     private _modalService: NgbModal,
     private _toast: ToastrService,
@@ -79,6 +80,7 @@ export class ViewBookingComponent implements OnInit {
       // (+) converts string 'id' to a number
       if (this.bookingId) {
         this.getBookingDetail(this.bookingId);
+        this.getdocStatus();
       }
     });
 
@@ -107,9 +109,6 @@ export class ViewBookingComponent implements OnInit {
       loading(false);
       if (res.returnId > 0) {
         this.bookingDetails = JSON.parse(res.returnText);
-        console.log(this.bookingDetails);
-        console.log(this.userProfile);
-
         this.bookingDetails.origin = this.bookingDetails.PolCode.split(' ')[0];
         this.bookingDetails.destination = this.bookingDetails.PodCode.split(' ')[0];
         // this.bookingDetails.ProviderDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.ProviderImage[0].ProviderLogo, ImageRequiredSize._48x48)
@@ -245,6 +244,36 @@ export class ViewBookingComponent implements OnInit {
       loginID: this.userProfile.LoginID,
       providerID: this.userProfile.ProviderID
     }
+  }
+
+  approvedDoc(data){
+    if (data.DocumentLastStatus.toLowerCase() == 'approved' || data.DocumentLastStatus.toLowerCase() == 'reject') return;
+    let obj = {
+      documentStatusID: 0,
+      documentStatusCode: '',
+      documentStatus: this.approvedStatus[0].StatusName,
+      documentStatusRemarks: "",
+      documentLastApproverID: this.userProfile.ProviderID,
+      documentID: data.DocumentID,
+      createdBy: this.userProfile.LoginID,
+      modifiedBy: "",
+      approverIDType: "PROVIDER"
+    }
+    this._viewBookingService.approvedDocx(obj).subscribe((res: any)=>{
+      if(res.returnStatus == "Success"){
+        data.DocumentLastStatus = this.approvedStatus[0].StatusName;
+        this._toast.success('Document has been approved', '')
+      }
+    })
+  }
+
+
+  getdocStatus(){
+    this._viewBookingService.getDocStatuses().subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+         this.approvedStatus = res.returnObject.filter(elem => elem.BusinessLogic == "APPROVED");
+      }
+    })
   }
 
 }

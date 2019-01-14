@@ -1138,15 +1138,18 @@ select {
   &-success {
     background-color: $badge-green;
     color: $secondary-color-dark;
+    cursor: context-menu;
   }
   &.hashmove-badge {
     &-warning {
       background: $badge-yellow !important;
       color: $default-yellow !important;
+      cursor: context-menu;
     }
     &-danger {
       background: $danger-light-color !important;
       color: $danger-color !important;
+      cursor: context-menu;
     }
     &-primary-grey {
       background-color: rgba($primary-grey, 0.9);

@@ -11,7 +11,11 @@ export class ViewBookingService {
     return this._http.get(baseApi + url);
   }
   getDocReasons() {
-    let url = "/Document/GetDocumentReason";
+    let url = "Document/GetDocumentReason";
+    return this._http.get(baseApi + url);
+  }
+  getDocStatuses() {
+    let url = "Status/GetDocumentStatus";
     return this._http.get(baseApi + url);
   }
   
@@ -38,5 +42,12 @@ export class ViewBookingService {
   uploadDocReason(obj) {
     let url = "Document/AddReason";
     return this._http.post(baseApi + url, obj);
+  }
+
+
+  approvedDocx(data){
+    let url = "Document/AddDocumentStatus";
+    return this._http.post(baseApi + url, data);
+    
   }
 }

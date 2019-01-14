@@ -400,12 +400,19 @@
       }
     }
 
-    h5 {
-      font-size: $font-size-base;
-      font-family: $font-proxima;
-      font-weight: $font-weight-normal;
-      color: $dark-grey-blue;
-      text-transform: uppercase;
+    .badge {
+      display: flex;
+      align-self: center;
+    }
+
+    button.btn {
+      padding: 0 1.5rem 0 1.5rem;
+      height: 33px;
+      line-height: 30px;
+
+      &.disable {
+        color: $color-topmenu !important;
+      }
     }
 
     p {
@@ -495,11 +502,6 @@
           border: 0px;
         }
 
-        .badge {
-          display: flex;
-  align-self: center;
-        }
-
         button.btn {
           padding: 0 1.5rem 0 1.5rem;
           height: 33px;
@@ -508,8 +510,11 @@
           &.disable {
             color: $color-topmenu !important;
           }
-        }
 
+          &:focus {
+            box-shadow: none;
+          }
+        }
       }
     }
   }
@@ -547,7 +552,6 @@
             font-family: $font-proxima;
             margin-bottom: 0;
           }
-
         }
       }
     }
