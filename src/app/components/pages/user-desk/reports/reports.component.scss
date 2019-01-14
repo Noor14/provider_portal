@@ -1,6 +1,7 @@
 @import "../../../../../assets/scss/_variables";
 .reports {
   .customer-revenue {
+    padding-top:2rem;
     .customer-image {
       background-color: $color-white;
       width: 100px;
@@ -30,18 +31,13 @@
     label {
       font-weight: $font-weight-mid;
     }
-    .link {
-      a {
+    .view-link {
+      span {
         color: $secondary-grey;
         text-decoration: none;
-        font-size: $font-size-medium;
+        font-size:$font-size-base;
         font-family: $font-proxima;
         text-transform: uppercase;
-        margin-right: 0.3rem;
-      }
-      .fa-angle-left {
-        font-size: $root-font-size;
-        padding-right: 0.325rem;
       }
     }
   }
@@ -326,7 +322,7 @@
       font-family: $font-pragmatica;
       font-weight: $font-weight-mid;
       margin-top: 10px;
-      margin-bottom: 20px;
+      // margin-bottom: 20px;
       color: $text-color-default;
     }
   }
