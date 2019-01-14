@@ -220,6 +220,8 @@
                 </a>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable"
                   (click)="reuploadDoc(certOrigin.DocumentTypeID, certOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
+                  
+                  <button class="btn btn-outline-primary hvr-sweep-to-right">Approve</button>
               </li>
               <li class="list-group-item">
                 <a href="javascript:;" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocOrigin && invoiceDocOrigin.DocumentFileName}">
@@ -227,6 +229,8 @@
                   <label class="sub-text d-flex" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName">Uploaded on {{invoiceDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDocOrigin.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
+                <span class="badge pointer mr-2 mt-1 hashmove-badge-warning ng-star-inserted"> PENDING APPROVAL </span>
+                  <span class="badge pointer mr-2 mt-1 badge-success ng-star-inserted"> PENDING APPROVAL </span>
                 <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable"
                   (click)="reuploadDoc(invoiceDocOrigin.DocumentTypeID, invoiceDocOrigin.DocumentID)">ASK TO RE-UPLOAD</button>
               </li>

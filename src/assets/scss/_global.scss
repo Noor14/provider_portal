@@ -1135,8 +1135,8 @@ select {
   text-transform: uppercase;
   border-radius: 20px;
   &-success {
-    background-color: $secondary-color;
-    border: 1px solid $secondary-color;
+    background-color: $badge-green;
+    color: $secondary-color-dark;
   }
   &.hashmove-badge {
     &-warning {
