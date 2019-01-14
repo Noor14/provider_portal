@@ -20,7 +20,8 @@ import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/co
 // import { NgModel } from '@angular/forms';
 import * as moment from 'moment';
 import { DataTableDirective } from 'angular-datatables';
-import { SeaRateDialogComponent } from '../../../../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
+import { AirRateDialogComponent } from '../../../../../shared/dialogues/air-rate-dialog/air-rate-dialog.component';
+
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -610,7 +611,7 @@ export class AirFreightComponent implements OnInit {
 
     let obj = this.draftsfcl.find(obj => obj.ProviderPricingDraftID == rowId);
 
-    const modalRef = this.modalService.open(SeaRateDialogComponent, {
+    const modalRef = this.modalService.open(AirRateDialogComponent, {
       size: 'lg',
       centered: true,
       windowClass: '',

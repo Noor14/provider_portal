@@ -1,0 +1,184 @@
+<div class="airRates-modal animated fadeIn">
+  <div class="modal-header">
+    <h4 class="provider-modal-title">Add / Update Rates</h4>
+    <a class="pointer crossIcon" (click)="closeModal(null)">
+      <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
+    </a>
+  </div>
+  <div class="modal-body bg-light">
+    <div class="row bg-white">
+      <div class="col-12">
+        <h5 class="model-sub-head mt-4">Route Info</h5>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label>Airline</label>
+          <input type="text" class="form-control" placeholder="e.g: Maersk Shipping" [(ngModel)]="selectedShipping"
+            [ngbTypeahead]="shippings" [resultTemplate]="st" [inputFormatter]="formatter">
+          <ng-template #st let-r="result">
+            <ngb-highlight [result]="r.CarrierName"></ngb-highlight>
+          </ng-template>
+        </div>
+      </div>
+      <div class="col-6"></div>
+      <div class="col-6">
+        <div class="form-group">
+          <label>Origin</label>
+          <div class="origin">
+            <div class="flag-container">
+              <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
+                type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+            </div>
+            <input class="form-control" [(ngModel)]="filterOrigin" placeholder="e.g: Dubai" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
+              [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="portsFormatter" />
+          </div>
+          
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label>Destination</label>
+          <div class="destination">
+          <div class="flag-container">
+            <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
+              type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+          </div>
+          <input placeholder="e.g: Karachi" [(ngModel)]="filterDestination" type="text" class="form-control" [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
+            [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="portsFormatter" />
+            </div>
+            <ng-template #rt let-r="result">
+                <div class="d-flex">
+                  <div class="flag-container mr-1">
+                    <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
+                  </div>
+                  <ngb-highlight [result]="r.PortName"></ngb-highlight>
+                </div>
+              </ng-template>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label>Cargo Type</label>
+          <select class="form-control" id="category" [(ngModel)]="selectedCategory" (change)="cargoTypeChange(selectedCategory)">
+            <option [value]="null" disabled>--Select--</option>
+            <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <h5 class="model-sub-head mt-4">Pricing</h5>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label>Currency</label>
+          <input type="text" placeholder="AED" [(ngModel)]="selectedCurrency" class="form-control" [ngbTypeahead]="currencies"
+            [resultTemplate]="crt" [inputFormatter]="currencyFormatter">
+          <ng-template #crt let-r="result">
+            <div class="d-flex">
+              <ngb-highlight [result]="r.CurrencyCode"></ngb-highlight>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+      <div class="col-9"></div>
+      <div class="col-3">
+        <div class="form-group">
+          <label>Minimum</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
+            </div>
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice">
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label>Normal</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
+            </div>
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice">
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label>+45</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
+            </div>
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice">
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label>+100</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
+            </div>
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice">
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label>+250</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
+            </div>
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice">
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label>+500</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
+            </div>
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice">
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label>+1000</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
+            </div>
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice">
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group date-control">
+          <label>Rate Validity</label>
+          <div class="dateIcon">
+            <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp"
+              [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="top-right"
+              [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker"
+              (click)="dp.toggle()">
+          </div>
+          <ng-template #t let-date="date" let-focused="focused">
+            <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
+              [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date"
+              (mouseleave)="hoveredDate = null">
+              {{ date.day }}
+            </span>
+          </ng-template>
+        </div>
+      </div>
+      <div class="col-12"><button class="btn btn-primary pl-5 pr-5 mt-4 hvr-sweep-to-right pull-right" (click)="savedraftrow()">SAVE</button></div>
+    </div>
+  </div>
+</div>

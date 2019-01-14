@@ -433,7 +433,7 @@
         .list-group-item {
           padding-left: 20px !important;
 
-          a {
+          a.doc-title {
             color: inherit;
             cursor: default;
 
@@ -451,7 +451,7 @@
               }
 
               &:before {
-                content: url(../../../../../assets/images/icons/icon_check.svg);
+                content: url("../../../../../assets/images/icons/icon_check.svg");
                 height: 9px;
                 width: 12px;
                 position: absolute;
@@ -517,6 +517,31 @@
 
           &:focus {
             box-shadow: none;
+          }
+        }
+
+        .bill-landing {
+          color: $danger-color;
+          animation: 1.2s ease-in-out infinite alternate-reverse fadeIn;
+
+          &.primary-text {
+            &:before {
+              content: url("../../../../../assets/images/icons/icon_check-red.svg");
+              height: 9px;
+              width: 12px;
+              position: absolute;
+              left: 0;
+              top: 13px;
+              animation: 1.2s ease-in-out infinite alternate-reverse fadeIn;
+              transition: color .1s ease;  
+            }
+          }
+
+          label {
+            font-family: inherit;
+            font-size: 0.75rem;
+            color: $text-grey !important;
+            line-height: 1;
           }
         }
       }
