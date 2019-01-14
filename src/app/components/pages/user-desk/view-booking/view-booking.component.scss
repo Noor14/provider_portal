@@ -509,6 +509,10 @@
 
           &.disable {
             color: $color-topmenu !important;
+
+            &:hover {
+              box-shadow: none;
+            }
           }
 
           &:focus {

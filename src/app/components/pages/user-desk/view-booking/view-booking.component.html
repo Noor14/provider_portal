@@ -222,7 +222,7 @@
                     date : "H:mm"}}</label>
                 </a>
 
-                <div>
+                <div class="d-flex align-items-center">
                   <button class="btn disable" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && certOrigin.DocumentLastStatus.toLowerCase() != 'approved'" (click)="reuploadDoc(certOrigin.DocumentTypeID, certOrigin.DocumentID)">Reject</button>
                   <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && (certOrigin.DocumentLastStatus.toLowerCase() != 'approved' &&  certOrigin.DocumentLastStatus.toLowerCase() == 'reject')"
                   (click)="approvedDoc(certOrigin)">Approve</button>
@@ -240,7 +240,7 @@
                   <label class="sub-text d-flex" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName">Uploaded on {{invoiceDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDocOrigin.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
-                <div>
+                <div class="d-flex align-items-center">
                   <span class="badge pointer mr-2 mt-1 badge-success" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
                    APPROVED
                 </span>
@@ -260,7 +260,7 @@
                   <label class="sub-text d-flex" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName">Uploaded on {{packingListDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDocOrigin.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
-                <div>
+                <div class="d-flex align-items-center">
                   <span class="badge pointer mr-2 mt-1 badge-success" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
                    APPROVED
                   </span>
@@ -285,7 +285,7 @@
                   <label class="sub-text d-flex" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName">Uploaded on {{invoiceDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDocDestination.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
-                <div>
+                <div class="d-flex align-items-center">
                   <button class="btn disable" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'approved'"
                     (click)="reuploadDoc(invoiceDocDestination.DocumentTypeID, invoiceDocDestination.DocumentID)">Reject</button>
                   <button class="btn btn-outline-primary hvr-sweep-to-right" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable && (invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'approved' && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'reject')"
@@ -302,7 +302,7 @@
                   <label class="sub-text d-flex" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName">Uploaded on {{packingListDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDocDestination.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
-                <div>
+                <div class="d-flex align-items-center">
                   <span class="badge pointer mr-2 mt-1 hashmove-badge-warning" *ngIf="packingListDocDestination && !packingListDocDestination.DocumentFileName">
                     AWAITING FROM CUSTOMER
                   </span>
@@ -319,7 +319,7 @@
                   <label class="sub-text d-flex" *ngIf="ladingBill && ladingBill.DocumentFileName">Uploaded on {{ladingBill.DocumentUploadDate | date : "d MMM, yyyy"}} {{ladingBill.DocumentUploadDate |
                     date : "H:mm"}}</label>
                 </a>
-                <div>
+                <div class="d-flex align-items-center">
                   <span class="badge pointer mr-2 mt-1 hashmove-badge-warning" *ngIf="ladingBill && !ladingBill.DocumentFileName">
                     AWAITING FROM CUSTOMER
                   </span>
