@@ -270,6 +270,26 @@ getRecentBookings(){
     }, 20);
 
     const { barGraph } = userGraphData
+    if (barGraph.length === 0) {
+      this.userBarGraph.title = { text: 'No Data to Show', x: 'center', y: 'center' }
+      this.userBarGraph.color = []
+      this.userBarGraph.legend.data = []
+      this.userBarGraph.xAxis[0].data = []
+      this.userBarGraph.series = []
+      setTimeout(() => {
+        this.isBarGraph = true
+      }, 20);
+      return
+    }
+
+    this.userBarGraph.title = {}
+    try {
+      barGraph.forEach(bar => {
+        const { totalCount } = bar
+      })
+
+    } catch (err) {
+    }
     // const { exchnageRate } = this
     // try {
     //   barGraph.forEach(bar => {
@@ -312,6 +332,16 @@ getRecentBookings(){
     setTimeout(() => {
       this.isTypeCompare = false
     }, 20);
+    if (userGraphData.pieChart.length === 0) {
+      this.userPieChart.title = { text: 'No Data to Show', x: 'center', y: 'center' }
+      this.userPieChart.series[0].data = []
+
+      setTimeout(() => {
+        this.isTypeCompare = true
+      }, 20);
+      return
+    }
+    this.userPieChart.title = {}
 
     this.userPieChart.series[0].data = userGraphData.pieChart
     const pieClone = cloneObject(this.userPieChart)
@@ -335,6 +365,16 @@ getRecentBookings(){
     const regionGraphList: Array<any> = userGraphData.regionBarGraph.filter(
       region => region.impExp.toLowerCase() === this.imp_ExpType
     )
+    if (regionGraphList.length === 0) {
+      this.userRegionBarGraph.title = { text: 'No Data to Show', x: 'center', y: 'center' }
+      this.userRegionBarGraph.series[0].data = []
+      this.userRegionBarGraph.yAxis.show = false
+      this.userRegionBarGraph.xAxis.show = false
+      return
+    }
+    this.userRegionBarGraph.yAxis.show = true
+    this.userRegionBarGraph.xAxis.show = true
+    this.userRegionBarGraph.title = {}
     // const getRegionDict = getRegionDictionary(regionGraphList)
     const regionDict = extractColumn(regionGraphList, 'amount')
     const regionData = extractColumn(regionGraphList, 'name')
@@ -409,7 +449,18 @@ getRecentBookings(){
         },
       ]
     }
-
+    if (compData.totalAmount === 0) {
+      this.optionHalfRound.title = { text: 'No Data to Show', x: 'center', y: 'center' }
+      this.optionHalfRound.series[0].data = []
+      this.optionHalfRound.series = []
+      this.optionHalfRound.legend.data = []
+      this.optionHalfRound.color = []
+      setTimeout(() => {
+        this.isVas = true
+      }, 20);
+      return
+    }
+  
     let defRadius = cloneObject(this.constRadius)
     let defRadiusDiff = getRadiusDiff(compData.vasComparisonDetail.length)
     const newSeries = []

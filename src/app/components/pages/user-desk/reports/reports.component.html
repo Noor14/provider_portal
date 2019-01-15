@@ -83,10 +83,7 @@
 
 
   <div class="mt-4" *ngIf="isBarGraph">
-    <div echarts [options]="userBarGraph" class="demo-chart" *ngIf="userBarGraph && userBarGraph.length"></div>
-    <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!userBarGraph || (userBarGraph && !userBarGraph.length)">
-        <h4 class="totalBookings-title mt-0 mb-0">No Record found</h4>
-      </div>
+    <div echarts [options]="userBarGraph" class="demo-chart"></div>
   </div>
   <div class="mt-4 position-relative" *ngIf="!isBarGraph" style="min-height: 415px">
     <app-loader-main></app-loader-main>
@@ -115,7 +112,6 @@
       </div>
     </div>
 
-<div *ngIf="userRegionBarGraph && userRegionBarGraph.length">
     <div class="col-7">
         <div class="pt-4">
             <hashmove-data-map *ngIf="isRegionMap" [data]="mapData" [currencyCode]="'AED'"></hashmove-data-map>
@@ -132,14 +128,10 @@
     </div>
 
     </div>
-    <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!userRegionBarGraph || (userRegionBarGraph && !userRegionBarGraph.length)">
-        <h4 class="totalBookings-title mt-0 mb-0">No Record found</h4>
-      </div>
-  </div>
 
   <div class="row comparision-section">
     <div class="col-6 customer-revenue">
-        <h4 class="totalBookings-title mt-2">Top 3 Customers By revenue</h4>
+        <h4 class="totalBookings-title mt-2">Top Customers By revenue</h4>
       <div *ngIf="topCustomers && topCustomers.length">
       
       <div class="d-flex pt-2" *ngFor="let customer of topCustomers">
@@ -168,21 +160,16 @@
       </div>      
     </div>
     <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!topCustomers || (topCustomers && !topCustomers.length)">
-      <h4 class="totalBookings-title mt-0 mb-0">No Record found</h4>
+      <h4 class="totalBookings-title mt-0 mb-0">No Data to Show</h4>
     </div>
   </div>
     <div class="booking-comparision col-md-6 col-xl-6 col-sm-12 pt-3">
       <h4 class="totalBookings-title pt-3 mt-4">Booking Type Comparision</h4>
-      <div *ngIf="isTypeCompare && isTypeCompare.length">
       <div class="mt-0">
         <div *ngIf="isTypeCompare" echarts [options]="userPieChart" [theme]="theme" class="demo-chart"></div>
         <div *ngIf="!isTypeCompare" style="min-height: 490px">
           <app-loader-main></app-loader-main>
         </div>
-      </div>
-      </div>
-      <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!userPieChart || (userPieChart && !userPieChart.length)">
-          <h4 class="totalBookings-title mt-0 mb-0">No Record found</h4>
       </div>
     </div>
   </div>
