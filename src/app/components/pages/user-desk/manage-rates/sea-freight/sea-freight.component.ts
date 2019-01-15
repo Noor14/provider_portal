@@ -570,8 +570,11 @@ export class SeaFreightComponent implements OnInit {
       $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
         event.stopPropagation();
         if (event.target.nodeName != "SPAN" || event.target.innerText) {
-          let rowId = event.currentTarget.cells[0].children[0].children[0].id;
-          this.updatePopupRates(rowId);
+          if (event.currentTarget && event.currentTarget.cells.length &&event.currentTarget.cells[0].children.length){
+            let rowId = event.currentTarget.cells[0].children[0].children[0].id;
+            this.updatePopupRates(rowId);
+          }
+    
         }
       });
       // $(alltableOption.table().container()).on('click', 'tfoot tr td a', (event) => {
@@ -633,8 +636,10 @@ export class SeaFreightComponent implements OnInit {
       $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
         event.stopPropagation();
         if (event.target.nodeName != "SPAN" || event.target.innerText) {
-          let rowId = event.currentTarget.cells[0].children[0].children[0].id;
-          this.updatePopupRates(rowId);
+          if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
+            let rowId = event.currentTarget.cells[0].children[0].children[0].id;
+            this.updatePopupRates(rowId);
+          }
         }
       });
       // $(alltableOption.table().container()).on('click', 'tfoot tr td a', (event) => {

@@ -132,20 +132,24 @@ export class SeaRateDialogComponent implements OnInit {
       this.selectedShipping = this.allShippingLines.find(obj => obj.CarrierID == this.selectedData.CarrierID);
       this.selectedCurrency = this.allCurrencies.find(obj => obj.CurrencyID == this.selectedData.CurrencyID);
       this.selectedPrice = this.selectedData.Price;
+    if (this.selectedData.EffectiveFrom){
       this.fromDate.day = new Date(this.selectedData.EffectiveFrom).getDate();
       this.fromDate.year = new Date(this.selectedData.EffectiveFrom).getFullYear();
       this.fromDate.month = new Date(this.selectedData.EffectiveFrom).getMonth()+1;
+    }
+    else if (this.selectedData.EffectiveTo){
       this.toDate.day = new Date(this.selectedData.EffectiveTo).getDate();
       this.toDate.year = new Date(this.selectedData.EffectiveTo).getFullYear();
-      this.toDate.month = new Date(this.selectedData.EffectiveTo).getMonth()+1;
+      this.toDate.month = new Date(this.selectedData.EffectiveTo).getMonth() + 1;
+    }
       if (!this.selectedCurrency) {
         this.selectedCurrency = this.defaultCurrency;
       }
-      if (this.fromDate) {
+    if (this.fromDate && this.fromDate.day) {
         this.model = this.fromDate;
         parsed += this._parserFormatter.format(this.fromDate);
       }
-      if (this.toDate) {
+    if (this.toDate && this.toDate.day) {
         parsed += ' - ' + this._parserFormatter.format(this.toDate);
       }
       this.rangeDp.nativeElement.value = parsed;
