@@ -3,6 +3,7 @@ import { PlatformLocation } from '@angular/common';
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { SharedService } from '../../../services/shared.service';
 import { Observable, Subject, Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import {
   NgbDatepicker,
@@ -13,6 +14,7 @@ import {
   NgbDateParserFormatter,
   NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateFRParserFormatter } from "../../../constants/ngb-date-parser-formatter";
 import { SeaFreightService } from '../../../components/pages/user-desk/manage-rates/sea-freight/sea-freight.service';
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -29,6 +31,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
   selector: 'app-sea-rate-dialog',
   templateUrl: './sea-rate-dialog.component.html',
   encapsulation: ViewEncapsulation.None,
+  providers: [{ provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }],
   styleUrls: ['./sea-rate-dialog.component.scss']
 })
 export class SeaRateDialogComponent implements OnInit {
@@ -42,6 +45,7 @@ export class SeaRateDialogComponent implements OnInit {
   public allContainers: any[] = [];
   public allPorts: any[] = [];
   public allCurrencies: any[] = [];
+  private allRatesFilledData:any[]=[]
   public filterOrigin: any = {};
   public filterDestination: any = {};
   public userProfile: any;
@@ -83,21 +87,19 @@ export class SeaRateDialogComponent implements OnInit {
     private _sharedService: SharedService,
     private _parserFormatter: NgbDateParserFormatter,
     private renderer: Renderer2,
-    private _seaFreightService: SeaFreightService
+    private _seaFreightService: SeaFreightService,
+    private _toast: ToastrService
 
   ) { location.onPopState(() => this.closeModal(null)); }
 
   ngOnInit() {
-
-
-
-
-
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
     this.allservicesBySea();
+
+
   }
 
 
@@ -121,6 +123,7 @@ export class SeaRateDialogComponent implements OnInit {
     })
   }
   setData(){
+    let parsed = '';
       this.selectedCategory = this.selectedData.ShippingCatID;
       this.cargoTypeChange(this.selectedCategory);
       this.selectedContSize = this.selectedData.ContainerSpecID;
@@ -128,7 +131,7 @@ export class SeaRateDialogComponent implements OnInit {
       this.filterDestination = this.allPorts.find(obj => obj.PortID == this.selectedData.PodID);
       this.selectedShipping = this.allShippingLines.find(obj => obj.CarrierID == this.selectedData.CarrierID);
       this.selectedCurrency = this.allCurrencies.find(obj => obj.CurrencyID == this.selectedData.CurrencyID);
-        this.selectedPrice = this.selectedData.Price;
+      this.selectedPrice = this.selectedData.Price;
       this.fromDate.day = new Date(this.selectedData.EffectiveFrom).getDate();
       this.fromDate.year = new Date(this.selectedData.EffectiveFrom).getFullYear();
       this.fromDate.month = new Date(this.selectedData.EffectiveFrom).getMonth()+1;
@@ -138,8 +141,14 @@ export class SeaRateDialogComponent implements OnInit {
       if (!this.selectedCurrency) {
         this.selectedCurrency = this.defaultCurrency;
       }
-    // this.model = this.fromDate + this.toDate;
-      this.onDateSelection(this.model)
+      if (this.fromDate) {
+        this.model = this.fromDate;
+        parsed += this._parserFormatter.format(this.fromDate);
+      }
+      if (this.toDate) {
+        parsed += ' - ' + this._parserFormatter.format(this.toDate);
+      }
+      this.rangeDp.nativeElement.value = parsed;
 
   }
 
@@ -148,43 +157,59 @@ export class SeaRateDialogComponent implements OnInit {
     this.allContainers = data;
   }
 
-
-
-
-  savedraftrow() {
-  
+  savedraftrow(type) {
     let obj = [
       {
         providerPricingDraftID: this.selectedData.ProviderPricingDraftID,
-        carrierID: this.selectedShipping.CarrierID,
-        carrierName: this.selectedShipping.CarrierName,
-        carrierImage: this.selectedShipping.CarrierImage,
+        carrierID: (this.selectedShipping)? this.selectedShipping.CarrierID : undefined,
+        carrierName: (this.selectedShipping)? this.selectedShipping.CarrierName:undefined,
+        carrierImage: (this.selectedShipping)? this.selectedShipping.CarrierImage: undefined,
         providerID: this.userProfile.ProviderID,
-        containerSpecID: (this.selectedContSize == 'null')? null : this.selectedContSize,
-        containerSpecName: (this.selectedContSize != 'null')? this.getContSpecName(this.selectedContSize): undefined,
-        shippingCatID: (this.selectedCategory == 'null') ? null : this.selectedCategory,
-        shippingCatName: (this.selectedCategory)? this.getShippingName(this.selectedCategory): undefined,
+        containerSpecID: (this.selectedContSize == null || this.selectedContSize == 'null')? null : this.selectedContSize,
+        containerSpecName: (this.selectedContSize == null || this.selectedContSize == 'null') ? undefined: this.getContSpecName(this.selectedContSize),
+        shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : this.selectedCategory,
+        shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined:this.getShippingName(this.selectedCategory),
         containerLoadType: "FCL",
         modeOfTrans: "SEA",
-        polID: this.filterOrigin.PortID,
-        polName: this.filterOrigin.PortName,
-        polCode: this.filterOrigin.PortCode,
-        podID: this.filterDestination.PortID,
-        podName: this.filterDestination.PortName,
-        podCode: this.filterDestination.PortCode,
+        polID: (this.filterOrigin && this.filterOrigin.PortID)? this.filterOrigin.PortID:null,
+        polName: (this.filterOrigin && this.filterOrigin.PortID)? this.filterOrigin.PortName: null,
+        polCode: (this.filterOrigin && this.filterOrigin.PortID)? this.filterOrigin.PortCode:null,
+        podID: (this.filterDestination && this.filterDestination.PortID)? this.filterDestination.PortID:null,
+        podName: (this.filterDestination && this.filterDestination.PortID)? this.filterDestination.PortName:null,
+        podCode: (this.filterDestination && this.filterDestination.PortID)? this.filterDestination.PortCode:null,
         price: this.selectedPrice,
         currencyID: (this.selectedCurrency.CurrencyID)? this.selectedCurrency.CurrencyID : 101,
         currencyCode: (this.selectedCurrency.CurrencyCode)? this.selectedCurrency.CurrencyCode : 'AED',
-        effectiveFrom: this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year,
-        effectiveTo: this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year,
+        effectiveFrom: (this.fromDate && this.fromDate.month)? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year: null,
+        effectiveTo: (this.toDate && this.toDate.month)? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year: null,
       }
     ]
     this._seaFreightService.saveDraftRate(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.closeModal(obj[0]);
+        this._toast.success('Rates added successfully','');
+        this.allRatesFilledData.push(obj[0]);
+        if (type != 'saveNadd'){
+          let object={
+            data: this.allRatesFilledData
+          }
+          this.closeModal(object);
+        }else{
+          this.addRow()
+        }
       }
     })
   }
+ addRow(){
+      this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this._sharedService.draftRowFCLAdd.next(res.returnObject);
+          this.selectedPrice = undefined;
+          this.selectedContSize = null;
+          this.selectedData.ProviderPricingDraftID = res.returnObject.ProviderPricingDraftID;
+        }
+      })
+  }
+
 
    getContSpecName(id){
     return this.allContainers.find(obj => obj.ContainerSpecID == id).ContainerSpecShortName;
@@ -222,7 +247,12 @@ export class SeaRateDialogComponent implements OnInit {
     document.getElementsByTagName('html')[0].style.overflowY = 'auto';
 
   }
-
+  closePopup(){
+    let object = {
+      data: this.allRatesFilledData
+    }
+    this.closeModal(object);
+  }
   shippings = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),

@@ -21,6 +21,7 @@ import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/co
 import * as moment from 'moment';
 import { DataTableDirective } from 'angular-datatables';
 import { AirRateDialogComponent } from '../../../../../shared/dialogues/air-rate-dialog/air-rate-dialog.component';
+import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-parser-formatter';
 
 declare var $;
 const now = new Date();
@@ -40,6 +41,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
   templateUrl: './air-freight.component.html',
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./air-freight.component.scss'],
+  providers: [{ provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }],
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [   // :enter is alias to 'void => *'
@@ -150,25 +152,25 @@ export class AirFreightComponent implements OnInit {
   }
 
 
-  clearFilter(event, type) {
+  clearFilter(event) {
     event.preventDefault();
     event.stopPropagation();
-    if (type == "FCL") {
       if ((this.filterbyAirLine && this.filterbyAirLine != 'undefined') ||
         (this.filterbyCargoType && this.filterbyCargoType != 'undefined') ||
-        (this.filterbyContainerType && this.filterbyContainerType != 'undefined') ||
         (this.filterDestination && Object.keys(this.filterDestination).length) ||
-        (this.filterOrigin && Object.keys(this.filterOrigin).length)
+        (this.filterOrigin && Object.keys(this.filterOrigin).length) ||
+        (this.fromDate && Object.keys(this.fromDate).length) ||
+        (this.toDate && Object.keys(this.toDate).length)
       ) {
+        this.fromDate = null;
+        this.toDate = null;
+        this.model = null;
         this.filterbyAirLine = 'undefined';
         this.filterbyCargoType = 'undefined';
-        this.filterbyContainerType = 'undefined';
         this.filterDestination = {};
         this.filterOrigin = {};
         this.filter();
       }
-    }
-
   }
   filter() {
     this.getAllPublishRates()
@@ -682,6 +684,16 @@ export class AirFreightComponent implements OnInit {
       }
     }
   }
+  filterBydate(date, type) {
+      if (!date && this.fromDate && this.toDate) {
+        this.fromDate = null;
+        this.toDate = null;
+        this.getAllPublishRates();
+      }
+      else {
+        return;
+      }
+    }
 
   onDateSelection(date: NgbDateStruct) {
     let parsed = '';
@@ -703,6 +715,9 @@ export class AirFreightComponent implements OnInit {
     }
 
     this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
+    if (this.fromDate && this.fromDate.month && this.toDate && this.toDate.month) {
+      this.getAllPublishRates();
+    }
   }
 
   allservicesByAir() {
@@ -764,8 +779,8 @@ export class AirFreightComponent implements OnInit {
       shippingCatID: (this.filterbyCargoType == 'undefined') ? null : this.filterbyCargoType,
       polID: this.orgfilter(),
       podID: this.destfilter(),
-      effectiveFrom: null,
-      effectiveTo: null,
+      effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+      effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
       sortColumn: null,
       sortColumnDirection: null,
     }

@@ -53,7 +53,7 @@
                         <img src="../../../../../../../assets/images/icons/filter-icon.svg" alt="Filter" class="icon-size-16 mr-2">Filter your results
                         <img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon">
                     </span>
-                    <span class="clear-filter" (click)="clearFilter($event, 'FCL')">
+                    <span class="clear-filter" (click)="clearFilter($event)">
                         <svg id="969970e9-5f21-4072-86a7-6672decd15e6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                             <g id="0d761291-d7c4-42bf-9433-98aad825bfb6" data-name="add">
                                 <g id="bede06dd-acf7-4be6-a923-734e194ecf5e" data-name="sucess">
@@ -118,7 +118,7 @@
                                     <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp" [(ngModel)]="model"
                                         ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right"
                                         [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate"
-                                        [minDate]="minDate" #dp="ngbDatepicker" (click)="dp.toggle()">
+                                        [minDate]="minDate" #dp="ngbDatepicker" (click)="dp.toggle()" (ngModelChange)="filterBydate(model)">
                                 </div>
                                 <ng-template #t let-date="date" let-focused="focused">
                                     <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)" [class.faded]="isHovered(date) || isInside(date)"
@@ -151,5 +151,5 @@
                 <button class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4">Save</button>
               </div>
             </div>
-          </section>
+    </section>
 </section>

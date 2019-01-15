@@ -36,9 +36,7 @@ export class NgbDateFRParserFormatter extends NgbDateParserFormatter {
 
     format(date: NgbDateStruct): string {
         let stringDate: string = ""; 
-        const months = ['January', 'February', 'March', 'April', 'May', 'June',
-                'July', 'August', 'September', 'October', 'November', 'December'
-            ];
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         if(date) {
             stringDate += isNumber(date.day) ? padNumber(date.day) + " " : "";
             stringDate += isNumber(date.month) ? months[date.month - 1] + ", " : "";
