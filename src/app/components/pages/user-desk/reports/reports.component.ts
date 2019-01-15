@@ -14,6 +14,8 @@ import { firstBy } from 'thenby';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonService } from '../../../../services/common.service';
 import { DashboardService } from '../dashboard/dashboard.service';
+import { encryptBookingID } from '../../../../constants/globalFunctions';
+import { Router } from '@angular/router';
 // import { CurrencyControl } from '../../../shared/currency/currency.injectable';
 // import { CurrencyDetails, ExchangeRate, Rate } from '../../../interfaces/currencyDetails';
 // import { SelectedCurrency } from '../../../shared/currency-dropdown/currency-dropdown.component';
@@ -31,7 +33,9 @@ export class ReportsComponent implements OnInit {
   public dashboardData: any;
 
   public bookingList: any[]
-  public currentBookings: any[]
+  public currentBookings: any[];
+  public recentBookings:any[]=[];
+  public topCustomers:any[]=[];
 
   public userGraphData: any
 
@@ -89,19 +93,26 @@ export class ReportsComponent implements OnInit {
   public isBarGraph: boolean = false
   public isRegionMap: boolean = false
   public isVas: boolean = false
-  public isTypeCompare: boolean = false
+  public isTypeCompare: boolean = false;
+
+  public userProfile: any;
+  private bookingsSubscriber: any;
 
   constructor(
-    private _dataService: SharedService,
+    private _sharedService: SharedService,
     private _dropDownSrv: CommonService,
     private _userService: DashboardService,
+    private _router: Router
     // private _currencyControl: CurrencyControl
   ) { }
 
 
 
   async ngOnInit() {
-
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo && userInfo.returnText) {
+      this.userProfile = JSON.parse(userInfo.returnText);
+    }
     this._dropDownSrv.getMstCodeVal('PERIOD').subscribe((resp: any) => {
       console.log((resp));
       this.periodList = resp
@@ -109,7 +120,7 @@ export class ReportsComponent implements OnInit {
       console.log(err.message);
     })
 
-    this._dataService.dashboardDetail.subscribe((data: any) => {
+    this._sharedService.dashboardDetail.subscribe((data: any) => {
       if (data !== null) {
         console.log(data);
         if (!this.isDashDataLoaded) {
@@ -125,11 +136,37 @@ export class ReportsComponent implements OnInit {
 
 
     const { reportPeriod } = this
-    this.setMasterGraph(reportPeriod)
+    this.setMasterGraph(reportPeriod);
+
+    this.getRecentBookings()
 
   }
+  ngOnDestroy() {
+    this.bookingsSubscriber.unsubscribe();
+  }
 
+getRecentBookings(){
+  this.bookingsSubscriber = this._sharedService.dashboardDetail.subscribe((state: any) => {
+    if (state && state.BookingDetails && state.BookingDetails.length) {
+  
+      let recentBookings = state.BookingDetails.filter(obj => obj.BookingTab === 'Current');
+      this.recentBookings = this.filterByDate(recentBookings).slice(0,3);
+   
+    }
+  });
+}
+  viewBookingDetails(bookingId) {
+    let id = encryptBookingID(bookingId);
+    this._router.navigate(['/provider/booking-detail', id]);
+  }
 
+  filterByDate(bookings) {
+    return bookings.sort(function (a, b) {
+      let dateA: any = new Date(a.HashMoveBookingDate);
+      let dateB: any = new Date(b.HashMoveBookingDate);
+      return dateB - dateA;
+    });
+  }
 
   // async setCurrencyList() {
   //   const res: any = await this._dropDownSrv.getCurrency().toPromise()
@@ -171,17 +208,17 @@ export class ReportsComponent implements OnInit {
     const userData: any = JSON.parse(userInfo.returnText);
     const { UserID } = userData
 
-    this._userService.getUserGraphData(1116, $reportPeriod).subscribe((resp: any) => {
+    this._userService.getUserGraphData(this.userProfile.ProviderID, $reportPeriod).subscribe((resp: any) => {
       const { returnId, returnObject } = resp
       if (returnId > 0) {
-        this.userGraphData = returnObject
-
+        this.userGraphData = returnObject;
         const { userGraphData } = this
-        this.setCurrentVsPrev()
+        this.setlastCustomer(userGraphData);
+        this.setCurrentVsPrev();
         this.setBarGraphData(userGraphData)
         this.setPieChartData(userGraphData)
         this.setRegionChartData(userGraphData)
-        const { vasComparisonGraph } = userGraphData
+        const { vasComparisonGraph } = userGraphData;
         setTimeout(() => {
           this.isRegionMap = false
         }, 10);
@@ -190,6 +227,7 @@ export class ReportsComponent implements OnInit {
         setTimeout(() => {
           this.isRegionMap = true
         }, 10);
+
       }
     })
   }
@@ -218,6 +256,11 @@ export class ReportsComponent implements OnInit {
     setTimeout(() => {
       this.isCurrVsPrev = true
     }, 20);
+  }
+
+  async setlastCustomer(userGraphData: any) {
+
+   this.topCustomers =  userGraphData.customer;
   }
 
   async setBarGraphData(userGraphData: any) {

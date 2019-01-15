@@ -594,4 +594,15 @@ $left-nav-icon-height:20px;
       padding: 0.4rem 2rem;
     }
   }
+
+  .term-cond {
+    textarea {
+      width: 100%;
+      border: 1px solid $data-table-border;
+      min-height: 230px;
+      border-radius: 4px;
+      color: $place-holder-color;
+      padding: 20px;
+    }
+  }
 }

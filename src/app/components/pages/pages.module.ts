@@ -19,6 +19,7 @@ import { DiscardDraftComponent } from '../../shared/dialogues/discard-draft/disc
 import { ConfirmDeleteDialogComponent } from '../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SeaRateDialogComponent } from '../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
 import { BookingStatusUpdationComponent } from '../../shared/dialogues/booking-status-updation/booking-status-updation.component';
+import { AirRateDialogComponent } from '../../shared/dialogues/air-rate-dialog/air-rate-dialog.component';
  
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { BookingStatusUpdationComponent } from '../../shared/dialogues/booking-s
     DiscardDraftComponent,
     ConfirmDeleteDialogComponent,
     SeaRateDialogComponent,
-    BookingStatusUpdationComponent
+    BookingStatusUpdationComponent,
+    AirRateDialogComponent
     // CancelBookingDialogComponent,
     // ConfirmModifySearchComponent,
     // ShareshippingComponent,
@@ -59,7 +61,8 @@ import { BookingStatusUpdationComponent } from '../../shared/dialogues/booking-s
     DiscardDraftComponent,
     ConfirmDeleteDialogComponent,
     SeaRateDialogComponent,
-    BookingStatusUpdationComponent
+    BookingStatusUpdationComponent,
+    AirRateDialogComponent
  
   ],
   providers: [

@@ -1,4 +1,5 @@
 @import "../../../../../assets/scss/_variables";
+
 .view-booking {
   &-title {
     font-size: $font-size-large + $font-size-large;
@@ -6,20 +7,24 @@
     font-weight: $font-weight-mid;
     color: $text-color-default;
     margin-bottom: 0px;
+
     @media (max-width: $screen-xs-screen) {
       font-size: 1.5rem;
     }
   }
+
   &-info {
     font-size: $font-size-base;
     font-weight: $font-weight-mid;
     color: $text-grey;
     text-transform: uppercase;
   }
+
   &-top-btn {
     @media (max-width: $screen-md-screen) {
       text-align: left !important;
     }
+
     a {
       font-size: $font-size-base;
       color: $dark-grey-blue;
@@ -28,13 +33,17 @@
       text-transform: uppercase;
     }
   }
+
   .status {
     margin-bottom: 38px;
+
     .card {
       border: 1px solid $boxes-border-grey;
       border-radius: 2px;
+
       &-body {
         padding: 1.56rem 1.55rem;
+
         .billing-rate {
           @media (max-width: $screen-sm-screen) {
             display: flex;
@@ -43,6 +52,7 @@
         }
       }
     }
+
     &-label {
       display: block;
       font-size: $font-size-medium;
@@ -52,37 +62,45 @@
       text-transform: uppercase;
       margin-bottom: 0.25rem;
     }
+
     strong {
       font-size: $font-size-large + 0.25rem;
       color: $text-color-default;
       font-weight: $font-weight-mid;
       font-family: $font-pragmatica;
+
       a {
         font-size: $font-size-medium;
         color: $secondary-color;
         font-family: $font-proxima;
         font-weight: $font-proxima-weight-semibold;
         margin-top: 0.25rem;
+
         &:focus {
           outline: 0
         }
+
         span.link-hover-danger {
           color: $danger-color;
         }
       }
     }
   }
+
   &-shipment-detail {
     margin-bottom: 40px;
+
     h5 {
-      margin-bottom: 28px;
-      font-family: $font-pragmatica;
-      font-size: $font-size-large + 0.25rem;
-      color: $text-color-default;
-      font-weight: $font-weight-mid;
+      font-size: .75rem;
+      font-family: $font-proxima;
+      font-weight: 400;
+      color: $color-topmenu;
+      text-transform: uppercase;
     }
+
     .card-title {
       margin-bottom: 0;
+
       h5 {
         font-size: $font-size-medium;
         text-transform: uppercase;
@@ -91,11 +109,13 @@
         word-spacing: 3px;
         margin-bottom: 0;
       }
+
       img {
         position: relative;
         top: -3px;
       }
     }
+
     .logo {
       border: solid 1px #f4f4f4;
       text-align: center;
@@ -107,6 +127,7 @@
       overflow: hidden;
       background-color: $white-color;
       position: relative;
+
       img {
         width: 90%;
         margin: 0;
@@ -118,16 +139,19 @@
         transform: translate(-50%, -50%)
       }
     }
+
     .company {
       text-align: left;
       float: left;
       margin-top: 18px;
+
       span {
         font-size: $font-size-large;
         text-align: left;
         font-family: $font-pragmatica;
         font-weight: $font-weight-normal;
       }
+
       p {
         font-size: $font-size-large + 0.25rem;
         font-family: $font-pragmatica;
@@ -137,6 +161,7 @@
         max-width: 300px;
       }
     }
+
     &-btn {
       min-width: 180px;
       min-height: 40px;
@@ -144,11 +169,14 @@
       font-weight: $font-proxima-weight-semibold;
       text-transform: uppercase;
     }
+
     .grey-background {
       background: $modal-header-background;
       border-top: 0px;
     }
+
     &-right {
+
       /*----BILLING SECTION - Start ----*/
       .card {
         .map {
@@ -156,38 +184,45 @@
             height: 160px;
           }
         }
+
         &-title {
           font-size: .875rem;
           font-family: $font-proxima;
           color: $secondary-grey;
           font-weight: 500;
           word-spacing: 3px;
+
           img {
             width: 16px;
             height: 16px;
           }
         }
+
         &-body {
           &.d-flex {
             border-bottom: 1px solid $boxes-border-grey;
           }
+
           h6 {
             font-weight: 600;
             font-family: $font-proxima;
             font-size: $font-size-large;
             margin-bottom: 0;
           }
+
           .ports {
             font-family: proxima-nova, sans-serif;
             font-size: .75rem;
             max-width: 94px;
             width: 100%;
+
             &-direction {
               margin: 22px 0;
               position: relative;
               right: 10px;
               top: 5px;
             }
+
             &-title {
               font-size: .875rem;
               font-family: proxima-nova, sans-serif;
@@ -195,6 +230,7 @@
               color: #738593;
               margin-bottom: 5px;
             }
+
             &-label {
               font-size: .875rem;
               color: #2b2b2b;
@@ -203,9 +239,11 @@
               font-family: proxima-nova, sans-serif;
               line-height: 1;
             }
+
             .d-flex {
               display: -ms-grid !important;
               display: grid !important;
+
               small {
                 max-width: 100% !important;
                 font-size: .875rem;
@@ -220,6 +258,7 @@
             }
           }
         }
+
         .list-group {
           .list-group-item {
             font-size: $font-size-base;
@@ -227,6 +266,7 @@
             border: 0;
             display: flex;
             justify-content: space-between;
+
             .long-text {
               font-family: $font-proxima;
               font-size: .875rem;
@@ -234,9 +274,11 @@
               font-weight: $font-proxima-weight-semibold;
               line-height: 1;
             }
+
             .catDetail {
               display: flex;
               flex-direction: column;
+
               .amount-text {
                 font-family: $font-proxima;
                 font-size: .875rem;
@@ -245,11 +287,14 @@
                 line-height: 1;
               }
             }
+
             &:last-child {
               padding-bottom: 0;
             }
+
             .category {
               line-height: 1;
+
               .icon {
                 width: 16px;
                 height: 16px;
@@ -260,6 +305,7 @@
           }
         }
       }
+
       /*----BILLING SECTION - End ----*/
       .helpSupport {
         &-head {
@@ -272,14 +318,17 @@
             padding-top: 1px; //text-shadow: 0.5px 0px $text-color-default;
           }
         }
+
         img {
           width: 20px;
           height: 20px;
           float: left;
         }
+
         &-content {
           float: left;
           width: 100%;
+
           h4 {
             font-size: $font-size-base;
             color: $dark-grey-blue;
@@ -289,6 +338,7 @@
             margin-top: 15px;
             margin-bottom: 5px;
           }
+
           .address {
             font-size: $font-size-large;
             font-family: $font-proxima;
@@ -296,21 +346,26 @@
             color: $text-color-default; // width: 85%;
             line-height: 1.4;
           }
+
           .helpLine {
             @extend .address
           }
+
           .dotted {
             border-bottom: 1px dashed #e5e5e5;
           }
         }
+
         &-footer {
           float: left;
           width: 100%;
+
           p {
             font-size: $font-size-medium;
             font-family: $font-proxima;
             padding-top: 17px;
             margin-bottom: 0;
+
             a {
               position: relative;
               color: $text-color-default;
@@ -324,10 +379,12 @@
       }
     }
   }
+
   .media {
     .align-self-start {
       width: 16px;
       height: 16px;
+
       img {
         width: 100%;
         height: 100%;
@@ -335,19 +392,29 @@
       }
     }
   }
+
   .details {
     .row {
       .col-4 {
         display: flex;
       }
     }
-    h5 {
-      font-size: $font-size-base;
-      font-family: $font-proxima;
-      font-weight: $font-weight-normal;
-      color: $dark-grey-blue;
-      text-transform: uppercase;
+
+    .badge {
+      display: flex;
+      align-self: center;
     }
+
+    button.btn {
+      padding: 0 1.5rem 0 1.5rem;
+      height: 33px;
+      line-height: 30px;
+
+      &.disable {
+        color: $color-topmenu !important;
+      }
+    }
+
     p {
       font-family: $font-pragmatica;
       font-size: $font-size-large;
@@ -357,28 +424,34 @@
       margin-bottom: 0px;
     }
   }
+
   &-document {
     margin-bottom: 16px;
+
     .card {
       .list-group {
         .list-group-item {
           padding-left: 20px !important;
-          a {
+
+          a.doc-title {
             color: inherit;
             cursor: default;
+
             &.primary-text {
               cursor: pointer;
               color: $primary-color;
               font-family: $font-proxima;
               font-weight: 500;
+
               .sub-text {
                 font-family: inherit;
                 font-size: 0.75rem;
                 color: $place-holder-color;
                 line-height: 1;
               }
+
               &:before {
-                content: url(../../../../../assets/images/icons/icon_check.svg);
+                content: url("../../../../../assets/images/icons/icon_check.svg");
                 height: 9px;
                 width: 12px;
                 position: absolute;
@@ -390,6 +463,7 @@
         }
       }
     }
+
     &-heading {
       margin-bottom: 16px !important;
       font-family: $font-pragmatica;
@@ -398,6 +472,7 @@
       font-weight: $font-weight-mid;
       margin-top: 42px;
     }
+
     &-title {
       font-size: $font-size-medium;
       font-family: $font-proxima;
@@ -408,8 +483,10 @@
       border-bottom: 1px dashed rgba(0, 0, 0, .125);
       padding-bottom: 10px;
     }
+
     .list-group {
       margin-top: 15px;
+
       &-item {
         border: 0px;
         display: flex;
@@ -420,16 +497,63 @@
         font-size: $font-size-large;
         color: $text-color-default;
         font-weight: $font-weight-normal;
+
         &:last-child {
           border: 0px;
+        }
+
+        button.btn {
+          padding: 0 1.5rem 0 1.5rem;
+          height: 33px;
+          line-height: 30px;
+
+          &.disable {
+            color: $color-topmenu !important;
+
+            &:hover {
+              box-shadow: none !important;
+            }
+          }
+
+          &:focus {
+            box-shadow: none;
+          }
+        }
+
+        .bill-landing {
+          color: $danger-color;
+          animation: 1.2s ease-in-out infinite alternate-reverse fadeIn;
+
+          &.primary-text {
+            &:before {
+              content: url("../../../../../assets/images/icons/icon_check-red.svg");
+              height: 9px;
+              width: 12px;
+              position: absolute;
+              left: 0;
+              top: 13px;
+              animation: 1.2s ease-in-out infinite alternate-reverse fadeIn;
+              transition: color .1s ease;  
+            }
+          }
+
+          label {
+            font-family: inherit;
+            font-size: 0.75rem;
+            color: $text-grey !important;
+            line-height: 1;
+          }
         }
       }
     }
   }
+
   ngb-popover-window {
     width: 20rem;
+
     .popover {
       border: 0;
+
       &-body {
         background: $white-color;
         box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.2);
@@ -439,8 +563,10 @@
         align-items: center;
         text-align: center;
         border-radius: 4px;
+
         .contact-popup {
           text-align: left;
+
           a {
             font-size: $font-size-large;
             font-family: $font-proxima;
@@ -449,12 +575,12 @@
             min-width: 180px;
             color: $dark-grey-blue;
           }
+
           p {
             font-size: $font-size-large + .125rem;
             font-family: $font-proxima;
             margin-bottom: 0;
           }
-
         }
       }
     }

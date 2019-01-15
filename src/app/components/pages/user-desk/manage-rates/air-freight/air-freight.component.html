@@ -72,10 +72,10 @@
           <div class="row" [@fadeInOut]>
             <div class="col-3">
               <div class="form-group">
-                <label>Shipping Lines</label>
-                <select class="form-control" [(ngModel)]="filterbyShippingLine" placeholder="Select" (change)="filter()">
+                <label>AirLines</label>
+                <select class="form-control" [(ngModel)]="filterbyAirLine" placeholder="Select" (change)="filter()">
                   <option [value]="undefined">All</option>
-                  <option *ngFor="let shipping of allShippingLines" [value]="shipping.CarrierID">{{shipping.CarrierName}}</option>
+                  <option *ngFor="let air of allAirLines" [value]="air.CarrierID">{{air.CarrierName}}</option>
                 </select>
               </div>
             </div>
@@ -123,15 +123,6 @@
                 </select>
               </div>
             </div>
-            <div class="col-3">
-              <div class="form-group">
-                <label>Container</label>
-                <select class="form-control" [(ngModel)]="filterbyContainerType" (change)="filter()">
-                  <option [value]="undefined">All</option>
-                  <option *ngFor="let container of allContainersType | unique" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
-                </select>
-              </div>
-            </div>
             <div class="col-4">
               <div class="form-group date-control">
                 <label>Rate Validity</label>
@@ -165,4 +156,14 @@
     <table id="publishRateTable" cellspacing="0" #publishBysea class="row-border hover"></table>
     <app-loader-main *ngIf="publishloading"></app-loader-main>
   </section>
+  <section class="term-cond">
+      <div class="row">
+        <div class="col-12">
+          <hr class="hr-solid mt-4">
+          <h5 class="add-rate-head mb-4 mt-4">Terms & Conditions</h5>
+          <textarea></textarea>
+          <button class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4">Save</button>
+        </div>
+      </div>
+    </section>
 </section>

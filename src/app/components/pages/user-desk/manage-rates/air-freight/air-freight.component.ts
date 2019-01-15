@@ -20,7 +20,8 @@ import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/co
 // import { NgModel } from '@angular/forms';
 import * as moment from 'moment';
 import { DataTableDirective } from 'angular-datatables';
-import { SeaRateDialogComponent } from '../../../../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
+import { AirRateDialogComponent } from '../../../../../shared/dialogues/air-rate-dialog/air-rate-dialog.component';
+
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -53,9 +54,9 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 })
 export class AirFreightComponent implements OnInit {
 
-  public dtOptionsBySeaFCL: DataTables.Settings | any = {};
+  public dtOptionsByAir: DataTables.Settings | any = {};
   public dtOptionsBySeaLCL: DataTables.Settings | any = {};
-  public dtOptionsBySeaFCLDraft: DataTables.Settings | any = {};
+  public dtOptionsByAirDraft: DataTables.Settings | any = {};
   public dtOptionsBySeaLCLDraft: DataTables.Settings | any = {};
   @ViewChild('draftBYsea') tabledraftBySea;
   @ViewChild('draftBYseaLCL') tabledraftBySeaLCL;
@@ -77,7 +78,7 @@ export class AirFreightComponent implements OnInit {
   public publishloadingLcl: boolean;
   public draftloading: boolean = true;
   public draftloadingLCL: boolean = true;
-  public allShippingLines: any[] = [];
+  public allAirLines: any[] = [];
   public allCargoType: any[] = []
   public allContainersType: any[] = [];
   public allHandlingType: any[] = [];
@@ -112,7 +113,7 @@ export class AirFreightComponent implements OnInit {
 
   // filterartion variable;
 
-  public filterbyShippingLine;
+  public filterbyAirLine;
   public filterbyCargoType;
   public filterbyCargoTypeLcl;
   public filterbyContainerType;
@@ -129,7 +130,7 @@ export class AirFreightComponent implements OnInit {
   isTo = date => equals(date, this.toDate);
   constructor(
     private modalService: NgbModal,
-    private _seaFreightService: AirFreightService,
+    private _airFreightService: AirFreightService,
     private _sharedService: SharedService,
     private element: ElementRef,
     private renderer: Renderer2,
@@ -144,9 +145,8 @@ export class AirFreightComponent implements OnInit {
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
-    this.getAllPublishRatesLcl();
     this.getAllPublishRates();
-    this.allservicesBySea();
+    this.allservicesByAir();
   }
 
 
@@ -154,13 +154,13 @@ export class AirFreightComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     if (type == "FCL") {
-      if ((this.filterbyShippingLine && this.filterbyShippingLine != 'undefined') ||
+      if ((this.filterbyAirLine && this.filterbyAirLine != 'undefined') ||
         (this.filterbyCargoType && this.filterbyCargoType != 'undefined') ||
         (this.filterbyContainerType && this.filterbyContainerType != 'undefined') ||
         (this.filterDestination && Object.keys(this.filterDestination).length) ||
         (this.filterOrigin && Object.keys(this.filterOrigin).length)
       ) {
-        this.filterbyShippingLine = 'undefined';
+        this.filterbyAirLine = 'undefined';
         this.filterbyCargoType = 'undefined';
         this.filterbyContainerType = 'undefined';
         this.filterDestination = {};
@@ -168,29 +168,14 @@ export class AirFreightComponent implements OnInit {
         this.filter();
       }
     }
-    else if (type == "LCL") {
-      if (
-        (this.filterbyCargoTypeLcl && this.filterbyCargoTypeLcl != 'undefined') ||
-        (this.filterbyHandlingType && this.filterbyHandlingType != 'undefined') ||
-        (this.filterDestinationLcl && Object.keys(this.filterDestinationLcl).length) ||
-        (this.filterOriginLcl && Object.keys(this.filterOriginLcl).length)
-      ) {
-        this.filterbyCargoTypeLcl = 'undefined';
-        this.filterbyHandlingType = 'undefined';
-        this.filterDestinationLcl = {};
-        this.filterOriginLcl = {};
-        this.filterLcl();
-      }
-    }
+
   }
   filter() {
     this.getAllPublishRates()
   }
-  filterLcl() {
-    this.getAllPublishRatesLcl()
-  }
+ 
   addRatesManually() {
-    this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
+    this._airFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.draftDataBYSeaFCL.unshift(res.returnObject);
         if (this.allSeaDraftRatesByFCL && this.allSeaDraftRatesByFCL.length) {
@@ -205,7 +190,7 @@ export class AirFreightComponent implements OnInit {
     })
   }
   addRatesManuallyLCL() {
-    this._seaFreightService.addDraftRatesLCL({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
+    this._airFreightService.addDraftRatesLCL({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.draftDataBYSeaLCL.unshift(res.returnObject);
         if (this.allSeaDraftRatesByLCL && this.allSeaDraftRatesByLCL.length) {
@@ -220,7 +205,7 @@ export class AirFreightComponent implements OnInit {
     })
   }
   generateDraftTable() {
-    this.dtOptionsBySeaFCLDraft = {
+    this.dtOptionsByAirDraft = {
       data: this.draftsfcl,
       columns: [
         {
@@ -272,7 +257,7 @@ export class AirFreightComponent implements OnInit {
             }
           }
         },
-    
+
         {
           title: 'RATE',
           data: function (data) {
@@ -562,7 +547,7 @@ export class AirFreightComponent implements OnInit {
     setTimeout(() => {
       if (this.tabledraftBySea && this.tabledraftBySea.nativeElement) {
         this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
-        let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
+        let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsByAirDraft);
         // let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
         // let footertr = $("<tr></tr>").appendTo(footer);
         // $("<td colspan='20'> <a href='javascript:;' class ='addrow'>Add Another Rates</a> </td>").appendTo(footertr);
@@ -626,7 +611,7 @@ export class AirFreightComponent implements OnInit {
 
     let obj = this.draftsfcl.find(obj => obj.ProviderPricingDraftID == rowId);
 
-    const modalRef = this.modalService.open(SeaRateDialogComponent, {
+    const modalRef = this.modalService.open(AirRateDialogComponent, {
       size: 'lg',
       centered: true,
       windowClass: '',
@@ -720,12 +705,12 @@ export class AirFreightComponent implements OnInit {
     this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
   }
 
-  allservicesBySea() {
+  allservicesByAir() {
     this._sharedService.dataLogisticServiceBySea.subscribe(state => {
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
-            this.allShippingLines = state[index].DropDownValues.AirLine;
+            this.allAirLines = state[index].DropDownValues.AirLine;
             this.allCargoType = state[index].DropDownValues.Category;
             this.allPorts = state[index].DropDownValues.AirPort;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
@@ -756,17 +741,7 @@ export class AirFreightComponent implements OnInit {
         return;
       }
     }
-    else if (type == "LCL") {
-      if (typeof obj == 'object') {
-        this.getAllPublishRatesLcl();
-      }
-      else if (!obj) {
-        this.getAllPublishRatesLcl();
-      }
-      else {
-        return;
-      }
-    }
+
 
   }
   filtertionPort(obj, type) {
@@ -780,24 +755,30 @@ export class AirFreightComponent implements OnInit {
 
   getAllPublishRates() {
     this.publishloading = true;
+ 
     let obj = {
-      // providerID: 1047,     
-      providerID: this.userProfile.ProviderID,
       pageNo: 1,
       pageSize: 50,
-      carrierID: (this.filterbyShippingLine == 'undefined') ? null : this.filterbyShippingLine,
+      providerID: this.userProfile.ProviderID,
+      carrierID: (this.filterbyAirLine == 'undefined') ? null : this.filterbyAirLine,
       shippingCatID: (this.filterbyCargoType == 'undefined') ? null : this.filterbyCargoType,
-      containerSpecID: (this.filterbyContainerType == 'undefined') ? null : this.filterbyContainerType,
-      polID: this.orgfilter("FCL"),
-      podID: this.destfilter("FCL"),
+      polID: this.orgfilter(),
+      podID: this.destfilter(),
       effectiveFrom: null,
       effectiveTo: null,
       sortColumn: null,
-      sortColumnDirection: null
+      sortColumnDirection: null,
     }
-    this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
+    this._airFreightService.getAllrates(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.allRatesList = res.returnObject.data;
+        if (res.returnObject && res.returnObject.length){
+        res.returnObject.map(elem => {
+          elem.slab = JSON.parse(elem.slab)
+        });
+        this.allRatesList = res.returnObject;
+        }else{
+          this.allRatesList = [];
+        }
         this.checkedallpublishRates = false;
         this.filterTable();
       }
@@ -805,33 +786,11 @@ export class AirFreightComponent implements OnInit {
 
   }
 
-  getAllPublishRatesLcl() {
-    this.publishloadingLcl = true;
-    let obj = {
-      providerID: this.userProfile.ProviderID,
-      pageNo: 1,
-      pageSize: 50,
-      shippingCatID: (this.filterbyCargoTypeLcl == 'undefined') ? null : this.filterbyCargoTypeLcl,
-      containerSpecID: (this.filterbyHandlingType == 'undefined') ? null : this.filterbyHandlingType,
-      polID: this.orgfilter("LCL"),
-      podID: this.destfilter("LCL"),
-      effectiveFrom: null,
-      effectiveTo: null,
-      sortColumn: null,
-      sortColumnDirection: null
-    }
-    this._seaFreightService.getAllratesLCL(obj).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        this.allRatesListLcL = res.returnObject.data;
-        this.checkedallpublishRatesLcl = false;
-        this.filterTableLcl();
-      }
-    })
-  }
+
 
 
   filterTable() {
-    this.dtOptionsBySeaFCL = {
+    this.dtOptionsByAir = {
       // ajax: {
       //   url: "http://10.20.1.13:9091/api/providerratefcl/SearchRates",
       //   type: "POST"
@@ -841,11 +800,11 @@ export class AirFreightComponent implements OnInit {
         {
           title: '<div class="fancyOptionBoxes"> <input id = "selectallpublishRates" type = "checkbox"> <label for= "selectallpublishRates"> <span> </span></label></div>',
           data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.carrierPricingID + '" type = "checkbox"> <label for= "' + data.carrierPricingID + '"> <span> </span></label></div>';
+            return '<div class="fancyOptionBoxes"> <input id = "' + data.carrierID + '" type = "checkbox"> <label for= "' + data.carrierID + '"> <span> </span></label></div>';
           }
         },
         {
-          title: 'SHIPPING LINE',
+          title: 'AirLINE',
           data: function (data) {
             let url = baseExternalAssets + "/" + data.carrierImage;
             return "<img src='" + url + "' class='icon-size-24 mr-2' />" + data.carrierName;
@@ -866,19 +825,74 @@ export class AirFreightComponent implements OnInit {
           title: 'CARGO TYPE',
           data: 'shippingCatName',
         },
-        {
-          title: 'CONTAINER',
-          data: 'containerSpecDesc',
-        },
-        {
-          title: 'RATE',
-          data: function (data) {
-            return (Number(data.priceWithCode.split(' ').pop())).toLocaleString('en-US', {
+          {
+          title: 'MINIMUM PRICE',
+            data: function (data) {
+            return (Number(data.slab.minPrice1.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
-              currency: data.priceWithCode.split(' ').shift(),
+              currency: data.slab.minPrice1.split(' ').shift(),
             });
           },
         },
+        {
+          title: 'NORMAL PRICE',
+          data: function (data) {
+            return (Number(data.slab.priceWithCode1.split(' ').pop())).toLocaleString('en-US', {
+              style: 'currency',
+              currency: data.slab.priceWithCode1.split(' ').shift(),
+            });
+          },
+        },
+        
+        {
+          title: '+45 PRICE',
+          data: function (data) {
+            return (Number(data.slab.priceWithCode2.split(' ').pop())).toLocaleString('en-US', {
+              style: 'currency',
+              currency: data.slab.priceWithCode2.split(' ').shift(),
+            });
+          },
+        },
+       
+        {
+          title: '+100 PRICE',
+          data: function (data) {
+            return (Number(data.slab.priceWithCode3.split(' ').pop())).toLocaleString('en-US', {
+              style: 'currency',
+              currency: data.slab.priceWithCode3.split(' ').shift(),
+            });
+          },
+        },
+   
+        {
+          title: '+250 PRICE',
+          data: function (data) {
+            return (Number(data.slab.priceWithCode4.split(' ').pop())).toLocaleString('en-US', {
+              style: 'currency',
+              currency: data.slab.priceWithCode4.split(' ').shift(),
+            });
+          },
+        },
+       
+        {
+          title: '+500 PRICE',
+          data: function (data) {
+            return (Number(data.slab.priceWithCode5.split(' ').pop())).toLocaleString('en-US', {
+              style: 'currency',
+              currency: data.slab.priceWithCode5.split(' ').shift(),
+            });
+          },
+        },
+        {
+          title: '+1000 PRICE',
+          data: function (data) {
+            return (Number(data.slab.priceWithCode6.split(' ').pop())).toLocaleString('en-US', {
+              style: 'currency',
+              currency: data.slab.priceWithCode6.split(' ').shift(),
+            });
+          },
+        },
+      
         {
           title: 'RATE VALIDITY',
           data: function (data) {
@@ -929,7 +943,7 @@ export class AirFreightComponent implements OnInit {
         },
         {
           targets: -1,
-          width: 'auto',
+          width: '12',
           orderable: false,
         },
         {
@@ -1097,7 +1111,7 @@ export class AirFreightComponent implements OnInit {
     setTimeout(() => {
       if (this.tablepublishBySea && this.tablepublishBySea.nativeElement) {
         this.dataTablepublishBysea = $(this.tablepublishBySea.nativeElement);
-        let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsBySeaFCL);
+        let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsByAir);
         this.publishloading = false;
         $("#selectallpublishRates").click(() => {
           this.delPublishRates = [];
@@ -1153,8 +1167,7 @@ export class AirFreightComponent implements OnInit {
       });
     }
   }
-  orgfilter(type) {
-    if (type == "FCL") {
+  orgfilter() {
       if (this.filterOrigin && typeof this.filterOrigin == "object" && Object.keys(this.filterOrigin).length) {
         return this.filterOrigin.PortID;
       }
@@ -1164,21 +1177,9 @@ export class AirFreightComponent implements OnInit {
       else if (!this.filterOrigin) {
         return null;
       }
-    }
-    else if (type == "LCL") {
-      if (this.filterOriginLcl && typeof this.filterOriginLcl == "object" && Object.keys(this.filterOriginLcl).length) {
-        return this.filterOriginLcl.PortID;
-      }
-      else if (this.filterOriginLcl && typeof this.filterOriginLcl == "string") {
-        return -1;
-      }
-      else if (!this.filterOriginLcl) {
-        return null;
-      }
-    }
+
   }
-  destfilter(type) {
-    if (type == "FCL") {
+  destfilter() {
       if (this.filterDestination && typeof this.filterDestination == "object" && Object.keys(this.filterDestination).length) {
         return this.filterDestination.PortID;
       }
@@ -1188,18 +1189,7 @@ export class AirFreightComponent implements OnInit {
       else if (!this.filterDestination) {
         return null;
       }
-    }
-    if (type == "LCL") {
-      if (this.filterDestinationLcl && typeof this.filterDestinationLcl == "object" && Object.keys(this.filterDestinationLcl).length) {
-        return this.filterDestinationLcl.PortID;
-      }
-      else if (this.filterDestinationLcl && typeof this.filterDestinationLcl == "string") {
-        return -1;
-      }
-      else if (!this.filterDestinationLcl) {
-        return null;
-      }
-    }
+
   }
 
   discardDraft() {
@@ -1377,7 +1367,7 @@ export class AirFreightComponent implements OnInit {
   }
 
   publishRate() {
-    this._seaFreightService.publishDraftRate(this.publishRates).subscribe((res: any) => {
+    this._airFreightService.publishDraftRate(this.publishRates).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         for (var i = 0; i < this.publishRates.length; i++) {
           for (let y = 0; y < this.draftsfcl.length; y++) {

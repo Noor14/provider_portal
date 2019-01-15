@@ -1134,18 +1134,22 @@ select {
   padding: 0.45em 1em;
   text-transform: uppercase;
   border-radius: 20px;
+  
   &-success {
-    background-color: $secondary-color;
-    border: 1px solid $secondary-color;
+    background-color: $badge-green;
+    color: $secondary-color-dark;
+    cursor: context-menu;
   }
   &.hashmove-badge {
     &-warning {
       background: $badge-yellow !important;
       color: $default-yellow !important;
+      cursor: context-menu;
     }
     &-danger {
       background: $danger-light-color !important;
       color: $danger-color !important;
+      cursor: context-menu;
     }
     &-primary-grey {
       background-color: rgba($primary-grey, 0.9);

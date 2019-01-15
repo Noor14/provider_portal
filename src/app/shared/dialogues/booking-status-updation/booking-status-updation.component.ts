@@ -63,7 +63,7 @@ export class BookingStatusUpdationComponent implements OnInit {
   getBookingStatuses() {
     this._viewBookingService.getBookingStatuses().subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        let data = res.returnObject.filter(e => e.BusinessLogic.toLowerCase() !== 'cancelled')
+        let data = res.returnObject.filter(e => e.BusinessLogic.toLowerCase() !== 'cancelled' && e.BusinessLogic.toLowerCase() !== 'draft');
         this.bookingStatuses = data.filter(e => e.BusinessLogic.toLowerCase() !== this.modalData.bookingStatus.toLowerCase())
       }
     }, (err: HttpErrorResponse) => {

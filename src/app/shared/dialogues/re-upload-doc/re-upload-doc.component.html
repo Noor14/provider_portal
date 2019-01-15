@@ -1,12 +1,12 @@
 <div class="provider-modal animated fadeIn">
   <div class="modal-header">
-    <h4 class="provider-modal-title">Reason</h4>
+    <h4 class="provider-modal-title">Reject Document</h4>
     <a class="pointer crossIcon" (click)="closeModal(null)">
       <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
     </a>
   </div>
   <div class="modal-body">
-    <p>Please tell the reason for asking the document again</p>
+    <p>Please provide the reason of rejection.</p>
     <div class="text-center text-area">
       <form autocomplete="off" novalidate [formGroup]="docReasonForm" (ngSubmit)="submitReason()">
         <div class="form-group mb-3">
