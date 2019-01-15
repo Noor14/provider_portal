@@ -152,15 +152,15 @@ filterOriginLcl && filterOriginLcl.CountryCode}"
                     <div class="form-group date-control">
                       <label>Rate Validity</label>
                       <div class="dateIcon">
-                        <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date"
-                          name="dp" [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right"
-                          [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate"
-                          #dp="ngbDatepicker" (click)="dp.toggle()">
+                        <input autocomplete="off" #rangeDpLCL class="form-control" placeholder="Start Date - End Date"
+                          name="dplcl" [(ngModel)]="modelLCL" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right"
+                          [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDateLCL" [minDate]="minDateLCL"
+                          #dpLCL="ngbDatepicker" (click)="dpLCL.toggle()" (ngModelChange)="filterBydate(modelLCL,'LCL')">
                       </div>
                       <ng-template #t let-date="date" let-focused="focused">
-                        <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
-                          [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)"
-                          (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                        <span class="custom-day" [class.range]="isFromLCL(date) || isToLCL(date) || isInsideLCL(date) || isHoveredLCL(date)"
+                          [class.faded]="isHoveredLCL(date) || isInsideLCL(date)" (click)="onDateSelectionLCL(date)"
+                          (mouseenter)="hoveredDateLCL = date" (mouseleave)="hoveredDateLCL = null">
                           {{ date.day }}
                         </span>
                       </ng-template>
@@ -329,7 +329,7 @@ filterOriginLcl && filterOriginLcl.CountryCode}"
                         <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date"
                           name="dp" [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right"
                           [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate"
-                          #dp="ngbDatepicker" (click)="dp.toggle()">
+                          #dp="ngbDatepicker" (click)="dp.toggle()" (ngModelChange)="filterBydate(model,'FCL')">
                       </div>
                       <ng-template #t let-date="date" let-focused="focused">
                         <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
@@ -368,3 +368,4 @@ filterOriginLcl && filterOriginLcl.CountryCode}"
       </ng-template>
     </ngb-tab>
   </ngb-tabset>
+</section>

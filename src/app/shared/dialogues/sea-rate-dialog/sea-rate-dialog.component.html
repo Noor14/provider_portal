@@ -1,7 +1,7 @@
 <div class="seaRates-modal animated fadeIn">
   <div class="modal-header">
     <h4 class="provider-modal-title">Add / Update Rates</h4>
-    <a class="pointer crossIcon" (click)="closeModal(null)">
+    <a class="pointer crossIcon" (click)="closePopup()">
       <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
     </a>
   </div>
@@ -107,8 +107,8 @@
         <div class="form-group date-control">
           <label>Rate Validity</label>
           <div class="dateIcon">
-            <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp"
-              [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="top-right"
+            <input id="dpicker" autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp"
+              ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="top-right"
               [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker"
               (click)="dp.toggle()">
           </div>
@@ -121,7 +121,10 @@
           </ng-template>
         </div>
       </div>
-      <div class="col-12"><button class="btn btn-primary pl-5 pr-5 mt-4 hvr-sweep-to-right pull-right" (click)="savedraftrow()">SAVE</button></div>
+      <div class="col-12 d-flex justify-content-end">
+        <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right mr-4" (click)="savedraftrow('saveNadd')">SAVE & ADD ANOTHER</button>
+        <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right" (click)="savedraftrow('onlySave')">SAVE & CLOSE</button>
+      </div>
     </div>
   </div>
 </div>

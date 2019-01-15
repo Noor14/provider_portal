@@ -21,6 +21,7 @@ import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/co
 import * as moment from 'moment';
 import { DataTableDirective } from 'angular-datatables';
 import { SeaRateDialogComponent } from '../../../../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
+import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-parser-formatter';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -39,6 +40,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
   templateUrl: './sea-freight.component.html',
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./sea-freight.component.scss'],
+  providers: [{ provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }],
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [   // :enter is alias to 'void => *'
@@ -62,8 +64,10 @@ export class SeaFreightComponent implements OnInit {
   @ViewChild('publishBysea') tablepublishBySea;
   @ViewChild('publishByseaLcl') tablepublishBySeaLcl;
   @ViewChild("dp") input: NgbInputDatepicker;
+  @ViewChild("dpLCL") inputLCL: NgbInputDatepicker;
   // @ViewChild(NgModel) datePick: NgModel;
   @ViewChild('rangeDp') rangeDp: ElementRef;
+  @ViewChild('rangeDpLCL') rangeDpLCL: ElementRef;
   // @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
   public activeTab = "activeFCL"
@@ -100,10 +104,16 @@ export class SeaFreightComponent implements OnInit {
   public startDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
   public minDate: NgbDateStruct;
+  public maxDateLCL: NgbDateStruct;
+  public minDateLCL: NgbDateStruct;
   public hoveredDate: NgbDateStruct;
+  public hoveredDateLCL: NgbDateStruct;
   public fromDate: any;
   public toDate: any;
+  public fromDateLCL: any;
+  public toDateLCL: any;
   public model: any;
+  public modelLCL: any;
 
   private _subscription: Subscription;
   private _selectSubscription: Subscription;
@@ -127,6 +137,14 @@ export class SeaFreightComponent implements OnInit {
   isInside = date => after(date, this.fromDate) && before(date, this.toDate);
   isFrom = date => equals(date, this.fromDate);
   isTo = date => equals(date, this.toDate);
+
+
+  isHoveredLCL = date =>
+    this.fromDateLCL && !this.toDateLCL && this.hoveredDateLCL && after(date, this.fromDateLCL) && before(date, this.hoveredDateLCL)
+  isInsideLCL = date => after(date, this.fromDateLCL) && before(date, this.toDateLCL);
+  isFromLCL = date => equals(date, this.fromDateLCL);
+  isToLCL = date => equals(date, this.toDateLCL);
+
   constructor(
     private modalService: NgbModal,
     private _seaFreightService: SeaFreightService,
@@ -148,6 +166,11 @@ export class SeaFreightComponent implements OnInit {
     this.getAllPublishRatesLcl();
     this.getAllPublishRates();
     this.allservicesBySea();
+    this._sharedService.draftRowFCLAdd.subscribe(state => {
+      if (state && Object.keys(state).length) {
+        this.setRowinDRaftTable(state, 'popup not open');
+      }
+    })
 
   }
 
@@ -159,11 +182,16 @@ export class SeaFreightComponent implements OnInit {
       (this.filterbyCargoType && this.filterbyCargoType != 'undefined') ||
       (this.filterbyContainerType && this.filterbyContainerType != 'undefined') ||
       (this.filterDestination && Object.keys(this.filterDestination).length) ||
-      (this.filterOrigin && Object.keys(this.filterOrigin).length)
+      (this.filterOrigin && Object.keys(this.filterOrigin).length) ||
+      (this.fromDate && Object.keys(this.fromDate).length) || 
+      (this.toDate && Object.keys(this.toDate).length)
     ) {
       this.filterbyShippingLine = 'undefined';
       this.filterbyCargoType = 'undefined';
       this.filterbyContainerType = 'undefined';
+      this.fromDate = null;
+      this.toDate = null;
+      this.model = null;
       this.filterDestination = {};
       this.filterOrigin = {};
       this.filter();
@@ -174,8 +202,13 @@ export class SeaFreightComponent implements OnInit {
         (this.filterbyCargoTypeLcl && this.filterbyCargoTypeLcl != 'undefined') ||
         (this.filterbyHandlingType && this.filterbyHandlingType != 'undefined') ||
         (this.filterDestinationLcl && Object.keys(this.filterDestinationLcl).length) ||
-        (this.filterOriginLcl && Object.keys(this.filterOriginLcl).length)
+        (this.filterOriginLcl && Object.keys(this.filterOriginLcl).length) ||
+        (this.fromDateLCL && Object.keys(this.fromDateLCL).length) ||
+        (this.toDateLCL && Object.keys(this.toDateLCL).length)
       ) {
+        this.fromDateLCL = null;
+        this.toDateLCL = null;
+        this.modelLCL = null;
         this.filterbyCargoTypeLcl = 'undefined';
         this.filterbyHandlingType = 'undefined';
         this.filterDestinationLcl = {};
@@ -193,32 +226,41 @@ export class SeaFreightComponent implements OnInit {
   addRatesManually() {
     this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.draftDataBYSeaFCL.unshift(res.returnObject);
-        if (this.allSeaDraftRatesByFCL && this.allSeaDraftRatesByFCL.length) {
-          this.draftsfcl = this.allSeaDraftRatesByFCL.concat(this.draftDataBYSeaFCL);
-        } else {
-          this.draftsfcl = this.draftDataBYSeaFCL;
-        }
-        this.generateDraftTable();
-        this.updatePopupRates(res.returnObject.ProviderPricingDraftID);
+        this.setRowinDRaftTable(res.returnObject,'openPopup')
         
       }
     })
   }
+  setRowinDRaftTable(obj, type){
+    this.draftDataBYSeaFCL.unshift(obj);
+    if (this.allSeaDraftRatesByFCL && this.allSeaDraftRatesByFCL.length) {
+      this.draftsfcl = this.allSeaDraftRatesByFCL.concat(this.draftDataBYSeaFCL);
+    } else {
+      this.draftsfcl = this.draftDataBYSeaFCL;
+    }
+    this.generateDraftTable();
+    if (type == 'openPopup'){
+    this.updatePopupRates(obj.ProviderPricingDraftID);
+    }
+  }
   addRatesManuallyLCL(){
     this._seaFreightService.addDraftRatesLCL({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.draftDataBYSeaLCL.unshift(res.returnObject);
-        if (this.allSeaDraftRatesByLCL && this.allSeaDraftRatesByLCL.length) {
-          this.draftslcl = this.allSeaDraftRatesByLCL.concat(this.draftDataBYSeaLCL);
-        } else {
-          this.draftslcl = this.draftDataBYSeaLCL;
-        }
-        this.generateDraftTableLCL();
-        this.updatePopupRates(res.returnObject.ConsolidatorPricingDraftID);
-        
+        this.setRowinDRaftTableLCL(res.returnObject,'openPopup');
       }
     })
+  }
+  setRowinDRaftTableLCL(obj, type) {
+    this.draftDataBYSeaLCL.unshift(obj);
+    if (this.allSeaDraftRatesByLCL && this.allSeaDraftRatesByLCL.length) {
+      this.draftslcl = this.allSeaDraftRatesByLCL.concat(this.draftDataBYSeaLCL);
+    } else {
+      this.draftslcl = this.draftDataBYSeaLCL;
+    }
+    this.generateDraftTableLCL();
+    if (type == 'openPopup') {
+    this.updatePopupRates(obj.ConsolidatorPricingDraftID);
+    }
   }
   generateDraftTable() {
     this.dtOptionsBySeaFCLDraft = {
@@ -233,7 +275,7 @@ export class SeaFreightComponent implements OnInit {
         {
           title: 'SHIPPING LINE',
           data: function (data) {
-            if (!data.CarrierName) {
+            if (!data.CarrierID) {
               return "<span>-- Select --</span>"
             }
             else {
@@ -266,7 +308,7 @@ export class SeaFreightComponent implements OnInit {
         {
           title: 'CARGO TYPE',
           data: function (data) {
-            if (!data.ShippingCatName) {
+            if (!data.ShippingCatID) {
               return "<span>-- Select --</span>"
             }
             else {
@@ -277,7 +319,7 @@ export class SeaFreightComponent implements OnInit {
         {
           title: 'CONTAINER',
           data: function (data) {
-            if (!data.ContainerSpecName) {
+            if (!data.ContainerSpecID) {
               return "<span>-- Select --</span>"
             }
             else {
@@ -646,8 +688,8 @@ export class SeaFreightComponent implements OnInit {
       keyboard: false
     });
     modalRef.result.then((result) => {
-      if (result && Object.keys(result).length) {
-        this.setAddDraftData(result);
+      if (result && result.data && result.data.length) {
+        this.setAddDraftData(result.data);
       }
     }, (reason) => {
       // console.log("reason");
@@ -662,31 +704,36 @@ export class SeaFreightComponent implements OnInit {
 
   }
 
-  setAddDraftData(result) {
-    for (let index = 0; index < this.draftsfcl.length; index++) {
-      if (this.draftsfcl[index].ProviderPricingDraftID == result.providerPricingDraftID) {
-        this.draftsfcl[index].CarrierID = result.carrierID;
-        this.draftsfcl[index].CarrierImage = result.carrierImage;
-        this.draftsfcl[index].CarrierName = result.carrierName;
-        this.draftsfcl[index].ContainerLoadType = result.containerLoadType;
-        this.draftsfcl[index].ContainerSpecID = result.containerSpecID;
-        this.draftsfcl[index].ContainerSpecName = result.containerSpecName;
-        this.draftsfcl[index].ShippingCatID = result.shippingCatID;
-        this.draftsfcl[index].ShippingCatName = result.shippingCatName;
-        this.draftsfcl[index].CurrencyID = result.currencyID;
-        this.draftsfcl[index].CurrencyCode = result.currencyCode;
-        this.draftsfcl[index].Price = result.price;
-        this.draftsfcl[index].EffectiveFrom = result.effectiveFrom;
-        this.draftsfcl[index].EffectiveTo = result.effectiveTo;
-        this.draftsfcl[index].PodCode = result.podCode;
-        this.draftsfcl[index].PolCode = result.polCode;
-        this.draftsfcl[index].PodName = result.podName;
-        this.draftsfcl[index].PolName = result.polName;
-        this.draftsfcl[index].PodID = result.podID;
-        this.draftsfcl[index].PolID = result.polID;
-        this.generateDraftTable();
-        break;
+  setAddDraftData(data) {
+    for (var index = 0; index < this.draftsfcl.length; index++) {
+      for (let i = 0; i < data.length; i++) {
+        if (this.draftsfcl[index].ProviderPricingDraftID == data[i].providerPricingDraftID){
+          if (this.draftsfcl[index].ProviderPricingDraftID == data[i].providerPricingDraftID) {
+            this.draftsfcl[index].CarrierID = data[i].carrierID;
+            this.draftsfcl[index].CarrierImage = data[i].carrierImage;
+            this.draftsfcl[index].CarrierName = data[i].carrierName;
+            this.draftsfcl[index].ContainerLoadType = data[i].containerLoadType;
+            this.draftsfcl[index].ContainerSpecID = data[i].containerSpecID;
+            this.draftsfcl[index].ContainerSpecName = data[i].containerSpecName;
+            this.draftsfcl[index].ShippingCatID = data[i].shippingCatID;
+            this.draftsfcl[index].ShippingCatName = data[i].shippingCatName;
+            this.draftsfcl[index].CurrencyID = data[i].currencyID;
+            this.draftsfcl[index].CurrencyCode = data[i].currencyCode;
+            this.draftsfcl[index].Price = data[i].price;
+            this.draftsfcl[index].EffectiveFrom = data[i].effectiveFrom;
+            this.draftsfcl[index].EffectiveTo = data[i].effectiveTo;
+            this.draftsfcl[index].PodCode = data[i].podCode;
+            this.draftsfcl[index].PolCode = data[i].polCode;
+            this.draftsfcl[index].PodName = data[i].podName;
+            this.draftsfcl[index].PolName = data[i].polName;
+            this.draftsfcl[index].PodID = data[i].podID;
+            this.draftsfcl[index].PolID = data[i].polID;
+          }
+        }
       }
+    }
+    if (index == this.draftsfcl.length){
+      this.generateDraftTable();
     }
   }
   addAnotherRates() {
@@ -730,6 +777,36 @@ export class SeaFreightComponent implements OnInit {
     }
 
     this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
+    if (this.fromDate && this.fromDate.month && this.toDate && this.toDate.month) {
+      this.getAllPublishRates();
+    }
+
+  }
+
+  onDateSelectionLCL(date: NgbDateStruct) {
+    let parsed = '';
+    if (!this.fromDateLCL && !this.toDateLCL) {
+      this.fromDateLCL = date;
+    } else if (this.fromDateLCL && !this.toDateLCL && after(date, this.fromDateLCL)) {
+      this.toDateLCL = date;
+      // this.model = `${this.fromDateLCL.year} - ${this.toDateLCL.year}`;
+      this.inputLCL.close();
+    } else {
+      this.toDateLCL = null;
+      this.fromDateLCL = date;
+    }
+    if (this.fromDateLCL) {
+      parsed += this._parserFormatter.format(this.fromDateLCL);
+    }
+    if (this.toDateLCL) {
+      parsed += ' - ' + this._parserFormatter.format(this.toDateLCL);
+    }
+
+    this.renderer.setProperty(this.rangeDpLCL.nativeElement, 'value', parsed);
+    if (this.fromDateLCL && this.fromDateLCL.month && this.toDateLCL && this.toDateLCL.month) {
+      this.getAllPublishRatesLcl();
+    }
+
   }
 
   allservicesBySea() {
@@ -789,6 +866,43 @@ export class SeaFreightComponent implements OnInit {
     }
     
   }
+
+
+  filterBydate(date, type) {
+    if (type == "FCL") {
+      if (!date && this.fromDate && this.toDate) {
+        this.fromDate = null;
+        this.toDate = null;
+        this.getAllPublishRates();
+      }
+      else {
+        return;
+      }
+    }
+    if (type == "LCL") {
+      if (!date && this.fromDateLCL && this.toDateLCL) {
+        this.fromDateLCL = null;
+        this.toDateLCL = null;
+        this.getAllPublishRatesLcl();
+      }
+      else {
+        return;
+      }
+    }
+
+  }
+  dateFilteronFocusOut(date, type){
+    if (type == "FCL") {
+      if(!date){
+        this.fromDate = {};
+        this.toDate = {};
+        this.getAllPublishRates();
+      }
+    }
+  }
+
+
+
   filtertionPort(obj, type) {
     if(type == "FCL"){
       if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates();
@@ -810,8 +924,8 @@ export class SeaFreightComponent implements OnInit {
       containerSpecID: (this.filterbyContainerType == 'undefined') ? null : this.filterbyContainerType,
       polID: this.orgfilter("FCL"),
       podID: this.destfilter("FCL"),
-      effectiveFrom: null,
-      effectiveTo: null,
+      effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+      effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
       sortColumn: null,
       sortColumnDirection: null
     }
@@ -835,8 +949,9 @@ export class SeaFreightComponent implements OnInit {
       containerSpecID: (this.filterbyHandlingType == 'undefined') ? null : this.filterbyHandlingType,
       polID: this.orgfilter("LCL"),
       podID: this.destfilter("LCL"),
-      effectiveFrom: null,
-      effectiveTo: null,
+      effectiveFrom: (this.fromDateLCL && this.fromDateLCL.month) ? this.fromDateLCL.month + '/' + this.fromDateLCL.day + '/' + this.fromDateLCL.year : null,
+      effectiveTo: (this.toDateLCL && this.toDateLCL.month) ? this.toDateLCL.month + '/' + this.toDateLCL.day + '/' + this.toDateLCL.year : null,
+
       sortColumn: null,
       sortColumnDirection: null
     }

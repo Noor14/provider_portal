@@ -21,6 +21,7 @@ import * as moment from 'moment';
 import { DataTableDirective } from 'angular-datatables';
 import { SeaRateDialogComponent } from '../../../../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
 import { GroundTransportService } from './ground-transport.service';
+import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-parser-formatter';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -39,6 +40,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
   templateUrl: './ground-transport.component.html',
   styleUrls: ['./ground-transport.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  providers: [{ provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }],
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [   // :enter is alias to 'void => *'
@@ -152,36 +154,22 @@ export class GroundTransportComponent implements OnInit {
 
 
 
-  clearFilter(event, type) {
+  clearFilter(event) {
     event.preventDefault();
     event.stopPropagation();
-    if (type == "FCL") {
-      if ((this.filterbyShippingLine && this.filterbyShippingLine != 'undefined') ||
-        (this.filterbyCargoType && this.filterbyCargoType != 'undefined') ||
-        (this.filterbyContainerType && this.filterbyContainerType != 'undefined') ||
+      if ((this.filterbyContainerType && this.filterbyContainerType != 'undefined') ||
         (this.filterDestination && Object.keys(this.filterDestination).length) ||
-        (this.filterOrigin && Object.keys(this.filterOrigin).length)
+        (this.filterOrigin && Object.keys(this.filterOrigin).length) ||
+        (this.fromDate && Object.keys(this.fromDate).length) ||
+        (this.toDate && Object.keys(this.toDate).length)
       ) {
-        this.filterbyShippingLine = 'undefined';
-        this.filterbyCargoType = 'undefined';
+        this.fromDate = null;
+        this.toDate = null;
+        this.model = null;
         this.filterbyContainerType = 'undefined';
         this.filterDestination = {};
         this.filterOrigin = {};
         this.filter();
-      }
-    }
-    else if (type == "LCL") {
-      if (
-        (this.filterbyCargoTypeLcl && this.filterbyCargoTypeLcl != 'undefined') ||
-        (this.filterbyHandlingType && this.filterbyHandlingType != 'undefined') ||
-        (this.filterDestinationLcl && Object.keys(this.filterDestinationLcl).length) ||
-        (this.filterOriginLcl && Object.keys(this.filterOriginLcl).length)
-      ) {
-        this.filterbyCargoTypeLcl = 'undefined';
-        this.filterbyHandlingType = 'undefined';
-        this.filterDestinationLcl = {};
-        this.filterOriginLcl = {};
-      }
     }
   }
   filter() {
@@ -706,7 +694,16 @@ export class GroundTransportComponent implements OnInit {
       }
     }
   }
-
+  filterBydate(date, type) {
+    if (!date && this.fromDate && this.toDate) {
+      this.fromDate = null;
+      this.toDate = null;
+      this.getAllPublishRates();
+    }
+    else {
+      return;
+    }
+  }
   onDateSelection(date: NgbDateStruct) {
     let parsed = '';
     if (!this.fromDate && !this.toDate) {
@@ -727,6 +724,9 @@ export class GroundTransportComponent implements OnInit {
     }
 
     this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
+    if (this.fromDate && this.fromDate.month && this.toDate && this.toDate.month) {
+      this.getAllPublishRates();
+    }
   }
 
   allservicesBySea() {
@@ -784,8 +784,8 @@ export class GroundTransportComponent implements OnInit {
       containerSpecID: (this.filterbyContainerType == 'undefined') ? null : this.filterbyContainerType,
       polID: this.orgfilter(),
       podID: this.destfilter(),
-      effectiveFrom: null,
-      effectiveTo: null,
+      effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+      effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
       sortColumn: null,
       sortColumnDirection: null
     }
