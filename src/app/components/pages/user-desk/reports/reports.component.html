@@ -83,8 +83,8 @@
 
 
   <div class="mt-4" *ngIf="isBarGraph">
-    <div echarts [options]="userBarGraph" class="demo-chart" *ngIf="topCustomers && topCustomers.length"></div>
-    <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!isTypeCompare || (isTypeCompare && !isTypeCompare.length)">
+    <div echarts [options]="userBarGraph" class="demo-chart" *ngIf="userBarGraph && userBarGraph.length"></div>
+    <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!userBarGraph || (userBarGraph && !userBarGraph.length)">
         <h4 class="totalBookings-title mt-0 mb-0">No Record found</h4>
       </div>
   </div>
@@ -115,7 +115,7 @@
       </div>
     </div>
 
-<div *ngIf="topCustomers && topCustomers.length">
+<div *ngIf="userRegionBarGraph && userRegionBarGraph.length">
     <div class="col-7">
         <div class="pt-4">
             <hashmove-data-map *ngIf="isRegionMap" [data]="mapData" [currencyCode]="'AED'"></hashmove-data-map>
@@ -132,7 +132,7 @@
     </div>
 
     </div>
-    <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!topCustomers || (topCustomers && !topCustomers.length)">
+    <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!userRegionBarGraph || (userRegionBarGraph && !userRegionBarGraph.length)">
         <h4 class="totalBookings-title mt-0 mb-0">No Record found</h4>
       </div>
   </div>
@@ -181,9 +181,9 @@
         </div>
       </div>
       </div>
-      <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!isTypeCompare || (isTypeCompare && !isTypeCompare.length)">
+      <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!userPieChart || (userPieChart && !userPieChart.length)">
           <h4 class="totalBookings-title mt-0 mb-0">No Record found</h4>
-        </div>
+      </div>
     </div>
   </div>
   <div class="recent-bookings ">
