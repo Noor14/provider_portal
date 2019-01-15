@@ -5,6 +5,7 @@ body {
   font-style: normal;
   a {
     text-decoration: none !important;
+    outline: none;
   }
   .overflow-hidden {
     overflow: hidden;
@@ -1282,6 +1283,15 @@ select {
                       left: -3px;
                       top: 0px;
                     }
+                  }
+                }
+                &.carrierName {
+                  position: relative;
+                  padding-left: 35px;
+
+                  img {
+                    position: absolute;
+                    left: 0;
                   }
                 }
               }
