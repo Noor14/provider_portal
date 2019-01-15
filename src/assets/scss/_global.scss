@@ -1285,6 +1285,15 @@ select {
                     }
                   }
                 }
+                &.carrierName {
+                  position: relative;
+                  padding-left: 35px;
+
+                  img {
+                    position: absolute;
+                    left: 0;
+                  }
+                }
               }
             }
           }

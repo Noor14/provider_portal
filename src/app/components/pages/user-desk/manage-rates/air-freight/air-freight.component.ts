@@ -224,8 +224,8 @@ export class AirFreightComponent implements OnInit {
               let url = baseExternalAssets + "/" + data.CarrierImage;
               return "<img src='" + url + "' class='icon-size-24 mr-2' />" + data.CarrierName;
             }
-          }
-
+          },
+          className: "carrierName"
         },
         {
           title: 'ORIGIN / DEPARTURE',
@@ -809,7 +809,7 @@ export class AirFreightComponent implements OnInit {
             let url = baseExternalAssets + "/" + data.carrierImage;
             return "<img src='" + url + "' class='icon-size-24 mr-2' />" + data.carrierName;
           },
-          defaultContent: '<select><option disable>-- Select --</option> <option>One</option></select>'
+          className: "carrierName"
         },
         {
           title: 'ORIGIN / DEPARTURE',

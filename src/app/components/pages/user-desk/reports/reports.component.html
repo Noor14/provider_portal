@@ -83,7 +83,10 @@
 
 
   <div class="mt-4" *ngIf="isBarGraph">
-    <div echarts [options]="userBarGraph" class="demo-chart"></div>
+    <div echarts [options]="userBarGraph" class="demo-chart" *ngIf="topCustomers && topCustomers.length"></div>
+    <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!isTypeCompare || (isTypeCompare && !isTypeCompare.length)">
+        <h4 class="totalBookings-title mt-0 mb-0">No Record found</h4>
+      </div>
   </div>
   <div class="mt-4 position-relative" *ngIf="!isBarGraph" style="min-height: 415px">
     <app-loader-main></app-loader-main>
@@ -94,13 +97,6 @@
   <div class="row pb-3 mt-4 pt-2">
     <div class="by-map col-md-7 col-xl-7 col-sm-12">
       <h4 class="totalBookings-title mt-4">Total Bookings by Region</h4>
-      <div class="pt-4">
-        <hashmove-data-map *ngIf="isRegionMap" [data]="mapData" [currencyCode]="'AED'"></hashmove-data-map>
-        <div *ngIf="!isRegionMap" style="min-height: 480px">
-          <app-loader-main></app-loader-main>
-        </div>
-      </div>
-
     </div>
     <div class="by-volume col-md-5 col-xl-5 col-sm-12 text-right">
       <div class="mt-0">
@@ -116,17 +112,36 @@
             </ul>
           </div>
         </div>
+      </div>
+    </div>
+
+<div *ngIf="topCustomers && topCustomers.length">
+    <div class="col-7">
+        <div class="pt-4">
+            <hashmove-data-map *ngIf="isRegionMap" [data]="mapData" [currencyCode]="'AED'"></hashmove-data-map>
+            <div *ngIf="!isRegionMap" style="min-height: 480px">
+              <app-loader-main></app-loader-main>
+            </div>
+          </div>
+    </div>
+    <div class="col-5">
         <div *ngIf="isRegionMap" echarts [options]="userRegionBarGraph" [theme]="theme" class="demo-chart"></div>
         <div *ngIf="!isRegionMap" style="min-height: 480px">
           <app-loader-main></app-loader-main>
         </div>
-      </div>
     </div>
+
+    </div>
+    <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!topCustomers || (topCustomers && !topCustomers.length)">
+        <h4 class="totalBookings-title mt-0 mb-0">No Record found</h4>
+      </div>
   </div>
 
   <div class="row comparision-section">
-    <div class="col-6 customer-revenue" *ngIf="topCustomers && topCustomers.length">
-      <h4 class="totalBookings-title mt-2">Top 3 Customers By revenue</h4>
+    <div class="col-6 customer-revenue">
+        <h4 class="totalBookings-title mt-2">Top 3 Customers By revenue</h4>
+      <div *ngIf="topCustomers && topCustomers.length">
+      
       <div class="d-flex pt-2" *ngFor="let customer of topCustomers">
         <div class="customer-image mr-2">
           <img *ngIf="customer.customerImage" [src]="customer.customerImage">
@@ -145,25 +160,30 @@
           </li>
         </ul>
       </div>
-
-
       <div class="view_link">
         <a class="hvr-icon-forward grey-anc-btn mt-4" href="javascript:;">
           <span class="link-hover-grey">View more </span>
           <img src="../../../../../assets/images/icons/icon_arrow_right.svg" alt="icon" class="icon-size-14 hvr-icon mb-1">
         </a>
-      </div>
-
-
+      </div>      
     </div>
+    <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!topCustomers || (topCustomers && !topCustomers.length)">
+      <h4 class="totalBookings-title mt-0 mb-0">No Record found</h4>
+    </div>
+  </div>
     <div class="booking-comparision col-md-6 col-xl-6 col-sm-12 pt-3">
       <h4 class="totalBookings-title pt-3 mt-4">Booking Type Comparision</h4>
+      <div *ngIf="isTypeCompare && isTypeCompare.length">
       <div class="mt-0">
         <div *ngIf="isTypeCompare" echarts [options]="userPieChart" [theme]="theme" class="demo-chart"></div>
         <div *ngIf="!isTypeCompare" style="min-height: 490px">
           <app-loader-main></app-loader-main>
         </div>
       </div>
+      </div>
+      <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!isTypeCompare || (isTypeCompare && !isTypeCompare.length)">
+          <h4 class="totalBookings-title mt-0 mb-0">No Record found</h4>
+        </div>
     </div>
   </div>
   <div class="recent-bookings ">
