@@ -35,7 +35,7 @@
             span {
                 color: $secondary-grey;
                 text-decoration: none;
-                font-size: $font-size-medium;
+                font-size: $font-size-base;
                 font-family: $font-proxima;
                 text-transform: uppercase;
             }
@@ -306,6 +306,7 @@
                 &box.totalspend-summary {
                     border-right: 1px solid #e9e9e9;
                     padding: 0px 0px;
+                    margin-top:1.125rem;
                     .bookings {
                         padding-left: 4.5rem;
                         font-size: $font-size-medium;
