@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
 // import { CurrencyDetails, ExchangeRate, Rate } from '../../../interfaces/currencyDetails';
 // import { SelectedCurrency } from '../../../shared/currency-dropdown/currency-dropdown.component';
 // import { currErrMsg } from '../../../shared/constants';
+import { baseExternalAssets } from '../../../../constants/base.url';
 
 @Component({
   selector: 'app-reports',
@@ -29,6 +30,8 @@ import { Router } from '@angular/router';
 })
 export class ReportsComponent implements OnInit {
 
+  public baseExternalAssets: string = baseExternalAssets;
+  
   public isDashDataLoaded: boolean = false
   public dashboardData: any;
 

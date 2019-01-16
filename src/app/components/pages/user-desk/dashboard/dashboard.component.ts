@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(private _sharedService: SharedService, private _router: Router) { }
 
   ngOnInit() {
-    this.dashboardSubscriber= this._sharedService.dashboardDetail.subscribe((state: any) => {
+    this.dashboardSubscriber = this._sharedService.dashboardDetail.subscribe((state: any) => {
       if (state) {
          this.providerInfo = state;
          this.bookings = this.providerInfo.BookingDetails

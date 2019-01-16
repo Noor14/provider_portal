@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, QueryList, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, QueryList, AfterViewInit, OnDestroy } from '@angular/core';
 import {
   NgbDatepicker,
   NgbInputDatepicker,
@@ -53,8 +53,9 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
     ])
   ]
 })
-export class SeaFreightComponent implements OnInit {
+export class SeaFreightComponent implements OnInit, OnDestroy {
 
+  private draftRates: any;
   public dtOptionsBySeaFCL: DataTables.Settings | any = {};
   public dtOptionsBySeaLCL: DataTables.Settings | any = {};
   public dtOptionsBySeaFCLDraft: DataTables.Settings | any = {};
@@ -172,6 +173,10 @@ export class SeaFreightComponent implements OnInit {
       }
     })
 
+  }
+
+  ngOnDestroy(){
+    this.draftRates.unsubscribe();
   }
 
   clearFilter(event, type) {
@@ -619,14 +624,10 @@ export class SeaFreightComponent implements OnInit {
     setTimeout(() => {
       if (this.tabledraftBySea && this.tabledraftBySea.nativeElement){
       this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
+      // let alltableOption = this.dataTabledraftBysea.DataTable();
+      //   alltableOption.destroy();
       let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
-      // let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
-      // let footertr = $("<tr></tr>").appendTo(footer);
-      // $("<td colspan='20'> <a href='javascript:;' class ='addrow'>Add Another Rates</a> </td>").appendTo(footertr);
-      // Add footer cells
-
       this.draftloading = false;
-
       $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
         event.stopPropagation();
         let delId = (<HTMLElement>event.target).id;
@@ -815,7 +816,7 @@ export class SeaFreightComponent implements OnInit {
   }
 
   allservicesBySea() {
-    this._sharedService.dataLogisticServiceBySea.subscribe(state => {
+   this.draftRates = this._sharedService.dataLogisticServiceBySea.subscribe(state => {
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {

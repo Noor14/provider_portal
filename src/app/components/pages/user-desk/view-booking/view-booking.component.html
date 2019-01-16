@@ -230,7 +230,7 @@
                 <div class="d-flex align-items-center">
                   <button class="btn disable" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && certOrigin.DocumentLastStatus.toLowerCase() != 'approved'"
                     (click)="reuploadDoc(certOrigin.DocumentTypeID, certOrigin.DocumentID)">Reject</button>
-                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && (certOrigin.DocumentLastStatus.toLowerCase() != 'approved' &&  certOrigin.DocumentLastStatus.toLowerCase() == 'reject')"
+                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && (certOrigin.DocumentLastStatus.toLowerCase() != 'approved' &&  certOrigin.DocumentLastStatus.toLowerCase() != 'reject')"
                     (click)="approvedDoc(certOrigin)">Approve</button>
                   <span class="badge hashmove-badge-warning" *ngIf="certOrigin && !certOrigin.DocumentFileName">
                     AWAITING FROM CUSTOMER

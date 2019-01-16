@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, QueryList, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, QueryList, AfterViewInit, OnDestroy } from '@angular/core';
 import {
   NgbDatepicker,
   NgbInputDatepicker,
@@ -54,8 +54,9 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
     ])
   ]
 })
-export class AirFreightComponent implements OnInit {
+export class AirFreightComponent implements OnInit, OnDestroy {
 
+  private draftRates: any;
   public dtOptionsByAir: DataTables.Settings | any = {};
   public dtOptionsBySeaLCL: DataTables.Settings | any = {};
   public dtOptionsByAirDraft: DataTables.Settings | any = {};
@@ -150,7 +151,9 @@ export class AirFreightComponent implements OnInit {
     this.getAllPublishRates();
     this.allservicesByAir();
   }
-
+  ngOnDestroy() {
+    this.draftRates.unsubscribe();
+  }
 
   clearFilter(event) {
     event.preventDefault();
@@ -721,7 +724,7 @@ export class AirFreightComponent implements OnInit {
   }
 
   allservicesByAir() {
-    this._sharedService.dataLogisticServiceBySea.subscribe(state => {
+    this.draftRates = this._sharedService.dataLogisticServiceBySea.subscribe(state => {
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
