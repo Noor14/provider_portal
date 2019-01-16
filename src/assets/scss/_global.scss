@@ -1317,20 +1317,32 @@ select {
               }
             }
           }
+          .DTFC_RightHeadBlocker {
+            &.DTFC_Blocker {
+              display: none !important;
+            }
+          }
         }
         .DTFC_RightBodyWrapper {
           margin-right: 1px;
           .DTFC_RightBodyLiner {
             table {
+              margin-bottom: 5rem !important;
+              border: 0 !important;
+              border-spacing: 0 !important;
+              border-collapse: collapse !important;
               tbody {
                 tr {
                   background: none;
+                  border-top: 1px solid $data-table-border;
                   td {
                     border: none;
                     padding: 0;
                     background: $white-color;
-                    border-top: 1px solid $data-table-border;
                     padding-left: 10px;
+                  }
+                  &:last-child {
+                    border-bottom: 1px solid $data-table-border;
                   }
                 }
               }
@@ -1398,7 +1410,17 @@ select {
     }
     &.draft-grid {
       .dataTables_scrollBody {
-        padding-bottom: 3rem;
+        >table {
+          margin-bottom: 3.7rem;
+        }
+      }
+    }
+    &.no-data {
+      .DTFC_RightWrapper {
+        display: none;
+      }
+      .addAnother {
+        width: 99.8%;
       }
     }
   }

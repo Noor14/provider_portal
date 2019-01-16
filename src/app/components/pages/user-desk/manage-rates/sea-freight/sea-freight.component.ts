@@ -364,7 +364,7 @@ export class SeaFreightComponent implements OnInit {
       info: false,
       destroy: true,
       // pagingType: 'full_numbers',
-      pageLength: 5,
+      pageLength: 50,
       scrollX: true,
       scrollY: '60vh',
       scrollCollapse: true,
