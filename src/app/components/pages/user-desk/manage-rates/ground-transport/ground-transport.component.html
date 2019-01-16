@@ -28,7 +28,7 @@
             </div>
         </div>
     </section>
-    <section class="rates-grid draft-grid">
+    <section [ngClass]="{'no-data': !draftsfcl.length, 'no-scroll-add' : draftsfcl.length}" class="rates-grid draft-grid">
         <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table>
         <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloading">Add another rates</a>
         <!-- <app-loader-main *ngIf="draftloading"></app-loader-main> -->
