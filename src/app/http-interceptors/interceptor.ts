@@ -63,11 +63,11 @@ export class Interceptor implements HttpInterceptor {
                 // In this case we want to logout user and to redirect it to login page
                 if (request.url.toLowerCase().includes("resetjwt")) {
                     // const { title, text } = sessionExpMsg
-                    setTimeout(() => {
-                        this._toastr.warning('Redirecting to registration page', 'Session Expired');
-                    }, 0);
+                    // setTimeout(() => {
+                    //     this._toastr.warning('Redirecting to registration page', 'Session Expired');
+                    // }, 0);
                     this._jwtService.sessionRefresh()
-                    this._router.navigate(['registration']);
+                    // this._router.navigate(['registration']);
                 }
                 return Observable.throw(error);
             }

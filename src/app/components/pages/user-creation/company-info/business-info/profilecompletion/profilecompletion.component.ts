@@ -82,7 +82,7 @@ export class ProfilecompletionComponent implements OnInit {
   proceed(){
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     let userData = JSON.parse(userInfo.returnText);
-    userData.UserProfileStatus = "Warehouse Category Pending";
+    userData.UserProfileStatus = "Dashboard";
     userInfo.returnText = JSON.stringify(userData);
     localStorage.setItem('userInfo', JSON.stringify(userInfo));
     this._router.navigate(['setup-warehouse'])
