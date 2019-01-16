@@ -369,7 +369,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       info: false,
       destroy: true,
       // pagingType: 'full_numbers',
-      pageLength: 50,
+      pageLength: 5,
       scrollX: true,
       scrollY: '60vh',
       scrollCollapse: true,
