@@ -49,7 +49,7 @@
           </svg>LCL</span>
       </ng-template>
       <ng-template ngbTabContent>
-        <section class="rates-grid draft-grid without-scroll">
+      <section class="rates-grid draft-grid draft-Lcl without-scroll">
           <table id="draftRateTableLCL" cellspacing="0" #draftBYseaLCL class="row-border hover"></table>
           <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloadingLCL">Add
             another rates</a>
@@ -101,8 +101,7 @@
                           </div>
                           <input class="form-control" [(ngModel)]="filterOriginLcl" (focusout)="filtertionPort(filterOriginLcl , 'LCL')"
                             (ngModelChange)="filterByroute(filterOriginLcl, 'LCL')" placeholder="Origin" type="text"
-                            [ngClass]="{'routeSelected':
-filterOriginLcl && filterOriginLcl.CountryCode}"
+                            [ngClass]="{'routeSelected': filterOriginLcl && filterOriginLcl.CountryCode}"
                             [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
                         </div>
                         <div class="col-6 destination pl-0">
@@ -171,7 +170,7 @@ filterOriginLcl && filterOriginLcl.CountryCode}"
             </ngb-panel>
           </ngb-accordion>
         </section>
-        <section class="rates-grid mt-5">
+<section class="rates-grid mt-5 publishRatesLCL">
           <div class="d-flex justify-content-end mb-3">
             <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('LCL')" [ngClass]="{'no-drop': !this.delPublishRatesLcl.length}">
               <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16">
@@ -218,7 +217,7 @@ filterOriginLcl && filterOriginLcl.CountryCode}"
       </ng-template>
       <ng-template ngbTabContent>
 <section [ngClass]="{'no-data': !draftsfcl.length, 'no-scroll-add' : draftsfcl.length, 'no-pagination': draftsfcl.length <= dtOptionsBySeaFCLDraft.pageLength}"
-  class="rates-grid draft-grid">
+  class="rates-grid draft-grid draft-Fcl">
           <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table>
           <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloading">Add
             another rates</a>
@@ -346,7 +345,7 @@ filterOriginLcl && filterOriginLcl.CountryCode}"
             </ngb-panel>
           </ngb-accordion>
         </section>
-        <section class="rates-grid mt-5">
+        <section class="rates-grid mt-5 publishRatesFCL">
           <div class="d-flex justify-content-end mb-3">
             <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('FCL')" [ngClass]="{'no-drop': !this.delPublishRates.length}">
               <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16">

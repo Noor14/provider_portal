@@ -99,7 +99,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice">
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice" (keypress)="numberValid($event)">
           </div>
         </div>
       </div>
