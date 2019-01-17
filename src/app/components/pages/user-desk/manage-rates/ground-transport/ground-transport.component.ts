@@ -825,7 +825,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           }
         },
         {
-          title: 'ORIGIN / DEPARTURE',
+          title: 'RATE FOR',
           data: function (data) {
             let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
             let podCode = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
@@ -835,15 +835,15 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           className: "routeCell"
         },
         {
-          title: 'TYPE',
+          title: 'AIRLINE',
           data: 'type',
         },
         {
-          title: 'SIZE',
+          title: 'ORIGIN / DEPARTURE',
           data: 'size',
         },
         {
-          title: 'RATE',
+          title: 'CARGO TYPE',
           data: function (data) {
             return (Number(data.priceWithCode.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
