@@ -371,10 +371,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         let $api = this.api();
         let pages = $api.page.info().pages;
         if (pages === 1 || !pages) {
-          $('.dataTables_paginate').hide();
+          $('.draft-Fcl .dataTables_paginate').hide();
         } else {
           // SHow everything
-          $('.dataTables_paginate').show();
+          $('.draft-Fcl .dataTables_paginate').show();
         }
       },
       info: false,
@@ -516,10 +516,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         let $api = this.api();
         let pages = $api.page.info().pages;
         if (pages === 1 || !pages) {
-          $('.dataTables_paginate').hide();
+          $('.draft-Lcl .dataTables_paginate').hide();
         } else {
           // SHow everything
-          $('.dataTables_paginate').show();
+          $('.draft-Lcl .dataTables_paginate').show();
         }
       },
       info: false,
@@ -1059,10 +1059,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         let $api = this.api();
         let pages = $api.page.info().pages;
         if (pages === 1 || !pages) {
-          $('.dataTables_paginate').hide();
+          $('.publishRatesFCL .dataTables_paginate').hide();
         } else {
           // SHow everything
-          $('.dataTables_paginate').show();
+          $('.publishRatesFCL .dataTables_paginate').show();
         }
       },
       // processing: true,
@@ -1175,10 +1175,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         let $api = this.api();
         let pages = $api.page.info().pages;
         if (pages === 1 || !pages) {
-          $('.dataTables_paginate').hide();
+          $('.publishRatesLCL .dataTables_paginate').hide();
         } else {
           // SHow everything
-          $('.dataTables_paginate').show();
+          $('.publishRatesLCL.dataTables_paginate').show();
         }
       },
       // processing: true,
