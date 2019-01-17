@@ -213,9 +213,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         (this.fromDateLCL && Object.keys(this.fromDateLCL).length) ||
         (this.toDateLCL && Object.keys(this.toDateLCL).length)
       ) {
+        this.modelLCL = null;
         this.fromDateLCL = null;
         this.toDateLCL = null;
-        this.modelLCL = null;
         this.filterbyCargoTypeLcl = 'undefined';
         this.filterbyHandlingType = 'undefined';
         this.filterDestinationLcl = {};
@@ -368,9 +368,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         }
       ],
       drawCallback: function () {
-        var $api = this.api();
-        var pages = $api.page.info().pages;
-        if (pages === 1) {
+        let $api = this.api();
+        let pages = $api.page.info().pages;
+        if (pages === 1 || !pages) {
           $('.dataTables_paginate').hide();
         } else {
           // SHow everything
@@ -512,7 +512,16 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           }
         }
       ],
-
+      drawCallback: function () {
+        let $api = this.api();
+        let pages = $api.page.info().pages;
+        if (pages === 1 || !pages) {
+          $('.dataTables_paginate').hide();
+        } else {
+          // SHow everything
+          $('.dataTables_paginate').show();
+        }
+      },
       info: false,
       destroy: true,
       // pagingType: 'full_numbers',
@@ -1046,6 +1055,16 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           className: 'moreOption'
         }
       ],
+      drawCallback: function () {
+        let $api = this.api();
+        let pages = $api.page.info().pages;
+        if (pages === 1 || !pages) {
+          $('.dataTables_paginate').hide();
+        } else {
+          // SHow everything
+          $('.dataTables_paginate').show();
+        }
+      },
       // processing: true,
       // serverSide: true,
       // retrieve: true,
@@ -1152,6 +1171,16 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           className: 'moreOption'
         }
       ],
+      drawCallback: function () {
+        let $api = this.api();
+        let pages = $api.page.info().pages;
+        if (pages === 1 || !pages) {
+          $('.dataTables_paginate').hide();
+        } else {
+          // SHow everything
+          $('.dataTables_paginate').show();
+        }
+      },
       // processing: true,
       // serverSide: true,
       // retrieve: true,
