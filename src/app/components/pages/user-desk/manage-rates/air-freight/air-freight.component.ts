@@ -165,9 +165,9 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         (this.fromDate && Object.keys(this.fromDate).length) ||
         (this.toDate && Object.keys(this.toDate).length)
       ) {
+        this.model = null;
         this.fromDate = null;
         this.toDate = null;
-        this.model = null;
         this.filterbyAirLine = 'undefined';
         this.filterbyCargoType = 'undefined';
         this.filterDestination = {};
