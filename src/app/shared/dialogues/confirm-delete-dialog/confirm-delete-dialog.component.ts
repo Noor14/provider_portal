@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { PlatformLocation } from '@angular/common';
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { SeaFreightService } from '../../../components/pages/user-desk/manage-rates/sea-freight/sea-freight.service';
+import { AirFreightService } from '../../../components/pages/user-desk/manage-rates/air-freight/air-freight.service';
+import { GroundTransportService } from '../../../components/pages/user-desk/manage-rates/ground-transport/ground-transport.service';
 
 @Component({
   selector: 'app-confirm-delete-dialog',
@@ -14,6 +16,8 @@ export class ConfirmDeleteDialogComponent implements OnInit {
   private userProfile: any
   constructor(
     private seaFreightService : SeaFreightService,
+    private airFreightService: AirFreightService,
+    private groundTransportService: GroundTransportService,
     private location: PlatformLocation,
     private _activeModal: NgbActiveModal
     ) { location.onPopState(() => this.closeModal(null)); }
@@ -33,10 +37,6 @@ export class ConfirmDeleteDialogComponent implements OnInit {
       })
     }
     else if (this.deleteIds.type == "draftSeaRateLCL") {
-      let obj = {
-        publishRateIDs: this.deleteIds.data,
-        modifiedBy: this.userProfile.LoginID
-      };
       this.seaFreightService.deleteNDiscardDraftRateLCl(this.deleteIds.data).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
           this.closeModal(res.returnStatus);
@@ -66,8 +66,52 @@ export class ConfirmDeleteDialogComponent implements OnInit {
       })
     }
 
- 
+    else if (this.deleteIds.type == "draftAirRate") {
+      let obj = {
+        publishRateIDs: this.deleteIds.data,
+        modifiedBy: this.userProfile.LoginID
+      };
+      this.airFreightService.deleteNDiscardDraftRate(this.deleteIds.data).subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this.closeModal(res.returnStatus);
+        }
+      })
+    }
 
+    else if (this.deleteIds.type == "publishAirRate") {
+      let obj = {
+        publishRateIDs: this.deleteIds.data,
+        modifiedBy: this.userProfile.LoginID
+      };
+      this.airFreightService.deletePublishRate(obj).subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this.closeModal(res.returnStatus);
+        }
+      })
+    }
+
+    else if (this.deleteIds.type == "publishRateRate") {
+      let obj = {
+        publishRateIDs: this.deleteIds.data,
+        modifiedBy: this.userProfile.LoginID
+      };
+      this.groundTransportService.deletePublishRate(obj).subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this.closeModal(res.returnStatus);
+        }
+      })
+    }
+    else if (this.deleteIds.type == "draftGroundRate") {
+      let obj = {
+        publishRateIDs: this.deleteIds.data,
+        modifiedBy: this.userProfile.LoginID
+      };
+      this.groundTransportService.deleteNDiscardDraftRate(this.deleteIds.data).subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this.closeModal(res.returnStatus);
+        }
+      })
+    }
  
   }
   closeModal(status) {

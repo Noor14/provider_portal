@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="col-xl-5 col-lg-5 col-md-12">
-        <div class="card pointer" (click)="addRatesByseaManually()">
+        <div class="card pointer" (click)="addRatesByAirManually()">
           <img class="card-icon" src="../../../../../assets/images/icons/manager-icon.png" alt="*" />
           <div class="card-body">
             <h5 class="card-title">Add Your Rates Manually </h5>
@@ -28,15 +28,15 @@
       </div>
     </div>
   </section>
-  <section class="rates-grid draft-grid">
-    <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table>
+  <section class="draft-Air rates-grid draft-grid" [ngClass]="{'no-data': !draftslist.length, 'no-scroll-add' : draftslist.length, 'no-pagination': draftslist.length <= dtOptionsByAirDraft.pageLength}">
+    <table id="draftRateTable" cellspacing="0" #draftBYair class="row-border hover"></table>
     <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloading">Add
       another rates</a>
     <!-- <app-loader-main *ngIf="draftloading"></app-loader-main> -->
   </section>
   <div class="row mt-4">
     <div class="col-12 text-right actions">
-      <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase" [disabled]="!draftsfcl || (draftsfcl && !draftsfcl.length)"
+      <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase" [disabled]="!draftslist || (draftslist && !draftslist.length)"
         (click)="discardDraft()">Discard Draft
       </button>
       <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">Save Draft</button>
@@ -89,8 +89,8 @@
                       <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
                         type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                     </div>
-                    <input class="form-control" [(ngModel)]="filterOrigin" (focusout)="filtertionPort(filterOrigin, 'FCL')"
-                      (ngModelChange)="filterByroute(filterOrigin, 'FCL')" placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
+                    <input class="form-control" [(ngModel)]="filterOrigin" (focusout)="filtertionPort(filterOrigin)"
+                      (ngModelChange)="filterByroute(filterOrigin)" placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
                       [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
                   </div>
                   <div class="col-6 destination pl-0">
@@ -98,8 +98,8 @@
                       <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
                         type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                     </div>
-                    <input placeholder="Destination" [(ngModel)]="filterDestination" (focusout)="filtertionPort(filterDestination, 'FCL')"
-                      (ngModelChange)="filterByroute(filterDestination, 'FCL')" type="text" class="form-control"
+                    <input placeholder="Destination" [(ngModel)]="filterDestination" (focusout)="filtertionPort(filterDestination)"
+                      (ngModelChange)="filterByroute(filterDestination)" type="text" class="form-control"
                       [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}" [ngbTypeahead]="ports"
                       [resultTemplate]="rt" [inputFormatter]="formatter" />
                   </div>
@@ -148,12 +148,12 @@
   </section>
   <section class="rates-grid mt-5">
     <div class="d-flex justify-content-end mb-3">
-      <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('FCL')" [ngClass]="{'no-drop': !this.delPublishRates.length}">
+      <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord()" [ngClass]="{'no-drop': !delPublishRates.length}">
         <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16">
         Delete
       </a>
     </div>
-    <table id="publishRateTable" cellspacing="0" #publishBysea class="row-border hover"></table>
+    <table id="publishRateTable" cellspacing="0" #publishByair class="row-border hover"></table>
     <app-loader-main *ngIf="publishloading"></app-loader-main>
   </section>
   <section class="term-cond">
