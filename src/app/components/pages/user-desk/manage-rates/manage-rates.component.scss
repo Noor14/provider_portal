@@ -329,8 +329,12 @@ $left-nav-icon-height:20px;
 
     &.without-scroll {
       a.addAnother {
-        @extend a.addAnother;
         bottom: 75px;
+      }
+    }
+    &.no-pagination {
+      a.addAnother {
+        bottom: 18px;
       }
     }
   }
