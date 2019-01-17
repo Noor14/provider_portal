@@ -734,7 +734,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     for (var index = 0; index < this.draftsfcl.length; index++) {
       for (let i = 0; i < data.length; i++) {
         if (this.draftsfcl[index].ProviderPricingDraftID == data[i].providerPricingDraftID){
-          if (this.draftsfcl[index].ProviderPricingDraftID == data[i].providerPricingDraftID) {
             this.draftsfcl[index].CarrierID = data[i].carrierID;
             this.draftsfcl[index].CarrierImage = data[i].carrierImage;
             this.draftsfcl[index].CarrierName = data[i].carrierName;
@@ -754,7 +753,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             this.draftsfcl[index].PolName = data[i].polName;
             this.draftsfcl[index].PodID = data[i].podID;
             this.draftsfcl[index].PolID = data[i].polID;
-          }
         }
       }
     }
