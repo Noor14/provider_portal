@@ -29,7 +29,7 @@ export class AirFreightService {
 
 
   deleteNDiscardDraftRate(data) {
-    let url: string = "ProviderRateAir/DeletePublishRate";
+    let url: string = "ProviderRateAir/DiscardDraft";
     return this._http.request('delete', baseApi + url, { body: data });
   }
 

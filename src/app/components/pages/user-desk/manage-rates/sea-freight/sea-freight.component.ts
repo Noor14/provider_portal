@@ -239,7 +239,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     })
   }
   setRowinDRaftTable(obj, type){
-    this.draftDataBYSeaFCL.unshift(obj);
+    debugger
+    this.draftDataBYSeaFCL.push(obj);
     if (this.allSeaDraftRatesByFCL && this.allSeaDraftRatesByFCL.length) {
       this.draftsfcl = this.allSeaDraftRatesByFCL.concat(this.draftDataBYSeaFCL);
     } else {
@@ -258,7 +259,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     })
   }
   setRowinDRaftTableLCL(obj, type) {
-    this.draftDataBYSeaLCL.unshift(obj);
+    this.draftDataBYSeaLCL.push(obj);
     if (this.allSeaDraftRatesByLCL && this.allSeaDraftRatesByLCL.length) {
       this.draftslcl = this.allSeaDraftRatesByLCL.concat(this.draftDataBYSeaLCL);
     } else {
@@ -270,6 +271,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     }
   }
   generateDraftTable() {
+    debugger
     this.dtOptionsBySeaFCLDraft = {
       data: this.draftsfcl,
       columns: [
@@ -703,7 +705,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   
   updatePopupRates(rowId) {
-
+debugger
     let obj = this.draftsfcl.find(obj => obj.ProviderPricingDraftID == rowId);
 
     const modalRef = this.modalService.open(SeaRateDialogComponent, {
@@ -731,6 +733,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   setAddDraftData(data) {
+    debugger
+    
     for (var index = 0; index < this.draftsfcl.length; index++) {
       for (let i = 0; i < data.length; i++) {
         if (this.draftsfcl[index].ProviderPricingDraftID == data[i].providerPricingDraftID){
@@ -757,6 +761,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       }
     }
     if (index == this.draftsfcl.length){
+      debugger
       this.generateDraftTable();
     }
   }
@@ -836,6 +841,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   allservicesBySea() {
    this.draftRates = this._sharedService.dataLogisticServiceBySea.subscribe(state => {
       if (state && state.length) {
+        debugger
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
             this.allShippingLines = state[index].DropDownValues.ShippingLine;
@@ -1382,6 +1388,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   discardDraft() {
+    debugger
     let discardarr = [];
     this.draftsfcl.forEach(elem => {
       discardarr.push(elem.ProviderPricingDraftID)
