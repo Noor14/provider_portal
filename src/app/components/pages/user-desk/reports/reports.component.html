@@ -1,4 +1,4 @@
-<div class="reports">
+<section class="reports">
   <div class="row">
     <div class="col-xl-6 col-sm-12">
       <h4 class="reports-title">
@@ -34,11 +34,11 @@
   <div class="row pt-4 pl-0 pr-0" *ngIf="isCurrVsPrev">
 
     <div class="col-12">
-      <h4 class="totalspend-title mt-3 mb-2">Total Spend</h4>
+      <h4 class="totalspend-title mt-3 mb-2">Total Revenue</h4>
     </div>
     <div class="totalspend-section-boxes col-xl-6 col-md-6 col-sm-12 ">
 
-      <div class="totalspendbox totalspend-summary">
+      <div class="totalspendbox totalspend-summary mt-3">
         <div class="totalspend-icon">
           <img src="../../../../../assets/images/icons/icon_booking_current.svg">
         </div>
@@ -59,7 +59,7 @@
     <!-- Spend Col 2 -->
     <div class="totalspend-section-boxes col-xl-6 col-md-6 col-sm-12 pl-5">
 
-      <div class="totalspendbox totalspend-summary">
+      <div class="totalspendbox totalspend-summary mt-3">
         <div class="totalspend-icon">
           <img src="../../../../../assets/images/icons/icon_booking_current.svg">
         </div>
@@ -81,21 +81,24 @@
 
 
 
-
+<div class="row">
+  <div class="col-12">
   <div class="mt-4" *ngIf="isBarGraph">
     <div echarts [options]="userBarGraph" class="demo-chart"></div>
   </div>
   <div class="mt-4 position-relative" *ngIf="!isBarGraph" style="min-height: 415px">
     <app-loader-main></app-loader-main>
   </div>
+  </div>
+</div>
   <hr class="hr-solid mt-2">
   <!-- Total Bookings By Region Section -->
 
-  <div class="row pb-3 mt-4 pt-2">
-    <div class="by-map col-md-7 col-xl-7 col-sm-12">
+  <div class="row ">
+    <div class="by-map col-md-7 col-xl-7 col-sm-12 pt-4">
       <h4 class="totalBookings-title mt-4">Total Bookings by Region</h4>
     </div>
-    <div class="by-volume col-md-5 col-xl-5 col-sm-12 text-right">
+    <div class="by-volume col-md-5 col-xl-5 col-sm-12 pt-4 text-right">
       <div class="mt-0">
         <div class="d-flex justify-content-between">
           <h4 class="totalBookings-title mt-4 mb-0">VOLUME %</h4>
@@ -131,12 +134,12 @@
 
   <div class="row comparision-section">
     <div class="col-6 customer-revenue">
-        <h4 class="totalBookings-title mt-2">Top Customers By revenue</h4>
-      <div *ngIf="topCustomers && topCustomers.length">
+        <h4 class="totalBookings-title mt-2">Top Customers By Revenue</h4>
+      <div  *ngIf="topCustomers && topCustomers.length">
       
-      <div class="d-flex pt-2" *ngFor="let customer of topCustomers">
+      <div class="d-flex pt-3" *ngFor="let customer of topCustomers">
         <div class="customer-image mr-2">
-          <img *ngIf="customer.customerImage" [src]="customer.customerImage">
+          <img *ngIf="customer.customerImage" [src]="baseExternalAssets +'/'+ customer.customerImage">
           <img *ngIf="!customer.customerImage" src="../../../../../assets/images/placeholder_image.png">
         </div>
         <ul class="customer">
@@ -153,7 +156,7 @@
         </ul>
       </div>
       <div class="view_link">
-        <a class="hvr-icon-forward grey-anc-btn mt-4" href="javascript:;">
+        <a class="hvr-icon-forward grey-anc-btn mt-3" href="javascript:;">
           <span class="link-hover-grey">View more </span>
           <img src="../../../../../assets/images/icons/icon_arrow_right.svg" alt="icon" class="icon-size-14 hvr-icon mb-1">
         </a>
@@ -271,4 +274,4 @@
     </div>
   </div>
 
-</div>
+</section>
