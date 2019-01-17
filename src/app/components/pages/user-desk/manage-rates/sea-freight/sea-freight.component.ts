@@ -13,13 +13,12 @@ import { DiscardDraftComponent } from '../../../../../shared/dialogues/discard-d
 import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { SeaFreightService } from './sea-freight.service';
-import { getJwtToken } from '../../../../../services/jwt.injectable';
 import { SharedService } from '../../../../../services/shared.service';
 import { baseExternalAssets } from '../../../../../constants/base.url';
 import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 // import { NgModel } from '@angular/forms';
 import * as moment from 'moment';
-import { DataTableDirective } from 'angular-datatables';
+// import { DataTableDirective } from 'angular-datatables';
 import { SeaRateDialogComponent } from '../../../../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
 import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-parser-formatter';
 declare var $;
@@ -168,7 +167,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this.getAllPublishRatesLcl();
     this.getAllPublishRates();
     this.allservicesBySea();
-   this.addnsaveRates = this._sharedService.draftRowFCLAdd.subscribe(state => {
+    this.addnsaveRates = this._sharedService.draftRowFCLAdd.subscribe(state => {
       if (state && Object.keys(state).length) {
         this.setRowinDRaftTable(state, 'popup not open');
       }
