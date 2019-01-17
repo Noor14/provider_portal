@@ -28,7 +28,7 @@
             </div>
         </div>
     </section>
-    <section [ngClass]="{'no-data': !draftslist.length, 'no-scroll-add' : draftslist.length}" class="rates-grid draft-grid">
+    <section [ngClass]="{'no-data': !draftslist.length, 'no-scroll-add' : draftslist.length, 'no-pagination': draftslist.length <= dtOptionsByGroundDraft.pageLength}" class="rates-grid draft-grid draft-Ground">
         <table id="draftRateTable" cellspacing="0" #draftBYGround class="row-border hover"></table>
         <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloading">Add another rates</a>
         <!-- <app-loader-main *ngIf="draftloading"></app-loader-main> -->

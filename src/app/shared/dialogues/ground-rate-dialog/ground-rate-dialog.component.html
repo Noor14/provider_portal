@@ -12,17 +12,6 @@
       </div>
       <div class="col-6">
         <div class="form-group">
-          <label>Shipping Line</label>
-          <input type="text" class="form-control" placeholder="e.g: Maersk Shipping" [(ngModel)]="selectedShipping" [ngbTypeahead]="shippings"
-            [resultTemplate]="st" [inputFormatter]="formatter">
-          <ng-template #st let-r="result">
-            <ngb-highlight [result]="r.CarrierName"></ngb-highlight>
-          </ng-template>
-        </div>
-      </div>
-      <div class="col-6"></div>
-      <div class="col-6">
-        <div class="form-group">
           <label>Origin</label>
           <div class="origin">
             <div class="flag-container">
@@ -67,7 +56,7 @@
       </div>
       <div class="col-6">
         <div class="form-group">
-          <label>Container Size</label>
+          <label>Traller / Container</label>
           <select class="form-control" [(ngModel)]="selectedContSize" [disabled]="!selectedCategory">
             <option [value]="null" disabled>--Select--</option>
             <option *ngFor="let container of allContainers" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>

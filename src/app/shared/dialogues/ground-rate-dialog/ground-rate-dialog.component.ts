@@ -229,8 +229,6 @@ export class GroundRateDialogComponent implements OnInit {
   getShippingName(id) {
     return this.allCargoType.find(obj => obj.ShippingCatID == id).ShippingCatName;
   }
-
-
   onDateSelection(date: NgbDateStruct) {
     let parsed = '';
     if (!this.fromDate && !this.toDate) {
