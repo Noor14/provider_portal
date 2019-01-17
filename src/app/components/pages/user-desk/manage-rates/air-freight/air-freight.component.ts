@@ -605,7 +605,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
 
   getAllPublishRates() {
     this.publishloading = true;
- 
     let obj = {
       pageNo: 1,
       pageSize: 50,
@@ -809,8 +808,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     this.setdataInTable();
   }
 
-
-
    setdataInTable() {
     setTimeout(() => {
       if (this.tablepublishByAir && this.tablepublishByAir.nativeElement) {
@@ -820,9 +817,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         $("#selectallpublishRates").click(() => {
           this.delPublishRates = [];
           var cols = alltableOption.column(0).nodes();
-
-
-
           this.checkedallpublishRates = !this.checkedallpublishRates;
           for (var i = 0; i < cols.length; i += 1) {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;

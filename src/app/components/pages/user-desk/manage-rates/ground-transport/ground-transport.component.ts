@@ -70,16 +70,13 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   public allRatesList: any;
   public publishloading: boolean;
   public draftloading: boolean = true;
-  public allShippingLines: any[] = [];
   public allCargoType: any[] = []
   public allContainersType: any[] = [];
   public allHandlingType: any[] = [];
   public allPorts: any[] = [];
   public allCurrencies: any[] = [];
   public draftRatesByGround: any[] = [];
-  public allSeaDraftRatesByLCL: any[] = [];
   public draftDataBYGround: any[] = [];
-  public draftDataBYSeaLCL: any[] = [];
   public draftslist: any[] = [];
   public delPublishRates: any[] = [];
   public publishRates: any[] = [];
