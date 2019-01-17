@@ -139,7 +139,7 @@
       
       <div class="d-flex pt-3" *ngFor="let customer of topCustomers">
         <div class="customer-image mr-2">
-          <img *ngIf="customer.customerImage" [src]="customer.customerImage">
+          <img *ngIf="customer.customerImage" [src]="baseExternalAssets +'/'+ customer.customerImage">
           <img *ngIf="!customer.customerImage" src="../../../../../assets/images/placeholder_image.png">
         </div>
         <ul class="customer">

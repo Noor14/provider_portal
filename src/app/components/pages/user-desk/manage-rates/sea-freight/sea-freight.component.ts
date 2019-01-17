@@ -56,6 +56,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 export class SeaFreightComponent implements OnInit, OnDestroy {
 
   private draftRates: any;
+  private addnsaveRates: any;
   public dtOptionsBySeaFCL: DataTables.Settings | any = {};
   public dtOptionsBySeaLCL: DataTables.Settings | any = {};
   public dtOptionsBySeaFCLDraft: DataTables.Settings | any = {};
@@ -167,7 +168,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this.getAllPublishRatesLcl();
     this.getAllPublishRates();
     this.allservicesBySea();
-    this._sharedService.draftRowFCLAdd.subscribe(state => {
+   this.addnsaveRates = this._sharedService.draftRowFCLAdd.subscribe(state => {
       if (state && Object.keys(state).length) {
         this.setRowinDRaftTable(state, 'popup not open');
       }
@@ -177,6 +178,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.draftRates.unsubscribe();
+    this.addnsaveRates.unsubscribe();
   }
 
   clearFilter(event, type) {
@@ -194,9 +196,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       this.filterbyShippingLine = 'undefined';
       this.filterbyCargoType = 'undefined';
       this.filterbyContainerType = 'undefined';
+      this.model = null;
       this.fromDate = null;
       this.toDate = null;
-      this.model = null;
       this.filterDestination = {};
       this.filterOrigin = {};
       this.filter();
@@ -365,7 +367,16 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           }
         }
       ],
-
+      drawCallback: function () {
+        var $api = this.api();
+        var pages = $api.page.info().pages;
+        if (pages === 1) {
+          $('.dataTables_paginate').hide();
+        } else {
+          // SHow everything
+          $('.dataTables_paginate').show();
+        }
+      },
       info: false,
       destroy: true,
       // pagingType: 'full_numbers',
