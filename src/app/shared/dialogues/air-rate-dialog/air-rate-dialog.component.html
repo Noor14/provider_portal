@@ -13,14 +13,22 @@
       <div class="col-6">
         <div class="form-group">
           <label>Airline</label>
-          <input type="text" class="form-control" placeholder="e.g: Maersk Shipping" [(ngModel)]="selectedShipping"
-            [ngbTypeahead]="shippings" [resultTemplate]="st" [inputFormatter]="formatter">
+          <input type="text" class="form-control" placeholder="e.g: Fly Dubai" [(ngModel)]="selectedAirline"
+            [ngbTypeahead]="airlines" [resultTemplate]="st" [inputFormatter]="formatter">
           <ng-template #st let-r="result">
             <ngb-highlight [result]="r.CarrierName"></ngb-highlight>
           </ng-template>
         </div>
       </div>
-      <div class="col-6"></div>
+          <div class="col-6">
+            <div class="form-group">
+              <label>Cargo Type</label>
+              <select class="form-control" id="category" [(ngModel)]="selectedCategory" (change)="cargoTypeChange(selectedCategory)">
+                <option [value]="null" disabled>--Select--</option>
+                <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
+              </select>
+            </div>
+          </div>
       <div class="col-6">
         <div class="form-group">
           <label>Origin</label>
@@ -56,15 +64,7 @@
               </ng-template>
         </div>
       </div>
-      <div class="col-6">
-        <div class="form-group">
-          <label>Cargo Type</label>
-          <select class="form-control" id="category" [(ngModel)]="selectedCategory" (change)="cargoTypeChange(selectedCategory)">
-            <option [value]="null" disabled>--Select--</option>
-            <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
-          </select>
-        </div>
-      </div>
+  
     </div>
     <div class="row">
       <div class="col-12">
@@ -90,7 +90,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice">
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="minPrice">
           </div>
         </div>
       </div>
@@ -101,7 +101,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice">
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="normalPrice">
           </div>
         </div>
       </div>
@@ -112,7 +112,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice">
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="plusfortyFivePrice">
           </div>
         </div>
       </div>
@@ -123,7 +123,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice">
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="plushundredPrice">
           </div>
         </div>
       </div>
@@ -134,7 +134,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice">
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="plusTwoFiftyPrice">
           </div>
         </div>
       </div>
@@ -145,7 +145,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice">
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="plusFiveHundPrice">
           </div>
         </div>
       </div>
@@ -156,7 +156,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice">
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="plusThousandPrice">
           </div>
         </div>
       </div>
