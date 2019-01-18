@@ -238,17 +238,16 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     })
   }
   setRowinDRaftTable(obj, type){
-    debugger
     this.draftDataBYSeaFCL.push(obj);
     if (this.allSeaDraftRatesByFCL && this.allSeaDraftRatesByFCL.length) {
       this.draftsfcl = this.allSeaDraftRatesByFCL.concat(this.draftDataBYSeaFCL);
     } else {
       this.draftsfcl = this.draftDataBYSeaFCL;
     }
-    this.generateDraftTable();
     if (type == 'openPopup'){
     this.updatePopupRates(obj.ProviderPricingDraftID);
     }
+    this.generateDraftTable();
   }
   addRatesManuallyLCL(){
     this._seaFreightService.addDraftRatesLCL({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
@@ -270,7 +269,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     }
   }
   generateDraftTable() {
-    debugger
     this.dtOptionsBySeaFCLDraft = {
       data: this.draftsfcl,
       columns: [
@@ -704,9 +702,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   
   updatePopupRates(rowId) {
-debugger
     let obj = this.draftsfcl.find(obj => obj.ProviderPricingDraftID == rowId);
-
     const modalRef = this.modalService.open(SeaRateDialogComponent, {
       size: 'lg',
       centered: true,
@@ -732,8 +728,6 @@ debugger
   }
 
   setAddDraftData(data) {
-    debugger
-    
     for (var index = 0; index < this.draftsfcl.length; index++) {
       for (let i = 0; i < data.length; i++) {
         if (this.draftsfcl[index].ProviderPricingDraftID == data[i].providerPricingDraftID){
@@ -760,7 +754,6 @@ debugger
       }
     }
     if (index == this.draftsfcl.length){
-      debugger
       this.generateDraftTable();
     }
   }
@@ -840,7 +833,6 @@ debugger
   allservicesBySea() {
    this.draftRates = this._sharedService.dataLogisticServiceBySea.subscribe(state => {
       if (state && state.length) {
-        debugger
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
             this.allShippingLines = state[index].DropDownValues.ShippingLine;
@@ -1387,7 +1379,6 @@ debugger
   }
 
   discardDraft() {
-    debugger
     let discardarr = [];
     this.draftsfcl.forEach(elem => {
       discardarr.push(elem.ProviderPricingDraftID)
