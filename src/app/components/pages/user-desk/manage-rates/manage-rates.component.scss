@@ -240,8 +240,7 @@ $left-nav-icon-height: 20px;
           &.active {
             span {
               background: #00a1df !important;
-              border-color: #30ccee !important;
-              // transition: .5s;
+              border-color: #30ccee !important; // transition: .5s;
               box-shadow: inset 0 -4px 6px 0 #0085d2, inset 0 1px 6px 0 #30ccee;
               color: $color-white;
               svg {
@@ -252,7 +251,6 @@ $left-nav-icon-height: 20px;
         }
         &:first-child {
           float: left;
-
           margin-top: 10px;
           a {
             span {
@@ -321,19 +319,19 @@ $left-nav-icon-height: 20px;
     }
     &.without-scroll {
       &.no-data {
-          a.addAnother {
-              bottom: 43px;
-          }
+        a.addAnother {
+          bottom: 43px;
+        }
       }
       a.addAnother {
-          bottom: 63px;
+        bottom: 63px;
       }
       &.no-pagination {
-          a.addAnother {
-              bottom: 43px
-          }
+        a.addAnother {
+          bottom: 43px;
+        }
       }
-  }
+    }
     &.no-pagination {
       a.addAnother {
         bottom: 60px;
@@ -380,7 +378,6 @@ $left-nav-icon-height: 20px;
             svg {
               width: 16px;
               fill: #738593;
-
               transform: rotate(45deg);
               position: relative;
               top: -1px;
@@ -431,7 +428,6 @@ $left-nav-icon-height: 20px;
           input {
             border: none;
           }
-
           .origin {
             border-right: 1px solid $provider-input-border;
           }
@@ -447,7 +443,6 @@ $left-nav-icon-height: 20px;
               &::-ms-input-placeholder {
                 font-style: italic;
               }
-
               &::-webkit-input-placeholder {
                 font-style: italic;
               }
