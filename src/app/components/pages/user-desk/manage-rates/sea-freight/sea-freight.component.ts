@@ -56,6 +56,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   private draftRates: any;
   private addnsaveRates: any;
+  private addnsaveRatesLCL: any;
   public dtOptionsBySeaFCL: DataTables.Settings | any = {};
   public dtOptionsBySeaLCL: DataTables.Settings | any = {};
   public dtOptionsBySeaFCLDraft: DataTables.Settings | any = {};
@@ -172,12 +173,18 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         this.setRowinDRaftTable(state, 'popup not open');
       }
     })
+       this.addnsaveRatesLCL = this._sharedService.draftRowLCLAdd.subscribe(state => {
+      if (state && Object.keys(state).length) {
+        this.setRowinDRaftTableLCL(state, 'popup not open');
+      }
+    })
 
   }
 
   ngOnDestroy(){
     this.draftRates.unsubscribe();
     this.addnsaveRates.unsubscribe();
+    this.addnsaveRatesLCL.unsubscribe();
   }
 
   clearFilter(event, type) {
@@ -233,7 +240,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.setRowinDRaftTable(res.returnObject,'openPopup')
-        
       }
     })
   }
@@ -245,7 +251,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       this.draftsfcl = this.draftDataBYSeaFCL;
     }
     if (type == 'openPopup'){
-    this.updatePopupRates(obj.ProviderPricingDraftID);
+    this.updatePopupRates(obj.ProviderPricingDraftID, 'FCL');
     }
     this.generateDraftTable();
   }
@@ -265,7 +271,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     }
     this.generateDraftTableLCL();
     if (type == 'openPopup') {
-    this.updatePopupRates(obj.ConsolidatorPricingDraftID);
+    this.updatePopupRates(obj.ConsolidatorPricingDraftID, 'LCL');
     }
   }
   generateDraftTable() {
@@ -376,7 +382,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           $('.draft-Fcl .dataTables_paginate').show();
         }
       },
-      info: false,
+      info: true,
       destroy: true,
       // pagingType: 'full_numbers',
       pageLength: 5,
@@ -521,7 +527,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           $('.draft-Lcl .dataTables_paginate').show();
         }
       },
-      info: false,
+      info: true,
       destroy: true,
       // pagingType: 'full_numbers',
       pageLength: 5,
@@ -597,7 +603,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         if (event.target.nodeName != "SPAN" || event.target.innerText) {
           if (event.currentTarget && event.currentTarget.cells.length &&event.currentTarget.cells[0].children.length){
             let rowId = event.currentTarget.cells[0].children[0].children[0].id;
-            this.updatePopupRates(rowId);
+            this.updatePopupRates(rowId,'LCL');
           }
     
         }
@@ -659,7 +665,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         if (event.target.nodeName != "SPAN" || event.target.innerText) {
           if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
             let rowId = event.currentTarget.cells[0].children[0].children[0].id;
-            this.updatePopupRates(rowId);
+            this.updatePopupRates(rowId, 'FCL');
           }
         }
       });
@@ -701,8 +707,14 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   
-  updatePopupRates(rowId) {
-    let obj = this.draftsfcl.find(obj => obj.ProviderPricingDraftID == rowId);
+  updatePopupRates(rowId, type) {
+    let obj;
+        if(type == 'FCL'){
+         obj = this.draftsfcl.find(elem => elem.ProviderPricingDraftID == rowId);
+        }
+        else if(type == 'LCL'){
+         obj = this.draftslcl.find(elem => elem.ConsolidatorPricingDraftID == rowId);
+        }    
     const modalRef = this.modalService.open(SeaRateDialogComponent, {
       size: 'lg',
       centered: true,
@@ -712,13 +724,19 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     });
     modalRef.result.then((result) => {
       if (result && result.data && result.data.length) {
+        if(type == 'FCL'){
         this.setAddDraftData(result.data);
+        }
+        else if (type == 'LCL'){
+           this.setAddDraftDataLCL(result.data);
+        }
       }
-    }, (reason) => {
-      // console.log("reason");
     });
-
-    modalRef.componentInstance.selectedData = obj;
+    let object={
+      forType : type,
+      data: obj
+    }
+    modalRef.componentInstance.selectedData = object;
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
@@ -727,6 +745,33 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   }
 
+  setAddDraftDataLCL(data) {
+    for (var index = 0; index < this.draftslcl.length; index++) {
+      for (let i = 0; i < data.length; i++) {
+        if (this.draftslcl[index].ConsolidatorPricingDraftID == data[i].consolidatorPricingDraftID){
+            this.draftslcl[index].ContainerLoadType = data[i].containerLoadType;
+            this.draftslcl[index].ContainerSpecID = data[i].containerSpecID;
+            this.draftslcl[index].ContainerSpecName = data[i].containerSpecName;
+            this.draftslcl[index].ShippingCatID = data[i].shippingCatID;
+            this.draftslcl[index].ShippingCatName = data[i].shippingCatName;
+            this.draftslcl[index].CurrencyID = data[i].currencyID;
+            this.draftslcl[index].CurrencyCode = data[i].currencyCode;
+            this.draftslcl[index].Price = data[i].price;
+            this.draftslcl[index].EffectiveFrom = data[i].effectiveFrom;
+            this.draftslcl[index].EffectiveTo = data[i].effectiveTo;
+            this.draftslcl[index].PodCode = data[i].podCode;
+            this.draftslcl[index].PolCode = data[i].polCode;
+            this.draftslcl[index].PodName = data[i].podName;
+            this.draftslcl[index].PolName = data[i].polName;
+            this.draftslcl[index].PodID = data[i].podID;
+            this.draftslcl[index].PolID = data[i].polID;
+        }
+      }
+    }
+    if (index == this.draftslcl.length){
+      this.generateDraftTableLCL();
+    }
+  }
   setAddDraftData(data) {
     for (var index = 0; index < this.draftsfcl.length; index++) {
       for (let i = 0; i < data.length; i++) {

@@ -45,14 +45,17 @@ export class ReUploadDocComponent implements OnInit {
       reasonID: this.docReasonForm.value.reasonType,
       documentStausRemarks: this.docReasonForm.value.reasonDesc,
       documentStaus: "RE-UPLOAD",
-      //documentStausDate: new Date(),
       documentLastApproverID: this.documentObj.userID,
       approverIDType: "PROVIDER",
       createdBy: this.documentObj.createdBy
     }
     this._viewBookingService.uploadDocReason(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.closeModal(res.returnStatus);
+            let object = {
+            status: obj.documentStaus,
+            resType : res.returnStatus
+           }
+        this.closeModal(object);
         this._toast.success(res.returnText);
       }
     })

@@ -45,6 +45,7 @@ export class SeaRateDialogComponent implements OnInit {
   public allCargoType: any[] = [];
   public allContainersType: any[] = [];
   public allContainers: any[] = [];
+  public allHandlingType: any[] = [];
   public allPorts: any[] = [];
   public allCurrencies: any[] = [];
   private allRatesFilledData: any[] = [];
@@ -53,6 +54,7 @@ export class SeaRateDialogComponent implements OnInit {
   public userProfile: any;
   public selectedCategory: any;
   public selectedContSize: any;
+  public selectedHandlingUnit: any;
   public selectedShipping: any;
   public selectedPrice: any;
   public defaultCurrency: any = {
@@ -114,46 +116,84 @@ export class SeaRateDialogComponent implements OnInit {
             this.allShippingLines = state[index].DropDownValues.ShippingLine;
             this.allCargoType = state[index].DropDownValues.Category;
             this.allContainersType = state[index].DropDownValues.ContainerFCL;
+            this.allHandlingType = state[index].DropDownValues.ContainerLCL;
             this.allPorts = state[index].DropDownValues.Port;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
-            if (this.selectedData) {
-              this.setData();
+            if ( this.selectedData && this.selectedData.data && this.selectedData.forType === "FCL") {
+              this.setData(this.selectedData.data);
+            }
+            else if ( this.selectedData && this.selectedData.data && this.selectedData.forType === "LCL") {
+              this.setDataLCL(this.selectedData.data);
             }
           }
         }
       }
     });
   }
-  setData() {
+  setData(data) {
     let parsed = "";
-    this.selectedCategory = this.selectedData.ShippingCatID;
+    this.selectedCategory = data.ShippingCatID;
     this.cargoTypeChange(this.selectedCategory);
-    this.selectedContSize = this.selectedData.ContainerSpecID;
+    this.selectedContSize = data.ContainerSpecID;
     this.filterOrigin = this.allPorts.find(
-      obj => obj.PortID == this.selectedData.PolID
+      obj => obj.PortID == data.PolID
     );
     this.filterDestination = this.allPorts.find(
-      obj => obj.PortID == this.selectedData.PodID
+      obj => obj.PortID == data.PodID
     );
     this.selectedShipping = this.allShippingLines.find(
-      obj => obj.CarrierID == this.selectedData.CarrierID
+      obj => obj.CarrierID == data.CarrierID
     );
     this.selectedCurrency = this.allCurrencies.find(
-      obj => obj.CurrencyID == this.selectedData.CurrencyID
+      obj => obj.CurrencyID == data.CurrencyID
     );
-    this.selectedPrice = this.selectedData.Price;
-    if (this.selectedData.EffectiveFrom) {
-      this.fromDate.day = new Date(this.selectedData.EffectiveFrom).getDate();
-      this.fromDate.year = new Date(
-        this.selectedData.EffectiveFrom
-      ).getFullYear();
-      this.fromDate.month =
-        new Date(this.selectedData.EffectiveFrom).getMonth() + 1;
-    } else if (this.selectedData.EffectiveTo) {
-      this.toDate.day = new Date(this.selectedData.EffectiveTo).getDate();
-      this.toDate.year = new Date(this.selectedData.EffectiveTo).getFullYear();
-      this.toDate.month =
-        new Date(this.selectedData.EffectiveTo).getMonth() + 1;
+    this.selectedPrice = data.Price;
+    if (data.EffectiveFrom) {
+      this.fromDate.day = new Date(data.EffectiveFrom).getDate();
+      this.fromDate.year = new Date( data.EffectiveFrom).getFullYear();
+      this.fromDate.month = new Date(data.EffectiveFrom).getMonth() + 1;
+    } 
+    if (data.EffectiveTo) {
+      this.toDate.day = new Date(data.EffectiveTo).getDate();
+      this.toDate.year = new Date(data.EffectiveTo).getFullYear();
+      this.toDate.month = new Date(data.EffectiveTo).getMonth() + 1;
+    }
+    if (!this.selectedCurrency) {
+      this.selectedCurrency = this.defaultCurrency;
+    }
+    if (this.fromDate && this.fromDate.day) {
+      this.model = this.fromDate;
+      parsed += this._parserFormatter.format(this.fromDate);
+    }
+    if (this.toDate && this.toDate.day) {
+      parsed += " - " + this._parserFormatter.format(this.toDate);
+    }
+    this.rangeDp.nativeElement.value = parsed;
+  }
+   setDataLCL(data) {
+    let parsed = "";
+    this.selectedCategory = data.ShippingCatID;
+    this.cargoTypeChange(this.selectedCategory);
+    this.selectedHandlingUnit = data.ContainerSpecID;
+    this.filterOrigin = this.allPorts.find(
+      obj => obj.PortID == data.PolID
+    );
+    this.filterDestination = this.allPorts.find(
+      obj => obj.PortID == data.PodID
+    );
+    this.selectedCurrency = this.allCurrencies.find(
+      obj => obj.CurrencyID == data.CurrencyID
+    );
+    this.selectedPrice = data.Price;
+    if (data.EffectiveFrom) {
+      this.fromDate.day = new Date(data.EffectiveFrom).getDate();
+      this.fromDate.year = new Date( data.EffectiveFrom).getFullYear();
+      this.fromDate.month = new Date(data.EffectiveFrom).getMonth() + 1;
+    } 
+    if (data.EffectiveTo) {
+      this.toDate.day = new Date(data.EffectiveTo).getDate();
+      this.toDate.year = new Date(data.EffectiveTo).getFullYear();
+      this.toDate.month = new Date(data.EffectiveTo).getMonth() + 1;
     }
     if (!this.selectedCurrency) {
       this.selectedCurrency = this.defaultCurrency;
@@ -174,8 +214,74 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   savedraftrow(type) {
-        let obj = [{
-        providerPricingDraftID: (!this.newProviderPricingDraftID) ? this.selectedData.ProviderPricingDraftID : this.newProviderPricingDraftID,
+        if(this.selectedData.forType == 'FCL'){
+          this.saveDataInFCLDraft(type);
+        }
+        else if(this.selectedData.forType == 'LCL'){
+          this.saveDataInLCLDraft(type);
+        }
+  }
+
+saveDataInLCLDraft(type){
+          let obj = [{
+        consolidatorPricingDraftID: (!this.newProviderPricingDraftID) ? this.selectedData.data.ConsolidatorPricingDraftID : this.newProviderPricingDraftID,
+        providerID: this.userProfile.ProviderID,
+        containerSpecID: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? null : this.selectedHandlingUnit,
+        containerSpecShortName: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? undefined : this.getHandlingSpecName(this.selectedHandlingUnit),
+        shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : this.selectedCategory,
+        shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.getShippingName(this.selectedCategory),
+        containerLoadType: "LCL",
+        modeOfTrans: "SEA",
+        polID: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortID : null,
+        polName: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortName : null,
+        polCode: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortCode : null,
+        podID: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortID : null,
+        podName: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortName : null,
+        podCode: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortCode : null,
+        price: this.selectedPrice,
+        currencyID: (this.selectedCurrency.CurrencyID) ? this.selectedCurrency.CurrencyID : 101,
+        currencyCode: (this.selectedCurrency.CurrencyCode) ? this.selectedCurrency.CurrencyCode : 'AED',
+        effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+        effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+      }
+    ]
+    
+      this._seaFreightService.saveDraftRateLCL(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toast.success("Rates added successfully", "");
+        this.allRatesFilledData.push(obj[0]);
+        if (type != "saveNadd") {
+          let object = {
+            data: this.allRatesFilledData
+          };
+          this.closeModal(object);
+        } else {
+          this.addRowLCL();
+        }
+      }
+    });
+}
+
+addRowLCL() {
+    this._seaFreightService.addDraftRatesLCL({
+        createdBy: this.userProfile.LoginID,
+        providerID: this.userProfile.ProviderID
+      })
+      .subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this._sharedService.draftRowLCLAdd.next(res.returnObject);
+          this.newProviderPricingDraftID = undefined;
+          this.selectedPrice = undefined;
+          this.selectedHandlingUnit = null;
+          this.newProviderPricingDraftID = res.returnObject.ConsolidatorPricingDraftID;
+        }
+      });
+  }
+
+
+saveDataInFCLDraft(type){
+          let obj = [{
+        providerPricingDraftID: (!this.newProviderPricingDraftID) ? this.selectedData.data.ProviderPricingDraftID : this.newProviderPricingDraftID,
         carrierID: (this.selectedShipping) ? this.selectedShipping.CarrierID : undefined,
         carrierName: (this.selectedShipping) ? this.selectedShipping.CarrierName : undefined,
         carrierImage: (this.selectedShipping) ? this.selectedShipping.CarrierImage : undefined,
@@ -215,7 +321,10 @@ export class SeaRateDialogComponent implements OnInit {
         }
       }
     });
-  }
+}
+
+
+
   addRow() {
     this._seaFreightService
       .addDraftRates({
@@ -224,8 +333,8 @@ export class SeaRateDialogComponent implements OnInit {
       })
       .subscribe((res: any) => {
         if (res.returnStatus == "Success") {
-          this.newProviderPricingDraftID = undefined;
           this._sharedService.draftRowFCLAdd.next(res.returnObject);
+          this.newProviderPricingDraftID = undefined;
           this.selectedPrice = undefined;
           this.selectedContSize = null;
           this.newProviderPricingDraftID = res.returnObject.ProviderPricingDraftID;
@@ -240,14 +349,15 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   getContSpecName(id) {
-    return this.allContainers.find(obj => obj.ContainerSpecID == id)
-      .ContainerSpecShortName;
+    return this.allContainers.find(obj => obj.ContainerSpecID == id).ContainerSpecShortName;
   }
   getShippingName(id) {
-    return this.allCargoType.find(obj => obj.ShippingCatID == id)
-      .ShippingCatName;
+    return this.allCargoType.find(obj => obj.ShippingCatID == id).ShippingCatName;
   }
 
+getHandlingSpecName(id){
+    return this.allHandlingType.find(obj => obj.ContainerSpecID == id).ContainerSpecShortName;
+}
   onDateSelection(date: NgbDateStruct) {
     let parsed = "";
     if (!this.fromDate && !this.toDate) {
@@ -273,6 +383,12 @@ export class SeaRateDialogComponent implements OnInit {
 
   closeModal(status) {
     this._activeModal.close(status);
+    if(this.selectedData.forType=="FCL"){
+    this._sharedService.draftRowFCLAdd.next(null);
+    }
+    else if(this.selectedData.forType=="LCL"){
+    this._sharedService.draftRowLCLAdd.next(null);
+    }
     document.getElementsByTagName("html")[0].style.overflowY = "auto";
   }
   closePopup() {

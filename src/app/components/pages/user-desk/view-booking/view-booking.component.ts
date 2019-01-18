@@ -187,7 +187,7 @@ export class ViewBookingComponent implements OnInit {
     }
   }
 
-  reuploadDoc(docTypeId, docId) {
+  reuploadDoc(data) {
     const modalRef = this._modalService.open(ReUploadDocComponent, {
       size: 'lg',
       centered: true,
@@ -196,18 +196,15 @@ export class ViewBookingComponent implements OnInit {
       keyboard: false
     });
     let obj = {
-      docTypeID: docTypeId,
-      docID: docId,
+      docTypeID: data.DocumentTypeID,
+      docID: data.DocumentID,
       userID: this.userProfile.UserID,
       createdBy: this.userProfile.LoginID
     }
     modalRef.result.then((result) => {
-      // console.log(result);
-      // if (result=="Success"){
-      //   this.getBookingDetail(this.bookingId);
-      // }
-    }, (reason) => {
-      // console.log("reason");
+        if (result.resType == "Success"){
+           data.DocumentLastStatus = result.status;
+      }
     });
     modalRef.componentInstance.documentObj = obj;
 
@@ -247,7 +244,7 @@ export class ViewBookingComponent implements OnInit {
   }
 
   approvedDoc(data){
-    if (data.DocumentLastStatus.toLowerCase() == 'approved' || data.DocumentLastStatus.toLowerCase() == 'reject') return;
+    if (data.DocumentLastStatus.toLowerCase() == 'approved' || data.DocumentLastStatus.toLowerCase() == 're-upload') return;
     let obj = {
       documentStatusID: 0,
       documentStatusCode: '',

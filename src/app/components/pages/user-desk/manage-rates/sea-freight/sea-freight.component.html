@@ -49,10 +49,9 @@
           </svg>LCL</span>
       </ng-template>
       <ng-template ngbTabContent>
-      <section class="rates-grid draft-grid draft-Lcl without-scroll">
+      <section class="rates-grid draft-grid draft-Lcl without-scroll" [ngClass]="{'no-data': !draftslcl.length, 'no-scroll-add' : draftslcl.length, 'no-pagination': draftslcl.length <= dtOptionsBySeaLCLDraft.pageLength}">
           <table id="draftRateTableLCL" cellspacing="0" #draftBYseaLCL class="row-border hover"></table>
-          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloadingLCL">Add
-            another rates</a>
+          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloadingLCL">Add another rates</a>
           <!-- <app-loader-main *ngIf="draftloadingLCL"></app-loader-main> -->
         </section>
         <div class="row mt-4">
@@ -145,8 +144,6 @@
                       </select>
                     </div>
                   </div>
-
-
                   <div class="col-4">
                     <div class="form-group date-control">
                       <label>Rate Validity</label>
@@ -170,7 +167,7 @@
             </ngb-panel>
           </ngb-accordion>
         </section>
-<section class="rates-grid mt-5 publishRatesLCL">
+        <section class="rates-grid mt-5 publishRatesLCL">
           <div class="d-flex justify-content-end mb-3">
             <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('LCL')" [ngClass]="{'no-drop': !delPublishRatesLcl.length}">
               <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16">
@@ -216,8 +213,8 @@
           FCL</span>
       </ng-template>
       <ng-template ngbTabContent>
-<section [ngClass]="{'no-data': !draftsfcl.length, 'no-scroll-add' : draftsfcl.length, 'no-pagination': draftsfcl.length <= dtOptionsBySeaFCLDraft.pageLength}"
-  class="rates-grid draft-grid draft-Fcl">
+        <section [ngClass]="{'no-data': !draftsfcl.length, 'no-scroll-add' : draftsfcl.length, 'no-pagination': draftsfcl.length <= dtOptionsBySeaFCLDraft.pageLength}"
+          class="rates-grid draft-grid draft-Fcl">
           <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table>
           <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloading">Add
             another rates</a>
