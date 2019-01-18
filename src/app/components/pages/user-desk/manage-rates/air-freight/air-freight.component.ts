@@ -76,7 +76,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   public allPorts: any[] = [];
   public allCurrencies: any[] = [];
   public allSeaDraftRatesByAIR: any[] = [];
-  public draftDataBYSeaFCL: any[] = [];
+  public draftDataBYAIR: any[] = [];
   public draftslist: any[] = [];
   public delPublishRates: any[] = [];
   public publishRates: any[] = [];
@@ -159,14 +159,14 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   addRatesManually() {
     this._airFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.draftDataBYSeaFCL.unshift(res.returnObject);
+        this.draftDataBYAIR.unshift(res.returnObject);
         if (this.allSeaDraftRatesByAIR && this.allSeaDraftRatesByAIR.length) {
-          this.draftslist = this.allSeaDraftRatesByAIR.concat(this.draftDataBYSeaFCL);
+          this.draftslist = this.allSeaDraftRatesByAIR.concat(this.draftDataBYAIR);
         } else {
-          this.draftslist = this.draftDataBYSeaFCL;
+          this.draftslist = this.draftDataBYAIR;
         }
         this.generateDraftTable();
-        this.updatePopupRates(res.returnObject.ProviderPricingDraftID);
+        this.updatePopupRates(res.returnObject.CarrierPricingDraftID);
 
       }
     })
@@ -180,7 +180,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         {
           title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRates" type = "checkbox"> <label for= "selectallDraftRates"> <span> </span></label></div>',
           data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.ProviderPricingDraftID + '" type = "checkbox"> <label for= "' + data.ProviderPricingDraftID + '"> <span> </span></label></div>';
+            return '<div class="fancyOptionBoxes"> <input id = "' + data.CarrierPricingDraftID + '" type = "checkbox"> <label for= "' + data.CarrierPricingDraftID + '"> <span> </span></label></div>';
           }
         },
         {
@@ -229,67 +229,103 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         {
           title: 'MINIMUM PRICE',
           data: function (data) {
+            if (data.slab && data.slab.minPrice1){
             return (Number(data.slab.minPrice1.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.slab.minPrice1.split(' ').shift(),
             });
+            }
+            else{
+              return "<span>-- Select --</span>"
+            }
           },
         },
         {
           title: 'NORMAL PRICE',
           data: function (data) {
-            return (Number(data.slab.priceWithCode1.split(' ').pop())).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.slab.priceWithCode1.split(' ').shift(),
-            });
+            if (data.slab && data.slab.priceWithCode1){
+              return (Number(data.slab.priceWithCode1.split(' ').pop())).toLocaleString('en-US', {
+                style: 'currency',
+                currency: data.slab.priceWithCode1.split(' ').shift(),
+              });
+            }
+            else {
+              return "<span>-- Select --</span>"
+            }
           },
         },
         {
           title: '+45 PRICE',
           data: function (data) {
+            if (data.slab && data.slab.priceWithCode2) {
             return (Number(data.slab.priceWithCode2.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.slab.priceWithCode2.split(' ').shift(),
             });
+          }
+          else{
+              return "<span>-- Select --</span>"
+          }
           },
         },
  
         {
           title: '+100 PRICE',
           data: function (data) {
-            return (Number(data.slab.priceWithCode3.split(' ').pop())).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.slab.priceWithCode3.split(' ').shift(),
-            });
+            if (data.slab && data.slab.priceWithCode3){
+              return (Number(data.slab.priceWithCode3.split(' ').pop())).toLocaleString('en-US', {
+                style: 'currency',
+                currency: data.slab.priceWithCode3.split(' ').shift(),
+              });
+            }
+              else{
+            return "<span>-- Select --</span>"
+          }
           },
         },
 
         {
           title: '+250 PRICE',
           data: function (data) {
+            if (data.slab && data.slab.priceWithCode4) {
+            
             return (Number(data.slab.priceWithCode4.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.slab.priceWithCode4.split(' ').shift(),
             });
+          }
+            else {
+              return "<span>-- Select --</span>"
+            }
           },
         },
 
         {
           title: '+500 PRICE',
           data: function (data) {
+            if (data.slab && data.slab.priceWithCode5) {
             return (Number(data.slab.priceWithCode5.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.slab.priceWithCode5.split(' ').shift(),
             });
+          }
+            else {
+              return "<span>-- Select --</span>"
+            }
           },
         },
         {
           title: '+1000 PRICE',
           data: function (data) {
+            if (data.slab && data.slab.priceWithCode5) {
             return (Number(data.slab.priceWithCode6.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.slab.priceWithCode6.split(' ').shift(),
             });
+          }
+          else{
+              return "<span>-- Select --</span>"
+          }
           },
         },
 
@@ -308,7 +344,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           title: '',
           data: function (data) {
             let url = '../../../../../../assets/images/icons/icon_del_round.svg';
-            return "<img id='" + data.ProviderPricingDraftID + "' src='" + url + "' class='icon-size-16 pointer' />";
+            return "<img id='" + data.CarrierPricingDraftID + "' src='" + url + "' class='icon-size-16 pointer' />";
           }
         }
       ],
@@ -431,7 +467,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
 
   updatePopupRates(rowId) {
 
-    let obj = this.draftslist.find(obj => obj.ProviderPricingDraftID == rowId);
+    let obj = this.draftslist.find(obj => obj.CarrierPricingDraftID == rowId);
     const modalRef = this.modalService.open(AirRateDialogComponent, {
       size: 'lg',
       centered: true,
@@ -458,7 +494,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   setAddDraftData(data) {
     for (var index = 0; index < this.draftslist.length; index++) {
       for (let i = 0; i < data.length; i++) {
-        if (this.draftslist[index].ProviderPricingDraftID == data[i].providerPricingDraftID) {
+        if (this.draftslist[index].CarrierPricingDraftID == data[i].CarrierPricingDraftID) {
           this.draftslist[index].CarrierID = data[i].carrierID;
           this.draftslist[index].CarrierImage = data[i].carrierImage;
           this.draftslist[index].CarrierName = data[i].carrierName;
@@ -489,7 +525,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
       this.addRatesManually();
   }
   addRatesByAirManually() {
-      if ((!this.allSeaDraftRatesByAIR || (this.allSeaDraftRatesByAIR && !this.allSeaDraftRatesByAIR.length)) && (!this.draftDataBYSeaFCL || (this.draftDataBYSeaFCL && !this.draftDataBYSeaFCL.length))) {
+      if ((!this.allSeaDraftRatesByAIR || (this.allSeaDraftRatesByAIR && !this.allSeaDraftRatesByAIR.length)) && (!this.draftDataBYAIR || (this.draftDataBYAIR && !this.draftDataBYAIR.length))) {
         this.addRatesManually();
     }
   }
@@ -550,8 +586,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     })
   }
 
-
-
   filterByroute(obj) {
       if (typeof obj == 'object') {
         this.getAllPublishRates();
@@ -571,7 +605,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
 
   getAllPublishRates() {
     this.publishloading = true;
- 
     let obj = {
       pageNo: 1,
       pageSize: 50,
@@ -775,8 +808,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     this.setdataInTable();
   }
 
-
-
    setdataInTable() {
     setTimeout(() => {
       if (this.tablepublishByAir && this.tablepublishByAir.nativeElement) {
@@ -786,9 +817,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         $("#selectallpublishRates").click(() => {
           this.delPublishRates = [];
           var cols = alltableOption.column(0).nodes();
-
-
-
           this.checkedallpublishRates = !this.checkedallpublishRates;
           for (var i = 0; i < cols.length; i += 1) {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
@@ -865,7 +893,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   discardDraft() {
     let discardarr = [];
     this.draftslist.forEach(elem => {
-      discardarr.push(elem.ProviderPricingDraftID)
+      discardarr.push(elem.CarrierPricingDraftID)
     })
     const modalRef = this.modalService.open(DiscardDraftComponent, {
       size: 'lg',
@@ -878,7 +906,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
       if (result == "Success") {
         this.draftslist = [];
         this.allSeaDraftRatesByAIR = [];
-        this.draftDataBYSeaFCL = [];
+        this.draftDataBYAIR = [];
         this.publishRates = [];
         this.generateDraftTable();
       }
@@ -954,7 +982,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
       if (res.returnStatus == "Success") {
         for (var i = 0; i < this.publishRates.length; i++) {
           for (let y = 0; y < this.draftslist.length; y++) {
-            if (this.draftslist[y].ProviderPricingDraftID == this.publishRates[i]) {
+            if (this.draftslist[y].CarrierPricingDraftID == this.publishRates[i]) {
               this.draftslist.splice(y, 1);
             }
           }
@@ -988,7 +1016,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     modalRef.result.then((result) => {
       if (result == "Success") {
         for (let index = 0; index < this.draftslist.length; index++) {
-          if (this.draftslist[index].ProviderPricingDraftID == id) {
+          if (this.draftslist[index].CarrierPricingDraftID == id) {
             this.draftslist.splice(index, 1);
             this.generateDraftTable();
             this.publishRates = [];

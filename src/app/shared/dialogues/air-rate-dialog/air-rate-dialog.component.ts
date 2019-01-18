@@ -37,7 +37,7 @@ export class AirRateDialogComponent implements OnInit {
   @ViewChild('rangeDp') rangeDp: ElementRef;
   @Input() selectedData: any;
 
-  public allShippingLines: any[] = [];
+  public allAirLines: any[] = [];
   public allCargoType: any[] = []
   public allContainersType: any[] = [];
   public allContainers: any[] = [];
@@ -90,10 +90,6 @@ export class AirRateDialogComponent implements OnInit {
 
   ngOnInit() {
 
-
-
-
-
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
@@ -107,10 +103,10 @@ export class AirRateDialogComponent implements OnInit {
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
-            this.allShippingLines = state[index].DropDownValues.ShippingLine;
+            this.allAirLines = state[index].DropDownValues.AirLine;
             this.allCargoType = state[index].DropDownValues.Category;
             this.allContainersType = state[index].DropDownValues.ContainerFCL;
-            this.allPorts = state[index].DropDownValues.Port;
+            this.allPorts = state[index].DropDownValues.AirPort;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if(this.selectedData){
               this.setData()
@@ -127,7 +123,7 @@ export class AirRateDialogComponent implements OnInit {
       this.selectedContSize = this.selectedData.ContainerSpecID;
       this.filterOrigin = this.allPorts.find(obj => obj.PortID == this.selectedData.PolID);
       this.filterDestination = this.allPorts.find(obj => obj.PortID == this.selectedData.PodID);
-      this.selectedShipping = this.allShippingLines.find(obj => obj.CarrierID == this.selectedData.CarrierID);
+     this.selectedShipping = this.allAirLines.find(obj => obj.CarrierID == this.selectedData.CarrierID);
       this.selectedCurrency = this.allCurrencies.find(obj => obj.CurrencyID == this.selectedData.CurrencyID);
         this.selectedPrice = this.selectedData.Price;
       this.fromDate.day = new Date(this.selectedData.EffectiveFrom).getDate();
@@ -228,7 +224,7 @@ export class AirRateDialogComponent implements OnInit {
     text$.pipe(
       debounceTime(200),
       map(term => (!term || term.length < 3) ? []
-        : this.allShippingLines.filter(v => v.CarrierName && v.CarrierName.toLowerCase().indexOf(term.toLowerCase()) > -1))
+        : this.allAirLines.filter(v => v.CarrierName && v.CarrierName.toLowerCase().indexOf(term.toLowerCase()) > -1))
     )
   formatter = (x: { CarrierName: string }) => x.CarrierName;
 

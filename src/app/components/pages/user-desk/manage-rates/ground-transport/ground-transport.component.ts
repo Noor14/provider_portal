@@ -70,16 +70,13 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   public allRatesList: any;
   public publishloading: boolean;
   public draftloading: boolean = true;
-  public allShippingLines: any[] = [];
   public allCargoType: any[] = []
   public allContainersType: any[] = [];
   public allHandlingType: any[] = [];
   public allPorts: any[] = [];
   public allCurrencies: any[] = [];
   public draftRatesByGround: any[] = [];
-  public allSeaDraftRatesByLCL: any[] = [];
   public draftDataBYGround: any[] = [];
-  public draftDataBYSeaLCL: any[] = [];
   public draftslist: any[] = [];
   public delPublishRates: any[] = [];
   public publishRates: any[] = [];
@@ -188,19 +185,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           }
         },
         {
-          title: 'SHIPPING LINE',
-          data: function (data) {
-            if (!data.CarrierName) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              let url = baseExternalAssets + "/" + data.CarrierImage;
-              return "<img src='" + url + "' class='icon-size-24 mr-2' />" + data.CarrierName;
-            }
-          }
-
-        },
-        {
           title: 'ORIGIN / DEPARTURE',
           data: function (data) {
             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
@@ -220,7 +204,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           className: 'routeCell'
         },
         {
-          title: 'CARGO TYPE',
+          title: 'TYPE',
           data: function (data) {
             if (!data.ShippingCatName) {
               return "<span>-- Select --</span>"
@@ -231,7 +215,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           }
         },
         {
-          title: 'CONTAINER',
+          title: 'SIZE',
           data: function (data) {
             if (!data.ContainerSpecName) {
               return "<span>-- Select --</span>"
@@ -274,12 +258,21 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           }
         }
       ],
-
+      drawCallback: function () {
+        let $api = this.api();
+        let pages = $api.page.info().pages;
+        if (pages === 1 || !pages) {
+          $('.draft-Ground .dataTables_paginate').hide();
+        } else {
+          // SHow everything
+          $('.draft-Ground .dataTables_paginate').show();
+        }
+      },
       info: false,
       destroy: true,
       // pagingType: 'full_numbers',
       pageLength: 5,
-      scrollX: true,
+      // scrollX: true,
       scrollY: '60vh',
       scrollCollapse: true,
       searching: false,
@@ -292,10 +285,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         }
       },
-      fixedColumns: {
-        leftColumns: 0,
-        rightColumns: 1
-      },
+
+      // fixedColumns: {
+      //   leftColumns: 0,
+      //   rightColumns: 1
+      // },
       columnDefs: [
         {
           targets: 0,
@@ -303,12 +297,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           orderable: false,
         },
         {
-          targets: 2,
+          targets: 1,
           width: '235'
         },
         {
           targets: -1,
-          width: 'auto',
+          width: '12',
           orderable: false,
         },
         {
@@ -319,15 +313,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           targets: "_all",
           width: "150"
         }
-      ],
+      ]
 
     }
 
     this.setdataDraftInTable();
   }
-
-
-
 
   setdataDraftInTable() {
     setTimeout(() => {
