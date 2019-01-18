@@ -321,12 +321,12 @@ $left-nav-icon-height: 20px;
     }
     &.without-scroll {
       a.addAnother {
-        bottom: 75px;
+        bottom: 1px !important;
       }
     }
     &.no-pagination {
       a.addAnother {
-        bottom: 18px;
+        bottom: 60px;
       }
     }
   }

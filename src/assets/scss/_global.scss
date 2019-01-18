@@ -1196,6 +1196,7 @@ select {
     .dataTables_scroll {
       border: 1px solid $data-table-border;
       .dataTables_scrollHead {
+        z-index: 2;
         .dataTable {
           thead {
             background: $data-table-header-bg;
@@ -1324,6 +1325,7 @@ select {
       }
       .DTFC_RightWrapper {
         width: 35px !important;
+        right: 16px !important;
         .DTFC_RightHeadWrapper,
         .DTFC_RightFootWrapper {
           table {
@@ -1402,6 +1404,7 @@ select {
         }
         &.disabled {
           cursor: no-drop;
+          display: none;
         }
       }
       >span {
