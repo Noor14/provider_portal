@@ -155,13 +155,10 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   filter() {
     this.getAllPublishRates()
   }
- 
-  addRatesManually() {
-    this._airFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
+   addRatesManually() {
+     this._airFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID, currencyID : 101 }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-          res.returnObject.map(elem => {
-          elem.slab = JSON.parse(elem.slab)
-        });
+        res.returnObject.slab = JSON.parse(res.returnObject.slab);
         this.draftDataBYAIR.unshift(res.returnObject);
         if (this.allSeaDraftRatesByAIR && this.allSeaDraftRatesByAIR.length) {
           this.draftslist = this.allSeaDraftRatesByAIR.concat(this.draftDataBYAIR);
@@ -173,7 +170,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
       }
     })
   }
-
   
   generateDraftTable() {
     this.dtOptionsByAirDraft = {

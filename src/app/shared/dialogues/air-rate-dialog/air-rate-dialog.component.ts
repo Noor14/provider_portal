@@ -13,7 +13,7 @@ import {
   NgbDateParserFormatter,
   NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
-import { SeaFreightService } from '../../../components/pages/user-desk/manage-rates/sea-freight/sea-freight.service';
+import { AirFreightService } from '../../../components/pages/user-desk/manage-rates/air-freight/air-freight.service';
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
   one && two && two.year === one.year && two.month === one.month && two.day === one.day;
@@ -39,17 +39,21 @@ export class AirRateDialogComponent implements OnInit {
 
   public allAirLines: any[] = [];
   public allCargoType: any[] = []
-  public allContainersType: any[] = [];
-  public allContainers: any[] = [];
   public allPorts: any[] = [];
   public allCurrencies: any[] = [];
   public filterOrigin: any = {};
   public filterDestination: any = {};
   public userProfile: any;
   public selectedCategory: any;
-  public selectedContSize: any;
-  public selectedShipping: any;
-  public selectedPrice:any;
+  public selectedAirline: any;
+  public minPrice: any;
+  public normalPrice: any;
+  public plusfortyFivePrice: any;
+  public plushundredPrice: any;
+  public plusTwoFiftyPrice: any;
+  public plusFiveHundPrice: any;
+  public plusThousandPrice: any;
+  
   public defaultCurrency:any = {
     CurrencyID: 101,
     CurrencyCode: 'AED',
@@ -84,7 +88,7 @@ export class AirRateDialogComponent implements OnInit {
     private _sharedService: SharedService,
     private _parserFormatter: NgbDateParserFormatter,
     private renderer: Renderer2,
-    private _seaFreightService: SeaFreightService
+    private  _airFreightService: AirFreightService
 
   ) { location.onPopState(() => this.closeModal(null)); }
 
@@ -105,7 +109,6 @@ export class AirRateDialogComponent implements OnInit {
           if (state[index].LogServName == "SEA") {
             this.allAirLines = state[index].DropDownValues.AirLine;
             this.allCargoType = state[index].DropDownValues.Category;
-            this.allContainersType = state[index].DropDownValues.ContainerFCL;
             this.allPorts = state[index].DropDownValues.AirPort;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if(this.selectedData){
@@ -119,13 +122,17 @@ export class AirRateDialogComponent implements OnInit {
   }
   setData(){
       this.selectedCategory = this.selectedData.ShippingCatID;
-      this.cargoTypeChange(this.selectedCategory);
-      this.selectedContSize = this.selectedData.ContainerSpecID;
       this.filterOrigin = this.allPorts.find(obj => obj.PortID == this.selectedData.PolID);
       this.filterDestination = this.allPorts.find(obj => obj.PortID == this.selectedData.PodID);
-     this.selectedShipping = this.allAirLines.find(obj => obj.CarrierID == this.selectedData.CarrierID);
+      this.selectedAirline = this.allAirLines.find(obj => obj.CarrierID == this.selectedData.CarrierID);
       this.selectedCurrency = this.allCurrencies.find(obj => obj.CurrencyID == this.selectedData.CurrencyID);
-        this.selectedPrice = this.selectedData.Price;
+      this.minPrice = this.selectedData.Price;
+      this.normalPrice = this.selectedData.Price;
+      this.plusfortyFivePrice = this.selectedData.Price;
+      this.plushundredPrice = this.selectedData.Price;
+      this.plusTwoFiftyPrice = this.selectedData.Price;
+      this.plusFiveHundPrice = this.selectedData.Price;
+      this.plusThousandPrice = this.selectedData.Price;
       this.fromDate.day = new Date(this.selectedData.EffectiveFrom).getDate();
       this.fromDate.year = new Date(this.selectedData.EffectiveFrom).getFullYear();
       this.fromDate.month = new Date(this.selectedData.EffectiveFrom).getMonth()+1;
@@ -140,53 +147,68 @@ export class AirRateDialogComponent implements OnInit {
 
   }
 
-  cargoTypeChange(type){
-   let data = this.allContainersType.filter(obj => obj.ShippingCatID == type);
-    this.allContainers = data;
-  }
-
-
-
-
   savedraftrow() {
   
     let obj = [
       {
-        providerPricingDraftID: this.selectedData.ProviderPricingDraftID,
-        carrierID: this.selectedShipping.CarrierID,
-        carrierName: this.selectedShipping.CarrierName,
-        carrierImage: this.selectedShipping.CarrierImage,
+        carrierPricingSetID: this.selectedData.CarrierPricingSetID,
+        carrierID: this.selectedAirline.CarrierID,
+        carrierName: this.selectedAirline.CarrierName,
+        carrierImage: this.selectedAirline.CarrierImage,
+        containerSpecID: null,
+        price: 0,
+        fromKg: 0,
+        toKg: 0,
+        modeOfTrans: "AIR",
+        currencyID: (this.selectedCurrency.CurrencyID) ? this.selectedCurrency.CurrencyID : 101,
+        currencyCode: (this.selectedCurrency.CurrencyCode) ? this.selectedCurrency.CurrencyCode : 'AED',
+        effectiveFrom: this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year,
+        effectiveTo: this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year,
+        minPrice: 0,
         providerID: this.userProfile.ProviderID,
-        containerSpecID: (this.selectedContSize == 'null')? null : this.selectedContSize,
-        containerSpecName: (this.selectedContSize != 'null')? this.getContSpecName(this.selectedContSize): undefined,
         shippingCatID: (this.selectedCategory == 'null') ? null : this.selectedCategory,
-        shippingCatName: (this.selectedCategory)? this.getShippingName(this.selectedCategory): undefined,
-        containerLoadType: "FCL",
-        modeOfTrans: "SEA",
+        shippingCatName: (this.selectedCategory) ? this.getShippingName(this.selectedCategory) : undefined,
+        carrierPricingDraftID: 0,
         polID: this.filterOrigin.PortID,
         polName: this.filterOrigin.PortName,
         polCode: this.filterOrigin.PortCode,
         podID: this.filterDestination.PortID,
         podName: this.filterDestination.PortName,
         podCode: this.filterDestination.PortCode,
-        price: this.selectedPrice,
-        currencyID: (this.selectedCurrency.CurrencyID)? this.selectedCurrency.CurrencyID : 101,
-        currencyCode: (this.selectedCurrency.CurrencyCode)? this.selectedCurrency.CurrencyCode : 'AED',
-        effectiveFrom: this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year,
-        effectiveTo: this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year,
+        containerSpecShortName: null,
+        objSlab: {
+         slab1: "string",
+          price1: "string",
+          minPrice1: "string",
+          priceWithCode1: "string",
+          slab2: "string",
+          price2: "string",
+          minPrice2: "string",
+          priceWithCode2: "string",
+          slab3: "string",
+          price3: "string",
+          minPrice3: "string",
+          priceWithCode3: "string",
+          slab4: "string",
+          price4: "string",
+          minPrice4: "string",
+          priceWithCode4: "string",
+          slab5: "string",
+          price5: "string",
+          minPrice5: "string",
+          priceWithCode5: "string"
+        },
+        slab: "string"
       }
-    ]
-    this._seaFreightService.saveDraftRate(obj).subscribe((res: any) => {
+     ]
+    this. _airFreightService.saveDraftRate(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.closeModal(obj[0]);
       }
     })
   }
 
-   getContSpecName(id){
-    return this.allContainers.find(obj => obj.ContainerSpecID == id).ContainerSpecShortName;
-  }
-  getShippingName(id) {
+    getShippingName(id) {
     return this.allCargoType.find(obj => obj.ShippingCatID == id).ShippingCatName;
   }
 
@@ -220,7 +242,7 @@ export class AirRateDialogComponent implements OnInit {
 
   }
 
-  shippings = (text$: Observable<string>) =>
+  airlines = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       map(term => (!term || term.length < 3) ? []
