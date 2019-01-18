@@ -16,6 +16,7 @@ export class SharedService {
   public documentList = new BehaviorSubject<any>(null);
   public dataLogisticServiceBySea = new BehaviorSubject<any>(null);
   public draftRowFCLAdd = new BehaviorSubject<any>(null);
+  public draftRowLCLAdd = new BehaviorSubject<any>(null);
   public businessProfileJsonLabels = new BehaviorSubject<any>(null);
   public jobTitleList = new BehaviorSubject<any>(null);
   public businessDetailObj = new BehaviorSubject<any>(null);

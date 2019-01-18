@@ -228,9 +228,9 @@
                 </a>
 
                 <div class="d-flex align-items-center">
-                  <button class="btn disable" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && certOrigin.DocumentLastStatus.toLowerCase() != 'approved'"
-                    (click)="reuploadDoc(certOrigin.DocumentTypeID, certOrigin.DocumentID)">Reject</button>
-                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && (certOrigin.DocumentLastStatus.toLowerCase() != 'approved' &&  certOrigin.DocumentLastStatus.toLowerCase() != 'reject')"
+                  <button class="btn disable" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && certOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && certOrigin.DocumentLastStatus.toLowerCase() != 'approved'"
+                    (click)="reuploadDoc(certOrigin)">Reject</button>
+                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && (certOrigin.DocumentLastStatus.toLowerCase() != 'approved' &&  certOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"
                     (click)="approvedDoc(certOrigin)">Approve</button>
                   <span class="badge hashmove-badge-warning" *ngIf="certOrigin && !certOrigin.DocumentFileName">
                     AWAITING FROM CUSTOMER
@@ -238,6 +238,7 @@
                   <span class="badge badge-success" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
+                  <span class="badge hashmove-badge-danger" *ngIf="certOrigin && certOrigin.DocumentFileName &&  certOrigin.DocumentLastStatus.toLowerCase() == 're-upload'"> REJECTED </span>
                 </div>
               </li>
               <li class="list-group-item">
@@ -252,13 +253,14 @@
                   <span class="badge badge-success" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
-                  <button class="btn disable" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable && invoiceDocOrigin.DocumentLastStatus.toLowerCase() !== 'approved'"
-                    (click)="reuploadDoc(invoiceDocOrigin.DocumentTypeID, invoiceDocOrigin.DocumentID)">Reject</button>
-                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable && (invoiceDocOrigin.DocumentLastStatus.toLowerCase() != 'approved' && invoiceDocOrigin.DocumentLastStatus.toLowerCase() != 'reject')"
+                  <button class="btn disable" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable && invoiceDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && invoiceDocOrigin.DocumentLastStatus.toLowerCase() !== 'approved'"
+                    (click)="reuploadDoc(invoiceDocOrigin)">Reject</button>
+                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable && (invoiceDocOrigin.DocumentLastStatus.toLowerCase() != 'approved' && invoiceDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"
                     (click)="approvedDoc(invoiceDocOrigin)">Approve</button>
                   <span class="badge hashmove-badge-warning" *ngIf="invoiceDocOrigin && !invoiceDocOrigin.DocumentFileName">
                     AWAITING FROM CUSTOMER
                   </span>
+                  <span class="badge hashmove-badge-danger" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName &&  invoiceDocOrigin.DocumentLastStatus.toLowerCase() == 're-upload'"> REJECTED </span>
                 </div>
 
               </li>
@@ -274,14 +276,15 @@
                   <span class="badge badge-success" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
-                  <button class="btn disable" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable && packingListDocOrigin.DocumentLastStatus.toLowerCase() != 'approved'"
-                    (click)="reuploadDoc(packingListDocOrigin.DocumentTypeID, packingListDocOrigin.DocumentID)">Reject</button>
-                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable && (packingListDocOrigin.DocumentLastStatus.toLowerCase() != 'approved' && packingListDocOrigin.DocumentLastStatus.toLowerCase() != 'reject')"
+                  <button class="btn disable" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable && packingListDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && packingListDocOrigin.DocumentLastStatus.toLowerCase() != 'approved'"
+                    (click)="reuploadDoc(packingListDocOrigin)">Reject</button>
+                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable && (packingListDocOrigin.DocumentLastStatus.toLowerCase() != 'approved' && packingListDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"
                     (click)="approvedDoc(packingListDocOrigin)">Approve</button>
-                </div>
-                <span class="badge hashmove-badge-warning" *ngIf="packingListDocOrigin && !packingListDocOrigin.DocumentFileName">
+                    <span class="badge hashmove-badge-warning" *ngIf="packingListDocOrigin && !packingListDocOrigin.DocumentFileName">
                   AWAITING FROM CUSTOMER
-                </span>
+                </span> 
+                <span class="badge hashmove-badge-danger" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName &&  packingListDocOrigin.DocumentLastStatus.toLowerCase() == 're-upload'"> REJECTED </span>
+                </div>
               </li>
             </ul>
             <label class="view-booking-document-title">
@@ -298,9 +301,9 @@
                     | date : "H:mm"}}</label>
                 </a>
                 <div class="d-flex align-items-center">
-                  <button class="btn disable" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'approved'"
-                    (click)="reuploadDoc(invoiceDocDestination.DocumentTypeID, invoiceDocDestination.DocumentID)">Reject</button>
-                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable && (invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'approved' && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'reject')"
+                  <button class="btn disable" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 're-upload' && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'approved'"
+                    (click)="reuploadDoc(invoiceDocDestination)">Reject</button>
+                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable && (invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'approved' && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 're-upload')"
                     (click)="approvedDoc(invoiceDocDestination)">Approve</button>
                   <span class="badge hashmove-badge-warning" *ngIf="invoiceDocDestination && !invoiceDocDestination.DocumentFileName">
                     AWAITING FROM CUSTOMER
@@ -308,6 +311,7 @@
                   <span class="badge badge-success" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
+                  <span class="badge hashmove-badge-danger" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName &&  invoiceDocDestination.DocumentLastStatus.toLowerCase() == 're-upload'"> REJECTED </span>
                 </div>
 
               </li>
@@ -326,9 +330,10 @@
                   <span class="badge badge-success" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
-                  <button class="btn disable" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable && packingListDocDestination.DocumentLastStatus.toLowerCase() != 'approved'"
-                    (click)="reuploadDoc(packingListDocDestination.DocumentTypeID, packingListDocDestination.DocumentID)">Reject</button>
-                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable && (packingListDocDestination.DocumentLastStatus.toLowerCase() != 'approved' && packingListDocDestination.DocumentLastStatus.toLowerCase() != 'reject')"
+                  <span class="badge hashmove-badge-danger" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName &&  packingListDocDestination.DocumentLastStatus.toLowerCase() == 're-upload'"> REJECTED </span>
+                  <button class="btn disable" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable && packingListDocDestination.DocumentLastStatus.toLowerCase() != 're-upload' && packingListDocDestination.DocumentLastStatus.toLowerCase() != 'approved'"
+                    (click)="reuploadDoc(packingListDocDestination)">Reject</button>
+                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable && (packingListDocDestination.DocumentLastStatus.toLowerCase() != 'approved' && packingListDocDestination.DocumentLastStatus.toLowerCase() != 're-upload')"
                     (click)="approvedDoc(invoiceDocDestination)">Approve</button>
                 </div>
 
@@ -348,9 +353,10 @@
                   <span class="badge badge-success" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
-                  <button class="btn disable" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable && ladingBill.DocumentLastStatus.toLowerCase() != 'approved'"
-                    (click)="reuploadDoc(ladingBill.DocumentTypeID, ladingBill.DocumentID)">Reject</button>
-                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable && (ladingBill.DocumentLastStatus.toLowerCase() != 'approved' && ladingBill.DocumentLastStatus.toLowerCase() != 'reject')"
+                  <span class="badge hashmove-badge-danger" *ngIf="ladingBill && ladingBill.DocumentFileName &&  ladingBill.DocumentLastStatus.toLowerCase() == 're-upload'"> REJECTED </span>
+                  <button class="btn disable" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable && ladingBill.DocumentLastStatus.toLowerCase() != 're-upload' && ladingBill.DocumentLastStatus.toLowerCase() != 'approved'"
+                    (click)="reuploadDoc(ladingBill)">Reject</button>
+                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable && (ladingBill.DocumentLastStatus.toLowerCase() != 'approved' && ladingBill.DocumentLastStatus.toLowerCase() != 're-upload')"
                     (click)="approvedDoc(ladingBill)">Approve</button>
                 </div>
 

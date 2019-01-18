@@ -127,7 +127,7 @@ export class BookingStatusUpdationComponent implements OnInit {
           this._toast.success(res.returnText, 'Success');
           let obj = {
             status: res.returnObject.bookingStatus,
-            resType : "Success"
+            resType : res.returnStatus
            }
             this.closeModal(obj);
         }

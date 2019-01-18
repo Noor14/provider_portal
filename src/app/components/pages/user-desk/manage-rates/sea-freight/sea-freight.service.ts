@@ -35,12 +35,14 @@ export class SeaFreightService {
     return this._http.post(baseApi + url, obj);
   }
 
+  saveDraftRateLCL(obj){
+    let url: string = "providerratelcl/SaveDraft";
+    return this._http.post(baseApi + url, obj);
+  }
   publishDraftRate(obj) {
     let url: string = "providerratefcl/PublishRate";
     return this._http.post(baseApi + url, obj);
   }
-
-
   deleteNDiscardDraftRate(data){
     let url: string = "providerratefcl/DiscardDraft";
     return this._http.request('delete', baseApi + url, { body: data });

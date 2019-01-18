@@ -159,6 +159,9 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   addRatesManually() {
     this._airFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
+          res.returnObject.map(elem => {
+          elem.slab = JSON.parse(elem.slab)
+        });
         this.draftDataBYAIR.unshift(res.returnObject);
         if (this.allSeaDraftRatesByAIR && this.allSeaDraftRatesByAIR.length) {
           this.draftslist = this.allSeaDraftRatesByAIR.concat(this.draftDataBYAIR);
@@ -166,8 +169,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           this.draftslist = this.draftDataBYAIR;
         }
         this.generateDraftTable();
-        this.updatePopupRates(res.returnObject.CarrierPricingDraftID);
-
+        this.updatePopupRates(res.returnObject.CarrierPricingSetID);
       }
     })
   }
@@ -180,13 +182,13 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         {
           title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRates" type = "checkbox"> <label for= "selectallDraftRates"> <span> </span></label></div>',
           data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.CarrierPricingDraftID + '" type = "checkbox"> <label for= "' + data.CarrierPricingDraftID + '"> <span> </span></label></div>';
+            return '<div class="fancyOptionBoxes"> <input id = "' + data.CarrierPricingSetID + '" type = "checkbox"> <label for= "' + data.CarrierPricingSetID + '"> <span> </span></label></div>';
           }
         },
         {
           title: 'AIRLINE',
           data: function (data) {
-            if (!data.CarrierName) {
+            if (!data.CarrierID) {
               return "<span>-- Select --</span>"
             }
             else {
@@ -208,8 +210,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
               let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
               const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
               return "<div class='row'> <div class='col-5'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.PodName + "</div> </div>";
-
-              // return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
             }
           },
 
@@ -218,7 +218,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         {
           title: 'CARGO TYPE',
           data: function (data) {
-            if (!data.ShippingCatName) {
+            if (!data.ShippingCatID) {
               return "<span>-- Select --</span>"
             }
             else {
@@ -317,7 +317,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         {
           title: '+1000 PRICE',
           data: function (data) {
-            if (data.slab && data.slab.priceWithCode5) {
+            if (data.slab && data.slab.priceWithCode6) {
             return (Number(data.slab.priceWithCode6.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.slab.priceWithCode6.split(' ').shift(),
@@ -344,7 +344,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           title: '',
           data: function (data) {
             let url = '../../../../../../assets/images/icons/icon_del_round.svg';
-            return "<img id='" + data.CarrierPricingDraftID + "' src='" + url + "' class='icon-size-16 pointer' />";
+            return "<img id='" + data.CarrierPricingSetID + "' src='" + url + "' class='icon-size-16 pointer' />";
           }
         }
       ],
@@ -466,8 +466,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
 
 
   updatePopupRates(rowId) {
-
-    let obj = this.draftslist.find(obj => obj.CarrierPricingDraftID == rowId);
+    let obj = this.draftslist.find(obj => obj.CarrierPricingSetID == rowId);
     const modalRef = this.modalService.open(AirRateDialogComponent, {
       size: 'lg',
       centered: true,
@@ -494,7 +493,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   setAddDraftData(data) {
     for (var index = 0; index < this.draftslist.length; index++) {
       for (let i = 0; i < data.length; i++) {
-        if (this.draftslist[index].CarrierPricingDraftID == data[i].CarrierPricingDraftID) {
+        if (this.draftslist[index].CarrierPricingSetID == data[i].carrierPricingSetID) {
           this.draftslist[index].CarrierID = data[i].carrierID;
           this.draftslist[index].CarrierImage = data[i].carrierImage;
           this.draftslist[index].CarrierName = data[i].carrierName;
@@ -598,7 +597,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
       }
     }
 
-
   filtertionPort(obj) {
       if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates();
   }
@@ -640,10 +638,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
 
   filterTable() {
     this.dtOptionsByAir = {
-      // ajax: {
-      //   url: "http://10.20.1.13:9091/api/providerratefcl/SearchRates",
-      //   type: "POST"
-      // },
       data: this.allRatesList,
       columns: [
         {
@@ -757,9 +751,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           className: 'moreOption'
         }
       ],
-      // processing: true,
-      // serverSide: true,
-      // retrieve: true,
       destroy: true,
       // pagingType: 'full_numbers',
       pageLength: 5,

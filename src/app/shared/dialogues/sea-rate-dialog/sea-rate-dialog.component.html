@@ -10,7 +10,7 @@
       <div class="col-12">
         <h5 class="model-sub-head mt-4">Route Info</h5>
       </div>
-      <div class="col-6">
+      <div class="col-6" *ngIf="selectedData.forType == 'FCL'">
         <div class="form-group">
           <label>Shipping Line</label>
           <input type="text" class="form-control" placeholder="e.g: Maersk Shipping" [(ngModel)]="selectedShipping"
@@ -20,7 +20,7 @@
           </ng-template>
         </div>
       </div>
-      <div class="col-6"></div>
+      <div class="col-6" *ngIf="selectedData.forType == 'FCL'"></div>
       <div class="col-6">
         <div class="form-group">
           <label>Origin</label>
@@ -59,13 +59,13 @@
       <div class="col-6">
         <div class="form-group">
           <label>Cargo Type</label>
-          <select class="form-control" id="category" [(ngModel)]="selectedCategory" (change)="cargoTypeChange(selectedCategory)">
+          <select class="form-control" [(ngModel)]="selectedCategory" (change)="cargoTypeChange(selectedCategory)">
             <option [value]="null" disabled>--Select--</option>
             <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
           </select>
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-6" *ngIf="selectedData.forType == 'FCL'">
         <div class="form-group">
           <label>Container Size</label>
           <select class="form-control" [(ngModel)]="selectedContSize" [disabled]="!selectedCategory">
@@ -73,6 +73,15 @@
             <option *ngFor="let container of allContainers" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
           </select>
         </div>
+      </div>
+        <div class="col-6" *ngIf="selectedData.forType == 'LCL'">
+        <div class="form-group">
+                      <label>Handling Unit</label>
+                      <select class="form-control" [(ngModel)]="selectedHandlingUnit">
+                        <option [value]="null" disabled>--Select--</option>
+                        <option *ngFor="let handle of allHandlingType" [value]="handle.ContainerSpecID">{{handle.ContainerSpecShortName}}</option>
+                      </select>
+                    </div>
       </div>
     </div>
     <div class="row">
@@ -94,7 +103,8 @@
       <div class="col-9"></div>
       <div class="col-6">
         <div class="form-group">
-          <label>Rate</label>
+          <label *ngIf="selectedData.forType == 'FCL'">Rate</label>
+          <label *ngIf="selectedData.forType == 'LCL'">Rate / cbm</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
