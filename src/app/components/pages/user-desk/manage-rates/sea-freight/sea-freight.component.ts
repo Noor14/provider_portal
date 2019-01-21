@@ -751,7 +751,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         if (this.draftslcl[index].ConsolidatorPricingDraftID == data[i].consolidatorPricingDraftID){
             this.draftslcl[index].ContainerLoadType = data[i].containerLoadType;
             this.draftslcl[index].ContainerSpecID = data[i].containerSpecID;
-            this.draftslcl[index].ContainerSpecName = data[i].containerSpecName;
+            this.draftslcl[index].ContainerSpecShortName = data[i].containerSpecShortName;
             this.draftslcl[index].ShippingCatID = data[i].shippingCatID;
             this.draftslcl[index].ShippingCatName = data[i].shippingCatName;
             this.draftslcl[index].CurrencyID = data[i].currencyID;
@@ -1612,6 +1612,25 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           this.publishRates = [];
           this.generateDraftTable();
           this.getAllPublishRates();
+        }
+      }
+    })
+  }
+  publishRateLcl() {
+    this._seaFreightService.publishDraftRateLCL(this.publishRatesLCL).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        for (var i = 0; i < this.publishRatesLCL.length; i++) {
+          for (let y = 0; y < this.draftslcl.length; y++) {
+            if (this.draftslcl[y].ConsolidatorPricingDraftID == this.publishRatesLCL[i]) {
+              this.draftslcl.splice(y, 1);
+            }
+          }
+        }
+        if (this.publishRatesLCL.length == i) {
+          this.checkedalldraftRates = false;
+          this.publishRatesLCL = [];
+          this.generateDraftTableLCL();
+          this.getAllPublishRatesLcl();
         }
       }
     })

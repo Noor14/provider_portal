@@ -55,9 +55,47 @@
   </div>
   </section>
 
+
   <!-- Booking Summary End -->
 
-
+  <!-- billing summery -->
+  <div class="titleSection d-flex justify-content-between">
+    <h5 class="m-0">Billing</h5>
+  </div>
+  
+  <section class="billingSummary">
+    <div class="row">
+    <div class="summarySection col-xl-6 col-md-6 col-sm-12 d-flex">
+      <div class="iconCard">
+        <img src="../../../../../assets/images/icons/icon_card.svg" alt="icon">
+      </div>
+      <div class="detailPortion">
+      <div class="summaryTitle">
+        <h5>PAYMENT DUE</h5>
+      </div>
+      <div class="summaryQuantity d-flex pt-2 pb-2">
+        <div class="rates">
+          <small class="mr-2">{{providerInfo.BillingCurrencyCode}}</small>
+          <span>{{providerInfo.BillingTillDate | number: '1.2-2'}}</span>
+          <span class="ml-2 badge hashmove-badge-danger"><strong>DUE DATE: 31 JAN 2019</strong></span>
+        </div>
+      </div>
+      </div>
+    </div>
+      <div class="summarySection col-xl-6 col-md-6 col-sm-12 d-flex justify-content-end align-items-center">
+        <div class="row">
+          <div class="col-xl-6 col-md-12 col-sm-12 d-md-flex justify-content-md-center mb-1">
+           <button class="btn btn-outline-primary hvr-sweep-to-right">VIEW DETAILS</button>
+          </div>
+            <div class="col-xl-6 col-md-12 col-sm-12 d-md-flex justify-content-md-center mb-1">
+            <button class="btn btn-primary hvr-sweep-to-right">MAKE A PAYMENT</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- billing summery end -->
 
   <!-- booking summery -->
 <div class="titleSection d-flex justify-content-between">

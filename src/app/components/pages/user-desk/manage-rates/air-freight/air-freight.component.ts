@@ -509,19 +509,31 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           this.draftslist[index].CarrierImage = data[i].carrierImage;
           this.draftslist[index].CarrierName = data[i].carrierName;
           this.draftslist[index].ContainerLoadType = data[i].containerLoadType;
-          // this.draftslist[index].ContainerSpecID = data[i].containerSpecID;
-          // this.draftslist[index].ContainerSpecName = data[i].containerSpecName;
           this.draftslist[index].ShippingCatID = data[i].shippingCatID;
           this.draftslist[index].ShippingCatName = data[i].shippingCatName;
           this.draftslist[index].CurrencyID = data[i].currencyID;
           this.draftslist[index].CurrencyCode = data[i].currencyCode;
-          this.draftslist[index].minPrice1 = data[i].objSlab.minPrice1;
-          this.draftslist[index].priceWithCode1 = data[i].objSlab.priceWithCode1;
-          this.draftslist[index].priceWithCode2 = data[i].objSlab.priceWithCode2;
-          this.draftslist[index].priceWithCode3 = data[i].objSlab.priceWithCode3;
-          this.draftslist[index].priceWithCode4 = data[i].objSlab.priceWithCode4;
-          this.draftslist[index].priceWithCode5 = data[i].objSlab.priceWithCode5;
-          this.draftslist[index].priceWithCode6 = data[i].objSlab.priceWithCode6;
+          this.draftslist[index].slab.priceWithCode1 = data[i].objSlab.priceWithCode1;
+          this.draftslist[index].slab.priceWithCode2 = data[i].objSlab.priceWithCode2;
+          this.draftslist[index].slab.priceWithCode3 = data[i].objSlab.priceWithCode3;
+          this.draftslist[index].slab.priceWithCode4 = data[i].objSlab.priceWithCode4;
+          this.draftslist[index].slab.priceWithCode5 = data[i].objSlab.priceWithCode5;
+          this.draftslist[index].slab.priceWithCode6 = data[i].objSlab.priceWithCode6;
+
+          this.draftslist[index].slab.minPrice1 = data[i].objSlab.minPrice1;
+          this.draftslist[index].slab.minPrice2 = data[i].objSlab.minPrice2;
+          this.draftslist[index].slab.minPrice3 = data[i].objSlab.minPrice3;
+          this.draftslist[index].slab.minPrice4 = data[i].objSlab.minPrice4;
+          this.draftslist[index].slab.minPrice5 = data[i].objSlab.minPrice5;
+          this.draftslist[index].slab.minPrice6 = data[i].objSlab.minPrice6;
+
+          this.draftslist[index].slab.price1 = data[i].objSlab.price1;
+          this.draftslist[index].slab.price2 = data[i].objSlab.price2;
+          this.draftslist[index].slab.price3 = data[i].objSlab.price3;
+          this.draftslist[index].slab.price4 = data[i].objSlab.price4;
+          this.draftslist[index].slab.price5 = data[i].objSlab.price5;
+          this.draftslist[index].slab.price6 = data[i].objSlab.price6;
+
           this.draftslist[index].EffectiveFrom = data[i].effectiveFrom;
           this.draftslist[index].EffectiveTo = data[i].effectiveTo;
           this.draftslist[index].PodCode = data[i].podCode;
@@ -752,15 +764,10 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         {
           title: '+1000 PRICE',
           data: function (data) {
-            if (data.slab && data.slab.priceWithCode6){
               return (Number(data.slab.priceWithCode6.split(' ').pop())).toLocaleString('en-US', {
                 style: 'currency',
                 currency: data.slab.priceWithCode6.split(' ').shift(),
               });
-            }
-            else{
-              return '<span>-- Select --</span>'
-            }
           },
         },
       

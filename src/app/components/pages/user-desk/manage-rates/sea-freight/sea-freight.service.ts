@@ -43,6 +43,10 @@ export class SeaFreightService {
     let url: string = "providerratefcl/PublishRate";
     return this._http.post(baseApi + url, obj);
   }
+  publishDraftRateLCL(obj) {
+    let url: string = "providerratelcl/PublishRate";
+    return this._http.post(baseApi + url, obj);
+  }
   deleteNDiscardDraftRate(data){
     let url: string = "providerratefcl/DiscardDraft";
     return this._http.request('delete', baseApi + url, { body: data });
