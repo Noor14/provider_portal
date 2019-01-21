@@ -621,6 +621,7 @@ input[type="checkbox"]:focus+label>span {
     -moz-appearance: none;
     -o-appearance: none;
     background: url("assets/images/select-arrow.png") no-repeat center right 10px $color-white;
+    padding-right: 25px;
     @media (max-width: $screen-fourteen-hundred) {
       font-size: 0.8rem;
     }
@@ -729,6 +730,7 @@ input[type="checkbox"]:focus+label>span {
         top: 12px;
         .country-section {
           &.dropdown-menu {
+            padding: 0; 
             ul {
               li {
                 .flag-container {
@@ -738,6 +740,9 @@ input[type="checkbox"]:focus+label>span {
                   margin-left: 9px;
                   margin-right: 0px;
                   text-align: right;
+                  img {
+                    border: 1px solid $primary-grey;
+                }
                 }
                 span {
                   direction: ltr;
@@ -891,6 +896,7 @@ input[type="checkbox"]:focus+label>span {
       top: 12px;
       .country-section {
         &.dropdown-menu {
+          padding: 0; 
           ul {
             li {
               .flag-container {
@@ -898,6 +904,9 @@ input[type="checkbox"]:focus+label>span {
                 height: 12px;
                 float: left;
                 margin-right: 9px;
+                img {
+                  border: 1px solid $primary-grey;
+              }
               }
             }
           }
@@ -915,6 +924,9 @@ input[type="checkbox"]:focus+label>span {
           height: 12px;
           float: left;
           margin-right: 9px;
+          img {
+            border: 1px solid $primary-grey;
+        }
         }
         span {
           margin-top: 3px;
@@ -1184,6 +1196,7 @@ select {
     .dataTables_scroll {
       border: 1px solid $data-table-border;
       .dataTables_scrollHead {
+        z-index: 2;
         .dataTable {
           thead {
             background: $data-table-header-bg;
@@ -1240,14 +1253,17 @@ select {
                 }
                 &.gridRoute {
                   .dropdown-menu {
+                    padding: 0; 
                     button {
                       .flag-container {
                         width: 15px;
                         height: 12px;
-                        border: 1px solid $provider-input-border;
                         display: flex;
                         margin-top: 2px;
                         margin-right: 10px !important;
+                        img {
+                          border: 1px solid $primary-grey;
+                      }
                       }
                     }
                   }
@@ -1261,6 +1277,9 @@ select {
                       position: absolute;
                       left: 10px;
                       top: 11px;
+                      img {
+                        border: 1px solid $primary-grey;
+                    }
                     }
                     .routeSelected {
                       padding-left: 30px !important;
@@ -1306,6 +1325,7 @@ select {
       }
       .DTFC_RightWrapper {
         width: 35px !important;
+        right: 16px !important;
         .DTFC_RightHeadWrapper,
         .DTFC_RightFootWrapper {
           table {
@@ -1384,6 +1404,7 @@ select {
         }
         &.disabled {
           cursor: no-drop;
+          display: none;
         }
       }
       >span {

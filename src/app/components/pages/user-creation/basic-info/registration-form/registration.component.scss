@@ -27,14 +27,22 @@
             position: absolute;
             left: 8px;
             top: 10px;
+            
+            img {
+                border: 1px solid $primary-grey;
+            }
         }
         .dropdown-menu {
+            padding: 0; 
             &.show {
                 .dropdown-item {
                     .flag-container {
                         position: relative;
                         left: auto;
                         top: auto;
+                        img {
+                            border: 1px solid $primary-grey;
+                        }
                     }
                 }
             }
@@ -117,6 +125,7 @@
                 top: auto !important;
                 left: auto !important;
                 text-align: right;
+                padding: 0; 
             }
         }
     }
