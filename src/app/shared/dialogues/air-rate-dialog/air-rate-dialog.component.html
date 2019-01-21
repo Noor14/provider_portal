@@ -1,7 +1,7 @@
 <div class="airRates-modal animated fadeIn">
   <div class="modal-header">
     <h4 class="provider-modal-title">Add / Update Rates</h4>
-    <a class="pointer crossIcon" (click)="closeModal(null)">
+    <a class="pointer crossIcon" (click)="closePopup()">
       <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
     </a>
   </div>
@@ -23,7 +23,7 @@
           <div class="col-6">
             <div class="form-group">
               <label>Cargo Type</label>
-              <select class="form-control" id="category" [(ngModel)]="selectedCategory" (change)="cargoTypeChange(selectedCategory)">
+              <select class="form-control" id="category" [(ngModel)]="selectedCategory">
                 <option [value]="null" disabled>--Select--</option>
                 <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
               </select>
@@ -90,7 +90,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="minPrice">
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="minPrice" (keypress)="numberValid($event)">
           </div>
         </div>
       </div>
@@ -101,7 +101,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="normalPrice">
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="normalPrice" (keypress)="numberValid($event)">
           </div>
         </div>
       </div>
@@ -112,7 +112,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="plusfortyFivePrice">
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="plusfortyFivePrice" (keypress)="numberValid($event)">
           </div>
         </div>
       </div>
@@ -123,7 +123,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="plushundredPrice">
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="plushundredPrice" (keypress)="numberValid($event)">
           </div>
         </div>
       </div>
@@ -134,7 +134,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="plusTwoFiftyPrice">
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="plusTwoFiftyPrice" (keypress)="numberValid($event)">
           </div>
         </div>
       </div>
@@ -145,7 +145,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="plusFiveHundPrice">
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="plusFiveHundPrice" (keypress)="numberValid($event)">
           </div>
         </div>
       </div>
@@ -156,7 +156,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="plusThousandPrice">
+            <input type="text" class="form-control" placeholder="0.00" [(ngModel)]="plusThousandPrice" (keypress)="numberValid($event)">
           </div>
         </div>
       </div>
@@ -178,7 +178,10 @@
           </ng-template>
         </div>
       </div>
-      <div class="col-12"><button class="btn btn-primary pl-5 pr-5 mt-4 hvr-sweep-to-right pull-right" (click)="savedraftrow()">SAVE</button></div>
+        <div class="col-12 d-flex justify-content-end">
+          <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right mr-4" (click)="savedraftrow('saveNadd')">SAVE & ADD ANOTHER</button>
+          <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right" (click)="savedraftrow('onlySave')">SAVE & CLOSE</button>
+        </div>
     </div>
   </div>
 </div>

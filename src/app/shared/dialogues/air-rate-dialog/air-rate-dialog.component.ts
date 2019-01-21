@@ -14,6 +14,8 @@ import {
   NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
 import { AirFreightService } from '../../../components/pages/user-desk/manage-rates/air-freight/air-freight.service';
+import { ToastrService } from 'ngx-toastr';
+
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
   one && two && two.year === one.year && two.month === one.month && two.day === one.day;
@@ -29,6 +31,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 @Component({
   selector: 'app-air-rate-dialog',
   templateUrl: './air-rate-dialog.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./air-rate-dialog.component.scss']
 })
 export class AirRateDialogComponent implements OnInit {
@@ -38,7 +41,7 @@ export class AirRateDialogComponent implements OnInit {
   @Input() selectedData: any;
 
   public allAirLines: any[] = [];
-  public allCargoType: any[] = []
+  public allCargoType: any[] = [];
   public allPorts: any[] = [];
   public allCurrencies: any[] = [];
   public filterOrigin: any = {};
@@ -76,6 +79,8 @@ export class AirRateDialogComponent implements OnInit {
     year : undefined
   };
   public model: any;
+  private allRatesFilledData: any[] = [];
+  private newProviderPricingDraftID = undefined;
 
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
@@ -88,7 +93,8 @@ export class AirRateDialogComponent implements OnInit {
     private _sharedService: SharedService,
     private _parserFormatter: NgbDateParserFormatter,
     private renderer: Renderer2,
-    private  _airFreightService: AirFreightService
+    private  _airFreightService: AirFreightService,
+    private _toast: ToastrService
 
   ) { location.onPopState(() => this.closeModal(null)); }
 
@@ -121,18 +127,19 @@ export class AirRateDialogComponent implements OnInit {
     })
   }
   setData(){
+    this.selectedCategory = this.selectedData.ShippingCatID;
       this.selectedCategory = this.selectedData.ShippingCatID;
       this.filterOrigin = this.allPorts.find(obj => obj.PortID == this.selectedData.PolID);
       this.filterDestination = this.allPorts.find(obj => obj.PortID == this.selectedData.PodID);
       this.selectedAirline = this.allAirLines.find(obj => obj.CarrierID == this.selectedData.CarrierID);
       this.selectedCurrency = this.allCurrencies.find(obj => obj.CurrencyID == this.selectedData.CurrencyID);
-      this.minPrice = this.selectedData.Price;
-      this.normalPrice = this.selectedData.Price;
-      this.plusfortyFivePrice = this.selectedData.Price;
-      this.plushundredPrice = this.selectedData.Price;
-      this.plusTwoFiftyPrice = this.selectedData.Price;
-      this.plusFiveHundPrice = this.selectedData.Price;
-      this.plusThousandPrice = this.selectedData.Price;
+      this.minPrice = this.selectedData.slab.minPrice1.split(' ').pop();
+      this.normalPrice = this.selectedData.slab.price1;
+      this.plusfortyFivePrice = this.selectedData.slab.price2;
+      this.plushundredPrice = this.selectedData.slab.price3;
+      this.plusTwoFiftyPrice = this.selectedData.slab.price4;
+      this.plusFiveHundPrice = this.selectedData.slab.price5;
+      this.plusThousandPrice = this.selectedData.slab.price6;
       this.fromDate.day = new Date(this.selectedData.EffectiveFrom).getDate();
       this.fromDate.year = new Date(this.selectedData.EffectiveFrom).getFullYear();
       this.fromDate.month = new Date(this.selectedData.EffectiveFrom).getMonth()+1;
@@ -147,9 +154,8 @@ export class AirRateDialogComponent implements OnInit {
 
   }
 
-  savedraftrow() {
-  
-    let obj = [
+  savedraftrow(type) {
+      let obj = 
       {
         carrierPricingSetID: this.selectedData.CarrierPricingSetID,
         carrierID: this.selectedAirline.CarrierID,
@@ -166,9 +172,8 @@ export class AirRateDialogComponent implements OnInit {
         effectiveTo: this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year,
         minPrice: 0,
         providerID: this.userProfile.ProviderID,
-        shippingCatID: (this.selectedCategory == 'null') ? null : this.selectedCategory,
-        shippingCatName: (this.selectedCategory) ? this.getShippingName(this.selectedCategory) : undefined,
-        carrierPricingDraftID: 0,
+        shippingCatID: (this.selectedCategory == 'null')? null : this.selectedCategory,
+        shippingCatName: (this.selectedCategory)? this.getShippingName(this.selectedCategory) : undefined,
         polID: this.filterOrigin.PortID,
         polName: this.filterOrigin.PortName,
         polCode: this.filterOrigin.PortCode,
@@ -177,41 +182,86 @@ export class AirRateDialogComponent implements OnInit {
         podCode: this.filterDestination.PortCode,
         containerSpecShortName: null,
         objSlab: {
-         slab1: "string",
-          price1: "string",
-          minPrice1: "string",
-          priceWithCode1: "string",
-          slab2: "string",
-          price2: "string",
-          minPrice2: "string",
-          priceWithCode2: "string",
-          slab3: "string",
-          price3: "string",
-          minPrice3: "string",
-          priceWithCode3: "string",
-          slab4: "string",
-          price4: "string",
-          minPrice4: "string",
-          priceWithCode4: "string",
-          slab5: "string",
-          price5: "string",
-          minPrice5: "string",
-          priceWithCode5: "string"
-        },
-        slab: "string"
+          draftid1: this.selectedData.slab.draftid1,
+          draftid2: this.selectedData.slab.draftid2,
+          draftid3: this.selectedData.slab.draftid3,
+          draftid4: this.selectedData.slab.draftid4,
+          draftid5: this.selectedData.slab.draftid5,
+          slab1: this.selectedData.slab.slab1,
+          price1: this.normalPrice,
+          minPrice1: this.minPrice,
+          priceWithCode1: this.selectedCurrency.CurrencyCode + ' ' + this.normalPrice,
+          slab2: this.selectedData.slab.slab2,
+          price2: this.plusfortyFivePrice,
+          minPrice2: this.normalPrice,
+          priceWithCode2: this.selectedCurrency.CurrencyCode + ' ' + this.plusfortyFivePrice,
+          slab3: this.selectedData.slab.slab3,
+          price3: this.plushundredPrice,
+          minPrice3: this.plusfortyFivePrice,
+          priceWithCode3: this.selectedCurrency.CurrencyCode + ' ' + this.plushundredPrice,
+          slab4: this.selectedData.slab.slab4,
+          price4: this.plusTwoFiftyPrice,
+          minPrice4: this.plushundredPrice,
+          priceWithCode4: this.selectedCurrency.CurrencyCode + ' ' + this.plusTwoFiftyPrice,
+          slab5: this.selectedData.slab.slab5,
+          price5: this.plusFiveHundPrice,
+          minPrice5: this.plusTwoFiftyPrice,
+          priceWithCode5: this.selectedCurrency.CurrencyCode + ' ' + this.plusFiveHundPrice,
+          // slab6: this.selectedData.slab.slab6,
+          // price6: this.plusThousandPrice,
+          // minPrice6: this.plusFiveHundPrice,
+          // priceWithCode6: this.selectedCurrency.CurrencyCode + ' ' + this.plusThousandPrice
+        }
       }
-     ]
     this. _airFreightService.saveDraftRate(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.closeModal(obj[0]);
+        this._toast.success("Rates added successfully", "");
+        this.allRatesFilledData.push(obj[0]);
+        if (type != "saveNadd") {
+          let object = {
+            data: this.allRatesFilledData
+          };
+          this.closeModal(object);
+        } else {
+          this.addRow();
+        }
       }
     })
   }
 
+  addRow() {
+    this._airFreightService
+      .addDraftRates({
+        createdBy: this.userProfile.LoginID,
+        providerID: this.userProfile.ProviderID
+      })
+      .subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this._sharedService.draftRowAddAir.next(res.returnObject);
+          this.newProviderPricingDraftID = undefined;
+          this.minPrice = undefined;
+          this.normalPrice = undefined;
+          this.plusfortyFivePrice = undefined;
+          this.plushundredPrice = undefined;
+          this.plusTwoFiftyPrice = undefined;
+          this.plusFiveHundPrice = undefined;
+          this.plusThousandPrice = undefined;
+          this.selectedCategory = null;
+          this.newProviderPricingDraftID = res.returnObject.CarrierPricingSetID;
+        }
+      });
+  }
+
+  numberValid(evt) {
+    let charCode = evt.which ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
+    return true;
+  }
+
+
     getShippingName(id) {
     return this.allCargoType.find(obj => obj.ShippingCatID == id).ShippingCatName;
   }
-
 
   onDateSelection(date: NgbDateStruct) {
     let parsed = '';
@@ -235,11 +285,16 @@ export class AirRateDialogComponent implements OnInit {
 
     this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
   }
-
+  closePopup() {
+    let object = {
+      data: this.allRatesFilledData
+    };
+    this.closeModal(object);
+  }
   closeModal(status) {
+    this._sharedService.draftRowAddAir.next(null);
     this._activeModal.close(status);
     document.getElementsByTagName('html')[0].style.overflowY = 'auto';
-
   }
 
   airlines = (text$: Observable<string>) =>
