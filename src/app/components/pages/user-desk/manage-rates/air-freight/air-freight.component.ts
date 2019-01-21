@@ -130,7 +130,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     this.allservicesByAir();
     this.addnsaveRates = this._sharedService.draftRowAddAir.subscribe(state => {
       if (state && Object.keys(state).length) {
-        this.setRowinDRaftTable(state);
+        this.setRowinDRaftTable(state, 'popup not open');
       }
     })
   }
@@ -165,12 +165,12 @@ export class AirFreightComponent implements OnInit, OnDestroy {
    addRatesManually() {
      this._airFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID, currencyID : 101 }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.setRowinDRaftTable(res.returnObject);
+        this.setRowinDRaftTable(res.returnObject, 'openPopup');
       }
     })
   }
 
-  setRowinDRaftTable(obj) {
+  setRowinDRaftTable(obj, type) {
     if (typeof obj.slab == "string"){
       obj.slab = JSON.parse(obj.slab);
     }
@@ -180,7 +180,9 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     } else {
       this.draftslist = this.draftDataBYAIR;
     }
+    if (type == 'openPopup') {
     this.updatePopupRates(obj.CarrierPricingSetID);
+  }
     this.generateDraftTable();
   }
   
@@ -513,7 +515,13 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           this.draftslist[index].ShippingCatName = data[i].shippingCatName;
           this.draftslist[index].CurrencyID = data[i].currencyID;
           this.draftslist[index].CurrencyCode = data[i].currencyCode;
-          this.draftslist[index].Price = data[i].price;
+          this.draftslist[index].minPrice1 = data[i].objSlab.minPrice1;
+          this.draftslist[index].priceWithCode1 = data[i].objSlab.priceWithCode1;
+          this.draftslist[index].priceWithCode2 = data[i].objSlab.priceWithCode2;
+          this.draftslist[index].priceWithCode3 = data[i].objSlab.priceWithCode3;
+          this.draftslist[index].priceWithCode4 = data[i].objSlab.priceWithCode4;
+          this.draftslist[index].priceWithCode5 = data[i].objSlab.priceWithCode5;
+          this.draftslist[index].priceWithCode6 = data[i].objSlab.priceWithCode6;
           this.draftslist[index].EffectiveFrom = data[i].effectiveFrom;
           this.draftslist[index].EffectiveTo = data[i].effectiveTo;
           this.draftslist[index].PodCode = data[i].podCode;
@@ -1027,7 +1035,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     modalRef.result.then((result) => {
       if (result == "Success") {
         for (let index = 0; index < this.draftslist.length; index++) {
-          if (this.draftslist[index].CarrierPricingDraftID == id) {
+          if (this.draftslist[index].CarrierPricingSetID == id) {
             this.draftslist.splice(index, 1);
             this.generateDraftTable();
             this.publishRates = [];

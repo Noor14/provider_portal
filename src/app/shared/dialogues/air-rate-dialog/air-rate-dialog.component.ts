@@ -216,7 +216,7 @@ export class AirRateDialogComponent implements OnInit {
     this. _airFreightService.saveDraftRate(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success("Rates added successfully", "");
-        this.allRatesFilledData.push(obj[0]);
+        this.allRatesFilledData.push(obj);
         if (type != "saveNadd") {
           let object = {
             data: this.allRatesFilledData
@@ -233,7 +233,8 @@ export class AirRateDialogComponent implements OnInit {
     this._airFreightService
       .addDraftRates({
         createdBy: this.userProfile.LoginID,
-        providerID: this.userProfile.ProviderID
+        providerID: this.userProfile.ProviderID,
+        currencyID: 101 
       })
       .subscribe((res: any) => {
         if (res.returnStatus == "Success") {
