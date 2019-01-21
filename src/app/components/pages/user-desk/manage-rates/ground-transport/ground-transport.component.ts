@@ -55,7 +55,9 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 })
 export class GroundTransportComponent implements OnInit, OnDestroy  {
 
+
   private draftRates: any;
+  private addnsaveRates: any;
   public dtOptionsByGround: DataTables.Settings | any = {};
   public dtOptionsByGroundDraft: DataTables.Settings | any = {};
   @ViewChild('draftBYGround') tabledraftByGround;
@@ -129,11 +131,17 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.getAllPublishRates();
     this.allservicesByGround();
+    this.addnsaveRates = this._sharedService.draftRowAddGround.subscribe(state => {
+      if (state && Object.keys(state).length) {
+        this.setRowinDRaftTable(state, 'popup not open');
+      }
+    })
   }
 
 
   ngOnDestroy() {
     this.draftRates.unsubscribe();
+    this.addnsaveRates.unsubscribe();
   }
 
   clearFilter(event) {
@@ -160,20 +168,26 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   }
 
   addRatesManually() {
-    this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
+    this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID, transportType: "GROUND" }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.draftDataBYGround.unshift(res.returnObject);
-        if (this.draftRatesByGround && this.draftRatesByGround.length) {
-          this.draftslist = this.draftRatesByGround.concat(this.draftDataBYGround);
-        } else {
-          this.draftslist = this.draftDataBYGround;
-        }
-        this.generateDraftTable();
-        this.updatePopupRates(res.returnObject.ProviderPricingDraftID);
-
+        this.setRowinDRaftTable(res.returnObject, 'openPopup');
       }
     })
   }
+
+  setRowinDRaftTable(obj, type) {
+    this.draftDataBYGround.unshift(obj);
+    if (this.draftRatesByGround && this.draftRatesByGround.length) {
+      this.draftslist = this.draftRatesByGround.concat(this.draftDataBYGround);
+    } else {
+      this.draftslist = this.draftDataBYGround;
+    }
+    if (type == 'openPopup') {
+      this.updatePopupRates(obj.ID);
+    }
+    this.generateDraftTable();
+  }
+
   generateDraftTable() {
     this.dtOptionsByGroundDraft = {
       data: this.draftslist,
@@ -181,7 +195,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         {
           title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRates" type = "checkbox"> <label for= "selectallDraftRates"> <span> </span></label></div>',
           data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.ProviderPricingDraftID + '" type = "checkbox"> <label for= "' + data.ProviderPricingDraftID + '"> <span> </span></label></div>';
+            return '<div class="fancyOptionBoxes"> <input id = "' + data.ID + '" type = "checkbox"> <label for= "' + data.ID + '"> <span> </span></label></div>';
           }
         },
         {
@@ -254,7 +268,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           title: '',
           data: function (data) {
             let url = '../../../../../../assets/images/icons/icon_del_round.svg';
-            return "<img id='" + data.ProviderPricingDraftID + "' src='" + url + "' class='icon-size-16 pointer' />";
+            return "<img id='" + data.ID + "' src='" + url + "' class='icon-size-16 pointer' />";
           }
         }
       ],
@@ -268,7 +282,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           $('.draft-Ground .dataTables_paginate').show();
         }
       },
-      info: false,
+      info: true,
       destroy: true,
       // pagingType: 'full_numbers',
       pageLength: 5,
@@ -325,13 +339,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       if (this.tabledraftByGround && this.tabledraftByGround.nativeElement) {
         this.dataTabledraftByground = $(this.tabledraftByGround.nativeElement);
         let alltableOption = this.dataTabledraftByground.DataTable(this.dtOptionsByGroundDraft);
-        // let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
-        // let footertr = $("<tr></tr>").appendTo(footer);
-        // $("<td colspan='20'> <a href='javascript:;' class ='addrow'>Add Another Rates</a> </td>").appendTo(footertr);
-        // Add footer cells
-
         this.draftloading = false;
-
         $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
           event.stopPropagation();
           let delId = (<HTMLElement>event.target).id;
@@ -342,15 +350,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
           event.stopPropagation();
           if (event.target.nodeName != "SPAN" || event.target.innerText) {
+            if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
             let rowId = event.currentTarget.cells[0].children[0].children[0].id;
             this.updatePopupRates(rowId);
+            }
           }
         });
-        // $(alltableOption.table().container()).on('click', 'tfoot tr td a', (event) => {
-        //     event.stopPropagation();
-        //     this.addAnotherRates();
-
-        // });
 
         $("#selectallDraftRates").click((event) => {
           this.publishRates = [];
@@ -359,7 +364,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           for (var i = 0; i < cols.length; i += 1) {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedalldraftRates;
             if (this.checkedalldraftRates) {
-              this.publishRates.push(cols[i].querySelector("input[type='checkbox']").id);
+             let obj = {
+                draftID: cols[i].querySelector("input[type='checkbox']").id,
+                providerID: this.userProfile.ProviderID,
+                transportType: "GROUND",
+              }
+              this.publishRates.push(obj);
             }
           }
           if (i == cols.length && !this.checkedalldraftRates) {
@@ -369,12 +379,18 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
 
         $('#draftRateTable').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
           event.stopPropagation();
-          let index = this.publishRates.indexOf((<HTMLInputElement>event.target).id)
-          if (index >= 0) {
-            this.publishRates.splice(index, 1);
-
-          } else {
-            this.publishRates.push((<HTMLInputElement>event.target).id)
+          let targetedId = (<HTMLInputElement>event.target).id
+          let index = this.publishRates.findIndex(obj => obj.draftID == targetedId);
+            if (index >= 0) {
+              this.publishRates.splice(index, 1);
+          }
+          else {
+            let obj = {
+              draftID: targetedId,
+              providerID: this.userProfile.ProviderID,
+              transportType: "GROUND",
+            }
+            this.publishRates.push(obj)
           }
 
         });
@@ -385,9 +401,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
 
 
   updatePopupRates(rowId) {
-
-    let obj = this.draftslist.find(obj => obj.ProviderPricingDraftID == rowId);
-
+    let obj = this.draftslist.find(obj => obj.ID == rowId);
     const modalRef = this.modalService.open(GroundRateDialogComponent, {
       size: 'lg',
       centered: true,
@@ -396,11 +410,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       keyboard: false
     });
     modalRef.result.then((result) => {
-      if (result && Object.keys(result).length) {
-        this.setAddDraftData(result);
+      if (result && result.data && result.data.length) {
+        this.setAddDraftData(result.data);
       }
-    }, (reason) => {
-      // console.log("reason");
     });
 
     modalRef.componentInstance.selectedData = obj;
@@ -412,33 +424,37 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
 
   }
 
-  setAddDraftData(result) {
-    for (let index = 0; index < this.draftslist.length; index++) {
-      if (this.draftslist[index].ProviderPricingDraftID == result.providerPricingDraftID) {
-        this.draftslist[index].CarrierID = result.carrierID;
-        this.draftslist[index].CarrierImage = result.carrierImage;
-        this.draftslist[index].CarrierName = result.carrierName;
-        this.draftslist[index].ContainerLoadType = result.containerLoadType;
-        this.draftslist[index].ContainerSpecID = result.containerSpecID;
-        this.draftslist[index].ContainerSpecName = result.containerSpecName;
-        this.draftslist[index].ShippingCatID = result.shippingCatID;
-        this.draftslist[index].ShippingCatName = result.shippingCatName;
-        this.draftslist[index].CurrencyID = result.currencyID;
-        this.draftslist[index].CurrencyCode = result.currencyCode;
-        this.draftslist[index].Price = result.price;
-        this.draftslist[index].EffectiveFrom = result.effectiveFrom;
-        this.draftslist[index].EffectiveTo = result.effectiveTo;
-        this.draftslist[index].PodCode = result.podCode;
-        this.draftslist[index].PolCode = result.polCode;
-        this.draftslist[index].PodName = result.podName;
-        this.draftslist[index].PolName = result.polName;
-        this.draftslist[index].PodID = result.podID;
-        this.draftslist[index].PolID = result.polID;
-        this.generateDraftTable();
-        break;
+  setAddDraftData(data) {
+    for (var index = 0; index < this.draftslist.length; index++) {
+      for (let i = 0; i < data.length; i++) {
+        if (this.draftslist[index].ID == data[i].ID) {
+          // this.draftslist[index].CarrierID = data[i].carrierID;
+          // this.draftslist[index].CarrierImage = data[i].carrierImage;
+          // this.draftslist[index].CarrierName = data[i].carrierName;
+          this.draftslist[index].ContainerLoadType = data[i].containerLoadType;
+          this.draftslist[index].ShippingCatID = data[i].shippingCatID;
+          this.draftslist[index].ShippingCatName = data[i].shippingCatName;
+          this.draftslist[index].ContainerSpecID = data[i].containerSpecID;
+          this.draftslist[index].ContainerSpecName = data[i].containerSpecName;
+          this.draftslist[index].CurrencyID = data[i].currencyID;
+          this.draftslist[index].CurrencyCode = data[i].currencyCode;
+          this.draftslist[index].EffectiveFrom = data[i].effectiveFrom;
+          this.draftslist[index].EffectiveTo = data[i].effectiveTo;
+          this.draftslist[index].PodCode = data[i].podCode;
+          this.draftslist[index].PolCode = data[i].polCode;
+          this.draftslist[index].PodName = data[i].podName;
+          this.draftslist[index].PolName = data[i].polName;
+          this.draftslist[index].PodID = data[i].podID;
+          this.draftslist[index].PolID = data[i].polID;
+          this.draftslist[index].Price = data[i].price;
+        }
       }
     }
+    if (index == this.draftslist.length) {
+      this.generateDraftTable();
+    }
   }
+  
   addAnotherRates() {
       this.addRatesManually();
  
@@ -494,8 +510,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
             this.allContainersType = state[index].DropDownValues.ContainerGround;
             this.allPorts = state[index].DropDownValues.Port.concat(state[index].DropDownValues.GroundPort);
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
-            if (state[index].DraftDataFCL) {
-              this.draftRatesByGround = state[index].DraftDataFCL;
+            if (state[index].DraftDataGround && state[index].DraftDataGround.length) {
+              this.draftRatesByGround = state[index].DraftDataGround;
               this.draftslist = this.draftRatesByGround;
             }
             this.generateDraftTable();
@@ -526,7 +542,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   getAllPublishRates() {
     this.publishloading = true;
     let obj = {
-      // providerID: 1047,     
       providerID: this.userProfile.ProviderID,
       pageNo: 1,
       pageSize: 50,
@@ -553,9 +568,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
 
   }
 
-
-
-
   filterTable() {
     this.dtOptionsByGround = {
       // ajax: {
@@ -571,7 +583,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           }
         },
         {
-          title: 'RATE FOR',
+          title: 'ORIGIN / DEPARTURE',
           data: function (data) {
             let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
             let podCode = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
@@ -581,15 +593,25 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           className: "routeCell"
         },
         {
-          title: 'AIRLINE',
-          data: 'type',
+          title: 'TYPE',
+          data: function (data) {
+            return (Number(data.priceWithCode.split(' ').pop())).toLocaleString('en-US', {
+              style: 'currency',
+              currency: data.priceWithCode.split(' ').shift(),
+            });
+          },
         },
         {
-          title: 'ORIGIN / DEPARTURE',
-          data: 'size',
+          title: 'SIZE',
+          data: function (data) {
+            return (Number(data.priceWithCode.split(' ').pop())).toLocaleString('en-US', {
+              style: 'currency',
+              currency: data.priceWithCode.split(' ').shift(),
+            });
+          },
         },
         {
-          title: 'CARGO TYPE',
+          title: 'RATE',
           data: function (data) {
             return (Number(data.priceWithCode.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
@@ -612,6 +634,16 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           className: 'moreOption'
         }
       ],
+      drawCallback: function () {
+        let $api = this.api();
+        let pages = $api.page.info().pages;
+        if (pages === 1 || !pages) {
+          $('.publishRateGround .dataTables_paginate').hide();
+        } else {
+          // SHow everything
+          $('.publishRateGround .dataTables_paginate').show();
+        }
+      },
       // processing: true,
       // serverSide: true,
       // retrieve: true,
@@ -673,8 +705,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         $("#selectallpublishRates").click(() => {
           this.delPublishRates = [];
           var cols = alltableOption.column(0).nodes();
-
-
 
           this.checkedallpublishRates = !this.checkedallpublishRates;
           for (var i = 0; i < cols.length; i += 1) {
@@ -752,7 +782,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   discardDraft() {
     let discardarr = [];
     this.draftslist.forEach(elem => {
-      discardarr.push(elem.ProviderPricingDraftID)
+      let obj = {
+          draftID: elem.ID,
+          transportType: "GROUND",
+          }
+      discardarr.push(obj)
     })
     const modalRef = this.modalService.open(DiscardDraftComponent, {
       size: 'lg',
@@ -842,7 +876,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       if (res.returnStatus == "Success") {
         for (var i = 0; i < this.publishRates.length; i++) {
           for (let y = 0; y < this.draftslist.length; y++) {
-            if (this.draftslist[y].ProviderPricingDraftID == this.publishRates[i]) {
+            if (this.draftslist[y].ID == this.publishRates[i].draftID) {
               this.draftslist.splice(y, 1);
             }
           }
@@ -876,7 +910,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     modalRef.result.then((result) => {
       if (result == "Success") {
         for (let index = 0; index < this.draftslist.length; index++) {
-          if (this.draftslist[index].ProviderPricingDraftID == id) {
+          if (this.draftslist[index].ID == id) {
             this.draftslist.splice(index, 1);
             this.generateDraftTable();
             this.publishRates = [];
@@ -888,7 +922,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       // console.log("reason");
     });
     let obj = {
-      data: [id],
+      data: [{
+        draftID: id,
+        transportType: "GROUND",
+
+      }],
       type: "draftGroundRate"
     }
     modalRef.componentInstance.deleteIds = obj;

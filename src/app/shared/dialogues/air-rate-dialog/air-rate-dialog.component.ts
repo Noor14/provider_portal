@@ -127,6 +127,7 @@ export class AirRateDialogComponent implements OnInit {
     })
   }
   setData(){
+    let parsed = "";
     this.selectedCategory = this.selectedData.ShippingCatID;
       this.selectedCategory = this.selectedData.ShippingCatID;
       this.filterOrigin = this.allPorts.find(obj => obj.PortID == this.selectedData.PolID);
@@ -140,17 +141,27 @@ export class AirRateDialogComponent implements OnInit {
       this.plusTwoFiftyPrice = this.selectedData.slab.price4;
       this.plusFiveHundPrice = this.selectedData.slab.price5;
       this.plusThousandPrice = this.selectedData.slab.price6;
+    if (this.selectedData.EffectiveFrom) {
       this.fromDate.day = new Date(this.selectedData.EffectiveFrom).getDate();
       this.fromDate.year = new Date(this.selectedData.EffectiveFrom).getFullYear();
-      this.fromDate.month = new Date(this.selectedData.EffectiveFrom).getMonth()+1;
+      this.fromDate.month = new Date(this.selectedData.EffectiveFrom).getMonth() + 1;
+    }
+    if (this.selectedData.EffectiveTo) {
       this.toDate.day = new Date(this.selectedData.EffectiveTo).getDate();
       this.toDate.year = new Date(this.selectedData.EffectiveTo).getFullYear();
-      this.toDate.month = new Date(this.selectedData.EffectiveTo).getMonth()+1;
+      this.toDate.month = new Date(this.selectedData.EffectiveTo).getMonth() + 1;
+    }
+    if (this.fromDate && this.fromDate.day) {
+      this.model = this.fromDate;
+      parsed += this._parserFormatter.format(this.fromDate);
+    }
+    if (this.toDate && this.toDate.day) {
+      parsed += " - " + this._parserFormatter.format(this.toDate);
+    }
+    this.rangeDp.nativeElement.value = parsed;
       if (!this.selectedCurrency) {
         this.selectedCurrency = this.defaultCurrency;
       }
-    // this.model = this.fromDate + this.toDate;
-      this.onDateSelection(this.model)
 
   }
 

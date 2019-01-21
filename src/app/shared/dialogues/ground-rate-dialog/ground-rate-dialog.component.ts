@@ -15,7 +15,7 @@ import {
   NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateFRParserFormatter } from "../../../constants/ngb-date-parser-formatter";
-import { SeaFreightService } from '../../../components/pages/user-desk/manage-rates/sea-freight/sea-freight.service';
+import { GroundTransportService } from '../../../components/pages/user-desk/manage-rates/ground-transport/ground-transport.service';
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
   one && two && two.year === one.year && two.month === one.month && two.day === one.day;
@@ -52,7 +52,6 @@ export class GroundRateDialogComponent implements OnInit {
   public userProfile: any;
   public selectedCategory: any;
   public selectedContSize: any;
-  public selectedShipping: any;
   public selectedPrice: any;
   public defaultCurrency: any = {
     CurrencyID: 101,
@@ -76,6 +75,7 @@ export class GroundRateDialogComponent implements OnInit {
     year: undefined
   };
   public model: any;
+  private newProviderPricingDraftID = undefined;
 
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
@@ -88,7 +88,7 @@ export class GroundRateDialogComponent implements OnInit {
     private _sharedService: SharedService,
     private _parserFormatter: NgbDateParserFormatter,
     private renderer: Renderer2,
-    private _seaFreightService: SeaFreightService,
+    private _groundFreightService: GroundTransportService,
     private _toast: ToastrService
 
   ) { location.onPopState(() => this.closeModal(null)); }
@@ -100,8 +100,6 @@ export class GroundRateDialogComponent implements OnInit {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
     this.allservicesBySea();
-
-
   }
 
 
@@ -110,15 +108,13 @@ export class GroundRateDialogComponent implements OnInit {
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
-            this.allShippingLines = state[index].DropDownValues.ShippingLine;
             this.allCargoType = state[index].DropDownValues.Category;
-            this.allContainersType = state[index].DropDownValues.ContainerFCL;
-            this.allPorts = state[index].DropDownValues.Port;
+            this.allContainers = state[index].DropDownValues.ContainerGround;
+            this.allPorts = state[index].DropDownValues.Port.concat(state[index].DropDownValues.GroundPort);
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if (this.selectedData) {
               this.setData()
             }
-
           }
         }
       }
@@ -127,11 +123,9 @@ export class GroundRateDialogComponent implements OnInit {
   setData() {
     let parsed = '';
     this.selectedCategory = this.selectedData.ShippingCatID;
-    this.cargoTypeChange(this.selectedCategory);
     this.selectedContSize = this.selectedData.ContainerSpecID;
     this.filterOrigin = this.allPorts.find(obj => obj.PortID == this.selectedData.PolID);
     this.filterDestination = this.allPorts.find(obj => obj.PortID == this.selectedData.PodID);
-    this.selectedShipping = this.allShippingLines.find(obj => obj.CarrierID == this.selectedData.CarrierID);
     this.selectedCurrency = this.allCurrencies.find(obj => obj.CurrencyID == this.selectedData.CurrencyID);
     this.selectedPrice = this.selectedData.Price;
     if (this.selectedData.EffectiveFrom) {
@@ -158,31 +152,29 @@ export class GroundRateDialogComponent implements OnInit {
 
   }
 
-  cargoTypeChange(type) {
-    let data = this.allContainersType.filter(obj => obj.ShippingCatID == type);
-    this.allContainers = data;
-  }
-
   savedraftrow(type) {
     let obj = [
       {
-        providerPricingDraftID: this.selectedData.ProviderPricingDraftID,
-        carrierID: (this.selectedShipping) ? this.selectedShipping.CarrierID : undefined,
-        carrierName: (this.selectedShipping) ? this.selectedShipping.CarrierName : undefined,
-        carrierImage: (this.selectedShipping) ? this.selectedShipping.CarrierImage : undefined,
+        ID: (!this.newProviderPricingDraftID) ? this.selectedData.ID : this.newProviderPricingDraftID,
         providerID: this.userProfile.ProviderID,
         containerSpecID: (this.selectedContSize == null || this.selectedContSize == 'null') ? null : this.selectedContSize,
         containerSpecName: (this.selectedContSize == null || this.selectedContSize == 'null') ? undefined : this.getContSpecName(this.selectedContSize),
         shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : this.selectedCategory,
         shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.getShippingName(this.selectedCategory),
         containerLoadType: "FCL",
-        modeOfTrans: "SEA",
+        transportType: "GROUND",
+        modeOfTrans: "GROUND",
+        priceBasis: "PER_CONTAINER",
+        providerLocationD: "test loca",
+        providerLocationL: "test loca",
         polID: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortID : null,
         polName: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortName : null,
         polCode: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortCode : null,
-        podID: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortID : null,
+        polType: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortType : null,
+        podID:  (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortID : null,
         podName: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortName : null,
         podCode: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortCode : null,
+        podType: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortType : null,
         price: this.selectedPrice,
         currencyID: (this.selectedCurrency.CurrencyID) ? this.selectedCurrency.CurrencyID : 101,
         currencyCode: (this.selectedCurrency.CurrencyCode) ? this.selectedCurrency.CurrencyCode : 'AED',
@@ -190,7 +182,7 @@ export class GroundRateDialogComponent implements OnInit {
         effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
       }
     ]
-    this._seaFreightService.saveDraftRate(obj).subscribe((res: any) => {
+    this._groundFreightService.saveDraftRate(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success('Rates added successfully', '');
         this.allRatesFilledData.push(obj[0]);
@@ -206,12 +198,13 @@ export class GroundRateDialogComponent implements OnInit {
     })
   }
   addRow() {
-    this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
+    this._groundFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this._sharedService.draftRowFCLAdd.next(res.returnObject);
+        this._sharedService.draftRowAddGround.next(res.returnObject);
+        this.newProviderPricingDraftID = undefined;
         this.selectedPrice = undefined;
         this.selectedContSize = null;
-        this.selectedData.ProviderPricingDraftID = res.returnObject.ProviderPricingDraftID;
+        this.newProviderPricingDraftID = res.returnObject.GroundPricingDraftID;
       }
     })
   }
@@ -253,6 +246,7 @@ export class GroundRateDialogComponent implements OnInit {
   }
 
   closeModal(status) {
+    this._sharedService.draftRowAddGround.next(null);
     this._activeModal.close(status);
     document.getElementsByTagName('html')[0].style.overflowY = 'auto';
 
@@ -263,13 +257,6 @@ export class GroundRateDialogComponent implements OnInit {
     }
     this.closeModal(object);
   }
-  shippings = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      map(term => (!term || term.length < 3) ? []
-        : this.allShippingLines.filter(v => v.CarrierName && v.CarrierName.toLowerCase().indexOf(term.toLowerCase()) > -1))
-    )
-  formatter = (x: { CarrierName: string }) => x.CarrierName;
 
   ports = (text$: Observable<string>) =>
     text$.pipe(
@@ -286,7 +273,6 @@ export class GroundRateDialogComponent implements OnInit {
         : this.allCurrencies.filter(v => v.CurrencyCode && v.CurrencyCode.toLowerCase().indexOf(term.toLowerCase()) > -1))
     )
   currencyFormatter = (x: { CurrencyCode: string }) => x.CurrencyCode;
-
 
 
 }

@@ -165,7 +165,7 @@
           <label>Rate Validity</label>
           <div class="dateIcon">
             <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp"
-              [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="top-right"
+               ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="top-right"
               [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker"
               (click)="dp.toggle()">
           </div>

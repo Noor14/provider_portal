@@ -18,6 +18,7 @@ export class SharedService {
   public draftRowFCLAdd = new BehaviorSubject<any>(null);
   public draftRowLCLAdd = new BehaviorSubject<any>(null);
   public draftRowAddAir = new BehaviorSubject<any>(null);
+  public draftRowAddGround = new BehaviorSubject<any>(null);
   public businessProfileJsonLabels = new BehaviorSubject<any>(null);
   public jobTitleList = new BehaviorSubject<any>(null);
   public businessDetailObj = new BehaviorSubject<any>(null);

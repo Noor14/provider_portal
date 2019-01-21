@@ -786,6 +786,16 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           className: 'moreOption'
         }
       ],
+      drawCallback: function () {
+        let $api = this.api();
+        let pages = $api.page.info().pages;
+        if (pages === 1 || !pages) {
+          $('.publishRateAir .dataTables_paginate').hide();
+        } else {
+          // SHow everything
+          $('.publishRateAir .dataTables_paginate').show();
+        }
+      },
       destroy: true,
       // pagingType: 'full_numbers',
       pageLength: 5,

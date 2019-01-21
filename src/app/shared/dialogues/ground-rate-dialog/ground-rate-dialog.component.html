@@ -48,7 +48,8 @@
       <div class="col-6">
         <div class="form-group">
           <label>Cargo Type</label>
-          <select class="form-control" id="category" [(ngModel)]="selectedCategory" (change)="cargoTypeChange(selectedCategory)">
+          <!-- <input type="text" class="form-control" [(ngModel)]="selectedCategory" readonly> -->
+          <select class="form-control" id="category" [(ngModel)]="selectedCategory">
             <option [value]="null" disabled>--Select--</option>
             <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
           </select>
@@ -57,7 +58,7 @@
       <div class="col-6">
         <div class="form-group">
           <label>Traller / Container</label>
-          <select class="form-control" [(ngModel)]="selectedContSize" [disabled]="!selectedCategory">
+          <select class="form-control" [(ngModel)]="selectedContSize">
             <option [value]="null" disabled>--Select--</option>
             <option *ngFor="let container of allContainers" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
           </select>
