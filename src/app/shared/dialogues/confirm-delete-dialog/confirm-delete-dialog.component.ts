@@ -67,10 +67,6 @@ export class ConfirmDeleteDialogComponent implements OnInit {
     }
 
     else if (this.deleteIds.type == "draftAirRate") {
-      let obj = {
-        publishRateIDs: this.deleteIds.data,
-        modifiedBy: this.userProfile.LoginID
-      };
       this.airFreightService.deleteNDiscardDraftRate(this.deleteIds.data).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
           this.closeModal(res.returnStatus);
@@ -90,7 +86,7 @@ export class ConfirmDeleteDialogComponent implements OnInit {
       })
     }
 
-    else if (this.deleteIds.type == "publishRateRate") {
+    else if (this.deleteIds.type == "publishRateGround") {
       let obj = {
         publishRateIDs: this.deleteIds.data,
         modifiedBy: this.userProfile.LoginID
@@ -102,10 +98,6 @@ export class ConfirmDeleteDialogComponent implements OnInit {
       })
     }
     else if (this.deleteIds.type == "draftGroundRate") {
-      let obj = {
-        publishRateIDs: this.deleteIds.data,
-        modifiedBy: this.userProfile.LoginID
-      };
       this.groundTransportService.deleteNDiscardDraftRate(this.deleteIds.data).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
           this.closeModal(res.returnStatus);

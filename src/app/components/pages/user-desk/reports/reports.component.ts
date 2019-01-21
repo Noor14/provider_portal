@@ -13,7 +13,6 @@ import * as echarts from 'echarts'
 import { firstBy } from 'thenby';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonService } from '../../../../services/common.service';
-import { DashboardService } from '../dashboard/dashboard.service';
 import { encryptBookingID } from '../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
 // import { CurrencyControl } from '../../../shared/currency/currency.injectable';
@@ -21,6 +20,7 @@ import { Router } from '@angular/router';
 // import { SelectedCurrency } from '../../../shared/currency-dropdown/currency-dropdown.component';
 // import { currErrMsg } from '../../../shared/constants';
 import { baseExternalAssets } from '../../../../constants/base.url';
+import { ReportsService } from './reports.service';
 
 @Component({
   selector: 'app-reports',
@@ -104,7 +104,7 @@ export class ReportsComponent implements OnInit {
   constructor(
     private _sharedService: SharedService,
     private _dropDownSrv: CommonService,
-    private _userService: DashboardService,
+    private _userService: ReportsService,
     private _router: Router
     // private _currencyControl: CurrencyControl
   ) { }

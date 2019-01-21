@@ -231,11 +231,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         {
           title: 'SIZE',
           data: function (data) {
-            if (!data.ContainerSpecName) {
+            if (!data.ContainerSpecID) {
               return "<span>-- Select --</span>"
             }
             else {
-              return data.ContainerSpecName;
+              return data.ContainerSpecDesc;
             }
           }
         },
@@ -428,14 +428,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     for (var index = 0; index < this.draftslist.length; index++) {
       for (let i = 0; i < data.length; i++) {
         if (this.draftslist[index].ID == data[i].ID) {
-          // this.draftslist[index].CarrierID = data[i].carrierID;
-          // this.draftslist[index].CarrierImage = data[i].carrierImage;
-          // this.draftslist[index].CarrierName = data[i].carrierName;
           this.draftslist[index].ContainerLoadType = data[i].containerLoadType;
           this.draftslist[index].ShippingCatID = data[i].shippingCatID;
           this.draftslist[index].ShippingCatName = data[i].shippingCatName;
           this.draftslist[index].ContainerSpecID = data[i].containerSpecID;
-          this.draftslist[index].ContainerSpecName = data[i].containerSpecName;
+          this.draftslist[index].ContainerSpecDesc = data[i].containerSpecDesc;
           this.draftslist[index].CurrencyID = data[i].currencyID;
           this.draftslist[index].CurrencyCode = data[i].currencyCode;
           this.draftslist[index].EffectiveFrom = data[i].effectiveFrom;

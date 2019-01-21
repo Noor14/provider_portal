@@ -59,7 +59,6 @@ export class GroundRateDialogComponent implements OnInit {
   }
   public selectedCurrency: any;
 
-
   public startDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
   public minDate: NgbDateStruct;
@@ -158,7 +157,7 @@ export class GroundRateDialogComponent implements OnInit {
         ID: (!this.newProviderPricingDraftID) ? this.selectedData.ID : this.newProviderPricingDraftID,
         providerID: this.userProfile.ProviderID,
         containerSpecID: (this.selectedContSize == null || this.selectedContSize == 'null') ? null : this.selectedContSize,
-        containerSpecName: (this.selectedContSize == null || this.selectedContSize == 'null') ? undefined : this.getContSpecName(this.selectedContSize),
+        containerSpecDesc: (this.selectedContSize == null || this.selectedContSize == 'null') ? undefined : this.getContSpecName(this.selectedContSize),
         shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : this.selectedCategory,
         shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.getShippingName(this.selectedCategory),
         containerLoadType: "FCL",

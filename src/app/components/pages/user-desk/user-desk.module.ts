@@ -22,6 +22,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { DataMapComponent } from './data-map/data-map.component';
 import { SharedModule } from '../../../shared/shared.module';
+import { ReportsService } from './reports/reports.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -53,6 +54,7 @@ import { SharedModule } from '../../../shared/shared.module';
     ViewBookingService,
     DashboardService,
     SupportService,
+    ReportsService,
     UserGuard,
   ]
 })
