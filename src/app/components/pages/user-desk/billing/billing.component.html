@@ -1,5 +1,157 @@
-<div class="card">
-  <p class="text-center m-0">
-    This page is currently under progress and will be available in a future release.
-  </p>
-</div>
+<section class="billing">
+  <h2 class="title">billing</h2>
+  <hr class="hr-solid">
+
+  <!-- overview -->
+  <div class="overview d-flex justify-content-between align-items-center">
+    <h5 class="m-0">Overview</h5>
+    <button class="pt-2 pb-2 pl-4 pr-4 btn btn-primary payment-btn hvr-sweep-to-right">MAKE A PAYMENT</button>
+  </div>
+  <!-- overview -->
+
+
+
+
+  <!--  billing Section -->
+  <section class="billing-summary mt-3">
+    <div class="row">
+      <div class="summarySection col-xl-4 col-md-12 col-sm-12">
+        <div class="summaryTitle">
+          <h5>
+            <img src="../../../../../assets/images/icons/icon_user02.svg" class="icon-size-24 mr-3"> Billed This Month</h5>
+        </div>
+        <div class="summaryQuantity pt-2 pb-2">
+          <div class="rates">
+            <small class="mr-2">AED</small>
+            <span>549800</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="summarySection col-xl-4 col-md-12 col-sm-12">
+        <div class="summaryTitle">
+          <h5>
+            <img src="../../../../../assets/images/icons/icon_revenue.svg" class="icon-size-24 mr-3"> Payment Due</h5>
+        </div>
+        <div class="summaryQuantity d-flex pt-2 pb-2">
+          <div class="rates">
+            <small class="mr-2">AED</small>
+            <span>549800</span>
+            <span class="badge hashmove-badge-danger">
+              <strong>Due Date 31 jan, 2019</strong>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="summarySection col-xl-4 col-md-12 col-sm-12">
+        <div class="summaryTitle">
+          <h5>
+            <img src="../../../../../assets/images/icons/icon_revenue.svg" class="icon-size-24 mr-3"> Total Amount Billed</h5>
+        </div>
+        <div class="summaryQuantity d-flex pt-2 pb-2">
+          <div class="rates">
+            <small class="mr-2">AED</small>
+            <span>549800</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--  billing Section -->
+
+  <!-- statistics -->
+  <h5 class="subtitle pt-4 pb-4">Statistics</h5>
+  <hr class="hr-solid">
+  <!-- statistics -->
+
+  <!-- Invoices -->
+  <h5 class="subtitle pt-4">Invoices</h5>
+
+  <div class="invoicesOverview d-flex justify-content-between">
+    <div class="search">
+      <input type="text" class="form-control searchInvoice" placeholder="Search Invoice">
+      <img src="../../../../../assets/images/icons/icon-search.svg" alt="icon_search" class="icon-size-14">
+    </div>
+    <div ngbDropdown class="dropdown">
+      <div class="pointer" id="sorter" ngbDropdownToggle>
+        <span>STATUS : ALL</span>
+      </div>
+      <div aria-labelledby="sorter" class="sortFilter dropdown-menu" ngbDropdownMenu x-placement="bottom-left">
+        <ul class="list-group">
+          <li class="list-group-item pointer">
+            <span>2016</span>
+          </li>
+          <li class="list-group-item pointer">
+            <span>2015</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Invoices -->
+  <section class="billingInvoices mt-3">
+    <div class="row">
+      <div class="col-12 billing-table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">INVOICE NO</th>
+              <th scope="col">DESCRIPTION</th>
+              <th scope="col">ISSUED ON</th>
+              <th scope="col">DUE ON</th>
+              <th scope="col">BILLED</th>
+              <th scope="col">PAID</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span>HM145607070</span>
+              </td>
+              <td>statement of Oct</td>
+              <td>jan 1, 2019 </td>
+              <td>jan 1, 2019</td>
+              <td>AED 22,0000</td>
+              <td>293490305</td>
+              <td>
+                <img src="../../../../../../assets/images/icons/menu.svg" class="icon-size-16">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>HM145607070</span>
+              </td>
+              <td>statement of Oct</td>
+              <td>jan 1, 2019 </td>
+              <td>jan 1, 2019</td>
+              <td>AED 22,0000</td>
+              <td>234234235</td>
+              <td>
+                <img src="../../../../../../assets/images/icons/menu.svg" class="icon-size-16">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>HM145607070</span>
+              </td>
+              <td>statement of Oct</td>
+              <td>jan 1, 2019 </td>
+              <td>jan 1, 2019</td>
+              <td>AED 22,0000</td>
+              <td>234234534</td>
+              <td>
+                <img src="../../../../../../assets/images/icons/menu.svg" class="icon-size-16">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Invoices -->
+
+</section>

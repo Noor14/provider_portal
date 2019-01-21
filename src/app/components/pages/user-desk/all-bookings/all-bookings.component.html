@@ -11,7 +11,7 @@
               <div class="bookings-header d-md-flex justify-content-md-between">
                 <div class="d-flex bookings-header-number">
                   <img src="../../../../../assets/images/icons/icon_pin_sea.svg">
-                  <div class="d-flex flex-column">
+                  <div class="d-flex flex-column info">
                     <span>{{booking.HashMoveBookingNum}}</span>
                     <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate |
                       date : "H:mm"}}</small>
@@ -22,7 +22,7 @@
                   <span>{{booking.CarrierName}}</span>
                 </div>
               </div>
-              <hr class="hr-solid mt-0">
+              <hr class="hr-solid mt-1">
               <!-- booking top row -->
 
               <!-- booking bottom row -->
@@ -107,7 +107,6 @@
       </ng-template>
     </ngb-tab>
 
- 
     <ngb-tab>
       <ng-template ngbTabTitle><span>PAST BOOKINGS</span> <span class="badge badge-pill badge-secondary" *ngIf="pastBookings.length">{{pastBookings.length}}</span></ng-template>
       <ng-template ngbTabContent>
@@ -118,7 +117,7 @@
               <div class="bookings-header d-md-flex justify-content-md-between">
                 <div class="d-flex bookings-header-number">
                   <img src="../../../../../assets/images/icons/icon_pin_sea.svg">
-                  <div class="d-flex flex-column">
+                  <div class="d-flex flex-column info">
                     <span>{{booking.HashMoveBookingNum}}</span>
                     <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}</small>
                   </div>
@@ -128,7 +127,7 @@
                   <span>{{booking.CarrierName}}</span>
                 </div>
               </div>
-              <hr class="hr-solid mt-0">
+              <hr class="hr-solid mt-1">
               <!-- booking top row -->
     
               <!-- booking bottom row -->
@@ -221,7 +220,7 @@
                 <div class="bookings-header d-md-flex justify-content-md-between">
                   <div class="d-flex bookings-header-number">
                     <img src="../../../../../assets/images/icons/icon_pin_sea.svg">
-                    <div class="d-flex flex-column">
+                    <div class="d-flex flex-column info">
                       <span>{{booking.HashMoveBookingNum}}</span>
                       <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}</small>
                     </div>
@@ -231,7 +230,7 @@
                     <span>{{booking.CarrierName}}</span>
                   </div>
                 </div>
-                <hr class="hr-solid mt-0">
+                <hr class="hr-solid mt-1">
                 <!-- booking top row -->
       
                 <!-- booking bottom row -->

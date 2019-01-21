@@ -85,10 +85,10 @@
       <div class="summarySection col-xl-6 col-md-6 col-sm-12 d-flex justify-content-end align-items-center">
         <div class="row">
           <div class="col-xl-6 col-md-12 col-sm-12 d-md-flex justify-content-md-center mb-1">
-           <button class="btn btn-outline-primary hvr-sweep-to-right" routerLink="/provider/billing">VIEW DETAILS</button>
+           <button class="btn btn-outline-primary hvr-sweep-to-right pl-3 pr-3 pt-2 pb-2" routerLink="/provider/billing">VIEW DETAILS</button>
           </div>
             <div class="col-xl-6 col-md-12 col-sm-12 d-md-flex justify-content-md-center mb-1">
-            <button class="btn btn-primary hvr-sweep-to-right">MAKE A PAYMENT</button>
+            <button class="btn btn-primary hvr-sweep-to-right pl-4 pr-4 pt-2 pb-2">MAKE A PAYMENT</button>
             </div>
         </div>
       </div>
@@ -160,7 +160,7 @@
               <div class="bookings-header d-md-flex justify-content-md-between">
                 <div class="d-flex bookings-header-number">
                   <img src="../../../../../assets/images/icons/icon_pin_sea.svg">
-                  <div class="d-flex flex-column">
+                  <div class="d-flex flex-column info">
                     <span>{{booking.HashMoveBookingNum}}</span>
                     <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}</small>
                   </div>
@@ -170,7 +170,7 @@
                   <span>{{booking.CarrierName}}</span>
                 </div>
               </div>
-              <hr class="hr-solid mt-0">
+              <hr class="hr-solid mt-1">
           <!-- booking top row -->
 
           <!-- booking bottom row -->
