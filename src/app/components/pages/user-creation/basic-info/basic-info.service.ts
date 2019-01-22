@@ -50,6 +50,13 @@ export class BasicInfoService {
     let url: string = "presales/Registration";
     return this._http.post(baseApi + url, obj);
   }
-
+  getServiceOffered() {
+    let url: string = "usersprovider/ServiceOffered";
+    return this._http.get(baseApi + url);
+  }
+  socialList() {
+    let url: string = "socialmedia/GetSocialMediaAccount";
+    return this._http.get(baseApi + url);
+  }
 
 }

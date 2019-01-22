@@ -59,11 +59,9 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   public personalInfoForm: any;
 
   public addressAr: any;
-  public addressAr2: any;
   public addressArError: boolean;
   public addressError: boolean;
-  public addressArError2: boolean;
-  public addressError2: boolean;
+
 
   public cityAr: any;
   public cityArError: boolean;
@@ -130,7 +128,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     private _router: Router,
     private ngZone: NgZone,
     private cdRef: ChangeDetectorRef,
-   private _companyInfoService: CompanyInfoService,
    private _basicInfoService: BasicInfoService,
   ) { }
 
@@ -145,8 +142,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
       address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       transAddress: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
-      address2: new FormControl(null, [Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
-      transAddress2: new FormControl(null, [Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       transCity: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       poBoxNo: new FormControl(null, [Validators.maxLength(16), Validators.minLength(4)]),
@@ -197,7 +192,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
 
   }
   getsocialList() {
-    this._companyInfoService.socialList().subscribe((res: any) => {
+    this._basicInfoService.socialList().subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.socialLink = res.returnObject;
         this.selectedSocialsite = this.socialLink[this.socialLink.length - 1];
@@ -450,7 +445,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     return true;
   }
   getCompanyActivities() {
-    this._companyInfoService.getServiceOffered().subscribe((res: any) => {
+    this._basicInfoService.getServiceOffered().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.serviceOffered = JSON.parse(res.returnObject);
       }
@@ -493,14 +488,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       this.addressArError = true;
       this.addressError = true;
     }
-    if (this.businessForm.controls.address2.status == "INVALID" && this.businessForm.controls.address2.dirty) {
-      this.addressError2 = true;
-      this.addressArError2 = true;
-    }
-    if (this.businessForm.controls.transAddress2.status == "INVALID" && this.businessForm.controls.transAddress2.dirty) {
-      this.addressError2 = true;
-      this.addressArError2 = true;
-    }
+
     if (this.businessForm.controls.city.status == "INVALID" && this.businessForm.controls.city.dirty) {
       this.cityError = true;
       this.cityArError = true;

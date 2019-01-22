@@ -1,0 +1,29 @@
+@import '../../../../../../assets/scss/_variables';
+.businessDetail {
+    .services {
+        .service-btn {
+            border-radius: 4px;
+            border: 1px solid $input-border;
+            background: $white-color;
+            height: 50px;
+            position: relative;
+            span:nth-child(2) {
+                font-family: $font-NeoSansArabic-Regular;
+            }
+            &.active {
+                box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
+                border-radius: 4px;
+                border: 1px solid $primary-color !important;
+                background: $white-color !important;
+                &:before {
+                    content: url('../../../../../../assets/images/icons/selection_tick.svg');
+                    width: 44px;
+                    height: 44px;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                }
+            }
+        }
+    }
+}

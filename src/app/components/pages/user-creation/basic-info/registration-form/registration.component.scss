@@ -5,50 +5,57 @@
             font-family: $font-NeoSansArabic-Medium;
         }
     }
-    .service-btn {
-        border-radius: 4px;
-        border: 1px solid $input-border;
-        background: $white-color;
-        height: 60px;
-        position: relative;
-        span:nth-child(2) {
-            font-family: $font-NeoSansArabic-Regular;
-        }
-        &.active {
-            box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
+    .services {
+        .service-btn {
             border-radius: 4px;
-            border: 1px solid $primary-color !important;
-            background: $white-color !important;
-            &:before {
-                content: " ";
-                background: url('../../../../../../assets/images/icons/selection_tick.svg');
-                width: 44px;
-                height: 44px;
-                position: absolute;
-                right: 0;
-                top: 0;
+            border: 1px solid $input-border;
+            background: $white-color;
+            height: 60px;
+            position: relative;
+            span:nth-child(2) {
+                font-family: $font-NeoSansArabic-Regular;
+            }
+            &.active {
+                box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
+                border-radius: 4px;
+                border: 1px solid $primary-color !important;
+                background: $white-color !important;
+                &:before {
+                    content: url('../../../../../../assets/images/icons/selection_tick.svg');
+                    width: 44px;
+                    height: 44px;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                }
             }
         }
     }
     .map {
         .countryBox {
-            position: relative;
-            .imgLeft {
+            position: absolute;
+            z-index: 1;
+            margin-top: 10px;
+            margin-left: 10px;
+            width: 340px;
+            .countryImg {
                 position: absolute;
                 top: 36%;
                 left: 15px
-            }
-            .imgRight {
-                @extend .imgLeft;
-                left: unset;
-                right: 14px;
-                top: 65%;
             }
             .selected {
                 padding-left: 40px;
             }
         }
-        agm-map{
+        @media (max-width: 450px) {
+            .countryBox {
+                width: 270px;
+                input {
+                    font-size: 12px;
+                }
+            }
+        }
+        agm-map {
             height: 360px;
         }
     }

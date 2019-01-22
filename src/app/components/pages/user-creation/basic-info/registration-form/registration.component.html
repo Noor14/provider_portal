@@ -2,16 +2,14 @@
   <h3 class="registration-title">Registration Details</h3>
   <p class="sub-title">It takes only a few minutes to send us your basic information.</p>
   <section class="map">
-      <div class="form-group">
-        <label>Country</label>
         <div class="countryBox">
           <div class="flag-container">
             <img *ngIf="selected_country && selected_country.code" src="{{'../../../../../assets/images/flags/4x3/' + (selected_country.code | lowercase) + '.svg'}}"
-              type="image/svg+xml" class="imgLeft mw-100 w-auto h-auto mh-100 flag-icon-20-12">
+              type="image/svg+xml" class="countryImg mw-100 w-auto h-auto mh-100 flag-icon-20-12">
           </div>
           <input [ngModelOptions]="{standalone: true}" type="text" class="form-control" [ngClass]="{'selected' : selected_country?.code, 'glowElement': !selected_country?.id || !selected_country}"
             (keypress)="textValidation($event)" name="country" [(ngModel)]="selected_country" (ngModelChange)="selectCountry(selected_country)"
-            [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Your country" />
+            [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Please enter your country name to proceed" />
         </div>
         <ng-template #rt let-r="result">
           <div class="d-flex">
@@ -21,7 +19,7 @@
             <ngb-highlight [result]="r.title"></ngb-highlight>
           </div>
         </ng-template>
-      </div>
+
       <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
         <agm-marker [latitude]="location.lat" [longitude]="location.lng" *ngIf="selected_country && selected_country.code"></agm-marker>
       </agm-map>
@@ -98,11 +96,11 @@
       <div class="row ">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="form-group">
-            <label for="address">Address Line 1</label>
-            <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200" formControlName="address" (focusout)="errorValidate()"
+            <label for="address">Address</label>
+            <textarea (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200" formControlName="address" (focusout)="errorValidate()"
               (focus)="addressError = false; addressArError = false" [ngClass]="{
-              'inputError': addressError && businessForm.controls['address'].errors
-            }" [(ngModel)]="addressAr">
+              'inputError': addressError && businessForm.controls['address'].errors}" [(ngModel)]="addressAr">
+            </textarea>
             <span *ngIf="addressError && businessForm.controls['address'].errors">
               <!-- <p class="inputError animated fadeIn" *ngIf="businessForm.controls['address'].hasError('required') && (businessForm.controls.address.dirty || businessForm.controls.address.touched)">{{requiredFields}}</p> -->
               <p class="inputError animated fadeIn" *ngIf="businessForm.controls['address'].hasError('pattern') && (businessForm.controls.address.dirty || businessForm.controls.address.touched)">Please enter valid information</p>
@@ -114,11 +112,11 @@
         </div>
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
           <div class="form-group dir-otherLanguage">
-            <label for="address">العنوان السطر 1</label>
-            <input type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transAddress"
+            <label for="address">العنوان</label>
+            <textarea type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transAddress"
               (focusout)="errorValidate()" (focus)="addressError = false; addressArError = false" [ngClass]="{
               'inputError': addressArError && businessForm.controls['transAddress'].errors
-            }" [(ngModel)]="addressAr">
+            }" [(ngModel)]="addressAr"></textarea>
             <span *ngIf="addressArError && businessForm.controls['transAddress'].errors">
               <!-- <p class="inputError animated fadeIn" *ngIf="businessForm.controls['transAddress'].hasError('required') && (businessForm.controls.transAddress.dirty || businessForm.controls.transAddress.touched)">{{requiredFieldsOthrLng}}</p> -->
               <p class="inputError animated fadeIn" *ngIf="businessForm.controls['transAddress'].hasError('pattern') && (businessForm.controls.transAddress.dirty || businessForm.controls.transAddress.touched)">يرجى إدخال معلومات صحيحة</p>
@@ -129,40 +127,7 @@
 
         </div>
       </div>
-      <div class="row ">
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-          <div class="form-group">
-            <label for="address">Address Line 2 (Optional)</label>
-            <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200" formControlName="address2" (focusout)="errorValidate()"
-              (focus)="addressError2 = false; addressArError2 = false" [ngClass]="{
-                      'inputError': addressError2 && businessForm.controls['address2'].errors
-                    }" [(ngModel)]="addressAr2">
-            <span *ngIf="addressError2 && businessForm.controls['address2'].errors">
-              <!-- <p class="inputError animated fadeIn" *ngIf="businessForm.controls['address2'].hasError('required') && (businessForm.controls.address2.dirty || businessForm.controls.address2.touched)">{{requiredFields}}</p> -->
-              <p class="inputError animated fadeIn" *ngIf="businessForm.controls['address2'].hasError('pattern') && (businessForm.controls.address2.dirty || businessForm.controls.address2.touched)">Please enter valid information</p>
-              <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['address2'].hasError('pattern')&& businessForm.controls['address2'].hasError('maxlength') && (businessForm.controls.address2.dirty || businessForm.controls.address2.touched)">Address should not exceed from 200 characters</p>
-              <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['address2'].hasError('pattern') && businessForm.controls['address2'].hasError('minlength') && (businessForm.controls.address2.dirty || businessForm.controls.address2.touched)">Address should be minimum 10 characters</p>
-            </span>
-          </div>
-
-        </div>
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
-          <div class="form-group dir-otherLanguage">
-            <label for="address">العنوان السطر 2 (اختياري)</label>
-            <input type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transAddress2"
-              (focusout)="errorValidate()" (focus)="addressError2 = false; addressArError2 = false" [ngClass]="{
-                      'inputError': addressArError2 && businessForm.controls['transAddress2'].errors
-                    }" [(ngModel)]="addressAr2">
-            <span *ngIf="addressArError2 && businessForm.controls['transAddress2'].errors">
-              <!-- <p class="inputError animated fadeIn" *ngIf="businessForm.controls['transAddress2'].hasError('required') && (businessForm.controls.transAddress2.dirty || businessForm.controls.transAddress2.touched)">{{requiredFieldsOthrLng}}</p> -->
-              <p class="inputError animated fadeIn" *ngIf="businessForm.controls['transAddress2'].hasError('pattern') && (businessForm.controls.transAddress2.dirty || businessForm.controls.transAddress2.touched)">يرجى إدخال معلومات صحيحة</p>
-              <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['transAddress2'].hasError('pattern') && businessForm.controls['transAddress2'].hasError('maxlength') && (businessForm.controls.transAddress2.dirty || businessForm.controls.transAddress2.touched)">يجب ألا يتجاوز العنوان 200 حرف</p>
-              <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['transAddress2'].hasError('pattern') && businessForm.controls['transAddress2'].hasError('minlength') && (businessForm.controls.transAddress2.dirty || businessForm.controls.transAddress2.touched)">يجب أن يكون العنوان 10 حرفًا كحد أدنى</p>
-            </span>
-          </div>
-
-        </div>
-      </div>
+    
       <div class="row ">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="form-group">
