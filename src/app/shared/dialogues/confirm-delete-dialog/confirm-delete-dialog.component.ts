@@ -104,7 +104,6 @@ export class ConfirmDeleteDialogComponent implements OnInit {
         }
       })
     }
- 
   }
   closeModal(status) {
     this._activeModal.close(status);

@@ -3,10 +3,10 @@
   <hr class="hr-solid">
 
   <!-- overview -->
-  <div class="overview d-flex justify-content-between align-items-center">
+  <section class="overview d-flex justify-content-between align-items-center">
     <h5 class="m-0">Overview</h5>
     <button class="pt-2 pb-2 pl-4 pr-4 btn btn-primary payment-btn hvr-sweep-to-right">MAKE A PAYMENT</button>
-  </div>
+  </section>
   <!-- overview -->
 
 
@@ -18,7 +18,7 @@
       <div class="summarySection col-xl-4 col-md-12 col-sm-12">
         <div class="summaryTitle">
           <h5>
-            <img src="../../../../../assets/images/icons/icon_user02.svg" class="icon-size-24 mr-3"> Billed This Month</h5>
+            <img src="../../../../../assets/images/icons/icon_revenue.svg" class="icon-size-24 mr-3"> Billed This Month</h5>
         </div>
         <div class="summaryQuantity pt-2 pb-2">
           <div class="rates">
@@ -71,7 +71,7 @@
   <!-- Invoices -->
   <h5 class="subtitle pt-4">Invoices</h5>
 
-  <div class="invoicesOverview d-flex justify-content-between">
+  <section class="invoicesOverview d-flex justify-content-between">
     <div class="search">
       <input type="text" class="form-control searchInvoice" placeholder="Search Invoice">
       <img src="../../../../../assets/images/icons/icon-search.svg" alt="icon_search" class="icon-size-14">
@@ -91,68 +91,11 @@
         </ul>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- Invoices -->
-  <section class="billingInvoices mt-3">
-    <div class="row">
-      <div class="col-12 billing-table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">INVOICE NO</th>
-              <th scope="col">DESCRIPTION</th>
-              <th scope="col">ISSUED ON</th>
-              <th scope="col">DUE ON</th>
-              <th scope="col">BILLED</th>
-              <th scope="col">PAID</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <span>HM145607070</span>
-              </td>
-              <td>statement of Oct</td>
-              <td>jan 1, 2019 </td>
-              <td>jan 1, 2019</td>
-              <td>AED 22,0000</td>
-              <td>293490305</td>
-              <td>
-                <img src="../../../../../../assets/images/icons/menu.svg" class="icon-size-16">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <span>HM145607070</span>
-              </td>
-              <td>statement of Oct</td>
-              <td>jan 1, 2019 </td>
-              <td>jan 1, 2019</td>
-              <td>AED 22,0000</td>
-              <td>234234235</td>
-              <td>
-                <img src="../../../../../../assets/images/icons/menu.svg" class="icon-size-16">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <span>HM145607070</span>
-              </td>
-              <td>statement of Oct</td>
-              <td>jan 1, 2019 </td>
-              <td>jan 1, 2019</td>
-              <td>AED 22,0000</td>
-              <td>234234534</td>
-              <td>
-                <img src="../../../../../../assets/images/icons/menu.svg" class="icon-size-16">
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-      </div>
-    </div>
+  <section class="rates-grid billingInvoices mt-3">
+    <table id="billingInvoiceTable" cellspacing="0" #billing class="row-border hover"></table>
   </section>
 
   <!-- Invoices -->

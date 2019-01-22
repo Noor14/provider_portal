@@ -19,7 +19,7 @@ import { baseExternalAssets } from '../../../../../constants/base.url';
 import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 // import { NgModel } from '@angular/forms';
 import * as moment from 'moment';
-import { DataTableDirective } from 'angular-datatables';
+// import { DataTableDirective } from 'angular-datatables';
 import { AirRateDialogComponent } from '../../../../../shared/dialogues/air-rate-dialog/air-rate-dialog.component';
 import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-parser-formatter';
 
