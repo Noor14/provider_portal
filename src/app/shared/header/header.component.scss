@@ -3,15 +3,16 @@ header {
     background: $white-color;
     padding: 6px 0;
     border-bottom: 1px solid $grey-border;
-    .navbar {
+    box-shadow: 0 14px 97px #eaeaea;
+     .navbar {
         padding-left: 1rem;
         padding-right: 1rem;
         .logo {
             width: 180px;
             height: auto;
         }
-        .loginLink{
-          color: $secondary-color;
+        .loginLink {
+            color: $secondary-color;
         }
     }
 }

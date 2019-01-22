@@ -3,8 +3,8 @@ body {
     font-family: $font-pragmatica; //font-size: $base-font-size;
     font-weight: $font-weight-normal;
     font-style: normal;
-    background: #f7f8fc;
-     a {
+    background: #fdfdff;
+    a {
         text-decoration: none !important;
         outline: none;
     }
@@ -50,7 +50,6 @@ body {
         }
     }
     .container {
-        // max-width: 1350px;
         max-width: 1390px;
     }
     app-pages {
