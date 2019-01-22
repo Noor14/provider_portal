@@ -39,7 +39,7 @@ export class ProfilecompletionComponent implements OnInit {
       this.showTranslatedLangSide = (JSON.parse(userInfo.returnText).RegionCode == "MET") ? true : false;
       
     }
-    this._sharedService.formProgress.next(60);
+    // this._sharedService.formProgress.next(60);
     this._userCreationService.getlabelsDescription('BusinessVerification').subscribe((res:any)=>{
       if(res.returnStatus =='Success'){
         let data = res.returnObject;

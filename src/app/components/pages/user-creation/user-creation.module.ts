@@ -4,7 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { LeftsidebarComponent } from './leftsidebar/leftsidebar.component';
 import { UserGuard } from './user.guard'
 import { Interceptor } from '../../../http-interceptors/interceptor';
 import { UserCreationRoutingModule } from './user-creation-routing.module';
@@ -24,7 +23,6 @@ import { CompanyInfoModule } from './company-info/company-info.module';
     CompanyInfoModule
   ],
   declarations: [
-    LeftsidebarComponent,
     UserCreationComponent,
     // BookingsComponent,
     // ViewBookingComponent,

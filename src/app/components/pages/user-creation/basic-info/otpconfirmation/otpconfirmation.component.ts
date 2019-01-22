@@ -130,7 +130,7 @@ export class OtpconfirmationComponent implements OnInit, OnDestroy {
       this.showTranslatedLangSide = (this.userInfo && this.userInfo.RegionCode == "MET")? true : false;
       this.getlabelsDescription(this.userInfo);
       if (this.userInfo.Timer > 0) this.countDown(this.userInfo.Timer);  
-      this._sharedService.formProgress.next(20)
+      // this._sharedService.formProgress.next(20)
       // console.log(this.userInfo);
     } 
     },(err: HttpErrorResponse) => {

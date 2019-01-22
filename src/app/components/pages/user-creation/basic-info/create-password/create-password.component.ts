@@ -122,7 +122,7 @@ export class CreatePasswordComponent implements OnInit {
         this.passForm.controls['email'].setValue(this.userInfo.primaryEmail);
         this.showTranslatedLangSide = (this.userInfo && this.userInfo.regionCode == "MET") ? true : false;
         this.getlabelsDescription(this.userInfo);
-        this._sharedService.formProgress.next(30);
+        // this._sharedService.formProgress.next(30);
         // console.log(this.userInfo);
       }
     }, (err: HttpErrorResponse) => {

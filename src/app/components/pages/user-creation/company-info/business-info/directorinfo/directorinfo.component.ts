@@ -362,7 +362,7 @@ export class DirectorinfoComponent implements OnInit, AfterViewChecked {
 
   previousForm() {
     this._sharedService.formChange.next(true);
-    this._sharedService.formProgress.next(40);
+    // this._sharedService.formProgress.next(40);
 
   }
 

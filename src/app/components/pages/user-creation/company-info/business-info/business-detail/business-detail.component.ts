@@ -352,7 +352,7 @@ export class BusinessDetailComponent implements OnInit, AfterViewChecked {
 
     this.ngFilesService.addConfig(this.config, 'docConfig');
     // this.ngFilesService.addConfig(this.namedConfig);
-    this._sharedService.formProgress.next(40);
+    // this._sharedService.formProgress.next(40);
 
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
@@ -1730,7 +1730,7 @@ export class BusinessDetailComponent implements OnInit, AfterViewChecked {
 
   nextForm() {
     this._sharedService.formChange.next(false);
-    this._sharedService.formProgress.next(50);
+    // this._sharedService.formProgress.next(50);
     console.log(this.informationForm.value);
 
 
