@@ -9,8 +9,8 @@
             <img *ngIf="selected_country && selected_country.code" src="{{'../../../../../assets/images/flags/4x3/' + (selected_country.code | lowercase) + '.svg'}}"
               type="image/svg+xml" class="imgLeft mw-100 w-auto h-auto mh-100 flag-icon-20-12">
           </div>
-          <input [ngModelOptions]="{standalone: true}" type="text" class="inputLeft form-control" [ngClass]="{'flagClass' : selected_country?.code, 'glowElement': !selected_country?.id || !selected_country}"
-            (keypress)="textValidation($event)" name="country" [(ngModel)]="selected_country" (ngModelChange)="getjobList(selected_country)"
+          <input [ngModelOptions]="{standalone: true}" type="text" class="form-control" [ngClass]="{'selected' : selected_country?.code, 'glowElement': !selected_country?.id || !selected_country}"
+            (keypress)="textValidation($event)" name="country" [(ngModel)]="selected_country" (ngModelChange)="selectCountry(selected_country)"
             [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Your country" />
         </div>
         <ng-template #rt let-r="result">

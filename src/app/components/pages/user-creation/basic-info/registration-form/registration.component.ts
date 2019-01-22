@@ -101,7 +101,10 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   public socialSites;
   public socialInputValidate;
   public socialLink: any;
-
+  public location: any = {
+    lat: undefined,
+    lng: undefined
+  }
 
   public arabicNumbers: any = [
     { baseNumber: '0', arabicNumber: '۰' },
@@ -180,6 +183,15 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       }
 
     });
+
+    this._sharedService.getLocation.subscribe((state: any) => {
+      if (state && state.country) {
+        let obj = {
+          title: state.country
+        };
+        this.getMapLatlng(obj);
+      }
+    })
     this.getCompanyActivities();
     this.getsocialList();
 
@@ -196,7 +208,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     })
   }
   
-  
   getListJobTitle(id) {
     this._basicInfoService.getjobTitles(id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
@@ -209,8 +220,44 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     })
   }
   
+  getMapLatlng(country) {
+    this._userCreationService.getLatlng(country.title).subscribe((res: any) => {
+      if (res.status == "OK") {
+        this.location = res.results[0].geometry.location;
+        if (country.id) {
+          let selectedCountry = this.countryList.find(obj => obj.title.toLowerCase() == country.title.toLowerCase());
+          // this.selectedLangIdbyCountry = selectedCountry.desc[0].LanguageID;
+          this.selectPhoneCode(selectedCountry);
+          this.selectTelCode(selectedCountry);
+          this.countryWiseMaping(country);
+          this.getListJobTitle(country.id);
+        }
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
+  }
 
+  countryWiseMaping(country){
+    if (country && country.id){
+    this.showTranslatedLangSide = (country.desc[0].RegionCode == 'MET') ? true : false;
+      this.transLangEmail = '';
 
+     this.selectedjobTitle = undefined;
+    this.businessForm.reset();
+    this.personalInfoForm.reset();
+    // this.getlabelsDescription();
+    this.onRegistrationForm = true;
+    }
+     else {
+      this.onRegistrationForm = false;
+    }
+  }
+  selectCountry(country, event) {
+    if (country.id) {
+      this.getMapLatlng(country);
+    }
+  }
   selectedSocialLink(obj) {
     this.selectedSocialsite = obj;
     this.businessForm.controls['socialUrl'].reset();
@@ -250,28 +297,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     }
 
   }
-  getjobList(country) {
-    if (country.id) {
-      this.getListJobTitle(country.id);
-      this.showTranslatedLangSide = (country.desc[0].RegionCode == 'MET') ? true : false;
-      let selectedCountry = this.countryList.find(obj => obj.title.toLowerCase() == country.title.toLowerCase());
-      // this.selectedLangIdbyCountry = selectedCountry.desc[0].LanguageID;
-      this.onRegistrationForm = true;
-      this.selectPhoneCode(selectedCountry);
-      this.selectTelCode(selectedCountry);
-    }
-    else {
-      this.onRegistrationForm = false;
-    }
-  }
-    getAccountList(region, event) {
-    if (region.id) {
-      this.getMapLatlng(region);
-    }
-    else {
-      this.registrationForm = false;
-    }
-  }
+
 
   selectPhoneCode(list) {
     this.countryFlagImage = list.code;

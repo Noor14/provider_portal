@@ -30,21 +30,26 @@
             }
         }
     }
-    .countryBox {
-        position: relative;
-        .imgLeft {
-            position: absolute;
-            top: 36%;
-            left: 15px
+    .map {
+        .countryBox {
+            position: relative;
+            .imgLeft {
+                position: absolute;
+                top: 36%;
+                left: 15px
+            }
+            .imgRight {
+                @extend .imgLeft;
+                left: unset;
+                right: 14px;
+                top: 65%;
+            }
+            .selected {
+                padding-left: 40px;
+            }
         }
-        .imgRight {
-            @extend .imgLeft;
-            left: unset;
-            right: 14px;
-            top: 65%;
-        }
-        .flagClass {
-            padding-left: 40px;
+        agm-map{
+            height: 360px;
         }
     }
     ngb-typeahead-window {
@@ -58,7 +63,7 @@
         }
     }
     .dir-otherLanguage {
-        .flagClass {
+        .selected {
             padding-right: 40px !important;
         }
         ngb-typeahead-window {
