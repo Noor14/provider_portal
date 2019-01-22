@@ -3,7 +3,6 @@ import { MapsAPILoader } from '@agm/core';
 import { } from '@types/googlemaps';
 import { UserCreationService } from '../../user-creation.service';
 import { SharedService } from '../../../../../services/shared.service';
-import { CompanyInfoService } from '../../company-info/company-info.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';

@@ -58,5 +58,8 @@ export class BasicInfoService {
     let url: string = "socialmedia/GetSocialMediaAccount";
     return this._http.get(baseApi + url);
   }
-
+  docUpload(doc) {
+    let url: string = "document/Post";
+    return this._http.post(baseApi + url, doc);
+  }
 }
