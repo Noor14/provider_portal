@@ -105,7 +105,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     lat: undefined,
     lng: undefined
   }
-
+  public zoomlevel: number = 5;
   public arabicNumbers: any = [
     { baseNumber: '0', arabicNumber: '۰' },
     { baseNumber: '1', arabicNumber: '۱' },

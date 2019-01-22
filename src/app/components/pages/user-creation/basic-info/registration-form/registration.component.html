@@ -23,11 +23,11 @@
         </ng-template>
       </div>
       <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
-        <agm-marker [latitude]="location.lat" [longitude]="location.lng" *ngIf="selectedRegion && selectedRegion.code"></agm-marker>
+        <agm-marker [latitude]="location.lat" [longitude]="location.lng" *ngIf="selected_country && selected_country.code"></agm-marker>
       </agm-map>
   </section>
 
-  <section class="animated fadeInUp" *ngIf="onRegistrationForm">
+<section class="animated fadeInUp mt-5" *ngIf="onRegistrationForm">
     <section class="services">
       <div class="row">
         <div class="licenseNaming col-6">
