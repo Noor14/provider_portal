@@ -138,8 +138,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   }
   ngOnInit() {
 
-    this._sharedService.formProgress.next(0);
-
     this.regForm = new FormGroup({
       firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
       transLangfirstName: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(2), Validators.maxLength(100)]),
@@ -160,7 +158,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       jobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
       transLangjobTitle: new FormControl('', [CustomValidator.bind(this), Validators.minLength(3), Validators.maxLength(100)]),
     });
-
     //   this._commonService.getCountry().subscribe((res:any) => {
     //     if(res && res.length){
     //       res.map((obj) => {
@@ -185,7 +182,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     })
 
   }
-
   errorValidate() {
     if (this.regForm.controls.firstName.status == "INVALID" && this.regForm.controls.firstName.touched) {
       this.firstNameError = true;
@@ -262,6 +258,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       console.log(err);
     })
   }
+ 
   accountList(region) {
     // loading(true);
     // this._basicInfoService.getAccountSetup(region.id).subscribe((res: any) => {
@@ -281,6 +278,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     //   console.log(err);
     // })
   }
+  
   getListJobTitle(id) {
     this._basicInfoService.getjobTitles(id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
@@ -310,7 +308,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
 
   selectAccountSetup(id, obj) {
     this.accountId = obj.AccountID;
-    let elem = document.getElementsByClassName('fancyOptionBoxes') as any;
+    let elem = document.getElementsByClassName('fancyRadioBoxes') as any;
     for (let i = 0; i < elem.length; i++) {
       if (elem[i].children[0].id == id) {
         elem[i].children[0].checked = true;
@@ -355,96 +353,13 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     }
   }
 
+
   spaceHandler(event) {
     if (event.charCode == 32) {
       event.preventDefault();
       return false;
     }
   }
-  isOdd(num) { return num % 2; }
-
-  inputValidate(id) {
-    let numberType = this.isOdd(id);
-    if (numberType === 0) {
-      let x = id - 1;
-      let elem = document.getElementById(id.toString()) as any;
-      let elem2 = document.getElementById(x.toString()) as any;
-      if (!elem.value) {
-        this.regForm.controls[elem.name].errors = true;
-        (elem && elem.nodeName == 'DIV') ? elem.classList.add('inputError') : elem.classList.add('inputError');
-      }
-      else {
-        this.regForm.controls[elem.name].errors = false;
-        (elem && elem.nodeName == 'DIV') ? elem.classList.remove('inputError') : elem.classList.remove('inputError');
-      }
-      elem2.classList.remove('inputError');
-      for (let index = id - 1; index > 0; index--) {
-        divElement = undefined;
-        let genElem = document.getElementById(index.toString()) as any;
-        if (genElem.nodeName == 'DIV') {
-          var divElement = genElem;
-          genElem = genElem.children[1];
-        }
-        if (!genElem && !this.showTranslatedLangSide && index % 2 == 0) continue;
-        let value = genElem.value;
-        if (!value) {
-          (divElement && divElement.nodeName == 'DIV') ? divElement.classList.add('inputError') : genElem.classList.add('inputError');
-        }
-        else {
-          (divElement && divElement.nodeName == 'DIV') ? divElement.classList.remove('inputError') : genElem.classList.remove('inputError');
-        }
-      }
-    } else if (numberType === 1) {
-      let y = id + 1;
-      let elem = document.getElementById(id.toString()) as any;
-      let elem3 = document.getElementById(y.toString()) as any;
-      if (!elem.value) {
-        this.regForm.controls[elem.name].errors = true;
-        this.regForm.controls[elem3.name].errors = true;
-        (elem && elem.nodeName == 'DIV') ? elem.classList.remove('inputError') : elem.classList.remove('inputError');
-        (elem3 && elem3.nodeName == 'DIV') ? elem3.classList.remove('inputError') : elem3.classList.remove('inputError');
-      }
-      for (let index = id - 1; index > 0; index--) {
-        divElement = undefined;
-        let genElem = document.getElementById(index.toString()) as any;
-        if (genElem.nodeName == 'DIV') {
-          var divElement = genElem;
-          genElem = genElem.children[1];
-        }
-        if (!genElem && !this.showTranslatedLangSide && index % 2 == 0) continue;
-        let value = genElem.value;
-        if (!value) {
-          (divElement && divElement.nodeName == 'DIV') ? divElement.classList.add('inputError') : genElem.classList.add('inputError');
-        }
-        else {
-          (divElement && divElement.nodeName == 'DIV') ? divElement.classList.remove('inputError') : genElem.classList.remove('inputError');
-        }
-      }
-    }
-
-    // for (let index = id - 1; index > 0; index--) {
-    //   divElement = undefined;
-    //   let elem = document.getElementById(index.toString()) as any;
-    //   if (elem.nodeName == 'DIV') {
-    //     var divElement = elem;
-    //     elem = elem.children[1];
-    //   }
-    //   if (!elem && !this.showTranslatedLangSide && index % 2 == 0) continue;
-    //   let value = elem.value;
-
-    //   console.log(elem);
-
-    //   if (!value) {
-    //     // this.regForm.controls[elem.name].errors=true;
-    //     (divElement && divElement.nodeName == 'DIV') ? divElement.classList.add('inputError') : elem.classList.add('inputError');
-    //   }
-    //   else {
-    //     // this.regForm.controls[elem.name].errors=false;
-    //     (divElement && divElement.nodeName == 'DIV') ? divElement.classList.remove('inputError') : elem.classList.remove('inputError');
-    //   }
-    // }
-  }
-
 
   selectPhoneCode(list) {
     this.countryFlagImage = list.code;
@@ -463,9 +378,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       this.registrationForm = false;
     }
   }
-
-
-
 
   createAccount(data) {
     loading(true);
