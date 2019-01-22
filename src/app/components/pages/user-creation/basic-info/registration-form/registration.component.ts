@@ -264,7 +264,14 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       this.onRegistrationForm = false;
     }
   }
-  
+    getAccountList(region, event) {
+    if (region.id) {
+      this.getMapLatlng(region);
+    }
+    else {
+      this.registrationForm = false;
+    }
+  }
 
   selectPhoneCode(list) {
     this.countryFlagImage = list.code;
