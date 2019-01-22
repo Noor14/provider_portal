@@ -115,7 +115,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     { baseNumber: '8', arabicNumber: '۸' },
     { baseNumber: '9', arabicNumber: '۹' }
   ]
-  public onBoardingForm;
+  public onRegistrationForm;
   public showTranslatedLangSide;
 
  constructor(
@@ -256,12 +256,12 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       this.showTranslatedLangSide = (country.desc[0].RegionCode == 'MET') ? true : false;
       let selectedCountry = this.countryList.find(obj => obj.title.toLowerCase() == country.title.toLowerCase());
       // this.selectedLangIdbyCountry = selectedCountry.desc[0].LanguageID;
-      this.onBoardingForm = true;
+      this.onRegistrationForm = true;
       this.selectPhoneCode(selectedCountry);
       this.selectTelCode(selectedCountry);
     }
     else {
-      this.onBoardingForm = false;
+      this.onRegistrationForm = false;
     }
   }
   
@@ -769,7 +769,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       detailOL: (this.showTranslatedLangSide) ? PreSalesRegistrationOL : null
     }
 
-    this._basicInfoService.userRegistration(obj).subscribe((res: any) => {
+    this._basicInfoService.createProviderAccount(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toastr.success(res.returnText, '');
         let obj = {
