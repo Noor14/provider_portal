@@ -1,51 +1,12 @@
 @import '../../../../assets/scss/_variables';
 .user-creation {
-    .h-100 {
-        background: $right-side-background;
-    }
-    .left-section {
-        background-color: $left-sidebar-background;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        .support {
-            background: #243748;
-            .card {
-                &-body {
-                    p {
-                        font-family: $font-pragmatica;
-                        font-size: 1rem;
-                        margin-bottom: 0.5rem;
-                        a {
-                            color: $color-white;
-                            &:hover {
-                                text-decoration: none;
-                            }
-                        }
-                    }
-                    small {
-                        font-size: 0.75rem;
-                        letter-spacing: 1px;
-                        font-family: $font-proxima;
-                        text-transform: uppercase;
-                        opacity: 0.502;
-                        font-weight: $font-proxima-weight-semibold;
-                    }
-                    color:$color-white;
-                    background:#243748;
-                    padding:15px 20px 13px 5px;
-                }
-            }
-        }
-    }
     .right-section-portal {
-        background-color: $right-side-background;
         padding-top: 75px;
         padding-bottom: 75px;
     }
 }
 
-@media (max-width: 767px) {
+@media (max-width : $screen-sm-screen) {
     .user-creation {
         .left-section {
             display: none;
