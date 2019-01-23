@@ -45,7 +45,7 @@
         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of serviceOffered">
           <div #selectService class="service-btn text-center d-flex flex-column justify-content-center mb-2 pointer" (click)="serviceSelection(service, selectService)">
             <span>{{service.logServName}}</span>
-            <span>{{service.logServName_OtherLanguage}}</span>
+            <span *ngIf="showTranslatedLangSide">{{service.logServName_OtherLanguage}}</span>
           </div>
         </div>
       </div>

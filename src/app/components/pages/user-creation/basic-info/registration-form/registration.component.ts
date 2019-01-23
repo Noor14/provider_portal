@@ -246,8 +246,8 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       this.onRegistrationForm = false;
     }
   }
-  selectCountry(country, event) {
-    if (country.id) {
+  selectCountry(country) {
+    if (country && country.id) {
       this.getMapLatlng(country);
     }
   }
@@ -824,14 +824,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     this._basicInfoService.createProviderAccount(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toastr.success(res.returnText, '');
-        let obj = {
-          firstNameBL: this.personalInfoForm.value.firstName,
-          firstNameOL: (this.showTranslatedLangSide) ? this.personalInfoForm.value.transLangfirstName : null,
-          orgName: this.businessForm.value.orgName,
-          orgNameAr: (this.showTranslatedLangSide) ? this.businessForm.value.transLangOrgName : null,
-        }
-        localStorage.setItem('thankYouObject', JSON.stringify(obj));
-        this._router.navigate(['/thankYou']);
+        this._router.navigate(['/password', res.returnObject.otpKey])
         loading(false);
       }
       else {
