@@ -35,6 +35,9 @@ export class BusinessInfoComponent implements OnInit {
     totalFilesSize: 8192000
   };
   public aboutUs;
+  public companyLogoDocx: any;
+  public certficateDocx: any;
+  public galleriesDocx:any;
   constructor(
     private _toastr: ToastrService,
     private _basicInfoService: BasicInfoService,
@@ -115,6 +118,9 @@ export class BusinessInfoComponent implements OnInit {
         this.allAssociations = res.returnObject.associations;
         this.freightServices = res.returnObject.services.logisticServices;
         this.valAddedServices = res.returnObject.services.valueAddedServices;
+        this.companyLogoDocx = res.returnObject.documentType.find(obj => obj.businessLogic.upperCase() == 'COMPANY_LOGO');
+        this.certficateDocx = res.returnObject.documentType.find(obj => obj.businessLogic.upperCase() == 'PRO_AWD_CRTF_GLRY');
+        this.galleriesDocx = res.returnObject.documentType.find(obj => obj.businessLogic.upperCase() == 'PROVIDER_GALLERY');
       }
     })
   }
@@ -241,7 +247,7 @@ export class BusinessInfoComponent implements OnInit {
       associationIds: this.assocService,
       logisticServiceIds: this.frtService,
       vasServiceIds: this.valueService,
-      providerID: 1323,
+      providerID: this.userProfile.ProviderID,
       aboutUs: this.aboutUs,
     }
     this._basicInfoService.addBusinessInfo(obj).subscribe((res:any)=>{
