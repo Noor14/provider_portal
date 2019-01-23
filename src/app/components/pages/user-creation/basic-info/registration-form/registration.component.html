@@ -1,6 +1,9 @@
 <section class="registration">
   <h3 class="registration-title">Registration Details</h3>
   <p class="sub-title">It takes only a few minutes to send us your basic information.</p>
+  <h5 class="mt-5">Select Your Region</h5>
+  <hr class="hr-solid mb-4">
+ 
   <section class="map">
         <div class="countryBox">
           <div class="flag-container">
@@ -127,6 +130,38 @@
 
         </div>
       </div>
+      <div class="row justify-content-between">
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-12">
+          <div class="form-group">
+            <label for="Address">P.O Box (Optional)</label>
+            <input type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; poBoxArError = false"
+              [ngClass]="{
+                 'inputError': poBoxError && businessForm.controls['poBoxNo'].errors
+                }" [(ngModel)]="poBoxAr" formControlName="poBoxNo">
+            <span *ngIf="poBoxError && businessForm.controls['poBoxNo'].errors">
+              <!-- <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('required') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">{{requiredFields}}</p> -->
+              <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('pattern') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">Please enter valid information</p>
+              <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('maxlength') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">PO address should not exceed from 16 characters</p>
+              <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('minlength') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">PO address should be minimum 4 characters</p>
+            </span>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-12" *ngIf="showTranslatedLangSide">
+          <div class="form-group dir-otherLanguage">
+            <label for="address">صندوق بريد (اختياري)</label>
+            <input type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; poBoxArError = false"
+              [ngClass]="{
+                'inputError': poBoxArError && businessForm.controls['poBoxNoAr'].errors
+              }" [(ngModel)]="poBoxAr" formControlName="poBoxNoAr">
+            <span *ngIf="poBoxArError && businessForm.controls['poBoxNoAr'].errors">
+              <!-- <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('required') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">{{requiredFieldsOthrLng}}</p> -->
+              <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('pattern') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">يرجى إدخال معلومات صحيحة</p>
+              <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('maxlength') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">يجب ألا يتجاوز عنوان PO من 16 حرفًا</p>
+              <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('minlength') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">يجب أن يكون عنوان PO 4 أحرف كحد أدنى</p>
+            </span>
+          </div>
+        </div>
+      </div>
     
       <div class="row ">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -162,38 +197,7 @@
 
         </div>
       </div>
-      <div class="row">
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-          <div class="form-group">
-            <label for="Address">P.O Box (Optional)</label>
-            <input type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; poBoxArError = false"
-              [ngClass]="{
-                 'inputError': poBoxError && businessForm.controls['poBoxNo'].errors
-                }" [(ngModel)]="poBoxAr" formControlName="poBoxNo">
-            <span *ngIf="poBoxError && businessForm.controls['poBoxNo'].errors">
-              <!-- <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('required') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">{{requiredFields}}</p> -->
-              <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('pattern') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">Please enter valid information</p>
-              <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('maxlength') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">PO address should not exceed from 16 characters</p>
-              <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNo'].hasError('minlength') && (businessForm.controls.poBoxNo.dirty || businessForm.controls.poBoxNo.touched)">PO address should be minimum 4 characters</p>
-            </span>
-          </div>
-        </div>
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
-          <div class="form-group dir-otherLanguage">
-            <label for="address">صندوق بريد (اختياري)</label>
-            <input type="text" class="form-control" maxlength="16" (focusout)="errorValidate()" (focus)="poBoxError = false; poBoxArError = false"
-              [ngClass]="{
-                'inputError': poBoxArError && businessForm.controls['poBoxNoAr'].errors
-              }" [(ngModel)]="poBoxAr" formControlName="poBoxNoAr">
-            <span *ngIf="poBoxArError && businessForm.controls['poBoxNoAr'].errors">
-              <!-- <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('required') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">{{requiredFieldsOthrLng}}</p> -->
-              <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('pattern') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">يرجى إدخال معلومات صحيحة</p>
-              <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('maxlength') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">يجب ألا يتجاوز عنوان PO من 16 حرفًا</p>
-              <p class="inputError animated fadeIn" *ngIf="businessForm.controls['poBoxNoAr'].hasError('minlength') && (businessForm.controls.poBoxNoAr.dirty || businessForm.controls.poBoxNoAr.touched)">يجب أن يكون عنوان PO 4 أحرف كحد أدنى</p>
-            </span>
-          </div>
-        </div>
-      </div>
+      
       <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="form-group">
@@ -298,8 +302,11 @@
                     </ul>
                   </div>
                 </div>
-                <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites" maxlength="100"
+                <div class="col social-link-field">
+                  <label class="social-place-label">http://</label>
+                  <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites" maxlength="100"
                   placeholder="www.company.com" (focusout)="socialLinkValidate()" (focus)="socialInputValidate=''" />
+                </div>
               </div>
               <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p>
             </div>
@@ -327,9 +334,11 @@
                     </ul>
                   </div>
                 </div>
-
-                <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites" maxlength="100"
+                <div class="col social-link-field">
+                  <label class="social-place-label">http://</label>
+                  <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites" maxlength="100"
                   placeholder="www.company.com" (focusout)="socialLinkValidate()" (focus)="socialInputValidate=''" />
+                </div>                
               </div>
               <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p>
             </div>
@@ -340,12 +349,12 @@
     </form>
     <div class="row mt-5">
       <div class="licenseNaming col-6">
-        <h5 class="m-0">Your Personal Information</h5>
-        <small>We require your personal information to get in touch with you</small>
+        <h5 class="m-0">Personal Information</h5>
+        <!-- <small>We require your personal information to get in touch with you</small> -->
       </div>
       <div class="licenseNaming col-6 dir-otherLanguage" *ngIf="showTranslatedLangSide">
         <h5 class="m-0">المعلومات الشخصية الخاصة بك</h5>
-        <small class="arabicLng">نطلب المعلومات الشخصية الخاصة بك للحصول على اتصال معكم</small>
+        <!-- <small class="arabicLng">نطلب المعلومات الشخصية الخاصة بك للحصول على اتصال معكم</small> -->
       </div>
     </div>
     <hr class="hr-solid">
@@ -571,7 +580,7 @@
     </form>
     <div class="row mt-5">
       <div class="col">
-        <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" type="submit" (click)="registration()" [disabled]="businessForm.invalid || personalInfoForm.invalid">
+        <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right pt-2 pr-5 pl-5 pb-2" type="submit" (click)="registration()" [disabled]="businessForm.invalid || personalInfoForm.invalid">
           <span>Register</span>
           <span class="dir-otherLanguage" *ngIf="showTranslatedLangSide"> / تسجيل</span>
         </button>

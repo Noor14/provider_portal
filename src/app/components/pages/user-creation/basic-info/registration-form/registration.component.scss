@@ -46,6 +46,9 @@
             .selected {
                 padding-left: 40px;
             }
+            input {
+                height: 48px;
+            }
         }
         @media (max-width: 450px) {
             .countryBox {
@@ -62,6 +65,7 @@
     ngb-typeahead-window {
         max-height: 200px;
         overflow-y: auto;
+        padding: 0;
         .dropdown-item {
             &.active,
             &:active {
