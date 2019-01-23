@@ -1320,8 +1320,6 @@ select {
             display: none;
         }
         .DTFC_RightWrapper {
-            width: 35px !important;
-            right: 16px !important;
             .DTFC_RightHeadWrapper,
             .DTFC_RightFootWrapper {
                 table {
@@ -1353,9 +1351,10 @@ select {
                                 border-top: 1px solid $data-table-border;
                                 td {
                                     border: none;
-                                    padding: 0;
+                                    padding: 0 !important;
                                     background: $white-color;
                                     padding-left: 10px;
+                                    text-align: center;
                                 }
                                 &:last-child {
                                     border-bottom: 1px solid $data-table-border;
