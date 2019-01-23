@@ -8,7 +8,7 @@
       <div class="col-6">
         <div class="form-group">
           <label>Company Name</label>
-          <input type="text" readonly class="form-control" placeholder="Company Name" value="Texpo LLC">
+          <input type="text" readonly class="form-control" placeholder="Company Name" [(ngModel)]="orgName">
         </div>
       </div>
     </div>
@@ -17,18 +17,18 @@
         <div class="form-group">
           <label>Company Logo</label>
           <div class="document-Info d-flex flex-column mb-0">
-              <div class="file-uploader company-logo">
+              <div class="file-uploader company-logo" *ngIf="!selectedDocxlogo || (selectedDocxlogo && !selectedDocxlogo?.DocumentFile)">
                 <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'logo')" [configId]="'config'">
                   <img src="../../../assets/images/icons/manager-icon.png">
                   <p class="m-0 mt-3">Drag here or
                   <span class="browse-span">browse</span> to upload</p>
                 </app-ng-files-drag-n-upload>
               </div>
-              <div class="row uploadedDocx">
+              <div class="row uploadedDocx" *ngIf="selectedDocxlogo && selectedDocxlogo?.DocumentFile">
                   <div class="col-lg-12">
                     <div class="display-upload delete">
-                        <img src="../../../../../../assets/images/Sentinel Storage LLC_01.png" class="w-100" alt="del">
-                      <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(selectedFiles, 'logo')">
+                      <img [src]="selectedDocxlogo.DocumentFile" class="w-100" alt="logo">
+                      <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx('index', selectedDocxlogo, 'logo')">
                     </div>
                   </div>
                 </div> 
@@ -102,7 +102,7 @@
                         <source src="" type="video/mp4">
                       </video> -->
                       <img class="w-100" [src]="galleryDocx.DocumentFile">
-                      <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(i, selectedFiles, 'gallery')">
+                      <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(i, galleryDocx, 'gallery')">
                     </div>
                   </div>
                 </div> 
@@ -125,7 +125,7 @@
                     <div class="col-lg-3" *ngFor="let certDocx of selectedCertificateDocx; let i = index ">
                       <div class="display-upload delete">
                         <img class="w-100" [src]="certDocx.DocumentFile">
-                        <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(i, selectedFiles, 'certificate')">
+                        <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(i, certDocx, 'certificate')">
                       </div>
                     </div>
                   </div> 

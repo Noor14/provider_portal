@@ -23,7 +23,7 @@ export class BusinessInfoComponent implements OnInit {
   public valAddedServices: any[] = [];
   public docTypes: any[] = [];
   public selectedDocx: any[] = [];
-  public selectedDocxlogo: any[] = [];
+  public selectedDocxlogo: any;
   public selectedGalleryDocx: any[] = [];
   public selectedCertificateDocx: any[] = [];
   public userProfile: any;
@@ -33,15 +33,22 @@ export class BusinessInfoComponent implements OnInit {
   public selectedFiles: any;
   public selectedLogo: any;
   private config: NgFilesConfig = {
-    acceptExtensions: ['jpg', 'png', , 'pdf', 'bmp'],
-    maxFilesCount: 2,
-    maxFileSize: 4096000,
-    totalFilesSize: 8192000
+    acceptExtensions: ['jpg', 'png', 'bmp'],
+    maxFilesCount: 5,
+    maxFileSize: 5*1024*1000,
+    totalFilesSize: 5*5*1024*1000
+  };
+  private configLogo: NgFilesConfig = {
+    acceptExtensions: ['jpg', 'png', 'bmp'],
+    maxFilesCount: 1,
+    maxFileSize: 1 * 1024 * 1000,
+    totalFilesSize: 1 * 1 * 1024 * 1000
   };
   public aboutUs;
   public companyLogoDocx: any;
   public certficateDocx: any;
   public galleriesDocx:any;
+  public orgName:string;
   constructor(
     private _toastr: ToastrService,
     private _basicInfoService: BasicInfoService,
@@ -59,8 +66,8 @@ export class BusinessInfoComponent implements OnInit {
     this.ngFilesService.addConfig(this.config, 'config');
     // this.ngFilesService.addConfig(this.namedConfig);
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if (userInfo && userInfo.returnText) {
-      this.userProfile = JSON.parse(userInfo.returnText);
+    if (userInfo && userInfo.returnObject) {
+      this.userProfile = userInfo.returnObject;
     }
     this.getbusinessServices();
   }
@@ -119,6 +126,7 @@ export class BusinessInfoComponent implements OnInit {
   getbusinessServices(){
     this._basicInfoService.getbusinessServices(913).subscribe((res:any)=>{
       if (res && res.returnStatus == "Success"){
+        this.orgName = res.returnObject.companyName;
         this.allAssociations = res.returnObject.associations;
         this.freightServices = res.returnObject.services.logisticServices;
         this.valAddedServices = res.returnObject.services.valueAddedServices;
@@ -137,7 +145,7 @@ removeSelectedDocx(index,  obj, type) {
     if  (res.returnStatus  ==  'Success') {
       this._toastr.success('Remove selected document succesfully',  "");
       if(type == 'logo'){
-        this.selectedDocxlogo.splice(index, 1);
+        this.selectedDocxlogo = {};
       }
       else if (type == 'gallery') {
         this.selectedGalleryDocx.splice(index, 1);
@@ -189,20 +197,6 @@ removeSelectedDocx(index,  obj, type) {
               fileUrl: reader.result,
               fileBaseString: reader.result.split(',')[1]
             }
-              if (type == 'logo') {
-               if (event.files.length <= this.config.maxFilesCount) {
-                  const docFile = JSON.parse(this.generateDocObject(selectedFile, type));
-                  allDocsArr.push(docFile);
-                  flag++
-                  if (flag === fileLenght) {
-                    this.uploadDocuments(allDocsArr, type)
-                  }
-                }
-                else {
-                  this._toastr.error('Please select only two file to upload', '');
-                }
-              }
-              else if (type == 'gallery') {
                 if (event.files.length <= this.config.maxFilesCount) {
                   const docFile = JSON.parse(this.generateDocObject(selectedFile, type));
                   allDocsArr.push(docFile);
@@ -212,22 +206,8 @@ removeSelectedDocx(index,  obj, type) {
                   }
                 }
                 else {
-                  this._toastr.error('Please select only two file to upload', '');
+                  this._toastr.error('Please select only '+ this.config.maxFilesCount + 'file to upload', '');
                 }
-              }
-              else if (type == 'certificate') {
-                if (event.files.length <= this.config.maxFilesCount) {
-                  const docFile = JSON.parse(this.generateDocObject(selectedFile, type));
-                  allDocsArr.push(docFile);
-                  flag++
-                  if (flag === fileLenght) {
-                    this.uploadDocuments(allDocsArr, type)
-                  }
-                }
-                else {
-                  this._toastr.error('Please select only two file to upload', '');
-                }
-              }
             }
         }
       }
@@ -249,8 +229,8 @@ removeSelectedDocx(index,  obj, type) {
     else if (type == 'certificate'){
       object = this.certficateDocx;
     }
-    object.UserID = this.userProfile.UserID;
-    object.ProviderID = this.userProfile.ProviderID;
+    object.UserID = this.userProfile.userID;
+    object.ProviderID = this.userProfile.providerID;
     object.DocumentFileContent = null;
     object.DocumentName = null;
     object.DocumentUploadedFileType = null;
@@ -283,7 +263,7 @@ removeSelectedDocx(index,  obj, type) {
           }
           // this.selectedDocx = fileObj;
           if(type == 'logo'){
-            this.selectedDocxlogo = fileObj;
+            this.selectedDocxlogo = fileObj[0];
           }
           else if (type == 'gallery') {
             this.selectedGalleryDocx = fileObj;
@@ -313,7 +293,7 @@ removeSelectedDocx(index,  obj, type) {
       associationIds: this.assocService,
       logisticServiceIds: this.frtService,
       vasServiceIds: this.valueService,
-      providerID: this.userProfile.ProviderID,
+      providerID: this.userProfile.providerID,
       aboutUs: this.aboutUs,
     }
     this._basicInfoService.addBusinessInfo(obj).subscribe((res:any)=>{

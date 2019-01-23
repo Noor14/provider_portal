@@ -37,8 +37,9 @@ export class BasicInfoService {
     return this._http.post(baseApi + url, otpKey);
   }
 
-  getUserOtpVerified(otpKey, status) {
-    let url: string = `otp/GetVerifiedOTPUser/${otpKey}/${status}`;
+  getUserOtpVerified(key) {
+    // let url: string = `otp/GetVerifiedOTPUser/${otpKey}/${status}`;
+    let url: string = `providerregistration/GetVerifiedUser/${key}`;
     return this._http.get(baseApi + url);
 
   }

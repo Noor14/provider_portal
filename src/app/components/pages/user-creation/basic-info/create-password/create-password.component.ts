@@ -149,7 +149,7 @@ export class CreatePasswordComponent implements OnInit {
             this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
             this._sharedService.signOutToggler.next(true);
             this._toast.success('Account successfully created', '');
-            this._router.navigate(['business-profile']);
+            this._router.navigate(['business-info']);
           }
      
         } else {
