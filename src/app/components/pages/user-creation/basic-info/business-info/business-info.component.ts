@@ -5,6 +5,7 @@ import { DocumentFile } from '../../../../../interfaces/document.interface';
 import { JsonResponse } from '../../../../../interfaces/JsonResponse';
 import { baseExternalAssets } from '../../../../../constants/base.url';
 import { BasicInfoService } from '../basic-info.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-business-info',
@@ -22,13 +23,16 @@ export class BusinessInfoComponent implements OnInit {
   public valAddedServices: any[] = [];
   public docTypes: any[] = [];
   public selectedDocx: any[] = [];
+  public selectedDocxlogo: any[] = [];
+  public selectedGalleryDocx: any[] = [];
+  public selectedCertificateDocx: any[] = [];
   public userProfile: any;
   private docTypeId = null;
   public docxId: any;
   private fileStatus = undefined;
   public selectedFiles: any;
   public selectedLogo: any;
-  private sharedConfig: NgFilesConfig = {
+  private config: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', , 'pdf', 'bmp'],
     maxFilesCount: 2,
     maxFileSize: 4096000,
@@ -52,7 +56,7 @@ export class BusinessInfoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ngFilesService.addConfig(this.sharedConfig, 'config');
+    this.ngFilesService.addConfig(this.config, 'config');
     // this.ngFilesService.addConfig(this.namedConfig);
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
@@ -118,17 +122,39 @@ export class BusinessInfoComponent implements OnInit {
         this.allAssociations = res.returnObject.associations;
         this.freightServices = res.returnObject.services.logisticServices;
         this.valAddedServices = res.returnObject.services.valueAddedServices;
-        this.companyLogoDocx = res.returnObject.documentType.find(obj => obj.businessLogic.upperCase() == 'COMPANY_LOGO');
-        this.certficateDocx = res.returnObject.documentType.find(obj => obj.businessLogic.upperCase() == 'PRO_AWD_CRTF_GLRY');
-        this.galleriesDocx = res.returnObject.documentType.find(obj => obj.businessLogic.upperCase() == 'PROVIDER_GALLERY');
+        if (res.returnObject && res.returnObject.documentType && res.returnObject.documentType.length){
+        this.companyLogoDocx = res.returnObject.documentType.find(obj => obj.businessLogic == 'COMPANY_LOGO');
+        this.certficateDocx = res.returnObject.documentType.find(obj => obj.businessLogic == 'PRO_AWD_CRTF_GLRY');
+        this.galleriesDocx = res.returnObject.documentType.find(obj => obj.businessLogic == 'PROVIDER_GALLERY');
+        }
       }
     })
   }
-  removeSelectedDocx(obj){
+removeSelectedDocx(index,  obj, type) {
+  obj.DocumentFile  =  obj.DocumentFile.split(baseExternalAssets).pop();
+  obj.DocumentID  =  this.docTypeId;
+  this._basicInfoService.removeDoc(obj).subscribe((res:  any)  =>  {
+    if  (res.returnStatus  ==  'Success') {
+      this._toastr.success('Remove selected document succesfully',  "");
+      if(type == 'logo'){
+        this.selectedDocxlogo.splice(index, 1);
+      }
+      else if (type == 'gallery') {
+        this.selectedGalleryDocx.splice(index, 1);
+      }
+      else if (type == 'certificate') {
+        this.selectedCertificateDocx.splice(index, 1);
+      }
+    }
+    else  {
+      this._toastr.error('Error Occured',  "");
+    }
+  }, (err:  HttpErrorResponse)  =>  {
+    console.log(err);
+  })
+}
 
-  }
-
-  selectDocx(selectedFiles: NgFilesSelected): void {
+  selectDocx(selectedFiles: NgFilesSelected, type): void {
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
       if (selectedFiles.status == 1) this._toastr.error('Please select two or less file(s) to upload.', '')
       else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 4 MB. Please upload smaller file.', '')
@@ -137,7 +163,7 @@ export class BusinessInfoComponent implements OnInit {
     }
     else {
       try {
-        this.onFileChange(selectedFiles)
+        this.onFileChange(selectedFiles, type)
       } catch (error) {
         console.log(error);
       }
@@ -145,7 +171,7 @@ export class BusinessInfoComponent implements OnInit {
     }
   }
 
-  onFileChange(event) {
+  onFileChange(event, type) {
     let flag = 0;
     if (event) {
       try {
@@ -163,23 +189,46 @@ export class BusinessInfoComponent implements OnInit {
               fileUrl: reader.result,
               fileBaseString: reader.result.split(',')[1]
             }
-            // console.log('you file content:', selectedFile);
-
-            if (this.selectedDocx && this.selectedDocx.length && event.files.length > 1 && index == 0) {
-              this._toastr.error('Please select only two file to upload', '');
-              return;
-            } else if (this.selectedDocx && this.selectedDocx.length < 2) {
-              const docFile = JSON.parse(this.generateDocObject(selectedFile));
-              allDocsArr.push(docFile);
-              flag++
-              if (flag === fileLenght) {
-                this.uploadDocuments(allDocsArr)
+              if (type == 'logo') {
+               if (event.files.length <= this.config.maxFilesCount) {
+                  const docFile = JSON.parse(this.generateDocObject(selectedFile, type));
+                  allDocsArr.push(docFile);
+                  flag++
+                  if (flag === fileLenght) {
+                    this.uploadDocuments(allDocsArr, type)
+                  }
+                }
+                else {
+                  this._toastr.error('Please select only two file to upload', '');
+                }
+              }
+              else if (type == 'gallery') {
+                if (event.files.length <= this.config.maxFilesCount) {
+                  const docFile = JSON.parse(this.generateDocObject(selectedFile, type));
+                  allDocsArr.push(docFile);
+                  flag++
+                  if (flag === fileLenght) {
+                    this.uploadDocuments(allDocsArr, type)
+                  }
+                }
+                else {
+                  this._toastr.error('Please select only two file to upload', '');
+                }
+              }
+              else if (type == 'certificate') {
+                if (event.files.length <= this.config.maxFilesCount) {
+                  const docFile = JSON.parse(this.generateDocObject(selectedFile, type));
+                  allDocsArr.push(docFile);
+                  flag++
+                  if (flag === fileLenght) {
+                    this.uploadDocuments(allDocsArr, type)
+                  }
+                }
+                else {
+                  this._toastr.error('Please select only two file to upload', '');
+                }
               }
             }
-            else {
-              this._toastr.error('Please select only two file to upload', '');
-            }
-          }
         }
       }
       catch (err) {
@@ -188,9 +237,18 @@ export class BusinessInfoComponent implements OnInit {
     }
 
   }
-
-  generateDocObject(selectedFile): any {
-    let object = this.docTypes.find(Obj => Obj.DocumentTypeID == this.docxId);
+  
+  generateDocObject(selectedFile, type): any {
+    let object
+    if(type == 'logo'){
+      object = this.companyLogoDocx;
+    }
+    else if (type == 'gallery'){
+      object = this.galleriesDocx;
+    }
+    else if (type == 'certificate'){
+      object = this.certficateDocx;
+    }
     object.UserID = this.userProfile.UserID;
     object.ProviderID = this.userProfile.ProviderID;
     object.DocumentFileContent = null;
@@ -206,7 +264,7 @@ export class BusinessInfoComponent implements OnInit {
     return JSON.stringify(object);
   }
 
-  async uploadDocuments(docFiles: Array<any>) {
+  async uploadDocuments(docFiles: Array<any>, type) {
     const totalDocLenght: number = docFiles.length
     for (let index = 0; index < totalDocLenght; index++) {
       try {
@@ -222,9 +280,17 @@ export class BusinessInfoComponent implements OnInit {
           if (index !== (totalDocLenght - 1)) {
             docFiles[index + 1].DocumentID = resObj.DocumentID;
             docFiles[index + 1].DocumentLastStatus = resObj.DocumentLastStaus;
-
           }
-          this.selectedDocx = fileObj;
+          // this.selectedDocx = fileObj;
+          if(type == 'logo'){
+            this.selectedDocxlogo = fileObj;
+          }
+          else if (type == 'gallery') {
+            this.selectedGalleryDocx = fileObj;
+          }
+          else if (type == 'certificate') {
+            this.selectedCertificateDocx = fileObj;
+          }
           this._toastr.success("File upload successfully", "");
         }
         else {

@@ -18,7 +18,7 @@
           <label>Company Logo</label>
           <div class="document-Info d-flex flex-column mb-0">
               <div class="file-uploader company-logo">
-                <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event)" [configId]="'config'">
+                <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'logo')" [configId]="'config'">
                   <img src="../../../assets/images/icons/manager-icon.png">
                   <p class="m-0 mt-3">Drag here or
                   <span class="browse-span">browse</span> to upload</p>
@@ -28,7 +28,7 @@
                   <div class="col-lg-12">
                     <div class="display-upload delete">
                         <img src="../../../../../../assets/images/Sentinel Storage LLC_01.png" class="w-100" alt="del">
-                      <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(selectedFiles)">
+                      <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(selectedFiles, 'logo')">
                     </div>
                   </div>
                 </div> 
@@ -89,20 +89,20 @@
           <small class="sub-title">Upload photos and videos upto 5mb</small>
           <div class="document-Info d-flex flex-column mt-2">
               <div class="file-uploader">
-                <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event)" [configId]="'config'">
+                <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'gallery')" [configId]="'config'">
                   <img src="../../../assets/images/icons/manager-icon.png">
                   <p class="m-0 mt-3">Drag here or
                   <span class="browse-span">browse</span> to upload</p>
                 </app-ng-files-drag-n-upload>
               </div>
-              <div class="row uploadedDocx">
-                  <div class="col-lg-3 ">
+              <div class="row uploadedDocx" *ngIf="selectedGalleryDocx && selectedGalleryDocx.length">
+                  <div class="col-lg-3" *ngFor="let galleryDocx of selectedGalleryDocx; let i = index ">
                     <div class="display-upload delete">
                       <!-- <video class="animated fadeIn" controls>
                         <source src="" type="video/mp4">
                       </video> -->
-                      <img src="../../../../../../assets/images/Sentinel Storage LLC_01.png" class="w-100" alt="del">
-                      <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(selectedFiles)">
+                      <img class="w-100" [src]="galleryDocx.DocumentFile">
+                      <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(i, selectedFiles, 'gallery')">
                     </div>
                   </div>
                 </div> 
@@ -115,17 +115,17 @@
             <small class="sub-title">Upload photos and videos upto 5mb</small>
             <div class="document-Info d-flex flex-column mt-2">
                 <div class="file-uploader">
-                  <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event)" [configId]="'config'">
+                  <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
                     <img src="../../../assets/images/icons/manager-icon.png">
                     <p class="m-0 mt-3">Drag here or
                     <span class="browse-span">browse</span> to upload</p>
                   </app-ng-files-drag-n-upload>
                 </div>
-                <div class="row uploadedDocx">
-                    <div class="col-lg-3 ">
+                <div class="row uploadedDocx" *ngIf="selectedCertificateDocx && selectedCertificateDocx.length">
+                    <div class="col-lg-3" *ngFor="let certDocx of selectedCertificateDocx; let i = index ">
                       <div class="display-upload delete">
-                          <img src="../../../../../../assets/images/Sentinel Storage LLC_01.png" class="w-100" alt="del">
-                        <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(selectedFiles)">
+                        <img class="w-100" [src]="certDocx.DocumentFile">
+                        <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(i, selectedFiles, 'certificate')">
                       </div>
                     </div>
                   </div> 
