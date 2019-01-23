@@ -13,6 +13,10 @@ import { BasicInfoService } from '../basic-info.service';
   styleUrls: ['./business-info.component.scss']
 })
 export class BusinessInfoComponent implements OnInit {
+  public baseExternalAssets: string = baseExternalAssets;
+  public allAssociations: any[] = [];
+  public freightServices: any[] = [];
+  public valAddedServices: any[] = [];
   public docTypes: any[] = [];
   public selectedDocx: any[] = [];
   public userProfile: any;
@@ -47,8 +51,19 @@ export class BusinessInfoComponent implements OnInit {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
-  }
 
+
+    this.getbusinessServices();
+  }
+  getbusinessServices(){
+    this._basicInfoService.getbusinessServices(913).subscribe((res:any)=>{
+      if (res && res.returnStatus == "Success"){
+        this.allAssociations = res.returnObject.associations;
+        this.freightServices = res.returnObject.services.logisticServices;
+        this.valAddedServices = res.returnObject.services.valueAddedServices;
+      }
+    })
+  }
 
   selectDocx(selectedFiles: NgFilesSelected): void {
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {

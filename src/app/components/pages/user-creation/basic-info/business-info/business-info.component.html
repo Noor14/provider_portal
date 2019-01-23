@@ -51,24 +51,9 @@
     <small>Select the services your company provides.</small>
     <hr class="hr-solid">
     <div class="row">
-      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of freightServices">
         <div #selectService class="servicechip-provides text-center d-flex flex-column justify-content-center mb-2 pointer">
-          <span>Sea Freight</span>
-        </div>
-      </div>
-      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12">
-        <div #selectService class="servicechip-provides text-center d-flex flex-column justify-content-center mb-2 pointer">
-          <span>Air Freight</span>
-        </div>
-      </div>
-      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12">
-        <div #selectService class="servicechip-provides text-center d-flex flex-column justify-content-center mb-2 pointer">
-          <span>Ground Transport</span>
-        </div>
-      </div>
-      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12">
-        <div #selectService class="servicechip-provides text-center d-flex flex-column justify-content-center mb-2 pointer">
-          <span>Warehousing</span>
+          <span>{{service.logServName}}</span>
         </div>
       </div>
     </div>
@@ -78,17 +63,11 @@
     <small>Select the value added services your company provides.</small>
     <hr class="hr-solid">
     <div class="row">
-      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of valAddedServices">
         <div #selectService class="servicechip-valueAdded text-center d-flex flex-column justify-content-center mb-2 pointer">
-          <span>Sea Freight</span>
+          <span>{{service.logServName}}</span>
         </div>
       </div>
-      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12">
-        <div #selectService class="servicechip-valueAdded text-center d-flex flex-column justify-content-center mb-2 pointer">
-          <span>Air Freight</span>
-        </div>
-      </div>
-
     </div>
   </section>
   <section class="services mt-3">
@@ -100,14 +79,10 @@
     </div>
     <span class="fieldtitle">Associations</span>
     <div class="row">
-      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let associate of allAssociations">
         <div #selectService class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-2 pointer">
-          <span>Sea Freight</span>
-        </div>
-      </div>
-      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12">
-        <div #selectService class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-2 pointer">
-          <span>Air Freight</span>
+          <img [src]="baseExternalAssets + associate.assnWithImage" alt="assoc_image">
+          <span>{{associate.assnWithName}}</span>
         </div>
       </div>
 

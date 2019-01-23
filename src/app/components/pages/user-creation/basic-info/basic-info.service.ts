@@ -62,4 +62,9 @@ export class BasicInfoService {
     let url: string = "document/Post";
     return this._http.post(baseApi + url, doc);
   }
+  getbusinessServices(providerID){
+    let url: string = `providerregistration/GetLogisticServicesByProvider/${providerID}`;
+    return this._http.get(baseApi + url);
+  }
+
 }
