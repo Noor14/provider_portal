@@ -42,22 +42,6 @@
     .document {
         &-Info {
             margin-bottom: 2.8rem;
-            .uploaded-file {
-                border: 1px solid $secondary-color;
-                border-radius: 3px;
-                .fileDesc {
-                    a {
-                        text-decoration: none;
-                        .fileIcon {
-                            width: 35px;
-                            height: 35px;
-                        }
-                        span {
-                            color: $text-color-default;
-                        }
-                    }
-                }
-            }
             .file-uploader {
                 border: 1px dashed #e1d8d8;
                 border-radius: 4px;
@@ -85,6 +69,37 @@
             }
             &.removeBorder {
                 border: none;
+            }
+            .uploadedDocx {
+                margin-top: 1rem;
+                .display-upload {
+                    position: relative;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    z-index:0;
+                    img,
+                    video {
+                        border-radius: 4px;
+                        border: 1px solid $input-border;
+                        width: 100%;
+                        min-height: 100%;
+                        max-height: 10rem;
+                        display: flex;
+                    }
+                    .delete-icon {
+                        position: absolute;
+                        top: -10px;
+                        right: -8px;
+                        min-height: auto;
+                        background: $white-color;
+                        padding: 3px;
+                        border-radius: 50%;
+                        width: 23px;
+                        height: auto;
+                        border: none;
+                    }
+                }
             }
         }
     }
