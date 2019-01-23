@@ -34,6 +34,7 @@ export class BusinessInfoComponent implements OnInit {
     maxFileSize: 4096000,
     totalFilesSize: 8192000
   };
+  public aboutUs;
   constructor(
     private _toastr: ToastrService,
     private _basicInfoService: BasicInfoService,
@@ -70,7 +71,7 @@ export class BusinessInfoComponent implements OnInit {
     }
     if ((this.frtService && !this.frtService.length) || (i == this.frtService.length)) {
       selectedItem.add('active');
-      this.frtService.push(obj);
+      this.frtService.push(obj.logServID);
     }
   }
 
@@ -87,7 +88,7 @@ export class BusinessInfoComponent implements OnInit {
     }
     if ((this.valueService && !this.valueService.length) || (i == this.valueService.length)) {
       selectedItem.add('active');
-      this.valueService.push(obj);
+      this.valueService.push(obj.logServID);
     }
   }
 
@@ -105,23 +106,9 @@ export class BusinessInfoComponent implements OnInit {
     }
     if ((this.assocService && !this.assocService.length) || (i == this.assocService.length)) {
       selectedItem.add('active');
-      this.assocService.push(obj);
+      this.assocService.push(obj.assnWithID);
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   getbusinessServices(){
     this._basicInfoService.getbusinessServices(913).subscribe((res:any)=>{
       if (res && res.returnStatus == "Success"){
@@ -147,7 +134,6 @@ export class BusinessInfoComponent implements OnInit {
       }
 
     }
-
   }
 
   onFileChange(event) {
@@ -245,5 +231,23 @@ export class BusinessInfoComponent implements OnInit {
     const resp: JsonResponse = await this._basicInfoService.docUpload(doc).toPromise()
     return resp
   }
+
+
+  createProfile(){
+    let obj = {
+      associationIds: this.assocService,
+      logisticServiceIds: this.frtService,
+      vasServiceIds: this.valueService,
+      providerID: 1323,
+      aboutUs: this.aboutUs,
+    }
+    this._basicInfoService.addBusinessInfo(obj).subscribe((res:any)=>{
+      if(res && res.returnStatus == 'Success'){
+
+      }
+    })
+  }
+
+
 
 }

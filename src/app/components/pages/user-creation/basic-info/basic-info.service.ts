@@ -66,5 +66,9 @@ export class BasicInfoService {
     let url: string = `providerregistration/GetLogisticServicesByProvider/${providerID}`;
     return this._http.get(baseApi + url);
   }
+  addBusinessInfo(obj){
+    let url: string = "providerregistration/SetupBusinessProfile";
+    return this._http.post(baseApi + url, obj);
+  }
 
 }

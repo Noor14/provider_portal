@@ -78,7 +78,7 @@
           <hr class="hr-solid">
           <div class="form-group">
             <label>About Your Business</label>
-            <textarea cols="30" rows="5" class="form-control" placeholder="Tell us something about your business"></textarea>
+            <textarea cols="30" [(ngModel)]="aboutUs" rows="5" class="form-control" placeholder="Tell us something about your business"></textarea>
           </div>
       </div>
     </div>
@@ -157,6 +157,6 @@
         </div>
     </section>
   <div class="d-flex justify-content-end">
-    <button class="btn btn-primary hvr-sweep-to-right">CREATE PROFILE</button>
+    <button class="btn btn-primary hvr-sweep-to-right" (click)="createProfile()">CREATE PROFILE</button>
   </div>
 </section>
