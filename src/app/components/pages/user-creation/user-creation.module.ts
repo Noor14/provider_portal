@@ -10,7 +10,6 @@ import { UserCreationRoutingModule } from './user-creation-routing.module';
 import { UserCreationComponent } from './user-creation.component';
 import { UserCreationService } from './user-creation.service';
 import { BasicInfoModule } from './basic-info/basic-info.module';
-import { CompanyInfoModule } from './company-info/company-info.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -20,12 +19,9 @@ import { CompanyInfoModule } from './company-info/company-info.module';
     ReactiveFormsModule,
     NgbModule,
     BasicInfoModule,
-    CompanyInfoModule
   ],
   declarations: [
     UserCreationComponent,
-    // BookingsComponent,
-    // ViewBookingComponent,
   ],
   providers: [
     UserGuard,

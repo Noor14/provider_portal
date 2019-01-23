@@ -8,12 +8,13 @@ import { RegistrationComponent } from './registration-form/registration.componen
 import { OtpconfirmationComponent } from './otpconfirmation/otpconfirmation.component';
 import { CreatePasswordComponent } from './create-password/create-password.component';
 import { BasicInfoService } from './basic-info.service';
-import { BasicInfoComponent } from './basic-info.component';
 import { BusinessInfoComponent } from './business-info/business-info.component';
+import { NgFilesModule } from '../../../../directives/ng-files';
 
 @NgModule({
   imports: [
     CommonModule,
+    NgFilesModule,
     HttpClientModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
@@ -24,7 +25,6 @@ import { BusinessInfoComponent } from './business-info/business-info.component';
     NgbModule,
   ],
   declarations: [
-    BasicInfoComponent,
     RegistrationComponent,
     OtpconfirmationComponent,
     CreatePasswordComponent,

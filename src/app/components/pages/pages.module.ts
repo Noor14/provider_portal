@@ -14,7 +14,6 @@ import { UserCreationService } from './user-creation/user-creation.service';
 import { BookingInvoiceComponent } from './user-desk/booking-invoice/booking-invoice.component';
 import { ReUploadDocComponent } from '../../shared/dialogues/re-upload-doc/re-upload-doc.component';
 import { BasicInfoService } from './user-creation/basic-info/basic-info.service';
-import { CompanyInfoService } from './user-creation/company-info/company-info.service';
 import { DiscardDraftComponent } from '../../shared/dialogues/discard-draft/discard-draft.component';
 import { ConfirmDeleteDialogComponent } from '../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SeaRateDialogComponent } from '../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
@@ -70,7 +69,6 @@ import { GroundRateDialogComponent } from '../../shared/dialogues/ground-rate-di
   ],
   providers: [
     UserCreationService,
-    CompanyInfoService,
     BasicInfoService,
    ]
 })

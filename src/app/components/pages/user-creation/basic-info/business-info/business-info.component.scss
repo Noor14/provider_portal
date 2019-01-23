@@ -1,11 +1,10 @@
 @import '../../../../../../assets/scss/_variables';
 .businessDetail {
     .services {
-        .service-btn {
+        .servicechip {
             border-radius: 4px;
             border: 1px solid $input-border;
             background: $white-color;
-            height: 50px;
             position: relative;
             span:nth-child(2) {
                 font-family: $font-NeoSansArabic-Regular;
@@ -23,6 +22,59 @@
                     right: 0;
                     top: 0;
                 }
+            }
+            &-provides,
+            &-valueAdded {
+                @extend .servicechip;
+                height: 50px;
+            }
+            &-asscoiation {
+                @extend .servicechip;
+                height: 150px;
+            }
+        }
+    }
+    .document {
+        &-Info {
+            margin-bottom: 2.8rem;
+            .uploaded-file {
+                border: 1px solid $secondary-color;
+                border-radius: 3px;
+                .fileDesc {
+                    a {
+                        text-decoration: none;
+                        .fileIcon {
+                            width: 35px;
+                            height: 35px;
+                        }
+                        span {
+                            color: $text-color-default;
+                        }
+                    }
+                }
+            }
+            .file-uploader {
+                border: 1px dashed #e1d8d8;
+                border-radius: 4px;
+                .drag-support {
+                    color: $text-grey;
+                    font-size: $font-size-medium;
+                    position: relative;
+                    top: 35px;
+                }
+                .browse-span {
+                    color: $secondary-color;
+                    font-weight: 500;
+                }
+                text-align: center;
+                app-ng-files-drag-n-upload {
+                    label {
+                        padding: 2.88rem 60px;
+                    }
+                }
+            }
+            &.removeBorder {
+                border: none;
             }
         }
     }
