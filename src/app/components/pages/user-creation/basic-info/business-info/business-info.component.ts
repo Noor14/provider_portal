@@ -14,6 +14,9 @@ import { BasicInfoService } from '../basic-info.service';
 })
 export class BusinessInfoComponent implements OnInit {
   public baseExternalAssets: string = baseExternalAssets;
+  public frtService: any[] = [];
+  public valueService: any[] = [];
+  public assocService: any[] = [];
   public allAssociations: any[] = [];
   public freightServices: any[] = [];
   public valAddedServices: any[] = [];
@@ -51,10 +54,74 @@ export class BusinessInfoComponent implements OnInit {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
-
-
     this.getbusinessServices();
   }
+
+  freightService(obj, selectedService) {
+    let selectedItem = selectedService.classList;
+    if (this.frtService && this.frtService.length) {
+      for (var i = 0; i < this.frtService.length; i++) {
+        if (this.frtService[i].logServID == obj.logServID) {
+          this.frtService.splice(i, 1);
+          selectedItem.remove('active');
+          return;
+        }
+      }
+    }
+    if ((this.frtService && !this.frtService.length) || (i == this.frtService.length)) {
+      selectedItem.add('active');
+      this.frtService.push(obj);
+    }
+  }
+
+  valAdded(obj, selectedService) {
+    let selectedItem = selectedService.classList;
+    if (this.valueService && this.valueService.length) {
+      for (var i = 0; i < this.valueService.length; i++) {
+        if (this.valueService[i].logServID == obj.logServID) {
+          this.valueService.splice(i, 1);
+          selectedItem.remove('active');
+          return;
+        }
+      }
+    }
+    if ((this.valueService && !this.valueService.length) || (i == this.valueService.length)) {
+      selectedItem.add('active');
+      this.valueService.push(obj);
+    }
+  }
+
+
+  selectAssociation(obj, selectedService) {
+    let selectedItem = selectedService.classList;
+    if (this.assocService && this.assocService.length) {
+      for (var i = 0; i < this.assocService.length; i++) {
+        if (this.assocService[i].assnWithID == obj.assnWithID) {
+          this.assocService.splice(i, 1);
+          selectedItem.remove('active');
+          return;
+        }
+      }
+    }
+    if ((this.assocService && !this.assocService.length) || (i == this.assocService.length)) {
+      selectedItem.add('active');
+      this.assocService.push(obj);
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   getbusinessServices(){
     this._basicInfoService.getbusinessServices(913).subscribe((res:any)=>{
       if (res && res.returnStatus == "Success"){
