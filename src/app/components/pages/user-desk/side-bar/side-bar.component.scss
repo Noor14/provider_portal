@@ -19,6 +19,9 @@ $leftsidebar-h3-color: #c6c8ca;
             margin-left: 8px;
             li {
                 padding: 10px 0 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
                 .nav-link {
                     color: $text-color-default;
                     font-size: $font-size-large;
@@ -35,14 +38,20 @@ $leftsidebar-h3-color: #c6c8ca;
                             color: $primary-color;
                         }
                     }
-                    &:hover{
-                    color:  $primary-color;
+                    &:hover {
+                        color: $primary-color;
+                    }
+                }
+                .badge {
+                    opacity: 0.8;
+                    margin-right: 50px;
+                }
+                @media (max-width: $screen-md-screen) {
+                    .badge {
+                        margin-right: 0px;
                     }
                 }
             }
         }
-    }
-    @media (max-width: $screen-lg-screen) {
-        justify-content: flex-end;
     }
 }

@@ -51,7 +51,7 @@ export class BasicInfoService {
     return this._http.post(baseApi + url, obj);
   }
   getServiceOffered() {
-    let url: string = "ProviderRegistration/GetProviderLogisticServices";
+    let url: string = "ProviderRegistration/GetLogisticServices";
     return this._http.get(baseApi + url);
   }
   socialList() {

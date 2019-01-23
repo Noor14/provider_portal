@@ -84,7 +84,7 @@
                   <div class="bookings-detail">
                     <div class="ports">
                       <small class="d-block mb-2">Price</small>
-                      <label class="ports-label mt-1">
+                      <label class="ports-label mt-1" placement="top" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
                         {{booking.CurrencyCode}} {{booking.BookingTotalAmount | number:'1.2-2'}}
                       </label>
                       <small class="d-block pt-2 mt-4 mb-1">SHIPPING STATUS</small>
@@ -187,7 +187,7 @@
                   <div class="bookings-detail">
                     <div class="ports">
                       <small class="d-block mb-2">Price</small>
-                      <label class="ports-label mt-1">
+                      <label class="ports-label mt-1" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
                         {{booking.CurrencyCode}} {{booking.BookingTotalAmount | number:'1.2-2'}}
                       </label>
                       <small class="d-block pt-2 mt-4 mb-1">SHIPPING STATUS</small>
@@ -290,7 +290,7 @@
                     <div class="bookings-detail">
                       <div class="ports">
                         <small class="d-block mb-2">Price</small>
-                        <label class="ports-label mt-1">
+                        <label class="ports-label mt-1" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
                           {{booking.CurrencyCode}} {{booking.BookingTotalAmount | number:'1.2-2'}}
                         </label>
                         <small class="d-block pt-2 mt-4 mb-1">SHIPPING STATUS</small>

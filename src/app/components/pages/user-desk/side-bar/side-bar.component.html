@@ -21,11 +21,9 @@
           <a href="javascript:void(0)" class="nav-link" (click)="tonavigate('/provider/allbookings')"
             [ngClass]="getClass('/provider/allbookings')">
             <img src="../../../../../assets/images/icons/icon_booking.svg" alt="icon_booking">
-            <span class="menu-text">
-              Bookings
-            </span>
-            <!-- <span class="badge badge-primary" *ngIf="currentBookings && currentBookings.length">{{currentBookings.length}}</span> -->
+            <span class="menu-text">Bookings</span>
           </a>
+          <span class="badge badge-secondary" *ngIf="currentBookings && currentBookings.length > 0">{{currentBookings.length}}</span>
         </li>
         <li>
           <a href="javascript:void(0)" class="nav-link" (click)="tonavigate('/provider/billing')"

@@ -15,7 +15,7 @@ import {
 import { BasicInfoService } from '../basic-info.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router'
-
+import { Base64 } from 'js-base64';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -820,7 +820,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       userBL: UserObjectBL,
       userOL: (this.showTranslatedLangSide) ? UserObjectOL : null,
     }
-
     this._basicInfoService.createProviderAccount(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toastr.success(res.returnText, '');

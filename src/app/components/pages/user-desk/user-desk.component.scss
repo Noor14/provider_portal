@@ -7,12 +7,9 @@
         padding-top: 75px;
         padding-bottom: 75px;
     }
-}
-
-@media (max-width: $screen-sm-screen) {
-    .user-desk {
-        .left-section {
-            display: none;
-        }
+    @media (max-width: $screen-sm-screen) {
+            .left-section {
+                display: none;
+            }
     }
 }

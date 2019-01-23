@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { SharedService } from '../../../../services/shared.service';
 
 
 @Component({
@@ -10,9 +11,23 @@ import { Router } from '@angular/router';
 })
 export class SideBarComponent implements OnInit {
 
-  constructor(private _router: Router) { }
+  private allBookingsSubscriber;
+  public currentBookings: any[] = [];
+  
+  constructor(
+    private _router: Router,
+    private _sharedService: SharedService
+  ) { }
 
   ngOnInit() {
+    this.allBookingsSubscriber = this._sharedService.dashboardDetail.subscribe((state: any) => {
+      if (state && state.BookingDetails && state.BookingDetails.length) {
+        this.currentBookings = state.BookingDetails.filter(obj => obj.BookingTab === 'Current');
+      }
+    });
+  }
+  ngOnDestroy() {
+    this.allBookingsSubscriber.unsubscribe();
   }
   getClass(path): string {
      if(location.pathname.indexOf(path) >= 0){

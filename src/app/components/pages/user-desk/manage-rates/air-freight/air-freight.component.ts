@@ -214,13 +214,13 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           data: function (data) {
             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
             if (!data.PolID || !data.PodID) {
-              return "<div class='row'> <div class='col-5'><span> -- From -- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5'><span> -- To -- </span></div> </div>";
+              return "<div class='row'> <div class='col-5 text-truncate'><span> -- From -- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><span> -- To -- </span></div> </div>";
             }
             else {
               let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
               let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
               const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-              return "<div class='row'> <div class='col-5'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.PodName + "</div> </div>";
+              return "<div class='row'> <div class='col-5 text-truncate'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.PodName + "</div> </div>";
             }
           },
 
@@ -452,21 +452,26 @@ export class AirFreightComponent implements OnInit, OnDestroy {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedalldraftRates;
             if (this.checkedalldraftRates) {
               this.publishRates.push(cols[i].querySelector("input[type='checkbox']").id);
+              this.selectedItem('add', alltableOption);
             }
           }
           if (i == cols.length && !this.checkedalldraftRates) {
             this.publishRates = [];
+            this.selectedItem('remove', alltableOption);
           }
         });
 
         $('#draftRateTable').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
           event.stopPropagation();
           let index = this.publishRates.indexOf((<HTMLInputElement>event.target).id)
+          let selection = event.currentTarget.parentElement.parentElement.parentElement;
           if (index >= 0) {
             this.publishRates.splice(index, 1);
+            selection.classList.remove('selected');
 
           } else {
-            this.publishRates.push((<HTMLInputElement>event.target).id)
+            this.publishRates.push((<HTMLInputElement>event.target).id);
+            selection.classList.push('selected');
           }
 
         });
@@ -696,7 +701,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
             let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
             let podCode = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-            return "<div class='row'> <div class='col-5' ><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.polName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.podName + "</div> </div>";
+            return "<div class='row'> <div class='col-5 text-truncate' ><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.polName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.podName + "</div> </div>";
           },
           className: "routeCell"
         },

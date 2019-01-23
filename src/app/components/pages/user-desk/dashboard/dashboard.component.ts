@@ -11,7 +11,7 @@ import { encryptBookingID } from '../../../../constants/globalFunctions';
 export class DashboardComponent implements OnInit, OnDestroy {
 
   public providerInfo;
-  public dashboardSubscriber;
+  private dashboardSubscriber;
   public bookings;
   public baseExternalAssets :string = baseExternalAssets;
   public selectedBookingMode = 'CURRENT BOOKINGS';

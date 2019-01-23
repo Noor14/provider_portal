@@ -13,7 +13,7 @@ import { PaginationInstance } from 'ngx-pagination';
 })
 export class AllBookingsComponent implements OnInit, OnDestroy {
 
-  public allBookingsSubscriber;
+  private allBookingsSubscriber;
   public pastBookings:any[] =[];
   public currentBookings: any[] = [];
   public totalBookings: any[] = [];
