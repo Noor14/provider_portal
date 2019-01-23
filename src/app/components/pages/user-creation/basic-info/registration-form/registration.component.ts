@@ -456,7 +456,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     let selectedItem = selectedService.classList;
     if (this.serviceIds && this.serviceIds.length) {
       for (var i = 0; i < this.serviceIds.length; i++) {
-        if (this.serviceIds[i].logServID == obj.logServID) {
+        if (this.serviceIds[i] == obj.logServID) {
           this.serviceIds.splice(i, 1);
           selectedItem.remove('active');
           return;
@@ -466,7 +466,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     }
     if ((this.serviceIds && !this.serviceIds.length) || (i == this.serviceIds.length)) {
       selectedItem.add('active');
-      this.serviceIds.push(obj);
+      this.serviceIds.push(obj.logServID);
     }
   }
   errorValidate() {
@@ -747,40 +747,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       loading(false);
       return
     }
-    // let PreSalesRegistration = {
-    //   organizationName: this.businessForm.value.orgName,
-    //   countryID: this.selected_country.id,
-    //   countryPhoneCode: this.phoneCode,
-    //   telePhone: this.phoneCode + this.businessForm.value.phone,
-    //   socialAccountID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.selectedSocialsite.socialMediaPortalsID : null,
-    //   socialAccountName: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.socialSites : null,
-    //   addressLine1: this.businessForm.value.address,
-    //   addressLine2: this.businessForm.value.address2,
-    //   city: this.businessForm.value.city,
-    //   poBox: (this.businessForm.value.poBoxNo) ? this.businessForm.value.poBoxNo : null,
-    //   firstName: this.personalInfoForm.value.firstName,
-    //   lastName: this.personalInfoForm.value.lastName,
-    //   jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.baseLanguage : this.personalInfoForm.value.jobTitle,
-    //   mobileNumber: this.mobileCode + this.personalInfoForm.value.telephone,
-    //   emailAddress: this.personalInfoForm.value.email,
-    // }
-    // let PreSalesRegistrationOL = {
-    //   organizationName: this.businessForm.value.transLangOrgName,
-    //   countryID: this.selected_country.id,
-    //   countryPhoneCode: this.transPhoneCode,
-    //   telePhone: this.businessForm.value.transLangPhone + this.transPhoneCode,
-    //   socialAccountID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length) ? this.selectedSocialsite.socialMediaPortalsID : null,
-    //   socialAccountName: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length) ? this.socialSites : null,
-    //   addressLine1: this.businessForm.value.transAddress,
-    //   addressLine2: this.businessForm.value.transAddress2,
-    //   city: this.businessForm.value.transCity,
-    //   poBox: (this.businessForm.value.poBoxNoAr) ? this.businessForm.value.poBoxNoAr : null,
-    //   firstName: this.personalInfoForm.value.transLangfirstName,
-    //   lastName: this.personalInfoForm.value.transLanglastName,
-    //   jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.otherLanguage : this.personalInfoForm.value.transLangjobTitle,
-    //   mobileNumber: this.personalInfoForm.value.transLangtelephone + this.transmobileCode,
-    //   emailAddress: this.personalInfoForm.value.transLangEmail,
-    // }
     let UserObjectBL = {
       primaryEmail: this.personalInfoForm.value.email,
       firstName: this.personalInfoForm.value.firstName,
@@ -815,6 +781,8 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     let obj = {
       logisticServiceID: this.serviceIds,
       countryID: this.selected_country.id,
+      socialMediaPortalsID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.selectedSocialsite.socialMediaPortalsID : null,
+      linkURL: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.socialSites : null,
       companyOL: (this.showTranslatedLangSide) ? CompanyObjectOL : null,
       companyBL: CompanyObjectBL,
       userBL: UserObjectBL,

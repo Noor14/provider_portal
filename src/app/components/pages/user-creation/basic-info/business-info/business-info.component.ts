@@ -62,7 +62,7 @@ export class BusinessInfoComponent implements OnInit {
     let selectedItem = selectedService.classList;
     if (this.frtService && this.frtService.length) {
       for (var i = 0; i < this.frtService.length; i++) {
-        if (this.frtService[i].logServID == obj.logServID) {
+        if (this.frtService[i] == obj.logServID) {
           this.frtService.splice(i, 1);
           selectedItem.remove('active');
           return;
@@ -79,7 +79,7 @@ export class BusinessInfoComponent implements OnInit {
     let selectedItem = selectedService.classList;
     if (this.valueService && this.valueService.length) {
       for (var i = 0; i < this.valueService.length; i++) {
-        if (this.valueService[i].logServID == obj.logServID) {
+        if (this.valueService[i] == obj.logServID) {
           this.valueService.splice(i, 1);
           selectedItem.remove('active');
           return;
@@ -97,7 +97,7 @@ export class BusinessInfoComponent implements OnInit {
     let selectedItem = selectedService.classList;
     if (this.assocService && this.assocService.length) {
       for (var i = 0; i < this.assocService.length; i++) {
-        if (this.assocService[i].assnWithID == obj.assnWithID) {
+        if (this.assocService[i] == obj.assnWithID) {
           this.assocService.splice(i, 1);
           selectedItem.remove('active');
           return;
@@ -117,6 +117,9 @@ export class BusinessInfoComponent implements OnInit {
         this.valAddedServices = res.returnObject.services.valueAddedServices;
       }
     })
+  }
+  removeSelectedDocx(obj){
+
   }
 
   selectDocx(selectedFiles: NgFilesSelected): void {
