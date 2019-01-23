@@ -1,7 +1,7 @@
 <section class="businessDetail">
   <h3 class="title">Setup your business profile</h3>
   <p class="sub-title">It takes only a few minutes to send us your basic information.</p>
-  <section class="info mt-3">
+  <section class="info mt-5">
     <h5 class="m-0">Business Information</h5>
     <hr class="hr-solid">
     <div class="row">
@@ -11,12 +11,44 @@
           <input type="text" class="form-control" placeholder="Texpo LLC">
         </div>
       </div>
-      <div class="col-6"></div>
     </div>
-    <div class="row">
+    <div class="document mt-2 row">
+      <div class="col-3">
+        <div class="form-group">
+          <label>Company Logo</label>
+          <div class="document-Info d-flex flex-column mb-0">
+              <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedFiles && selectedFiles.DocumentFileName">
+                <div class="fileDesc">
+                  <a [href]="selectedFiles.DocumentFile" target="_blank">
+                    <img *ngIf="selectedFiles.DocumentUploadedFileType == 'pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs"
+                      class="fileIcon mr-3">
+                    <img *ngIf="selectedFiles.DocumentUploadedFileType == 'png' || selectedFiles.DocumentUploadedFileType == 'jpeg'" src="../../../../../../assets/images/icons/icon_img.svg"
+                      alt="img" class="fileIcon mr-3">
+                    <img *ngIf="selectedFiles.DocumentUploadedFileType == 'docx'" src="../../../../../../assets/images/icons/icon_docx.svg" alt="img"
+                      class="fileIcon mr-3">
+                    <span>{{selectedFiles.DocumentFileName}}</span>
+                  </a>
+                </div>
+                <div class="del">
+                  <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx(selectedFiles)">
+                </div>
+              </div>
+              <div class="file-uploader company-logo">
+                <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event)" [configId]="'config'">
+                  <img src="../../../assets/images/icons/manager-icon.png">
+                  <p class="m-0 mt-3">Drag here or
+                  <span class="browse-span">browse</span> to upload</p>
+                </app-ng-files-drag-n-upload>
+              </div>
+            </div>          
+        </div>
+      </div>
+      
+    </div>
+   <!-- <div class="row">
       <div class="col-6">
           <label>Company Logo</label>
-          <!-- <div class="document-Info d-flex flex-column">
+           <div class="document-Info d-flex flex-column">
             <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedFiles && selectedFiles.DocumentFileName">
               <div class="fileDesc">
                 <a [href]="selectedFiles.DocumentFile" target="_blank">
@@ -41,15 +73,15 @@
                 <small class="drag-support"> (supported types: pdf, jpeg, png, Maximum size per document: 4 MB) </small>
               </app-ng-files-drag-n-upload>
             </div>
-          </div> -->
+          </div> 
       </div>
       <div class="col-6"></div>
-    </div>
+    </div>-->
   </section>
-  <section class="services mt-3">
+  <section class="services mt-5">
     <h5 class="m-0">Services</h5>
-    <small>Select the services your company provides.</small>
-    <hr class="hr-solid">
+    <small class="sub-title">Select the services your company provides.</small>
+    <hr class="hr-solid mb-4">
     <div class="row">
       <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12">
         <div #selectService class="servicechip-provides text-center d-flex flex-column justify-content-center mb-2 pointer">
@@ -73,33 +105,37 @@
       </div>
     </div>
   </section>
-  <section class="services mt-3">
+  <section class="services mt-5">
     <h5 class="m-0">Value Added Services</h5>
-    <small>Select the value added services your company provides.</small>
-    <hr class="hr-solid">
+    <small class="sub-title">Select the value added services your company provides.</small>
+    <hr class="hr-solid mb-4">
     <div class="row">
       <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12">
         <div #selectService class="servicechip-valueAdded text-center d-flex flex-column justify-content-center mb-2 pointer">
-          <span>Sea Freight</span>
+          <span>Custom Clearance</span>
         </div>
       </div>
       <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12">
         <div #selectService class="servicechip-valueAdded text-center d-flex flex-column justify-content-center mb-2 pointer">
-          <span>Air Freight</span>
+          <span>Insurance</span>
         </div>
       </div>
 
     </div>
   </section>
-  <section class="services mt-3">
-    <h5 class="m-0">A Bit More Information</h5>
-    <hr class="hr-solid">
-    <div class="form-group">
-      <span class="fieldtitle">About Your Business</span>
-      <textarea cols="30" rows="5" class="form-control" placeholder="Tell us something about your business"></textarea>
-    </div>
-    <span class="fieldtitle">Associations</span>
+  <section class="services mt-5">
     <div class="row">
+      <div class="col-12">
+          <h5 class="m-0">A Bit More Information</h5>
+          <hr class="hr-solid">
+          <div class="form-group">
+            <label>About Your Business</label>
+            <textarea cols="30" rows="5" class="form-control" placeholder="Tell us something about your business"></textarea>
+          </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <label class="sub-title col-12">Associations</label>
       <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12">
         <div #selectService class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-2 pointer">
           <span>Sea Freight</span>
@@ -110,45 +146,73 @@
           <span>Air Freight</span>
         </div>
       </div>
-
-    </div>
-
-
-  </section>
-  <section class="document mt-3">
-    <div class="d-flex flex-column">
-      <span class="fieldtitle">Gallery</span>
-      <small>Upload photos and videos upto 5mb</small>
-    </div>
-    <div class="document-Info d-flex flex-column">
-      <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedFiles && selectedFiles.DocumentFileName">
-        <div class="fileDesc">
-          <a [href]="selectedFiles.DocumentFile" target="_blank">
-            <img *ngIf="selectedFiles.DocumentUploadedFileType == 'pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs"
-              class="fileIcon mr-3">
-            <img *ngIf="selectedFiles.DocumentUploadedFileType == 'png' || selectedFiles.DocumentUploadedFileType == 'jpeg'" src="../../../../../../assets/images/icons/icon_img.svg"
-              alt="img" class="fileIcon mr-3">
-            <img *ngIf="selectedFiles.DocumentUploadedFileType == 'docx'" src="../../../../../../assets/images/icons/icon_docx.svg" alt="img"
-              class="fileIcon mr-3">
-            <span>{{selectedFiles.DocumentFileName}}</span>
-          </a>
-        </div>
-        <div class="del">
-          <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx(selectedFiles)">
-        </div>
-      </div>
-      <div class="file-uploader">
-        <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event)" [configId]="'config'">
-          <img src="../../../assets/images/icons/manager-icon.png">
-          <p class="m-0 mt-3">Drag here or
-          <span class="browse-span">browse</span> to upload</p>
-          <small class="drag-support"> (supported types: pdf, jpeg, png, Maximum size per document: 4 MB) </small>
-        </app-ng-files-drag-n-upload>
-      </div>
     </div>
   </section>
+  <section class="document mt-5 row">
+      <div class="col-12">
+        <div class="form-group">
+          <label class="mb-0">Gallery</label>
+          <small class="sub-title">Upload photos and videos upto 5mb</small>
+          <div class="document-Info d-flex flex-column mt-2">
+              <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedFiles && selectedFiles.DocumentFileName">
+                <div class="fileDesc">
+                  <a [href]="selectedFiles.DocumentFile" target="_blank">
+                    <img *ngIf="selectedFiles.DocumentUploadedFileType == 'pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs"
+                      class="fileIcon mr-3">
+                    <img *ngIf="selectedFiles.DocumentUploadedFileType == 'png' || selectedFiles.DocumentUploadedFileType == 'jpeg'" src="../../../../../../assets/images/icons/icon_img.svg"
+                      alt="img" class="fileIcon mr-3">
+                    <img *ngIf="selectedFiles.DocumentUploadedFileType == 'docx'" src="../../../../../../assets/images/icons/icon_docx.svg" alt="img"
+                      class="fileIcon mr-3">
+                    <span>{{selectedFiles.DocumentFileName}}</span>
+                  </a>
+                </div>
+                <div class="del">
+                  <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx(selectedFiles)">
+                </div>
+              </div>
+              <div class="file-uploader">
+                <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event)" [configId]="'config'">
+                  <img src="../../../assets/images/icons/manager-icon.png">
+                  <p class="m-0 mt-3">Drag here or
+                  <span class="browse-span">browse</span> to upload</p>
+                </app-ng-files-drag-n-upload>
+              </div>
+            </div>         
+        </div>
+      </div>
+      <div class="col-12">
+          <div class="form-group">
+            <label class="mb-0">Awards & Certificates</label>
+            <small class="sub-title">Upload photos and videos upto 5mb</small>
+            <div class="document-Info d-flex flex-column mt-2">
+                <div class="uploaded-file d-flex justify-content-between align-items-center p-3" *ngIf="selectedFiles && selectedFiles.DocumentFileName">
+                  <div class="fileDesc">
+                    <a [href]="selectedFiles.DocumentFile" target="_blank">
+                      <img *ngIf="selectedFiles.DocumentUploadedFileType == 'pdf'" src="../../../../../../assets/images/icons/icon_doc.svg" alt="docs"
+                        class="fileIcon mr-3">
+                      <img *ngIf="selectedFiles.DocumentUploadedFileType == 'png' || selectedFiles.DocumentUploadedFileType == 'jpeg'" src="../../../../../../assets/images/icons/icon_img.svg"
+                        alt="img" class="fileIcon mr-3">
+                      <img *ngIf="selectedFiles.DocumentUploadedFileType == 'docx'" src="../../../../../../assets/images/icons/icon_docx.svg" alt="img"
+                        class="fileIcon mr-3">
+                      <span>{{selectedFiles.DocumentFileName}}</span>
+                    </a>
+                  </div>
+                  <div class="del">
+                    <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del" class="icon-size-16 pointer" (click)="removeSelectedDocx(selectedFiles)">
+                  </div>
+                </div>
+                <div class="file-uploader">
+                  <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event)" [configId]="'config'">
+                    <img src="../../../assets/images/icons/manager-icon.png">
+                    <p class="m-0 mt-3">Drag here or
+                    <span class="browse-span">browse</span> to upload</p>
+                  </app-ng-files-drag-n-upload>
+                </div>
+              </div>         
+          </div>
+        </div>
+    </section>
   <div class="d-flex justify-content-end">
     <button class="btn btn-primary hvr-sweep-to-right">CREATE PROFILE</button>
   </div>
-
 </section>
