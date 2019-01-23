@@ -186,7 +186,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
         this.getMapLatlng(obj);
       }
     })
-    this.getCompanyActivities();
     this.getsocialList();
 
   }
@@ -225,6 +224,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
           this.selectTelCode(selectedCountry);
           this.countryWiseMaping(country);
           this.getListJobTitle(country.id);
+          this.getCompanyActivities();
         }
       }
     }, (err: HttpErrorResponse) => {
@@ -236,7 +236,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     if (country && country.id){
     this.showTranslatedLangSide = (country.desc[0].RegionCode == 'MET') ? true : false;
       this.transLangEmail = '';
-
      this.selectedjobTitle = undefined;
     this.businessForm.reset();
     this.personalInfoForm.reset();
@@ -298,7 +297,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     let description = list.desc;
     this.phoneCode = description[0].CountryPhoneCode;
     this.transPhoneCode = description[0].CountryPhoneCode_OtherLang;
-    this.phoneCountryId = list.id
+    // this.phoneCountryId = list.id
   }
 
   selectTelCode(list) {
@@ -306,7 +305,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     let description = list.desc;
     this.mobileCode = description[0].CountryPhoneCode;
     this.transmobileCode = description[0].CountryPhoneCode_OtherLang;
-    // this.phoneCountryId = list.id
+    this.phoneCountryId = list.id
   }
   onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
     if (!this.showTranslatedLangSide) return;
@@ -446,7 +445,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   getCompanyActivities() {
     this._basicInfoService.getServiceOffered().subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
-        this.serviceOffered = JSON.parse(res.returnObject);
+        this.serviceOffered = res.returnObject;
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
@@ -457,7 +456,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     let selectedItem = selectedService.classList;
     if (this.serviceIds && this.serviceIds.length) {
       for (var i = 0; i < this.serviceIds.length; i++) {
-        if (this.serviceIds[i].ServiceID == obj.ServiceID) {
+        if (this.serviceIds[i].logServID == obj.logServID) {
           this.serviceIds.splice(i, 1);
           selectedItem.remove('active');
           return;
@@ -748,45 +747,78 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       loading(false);
       return
     }
-    let PreSalesRegistration = {
-      organizationName: this.businessForm.value.orgName,
-      countryID: this.selected_country.id,
-      countryPhoneCode: this.phoneCode,
-      telePhone: this.phoneCode + this.businessForm.value.phone,
-      socialAccountID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.selectedSocialsite.socialMediaPortalsID : null,
-      socialAccountName: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.socialSites : null,
-      addressLine1: this.businessForm.value.address,
-      addressLine2: this.businessForm.value.address2,
-      city: this.businessForm.value.city,
-      poBox: (this.businessForm.value.poBoxNo) ? this.businessForm.value.poBoxNo : null,
+    // let PreSalesRegistration = {
+    //   organizationName: this.businessForm.value.orgName,
+    //   countryID: this.selected_country.id,
+    //   countryPhoneCode: this.phoneCode,
+    //   telePhone: this.phoneCode + this.businessForm.value.phone,
+    //   socialAccountID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.selectedSocialsite.socialMediaPortalsID : null,
+    //   socialAccountName: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.socialSites : null,
+    //   addressLine1: this.businessForm.value.address,
+    //   addressLine2: this.businessForm.value.address2,
+    //   city: this.businessForm.value.city,
+    //   poBox: (this.businessForm.value.poBoxNo) ? this.businessForm.value.poBoxNo : null,
+    //   firstName: this.personalInfoForm.value.firstName,
+    //   lastName: this.personalInfoForm.value.lastName,
+    //   jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.baseLanguage : this.personalInfoForm.value.jobTitle,
+    //   mobileNumber: this.mobileCode + this.personalInfoForm.value.telephone,
+    //   emailAddress: this.personalInfoForm.value.email,
+    // }
+    // let PreSalesRegistrationOL = {
+    //   organizationName: this.businessForm.value.transLangOrgName,
+    //   countryID: this.selected_country.id,
+    //   countryPhoneCode: this.transPhoneCode,
+    //   telePhone: this.businessForm.value.transLangPhone + this.transPhoneCode,
+    //   socialAccountID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length) ? this.selectedSocialsite.socialMediaPortalsID : null,
+    //   socialAccountName: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length) ? this.socialSites : null,
+    //   addressLine1: this.businessForm.value.transAddress,
+    //   addressLine2: this.businessForm.value.transAddress2,
+    //   city: this.businessForm.value.transCity,
+    //   poBox: (this.businessForm.value.poBoxNoAr) ? this.businessForm.value.poBoxNoAr : null,
+    //   firstName: this.personalInfoForm.value.transLangfirstName,
+    //   lastName: this.personalInfoForm.value.transLanglastName,
+    //   jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.otherLanguage : this.personalInfoForm.value.transLangjobTitle,
+    //   mobileNumber: this.personalInfoForm.value.transLangtelephone + this.transmobileCode,
+    //   emailAddress: this.personalInfoForm.value.transLangEmail,
+    // }
+    let UserObjectBL = {
+      primaryEmail: this.personalInfoForm.value.email,
       firstName: this.personalInfoForm.value.firstName,
       lastName: this.personalInfoForm.value.lastName,
+      primaryPhone: this.personalInfoForm.value.telephone,
+      countryPhoneCode: this.mobileCode,
+      phoneCodeCountryID: this.phoneCountryId,
       jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.baseLanguage : this.personalInfoForm.value.jobTitle,
-      mobileNumber: this.mobileCode + this.personalInfoForm.value.telephone,
-      emailAddress: this.personalInfoForm.value.email,
     }
-    let PreSalesRegistrationOL = {
-      organizationName: this.businessForm.value.transLangOrgName,
-      countryID: this.selected_country.id,
-      countryPhoneCode: this.transPhoneCode,
-      telePhone: this.businessForm.value.transLangPhone + this.transPhoneCode,
-      socialAccountID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length) ? this.selectedSocialsite.socialMediaPortalsID : null,
-      socialAccountName: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length) ? this.socialSites : null,
-      addressLine1: this.businessForm.value.transAddress,
-      addressLine2: this.businessForm.value.transAddress2,
-      city: this.businessForm.value.transCity,
-      poBox: (this.businessForm.value.poBoxNoAr) ? this.businessForm.value.poBoxNoAr : null,
+    let UserObjectOL = {
+      languageID: this.selected_country.id,
       firstName: this.personalInfoForm.value.transLangfirstName,
       lastName: this.personalInfoForm.value.transLanglastName,
       jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.otherLanguage : this.personalInfoForm.value.transLangjobTitle,
-      mobileNumber: this.personalInfoForm.value.transLangtelephone + this.transmobileCode,
-      emailAddress: this.personalInfoForm.value.transLangEmail,
+      primaryPhone: this.personalInfoForm.value.transLangtelephone + this.transmobileCode,
+    }
+    let CompanyObjectOL = {
+      companyNameOL: this.businessForm.value.transLangOrgName,
+      companyPhone: this.businessForm.value.transLangPhone + this.transPhoneCode,
+      POBox: (this.businessForm.value.poBoxNoAr) ? this.businessForm.value.poBoxNoAr : null,
+      City: this.businessForm.value.transCity,
+      languageID: this.selected_country.id
+    }
+    let CompanyObjectBL = {
+      companyName: this.businessForm.value.orgName,
+      companyAddress: this.businessForm.value.address,
+      companyPhone: this.phoneCode + this.businessForm.value.phone,
+      POBox: (this.businessForm.value.poBoxNo) ? this.businessForm.value.poBoxNo : null,
+      City: this.businessForm.value.city
     }
 
     let obj = {
-      CompanyActivities: JSON.stringify(this.serviceIds),
-      detailBL: PreSalesRegistration,
-      detailOL: (this.showTranslatedLangSide) ? PreSalesRegistrationOL : null
+      logisticServiceID: this.serviceIds,
+      countryID: this.selected_country.id,
+      companyOL: (this.showTranslatedLangSide) ? CompanyObjectOL : null,
+      companyBL: CompanyObjectBL,
+      userBL: UserObjectBL,
+      userOL: (this.showTranslatedLangSide) ? UserObjectOL : null,
     }
 
     this._basicInfoService.createProviderAccount(obj).subscribe((res: any) => {

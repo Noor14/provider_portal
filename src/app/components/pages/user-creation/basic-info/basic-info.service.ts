@@ -47,11 +47,11 @@ export class BasicInfoService {
     return this._http.post(baseApi + url, obj);
   }
   createProviderAccount(obj) {
-    let url: string = "presales/Registration";
+    let url: string = "ProviderRegistration/Register";
     return this._http.post(baseApi + url, obj);
   }
   getServiceOffered() {
-    let url: string = "usersprovider/ServiceOffered";
+    let url: string = "ProviderRegistration/GetProviderLogisticServices";
     return this._http.get(baseApi + url);
   }
   socialList() {
