@@ -6,9 +6,7 @@
             border: 1px solid $input-border;
             background: $white-color;
             position: relative;
-            span:nth-child(2) {
-                font-family: $font-NeoSansArabic-Regular;
-            }
+            font-family: $font-proxima;
             &.active {
                 box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
                 border-radius: 4px;
@@ -31,6 +29,13 @@
             &-asscoiation {
                 @extend .servicechip;
                 height: 150px;
+                padding: 1rem;
+
+                img {
+                    width: 40%;
+                    align-self: center;
+                    margin-bottom: 0.7rem;
+                }
             }
         }
     }
@@ -82,5 +87,8 @@
                 border: none;
             }
         }
+    }
+    input[placeholder="Company Name"] {
+        cursor: no-drop;
     }
 }
