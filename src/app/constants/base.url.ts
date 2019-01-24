@@ -20,8 +20,8 @@ else if (environment.prod) {
 }
 else{
     // PERSONAL URL
-    baseApi = "http://10.20.1.61/api/";
-    baseExternalAssets = "http://10.20.1.61";
+    baseApi = "http://10.20.1.53/api/";
+    baseExternalAssets = "http://10.20.1.53";
 } 
 
 

@@ -792,7 +792,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       if (res.returnStatus == "Success") {
         this._toastr.success(res.returnText, '');
         let key = Base64.encode(res.returnObject.userID);
-        localStorage.setItem('userInfo', JSON.stringify(res));
         this._router.navigate(['/password', key])
         loading(false);
       }
