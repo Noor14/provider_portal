@@ -292,7 +292,7 @@
                 }">
                 <div ngbDropdown class="select-country-list">
                   <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                    <span *ngIf="selectedSocialsite.title">{{selectedSocialsite.title}}</span>
+                    <span *ngIf="selectedSocialsite && selectedSocialsite.title">{{selectedSocialsite.title}}</span>
                   </div>
                   <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="social">
                     <ul class="list-group">
@@ -324,7 +324,7 @@
                    }">
                 <div ngbDropdown class="select-country-list">
                   <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                    <span *ngIf="selectedSocialsite.title">{{selectedSocialsite.title}}</span>
+                    <span *ngIf="selectedSocialsite && selectedSocialsite.title">{{selectedSocialsite.title}}</span>
                   </div>
                   <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="social">
                     <ul class="list-group">

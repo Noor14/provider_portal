@@ -186,7 +186,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
         this.getMapLatlng(obj);
       }
     })
-    this.getsocialList();
 
   }
   getsocialList() {
@@ -224,6 +223,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
           this.selectTelCode(selectedCountry);
           this.countryWiseMaping(country);
           this.getListJobTitle(country.id);
+          this.getsocialList();
           this.getCompanyActivities();
         }
       }

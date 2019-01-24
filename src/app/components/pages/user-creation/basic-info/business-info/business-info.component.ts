@@ -57,7 +57,7 @@ export class BusinessInfoComponent implements OnInit {
   public orgName:string;
 
   public userName:string;
-  public addBusinessbtnEnabled: boolean = true;
+  public addBusinessbtnEnabled = undefined;
   constructor(
     private _toastr: ToastrService,
     private _basicInfoService: BasicInfoService,
@@ -88,15 +88,15 @@ export class BusinessInfoComponent implements OnInit {
       this.debounceInput.next(this.userName);
       this.debounceInput.pipe(debounceTime(1200), distinctUntilChanged()).subscribe(userName => {
         if(oldName != userName){
-          this.addBusinessbtnEnabled = true; 
+          this.addBusinessbtnEnabled = undefined; 
         }
         this._basicInfoService.validateUserName(userName).subscribe((res: any) => {
           if (res.returnStatus == "Success") {
             oldName = userName;
-            this.addBusinessbtnEnabled = false; 
+            this.addBusinessbtnEnabled = true;
           }
           else{
-            this.addBusinessbtnEnabled = true; 
+            this.addBusinessbtnEnabled = false; 
           }
         }, (err: HttpErrorResponse) => {
           console.log(err)
@@ -104,7 +104,7 @@ export class BusinessInfoComponent implements OnInit {
       })
     }
     else{
-      this.addBusinessbtnEnabled = true; 
+      this.addBusinessbtnEnabled = undefined; 
     }
   }
 
