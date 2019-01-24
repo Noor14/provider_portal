@@ -5,6 +5,22 @@
     <h5 class="m-0">Business Information</h5>
     <hr class="hr-solid">
     <div class="row">
+      <div class="col-6 form-group">
+        <label>Profile Validate</label>
+        <div class="row form-group">
+          <div class="col-1 pr-0">
+            <img src="../../../assets/images/icons/icon_close_red.svg" alt="icon" class="icon-size-16  mt-3" />
+          </div>
+          <div class="col-6 pl-0">
+            <input type="text" class="form-control" placeholder="Profile">
+          </div>
+          <div class="col-5">
+            <button class="btn btn-primary hvr-sweep-to-right mt-1">CREATE PROFILE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-6">
         <div class="form-group">
           <label>Company Name</label>
@@ -17,22 +33,22 @@
         <div class="form-group">
           <label>Company Logo</label>
           <div class="document-Info d-flex flex-column mb-0">
-              <div class="file-uploader company-logo" *ngIf="!selectedDocxlogo || (selectedDocxlogo && !selectedDocxlogo?.DocumentFile)">
-                <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'logo')" [configId]="'config'">
-                  <img src="../../../assets/images/icons/manager-icon.png">
-                  <p class="m-0 mt-3">Drag here or
+            <div class="file-uploader company-logo" *ngIf="!selectedDocxlogo || (selectedDocxlogo && !selectedDocxlogo?.DocumentFile)">
+              <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'logo')" [configId]="'config'">
+                <img src="../../../assets/images/icons/manager-icon.png">
+                <p class="m-0 mt-3">Drag here or
                   <span class="browse-span">browse</span> to upload</p>
-                </app-ng-files-drag-n-upload>
-              </div>
-              <div class="row uploadedDocx" *ngIf="selectedDocxlogo && selectedDocxlogo?.DocumentFile">
-                  <div class="col-lg-12">
-                    <div class="display-upload delete">
-                      <img [src]="selectedDocxlogo.DocumentFile" class="w-100" alt="logo">
-                      <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx('index', selectedDocxlogo, 'logo')">
-                    </div>
-                  </div>
-                </div> 
+              </app-ng-files-drag-n-upload>
             </div>
+            <div class="row uploadedDocx" *ngIf="selectedDocxlogo && selectedDocxlogo?.DocumentFile">
+              <div class="col-lg-12">
+                <div class="display-upload delete">
+                  <img [src]="selectedDocxlogo.DocumentFile" class="w-100" alt="logo">
+                  <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx('index', selectedDocxlogo, 'logo')">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -54,7 +70,7 @@
     <small class="sub-title">Select the value added services your company provides.</small>
     <hr class="hr-solid mb-4">
     <div class="row">
-       <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of valAddedServices">
+      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of valAddedServices">
         <div #selectService class="servicechip-valueAdded text-center d-flex flex-column justify-content-center mb-2 pointer" (click)="valAdded(service, selectService)">
           <span>{{service.logServName}}</span>
         </div>
@@ -64,17 +80,17 @@
   <section class="services mt-5">
     <div class="row">
       <div class="col-12">
-          <h5 class="m-0">A Bit More Information</h5>
-          <hr class="hr-solid">
-          <div class="form-group">
-            <label>About Your Business</label>
-            <textarea cols="30" [(ngModel)]="aboutUs" rows="5" class="form-control" placeholder="Tell us something about your business"></textarea>
-          </div>
+        <h5 class="m-0">A Bit More Information</h5>
+        <hr class="hr-solid">
+        <div class="form-group">
+          <label>About Your Business</label>
+          <textarea cols="30" [(ngModel)]="aboutUs" rows="5" class="form-control" placeholder="Tell us something about your business"></textarea>
+        </div>
       </div>
     </div>
     <div class="row form-group">
       <label class="sub-title col-12">Associations</label>
-         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let associate of allAssociations">
+      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let associate of allAssociations">
         <div #selectService class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-2 pointer" (click)="selectAssociation(associate, selectService)">
           <img [src]="baseExternalAssets + associate.assnWithImage" alt="assoc_image">
           <span>{{associate.assnWithName}}</span>
@@ -83,56 +99,56 @@
     </div>
   </section>
   <section class="document mt-5 row">
-      <div class="col-12">
-        <div class="form-group">
-          <label class="mb-0">Gallery</label>
-          <small class="sub-title">Upload photos and videos upto 5mb</small>
-          <div class="document-Info d-flex flex-column mt-2">
-              <div class="file-uploader">
-                <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'gallery')" [configId]="'config'">
-                  <img src="../../../assets/images/icons/manager-icon.png">
-                  <p class="m-0 mt-3">Drag here or
-                  <span class="browse-span">browse</span> to upload</p>
-                </app-ng-files-drag-n-upload>
-              </div>
-              <div class="row uploadedDocx" *ngIf="selectedGalleryDocx && selectedGalleryDocx.length">
-                  <div class="col-lg-3" *ngFor="let galleryDocx of selectedGalleryDocx; let i = index ">
-                    <div class="display-upload delete">
-                      <!-- <video class="animated fadeIn" controls>
+    <div class="col-12">
+      <div class="form-group">
+        <label class="mb-0">Gallery</label>
+        <small class="sub-title">Upload photos and videos upto 5mb</small>
+        <div class="document-Info d-flex flex-column mt-2">
+          <div class="file-uploader">
+            <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'gallery')" [configId]="'config'">
+              <img src="../../../assets/images/icons/manager-icon.png">
+              <p class="m-0 mt-3">Drag here or
+                <span class="browse-span">browse</span> to upload</p>
+            </app-ng-files-drag-n-upload>
+          </div>
+          <div class="row uploadedDocx" *ngIf="selectedGalleryDocx && selectedGalleryDocx.length">
+            <div class="col-lg-3" *ngFor="let galleryDocx of selectedGalleryDocx; let i = index ">
+              <div class="display-upload delete">
+                <!-- <video class="animated fadeIn" controls>
                         <source src="" type="video/mp4">
                       </video> -->
-                      <img class="w-100" [src]="galleryDocx.DocumentFile">
-                      <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(i, galleryDocx, 'gallery')">
-                    </div>
-                  </div>
-                </div> 
+                <img class="w-100" [src]="galleryDocx.DocumentFile">
+                <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(i, galleryDocx, 'gallery')">
+              </div>
             </div>
-        </div>
-      </div>
-      <div class="col-12">
-          <div class="form-group">
-            <label class="mb-0">Awards & Certificates</label>
-            <small class="sub-title">Upload photos and videos upto 5mb</small>
-            <div class="document-Info d-flex flex-column mt-2">
-                <div class="file-uploader">
-                  <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
-                    <img src="../../../assets/images/icons/manager-icon.png">
-                    <p class="m-0 mt-3">Drag here or
-                    <span class="browse-span">browse</span> to upload</p>
-                  </app-ng-files-drag-n-upload>
-                </div>
-                <div class="row uploadedDocx" *ngIf="selectedCertificateDocx && selectedCertificateDocx.length">
-                    <div class="col-lg-3" *ngFor="let certDocx of selectedCertificateDocx; let i = index ">
-                      <div class="display-upload delete">
-                        <img class="w-100" [src]="certDocx.DocumentFile">
-                        <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(i, certDocx, 'certificate')">
-                      </div>
-                    </div>
-                  </div> 
-              </div> 
           </div>
         </div>
-    </section>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="form-group">
+        <label class="mb-0">Awards & Certificates</label>
+        <small class="sub-title">Upload photos and videos upto 5mb</small>
+        <div class="document-Info d-flex flex-column mt-2">
+          <div class="file-uploader">
+            <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
+              <img src="../../../assets/images/icons/manager-icon.png">
+              <p class="m-0 mt-3">Drag here or
+                <span class="browse-span">browse</span> to upload</p>
+            </app-ng-files-drag-n-upload>
+          </div>
+          <div class="row uploadedDocx" *ngIf="selectedCertificateDocx && selectedCertificateDocx.length">
+            <div class="col-lg-3" *ngFor="let certDocx of selectedCertificateDocx; let i = index ">
+              <div class="display-upload delete">
+                <img class="w-100" [src]="certDocx.DocumentFile">
+                <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(i, certDocx, 'certificate')">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   <div class="d-flex justify-content-end">
     <button class="btn btn-primary hvr-sweep-to-right" [disabled]="!aboutUs" (click)="createProfile()">CREATE PROFILE</button>
   </div>
