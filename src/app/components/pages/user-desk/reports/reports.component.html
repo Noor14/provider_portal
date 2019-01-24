@@ -47,7 +47,7 @@
         </div>
         <div class="totalspend-quantity">
           <span class="currency">{{userGraphData?.currentVsPrevious[0]?.currencyCode}}</span>
-          <span class="spends text-truncate" placement="top" ngbTooltip="{{userGraphData?.currentVsPrevious[0]?.totalAmount | number: '1.2-2'}}">{{userGraphData?.currentVsPrevious[0]?.totalAmount | number: '1.2-2'}}</span>
+          <span class="spends text-truncate" placement="top" ngbTooltip="{{userGraphData?.currentVsPrevious[0]?.currencyCode}} {{userGraphData?.currentVsPrevious[0]?.totalAmount | number: '1.2-2'}}">{{userGraphData?.currentVsPrevious[0]?.totalAmount | number: '1.2-2'}}</span>
           <span [ngClass]="(userGraphData?.currentVsPrevious[0]?.amountComp < 0)?'status-down':'status-up'">
             <img *ngIf="userGraphData?.currentVsPrevious[0]?.amountComp < 0" src="../../../../../assets/images/icons/icon-status-down.svg">
             <img *ngIf="userGraphData?.currentVsPrevious[0]?.amountComp >= 0" src="../../../../../assets/images/icons/icon-status-up.svg"> {{userGraphData?.currentVsPrevious[0]?.amountComp | number: '1.2-2'}} %
@@ -68,7 +68,8 @@
         </div>
         <div class="totalspend-quantity">
           <span class="currency">{{userGraphData?.currentVsPrevious[1]?.currencyCode}}</span>
-          <span class="spends">{{userGraphData?.currentVsPrevious[1]?.totalAmount | number: '1.2-2'}}</span>
+          <span class="spends text-truncate" placement="top" ngbTooltip="{{userGraphData?.currentVsPrevious[0]?.currencyCode}} {{userGraphData?.currentVsPrevious[0]?.totalAmount
+          | number: '1.2-2'}}">{{userGraphData?.currentVsPrevious[1]?.totalAmount | number: '1.2-2'}}</span>
         </div>
         <div class="bookings">{{userGraphData?.currentVsPrevious[1]?.totalBooking | number: '1.0-0'}} Bookings</div>
       </div>

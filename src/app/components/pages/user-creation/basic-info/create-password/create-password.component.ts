@@ -119,10 +119,9 @@ export class CreatePasswordComponent implements OnInit {
     this._sharedService.getUserOtpVerified.subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.userInfo = res.returnObject;
-        this.passForm.controls['email'].setValue(this.userInfo.primaryEmail);
+        this.passForm.controls['email'].setValue(this.userInfo.email);
         this.showTranslatedLangSide = (this.userInfo && this.userInfo.regionCode == "MET") ? true : false;
         this.getlabelsDescription(this.userInfo);
-        // this._sharedService.formProgress.next(30);
         // console.log(this.userInfo);
       }
     }, (err: HttpErrorResponse) => {
@@ -133,7 +132,7 @@ export class CreatePasswordComponent implements OnInit {
   passwordSubmit(data) {
     loading(true);
     let obj = {
-      otpKey: this.userInfo.key,
+      userID: this.userInfo.userID,
       password: data.password
     }
     this._basicInfoService.createPaasword(obj).subscribe((res: any) => {
