@@ -106,7 +106,7 @@
     input[placeholder="Company Name"] {
         cursor: no-drop;
     }
-    svg.available {
+    svg.available, svg.not-available {
         position: absolute;
         right: 12px;
         bottom: 12px;
