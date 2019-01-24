@@ -8,6 +8,8 @@ import { BasicInfoService } from '../basic-info.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { loading } from '../../../../../constants/globalFunctions';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-business-info',
@@ -16,6 +18,7 @@ import { loading } from '../../../../../constants/globalFunctions';
   styleUrls: ['./business-info.component.scss']
 })
 export class BusinessInfoComponent implements OnInit {
+  public debounceInput: Subject<string> = new Subject();
   public baseExternalAssets: string = baseExternalAssets;
   public frtService: any[] = [];
   public valueService: any[] = [];
@@ -52,6 +55,9 @@ export class BusinessInfoComponent implements OnInit {
   public certficateDocx: any;
   public galleriesDocx:any;
   public orgName:string;
+
+  public userName:string;
+  public addBusinessbtnEnabled: boolean = true;
   constructor(
     private _toastr: ToastrService,
     private _basicInfoService: BasicInfoService,
@@ -74,6 +80,29 @@ export class BusinessInfoComponent implements OnInit {
     }
     this.getbusinessServices();
   }
+
+
+  validateUserName() {
+    if (this.userName) {
+      this.debounceInput.next(this.userName);
+      this.debounceInput.pipe(debounceTime(1500), distinctUntilChanged()).subscribe(userName => {
+        this._basicInfoService.validateUserName(userName).subscribe((res: any) => {
+          if (res.returnStatus == "Success") {
+            this.addBusinessbtnEnabled = false; 
+          }
+          else{
+            this.addBusinessbtnEnabled = true; 
+          }
+        }, (err: HttpErrorResponse) => {
+          console.log(err)
+        })
+      })
+    }
+    else{
+      this.addBusinessbtnEnabled = true; 
+    }
+  }
+
 
   freightService(obj, selectedService) {
     let selectedItem = selectedService.classList;
@@ -298,6 +327,7 @@ removeSelectedDocx(index,  obj, type) {
       vasServiceIds: this.valueService,
       providerID: this.userProfile.ProviderID,
       aboutUs: this.aboutUs,
+      profileID: this.userName
     }
     this._basicInfoService.addBusinessInfo(obj).subscribe((res:any)=>{
       if(res && res.returnStatus == 'Success'){

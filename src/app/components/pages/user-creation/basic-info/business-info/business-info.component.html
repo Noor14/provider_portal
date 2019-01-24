@@ -8,15 +8,12 @@
       <div class="col-6 form-group">
         <label>Profile Validate</label>
         <div class="row form-group">
-          <div class="col-1 pr-0">
-            <img src="../../../assets/images/icons/icon_close_red.svg" alt="icon" class="icon-size-16  mt-3" />
-          </div>
           <div class="col-6 pl-0">
-            <input type="text" class="form-control" placeholder="Profile">
+            <input type="text" class="form-control" placeholder="Username" [(ngModel)]="userName" (ngModelChange)="validateUserName()">
           </div>
-          <div class="col-5">
-            <button class="btn btn-primary hvr-sweep-to-right mt-1">CREATE PROFILE</button>
-          </div>
+            <div class="col-1 pr-0">
+              <img src="../../../assets/images/icons/icon_close_red.svg" alt="icon" class="icon-size-16  mt-3" />
+            </div>
         </div>
       </div>
     </div>
@@ -150,6 +147,6 @@
     </div>
   </section>
   <div class="d-flex justify-content-end">
-    <button class="btn btn-primary hvr-sweep-to-right" [disabled]="!aboutUs" (click)="addCorperateInfo()">CREATE PROFILE</button>
+    <button class="btn btn-primary hvr-sweep-to-right" [disabled]="!aboutUs || addBusinessbtnEnabled" (click)="addCorperateInfo()">CREATE PROFILE</button>
   </div>
 </section>

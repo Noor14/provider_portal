@@ -76,4 +76,9 @@ export class BasicInfoService {
     return this._http.post(baseApi + url, obj);
   }
 
+  validateUserName(userName) {
+    let url: string = `providerregistration/CheckProfileID/${userName}`;
+    return this._http.get(baseApi + url);
+  }
+
 }
