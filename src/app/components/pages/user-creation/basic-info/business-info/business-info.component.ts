@@ -6,6 +6,8 @@ import { JsonResponse } from '../../../../../interfaces/JsonResponse';
 import { baseExternalAssets } from '../../../../../constants/base.url';
 import { BasicInfoService } from '../basic-info.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { loading } from '../../../../../constants/globalFunctions';
 
 @Component({
   selector: 'app-business-info',
@@ -26,7 +28,8 @@ export class BusinessInfoComponent implements OnInit {
   public selectedDocxlogo: any;
   public selectedGalleryDocx: any[] = [];
   public selectedCertificateDocx: any[] = [];
-  public userProfile: any;
+  private userProfile: any;
+  private userInfo:any
   private docTypeId = null;
   public docxId: any;
   private fileStatus = undefined;
@@ -54,7 +57,7 @@ export class BusinessInfoComponent implements OnInit {
     private _basicInfoService: BasicInfoService,
     private cdRef: ChangeDetectorRef,
     private ngFilesService: NgFilesService,
-    
+    private _router: Router,
   ) {
   }
 
@@ -65,9 +68,9 @@ export class BusinessInfoComponent implements OnInit {
   ngOnInit() {
     this.ngFilesService.addConfig(this.config, 'config');
     // this.ngFilesService.addConfig(this.namedConfig);
-    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if (userInfo && userInfo.returnObject) {
-      this.userProfile = userInfo.returnObject;
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (this.userInfo && this.userInfo.returnText) {
+      this.userProfile = JSON.parse(this.userInfo.returnText);
     }
     this.getbusinessServices();
   }
@@ -287,19 +290,26 @@ removeSelectedDocx(index,  obj, type) {
     return resp
   }
 
-
-  createProfile(){
+  addCorperateInfo(){
+    loading(true);
     let obj = {
       associationIds: this.assocService,
       logisticServiceIds: this.frtService,
       vasServiceIds: this.valueService,
-      providerID: this.userProfile.providerID,
+      providerID: this.userProfile.ProviderID,
       aboutUs: this.aboutUs,
     }
     this._basicInfoService.addBusinessInfo(obj).subscribe((res:any)=>{
       if(res && res.returnStatus == 'Success'){
-
+        this.userProfile.UserProfileStatus = "Dashboard";
+        this.userInfo.returnText = JSON.stringify(this.userProfile);
+        localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
+        loading(false);
+        this._router.navigate(['provider/dashboard']);
       }
+    }, (err: HttpErrorResponse) => {
+      loading(false);
+      console.log(err);
     })
   }
 
