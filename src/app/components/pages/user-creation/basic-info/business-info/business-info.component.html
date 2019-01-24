@@ -5,31 +5,6 @@
     <h5 class="m-0">Business Information</h5>
     <hr class="hr-solid">
     <div class="row">
-      <div class="col-6 form-group">
-        <label>Profile Validate</label>
-        <div class="row form-group">
-          <div class="col-1 pr-0">
-            <!-- <img src="../../../assets/images/icons/icon_close_red.svg" alt="icon" class="icon-size-16  mt-3" /> -->
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
-              <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
-              <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 "/>
-            </svg>
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
-              <circle class="path circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
-              <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
-              <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
-            </svg>
-          </div>
-          <div class="col-6 pl-0">
-            <input type="text" class="form-control" placeholder="Profile">
-          </div>
-          <div class="col-5">
-            <button class="btn btn-primary hvr-sweep-to-right mt-1">CREATE PROFILE</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
       <div class="col-6">
         <div class="form-group">
           <label>Company Name</label>
@@ -91,9 +66,21 @@
       <div class="col-12">
         <h5 class="m-0">A Bit More Information</h5>
         <hr class="hr-solid">
-        <div class="form-group">
+        <div class="form-group position-relative">
           <label>About Your Business</label>
           <textarea cols="30" [(ngModel)]="aboutUs" rows="5" class="form-control" placeholder="Tell us something about your business"></textarea>
+        </div>
+      </div>
+      <div class="col-5">
+        <div class="form-group">
+          <label>Profile Validate</label>
+          <input type="text" class="form-control" placeholder="Username" [(ngModel)]="userName" (ngModelChange)="validateUserName()">
+          <svg *ngIf="!addBusinessbtnEnabled" class="available icon-size-24" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+            <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"
+            />
+            <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10"
+              points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+          </svg>
         </div>
       </div>
     </div>
@@ -159,6 +146,6 @@
     </div>
   </section>
   <div class="d-flex justify-content-end">
-    <button class="btn btn-primary hvr-sweep-to-right" [disabled]="!aboutUs" (click)="createProfile()">CREATE PROFILE</button>
+    <button class="btn btn-primary hvr-sweep-to-right" [disabled]="!aboutUs || addBusinessbtnEnabled" (click)="addCorperateInfo()">CREATE PROFILE</button>
   </div>
 </section>

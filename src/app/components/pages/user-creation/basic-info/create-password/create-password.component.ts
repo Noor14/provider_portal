@@ -147,10 +147,9 @@ export class CreatePasswordComponent implements OnInit {
             localStorage.setItem('userInfo', JSON.stringify(res));
             this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
             this._sharedService.signOutToggler.next(true);
-            this._toast.success('Account successfully created', '');
+            this._toast.success('Password has been created successfully', '');
             this._router.navigate(['business-info']);
           }
-     
         } else {
           this._toast.warning("Please Enable Cookies to use this app", "Cookies Disabled")
           // this._router.navigate(['enable-cookies']);

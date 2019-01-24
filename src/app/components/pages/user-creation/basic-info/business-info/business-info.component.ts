@@ -6,6 +6,10 @@ import { JsonResponse } from '../../../../../interfaces/JsonResponse';
 import { baseExternalAssets } from '../../../../../constants/base.url';
 import { BasicInfoService } from '../basic-info.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { loading } from '../../../../../constants/globalFunctions';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-business-info',
@@ -14,6 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./business-info.component.scss']
 })
 export class BusinessInfoComponent implements OnInit {
+  public debounceInput: Subject<string> = new Subject();
   public baseExternalAssets: string = baseExternalAssets;
   public frtService: any[] = [];
   public valueService: any[] = [];
@@ -26,7 +31,8 @@ export class BusinessInfoComponent implements OnInit {
   public selectedDocxlogo: any;
   public selectedGalleryDocx: any[] = [];
   public selectedCertificateDocx: any[] = [];
-  public userProfile: any;
+  private userProfile: any;
+  private userInfo:any
   private docTypeId = null;
   public docxId: any;
   private fileStatus = undefined;
@@ -49,12 +55,15 @@ export class BusinessInfoComponent implements OnInit {
   public certficateDocx: any;
   public galleriesDocx:any;
   public orgName:string;
+
+  public userName:string;
+  public addBusinessbtnEnabled: boolean = true;
   constructor(
     private _toastr: ToastrService,
     private _basicInfoService: BasicInfoService,
     private cdRef: ChangeDetectorRef,
     private ngFilesService: NgFilesService,
-    
+    private _router: Router,
   ) {
   }
 
@@ -65,12 +74,40 @@ export class BusinessInfoComponent implements OnInit {
   ngOnInit() {
     this.ngFilesService.addConfig(this.config, 'config');
     // this.ngFilesService.addConfig(this.namedConfig);
-    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if (userInfo && userInfo.returnObject) {
-      this.userProfile = userInfo.returnObject;
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (this.userInfo && this.userInfo.returnText) {
+      this.userProfile = JSON.parse(this.userInfo.returnText);
     }
     this.getbusinessServices();
   }
+
+
+  validateUserName() {
+    if (this.userName) {
+      let oldName;
+      this.debounceInput.next(this.userName);
+      this.debounceInput.pipe(debounceTime(1200), distinctUntilChanged()).subscribe(userName => {
+        if(oldName != userName){
+          this.addBusinessbtnEnabled = true; 
+        }
+        this._basicInfoService.validateUserName(userName).subscribe((res: any) => {
+          if (res.returnStatus == "Success") {
+            oldName = userName;
+            this.addBusinessbtnEnabled = false; 
+          }
+          else{
+            this.addBusinessbtnEnabled = true; 
+          }
+        }, (err: HttpErrorResponse) => {
+          console.log(err)
+        })
+      })
+    }
+    else{
+      this.addBusinessbtnEnabled = true; 
+    }
+  }
+
 
   freightService(obj, selectedService) {
     let selectedItem = selectedService.classList;
@@ -287,19 +324,27 @@ removeSelectedDocx(index,  obj, type) {
     return resp
   }
 
-
-  createProfile(){
+  addCorperateInfo(){
+    loading(true);
     let obj = {
       associationIds: this.assocService,
       logisticServiceIds: this.frtService,
       vasServiceIds: this.valueService,
-      providerID: this.userProfile.providerID,
+      providerID: this.userProfile.ProviderID,
       aboutUs: this.aboutUs,
+      profileID: this.userName
     }
     this._basicInfoService.addBusinessInfo(obj).subscribe((res:any)=>{
       if(res && res.returnStatus == 'Success'){
-
+        this.userProfile.UserProfileStatus = "Dashboard";
+        this.userInfo.returnText = JSON.stringify(this.userProfile);
+        localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
+        loading(false);
+        this._router.navigate(['provider/dashboard']);
       }
+    }, (err: HttpErrorResponse) => {
+      loading(false);
+      console.log(err);
     })
   }
 

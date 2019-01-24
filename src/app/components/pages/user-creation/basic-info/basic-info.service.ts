@@ -44,7 +44,7 @@ export class BasicInfoService {
 
   }
   createPaasword(obj) {
-    let url: string = "usersprovider/CreatePassword";
+    let url: string = "providerregistration/CreatePassword";
     return this._http.post(baseApi + url, obj);
   }
   createProviderAccount(obj) {
@@ -74,6 +74,11 @@ export class BasicInfoService {
   addBusinessInfo(obj){
     let url: string = "providerregistration/SetupBusinessProfile";
     return this._http.post(baseApi + url, obj);
+  }
+
+  validateUserName(userName) {
+    let url: string = `providerregistration/CheckProfileID/${userName}`;
+    return this._http.get(baseApi + url);
   }
 
 }
