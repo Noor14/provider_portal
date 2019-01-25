@@ -67,7 +67,7 @@
                           'inputError': orgNameError && businessForm.controls['orgName'].errors
                           }" (focusout)="errorValidate()" (blur)="activeOrgName=false" (focus)="transorgNameError=false; orgNameError=false; activeOrgName=true"
               (ngModelChange)="onModelChange(activeTransOrgName, activeOrgName, 'transLangOrgName', 'en', 'ar' ,$event)" placeholder="Company Name"
-              formControlName="orgName">{{businessForm.controls['orgName'].errors | json}}{{orgNameError}}
+              formControlName="orgName">
             <span *ngIf="orgNameError && businessForm.controls['orgName'].errors">
               <p class="inputError animated fadeIn" *ngIf="businessForm.controls['orgName'].hasError('required') && (businessForm.controls.orgName.dirty || businessForm.controls.orgName.touched)">{{requiredFields}}</p>
               <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['orgName'].hasError('pattern') && businessForm.controls['orgName'].hasError('minlength') && (businessForm.controls.orgName.dirty || businessForm.controls.orgName.touched)">Org name must be at least 4 characters long</p>

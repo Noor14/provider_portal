@@ -791,8 +791,9 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     this._basicInfoService.createProviderAccount(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toastr.success(res.returnText, '');
-        let key = Base64.encode(res.returnObject.userID);
-        this._router.navigate(['/password', key])
+        let id = JSON.parse(res.returnObject).UserID
+        let key = Base64.encode(id);
+        this._router.navigate(['password', key])
         loading(false);
       }
       else {

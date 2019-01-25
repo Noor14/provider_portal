@@ -89,24 +89,11 @@ export class BusinessInfoComponent implements OnInit {
       let oldName;
       this.debounceInput.next(this.userName);
       this.debounceInput.pipe(debounceTime(1200), distinctUntilChanged()).subscribe(userName => {
-        if(oldName != userName){
-          this.addBusinessbtnEnabled = undefined; 
+        if (userName && oldName != userName){
+          this.addBusinessbtnEnabled = undefined;
+          this.validate(oldName, userName);
         }
-        this._basicInfoService.validateUserName(userName).subscribe((res: any) => {
-          if (res.returnStatus == "Success") {
-            oldName = userName;
-            this.addBusinessbtnEnabled = true;
-            this.spinner=false;
-          }
-          else{
-            this.addBusinessbtnEnabled = false; 
-            this.spinner=false;
-          }
-        }, (err: HttpErrorResponse) => {
-          console.log(err);
-          this.addBusinessbtnEnabled = false; 
-            this.spinner=false;
-        })
+
       })
     }
     else{
@@ -114,6 +101,23 @@ export class BusinessInfoComponent implements OnInit {
     }
   }
 
+  validate(oldName, userName){
+    this._basicInfoService.validateUserName(userName).subscribe((res: any) => {
+      this.spinner = false;
+      this.debounceInput.next(null);
+      if (res.returnStatus == "Success") {
+        oldName = userName;
+        this.addBusinessbtnEnabled = true;
+      }
+      else {
+        this.addBusinessbtnEnabled = false;
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+      this.addBusinessbtnEnabled = false;
+      this.spinner = false;
+    })
+  }
 
   freightService(obj, selectedService) {
     let selectedItem = selectedService.classList;
