@@ -6,5 +6,6 @@
 export const environment = {
   prod: false,
   dev: true,
-  qa: false
+  qa: false,
+  pers: false
 };

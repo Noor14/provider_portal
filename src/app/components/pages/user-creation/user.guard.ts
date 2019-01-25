@@ -55,7 +55,6 @@ export class UserGuard implements CanActivate {
         this.router.navigate(['registration']);
       }
     }
-
     // if user go to direct business info page
     if (state.url == '/business-info') {
       if (!this.islogOut) {

@@ -36,9 +36,10 @@
     ],
     "environmentSource": "environments/environment.ts",
     "environments": {
-      "dev": "environments/environment.ts",
+      "pers": "environments/environment.pers.ts",
+      "dev": "environments/environment.dev.ts",
       "prod": "environments/environment.prod.ts",
-       "qa": "environments/environment.qa.ts"
+      "qa": "environments/environment.qa.ts"
     }
   }],
   "e2e": {
