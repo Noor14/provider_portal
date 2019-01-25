@@ -179,7 +179,7 @@ export class BusinessInfoComponent implements OnInit {
     }
   }
   getbusinessServices(){
-    this._basicInfoService.getbusinessServices(913).subscribe((res:any)=>{
+    this._basicInfoService.getbusinessServices(this.userProfile.ProviderID).subscribe((res:any)=>{
       if (res && res.returnStatus == "Success"){
         this.orgName = res.returnObject.companyName;
         this.allAssociations = res.returnObject.associations;
