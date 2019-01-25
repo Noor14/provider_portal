@@ -90,17 +90,8 @@ export class BusinessInfoComponent implements OnInit {
         if(oldName != userName){
           this.addBusinessbtnEnabled = undefined; 
         }
-        this._basicInfoService.validateUserName(userName).subscribe((res: any) => {
-          if (res.returnStatus == "Success") {
-            oldName = userName;
-            this.addBusinessbtnEnabled = true;
-          }
-          else{
-            this.addBusinessbtnEnabled = false; 
-          }
-        }, (err: HttpErrorResponse) => {
-          console.log(err)
-        })
+
+        this.validate(userName, oldName);
       })
     }
     else{
@@ -108,6 +99,19 @@ export class BusinessInfoComponent implements OnInit {
     }
   }
 
+  validate(userName, oldName){
+    this._basicInfoService.validateUserName(userName).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        oldName = userName;
+        this.addBusinessbtnEnabled = true;
+      }
+      else {
+        this.addBusinessbtnEnabled = false;
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err)
+    })
+  }
 
   freightService(obj, selectedService) {
     let selectedItem = selectedService.classList;
@@ -266,8 +270,8 @@ removeSelectedDocx(index,  obj, type) {
     else if (type == 'certificate'){
       object = this.certficateDocx;
     }
-    object.UserID = this.userProfile.userID;
-    object.ProviderID = this.userProfile.providerID;
+    object.UserID = this.userProfile.UserID;
+    object.ProviderID = this.userProfile.ProviderID;
     object.DocumentFileContent = null;
     object.DocumentName = null;
     object.DocumentUploadedFileType = null;
