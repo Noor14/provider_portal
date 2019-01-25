@@ -57,6 +57,7 @@ export class BusinessInfoComponent implements OnInit {
   public orgName:string;
 
   public userName:string;
+  public spinner:boolean=false;
   public addBusinessbtnEnabled = undefined;
   constructor(
     private _toastr: ToastrService,
@@ -84,6 +85,7 @@ export class BusinessInfoComponent implements OnInit {
 
   validateUserName() {
     if (this.userName) {
+      this.spinner=true;
       let oldName;
       this.debounceInput.next(this.userName);
       this.debounceInput.pipe(debounceTime(1200), distinctUntilChanged()).subscribe(userName => {
@@ -94,12 +96,16 @@ export class BusinessInfoComponent implements OnInit {
           if (res.returnStatus == "Success") {
             oldName = userName;
             this.addBusinessbtnEnabled = true;
+            this.spinner=false;
           }
           else{
             this.addBusinessbtnEnabled = false; 
+            this.spinner=false;
           }
         }, (err: HttpErrorResponse) => {
-          console.log(err)
+          console.log(err);
+          this.addBusinessbtnEnabled = false; 
+            this.spinner=false;
         })
       })
     }
