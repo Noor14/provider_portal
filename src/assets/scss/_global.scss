@@ -1384,6 +1384,8 @@ select {
                 border: 1px solid $grey-border;
                 &:hover {
                     background: linear-gradient(to bottom, $pagination-bg-color 0, $color-white 100%);
+                    border: 1px solid $grey-border;
+                    color: $secondary-text-color !important;
                 }
             }
             &.first,
@@ -1411,30 +1413,35 @@ select {
                     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
                     &:hover {
                         background: #f1f2f6;
+                        border: 1px solid $grey-border;
+                    color: $secondary-text-color !important
                     }
                 }
                 &:hover {
                     background: linear-gradient(to bottom, $pagination-bg-color 0, $color-white 100%);
+                    border: 1px solid $grey-border;
+                    color: $secondary-text-color !important;
+
                 }
             }
         }
     }
     &.draft-grid {
         .dataTables_scrollBody {
-            // scrollbar-width: thin;
-            // &::-webkit-scrollbar {
-            //     height: 6px;
-	        //     background-color: #F5F5F5;
-            // }
-            // &::-webkit-scrollbar-thumb {
-            //     // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-            //     background-color: rgba(0, 0, 0, 0.1);
-            // }
-            // &::-webkit-scrollbar-track {
-            //     // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-            //     border-radius: 0px;
-            //     background-color: #f3f4f7;
-            // }
+            scrollbar-width: thin;
+            &::-webkit-scrollbar {
+                height: 7px;
+	            background-color: #F5F5F5;
+            }
+            &::-webkit-scrollbar-thumb {
+                // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+            &::-webkit-scrollbar-track {
+                // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+                border-radius: 0px;
+                background-color: #f3f4f7;
+            }
             >table {
                 margin-bottom: 3.7rem;
             }

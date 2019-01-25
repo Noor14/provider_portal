@@ -164,7 +164,7 @@ $left-nav-icon-height: 20px;
           font-size: $font-size-large + 0.125rem;
           font-family: $font-proxima;
           font-weight: $font-proxima-weight-semibold;
-          background: $right-side-background;
+          background: #fdfdff;
           padding: 0 10px;
           z-index: 1;
           position: relative;
@@ -301,11 +301,11 @@ $left-nav-icon-height: 20px;
       font-size: $font-size-medium;
       position: absolute;
       padding: 19px 20px 19px 60px;
-      bottom: 80px;
+      bottom: 70px;
       left: 1px;
       z-index: 1;
       animation-delay: 0.1s;
-      width: 98.5%;
+      width: 99.8%;
       background: #fff;
       border-top: 1px solid $data-table-border;
       &:before {
@@ -334,7 +334,8 @@ $left-nav-icon-height: 20px;
     }
     &.no-pagination {
       a.addAnother {
-        bottom: 60px;
+        bottom: 50px;
+        width: 99.8%;
       }
     }
   }
