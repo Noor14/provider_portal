@@ -272,8 +272,8 @@ removeSelectedDocx(index,  obj, type) {
     else if (type == 'certificate'){
       object = this.certficateDocx;
     }
-    object.UserID = this.userProfile.userID;
-    object.ProviderID = this.userProfile.providerID;
+    object.UserID = this.userProfile.UserID;
+    object.ProviderID = this.userProfile.ProviderID;
     object.DocumentFileContent = null;
     object.DocumentName = null;
     object.DocumentUploadedFileType = null;
