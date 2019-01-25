@@ -29,6 +29,7 @@
     </div>
   </section>
   <section class="draft-Air rates-grid draft-grid" [ngClass]="{'no-data': !draftslist.length, 'no-scroll-add' : draftslist.length, 'no-pagination': draftslist.length <= dtOptionsByAirDraft.pageLength}">
+      <h5 class="add-rate-head mb-4 mt-4">Unpublished Rates</h5>
     <table id="draftRateTable" cellspacing="0" #draftBYair class="row-border hover"></table>
     <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloading">Add
       another rates</a>
