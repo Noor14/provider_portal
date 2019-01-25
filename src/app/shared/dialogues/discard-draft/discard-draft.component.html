@@ -7,7 +7,7 @@
   </div>
   <div class="modal-body">
     <div class="text-center">
-      <p>Are you sure you want to discard all the saved rates?</p>
+      <p>Are you sure, you want to discard<br /><strong class="text-danger">{{deleteIds?.data.length}} </strong><span *ngIf="deleteIds?.data.length > 1; else otherTemp">records?</span><ng-template #otherTemp>record?</ng-template> </p>
       <button class="btn btn-primary btn-lg hvr-sweep-to-right" (click)="delete()">YES, I AM SURE</button>
     </div>
   </div>

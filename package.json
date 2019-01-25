@@ -47,7 +47,6 @@
     "js-base64": "^2.5.1",
     "js-crypto-aes": "^0.4.4",
     "moment": "^2.22.2",
-    "ng-circle-progress": "^1.0.0",
     "ng-click-outside": "^4.0.0",
     "ng-multiselect-dropdown": "^0.2.3",
     "ngx-echarts": "2.3.1",

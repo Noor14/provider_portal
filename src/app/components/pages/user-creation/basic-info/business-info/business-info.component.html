@@ -136,8 +136,7 @@
             [(ngModel)]="userName"
             (ngModelChange)="validateUserName()"
           />
-          <svg
-            *ngIf="addBusinessbtnEnabled"
+          <svg *ngIf="addBusinessbtnEnabled && !spinner"
             class="available icon-size-24"
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
