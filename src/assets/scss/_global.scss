@@ -1430,7 +1430,7 @@ select {
         .dataTables_scrollBody {
             scrollbar-width: thin;
             &::-webkit-scrollbar {
-                height: 7px;
+                height: 8px;
 	            background-color: #F5F5F5;
             }
             &::-webkit-scrollbar-thumb {
