@@ -6,7 +6,6 @@ import { OtpconfirmationComponent } from './basic-info/otpconfirmation/otpconfir
 import { CreatePasswordComponent } from './basic-info/create-password/create-password.component';
 import { UserCreationComponent } from './user-creation.component';
 import { BusinessInfoComponent } from './basic-info/business-info/business-info.component';
-
 const routes: Routes = [
 {
 path: '',
@@ -15,7 +14,7 @@ children: [
 { path: 'registration', component: RegistrationComponent, canActivate: [UserGuard]},
 { path: 'otp/:keys', component: OtpconfirmationComponent, canActivate: [UserGuard] },
 { path: 'password/:keys', component: CreatePasswordComponent, canActivate: [UserGuard]},
-{ path: 'business-info', component: BusinessInfoComponent, canActivate: [UserGuard] },
+{ path: 'business-info', component: BusinessInfoComponent, canActivate: [UserGuard]},
 { path: '**', redirectTo: 'registration', pathMatch: 'full' }
 ]
 }

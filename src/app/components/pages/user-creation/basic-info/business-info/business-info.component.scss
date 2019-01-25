@@ -1,174 +1,179 @@
-@import '../../../../../../assets/scss/_variables';
+@import "../../../../../../assets/scss/_variables";
 .businessDetail {
-    .services {
-        .servicechip {
+  .services {
+    .servicechip {
+      border-radius: 4px;
+      border: 1px solid $input-border;
+      background: $white-color;
+      position: relative;
+      font-family: $font-proxima;
+      &.active {
+        box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
+        border-radius: 4px;
+        border: 1px solid $primary-color !important;
+        background: $white-color !important;
+        &:before {
+          content: url("../../../../../../assets/images/icons/selection_tick.svg");
+          width: 44px;
+          height: 44px;
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+      }
+      &-provides,
+      &-valueAdded {
+        @extend .servicechip;
+        height: 50px;
+      }
+      &-asscoiation {
+        @extend .servicechip;
+        height: 150px;
+        padding: 1rem;
+        img {
+          width: 40%;
+          align-self: center;
+          margin-bottom: 0.7rem;
+        }
+      }
+    }
+  }
+  .document {
+    &-Info {
+      margin-bottom: 2.8rem;
+      .file-uploader {
+        border: 1px dashed #e1d8d8;
+        border-radius: 4px;
+        .drag-support {
+          color: $text-grey;
+          font-size: $font-size-medium;
+          position: relative;
+          top: 35px;
+        }
+        .browse-span {
+          color: $secondary-color;
+          font-weight: 500;
+        }
+        text-align: center;
+        app-ng-files-drag-n-upload {
+          label {
+            padding: 2.88rem 60px;
+          }
+        }
+        &.company-logo {
+          label {
+            padding: 1rem;
+          }
+        }
+      }
+      &.removeBorder {
+        border: none;
+      }
+      .uploadedDocx {
+        margin-top: 1rem;
+        .display-upload {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          z-index: 0;
+          img,
+          video {
             border-radius: 4px;
             border: 1px solid $input-border;
+            width: 100%;
+            min-height: 100%;
+            max-height: 10rem;
+            display: flex;
+          }
+          .delete-icon {
+            position: absolute;
+            top: -10px;
+            right: -8px;
+            min-height: auto;
             background: $white-color;
-            position: relative;
-            font-family: $font-proxima;
-            &.active {
-                box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
-                border-radius: 4px;
-                border: 1px solid $primary-color !important;
-                background: $white-color !important;
-                &:before {
-                    content: url('../../../../../../assets/images/icons/selection_tick.svg');
-                    width: 44px;
-                    height: 44px;
-                    position: absolute;
-                    right: 0;
-                    top: 0;
-                }
-            }
-            &-provides,
-            &-valueAdded {
-                @extend .servicechip;
-                height: 50px;
-            }
-            &-asscoiation {
-                @extend .servicechip;
-                height: 150px;
-                padding: 1rem;
-                img {
-                    width: 40%;
-                    align-self: center;
-                    margin-bottom: 0.7rem;
-                }
-            }
+            padding: 3px;
+            border-radius: 50%;
+            width: 23px;
+            height: auto;
+            border: none;
+          }
         }
+      }
     }
-    .document {
-        &-Info {
-            margin-bottom: 2.8rem;
-            .file-uploader {
-                border: 1px dashed #e1d8d8;
-                border-radius: 4px;
-                .drag-support {
-                    color: $text-grey;
-                    font-size: $font-size-medium;
-                    position: relative;
-                    top: 35px;
-                }
-                .browse-span {
-                    color: $secondary-color;
-                    font-weight: 500;
-                }
-                text-align: center;
-                app-ng-files-drag-n-upload {
-                    label {
-                        padding: 2.88rem 60px;
-                    }
-                }
-                &.company-logo {
-                    label {
-                        padding: 1rem;
-                    }
-                }
-            }
-            &.removeBorder {
-                border: none;
-            }
-            .uploadedDocx {
-                margin-top: 1rem;
-                .display-upload {
-                    position: relative;
-                    width: 100%;
-                    height: 100%;
-                    display: flex;
-                    z-index: 0;
-                    img,
-                    video {
-                        border-radius: 4px;
-                        border: 1px solid $input-border;
-                        width: 100%;
-                        min-height: 100%;
-                        max-height: 10rem;
-                        display: flex;
-                    }
-                    .delete-icon {
-                        position: absolute;
-                        top: -10px;
-                        right: -8px;
-                        min-height: auto;
-                        background: $white-color;
-                        padding: 3px;
-                        border-radius: 50%;
-                        width: 23px;
-                        height: auto;
-                        border: none;
-                    }
-                }
-            }
-        }
+  }
+  input[placeholder="Company Name"] {
+    cursor: no-drop;
+  }
+  svg {
+    &.available {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
     }
-    input[placeholder="Company Name"] {
-        cursor: no-drop;
+    &.spinner {
+      position: absolute;
+      right: 0px;
+      bottom: 4px;
     }
-    svg.available,
-    svg.not-available {
-        position: absolute;
-        right: 12px;
-        bottom: 12px;
-    }
-}
-
-svg {
-    width: 100px;
-    display: block;
-    margin: 40px auto 0;
     .path {
-        stroke-dasharray: 1000;
-        stroke-dashoffset: 0;
-        &.circle {
-            -webkit-animation: dash .9s ease-in-out;
-            animation: dash .9s ease-in-out;
-        }
-        &.line {
-            stroke-dashoffset: 1000;
-            -webkit-animation: dash .9s .35s ease-in-out forwards;
-            animation: dash .9s .35s ease-in-out forwards;
-        }
-        &.check {
-            stroke-dashoffset: -100;
-            -webkit-animation: dash-check .9s .35s ease-in-out forwards;
-            animation: dash-check .9s .35s ease-in-out forwards;
-        }
-    }
-}
-
-@-webkit-keyframes dash {
-    0% {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 0;
+      //   stroke-width: 11px;
+      &.circle {
+        -webkit-animation: dash 0.9s ease-in-out;
+        animation: dash 0.9s ease-in-out;
+      }
+      &.line {
         stroke-dashoffset: 1000;
-    }
-    100% {
-        stroke-dashoffset: 0;
-    }
-}
-
-@keyframes dash {
-    0% {
-        stroke-dashoffset: 1000;
-    }
-    100% {
-        stroke-dashoffset: 0;
-    }
-}
-
-@-webkit-keyframes dash-check {
-    0% {
+        -webkit-animation: dash 0.9s 0.35s ease-in-out forwards;
+        animation: dash 0.9s 0.35s ease-in-out forwards;
+      }
+      &.check {
         stroke-dashoffset: -100;
+        -webkit-animation: dash-check 0.9s 0.35s ease-in-out forwards;
+        animation: dash-check 0.9s 0.35s ease-in-out forwards;
+      }
     }
-    100% {
-        stroke-dashoffset: 900;
-    }
-}
+  }
 
-@keyframes dash-check {
+  @-webkit-keyframes dash {
     0% {
-        stroke-dashoffset: -100;
+      stroke-dashoffset: 1000;
+      fill-opacity: 0;
     }
     100% {
-        stroke-dashoffset: 900;
+      stroke-dashoffset: 0;
+      fill-opacity: 1;
     }
+  }
+
+  @keyframes dash {
+    0% {
+      stroke-dashoffset: 1000;
+      fill-opacity: 0;
+    }
+    100% {
+      stroke-dashoffset: 0;
+      fill-opacity: 1;
+    }
+  }
+
+  @-webkit-keyframes dash-check {
+    0% {
+      stroke-dashoffset: -100;
+    }
+    100% {
+      stroke-dashoffset: 900;
+    }
+  }
+
+  @keyframes dash-check {
+    0% {
+      stroke-dashoffset: -100;
+    }
+    100% {
+      stroke-dashoffset: 900;
+    }
+  }
 }
