@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { loading } from '../../../../../constants/globalFunctions';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
+import { SharedService } from '../../../../../services/shared.service';
 
 @Component({
   selector: 'app-business-info',
@@ -65,6 +66,7 @@ export class BusinessInfoComponent implements OnInit {
     private cdRef: ChangeDetectorRef,
     private ngFilesService: NgFilesService,
     private _router: Router,
+    private _sharedService: SharedService
   ) {
   }
 
@@ -73,6 +75,7 @@ export class BusinessInfoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._sharedService.signOutToggler.next(true);
     this.ngFilesService.addConfig(this.config, 'config');
     // this.ngFilesService.addConfig(this.namedConfig);
     this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -100,7 +103,12 @@ export class BusinessInfoComponent implements OnInit {
       this.addBusinessbtnEnabled = undefined; 
     }
   }
-
+  spaceHandler(event) {
+    if (event.charCode == 32) {
+      event.preventDefault();
+      return false;
+    }
+  }
   validate(oldName, userName){
     this._basicInfoService.validateUserName(userName).subscribe((res: any) => {
       this.spinner = false;

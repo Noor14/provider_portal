@@ -146,7 +146,6 @@ export class CreatePasswordComponent implements OnInit {
             loginData.IsLogedOut = false;
             localStorage.setItem('userInfo', JSON.stringify(res));
             this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
-            this._sharedService.signOutToggler.next(true);
             this._toast.success('Password has been created successfully', '');
             this._router.navigate(['business-info']);
           }

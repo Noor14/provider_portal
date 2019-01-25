@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from '../../../../services/shared.service';
 
@@ -9,7 +9,7 @@ import { SharedService } from '../../../../services/shared.service';
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./side-bar.component.scss']
 })
-export class SideBarComponent implements OnInit {
+export class SideBarComponent implements OnInit, OnDestroy {
 
   private allBookingsSubscriber;
   public currentBookings: any[] = [];
@@ -30,8 +30,8 @@ export class SideBarComponent implements OnInit {
     this.allBookingsSubscriber.unsubscribe();
   }
   getClass(path): string {
-     if(location.pathname.indexOf(path) >= 0){
-       return 'active'
+    if(location.pathname.indexOf(path) >= 0){
+      return 'active'
     }
   };
   tonavigate(url) {

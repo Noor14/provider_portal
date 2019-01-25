@@ -129,6 +129,7 @@
         <div class="form-group position-relative">
           <label>Profile Validate</label>
           <input
+           (keypress)="spaceHandler($event)"
             type="text"
             class="form-control"
             [ngClass]="{ inputError: addBusinessbtnEnabled == 0 && userName }"
@@ -443,7 +444,7 @@
   <section class="document mt-5 row">
     <div class="col-12">
       <div class="form-group">
-        <label class="mb-0">Gallery</label>
+        <label class="mb-0">Gallery (Optional)</label>
         <small class="sub-title">Upload photos and videos upto 5mb</small>
         <div class="document-Info d-flex flex-column mt-2">
           <div class="file-uploader">
@@ -484,7 +485,7 @@
     </div>
     <div class="col-12">
       <div class="form-group">
-        <label class="mb-0">Awards & Certificates</label>
+        <label class="mb-0">Awards & Certificates (Optional)</label>
         <small class="sub-title">Upload photos and videos upto 5mb</small>
         <div class="document-Info d-flex flex-column mt-2">
           <div class="file-uploader">
@@ -522,11 +523,9 @@
     </div>
   </section>
   <div class="d-flex justify-content-end">
-    <button
-      class="btn btn-primary hvr-sweep-to-right"
-      [disabled]="!aboutUs || !addBusinessbtnEnabled"
-      (click)="addCorperateInfo()"
-    >
+    <button class="btn btn-primary hvr-sweep-to-right"
+      [disabled]="!aboutUs || !addBusinessbtnEnabled || (assocService && !assocService.length) || (frtService && !frtService.length) || (valueService && !valueService.length)"
+      (click)="addCorperateInfo()">
       CREATE PROFILE
     </button>
   </div>
