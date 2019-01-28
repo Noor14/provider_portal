@@ -39,7 +39,10 @@ export class BusinessInfoComponent implements OnInit {
   private docTypeIdGallery = null;
   // private docTypeId = null;
   public docxId: any;
-  private fileStatus = undefined;
+  // private fileStatus = undefined;
+  private fileStatusLogo = undefined;
+  private fileStatusGallery = undefined;
+  private fileStatusCert = undefined;
   public selectedFiles: any;
   public selectedLogo: any;
   private config: NgFilesConfig = {
@@ -81,7 +84,7 @@ export class BusinessInfoComponent implements OnInit {
   ngOnInit() {
     this._sharedService.signOutToggler.next(true);
     this.ngFilesService.addConfig(this.config, 'config');
-    // this.ngFilesService.addConfig(this.namedConfig);
+    this.ngFilesService.addConfig(this.configLogo);
     this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (this.userInfo && this.userInfo.returnText) {
       this.userProfile = JSON.parse(this.userInfo.returnText);
@@ -294,16 +297,19 @@ removeSelectedDocx(index,  obj, type) {
     if(type == 'logo'){
       object = this.companyLogoDocx;
       object.DocumentID = this.docTypeIdLogo;
+      object.DocumentLastStatus = this.fileStatusLogo;
 
     }
     else if (type == 'gallery'){
       object = this.galleriesDocx;
       object.DocumentID = this.docTypeIdGallery;
+      object.DocumentLastStatus = this.fileStatusGallery;
 
     }
     else if (type == 'certificate'){
       object = this.certficateDocx;
       object.DocumentID = this.docTypeIdCert;
+      object.DocumentLastStatus = this.fileStatusCert;
 
     }
     object.UserID = this.userProfile.UserID;
@@ -311,7 +317,6 @@ removeSelectedDocx(index,  obj, type) {
     object.DocumentFileContent = null;
     object.DocumentName = null;
     object.DocumentUploadedFileType = null;
-    object.DocumentLastStatus = this.fileStatus;
     object.FileContent = [{
       documentFileName: selectedFile.fileName,
       documentFile: selectedFile.fileBaseString,
@@ -329,16 +334,19 @@ removeSelectedDocx(index,  obj, type) {
           let resObj = JSON.parse(resp.returnText);
           if(type == 'logo'){
           this.docTypeIdLogo = resObj.DocumentID;
-
+          this.fileStatusLogo = resObj.DocumentLastStaus;
           }
           else if (type == 'gallery') {
             this.docTypeIdGallery = resObj.DocumentID;
+            this.fileStatusGellery = resObj.DocumentLastStaus;
           }
           else if (type == 'certificate') {
             this.docTypeIdCert = resObj.DocumentID;
+            this.fileStatusCert = resObj.DocumentLastStaus;
+
           }
           // this.docTypeId = resObj.DocumentID;
-          this.fileStatus = resObj.DocumentLastStaus;
+          // this.fileStatus = resObj.DocumentLastStaus;
           let fileObj = JSON.parse(resObj.DocumentFile);
           fileObj.forEach(element => {
             element.DocumentFile = baseExternalAssets + element.DocumentFile;
@@ -388,8 +396,8 @@ removeSelectedDocx(index,  obj, type) {
         this.userProfile.UserProfileStatus = "Dashboard";
         this.userInfo.returnText = JSON.stringify(this.userProfile);
         localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
-        loading(false);
         this._router.navigate(['provider/dashboard']);
+        loading(false);
       }
     }, (err: HttpErrorResponse) => {
       loading(false);

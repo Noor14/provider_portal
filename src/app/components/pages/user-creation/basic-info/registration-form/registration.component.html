@@ -63,7 +63,7 @@
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="form-group">
             <label>Organization Name</label>
-            <input type="text" class="form-control" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{
+            <input type="text" class="form-control" maxlength="100" [ngClass]="{
                           'inputError': orgNameError && businessForm.controls['orgName'].errors
                           }" (focusout)="errorValidate()" (blur)="activeOrgName=false" (focus)="transorgNameError=false; orgNameError=false; activeOrgName=true"
               (ngModelChange)="onModelChange(activeTransOrgName, activeOrgName, 'transLangOrgName', 'en', 'ar' ,$event)" placeholder="Company Name"
