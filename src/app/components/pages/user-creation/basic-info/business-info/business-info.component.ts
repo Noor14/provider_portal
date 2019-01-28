@@ -338,7 +338,7 @@ removeSelectedDocx(index,  obj, type) {
           }
           else if (type == 'gallery') {
             this.docTypeIdGallery = resObj.DocumentID;
-            this.fileStatusGellery = resObj.DocumentLastStaus;
+            this.fileStatusGallery = resObj.DocumentLastStaus;
           }
           else if (type == 'certificate') {
             this.docTypeIdCert = resObj.DocumentID;
