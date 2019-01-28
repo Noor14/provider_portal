@@ -225,6 +225,7 @@ export class SeaRateDialogComponent implements OnInit {
 saveDataInLCLDraft(type){
           let obj = [{
         consolidatorPricingDraftID: (!this.newProviderPricingDraftID) ? this.selectedData.data.ConsolidatorPricingDraftID : this.newProviderPricingDraftID,
+        customerID: null,
         providerID: this.userProfile.ProviderID,
         containerSpecID: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? null : this.selectedHandlingUnit,
         containerSpecShortName: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? undefined : this.getHandlingSpecName(this.selectedHandlingUnit),
@@ -282,6 +283,7 @@ addRowLCL() {
 saveDataInFCLDraft(type){
           let obj = [{
         providerPricingDraftID: (!this.newProviderPricingDraftID) ? this.selectedData.data.ProviderPricingDraftID : this.newProviderPricingDraftID,
+        customerID: null,
         carrierID: (this.selectedShipping) ? this.selectedShipping.CarrierID : undefined,
         carrierName: (this.selectedShipping) ? this.selectedShipping.CarrierName : undefined,
         carrierImage: (this.selectedShipping) ? this.selectedShipping.CarrierImage : undefined,

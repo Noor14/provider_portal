@@ -48,11 +48,7 @@
       <div class="col-6">
         <div class="form-group">
           <label>Cargo Type</label>
-          <!-- <input type="text" class="form-control" [(ngModel)]="selectedCategory" readonly> -->
-          <select class="form-control" id="category" [(ngModel)]="selectedCategory">
-            <option [value]="null" disabled>--Select--</option>
-            <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
-          </select>
+          <input type="text" class="form-control" [(ngModel)]="selectedCategory.ShippingCatName" readonly>
         </div>
       </div>
       <div class="col-6">

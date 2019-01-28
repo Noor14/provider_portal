@@ -220,7 +220,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         {
           title: 'TYPE',
           data: function (data) {
-            if (!data.ShippingCatName) {
+            if (!data.ShippingCatID) {
               return "<span>-- Select --</span>"
             }
             else {
@@ -599,21 +599,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         },
         {
           title: 'TYPE',
-          data: function (data) {
-            return (Number(data.priceWithCode.split(' ').pop())).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.priceWithCode.split(' ').shift(),
-            });
-          },
+          data: 'shippingCatName',
         },
         {
           title: 'SIZE',
-          data: function (data) {
-            return (Number(data.priceWithCode.split(' ').pop())).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.priceWithCode.split(' ').shift(),
-            });
-          },
+          data: 'size',
         },
         {
           title: 'RATE',

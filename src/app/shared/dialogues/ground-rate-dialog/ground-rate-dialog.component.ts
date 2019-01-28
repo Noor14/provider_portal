@@ -121,7 +121,7 @@ export class GroundRateDialogComponent implements OnInit {
   }
   setData() {
     let parsed = '';
-    this.selectedCategory = this.selectedData.ShippingCatID;
+    this.selectedCategory = this.allCargoType.find(obj => obj.ShippingCatName.toLowerCase() == 'goods');
     this.selectedContSize = this.selectedData.ContainerSpecID;
     this.filterOrigin = this.allPorts.find(obj => obj.PortID == this.selectedData.PolID);
     this.filterDestination = this.allPorts.find(obj => obj.PortID == this.selectedData.PodID);
@@ -155,11 +155,12 @@ export class GroundRateDialogComponent implements OnInit {
     let obj = [
       {
         ID: (!this.newProviderPricingDraftID) ? this.selectedData.ID : this.newProviderPricingDraftID,
+        customerID: null,
         providerID: this.userProfile.ProviderID,
         containerSpecID: (this.selectedContSize == null || this.selectedContSize == 'null') ? null : this.selectedContSize,
         containerSpecDesc: (this.selectedContSize == null || this.selectedContSize == 'null') ? undefined : this.getContSpecName(this.selectedContSize),
-        shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : this.selectedCategory,
-        shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.getShippingName(this.selectedCategory),
+        shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : this.selectedCategory.ShippingCatID,
+        shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.selectedCategory.ShippingCatName,
         containerLoadType: "FCL",
         transportType: "GROUND",
         modeOfTrans: "GROUND",
@@ -197,7 +198,7 @@ export class GroundRateDialogComponent implements OnInit {
     })
   }
   addRow() {
-    this._groundFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
+    this._groundFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID, transportType: "GROUND" }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._sharedService.draftRowAddGround.next(res.returnObject);
         this.newProviderPricingDraftID = undefined;
@@ -218,9 +219,7 @@ export class GroundRateDialogComponent implements OnInit {
   getContSpecName(id) {
     return this.allContainers.find(obj => obj.ContainerSpecID == id).ContainerSpecShortName;
   }
-  getShippingName(id) {
-    return this.allCargoType.find(obj => obj.ShippingCatID == id).ShippingCatName;
-  }
+
   onDateSelection(date: NgbDateStruct) {
     let parsed = '';
     if (!this.fromDate && !this.toDate) {

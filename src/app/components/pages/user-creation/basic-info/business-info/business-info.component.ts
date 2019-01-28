@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../directives/ng-files';
 import { DocumentFile } from '../../../../../interfaces/document.interface';
@@ -58,8 +58,9 @@ export class BusinessInfoComponent implements OnInit {
   public orgName:string;
 
   public userName:string;
-  public spinner:boolean=false;
-  public addBusinessbtnEnabled = undefined;
+  public spinner:boolean = false;
+  public addBusinessbtnEnabled : boolean = undefined;
+  @ViewChild('profileName') profileName: ElementRef;
   constructor(
     private _toastr: ToastrService,
     private _basicInfoService: BasicInfoService,
@@ -83,38 +84,41 @@ export class BusinessInfoComponent implements OnInit {
       this.userProfile = JSON.parse(this.userInfo.returnText);
     }
     this.getbusinessServices();
+
+       Observable.fromEvent(this.profileName.nativeElement, 'keyup')
+      // get value
+      .map((evt: any) => evt.target.value)
+      // text length must be > 2 chars
+      //.filter(res => res.length > 2)
+      // emit after 1s of silence
+      .debounceTime(1000)        
+      // emit only if data changes since the last emit       
+      .distinctUntilChanged()
+      // subscription
+          .subscribe((text: string) => {
+            this.spinner = true;
+            if (text){
+              this.validate(text);
+            }
+            else{
+              this.spinner = false;
+            }
+          });
   }
 
 
-  validateUserName() {
-    if (this.userName) {
-      this.spinner=true;
-      let oldName;
-      this.debounceInput.next(this.userName);
-      this.debounceInput.pipe(debounceTime(1200), distinctUntilChanged()).subscribe(userName => {
-        if (userName && oldName != userName){
-          this.addBusinessbtnEnabled = undefined;
-          this.validate(oldName, userName);
-        }
 
-      })
-    }
-    else{
-      this.addBusinessbtnEnabled = undefined; 
-    }
-  }
   spaceHandler(event) {
     if (event.charCode == 32) {
       event.preventDefault();
       return false;
     }
   }
-  validate(oldName, userName){
+  validate(userName){
     this._basicInfoService.validateUserName(userName).subscribe((res: any) => {
       this.spinner = false;
-      this.debounceInput.next(null);
       if (res.returnStatus == "Success") {
-        oldName = userName;
+        this.userName = userName;
         this.addBusinessbtnEnabled = true;
       }
       else {
@@ -250,7 +254,7 @@ removeSelectedDocx(index,  obj, type) {
               fileName: file.name,
               fileType: file.type,
               fileUrl: reader.result,
-              fileBaseString: reader.result.split(',')[1]
+              fileBaseString: (reader as any).result.split(',').pop()
             }
                 if (event.files.length <= this.config.maxFilesCount) {
                   const docFile = JSON.parse(this.generateDocObject(selectedFile, type));
