@@ -34,7 +34,10 @@ export class BusinessInfoComponent implements OnInit {
   public selectedCertificateDocx: any[] = [];
   private userProfile: any;
   private userInfo:any
-  private docTypeId = null;
+  private docTypeIdLogo = null;
+  private docTypeIdCert = null;
+  private docTypeIdGallery = null;
+  // private docTypeId = null;
   public docxId: any;
   private fileStatus = undefined;
   public selectedFiles: any;
@@ -199,7 +202,16 @@ export class BusinessInfoComponent implements OnInit {
   }
 removeSelectedDocx(index,  obj, type) {
   obj.DocumentFile  =  obj.DocumentFile.split(baseExternalAssets).pop();
-  obj.DocumentID  =  this.docTypeId;
+  if(type == 'logo'){
+    obj.DocumentID = this.docTypeIdLogo;
+  }
+  else if (type == 'gallery') {
+    obj.DocumentID = this.docTypeIdGallery;
+  }
+  else if (type == 'certificate') {
+    obj.DocumentID = this.docTypeIdCert;
+  }
+
   this._basicInfoService.removeDoc(obj).subscribe((res:  any)  =>  {
     if  (res.returnStatus  ==  'Success') {
       this._toastr.success('Remove selected document succesfully',  "");
@@ -281,19 +293,24 @@ removeSelectedDocx(index,  obj, type) {
     let object
     if(type == 'logo'){
       object = this.companyLogoDocx;
+      object.DocumentID = this.docTypeIdLogo;
+
     }
     else if (type == 'gallery'){
       object = this.galleriesDocx;
+      object.DocumentID = this.docTypeIdGallery;
+
     }
     else if (type == 'certificate'){
       object = this.certficateDocx;
+      object.DocumentID = this.docTypeIdCert;
+
     }
     object.UserID = this.userProfile.UserID;
     object.ProviderID = this.userProfile.ProviderID;
     object.DocumentFileContent = null;
     object.DocumentName = null;
     object.DocumentUploadedFileType = null;
-    object.DocumentID = this.docTypeId;
     object.DocumentLastStatus = this.fileStatus;
     object.FileContent = [{
       documentFileName: selectedFile.fileName,
@@ -310,7 +327,17 @@ removeSelectedDocx(index,  obj, type) {
         const resp: JsonResponse = await this.docSendService(docFiles[index])
         if (resp.returnStatus = 'Success') {
           let resObj = JSON.parse(resp.returnText);
-          this.docTypeId = resObj.DocumentID;
+          if(type == 'logo'){
+          this.docTypeIdLogo = resObj.DocumentID;
+
+          }
+          else if (type == 'gallery') {
+            this.docTypeIdGallery = resObj.DocumentID;
+          }
+          else if (type == 'certificate') {
+            this.docTypeIdCert = resObj.DocumentID;
+          }
+          // this.docTypeId = resObj.DocumentID;
           this.fileStatus = resObj.DocumentLastStaus;
           let fileObj = JSON.parse(resObj.DocumentFile);
           fileObj.forEach(element => {

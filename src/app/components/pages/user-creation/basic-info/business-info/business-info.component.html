@@ -84,9 +84,9 @@
       </div>
       <div class="col-5">
         <div class="form-group position-relative">
-          <label>Profile Validate</label>
+          <label>Profile ID</label>
           <input #profileName (keypress)="spaceHandler($event)" type="text" class="form-control" [ngClass]="{ inputError: addBusinessbtnEnabled === false && !spinner}"
-            placeholder="Username" />
+            placeholder="eg: hashMove" />
           <svg *ngIf="addBusinessbtnEnabled && !spinner" class="available icon-size-24" version="1.1" xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 130.2 130.2">
             <circle class="path circle" fill="#73AF55" stroke="none" stroke-width="6" stroke-miterlimit="10" cx="65.1"
@@ -166,7 +166,7 @@
             </g>
           </svg>
           <p *ngIf="addBusinessbtnEnabled === false && !spinner" class="inputError">
-            Username not available
+            Profile ID is not available
           </p>
         </div>
       </div>

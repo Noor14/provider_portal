@@ -44,7 +44,8 @@ export class GroundRateDialogComponent implements OnInit {
   public allCargoType: any[] = []
   public allContainersType: any[] = [];
   public allContainers: any[] = [];
-  public allPorts: any[] = [];
+  private allPorts: any[] = [];
+  public groundsPorts: any[]= [];
   public allCurrencies: any[] = [];
   private allRatesFilledData: any[] = []
   public filterOrigin: any = {};
@@ -110,6 +111,7 @@ export class GroundRateDialogComponent implements OnInit {
             this.allCargoType = state[index].DropDownValues.Category;
             this.allContainers = state[index].DropDownValues.ContainerGround;
             this.allPorts = state[index].DropDownValues.Port.concat(state[index].DropDownValues.GroundPort);
+            this.groundsPorts = Object.assign([], this.allPorts)
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if (this.selectedData) {
               this.setData()
@@ -151,6 +153,20 @@ export class GroundRateDialogComponent implements OnInit {
 
   }
 
+
+  portsFilterartion(obj){
+    if(obj && obj.PortType && obj.PortType == 'SEA'){
+      this.groundsPorts = this.allPorts.filter(elem=>elem.PortType.toLowerCase() != 'sea');
+    }
+    else if((!this.filterOrigin || (this.filterOrigin && !this.filterOrigin.PortType)) && (!this.filterDestination || (this.filterDestination && !this.filterDestination.PortType))){
+      this.groundsPorts = this.allPorts;
+    }
+    else{
+      return
+    }
+  }
+
+
   savedraftrow(type) {
     let obj = [
       {
@@ -162,9 +178,9 @@ export class GroundRateDialogComponent implements OnInit {
         shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : this.selectedCategory.ShippingCatID,
         shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.selectedCategory.ShippingCatName,
         containerLoadType: "FCL",
-        transportType: "GROUND",
-        modeOfTrans: "GROUND",
-        priceBasis: "PER_CONTAINER",
+        transportType: (this.filterOrigin.PortType == 'GROUND' && this.filterDestination.PortType == 'GROUND') ? 'TRUCK': 'GROUND',
+        modeOfTrans: (this.filterOrigin.PortType == 'GROUND' && this.filterDestination.PortType == 'GROUND') ? 'TRUCK': 'GROUND',
+        priceBasis: (this.filterOrigin.PortType == 'GROUND' && this.filterDestination.PortType == 'GROUND') ? 'PER_TRUCK': 'PER_CONTAINER',
         providerLocationD: "test loca",
         providerLocationL: "test loca",
         polID: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortID : null,
@@ -260,7 +276,7 @@ export class GroundRateDialogComponent implements OnInit {
     text$.pipe(
       debounceTime(200),
       map(term => (!term || term.length < 3) ? []
-        : this.allPorts.filter(v => v.PortName && v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1))
+        : this.groundsPorts.filter(v => v.PortName && v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1))
     )
   portsFormatter = (x: { PortName: string }) => x.PortName;
 
