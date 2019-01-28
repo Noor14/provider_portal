@@ -436,6 +436,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       for (let i = 0; i < data.length; i++) {
         if (this.draftslist[index].ID == data[i].ID) {
           this.draftslist[index].ContainerLoadType = data[i].containerLoadType;
+          this.draftslist[index].TransportType = data[i].transportType;
           this.draftslist[index].ShippingCatID = data[i].shippingCatID;
           this.draftslist[index].ShippingCatName = data[i].shippingCatName;
           this.draftslist[index].ContainerSpecID = data[i].containerSpecID;
