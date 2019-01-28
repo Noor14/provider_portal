@@ -584,11 +584,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       if (this.tabledraftBySeaLCL && this.tabledraftBySeaLCL.nativeElement){
       this.dataTabledraftByseaLCL = $(this.tabledraftBySeaLCL.nativeElement);
         let alltableOption = this.dataTabledraftByseaLCL.DataTable(this.dtOptionsBySeaLCLDraft);
-      // let footer = $("<tfoot></tfoot>").appendTo("#draftRateTable");
-      // let footertr = $("<tr></tr>").appendTo(footer);
-      // $("<td colspan='20'> <a href='javascript:;' class ='addrow'>Add Another Rates</a> </td>").appendTo(footertr);
-      // Add footer cells
-
       this.draftloadingLCL = false;
 
       $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
@@ -601,18 +596,13 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
         event.stopPropagation();
         if (event.target.nodeName != "SPAN" || event.target.innerText) {
-          if (event.currentTarget && event.currentTarget.cells.length &&event.currentTarget.cells[0].children.length){
+          if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length){
             let rowId = event.currentTarget.cells[0].children[0].children[0].id;
             this.updatePopupRates(rowId,'LCL');
           }
     
         }
       });
-      // $(alltableOption.table().container()).on('click', 'tfoot tr td a', (event) => {
-      //     event.stopPropagation();
-      //     this.addAnotherRates();
-
-      // });
 
       $("#selectallDraftRatesLCL").click((event) => {
         this.publishRatesLCL = [];

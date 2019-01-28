@@ -575,11 +575,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
 
   filterTable() {
     this.dtOptionsByGround = {
-      // ajax: {
-      //   url: "http://10.20.1.13:9091/api/providerratefcl/SearchRates",
-      //   type: "POST"
-      // },
-      data: this.allRatesList,
+       data: this.allRatesList,
       columns: [
         {
           title: '<div class="fancyOptionBoxes"> <input id = "selectallpublishRates" type = "checkbox"> <label for= "selectallpublishRates"> <span> </span></label></div>',
@@ -835,7 +831,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         else {
           for (var i = 0; i < this.delPublishRates.length; i++) {
             for (let y = 0; y < this.allRatesList.length; y++) {
-              if (this.delPublishRates[i] == this.allRatesList[y].carrierPricingID) {
+              if (this.delPublishRates[i] == this.allRatesList[y].id) {
                 this.allRatesList.splice(y, 1);
               }
             }
