@@ -88,7 +88,7 @@ export class ConfirmDeleteDialogComponent implements OnInit {
 
     else if (this.deleteIds.type == "publishRateGround") {
       let obj = {
-        publishRateIDs: this.deleteIds.data,
+        publishedRateTransportType: this.deleteIds.data,
         modifiedBy: this.userProfile.LoginID
       };
       this.groundTransportService.deletePublishRate(obj).subscribe((res: any) => {

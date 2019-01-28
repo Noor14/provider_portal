@@ -16,7 +16,6 @@ import { UiSwitchModule } from 'ngx-toggle-switch';
 import { UniquePipe } from '../../../../constants/unique-recordFilter';
 import { AirFreightService } from './air-freight/air-freight.service';
 import { GroundTransportService } from './ground-transport/ground-transport.service';
-
 @NgModule({
   imports: [
     CommonModule,
