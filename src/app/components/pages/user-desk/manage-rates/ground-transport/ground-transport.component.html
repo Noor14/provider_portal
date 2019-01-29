@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="col-xl-5 col-lg-5 col-md-12">
-        <div class="card pointer" (click)="addRatesByseaManually()">
+        <div class="card pointer" (click)="addRatesBygroundManually()">
           <img class="card-icon" src="../../../../../assets/images/icons/manager-icon.png" alt="*" />
           <div class="card-body">
             <h5 class="card-title">Add Your Rates Manually </h5>
@@ -34,7 +34,7 @@
   </ngb-tab>
   <ngb-tab id="activeFTL">
     <ng-template ngbTabTitle>
-<span (click)="filterTable(); generateDraftTable()">
+<span (click)="generateDraftTableFTL()">
         <svg data-name="Layer 1" id="ee0cf102-a966-4a3f-95ef-2d85d2845fce" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <g data-name="box" id="77a57afb-dc84-48f7-bcef-1ea8af6a0a74">
             <path class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a" d="M12,2.236l10,5v9.528l-10,5-10-5V7.236l10-5M12,0,0,6V18l12,6,12-6V6L12,0Z"
@@ -47,138 +47,30 @@
         </svg>FTL</span>
     </ng-template>
 <ng-template ngbTabContent>
-<section [ngClass]="{'no-data': !draftslist.length, 'no-scroll-add' : draftslist.length, 'no-pagination': draftslist.length <= dtOptionsByGroundDraft.pageLength}"
-  class="rates-grid draft-grid draft-Ground">
-  <table id="draftRateTable" cellspacing="0" #draftBYGround class="row-border hover"></table>
-  <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloading">Add
+<section [ngClass]="{'no-data': !draftslistFTL.length, 'no-scroll-add' : draftslistFTL.length, 'no-pagination': draftslistFTL.length <= dtOptionsByGroundDraftFTL.pageLength}"
+  class="rates-grid draft-grid draft-GroundFTL">
+  <table id="draftRateTableFTL" cellspacing="0" #draftBYGroundFTL class="row-border hover"></table>
+  <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloadingFTL">Add
     another rates</a>
-  <!-- <app-loader-main *ngIf="draftloading"></app-loader-main> -->
+<!-- <app-loader-main *ngIf="draftloadingFTL"></app-loader-main> -->
 </section>
 <div class="row mt-4">
   <div class="col-12 text-right actions">
-    <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase" [disabled]="!draftslist || (draftslist && !draftslist.length)"
+    <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase" [disabled]="!draftslistFTL || (draftslistFTL && !draftslistFTL.length)"
       (click)="discardDraft()">Discard Draft
     </button>
     <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">Save Draft</button>
-    <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRates.length" (click)="publishRate()">Publish
+<button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRatesFTL.length" (click)="publishRateFTL()">Publish
       Rates
     </button>
   </div>
 </div>
-<hr class="hr-solid mt-4">
-<h5 class="add-rate-head mb-4 mt-4">Your Rates</h5>
-<section class="rates-filter">
-  <ngb-accordion>
-    <ngb-panel>
-      <ng-template ngbPanelTitle>
-        <span>
-          <img src="../../../../../../../assets/images/icons/filter-icon.svg" alt="Filter" class="icon-size-16 mr-2">Filter
-          your results
-          <img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon">
-        </span>
-        <span class="clear-filter" (click)="clearFilter($event)">
-          <svg id="969970e9-5f21-4072-86a7-6672decd15e6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-            <g id="0d761291-d7c4-42bf-9433-98aad825bfb6" data-name="add">
-              <g id="bede06dd-acf7-4be6-a923-734e194ecf5e" data-name="sucess">
-                <path class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" d="M8,2A6,6,0,1,1,2,8,6.007,6.007,0,0,1,8,2M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0Z" />
-              </g>
-              <polygon class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" points="11 7 9 7 9 5 7 5 7 7 5 7 5 9 7 9 7 11 9 11 9 9 11 9 11 7" />
-            </g>
-          </svg>
-          Reset Filter(s)</span>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <div class="row" [@fadeInOut]>
-          <div class="col-6">
-            <div class="form-group">
-              <label>Route</label>
-              <div class="row combine-field">
-                <div class="col-6 origin pl-0">
-                  <div class="flag-container">
-                    <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
-                      type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
-                  </div>
-                  <input class="form-control" [(ngModel)]="filterOrigin" (focusout)="filtertionPort(filterOrigin)"
-                    (ngModelChange)="filterByroute(filterOrigin)" placeholder="Origin" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
-                    [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
-                </div>
-                <div class="col-6 destination pl-0">
-                  <div class="flag-container">
-                    <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
-                      type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
-                  </div>
-                  <input placeholder="Destination" [(ngModel)]="filterDestination" (focusout)="filtertionPort(filterDestination)"
-                    (ngModelChange)="filterByroute(filterDestination)" type="text" class="form-control" [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
-                    [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <ng-template #rt let-r="result">
-            <div class="d-flex">
-              <div class="flag-container mr-1">
-                <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
-              </div>
-              <ngb-highlight [result]="r.PortName"></ngb-highlight>
-            </div>
-          </ng-template>
-          <div class="col-6">
-            <div class="form-group">
-              <label>Traller / Container</label>
-              <select class="form-control" [(ngModel)]="filterbyContainerType" (change)="filter()">
-                <option [value]="undefined">All</option>
-                <option *ngFor="let container of allContainersType" [value]="container.ContainerSpecID">{{container.ContainerWithSize}}</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="form-group date-control">
-              <label>Rate Validity</label>
-              <div class="dateIcon">
-                <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp"
-                  [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right"
-                  [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate"
-                  #dp="ngbDatepicker" (click)="dp.toggle()" (ngModelChange)="filterBydate(model)">
-              </div>
-              <ng-template #t let-date="date" let-focused="focused">
-                <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
-                  [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date"
-                  (mouseleave)="hoveredDate = null">
-                  {{ date.day }}
-                </span>
-              </ng-template>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-    </ngb-panel>
-  </ngb-accordion>
-</section>
-<section class="rates-grid mt-5 publishRateGround">
-  <div class="d-flex justify-content-end mb-3">
-    <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord()" [ngClass]="{'no-drop': !this.delPublishRates.length}">
-      <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16">
-      Delete
-    </a>
-  </div>
-  <table id="publishRateTable" cellspacing="0" #publishByground class="row-border hover"></table>
-  <app-loader-main *ngIf="publishloading"></app-loader-main>
-</section>
-<section class="term-cond">
-  <div class="row">
-    <div class="col-12">
-      <hr class="hr-solid mt-4">
-      <h5 class="add-rate-head mb-4 mt-4">Terms & Conditions</h5>
-      <textarea></textarea>
-      <button class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4">Save</button>
-    </div>
-  </div>
-</section>
+
     </ng-template>
   </ngb-tab>
   <ngb-tab id="activeFCL">
     <ng-template ngbTabTitle>
-      <span (click)="filterTable(); generateDraftTable()">
+      <span (click)="generateDraftTable()">
         <svg data-name="Layer 1" id="3e0bd723-1f5e-404f-9c9e-f9fa6a56c26b" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <g data-name="container" id="6744cc39-0259-4947-99c3-524da0baf146">
             <path class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" d="M22,10V22H2V10H22m2-2H0V24H24V8Z"
@@ -218,6 +110,9 @@
     </button>
   </div>
 </div>
+  </ng-template>
+  </ngb-tab>
+</ngb-tabset>
 <hr class="hr-solid mt-4">
 <h5 class="add-rate-head mb-4 mt-4">Your Rates</h5>
 <section class="rates-filter">
@@ -275,13 +170,23 @@
               <ngb-highlight [result]="r.PortName"></ngb-highlight>
             </div>
           </ng-template>
-          <div class="col-6">
+          <div class="col-4">
             <div class="form-group">
               <label>Traller / Container</label>
               <select class="form-control" [(ngModel)]="filterbyContainerType" (change)="filter()">
                 <option [value]="undefined">All</option>
                 <option *ngFor="let container of allContainersType" [value]="container.ContainerSpecID">{{container.ContainerWithSize}}</option>
               </select>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-group">
+              <label>Mode</label>
+            <select class="form-control" [(ngModel)]="filterbyMode" (change)="filter()">
+            <option [value]="undefined">All</option>
+            <option [value]="'GROUND'">FCL</option>
+            <option [value]="'TRUCK'">FTL</option>
+            </select>
             </div>
           </div>
           <div class="col-4">
@@ -327,10 +232,6 @@
     </div>
   </div>
 </section>
-    </ng-template>
-  </ngb-tab>
-</ngb-tabset>
-
 
 
 </section>

@@ -532,8 +532,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       destroy: true,
       // pagingType: 'full_numbers',
       pageLength: 5,
-      //scrollX: true,
-      // scrollY: '60vh',
+      scrollX: true,
+      scrollY: '60vh',
       scrollCollapse: true,
       searching: false,
       lengthChange: false,
@@ -545,10 +545,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         }
       },
-      // fixedColumns: {
-      //   leftColumns: 0,
-      //   rightColumns: 1
-      // },
+      fixedColumns: {
+        leftColumns: 0,
+        rightColumns: 1
+      },
       columnDefs: [
         {
           targets: 0,
@@ -1227,8 +1227,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       destroy: true,
       // pagingType: 'full_numbers',
       pageLength: 5,
-      //scrollX: true,
-      // scrollY: '60vh',
+      scrollX: true,
+      scrollY: '60vh',
       scrollCollapse: true,
       searching: false,
       lengthChange: false,
@@ -1240,10 +1240,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         }
       },
-      // fixedColumns: {
-      //   leftColumns: 0,
-      //   rightColumns: 1
-      // },
+      fixedColumns: {
+        leftColumns: 0,
+        rightColumns: 1
+      },
       columnDefs: [
         {
           targets: 0,

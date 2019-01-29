@@ -1,9 +1,9 @@
 <div class="groundRates-modal animated fadeIn">
   <div class="modal-header">
     <h4 class="provider-modal-title">Add / Update Rates</h4>
-    <!-- <a class="pointer crossIcon" (click)="closePopup()">
+    <a class="pointer crossIcon" (click)="closePopup()">
       <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
-    </a> -->
+    </a>
   </div>
   <div class="modal-body bg-light">
     <div class="row bg-white">
@@ -18,7 +18,7 @@
               <img *ngIf="filterOrigin && filterOrigin.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
                 type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
             </div>
-            <input class="form-control" [(ngModel)]="filterOrigin" placeholder="e.g: Dubai" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode, 'glowElement': !filterOrigin?.CountryCode || !filterOrigin}"
+            <input class="form-control" [(ngModel)]="filterOrigin" placeholder="e.g: Dubai" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
               [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="portsFormatter" (ngModelChange)="portsFilterartion(filterOrigin)"/>
           </div>
 
@@ -32,7 +32,7 @@
               <img *ngIf="filterDestination && filterDestination.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
                 type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
             </div>
-            <input placeholder="e.g: Karachi" [(ngModel)]="filterDestination" type="text" class="form-control" [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode, 'glowElement': !filterDestination?.CountryCode || !filterDestination}"
+            <input placeholder="e.g: Karachi" [(ngModel)]="filterDestination" type="text" class="form-control" [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
               [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="portsFormatter" (ngModelChange)="portsFilterartion(filterDestination)" />
           </div>
           <ng-template #rt let-r="result">
@@ -48,7 +48,8 @@
       <div class="col-6">
         <div class="form-group">
           <label>Cargo Type</label>
-          <input type="text" class="form-control" [(ngModel)]="selectedCategory.ShippingCatName" readonly>
+          <input type="text" class="form-control" [(ngModel)]="selectedCategory.ShippingCatName"
+            readonly>
         </div>
       </div>
       <div class="col-6">
@@ -56,7 +57,7 @@
           <label>Traller / Container</label>
           <select class="form-control" [(ngModel)]="selectedContSize">
             <option [value]="null" disabled>--Select--</option>
-            <option *ngFor="let container of allContainers" [value]="container.ContainerSpecID">{{container.ContainerSpecShortName}}</option>
+<option *ngFor="let container of allContainers" [value]="container.ContainerSpecID">{{container.ContainerWithSize}}</option>
           </select>
         </div>
       </div>
@@ -106,8 +107,8 @@
         </div>
       </div>
       <div class="col-12 d-flex justify-content-end">
-        <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right mr-4" [disabled]= "(!filterOrigin || (filterOrigin && !filterOrigin.CountryCode)) || (!filterDestination || (filterDestination && !filterDestination.CountryCode))" (click)="savedraftrow('saveNadd')">SAVE & ADD ANOTHER</button>
-        <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right" [disabled]= "(!filterOrigin || (filterOrigin && !filterOrigin.CountryCode)) || (!filterDestination || (filterDestination && !filterDestination.CountryCode))" (click)="savedraftrow('onlySave')">SAVE & CLOSE</button>
+        <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right mr-4" (click)="savedraftrow('saveNadd')">SAVE & ADD ANOTHER</button>
+        <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right" (click)="savedraftrow('onlySave')">SAVE & CLOSE</button>
       </div>
     </div>
   </div>

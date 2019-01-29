@@ -782,6 +782,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     let obj = {
       logisticServiceID: this.serviceIds,
       countryID: this.selected_country.id,
+      redirectUrl: window.location.protocol + "//" + window.location.host + "/password",
       socialMediaPortalsID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.selectedSocialsite.socialMediaPortalsID : null,
       linkURL: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.socialSites : null,
       companyOL: (this.showTranslatedLangSide) ? CompanyObjectOL : null,
