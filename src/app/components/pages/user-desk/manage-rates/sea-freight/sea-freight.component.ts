@@ -52,6 +52,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
     ])
   ]
 })
+
 export class SeaFreightComponent implements OnInit, OnDestroy {
 
   private draftRates: any;
