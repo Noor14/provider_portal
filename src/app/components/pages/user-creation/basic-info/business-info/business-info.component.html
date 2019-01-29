@@ -188,7 +188,7 @@
         <label class="mb-0">Gallery (Optional)</label>
         <small class="sub-title">Upload photos and videos upto 5mb</small>
         <div class="document-Info d-flex flex-column mt-2">
-          <div class="file-uploader">
+        <div class="file-uploader" *ngIf="selectedGalleryDocx && selectedGalleryDocx.length < config.maxFilesCount">
             <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'gallery')" [configId]="'config'">
               <img src="../../../assets/images/icons/manager-icon.png" />
               <p class="m-0 mt-3">
@@ -216,7 +216,7 @@
         <label class="mb-0">Awards & Certificates (Optional)</label>
         <small class="sub-title">Upload photos and videos upto 5mb</small>
         <div class="document-Info d-flex flex-column mt-2">
-          <div class="file-uploader">
+        <div class="file-uploader" *ngIf="selectedCertificateDocx && selectedCertificateDocx.length < config.maxFilesCount">
             <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
               <img src="../../../assets/images/icons/manager-icon.png" />
               <p class="m-0 mt-3">

@@ -45,13 +45,13 @@ export class BusinessInfoComponent implements OnInit {
   private fileStatusCert = undefined;
   public selectedFiles: any;
   public selectedLogo: any;
-  private config: NgFilesConfig = {
+  public config: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', 'bmp'],
     maxFilesCount: 5,
     maxFileSize: 5*1024*1000,
     totalFilesSize: 5*5*1024*1000
   };
-  private configLogo: NgFilesConfig = {
+  public configLogo: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', 'bmp'],
     maxFilesCount: 1,
     maxFileSize: 1 * 1024 * 1000,
@@ -338,7 +338,7 @@ removeSelectedDocx(index,  obj, type) {
           }
           else if (type == 'gallery') {
             this.docTypeIdGallery = resObj.DocumentID;
-            this.fileStatusGellery = resObj.DocumentLastStaus;
+            this.fileStatusGallery = resObj.DocumentLastStaus;
           }
           else if (type == 'certificate') {
             this.docTypeIdCert = resObj.DocumentID;

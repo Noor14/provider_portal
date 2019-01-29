@@ -55,6 +55,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 })
 export class GroundTransportComponent implements OnInit, OnDestroy  {
 
+  public activeTab = "activeFCL"
   private draftRates: any;
   private addnsaveRates: any;
   public dtOptionsByGround: DataTables.Settings | any = {};
@@ -146,21 +147,21 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   clearFilter(event) {
     event.preventDefault();
     event.stopPropagation();
-      if ((this.filterbyContainerType && this.filterbyContainerType != 'undefined') ||
-        (this.filterDestination && Object.keys(this.filterDestination).length) ||
-        (this.filterOrigin && Object.keys(this.filterOrigin).length) ||
-        (this.fromDate && Object.keys(this.fromDate).length) ||
-        (this.toDate && Object.keys(this.toDate).length)
-      ) {
-        this.model = null;
-        this.fromDate = null;
-        this.toDate = null;
-        this.filterbyContainerType = 'undefined';
-        this.filterDestination = {};
-        this.filterOrigin = {};
-        this.filter();
+    if ((this.filterbyContainerType && this.filterbyContainerType != 'undefined') ||
+      (this.filterDestination && Object.keys(this.filterDestination).length) ||
+      (this.filterOrigin && Object.keys(this.filterOrigin).length) ||
+      (this.fromDate && Object.keys(this.fromDate).length) ||
+      (this.toDate && Object.keys(this.toDate).length)
+    ) {
+      this.model = null;
+      this.fromDate = null;
+      this.toDate = null;
+      this.filterbyContainerType = 'undefined';
+      this.filterDestination = {};
+      this.filterOrigin = {};
+      this.filter();
     }
-    
+
   }
   filter() {
     this.getAllPublishRates()
@@ -350,8 +351,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           event.stopPropagation();
           if (event.target.nodeName != "SPAN" || event.target.innerText) {
             if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
-            let rowId = event.currentTarget.cells[0].children[0].children[0].id;
-            this.updatePopupRates(rowId);
+              let rowId = event.currentTarget.cells[0].children[0].children[0].id;
+              this.updatePopupRates(rowId);
             }
           }
         });
@@ -363,14 +364,14 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           for (var i = 0; i < cols.length; i += 1) {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedalldraftRates;
             if (this.checkedalldraftRates) {
-             let obj = {
+              let obj = {
                 draftID: cols[i].querySelector("input[type='checkbox']").id,
                 providerID: this.userProfile.ProviderID,
                 transportType: "GROUND",
               }
               this.publishRates.push(obj);
               this.selectedItem('add', alltableOption)
-              
+
             }
           }
           if (i == cols.length && !this.checkedalldraftRates) {
@@ -384,10 +385,10 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           let targetedId = (<HTMLInputElement>event.target).id
           let index = this.publishRates.findIndex(obj => obj.draftID == targetedId);
           let selection = event.currentTarget.parentElement.parentElement.parentElement;
-            if (index >= 0) {
-              this.publishRates.splice(index, 1);
-              selection.classList.remove('selected');
-              
+          if (index >= 0) {
+            this.publishRates.splice(index, 1);
+            selection.classList.remove('selected');
+
           }
           else {
             let obj = {
@@ -397,7 +398,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
             }
             this.publishRates.push(obj);
             selection.classList.add('selected');
-            
+
           }
 
         });
@@ -459,14 +460,14 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       this.generateDraftTable();
     }
   }
-  
+
   addAnotherRates() {
-      this.addRatesManually();
- 
+    this.addRatesManually();
+
   }
   addRatesByseaManually() {
-      if ((!this.draftRatesByGround || (this.draftRatesByGround && !this.draftRatesByGround.length)) && (!this.draftDataBYGround || (this.draftDataBYGround && !this.draftDataBYGround.length))) {
-        this.addRatesManually();
+    if ((!this.draftRatesByGround || (this.draftRatesByGround && !this.draftRatesByGround.length)) && (!this.draftDataBYGround || (this.draftDataBYGround && !this.draftDataBYGround.length))) {
+      this.addRatesManually();
     }
   }
 
@@ -528,19 +529,19 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   }
 
   filterByroute(obj) {
-      if (typeof obj == 'object') {
-        this.getAllPublishRates();
-      }
-      else if (!obj) {
-        this.getAllPublishRates();
-      }
-      else {
-        return;
-      }
+    if (typeof obj == 'object') {
+      this.getAllPublishRates();
+    }
+    else if (!obj) {
+      this.getAllPublishRates();
+    }
+    else {
+      return;
+    }
 
   }
   filtertionPort(obj) {
-      if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates();
+    if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates();
 
   }
 
@@ -560,10 +561,10 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     }
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        if (!res.returnObject){
+        if (!res.returnObject) {
           this.allRatesList = [];
         }
-        else{
+        else {
           this.allRatesList = res.returnObject;
         }
         this.checkedallpublishRates = false;
@@ -575,7 +576,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
 
   filterTable() {
     this.dtOptionsByGround = {
-       data: this.allRatesList,
+      data: this.allRatesList,
       columns: [
         {
           title: '<div class="fancyOptionBoxes"> <input id = "selectallpublishRates" type = "checkbox"> <label for= "selectallpublishRates"> <span> </span></label></div>',
@@ -696,7 +697,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
             if (this.checkedallpublishRates) {
               let selectedData = cols[i].querySelector("input[type='checkbox']").id;
-              let obj = { 
+              let obj = {
                 publishRateID: selectedData.split('-').shift(),
                 transportType: selectedData.split('-').pop()
               }
@@ -750,27 +751,27 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     }
   }
   orgfilter() {
-      if (this.filterOrigin && typeof this.filterOrigin == "object" && Object.keys(this.filterOrigin).length) {
-        return this.filterOrigin.PortID;
-      }
-      else if (this.filterOrigin && typeof this.filterOrigin == "string") {
-        return -1;
-      }
-      else if (!this.filterOrigin) {
-        return null;
-      }
+    if (this.filterOrigin && typeof this.filterOrigin == "object" && Object.keys(this.filterOrigin).length) {
+      return this.filterOrigin.PortID;
+    }
+    else if (this.filterOrigin && typeof this.filterOrigin == "string") {
+      return -1;
+    }
+    else if (!this.filterOrigin) {
+      return null;
+    }
 
   }
   destfilter() {
-      if (this.filterDestination && typeof this.filterDestination == "object" && Object.keys(this.filterDestination).length) {
-        return this.filterDestination.PortID;
-      }
-      else if (this.filterDestination && typeof this.filterDestination == "string") {
-        return -1;
-      }
-      else if (!this.filterDestination) {
-        return null;
-      }
+    if (this.filterDestination && typeof this.filterDestination == "object" && Object.keys(this.filterDestination).length) {
+      return this.filterDestination.PortID;
+    }
+    else if (this.filterDestination && typeof this.filterDestination == "string") {
+      return -1;
+    }
+    else if (!this.filterDestination) {
+      return null;
+    }
 
   }
 
@@ -778,9 +779,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     let discardarr = [];
     this.draftslist.forEach(elem => {
       let obj = {
-          draftID: elem.ID,
-          transportType: "GROUND",
-          }
+        draftID: elem.ID,
+        transportType: "GROUND",
+      }
       discardarr.push(obj)
     })
     const modalRef = this.modalService.open(DiscardDraftComponent, {
@@ -863,7 +864,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   }
 
   deletepublishRecord() {
-      this.delPubRecord()
+    this.delPubRecord()
   }
 
   publishRate() {
