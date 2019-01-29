@@ -134,13 +134,14 @@ export class AirRateDialogComponent implements OnInit {
       this.filterDestination = this.allPorts.find(obj => obj.PortID == this.selectedData.PodID);
       this.selectedAirline = this.allAirLines.find(obj => obj.CarrierID == this.selectedData.CarrierID);
       this.selectedCurrency = this.allCurrencies.find(obj => obj.CurrencyID == this.selectedData.CurrencyID);
-      this.minPrice = this.selectedData.slab.minPrice1.split(' ').pop();
-      this.normalPrice = this.selectedData.slab.price1;
-      this.plusfortyFivePrice = this.selectedData.slab.price2;
-      this.plushundredPrice = this.selectedData.slab.price3;
-      this.plusTwoFiftyPrice = this.selectedData.slab.price4;
-      this.plusFiveHundPrice = this.selectedData.slab.price5;
-      this.plusThousandPrice = this.selectedData.slab.price6;
+      let minPrice = this.selectedData.slab.minPrice1.split(' ').pop();
+    this.minPrice = (Math.ceil(minPrice)) ? minPrice: null
+    this.normalPrice = (Math.ceil(this.selectedData.slab.price1)) ? this.selectedData.slab.price1 : null;
+    this.plusfortyFivePrice = (Math.ceil(this.selectedData.slab.price2)) ? this.selectedData.slab.price2 : null;
+    this.plushundredPrice = (Math.ceil(this.selectedData.slab.price3)) ? this.selectedData.slab.price3: null;
+    this.plusTwoFiftyPrice = (Math.ceil(this.selectedData.slab.price4)) ? this.selectedData.slab.price4: null;
+    this.plusFiveHundPrice = (Math.ceil(this.selectedData.slab.price5)) ? this.selectedData.slab.price5: null;
+    this.plusThousandPrice = (Math.ceil(this.selectedData.slab.price6)) ? this.selectedData.slab.price6: null;
     if (this.selectedData.EffectiveFrom) {
       this.fromDate.day = new Date(this.selectedData.EffectiveFrom).getDate();
       this.fromDate.year = new Date(this.selectedData.EffectiveFrom).getFullYear();
