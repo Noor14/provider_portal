@@ -314,7 +314,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       destroy: true,
       // pagingType: 'full_numbers',
       pageLength: 5,
-      // scrollX: true,
+      scrollX: true,
       scrollY: '60vh',
       scrollCollapse: true,
       searching: false,
@@ -327,7 +327,10 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         }
       },
-
+      fixedColumns: {
+        leftColumns: 0,
+        rightColumns: 1
+      },
       columnDefs: [
         {
           targets: 0,
@@ -338,6 +341,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           targets: 1,
           width: '235'
         },
+     
         {
           targets: -1,
           width: '12',
@@ -350,7 +354,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         {
           targets: "_all",
           width: "150"
-        }
+        },
+        
       ]
 
     }
@@ -455,7 +460,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       destroy: true,
       // pagingType: 'full_numbers',
       pageLength: 5,
-      // scrollX: true,
+      scrollX: true,
       scrollY: '60vh',
       scrollCollapse: true,
       searching: false,
@@ -468,7 +473,10 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         }
       },
-
+      fixedColumns: {
+        leftColumns: 0,
+        rightColumns: 1
+      },
       columnDefs: [
         {
           targets: 0,
@@ -479,6 +487,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           targets: 1,
           width: '235'
         },
+
         {
           targets: -1,
           width: '12',
@@ -491,9 +500,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         {
           targets: "_all",
           width: "150"
-        }
-      ]
+        },
 
+      ]
     }
 
     this.setdataDraftInTableFTL();
@@ -938,7 +947,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       destroy: true,
       // pagingType: 'full_numbers',
       pageLength: 5,
-      // scrollX: true,
+      scrollX: true,
       scrollY: '60vh',
       scrollCollapse: true,
       searching: false,
@@ -950,6 +959,10 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         }
+      },
+      fixedColumns: {
+        leftColumns: 0,
+        rightColumns: 1
       },
       columnDefs: [
         {
@@ -1243,6 +1256,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     });
     modalRef.result.then((result) => {
       if (result == "Success") {
+      if(this.activeTab=="activeFCL"){
         for (let index = 0; index < this.draftslist.length; index++) {
           if (this.draftslist[index].ID == id) {
             this.draftslist.splice(index, 1);
@@ -1252,14 +1266,24 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           }
         }
       }
+        else if (this.activeTab == "activeFTL") {
+          for (let index = 0; index < this.draftslistFTL.length; index++) {
+            if (this.draftslistFTL[index].ID == id) {
+              this.draftslistFTL.splice(index, 1);
+              this.generateDraftTableFTL();
+              this.publishRatesFTL = [];
+              break;
+            }
+          }
+        }
+      }
     }, (reason) => {
       // console.log("reason");
     });
     let obj = {
       data: [{
         draftID: id,
-        transportType: "GROUND",
-
+        transportType: (this.activeTab == 'activeFCL') ? "GROUND" : "TRUCK",
       }],
       type: "draftGroundRate"
     }

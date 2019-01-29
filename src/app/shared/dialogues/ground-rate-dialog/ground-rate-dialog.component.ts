@@ -124,6 +124,9 @@ export class GroundRateDialogComponent implements OnInit {
   }
   setData() {
     let parsed = '';
+    if (this.transPortMode == 'TRUCK') {
+      this.groundsPorts = this.allPorts.filter(elem => elem.PortType.toLowerCase() == 'ground');
+    }
     if (this.transPortMode == 'GROUND'){
       this.allContainers = this.allContainers.filter(obj => obj.ContainerSizeNature.toLowerCase() == 'container')
     }
@@ -141,7 +144,7 @@ export class GroundRateDialogComponent implements OnInit {
       this.fromDate.year = new Date(this.selectedData.EffectiveFrom).getFullYear();
       this.fromDate.month = new Date(this.selectedData.EffectiveFrom).getMonth() + 1;
     }
-    else if (this.selectedData.EffectiveTo) {
+    if (this.selectedData.EffectiveTo) {
       this.toDate.day = new Date(this.selectedData.EffectiveTo).getDate();
       this.toDate.year = new Date(this.selectedData.EffectiveTo).getFullYear();
       this.toDate.month = new Date(this.selectedData.EffectiveTo).getMonth() + 1;
@@ -162,6 +165,8 @@ export class GroundRateDialogComponent implements OnInit {
 
 
   portsFilterartion(obj){
+    if (this.transPortMode == 'GROUND') {
+
     if(obj && obj.PortType && obj.PortType == 'SEA'){
       this.groundsPorts = this.allPorts.filter(elem=>elem.PortType.toLowerCase() != 'sea');
     }
@@ -171,7 +176,9 @@ export class GroundRateDialogComponent implements OnInit {
     else{
       return
     }
+  
   }
+   }
 
 
   savedraftrow(type) {
