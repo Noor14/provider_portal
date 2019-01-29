@@ -55,7 +55,6 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 })
 export class GroundTransportComponent implements OnInit, OnDestroy  {
 
-
   private draftRates: any;
   private addnsaveRates: any;
   public dtOptionsByGround: DataTables.Settings | any = {};
@@ -220,7 +219,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         {
           title: 'TYPE',
           data: function (data) {
-            if (!data.ShippingCatName) {
+            if (!data.ShippingCatID) {
               return "<span>-- Select --</span>"
             }
             else {
@@ -437,6 +436,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       for (let i = 0; i < data.length; i++) {
         if (this.draftslist[index].ID == data[i].ID) {
           this.draftslist[index].ContainerLoadType = data[i].containerLoadType;
+          this.draftslist[index].TransportType = data[i].transportType;
           this.draftslist[index].ShippingCatID = data[i].shippingCatID;
           this.draftslist[index].ShippingCatName = data[i].shippingCatName;
           this.draftslist[index].ContainerSpecID = data[i].containerSpecID;
@@ -575,16 +575,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
 
   filterTable() {
     this.dtOptionsByGround = {
-      // ajax: {
-      //   url: "http://10.20.1.13:9091/api/providerratefcl/SearchRates",
-      //   type: "POST"
-      // },
-      data: this.allRatesList,
+       data: this.allRatesList,
       columns: [
         {
           title: '<div class="fancyOptionBoxes"> <input id = "selectallpublishRates" type = "checkbox"> <label for= "selectallpublishRates"> <span> </span></label></div>',
           data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.id + '" type = "checkbox"> <label for= "' + data.id + '"> <span> </span></label></div>';
+            return '<div class="fancyOptionBoxes"> <input id = "' + data.id + '-' + data.transportType + '" type = "checkbox"> <label for= "' + data.id + '"> <span> </span></label></div>';
           }
         },
         {
@@ -599,21 +595,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         },
         {
           title: 'TYPE',
-          data: function (data) {
-            return (Number(data.priceWithCode.split(' ').pop())).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.priceWithCode.split(' ').shift(),
-            });
-          },
+          data: 'shippingCatName',
         },
         {
           title: 'SIZE',
-          data: function (data) {
-            return (Number(data.priceWithCode.split(' ').pop())).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.priceWithCode.split(' ').shift(),
-            });
-          },
+          data: 'size',
         },
         {
           title: 'RATE',
@@ -649,8 +635,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           $('.publishRateGround .dataTables_paginate').show();
         }
       },
-      // processing: true,
-      // serverSide: true,
       // retrieve: true,
       destroy: true,
       // pagingType: 'full_numbers',
@@ -668,10 +652,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         }
       },
-      // fixedColumns: {
-      //   leftColumns: 0,
-      //   rightColumns: 1
-      // },
       columnDefs: [
         {
           targets: 0,
@@ -715,7 +695,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           for (var i = 0; i < cols.length; i += 1) {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
             if (this.checkedallpublishRates) {
-              this.delPublishRates.push(cols[i].querySelector("input[type='checkbox']").id);
+              let selectedData = cols[i].querySelector("input[type='checkbox']").id;
+              let obj = { 
+                publishRateID: selectedData.split('-').shift(),
+                transportType: selectedData.split('-').pop()
+              }
+              this.delPublishRates.push(obj);
               this.selectedItem('add', alltableOption)
             }
           }
@@ -728,14 +713,19 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         });
 
         $('#publishRateTable').off('click').on('click', 'input[type="checkbox"]', (event) => {
-          let index = this.delPublishRates.indexOf((<HTMLInputElement>event.target).id);
+          let selectedData = (<HTMLInputElement>event.target).id
+          let index = this.delPublishRates.findIndex(obj => obj.publishRateID == selectedData.split('-').shift());
           let selection = event.currentTarget.parentElement.parentElement.parentElement;
           if (index >= 0) {
             this.delPublishRates.splice(index, 1);
             selection.classList.remove('selected');
           } else {
             selection.classList.add('selected');
-            this.delPublishRates.push((<HTMLInputElement>event.target).id)
+            let obj = {
+              publishRateID: selectedData.split('-').shift(),
+              transportType: selectedData.split('-').pop()
+            }
+            this.delPublishRates.push(obj)
           }
 
         });
@@ -845,7 +835,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         else {
           for (var i = 0; i < this.delPublishRates.length; i++) {
             for (let y = 0; y < this.allRatesList.length; y++) {
-              if (this.delPublishRates[i] == this.allRatesList[y].carrierPricingID) {
+              if (this.delPublishRates[i] == this.allRatesList[y].id) {
                 this.allRatesList.splice(y, 1);
               }
             }

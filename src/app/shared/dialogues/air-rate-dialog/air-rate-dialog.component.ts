@@ -173,6 +173,7 @@ export class AirRateDialogComponent implements OnInit {
           carrierName: (this.selectedAirline) ? this.selectedAirline.CarrierName : undefined,
           carrierImage: (this.selectedAirline) ? this.selectedAirline.CarrierImage : undefined,
           containerSpecID: null,
+          customerID : null,
           price: 0,
           fromKg: 0,
           toKg: 0,

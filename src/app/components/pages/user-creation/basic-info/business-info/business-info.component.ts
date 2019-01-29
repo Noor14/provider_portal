@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../../directives/ng-files';
 import { DocumentFile } from '../../../../../interfaces/document.interface';
@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { loading } from '../../../../../constants/globalFunctions';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
+import { SharedService } from '../../../../../services/shared.service';
 
 @Component({
   selector: 'app-business-info',
@@ -33,9 +34,15 @@ export class BusinessInfoComponent implements OnInit {
   public selectedCertificateDocx: any[] = [];
   private userProfile: any;
   private userInfo:any
-  private docTypeId = null;
+  private docTypeIdLogo = null;
+  private docTypeIdCert = null;
+  private docTypeIdGallery = null;
+  // private docTypeId = null;
   public docxId: any;
-  private fileStatus = undefined;
+  // private fileStatus = undefined;
+  private fileStatusLogo = undefined;
+  private fileStatusGallery = undefined;
+  private fileStatusCert = undefined;
   public selectedFiles: any;
   public selectedLogo: any;
   private config: NgFilesConfig = {
@@ -57,14 +64,16 @@ export class BusinessInfoComponent implements OnInit {
   public orgName:string;
 
   public userName:string;
-  public spinner:boolean=false;
-  public addBusinessbtnEnabled = undefined;
+  public spinner:boolean = false;
+  public addBusinessbtnEnabled : boolean = undefined;
+  @ViewChild('profileName') profileName: ElementRef;
   constructor(
     private _toastr: ToastrService,
     private _basicInfoService: BasicInfoService,
     private cdRef: ChangeDetectorRef,
     private ngFilesService: NgFilesService,
     private _router: Router,
+    private _sharedService: SharedService
   ) {
   }
 
@@ -73,40 +82,49 @@ export class BusinessInfoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._sharedService.signOutToggler.next(true);
     this.ngFilesService.addConfig(this.config, 'config');
-    // this.ngFilesService.addConfig(this.namedConfig);
+    this.ngFilesService.addConfig(this.configLogo);
     this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (this.userInfo && this.userInfo.returnText) {
       this.userProfile = JSON.parse(this.userInfo.returnText);
     }
     this.getbusinessServices();
+
+       Observable.fromEvent(this.profileName.nativeElement, 'keyup')
+      // get value
+      .map((evt: any) => evt.target.value)
+      // text length must be > 2 chars
+      //.filter(res => res.length > 2)
+      // emit after 1s of silence
+      .debounceTime(1000)        
+      // emit only if data changes since the last emit       
+      .distinctUntilChanged()
+      // subscription
+          .subscribe((text: string) => {
+            this.spinner = true;
+            if (text){
+              this.validate(text);
+            }
+            else{
+              this.spinner = false;
+            }
+          });
   }
 
 
-  validateUserName() {
-    if (this.userName) {
-      this.spinner=true;
-      let oldName;
-      this.debounceInput.next(this.userName);
-      this.debounceInput.pipe(debounceTime(1200), distinctUntilChanged()).subscribe(userName => {
-        if (userName && oldName != userName){
-          this.addBusinessbtnEnabled = undefined;
-          this.validate(oldName, userName);
-        }
 
-      })
-    }
-    else{
-      this.addBusinessbtnEnabled = undefined; 
+  spaceHandler(event) {
+    if (event.charCode == 32) {
+      event.preventDefault();
+      return false;
     }
   }
-
-  validate(oldName, userName){
+  validate(userName){
     this._basicInfoService.validateUserName(userName).subscribe((res: any) => {
       this.spinner = false;
-      this.debounceInput.next(null);
       if (res.returnStatus == "Success") {
-        oldName = userName;
+        this.userName = userName;
         this.addBusinessbtnEnabled = true;
       }
       else {
@@ -171,7 +189,7 @@ export class BusinessInfoComponent implements OnInit {
     }
   }
   getbusinessServices(){
-    this._basicInfoService.getbusinessServices(913).subscribe((res:any)=>{
+    this._basicInfoService.getbusinessServices(this.userProfile.ProviderID).subscribe((res:any)=>{
       if (res && res.returnStatus == "Success"){
         this.orgName = res.returnObject.companyName;
         this.allAssociations = res.returnObject.associations;
@@ -187,7 +205,16 @@ export class BusinessInfoComponent implements OnInit {
   }
 removeSelectedDocx(index,  obj, type) {
   obj.DocumentFile  =  obj.DocumentFile.split(baseExternalAssets).pop();
-  obj.DocumentID  =  this.docTypeId;
+  if(type == 'logo'){
+    obj.DocumentID = this.docTypeIdLogo;
+  }
+  else if (type == 'gallery') {
+    obj.DocumentID = this.docTypeIdGallery;
+  }
+  else if (type == 'certificate') {
+    obj.DocumentID = this.docTypeIdCert;
+  }
+
   this._basicInfoService.removeDoc(obj).subscribe((res:  any)  =>  {
     if  (res.returnStatus  ==  'Success') {
       this._toastr.success('Remove selected document succesfully',  "");
@@ -242,7 +269,7 @@ removeSelectedDocx(index,  obj, type) {
               fileName: file.name,
               fileType: file.type,
               fileUrl: reader.result,
-              fileBaseString: reader.result.split(',')[1]
+              fileBaseString: (reader as any).result.split(',').pop()
             }
                 if (event.files.length <= this.config.maxFilesCount) {
                   const docFile = JSON.parse(this.generateDocObject(selectedFile, type));
@@ -269,20 +296,27 @@ removeSelectedDocx(index,  obj, type) {
     let object
     if(type == 'logo'){
       object = this.companyLogoDocx;
+      object.DocumentID = this.docTypeIdLogo;
+      object.DocumentLastStatus = this.fileStatusLogo;
+
     }
     else if (type == 'gallery'){
       object = this.galleriesDocx;
+      object.DocumentID = this.docTypeIdGallery;
+      object.DocumentLastStatus = this.fileStatusGallery;
+
     }
     else if (type == 'certificate'){
       object = this.certficateDocx;
+      object.DocumentID = this.docTypeIdCert;
+      object.DocumentLastStatus = this.fileStatusCert;
+
     }
     object.UserID = this.userProfile.UserID;
     object.ProviderID = this.userProfile.ProviderID;
     object.DocumentFileContent = null;
     object.DocumentName = null;
     object.DocumentUploadedFileType = null;
-    object.DocumentID = this.docTypeId;
-    object.DocumentLastStatus = this.fileStatus;
     object.FileContent = [{
       documentFileName: selectedFile.fileName,
       documentFile: selectedFile.fileBaseString,
@@ -298,8 +332,21 @@ removeSelectedDocx(index,  obj, type) {
         const resp: JsonResponse = await this.docSendService(docFiles[index])
         if (resp.returnStatus = 'Success') {
           let resObj = JSON.parse(resp.returnText);
-          this.docTypeId = resObj.DocumentID;
-          this.fileStatus = resObj.DocumentLastStaus;
+          if(type == 'logo'){
+          this.docTypeIdLogo = resObj.DocumentID;
+          this.fileStatusLogo = resObj.DocumentLastStaus;
+          }
+          else if (type == 'gallery') {
+            this.docTypeIdGallery = resObj.DocumentID;
+            this.fileStatusGellery = resObj.DocumentLastStaus;
+          }
+          else if (type == 'certificate') {
+            this.docTypeIdCert = resObj.DocumentID;
+            this.fileStatusCert = resObj.DocumentLastStaus;
+
+          }
+          // this.docTypeId = resObj.DocumentID;
+          // this.fileStatus = resObj.DocumentLastStaus;
           let fileObj = JSON.parse(resObj.DocumentFile);
           fileObj.forEach(element => {
             element.DocumentFile = baseExternalAssets + element.DocumentFile;
@@ -349,8 +396,8 @@ removeSelectedDocx(index,  obj, type) {
         this.userProfile.UserProfileStatus = "Dashboard";
         this.userInfo.returnText = JSON.stringify(this.userProfile);
         localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
-        loading(false);
         this._router.navigate(['provider/dashboard']);
+        loading(false);
       }
     }, (err: HttpErrorResponse) => {
       loading(false);

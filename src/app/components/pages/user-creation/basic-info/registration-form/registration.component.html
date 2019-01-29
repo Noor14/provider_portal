@@ -63,15 +63,15 @@
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="form-group">
             <label>Organization Name</label>
-            <input type="text" class="form-control" maxlength="100" (keypress)="textValidation($event)" [ngClass]="{
+            <input type="text" class="form-control" maxlength="100" [ngClass]="{
                           'inputError': orgNameError && businessForm.controls['orgName'].errors
                           }" (focusout)="errorValidate()" (blur)="activeOrgName=false" (focus)="transorgNameError=false; orgNameError=false; activeOrgName=true"
               (ngModelChange)="onModelChange(activeTransOrgName, activeOrgName, 'transLangOrgName', 'en', 'ar' ,$event)" placeholder="Company Name"
               formControlName="orgName">
             <span *ngIf="orgNameError && businessForm.controls['orgName'].errors">
               <p class="inputError animated fadeIn" *ngIf="businessForm.controls['orgName'].hasError('required') && (businessForm.controls.orgName.dirty || businessForm.controls.orgName.touched)">{{requiredFields}}</p>
-              <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['orgName'].hasError('pattern') && businessForm.controls['orgName'].hasError('minlength') && (businessForm.controls.orgName.dirty || businessForm.controls.orgName.touched)">Org name must be at least 4 characters long</p>
-              <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['orgName'].hasError('pattern') && businessForm.controls['orgName'].hasError('maxlength') && (businessForm.controls.orgName.dirty || businessForm.controls.orgName.touched)">Org name should not exceed from 100 characters</p>
+              <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['orgName'].hasError('pattern') && businessForm.controls['orgName'].hasError('minlength') && (businessForm.controls.orgName.dirty || businessForm.controls.orgName.touched)">Organization name must be at least 4 characters long</p>
+              <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['orgName'].hasError('pattern') && businessForm.controls['orgName'].hasError('maxlength') && (businessForm.controls.orgName.dirty || businessForm.controls.orgName.touched)">Organization name should not exceed from 100 characters</p>
               <p class="inputError animated fadeIn" *ngIf="businessForm.controls['orgName'].hasError('pattern') && (businessForm.controls.orgName.dirty || businessForm.controls.orgName.touched)">Please enter valid information</p>
             </span>
           </div>
@@ -87,7 +87,7 @@
               formControlName="transLangOrgName">
             <span *ngIf="transorgNameError && businessForm.controls['transLangOrgName'].errors">
               <p class="inputError animated fadeIn" *ngIf="businessForm.controls['transLangOrgName'].hasError('required') && (businessForm.controls.transLangOrgName.dirty || businessForm.controls.transLangOrgName.touched)">{{requiredFieldsOthrLng}}</p>
-              <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['transLangOrgName'].hasError('pattern') && businessForm.controls['transLangOrgName'].hasError('minlength') && (businessForm.controls.transLangOrgName.dirty || businessForm.controls.transLangOrgName.touched)">يجب ألا يقل اسم المؤسسة عن 4 أحرف</p>
+              <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['transLangOrgName'].hasError('pattern') && businessForm.controls['transLangOrgName'].hasError('minlength') && (businessForm.controls.transLangOrgName.dirty || businessForm.controls.transLangOrgName.touched)">يجب أن يكون اسم المؤسسة 4 أحرف على الأقل</p>
               <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['transLangOrgName'].hasError('pattern') && businessForm.controls['transLangOrgName'].hasError('maxlength') && (businessForm.controls.transLangOrgName.dirty || businessForm.controls.transLangOrgName.touched)">يجب ألا يتجاوز اسم المؤسسة 100 حرف</p>
               <p class="inputError animated fadeIn" *ngIf="businessForm.controls['transLangOrgName'].hasError('pattern') && (businessForm.controls.transLangOrgName.dirty || businessForm.controls.transLangOrgName.touched)">يرجى إدخال معلومات صحيحة</p>
             </span>
@@ -233,8 +233,8 @@
               </div>
               <span class="animated fadeIn" *ngIf="phoneError && businessForm.controls['phone'].errors">
                 <p class="inputError animated fadeIn" *ngIf="businessForm.controls['phone'].hasError('required') && (businessForm.controls.phone.dirty || businessForm.controls.phone.touched)">{{requiredFields}}</p>
-                <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['phone'].hasError('pattern') && businessForm.controls['phone'].hasError('minlength') && (businessForm.controls.phone.dirty || businessForm.controls.phone.touched)">Phone number should be minimum 7 digits</p>
-                <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['phone'].hasError('pattern') && businessForm.controls['phone'].hasError('maxlength') && (businessForm.controls.phone.dirty || businessForm.controls.phone.touched)">Phone number should not exceed from 13 digits</p>
+                <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['phone'].hasError('pattern') && businessForm.controls['phone'].hasError('minlength') && (businessForm.controls.phone.dirty || businessForm.controls.phone.touched)">Telephone number should be minimum 7 digits</p>
+                <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['phone'].hasError('pattern') && businessForm.controls['phone'].hasError('maxlength') && (businessForm.controls.phone.dirty || businessForm.controls.phone.touched)">Telephone number should not exceed from 13 digits</p>
                 <p class="inputError animated fadeIn" *ngIf="businessForm.controls['phone'].hasError('pattern') && (businessForm.controls.phone.dirty || businessForm.controls.phone.touched)">Please enter valid information</p>
               </span>
             </div>
@@ -273,7 +273,7 @@
               <span class="animated fadeIn" *ngIf="translangPhoneError && businessForm.controls['transLangPhone'].errors">
                 <p class="inputError animated fadeIn" *ngIf="businessForm.controls['transLangPhone'].hasError('required') && (businessForm.controls.transLangPhone.dirty || businessForm.controls.transLangPhone.touched)">{{requiredFieldsOthrLng}}</p>
                 <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['transLangPhone'].hasError('pattern') && businessForm.controls['transLangPhone'].hasError('minlength') && (businessForm.controls.transLangPhone.dirty || businessForm.controls.transLangPhone.touched)">يجب أن يكون رقم الهاتف 7 أرقام كحد أدنى</p>
-                <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['transLangPhone'].hasError('pattern') && businessForm.controls['transLangPhone'].hasError('maxlength') && (businessForm.controls.transLangPhone.dirty || businessForm.controls.transLangPhone.touched)">يجب ألا يتجاوز رقم الهاتف 13 أرقام</p>
+                <p class="inputError animated fadeIn" *ngIf="!businessForm.controls['transLangPhone'].hasError('pattern') && businessForm.controls['transLangPhone'].hasError('maxlength') && (businessForm.controls.transLangPhone.dirty || businessForm.controls.transLangPhone.touched)">يجب ألا يتجاوز رقم الهاتف 13 رقمًا</p>
                 <p class="inputError animated fadeIn" *ngIf="businessForm.controls['transLangPhone'].hasError('pattern') && (businessForm.controls.transLangPhone.dirty || businessForm.controls.transLangPhone.touched)">يرجى إدخال معلومات صحيحة</p>
               </span>
             </div>
@@ -497,8 +497,8 @@
               </div>
               <span *ngIf="telephoneError">
                 <p class="inputError animated fadeIn" *ngIf="personalInfoForm.controls['telephone'].hasError('required') && (personalInfoForm.controls.telephone.dirty || personalInfoForm.controls.telephone.touched)">{{requiredFields}}</p>
-                <p class="inputError animated fadeIn" *ngIf="!personalInfoForm.controls['telephone'].hasError('pattern') && personalInfoForm.controls['telephone'].hasError('minlength') && (personalInfoForm.controls.telephone.dirty || personalInfoForm.controls.telephone.touched)">telephone number should be minimum 7 digits</p>
-                <p class="inputError animated fadeIn" *ngIf="!personalInfoForm.controls['telephone'].hasError('pattern') && personalInfoForm.controls['telephone'].hasError('maxlength') && (personalInfoForm.controls.telephone.dirty || personalInfoForm.controls.telephone.touched)">telephone number should not exceed from 13 digits</p>
+                <p class="inputError animated fadeIn" *ngIf="!personalInfoForm.controls['telephone'].hasError('pattern') && personalInfoForm.controls['telephone'].hasError('minlength') && (personalInfoForm.controls.telephone.dirty || personalInfoForm.controls.telephone.touched)">Mobile number should be minimum 7 digits</p>
+                <p class="inputError animated fadeIn" *ngIf="!personalInfoForm.controls['telephone'].hasError('pattern') && personalInfoForm.controls['telephone'].hasError('maxlength') && (personalInfoForm.controls.telephone.dirty || personalInfoForm.controls.telephone.touched)">Mobile number should not exceed from 13 digits</p>
                 <p class="inputError animated fadeIn" *ngIf="personalInfoForm.controls['telephone'].hasError('pattern') && (personalInfoForm.controls.telephone.dirty || personalInfoForm.controls.telephone.touched)">Please enter valid information</p>
               </span>
             </div>
@@ -537,8 +537,8 @@
               </div>
               <span *ngIf="translangtelephoneError">
                 <p class="inputError animated fadeIn" *ngIf="personalInfoForm.controls['transLangtelephone'].hasError('required') && (personalInfoForm.controls.transLangtelephone.dirty || personalInfoForm.controls.transLangtelephone.touched)">{{requiredFieldsOthrLng}}</p>
-                <p class="inputError animated fadeIn" *ngIf="!personalInfoForm.controls['transLangtelephone'].hasError('pattern') && personalInfoForm.controls['transLangtelephone'].hasError('minlength') && (personalInfoForm.controls.transLangtelephone.dirty || personalInfoForm.controls.transLangtelephone.touched)">يجب أن يكون رقم الهاتف 7 أرقام كحد أدنى</p>
-                <p class="inputError animated fadeIn" *ngIf="!personalInfoForm.controls['transLangtelephone'].hasError('pattern') && personalInfoForm.controls['transLangtelephone'].hasError('maxlength') && (personalInfoForm.controls.transLangtelephone.dirty || personalInfoForm.controls.transLangtelephone.touched)">يجب ألا يتجاوز رقم الهاتف 13 أرقام</p>
+                <p class="inputError animated fadeIn" *ngIf="!personalInfoForm.controls['transLangtelephone'].hasError('pattern') && personalInfoForm.controls['transLangtelephone'].hasError('minlength') && (personalInfoForm.controls.transLangtelephone.dirty || personalInfoForm.controls.transLangtelephone.touched)">يجب أن يكون رقم الهاتف المحمول 7 أرقام كحد أدنى</p>
+                <p class="inputError animated fadeIn" *ngIf="!personalInfoForm.controls['transLangtelephone'].hasError('pattern') && personalInfoForm.controls['transLangtelephone'].hasError('maxlength') && (personalInfoForm.controls.transLangtelephone.dirty || personalInfoForm.controls.transLangtelephone.touched)">يجب ألا يتجاوز رقم الهاتف المحمول 13 رقمًا</p>
                 <p class="inputError animated fadeIn" *ngIf="personalInfoForm.controls['transLangtelephone'].hasError('pattern') && (personalInfoForm.controls.transLangtelephone.dirty || personalInfoForm.controls.transLangtelephone.touched)">يرجى إدخال معلومات صحيحة</p>
               </span>
             </div>

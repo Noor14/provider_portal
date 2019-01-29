@@ -38,5 +38,5 @@ export interface DocumentFile {
     fileBaseString: string
     fileName: string
     fileType: string
-    fileUrl: string
+    fileUrl: string | ArrayBuffer
 }
