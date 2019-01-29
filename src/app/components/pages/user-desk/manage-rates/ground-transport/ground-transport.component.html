@@ -49,7 +49,6 @@
 <ng-template ngbTabContent>
 <section [ngClass]="{'no-data': !draftslist.length, 'no-scroll-add' : draftslist.length, 'no-pagination': draftslist.length <= dtOptionsByGroundDraft.pageLength}"
   class="rates-grid draft-grid draft-Ground">
-  <h5 class="add-rate-head mb-4 mt-4">Unpublished Rates</h5>
   <table id="draftRateTable" cellspacing="0" #draftBYGround class="row-border hover"></table>
   <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloading">Add
     another rates</a>
@@ -203,7 +202,6 @@
     <ng-template ngbTabContent>
 <section [ngClass]="{'no-data': !draftslist.length, 'no-scroll-add' : draftslist.length, 'no-pagination': draftslist.length <= dtOptionsByGroundDraft.pageLength}"
   class="rates-grid draft-grid draft-Ground">
-  <h5 class="add-rate-head mb-4 mt-4">Unpublished Rates</h5>
   <table id="draftRateTable" cellspacing="0" #draftBYGround class="row-border hover"></table>
   <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloading">Add
     another rates</a>
