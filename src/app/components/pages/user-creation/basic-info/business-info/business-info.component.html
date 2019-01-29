@@ -238,7 +238,7 @@
     </div>
   </section>
   <div class="d-flex justify-content-end">
-    <button class="btn btn-primary hvr-sweep-to-right" [disabled]="!aboutUs || !addBusinessbtnEnabled || (assocService && !assocService.length) || (frtService && !frtService.length) || (valueService && !valueService.length)"
+    <button class="btn btn-primary hvr-sweep-to-right" [disabled]="!aboutUs || !addBusinessbtnEnabled || (assocService && !assocService.length) || (frtService && !frtService.length) || (valueService && !valueService.length) || (!selectedDocxlogo || (selectedDocxlogo && !selectedDocxlogo?.DocumentFile))"
       (click)="addCorperateInfo()">
       CREATE PROFILE
     </button>

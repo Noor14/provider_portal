@@ -135,13 +135,13 @@ export class AirRateDialogComponent implements OnInit {
       this.selectedAirline = this.allAirLines.find(obj => obj.CarrierID == this.selectedData.CarrierID);
       this.selectedCurrency = this.allCurrencies.find(obj => obj.CurrencyID == this.selectedData.CurrencyID);
       let minPrice = this.selectedData.slab.minPrice1.split(' ').pop();
-    this.minPrice = (Math.ceil(minPrice)) ? minPrice: null
-    this.normalPrice = (Math.ceil(this.selectedData.slab.price1)) ? this.selectedData.slab.price1 : null;
-    this.plusfortyFivePrice = (Math.ceil(this.selectedData.slab.price2)) ? this.selectedData.slab.price2 : null;
-    this.plushundredPrice = (Math.ceil(this.selectedData.slab.price3)) ? this.selectedData.slab.price3: null;
-    this.plusTwoFiftyPrice = (Math.ceil(this.selectedData.slab.price4)) ? this.selectedData.slab.price4: null;
-    this.plusFiveHundPrice = (Math.ceil(this.selectedData.slab.price5)) ? this.selectedData.slab.price5: null;
-    this.plusThousandPrice = (Math.ceil(this.selectedData.slab.price6)) ? this.selectedData.slab.price6: null;
+    this.minPrice = (Math.ceil(minPrice)) ? Number(minPrice).toFixed(2): null
+    this.normalPrice = (Math.ceil(this.selectedData.slab.price1)) ? Number(this.selectedData.slab.price1).toFixed(2) : null;
+    this.plusfortyFivePrice = (Math.ceil(this.selectedData.slab.price2)) ? Number(this.selectedData.slab.price2).toFixed(2) : null;
+    this.plushundredPrice = (Math.ceil(this.selectedData.slab.price3)) ? Number(this.selectedData.slab.price3).toFixed(2): null;
+    this.plusTwoFiftyPrice = (Math.ceil(this.selectedData.slab.price4)) ? Number(this.selectedData.slab.price4).toFixed(2): null;
+    this.plusFiveHundPrice = (Math.ceil(this.selectedData.slab.price5)) ? Number(this.selectedData.slab.price5).toFixed(2): null;
+    this.plusThousandPrice = (Math.ceil(this.selectedData.slab.price6)) ? Number(this.selectedData.slab.price6).toFixed(2): null;
     if (this.selectedData.EffectiveFrom) {
       this.fromDate.day = new Date(this.selectedData.EffectiveFrom).getDate();
       this.fromDate.year = new Date(this.selectedData.EffectiveFrom).getFullYear();
