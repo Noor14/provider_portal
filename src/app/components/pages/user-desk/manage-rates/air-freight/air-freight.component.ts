@@ -240,7 +240,8 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         {
           title: 'MINIMUM PRICE',
           data: function (data) {
-            if (data.slab && data.slab.minPrice1){
+            let minPrice = data.slab.minPrice1.split(' ').pop();
+            if (data.slab && data.slab.minPrice1 && Math.ceil(minPrice)){
             return (Number(data.slab.minPrice1.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.slab.minPrice1.split(' ').shift(),
@@ -254,7 +255,8 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         {
           title: 'NORMAL PRICE',
           data: function (data) {
-            if (data.slab && data.slab.priceWithCode1){
+            let normalPrice = data.slab.priceWithCode1.split(' ').pop()
+            if (data.slab && data.slab.priceWithCode1 && Math.ceil(normalPrice)){
               return (Number(data.slab.priceWithCode1.split(' ').pop())).toLocaleString('en-US', {
                 style: 'currency',
                 currency: data.slab.priceWithCode1.split(' ').shift(),
@@ -268,7 +270,8 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         {
           title: '+45 PRICE',
           data: function (data) {
-            if (data.slab && data.slab.priceWithCode2) {
+            let plusFortyFivePrice = data.slab.priceWithCode2.split(' ').pop()
+            if (data.slab && data.slab.priceWithCode2 && Math.ceil(plusFortyFivePrice)) {
             return (Number(data.slab.priceWithCode2.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.slab.priceWithCode2.split(' ').shift(),
@@ -283,7 +286,8 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         {
           title: '+100 PRICE',
           data: function (data) {
-            if (data.slab && data.slab.priceWithCode3){
+            let plusHundredPrice = data.slab.priceWithCode3.split(' ').pop()
+            if (data.slab && data.slab.priceWithCode3 && Math.ceil(plusHundredPrice)){
               return (Number(data.slab.priceWithCode3.split(' ').pop())).toLocaleString('en-US', {
                 style: 'currency',
                 currency: data.slab.priceWithCode3.split(' ').shift(),
@@ -298,8 +302,8 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         {
           title: '+250 PRICE',
           data: function (data) {
-            if (data.slab && data.slab.priceWithCode4) {
-            
+            let plustwoFityPrice = data.slab.priceWithCode4.split(' ').pop()
+            if (data.slab && data.slab.priceWithCode4 && Math.ceil(plustwoFityPrice)) {
             return (Number(data.slab.priceWithCode4.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.slab.priceWithCode4.split(' ').shift(),
@@ -314,7 +318,8 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         {
           title: '+500 PRICE',
           data: function (data) {
-            if (data.slab && data.slab.priceWithCode5) {
+            let plusFiveHundredPrice = data.slab.priceWithCode5.split(' ').pop();
+            if (data.slab && data.slab.priceWithCode5 && Math.ceil(plusFiveHundredPrice)) {
             return (Number(data.slab.priceWithCode5.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.slab.priceWithCode5.split(' ').shift(),
@@ -328,7 +333,8 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         {
           title: '+1000 PRICE',
           data: function (data) {
-            if (data.slab && data.slab.priceWithCode6) {
+            let plusThousandPrice = data.slab.priceWithCode6.split(' ').pop()
+            if (data.slab && data.slab.priceWithCode6 && Math.ceil(plusThousandPrice)) {
             return (Number(data.slab.priceWithCode6.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.slab.priceWithCode6.split(' ').shift(),
