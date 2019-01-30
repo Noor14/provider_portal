@@ -16,6 +16,7 @@ import { UiSwitchModule } from 'ngx-toggle-switch';
 import { UniquePipe } from '../../../../constants/unique-recordFilter';
 import { AirFreightService } from './air-freight/air-freight.service';
 import { GroundTransportService } from './ground-transport/ground-transport.service';
+import { EditorModule } from '@tinymce/tinymce-angular';
 @NgModule({
   imports: [
     CommonModule,
@@ -26,7 +27,8 @@ import { GroundTransportService } from './ground-transport/ground-transport.serv
     FormsModule,
     ReactiveFormsModule,
     UiSwitchModule,
-    SharedModule
+    SharedModule,
+    EditorModule
   ],
   declarations: [
     ManageRatesComponent,

@@ -52,6 +52,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
     ])
   ]
 })
+
 export class SeaFreightComponent implements OnInit, OnDestroy {
 
   private draftRates: any;
@@ -387,7 +388,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       // pagingType: 'full_numbers',
       pageLength: 5,
       scrollX: true,
-      scrollY: '60vh',
+      // scrollY: '60vh',
       scrollCollapse: true,
       searching: false,
       lengthChange: false,
@@ -1111,7 +1112,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       // pagingType: 'full_numbers',
       pageLength: 5,
       scrollX: true,
-      scrollY: '60vh',
+      // scrollY: '60vh',
       scrollCollapse: true,
       searching: false,
       lengthChange: false,
