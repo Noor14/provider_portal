@@ -19,19 +19,33 @@ export class BillingComponent implements OnInit {
   public statistics = {
     color: ['#02bdb6', '#8472d5'],
     // title: {
-    //   text: '某地区蒸发量和降水量',
-    //   subtext: '纯属虚构'
+    //   text: 'Statistics',
+    //   subtext: 'Bar Stats'
     // },
     tooltip: {
-      trigger: 'axis'
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      },
+      backgroundColor: ['rgba(255,255,255,1)'],
+      padding: [20, 24],
+      extraCssText: 'box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.2);',
+      textStyle: {
+        color: '#2b2b2b',
+        decoration: 'none',
+        fontFamily: 'Proxima Nova, sans-serif',
+        fontSize: 16,
+        //fontStyle: 'italic',
+        //fontWeight: 'bold'
+      }
     },
     legend: {
       data: ['BILLED', 'PAID']
     },
     grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
+      left: '0%',
+      right: '0%',
+      bottom: '0%',
       containLabel: true
     },
     toolbox: {
@@ -60,7 +74,12 @@ export class BillingComponent implements OnInit {
         name: 'BILLED',
         type: 'bar',
         data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
-        barWidth: '10%'
+        barWidth: '10%',
+        barGap: 0.1,
+        itemStyle: {
+          normal: {
+            barBorderRadius: 15,
+          }}
         // markPoint: {
         //   data: [
         //     { type: 'max', name: '最大值' },
@@ -77,6 +96,12 @@ export class BillingComponent implements OnInit {
         name: 'PAID',
         type: 'bar',
         barWidth: '10%',
+        barGap: 0.1,
+        itemStyle: {
+          normal: {
+            barBorderRadius: 15,
+          }
+        },
         data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
         // markPoint: {
         //   data: [
