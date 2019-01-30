@@ -230,23 +230,29 @@
             <div class="col-12">
               <hr class="hr-solid mt-4" />
               <h5 class="add-rate-head mb-4 mt-4">Terms & Conditions</h5>
-<form autocomplete="off" novalidate [formGroup]="policyForm">
-  <div class="form-group">
-    <textarea class="form-control" formControlName="termNcondLCL" (focus)="termNcondErrorLCL = false" (focusout)="termNcondErrorLCL = true"></textarea>
-    <span *ngIf="termNcondErrorFCL && policyForm.controls['termNcondLCL'].errors">
-      <!-- <p class="inputError animated fadeIn" *ngIf="policyForm.controls['termNcondLCL'].hasError('required') && (policyForm.controls.termNcondLCL.dirty || policyForm.controls.termNcondLCL.touched)">This
-        field is required</p> -->
-      <p class="inputError animated fadeIn" *ngIf="!policyForm.controls['termNcondLCL'].hasError('pattern') && policyForm.controls['termNcondLCL'].hasError('maxlength') && (policyForm.controls.termNcondLCL.dirty || policyForm.controls.termNcondLCL.touched)">Term
-        and Condition should not exceed from 1000 characters</p>
-      <!-- <p class="inputError animated fadeIn" *ngIf="policyForm.controls['termNcondLCL'].hasError('pattern') && (policyForm.controls.termNcondLCL.dirty || policyForm.controls.termNcondLCL.touched)">Please enter valid information</p> -->
-    </span>
-  </div>
-  <button class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="submit" [disabled]="policyForm.invalid || !policyForm.controls['termNcondLCL'].value"
-    (click)="saveTermNcond('LCL')">
-    Save
-  </button>
-</form>
-
+                <form autocomplete="off" novalidate [formGroup]="policyForm">
+                  <div class="form-group">
+                      <button *ngIf="disableLCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mb-4"
+                            (click)="disableLCL = !disableLCL">
+                            EDIT
+                          </button>
+                    <textarea [readonly]="disableLCL" class="form-control" [ngClass]="{
+                          'inputError': termNcondErrorLCL && policyForm.controls['termNcondLCL'].errors
+                          }"
+                    formControlName="termNcondLCL" (focus)="termNcondErrorLCL = false" (focusout)="termNcondErrorLCL = true"></textarea>
+                    <span *ngIf="termNcondErrorLCL && policyForm.controls['termNcondLCL'].errors">
+                      <!-- <p class="inputError animated fadeIn" *ngIf="policyForm.controls['termNcondLCL'].hasError('required') && (policyForm.controls.termNcondLCL.dirty || policyForm.controls.termNcondLCL.touched)">This
+                        field is required</p> -->
+                      <p class="inputError animated fadeIn" *ngIf="!policyForm.controls['termNcondLCL'].hasError('pattern') && policyForm.controls['termNcondLCL'].hasError('maxlength') && (policyForm.controls.termNcondLCL.dirty || policyForm.controls.termNcondLCL.touched)">Term
+                        and Condition should not exceed from 5000 characters</p>
+                      <!-- <p class="inputError animated fadeIn" *ngIf="policyForm.controls['termNcondLCL'].hasError('pattern') && (policyForm.controls.termNcondLCL.dirty || policyForm.controls.termNcondLCL.touched)">Please enter valid information</p> -->
+                    </span>
+                  </div>
+                  <button *ngIf="!disableLCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="submit" [disabled]="policyForm.invalid || !policyForm.controls['termNcondLCL'].value"
+                    (click)="saveTermNcond('LCL')">
+                    SAVE
+                  </button>
+                </form>
             </div>
           </div>
         </section>
@@ -464,22 +470,29 @@
             <div class="col-12">
               <hr class="hr-solid mt-4" />
               <h5 class="add-rate-head mb-4 mt-4">Terms & Conditions</h5>
-<form autocomplete="off" novalidate [formGroup]="policyForm">
-  <div class="form-group">
-    <textarea class="form-control" formControlName="termNcondFCL" (focus)="termNcondErrorFCL = false" (focusout)="termNcondErrorFCL = true"></textarea>
-    <span *ngIf="termNcondErrorFCL && policyForm.controls['termNcondFCL'].errors">
-      <!-- <p class="inputError animated fadeIn" *ngIf="policyForm.controls['termNcondFCL'].hasError('required') && (policyForm.controls.termNcondFCL.dirty || policyForm.controls.termNcondFCL.touched)">This
-        field is required</p> -->
-      <p class="inputError animated fadeIn" *ngIf="!policyForm.controls['termNcondFCL'].hasError('pattern') && policyForm.controls['termNcondFCL'].hasError('maxlength') && (policyForm.controls.termNcondFCL.dirty || policyForm.controls.termNcondFCL.touched)">Term
-        and Condition should not exceed from 1000 characters</p>
-      <!-- <p class="inputError animated fadeIn" *ngIf="policyForm.controls['termNcondFCL'].hasError('pattern') && (policyForm.controls.termNcondFCL.dirty || policyForm.controls.termNcondFCL.touched)">Please enter valid information</p> -->
-    </span>
-  </div>
-  <button class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="submit" [disabled]="policyForm.invalid || !policyForm.controls['termNcondFCL'].value"
-    (click)="saveTermNcond('FCL')">
-    Save
-  </button>
-</form>
+                <form autocomplete="off" novalidate [formGroup]="policyForm">
+                  <div class="form-group">
+                    <button *ngIf="disableFCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mb-4"
+                            (click)="disableFCL = !disableFCL">
+                            EDIT
+                          </button>
+                    <textarea [readonly]="disableFCL" class="form-control" [ngClass]="{
+                          'inputError': termNcondErrorFCL && policyForm.controls['termNcondFCL'].errors
+                          }"
+                    formControlName="termNcondFCL" (focus)="termNcondErrorFCL = false" (focusout)="termNcondErrorFCL = true"></textarea>
+                    <span *ngIf="termNcondErrorFCL && policyForm.controls['termNcondFCL'].errors">
+                      <!-- <p class="inputError animated fadeIn" *ngIf="policyForm.controls['termNcondFCL'].hasError('required') && (policyForm.controls.termNcondFCL.dirty || policyForm.controls.termNcondFCL.touched)">This
+                        field is required</p> -->
+                      <p class="inputError animated fadeIn" *ngIf="!policyForm.controls['termNcondFCL'].hasError('pattern') && policyForm.controls['termNcondFCL'].hasError('maxlength') && (policyForm.controls.termNcondFCL.dirty || policyForm.controls.termNcondFCL.touched)">Term
+                        and Condition should not exceed from 5000 characters</p>
+                      <!-- <p class="inputError animated fadeIn" *ngIf="policyForm.controls['termNcondFCL'].hasError('pattern') && (policyForm.controls.termNcondFCL.dirty || policyForm.controls.termNcondFCL.touched)">Please enter valid information</p> -->
+                    </span>
+                  </div>
+                  <button *ngIf="!disableFCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="submit" [disabled]="policyForm.invalid || !policyForm.controls['termNcondFCL'].value"
+                    (click)="saveTermNcond('FCL')">
+                    SAVE
+                  </button>
+                </form>
             </div>
           </div>
         </section>

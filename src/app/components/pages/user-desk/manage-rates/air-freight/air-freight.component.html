@@ -163,19 +163,29 @@
         <h5 class="add-rate-head mb-4 mt-4">Terms & Conditions</h5>
         <form autocomplete="off" novalidate [formGroup]="policyForm">
         <div class="form-group">
-          <textarea class="form-control" formControlName="termNcond" (focus)="termNcondError = false" (focusout)="termNcondError = true"></textarea>
+           <button *ngIf="disable" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mb-4"
+            (click)="disable = !disable">
+            EDIT
+          </button>
+          <textarea [readonly]="disable" class="form-control" 
+          formControlName="termNcond" [ngClass]="{
+                          'inputError': termNcondError && policyForm.controls['termNcond'].errors
+                          }"
+          (focus)="termNcondError = false" (focusout)="termNcondError = true"></textarea>
           <span *ngIf="termNcondError && policyForm.controls['termNcond'].errors">
             <p class="inputError animated fadeIn" *ngIf="policyForm.controls['termNcond'].hasError('required') && (policyForm.controls.termNcond.dirty || policyForm.controls.termNcond.touched)">This
               field is required</p>
             <p class="inputError animated fadeIn" *ngIf="!policyForm.controls['termNcond'].hasError('pattern') && policyForm.controls['termNcond'].hasError('maxlength') && (policyForm.controls.termNcond.dirty || policyForm.controls.termNcond.touched)">Term
-              and Condition should not exceed from 1000 characters</p>
+              and Condition should not exceed from 5000 characters</p>
             <!-- <p class="inputError animated fadeIn" *ngIf="policyForm.controls['termNcond'].hasError('pattern') && (policyForm.controls.termNcond.dirty || policyForm.controls.termNcond.touched)">Please enter valid information</p> -->
           </span>
         </div>
-          <button class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="submit" [disabled]="policyForm.invalid"
+          <button *ngIf="!disable" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="submit" [disabled]="policyForm.invalid"
             (click)="saveTermNcond()">
-            Save
+            SAVE
           </button>
+           
+
         </form>
         <!-- <editor></editor> -->
       </div>
