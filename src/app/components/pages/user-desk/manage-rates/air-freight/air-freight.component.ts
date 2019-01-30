@@ -22,6 +22,8 @@ import * as moment from 'moment';
 // import { DataTableDirective } from 'angular-datatables';
 import { AirRateDialogComponent } from '../../../../../shared/dialogues/air-rate-dialog/air-rate-dialog.component';
 import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-parser-formatter';
+import { ManageRatesService } from '../manage-rates.service';
+import { ToastrService } from 'ngx-toastr';
 
 declare var $;
 const now = new Date();
@@ -109,6 +111,12 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   isInside = date => after(date, this.fromDate) && before(date, this.toDate);
   isFrom = date => equals(date, this.fromDate);
   isTo = date => equals(date, this.toDate);
+
+
+
+  // term abd condition
+  public termNcond: string;
+
   constructor(
     private modalService: NgbModal,
     private _airFreightService: AirFreightService,
@@ -116,6 +124,8 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     private element: ElementRef,
     private renderer: Renderer2,
     private _parserFormatter: NgbDateParserFormatter,
+    private _manageRatesService: ManageRatesService,
+    private _toast: ToastrService
   ) { }
 
   ngOnInit() {
@@ -1087,7 +1097,19 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
-
+  saveTermNcond() {
+    let obj = {
+      providerID: this.userProfile.ProviderID,
+      termsAndConditions: this.termNcond,
+      transportType: "GROUND",
+      modifiedBy: this.userProfile.LoginID
+    }
+    this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toast.success("Your term and condition saved", "");
+      }
+    })
+  }
 
   
 }

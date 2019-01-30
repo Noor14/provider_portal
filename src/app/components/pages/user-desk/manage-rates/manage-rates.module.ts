@@ -17,6 +17,7 @@ import { UniquePipe } from '../../../../constants/unique-recordFilter';
 import { AirFreightService } from './air-freight/air-freight.service';
 import { GroundTransportService } from './ground-transport/ground-transport.service';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { ManageRatesService } from './manage-rates.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -38,6 +39,6 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     WarehouseComponent,
     UniquePipe
   ],
-  providers: [SeaFreightService, AirFreightService, GroundTransportService]
+  providers: [SeaFreightService, AirFreightService, GroundTransportService, ManageRatesService]
 })
 export class ManageRatesModule { }

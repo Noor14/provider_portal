@@ -230,8 +230,10 @@
             <div class="col-12">
               <hr class="hr-solid mt-4" />
               <h5 class="add-rate-head mb-4 mt-4">Terms & Conditions</h5>
-              <textarea></textarea>
-              <button class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4">
+              <textarea [(ngModel)]="termNcondLCL"></textarea>
+              <!-- <editor></editor> -->
+              <button class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" [disabled]="!termNcondLCL"
+                (click)="saveTermNcond()">
                 Save
               </button>
             </div>
@@ -451,9 +453,10 @@
             <div class="col-12">
               <hr class="hr-solid mt-4" />
               <h5 class="add-rate-head mb-4 mt-4">Terms & Conditions</h5>
-              <!-- <textarea></textarea> -->
-              <editor [(ngModel)]="dataModel"></editor>
-              <button class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4">
+              <textarea [(ngModel)]="termNcondFCL"></textarea>
+              <!-- <editor></editor> -->
+              <button class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" [disabled]="!termNcondFCL"
+                (click)="saveTermNcond()">
                 Save
               </button>
             </div>

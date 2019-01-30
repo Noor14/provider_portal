@@ -29,7 +29,7 @@
     </div>
   </section>
   <section class="draft-Air rates-grid draft-grid" [ngClass]="{'no-data': !draftslist.length, 'no-scroll-add' : draftslist.length, 'no-pagination': draftslist.length <= dtOptionsByAirDraft.pageLength}">
-      <h5 class="add-rate-head mb-4 mt-4">Unpublished Rates</h5>
+    <h5 class="add-rate-head mb-4 mt-4">Unpublished Rates</h5>
     <table id="draftRateTable" cellspacing="0" #draftBYair class="row-border hover"></table>
     <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloading">Add
       another rates</a>
@@ -100,9 +100,8 @@
                         type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                     </div>
                     <input placeholder="Destination" [(ngModel)]="filterDestination" (focusout)="filtertionPort(filterDestination)"
-                      (ngModelChange)="filterByroute(filterDestination)" type="text" class="form-control"
-                      [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}" [ngbTypeahead]="ports"
-                      [resultTemplate]="rt" [inputFormatter]="formatter" />
+                      (ngModelChange)="filterByroute(filterDestination)" type="text" class="form-control" [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
+                      [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
                   </div>
                 </div>
               </div>
@@ -158,13 +157,17 @@
     <app-loader-main *ngIf="publishloading"></app-loader-main>
   </section>
   <section class="term-cond">
-      <div class="row">
-        <div class="col-12">
-          <hr class="hr-solid mt-4">
-          <h5 class="add-rate-head mb-4 mt-4">Terms & Conditions</h5>
-          <textarea></textarea>
-          <button class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4">Save</button>
-        </div>
+    <div class="row">
+      <div class="col-12">
+        <hr class="hr-solid mt-4">
+        <h5 class="add-rate-head mb-4 mt-4">Terms & Conditions</h5>
+        <textarea [(ngModel)]="termNcond"></textarea>
+        <!-- <editor></editor> -->
+        <button class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" [disabled]="!termNcond"
+          (click)="saveTermNcond()">
+          Save
+        </button>
       </div>
+    </div>
   </section>
 </section>

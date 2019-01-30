@@ -21,6 +21,8 @@ import * as moment from 'moment';
 // import { DataTableDirective } from 'angular-datatables';
 import { SeaRateDialogComponent } from '../../../../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
 import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-parser-formatter';
+import { ManageRatesService } from '../manage-rates.service';
+import { ToastrService } from 'ngx-toastr';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -135,6 +137,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   public checkedalldraftRates: boolean = false;
   public checkedalldraftRatesLCL: boolean = false;
 
+  // term and condition
+  public termNcondFCL: string;
+  public termNcondLCL :  string;
+
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
   isInside = date => after(date, this.fromDate) && before(date, this.toDate);
@@ -151,10 +157,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   constructor(
     private modalService: NgbModal,
     private _seaFreightService: SeaFreightService,
+    private _manageRatesService: ManageRatesService,
     private _sharedService: SharedService,
     private element: ElementRef,
     private renderer: Renderer2,
     private _parserFormatter: NgbDateParserFormatter,
+    private _toast: ToastrService
   ) {
   }
 
@@ -1713,7 +1721,19 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       }
     }, 0);
   }
-
+  saveTermNcond(){
+    let obj={
+      providerID: this.userProfile.ProviderID,
+      termsAndConditions: this.termNcondFCL,
+      transportType: (this.activeTab == 'activeFCL')? "FCL" : "LCL",
+      modifiedBy: this.userProfile.LoginID
+    }
+    this._manageRatesService.termNCondition(obj).subscribe((res:any)=>{
+      if(res.returnStatus=="Success"){
+        this._toast.success("Your term and condition saved", "");
+      }
+    })
+  }
 
 
 }

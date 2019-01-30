@@ -63,4 +63,6 @@ export class SeaFreightService {
     let url: string = "providerratelcl/DeletePublishRate";
     return this._http.request('delete', baseApi + url, { body: data });
   }
+
+
 }
