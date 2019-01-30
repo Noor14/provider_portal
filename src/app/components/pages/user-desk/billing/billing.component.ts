@@ -17,6 +17,7 @@ export class BillingComponent implements OnInit {
   private inVoiceList : any[] = [];
 
   public statistics = {
+    color: ['#02bdb6', '#8472d5'],
     // title: {
     //   text: '某地区蒸发量和降水量',
     //   subtext: '纯属虚构'
@@ -24,9 +25,15 @@ export class BillingComponent implements OnInit {
     tooltip: {
       trigger: 'axis'
     },
-    // legend: {
-    //   data: ['蒸发量', '降水量']
-    // },
+    legend: {
+      data: ['BILLED', 'PAID']
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
     toolbox: {
       show: true,
       feature: {
@@ -40,7 +47,7 @@ export class BillingComponent implements OnInit {
     xAxis: [
       {
         type: 'category',
-        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+        data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
       }
     ],
     yAxis: [
@@ -50,9 +57,10 @@ export class BillingComponent implements OnInit {
     ],
     series: [
       {
-        // name: '蒸发量',
+        name: 'BILLED',
         type: 'bar',
         data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+        barWidth: '10%'
         // markPoint: {
         //   data: [
         //     { type: 'max', name: '最大值' },
@@ -66,8 +74,9 @@ export class BillingComponent implements OnInit {
         // }
       },
       {
-        // name: '降水量',
+        name: 'PAID',
         type: 'bar',
+        barWidth: '10%',
         data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
         // markPoint: {
         //   data: [
@@ -84,7 +93,7 @@ export class BillingComponent implements OnInit {
     ]
   };
 
-  private statisticsRate: any[] = [];
+  private statisticsData: any[] = []
   constructor() { }
 
   ngOnInit() {
@@ -117,20 +126,22 @@ export class BillingComponent implements OnInit {
         invoice_paidAmount: "AED 9,500",
       }
   ]
-    this.statisticsRate = [
-      { month: 'Jan', statRate: 15 },
-      { month: 'Feb', statRate: 25 },
-      { month: 'Mar', statRate: 35 },
-      { month: 'Apr', statRate: 45 },
-      { month: 'May', statRate: 15 },
-      {month:'Jun' , statRate:55 },
-      { month: 'Jul', statRate: 65 },
-      { month: 'Aug', statRate: 75 },
-      { month: 'Sep', statRate: 85 },
-      { month: 'Oct', statRate: 95 },
-      { month: 'Nov', statRate: 105 },
-      { month: 'Dec', statRate: 115 },
-     ]
+   
+    this.statisticsData = [
+      { month: 'Jan', statData: 15 },
+      { month: 'Feb', statData: 25 },
+      { month: 'Mar', statData: 35 },
+      { month: 'Apr', statData: 45 },
+      { month: 'May', statData: 15 },
+      {month:'Jun' , statData:55 },
+      { month: 'Jul', statData: 65 },
+      { month: 'Aug', statData: 75 },
+      { month: 'Sep', statData: 85 },
+      { month: 'Oct', statData: 95 },
+      { month: 'Nov', statData: 105 },
+      { month: 'Dec', statData: 115 },
+    
+    ]
   
   this.generateInvoiceTable();
   }
