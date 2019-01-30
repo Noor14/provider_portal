@@ -8,7 +8,7 @@ import { SharedService } from '../../../../services/shared.service';
   templateUrl: './manage-rates.component.html',
   styleUrls: ['./manage-rates.component.scss']
 })
-export class ManageRatesComponent implements OnInit, OnDestroy {
+export class ManageRatesComponent implements OnInit {
 
   constructor(
     private _router: Router,
@@ -24,12 +24,12 @@ export class ManageRatesComponent implements OnInit, OnDestroy {
     }
 
   }
-  ngOnDestroy() {
-    this._sharedService.termNcondAir.unsubscribe();
-    this._sharedService.termNcondGround.unsubscribe();
-    this._sharedService.termNcondFCL.unsubscribe();
-    this._sharedService.termNcondLCL.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this._sharedService.termNcondAir.unsubscribe();
+  //   this._sharedService.termNcondGround.unsubscribe();
+  //   this._sharedService.termNcondFCL.unsubscribe();
+  //   this._sharedService.termNcondLCL.unsubscribe();
+  // }
   getAllservicesBySea(userID, providerID){
   this._seaFreightService.getAllLogisticServiceBySea(userID, providerID).subscribe((res:any )=> {
     if (res.returnStatus == "Success")
