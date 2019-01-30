@@ -23,6 +23,9 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { DataMapComponent } from './data-map/data-map.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { ReportsService } from './reports/reports.service';
+import { DataTablesModule } from 'angular-datatables';
+import { SearchPipe } from '../../../constants/search.pipe';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 @NgModule({
   imports: [
     CommonModule,
@@ -34,10 +37,13 @@ import { ReportsService } from './reports/reports.service';
     }),
     NgxPaginationModule,
     NgxEchartsModule,
-    SharedModule
+    SharedModule,
+    DataTablesModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
-    UserDeskComponent, 
+    UserDeskComponent,
     SideBarComponent,
     DashboardComponent,
     ViewBookingComponent,
@@ -48,9 +54,10 @@ import { ReportsService } from './reports/reports.service';
     DealsComponent,
     BillingComponent,
     SettingsComponent,
-    DataMapComponent
+    DataMapComponent,
+    SearchPipe
   ],
-  providers:[
+  providers: [
     ViewBookingService,
     DashboardService,
     SupportService,
