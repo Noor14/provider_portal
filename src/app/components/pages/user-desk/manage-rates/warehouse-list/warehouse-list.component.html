@@ -19,7 +19,7 @@
 <div class="col-6">
   <input type="text" class="form-control">
 </div>
-<div class="col-6 d-flex justify-content-end">
+<div class="col-6 d-flex justify-content-end align-items-center">
   <div class="fancyOptionBoxes mr-2">
     <input id="RadioOne" name="ActiveFilter" type="radio">
     <label for="RadioOne">
@@ -109,7 +109,12 @@
                   </div>
                 </div>
               </div>
-              <img src="../../../../../../assets/images/icons/menu.svg" class="icon-size-16 warehouse-options">
+            <img src="../../../../../../assets/images/icons/menu.svg" class="icon-size-16 warehouse-options pointer" placement="bottom-right" [ngbPopover]="option" />
+            <ng-template #option>
+              <div class="option-popup fadeIn animated">
+                  Noor
+              </div>
+            </ng-template>
             </div>
           </div>
           <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide"
