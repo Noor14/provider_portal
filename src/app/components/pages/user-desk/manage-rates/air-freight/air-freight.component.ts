@@ -109,6 +109,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   // term and condition
   public policyForm : any;
   public termNcondError: boolean;
+  public disable: boolean;
 
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
@@ -628,7 +629,10 @@ export class AirFreightComponent implements OnInit, OnDestroy {
             this.allCargoType = state[index].DropDownValues.Category;
             this.allPorts = state[index].DropDownValues.AirPort;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
+            if(state[index].TCAIR){
             this.policyForm.controls['termNcond'].setValue(state[index].TCAIR);
+            this.disable = true;
+            }
             if (state[index].DraftDataAir && state[index].DraftDataAir.length) {
               state[index].DraftDataAir.map(elem => {
                 if (typeof elem.slab == "string") {
@@ -1112,6 +1116,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success("Term and Condition saved Successfully", "");
+        this.disable = true;
       }
     })
   }

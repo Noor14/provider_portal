@@ -142,6 +142,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   public policyForm: any;
   public termNcondErrorFCL: boolean;
   public termNcondErrorLCL: boolean;
+  public disableFCL:boolean;
+  public disableLCL:boolean;
 
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
@@ -900,8 +902,14 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             this.allHandlingType = state[index].DropDownValues.ContainerLCL;
             this.allPorts = state[index].DropDownValues.Port;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
+            if(state[index].TCFCL){
             this.policyForm.controls['termNcondFCL'].setValue(state[index].TCFCL);
+              this.disableFCL = true;
+            }
+            if(state[index].TCLCL){
             this.policyForm.controls['termNcondLCL'].setValue(state[index].TCLCL);
+              this.disableLCL = true;
+            }
             if (state[index].DraftDataFCL) {
               this.allSeaDraftRatesByFCL = state[index].DraftDataFCL;
               this.draftsfcl = this.allSeaDraftRatesByFCL;
@@ -1739,6 +1747,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this._manageRatesService.termNCondition(obj).subscribe((res:any)=>{
       if(res.returnStatus=="Success"){
         this._toast.success("Term and Condition saved Successfully", "");
+        if(this.activeTab == 'activeFCL'){
+           this.disableFCL = true;
+        }else{
+            this.disableLCL = true;
+        }
       }
     })
   }

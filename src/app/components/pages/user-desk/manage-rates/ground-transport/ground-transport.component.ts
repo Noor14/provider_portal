@@ -121,6 +121,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   // term and condition
   public policyForm: any;
   public termNcondError: boolean;
+  public disable: boolean;
+
 
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
@@ -823,7 +825,10 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
             this.allContainersType = state[index].DropDownValues.ContainerGround;
             this.allPorts = state[index].DropDownValues.Port.concat(state[index].DropDownValues.GroundPort);
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
+            if(state[index].TCGround){
             this.policyForm.controls['termNcond'].setValue(state[index].TCGround);
+            this.disable = true;
+            }
             if (state[index].DraftDataGround && state[index].DraftDataGround.length) {
               this.draftRatesByGround = state[index].DraftDataGround.filter(obj=> obj.TransportType.toLowerCase() == 'ground');
               this.draftslist = this.draftRatesByGround;
@@ -1318,6 +1323,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success("Term and Condition saved Successfully", "");
+        this.disable = true;
       }
     })
   }
