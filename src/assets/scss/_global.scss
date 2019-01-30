@@ -1441,6 +1441,7 @@ select {
       }
       .DTFC_RightBodyWrapper {
         margin-right: 1px;
+        overflow: visible !important;
         .DTFC_RightBodyLiner {
           overflow-y:unset !important;
           width: 100% !important;
