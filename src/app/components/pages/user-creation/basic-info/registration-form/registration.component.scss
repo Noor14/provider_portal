@@ -85,4 +85,12 @@
             }
         }
     }
+    .social {
+        .dropdown-toggle {
+            padding-right: 15px !important;
+            &:after {
+                right: 3px !important;
+            }
+        }
+    }
 }

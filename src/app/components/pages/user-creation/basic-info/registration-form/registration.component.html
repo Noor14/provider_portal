@@ -290,7 +290,7 @@
               <div class="input-group-prepend" [ngClass]=" { 
                   'inputError': socialInputValidate && businessForm.controls['socialUrl'].errors
                 }">
-                <div ngbDropdown class="select-country-list">
+                <div ngbDropdown class="select-country-list social">
                   <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                     <span *ngIf="selectedSocialsite && selectedSocialsite.title">{{selectedSocialsite.title}}</span>
                   </div>
@@ -303,9 +303,9 @@
                   </div>
                 </div>
                 <div class="col social-link-field">
-                  <label class="social-place-label">http://</label>
+                  <!-- <label class="social-place-label">http://</label> -->
                   <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites" maxlength="100"
-                  placeholder="www.company.com" (focusout)="socialLinkValidate()" (focus)="socialInputValidate=''" />
+                  placeholder="http://www.company.com" (focusout)="socialLinkValidate()" (focus)="socialInputValidate=''" />
                 </div>
               </div>
               <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p>
@@ -322,7 +322,7 @@
               <div class="input-group-prepend" [ngClass]="{
                    'inputError': socialInputValidate && businessForm.controls['socialUrl'].errors
                    }">
-                <div ngbDropdown class="select-country-list">
+                <div ngbDropdown class="select-country-list social">
                   <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                     <span *ngIf="selectedSocialsite && selectedSocialsite.title">{{selectedSocialsite.title}}</span>
                   </div>
@@ -335,7 +335,7 @@
                   </div>
                 </div>
                 <div class="col social-link-field">
-                  <label class="social-place-label">http://</label>
+                  <!-- <label class="social-place-label">http://</label> -->
                   <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites" maxlength="100"
                   placeholder="www.company.com" (focusout)="socialLinkValidate()" (focus)="socialInputValidate=''" />
                 </div>                
