@@ -148,6 +148,11 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         this.setRowinDRaftTable(state, 'popup not open');
       }
     })
+    this._sharedService.termNcondAir.subscribe(state => {
+      if (state) {
+        this.policyForm.controls['termNcond'].setValue(state);
+      }
+    })
   }
   ngOnDestroy() {
     this.draftRates.unsubscribe();
@@ -1110,12 +1115,13 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     let obj = {
       providerID: this.userProfile.ProviderID,
       termsAndConditions: this.policyForm.value.termNcond,
-      transportType: "GROUND",
+      transportType: "AIR",
       modifiedBy: this.userProfile.LoginID
     }
     this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success("Term and Condition saved Successfully", "");
+        this._sharedService.termNcondAir.next(this.policyForm.value.termNcond);
         this.disable = true;
       }
     })

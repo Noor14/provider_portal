@@ -195,6 +195,17 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         this.setRowinDRaftTableLCL(state, 'popup not open');
       }
     })
+    this._sharedService.termNcondFCL.subscribe(state => {
+      if (state) {
+        this.policyForm.controls['termNcondFCL'].setValue(state);
+     
+      }
+    })
+    this._sharedService.termNcondLCL.subscribe(state => {
+      if (state) {
+          this.policyForm.controls['termNcondLCL'].setValue(state);
+      }
+    })
 
   }
 
@@ -1748,8 +1759,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       if(res.returnStatus=="Success"){
         this._toast.success("Term and Condition saved Successfully", "");
         if(this.activeTab == 'activeFCL'){
+          this._sharedService.termNcondFCL.next(this.policyForm.value.termNcondFCL);
            this.disableFCL = true;
         }else{
+          this._sharedService.termNcondLCL.next(this.policyForm.value.termNcondLCL);
             this.disableLCL = true;
         }
       }

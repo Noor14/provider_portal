@@ -159,6 +159,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         this.setRowinDRaftTable(state, 'popup not open');
       }
     })
+    this._sharedService.termNcondGround.subscribe(state => {
+      if (state) {
+        this.policyForm.controls['termNcond'].setValue(state);
+      }
+    })
   }
 
 
@@ -1322,6 +1327,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     }
     this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
+        this._sharedService.termNcondGround.next(this.policyForm.value.termNcond);
         this._toast.success("Term and Condition saved Successfully", "");
         this.disable = true;
       }
