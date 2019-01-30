@@ -17,15 +17,22 @@ export class BillingComponent implements OnInit {
   private inVoiceList : any[] = [];
 
   public statistics = {
-    title: {
-      text: '某地区蒸发量和降水量',
-      subtext: '纯属虚构'
-    },
+    color: ['#02bdb6', '#8472d5'],
+    // title: {
+    //   text: '某地区蒸发量和降水量',
+    //   subtext: '纯属虚构'
+    // },
     tooltip: {
       trigger: 'axis'
     },
     legend: {
-      data: ['蒸发量', '降水量']
+      data: ['BILLED', 'PAID']
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
     },
     toolbox: {
       show: true,
@@ -40,7 +47,7 @@ export class BillingComponent implements OnInit {
     xAxis: [
       {
         type: 'category',
-        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+        data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
       }
     ],
     yAxis: [
@@ -50,41 +57,43 @@ export class BillingComponent implements OnInit {
     ],
     series: [
       {
-        name: '蒸发量',
+        name: 'BILLED',
         type: 'bar',
         data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
-        markPoint: {
-          data: [
-            { type: 'max', name: '最大值' },
-            { type: 'min', name: '最小值' }
-          ]
-        },
-        markLine: {
-          data: [
-            { type: 'average', name: '平均值' }
-          ]
-        }
+        barWidth: '10%'
+        // markPoint: {
+        //   data: [
+        //     { type: 'max', name: '最大值' },
+        //     { type: 'min', name: '最小值' }
+        //   ]
+        // },
+        // markLine: {
+        //   data: [
+        //     { type: 'average', name: '平均值' }
+        //   ]
+        // }
       },
       {
-        name: '降水量',
+        name: 'PAID',
         type: 'bar',
+        barWidth: '10%',
         data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-        markPoint: {
-          data: [
-            { name: '年最高', value: 182.2, xAxis: 7, yAxis: 183 },
-            { name: '年最低', value: 2.3, xAxis: 11, yAxis: 3 }
-          ]
-        },
-        markLine: {
-          data: [
-            { type: 'average', name: '平均值' }
-          ]
-        }
+        // markPoint: {
+        //   data: [
+        //     { name: '年最高', value: 182.2, xAxis: 7, yAxis: 183 },
+        //     { name: '年最低', value: 2.3, xAxis: 11, yAxis: 3 }
+        //   ]
+        // },
+        // markLine: {
+        //   data: [
+        //     { type: 'average', name: '平均值' }
+        //   ]
+        // }
       }
     ]
   };
 
-
+  private statisticsData: any[] = []
   constructor() { }
 
   ngOnInit() {
@@ -117,7 +126,24 @@ export class BillingComponent implements OnInit {
         invoice_paidAmount: "AED 9,500",
       }
   ]
-    this.generateInvoiceTable();
+   
+    this.statisticsData = [
+      { month: 'Jan', statData: 15 },
+      { month: 'Feb', statData: 25 },
+      { month: 'Mar', statData: 35 },
+      { month: 'Apr', statData: 45 },
+      { month: 'May', statData: 15 },
+      {month:'Jun' , statData:55 },
+      { month: 'Jul', statData: 65 },
+      { month: 'Aug', statData: 75 },
+      { month: 'Sep', statData: 85 },
+      { month: 'Oct', statData: 95 },
+      { month: 'Nov', statData: 105 },
+      { month: 'Dec', statData: 115 },
+    
+    ]
+  
+  this.generateInvoiceTable();
   }
   generateInvoiceTable() {
     this.dtOptionsByBilling = {
