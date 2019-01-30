@@ -21,6 +21,7 @@ import { WarehouseService } from './warehouse-list/warehouse.service';
 import { LightboxModule } from 'ngx-lightbox';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SearchPipe } from '../../../../constants/warehouseFilter';
+import { UiSwitchModule } from 'ngx-toggle-switch';
 
 @NgModule({
   imports: [
@@ -34,7 +35,9 @@ import { SearchPipe } from '../../../../constants/warehouseFilter';
     SharedModule,
     EditorModule,
     LightboxModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    UiSwitchModule,
+
   ],
   declarations: [
     ManageRatesComponent,

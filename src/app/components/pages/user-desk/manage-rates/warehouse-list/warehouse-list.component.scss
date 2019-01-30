@@ -124,6 +124,25 @@
             right: 5px;
             top: 10px;
           }
+          ngb-popover-window {
+            .arrow{
+              display: none;
+            }
+          .option-popup{
+            .list-group{
+              &-item{
+                border: none;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                &:last-child{
+                  border-top : 1px solid $grey-border;
+                  color :$danger-color;
+                }
+              }
+            }
+          }
+          }
         }
         &:hover {
           box-shadow: 0px 20px 50px 0px rgba(51, 59, 69, 0.15);

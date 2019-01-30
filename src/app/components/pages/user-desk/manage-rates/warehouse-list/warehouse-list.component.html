@@ -112,7 +112,18 @@
             <img src="../../../../../../assets/images/icons/menu.svg" class="icon-size-16 warehouse-options pointer" placement="bottom-right" [ngbPopover]="option" />
             <ng-template #option>
               <div class="option-popup fadeIn animated">
-                  Noor
+                 <ul class="list-group">
+                    <li class="list-group-item">
+                      <img src="../../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2" alt="icon"> 
+                       <span>Active /Inactive</span>
+                      <div class="switch-box">
+                      <ui-switch [checked]="true"></ui-switch>
+                      </div>
+                    </li>
+<li class="list-group-item" (click)="deleteWarehouse(wareHouse.WHID)">
+                        <img src="../../../../../../assets/images/icons/icon_delete_red.svg" class="icon-size-16 mr-2" alt="icon"><span>Delete</span>
+                    </li>
+                  </ul>
               </div>
             </ng-template>
             </div>
