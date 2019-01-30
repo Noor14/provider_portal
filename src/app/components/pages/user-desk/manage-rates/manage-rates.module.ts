@@ -19,6 +19,9 @@ import { ManageRatesService } from './manage-rates.service';
 import { WarehouseListComponent } from './warehouse-list/warehouse-list.component';
 import { WarehouseService } from './warehouse-list/warehouse.service';
 import { LightboxModule } from 'ngx-lightbox';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { SearchPipe } from '../../../../constants/warehouseFilter';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -30,7 +33,8 @@ import { LightboxModule } from 'ngx-lightbox';
     ReactiveFormsModule,
     SharedModule,
     EditorModule,
-    LightboxModule
+    LightboxModule,
+    NgxPaginationModule
   ],
   declarations: [
     ManageRatesComponent,
@@ -38,7 +42,9 @@ import { LightboxModule } from 'ngx-lightbox';
     AirFreightComponent,
     GroundTransportComponent,
     WarehouseListComponent,
-    UniquePipe
+    UniquePipe,
+    SearchPipe,
+
   ],
   providers: [SeaFreightService, AirFreightService, GroundTransportService, ManageRatesService, WarehouseService]
 })

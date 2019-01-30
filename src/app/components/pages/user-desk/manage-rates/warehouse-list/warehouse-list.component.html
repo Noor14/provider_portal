@@ -1,41 +1,89 @@
 <section class="warehouseList">
-<div class="row">
-  <div class="col-12">
-    <div class="row">
-      <div class="col-6">
-        <h5 class="m-0">You have {{allWareHouseList.length}} warehouse</h5>
-      </div>
-      <div class="col-6">
-        <button (click)="createWarehouse()" class="btn btn-primary pull-right text-uppercase pt-2 pb-2 pl-3" type="button">Add
-          Another Warehouse</button>
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-6">
+          <h5 class="m-0">You have {{allWareHouseList.length}} warehouse</h5>
+        </div>
+        <div class="col-6 justify-content-end d-flex">
+          <button (click)="addAnotherWarehouse()" class="btn btn-primary text-uppercase pt-2 pb-2 pl-3" type="button">Add
+            Another Warehouse</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<hr class="hr-solid mt-3">
-<div class="row">
-  <div class="col-md-12">
-    <div class="hash-search">
-      <!-- shipping news -->
-      <div class="shipping-news">
-        <div class="card mb-4" *ngFor="let wareHouse of allWareHouseList; let i = index">
-          <div class="card-body">
-            <div class="row mt-1">
-              <div class="col-sm-12 mt-1 col-md-9">
-                <div class="shipping-news-company mt-0">
-                  <div class="logo">
-                    <div class="gallery-section" *ngFor="let doc of wareHouse.parsedGallery; let i=index" (click)="openGallery(wareHouse.parsedGallery, i)">
-                      <div class="images-carousel" *ngIf="i==0">
-                        <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail">
-                        <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
-                          <source [src]="doc.DocumentFile" type="video/mp4">
-                        </video>
-                        <div class="gallery-section-item d-flex justify-content-center align-items-center">
-                          <img src="../../../assets/images/icons/icon_pictures.svg" alt="" class="icon-size-14 mr-1">
-                          {{wareHouse.UploadedGalleries.length}}
+  <hr class="hr-solid mt-3">
+  <div class="row">
+    <div class="col-6">
+      <div class="col-8">
+<label>Showing 4-4</label>
+       <input type="text" class="form-control" [(ngModel)]="searchBy" placeholder="Search by location or title">
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="d-flex justify-content-end">
+        <div class="fancyOptionBoxes ml-2 mr-3">
+          <input id="active" type="checkbox">
+          <label for="active">
+            <span></span>
+            Active
+          </label>
+        </div>
+        <div class="fancyOptionBoxes">
+          <input id="inactive" type="checkbox">
+          <label for="inactive">
+            <span></span>
+            Inactive
+          </label>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-12">
+      <div class="hash-search">
+        <!-- shipping news -->
+        <div class="shipping-news">
+          <div class="card mb-4" *ngFor="let wareHouse of allWareHouseList | search : searchBy; let i = index">
+            <div class="card-body">
+              <div class="row mt-1">
+                <div class="col-sm-12 mt-1 col-md-9">
+                  <div class="shipping-news-company mt-0">
+                    <div class="logo">
+                      <div class="gallery-section" *ngFor="let doc of wareHouse.parsedGallery; let i=index" (click)="openGallery(wareHouse.parsedGallery, i)">
+                        <div class="images-carousel" *ngIf="i==0">
+                          <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail">
+                          <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
+                            <source [src]="doc.DocumentFile" type="video/mp4">
+                          </video>
+                          <div class="gallery-section-item d-flex justify-content-center align-items-center">
+                            <img src="../../../assets/images/icons/icon_pictures.svg" alt="" class="icon-size-14 mr-1">
+                            {{wareHouse.UploadedGalleries.length}}
+                          </div>
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <h5 class="card-title">{{wareHouse.WHName}}</h5>
+                  <div class="warehousing-content">
+                    <ul class="list-group">
+                      <li class="list-group-item">
+                        <img src="../../../assets/images/icons/Icons_Location-grey.svg" alt="icon" class="icon-size-16 mr-2">
+                        <span>
+                          {{wareHouse.CityName}}, {{wareHouse.CountryName}}
+                        </span>
+                      </li>
+                    </ul>
+                    <ul class="list-group mt-4">
+                      <li class="list-group-item mr-4">
+                        <img src="../../../assets/images/icons/icon_grid.svg" alt="icon" class="icon-size-14 mr-2">
+                        {{wareHouse.TotalCoveredArea}} {{wareHouse.TotalCoveredAreaUnit}}
+                        <!-- <sup>2</sup> -->
+                      </li>
+                      <li class="list-group-item">
+                        <img src="../../../assets/images/icons/Icons_Clock-28-light-grey.svg" alt="icon" class="icon-size-14 mr-2">
+                        8:30 am to 5:00am
+                      </li>
+                    </ul>
                   </div>
                 </div>
                 <h5 class="card-title">{{wareHouse.WHName}}</h5>
@@ -90,5 +138,4 @@
       </div>
     </div>
   </div>
-</div>
 </section>
