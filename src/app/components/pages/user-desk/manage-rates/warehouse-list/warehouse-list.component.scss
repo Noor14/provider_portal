@@ -1,4 +1,5 @@
 @import "../../../../../../assets/scss/_variables";
+
 .warehouseList {
   .hash-search {
     .shipping-news {
@@ -111,14 +112,17 @@
               }
             }
           }
+
           .warehouse-features {
             .icons {
               margin-right: 15px;
+
               img {
                 width: 1.1rem;
                 filter: grayscale(100%);
                 opacity: 0.5;
               }
+
               .warehouse-features-active {
                 img {
                   filter: grayscale(0%);
@@ -127,12 +131,36 @@
               }
             }
           }
+
           .warehouse-options {
             position: absolute;
             right: 5px;
             top: 10px;
           }
+
+          ngb-popover-window {
+            .arrow {
+              display: none;
+            }
+
+            .option-popup {
+              .list-group {
+                &-item {
+                  border: none;
+                  display: flex;
+                  align-items: center;
+                  cursor: pointer;
+
+                  &:last-child {
+                    border-top: 1px solid $grey-border;
+                    color: $danger-color;
+                  }
+                }
+              }
+            }
+          }
         }
+
         &:hover {
           box-shadow: 0px 20px 50px 0px rgba(51, 59, 69, 0.15);
           transition: 0.5s;
@@ -148,11 +176,10 @@
       }
     }
   }
+
   .warehouse-search {
     input {
-      background: $table-head
-        url("../../../../../../assets/images/icons/icon-search.svg") no-repeat
-        right 15px center;
+      background: $table-head url("../../../../../../assets/images/icons/icon-search.svg") no-repeat right 15px center;
       background-size: 15px;
       border: none;
       outline: 0;
