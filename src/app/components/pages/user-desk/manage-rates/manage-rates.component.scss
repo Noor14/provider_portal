@@ -300,14 +300,14 @@ $left-nav-icon-height: 20px;
       font-weight: $font-weight-mid;
       font-size: $font-size-medium;
       position: absolute;
-      padding: 19px 20px 19px 60px;
+      padding: 18px 20px 18px 60px;
       bottom: 61px;
       left: 1px;
       z-index: 1;
       animation-delay: 0.1s;
       width: 99.8%;
       background: #fff;
-      // border-top: 1px solid $data-table-border;
+      // border-bottom: 1px solid $data-table-border;
       &:before {
         content: url("assets/images/icons/icon_add.svg");
         position: absolute;
@@ -324,11 +324,11 @@ $left-nav-icon-height: 20px;
         }
       }
       a.addAnother {
-        bottom: 63px;
+        bottom: 61px;
       }
       &.no-pagination {
         a.addAnother {
-          bottom: 43px;
+          bottom: 59px;
         }
       }
     }
