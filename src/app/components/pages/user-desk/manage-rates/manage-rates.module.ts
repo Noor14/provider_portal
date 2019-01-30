@@ -11,7 +11,6 @@ import { SeaFreightService } from './sea-freight/sea-freight.service';
 import { ScrollbarModule } from 'ngx-scrollbar';
 import { SharedModule } from '../../../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { UiSwitchModule } from 'ngx-toggle-switch';
 import { UniquePipe } from '../../../../constants/unique-recordFilter';
 import { AirFreightService } from './air-freight/air-freight.service';
 import { GroundTransportService } from './ground-transport/ground-transport.service';
@@ -26,7 +25,6 @@ import { ManageRatesService } from './manage-rates.service';
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    UiSwitchModule,
     SharedModule,
     EditorModule
   ],
@@ -35,7 +33,6 @@ import { ManageRatesService } from './manage-rates.service';
     SeaFreightComponent,
     AirFreightComponent,
     GroundTransportComponent,
-    WarehouseComponent,
     UniquePipe
   ],
   providers: [SeaFreightService, AirFreightService, GroundTransportService, ManageRatesService]

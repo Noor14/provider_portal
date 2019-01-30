@@ -24,6 +24,7 @@ import { DataMapComponent } from './data-map/data-map.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { ReportsService } from './reports/reports.service';
 import { WarehouseComponent } from './warehouse/warehouse.component';
+import { UiSwitchModule } from 'ngx-toggle-switch';
 @NgModule({
   imports: [
     CommonModule,
@@ -35,7 +36,9 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
     }),
     NgxPaginationModule,
     NgxEchartsModule,
-    SharedModule
+    SharedModule,
+    UiSwitchModule,
+
   ],
   declarations: [
     UserDeskComponent, 
