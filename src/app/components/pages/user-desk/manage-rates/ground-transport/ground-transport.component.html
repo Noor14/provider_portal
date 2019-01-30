@@ -234,7 +234,10 @@
             (click)="disable = !disable">
             EDIT
           </button>
-    <textarea [readonly]="disable" class="form-control" formControlName="termNcond" (focus)="termNcondError = false" (focusout)="termNcondError = true"></textarea>
+    <textarea [readonly]="disable" class="form-control" [ngClass]="{
+                          'inputError': termNcondError && policyForm.controls['termNcond'].errors
+                          }" 
+    formControlName="termNcond" (focus)="termNcondError = false" (focusout)="termNcondError = true"></textarea>
     <span *ngIf="termNcondError && policyForm.controls['termNcond'].errors">
       <p class="inputError animated fadeIn" *ngIf="policyForm.controls['termNcond'].hasError('required') && (policyForm.controls.termNcond.dirty || policyForm.controls.termNcond.touched)">This
         field is required</p>
