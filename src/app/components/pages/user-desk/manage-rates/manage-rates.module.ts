@@ -16,6 +16,9 @@ import { AirFreightService } from './air-freight/air-freight.service';
 import { GroundTransportService } from './ground-transport/ground-transport.service';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { ManageRatesService } from './manage-rates.service';
+import { WarehouseListComponent } from './warehouse-list/warehouse-list.component';
+import { WarehouseService } from './warehouse-list/warehouse.service';
+import { LightboxModule } from 'ngx-lightbox';
 @NgModule({
   imports: [
     CommonModule,
@@ -26,15 +29,17 @@ import { ManageRatesService } from './manage-rates.service';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    EditorModule
+    EditorModule,
+    LightboxModule
   ],
   declarations: [
     ManageRatesComponent,
     SeaFreightComponent,
     AirFreightComponent,
     GroundTransportComponent,
+    WarehouseListComponent,
     UniquePipe
   ],
-  providers: [SeaFreightService, AirFreightService, GroundTransportService, ManageRatesService]
+  providers: [SeaFreightService, AirFreightService, GroundTransportService, ManageRatesService, WarehouseService]
 })
 export class ManageRatesModule { }

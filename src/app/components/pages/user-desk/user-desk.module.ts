@@ -25,6 +25,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { ReportsService } from './reports/reports.service';
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { UiSwitchModule } from 'ngx-toggle-switch';
+import { NgStepperModule } from '../../../directives/stepper/stepper.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -38,6 +39,7 @@ import { UiSwitchModule } from 'ngx-toggle-switch';
     NgxEchartsModule,
     SharedModule,
     UiSwitchModule,
+    NgStepperModule
 
   ],
   declarations: [
