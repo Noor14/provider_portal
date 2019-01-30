@@ -116,6 +116,14 @@
               margin-right: 15px;
               img {
                 width: 1.1rem;
+                filter: grayscale(100%);
+                opacity: 0.5;
+              }
+              .warehouse-features-active {
+                img {
+                  filter: grayscale(0%);
+                opacity: 1;
+                }
               }
             }
           }
@@ -138,6 +146,18 @@
           }
         }
       }
+    }
+  }
+  .warehouse-search {
+    input {
+      background: $table-head
+        url("../../../../../../assets/images/icons/icon-search.svg") no-repeat
+        right 15px center;
+        background-size: 15px;
+        border: none;
+      outline: 0;
+      box-shadow: none;
+
     }
   }
 }
