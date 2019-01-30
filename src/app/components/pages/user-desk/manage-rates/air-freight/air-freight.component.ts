@@ -24,6 +24,7 @@ import { AirRateDialogComponent } from '../../../../../shared/dialogues/air-rate
 import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-parser-formatter';
 import { ManageRatesService } from '../manage-rates.service';
 import { ToastrService } from 'ngx-toastr';
+import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 
 declare var $;
 const now = new Date();
@@ -105,17 +106,15 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   public filterbyCargoType;
   public checkedallpublishRates: boolean = false;
   public checkedalldraftRates: boolean = false;
+  // term and condition
+  public policyForm : any;
+  public termNcondError: boolean;
 
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
   isInside = date => after(date, this.fromDate) && before(date, this.toDate);
   isFrom = date => equals(date, this.fromDate);
   isTo = date => equals(date, this.toDate);
-
-
-
-  // term abd condition
-  public termNcond: string;
 
   constructor(
     private modalService: NgbModal,
@@ -133,6 +132,11 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
+
+    this.policyForm = new FormGroup({
+      termNcond: new FormControl(null, [Validators.required, Validators.maxLength(5000)]),
+    });
+
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
@@ -624,6 +628,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
             this.allCargoType = state[index].DropDownValues.Category;
             this.allPorts = state[index].DropDownValues.AirPort;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
+            this.policyForm.controls['termNcond'].setValue(state[index].TCAIR);
             if (state[index].DraftDataAir && state[index].DraftDataAir.length) {
               state[index].DraftDataAir.map(elem => {
                 if (typeof elem.slab == "string") {
@@ -1100,7 +1105,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   saveTermNcond() {
     let obj = {
       providerID: this.userProfile.ProviderID,
-      termsAndConditions: this.termNcond,
+      termsAndConditions: this.policyForm.value.termNcond,
       transportType: "GROUND",
       modifiedBy: this.userProfile.LoginID
     }

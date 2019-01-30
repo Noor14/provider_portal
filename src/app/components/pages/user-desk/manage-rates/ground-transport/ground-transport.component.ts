@@ -23,6 +23,7 @@ import { GroundRateDialogComponent } from '../../../../../shared/dialogues/groun
 import { GroundTransportService } from './ground-transport.service';
 import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-parser-formatter';
 import { ManageRatesService } from '../manage-rates.service';
+import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 declare var $;
 const now = new Date();
@@ -117,8 +118,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   public checkedalldraftRates: boolean = false;
   public checkedalldraftRatesFTL: boolean = false;
 
-  // term and Condition
-  public termNcond: string;
+  // term and condition
+  public policyForm: any;
+  public termNcondError: boolean;
 
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
@@ -142,6 +144,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
+    this.policyForm = new FormGroup({
+      termNcond: new FormControl(null, [Validators.required, Validators.maxLength(5000)]),
+    });
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
@@ -818,6 +823,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
             this.allContainersType = state[index].DropDownValues.ContainerGround;
             this.allPorts = state[index].DropDownValues.Port.concat(state[index].DropDownValues.GroundPort);
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
+            this.policyForm.controls['termNcond'].setValue(state[index].TCGround);
             if (state[index].DraftDataGround && state[index].DraftDataGround.length) {
               this.draftRatesByGround = state[index].DraftDataGround.filter(obj=> obj.TransportType.toLowerCase() == 'ground');
               this.draftslist = this.draftRatesByGround;
@@ -1305,7 +1311,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   saveTermNcond() {
     let obj = {
       providerID: this.userProfile.ProviderID,
-      termsAndConditions: this.termNcond,
+      termsAndConditions: this.policyForm.value.termNcond,
       transportType: "GROUND",
       modifiedBy: this.userProfile.LoginID
     }

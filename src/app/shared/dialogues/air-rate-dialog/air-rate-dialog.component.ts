@@ -99,7 +99,6 @@ export class AirRateDialogComponent implements OnInit {
   ) { location.onPopState(() => this.closeModal(null)); }
 
   ngOnInit() {
-
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);

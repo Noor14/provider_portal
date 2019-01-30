@@ -22,6 +22,7 @@ import * as moment from 'moment';
 import { SeaRateDialogComponent } from '../../../../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
 import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-parser-formatter';
 import { ManageRatesService } from '../manage-rates.service';
+import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 declare var $;
 const now = new Date();
@@ -138,8 +139,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   public checkedalldraftRatesLCL: boolean = false;
 
   // term and condition
-  public termNcondFCL: string;
-  public termNcondLCL :  string;
+  public policyForm: any;
+  public termNcondErrorFCL: boolean;
+  public termNcondErrorLCL: boolean;
 
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
@@ -171,6 +173,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
+    this.policyForm = new FormGroup({
+      termNcondFCL: new FormControl(null, [Validators.maxLength(5000)]),
+      termNcondLCL: new FormControl(null, [Validators.maxLength(5000)]),
+    });
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
@@ -894,6 +900,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             this.allHandlingType = state[index].DropDownValues.ContainerLCL;
             this.allPorts = state[index].DropDownValues.Port;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
+            this.policyForm.controls['termNcondFCL'].setValue(state[index].TCFCL);
+            this.policyForm.controls['termNcondLCL'].setValue(state[index].TCLCL);
             if (state[index].DraftDataFCL) {
               this.allSeaDraftRatesByFCL = state[index].DraftDataFCL;
               this.draftsfcl = this.allSeaDraftRatesByFCL;
@@ -1721,10 +1729,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       }
     }, 0);
   }
-  saveTermNcond(){
+  saveTermNcond(type){
     let obj={
       providerID: this.userProfile.ProviderID,
-      termsAndConditions: this.termNcondFCL,
+      termsAndConditions: (type == 'FCL') ? this.policyForm.value.termNcondFCL : this.policyForm.value.termNcondLCL,
       transportType: (this.activeTab == 'activeFCL')? "FCL" : "LCL",
       modifiedBy: this.userProfile.LoginID
     }
