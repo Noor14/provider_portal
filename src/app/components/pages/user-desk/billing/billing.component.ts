@@ -18,10 +18,16 @@ export class BillingComponent implements OnInit {
 
   public statistics = {
     color: ['#02bdb6', '#8472d5'],
-    // title: {
-    //   text: 'Statistics',
-    //   subtext: 'Bar Stats'
-    // },
+    title: {
+      text: 'Statistics',
+      // subtext: 'Bar Stats'
+      textStyle: {
+        color: '#000000',
+        fontFamily: 'Proxima Nova, sans-serif',
+        //fontStyle: 'italic',
+        fontWeight: 'normal'
+      }
+    },
     tooltip: {
       trigger: 'axis',
       axisPointer: {

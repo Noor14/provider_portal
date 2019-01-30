@@ -1106,7 +1106,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     }
     this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this._toast.success("Your term and condition saved", "");
+        this._toast.success("Term and Condition saved Successfully", "");
       }
     })
   }
