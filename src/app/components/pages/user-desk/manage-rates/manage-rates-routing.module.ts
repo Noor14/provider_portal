@@ -4,7 +4,7 @@ import { ManageRatesComponent } from './manage-rates.component';
 import { SeaFreightComponent } from './sea-freight/sea-freight.component';
 import { AirFreightComponent } from './air-freight/air-freight.component';
 import { GroundTransportComponent } from './ground-transport/ground-transport.component';
-import { WarehouseComponent } from './warehouse/warehouse.component';
+// import { WarehouseComponent } from './warehouse/warehouse.component';
 
 const routes: Routes = [
   {
@@ -15,7 +15,7 @@ const routes: Routes = [
       { path: 'sea', component: SeaFreightComponent },
       { path: 'air', component: AirFreightComponent },
       { path: 'ground', component: GroundTransportComponent },
-      { path: 'warehouse', component: WarehouseComponent },
+      // { path: 'warehouse', component: WarehouseComponent },
       { path: '**', redirectTo: 'sea', pathMatch: 'full' }
     ]
   }
