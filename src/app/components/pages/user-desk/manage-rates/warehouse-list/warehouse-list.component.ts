@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { WarehouseService } from './warehouse.service';
 import { loading } from '../../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
@@ -7,10 +7,12 @@ import { Lightbox } from 'ngx-lightbox';
 import { baseExternalAssets } from '../../../../../constants/base.url';
 import { PlatformLocation } from '@angular/common';
 import { PaginationInstance } from 'ngx-pagination';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-warehouse-list',
   templateUrl: './warehouse-list.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./warehouse-list.component.scss']
 })
 export class WarehouseListComponent implements OnInit {
@@ -30,6 +32,8 @@ export class WarehouseListComponent implements OnInit {
     private _router: Router,
     private _lightbox: Lightbox,
     private _location: PlatformLocation,
+    private _toast: ToastrService
+
   ) {
     _location.onPopState(() => this.closeLightBox());
   }
@@ -84,6 +88,15 @@ export class WarehouseListComponent implements OnInit {
 
   onPageChange(number) {
     this.paginationConfig.currentPage = number;
+  }
+
+  deleteWarehouse(whid){
+    this.warehouseService.delWarehouse(whid, this.userProfile.LoginID).subscribe((res:any)=>{
+      if(res.returnStatus == "Success"){
+        this._toast.success('Warehouse delete successfully', '')
+        this.getWhlist(this.userProfile.ProviderID);
+      }
+    })
   }
 
 }

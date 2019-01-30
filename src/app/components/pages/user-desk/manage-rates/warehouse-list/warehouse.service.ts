@@ -25,4 +25,9 @@ export class WarehouseService {
     return this._http.put(baseApi + url, data);
   }
 
+  delWarehouse(wid, modifiedBy){
+    let url: string = `warehousesetup/Delete/${wid}/${modifiedBy}`;
+    return this._http.delete(baseApi + url);
+  }
+
 }
