@@ -8,6 +8,8 @@ import { baseExternalAssets } from '../../../../../constants/base.url';
 import { PlatformLocation } from '@angular/common';
 import { PaginationInstance } from 'ngx-pagination';
 import { ToastrService } from 'ngx-toastr';
+import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Component({
   selector: 'app-warehouse-list',
@@ -27,8 +29,10 @@ export class WarehouseListComponent implements OnInit {
     itemsPerPage: 5, currentPage: 1
   }
   public searchBy: string
+  public activeToggle: boolean = false;
   constructor(
-    private warehouseService: WarehouseService,
+    private _warehouseService: WarehouseService,
+    private _modalService: NgbModal,
     private _router: Router,
     private _lightbox: Lightbox,
     private _location: PlatformLocation,
@@ -48,7 +52,7 @@ export class WarehouseListComponent implements OnInit {
 
   getWhlist(providerId) {
     // loading(true)
-    this.warehouseService.getWarehouseList(providerId).subscribe((res: any) => {
+    this._warehouseService.getWarehouseList(providerId).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.allWareHouseList = res.returnObject;
         this.allWareHouseList.forEach((obj, index) => {
@@ -91,10 +95,43 @@ export class WarehouseListComponent implements OnInit {
   }
 
   deleteWarehouse(whid){
-    this.warehouseService.delWarehouse(whid, this.userProfile.LoginID).subscribe((res:any)=>{
-      if(res.returnStatus == "Success"){
+    const modalRef = this._modalService.open(ConfirmDeleteDialogComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.result.then((result) => {
+      if (result == "Success") {
         this._toast.success('Warehouse delete successfully', '')
-        this.getWhlist(this.userProfile.ProviderID);
+        let index = this.allWareHouseList.findIndex(obj => obj.WHID == whid);
+        if (index >= 0){
+          this.allWareHouseList.splice(index, 1);
+        }
+      }
+    });
+    let obj = {
+      data: whid,
+      type: "DelWarehouse"
+    }
+    modalRef.componentInstance.deleteIds = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+
+  }
+  activeToggler(whID){
+    let obj={
+      whid: whID,
+      active: this.activeToggle,
+      modifiedBy: this.userProfile.LoginID
+    }
+    this._warehouseService.activeWarehouseToggler(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toast.success('Warehouse update successfully', '')
       }
     })
   }

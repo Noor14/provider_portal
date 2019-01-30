@@ -10,6 +10,7 @@ import { CreatePasswordComponent } from './create-password/create-password.compo
 import { BasicInfoService } from './basic-info.service';
 import { BusinessInfoComponent } from './business-info/business-info.component';
 import { NgFilesModule } from '../../../../directives/ng-files';
+import { UiSwitchModule } from 'ngx-toggle-switch';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { NgFilesModule } from '../../../../directives/ng-files';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    UiSwitchModule
   ],
   declarations: [
     RegistrationComponent,

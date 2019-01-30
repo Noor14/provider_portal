@@ -4,6 +4,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { SeaFreightService } from '../../../components/pages/user-desk/manage-rates/sea-freight/sea-freight.service';
 import { AirFreightService } from '../../../components/pages/user-desk/manage-rates/air-freight/air-freight.service';
 import { GroundTransportService } from '../../../components/pages/user-desk/manage-rates/ground-transport/ground-transport.service';
+import { WarehouseService } from '../../../components/pages/user-desk/manage-rates/warehouse-list/warehouse.service';
 
 @Component({
   selector: 'app-confirm-delete-dialog',
@@ -18,6 +19,7 @@ export class ConfirmDeleteDialogComponent implements OnInit {
     private seaFreightService : SeaFreightService,
     private airFreightService: AirFreightService,
     private groundTransportService: GroundTransportService,
+    private warehouseService: WarehouseService,
     private location: PlatformLocation,
     private _activeModal: NgbActiveModal
     ) { location.onPopState(() => this.closeModal(null)); }
@@ -99,6 +101,14 @@ export class ConfirmDeleteDialogComponent implements OnInit {
     }
     else if (this.deleteIds.type == "draftGroundRate") {
       this.groundTransportService.deleteNDiscardDraftRate(this.deleteIds.data).subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this.closeModal(res.returnStatus);
+        }
+      })
+    }
+
+    else if (this.deleteIds.type == "DelWarehouse") {
+      this.warehouseService.delWarehouse(this.deleteIds.data, this.userProfile.LoginID).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
           this.closeModal(res.returnStatus);
         }
