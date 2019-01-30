@@ -12,6 +12,7 @@ import { SupportComponent } from './support/support.component';
 import { DealsComponent } from './deals/deals.component';
 import { BillingComponent } from './billing/billing.component';
 import { SettingsComponent } from './settings/settings.component';
+import { WarehouseComponent } from './warehouse/warehouse.component';
 
 const routes: Routes = [
     {
@@ -26,6 +27,7 @@ const routes: Routes = [
             { path: 'settings', component: SettingsComponent }, 
             { path: 'support', component: SupportComponent }, 
             { path: 'deals', component: DealsComponent }, 
+            { path: 'add-warehouse', component: WarehouseComponent },
             { path: 'booking-detail/:id', component: ViewBookingComponent },
             { path: 'manage-rates', loadChildren: 'app/components/pages/user-desk/manage-rates/manage-rates.module#ManageRatesModule' },
             { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }

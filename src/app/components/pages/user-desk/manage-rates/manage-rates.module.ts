@@ -7,7 +7,6 @@ import { SeaFreightComponent } from './sea-freight/sea-freight.component';
 import { DataTablesModule } from 'angular-datatables';
 import { AirFreightComponent } from './air-freight/air-freight.component';
 import { GroundTransportComponent } from './ground-transport/ground-transport.component';
-import { WarehouseComponent } from './warehouse/warehouse.component';
 import { SeaFreightService } from './sea-freight/sea-freight.service';
 import { ScrollbarModule } from 'ngx-scrollbar';
 import { SharedModule } from '../../../../shared/shared.module';
