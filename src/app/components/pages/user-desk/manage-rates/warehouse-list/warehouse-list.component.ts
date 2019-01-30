@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { WarehouseService } from './warehouse.service';
 import { loading } from '../../../../../constants/globalFunctions';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Lightbox } from 'ngx-lightbox';
 import { baseExternalAssets } from '../../../../../constants/base.url';
 import { PlatformLocation } from '@angular/common';
+import { PaginationInstance } from 'ngx-pagination';
 
 @Component({
   selector: 'app-warehouse-list',
@@ -16,14 +17,21 @@ export class WarehouseListComponent implements OnInit {
 
   public userProfile;
   public allWareHouseList: any[] = [];
-  private _albums: any = [];
+
+  public autoHide: boolean = false;
+  public responsive: boolean = true;
+  public directionLinks: boolean = true;
+  public paginationConfig: PaginationInstance = {
+    itemsPerPage: 5, currentPage: 1
+  }
+  public searchBy: string
   constructor(
     private warehouseService: WarehouseService,
     private _router: Router,
     private _lightbox: Lightbox,
-    private location: PlatformLocation,
+    private _location: PlatformLocation,
   ) {
-    location.onPopState(() => this.closeLightBox());
+    _location.onPopState(() => this.closeLightBox());
   }
 
   ngOnInit() {
@@ -35,7 +43,7 @@ export class WarehouseListComponent implements OnInit {
   }
 
   getWhlist(providerId) {
-    loading(true)
+    // loading(true)
     this.warehouseService.getWarehouseList(providerId).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.allWareHouseList = res.returnObject;
@@ -53,11 +61,11 @@ export class WarehouseListComponent implements OnInit {
           })
 
         })
-        loading(false);
+        // loading(false);
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
-      loading(false);
+      // loading(false);
 
     })
   }
@@ -69,10 +77,13 @@ export class WarehouseListComponent implements OnInit {
   closeLightBox(): void {
     this._lightbox.close();
   }
-  createWarehouse() {
+  addAnotherWarehouse() {
     localStorage.removeItem('warehouseId');
     this._router.navigate(['provider/add-warehouse'])
   }
 
+  onPageChange(number) {
+    this.paginationConfig.currentPage = number;
+  }
 
 }
