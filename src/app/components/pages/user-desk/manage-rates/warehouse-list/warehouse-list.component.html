@@ -59,31 +59,32 @@
                       8:30 am to 5:00am
                     </li>
                   </ul>
+                  <div class="warehouse-features mt-3 d-flex">
+                    <div class="icons" *ngFor="let facilities of wareHouse.WarehouseFacilities">
+                      <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse" *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse' && facilities.IsAllowed">
+                        <img src="../../../assets/images/icons/Icons_Warehousing_green.svg" alt="footer icon" class="hvr-icon">
+                        <!-- Bonded Warehouse -->
+                      </span>
+                      <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Temp. Controlled" *ngIf="facilities.BusinessLogic == 'IsTempratureControlled' && facilities.IsAllowed">
+                        <img src="../../../assets/images/icons/Weight-Icon_1.svg" alt="footer icon" class="hvr-icon"> <!--Temp.
+                         Controlled -->
+                      </span>
+                      <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Transport Available" *ngIf="facilities.BusinessLogic == 'IsTransportAvailable' && facilities.IsAllowed">
+                        <img src="../../../assets/images/icons/Weight-Icon_1.svg" alt="footer icon" class="hvr-icon"> <!--Transport
+                         Available -->
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="col-sm-12 col-md-3 flex-column d-flex">
+              <div class="col-sm-12 col-md-3 flex-column d-flex justify-content-center">
                 <button class="btn btn-outline-primary hvr-sweep-to-right book-btn pull-right text-uppercase">Add rates</button>
                 <div class="noti">
                   Add rates in order to appear in search result.
                 </div>
               </div>
             </div>
-          </div>
-          <div class="card-footer text-muted">
-            <div class="icons" *ngFor="let facilities of wareHouse.WarehouseFacilities">
-              <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse" *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse' && facilities.IsAllowed">
-                <img src="../../../assets/images/icons/Icons_Warehousing_green.svg" alt="footer icon" class="hvr-icon">
-                Bonded Warehouse
-              </span>
-              <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Temp. Controlled" *ngIf="facilities.BusinessLogic == 'IsTempratureControlled' && facilities.IsAllowed">
-                <img src="../../../assets/images/icons/Weight-Icon_1.svg" alt="footer icon" class="hvr-icon"> Temp.
-                Controlled
-              </span>
-              <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Transport Available" *ngIf="facilities.BusinessLogic == 'IsTransportAvailable' && facilities.IsAllowed">
-                <img src="../../../assets/images/icons/Weight-Icon_1.svg" alt="footer icon" class="hvr-icon"> Transport
-                Available
-              </span>
-            </div>
+            <img src="../../../../../../assets/images/icons/menu.svg" class="icon-size-16 warehouse-options">
           </div>
         </div>
       </div>
