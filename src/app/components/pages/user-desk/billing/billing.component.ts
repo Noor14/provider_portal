@@ -151,7 +151,6 @@ export class BillingComponent implements OnInit {
         invoice_paidAmount: "AED 9,500",
       }
   ]
-   
     this.statisticsData = [
       { month: 'Jan', statData: 15 },
       { month: 'Feb', statData: 25 },

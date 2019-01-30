@@ -22,6 +22,8 @@ import * as moment from 'moment';
 import { GroundRateDialogComponent } from '../../../../../shared/dialogues/ground-rate-dialog/ground-rate-dialog.component';
 import { GroundTransportService } from './ground-transport.service';
 import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-parser-formatter';
+import { ManageRatesService } from '../manage-rates.service';
+import { ToastrService } from 'ngx-toastr';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -115,6 +117,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   public checkedalldraftRates: boolean = false;
   public checkedalldraftRatesFTL: boolean = false;
 
+  // term and Condition
+  public termNcond: string;
+
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
   isInside = date => after(date, this.fromDate) && before(date, this.toDate);
@@ -123,10 +128,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   constructor(
     private modalService: NgbModal,
     private _seaFreightService: GroundTransportService,
+    private _manageRatesService: ManageRatesService,
     private _sharedService: SharedService,
     private element: ElementRef,
     private renderer: Renderer2,
     private _parserFormatter: NgbDateParserFormatter,
+    private _toast: ToastrService
   ) { }
 
 
@@ -1293,6 +1300,20 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
       }
     }, 0);
+  }
+
+  saveTermNcond() {
+    let obj = {
+      providerID: this.userProfile.ProviderID,
+      termsAndConditions: this.termNcond,
+      transportType: "GROUND",
+      modifiedBy: this.userProfile.LoginID
+    }
+    this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toast.success("Your term and condition saved", "");
+      }
+    })
   }
 
 }
