@@ -213,7 +213,7 @@
       </ngb-panel>
     </ngb-accordion>
   </section>
-  <section class="rates-grid mt-5 publishRateGround">
+  <section class="rates-grid mt-5 publishRateGround" [ngClass]="{'no-data': allRatesList && !allRatesList.length, 'no-scroll-add': allRatesList && allRatesList.length, 'no-pagination': allRatesList && allRatesList.length <= dtOptionsByGround.pageLength}">
     <div class="d-flex justify-content-end mb-3">
       <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord()" [ngClass]="{'no-drop': !this.delPublishRates.length}">
         <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16">

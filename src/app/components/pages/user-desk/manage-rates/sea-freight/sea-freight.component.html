@@ -215,7 +215,7 @@
             </ngb-panel>
           </ngb-accordion>
         </section>
-        <section class="rates-grid mt-5 publishRatesLCL">
+        <section class="rates-grid mt-5 publishRatesLCL" [ngClass]="{'no-data': allRatesListLcL && !allRatesListLcL.length, 'no-scroll-add': allRatesListLcL && allRatesListLcL.length, 'no-pagination': allRatesListLcL && allRatesListLcL.length <= dtOptionsBySeaLCL.pageLength}">
           <div class="d-flex justify-content-end mb-3">
             <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('LCL')" [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
               <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16" />
