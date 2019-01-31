@@ -95,12 +95,14 @@
     </div>
     <div class="row">
       <div class="col-3">
-        <div class="form-group">
+        <div class="form-group currency-flag">
           <label>Currency</label>
+          <img src="../../../../assets/images/flags/4x3/{{selectedCurrency.CountryCode | lowercase}}.svg" style="max-width:20px; max-height:22px;">
           <input type="text" placeholder="AED" [(ngModel)]="selectedCurrency" class="form-control" [ngbTypeahead]="currencies"
             [resultTemplate]="crt" [inputFormatter]="currencyFormatter">
           <ng-template #crt let-r="result">
             <div class="d-flex">
+              <img src="{{'../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" style="max-width:20px;max-height:22px;">
               <ngb-highlight [result]="r.CurrencyCode"></ngb-highlight>
             </div>
           </ng-template>
@@ -177,7 +179,8 @@
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <div ngbDropdown class="d-inline-block">
-              <button class="btn btn-outline-secondary" id="0" ngbDropdownToggle>{{selectedDestinations[i]?.addChrName ||
+              <button class="btn btn-outline-secondary" id="0" ngbDropdownToggle>{{selectedDestinations[i]?.addChrName
+                ||
                 'Select'}}</button>
               <div ngbDropdownMenu aria-labelledby="0">
                 <button class="dropdown-item" *ngFor="let charge of destinationsList" (click)="selectCharges('IMPORT', charge, i)">{{charge.addChrName}}</button>

@@ -75,6 +75,24 @@
             border-top-left-radius: 0rem !important;
           }
         }
+        &.currency-flag {
+          img {
+            position: absolute;
+            margin-top: 1rem;
+            margin-left: 1rem;
+          }
+          .form-control {
+            padding-left: 3rem;
+          }
+          .dropdown-item {
+            img {
+              position: static;
+              margin-left: 0;
+              margin-top: 0;
+              margin-right: 0.5rem;
+            }
+          }
+        }
       }
       &.additional {
         .dropdown-toggle {
@@ -84,11 +102,11 @@
           overflow: hidden;
           white-space: nowrap;
         }
-        .add-more{
+        .add-more {
           font-size: $font-size-medium;
           font-family: $font-proxima;
           color: $primary-color;
-          a{
+          a {
             color: $primary-color;
             display: flex;
             align-items: center;

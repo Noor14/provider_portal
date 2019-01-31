@@ -59,7 +59,8 @@ export class SeaRateDialogComponent implements OnInit {
   public selectedPrice: any;
   public defaultCurrency: any = {
     CurrencyID: 101,
-    CurrencyCode: "AED"
+    CurrencyCode: "AED",
+    CountryCode: 'AE'
   };
   public selectedCurrency: any;
 
@@ -466,17 +467,7 @@ export class SeaRateDialogComponent implements OnInit {
           )
       )
     );
-  currencyFormatter = (x) => {
-    console.log(x);
-    
-    x.CurrencyCode;
-  }
-  // formatter = (x: { title: string, desc: string, imageName: string }) => {
-  //   this.city.imageName = x.imageName;
-  //   this.city.title = x.title;
-  //   this.city.desc = x.desc;
-  //   return x.title;
-  // };
+  currencyFormatter = (x: any) => x.CurrencyCode
 
   public selectedOrigins: any = [{}];
   public selectedDestinations: any = [{}];
