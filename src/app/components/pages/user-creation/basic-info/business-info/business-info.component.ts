@@ -47,9 +47,9 @@ export class BusinessInfoComponent implements OnInit {
   public selectedLogo: any;
   public config: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', 'bmp'],
-    maxFilesCount: 5,
-    maxFileSize: 5*1024*1000,
-    totalFilesSize: 5*5*1024*1000
+    maxFilesCount: 9,
+    maxFileSize: 9*1024*1000,
+    totalFilesSize: 9*9*1024*1000
   };
   public configLogo: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', 'bmp'],
@@ -68,6 +68,7 @@ export class BusinessInfoComponent implements OnInit {
   public addBusinessbtnEnabled : boolean = undefined;
   public profileUrl:string;
   public privateModeToggler: boolean = false;
+  public verifyProfile: boolean = false;
   @ViewChild('profileName') profileName: ElementRef;
   constructor(
     private _toastr: ToastrService,

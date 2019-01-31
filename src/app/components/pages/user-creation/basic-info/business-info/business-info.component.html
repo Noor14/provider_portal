@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="document mt-2 row">
-      <div class="col-3">
+      <div class="col-6">
         <div class="form-group">
           <label>Company Logo</label>
           <div class="document-Info d-flex flex-column mb-0">
@@ -24,14 +24,13 @@
                 (selectedDocxlogo && !selectedDocxlogo?.DocumentFile)
               ">
               <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'logo')" [configId]="'config'">
-                <img src="../../../assets/images/icons/manager-icon.png" />
-                <p class="m-0 mt-3">
+                <p class="m-0">
                   Drag here or <span class="browse-span">browse</span> to upload
                 </p>
               </app-ng-files-drag-n-upload>
             </div>
             <div class="row uploadedDocx" *ngIf="selectedDocxlogo && selectedDocxlogo?.DocumentFile">
-              <div class="col-lg-12">
+              <div class="col-lg-4">
                 <div class="display-upload delete">
                   <img [src]="selectedDocxlogo.DocumentFile" class="w-100" alt="logo" />
                   <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
@@ -76,112 +75,112 @@
     <h5 class="m-0">A Bit More Information</h5>
     <hr class="hr-solid" />
     <div class="row">
-      <div class="col-5">
-        <div class="form-group position-relative">
-          <label>HashMove Public URL <img src="../../../../../../assets/images/icons/icon_info.svg" alt="icon" class="icon-size-16">
-          </label>
-          <div class="row">
-            <div class="col-6 form-group">
-              <label>{{profileUrl}}</label>
-            </div>
-            <div class="col-6 form-group">
-              <input #profileName (keypress)="spaceHandler($event)" type="text" class="form-control" [ngClass]="{ inputError: addBusinessbtnEnabled === false && !spinner}"
-                placeholder="eg: hashMove" />
-              <svg *ngIf="addBusinessbtnEnabled && !spinner" class="available icon-size-24" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 130.2 130.2">
-                <circle class="path circle" fill="#73AF55" stroke="none" stroke-width="6" stroke-miterlimit="10" cx="65.1"
-                  cy="65.1" r="62.1" />
-                <polyline class="path check" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"
-                  stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
-              </svg>
-              <svg *ngIf="spinner" class="lds-spinner spinner" width="40px" height="40px" xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" style="background: none;">
-                <g transform="rotate(0 50 50)">
-                  <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
-                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-1.5583333333333333s"
-                      repeatCount="indefinite"></animate>
-                  </rect>
-                </g>
-                <g transform="rotate(30 50 50)">
-                  <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
-                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-1.4166666666666667s"
-                      repeatCount="indefinite"></animate>
-                  </rect>
-                </g>
-                <g transform="rotate(60 50 50)">
-                  <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
-                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-1.275s" repeatCount="indefinite"></animate>
-                  </rect>
-                </g>
-                <g transform="rotate(90 50 50)">
-                  <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
-                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-1.1333333333333333s"
-                      repeatCount="indefinite"></animate>
-                  </rect>
-                </g>
-                <g transform="rotate(120 50 50)">
-                  <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
-                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-0.9916666666666667s"
-                      repeatCount="indefinite"></animate>
-                  </rect>
-                </g>
-                <g transform="rotate(150 50 50)">
-                  <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
-                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-0.85s" repeatCount="indefinite"></animate>
-                  </rect>
-                </g>
-                <g transform="rotate(180 50 50)">
-                  <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
-                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-0.7083333333333334s"
-                      repeatCount="indefinite"></animate>
-                  </rect>
-                </g>
-                <g transform="rotate(210 50 50)">
-                  <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
-                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-0.5666666666666667s"
-                      repeatCount="indefinite"></animate>
-                  </rect>
-                </g>
-                <g transform="rotate(240 50 50)">
-                  <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
-                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-0.425s" repeatCount="indefinite"></animate>
-                  </rect>
-                </g>
-                <g transform="rotate(270 50 50)">
-                  <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
-                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-0.2833333333333333s"
-                      repeatCount="indefinite"></animate>
-                  </rect>
-                </g>
-                <g transform="rotate(300 50 50)">
-                  <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
-                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-0.14166666666666666s"
-                      repeatCount="indefinite"></animate>
-                  </rect>
-                </g>
-                <g transform="rotate(330 50 50)">
-                  <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
-                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="0s" repeatCount="indefinite"></animate>
-                  </rect>
-                </g>
-              </svg>
-              <p *ngIf="addBusinessbtnEnabled === false && !spinner" class="inputError">
-                Profile ID is not available
-              </p>
-            </div>
-          </div>
-
-          <small class="text-danger">
-            This company page already exists. In order to become an admin of <br>
-            the page, an existing admin must add you
-          </small>
-          <div class="switch-box mt-2">
-            <ui-switch (change)="privateModeToggler=!privateModeToggler" [checked]="privateModeToggler"></ui-switch>
-            <span>Is Private Mode</span>
-          </div>
-        </div>
+      <div class="col-6 d-flex">
+        <label class="">HashMove Public URL
+          <img src="../../../../../../assets/images/icons/icon_info.svg" class='icon-size-16' alt="icon_info" />
+        </label>
       </div>
+    </div>
+    <div class="row">
+      <div class="col-8">
+      <div class="d-flex align-items-center">
+        <label class="mr-2">{{profileUrl}}</label>
+        <div class="form-group position-relative">
+          <input #profileName (keypress)="spaceHandler($event)" type="text" class="form-control" [ngClass]="{ inputError: addBusinessbtnEnabled === false && !spinner}"
+            placeholder="eg: hashMove" />
+          <svg *ngIf="addBusinessbtnEnabled && !spinner" class="available icon-size-24" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 130.2 130.2">
+            <circle class="path circle" fill="#73AF55" stroke="none" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1"
+              r="62.1" />
+            <polyline class="path check" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10"
+              points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+          </svg>
+          <svg *ngIf="spinner" class="lds-spinner spinner" width="40px" height="40px" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" style="background: none;">
+            <g transform="rotate(0 50 50)">
+              <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-1.5583333333333333s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(30 50 50)">
+              <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-1.4166666666666667s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(60 50 50)">
+              <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-1.275s" repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(90 50 50)">
+              <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-1.1333333333333333s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(120 50 50)">
+              <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-0.9916666666666667s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(150 50 50)">
+              <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-0.85s" repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(180 50 50)">
+              <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-0.7083333333333334s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(210 50 50)">
+              <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-0.5666666666666667s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(240 50 50)">
+              <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-0.425s" repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(270 50 50)">
+              <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-0.2833333333333333s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(300 50 50)">
+              <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="-0.14166666666666666s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(330 50 50)">
+              <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#cccccc">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.7s" begin="0s" repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+          </svg>
+          
+        </div>
+        <p *ngIf="addBusinessbtnEnabled === false && !spinner" class="ml-2 alert-text">
+          Profile ID is not available
+        </p>
+        </div>
+        <small class="alert-text">This company page already exists in order to become an admin of <br />
+          the page, an existing admin must add you
+        </small>
+      </div>   
       <div class="col-12">
+        <div class="switch-box mt-2">
+          <ui-switch (change)="privateModeToggler=!privateModeToggler" [checked]="privateModeToggler"></ui-switch>
+          <span>Is Private Mode</span>
+        </div>
         <div class="form-group position-relative">
           <label>About Your Business</label>
           <textarea cols="30" [(ngModel)]="aboutUs" rows="5" class="form-control" placeholder="Tell us something about your business"></textarea>
@@ -189,7 +188,7 @@
       </div>
 
     </div>
-    <div class="row form-group">
+    <div class="row mt-2">
       <label class="sub-title col-12">Associations</label>
       <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let associate of allAssociations">
         <div #selectService class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-2 pointer"
@@ -200,7 +199,8 @@
       </div>
     </div>
   </section>
-  <section class="document mt-5 row">
+  <section class="document mt-3">
+    <div class="row">
     <div class="col-12">
       <div class="form-group">
         <label class="mb-0">Gallery (Optional)</label>
@@ -254,11 +254,26 @@
         </div>
       </div>
     </div>
+    </div>
   </section>
-  <div class="d-flex justify-content-end">
-    <button class="btn btn-primary hvr-sweep-to-right" [disabled]="!aboutUs || !addBusinessbtnEnabled || (assocService && !assocService.length) || (frtService && !frtService.length) || (valueService && !valueService.length) || (!selectedDocxlogo || (selectedDocxlogo && !selectedDocxlogo?.DocumentFile))"
-      (click)="addCorperateInfo()">
-      CREATE PROFILE
-    </button>
+  <div class="row mt-4">
+    <div class="col-6 ">
+      <div class="fancyOptionBoxes warehousing-services pull-left">
+        <input id="bonded" name="bonded" type="checkbox" [(ngModel)]="verifyProfile">
+        <label for="bonded">
+          <span></span>
+          I verify, that i am the official representation of this company and have the right to act on behalf of the
+          company in the creation of this profile
+        </label>
+      </div>
+
+    </div>
+
+    <div class="col-6 d-flex justify-content-end">
+      <button class="btn btn-primary hvr-sweep-to-right" [disabled]="!verifyProfile || !aboutUs || !addBusinessbtnEnabled || (assocService && !assocService.length) || (frtService && !frtService.length) || (valueService && !valueService.length) || (!selectedDocxlogo || (selectedDocxlogo && !selectedDocxlogo?.DocumentFile))"
+        (click)="addCorperateInfo()">
+        CREATE PROFILE
+      </button>
+    </div>
   </div>
 </section>

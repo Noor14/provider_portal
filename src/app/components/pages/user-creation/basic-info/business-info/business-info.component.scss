@@ -37,10 +37,48 @@
         }
       }
     }
+     .alert-text {
+        color: $probar-color;
+      }
+      svg {
+        &.available {
+          position: absolute;
+          right: 23px;
+          bottom: 12px;
+        }
+
+        &.spinner {
+          position: absolute;
+          right: 11px;
+          bottom: 4px;
+        }
+
+        .path {
+          stroke-dasharray: 1000;
+          stroke-dashoffset: 0;
+
+          //   stroke-width: 11px;
+          &.circle {
+            -webkit-animation: dash 0.9s ease-in-out;
+            animation: dash 0.9s ease-in-out;
+          }
+
+          &.line {
+            stroke-dashoffset: 1000;
+            -webkit-animation: dash 0.9s 0.35s ease-in-out forwards;
+            animation: dash 0.9s 0.35s ease-in-out forwards;
+          }
+
+          &.check {
+            stroke-dashoffset: -100;
+            -webkit-animation: dash-check 0.9s 0.35s ease-in-out forwards;
+            animation: dash-check 0.9s 0.35s ease-in-out forwards;
+          }
+        }
+      }
   }
   .document {
     &-Info {
-      margin-bottom: 2.8rem;
       .file-uploader {
         border: 1px dashed #e1d8d8;
         border-radius: 4px;
@@ -102,40 +140,12 @@
       }
     }
   }
-  input[placeholder="Company Name"] {
-    cursor: no-drop;
+  .info{
+ input:read-only {
+   cursor: no-drop;
+ }
   }
-  svg {
-    &.available {
-      position: absolute;
-      right: 23px;
-      bottom: 12px;
-    }
-    &.spinner {
-      position: absolute;
-      right: 11px;
-      bottom: 4px;
-    }
-    .path {
-      stroke-dasharray: 1000;
-      stroke-dashoffset: 0;
-      //   stroke-width: 11px;
-      &.circle {
-        -webkit-animation: dash 0.9s ease-in-out;
-        animation: dash 0.9s ease-in-out;
-      }
-      &.line {
-        stroke-dashoffset: 1000;
-        -webkit-animation: dash 0.9s 0.35s ease-in-out forwards;
-        animation: dash 0.9s 0.35s ease-in-out forwards;
-      }
-      &.check {
-        stroke-dashoffset: -100;
-        -webkit-animation: dash-check 0.9s 0.35s ease-in-out forwards;
-        animation: dash-check 0.9s 0.35s ease-in-out forwards;
-      }
-    }
-  }
+ 
 
   @-webkit-keyframes dash {
     0% {

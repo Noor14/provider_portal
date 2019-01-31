@@ -14,7 +14,7 @@ children: [
 { path: 'registration', component: RegistrationComponent, canActivate: [UserGuard]},
 { path: 'otp/:keys', component: OtpconfirmationComponent, canActivate: [UserGuard] },
 { path: 'password/:keys', component: CreatePasswordComponent, canActivate: [UserGuard]},
-{ path: 'business-info', component: BusinessInfoComponent, canActivate: [UserGuard]},
+{ path: 'business-info', component: BusinessInfoComponent},
 { path: '**', redirectTo: 'registration', pathMatch: 'full' }
 ]
 }
