@@ -1284,6 +1284,7 @@ select {
         thead {
           background: $data-table-header-bg;
           tr {
+            will-change: transform;
             th {
               font-family: $font-proxima;
               color: $color-topmenu !important;
@@ -1334,6 +1335,7 @@ select {
       .dataTable {
         tbody {
           tr {
+            will-change: transform;
             &.selected {
               background: $data-table-selected-bg;
               td {
@@ -1348,6 +1350,7 @@ select {
               border-top: none !important;
               padding: 1rem;
               line-height: 1;
+              visibility: visible !important;
               span {
                 color: $place-holder-color;
                 font-family: $font-proxima;
