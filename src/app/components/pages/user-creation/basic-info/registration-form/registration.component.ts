@@ -31,6 +31,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   public serviceIds: any[] = [];
   public serviceOffered: any;
   public selectedjobTitle: any
+  private selectedLangIdbyCountry: any;
   public jobTitles: any
   public transLangEmail: any;
 
@@ -218,7 +219,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
         this.location = res.results[0].geometry.location;
         if (country.id) {
           let selectedCountry = this.countryList.find(obj => obj.title.toLowerCase() == country.title.toLowerCase());
-          // this.selectedLangIdbyCountry = selectedCountry.desc[0].LanguageID;
+          this.selectedLangIdbyCountry = selectedCountry.desc[0].LanguageID;
           this.selectPhoneCode(selectedCountry);
           this.selectTelCode(selectedCountry);
           this.countryWiseMaping(country);
@@ -769,7 +770,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       companyPhone: this.businessForm.value.transLangPhone + this.transPhoneCode,
       POBox: (this.businessForm.value.poBoxNoAr) ? this.businessForm.value.poBoxNoAr : null,
       City: this.businessForm.value.transCity,
-      languageID: this.selected_country.id
+      languageID: this.selectedLangIdbyCountry
     }
     let CompanyObjectBL = {
       companyName: this.businessForm.value.orgName,
@@ -781,7 +782,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
 
     let obj = {
       logisticServiceID: this.serviceIds,
-      countryID: this.selected_country.id,
+      countryID: this.selectedLangIdbyCountry,
       redirectUrl: window.location.protocol + "//" + window.location.host + "/password",
       socialMediaPortalsID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.selectedSocialsite.socialMediaPortalsID : null,
       linkURL: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.socialSites : null,
