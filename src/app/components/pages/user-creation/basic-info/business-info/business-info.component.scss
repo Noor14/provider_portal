@@ -71,12 +71,24 @@
             }
         }
         ngb-tooltip-window {
-            .tooltip-inner {
-                width: 300px;
-                max-width: 300px;
-                background: $white-color;
-                color: $text-color-default
+            &.tooltip{
+                .arrow{
+                    &::before{
+                     border-top-color: #fff;
+                    }
+                }
+                &.show{
+                    opacity: 1;
+                }
+                   .tooltip-inner {
+                     width: 250px;
+                     max-width: 250px;
+                     background: $white-color;
+                     color: $text-color-default;
+                     box-shadow: 0 0 2px 0px #ccc;
+                   }
             }
+         
         }
         .document {
             &-Info {
