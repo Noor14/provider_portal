@@ -59,7 +59,8 @@ export class SeaRateDialogComponent implements OnInit {
   public selectedPrice: any;
   public defaultCurrency: any = {
     CurrencyID: 101,
-    CurrencyCode: "AED"
+    CurrencyCode: "AED",
+    CountryCode: "AE"
   };
   public selectedCurrency: any;
 
