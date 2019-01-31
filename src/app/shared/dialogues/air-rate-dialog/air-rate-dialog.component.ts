@@ -279,7 +279,7 @@ export class AirRateDialogComponent implements OnInit {
           this.newDraftThree = res.returnObject.slab.draftid3;
           this.newDraftFour = res.returnObject.slab.draftid4;
           this.newDraftFive = res.returnObject.slab.draftid5;
-          this.newDraftSix = res.returnObject.slab.draftid26;
+          this.newDraftSix = res.returnObject.slab.draftid6;
           this.newProviderPricingDraftID = res.returnObject.CarrierPricingSetID;
         }
       });
