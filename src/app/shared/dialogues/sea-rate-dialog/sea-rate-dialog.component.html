@@ -138,6 +138,63 @@
         </div>
       </div>
     </div>
+    <!-- Additional charges -->
+    <div class="row">
+      <div class="col-12">
+        <h5 class="model-sub-head mt-4">Additional Charges At Port Of Origin</h5>
+      </div>
+    </div>
+    <div class="row additional">
+      <div class="col-4 form-group" *ngFor="let origin of selectedOrigins; let i=index">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-outline-primary" id="0" ngbDropdownToggle>{{selectedOrigins[i]?.addChrName ||
+                'Select'}}</button>
+              <div ngbDropdownMenu aria-labelledby="0">
+                <button class="dropdown-item" *ngFor="let charge of originsList" (click)="selectCharges('EXPORT', charge, i)">{{charge.addChrName}}</button>
+              </div>
+            </div>
+          </div>
+          <input type="text" maxlength="1" maxlength="15" class="form-control" [(ngModel)]="selectedOrigins[i].Price"
+            placeholder="0.00" (keypress)="numberValid($event)">
+        </div>
+      </div>
+      <div class="col-12 add-more">
+        <a href="javascript:;" (click)="addMoreCharges('origin')">
+          <img src="../../../../assets/images/icons/icon_add.svg" class="mr-2" width="16" alt="">
+          Add More Charges
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <h5 class="model-sub-head mt-4">Additional Charges At Port Of Destination</h5>
+      </div>
+    </div>
+    <div class="row additional">
+      <div class="col-4 form-group" *ngFor="let origin of selectedDestinations; let i=index">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-outline-primary" id="0" ngbDropdownToggle>{{selectedDestinations[i]?.addChrName ||
+                'Select'}}</button>
+              <div ngbDropdownMenu aria-labelledby="0">
+                <button class="dropdown-item" *ngFor="let charge of destinationsList" (click)="selectCharges('IMPORT', charge, i)">{{charge.addChrName}}</button>
+              </div>
+            </div>
+          </div>
+          <input type="text" maxlength="1" maxlength="15" class="form-control" [(ngModel)]="selectedDestinations[i].Price"
+            placeholder="0.00" (keypress)="numberValid($event)">
+        </div>
+      </div>
+      <div class="col-12 add-more">
+        <a href="javascript:;" (click)="addMoreCharges('destination')">
+          <img src="../../../../assets/images/icons/icon_add.svg" class="mr-2" width="16" alt="">
+          Add More Charges
+        </a>
+      </div>
+    </div>
     <div class="row">
       <div class="col-12 d-flex justify-content-end">
         <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right mr-4" (click)="savedraftrow('saveNadd')">SAVE

@@ -64,5 +64,10 @@ export class SeaFreightService {
     return this._http.request('delete', baseApi + url, { body: data });
   }
 
+  getAllAdditionalCharges() {
+    let url: string = `AdditionalCharge/GetAll`;
+    return this._http.get(baseApi + url);
+  }
+
 
 }

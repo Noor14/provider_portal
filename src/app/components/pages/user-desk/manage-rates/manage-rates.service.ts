@@ -12,4 +12,6 @@ export class ManageRatesService {
     return this._http.post(baseApi + url, obj);
   }
 
+  
+
 }
