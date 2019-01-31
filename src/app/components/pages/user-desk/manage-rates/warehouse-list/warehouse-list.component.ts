@@ -126,7 +126,7 @@ export class WarehouseListComponent implements OnInit {
   activeToggler(whID){
     let obj={
       whid: whID,
-      active: this.activeToggle,
+      status: this.activeToggle,
       modifiedBy: this.userProfile.LoginID
     }
     this._warehouseService.activeWarehouseToggler(obj).subscribe((res: any) => {

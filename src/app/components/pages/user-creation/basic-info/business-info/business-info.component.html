@@ -74,12 +74,11 @@
   <section class="services mt-5">
     <h5 class="m-0">A Bit More Information</h5>
     <hr class="hr-solid" />
-    <div class="row">
-      <div class="col-6 d-flex">
-        <label class="">HashMove Public URL
-          <img src="../../../../../../assets/images/icons/icon_info.svg" class='icon-size-16' alt="icon_info" />
-        </label>
-      </div>
+    <div class="d-flex align-content-center">
+      <label>HashMove Public URL</label>
+        <img alt="icon_info" class="ml-2 icon-size-16" align="bottom" triggers="click:blur" placement="top" ngbTooltip="HashMove members will use this unique URL to find your page"
+        src="../../../../../../assets/images/icons/icon_info.svg">
+        <ng-template #tipContent>Hello, <b>{{name}}</b>!</ng-template>
     </div>
     <div class="row">
       <div class="col-8">
