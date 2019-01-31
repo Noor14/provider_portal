@@ -81,31 +81,28 @@
                   <div class="icons" *ngFor="let facilities of wareHouse.WarehouseFacilities">
                     <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse" *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse'"
                       [ngClass]="{
-                            'warehouse-features-active':
-                              facilities.BusinessLogic == 'IsBondedWarehouse' &&
-                              facilities.IsAllowed
-                          }">
+                        'warehouse-features-active':
+                          facilities.BusinessLogic == 'IsBondedWarehouse' &&
+                          facilities.IsAllowed
+                      }">
                       <img src="../../../assets/images/icons/Icons_Warehousing_green.svg" alt="footer icon" class="hvr-icon" />
                     </span>
                     <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Temp. Controlled" *ngIf="
-                            facilities.BusinessLogic == 'IsTempratureControlled'
-                          "
+                        facilities.BusinessLogic == 'IsTempratureControlled'
+                      "
                       [ngClass]="{
-                            'warehouse-features-active':
-                              facilities.BusinessLogic ==
-                                'IsTempratureControlled' && facilities.IsAllowed
-                          }">
+                        'warehouse-features-active':
+                          facilities.BusinessLogic ==
+                            'IsTempratureControlled' && facilities.IsAllowed
+                      }">
                       <img src="../../../assets/images/icons/Weight-Icon_1.svg" alt="footer icon" class="hvr-icon" />
                     </span>
                     <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Transport Available"
-                      *ngIf="
-                            facilities.BusinessLogic == 'IsTransportAvailable'
-                          "
-                      [ngClass]="{
-                            'warehouse-features-active':
-                              facilities.BusinessLogic ==
-                                'IsTransportAvailable' && facilities.IsAllowed
-                          }">
+                      *ngIf="facilities.BusinessLogic == 'IsTransportAvailable'" [ngClass]="{
+                        'warehouse-features-active':
+                          facilities.BusinessLogic == 'IsTransportAvailable' &&
+                          facilities.IsAllowed
+                      }">
                       <img src="../../../assets/images/icons/Icons_Cargo_Truck_blue.svg" alt="footer icon" class="hvr-icon" />
                     </span>
                   </div>
@@ -126,15 +123,24 @@
           <ng-template #option>
             <div class="option-popup fadeIn animated">
               <ul class="list-group">
+                <li class="list-group-item" (click)="deleteWarehouse(wareHouse.WHID)">
+                  <img src="../../../../../../assets/images/icons/warehouse-edit-icon.svg" class="icon-size-16" alt="icon" /><span>Edit Info / Rates</span>
+                </li>
                 <li class="list-group-item">
-                  <img src="../../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2" alt="icon" />
-                  <span>Active /Inactive</span>
-                  <div class="switch-box">
-                    <ui-switch (change)="activeToggler(wareHouse.WHID)" [checked]="activeToggle"></ui-switch>
-                  </div>
+                  <img src="../../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16" alt="icon" />
+                  <span>Active / Inactive
+                    <div class="switch-box float-right">
+                      <ui-switch (change)="activeToggler(wareHouse.WHID)" [checked]="activeToggle"></ui-switch>
+                    </div>
+                    <span class="warehouse-status">Currently: Inactive</span>
+                  </span>
                 </li>
                 <li class="list-group-item" (click)="deleteWarehouse(wareHouse.WHID)">
-                  <img src="../../../../../../assets/images/icons/icon_delete_red.svg" class="icon-size-16 mr-2" alt="icon" /><span>Delete</span>
+                  <img src="../../../../../../assets/images/icons/reload-icon.svg" class="icon-size-16" alt="icon" /><span>View Log</span>
+                </li>
+                <hr class="hr-solid mb-2">
+                <li class="list-group-item" (click)="deleteWarehouse(wareHouse.WHID)">
+                  <img src="../../../../../../assets/images/icons/icon_delete_red.svg" class="icon-size-16" alt="icon" /><span>Delete</span>
                 </li>
               </ul>
             </div>
@@ -144,7 +150,7 @@
       <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide"
         responsive="responsive" previousLabel="" nextLabel="" *ngIf="allWareHouseList.length > paginationConfig.itemsPerPage">
       </pagination-controls>
-      <div class="overflow-hidden" *ngIf="allWareHouseList && !allWareHouseList.length">
+      <div class="overflow-hidden" *ngIf="!allWareHouseList || (allWareHouseList && !allWareHouseList.length)">
         <div class="animated bounceInDown card text-center p-1">
           <p class="mb-0">You don't have any warehouse yet</p>
         </div>
