@@ -453,6 +453,21 @@ export class AirFreightComponent implements OnInit, OnDestroy {
       if (this.tabledraftByAir && this.tabledraftByAir.nativeElement) {
         this.datatabledraftByAir = $(this.tabledraftByAir.nativeElement);
         let alltableOption = this.datatabledraftByAir.DataTable(this.dtOptionsByAirDraft);
+        alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+          let node = this.node();
+          let data = this.data();
+          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.CarrierID || !data.EffectiveFrom || !data.EffectiveTo
+            || !data.slab || !data.slab.priceWithCode6 || !Math.ceil(data.slab.priceWithCode6.split(' ').pop())
+            || !data.slab.priceWithCode5 || !Math.ceil(data.slab.priceWithCode5.split(' ').pop())
+            || !data.slab.priceWithCode4 || !Math.ceil(data.slab.priceWithCode4.split(' ').pop())
+            || !data.slab.priceWithCode3 || !Math.ceil(data.slab.priceWithCode3.split(' ').pop())
+            || !data.slab.priceWithCode2 || !Math.ceil(data.slab.priceWithCode2.split(' ').pop())
+            || !data.slab.priceWithCode1 || !Math.ceil(data.slab.priceWithCode1.split(' ').pop())
+            || !data.slab.minPrice1 || !Math.ceil(data.slab.minPrice1.split(' ').pop())
+            ) {
+            node.children[0].children[0].children[0].setAttribute("disabled", true)
+          }
+        });
         this.draftloading = false;
         $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
           event.stopPropagation();
@@ -476,10 +491,26 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           var cols = alltableOption.column(0).nodes();
           this.checkedalldraftRates = !this.checkedalldraftRates;
           for (var i = 0; i < cols.length; i += 1) {
-            cols[i].querySelector("input[type='checkbox']").checked = this.checkedalldraftRates;
             if (this.checkedalldraftRates) {
-              this.publishRates.push(cols[i].querySelector("input[type='checkbox']").id);
-              this.selectedItem('add', alltableOption);
+              let data = alltableOption.row(i).data();
+              let node = alltableOption.row(i).node();
+              if (data.PolID && data.PodID && data.ShippingCatID && data.CarrierID && data.EffectiveFrom && data.EffectiveTo
+                && data.slab && data.slab.priceWithCode6 && Math.ceil(data.slab.priceWithCode6.split(' ').pop())
+                && data.slab.priceWithCode5 && Math.ceil(data.slab.priceWithCode5.split(' ').pop())
+                && data.slab.priceWithCode4 && Math.ceil(data.slab.priceWithCode4.split(' ').pop())
+                && data.slab.priceWithCode3 && Math.ceil(data.slab.priceWithCode3.split(' ').pop())
+                && data.slab.priceWithCode2 && Math.ceil(data.slab.priceWithCode2.split(' ').pop())
+                && data.slab.priceWithCode1 && Math.ceil(data.slab.priceWithCode1.split(' ').pop())
+                && data.slab.minPrice1 && Math.ceil(data.slab.minPrice1.split(' ').pop())
+              ){
+                let draftId = node.children[0].children[0].children[0].id;
+                this.publishRates.push(draftId);
+                node.children[0].children[0].children[0].checked = true;
+                node.classList.add('selected');
+              }
+              else {
+                node.children[0].children[0].children[0].checked = false;
+              }
             }
           }
           if (i == cols.length && !this.checkedalldraftRates) {
@@ -931,8 +962,9 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     }
     else {
       alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
-        var data = this.node();
-        data.classList.remove('selected');
+        var node = this.node();
+        node.classList.remove('selected');
+        node.children[0].children[0].children[0].checked = false;
         // ... do something with data(), or this.node(), etc
       });
     }

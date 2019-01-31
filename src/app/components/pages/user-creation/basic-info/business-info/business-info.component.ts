@@ -46,13 +46,13 @@ export class BusinessInfoComponent implements OnInit {
   public selectedFiles: any;
   public selectedLogo: any;
   public config: NgFilesConfig = {
-    acceptExtensions: ['jpg', 'png', 'bmp'],
+    acceptExtensions: ['jpg', 'png', 'bmp', 'svg'],
     maxFilesCount: 12,
     maxFileSize: 12*1024*1000,
     totalFilesSize: 12*12*1024*1000
   };
   public configLogo: NgFilesConfig = {
-    acceptExtensions: ['jpg', 'png', 'bmp'],
+    acceptExtensions: ['jpg', 'png', 'bmp', 'svg'],
     maxFilesCount: 1,
     maxFileSize: 5 * 1024 * 1000,
     totalFilesSize: 1 * 5 * 1024 * 1000
