@@ -24,7 +24,45 @@
         padding-left: 15px;
         padding-bottom: 30px;
 
-   
+        .dropdown-menu {
+          padding: 0;
+
+          button {
+            .flag-container {
+              width: 15px;
+              height: 12px;
+              display: flex;
+              margin-top: 5px;
+              margin-right: 10px !important;
+
+              img {
+                border: 1px solid $primary-grey;
+              }
+            }
+          }
+        }
+
+        .origin,
+        .destination {
+          position: relative;
+
+          >.flag-container {
+            width: 16px;
+            height: 24px;
+            align-items: center;
+            position: absolute;
+            left: 10px;
+            top: 11px;
+
+            img {
+              border: 1px solid $primary-grey;
+            }
+          }
+
+          .routeSelected {
+            padding-left: 30px !important;
+          }
+        }
       }
 
       .form-group {
@@ -62,67 +100,7 @@
           }
         }
       }
-
-      &.additional {
-        .dropdown-toggle {
-          padding: 0.7rem 0.34em;
-          border-radius: 3px 0 0 3px;
-          width: 155px;
-          overflow: hidden;
-          white-space: nowrap;
-        }
-
-        .add-more {
-          font-size: $font-size-medium;
-          font-family: $font-proxima;
-          color: $primary-color;
-
-          a {
-            color: $primary-color;
-            display: flex;
-            align-items: center;
-          }
-        }
-      }
     }
-         .dropdown-menu {
-           padding: 0;
-           button {
-             .flag-container {
-               width: 15px;
-               height: 12px;
-               display: flex;
-               margin-top: 5px;
-               margin-right: 10px !important;
-
-               img {
-                 border: 1px solid $primary-grey;
-               }
-             }
-           }
-         }
-
-         .origin,
-         .destination {
-           position: relative;
-
-           >.flag-container {
-             width: 16px;
-             height: 24px;
-             align-items: center;
-             position: absolute;
-             left: 10px;
-             top: 11px;
-
-             img {
-               border: 1px solid $primary-grey;
-             }
-           }
-
-           .routeSelected {
-             padding-left: 30px !important;
-           }
-         }
   }
 
   .date-control {

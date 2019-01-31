@@ -22,7 +22,14 @@ body {
       max-width: 460px !important;
       margin: auto;
     }
-  } // Toast Styles
+  } 
+  .large-modal {
+    .modal-dialog {
+      max-width: 1070px;
+    }
+  }
+  
+  // Toast Styles
   .alert-warning {
     background: $alert-warning--background-color;
     color: $text-color-default;
@@ -1023,6 +1030,93 @@ input[type="checkbox"]:focus + label > span {
     }
   }
 }
+
+.additional {
+
+  input,
+  select {
+    height: 48px;
+  }
+
+  .dropdown-toggle {
+    // padding: 0.7rem 0.34em;
+    white-space: inherit;
+    border-radius: 4px 0 0 4px;
+    width: 180px;
+    text-align: left;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    overflow: hidden; // height: 48px;
+    height: 40px;
+    line-height: 1;
+    margin-top: 5px;
+  }
+
+  .add-more {
+    font-size: $font-size-medium;
+    font-family: $font-proxima;
+    color: $primary-color;
+
+    a {
+      color: $primary-color;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .form-group {
+    .input-group-prepend {
+      background: $addtional-input-background !important; // border: 0px solid #d7d8da;
+      height: 3rem;
+      min-width: 160px;
+
+      .btn.lenght-adjust {
+        span {
+          max-width: 134px;
+          overflow: hidden;
+        }
+
+        // aditional css
+        height: 40px;
+        overflow: hidden;
+        position: relative;
+
+        &:before {
+          content: '...';
+          position: absolute;
+          bottom: 2px;
+          right: 19px;
+          padding: 0 0.3em;
+        }
+      }
+
+      .input-group-text {
+        font-size: $font-size-large !important;
+        color: $text-color-default;
+        font-family: $font-proxima;
+        font-weight: $font-weight-mid;
+        background: $addtional-input-background !important;
+        border: 0;
+      }
+
+      .btn {
+        @extend .input-group-text;
+        box-shadow: none !important;
+      }
+    }
+
+    .input-group-currency {
+      min-width: 100px;
+    }
+
+    .dropdown-menu {
+      max-height: 280px;
+      overflow-y: auto;
+    }
+  }
+}
+
 
 //out of form-group
 .sub-title {

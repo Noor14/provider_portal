@@ -762,16 +762,44 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           var cols = alltableOption.column(0).nodes();
           this.checkedalldraftRates = !this.checkedalldraftRates;
           for (var i = 0; i < cols.length; i += 1) {
-            cols[i].querySelector("input[type='checkbox']").checked = this.checkedalldraftRates;
             if (this.checkedalldraftRates) {
-              this.publishRates.push(cols[i].querySelector("input[type='checkbox']").id);
-              this.selectedItem('add', alltableOption);
+              let data = alltableOption.row(i).data();
+              let node = alltableOption.row(i).node();
+              if (data.PolID && data.PodID && data.ShippingCatID && data.CarrierID && data.EffectiveFrom && data.EffectiveTo) {
+                let draftId = node.children[0].children[0].children[0].id;
+                this.publishRates.push(draftId);
+                node.children[0].children[0].children[0].checked = true;
+                node.classList.add('selected');
+              }
+              else {
+                node.children[0].children[0].children[0].checked = false;
+                node.children[0].children[0].children[0].setAttribute("disabled", true)
+              }
+            } else {
+              let node = alltableOption.row(i).node();
+              node.children[0].children[0].children[0].checked = false;
+              node.children[0].children[0].children[0].removeAttribute("disabled")
             }
           }
           if (i == cols.length && !this.checkedalldraftRates) {
             this.publishRates = [];
             this.selectedItem('remove', alltableOption);
           }
+          // this.publishRates = [];
+          // var cols = alltableOption.column(0).nodes();
+          // this.checkedalldraftRates = !this.checkedalldraftRates;
+          // for (var i = 0; i < cols.length; i += 1) {
+          //   cols[i].querySelector("input[type='checkbox']").checked = this.checkedalldraftRates;
+          //   if (this.checkedalldraftRates) {
+          //     console.log(cols);
+          //     this.publishRates.push(cols[i].querySelector("input[type='checkbox']").id);
+          //     this.selectedItem('add', alltableOption);
+          //   }
+          // }
+          // if (i == cols.length && !this.checkedalldraftRates) {
+          //   this.publishRates = [];
+          //   this.selectedItem('remove', alltableOption);
+          // }
         });
 
         $('#draftRateTable').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
@@ -804,7 +832,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(SeaRateDialogComponent, {
       size: 'lg',
       centered: true,
-      windowClass: '',
+      windowClass: 'large-modal',
       backdrop: 'static',
       keyboard: false
     });
@@ -1128,10 +1156,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   filterTable() {
     this.dtOptionsBySeaFCL = {
-      // ajax: {
-      //   url: "http://10.20.1.13:9091/api/providerratefcl/SearchRates",
-      //   type: "POST"
-      // },
       data: this.allRatesList,
       columns: [
         {
@@ -1474,9 +1498,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         $("#selectallpublishRates").click(() => {
           this.delPublishRates = [];
           var cols = alltableOption.column(0).nodes();
-
-
-
           this.checkedallpublishRates = !this.checkedallpublishRates;
           for (var i = 0; i < cols.length; i += 1) {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
@@ -1779,8 +1800,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       publishArr.forEach(element => {
         if (parseInt(element) === e.ProviderPricingDraftID) {
           let parsedJsonSurchargeDet = JSON.parse(e.JsonSurchargeDet);
-          let exportOrigins = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
-          let importsDesinations = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
+          // let exportOrigins = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
+          // let importsDesinations = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
           if (!e.CarrierName) {
             this._toast.error('Please provide shipping line name', 'Error')
             validated = false;
@@ -1798,9 +1819,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             validated = false;
           } else if (!e.PolCode) {
             this._toast.error('Please provide port of origin ' + e.CarrierName, 'Error')
-            validated = false;
-          } else if (!exportOrigins.length || !importsDesinations.length) {
-            this._toast.error('Please select atleast one additional charges for origin and destination for ' + e.CarrierName, 'Error')
             validated = false;
           }
         }
@@ -1929,7 +1947,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   getAdditionalData() {
     this._seaFreightService.getAllAdditionalCharges().subscribe((res: any) => {
       this.seaCharges = res.filter(e => e.modeOfTrans === 'SEA' && e.addChrType === 'ADCH')
-      console.log(this.seaCharges);
     }, (err) => {
       console.log(err);
 

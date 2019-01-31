@@ -60,7 +60,7 @@ export class SeaRateDialogComponent implements OnInit {
   public defaultCurrency: any = {
     CurrencyID: 101,
     CurrencyCode: "AED",
-    CountryCode: "AE"
+    CountryCode: 'AE'
   };
   public selectedCurrency: any;
 
@@ -116,7 +116,6 @@ export class SeaRateDialogComponent implements OnInit {
     }
     this.destinationsList = this.selectedData.addList
     this.originsList = this.selectedData.addList
-    console.log(this.selectedData);
   }
 
   allservicesBySea() {
@@ -130,7 +129,7 @@ export class SeaRateDialogComponent implements OnInit {
             this.allHandlingType = state[index].DropDownValues.ContainerLCL;
             this.allPorts = state[index].DropDownValues.Port;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
-            
+
             if (this.selectedData && this.selectedData.data && this.selectedData.forType === "FCL") {
               this.setData(this.selectedData.data);
             }
@@ -239,10 +238,10 @@ export class SeaRateDialogComponent implements OnInit {
       consolidatorPricingDraftID: (!this.newProviderPricingDraftID) ? this.selectedData.data.ConsolidatorPricingDraftID : this.newProviderPricingDraftID,
       customerID: null,
       providerID: this.userProfile.ProviderID,
-      containerSpecID: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? null : null,
-      containerSpecShortName: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? undefined : null,
       // containerSpecID: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? null : this.selectedHandlingUnit,
       // containerSpecShortName: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? undefined : this.getHandlingSpecName(this.selectedHandlingUnit),
+      containerSpecID: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? null : null,
+      containerSpecShortName: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? undefined : null,
       shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : this.selectedCategory,
       shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.getShippingName(this.selectedCategory),
       containerLoadType: "LCL",
@@ -332,7 +331,7 @@ export class SeaRateDialogComponent implements OnInit {
       this._toast.error('Please fill atleast one field', 'Error')
       return
     }
-    
+
     this._seaFreightService.saveDraftRate(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success("Rates added successfully", "");
@@ -468,7 +467,7 @@ export class SeaRateDialogComponent implements OnInit {
           )
       )
     );
-  currencyFormatter = (x: any) => x.CurrencyCode
+  currencyFormatter = (x) => x.CurrencyCode;
 
   public selectedOrigins: any = [{}];
   public selectedDestinations: any = [{}];
@@ -503,7 +502,7 @@ export class SeaRateDialogComponent implements OnInit {
         this.selectedDestinations.push(model)
       }
       console.log(this.destinationsList);
-      
+
       this.destinationsList = this.destinationsList.filter(e => e.addChrID !== model.addChrID)
     }
   }
@@ -523,8 +522,14 @@ export class SeaRateDialogComponent implements OnInit {
   setEditData() {
     const parsedJsonSurchargeDet = JSON.parse(this.selectedData.data.JsonSurchargeDet)
     this.selectedOrigins = parsedJsonSurchargeDet.filter((e) => e.Imp_Exp === 'EXPORT')
+    if (!this.selectedOrigins.length) {
+      this.selectedOrigins = [{}]
+    }
     console.log(this.selectedOrigins);
     this.selectedDestinations = parsedJsonSurchargeDet.filter((e) => e.Imp_Exp === 'IMPORT')
+    if (!this.selectedDestinations.length) {
+      this.selectedDestinations = [{}]
+    }
   }
 
 }

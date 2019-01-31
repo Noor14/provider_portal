@@ -6,13 +6,11 @@
     </a>
   </div>
   <div class="modal-body bg-light">
-    <div class="row bg-white popup-white">
+<div class="row bg-white popup-white">
       <div class="col-12">
         <h5 class="model-sub-head mt-4">Route Info</h5>
       </div>
-    </div>
-    <div class="row bg-white">
-      <div class="col" *ngIf="selectedData.forType == 'FCL'">
+      <div class="col-4" *ngIf="selectedData.forType == 'FCL'">
         <div class="form-group">
           <label>Shipping Line</label>
           <input type="text" class="form-control" placeholder="e.g: Maersk Shipping" [(ngModel)]="selectedShipping"
@@ -22,8 +20,7 @@
           </ng-template>
         </div>
       </div>
-      <!-- <div class="col-6" *ngIf="selectedData.forType == 'FCL'"></div> -->
-      <div class="col">
+      <div class="col-4">
         <div class="form-group">
           <label>Port of Origin</label>
           <div class="origin">
@@ -36,7 +33,7 @@
           </div>
         </div>
       </div>
-      <div class="col">
+      <div class="col-4">
         <div class="form-group">
           <label>Port of Destination</label>
           <div class="destination">
@@ -59,7 +56,7 @@
         </div>
       </div>
     </div>
-    <div class="row bg-white">
+    <div class="row bg-white popup-white border-bottom">
       <div class="col-6">
         <div class="form-group">
           <label>Cargo Type</label>
@@ -80,88 +77,87 @@
       </div>
       <!-- <div class="col-6" *ngIf="selectedData.forType == 'LCL'">
         <div class="form-group">
-                      <label>Handling Unit</label>
-                      <select class="form-control" [(ngModel)]="selectedHandlingUnit">
-                        <option [value]="null" disabled>--Select--</option>
-                        <option *ngFor="let handle of allHandlingType" [value]="handle.ContainerSpecID">{{handle.ContainerSpecShortName}}</option>
-                      </select>
-                    </div>
+          <label>Handling Unit</label>
+          <select class="form-control" [(ngModel)]="selectedHandlingUnit">
+            <option [value]="null" disabled>--Select--</option>
+            <option *ngFor="let handle of allHandlingType" [value]="handle.ContainerSpecID">{{handle.ContainerSpecShortName}}</option>
+          </select>
+        </div>
       </div> -->
     </div>
-    <div class="row">
-      <div class="col-12">
-        <h5 class="model-sub-head mt-4">Rate</h5>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-3">
-        <div class="form-group">
-          <label>Currency</label>
-          <div class="origin">
-            <div class="flag-container">
-              <img *ngIf="selectedCurrency && selectedCurrency.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (selectedCurrency.CountryCode | lowercase) + '.svg'}}"
-                type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
-            </div>
-            <input type="text" placeholder="AED" [(ngModel)]="selectedCurrency" class="form-control" [ngClass]="{'routeSelected': selectedCurrency && selectedCurrency.CountryCode}"
-              [ngbTypeahead]="currencies" [resultTemplate]="crt" [inputFormatter]="currencyFormatter">
-            <ng-template #crt let-r="result">
-              <div class="d-flex">
-                <div class="flag-container mr-1">
-                  <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
-                </div>
-                <ngb-highlight [result]="r.CurrencyCode"></ngb-highlight>
-              </div>
-            </ng-template>
-          </div>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="form-group">
-          <label *ngIf="selectedData.forType == 'FCL'">Freight Charges</label>
-          <label *ngIf="selectedData.forType == 'LCL'">Rate / cbm</label>
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
-            </div>
-            <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice"
-              (keypress)="numberValid($event)">
-          </div>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="form-group date-control">
-          <label>Validity Date</label>
-          <div class="dateIcon">
-            <input id="dpicker" autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date"
-              name="dp" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="top-right" [outsideDays]="true"
-              [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker"
-              (click)="dp.toggle()">
-          </div>
-          <ng-template #t let-date="date" let-focused="focused">
-            <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
-              [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date"
-              (mouseleave)="hoveredDate = null">
-              {{ date.day }}
-            </span>
-          </ng-template>
-        </div>
-      </div>
-    </div>
-
-    <section *ngIf="selectedData.forType == 'FCL'">
-      <!-- Additional charges -->
+    <div class="additional">
       <div class="row">
+        <div class="col-12">
+          <h5 class="model-sub-head mt-4">Rate</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend input-group-currency">
+                <div class="input-group-text">Currency</div>
+              </div>
+              <img *ngIf="selectedCurrency?.CountryCode && selectedCurrency.CountryCode.length > 0" src="../../../../assets/images/flags/4x3/{{selectedCurrency.CountryCode | lowercase}}.svg"
+                style="max-width:20px;max-height:22px;position: absolute;right: 12px;z-index: 999;top: 17px;">
+              <input type="text" placeholder="AED" [(ngModel)]="selectedCurrency" class="form-control" [ngbTypeahead]="currencies"
+                [resultTemplate]="crt" [inputFormatter]="currencyFormatter">
+              <ng-template #crt let-r="result">
+                <div class="d-flex">
+                  <img src="{{'../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" style="max-width:20px;max-height:22px;">
+                  <ngb-highlight [result]="r.CurrencyCode"></ngb-highlight>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text" *ngIf="selectedData.forType == 'FCL'">Freight Charges</div>
+                <div class="input-group-text" *ngIf="selectedData.forType == 'LCL'">Rate / cbm</div>
+              </div>
+              <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice"
+                (keypress)="numberValid($event)">
+            </div>
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="form-group date-control">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">Validity Date</div>
+              </div>
+              <div class="dateIcon">
+                <input id="dpicker" autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date"
+                  name="dp" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="top-right" [outsideDays]="true"
+                  [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker"
+                  (click)="dp.toggle()">
+              </div>
+              <ng-template #t let-date="date" let-focused="focused">
+                <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
+                  [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date"
+                  (mouseleave)="hoveredDate = null">
+                  {{ date.day }}
+                </span>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Additional charges -->
+      <div class="row" *ngIf="selectedData.forType == 'FCL'">
         <div class="col-12">
           <h5 class="model-sub-head mt-4">Additional Charges At Port Of Origin</h5>
         </div>
-      </div>
-      <div class="row additional">
         <div class="col-4 form-group" *ngFor="let origin of selectedOrigins; let i=index">
-          <div class="input-group mb-3">
+          <div class="input-group">
             <div class="input-group-prepend">
               <div ngbDropdown class="d-inline-block">
-                <button class="btn btn-outline-secondary" id="0" ngbDropdownToggle>{{selectedOrigins[i]?.addChrName ||
-                  'Select'}}</button>
+                <button class="btn" id="0" ngbDropdownToggle [ngClass]="(selectedOrigins[i] && selectedOrigins[i]?.addChrName?.length > 45 )?'lenght-adjust':''">
+                  <span>{{selectedOrigins[i]?.addChrName || 'Select'}}</span>
+                </button>
                 <div ngbDropdownMenu aria-labelledby="0">
                   <button class="dropdown-item" *ngFor="let charge of originsList" (click)="selectCharges('EXPORT', charge, i)">{{charge.addChrName}}</button>
                 </div>
@@ -173,24 +169,20 @@
         </div>
         <div class="col-12 add-more">
           <a href="javascript:;" (click)="addMoreCharges('origin')">
-            <img src="../../../../assets/images/icons/icon_add.svg" class="mr-2" width="16" alt="">
-            Add More Charges
+            <img src="../../../../assets/images/icons/icon_add.svg" class="mr-2" width="16" alt=""> Add More Charges
           </a>
         </div>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="selectedData.forType == 'FCL'">
         <div class="col-12">
           <h5 class="model-sub-head mt-4">Additional Charges At Port Of Destination</h5>
         </div>
-      </div>
-      <div class="row additional">
         <div class="col-4 form-group" *ngFor="let origin of selectedDestinations; let i=index">
-          <div class="input-group mb-3">
+          <div class="input-group">
             <div class="input-group-prepend">
               <div ngbDropdown class="d-inline-block">
-                <button class="btn btn-outline-secondary" id="0" ngbDropdownToggle>{{selectedDestinations[i]?.addChrName
-                  ||
-                  'Select'}}</button>
+                <button class="btn" id="0" ngbDropdownToggle [ngClass]="(selectedDestinations[i] && selectedDestinations[i]?.addChrName?.length > 45 )?'lenght-adjust':''">{{selectedDestinations[i]?.addChrName
+                  || 'Select'}}</button>
                 <div ngbDropdownMenu aria-labelledby="0">
                   <button class="dropdown-item" *ngFor="let charge of destinationsList" (click)="selectCharges('IMPORT', charge, i)">{{charge.addChrName}}</button>
                 </div>
@@ -202,19 +194,19 @@
         </div>
         <div class="col-12 add-more">
           <a href="javascript:;" (click)="addMoreCharges('destination')">
-            <img src="../../../../assets/images/icons/icon_add.svg" class="mr-2" width="16" alt="">
-            Add More Charges
+            <img src="../../../../assets/images/icons/icon_add.svg" class="mr-2" width="16" alt=""> Add More Charges
           </a>
         </div>
       </div>
-    </section>
-  <div class="row">
-    <div class="col-12 d-flex justify-content-end">
-      <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right mr-4" (click)="savedraftrow('saveNadd')">SAVE
-        & ADD ANOTHER</button>
-      <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right" (click)="savedraftrow('onlySave')">SAVE &
-        CLOSE</button>
+      <div class="row">
+        <div class="col-12 d-flex justify-content-end">
+          <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right mr-4" (click)="savedraftrow('saveNadd')">SAVE
+            & ADD ANOTHER</button>
+          <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right" (click)="savedraftrow('onlySave')">SAVE &
+            CLOSE
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
   </div>
 </div>
