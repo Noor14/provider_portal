@@ -47,9 +47,9 @@ export class BusinessInfoComponent implements OnInit {
   public selectedLogo: any;
   public config: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', 'bmp'],
-    maxFilesCount: 9,
-    maxFileSize: 9*1024*1000,
-    totalFilesSize: 9*9*1024*1000
+    maxFilesCount: 12,
+    maxFileSize: 12*1024*1000,
+    totalFilesSize: 12*12*1024*1000
   };
   public configLogo: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', 'bmp'],
@@ -242,7 +242,7 @@ removeSelectedDocx(index,  obj, type) {
 
   selectDocx(selectedFiles: NgFilesSelected, type): void {
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.status == 1) this._toastr.error('Please select Five or less file(s) to upload.', '')
+      if (selectedFiles.status == 1) this._toastr.error('Please select tweleve or less file(s) to upload.', '')
       else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 5 MB. Please upload smaller file.', '')
       else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
       return;
