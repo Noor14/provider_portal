@@ -26,6 +26,7 @@ import { ReportsService } from './reports/reports.service';
 import { DataTablesModule } from 'angular-datatables';
 import { SearchPipe } from '../../../constants/search.pipe';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { WarehouseComponent } from './warehouse/warehouse.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -55,7 +56,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     BillingComponent,
     SettingsComponent,
     DataMapComponent,
-    SearchPipe
+    SearchPipe,
+    WarehouseComponent
   ],
   providers: [
     ViewBookingService,
