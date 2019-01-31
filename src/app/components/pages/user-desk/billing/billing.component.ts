@@ -6,7 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { JsonResponse } from '../../../../interfaces/JsonResponse';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../../../services/common.service';
-import { UserInfo, ProviderBillingDashboard, ProviderBillingDashboardInvoice, GraphStatistic } from '../../../../interfaces/billing.interface';
+import { UserInfo, ProviderBillingDashboard, ProviderBillingDashboardInvoice, GraphStatistic, CodeValMst } from '../../../../interfaces/billing.interface';
 import { ExchangeRate, Rate, CurrencyDetails, SelectedCurrency } from '../../../../interfaces/currency.interface';
 import { CurrencyControl } from '../../../../services/currency.service';
 import { firstBy } from 'thenby';
@@ -66,7 +66,7 @@ export class BillingComponent implements OnInit, OnDestroy {
 
 
   public statistics: any = {
-    color: ['#02bdb6', '#8472d5'],
+    color: [],
     // title: {
     //   text: 'Statistics',
     //   subtext: 'Bar Stats'
@@ -89,7 +89,7 @@ export class BillingComponent implements OnInit, OnDestroy {
       }
     },
     legend: {
-      data: ['BILLED', 'PAID']
+      data: []
     },
     grid: {
       left: '0%',
@@ -123,7 +123,7 @@ export class BillingComponent implements OnInit, OnDestroy {
     xAxis: [
       {
         type: 'category',
-        data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+        data: []
       }
     ],
     yAxis: [
@@ -135,7 +135,7 @@ export class BillingComponent implements OnInit, OnDestroy {
       {
         name: 'BILLED',
         type: 'bar',
-        data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+        data: [],
         barWidth: '10%',
         barGap: 0.1,
         itemStyle: {
@@ -165,7 +165,7 @@ export class BillingComponent implements OnInit, OnDestroy {
             barBorderRadius: 15,
           }
         },
-        data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+        data: [],
         // markPoint: {
         //   data: [
         //     { name: '年最高', value: 182.2, xAxis: 7, yAxis: 183 },
@@ -186,11 +186,14 @@ export class BillingComponent implements OnInit, OnDestroy {
   public viewBillingInvoice: ProviderBillingDashboardInvoice[] = []
   public isBarGraph: boolean
 
-  currencyList: any
-  currCurrency: SelectedCurrency
-  exchangeData: ExchangeRate
-  exchangeRate: Rate
-  tableSearch: string
+  public currencyList: any
+  public currCurrency: SelectedCurrency
+  public exchangeData: ExchangeRate
+  public exchangeRate: Rate
+  public tableSearch: string
+  public isTableLoaded: boolean = false
+
+  public billingStatusList: CodeValMst[] = []
 
 
   constructor(
@@ -204,14 +207,23 @@ export class BillingComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     // (HassanSJ) work start
+
+    this._commonService.getMstCodeVal('BILLING_STATUS').subscribe((res: any) => {
+      this.billingStatusList = res
+    }, (error: HttpErrorResponse) => {
+      console.log(error);
+    })
+
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this.userProfile = JSON.parse(userInfo.returnText);
 
-    const { ProviderID } = this.userProfile
+    const { ProviderID, CurrencyID } = this.userProfile
 
-    await this.setCurrencyList()
+    if (CurrencyID && CurrencyID > 0) {
+      await this.setCurrencyList()
+    }
 
-    this._dashboardService.getProviderBillingDashboard(ProviderID, 'YEARLY').subscribe((res: JsonResponse) => {
+    this._dashboardService.getProviderBillingDashboard(ProviderID, 'MONTHLY').subscribe((res: JsonResponse) => {
 
       const { returnId, returnObject, returnText } = res
       if (returnId > 0) {
@@ -223,6 +235,11 @@ export class BillingComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.dtTrigger.next()
         }, 0);
+
+        setTimeout(() => {
+          this.isTableLoaded = true
+        }, 10);
+
       } else {
         this._toastr.error(returnText, 'Failed')
       }
@@ -239,18 +256,19 @@ export class BillingComponent implements OnInit, OnDestroy {
     this.setBarGraphData()
   }
 
-  onInvoiceCatClick($selectedCat: string, $status:string) {
-    this.selectedCat = $status
+  onInvoiceCatClick($selectedCat: string) {
+    setTimeout(() => {
+      this.isTableLoaded = false
+    }, 0);
+    this.selectedCat = $selectedCat
 
     this.viewBillingInvoice = cloneObject([])
     const { providerBillingDashboardInvoice } = this
     if ($selectedCat.toLowerCase() === 'all') {
       this.viewBillingInvoice = cloneObject(providerBillingDashboardInvoice)
     } else {
-      this.viewBillingInvoice = cloneObject(providerBillingDashboardInvoice.filter(invoice => invoice.billingStatus.toLowerCase() === $selectedCat.toLowerCase()))
+      this.viewBillingInvoice = cloneObject(providerBillingDashboardInvoice.filter(invoice => invoice.paymentStatus.toLowerCase() === $selectedCat.toLowerCase()))
     }
-    console.log(this.viewBillingInvoice);
-
 
     if (this.datatableElement && this.datatableElement.dtInstance) {
       this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -258,7 +276,8 @@ export class BillingComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.dtTrigger.next()
           this.tableSearch = ''
-        }, 10);
+          this.isTableLoaded = true
+        }, 0);
       });
     }
   }
@@ -274,25 +293,28 @@ export class BillingComponent implements OnInit, OnDestroy {
 
   async selectedCurrency() {
 
-    const { userProfile } = this
-
-    let CurrencyID = (userProfile.CurrencyID && userProfile.CurrencyID > 0) ? userProfile.CurrencyID : 101
+    const { CurrencyID } = this.userProfile
 
     const seletedCurrency: CurrencyDetails = this.currencyList.find(obj => obj.id == CurrencyID)
 
-    let currentCurrency: SelectedCurrency = {
-      sortedCurrencyID: seletedCurrency.id,
-      sortedCountryFlag: seletedCurrency.imageName.toLowerCase(),
-      sortedCountryName: seletedCurrency.code,
-      sortedCountryId: JSON.parse(seletedCurrency.desc).CountryID
+    if (seletedCurrency && seletedCurrency.id && seletedCurrency.id > 0) {
+      let currentCurrency: SelectedCurrency = {
+        sortedCurrencyID: seletedCurrency.id,
+        sortedCountryFlag: seletedCurrency.imageName.toLowerCase(),
+        sortedCountryName: seletedCurrency.code,
+        sortedCountryId: JSON.parse(seletedCurrency.desc).CountryID
+      }
+
+      this.currCurrency = currentCurrency
+      const { currCurrency } = this
+      const baseCurrencyID = this._currencyControl.getBaseCurrencyID();
+      const res2: JsonResponse = await this._commonService.getExchangeRateList(baseCurrencyID).toPromise()
+      this.exchangeData = res2.returnObject
+      this.exchangeRate = this.exchangeData.rates.filter(rate => rate.currencyID === currCurrency.sortedCurrencyID)[0]
+    } else {
+      return
     }
 
-    this.currCurrency = currentCurrency
-    const { currCurrency } = this
-    const baseCurrencyID = this._currencyControl.getBaseCurrencyID();
-    const res2: JsonResponse = await this._commonService.getExchangeRateList(baseCurrencyID).toPromise()
-    this.exchangeData = res2.returnObject
-    this.exchangeRate = this.exchangeData.rates.filter(rate => rate.currencyID === currCurrency.sortedCurrencyID)[0]
   }
 
   async setBarGraphData() {
@@ -304,11 +326,14 @@ export class BillingComponent implements OnInit, OnDestroy {
     const { providerBillingDashboard, exchangeRate } = this
 
     if (!providerBillingDashboard.graphStatistics || providerBillingDashboard.graphStatistics.length === 0) {
-      this.statistics.title = { text: 'No Data to Show', x: 'center', y: 'center' }
-      this.statistics.color = []
-      this.statistics.legend.data = []
-      this.statistics.xAxis[0].data = []
-      this.statistics.series = []
+      let copyOfBarGraph = cloneObject(this.statistics)
+
+      copyOfBarGraph.title = { text: 'No Data to Show', x: 'center', y: 'center' }
+      copyOfBarGraph.color = []
+      copyOfBarGraph.legend.data = []
+      copyOfBarGraph.xAxis[0].data = []
+      copyOfBarGraph.series = []
+      this.statistics = copyOfBarGraph
       setTimeout(() => {
         this.isBarGraph = true
       }, 20);
@@ -319,24 +344,22 @@ export class BillingComponent implements OnInit, OnDestroy {
 
     this.statistics.title = {}
 
-    try {
-      graphStatistics.forEach(bar => {
-        const { amount } = bar
-        bar.amount = getNewPrice(amount, exchangeRate.rate)
-      })
+    if (exchangeRate && exchangeRate.rate > 0) {
+      try {
+        graphStatistics.forEach(bar => {
+          const { amount } = bar
+          bar.amount = getNewPrice(amount, exchangeRate.rate)
+        })
 
-    } catch (err) { }
+      } catch (err) { }
+    }
 
 
 
     const legendsList = this.getLegendsBilling(graphStatistics)
-    console.log('legendsList:', legendsList)
     const colorList = this.getColorListBilling(legendsList)
-    console.log('colorList:', colorList)
     const axisData = this.getAxisDataBilling(graphStatistics)
-    console.log('axisData:', axisData)
     const seriesList = this.getSerieDataBilling(legendsList, graphStatistics)
-    console.log('seriesList:', seriesList)
 
     let copyOfBarGraph = cloneObject(this.statistics)
     copyOfBarGraph.color = colorList

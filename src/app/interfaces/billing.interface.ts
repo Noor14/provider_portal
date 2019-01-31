@@ -81,3 +81,22 @@ export interface UserInfo {
   WHID?: any;
   CurrencyID?: number;
 }
+
+export interface CodeValMst {
+  codeValID: number;
+  codeVal: string;
+  codeValShortDesc: string;
+  codeValDesc: string;
+  codeValPreVal?: any;
+  codeValNextVal?: any;
+  languageID: number;
+  codeType: string;
+  isDelete: boolean;
+  isActive: boolean;
+  createdBy: string;
+  createdDateTime: string;
+  modifiedBy?: any;
+  modifiedDateTime?: any;
+  sortingOrder: number;
+  codeValLink?: any;
+}

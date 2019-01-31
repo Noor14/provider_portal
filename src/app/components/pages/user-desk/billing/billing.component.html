@@ -18,7 +18,7 @@
       <div class="summarySection col-xl-4 col-md-12 col-sm-12">
         <div class="summaryTitle">
           <h5>
-            <img src="../../../../../assets/images/icons/icon_revenue.svg" class="icon-size-24 mr-3">
+            <img src="../../../../../assets/images/icons/billing-card-icon-clock.svg" class="icon-size-24 mr-3">
             {{providerBillingDashboard?.billingTile?.title}}
           </h5>
         </div>
@@ -33,7 +33,7 @@
       <div class="summarySection col-xl-4 col-md-12 col-sm-12">
         <div class="summaryTitle">
           <h5>
-            <img src="../../../../../assets/images/icons/icon_revenue.svg" class="icon-size-24 mr-3">
+            <img src="../../../../../assets/images/icons/billing-card-icon-mark.svg" class="icon-size-24 mr-3">
             {{providerBillingDashboard?.paymentDueTile?.title}}</h5>
         </div>
         <div class="summaryQuantity d-flex pt-2 pb-2">
@@ -88,17 +88,8 @@
       </div>
       <div aria-labelledby="sorter" class="sortFilter dropdown-menu" ngbDropdownMenu x-placement="bottom-left">
         <ul class="list-group">
-          <li class="list-group-item pointer" (click)="onInvoiceCatClick('all', 'All')">
-            <span>All</span>
-          </li>
-          <li class="list-group-item pointer" (click)="onInvoiceCatClick('paid', 'Paid')">
-            <span>Paid</span>
-          </li>
-          <li class="list-group-item pointer" (click)="onInvoiceCatClick('pending', 'Paid Partially')">
-            <span>Paid Partially</span>
-          </li>
-          <li class="list-group-item pointer" (click)="onInvoiceCatClick('UN-PAID', 'Unpaid')">
-            <span>Unpaid</span>
+          <li *ngFor="let billStatus of billingStatusList" class="list-group-item pointer" (click)="onInvoiceCatClick(billStatus.codeVal)">
+            <span>{{billStatus.codeVal}}</span>
           </li>
         </ul>
       </div>
@@ -107,42 +98,60 @@
 
   <!-- Invoices -->
   <section class="rates-grid billingInvoices mt-3 invoicesOverview-grid">
-    <table #billing datatable [dtTrigger]="dtTrigger" *ngIf="providerBillingDashboardInvoice && providerBillingDashboardInvoice.length > 0"
-      [dtOptions]="dtOptionsByBilling2" cellspacing="0" class="row-border hover">
-      <thead>
-        <tr>
-          <th>INVOICE NO.</th>
-          <th>DESCRIPTION</th>
-          <th>ISSUED ON</th>
-          <th>DUE ON</th>
-          <th>BILLED</th>
-          <th>PAID</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- <tr *ngFor="let invoice of providerBillingDashboardInvoice | search:'invoiceNo,description,issuedDate,dueDate,billingCurCode,paymentCurCode':tableSearch"> -->
-        <tr *ngFor="let invoice of viewBillingInvoice">
-          <td>{{invoice.invoiceNo}}</td>
-          <td>{{invoice.description}}</td>
-          <td>{{invoice.issuedDate | date : "d MMM, yyyy"}}</td>
-          <td [ngClass]="(invoice.billingStatus.toLowerCase() === 'overdue')?'overdue':''">
-            {{invoice.dueDate | date : "d MMM, yyyy"}}
-            <span *ngIf="invoice.billingStatus.toLowerCase() === 'overdue'" class="badge p-0">OVERDUE</span>
-          </td>
-          <td>{{invoice.billingCurCode}} {{invoice.billingAmount | number : '1.2-2'}}</td>
-          <td colspan="2">
-            <div *ngIf="invoice.paymentAmount && invoice.paymentAmount > 0">{{invoice.paymentCurCode}}
-              {{invoice.paymentAmount | number : '1.2-2'}}</div>
-            <div *ngIf="!invoice.paymentAmount || invoice.paymentAmount === 0">-</div>
-            <button [ngbTooltip]="invoice.billingStatus" container="body" *ngIf="(invoice.billingStatus.toLowerCase() === 'pending' || invoice.billingStatus.toLowerCase() === 'paid')"
-              class="btn pay-status ml-3" [ngClass]="{'btn-warning':invoice.billingStatus.toLowerCase() === 'pending', 'btn-primary':invoice.billingStatus.toLowerCase() === 'paid'}"></button>
-          </td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
+    <div [hidden]="!isTableLoaded">
+      <table #billing datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptionsByBilling2" cellspacing="0" class="row-border hover">
+        <thead>
+          <tr>
+            <th>INVOICE NO.</th>
+            <th>DESCRIPTION</th>
+            <th>ISSUED ON</th>
+            <th>DUE ON</th>
+            <th>BILLED</th>
+            <th>PAID</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr *ngFor="let invoice of providerBillingDashboardInvoice | search:'invoiceNo,description,issuedDate,dueDate,billingCurCode,paymentCurCode':tableSearch"> -->
+          <tr *ngFor="let invoice of viewBillingInvoice">
+            <td>{{invoice.invoiceNo}}</td>
+            <td>{{invoice.description}}</td>
+            <td>{{invoice.issuedDate | date : "d MMM, yyyy"}}</td>
+            <td [ngClass]="(invoice.billingStatus.toLowerCase() === 'overdue')?'overdue':''">
+              {{invoice.dueDate | date : "d MMM, yyyy"}}
+              <span *ngIf="invoice.billingStatus.toLowerCase() === 'overdue'" class="badge p-0">OVERDUE</span>
+            </td>
+            <td>{{invoice.billingCurCode}} {{invoice.billingAmount | number : '1.2-2'}}</td>
+            <td colspan="2">
+              <div *ngIf="invoice.paymentAmount && invoice.paymentAmount > 0">{{invoice.paymentCurCode}}
+                {{invoice.paymentAmount | number : '1.2-2'}}</div>
+              <div *ngIf="!invoice.paymentAmount || invoice.paymentAmount === 0">-</div>
+              <button [ngbTooltip]="invoice.paymentStatus" container="body" *ngIf="(invoice.paymentStatus.toLowerCase() === 'paid partially' || invoice.paymentStatus.toLowerCase() === 'paid')"
+                class="btn pay-status ml-3" [ngClass]="{'btn-warning':invoice.paymentStatus.toLowerCase() === 'paid partially', 'btn-primary':invoice.paymentStatus.toLowerCase() === 'paid'}"></button>
+            </td>
+            <td>
+              <!-- <div ngbDropdown class="d-inline-block fadeIn animated user-table-dropdown">
+                <div ngbDropdownToggle id="dropdownBasic1 ">
+                  <img src="../../../assets/images/icons/menu.svg " alt="menu " class="icon-size-16 ">
+                </div>
+                <div ngbDropdownMenu container="body"  aria-labelledby="dropdownBasic1" class="fadeIn animated ">
+                  <button class="dropdown-item text-danger">
+                    Remove Admin
+                  </button>
+                  <button class="dropdown-item text-danger ">
+                    Remove User
+                  </button>
+                </div>
+              </div> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
+    <div style="min-height: 180px" *ngIf="!isTableLoaded">
+      <app-loader-main></app-loader-main>
+    </div>
   </section>
 
   <!-- Invoices -->
