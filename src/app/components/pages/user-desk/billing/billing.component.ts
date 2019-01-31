@@ -1,6 +1,18 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, OnDestroy } from '@angular/core';
 import * as echarts from 'echarts'
 import * as moment from 'moment';
+import { DashboardService } from '../dashboard/dashboard.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { JsonResponse } from '../../../../interfaces/JsonResponse';
+import { ToastrService } from 'ngx-toastr';
+import { CommonService } from '../../../../services/common.service';
+import { UserInfo, ProviderBillingDashboard, ProviderBillingDashboardInvoice, GraphStatistic, CodeValMst } from '../../../../interfaces/billing.interface';
+import { ExchangeRate, Rate, CurrencyDetails, SelectedCurrency } from '../../../../interfaces/currency.interface';
+import { CurrencyControl } from '../../../../services/currency.service';
+import { firstBy } from 'thenby';
+import { applyRoundByDecimal, cloneObject, extractColumn, removeDuplicates } from '../reports/reports.component';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-billing',
@@ -8,26 +20,57 @@ import * as moment from 'moment';
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./billing.component.scss']
 })
-export class BillingComponent implements OnInit {
+export class BillingComponent implements OnInit, OnDestroy {
 
 
-  @ViewChild('billing') tablebillingByInvoice;
-  private dtOptionsByBilling: DataTables.Settings | any = {};
-  private dataTableBybilling: any;
-  private inVoiceList : any[] = [];
+  @ViewChild('billing') tablebillingByInvoice: ElementRef;
+  @ViewChild(DataTableDirective) datatableElement: DataTableDirective;
 
-  public statistics = {
-    color: ['#02bdb6', '#8472d5'],
-    title: {
-      text: 'Statistics',
-      // subtext: 'Bar Stats'
-      textStyle: {
-        color: '#000000',
-        fontFamily: 'Proxima Nova, sans-serif',
-        //fontStyle: 'italic',
-        fontWeight: 'normal'
+
+  dtTrigger = new Subject();
+  public userProfile: UserInfo
+  public selectedCat: string = 'All'
+  dtOptionsByBilling2: DataTables.Settings = {
+    destroy: true,
+    pageLength: 5,
+    scrollY: '60vh',
+    scrollCollapse: true,
+    searching: true,
+    lengthChange: false,
+    responsive: true,
+    ordering: true,
+    language: {
+      paginate: {
+        next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
+        last: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
+        previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">',
+        first: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
       }
     },
+    columnDefs: [
+      {
+        targets: 1,
+        width: '235'
+      },
+      {
+        targets: -1,
+        width: '12',
+        orderable: false,
+      },
+      {
+        targets: "_all",
+        width: "150"
+      }
+    ]
+  };
+
+
+  public statistics: any = {
+    color: [],
+    // title: {
+    //   text: 'Statistics',
+    //   subtext: 'Bar Stats'
+    // },
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -46,7 +89,7 @@ export class BillingComponent implements OnInit {
       }
     },
     legend: {
-      data: ['BILLED', 'PAID']
+      data: []
     },
     grid: {
       left: '0%',
@@ -55,19 +98,32 @@ export class BillingComponent implements OnInit {
       containLabel: true
     },
     toolbox: {
-      show: true,
+      show: false,
       feature: {
-        dataView: { show: true, readOnly: false },
-        magicType: { show: true, type: ['line', 'bar'] },
-        restore: { show: true },
-        saveAsImage: { show: true }
+        dataView: { show: false, readOnly: false },
+        magicType: {
+          show: true,
+          title: {
+            line: 'Change to Line',
+            bar: 'Change to BarGraphh'
+          },
+          type: ['line', 'bar']
+        },
+        restore: {
+          show: true,
+          title: 'Restore',
+        },
+        saveAsImage: {
+          show: true,
+          title: 'Download',
+        }
       }
     },
     calculable: true,
     xAxis: [
       {
         type: 'category',
-        data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+        data: []
       }
     ],
     yAxis: [
@@ -79,13 +135,14 @@ export class BillingComponent implements OnInit {
       {
         name: 'BILLED',
         type: 'bar',
-        data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+        data: [],
         barWidth: '10%',
         barGap: 0.1,
         itemStyle: {
           normal: {
             barBorderRadius: 15,
-          }}
+          }
+        }
         // markPoint: {
         //   data: [
         //     { type: 'max', name: '最大值' },
@@ -108,7 +165,7 @@ export class BillingComponent implements OnInit {
             barBorderRadius: 15,
           }
         },
-        data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+        data: [],
         // markPoint: {
         //   data: [
         //     { name: '年最高', value: 182.2, xAxis: 7, yAxis: 183 },
@@ -124,155 +181,316 @@ export class BillingComponent implements OnInit {
     ]
   };
 
-  private statisticsData: any[] = []
-  constructor() { }
+  public providerBillingDashboard: ProviderBillingDashboard
+  public providerBillingDashboardInvoice: ProviderBillingDashboardInvoice[] = []
+  public viewBillingInvoice: ProviderBillingDashboardInvoice[] = []
+  public isBarGraph: boolean
 
-  ngOnInit() {
-    this.inVoiceList = [
-      {
-      id :1,
-      invoice_no: "HM123456",
-      invoice_desc: "Satement of 26 Jan 2016",
-      invoice_issueDate: "Jan 1, 2016",
-      invoice_dueDate: "Jan 31, 2016",
-      invoice_bill: "AED 12,500",
-      invoice_paidAmount: "AED 10,500",
-    },
-          {
-        id: 2,
-        invoice_no: "HM123456567",
-        invoice_desc: "Satement of 23 Jan 2016",
-        invoice_issueDate: "Jan 1, 2015",
-        invoice_dueDate: "Jan 2, 2016",
-        invoice_bill: "AED 12,900",
-        invoice_paidAmount: "AED 15,500",
-      },
-            {
-        id: 3,
-        invoice_no: "HM123459900",
-        invoice_desc: "Satement of 12 Jan 2016",
-        invoice_issueDate: "Jan 18, 2016",
-        invoice_dueDate: "Jan 30, 2016",
-        invoice_bill: "AED 9,500",
-        invoice_paidAmount: "AED 9,500",
+  public currencyList: any
+  public currCurrency: SelectedCurrency
+  public exchangeData: ExchangeRate
+  public exchangeRate: Rate
+  public tableSearch: string
+  public isTableLoaded: boolean = false
+
+  public billingStatusList: CodeValMst[] = []
+
+
+  constructor(
+    private _dashboardService: DashboardService,
+    private _toastr: ToastrService,
+    private _commonService: CommonService,
+    private _currencyControl: CurrencyControl
+
+  ) { }
+
+
+  async ngOnInit() {
+    // (HassanSJ) work start
+
+    this._commonService.getMstCodeVal('BILLING_STATUS').subscribe((res: any) => {
+      this.billingStatusList = res
+    }, (error: HttpErrorResponse) => {
+      console.log(error);
+    })
+
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    this.userProfile = JSON.parse(userInfo.returnText);
+
+    const { ProviderID, CurrencyID } = this.userProfile
+
+    if (CurrencyID && CurrencyID > 0) {
+      await this.setCurrencyList()
+    }
+
+    this._dashboardService.getProviderBillingDashboard(ProviderID, 'MONTHLY').subscribe((res: JsonResponse) => {
+
+      const { returnId, returnObject, returnText } = res
+      if (returnId > 0) {
+        this.providerBillingDashboard = returnObject
+        this.setBillingDashboardData()
+
+        this.providerBillingDashboardInvoice = cloneObject(this.providerBillingDashboard.invoices)
+        this.viewBillingInvoice = cloneObject(this.providerBillingDashboard.invoices)
+        setTimeout(() => {
+          this.dtTrigger.next()
+        }, 0);
+
+        setTimeout(() => {
+          this.isTableLoaded = true
+        }, 10);
+
+      } else {
+        this._toastr.error(returnText, 'Failed')
       }
-  ]
-    this.statisticsData = [
-      { month: 'Jan', statData: 15 },
-      { month: 'Feb', statData: 25 },
-      { month: 'Mar', statData: 35 },
-      { month: 'Apr', statData: 45 },
-      { month: 'May', statData: 15 },
-      {month:'Jun' , statData:55 },
-      { month: 'Jul', statData: 65 },
-      { month: 'Aug', statData: 75 },
-      { month: 'Sep', statData: 85 },
-      { month: 'Oct', statData: 95 },
-      { month: 'Nov', statData: 105 },
-      { month: 'Dec', statData: 115 },
-    
-    ]
-  
-  this.generateInvoiceTable();
+
+    }, (err: HttpErrorResponse) => {
+      const { message } = err
+      console.log('ProviderBillingDashboard', message);
+    })
+
+
   }
-  generateInvoiceTable() {
-    this.dtOptionsByBilling = {
-      data: this.inVoiceList,
-      columns: [
-        {
-          title: 'INVOICE NO',
-          data: function (data) {
-            return data.invoice_no
+
+  setBillingDashboardData() {
+    this.setBarGraphData()
+  }
+
+  onInvoiceCatClick($selectedCat: string) {
+    setTimeout(() => {
+      this.isTableLoaded = false
+    }, 0);
+    this.selectedCat = $selectedCat
+
+    this.viewBillingInvoice = cloneObject([])
+    const { providerBillingDashboardInvoice } = this
+    if ($selectedCat.toLowerCase() === 'all') {
+      this.viewBillingInvoice = cloneObject(providerBillingDashboardInvoice)
+    } else {
+      this.viewBillingInvoice = cloneObject(providerBillingDashboardInvoice.filter(invoice => invoice.paymentStatus.toLowerCase() === $selectedCat.toLowerCase()))
+    }
+
+    if (this.datatableElement && this.datatableElement.dtInstance) {
+      this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        setTimeout(() => {
+          this.dtTrigger.next()
+          this.tableSearch = ''
+          this.isTableLoaded = true
+        }, 0);
+      });
+    }
+  }
+
+  async setCurrencyList() {
+    const res: any = await this._commonService.getCurrency().toPromise()
+    let currencyList = res;
+    currencyList = removeDuplicateCurrencies(currencyList)
+    currencyList.sort(compareValues('title', "asc"));
+    this.currencyList = currencyList;
+    await this.selectedCurrency();
+  }
+
+  async selectedCurrency() {
+
+    const { CurrencyID } = this.userProfile
+
+    const seletedCurrency: CurrencyDetails = this.currencyList.find(obj => obj.id == CurrencyID)
+
+    if (seletedCurrency && seletedCurrency.id && seletedCurrency.id > 0) {
+      let currentCurrency: SelectedCurrency = {
+        sortedCurrencyID: seletedCurrency.id,
+        sortedCountryFlag: seletedCurrency.imageName.toLowerCase(),
+        sortedCountryName: seletedCurrency.code,
+        sortedCountryId: JSON.parse(seletedCurrency.desc).CountryID
+      }
+
+      this.currCurrency = currentCurrency
+      const { currCurrency } = this
+      const baseCurrencyID = this._currencyControl.getBaseCurrencyID();
+      const res2: JsonResponse = await this._commonService.getExchangeRateList(baseCurrencyID).toPromise()
+      this.exchangeData = res2.returnObject
+      this.exchangeRate = this.exchangeData.rates.filter(rate => rate.currencyID === currCurrency.sortedCurrencyID)[0]
+    } else {
+      return
+    }
+
+  }
+
+  async setBarGraphData() {
+
+    setTimeout(() => {
+      this.isBarGraph = false
+    }, 20);
+
+    const { providerBillingDashboard, exchangeRate } = this
+
+    if (!providerBillingDashboard.graphStatistics || providerBillingDashboard.graphStatistics.length === 0) {
+      let copyOfBarGraph = cloneObject(this.statistics)
+
+      copyOfBarGraph.title = { text: 'No Data to Show', x: 'center', y: 'center' }
+      copyOfBarGraph.color = []
+      copyOfBarGraph.legend.data = []
+      copyOfBarGraph.xAxis[0].data = []
+      copyOfBarGraph.series = []
+      this.statistics = copyOfBarGraph
+      setTimeout(() => {
+        this.isBarGraph = true
+      }, 20);
+      return
+    }
+
+    const { graphStatistics } = providerBillingDashboard
+
+    this.statistics.title = {}
+
+    if (exchangeRate && exchangeRate.rate > 0) {
+      try {
+        graphStatistics.forEach(bar => {
+          const { amount } = bar
+          bar.amount = getNewPrice(amount, exchangeRate.rate)
+        })
+
+      } catch (err) { }
+    }
+
+
+
+    const legendsList = this.getLegendsBilling(graphStatistics)
+    const colorList = this.getColorListBilling(legendsList)
+    const axisData = this.getAxisDataBilling(graphStatistics)
+    const seriesList = this.getSerieDataBilling(legendsList, graphStatistics)
+
+    let copyOfBarGraph = cloneObject(this.statistics)
+    copyOfBarGraph.color = colorList
+    copyOfBarGraph.legend.data = legendsList
+    copyOfBarGraph.xAxis[0].data = axisData
+    copyOfBarGraph.series = seriesList
+    this.statistics = copyOfBarGraph
+    setTimeout(() => {
+      // this.isBarGraph = true
+    }, 20);
+  }
+
+  getLegendsBilling(list: GraphStatistic[]) {
+    const data = removeDuplicates(list, "keyMode")
+    const legends = extractColumn(data, 'keyMode')
+    return legends
+  }
+
+  getColorListBilling(legends) {
+    const arrColor = legends.map(legend => this.getColorByTypeBilling(legend.toLowerCase()))
+    return arrColor
+  }
+
+  getAxisDataBilling(list: GraphStatistic[]) {
+    const sorted = list.sort(
+      firstBy(function (v1, v2) { return v1.sortingOrder - v2.sortingOrder; })
+    );
+    const data = removeDuplicates(sorted, "keyMonth")
+    const axisData = extractColumn(data, 'keyMonth')
+    return axisData
+  }
+
+  getColorByTypeBilling(type: string) {
+    const colors = [
+      { type: 'bill', color: '#02bdb6' },
+      { type: 'payment', color: '#8472d5' },
+    ]
+
+    return colors.find(color => color.type === type).color
+  }
+
+  getSerieDataBilling(legendsList, barGraph: GraphStatistic[]) {
+
+    const series = []
+    legendsList.forEach(legend => {
+
+      const sortedMode = barGraph.sort(
+        firstBy(function (v1, v2) { return v1.sortingOrder - v2.sortingOrder; })
+      );
+      // const currencyControl = new CurrencyControl()
+      const filteredMode: Array<any> = sortedMode.filter(mode => mode.keyMode.toLowerCase() === legend.toLowerCase())
+      // filteredMode.forEach(mode => mode.totalCount = currencyControl.applyRoundByDecimal(mode.totalCount, 1))
+      const dataObject = extractColumn(filteredMode, 'amount')
+
+      const serie = {
+        name: legend,
+        type: 'bar',
+        barGap: 0.1,
+        barWidth: 10,
+        itemStyle: {
+          normal: {
+            barBorderRadius: 15,
           }
         },
-        {
-          title: 'DESCRIPTION',
-          data: function (data) {
-            return data.invoice_desc
-          },
-        },
-        {
-          title: 'ISSUED ON',
-          data: function (data) {
-            return data.invoice_issueDate
-          },
-        },
-        {
-          title: 'DUE ON',
-          data: function (data) {
-            return data.invoice_dueDate
-          },
-        },
-        {
-          title: 'BILLED',
-          data: function (data) {
-            return data.invoice_bill
-          },
-        },
-        {
-          title: 'PAID',
-          data: function (data) {
-            return data.invoice_paidAmount
-          },
-        },
-        {
-          title: '',
-          data: function (data) {
-            let url = '../../../../../../assets/images/icons/menu.svg';
-            return "<img src='" + url + "' class='icon-size-16' />";
-          },
-          className: 'moreOption'
-        }
-      ],
-      drawCallback: function () {
-        let $api = this.api();
-        let pages = $api.page.info().pages;
-        if (pages === 1 || !pages) {
-          $('.billingInvoices .dataTables_paginate').hide();
-        } else {
-          $('.billingInvoices .dataTables_paginate').show();
-        }
-      },
-      destroy: true,
-      pageLength: 5,
-      scrollY: '60vh',
-      scrollCollapse: true,
-      searching: false,
-      lengthChange: false,
-      responsive: true,
-      ordering: false,
-      language: {
-        paginate: {
-          next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
-          previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
-        }
-      },
-      columnDefs: [
-        {
-          targets: 1,
-          width: '235'
-        },
-        {
-          targets: -1,
-          width: '12',
-          orderable: false,
-        },
-        {
-          targets: "_all",
-          width: "150"
-        }
-      ]
-    };
-    this.setdataInTable();
-  }
-
-  setdataInTable() {
-    setTimeout(() => {
-      if (this.tablebillingByInvoice && this.tablebillingByInvoice.nativeElement) {
-        this.dataTableBybilling = $(this.tablebillingByInvoice.nativeElement);
-        let alltableOption = this.dataTableBybilling.DataTable(this.dtOptionsByBilling);
+        data: dataObject
       }
-    }, 0);
+      series.push(serie)
+    })
+    return series
   }
 
+  onSearchChange($type: string) {
+    if ($type) {
+      setTimeout(() => {
+        this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+          dtInstance.search($type)
+          dtInstance.search($type).draw();
+        });
+      }, 0);
+    } else {
+      setTimeout(() => {
+        this.dtTrigger.next()
+      }, 0);
+    }
+  }
+
+  ngOnDestroy() {
+    this.dtTrigger.unsubscribe();
+  }
+
+}
+
+
+export function getNewPrice(basePrice: number, exchangeRate: number) {
+  let newRate = basePrice * exchangeRate;
+  return newRate
+}
+
+export const removeDuplicateCurrencies = (currencyFlags: CurrencyDetails[]) => {
+
+  let euros = currencyFlags.filter(element => element.code === 'EUR')
+  let franc = currencyFlags.filter(element => element.code === 'XOF')
+  let franc2 = currencyFlags.filter(element => element.code === 'XAF')
+  let restCurr = currencyFlags.filter(element => element.code !== 'EUR' && element.code !== 'XOF' && element.code !== 'XAF')
+
+  let newCurrencyList = restCurr.concat(euros[0], franc[0], franc2[0]);
+
+  return newCurrencyList
+}
+
+export const compareValues = (key: string, order = 'asc') => {
+  return function (a: any, b: any) {
+    if (!a.hasOwnProperty(key) ||
+      !b.hasOwnProperty(key)) {
+      return 0;
+    }
+
+    const varA = (typeof a[key] === 'string') ?
+      a[key].toUpperCase() : a[key];
+    const varB = (typeof b[key] === 'string') ?
+      b[key].toUpperCase() : b[key];
+
+    let comparison = 0;
+    if (varA > varB) {
+      comparison = 1;
+    } else if (varA < varB) {
+      comparison = -1;
+    }
+    return (
+      (order == 'desc') ?
+        (comparison * -1) : comparison
+    );
+  };
 }

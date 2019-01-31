@@ -113,5 +113,41 @@
         }
     }
 }
+.dataTables_filter{
+  display: none
+}
+.overdue{
+  color: $danger-color !important;
+  span{
+    color: $danger-color !important;
+    font-weight: $font-proxima-weight-semibold;
+    font-style: normal !important;
+  }
+}
+  .pay-status{
+    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+    padding: 0;
+  }
+}
 
+
+.billingInvoices{
+  .dataTables_scroll{
+    .dataTables_scrollBody{
+      .dataTable{
+        tbody{
+          td{
+            &:first-child{
+              font-size: $font-size-large;
+              color: $primary-color;
+              font-family: $font-proxima;
+              font-weight: $font-proxima-weight-semibold;
+            }
+          }
+        }
+      }
+    }
+  }
 }
