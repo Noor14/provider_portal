@@ -23,42 +23,42 @@
         margin-right: -30px;
         padding-left: 15px;
         padding-bottom: 30px;
+      }
+      .dropdown-menu {
+        padding: 0;
+        button {
+          .flag-container {
+            width: 15px;
+            height: 12px;
+            display: flex;
+            margin-top: 5px;
+            margin-right: 10px !important;
 
-        .dropdown-menu {
-          padding: 0; 
-          button {
-            .flag-container {
-              width: 15px;
-              height: 12px;
-              display: flex;
-              margin-top: 5px;
-              margin-right: 10px !important;
-              img {
-                border: 1px solid $primary-grey;
-            }
+            img {
+              border: 1px solid $primary-grey;
             }
           }
         }
+      }
+      .origin,
+      .destination {
+        position: relative;
 
-        .origin,
-        .destination {
-          position: relative;
+        >.flag-container {
+          width: 16px;
+          height: 24px;
+          align-items: center;
+          position: absolute;
+          left: 10px;
+          top: 11px;
 
-          >.flag-container {
-            width: 16px;
-            height: 24px;
-            align-items: center;
-            position: absolute;
-            left: 10px;
-            top: 11px;
-            img {
-              border: 1px solid $primary-grey;
+          img {
+            border: 1px solid $primary-grey;
           }
-          }
+        }
 
-          .routeSelected {
-            padding-left: 30px !important;
-          }
+        .routeSelected {
+          padding-left: 30px !important;
         }
       }
 
@@ -78,6 +78,7 @@
       }
 
     }
+
   }
 
   .date-control {

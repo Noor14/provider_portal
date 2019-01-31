@@ -73,13 +73,22 @@
       <div class="col-3">
         <div class="form-group">
           <label>Currency</label>
-          <input type="text" placeholder="AED" [(ngModel)]="selectedCurrency" class="form-control" [ngbTypeahead]="currencies"
+          <div class="origin">
+          <div class="flag-container">
+            <img *ngIf="selectedCurrency && selectedCurrency.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (selectedCurrency.CountryCode | lowercase) + '.svg'}}"
+              type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+          </div>
+          <input type="text" placeholder="AED" [(ngModel)]="selectedCurrency" class="form-control" [ngClass]="{'routeSelected': selectedCurrency && selectedCurrency.CountryCode}" [ngbTypeahead]="currencies"
             [resultTemplate]="crt" [inputFormatter]="currencyFormatter">
           <ng-template #crt let-r="result">
             <div class="d-flex">
+              <div class="flag-container mr-1">
+                <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
+              </div>
               <ngb-highlight [result]="r.CurrencyCode"></ngb-highlight>
             </div>
           </ng-template>
+          </div>
         </div>
       </div>
       <div class="col-9"></div>

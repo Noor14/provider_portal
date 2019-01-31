@@ -20,33 +20,37 @@
                 margin-right: -30px;
                 padding-left: 15px;
                 padding-bottom: 30px;
-                .dropdown-menu {
-                    button {
-                        .flag-container {
-                            width: 15px;
-                            height: 12px;
-                            border: 1px solid $provider-input-border;
-                            display: flex;
-                            margin-top: 5px;
-                            margin-right: 10px !important;
-                        }
-                    }
+           
+            }
+             .dropdown-menu {
+              button {
+                .flag-container {
+                  width: 15px;
+                  height: 12px;
+                  border: 1px solid $provider-input-border;
+                  display: flex;
+                  margin-top: 5px;
+                  margin-right: 10px !important;
                 }
-                .origin,
-                .destination {
-                    position: relative;
-                    >.flag-container {
-                        width: 16px;
-                        height: 24px;
-                        align-items: center;
-                        position: absolute;
-                        left: 10px;
-                        top: 11px;
-                    }
-                    .routeSelected {
-                        padding-left: 30px !important;
-                    }
-                }
+              }
+            }
+
+            .origin,
+            .destination {
+              position: relative;
+
+              >.flag-container {
+                width: 16px;
+                height: 24px;
+                align-items: center;
+                position: absolute;
+                left: 10px;
+                top: 11px;
+              }
+
+              .routeSelected {
+                padding-left: 30px !important;
+              }
             }
             .form-group {
                 .input-group {
