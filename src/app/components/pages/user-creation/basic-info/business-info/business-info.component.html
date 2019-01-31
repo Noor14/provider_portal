@@ -72,18 +72,21 @@
     </div>
   </section>
   <section class="services mt-5">
-    <h5 class="m-0">A Bit More Information</h5>
-    <hr class="hr-solid" />
-    <div class="d-flex align-content-center">
-      <label>HashMove Public URL</label>
-      <img alt="icon_info" class="ml-2 mt-1 icon-size-16" align="bottom" placement="top" ngbTooltip="HashMove members will use this unique URL to find your page"
-        src="../../../../../../assets/images/icons/icon_info.svg">
-    </div>
     <div class="row">
+      <div class="col-12">
+        <h5 class="m-0">A Bit More Information</h5>
+        <hr class="hr-solid" />
+      </div>
+      <div class="col-12">
+        <label class="url-icon d-flex">HashMove Public URL
+          <img alt="icon_info" class="ml-2 mt-1 icon-size-16" align="bottom" placement="top" ngbTooltip="HashMove members will use this unique URL to find your page"
+            src="../../../../../../assets/images/icons/icon_info.svg">
+        </label>
+      </div>
       <div class="col-8">
-        <div class="d-flex align-items-center">
-          <label class="mr-2">{{profileUrl}}</label>
-          <div class="form-group position-relative">
+        <div class="row">
+          <div class="col-5 d-flex align-items-center form-group"><label>{{profileUrl}}</label></div>
+          <div class="col-6 form-group">
             <input #profileName (keypress)="spaceHandler($event)" type="text" class="form-control" [ngClass]="{ inputError: addBusinessbtnEnabled === false && !spinner}"
               placeholder="eg: hashMove" />
             <svg *ngIf="addBusinessbtnEnabled && !spinner" class="available icon-size-24" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -165,23 +168,19 @@
               </g>
             </svg>
           </div>
-          <small *ngIf="addBusinessbtnEnabled === false && !spinner" class="ml-2 alert-text animated fadeIn">
-            This public URL is not available
-          </small>
+          <div *ngIf="addBusinessbtnEnabled === false && !spinner" class="col-12"><small class="alert-text">This
+              public URL is not available</small>
+            <small *ngIf="addBusinessbtnEnabled === false && !spinner" class="alert-text">This company page already
+              exists in order to become an admin of the page, an existing admin must add you</small></div>
+              <div class="col-12">
+                  <div class="switch-box">
+                      <ui-switch (change)="privateModeToggler=!privateModeToggler" [checked]="privateModeToggler"></ui-switch>
+                      <span>Is Private Mode</span>
+                    </div>
+              </div>
         </div>
-        <small *ngIf="addBusinessbtnEnabled === false && !spinner" class="alert-text animated fadeIn">This company page
-          already
-          exists
-          in order
-          to become an admin of <br />
-          the page, an existing admin must add you
-        </small>
       </div>
-      <div class="col-12">
-        <div class="switch-box mt-2">
-          <ui-switch (change)="privateModeToggler=!privateModeToggler" [checked]="privateModeToggler"></ui-switch>
-          <span>Is Private Mode</span>
-        </div>
+      <div class="col-12 mt-3">
         <div class="form-group position-relative">
           <label>About Your Business</label>
           <textarea cols="30" [(ngModel)]="aboutUs" rows="5" class="form-control" placeholder="Tell us something about your business"></textarea>

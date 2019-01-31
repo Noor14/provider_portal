@@ -337,7 +337,7 @@
                 <div class="col social-link-field">
                   <!-- <label class="social-place-label">http://</label> -->
                   <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites" maxlength="100"
-                  placeholder="www.company.com" (focusout)="socialLinkValidate()" (focus)="socialInputValidate=''" />
+                  placeholder="http://www.company.com" (focusout)="socialLinkValidate()" (focus)="socialInputValidate=''" />
                 </div>                
               </div>
               <p class="inputError animated fadeIn" *ngIf="socialInputValidate">{{socialInputValidate}}</p>
