@@ -59,9 +59,9 @@ export class WarehouseListComponent implements OnInit {
           const albumArr = []
           obj.UploadedGalleries.forEach((elem, ind) => {
             const album = {
-              src: baseExternalAssets + '/' + elem.DocumentFile,
+              src: baseExternalAssets + elem.DocumentFile,
               caption: elem.DocumentFileName,
-              thumb: baseExternalAssets + '/' + elem.DocumentFile,
+              thumb: baseExternalAssets + elem.DocumentFile,
               DocumentUploadedFileType: elem.DocumentUploadedFileType
             };
             albumArr.push(album);
