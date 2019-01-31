@@ -602,6 +602,13 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       if (this.tabledraftByGround && this.tabledraftByGround.nativeElement) {
         this.dataTabledraftByground = $(this.tabledraftByGround.nativeElement);
         let alltableOption = this.dataTabledraftByground.DataTable(this.dtOptionsByGroundDraft);
+        alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+          let node = this.node();
+          let data = this.data();
+          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.ContainerSpecID || !data.Price || !data.EffectiveFrom || !data.EffectiveTo){
+            node.children[0].children[0].children[0].setAttribute("disabled", true)
+          }
+        });
         this.draftloading = false;
         $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
           event.stopPropagation();
@@ -623,18 +630,26 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         $("#selectallDraftRates").click((event) => {
           this.publishRates = [];
           var cols = alltableOption.column(0).nodes();
+          let data = alltableOption.column(0).data();
           this.checkedalldraftRates = !this.checkedalldraftRates;
           for (var i = 0; i < cols.length; i += 1) {
-            cols[i].querySelector("input[type='checkbox']").checked = this.checkedalldraftRates;
             if (this.checkedalldraftRates) {
-              let obj = {
-                draftID: cols[i].querySelector("input[type='checkbox']").id,
-                providerID: this.userProfile.ProviderID,
-                transportType: "GROUND",
-              }
-              this.publishRates.push(obj);
-              this.selectedItem('add', alltableOption)
-
+                let data = alltableOption.row(i).data();
+                let node = alltableOption.row(i).node();
+                if (data.PolID && data.PodID && data.ShippingCatID && data.ContainerSpecID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
+                  let draftId = node.children[0].children[0].children[0].id;
+                  let obj = {
+                    draftID: draftId,
+                    providerID: this.userProfile.ProviderID,
+                    transportType: "GROUND",
+                  }
+                  this.publishRates.push(obj);
+                  node.children[0].children[0].children[0].checked = true;
+                  node.classList.add('selected');
+                }
+                else {
+                  node.children[0].children[0].children[0].checked = false;
+                }
             }
           }
           if (i == cols.length && !this.checkedalldraftRates) {
@@ -1025,7 +1040,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         $("#selectallpublishRates").click(() => {
           this.delPublishRates = [];
           var cols = alltableOption.column(0).nodes();
-
           this.checkedallpublishRates = !this.checkedallpublishRates;
           for (var i = 0; i < cols.length; i += 1) {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
@@ -1062,8 +1076,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
             }
             this.delPublishRates.push(obj)
           }
-
         });
+        
       }
     }, 0);
   }
@@ -1078,8 +1092,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     }
     else {
       alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
-        var data = this.node();
-        data.classList.remove('selected');
+        var node = this.node();
+        node.classList.remove('selected');
+        node.children[0].children[0].children[0].checked = false;
         // ... do something with data(), or this.node(), etc
       });
     }
