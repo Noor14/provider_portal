@@ -130,7 +130,6 @@ export class SeaRateDialogComponent implements OnInit {
             this.allHandlingType = state[index].DropDownValues.ContainerLCL;
             this.allPorts = state[index].DropDownValues.Port;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
-            console.log(this.allCurrencies);
             
             if (this.selectedData && this.selectedData.data && this.selectedData.forType === "FCL") {
               this.setData(this.selectedData.data);
@@ -240,8 +239,10 @@ export class SeaRateDialogComponent implements OnInit {
       consolidatorPricingDraftID: (!this.newProviderPricingDraftID) ? this.selectedData.data.ConsolidatorPricingDraftID : this.newProviderPricingDraftID,
       customerID: null,
       providerID: this.userProfile.ProviderID,
-      containerSpecID: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? null : this.selectedHandlingUnit,
-      containerSpecShortName: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? undefined : this.getHandlingSpecName(this.selectedHandlingUnit),
+      containerSpecID: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? null : null,
+      containerSpecShortName: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? undefined : null,
+      // containerSpecID: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? null : this.selectedHandlingUnit,
+      // containerSpecShortName: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? undefined : this.getHandlingSpecName(this.selectedHandlingUnit),
       shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : this.selectedCategory,
       shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.getShippingName(this.selectedCategory),
       containerLoadType: "LCL",

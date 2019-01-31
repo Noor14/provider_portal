@@ -78,15 +78,15 @@
           </select>
         </div>
       </div>
-      <div class="col" *ngIf="selectedData.forType == 'LCL'">
+        <!-- <div class="col-6" *ngIf="selectedData.forType == 'LCL'">
         <div class="form-group">
-          <label>Handling Unit</label>
-          <select class="form-control" [(ngModel)]="selectedHandlingUnit">
-            <option [value]="null" disabled>--Select--</option>
-            <option *ngFor="let handle of allHandlingType" [value]="handle.ContainerSpecID">{{handle.ContainerSpecShortName}}</option>
-          </select>
-        </div>
-      </div>
+                      <label>Handling Unit</label>
+                      <select class="form-control" [(ngModel)]="selectedHandlingUnit">
+                        <option [value]="null" disabled>--Select--</option>
+                        <option *ngFor="let handle of allHandlingType" [value]="handle.ContainerSpecID">{{handle.ContainerSpecShortName}}</option>
+                      </select>
+                    </div>
+      </div> -->
     </div>
     <div class="row">
       <div class="col-12">

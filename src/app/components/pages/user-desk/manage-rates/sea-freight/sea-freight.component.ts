@@ -560,17 +560,17 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             }
           }
         },
-        {
-          title: 'HANDLING UNIT',
-          data: function (data) {
-            if (!data.ContainerSpecShortName) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return data.ContainerSpecShortName;
-            }
-          }
-        },
+        // {
+        //   title: 'HANDLING UNIT',
+        //   data: function (data) {
+        //     if (!data.ContainerSpecShortName) {
+        //       return "<span>-- Select --</span>"
+        //     }
+        //     else {
+        //       return data.ContainerSpecShortName;
+        //     }
+        //   }
+        // },
         {
           title: 'RATE / CBM',
           data: function (data) {
@@ -1334,10 +1334,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           title: 'CARGO TYPE',
           data: 'shippingCatName',
         },
-        {
-          title: 'HANDLING UNIT',
-          data: 'containerSpecShortName',
-        },
+        // {
+        //   title: 'HANDLING UNIT',
+        //   data: 'containerSpecShortName',
+        // },
         {
           title: 'RATE / CBM',
           data: function (data) {
