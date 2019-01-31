@@ -919,7 +919,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         {
           title: '<div class="fancyOptionBoxes"> <input id = "selectallpublishRates" type = "checkbox"> <label for= "selectallpublishRates"> <span> </span></label></div>',
           data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.id + '-' + data.transportType + '" type = "checkbox"> <label for= "' + data.id + '"> <span> </span></label></div>';
+            return '<div class="fancyOptionBoxes"> <input id = "' + data.id + '-' + data.transportType + '" type = "checkbox"> <label for= "' + data.id + '-' + data.transportType + '"> <span> </span></label></div>';
           }
         },
         {
