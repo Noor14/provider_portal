@@ -14,6 +14,8 @@ import { UserCreationService } from './components/pages/user-creation/user-creat
 import { GuestService } from './services/jwt.injectable';
 import { Interceptor } from './http-interceptors/interceptor';
 import { SafeUrlPipe } from './constants/safeurlfilter';
+import { CurrencyControl } from './services/currency.service';
+import { SetupService } from './services/setup.injectable';
 
 
 export function guestServiceFactory(provider: GuestService) {
@@ -43,6 +45,8 @@ export function guestServiceFactory(provider: GuestService) {
     SharedService,
     UserCreationService,
     GuestService,
+    SetupService,
+    CurrencyControl,
     {
       provide: APP_INITIALIZER,
       useFactory: guestServiceFactory,

@@ -179,8 +179,7 @@
                       <label>Handling Unit</label>
                       <select class="form-control" [(ngModel)]="filterbyHandlingType" (change)="filterLcl()">
                         <option [value]="undefined">All</option>
-                        <option *ngFor="let handle of allHandlingType" [value]="handle.ContainerSpecID">{{
-                          handle.ContainerSpecShortName }}</option>
+                        <option *ngFor="let handle of allHandlingType" [value]="handle.ContainerSpecID">{{handle.ContainerSpecShortName }}</option>
                       </select>
                     </div>
                   </div>

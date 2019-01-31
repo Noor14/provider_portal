@@ -23,9 +23,10 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { DataMapComponent } from './data-map/data-map.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { ReportsService } from './reports/reports.service';
+import { DataTablesModule } from 'angular-datatables';
+import { SearchPipe } from '../../../constants/search.pipe';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { WarehouseComponent } from './warehouse/warehouse.component';
-import { UiSwitchModule } from 'ngx-toggle-switch';
-import { NgStepperModule } from '../../../directives/stepper/stepper.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -38,12 +39,12 @@ import { NgStepperModule } from '../../../directives/stepper/stepper.module';
     NgxPaginationModule,
     NgxEchartsModule,
     SharedModule,
-    UiSwitchModule,
-    NgStepperModule
-
+    DataTablesModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
-    UserDeskComponent, 
+    UserDeskComponent,
     SideBarComponent,
     DashboardComponent,
     ViewBookingComponent,
@@ -54,10 +55,11 @@ import { NgStepperModule } from '../../../directives/stepper/stepper.module';
     DealsComponent,
     BillingComponent,
     SettingsComponent,
-    WarehouseComponent,
-    DataMapComponent
+    DataMapComponent,
+    SearchPipe,
+    WarehouseComponent
   ],
-  providers:[
+  providers: [
     ViewBookingService,
     DashboardService,
     SupportService,

@@ -18,12 +18,14 @@
       <div class="summarySection col-xl-4 col-md-12 col-sm-12">
         <div class="summaryTitle">
           <h5>
-            <img src="../../../../../assets/images/icons/icon_revenue.svg" class="icon-size-24 mr-3"> Billed This Month</h5>
+            <img src="../../../../../assets/images/icons/billing-card-icon-clock.svg" class="icon-size-24 mr-3">
+            {{providerBillingDashboard?.billingTile?.title}}
+          </h5>
         </div>
         <div class="summaryQuantity pt-2 pb-2">
           <div class="rates">
-            <small class="mr-2">AED</small>
-            <span>549800</span>
+            <small class="mr-2"> {{providerBillingDashboard?.billingTile.currencyCode}}</small>
+            <span>{{providerBillingDashboard?.billingTile.amount | number : '1.2-2'}}</span>
           </div>
         </div>
       </div>
@@ -31,14 +33,15 @@
       <div class="summarySection col-xl-4 col-md-12 col-sm-12">
         <div class="summaryTitle">
           <h5>
-            <img src="../../../../../assets/images/icons/icon_revenue.svg" class="icon-size-24 mr-3"> Payment Due</h5>
+            <img src="../../../../../assets/images/icons/billing-card-icon-mark.svg" class="icon-size-24 mr-3">
+            {{providerBillingDashboard?.paymentDueTile?.title}}</h5>
         </div>
         <div class="summaryQuantity d-flex pt-2 pb-2">
           <div class="rates">
-            <small class="mr-2">AED</small>
-            <span>549800</span>
-            <span class="badge hashmove-badge-danger">
-              <strong>Due Date 31 jan, 2019</strong>
+            <small class="mr-2">{{providerBillingDashboard?.paymentDueTile?.currencyCode}}</small>
+            <span>{{providerBillingDashboard?.paymentDueTile?.amount | number : '1.2-2'}}</span>
+            <span *ngIf="providerBillingDashboard?.paymentDueTile?.dueDate" class="badge hashmove-badge-danger">
+              <strong>Due Date {{providerBillingDashboard?.paymentDueTile?.dueDate | date : "d MMM, yyyy"}}</strong>
             </span>
           </div>
         </div>
@@ -46,12 +49,14 @@
       <div class="summarySection col-xl-4 col-md-12 col-sm-12">
         <div class="summaryTitle">
           <h5>
-            <img src="../../../../../assets/images/icons/icon_revenue.svg" class="icon-size-24 mr-3"> Total Amount Billed</h5>
+            <img src="../../../../../assets/images/icons/icon_revenue.svg" class="icon-size-24 mr-3">
+            {{providerBillingDashboard?.totalBillingTile?.title}}
+          </h5>
         </div>
         <div class="summaryQuantity d-flex pt-2 pb-2">
           <div class="rates">
-            <small class="mr-2">AED</small>
-            <span>549800</span>
+            <small class="mr-2">{{providerBillingDashboard?.totalBillingTile?.currencyCode}}</small>
+            <span>{{providerBillingDashboard?.totalBillingTile?.amount | number :'1.2-2'}}</span>
           </div>
         </div>
       </div>
@@ -61,30 +66,29 @@
   <!--  billing Section -->
 
   <!-- statistics -->
-  <section class="barGraph mt-4">
-     <div echarts [options]="statistics" class="demo-chart"></div>
+  <h5 class="subtitle pt-4 pb-4">Statistics</h5>
+  <hr class="hr-solid">
+  <section class="barGraph">
+    <div echarts [options]="statistics" class="demo-chart"></div>
   </section>
   <!-- statistics -->
 
   <!-- Invoices -->
   <h5 class="subtitle pt-4">Invoices</h5>
-
   <section class="invoicesOverview d-flex justify-content-between">
     <div class="search">
-      <input type="text" class="form-control searchInvoice" placeholder="Search Invoice">
+      <input type="text" [(ngModel)]="tableSearch" (ngModelChange)="onSearchChange($event)" class="form-control searchInvoice"
+        placeholder="Search Invoice">
       <img src="../../../../../assets/images/icons/icon-search.svg" alt="icon_search" class="icon-size-14">
     </div>
     <div ngbDropdown class="dropdown">
       <div class="pointer" id="sorter" ngbDropdownToggle>
-        <span>STATUS : ALL</span>
+        <span>STATUS : {{selectedCat}}</span>
       </div>
       <div aria-labelledby="sorter" class="sortFilter dropdown-menu" ngbDropdownMenu x-placement="bottom-left">
         <ul class="list-group">
-          <li class="list-group-item pointer">
-            <span>2016</span>
-          </li>
-          <li class="list-group-item pointer">
-            <span>2015</span>
+          <li *ngFor="let billStatus of billingStatusList" class="list-group-item pointer" (click)="onInvoiceCatClick(billStatus.codeVal)">
+            <span>{{billStatus.codeVal}}</span>
           </li>
         </ul>
       </div>
@@ -92,8 +96,61 @@
   </section>
 
   <!-- Invoices -->
-  <section class="rates-grid billingInvoices mt-3">
-    <table id="billingInvoiceTable" cellspacing="0" #billing class="row-border hover"></table>
+  <section class="rates-grid billingInvoices mt-3 invoicesOverview-grid">
+    <div [hidden]="!isTableLoaded">
+      <table #billing datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptionsByBilling2" cellspacing="0" class="row-border hover">
+        <thead>
+          <tr>
+            <th>INVOICE NO.</th>
+            <th>DESCRIPTION</th>
+            <th>ISSUED ON</th>
+            <th>DUE ON</th>
+            <th>BILLED</th>
+            <th>PAID</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr *ngFor="let invoice of providerBillingDashboardInvoice | search:'invoiceNo,description,issuedDate,dueDate,billingCurCode,paymentCurCode':tableSearch"> -->
+          <tr *ngFor="let invoice of viewBillingInvoice">
+            <td>{{invoice.invoiceNo}}</td>
+            <td>{{invoice.description}}</td>
+            <td>{{invoice.issuedDate | date : "d MMM, yyyy"}}</td>
+            <td [ngClass]="(invoice.billingStatus.toLowerCase() === 'overdue')?'overdue':''">
+              {{invoice.dueDate | date : "d MMM, yyyy"}}
+              <span *ngIf="invoice.billingStatus.toLowerCase() === 'overdue'" class="badge p-0">OVERDUE</span>
+            </td>
+            <td>{{invoice.billingCurCode}} {{invoice.billingAmount | number : '1.2-2'}}</td>
+            <td colspan="2">
+              <div *ngIf="invoice.paymentAmount && invoice.paymentAmount > 0">{{invoice.paymentCurCode}}
+                {{invoice.paymentAmount | number : '1.2-2'}}</div>
+              <div *ngIf="!invoice.paymentAmount || invoice.paymentAmount === 0">-</div>
+              <button [ngbTooltip]="invoice.paymentStatus" container="body" *ngIf="(invoice.paymentStatus.toLowerCase() === 'paid partially' || invoice.paymentStatus.toLowerCase() === 'paid')"
+                class="btn pay-status ml-3" [ngClass]="{'btn-warning':invoice.paymentStatus.toLowerCase() === 'paid partially', 'btn-primary':invoice.paymentStatus.toLowerCase() === 'paid'}"></button>
+            </td>
+            <td>
+              <!-- <div ngbDropdown class="d-inline-block fadeIn animated user-table-dropdown">
+                <div ngbDropdownToggle id="dropdownBasic1 ">
+                  <img src="../../../assets/images/icons/menu.svg " alt="menu " class="icon-size-16 ">
+                </div>
+                <div ngbDropdownMenu container="body"  aria-labelledby="dropdownBasic1" class="fadeIn animated ">
+                  <button class="dropdown-item text-danger">
+                    Remove Admin
+                  </button>
+                  <button class="dropdown-item text-danger ">
+                    Remove User
+                  </button>
+                </div>
+              </div> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="min-height: 180px" *ngIf="!isTableLoaded">
+      <app-loader-main></app-loader-main>
+    </div>
   </section>
 
   <!-- Invoices -->

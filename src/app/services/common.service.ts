@@ -19,27 +19,27 @@ export class CommonService {
 
   translatedLanguage(sourceLanguage, targetLanguage, text) {
     const params = new HttpParams()
-    .set('source', sourceLanguage)
-    .set('target', targetLanguage)
-    .set('q', text)
-    .set('key', 'AIzaSyDy8gRbCqDNl7BaN-rqW_r6IfMB45tf1oc');
+      .set('source', sourceLanguage)
+      .set('target', targetLanguage)
+      .set('q', text)
+      .set('key', 'AIzaSyDy8gRbCqDNl7BaN-rqW_r6IfMB45tf1oc');
     let url: string = "https://translation.googleapis.com/language/translate/v2";
-    return this._http.get(url, {params});
+    return this._http.get(url, { params });
   }
 
-  detectedLanguage(text){
+  detectedLanguage(text) {
     const params = new HttpParams()
-    .set('q', text)
-    .set('key', 'AIzaSyDy8gRbCqDNl7BaN-rqW_r6IfMB45tf1oc');
+      .set('q', text)
+      .set('key', 'AIzaSyDy8gRbCqDNl7BaN-rqW_r6IfMB45tf1oc');
     let url: string = "https://translation.googleapis.com/language/translate/v2/detect";
-    return this._http.get(url, {params});
+    return this._http.get(url, { params });
   }
 
-   getBrowserlocation(){
+  getBrowserlocation() {
     let url: string = 'http://ip-api.com/json';
     return this._http.get(url);
   }
-  
+
   getHelpSupport(cache: boolean) {
     let url: string = "general/GetHMHelpSupportDetail";
     return this._http.get((baseApi + url))
@@ -49,4 +49,16 @@ export class CommonService {
     let url = `MstCodeVal/GetMstCodeValMultipleList/${tag}`
     return this._http.get(baseApi + url);
   }
+
+
+  getExchangeRateList(currencyID) {
+    const url = 'currency/GetExchangeRateList/' + currencyID
+    return this._http.get(baseApi + url)
+  }
+
+  getCurrency() {
+    const url: string = "Currency/GetDropDownDetail/100";
+    return this._http.get(baseApi + url);
+  }
+
 }
