@@ -24,53 +24,34 @@
         padding-left: 15px;
         padding-bottom: 30px;
 
-
+   
       }
 
-    }
+      .form-group {
+        .input-group {
+          .input-group-text {
+            background: $color-white;
+            border: 1px solid $provider-input-border;
+            font-size: $font-size-medium;
+          }
 
-    .dropdown-menu {
-      padding: 0;
-
-      button {
-        .flag-container {
-          width: 15px;
-          height: 12px;
-          display: flex;
-          margin-top: 5px;
-          margin-right: 10px !important;
-
-          img {
-            border: 1px solid $primary-grey;
+          input {
+            border-bottom-left-radius: 0rem !important;
+            border-top-left-radius: 0rem !important;
           }
         }
-      }
-    }
 
-    .origin,
-    .destination {
-      position: relative;
-
-      >.flag-container {
-        width: 16px;
-        height: 24px;
-        align-items: center;
-        position: absolute;
-        left: 10px;
-        top: 11px;
-
-        img {
-          border: 1px solid $primary-grey;
-        }
         &.currency-flag {
           img {
             position: absolute;
             margin-top: 1rem;
             margin-left: 1rem;
           }
+
           .form-control {
             padding-left: 3rem;
           }
+
           .dropdown-item {
             img {
               position: static;
@@ -81,6 +62,7 @@
           }
         }
       }
+
       &.additional {
         .dropdown-toggle {
           padding: 0.7rem 0.34em;
@@ -89,10 +71,12 @@
           overflow: hidden;
           white-space: nowrap;
         }
+
         .add-more {
           font-size: $font-size-medium;
           font-family: $font-proxima;
           color: $primary-color;
+
           a {
             color: $primary-color;
             display: flex;
@@ -100,29 +84,45 @@
           }
         }
       }
-      }
-
-      .routeSelected {
-        padding-left: 30px !important;
-      }
     }
+         .dropdown-menu {
+           padding: 0;
+           button {
+             .flag-container {
+               width: 15px;
+               height: 12px;
+               display: flex;
+               margin-top: 5px;
+               margin-right: 10px !important;
 
-    .form-group {
-      .input-group {
-        .input-group-text {
-          background: $color-white;
-          border: 1px solid $provider-input-border;
-          font-size: $font-size-medium;
-        }
+               img {
+                 border: 1px solid $primary-grey;
+               }
+             }
+           }
+         }
 
-        input {
-          border-bottom-left-radius: 0rem !important;
-          border-top-left-radius: 0rem !important;
-        }
-      }
-    }
+         .origin,
+         .destination {
+           position: relative;
 
+           >.flag-container {
+             width: 16px;
+             height: 24px;
+             align-items: center;
+             position: absolute;
+             left: 10px;
+             top: 11px;
 
+             img {
+               border: 1px solid $primary-grey;
+             }
+           }
+
+           .routeSelected {
+             padding-left: 30px !important;
+           }
+         }
   }
 
   .date-control {
@@ -241,6 +241,7 @@
     padding: 0;
 
     .dropdown-item {
+
       &.active,
       &:active {
         background: $primary-grey;
