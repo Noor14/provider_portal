@@ -66,6 +66,8 @@ export class BusinessInfoComponent implements OnInit {
   public userName:string;
   public spinner:boolean = false;
   public addBusinessbtnEnabled : boolean = undefined;
+  public profileUrl:string;
+  public privateModeToggler: boolean = false;
   @ViewChild('profileName') profileName: ElementRef;
   constructor(
     private _toastr: ToastrService,
@@ -191,6 +193,7 @@ export class BusinessInfoComponent implements OnInit {
   getbusinessServices(){
     this._basicInfoService.getbusinessServices(this.userProfile.ProviderID).subscribe((res:any)=>{
       if (res && res.returnStatus == "Success"){
+        this.profileUrl = res.returnObject.profileURL;
         this.orgName = res.returnObject.companyName;
         this.allAssociations = res.returnObject.associations;
         this.freightServices = res.returnObject.services.logisticServices;
@@ -389,6 +392,7 @@ removeSelectedDocx(index,  obj, type) {
       vasServiceIds: this.valueService,
       providerID: this.userProfile.ProviderID,
       aboutUs: this.aboutUs,
+      isPrivateMode: this.privateModeToggler,
       profileID: this.userName
     }
     this._basicInfoService.addBusinessInfo(obj).subscribe((res:any)=>{

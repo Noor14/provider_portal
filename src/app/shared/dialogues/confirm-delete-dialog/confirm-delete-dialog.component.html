@@ -7,7 +7,8 @@
     </div>
     <div class="modal-body">
       <div class="text-center">
-        <p>Are you sure to delete this entry?</p>
+          <p *ngIf="deleteIds.type != 'DelWarehouse'">Are you sure to delete this entry?</p>
+          <p *ngIf="deleteIds.type == 'DelWarehouse'">Are you sure you want to delete this warehouse?</p>
         <button class="btn btn-danger btn-lg hvr-sweep-to-right" (click)="delete()">YES, I AM SURE</button>
       </div>
     </div>

@@ -9,8 +9,7 @@
           <button
             (click)="addAnotherWarehouse()"
             class="btn btn-primary pull-right text-uppercase pt-2 pb-2 pl-3"
-            type="button"
-          >
+            type="button">
             Add Another Warehouse
           </button>
         </div>
@@ -21,8 +20,8 @@
   <div class="row mb-3">
       <div class="col-2 d-flex align-items-center">Showing 4 - 4</div>
       <div class="col-4 warehouse-search"><input type="text" class="form-control" placeholder="Search by location of title" /></div>
-      <div class="col-6 d-flex justify-content-end align-items-cente">
-        <label>SHOW:</label>
+      <div class="col-6 d-flex justify-content-end align-items-center">
+        <label class="m-0 mr-2">SHOW:</label>
         <div class="fancyOptionBoxes mr-2">
           <input id="RadioOne" name="ActiveFilter" type="radio" />
           <label for="RadioOne"> <span></span> Acive </label>
@@ -203,10 +202,10 @@
                       <img src="../../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2" alt="icon"> 
                        <span>Active /Inactive</span>
                       <div class="switch-box">
-                      <ui-switch [checked]="true"></ui-switch>
+                        <ui-switch (change)="activeToggler(wareHouse.WHID)" [checked]="activeToggle"></ui-switch>
                       </div>
                     </li>
-<li class="list-group-item" (click)="deleteWarehouse(wareHouse.WHID)">
+                    <li class="list-group-item" (click)="deleteWarehouse(wareHouse.WHID)">
                         <img src="../../../../../../assets/images/icons/icon_delete_red.svg" class="icon-size-16 mr-2" alt="icon"><span>Delete</span>
                     </li>
                   </ul>

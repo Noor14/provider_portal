@@ -29,5 +29,9 @@ export class WarehouseService {
     let url: string = `warehousesetup/Delete/${wid}/${modifiedBy}`;
     return this._http.delete(baseApi + url);
   }
+  activeWarehouseToggler(obj){
+    let url: string = "warehousesetup/UpdateStatus";
+    return this._http.post(baseApi + url, obj);
+  }
 
 }
