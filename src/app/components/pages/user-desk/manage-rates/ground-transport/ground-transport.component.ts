@@ -1275,9 +1275,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     this._seaFreightService.publishDraftRate(this.publishRatesFTL).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         for (var i = 0; i < this.publishRatesFTL.length; i++) {
-          for (let y = 0; y < this.draftslist.length; y++) {
-            if (this.draftslist[y].ID == this.publishRatesFTL[i].draftID) {
-              this.draftslist.splice(y, 1);
+          for (let y = 0; y < this.draftslistFTL.length; y++) {
+            if (this.draftslistFTL[y].ID == this.publishRatesFTL[i].draftID) {
+              this.draftslistFTL.splice(y, 1);
             }
           }
         }
