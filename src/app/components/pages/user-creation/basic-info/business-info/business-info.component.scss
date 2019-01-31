@@ -17,9 +17,11 @@
         .tooltip-inner {
           width: 250px;
           max-width: 250px;
+          padding-top: 15px;
+          padding-bottom: 20px;
           background: $white-color;
           color: $text-color-default;
-          box-shadow: 0 0 2px 0px #ccc;
+          box-shadow: 0px 20px 50px 0px rgba(51, 59, 69, 0.15);
         }
       }
 
@@ -74,8 +76,8 @@
     svg {
       &.available {
         position: absolute;
-        right: 12px;
-        bottom: 12px;
+        right: 25px;
+        top: 7px;
       }
 
       &.spinner {
@@ -144,6 +146,18 @@
         }
       }
 
+      .url-icon {
+        img {
+          width: 16px;
+          height: 16px;
+          margin-left: 0.5rem;
+          margin-top: 0.1875rem;
+        }
+      }
+
+      .alert-text {
+        color: $probar-color;
+      }
 
       .uploadedDocx {
         margin-top: 1rem;
