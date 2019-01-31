@@ -1114,6 +1114,16 @@ input[type="checkbox"]:focus + label > span {
       max-height: 280px;
       overflow-y: auto;
     }
+
+    &.date-control {
+      .input-group-prepend {
+        width: 48%;
+      }
+
+      .dateIcon {
+        width: 52%;
+      }
+    }
   }
 }
 
