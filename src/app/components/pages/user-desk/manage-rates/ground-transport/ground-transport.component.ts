@@ -531,6 +531,13 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       if (this.tabledraftByGroundFTL && this.tabledraftByGroundFTL.nativeElement) {
         this.dataTabledraftBygroundFTL = $(this.tabledraftByGroundFTL.nativeElement);
         let alltableOption = this.dataTabledraftBygroundFTL.DataTable(this.dtOptionsByGroundDraftFTL);
+        alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+          let node = this.node();
+          let data = this.data();
+          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.ContainerSpecID || !data.Price || !data.EffectiveFrom || !data.EffectiveTo) {
+            node.children[0].children[0].children[0].setAttribute("disabled", true)
+          }
+        });
         this.draftloadingFTL = false;
         $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
           event.stopPropagation();
@@ -552,18 +559,26 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         $("#selectallDraftRatesFTL").click((event) => {
           this.publishRatesFTL = [];
           var cols = alltableOption.column(0).nodes();
+          let data = alltableOption.column(0).data();
           this.checkedalldraftRatesFTL = !this.checkedalldraftRatesFTL;
           for (var i = 0; i < cols.length; i += 1) {
-            cols[i].querySelector("input[type='checkbox']").checked = this.checkedalldraftRatesFTL;
             if (this.checkedalldraftRatesFTL) {
-              let obj = {
-                draftID: cols[i].querySelector("input[type='checkbox']").id,
-                providerID: this.userProfile.ProviderID,
-                transportType: "TRUCK",
+              let data = alltableOption.row(i).data();
+              let node = alltableOption.row(i).node();
+              if (data.PolID && data.PodID && data.ShippingCatID && data.ContainerSpecID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
+                let draftId = node.children[0].children[0].children[0].id;
+                let obj = {
+                  draftID: draftId,
+                  providerID: this.userProfile.ProviderID,
+                  transportType: "TRUCK",
+                }
+                this.publishRatesFTL.push(obj);
+                node.children[0].children[0].children[0].checked = true;
+                node.classList.add('selected');
               }
-              this.publishRatesFTL.push(obj);
-              this.selectedItem('add', alltableOption)
-
+              else {
+                node.children[0].children[0].children[0].checked = false;
+              }
             }
           }
           if (i == cols.length && !this.checkedalldraftRatesFTL) {
@@ -919,7 +934,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         {
           title: '<div class="fancyOptionBoxes"> <input id = "selectallpublishRates" type = "checkbox"> <label for= "selectallpublishRates"> <span> </span></label></div>',
           data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.id + '-' + data.transportType + '" type = "checkbox"> <label for= "' + data.id + '"> <span> </span></label></div>';
+            return '<div class="fancyOptionBoxes"> <input id = "' + data.id + '-' + data.transportType + '" type = "checkbox"> <label for= "' + data.id + '-' + data.transportType + '"> <span> </span></label></div>';
           }
         },
         {
