@@ -129,6 +129,8 @@ export class SeaRateDialogComponent implements OnInit {
             this.allHandlingType = state[index].DropDownValues.ContainerLCL;
             this.allPorts = state[index].DropDownValues.Port;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
+            console.log(this.allCurrencies);
+            
             if (this.selectedData && this.selectedData.data && this.selectedData.forType === "FCL") {
               this.setData(this.selectedData.data);
             }
@@ -318,16 +320,12 @@ export class SeaRateDialogComponent implements OnInit {
       JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations))
     }
     ]
-    console.log(obj);
+
     let parsedJsonSurchargeDet = JSON.parse(obj[0].JsonSurchargeDet)
     const impArr = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
     const expArr = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
-    console.log(JSON.parse(obj[0].JsonSurchargeDet).length);
-
 
     const { carrierName, containerSpecID, price, podCode, polCode, shippingCatID } = obj[0]
-    console.log(impArr);
-    console.log(expArr);
     if (!carrierName && !containerSpecID && !price && !podCode && !polCode && !shippingCatID && !expArr.length && !impArr.length) {
       this._toast.error('Please fill atleast one field', 'Error')
       return
@@ -344,6 +342,8 @@ export class SeaRateDialogComponent implements OnInit {
           this.closeModal(object);
         } else {
           this.addRow();
+          this.selectedOrigins = [{}]
+          this.selectedDestinations = [{}]
         }
       }
     });
@@ -466,7 +466,17 @@ export class SeaRateDialogComponent implements OnInit {
           )
       )
     );
-  currencyFormatter = (x: { CurrencyCode: string }) => x.CurrencyCode;
+  currencyFormatter = (x) => {
+    console.log(x);
+    
+    x.CurrencyCode;
+  }
+  // formatter = (x: { title: string, desc: string, imageName: string }) => {
+  //   this.city.imageName = x.imageName;
+  //   this.city.title = x.title;
+  //   this.city.desc = x.desc;
+  //   return x.title;
+  // };
 
   public selectedOrigins: any = [{}];
   public selectedDestinations: any = [{}];
@@ -494,12 +504,14 @@ export class SeaRateDialogComponent implements OnInit {
           this.selectedDestinations.splice(idx, 1)
         }
       });
-      if (this.selectedOrigins[index]) {
+      if (this.selectedDestinations[index]) {
         this.destinationsList.push(this.selectedDestinations[index])
         this.selectedDestinations[index] = model;
       } else {
         this.selectedDestinations.push(model)
       }
+      console.log(this.destinationsList);
+      
       this.destinationsList = this.destinationsList.filter(e => e.addChrID !== model.addChrID)
     }
   }

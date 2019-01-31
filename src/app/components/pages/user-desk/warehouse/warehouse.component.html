@@ -1,9 +1,10 @@
 <section class="warehouseSetup">
   <h2>Add a warehouse </h2>
   <p class="sub-title mt-2 mb-3"> Add your warehouse and create a listing of available capacity on HashMove </p>
-  <ngx-stepper #stepper class="warehouse-stepper">
+  <div #stepper class="warehouse-stepper">
     <!-- add -info -->
-    <ngx-step [label]="'1.ADD INFO'">
+     <!-- [label]="'1.ADD INFO'" -->
+    <div>
       <section class="warehouse ">
 
         <h5 class="mt-4 pt-1">Qualification Profile </h5>
@@ -298,7 +299,7 @@
               </div>
             </div>
             <div class="col-1 switch-box">
-              <ui-switch [checked]="true"></ui-switch>
+              <!-- <ui-switch [checked]="true"></ui-switch> -->
             </div>
             <div class="col-12">
               <form autocomplete="off">
@@ -370,7 +371,7 @@
               <label class="switcher-title">Do you have bulk storage space available?</label>
             </div>
             <div class="col-1  switch-box">
-              <ui-switch [checked]="true"></ui-switch>
+              <!-- <ui-switch [checked]="true"></ui-switch> -->
             </div>
             <div class="col-12">
               <form autocomplete="off" novalidate>
@@ -441,11 +442,12 @@
       </section>
 
 
-    </ngx-step>
+    </div>
     <!-- add -info -->
 
     <!--  add rates  -->
-    <ngx-step [label]="'2.ADD RATES'">
+    <!-- [label]="'2.ADD RATES'" -->
+    <div>
       <section class="Add-warehouse ">
         <h5 class="mt-5">Add rates</h5>
         <p class="sub-title mt-2 mb-2">you can add multiple rates for different dates / months </p>
@@ -579,9 +581,9 @@
 
 
       </section>
-    </ngx-step>
+    </div>
     <!--  add rates  -->
 
 
-  </ngx-stepper>
+  </div>
 </section>
