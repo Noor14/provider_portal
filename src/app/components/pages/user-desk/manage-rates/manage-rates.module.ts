@@ -19,7 +19,6 @@ import { WarehouseListComponent } from './warehouse-list/warehouse-list.componen
 import { WarehouseService } from './warehouse-list/warehouse.service';
 import { LightboxModule } from 'ngx-lightbox';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { SearchPipe } from '../../../../constants/warehouseFilter';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { QuillEditorModule } from 'ngx-quill-editor';
 @NgModule({
@@ -32,10 +31,10 @@ import { QuillEditorModule } from 'ngx-quill-editor';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    QuillEditorModule,
     LightboxModule,
     NgxPaginationModule,
     UiSwitchModule,
-    QuillEditorModule
 
   ],
   declarations: [
@@ -44,8 +43,7 @@ import { QuillEditorModule } from 'ngx-quill-editor';
     AirFreightComponent,
     GroundTransportComponent,
     WarehouseListComponent,
-    UniquePipe,
-    SearchPipe,
+    UniquePipe
 
   ],
   providers: [SeaFreightService, AirFreightService, GroundTransportService, ManageRatesService, WarehouseService]
