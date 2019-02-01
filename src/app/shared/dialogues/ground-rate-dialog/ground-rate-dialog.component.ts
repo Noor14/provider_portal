@@ -39,7 +39,6 @@ export class GroundRateDialogComponent implements OnInit {
   @ViewChild("dp") input: NgbInputDatepicker;
   @ViewChild('rangeDp') rangeDp: ElementRef;
   @Input() selectedData: any;
-
   public loading: boolean;
   public allShippingLines: any[] = [];
   public allCargoType: any[] = []

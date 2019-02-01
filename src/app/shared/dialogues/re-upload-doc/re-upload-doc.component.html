@@ -10,9 +10,9 @@
     <div class="text-center text-area">
       <form autocomplete="off" novalidate [formGroup]="docReasonForm" (ngSubmit)="submitReason()">
         <div class="form-group mb-3">
-          <select class="form-control" formControlName="reasonType">
-            <option [value]="null" selected>Select Reason</option>
-            <option [value]="reason.ReasonID" *ngFor="let reason of docsReasons">{{reason.ReasonName}}</option>
+          <select class="form-control" placeholder="Select" name="reasonType" formControlName="reasonType"> 
+            <option [value]="null" disabled>Select Reason</option>
+            <option [value]="reason.ReasonID" *ngFor="let reason of docsReasons; let i = index" [selected] = "reason.ReasonID && i == 0">{{reason.ReasonName}}</option>
           </select>
         </div>
         <div class="form-group">
@@ -27,7 +27,7 @@
         </div>
       </form>
       <button class="btn btn-primary btn-lg hvr-sweep-to-right w-50 pull-right mt-3 mb-3" (click)="submitReason()"
-        [disabled]="docReasonForm.invalid || docReasonForm.value.reasonType == 'null'">Submit</button>
+        [disabled]="docReasonForm.invalid>Submit</button>
     </div>
   </div>
 </div>

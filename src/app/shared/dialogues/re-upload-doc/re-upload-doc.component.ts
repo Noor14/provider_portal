@@ -34,7 +34,6 @@ export class ReUploadDocComponent implements OnInit {
     this._viewBookingService.getDocReasons().subscribe((res:any)=>{
       if (res.returnStatus == "Success"){
         this.docsReasons = res.returnObject;
-        // this.docReasonForm.controls['reasonType'].setValue(this.docsReasons[0].ReasonID);
       }
     })
   }
