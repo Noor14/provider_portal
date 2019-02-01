@@ -14,15 +14,13 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UniquePipe } from '../../../../constants/unique-recordFilter';
 import { AirFreightService } from './air-freight/air-freight.service';
 import { GroundTransportService } from './ground-transport/ground-transport.service';
-import { EditorModule } from '@tinymce/tinymce-angular';
 import { ManageRatesService } from './manage-rates.service';
 import { WarehouseListComponent } from './warehouse-list/warehouse-list.component';
 import { WarehouseService } from './warehouse-list/warehouse.service';
 import { LightboxModule } from 'ngx-lightbox';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { SearchPipe } from '../../../../constants/warehouseFilter';
 import { UiSwitchModule } from 'ngx-toggle-switch';
-
+import { QuillEditorModule } from 'ngx-quill-editor';
 @NgModule({
   imports: [
     CommonModule,
@@ -33,7 +31,7 @@ import { UiSwitchModule } from 'ngx-toggle-switch';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    EditorModule,
+    QuillEditorModule,
     LightboxModule,
     NgxPaginationModule,
     UiSwitchModule,
@@ -45,8 +43,7 @@ import { UiSwitchModule } from 'ngx-toggle-switch';
     AirFreightComponent,
     GroundTransportComponent,
     WarehouseListComponent,
-    UniquePipe,
-    SearchPipe,
+    UniquePipe
 
   ],
   providers: [SeaFreightService, AirFreightService, GroundTransportService, ManageRatesService, WarehouseService]
