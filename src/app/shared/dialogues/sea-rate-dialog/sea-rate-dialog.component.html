@@ -107,7 +107,10 @@
                   [resultTemplate]="crt" [inputFormatter]="currencyFormatter" [ngClass]="{'routeSelected': selectedCurrency && selectedCurrency.CountryCode}">
                 <ng-template #crt let-r="result">
                   <div class="d-flex">
-                    <img src="{{'../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" style="max-width:20px;max-height:22px;">
+                    <div class="flag-container">
+                      <img src="{{'../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}"
+                        style="max-width:20px;max-height:22px;">
+                    </div>
                     <ngb-highlight [result]="r.CurrencyCode"></ngb-highlight>
                   </div>
                 </ng-template>
@@ -184,12 +187,10 @@
             </div>
           </div>
         </div>
-
-        <div class="col-12 add-more">
-          <a href="javascript:;" (click)="addMoreCharges('origin')">
-            <img src="../../../../assets/images/icons/icon_add.svg" class="mr-2" width="16" alt=""> Add More Charges
-          </a>
+        <div class="col-12">
+          <a (click)="addMoreCharges('origin')" href="javascript:;" class="addAnother animated fadeIn">Add More Charges</a>
         </div>
+
       </div>
       <div class="row" *ngIf="selectedData.forType == 'FCL'">
         <div class="col-12">
@@ -218,10 +219,9 @@
           </div>
         </div>
 
-        <div class="col-12 add-more">
-          <a href="javascript:;" (click)="addMoreCharges('destination')">
-            <img src="../../../../assets/images/icons/icon_add.svg" class="mr-2" width="16" alt=""> Add More Charges
-          </a>
+        <div class="col-12">
+          <a (click)="addMoreCharges('destination')" href="javascript:;" class="addAnother animated fadeIn">Add More
+            Charges</a>
         </div>
       </div>
 

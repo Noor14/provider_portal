@@ -41,6 +41,9 @@
 
         &-btn {
           padding: 0;
+          border-top-left-radius: 4px;
+          border-bottom-left-radius: 4px;
+          overflow: hidden;
 
           .dropdown-toggle {
             height: 48px;
@@ -48,6 +51,8 @@
             width: 100%;
             border: 1px solid $input-border;
             background: #f1f0f0;
+            border-radius: 0;
+            text-align: left;
 
             &:hover,
             &:focus {
@@ -69,6 +74,7 @@
           border-top-left-radius: 0px !important;
           border-bottom-left-radius: 0px !important;
           border-color: #ced4da;
+          height: 48px;
 
           &:hover,
           &:focus {
@@ -76,6 +82,23 @@
             outline: 0 !important;
           }
         }
+      }
+    }
+
+    a.addAnother {
+      color: $primary-color;
+      font-family: $font-proxima;
+      font-weight: $font-weight-mid;
+      font-size: $font-size-medium;
+      position: relative;
+      padding-left: 30px;
+      &:before {
+        content: url("../../../../assets/images/icons/icon_add.svg");
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 16px;
+        height: 16px;
       }
     }
 
