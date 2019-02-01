@@ -110,6 +110,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   public policyForm : any;
   public termNcondError: boolean;
   public disable: boolean;
+  public termNCond:any
 
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)

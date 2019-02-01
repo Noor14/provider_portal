@@ -386,7 +386,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       data: this.draftslistFTL,
       columns: [
         {
-          title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRatesFTL" type = "checkbox"> <label for= "selectallDraftRates"> <span> </span></label></div>',
+          title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRatesFTL" type = "checkbox"> <label for= "selectallDraftRatesFTL"> <span> </span></label></div>',
           data: function (data) {
             return '<div class="fancyOptionBoxes"> <input id = "' + data.ID + '" type = "checkbox"> <label for= "' + data.ID + '"> <span> </span></label></div>';
           }
