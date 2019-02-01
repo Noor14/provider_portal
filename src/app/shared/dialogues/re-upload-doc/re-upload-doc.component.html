@@ -11,6 +11,7 @@
       <form autocomplete="off" novalidate [formGroup]="docReasonForm" (ngSubmit)="submitReason()">
         <div class="form-group mb-3">
           <select class="form-control" placeholder="Select" name="reasonType" formControlName="reasonType"> 
+            <option [value]="null" disabled>Select Reason</option>
             <option [value]="reason.ReasonID" *ngFor="let reason of docsReasons; let i = index" [selected] = "reason.ReasonID && i == 0">{{reason.ReasonName}}</option>
           </select>
         </div>
