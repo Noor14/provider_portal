@@ -23,82 +23,131 @@
         margin-right: -30px;
         padding-left: 15px;
         padding-bottom: 30px;
+      }
 
-        .dropdown-menu {
+      // .form-group {
+      //   .input-group {
+      //     .input-group-text {
+      //       background: $color-white;
+      //       border: 1px solid $provider-input-border;
+      //       font-size: $font-size-medium;
+      //     }
+
+      //     input {
+      //       border-bottom-left-radius: 0rem !important;
+      //       border-top-left-radius: 0rem !important;
+      //     }
+      //   }
+
+      //   &.currency-flag {
+      //     img {
+      //       position: absolute;
+      //       margin-top: 1rem;
+      //       margin-left: 1rem;
+      //     }
+
+      //     .form-control {
+      //       padding-left: 3rem;
+      //     }
+
+      //     .dropdown-item {
+      //       img {
+      //         position: static;
+      //         margin-left: 0;
+      //         margin-top: 0;
+      //         margin-right: 0.5rem;
+      //       }
+      //     }
+      //   }
+      // }
+    }
+
+    .combine-filed-popup {
+      &-left {
+        font-size: 1rem;
+        color: #2b2b2b;
+        font-family: "proxima-nova", sans-serif;
+        font-weight: 500;
+        background: #f1f0f0;
+        line-height: 1;
+        padding: 15px 10px;
+        border: 1px solid $input-border;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        &-btn {
           padding: 0;
+  
+          .dropdown-toggle {
+            height: 48px;
+            margin: 0 !important;
+            width: 100%;
+            border: 1px solid $input-border;
+            background: #f1f0f0;
 
-          button {
-            .flag-container {
-              width: 15px;
-              height: 12px;
-              display: flex;
-              margin-top: 5px;
-              margin-right: 10px !important;
-
-              img {
-                border: 1px solid $primary-grey;
-              }
+            &:hover, &:focus {
+              box-shadow: none !important;
+              outline: 0 !important;
             }
           }
+          .dropdown-menu {
+            max-height: 200px;
+            overflow-y: auto;
         }
-
-        .origin,
-        .destination {
-          position: relative;
-
-          >.flag-container {
-            width: 16px;
-            height: 24px;
-            align-items: center;
-            position: absolute;
-            left: 10px;
-            top: 11px;
-
-            img {
-              border: 1px solid $primary-grey;
-            }
-          }
-
-          .routeSelected {
-            padding-left: 30px !important;
-          }
         }
       }
 
-      .form-group {
-        .input-group {
-          .input-group-text {
-            background: $color-white;
-            border: 1px solid $provider-input-border;
-            font-size: $font-size-medium;
-          }
+      &-right {
+        input {
+          border-left: 0;
+          border-top-left-radius: 0px !important;
+          border-bottom-left-radius: 0px !important;
+          border-color: #ced4da;
 
-          input {
-            border-bottom-left-radius: 0rem !important;
-            border-top-left-radius: 0rem !important;
+          &:hover, &:focus {
+            box-shadow: none !important;
+            outline: 0 !important;
           }
         }
+      }
+    }
 
-        &.currency-flag {
+    .dropdown-menu {
+      padding: 0;
+
+      button {
+        .flag-container {
+          width: 15px;
+          height: 12px;
+          display: flex;
+          margin-top: 5px;
+          margin-right: 10px !important;
+
           img {
-            position: absolute;
-            margin-top: 1rem;
-            margin-left: 1rem;
-          }
-
-          .form-control {
-            padding-left: 3rem;
-          }
-
-          .dropdown-item {
-            img {
-              position: static;
-              margin-left: 0;
-              margin-top: 0;
-              margin-right: 0.5rem;
-            }
+            border: 1px solid $primary-grey;
           }
         }
+      }
+    }
+
+    .origin,
+    .destination {
+      position: relative;
+
+      >.flag-container {
+        width: 16px;
+        height: 24px;
+        align-items: center;
+        position: absolute;
+        left: 10px;
+        top: 11px;
+
+        img {
+          border: 1px solid $primary-grey;
+        }
+      }
+
+      .routeSelected {
+        padding-left: 30px !important;
       }
     }
   }
