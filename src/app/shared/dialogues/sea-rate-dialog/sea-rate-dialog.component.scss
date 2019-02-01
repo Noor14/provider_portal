@@ -24,42 +24,6 @@
         padding-left: 15px;
         padding-bottom: 30px;
       }
-
-      // .form-group {
-      //   .input-group {
-      //     .input-group-text {
-      //       background: $color-white;
-      //       border: 1px solid $provider-input-border;
-      //       font-size: $font-size-medium;
-      //     }
-
-      //     input {
-      //       border-bottom-left-radius: 0rem !important;
-      //       border-top-left-radius: 0rem !important;
-      //     }
-      //   }
-
-      //   &.currency-flag {
-      //     img {
-      //       position: absolute;
-      //       margin-top: 1rem;
-      //       margin-left: 1rem;
-      //     }
-
-      //     .form-control {
-      //       padding-left: 3rem;
-      //     }
-
-      //     .dropdown-item {
-      //       img {
-      //         position: static;
-      //         margin-left: 0;
-      //         margin-top: 0;
-      //         margin-right: 0.5rem;
-      //       }
-      //     }
-      //   }
-      // }
     }
 
     .combine-filed-popup {
@@ -74,9 +38,10 @@
         border: 1px solid $input-border;
         border-top-left-radius: 4px;
         border-bottom-left-radius: 4px;
+
         &-btn {
           padding: 0;
-  
+
           .dropdown-toggle {
             height: 48px;
             margin: 0 !important;
@@ -84,15 +49,17 @@
             border: 1px solid $input-border;
             background: #f1f0f0;
 
-            &:hover, &:focus {
+            &:hover,
+            &:focus {
               box-shadow: none !important;
               outline: 0 !important;
             }
           }
+
           .dropdown-menu {
             max-height: 200px;
             overflow-y: auto;
-        }
+          }
         }
       }
 
@@ -103,7 +70,8 @@
           border-bottom-left-radius: 0px !important;
           border-color: #ced4da;
 
-          &:hover, &:focus {
+          &:hover,
+          &:focus {
             box-shadow: none !important;
             outline: 0 !important;
           }
