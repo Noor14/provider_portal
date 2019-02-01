@@ -39,7 +39,7 @@ export class GroundRateDialogComponent implements OnInit {
   @ViewChild("dp") input: NgbInputDatepicker;
   @ViewChild('rangeDp') rangeDp: ElementRef;
   @Input() selectedData: any;
-
+  public loading: boolean;
   public allShippingLines: any[] = [];
   public allCargoType: any[] = []
   public allContainers: any[] = [];
@@ -183,6 +183,7 @@ export class GroundRateDialogComponent implements OnInit {
 
 
   savedraftrow(type) {
+    this.loading = true;
     let obj = [
       {
         ID: (!this.newProviderPricingDraftID) ? this.selectedData.ID : this.newProviderPricingDraftID,
@@ -218,6 +219,7 @@ export class GroundRateDialogComponent implements OnInit {
         this._toast.success('Rates added successfully', '');
         this.allRatesFilledData.push(obj[0]);
         if (type != 'saveNadd') {
+          this.loading = false;
           let object = {
             data: this.allRatesFilledData
           }
@@ -236,6 +238,7 @@ export class GroundRateDialogComponent implements OnInit {
         this.selectedPrice = undefined;
         this.selectedContSize = null;
         this.newProviderPricingDraftID = res.returnObject.GroundPricingDraftID;
+        this.loading = false;
       }
     })
   }
