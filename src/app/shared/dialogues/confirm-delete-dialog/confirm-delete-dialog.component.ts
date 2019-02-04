@@ -5,6 +5,7 @@ import { SeaFreightService } from '../../../components/pages/user-desk/manage-ra
 import { AirFreightService } from '../../../components/pages/user-desk/manage-rates/air-freight/air-freight.service';
 import { GroundTransportService } from '../../../components/pages/user-desk/manage-rates/ground-transport/ground-transport.service';
 import { WarehouseService } from '../../../components/pages/user-desk/manage-rates/warehouse-list/warehouse.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-confirm-delete-dialog',
@@ -21,7 +22,8 @@ export class ConfirmDeleteDialogComponent implements OnInit {
     private groundTransportService: GroundTransportService,
     private warehouseService: WarehouseService,
     private location: PlatformLocation,
-    private _activeModal: NgbActiveModal
+    private _activeModal: NgbActiveModal,
+    private _toast: ToastrService,
     ) { location.onPopState(() => this.closeModal(null)); }
 
   ngOnInit() {
@@ -111,6 +113,7 @@ export class ConfirmDeleteDialogComponent implements OnInit {
       this.warehouseService.delWarehouse(this.deleteIds.data, this.userProfile.LoginID).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
           this.closeModal(res.returnStatus);
+          this._toast.success('Successfully deleted','');
         }
       })
     }

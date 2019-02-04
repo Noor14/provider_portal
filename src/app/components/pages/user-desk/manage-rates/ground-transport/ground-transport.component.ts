@@ -156,7 +156,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     this.allservicesByGround();
     this.addnsaveRates = this._sharedService.draftRowAddGround.subscribe(state => {
       if (state && Object.keys(state).length) {
-        this.setRowinDRaftTable(state, 'popup not open');
+        this.setRowinDraftTable(state, 'popup not open');
       }
     })
     this._sharedService.termNcondGround.subscribe(state => {
@@ -205,12 +205,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     }
     this._seaFreightService.addDraftRates(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.setRowinDRaftTable(res.returnObject, 'openPopup');
+        this.setRowinDraftTable(res.returnObject, 'openPopup');
       }
     })
   }
 
-  setRowinDRaftTable(obj, type) {
+  setRowinDraftTable(obj, type) {
     if (obj && obj.TransportType == 'GROUND'){
     this.draftDataBYGround.unshift(obj);
     if (this.draftRatesByGround && this.draftRatesByGround.length) {
@@ -867,8 +867,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
             if (state[index].DraftDataGround && state[index].DraftDataGround.length) {
               this.draftRatesByGround = state[index].DraftDataGround.filter(obj=> obj.TransportType.toLowerCase() == 'ground');
               this.draftslist = this.draftRatesByGround;
-                this.draftRatesByGroundFTL = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'truck');
-                this.draftslistFTL = this.draftRatesByGroundFTL; 
+              this.draftRatesByGroundFTL = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'truck');
+              this.draftslistFTL = this.draftRatesByGroundFTL; 
             }
             this.generateDraftTable();
             this.generateDraftTableFTL();
@@ -1312,7 +1312,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       if(this.activeTab=="activeFCL"){
         for (let index = 0; index < this.draftslist.length; index++) {
           if (this.draftslist[index].ID == id) {
+            if (this.draftRatesByGround && this.draftRatesByGround.length && this.draftRatesByGround[index].ID == id) {
+              this.draftRatesByGround.splice(index, 1);
+            }
             this.draftslist.splice(index, 1);
+            this.draftDataBYGround = this.draftslist;
             this.generateDraftTable();
             this.publishRates = [];
             break;
@@ -1322,7 +1326,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         else if (this.activeTab == "activeFTL") {
           for (let index = 0; index < this.draftslistFTL.length; index++) {
             if (this.draftslistFTL[index].ID == id) {
+              if (this.draftRatesByGroundFTL && this.draftRatesByGroundFTL.length && this.draftRatesByGroundFTL[index].ID == id) {
+                this.draftRatesByGroundFTL.splice(index, 1);
+              }
               this.draftslistFTL.splice(index, 1);
+              this.draftDataBYGroundFTL = this.draftslistFTL;
               this.generateDraftTableFTL();
               this.publishRatesFTL = [];
               break;

@@ -1866,7 +1866,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       if (result == "Success") {
         for (let index = 0; index < this.draftsfcl.length; index++) {
           if (this.draftsfcl[index].ProviderPricingDraftID == id) {
+            if (this.allSeaDraftRatesByFCL && this.allSeaDraftRatesByFCL.length && this.allSeaDraftRatesByFCL[index].ID == id) {
+              this.allSeaDraftRatesByFCL.splice(index, 1);
+            }
             this.draftsfcl.splice(index, 1);
+            this.draftDataBYSeaFCL = this.draftsfcl
             this.generateDraftTable();
             this.publishRates = [];
             break;
@@ -1902,7 +1906,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       if (result == "Success") {
         for (let index = 0; index < this.draftslcl.length; index++) {
           if (this.draftslcl[index].ConsolidatorPricingDraftID == id) {
+            if (this.allSeaDraftRatesByLCL && this.allSeaDraftRatesByLCL.length && this.allSeaDraftRatesByLCL[index].ID == id) {
+              this.allSeaDraftRatesByLCL.splice(index, 1);
+            }
             this.draftslcl.splice(index, 1);
+            this.draftDataBYSeaLCL = this.draftslcl
             this.generateDraftTableLCL();
             this.publishRatesLCL = [];
             break;

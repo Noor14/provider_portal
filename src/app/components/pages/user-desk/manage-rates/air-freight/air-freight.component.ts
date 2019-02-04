@@ -156,7 +156,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     this.allservicesByAir();
     this.addnsaveRates = this._sharedService.draftRowAddAir.subscribe(state => {
       if (state && Object.keys(state).length) {
-        this.setRowinDRaftTable(state, 'popup not open');
+        this.setRowinDraftTable(state, 'popup not open');
       }
     })
     this._sharedService.termNcondAir.subscribe(state => {
@@ -216,12 +216,12 @@ export class AirFreightComponent implements OnInit, OnDestroy {
    addRatesManually() {
      this._airFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID, currencyID : 101 }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.setRowinDRaftTable(res.returnObject, 'openPopup');
+        this.setRowinDraftTable(res.returnObject, 'openPopup');
       }
     })
   }
 
-  setRowinDRaftTable(obj, type) {
+  setRowinDraftTable(obj, type) {
     if (typeof obj.slab == "string"){
       obj.slab = JSON.parse(obj.slab);
     }
@@ -1151,9 +1151,13 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     modalRef.result.then((result) => {
       if (result == "Success") {
         for (let index = 0; index < this.draftslist.length; index++) {
+       
           if (this.draftslist[index].CarrierPricingSetID == id) {
+            if (this.allDraftRatesByAIR && this.allDraftRatesByAIR.length && this.allDraftRatesByAIR[index].CarrierPricingSetID == id) {
+              this.allDraftRatesByAIR.splice(index, 1);
+            }
             this.draftslist.splice(index, 1);
-            // this.draftDataBYAIR.splice(index,1);
+            this.draftDataBYAIR = this.draftslist;
             this.generateDraftTable();
             this.publishRates = [];
             break;
