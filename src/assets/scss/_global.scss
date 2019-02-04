@@ -923,11 +923,11 @@ input[type="checkbox"]:focus + label > span {
       }
       .country-section {
         border: 0px;
-        top: 29px !important;
-        left: -20px !important;
+        top: 36px !important;
+        left: -21px !important;
         background: transparent;
         ul {
-          border: 0px;
+          border: 1px solid $provider-input-border;
           max-height: 200px;
           overflow-y: scroll;
           z-index: 9999999;
@@ -941,6 +941,9 @@ input[type="checkbox"]:focus + label > span {
             display: inline-block;
             img {
               border: 1px solid $grey-border;
+            }
+            &:hover {
+              background: $dropdown-color;
             }
           }
         }
