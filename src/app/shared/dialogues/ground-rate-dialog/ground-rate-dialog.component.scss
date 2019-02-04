@@ -48,10 +48,13 @@
         .flag-container {
           width: 15px;
           height: 12px;
-          border: 1px solid $provider-input-border;
           display: flex;
           margin-top: 5px;
           margin-right: 10px !important;
+
+          img {
+            border: 1px solid $primary-grey;
+          }
         }
       }
     }
@@ -67,6 +70,9 @@
         position: absolute;
         left: 10px;
         top: 11px;
+        img {
+          border: 1px solid $primary-grey;
+        }
       }
 
       .routeSelected {

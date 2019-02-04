@@ -185,13 +185,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   }
 
 
-
-
-
-
-
-
-
   ngOnDestroy() {
     this.draftRates.unsubscribe();
     this.addnsaveRates.unsubscribe();
