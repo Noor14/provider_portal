@@ -1636,6 +1636,7 @@ select {
       .DTFC_RightBodyWrapper {
         margin-right: 1px;
         overflow: visible !important;
+        margin-top: 1px;
 
         .DTFC_RightBodyLiner {
           overflow-y: unset !important;
@@ -1649,20 +1650,24 @@ select {
 
             tbody {
               tr {
-                background: none;
-                border-top: 1px solid $data-table-border;
+                will-change: transform;
+                border-bottom: 1px solid $data-table-border !important;
+                display: block;
 
                 td {
                   border: none;
                   padding: 0 !important;
-                  background: $white-color;
-                  padding-left: 10px;
                   text-align: center;
+                  width: 100%;
+                  height: 100%;
+                  justify-content: center;
+                  display: flex;
+                  align-items: center;
                 }
 
-                &:last-child {
-                  border-bottom: 1px solid $data-table-border;
-                }
+                // &:last-child {
+                //   border-bottom: 1px solid $data-table-border;
+                // }
               }
             }
           }

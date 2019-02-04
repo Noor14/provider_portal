@@ -1,14 +1,22 @@
 import { Injectable } from '@angular/core';
 import { baseApi } from '../../../../constants/base.url';
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable()
 export class BillingService {
 
   constructor(private _http: HttpClient) { }
 
-  makePayment(obj) {
+  makePayment(data) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': data.length,
+        "Access-Control-Allow-Credentials": "true"
+      })
+    };
     let url: string = "https://www.paytabs.com/apiv2/create_pay_page";
-    return this._http.post(url, obj);
+    return this._http.post(url, data, httpOptions);
   }
   }
