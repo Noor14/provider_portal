@@ -83,10 +83,10 @@
             src="../../../../../../assets/images/icons/icon_info.svg">
         </label>
       </div>
-      <div class="col-8">
+      <div class="col-10">
         <div class="row">
-          <div class="col-5 d-flex align-items-center form-group"><label>{{profileUrl}}</label></div>
-          <div class="col-6 form-group">
+          <div class="col-4 d-flex align-items-center form-group"><label>{{profileUrl}}</label></div>
+          <div class="col-4 form-group">
             <input #profileName (keypress)="spaceHandler($event)" type="text" class="form-control" [ngClass]="{ inputError: addBusinessbtnEnabled === false && !spinner}"
               placeholder="eg: hashMove" />
             <svg *ngIf="addBusinessbtnEnabled && !spinner" class="available icon-size-24" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -168,10 +168,10 @@
               </g>
             </svg>
           </div>
-          <div *ngIf="addBusinessbtnEnabled === false && !spinner" class="col-12"><small class="alert-text">This
-              public URL is not available</small>
+          <div class="col-4 mb-3 d-flex align-items-center" *ngIf="addBusinessbtnEnabled === false && !spinner"><small class="alert-text">This public URL is not available</small></div>
+          <div *ngIf="addBusinessbtnEnabled === false && !spinner" class="col-12 mb-3">
             <small *ngIf="addBusinessbtnEnabled === false && !spinner" class="alert-text">This company page already
-              exists in order to become an admin of the page, an existing admin must add you</small></div>
+              exists in order to become an admin of the page, an existing admin must add you.</small></div>
               <div class="col-12">
                   <div class="switch-box">
                       <ui-switch (change)="privateModeToggler=!privateModeToggler" [checked]="privateModeToggler"></ui-switch>
