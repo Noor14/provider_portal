@@ -1404,12 +1404,14 @@ select {
                 img {
                   position: relative;
                   top: -1px;
+                  border: 1px solid $primary-grey;
                 }
                 .col-2 {
                   img {
                     position: relative;
                     left: -3px;
                     top: 0px;
+                    border: none;
                   }
                 }
               }
