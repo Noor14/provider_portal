@@ -169,8 +169,8 @@
               <div class="col-6 pr-0">
                 <div ngbDropdown class="combine-filed-popup-left-btn" placement="top-left">
                   <button class="btn" id="0" ngbDropdownToggle>
-                    <span>{{selectedOrigins[i]?.addChrName || 'Select' | limitTo : 20 }}</span>
-                    <span *ngIf="(selectedOrigins[i]?.addChrName || 'Select') .lenght>20">...</span>
+                    <span>{{selectedOrigins[i]?.addChrName || 'Select' | limitTo : 12 }}</span>
+                    <!-- <span *ngIf="(selectedOrigins[i]?.addChrName || 'Select').length > 15">...</span> -->
                   </button>
                   <div ngbDropdownMenu aria-labelledby="0">
                     <button class="dropdown-item" *ngFor="let charge of originsList" (click)="selectCharges('EXPORT', charge, i)">{{charge.addChrName}}</button>
@@ -200,8 +200,8 @@
               <div class="col-6 pr-0">
                 <div ngbDropdown class="combine-filed-popup-left-btn" placement="top-left">
                   <button class="btn" id="0" ngbDropdownToggle>
-                    <span>{{selectedDestinations[i]?.addChrName || 'Select' | limitTo : 20 }}</span>
-                    <span *ngIf="(selectedOrigins[i]?.addChrName || 'Select') .lenght>20">...</span>
+                    <span>{{selectedDestinations[i]?.addChrName || 'Select' | limitTo : 12 }}</span>
+                    <!-- <span *ngIf="(selectedDestinations[i]?.addChrName || 'Select').length > 20">...</span> -->
                   </button>
                   <div ngbDropdownMenu aria-labelledby="0">
                     <button class="dropdown-item" *ngFor="let charge of destinationsList" (click)="selectCharges('IMPORT', charge, i)">{{charge.addChrName}}</button>
