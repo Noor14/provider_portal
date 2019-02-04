@@ -107,6 +107,8 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   public checkedallpublishRates: boolean = false;
   public checkedalldraftRates: boolean = false;
   // term and condition
+  public policyForm : any;
+  public termNcondError: boolean;
   public disable: boolean;
   public termNCond:any
 
@@ -118,9 +120,12 @@ export class AirFreightComponent implements OnInit, OnDestroy {
 
 
 
+  public editor;
+  public editorContent = `<h3>I am Example content</h3>`;
   public editorOptions = {
     placeholder: "insert content..."
   };
+
 
 
   constructor(
@@ -140,6 +145,9 @@ export class AirFreightComponent implements OnInit, OnDestroy {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
 
+    this.policyForm = new FormGroup({
+      termNcond: new FormControl(null, [Validators.required, Validators.maxLength(5000)]),
+    });
 
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
@@ -153,18 +161,27 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     })
     this._sharedService.termNcondAir.subscribe(state => {
       if (state) {
-        this.termNCond = state
+        this.policyForm.controls['termNcond'].setValue(state);
       }
     })
   }
 
+
+  onEditorBlured(quill) {
+    console.log('editor blur!', quill);
+  }
+
+  onEditorFocused(quill) {
+    console.log('editor focus!', quill);
+  }
+
   onEditorCreated(quill) {
+    this.editor = quill;
     console.log('quill is ready! this is current quill instance object', quill);
   }
 
-  onContentChanged({ html, text }) {
-    this.termNCond = html;
-    console.log('quill content is changed!',  html, text);
+  onContentChanged({ quill, html, text }) {
+    console.log('quill content is changed!', quill, html, text);
   }
 
 
@@ -680,7 +697,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
             this.allPorts = state[index].DropDownValues.AirPort;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if(state[index].TCAIR){
-            this.termNCond = state[index].TCAIR;
+            this.policyForm.controls['termNcond'].setValue(state[index].TCAIR);
             this.disable = true;
             }
             if (state[index].DraftDataAir && state[index].DraftDataAir.length) {
@@ -1160,14 +1177,14 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   saveTermNcond() {
     let obj = {
       providerID: this.userProfile.ProviderID,
-      termsAndConditions: this.termNCond,
+      termsAndConditions: this.policyForm.value.termNcond,
       transportType: "AIR",
       modifiedBy: this.userProfile.LoginID
     }
     this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success("Term and Condition saved Successfully", "");
-        this._sharedService.termNcondAir.next(this.termNCond);
+        this._sharedService.termNcondAir.next(this.policyForm.value.termNcond);
         this.disable = true;
       }
     })

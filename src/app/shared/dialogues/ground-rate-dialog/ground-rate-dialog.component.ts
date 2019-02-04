@@ -75,7 +75,7 @@ export class GroundRateDialogComponent implements OnInit {
     year: undefined
   };
   public model: any;
-  private newProviderPricingDraftID = undefined;
+  private newProviderDraftID = undefined;
   private transPortMode
 
   isHovered = date =>
@@ -186,7 +186,7 @@ export class GroundRateDialogComponent implements OnInit {
     this.loading = true;
     let obj = [
       {
-        ID: (!this.newProviderPricingDraftID) ? this.selectedData.ID : this.newProviderPricingDraftID,
+        ID: (!this.newProviderDraftID) ? this.selectedData.ID : this.newProviderDraftID,
         customerID: null,
         providerID: this.userProfile.ProviderID,
         containerSpecID: (this.selectedContSize == null || this.selectedContSize == 'null') ? null : this.selectedContSize,
@@ -234,10 +234,10 @@ export class GroundRateDialogComponent implements OnInit {
     this._groundFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID, transportType: this.transPortMode }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._sharedService.draftRowAddGround.next(res.returnObject);
-        this.newProviderPricingDraftID = undefined;
+        this.newProviderDraftID = undefined;
         this.selectedPrice = undefined;
         this.selectedContSize = null;
-        this.newProviderPricingDraftID = res.returnObject.GroundPricingDraftID;
+        this.newProviderDraftID = res.returnObject.ID;
         this.loading = false;
       }
     })

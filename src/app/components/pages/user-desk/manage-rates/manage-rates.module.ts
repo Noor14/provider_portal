@@ -31,10 +31,10 @@ import { QuillEditorModule } from 'ngx-quill-editor';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    QuillEditorModule,
     LightboxModule,
     NgxPaginationModule,
     UiSwitchModule,
+    QuillEditorModule
 
   ],
   declarations: [

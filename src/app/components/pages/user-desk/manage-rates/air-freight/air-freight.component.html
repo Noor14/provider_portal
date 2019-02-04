@@ -161,21 +161,34 @@
       <div class="col-12">
         <hr class="hr-solid mt-4">
         <h5 class="add-rate-head mb-4 mt-4">Terms & Conditions</h5>
-          <div class="form-group" *ngIf="!disable">
-            <quill-editor  [options]="editorOptions"
-              (ready)="onEditorCreated($event)" (change)="onContentChanged($event)">
-            </quill-editor>
-          </div>
-          <div *ngIf="disable" [innerHTML]="termNCond"></div>
-          <button *ngIf="!disable" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="button"
-            [disabled]="!termNCond" (click)="saveTermNcond()">
+        <form autocomplete="off" novalidate [formGroup]="policyForm">
+        <div class="form-group">
+           <button *ngIf="disable" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mb-4"
+            (click)="disable = !disable">
+            EDIT
+          </button>
+          <textarea [readonly]="disable" class="form-control" 
+          formControlName="termNcond" [ngClass]="{
+                          'inputError': termNcondError && policyForm.controls['termNcond'].errors
+                          }"
+          (focus)="termNcondError = false" (focusout)="termNcondError = true"></textarea>
+          <!-- <quill-editor [(ngModel)]="editorContent" [options]="editorOptions" (blur)="onEditorBlured($event)" (focus)="onEditorFocused($event)"
+            (ready)="onEditorCreated($event)" (change)="onContentChanged($event)">
+          </quill-editor> -->
+          <span *ngIf="termNcondError && policyForm.controls['termNcond'].errors">
+            <p class="inputError animated fadeIn" *ngIf="policyForm.controls['termNcond'].hasError('required') && (policyForm.controls.termNcond.dirty || policyForm.controls.termNcond.touched)">This
+              field is required</p>
+            <p class="inputError animated fadeIn" *ngIf="!policyForm.controls['termNcond'].hasError('pattern') && policyForm.controls['termNcond'].hasError('maxlength') && (policyForm.controls.termNcond.dirty || policyForm.controls.termNcond.touched)">Term
+              and Condition should not exceed from 5000 characters</p>
+            <!-- <p class="inputError animated fadeIn" *ngIf="policyForm.controls['termNcond'].hasError('pattern') && (policyForm.controls.termNcond.dirty || policyForm.controls.termNcond.touched)">Please enter valid information</p> -->
+          </span>
+        </div>
+          <button *ngIf="!disable" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="submit" [disabled]="policyForm.invalid"
+            (click)="saveTermNcond()">
             SAVE
           </button>
-           <button *ngIf="disable" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mb-4" (click)="disable = !disable">
-              EDIT
-          </button>
-
-      </div>
+    </form>
+    </div>
     </div>
   </section>
 </section>
