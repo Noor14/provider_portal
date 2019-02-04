@@ -80,7 +80,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   public allCargoType: any[] = []
   public allPorts: any[] = [];
   public allCurrencies: any[] = [];
-  public allSeaDraftRatesByAIR: any[] = [];
+  public allDraftRatesByAIR: any[] = [];
   public draftDataBYAIR: any[] = [];
   public draftslist: any[] = [];
   public delPublishRates: any[] = [];
@@ -226,8 +226,8 @@ export class AirFreightComponent implements OnInit, OnDestroy {
       obj.slab = JSON.parse(obj.slab);
     }
     this.draftDataBYAIR.unshift(obj);
-    if (this.allSeaDraftRatesByAIR && this.allSeaDraftRatesByAIR.length) {
-      this.draftslist = this.allSeaDraftRatesByAIR.concat(this.draftDataBYAIR);
+    if (this.allDraftRatesByAIR && this.allDraftRatesByAIR.length) {
+      this.draftslist = this.allDraftRatesByAIR.concat(this.draftDataBYAIR);
     } else {
       this.draftslist = this.draftDataBYAIR;
     }
@@ -647,7 +647,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
       this.addRatesManually();
   }
   addRatesByAirManually() {
-      if ((!this.allSeaDraftRatesByAIR || (this.allSeaDraftRatesByAIR && !this.allSeaDraftRatesByAIR.length)) && (!this.draftDataBYAIR || (this.draftDataBYAIR && !this.draftDataBYAIR.length))) {
+      if ((!this.allDraftRatesByAIR || (this.allDraftRatesByAIR && !this.allDraftRatesByAIR.length)) && (!this.draftDataBYAIR || (this.draftDataBYAIR && !this.draftDataBYAIR.length))) {
         this.addRatesManually();
     }
   }
@@ -706,8 +706,8 @@ export class AirFreightComponent implements OnInit, OnDestroy {
                 elem.slab = JSON.parse(elem.slab)
               }
               });
-              this.allSeaDraftRatesByAIR = state[index].DraftDataAir;
-              this.draftslist = this.allSeaDraftRatesByAIR;
+              this.allDraftRatesByAIR = state[index].DraftDataAir;
+              this.draftslist = this.allDraftRatesByAIR;
             }
             this.generateDraftTable();
             this.draftloading = true;
@@ -1040,7 +1040,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     modalRef.result.then((result) => {
       if (result == "Success") {
         this.draftslist = [];
-        this.allSeaDraftRatesByAIR = [];
+        this.allDraftRatesByAIR = [];
         this.draftDataBYAIR = [];
         this.publishRates = [];
         this.generateDraftTable();
@@ -1153,6 +1153,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         for (let index = 0; index < this.draftslist.length; index++) {
           if (this.draftslist[index].CarrierPricingSetID == id) {
             this.draftslist.splice(index, 1);
+            // this.draftDataBYAIR.splice(index,1);
             this.generateDraftTable();
             this.publishRates = [];
             break;
