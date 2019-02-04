@@ -446,8 +446,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
       },
       fixedColumns: {
         leftColumns: 0,
-        rightColumns: 1,
-        scrollY: 'none'
+        rightColumns: 1
       },
       columnDefs: [
         {

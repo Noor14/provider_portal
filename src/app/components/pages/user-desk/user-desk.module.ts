@@ -27,6 +27,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { SearchPipe } from '../../../constants/search.pipe';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { WarehouseComponent } from './warehouse/warehouse.component';
+import { BillingService } from './billing/billing.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -65,6 +66,7 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
     SupportService,
     ReportsService,
     UserGuard,
+    BillingService
   ]
 })
 export class UserDeskModule { }
