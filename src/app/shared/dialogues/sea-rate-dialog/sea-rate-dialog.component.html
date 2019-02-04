@@ -107,8 +107,8 @@
                     [resultTemplate]="crt" [inputFormatter]="currencyFormatter" [ngClass]="{'routeSelected': selectedCurrency && selectedCurrency.CountryCode}">
                   <ng-template #crt let-r="result">
                     <div class="d-flex">
-                      <div class="flag-container"></div>
-                      <img src="{{'../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" style="max-width:20px;max-height:22px;">
+                      <div class="flag-container">
+                      <img src="{{'../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" style="max-width:20px;max-height:22px;"></div>
                       <ngb-highlight [result]="r.CurrencyCode"></ngb-highlight>
                     </div>
                   </ng-template>
