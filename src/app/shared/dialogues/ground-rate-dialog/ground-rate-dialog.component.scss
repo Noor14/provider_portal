@@ -17,16 +17,15 @@
       text-transform: uppercase;
     }
 
-    .popu-white {
+    .popup-white {
       &.bg-white {
         padding-right: 15px;
         margin-left: -30px;
         margin-right: -30px;
         padding-left: 15px;
         padding-bottom: 30px;
-
       }
-
+    }
       .form-group {
         .input-group {
           .input-group-text {
@@ -41,8 +40,6 @@
           }
         }
       }
-    }
-
     .dropdown-menu {
       button {
         .flag-container {
