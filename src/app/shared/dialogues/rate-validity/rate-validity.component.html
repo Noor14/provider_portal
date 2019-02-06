@@ -1,7 +1,7 @@
 <div class="provider-modal animated fadeIn">
   <div class="modal-header">
     <h4 class="provider-modal-title">Rate Validity</h4>
-    <a class="pointer crossIcon" (click)="closeModal(null)">
+    <a class="pointer crossIcon">
       <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
     </a>
   </div>
@@ -12,7 +12,7 @@
           <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp"
             [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right"
             [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate"
-            #dp="ngbDatepicker" (click)="dp.toggle()" (ngModelChange)="filterBydate(model)">
+            #dp="ngbDatepicker" (click)="dp.toggle()">
         </div>
         <ng-template #t let-date="date" let-focused="focused">
           <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
