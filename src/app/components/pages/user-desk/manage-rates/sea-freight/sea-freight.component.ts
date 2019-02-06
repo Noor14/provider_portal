@@ -140,9 +140,14 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   public checkedalldraftRatesLCL: boolean = false;
 
   // term and condition
-  public policyForm: any;
-  public termNcondErrorFCL: boolean;
-  public termNcondErrorLCL: boolean;
+  public editorContentFCL: any;
+  public editorContentLCL: any;
+  public editorOptionsFCL = {
+    placeholder: "insert content..."
+  };
+  public editorOptionsLCL = {
+    placeholder: "insert content..."
+  };
   public disableFCL: boolean;
   public disableLCL: boolean;
   public seaCharges: any = []
@@ -177,10 +182,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
-    this.policyForm = new FormGroup({
-      termNcondFCL: new FormControl(null, [Validators.maxLength(5000)]),
-      termNcondLCL: new FormControl(null, [Validators.maxLength(5000)]),
-    });
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
@@ -199,13 +200,13 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     })
     this._sharedService.termNcondFCL.subscribe(state => {
       if (state) {
-        this.policyForm.controls['termNcondFCL'].setValue(state);
+        this.editorContentFCL = state;
 
       }
     })
     this._sharedService.termNcondLCL.subscribe(state => {
       if (state) {
-        this.policyForm.controls['termNcondLCL'].setValue(state);
+        this.editorContentLCL = state;
       }
     })
 
@@ -218,6 +219,27 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this.addnsaveRates.unsubscribe();
     this.addnsaveRatesLCL.unsubscribe();
   }
+
+
+  onEditorBlured(quill, type) {
+  }
+
+  onEditorFocused(quill, type) {
+  }
+
+  onEditorCreated(quill, type) {
+  }
+  onContentChanged({ quill, html, text }, type) {
+    if (type="FCL"){
+      this.editorContentFCL = html
+
+    }
+    else{
+      this.editorContentLCL = html
+
+    }
+  }
+
 
   clearFilter(event, type) {
     event.preventDefault();
@@ -1032,11 +1054,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             this.allPorts = state[index].DropDownValues.Port;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if (state[index].TCFCL) {
-              this.policyForm.controls['termNcondFCL'].setValue(state[index].TCFCL);
+              this.editorContentFCL = state[index].TCFCL;
               this.disableFCL = true;
             }
             if (state[index].TCLCL) {
-              this.policyForm.controls['termNcondLCL'].setValue(state[index].TCLCL);
+              this.editorContentLCL = state[index].TCLCL;
               this.disableLCL = true;
             }
             if (state[index].DraftDataFCL) {
@@ -1978,7 +2000,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   saveTermNcond(type) {
     let obj = {
       providerID: this.userProfile.ProviderID,
-      termsAndConditions: (type == 'FCL') ? this.policyForm.value.termNcondFCL : this.policyForm.value.termNcondLCL,
+      termsAndConditions: (type == 'FCL') ? this.editorContentFCL : this.editorContentLCL,
       transportType: (this.activeTab == 'activeFCL') ? "FCL" : "LCL",
       modifiedBy: this.userProfile.LoginID
     }
@@ -1986,10 +2008,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       if (res.returnStatus == "Success") {
         this._toast.success("Term and Condition saved Successfully", "");
         if (this.activeTab == 'activeFCL') {
-          this._sharedService.termNcondFCL.next(this.policyForm.value.termNcondFCL);
+          this._sharedService.termNcondFCL.next(this.editorContentFCL);
           this.disableFCL = true;
         } else {
-          this._sharedService.termNcondLCL.next(this.policyForm.value.termNcondLCL);
+          this._sharedService.termNcondLCL.next(this.editorContentLCL);
           this.disableLCL = true;
         }
       }

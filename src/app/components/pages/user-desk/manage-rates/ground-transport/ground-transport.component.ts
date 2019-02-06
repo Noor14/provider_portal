@@ -119,9 +119,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   public checkedalldraftRatesFTL: boolean = false;
 
   // term and condition
-  public policyForm: any;
-  public termNcondError: boolean;
   public disable: boolean;
+  public editorContent :any;
+  public editorOptions = {
+    placeholder: "insert content..."
+  };
 
 
   isHovered = date =>
@@ -146,9 +148,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
-    this.policyForm = new FormGroup({
-      termNcond: new FormControl(null, [Validators.required, Validators.maxLength(5000)]),
-    });
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
@@ -161,7 +160,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     })
     this._sharedService.termNcondGround.subscribe(state => {
       if (state) {
-        this.policyForm.controls['termNcond'].setValue(state);
+        this.editorContent = state;
       }
     })
   }
@@ -209,7 +208,17 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       }
     })
   }
+ onEditorBlured(quill) {
+  }
 
+  onEditorFocused(quill) {
+  }
+
+  onEditorCreated(quill) {
+  }
+  onContentChanged({ quill, html, text }) {
+    this.editorContent = html
+  }
   setRowinDraftTable(obj, type) {
     if (obj && obj.TransportType == 'GROUND'){
     this.draftDataBYGround.unshift(obj);
@@ -861,7 +870,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
             this.allPorts = state[index].DropDownValues.Port.concat(state[index].DropDownValues.GroundPort);
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if(state[index].TCGround){
-            this.policyForm.controls['termNcond'].setValue(state[index].TCGround);
+            this.editorContent = state[index].TCGround;
             this.disable = true;
             }
             if (state[index].DraftDataGround && state[index].DraftDataGround.length) {
@@ -1359,13 +1368,13 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   saveTermNcond() {
     let obj = {
       providerID: this.userProfile.ProviderID,
-      termsAndConditions: this.policyForm.value.termNcond,
+      termsAndConditions: this.editorContent,
       transportType: "GROUND",
       modifiedBy: this.userProfile.LoginID
     }
     this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this._sharedService.termNcondGround.next(this.policyForm.value.termNcond);
+        this._sharedService.termNcondGround.next(this.editorContent);
         this._toast.success("Term and Condition saved Successfully", "");
         this.disable = true;
       }
