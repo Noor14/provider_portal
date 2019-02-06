@@ -24,6 +24,7 @@ import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-pars
 import { ManageRatesService } from '../manage-rates.service';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -1930,6 +1931,32 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     let obj = {
       data: [id],
       type: "draftSeaRateLCL"
+    }
+    modalRef.componentInstance.deleteIds = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
+  rateValidity(){
+    const modalRef = this.modalService.open(RateValidityComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'medium-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.result.then((result) => {
+      if (result == "Success") {
+
+      }
+    }, (reason) => {
+      // console.log("reason");
+    });
+    let obj = {
+      data: [null],
+      type: "rateValidityLCL"
     }
     modalRef.componentInstance.deleteIds = obj;
     setTimeout(() => {
