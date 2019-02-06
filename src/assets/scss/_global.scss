@@ -737,7 +737,7 @@ input[type="checkbox"]:focus+label>span {
       display: none;
     }
 
-    &[type="password"] {
+    &.password {
       padding-right: 40px;
     }
 
