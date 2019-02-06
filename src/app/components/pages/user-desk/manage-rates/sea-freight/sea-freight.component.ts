@@ -419,8 +419,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
               }
             }
             if (subTotalIMP === 0) {
-              subTotalIMP = 'N/A';
-              data.CurrencyCode = '';
               return "<span>-- Select --</span>"
             }
             return data.CurrencyCode + ' ' + subTotalIMP;
@@ -447,11 +445,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
               }
             }
             if (subTotalExp === 0) {
-                subTotalExp = 'N/A';
-                data.CurrencyCode = '';
               return "<span>-- Select --</span>"
             }
-            return  data.CurrencyCode + ' ' + subTotalExp;
+            return data.CurrencyCode + ' ' + subTotalExp;
           }
         },
         {
@@ -737,6 +733,13 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         // let alltableOption = this.dataTabledraftBysea.DataTable();
         //   alltableOption.destroy();
         let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
+        alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+          let node = this.node();
+          let data = this.data();
+          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.CarrierID || !data.EffectiveFrom || !data.EffectiveTo || !data.Price) {
+            node.children[0].children[0].children[0].setAttribute("disabled", true)
+          }
+        });
         this.draftloading = false;
         $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
           event.stopPropagation();
@@ -768,7 +771,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             if (this.checkedalldraftRates) {
               let data = alltableOption.row(i).data();
               let node = alltableOption.row(i).node();
-              if (data.PolID && data.PodID && data.ShippingCatID && data.CarrierID && data.EffectiveFrom && data.EffectiveTo) {
+              if (data.PolID && data.PodID && data.ShippingCatID && data.CarrierID && data.EffectiveFrom && data.EffectiveTo && data.Price) {
                 let draftId = node.children[0].children[0].children[0].id;
                 this.publishRates.push(draftId);
                 node.children[0].children[0].children[0].checked = true;
@@ -776,12 +779,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
               }
               else {
                 node.children[0].children[0].children[0].checked = false;
-                node.children[0].children[0].children[0].setAttribute("disabled", true)
+                // node.children[0].children[0].children[0].setAttribute("disabled", true)
               }
-            } else {
-              let node = alltableOption.row(i).node();
-              node.children[0].children[0].children[0].checked = false;
-              node.children[0].children[0].children[0].removeAttribute("disabled")
             }
           }
           if (i == cols.length && !this.checkedalldraftRates) {
@@ -1381,7 +1380,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         {
           title: 'RATE / CBM',
           data: function (data) {
-            return (Number(data.price)).toLocaleString('en-US', {
+            return (Number(data.Price)).toLocaleString('en-US', {
               style: 'currency',
               currency: data.currencyCode,
             });
@@ -1939,7 +1938,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       }
     }, 0);
   }
-  rateValidity(){
+  rateValidity() {
     const modalRef = this.modalService.open(RateValidityComponent, {
       size: 'lg',
       centered: true,
