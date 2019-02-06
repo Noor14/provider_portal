@@ -736,7 +736,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
           let node = this.node();
           let data = this.data();
-          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.CarrierID || !data.EffectiveFrom || !data.EffectiveTo || !data.Price) {
+          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.CarrierID || !data.containerSpecID || !data.EffectiveFrom || !data.EffectiveTo || !data.Price) {
             node.children[0].children[0].children[0].setAttribute("disabled", true)
           }
         });
@@ -771,7 +771,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             if (this.checkedalldraftRates) {
               let data = alltableOption.row(i).data();
               let node = alltableOption.row(i).node();
-              if (data.PolID && data.PodID && data.ShippingCatID && data.CarrierID && data.EffectiveFrom && data.EffectiveTo && data.Price) {
+              if (data.PolID && data.PodID && data.ShippingCatID && data.CarrierID && data.EffectiveFrom && data.EffectiveTo && data.Price && data.containerSpecID) {
                 let draftId = node.children[0].children[0].children[0].id;
                 this.publishRates.push(draftId);
                 node.children[0].children[0].children[0].checked = true;
