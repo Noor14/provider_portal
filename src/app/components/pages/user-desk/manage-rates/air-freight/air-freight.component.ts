@@ -545,7 +545,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           }
           if (i == cols.length && !this.checkedalldraftRates) {
             this.publishRates = [];
-            this.selectedItem('remove', alltableOption);
+            // this.selectedItem('remove', alltableOption);
           }
         });
 
