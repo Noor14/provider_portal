@@ -1256,12 +1256,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
               }
             }
             if (subTotalIMP === 0) {
-              subTotalIMP = 'N/A'
-              data.currencyCode = ''
+              return "<span>-- Select --</span>"
             }
-            return '<div class="text-center">' + data.currencyCode + ' ' + subTotalIMP + '</div>';
-          },
-          className: 'routeCell'
+            return data.currencyCode + ' ' + subTotalIMP ;
+          }
         },
         {
           title: 'Export Charges',
@@ -1284,12 +1282,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
               }
             }
             if (subTotalExp === 0) {
-              subTotalExp = 'N/A'
-              data.currencyCode = ''
+              return "<span>-- Select --</span>"
             }
-            return '<div class="text-center">' + data.currencyCode + ' ' + subTotalExp + '</div>';
-          },
-          className: 'routeCell'
+            return data.currencyCode + ' ' + subTotalExp;
+          }
         },
         {
           title: '',
@@ -1349,7 +1345,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           orderable: false,
         },
         {
-          targets: -2,
+          targets: -4,
           width: '200',
         },
         {
@@ -1395,7 +1391,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         {
           title: 'RATE / CBM',
           data: function (data) {
-            return (Number(data.Price)).toLocaleString('en-US', {
+            return (Number(data.price)).toLocaleString('en-US', {
               style: 'currency',
               currency: data.currencyCode,
             });
