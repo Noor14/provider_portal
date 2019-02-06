@@ -16,6 +16,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateFRParserFormatter } from "../../../constants/ngb-date-parser-formatter";
 import { SeaFreightService } from '../../../components/pages/user-desk/manage-rates/sea-freight/sea-freight.service';
+import { cloneObject } from '../../../components/pages/user-desk/reports/reports.component';
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
   one && two && two.year === one.year && two.month === one.month && two.day === one.day;
@@ -259,7 +260,6 @@ export class SeaRateDialogComponent implements OnInit {
       effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
     }
     ]
-
     this._seaFreightService.saveDraftRateLCL(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success("Rates added successfully", "");
@@ -345,6 +345,8 @@ export class SeaRateDialogComponent implements OnInit {
           this.addRow();
           this.selectedOrigins = [{}]
           this.selectedDestinations = [{}]
+          this.destinationsList = this.selectedData.addList
+          this.originsList = this.selectedData.addList
         }
       }
     });
@@ -469,40 +471,45 @@ export class SeaRateDialogComponent implements OnInit {
     );
   currencyFormatter = (x) => x.CurrencyCode;
 
+  public priceOrigin = ''
+  public priceDestination = ''
   public selectedOrigins: any = [{}];
   public selectedDestinations: any = [{}];
   selectCharges(type, model, index) {
     model.CurrId = this.selectedCurrency.CurrencyID
     model.Imp_Exp = type;
+
     if (type === 'EXPORT') {
-      this.selectedOrigins.forEach(element => {
+      const { selectedOrigins } = this
+      selectedOrigins.forEach(element => {
         if ((Object.keys(element).length === 0 && element.constructor === Object)) {
-          let idx = this.selectedOrigins.indexOf(element)
-          this.selectedOrigins.splice(idx, 1)
+          let idx = selectedOrigins.indexOf(element)
+          selectedOrigins.splice(idx, 1)
         }
       });
-      if (this.selectedOrigins[index]) {
-        this.originsList.push(this.selectedOrigins[index])
-        this.selectedOrigins[index] = model;
+      if (selectedOrigins[index]) {
+        this.originsList.push(selectedOrigins[index])
+        selectedOrigins[index] = model;
       } else {
-        this.selectedOrigins.push(model)
+        selectedOrigins.push(model)
       }
+      this.selectedOrigins = cloneObject(selectedOrigins)
       this.originsList = this.originsList.filter(e => e.addChrID !== model.addChrID)
     } else if (type === 'IMPORT') {
-      this.selectedDestinations.forEach(element => {
+      const { selectedDestinations } = this
+      selectedDestinations.forEach(element => {
         if ((Object.keys(element).length === 0 && element.constructor === Object)) {
-          let idx = this.selectedDestinations.indexOf(element)
-          this.selectedDestinations.splice(idx, 1)
+          let idx = selectedDestinations.indexOf(element)
+          selectedDestinations.splice(idx, 1)
         }
       });
-      if (this.selectedDestinations[index]) {
-        this.destinationsList.push(this.selectedDestinations[index])
-        this.selectedDestinations[index] = model;
+      if (selectedDestinations[index]) {
+        this.destinationsList.push(selectedDestinations[index])
+        selectedDestinations[index] = model;
       } else {
-        this.selectedDestinations.push(model)
+        selectedDestinations.push(model)
       }
-      console.log(this.destinationsList);
-
+      this.selectedDestinations = cloneObject(selectedDestinations)
       this.destinationsList = this.destinationsList.filter(e => e.addChrID !== model.addChrID)
     }
   }

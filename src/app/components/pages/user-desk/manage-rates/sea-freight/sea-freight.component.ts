@@ -418,11 +418,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
               }
             }
             if (subTotalIMP === 0) {
-              subTotalIMP = 'N/A'
+              subTotalIMP = 'N/A';
+              data.CurrencyCode = '';
+              return "<span>-- Select --</span>"
             }
-            return '<div class="text-center">' + data.CurrencyCode + ' ' + subTotalIMP + '</div>';
-          },
-          className: 'routeCell'
+            return data.CurrencyCode + ' ' + subTotalIMP;
+          }
         },
         {
           title: 'Export Charges',
@@ -445,11 +446,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
               }
             }
             if (subTotalExp === 0) {
-              subTotalExp = 'N/A'
+                subTotalExp = 'N/A';
+                data.CurrencyCode = '';
+              return "<span>-- Select --</span>"
             }
-            return '<div class="text-center">' + data.CurrencyCode + ' ' + subTotalExp + '</div>';
-          },
-          className: 'routeCell'
+            return  data.CurrencyCode + ' ' + subTotalExp;
+          }
         },
         {
           title: '',
@@ -506,7 +508,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           orderable: false,
         },
         {
-          targets: -2,
+          targets: -4,
           width: '200',
         },
         {
@@ -888,6 +890,18 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     }
   }
   setAddDraftData(data) {
+
+    data.forEach(element => {
+      if (element.JsonSurchargeDet) {
+        let importCharges = []
+        let exportCharges = []
+        let parsedJsonSurchargeDet = JSON.parse(element.JsonSurchargeDet)
+        importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT');
+        exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT');
+        element.parsedJsonSurchargeDet = importCharges.concat(exportCharges)
+      }
+    });
+
     for (var index = 0; index < this.draftsfcl.length; index++) {
       for (let i = 0; i < data.length; i++) {
         if (this.draftsfcl[index].ProviderPricingDraftID == data[i].providerPricingDraftID) {
@@ -910,6 +924,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           this.draftsfcl[index].PolName = data[i].polName;
           this.draftsfcl[index].PodID = data[i].podID;
           this.draftsfcl[index].PolID = data[i].polID;
+          this.draftsfcl[index].JsonSurchargeDet = JSON.stringify(data[i].parsedJsonSurchargeDet)
         }
       }
     }
@@ -1866,11 +1881,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       if (result == "Success") {
         for (let index = 0; index < this.draftsfcl.length; index++) {
           if (this.draftsfcl[index].ProviderPricingDraftID == id) {
-            if (this.allSeaDraftRatesByFCL && this.allSeaDraftRatesByFCL.length && this.allSeaDraftRatesByFCL[index].ID == id) {
-              this.allSeaDraftRatesByFCL.splice(index, 1);
-            }
             this.draftsfcl.splice(index, 1);
-            this.draftDataBYSeaFCL = this.draftsfcl
             this.generateDraftTable();
             this.publishRates = [];
             break;
@@ -1906,11 +1917,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       if (result == "Success") {
         for (let index = 0; index < this.draftslcl.length; index++) {
           if (this.draftslcl[index].ConsolidatorPricingDraftID == id) {
-            if (this.allSeaDraftRatesByLCL && this.allSeaDraftRatesByLCL.length && this.allSeaDraftRatesByLCL[index].ID == id) {
-              this.allSeaDraftRatesByLCL.splice(index, 1);
-            }
             this.draftslcl.splice(index, 1);
-            this.draftDataBYSeaLCL = this.draftslcl
             this.generateDraftTableLCL();
             this.publishRatesLCL = [];
             break;
