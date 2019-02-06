@@ -520,23 +520,23 @@ export class BillingComponent implements OnInit, OnDestroy {
       + "&cms_with_version=API"
     console.log(formdata, typeof formdata);
     // var str = "Hello竜";
-    var bytes = []; // char codes
-    var bytesv2 = []; // char codes
+    // var bytes = []; // char codes
+    // var bytesv2 = []; // char codes
 
-    for (var i = 0; i < formdata.length; ++i) {
-      var code = formdata.charCodeAt(i);
+    // for (var i = 0; i < formdata.length; ++i) {
+    //   var code = formdata.charCodeAt(i);
 
-      bytes = bytes.concat([code]);
+    //   bytes = bytes.concat([code]);
 
-      bytesv2 = bytesv2.concat([code & 0xff, code / 256 >>> 0]);
-    }
+    //   bytesv2 = bytesv2.concat([code & 0xff, code / 256 >>> 0]);
+    // }
 
     // 72, 101, 108, 108, 111, 31452
     // console.log('bytes', bytes.join(', '));
 
     // 72, 0, 101, 0, 108, 0, 108, 0, 111, 0, 220, 122
-    console.log('bytesv2', bytesv2.join(', '));
-    this._billingService.makePayment(bytesv2).subscribe((res: any) => {
+    // console.log('bytesv2', bytesv2.join(', '));
+    this._billingService.makePayment(formdata).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         console.log(res)
       }
