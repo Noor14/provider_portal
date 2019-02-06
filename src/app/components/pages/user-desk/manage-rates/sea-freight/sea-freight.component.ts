@@ -670,8 +670,14 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       if (this.tabledraftBySeaLCL && this.tabledraftBySeaLCL.nativeElement) {
         this.dataTabledraftByseaLCL = $(this.tabledraftBySeaLCL.nativeElement);
         let alltableOption = this.dataTabledraftByseaLCL.DataTable(this.dtOptionsBySeaLCLDraft);
+        alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+          let node = this.node();
+          let data = this.data();
+          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.Price || !data.EffectiveFrom || !data.EffectiveTo) {
+            node.children[0].children[0].children[0].setAttribute("disabled", true)
+          }
+        });
         this.draftloadingLCL = false;
-
         $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
           event.stopPropagation();
           let delId = (<HTMLElement>event.target).id;
@@ -697,8 +703,17 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           for (var i = 0; i < cols.length; i += 1) {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedalldraftRatesLCL;
             if (this.checkedalldraftRatesLCL) {
-              this.publishRatesLCL.push(cols[i].querySelector("input[type='checkbox']").id);
-              this.selectedItem('add', alltableOption)
+              let data = alltableOption.row(i).data();
+              let node = alltableOption.row(i).node();
+              if (data.PolID && data.PodID && data.ShippingCatID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
+                let draftId = node.children[0].children[0].children[0].id;
+                this.publishRates.push(draftId);
+                node.children[0].children[0].children[0].checked = true;
+                node.classList.add('selected');
+              }
+              else {
+                node.children[0].children[0].children[0].checked = false;
+              }
             }
           }
           if (i == cols.length && !this.checkedalldraftRatesLCL) {
@@ -736,7 +751,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
           let node = this.node();
           let data = this.data();
-          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.CarrierID || !data.containerSpecID || !data.EffectiveFrom || !data.EffectiveTo || !data.Price || !data.ContainerSpecID) {
+          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.CarrierID || !data.EffectiveFrom || !data.EffectiveTo || !data.Price || !data.ContainerSpecID) {
             node.children[0].children[0].children[0].setAttribute("disabled", true)
           }
         });
@@ -1524,7 +1539,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           if (i == cols.length && !this.checkedallpublishRates) {
             this.delPublishRates = [];
             this.selectedItem('remove', alltableOption)
-
           }
 
         });
