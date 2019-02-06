@@ -110,7 +110,6 @@ $left-nav-icon-height: 20px;
       .nav {
         li {
           width: 100%;
-          flex: unset;
         }
       }
     }
@@ -183,7 +182,7 @@ $left-nav-icon-height: 20px;
       }
     }
 
-    @media only screen and (max-width: $screen-fourteen-hundred) {
+    @media only screen and (max-width: 1285px) {
       .card {
         &.pointer {
           min-height: 145px;
@@ -292,6 +291,7 @@ $left-nav-icon-height: 20px;
       &.no-drop {
         filter: grayscale(1);
         opacity: 0.5;
+        cursor: no-drop;
       }
     }
     a.addAnother {

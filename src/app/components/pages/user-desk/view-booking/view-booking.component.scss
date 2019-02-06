@@ -551,6 +551,14 @@
 
   ngb-popover-window {
     width: 20rem;
+    border: none;
+    top: 110px !important;
+
+    .arrow {
+      &:after, &:before {
+        border-bottom-color: $white-color;
+      }
+    }
 
     .popover {
       border: 0;
@@ -558,7 +566,7 @@
       &-body {
         background: $white-color;
         box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.2);
-        height: 120px;
+        // height: 120px;
         display: flex;
         justify-content: center;
         align-items: center;
