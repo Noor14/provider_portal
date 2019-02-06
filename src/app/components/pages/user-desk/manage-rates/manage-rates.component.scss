@@ -291,6 +291,7 @@ $left-nav-icon-height: 20px;
       &.no-drop {
         filter: grayscale(1);
         opacity: 0.5;
+        cursor: no-drop;
       }
     }
     a.addAnother {
