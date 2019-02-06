@@ -707,7 +707,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
               let node = alltableOption.row(i).node();
               if (data.PolID && data.PodID && data.ShippingCatID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
                 let draftId = node.children[0].children[0].children[0].id;
-                this.publishRates.push(draftId);
+                this.publishRatesLCL.push(draftId);
                 node.children[0].children[0].children[0].checked = true;
                 node.classList.add('selected');
               }
