@@ -21,6 +21,8 @@ import { BookingStatusUpdationComponent } from '../../shared/dialogues/booking-s
 import { AirRateDialogComponent } from '../../shared/dialogues/air-rate-dialog/air-rate-dialog.component';
 import { GroundRateDialogComponent } from '../../shared/dialogues/ground-rate-dialog/ground-rate-dialog.component';
 import { TruncatePipe } from '../../constants/truncateFilter';
+import { RateHistoryComponent } from '../../shared/dialogues/rate-history/rate-history.component';
+import { RateValidityComponent } from '../../shared/dialogues/rate-validity/rate-validity.component';
  
 @NgModule({
   imports: [
@@ -47,6 +49,8 @@ import { TruncatePipe } from '../../constants/truncateFilter';
     BookingStatusUpdationComponent,
     AirRateDialogComponent,
     GroundRateDialogComponent,
+    RateHistoryComponent,
+    RateValidityComponent,
     TruncatePipe
     // CancelBookingDialogComponent,
     // ConfirmModifySearchComponent,
@@ -66,7 +70,9 @@ import { TruncatePipe } from '../../constants/truncateFilter';
     SeaRateDialogComponent,
     BookingStatusUpdationComponent,
     AirRateDialogComponent,
-    GroundRateDialogComponent
+    GroundRateDialogComponent,
+    RateHistoryComponent,
+    RateValidityComponent
  
   ],
   providers: [
