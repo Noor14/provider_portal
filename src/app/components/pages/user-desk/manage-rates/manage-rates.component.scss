@@ -296,9 +296,9 @@ $left-nav-icon-height: 20px;
       font-size: $font-size-medium;
       color: $danger-color;
       font-weight: $font-weight-mid;
-      line-height: 1;
       display: flex;
-      align-items: end;
+      align-items: center;
+      transition: 0.8s;
 
       img {
         margin-right: 5px;
