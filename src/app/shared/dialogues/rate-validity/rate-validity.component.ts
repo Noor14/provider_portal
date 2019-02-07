@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Renderer2, ViewEncapsulation } from '@angular/core';
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import {
   NgbDatepicker,
   NgbInputDatepicker,
@@ -9,6 +10,7 @@ import {
   NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateFRParserFormatter } from '../../../constants/ngb-date-parser-formatter';
+import { PlatformLocation } from '@angular/common';
 
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -25,11 +27,14 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 @Component({
   selector: 'app-rate-validity',
   templateUrl: './rate-validity.component.html',
+  encapsulation: ViewEncapsulation.None,
   providers: [{ provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }],
   styleUrls: ['./rate-validity.component.scss']
 })
 export class RateValidityComponent implements OnInit {
 
+  @ViewChild("dp") input: NgbInputDatepicker;
+  @ViewChild('rangeDp') rangeDp: ElementRef;
   public startDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
   public minDate: NgbDateStruct;
@@ -47,9 +52,48 @@ export class RateValidityComponent implements OnInit {
   isFrom = date => equals(date, this.fromDate);
   isTo = date => equals(date, this.toDate);
 
-  constructor(calendar: NgbCalendar) { }
+  constructor(
+    calendar: NgbCalendar,
+    private location: PlatformLocation,
+    private _activeModal: NgbActiveModal,
+    private _parserFormatter: NgbDateParserFormatter,
+    private renderer: Renderer2,
+
+    ) { }
 
   ngOnInit() {
   }
 
+  onDateSelection(date: NgbDateStruct) {
+    let parsed = '';
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && after(date, this.fromDate)) {
+      this.toDate = date;
+      // this.model = `${this.fromDate.year} - ${this.toDate.year}`;
+
+      this.input.close();
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+    if (this.fromDate) {
+      parsed += this._parserFormatter.format(this.fromDate);
+    }
+    if (this.toDate) {
+      parsed += ' - ' + this._parserFormatter.format(this.toDate);
+    }
+
+    this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
+  }
+  closePopup() {
+    let object = {
+      data: []
+    };
+    this.closeModal(object);
+  }
+  closeModal(status) {
+    this._activeModal.close(status);
+    document.getElementsByTagName('html')[0].style.overflowY = 'auto';
+  }
 }
