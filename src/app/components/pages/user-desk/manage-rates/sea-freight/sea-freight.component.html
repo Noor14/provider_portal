@@ -450,7 +450,7 @@
           <div class="d-flex justify-content-end mb-3">
             <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity()" [ngClass]="{ 'no-drop': !delPublishRates.length }">
               <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" />
-              Edit Rate Validity
+              {{rateValidityTextFCL}}
             </a>
             <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('FCL')" [ngClass]="{ 'no-drop': !delPublishRates.length }">
               <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16" />
@@ -493,147 +493,54 @@
 
 
 <!-- Button trigger modal -->
-<!-- <ng-template #content let-modal class="shipping-modal">
+<!-- 
+<ng-template #content let-modal class="shipping-modal">
   <div class="modal-header">
-      <div class="modal-header-text">
-          <h4 class="modal-title text-center">Upload your rates</h4>
-          <p class="text-center"> Upload your FCL and LCL rates if you already have it</p>
-          <a class="pull-right hvr-icon-forward" href="javascript:;">
-              <img src="../../../assets/images/icons/icon_billing_blue.svg">
-              <span class="link-hover-secondary ">Download our preferred format</span>
-              <i class="fa fa-angle-right hvr-icon"></i>
-          </a>
-      </div>
-      <button type="button" class="close" aria-label="Close" (click)="closeModal(1)">
-          <span aria-hidden="true">&times;</span>
-      </button>
+    <div class="modal-header-text">
+      <h4 class="modal-title text-center">Upload your rates</h4>
+      <p class="text-center"> Upload your FCL and LCL rates if you already have it</p>
+      <a class="pull-right hvr-icon-forward" href="javascript:;">
+        <img src="../../../assets/images/icons/icon_billing_blue.svg">
+        <span class="link-hover-secondary ">Download our preferred format</span>
+        <i class="fa fa-angle-right hvr-icon"></i>
+      </a>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal(1)">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
 
   <div class="modal-body p-0">
 
-      <div class="documentInfo d-flex flex-column">
-          <div class="file-uploader">
-              <app-ng-files-drag-n-upload>
-                  <img src="../../../assets/images/icons/manager-icon.png">
-                  <p class="m-0 pt-3"> Drag here or
-                      <span class="browse-span">browse</span> to upload</p>
-                  <small class="drag-support"> (supported types: pdf, jpeg, png, Maximum size per document: 4 MB) </small>
-              </app-ng-files-drag-n-upload>
-          </div>
-          <div class="uploaded-file">
-              <div class="fileDesc p-3">
-                  <a [href]="" target="_blank">
-                      <img src="../../../../../../assets/images/icons/icon_docx.svg" alt="img" class="fileIcon mr-3">
-                      <span>setup_price.jpg</span>
-                      <img src="../../../../../../assets/images/icons/icon_delete -grey.svg" alt="del" class="icon-size-16 pointer pull-right mt-2">
-
-                  </a>
-              </div>
-          </div>
+    <div class="documentInfo d-flex flex-column">
+      <div class="file-uploader">
+        <app-ng-files-drag-n-upload>
+          <img src="../../../assets/images/icons/manager-icon.png">
+          <p class="m-0 pt-3"> Drag here or
+            <span class="browse-span">browse</span> to upload</p>
+          <small class="drag-support"> (supported types: pdf, jpeg, png, Maximum size per document: 4 MB) </small>
+        </app-ng-files-drag-n-upload>
       </div>
+      <div class="uploaded-file">
+        <div class="fileDesc p-3">
+          <a [href]="" target="_blank">
+            <img src="../../../../../../assets/images/icons/icon_docx.svg" alt="img" class="fileIcon mr-3">
+            <span>setup_price.jpg</span>
+            <img src="../../../../../../assets/images/icons/icon_delete -grey.svg" alt="del" class="icon-size-16 pointer pull-right mt-2">
+
+          </a>
+        </div>
+      </div>
+    </div>
 
   </div>
   <div class="modal-footer justify-content-center pb-4">
-      <button class="btn btn-primary hvr-sweep-to-right">Upload</button>
+    <button class="btn btn-primary hvr-sweep-to-right">Upload</button>
   </div>
 </ng-template>
 
-<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Upload Rates</button>
 
 
-
-
-<ng-template #content2 let-modal>
-
-  <div class="modal-header">
-      <h4>Rate History</h4>
-      <button type="button" class="close" aria-label="Close" (click)="closeModal(2)">
-          <span aria-hidden="true">&times;</span>
-      </button>
-  </div>
-
-  <div class="modal-body rate-history pt-0">
-      <div class="row">
-          <div class="col-6">
-              <div class="ports">
-                  <small class="d-block pt-2">From</small>
-                  <img alt="flag icon" src="../../../assets/images/flags/1x1/ae.svg">
-                  <label class="ports-text">AE JEA</label>
-                  <span class=" d-block mb-2 ">Port of Jebel Ali, Dubai</span>
-              </div>
-          </div>
-
-          <div class="col-6">
-              <div class="ports">
-                  <small class="d-block pt-2">To</small>
-                  <img alt="flag icon" src="../../../assets/images/flags/1x1/ae.svg">
-                  <label class="ports-text ">GB FXT</label>
-                  <span class=" d-block mb-2">Port of Felixstowe,UK</span>
-              </div>
-
-          </div>
-
-          <div class="col-6 ">
-              <div class="ports">
-                  <small class="d-block pt-4">shipping lines</small>
-                  <img alt="flag icon" src="../../../assets/images/flags/1x1/ae.svg">
-                  <label class=" ports-text">Maersk</label>
-              </div>
-          </div>
-
-
-          <div class="col-6 ">
-              <div class="ports">
-                  <small class="d-block pt-4">customer</small>
-                  <img alt="flag icon" src="../../../assets/images/flags/1x1/ae.svg">
-                  <label class="ports-text ">Texpo LLC</label>
-              </div>
-          </div>
-
-          <div class="col-6 ">
-              <div class="ports">
-                  <small class="d-block pt-4">container</small>
-                  <label class="ports-text pb-2">20 Standard</label>
-              </div>
-          </div>
-
-          <div class="col-6">
-              <div class="ports">
-                  <small class="d-block pt-4">cargo type</small>
-                  <label class="ports-text pb-2">Goods</label>
-              </div>
-          </div>
-      </div>
-  </div>
-
-  <ul class="list-group">
-
-      <li class="list-group-item">
-          <label class="mb-0 ">Rate Validity updated by John Doe</label>
-          <label class="ports-text d-block font-semibold">13 Dec 2018 - 12 Jan, 2019</label>
-          <small class=" mb-2 d-block">on 13 dec 2018 - 11:30 from Dubai,UAE</small>
-
-      </li>
-
-      <li class="list-group-item">
-
-          <label class="mb-0">Rate Validity updated by John Doe</label>
-          <label class="ports-text d-block">13 Dec 2018 - 12 Jan, 2019</label>
-          <small class=" mb-2 d-block">on 13 dec 2018 - 11:30 from Dubai,UAE</small>
-      </li>
-
-
-      <li class="list-group-item">
-
-          <label class="mb-0">Rate Validity updated by John Doe</label>
-          <label class="ports-text d-block">13 Dec 2018 - 12 Jan, 2019</label>
-          <small class=" mb-2 d-block ">on 13 dec 2018 - 11:30 from Dubai,UAE</small>
-      </li>
-
-  </ul>
-
-
-</ng-template>
 <button class="btn btn-lg btn-outline-primary" (click)="open2(content2)">Rate History</button>
 
 

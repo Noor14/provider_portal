@@ -25,6 +25,7 @@ import { ManageRatesService } from '../manage-rates.service';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
+import { RateHistoryComponent } from '../../../../../shared/dialogues/rate-history/rate-history.component';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -77,6 +78,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   @ViewChild('rangeDpLCL') rangeDpLCL: ElementRef;
   // @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
+  public rateValidityTextFCL = "Edit Rate / Validity"
   public activeTab = "activeFCL"
   public dataTablepublishBysea: any;
   public dataTablepublishByseaLcl: any;
@@ -1297,7 +1299,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           title: '',
           data: function (data) {
             let url = '../../../../../../assets/images/icons/menu.svg';
-            return "<img src='" + url + "' class='icon-size-16' />";
+            return "<img id='" + data.carrierPricingID + "' src='" + url + "' class='icon-size-16 pointer' />";
           },
           className: 'moreOption'
         }
@@ -1527,6 +1529,13 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         this.dataTablepublishBysea = $(this.tablepublishBySea.nativeElement);
         let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsBySeaFCL);
         this.publishloading = false;
+        $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
+          event.stopPropagation();
+          let selectedId = (<HTMLElement>event.target).id;
+          if (selectedId) {
+            this.rateHistory(selectedId, 'RateFCL')
+          }
+        });
         $("#selectallpublishRates").click(() => {
           this.delPublishRates = [];
           var cols = alltableOption.column(0).nodes();
@@ -1535,12 +1544,15 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
             if (this.checkedallpublishRates) {
               this.delPublishRates.push(cols[i].querySelector("input[type='checkbox']").id);
-              this.selectedItem('add', alltableOption)
+              this.selectedItem('add', alltableOption);
+              this.rateValidityTextFCL = "Edit Validity"
+
             }
           }
           if (i == cols.length && !this.checkedallpublishRates) {
             this.delPublishRates = [];
-            this.selectedItem('remove', alltableOption)
+            this.selectedItem('remove', alltableOption);
+            this.rateValidityTextFCL = "Edit Rate / Validity"
           }
 
         });
@@ -1553,10 +1565,19 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             selection.classList.remove('selected');
           } else {
             selection.classList.add('selected');
-            this.delPublishRates.push((<HTMLInputElement>event.target).id)
+            this.delPublishRates.push((<HTMLInputElement>event.target).id);
+          }
+          if (this.delPublishRates && this.delPublishRates.length > 1) {
+            this.rateValidityTextFCL = "Edit Validity";
+          }
+          else {
+            this.rateValidityTextFCL = "Edit Rate / Validity";
           }
 
         });
+
+
+   
       }
     }, 0);
   }
@@ -1953,6 +1974,34 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       }
     }, 0);
   }
+
+
+  rateHistory(recId, fortype) {
+    const modalRef = this.modalService.open(RateHistoryComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+
+    let obj = {
+      data: recId,
+      type: fortype
+    }
+    modalRef.componentInstance.deleteIds = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
+
+
+  
+
+
+
   saveTermNcond(type) {
     let obj = {
       providerID: this.userProfile.ProviderID,
