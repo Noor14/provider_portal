@@ -642,7 +642,7 @@ $left-nav-icon-height: 20px;
       color: $color-topmenu;
       font-size: $font-size-medium;
       height: 300px;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
   }
 }
