@@ -507,7 +507,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         paginate: {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
-        }
+        },
+        // emptyTable: "No data available in table"
       },
       fixedColumns: {
         leftColumns: 0,
@@ -652,7 +653,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         paginate: {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
-        }
+        },
+        // emptyTable: "No data available in table"
       },
       fixedColumns: {
         leftColumns: 0,
@@ -1331,7 +1333,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         paginate: {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
-        }
+        },
+        // emptyTable: "No data available in table"
       },
       fixedColumns: {
         leftColumns: 0,
@@ -1447,7 +1450,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         paginate: {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
-        }
+        },
+        // emptyTable: "No data available in table"
       },
       fixedColumns: {
         leftColumns: 0,
