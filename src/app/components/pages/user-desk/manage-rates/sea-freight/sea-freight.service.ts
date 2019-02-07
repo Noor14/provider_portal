@@ -75,4 +75,10 @@ export class SeaFreightService {
   }
 
 
+  getRecHistory(CreatedBy, ObjectName, recId){
+    let url: string = `audittrail/GetAuditTrail/${CreatedBy}/${ObjectName}/${recId}`;
+    return this._http.get(baseApi + url);
+  }
+
+
 }

@@ -1980,16 +1980,16 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(RateHistoryComponent, {
       size: 'lg',
       centered: true,
-      windowClass: 'small-modal',
+      windowClass: 'upper-medium-modal',
       backdrop: 'static',
       keyboard: false
     });
 
     let obj = {
-      data: recId,
+      id: recId,
       type: fortype
     }
-    modalRef.componentInstance.deleteIds = obj;
+    modalRef.componentInstance.getRecord = obj;
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
