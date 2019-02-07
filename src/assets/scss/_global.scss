@@ -28,7 +28,12 @@ body {
       margin: auto;
     }
   }
-
+  .upper-medium-modal{
+    .modal-dialog {
+      max-width: 600px !important;
+      margin: auto;
+    }
+  }
   .large-modal {
     .modal-dialog {
       max-width: 1070px;

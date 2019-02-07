@@ -1975,7 +1975,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(RateValidityComponent, {
       size: 'lg',
       centered: true,
-      windowClass: 'medium-modal',
+      windowClass: 'upper-medium-modal',
       backdrop: 'static',
       keyboard: false
     });
