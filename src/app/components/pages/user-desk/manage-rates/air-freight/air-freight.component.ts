@@ -61,6 +61,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
 
   private draftRates: any;
   private addnsaveRates: any;
+  private updatedDraftsAirArray:any;
   
   public dtOptionsByAir: DataTables.Settings | any = {};
   public dtOptionsByAirDraft: DataTables.Settings | any = {};
@@ -107,10 +108,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   public checkedallpublishRates: boolean = false;
   public checkedalldraftRates: boolean = false;
   // term and condition
-  public policyForm : any;
-  public termNcondError: boolean;
-  public disable: boolean;
-  public termNCond:any
 
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
@@ -119,9 +116,8 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   isTo = date => equals(date, this.toDate);
 
 
-
-  public editor;
-  public editorContent = `<h3>I am Example content</h3>`;
+  public disable: boolean;
+  public editorContent :any;
   public editorOptions = {
     placeholder: "insert content..."
   };
@@ -145,10 +141,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
 
-    this.policyForm = new FormGroup({
-      termNcond: new FormControl(null, [Validators.required, Validators.maxLength(5000)]),
-    });
-
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
@@ -161,33 +153,30 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     })
     this._sharedService.termNcondAir.subscribe(state => {
       if (state) {
-        this.policyForm.controls['termNcond'].setValue(state);
+        this.editorContent = state;
       }
     })
   }
 
 
   onEditorBlured(quill) {
-    console.log('editor blur!', quill);
   }
 
   onEditorFocused(quill) {
-    console.log('editor focus!', quill);
   }
 
   onEditorCreated(quill) {
-    this.editor = quill;
-    console.log('quill is ready! this is current quill instance object', quill);
   }
 
   onContentChanged({ quill, html, text }) {
-    console.log('quill content is changed!', quill, html, text);
+    this.editorContent = html
   }
 
 
   ngOnDestroy() {
     this.draftRates.unsubscribe();
     this.addnsaveRates.unsubscribe();
+    this.updatedDraftsAirArray.unsubscribe()
   }
 
   clearFilter(event) {
@@ -234,6 +223,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     if (type == 'openPopup') {
     this.updatePopupRates(obj.CarrierPricingSetID);
   }
+    this._sharedService.updatedDraftsAir.next(this.draftslist)
     this.generateDraftTable();
   }
   
@@ -696,18 +686,25 @@ export class AirFreightComponent implements OnInit, OnDestroy {
             this.allPorts = state[index].DropDownValues.AirPort;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if(state[index].TCAIR){
-            this.policyForm.controls['termNcond'].setValue(state[index].TCAIR);
-            this.disable = true;
+              this.editorContent = state[index].TCAIR;
+              this.disable = true;
             }
-            if (state[index].DraftDataAir && state[index].DraftDataAir.length) {
-              state[index].DraftDataAir.map(elem => {
-                if (typeof elem.slab == "string") {
-                elem.slab = JSON.parse(elem.slab)
+            this.updatedDraftsAirArray = this._sharedService.updatedDraftsAir.subscribe((res:any)=>{
+              if (!res){
+                if (state[index].DraftDataAir && state[index].DraftDataAir.length) {
+                  state[index].DraftDataAir.map(elem => {
+                    if (typeof elem.slab == "string") {
+                      elem.slab = JSON.parse(elem.slab)
+                    }
+                  });
+                  this.allDraftRatesByAIR = state[index].DraftDataAir;
+                  this.draftslist = this.allDraftRatesByAIR;
+                }
               }
-              });
-              this.allDraftRatesByAIR = state[index].DraftDataAir;
-              this.draftslist = this.allDraftRatesByAIR;
-            }
+              else if (res && res.length){
+                this.draftslist = res;
+              }
+            })
             this.generateDraftTable();
             this.draftloading = true;
           }
@@ -1042,6 +1039,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         this.allDraftRatesByAIR = [];
         this.draftDataBYAIR = [];
         this.publishRates = [];
+        this._sharedService.updatedDraftsAir.next(this.draftslist)
         this.generateDraftTable();
       }
     }, (reason) => {
@@ -1150,15 +1148,22 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     modalRef.result.then((result) => {
       if (result == "Success") {
         for (let index = 0; index < this.draftslist.length; index++) {
-       
           if (this.draftslist[index].CarrierPricingSetID == id) {
             if (this.allDraftRatesByAIR && this.allDraftRatesByAIR.length && this.allDraftRatesByAIR[index].CarrierPricingSetID == id) {
               this.allDraftRatesByAIR.splice(index, 1);
+              let ind = this.draftslist.findIndex(obj => obj.CarrierPricingSetID == id);
+              if(ind >=0){
+                this.draftslist.splice(ind, 1);
+              }
+             }
+             else{
+              this.draftslist.splice(index, 1);
             }
-            this.draftslist.splice(index, 1);
+            // this.draftslist.splice(index, 1);
             this.draftDataBYAIR = this.draftslist;
             this.generateDraftTable();
             this.publishRates = [];
+            this._sharedService.updatedDraftsAir.next(this.draftslist)
             break;
           }
         }
@@ -1181,14 +1186,14 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   saveTermNcond() {
     let obj = {
       providerID: this.userProfile.ProviderID,
-      termsAndConditions: this.policyForm.value.termNcond,
+      termsAndConditions: this.editorContent,
       transportType: "AIR",
       modifiedBy: this.userProfile.LoginID
     }
     this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success("Term and Condition saved Successfully", "");
-        this._sharedService.termNcondAir.next(this.policyForm.value.termNcond);
+        this._sharedService.termNcondAir.next(this.editorContent);
         this.disable = true;
       }
     })
