@@ -8,22 +8,21 @@
   <div class="modal-body">
     <div class="form-group date-control">
       <div class="dateIcon mb-2">
-          <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date"
-            [(ngModel)]="model" ngbDatepicker #dp="ngbDatepicker" >
-        </div>
-    <ngb-datepicker [maxDate]="maxDate" [minDate]="minDate" [navigation]="false"
-      [displayMonths]="2" [dayTemplate]="t"
-          outsideDays="true">
-        </ngb-datepicker>
-        <ng-template #t let-date="date" let-focused="focused">
-          <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
-            [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date"
-            (mouseleave)="hoveredDate = null">
-            {{ date.day }}
-          </span>
-        </ng-template>
+        <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date" [(ngModel)]="model"
+          ngbDatepicker #dp="ngbDatepicker" disabled>
+      </div>
+      <ngb-datepicker [maxDate]="maxDate" [minDate]="minDate" [navigation]="false" [displayMonths]="2" [dayTemplate]="t"
+        outsideDays="true">
+      </ngb-datepicker>
+      <ng-template #t let-date="date" let-focused="focused">
+        <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
+          [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date"
+          (mouseleave)="hoveredDate = null">
+          {{ date.day }}
+        </span>
+      </ng-template>
       <button type="submit" class="btn btn-primary pull-right hvr-sweep-to-right mt-4 mb-4">
-          Update Password
+        Update Validity
       </button>
     </div>
   </div>

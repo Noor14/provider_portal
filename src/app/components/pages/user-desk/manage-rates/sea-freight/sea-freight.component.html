@@ -451,8 +451,8 @@
         </section>
         <section class="rates-grid mt-5 publishRatesFCL" [ngClass]="{'no-data': allRatesList && !allRatesList.length, 'no-scroll-add': allRatesList && allRatesList.length, 'no-pagination': allRatesList && allRatesList.length <= dtOptionsBySeaFCL.pageLength}">
           <div class="d-flex justify-content-end mb-3">
-            <a href="javascript:;" class="grid-delete mr-4" (click)="rateValidity()"> 
-              <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16" />
+            <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity()"> 
+              <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" />
               Edit Rate Validity
             </a>
             <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('FCL')" [ngClass]="{ 'no-drop': !delPublishRates.length }">
