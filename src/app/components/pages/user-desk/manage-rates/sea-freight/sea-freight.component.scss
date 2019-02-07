@@ -1,1 +1,229 @@
 @import '../manage-rates.component.scss'; 
+
+
+
+//--modal css
+// .shipping-modal {
+//     .modal-dialog {
+//         max-width: 895px;
+//     }
+// }
+
+// .modal {
+//     &-header {
+//         border-bottom: none;
+//         text-align: center;
+//         a {
+//             color: #02bdb6;
+//             font-weight: 500;
+//             font-size: 0.9rem;
+//         }
+//         &-text {
+//             display: flex;
+//             flex-direction: column;
+//             align-items: center;
+//             width: 100%;
+//             img {
+//                 width: 24px;
+//                 height: 24px;
+//             }
+//         }
+//     }
+//     &-body {
+//         .documentInfo {
+//             align-items: center;
+//             .file-uploader {
+//                 width: 662px;
+//                 height: 145px;
+//                 border: 1px dashed #e1d8d8;
+//                 border-radius: 4px;
+//                 .drag-support {
+//                     color: $text-grey;
+//                     font-size: $font-size-medium;
+//                     position: relative;
+//                     top: 10px;
+//                 }
+//                 .browse-span {
+//                     color: $secondary-color;
+//                     font-weight: 500;
+//                 }
+//                 text-align: center;
+//                 app-ng-files-drag-n-upload {
+//                     label {
+//                         padding: 1.2rem 1rem;
+//                     }
+//                 }
+//             }
+//             &.removeBorder {
+//                 border: none;
+//             }
+//             .uploaded-file {
+//                 width: 662px;
+//                 border: 1px solid $secondary-color;
+//                 border-radius: 3px;
+//                 margin-top: 1rem;
+//                 .fileDesc {
+//                     a {
+//                         text-decoration: none;
+//                         .fileIcon {
+//                             width: 35px;
+//                             height: 35px;
+//                         }
+//                         span {
+//                             color: $text-color-default;
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     &-footer {
+//         border-top: none;
+//         button {
+//             min-width: 204px;
+//             min-height: 52px;
+//             font-family: $font-proxima;
+//             font-size: $root-font-size;
+//             text-transform: uppercase;
+//         }
+//     }
+// }
+
+
+
+.shipping-modal2 {
+    .modal {
+        &-dialog {
+            max-width: 500px;
+            height: 514px;
+            .modal-header {
+                padding-left: 2rem;
+            }
+            .modal-content {
+                .rate-history {
+                    padding: 0px 2rem 1rem 2rem;
+                    border-bottom: 1px solid $grey-border;
+                    .ports {
+                        font-family: $font-proxima;
+                        font-size: $font-size-base;
+                        max-width: 195px;
+                        width: 100%;
+                        &-text {
+                            font-size: $font-size-large;
+                            color: $text-color-default;
+                            margin-bottom: 0;
+                        }
+                        small {
+                            font-size: $font-size-medium;
+                            color: $color-topmenu;
+                            text-transform: uppercase;
+                            line-height: 1.2;
+                            vertical-align: bottom;
+                            text-align: left;
+                        }
+                        span {
+                            font-size: $font-size-medium;
+                            font-family: $font-proxima;
+                            color: rgb(43, 43, 43);
+                            text-align: left;
+                            margin-left: 1.8rem;
+                        }
+                        img {
+                            width: 20px;
+                            height: 12px;
+                            margin-right: 0.3rem;
+                            margin-bottom: 5px;
+                        }
+                    }
+                }
+                .list-group {
+                    padding-bottom: 0;
+                    padding-left: 4px;
+                    margin-left: 27px; // border-left: 1px solid #ccc;
+                    overflow-y: auto;
+                    height: 220px;
+                    &-item {
+                        padding: 1.2rem 1.5rem 0.2rem 1.5rem;
+                        border-top: 0 !important;
+                        border-right: 0 !important;
+                        border-bottom: 1px solid #e1d8d8 !important;
+                        &:hover {
+                            z-index: 0;
+                        } // border-left: 0 !important;
+                        &::before {
+                            content: "";
+                            height: 8px;
+                            width: 8px;
+                            background: #1caae3;
+                            border-radius: 50%;
+                            position: absolute;
+                            left: -4px;
+                            top: 25px;
+                        }
+                    }
+                }
+                label {
+                    font-size: $font-size-large;
+                    color: $text-color-default;
+                    font-family: $font-proxima;
+                    margin-bottom: 0; // font-weight:$font-proxima-weight-semibold;
+                }
+                small {
+                    font-size: $font-size-medium;
+                    font-family: $font-proxima;
+                    color: $route-arrow-color;
+                }
+            }
+        }
+    }
+}
+
+
+.paid-modal3 {
+    .modal-header {
+        border-bottom: 1px solid #e1d8d8 !important;
+        .text {
+            color: $secondary-color;
+            margin-left: 2rem;
+            text-transform: uppercase;
+            font-family: $font-proxima;
+            font-size: $font-size-base;
+            margin-top: 0.2rem;
+        }
+    }
+    .modal-body {
+        .list-group {
+            padding-bottom: 0;
+            padding-left: 4px;
+            margin-left: 27px; // border-left: 1px solid #ccc;
+            overflow-y: auto;
+            // height: 220px;
+            &-item {
+                padding: 1.1rem 1.5rem 0rem 1.5rem;
+                border: 0px;
+                border-left: 1px solid #e1d8d8 !important;
+                &:hover {
+                    z-index: 0;
+                } // border-left: 0 !important;
+                &::before {
+                    content: "";
+                    height: 8px;
+                    width: 8px;
+                    background: #1caae3;
+                    border-radius: 50%;
+                    position: absolute;
+                    left: -4px;
+                    top: 25px;
+                }
+                small {
+                    font-size: $font-size-medium;
+                    font-family: $font-proxima;
+                    color: $route-arrow-color;
+                }
+                &:last-child {
+                    padding-bottom:1rem;
+                }
+            }
+        }
+    }
+}
