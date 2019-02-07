@@ -15,6 +15,7 @@ import { SeaFreightService } from '../../../components/pages/user-desk/manage-ra
 import { SharedService } from '../../../services/shared.service';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 
 const now = new Date();
@@ -74,7 +75,8 @@ private _activeModal: NgbActiveModal,
 private _parserFormatter: NgbDateParserFormatter,
 private renderer: Renderer2,
 private _seaFreightService: SeaFreightService,
-private _sharedService: SharedService
+private _sharedService: SharedService,
+private _toast: ToastrService
 
 ) { location.onPopState(() => this.closeModal(null)); }
 
@@ -175,6 +177,7 @@ modifiedBy: this.userProfile.LoginID
 
 this._seaFreightService.rateValidityFCL(rateData).subscribe((res:any)=>{
 if (res.returnStatus == "Success") {
+  this._toast.success('Record successfully updated', '')
 this.closeModal(res.returnStatus);
 }
 })
