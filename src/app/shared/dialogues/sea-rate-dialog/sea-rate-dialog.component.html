@@ -179,8 +179,8 @@
             </div>
             <div class="col-6 pl-0">
               <div class="form-group combine-filed-popup-right">
-                <input type="text" maxlength="15" class="form-control" [(ngModel)]="origin.Price"
-                  placeholder="0.00" (keypress)="numberValid($event)">
+                <input type="text" maxlength="15" class="form-control" [(ngModel)]="origin.Price" placeholder="0.00"
+                  (keypress)="numberValid($event)">
               </div>
             </div>
           </div>
@@ -198,19 +198,34 @@
         <div class="col-xl-4" *ngFor="let destination of selectedDestinations; let i=index">
           <div class="row combine-filed-popup">
             <div class="col-6 pr-0">
-              <div ngbDropdown class="combine-filed-popup-left-btn" placement="top-left">
+              <div ngbDropdown #destinationDropdown="ngbDropdown" (openChange)="dropdownToggle($event, 'destination')" class="combine-filed-popup-left-btn" placement="top-left">
                 <button class="btn" id="addChargeExport" ngbDropdownToggle>
                   <span>{{selectedDestinations[i]?.addChrName || 'Select' | limitTo : 12 }}</span>
                 </button>
                 <div ngbDropdownMenu aria-labelledby="addChargeExport">
-                  <button class="dropdown-item" *ngFor="let charge of destinationsList" (click)="selectCharges('IMPORT', charge, i)">{{charge.addChrName}}</button>
+                  <button *ngIf="!isChargesForm" class="dropdown-item custom-label" (click)="showCustomChargesForm()">
+                    <img src="../../../../assets/images/icons/icon_add.svg" width="16" alt="">
+                    Add Custom Label
+                    </button>
+                  <ng-container *ngIf="!isChargesForm"><button class="dropdown-item" *ngFor="let charge of destinationsList" (click)="selectCharges('IMPORT', charge, i)">{{charge.addChrName}}</button></ng-container>
+                  <div class="col-12 dropdown-item charges-form" *ngIf="isChargesForm">
+                    <div class="form-group">
+                      <label>Add Custom Label</label>
+                      <input class="form-control" type="text">
+                      <select class="form-control">
+                        <option disabled="" value="null">--Select--</option>
+                      </select>
+                      <button class="btn btn-primary mt-4 hvr-sweep-to-right w-100" (click)="savedraftrow('saveNadd')">Add
+                        Label</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-6 pl-0">
               <div class="form-group combine-filed-popup-right">
-                <input type="text" maxlength="15" class="form-control" [(ngModel)]="destination.Price"
-                  placeholder="0.00" (keypress)="numberValid($event)">
+                <input type="text" maxlength="15" class="form-control" [(ngModel)]="destination.Price" placeholder="0.00"
+                  (keypress)="numberValid($event)">
               </div>
             </div>
           </div>

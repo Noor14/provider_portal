@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, Renderer2, ElementRef, Input } from '@angular/core';
 import { PlatformLocation } from '@angular/common';
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbActiveModal, NgbDropdownConfig } from "@ng-bootstrap/ng-bootstrap";
 import { SharedService } from '../../../services/shared.service';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -33,7 +33,8 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
   templateUrl: "./sea-rate-dialog.component.html",
   encapsulation: ViewEncapsulation.None,
   providers: [
-    { provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }
+    { provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter },
+    NgbDropdownConfig
   ],
   styleUrls: ["./sea-rate-dialog.component.scss"]
 })
@@ -101,9 +102,11 @@ export class SeaRateDialogComponent implements OnInit {
     private _parserFormatter: NgbDateParserFormatter,
     private renderer: Renderer2,
     private _seaFreightService: SeaFreightService,
-    private _toast: ToastrService
+    private _toast: ToastrService,
+    private config: NgbDropdownConfig,
   ) {
     location.onPopState(() => this.closeModal(null));
+    config.autoClose = false;
   }
 
   ngOnInit() {
@@ -536,6 +539,19 @@ export class SeaRateDialogComponent implements OnInit {
     this.selectedDestinations = parsedJsonSurchargeDet.filter((e) => e.Imp_Exp === 'IMPORT')
     if (!this.selectedDestinations.length) {
       this.selectedDestinations = [{}]
+    }
+  }
+
+  public isChargesForm = false;
+  showCustomChargesForm() {
+    this.isChargesForm = !this.isChargesForm
+  }
+
+  dropdownToggle(event, type) {
+    console.log(event);
+    console.log(type);
+    if (event) {
+      this.isChargesForm = false;
     }
   }
 
