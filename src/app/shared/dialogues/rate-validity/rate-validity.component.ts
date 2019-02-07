@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Renderer2, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Renderer2, ViewEncapsulation, Input } from '@angular/core';
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import {
   NgbDatepicker,
@@ -11,6 +11,11 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateFRParserFormatter } from '../../../constants/ngb-date-parser-formatter';
 import { PlatformLocation } from '@angular/common';
+import { SeaFreightService } from '../../../components/pages/user-desk/manage-rates/sea-freight/sea-freight.service';
+import { SharedService } from '../../../services/shared.service';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+
 
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -33,8 +38,11 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 })
 export class RateValidityComponent implements OnInit {
 
+  @Input() validityData: any;
   @ViewChild("dp") input: NgbInputDatepicker;
   @ViewChild('rangeDp') rangeDp: ElementRef;
+
+  private allCurrencies:any[]=[]
   public startDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
   public minDate: NgbDateStruct;
@@ -42,10 +50,9 @@ export class RateValidityComponent implements OnInit {
   public fromDate: any;
   public toDate: any;
   public model: any;
-
-
-
-
+  private userProfile: any;
+  public price;
+  public selectedCurrency: any;
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
   isInside = date => after(date, this.fromDate) && before(date, this.toDate);
@@ -58,12 +65,33 @@ export class RateValidityComponent implements OnInit {
     private _activeModal: NgbActiveModal,
     private _parserFormatter: NgbDateParserFormatter,
     private renderer: Renderer2,
+    private _seaFreightService: SeaFreightService,
+    private _sharedService: SharedService
 
     ) { }
 
   ngOnInit() {
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo && userInfo.returnText) {
+      this.userProfile = JSON.parse(userInfo.returnText);
+    }
+    this.allservicesBySea()
   }
-
+  allservicesBySea() {
+    this._sharedService.dataLogisticServiceBySea.subscribe(state => {
+      if (state && state.length) {
+        for (let index = 0; index < state.length; index++) {
+          if (state[index].LogServName == "SEA") {
+            this.allCurrencies = state[index].DropDownValues.UserCurrency;
+            if (this.allCurrencies.length && this.validityData && this.validityData.data && this.validityData.data.length){
+              this.selectedCurrency = this.allCurrencies.find(obj => obj.currencyID == this.validityData.data[0].currencyID)
+              this.price = this.validityData.data[0].price;
+            }
+          }
+        }
+      }
+    })
+  }
   onDateSelection(date: NgbDateStruct) {
     let parsed = '';
     if (!this.fromDate && !this.toDate) {
@@ -96,4 +124,41 @@ export class RateValidityComponent implements OnInit {
     this._activeModal.close(status);
     document.getElementsByTagName('html')[0].style.overflowY = 'auto';
   }
+
+  numberValid(evt) {
+    let charCode = evt.which ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
+    return true;
+  }
+updateRates(){
+  let data = [];
+  if (this.validityData && this.validityData.data && this.validityData.data.length){
+    this.validityData.data.forEach(element => {
+      data.push(
+        {
+          carrierPricingID: element.carrierPricingID,
+          rate: this.price,
+          effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+          effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+          modifiedBy: this.userProfile.LoginID
+        }
+      )
+    });
+  }
+  
+  this._seaFreightService.rateValidityFCL(data).subscribe((res:any)=>{
+    if (res.returnStatus == "Success") {
+      console.log(res)
+    }
+  })
+}
+
+  currencies = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 3) ? []
+        : this.allCurrencies.filter(v => v.CurrencyCode && v.CurrencyCode.toLowerCase().indexOf(term.toLowerCase()) > -1))
+    )
+  currencyFormatter = (x: { CurrencyCode: string }) => x.CurrencyCode;
+
 }

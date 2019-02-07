@@ -824,21 +824,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             this.publishRates = [];
             this.selectedItem('remove', alltableOption);
           }
-          // this.publishRates = [];
-          // var cols = alltableOption.column(0).nodes();
-          // this.checkedalldraftRates = !this.checkedalldraftRates;
-          // for (var i = 0; i < cols.length; i += 1) {
-          //   cols[i].querySelector("input[type='checkbox']").checked = this.checkedalldraftRates;
-          //   if (this.checkedalldraftRates) {
-          //     console.log(cols);
-          //     this.publishRates.push(cols[i].querySelector("input[type='checkbox']").id);
-          //     this.selectedItem('add', alltableOption);
-          //   }
-          // }
-          // if (i == cols.length && !this.checkedalldraftRates) {
-          //   this.publishRates = [];
-          //   this.selectedItem('remove', alltableOption);
-          // }
         });
 
         $('#draftRateTable').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
@@ -1818,11 +1803,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   publishRate() {
-    console.log(this.publishRates)
-    console.log(this.draftsfcl);
-    if (!this.validatePublishRates(this.publishRates)) {
-      return false;
-    }
     this._seaFreightService.publishDraftRate(this.publishRates).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         for (var i = 0; i < this.publishRates.length; i++) {
@@ -1842,38 +1822,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     })
   }
 
-  validatePublishRates(publishArr) {
-    let validated = true;
-    this.draftsfcl.forEach((e) => {
-      publishArr.forEach(element => {
-        if (parseInt(element) === e.ProviderPricingDraftID) {
-          let parsedJsonSurchargeDet = JSON.parse(e.JsonSurchargeDet);
-          // let exportOrigins = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
-          // let importsDesinations = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
-          if (!e.CarrierName) {
-            this._toast.error('Please provide shipping line name', 'Error')
-            validated = false;
-          } else if (!e.ContainerSpecID) {
-            this._toast.error('Please provide container details', 'Error')
-            validated = false;
-          } else if (!e.ShippingCatName) {
-            this._toast.error('Please provide cargo type', 'Error')
-            validated = false;
-          } else if (!e.Price) {
-            this._toast.error('Please provide freigh charges for ' + e.CarrierName, 'Error')
-            validated = false;
-          } else if (!e.PodCode) {
-            this._toast.error('Please provide port of destination ' + e.CarrierName, 'Error')
-            validated = false;
-          } else if (!e.PolCode) {
-            this._toast.error('Please provide port of origin ' + e.CarrierName, 'Error')
-            validated = false;
-          }
-        }
-      });
-    })
-    return validated;
-  }
   publishRateLcl() {
     this._seaFreightService.publishDraftRateLCL(this.publishRatesLCL).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
@@ -1972,6 +1920,15 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     }, 0);
   }
   rateValidity() {
+    if (!this.delPublishRates.length) return;
+    let updateValidity = [];
+    for (let i = 0; i < this.allRatesList.length; i++) {
+      for (let y = 0; y < this.delPublishRates.length; y++) {
+        if (this.allRatesList[i].carrierPricingID == this.delPublishRates[y]){
+          updateValidity.push(this.allRatesList[i])
+        }
+      }
+    }
     const modalRef = this.modalService.open(RateValidityComponent, {
       size: 'lg',
       centered: true,
@@ -1983,14 +1940,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       if (result == "Success") {
 
       }
-    }, (reason) => {
-      // console.log("reason");
     });
     let obj = {
-      data: [null],
-      type: "rateValidityLCL"
+      data: updateValidity,
+      type: "rateValidityFCL"
     }
-    modalRef.componentInstance.deleteIds = obj;
+    modalRef.componentInstance.validityData = obj;
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
