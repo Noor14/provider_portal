@@ -7,11 +7,12 @@
   </div>
   <div class="modal-body">
     <div class="form-group date-control">
-       <div class="dateIcon mb-2">
+      <div class="dateIcon mb-2">
           <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date"
-            [(ngModel)]="model"  placement="bottom-right">
+            [(ngModel)]="model" ngbDatepicker #dp="ngbDatepicker" >
         </div>
-        <ngb-datepicker #dp [maxDate]="maxDate" [minDate]="minDate" [navigation]="false" [displayMonths]="2" [dayTemplate]="t"
+    <ngb-datepicker [maxDate]="maxDate" [minDate]="minDate" [navigation]="false"
+      [displayMonths]="2" [dayTemplate]="t"
           outsideDays="true">
         </ngb-datepicker>
         <ng-template #t let-date="date" let-focused="focused">
@@ -23,7 +24,7 @@
         </ng-template>
       <button type="submit" class="btn btn-primary pull-right hvr-sweep-to-right mt-4 mb-4">
           Update Password
-       </button>
+      </button>
     </div>
   </div>
 </div>
