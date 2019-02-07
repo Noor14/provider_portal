@@ -173,7 +173,6 @@
                       </select>
                     </div>
                   </div>
-
                   <!-- <div class="col-3">
                     <div class="form-group">
                       <label>Handling Unit</label>
@@ -216,7 +215,6 @@
         </section>
         <section class="rates-grid mt-5 publishRatesLCL" [ngClass]="{'no-data': allRatesListLcL && !allRatesListLcL.length, 'no-scroll-add': allRatesListLcL && allRatesListLcL.length, 'no-pagination': allRatesListLcL && allRatesListLcL.length <= dtOptionsBySeaLCL.pageLength}">
           <div class="d-flex justify-content-end mb-3">
-
             <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('LCL')" [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
               <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16" />
               Delete
@@ -229,24 +227,24 @@
           <div class="row">
             <div class="col-12">
               <hr class="hr-solid mt-4" />
-<div class="policyEditor mb-4 mt-4 d-flex justify-content-between align-items-center">
-  <h5 class="add-rate-head">Terms & Conditions</h5>
-  <button *ngIf="disableLCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5" (click)="disableLCL = !disableLCL">
-    EDIT
-  </button>
-</div>
-<div class="form-group">
-  <quill-editor *ngIf="!disableLCL" [(ngModel)]="editorContentLCL" [options]="editorOptionsLCL" (blur)="onEditorBlured($event, 'LCL')"
-(focus)="onEditorFocused($event,'LCL')" (ready)="onEditorCreated($event,'LCL')"
-(change)="onContentChanged($event,'LCL')">
-  </quill-editor>
-  <div *ngIf="disableLCL" class="editor" [innerHTML]="editorContentLCL">
-  </div>
-  <button *ngIf="!disableLCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="button"
-    [disabled]="!editorContentLCL" (click)="saveTermNcond('LCL')">
-    SAVE
-  </button>
-</div>
+              <div class="policyEditor mb-4 mt-4 d-flex justify-content-between align-items-center">
+                <h5 class="add-rate-head">Terms & Conditions</h5>
+                <button *ngIf="disableLCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5"
+                  (click)="disableLCL = !disableLCL">
+                  EDIT
+                </button>
+              </div>
+              <div class="form-group">
+                <quill-editor *ngIf="!disableLCL" [(ngModel)]="editorContentLCL" [options]="editorOptionsLCL" (blur)="onEditorBlured($event, 'LCL')"
+                  (focus)="onEditorFocused($event,'LCL')" (ready)="onEditorCreated($event,'LCL')" (change)="onContentChanged($event,'LCL')">
+                </quill-editor>
+                <div *ngIf="disableLCL" class="editor" [innerHTML]="editorContentLCL">
+                </div>
+                <button *ngIf="!disableLCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4"
+                  type="button" [disabled]="!editorContentLCL" (click)="saveTermNcond('LCL')">
+                  SAVE
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -337,7 +335,6 @@
                       </select>
                     </div>
                   </div>
-
                   <div class="col-6">
                     <div class="form-group">
                       <label>Route</label>
@@ -451,7 +448,7 @@
         </section>
         <section class="rates-grid mt-5 publishRatesFCL" [ngClass]="{'no-data': allRatesList && !allRatesList.length, 'no-scroll-add': allRatesList && allRatesList.length, 'no-pagination': allRatesList && allRatesList.length <= dtOptionsBySeaFCL.pageLength}">
           <div class="d-flex justify-content-end mb-3">
-            <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity()"> 
+            <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity()">
               <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" />
               Edit Rate Validity
             </a>
@@ -467,25 +464,24 @@
           <div class="row">
             <div class="col-12">
               <hr class="hr-solid mt-4" />
-
-<div class="policyEditor mb-4 mt-4 d-flex justify-content-between align-items-center">
-  <h5 class="add-rate-head">Terms & Conditions</h5>
-  <button *ngIf="disableFCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5" (click)="disableFCL = !disableFCL">
-    EDIT
-  </button>
-</div>
-      <div class="form-group">
-<quill-editor *ngIf="!disableFCL" [(ngModel)]="editorContentFCL" [options]="editorOptionsFCL" (blur)="onEditorBlured($event,'FCL')"
-(focus)="onEditorFocused($event,'FCL')" (ready)="onEditorCreated($event,'FCL')"
-(change)="onContentChanged($event,'FCL')">
-        </quill-editor>
-        <div *ngIf="disableFCL" class="editor" [innerHTML]="editorContentFCL">
-        </div>
-        <button *ngIf="!disableFCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="button"
-          [disabled]="!editorContentFCL" (click)="saveTermNcond('FCL')">
-          SAVE
-        </button>
-      </div>
+              <div class="policyEditor mb-4 mt-4 d-flex justify-content-between align-items-center">
+                <h5 class="add-rate-head">Terms & Conditions</h5>
+                <button *ngIf="disableFCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5"
+                  (click)="disableFCL = !disableFCL">
+                  EDIT
+                </button>
+              </div>
+              <div class="form-group">
+                <quill-editor *ngIf="!disableFCL" [(ngModel)]="editorContentFCL" [options]="editorOptionsFCL" (blur)="onEditorBlured($event,'FCL')"
+                  (focus)="onEditorFocused($event,'FCL')" (ready)="onEditorCreated($event,'FCL')" (change)="onContentChanged($event,'FCL')">
+                </quill-editor>
+                <div *ngIf="disableFCL" class="editor" [innerHTML]="editorContentFCL">
+                </div>
+                <button *ngIf="!disableFCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4"
+                  type="button" [disabled]="!editorContentFCL" (click)="saveTermNcond('FCL')">
+                  SAVE
+                </button>
+              </div>
             </div>
           </div>
         </section>
