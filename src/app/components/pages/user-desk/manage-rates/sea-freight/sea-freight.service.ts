@@ -69,5 +69,10 @@ export class SeaFreightService {
     return this._http.get(baseApi + url);
   }
 
+  rateValidityFCL(data){
+    let url: string = "providerratefcl/EditRate";
+    return this._http.post(baseApi + url, data);
+  }
+
 
 }
