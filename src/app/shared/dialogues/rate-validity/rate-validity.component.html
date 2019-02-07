@@ -6,7 +6,7 @@
     </a>
   </div>
   <div class="modal-body">
-    <div class="row" *ngIf="this.validityData.data.length == 1">
+    <div class="row">
       <!-- <div class="col-3">
         <div class="form-group">
           <label>Currency</label>
@@ -28,7 +28,8 @@
           </div>
         </div>
       </div> -->
-      <div class="col-6">
+
+      <div class="col-5" *ngIf="this.validityData.data.length == 1">
         <div class="form-group">
           <label>Rate</label>
           <div class="input-group mb-2">
@@ -37,30 +38,34 @@
             </div>
             <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="price" (keypress)="numberValid($event)">
           </div>
-
         </div>
       </div>
-    </div>
 
-    <div class="form-group date-control">
-      <div class="dateIcon mb-2">
-        <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date"
-          ngbDatepicker #dp="ngbDatepicker" />
+      <div class="col-7">
+        <div class="form-group">
+          <label>Selected Date</label>
+          <div class="dateIcon mb-2">
+            <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date" ngbDatepicker
+              #dp="ngbDatepicker" disabled />
+          </div>
+        </div>
       </div>
-      <ngb-datepicker [maxDate]="maxDate" [minDate]="minDate" [navigation]="false" [displayMonths]="2" [dayTemplate]="t"
-        outsideDays="true">
-      </ngb-datepicker>
-      <ng-template #t let-date="date" let-focused="focused">
-        <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
-          [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date"
-          (mouseleave)="hoveredDate = null">
-          {{ date.day }}
-        </span>
-      </ng-template>
-      <button type="button" class="btn btn-primary pull-right hvr-sweep-to-right mt-4 mb-4" [disabled]="(!fromDate || !this.fromDate && fromDate.month) || (!toDate || !this.toDate && toDate.month)"
-        (click)="updateRates()">
-        Update Password
-      </button>
+      <div class="col-12 date-control mt-4">
+        <ngb-datepicker [maxDate]="maxDate" [minDate]="minDate" [navigation]="false" [displayMonths]="2" [dayTemplate]="t"
+          outsideDays="true">
+        </ngb-datepicker>
+        <ng-template #t let-date="date" let-focused="focused">
+          <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
+            [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date"
+            (mouseleave)="hoveredDate = null">
+            {{ date.day }}
+          </span>
+        </ng-template>
+        <button type="button" class="btn btn-primary pull-right hvr-sweep-to-right mt-4 mb-3" [disabled]="(!fromDate || !this.fromDate && fromDate.month) || (!toDate || !this.toDate && toDate.month)"
+          (click)="updateRates()">
+          Update Password
+        </button>
+      </div>
     </div>
   </div>
 </div>

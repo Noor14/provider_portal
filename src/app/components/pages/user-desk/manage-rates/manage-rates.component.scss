@@ -305,14 +305,16 @@ $left-nav-icon-height: 20px;
       }
 
       &.no-drop {
-        filter: grayscale(1);
-        opacity: 0.5;
+        filter: grayscale(1) opacity(0.5);
         cursor: no-drop;
       }
     }
 
     .rate-validate {
       color: $secondary-color;
+      &.no-drop {
+        filter: grayscale(1) opacity(0.9);
+      }
     }
 
     a.addAnother {
