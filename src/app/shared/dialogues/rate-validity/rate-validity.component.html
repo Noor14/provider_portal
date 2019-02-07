@@ -50,7 +50,8 @@
           </div>
         </div>
       </div>
-      <div class="col-12 date-control mt-4">
+      <div class="col-12 date-control mt-3">
+          <hr class="hr-solid mb-2">
         <ngb-datepicker [maxDate]="maxDate" [minDate]="minDate" [navigation]="false" [displayMonths]="2" [dayTemplate]="t"
           outsideDays="true">
         </ngb-datepicker>
@@ -61,7 +62,8 @@
             {{ date.day }}
           </span>
         </ng-template>
-        <button type="button" class="btn btn-primary pull-right hvr-sweep-to-right mt-4 mb-3" [disabled]="(!fromDate || !this.fromDate && fromDate.month) || (!toDate || !this.toDate && toDate.month)"
+        <hr class="hr-solid mt-0 mb-4">
+        <button type="button" class="btn btn-primary pull-right hvr-sweep-to-right mt-1 mb-2" [disabled]="(!fromDate || !this.fromDate && fromDate.month) || (!toDate || !this.toDate && toDate.month)"
           (click)="updateRates()">
           Update
         </button>
