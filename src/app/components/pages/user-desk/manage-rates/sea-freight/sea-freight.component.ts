@@ -912,7 +912,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     }
   }
   setAddDraftData(data) {
-
     data.forEach(element => {
       if (element.JsonSurchargeDet) {
         let importCharges = []
@@ -1937,8 +1936,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       keyboard: false
     });
     modalRef.result.then((result) => {
-      if (result == "Success") {
-
+      if (result =='Success') {
+        this.getAllPublishRates();
+        this.checkedallpublishRates = false
+        this.delPublishRates=[];
       }
     });
     let obj = {

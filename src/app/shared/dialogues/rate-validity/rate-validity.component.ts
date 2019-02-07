@@ -47,8 +47,16 @@ export class RateValidityComponent implements OnInit {
   public maxDate: NgbDateStruct;
   public minDate: NgbDateStruct;
   public hoveredDate: NgbDateStruct;
-  public fromDate: any;
-  public toDate: any;
+  public fromDate: any = {
+    day: null,
+    month: undefined,
+    year: undefined
+  };
+  public toDate: any = {
+    day: undefined,
+    month: undefined,
+    year: undefined
+  };
   public model: any;
   private userProfile: any;
   public price;
@@ -68,7 +76,7 @@ export class RateValidityComponent implements OnInit {
     private _seaFreightService: SeaFreightService,
     private _sharedService: SharedService
 
-    ) { }
+  ) { location.onPopState(() => this.closeModal(null)); }
 
   ngOnInit() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -83,14 +91,36 @@ export class RateValidityComponent implements OnInit {
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
-            if (this.allCurrencies.length && this.validityData && this.validityData.data && this.validityData.data.length){
-              this.selectedCurrency = this.allCurrencies.find(obj => obj.currencyID == this.validityData.data[0].currencyID)
-              this.price = this.validityData.data[0].price;
+            if (this.allCurrencies.length && this.validityData && this.validityData.data && this.validityData.data.length && this.validityData.data.length==1){
+                this.setData()
             }
           }
         }
       }
     })
+  }
+  setData(){
+    let parsed = '';
+    this.selectedCurrency = this.allCurrencies.find(obj => obj.currencyID == this.validityData.data[0].currencyID)
+    this.price = this.validityData.data[0].price;
+    if (this.validityData.data[0].effectiveFrom) {
+      this.fromDate.day = new Date(this.validityData.data[0].effectiveFrom).getDate();
+      this.fromDate.year = new Date(this.validityData.data[0].effectiveFrom).getFullYear();
+      this.fromDate.month = new Date(this.validityData.data[0].effectiveFrom).getMonth() + 1;
+    }
+    if (this.validityData.data[0].effectiveTo) {
+      this.toDate.day = new Date(this.validityData.data[0].effectiveTo).getDate();
+      this.toDate.year = new Date(this.validityData.data[0].effectiveTo).getFullYear();
+      this.toDate.month = new Date(this.validityData.data[0].effectiveTo).getMonth() + 1;
+    }
+    if (this.fromDate && this.fromDate.day) {
+      this.model = this.fromDate;
+      parsed += this._parserFormatter.format(this.fromDate);
+    }
+    if (this.toDate && this.toDate.day) {
+      parsed += " - " + this._parserFormatter.format(this.toDate);
+    }
+    this.rangeDp.nativeElement.value = parsed;
   }
   onDateSelection(date: NgbDateStruct) {
     let parsed = '';
@@ -115,10 +145,7 @@ export class RateValidityComponent implements OnInit {
     this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
   }
   closePopup() {
-    let object = {
-      data: []
-    };
-    this.closeModal(object);
+    this.closeModal(null);
   }
   closeModal(status) {
     this._activeModal.close(status);
@@ -131,10 +158,10 @@ export class RateValidityComponent implements OnInit {
     return true;
   }
 updateRates(){
-  let data = [];
+  let rateData = [];
   if (this.validityData && this.validityData.data && this.validityData.data.length){
     this.validityData.data.forEach(element => {
-      data.push(
+      rateData.push(
         {
           carrierPricingID: element.carrierPricingID,
           rate: this.price,
@@ -146,9 +173,9 @@ updateRates(){
     });
   }
   
-  this._seaFreightService.rateValidityFCL(data).subscribe((res:any)=>{
+  this._seaFreightService.rateValidityFCL(rateData).subscribe((res:any)=>{
     if (res.returnStatus == "Success") {
-      console.log(res)
+      this.closeModal(res.returnStatus);
     }
   })
 }
