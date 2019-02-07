@@ -452,10 +452,10 @@ export class BillingComponent implements OnInit, OnDestroy {
   }
 
   payment(){
-    let obj={
+    let obj = {
       merchant_email: "abdur@hashmove.com",
       secret_key: "ekQNVlcQwtHZv93SClVAqo9euW1k1cKgxA4sVgjrJ1qfat8NO3ofsxtXuviwH2MeCRHx81YS3o7dSf1HjpWMXqJrV1XC3KRFCzdK",
-      currency:"AED",
+      currency: "AED",
       amount: "10",
       site_url: "http://localhost:4200/provider/billing",
       title: "test",
@@ -482,9 +482,9 @@ export class BillingComponent implements OnInit, OnDestroy {
       country_shipping: "ARE",
       reference_no: "1286",
       msg_lang: "Engish",
-      ip_merchant:"100.100.100.100",
+      ip_merchant: "100.100.100.100",
       ip_customer: "Texpo-khi-26",
-      cms_with_version:"API"
+      cms_with_version: "API"
     };
     var formdata = "merchant_email=" + "abdur@hashmove.com"
       + "&secret_key=" + "ekQNVlcQwtHZv93SClVAqo9euW1k1cKgxA4sVgjrJ1qfat8NO3ofsxtXuviwH2MeCRHx81YS3o7dSf1HjpWMXqJrV1XC3KRFCzdK"
@@ -518,25 +518,16 @@ export class BillingComponent implements OnInit, OnDestroy {
       + "&reference_no=" + "1286"
       + "&msg_lang=English"
       + "&cms_with_version=API"
-    console.log(formdata, typeof formdata);
-    // var str = "Hello竜";
-    // var bytes = []; // char codes
-    // var bytesv2 = []; // char codes
 
-    // for (var i = 0; i < formdata.length; ++i) {
-    //   var code = formdata.charCodeAt(i);
+    let bytes = []; // char codes
 
-    //   bytes = bytes.concat([code]);
+    for (var i = 0; i < formdata.length; ++i) {
+      var code = formdata.charCodeAt(i);
+      bytes = bytes.concat([code & 0xff, code / 256 >>> 0]);
+    }
 
-    //   bytesv2 = bytesv2.concat([code & 0xff, code / 256 >>> 0]);
-    // }
-
-    // 72, 101, 108, 108, 111, 31452
-    // console.log('bytes', bytes.join(', '));
-
-    // 72, 0, 101, 0, 108, 0, 108, 0, 111, 0, 220, 122
-    // console.log('bytesv2', bytesv2.join(', '));
-    this._billingService.makePayment(formdata).subscribe((res: any) => {
+  
+    this._billingService.makePayment(bytes).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         console.log(res)
       }
