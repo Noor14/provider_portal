@@ -29,7 +29,7 @@
         }
     
         ngb-datepicker {
-          border: 1px solid $primary-color;
+          border: none; //1px solid $primary-color
     
           .ngb-dp-header {
             background: none !important;
