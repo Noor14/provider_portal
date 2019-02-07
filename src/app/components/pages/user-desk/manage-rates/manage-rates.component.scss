@@ -68,6 +68,7 @@ $left-nav-icon-height: 20px;
         li {
           a {
             font-size: 0.8rem;
+
             img {
               width: 20px;
               height: 20px;
@@ -82,10 +83,12 @@ $left-nav-icon-height: 20px;
     .navbar {
       .nav {
         justify-content: center;
+
         li {
           width: 47%;
           margin: 10px;
           flex: unset;
+
           a {
             font-size: 1rem;
           }
@@ -223,12 +226,11 @@ $left-nav-icon-height: 20px;
             color: #a5b2ba;
             font-size: $font-size-large;
             display: inline-block;
-            background: linear-gradient(
-              180deg,
+            background: linear-gradient(180deg,
               #ececec 35%,
-              #fff 100%
-            ) !important;
+              #fff 100%) !important;
             border-top: 1px solid transparent !important;
+
             svg {
               width: 25px;
               height: 25px;
@@ -236,21 +238,25 @@ $left-nav-icon-height: 20px;
               fill: #a5b2ba;
             }
           }
+
           &.active {
             span {
               background: #00a1df !important;
               border-color: #30ccee !important; // transition: .5s;
               box-shadow: inset 0 -4px 6px 0 #0085d2, inset 0 1px 6px 0 #30ccee;
               color: $color-white;
+
               svg {
                 fill: $color-white;
               }
             }
           }
         }
+
         &:first-child {
           float: left;
           margin-top: 10px;
+
           a {
             span {
               background: none !important;
@@ -264,20 +270,24 @@ $left-nav-icon-height: 20px;
             }
           }
         }
+
         &:nth-child(2) {
           border-top-right-radius: 4px;
           border-bottom-right-radius: 4px;
         }
+
         &:last-child {
           border-top-left-radius: 4px;
           border-bottom-left-radius: 4px;
         }
       }
     }
+
     .add-rate-head {
       font-size: 1.25rem;
     }
   }
+
   .rates-grid {
     .grid-delete {
       font-family: $font-proxima;
@@ -285,15 +295,20 @@ $left-nav-icon-height: 20px;
       color: $btn-bg-danger;
       font-weight: $font-weight-mid;
       line-height: 1;
+
       img {
         margin-right: 5px;
+        top: -1px;
+        position: relative;
       }
+
       &.no-drop {
         filter: grayscale(1);
         opacity: 0.5;
         cursor: no-drop;
       }
     }
+
     a.addAnother {
       color: $primary-color;
       font-family: $font-proxima;
@@ -307,6 +322,7 @@ $left-nav-icon-height: 20px;
       animation-delay: 0.1s;
       width: 99.8%;
       background: #fff;
+
       // border-bottom: 1px solid $data-table-border;
       &:before {
         content: url("assets/images/icons/icon_add.svg");
@@ -317,21 +333,25 @@ $left-nav-icon-height: 20px;
         height: 16px;
       }
     }
+
     &.without-scroll {
       &.no-data {
         a.addAnother {
           bottom: 43px;
         }
       }
+
       a.addAnother {
         bottom: 61px;
       }
+
       &.no-pagination {
         a.addAnother {
           bottom: 59px;
         }
       }
     }
+
     &.no-pagination {
       a.addAnother {
         bottom: 59px;
@@ -339,36 +359,44 @@ $left-nav-icon-height: 20px;
       }
     }
   }
+
   .rates-filter {
     border: 1px solid $acc-border;
     display: inline-block;
     width: 100%;
     z-index: 9999;
     position: relative;
+
     .card {
       background: $acc-bg;
       border: none;
+
       &-header {
         background: $acc-bg;
         border: none;
+
         &.active {
           .acc-icon {
             transform: rotate(-90deg);
             margin-right: 30px;
           }
         }
+
         a {
           color: $pagination-text-color;
           font-weight: $font-weight-mid;
+
           .acc-icon {
             margin-left: 7px;
             transform: rotate(90deg);
             transition: ease-in 0.5s;
           }
+
           .filter-icon {
             position: relative;
             top: -2px;
           }
+
           .clear-filter {
             float: right;
             font-family: $font-proxima;
@@ -376,6 +404,7 @@ $left-nav-icon-height: 20px;
             color: $color-topmenu;
             margin-top: 5px;
             line-height: 1;
+
             svg {
               width: 16px;
               fill: #738593;
@@ -386,15 +415,19 @@ $left-nav-icon-height: 20px;
           }
         }
       }
+
       &-body {
         padding: 5px 5.25rem;
+
         .combine-field {
           background: $color-white;
           border: 1px solid $provider-input-border;
           border-radius: 4px;
           margin: 0;
+
           .dropdown-menu {
             padding: 0;
+
             button {
               .flag-container {
                 width: 15px;
@@ -402,52 +435,65 @@ $left-nav-icon-height: 20px;
                 display: flex;
                 margin-top: 5px;
                 margin-right: 10px !important;
+
                 img {
                   border: 1px solid $primary-grey;
                 }
               }
             }
           }
+
           .origin,
           .destination {
             position: relative;
-            > .flag-container {
+
+            >.flag-container {
               width: 16px;
               height: 24px;
               align-items: center;
               position: absolute;
               left: 10px;
               top: 11px;
+
               img {
                 border: 1px solid $primary-grey;
               }
             }
+
             .routeSelected {
               padding-left: 30px !important;
             }
           }
+
           input {
             border: none;
           }
+
           .origin {
             border-right: 1px solid $provider-input-border;
           }
         }
+
         .date-control {
           .dateIcon {
             position: relative;
+
             input {
               padding-left: 2.625rem;
+
               &::placeholder {
                 font-style: italic;
               }
+
               &::-ms-input-placeholder {
                 font-style: italic;
               }
+
               &::-webkit-input-placeholder {
                 font-style: italic;
               }
             }
+
             &:before {
               content: url("assets/images/icons/Icons_Calendar.svg");
               position: absolute;
@@ -459,18 +505,23 @@ $left-nav-icon-height: 20px;
               opacity: 0.5;
             }
           }
+
           ngb-datepicker {
             border: 1px solid $primary-color;
+
             .ngb-dp-header {
               background: none !important;
+
               .ngb-dp-arrow-btn {
                 &:hover {
                   box-shadow: none !important;
                 }
+
                 .ngb-dp-navigation-chevron {
                   color: $primary-color !important;
                 }
               }
+
               ngb-datepicker-navigation {
                 .ngb-dp-month-name {
                   font-size: 0.9375rem;
@@ -478,9 +529,11 @@ $left-nav-icon-height: 20px;
                 }
               }
             }
+
             .ngb-dp-months {
               .ngb-dp-month {
                 position: relative;
+
                 &:first-child {
                   &:after {
                     content: "";
@@ -494,19 +547,24 @@ $left-nav-icon-height: 20px;
                   }
                 }
               }
+
               .ngb-dp-week {
                 background: none !important;
+
                 .ngb-dp-weekday {
                   color: $color-date;
                   font-style: normal !important;
                 }
+
                 .ngb-dp-day {
                   font-size: 0.875rem;
+
                   &:last-child {
                     .custom-day {
                       color: $danger-color !important;
                     }
                   }
+
                   .custom-day {
                     border-radius: 10px 0 !important;
                     width: 100%;
@@ -515,15 +573,18 @@ $left-nav-icon-height: 20px;
                     align-items: center;
                     justify-content: center;
                     color: $color-date;
+
                     &.range {
                       background-color: $primary-color !important;
                       color: $color-white;
                       border-radius: 0 !important;
                     }
+
                     &.faded {
                       background-color: $primary-color !important;
                       opacity: 0.5;
                     }
+
                     &:hover {
                       background-color: #d2d2d238 !important;
                       color: $color-date !important;
@@ -536,10 +597,13 @@ $left-nav-icon-height: 20px;
         }
       }
     }
+
     ngb-typeahead-window {
       max-height: 200px;
       overflow-y: auto;
+
       .dropdown-item {
+
         &.active,
         &:active {
           background: $primary-grey;
@@ -547,6 +611,7 @@ $left-nav-icon-height: 20px;
       }
     }
   }
+
   .actions {
     .discard-draft {
       font-family: $font-proxima;
@@ -556,22 +621,28 @@ $left-nav-icon-height: 20px;
       margin-right: 1.875rem;
       outline: none;
       cursor: pointer;
+
       &:disabled {
         cursor: no-drop;
       }
     }
+
     button {
       padding: 0.4rem 2rem;
     }
   }
+
   .term-cond {
-    textarea {
-      width: 100%;
+    .editor {
       border: 1px solid $data-table-border;
-      min-height: 230px;
+      padding: 1rem;
       border-radius: 4px;
-      color: $place-holder-color;
-      padding: 20px;
+      background: $color-white;
+      text-align: justify;
+      color: $color-topmenu;
+      font-size: $font-size-medium;
+      height: 300px;
+      overflow-y: scroll;
     }
   }
 }
