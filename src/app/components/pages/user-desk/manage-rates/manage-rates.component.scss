@@ -643,6 +643,11 @@ $left-nav-icon-height: 20px;
       font-size: $font-size-medium;
       height: 300px;
       overflow-y: auto;
+
+      p {
+        margin: 0;
+        line-height: 1.5;
+      }
     }
   }
 }
