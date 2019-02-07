@@ -1606,6 +1606,7 @@ select {
               }
               &.dataTables_empty {
                 text-align: left !important;
+                color: $dark-grey-border;
               }
             }
           }
