@@ -30,7 +30,10 @@
     
         ngb-datepicker {
           border: none; //1px solid $primary-color
-    
+          &:focus{
+          border: none; //1px solid $primary-color
+          outline: none; //1px solid $primary-color
+          }
           .ngb-dp-header {
             background: none !important;
     
