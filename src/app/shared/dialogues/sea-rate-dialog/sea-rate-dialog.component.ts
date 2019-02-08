@@ -94,6 +94,7 @@ export class SeaRateDialogComponent implements OnInit {
 
   public destinationsList = []
   public originsList = []
+  public userInfo: any;
 
   constructor(
     private location: PlatformLocation,
@@ -110,9 +111,9 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    if (userInfo && userInfo.returnText) {
-      this.userProfile = JSON.parse(userInfo.returnText);
+    this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    if (this.userInfo && this.userInfo.returnText) {
+      this.userProfile = JSON.parse(this.userInfo.returnText);
     }
     this.allservicesBySea();
     if (this.selectedData.data.JsonSurchargeDet) {
@@ -120,6 +121,9 @@ export class SeaRateDialogComponent implements OnInit {
     }
     this.destinationsList = this.selectedData.addList
     this.originsList = this.selectedData.addList
+    this.getSurchargeBasis(this.selectedData.forType)
+    console.log(this.selectedData.addList);
+
   }
 
   allservicesBySea() {
@@ -542,16 +546,72 @@ export class SeaRateDialogComponent implements OnInit {
     }
   }
 
+  public surchargesList: any = []
+  getSurchargeBasis(containerLoad) {
+    this._seaFreightService.getSurchargeBasis(containerLoad).subscribe((res) => {
+      console.log(res)
+      this.surchargesList = res
+    }, (err) => {
+      console.log(err);
+
+    })
+  }
   public isChargesForm = false;
+  public lablelName: string = ''
+  public surchargeType: any;
+  public labelValidate:boolean = true
+  public surchargeBasisValidate:boolean = true
   showCustomChargesForm() {
     this.isChargesForm = !this.isChargesForm
   }
 
+  addCustomLabel() {
+    if(!this.lablelName) {
+      this.labelValidate = false
+      return;
+    }
+    if(!this.surchargeType) {
+      this.surchargeBasisValidate = false
+      return;
+    }
+    const selectedSurcharge = this.surchargesList.find(obj => obj.codeValID === parseInt(this.surchargeType));
+    let obj = {
+      addChrID: -1,
+      addChrCode: 'OTHR',
+      addChrName: this.lablelName,
+      addChrDesc: this.lablelName,
+      modeOfTrans: this.selectedData.forType,
+      addChrBasis: selectedSurcharge.codeVal,
+      createdBy: this.userProfile.PrimaryEmail,
+      addChrType: 'ADCH',
+      providerID: this.userProfile.ProviderID
+    }
+    this._seaFreightService.addCustomCharge(obj).subscribe((res: any) => {
+      this.isChargesForm = false;
+      if (res.returnId !== -1) {
+        let obj = {
+          addChrID: res.returnId,
+          addChrCode: 'OTHR',
+          addChrName: this.lablelName,
+          addChrDesc: this.lablelName,
+          modeOfTrans: this.selectedData.forType,
+          addChrBasis: selectedSurcharge.codeVal,
+          createdBy: this.userProfile.PrimaryEmail,
+          addChrType: 'ADCH',
+          providerID: this.userProfile.ProviderID
+        }
+        this.selectedData.addList.push(obj)
+      }
+    }, (err) => {
+      console.log(err);
+    })
+  }
+
   dropdownToggle(event, type) {
-    console.log(event);
-    console.log(type);
     if (event) {
       this.isChargesForm = false;
+      this.surchargeBasisValidate = false
+      this.labelValidate = false
     }
   }
 

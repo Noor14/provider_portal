@@ -2019,7 +2019,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   getAdditionalData() {
-    this._seaFreightService.getAllAdditionalCharges().subscribe((res: any) => {
+    this._seaFreightService.getAllAdditionalCharges(this.userProfile.ProviderID).subscribe((res: any) => {
+      console.log(res);
       this.seaCharges = res.filter(e => e.modeOfTrans === 'SEA' && e.addChrType === 'ADCH')
     }, (err) => {
       console.log(err);
