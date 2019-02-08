@@ -1527,6 +1527,20 @@ select {
               line-height: 1;
               visibility: visible !important;
 
+              .fancyOptionBoxes {
+                input[disabled="true"] + label {
+                  span {
+                    background: #f9f9f9;
+
+                    &:after {
+                      background: #f9f9f9;
+                      border: 1px solid #f2f2f2;
+                      box-shadow: none;
+                    }
+                  }
+                }
+              }
+
               span {
                 color: $place-holder-color;
                 font-family: $font-proxima;
