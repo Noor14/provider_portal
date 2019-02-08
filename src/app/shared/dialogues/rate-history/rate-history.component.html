@@ -13,12 +13,11 @@
           <small class="d-block">From</small>
           <div class="d-flex">
             <div class="flag-container">
-              <img src="{{'../../../../assets/images/flags/1x1/'+ (recordList.FromCountryFlag | lowercase) + '.svg'}}"
-                alt="icon">
+              <img src="{{'../../../../assets/images/flags/1x1/'+ (originDet.FromCountry | lowercase) + '.svg'}}" alt="icon">
             </div>
             <div class="location">
-              <label class="ports-text">{{recordList.FromCountry}}</label>
-              <span class=" d-block">Port of {{recordList.FromPort}}</span>
+              <label class="ports-text">{{originDet.FromCountry}}</label>
+              <span class=" d-block">Port of {{originDet.FromPort}}</span>
             </div>
           </div>
         </div>
@@ -29,12 +28,12 @@
           <small class="d-block">To</small>
           <div class="d-flex">
             <div class="flag-container">
-              <img src="{{'../../../../assets/images/flags/1x1/'+ (recordList.ToCountryFlag | lowercase) + '.svg'}}"
+              <img src="{{'../../../../assets/images/flags/1x1/'+ (destinationDet.ToCountry | lowercase) + '.svg'}}"
                 alt="icon">
             </div>
             <div class="location">
-              <label class="ports-text">{{recordList.ToCountry}}</label>
-              <span class=" d-block">Port of {{recordList.ToPort}}</span>
+              <label class="ports-text">{{destinationDet.ToCountry}}</label>
+              <span class=" d-block">Port of {{destinationDet.ToPort}}</span>
 
             </div>
           </div>
@@ -47,10 +46,10 @@
           <small class="d-block">Shipping Lines</small>
           <div class="d-flex">
             <div class="flag-container">
-              <img src="recordList.ShippingLineLogo" alt="icon">
+              <img [src]="baseExternalAssets + '/' + shippingInfo.ShippingLineLogo" alt="icon">
             </div>
             <div class="location">
-              <label class="ports-text">{{recordList.ShippingLine}}</label>
+              <label class="ports-text">{{shippingInfo.ShippingLine}}</label>
             </div>
           </div>
         </div>
@@ -62,10 +61,10 @@
           <small class="d-block">Customer</small>
           <div class="d-flex">
             <div class="flag-container">
-              <img src="recordList.CustomerLogo" alt="icon">
+              <img [src]="baseExternalAssets + '/' + customerInfo.CustomerImage" alt="icon">
             </div>
             <div class="location">
-              <label class="ports-text">{{recordList.Customer}}</label>
+              <label class="ports-text">{{customerInfo.CustomerName}}</label>
             </div>
           </div>
         </div>
@@ -74,27 +73,29 @@
       <div class="col-6 ">
         <div class="ports">
           <small class="d-block">Container</small>
-          <label class="ports-text">{{recordList.Container}}</label>
+          <label class="ports-text">{{containerInfo.ContainerSpecDesc}}</label>
         </div>
       </div>
 
       <div class="col-6">
         <div class="ports">
           <small class="d-block">Cargo Type</small>
-          <label class="ports-text">{{recordList.CargoType}}</label>
+          <label class="ports-text">{{cargoInfo.ShippingCatName}}</label>
         </div>
       </div>
     </div>
   </div>
 
   <div class="list">
+    <!-- <ng-scrollbar [autoHide]="true" class="history-scroll"> -->
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let list of recordList.History">
-      <label class="mb-0">{{list.Desc}} by {{list.ModifiedBy}}</label>
-      <label class="mb-0 activity">{{list.Activity}}</label>
-      <small class="d-block">on {{list.CreatedDateTime}} from {{list.Location}}</small>
+      <li class="list-group-item d-flex flex-column" *ngFor="let list of history">
+        <label class="mb-0">{{list.AuditDesc.Desc}} by {{list.AuditDesc.ModifiedBy}}</label>
+        <label class="mb-0 activity">{{list.AuditDesc.Activity}}</label>
+        <small>on {{list.AuditDesc.CreatedDateTime}} from {{list.AuditDesc.Location}}</small>
       </li>
     </ul>
+    <!-- </ng-scrollbar> -->
   </div>
 
 </section>

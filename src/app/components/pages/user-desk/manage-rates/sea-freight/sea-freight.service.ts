@@ -80,7 +80,7 @@ export class SeaFreightService {
 
 
   getRecHistory(recId, objectName, createdBy){
-    let url: string = `audittrail/GetAuditTrail/${recId}/${objectName}/${createdBy}`;
+    let url: string = `providerratefcl/GetRateHistory/${recId}/${objectName}/${createdBy}`;
     return this._http.get(baseApi + url);
   }
 

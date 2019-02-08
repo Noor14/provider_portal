@@ -4,6 +4,7 @@
       padding-left: 30px
     }
     .modal-body{
+        border-bottom: 1px solid #e9ecef;
       .detail{
         padding: 0px 15px;
         .col-6{
@@ -49,15 +50,15 @@
         &-group {
           padding-bottom: 0;
           padding-left: 4px;
-          margin-left: 27px; // border-left: 1px solid #ccc;
-          overflow-y: auto;
+          margin-left: 27px;
           height: 220px;
+          overflow-y: auto;
+          border-left: 1px solid #e9ecef;
 
           &-item {
             padding: 1.2rem 1.5rem 0.2rem 1.5rem;
-            border-top: 0 !important;
-            border-right: 0 !important;
-            border-bottom: 0 !important;
+            border: 0 !important;
+          
             small {
               font-size: $font-size-medium;
               font-family: $font-proxima;
@@ -75,7 +76,7 @@
               background: #1caae3;
               border-radius: 50%;
               position: absolute;
-              left: -4px;
+              left: -8px;
               top: 25px;
             }
           }
