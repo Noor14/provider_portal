@@ -11,7 +11,7 @@ import { SeaFreightService } from '../../../components/pages/user-desk/manage-ra
 export class RateHistoryComponent implements OnInit {
   @Input() getRecord: any;
   public userProfile:any;
-  public recordList:any[]=[];
+  public recordList:any;
   constructor(
     private _activeModal: NgbActiveModal,
     private _seaFreightService: SeaFreightService
@@ -25,8 +25,9 @@ export class RateHistoryComponent implements OnInit {
     this.getHistory();
   }
   getHistory(){
-    this._seaFreightService.getRecHistory(this.userProfile.LoginID, this.getRecord.type, this.getRecord.id).subscribe((res:any)=>{
+    this._seaFreightService.getRecHistory(this.getRecord.id, this.getRecord.type, this.userProfile.LoginID).subscribe((res:any)=>{
       if(res.returnStatus=="Success"){
+        this.recordList = res.returnObject;
         console.log(res, this.recordList, 'noor')
       }
     })
