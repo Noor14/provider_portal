@@ -13,11 +13,11 @@
           <small class="d-block">From</small>
           <div class="d-flex">
             <div class="flag-container">
-              <img src="{{'../../../../assets/images/flags/1x1/'+ (originDet.FromCountry | lowercase) + '.svg'}}" alt="icon">
+              <img src="{{'../../../../assets/images/flags/1x1/'+ (originDet?.FromCountry | lowercase) + '.svg'}}" alt="icon">
             </div>
             <div class="location">
-              <label class="ports-text">{{originDet.FromCountry}}</label>
-              <span class=" d-block">Port of {{originDet.FromPort}}</span>
+              <label class="ports-text">{{originDet?.FromCountry}}</label>
+              <span class=" d-block">Port of {{originDet?.FromPort}}</span>
             </div>
           </div>
         </div>
@@ -28,12 +28,12 @@
           <small class="d-block">To</small>
           <div class="d-flex">
             <div class="flag-container">
-              <img src="{{'../../../../assets/images/flags/1x1/'+ (destinationDet.ToCountry | lowercase) + '.svg'}}"
+              <img src="{{'../../../../assets/images/flags/1x1/'+ (destinationDet?.ToCountry | lowercase) + '.svg'}}"
                 alt="icon">
             </div>
             <div class="location">
-              <label class="ports-text">{{destinationDet.ToCountry}}</label>
-              <span class=" d-block">Port of {{destinationDet.ToPort}}</span>
+              <label class="ports-text">{{destinationDet?.ToCountry}}</label>
+              <span class=" d-block">Port of {{destinationDet?.ToPort}}</span>
 
             </div>
           </div>
@@ -46,10 +46,10 @@
           <small class="d-block">Shipping Lines</small>
           <div class="d-flex">
             <div class="flag-container">
-              <img [src]="baseExternalAssets + '/' + shippingInfo.ShippingLineLogo" alt="icon">
+              <img [src]="baseExternalAssets + '/' + shippingInfo?.ShippingLineLogo" alt="icon">
             </div>
             <div class="location">
-              <label class="ports-text">{{shippingInfo.ShippingLine}}</label>
+              <label class="ports-text">{{shippingInfo?.ShippingLine}}</label>
             </div>
           </div>
         </div>
@@ -61,10 +61,10 @@
           <small class="d-block">Customer</small>
           <div class="d-flex">
             <div class="flag-container">
-              <img [src]="baseExternalAssets + '/' + customerInfo.CustomerImage" alt="icon">
+              <img [src]="baseExternalAssets + '/' + customerInfo?.CustomerImage" alt="icon">
             </div>
             <div class="location">
-              <label class="ports-text">{{customerInfo.CustomerName}}</label>
+              <label class="ports-text">{{customerInfo?.CustomerName}}</label>
             </div>
           </div>
         </div>
@@ -73,28 +73,29 @@
       <div class="col-6 ">
         <div class="ports">
           <small class="d-block">Container</small>
-          <label class="ports-text">{{containerInfo.ContainerSpecDesc}}</label>
+          <label class="ports-text">{{containerInfo?.ContainerSpecDesc}}</label>
         </div>
       </div>
 
       <div class="col-6">
         <div class="ports">
           <small class="d-block">Cargo Type</small>
-          <label class="ports-text">{{cargoInfo.ShippingCatName}}</label>
+          <label class="ports-text">{{cargoInfo?.ShippingCatName}}</label>
         </div>
       </div>
     </div>
   </div>
-
+<span class="pt-3 pb-3 pr-3 pl-3 text-center ng-star-inserted w-100 d-inline-block" *ngIf="!history">No Results Found</span>
   <div class="list">
     <!-- <ng-scrollbar [autoHide]="true" class="history-scroll"> -->
-    <ul class="list-group">
+    <ul class="list-group" *ngIf="history">
       <li class="list-group-item d-flex flex-column" *ngFor="let list of history">
         <label class="mb-0">{{list.AuditDesc.Desc}} by {{list.AuditDesc.ModifiedBy}}</label>
         <label class="mb-0 activity">{{list.AuditDesc.Activity}}</label>
         <small>on {{list.AuditDesc.CreatedDateTime}} from {{list.AuditDesc.Location}}</small>
       </li>
     </ul>
+    
     <!-- </ng-scrollbar> -->
   </div>
 
