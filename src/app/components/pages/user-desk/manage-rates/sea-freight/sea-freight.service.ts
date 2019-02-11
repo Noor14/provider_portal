@@ -65,7 +65,7 @@ export class SeaFreightService {
   }
 
   getAllAdditionalCharges() {
-    let url: string = `AdditionalCharge/GetAll`;
+    let url: string = `AdditionalCharge/GetAll/123`;
     return this._http.get(baseApi + url);
   }
 
