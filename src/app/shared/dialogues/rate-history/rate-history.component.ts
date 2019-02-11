@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SeaFreightService } from '../../../components/pages/user-desk/manage-rates/sea-freight/sea-freight.service';
-
+import { baseExternalAssets } from '../../../constants/base.url';
 @Component({
   selector: 'app-rate-history',
   templateUrl: './rate-history.component.html',
@@ -10,8 +10,15 @@ import { SeaFreightService } from '../../../components/pages/user-desk/manage-ra
 })
 export class RateHistoryComponent implements OnInit {
   @Input() getRecord: any;
+  public baseExternalAssets:string = baseExternalAssets;
   public userProfile:any;
-  public recordList:any[]=[];
+  public history: any;
+  public destinationDet: any;
+  public originDet: any;
+  public shippingInfo: any;
+  public containerInfo: any;
+  public cargoInfo: any;
+  public customerInfo: any;
   constructor(
     private _activeModal: NgbActiveModal,
     private _seaFreightService: SeaFreightService
@@ -25,9 +32,21 @@ export class RateHistoryComponent implements OnInit {
     this.getHistory();
   }
   getHistory(){
-    this._seaFreightService.getRecHistory(this.userProfile.LoginID, this.getRecord.type, this.getRecord.id).subscribe((res:any)=>{
+    this._seaFreightService.getRecHistory(this.getRecord.id, this.getRecord.type, this.userProfile.LoginID).subscribe((res:any)=>{
       if(res.returnStatus=="Success"){
-        console.log(res, this.recordList, 'noor')
+        let records = JSON.parse(res.returnObject);
+          records[0].History.map(obj => {
+          if (typeof (obj.AuditDesc) == "string") {
+            obj.AuditDesc = JSON.parse(obj.AuditDesc);
+          }
+        })
+        this.history = records[0].History;
+        this.destinationDet = records[0].Toport[0];
+        this.originDet = records[0].fromport[0];
+        this.shippingInfo = records[0].shippingline[0];
+        this.containerInfo = records[0].container[0];
+        this.cargoInfo = records[0].cargoType[0];
+        this.customerInfo = records[0].customer[0];
       }
     })
   }

@@ -37,6 +37,9 @@ export class GroundTransportService {
     let url: string = "providerrateground/DeletePublishRate";
     return this._http.request('delete', baseApi + url, { body: data });
   }
-
+  rateValidity(data) {
+    let url: string = "providerrateground/EditRate";
+    return this._http.post(baseApi + url, data);
+  }
 
 }

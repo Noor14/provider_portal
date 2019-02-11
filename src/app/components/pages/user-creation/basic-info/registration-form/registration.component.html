@@ -182,7 +182,7 @@
         </div>
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
           <div class="form-group dir-otherLanguage">
-            <label for="city">مدينة</label>
+            <label for="مدينة">مدينة</label>
             <input type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200" formControlName="transCity"
               (focusout)="errorValidate()" (focus)="cityArError = false; cityError = false" [ngClass]="{
                           'inputError': cityArError && businessForm.controls['transCity'].errors

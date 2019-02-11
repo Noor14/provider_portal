@@ -73,10 +73,14 @@ export class SeaFreightService {
     let url: string = "providerratefcl/EditRate";
     return this._http.post(baseApi + url, data);
   }
+  rateValidityLCL(data) {
+    let url: string = "providerratelcl/EditRate";
+    return this._http.post(baseApi + url, data);
+  }
 
 
-  getRecHistory(CreatedBy, ObjectName, recId){
-    let url: string = `audittrail/GetAuditTrail/${CreatedBy}/${ObjectName}/${recId}`;
+  getRecHistory(recId, objectName, createdBy){
+    let url: string = `providerratefcl/GetRateHistory/${recId}/${objectName}/${createdBy}`;
     return this._http.get(baseApi + url);
   }
 

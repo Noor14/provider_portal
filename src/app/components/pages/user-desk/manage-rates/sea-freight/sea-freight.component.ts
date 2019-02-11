@@ -79,6 +79,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   // @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
   public rateValidityTextFCL = "Edit Rate / Validity"
+  public rateValidityTextLCL = "Edit Rate / Validity"
   public activeTab = "activeFCL"
   public dataTablepublishBysea: any;
   public dataTablepublishByseaLcl: any;
@@ -1499,12 +1500,14 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRatesLcl;
             if (this.checkedallpublishRatesLcl) {
               this.delPublishRatesLcl.push(cols[i].querySelector("input[type='checkbox']").id);
-              this.selectedItem('add', alltableOption)
+              this.selectedItem('add', alltableOption);
+              this.rateValidityTextLCL = "Edit Validity"
             }
           }
           if (i == cols.length && !this.checkedallpublishRatesLcl) {
             this.delPublishRatesLcl = [];
-            this.selectedItem('remove', alltableOption)
+            this.selectedItem('remove', alltableOption);
+            this.rateValidityTextLCL = "Edit Rate / Validity"
 
           }
 
@@ -1519,6 +1522,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           } else {
             selection.classList.add('selected');
             this.delPublishRatesLcl.push((<HTMLInputElement>event.target).id)
+          }
+          if (this.delPublishRatesLcl && this.delPublishRatesLcl.length > 1) {
+            this.rateValidityTextLCL = "Edit Validity";
+          }
+          else {
+            this.rateValidityTextLCL = "Edit Rate / Validity";
           }
         });
       }
@@ -1537,7 +1546,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           event.stopPropagation();
           let selectedId = (<HTMLElement>event.target).id;
           if (selectedId) {
-            this.rateHistory(selectedId, 'RateFCL')
+            this.rateHistory(selectedId, 'Rate_FCL')
           }
         });
         $("#selectallpublishRates").click(() => {
@@ -1549,14 +1558,13 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             if (this.checkedallpublishRates) {
               this.delPublishRates.push(cols[i].querySelector("input[type='checkbox']").id);
               this.selectedItem('add', alltableOption);
-              this.rateValidityTextFCL = "Edit Validity"
-
+              this.rateValidityTextFCL = "Edit Validity";
             }
           }
           if (i == cols.length && !this.checkedallpublishRates) {
             this.delPublishRates = [];
             this.selectedItem('remove', alltableOption);
-            this.rateValidityTextFCL = "Edit Rate / Validity"
+            this.rateValidityTextFCL = "Edit Rate / Validity";
           }
 
         });
@@ -1581,7 +1589,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         });
 
 
-   
       }
     }, 0);
   }
@@ -1970,6 +1977,42 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     let obj = {
       data: updateValidity,
       type: "rateValidityFCL"
+    }
+    modalRef.componentInstance.validityData = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
+
+  rateValidityLCL() {
+    if (!this.delPublishRatesLcl.length) return;
+    let updateValidity = [];
+    for (let i = 0; i < this.allRatesListLcL.length; i++) {
+      for (let y = 0; y < this.delPublishRatesLcl.length; y++) {
+        if (this.allRatesListLcL[i].consolidatorPricingID == this.delPublishRatesLcl[y]) {
+          updateValidity.push(this.allRatesListLcL[i])
+        }
+      }
+    }
+    const modalRef = this.modalService.open(RateValidityComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'upper-medium-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.result.then((result) => {
+      if (result == 'Success') {
+        this.getAllPublishRatesLcl();
+        this.checkedallpublishRatesLcl = false
+        this.delPublishRatesLcl = [];
+      }
+    });
+    let obj = {
+      data: updateValidity,
+      type: "rateValidityLCL"
     }
     modalRef.componentInstance.validityData = obj;
     setTimeout(() => {

@@ -16,6 +16,7 @@ import { SharedService } from '../../../services/shared.service';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { GroundTransportService } from '../../../components/pages/user-desk/manage-rates/ground-transport/ground-transport.service';
 
 
 const now = new Date();
@@ -75,6 +76,7 @@ export class RateValidityComponent implements OnInit {
     private _parserFormatter: NgbDateParserFormatter,
     private renderer: Renderer2,
     private _seaFreightService: SeaFreightService,
+    private _groundTransportService: GroundTransportService,
     private _sharedService: SharedService,
     private _toast: ToastrService
 
@@ -160,6 +162,19 @@ export class RateValidityComponent implements OnInit {
     return true;
   }
   updateRates() {
+
+    if (this.validityData.type =='rateValidityFCL'){
+      this.updateRatesfcl()
+    }
+    else if (this.validityData.type == 'rateValidityLCL') {
+      this.updateRateslcl()
+    }
+    else if (this.validityData.type == 'rateValidityGROUND') {
+      this.updateRatesGround()
+    }
+  }
+
+  updateRatesfcl(){
     let rateData = [];
     if (this.validityData && this.validityData.data && this.validityData.data.length) {
       this.validityData.data.forEach(element => {
@@ -176,6 +191,54 @@ export class RateValidityComponent implements OnInit {
     }
 
     this._seaFreightService.rateValidityFCL(rateData).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toast.success('Record successfully updated', '')
+        this.closeModal(res.returnStatus);
+      }
+    })
+  }
+  updateRateslcl() {
+    let rateData = [];
+    if (this.validityData && this.validityData.data && this.validityData.data.length) {
+      this.validityData.data.forEach(element => {
+        rateData.push(
+          {
+            consolidatorPricingID: element.consolidatorPricingID,
+            rate: this.price,
+            effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+            effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+            modifiedBy: this.userProfile.LoginID
+          }
+        )
+      });
+    }
+
+    this._seaFreightService.rateValidityLCL(rateData).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toast.success('Record successfully updated', '')
+        this.closeModal(res.returnStatus);
+      }
+    })
+  }
+
+  updateRatesGround() {
+    let rateData = [];
+    if (this.validityData && this.validityData.data && this.validityData.data.length) {
+      this.validityData.data.forEach(element => {
+        rateData.push(
+          {
+            pricingID: element.id,
+            transportType: element.transportType,
+            rate: this.price,
+            effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+            effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+            modifiedBy: this.userProfile.LoginID
+          }
+        )
+      });
+    }
+
+    this._groundTransportService.rateValidity(rateData).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success('Record successfully updated', '')
         this.closeModal(res.returnStatus);

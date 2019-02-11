@@ -29,9 +29,10 @@
         </div>
       </div> -->
 
-      <div class="col-5" *ngIf="this.validityData.data.length == 1">
-        <div class="form-group">
-          <label>Rate</label>
+      <div class="col-5" *ngIf="validityData.data.length == 1">
+      <div class="form-group">
+<label *ngIf="validityData.type != 'rateValidityLCL'">Rate</label>
+        <label *ngIf="validityData.type == 'rateValidityLCL'">Rate / CBM</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
