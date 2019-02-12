@@ -45,7 +45,8 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 export class SeaRateDialogComponent implements OnInit {
   @ViewChild("dp") input: NgbInputDatepicker;
   @ViewChild("rangeDp") rangeDp: ElementRef;
-  @ViewChild('myDrop') myDrop: any
+  @ViewChild('originDropdown') originDropdown: any
+  @ViewChild('destinationDropdown') destinationDropdown;
   @Input() selectedData: any;
 
   public allShippingLines: any[] = [];
@@ -577,10 +578,10 @@ export class SeaRateDialogComponent implements OnInit {
 
   closeDropdown(event) {
     console.log(event);
-    if(event.target.id === '') {
-      this.myDrop.close()
+    if(!event.target.id) {
+      this.originDropdown.close()
+      this.destinationDropdown.close()
     }
-    
     // if (!this._eref.nativeElement.contains(event.target)) // or some similar check
     //  console.log('here')
   }
@@ -595,15 +596,25 @@ export class SeaRateDialogComponent implements OnInit {
 
     })
   }
-  public isChargesForm = false;
+  public isOriginChargesForm = false;
+  public isDestinationChargesForm = false;
   public lablelName: string = ''
   public surchargeType: any;
   public labelValidate: boolean = true
   public surchargeBasisValidate: boolean = true
-  showCustomChargesForm(event) {
-    event.stopPropagation()
-    this.myDrop.open()
-    this.isChargesForm = !this.isChargesForm
+  showCustomChargesForm(type) {
+    if(type === 'origin') {
+      this.originDropdown.open()
+      this.isOriginChargesForm = !this.isOriginChargesForm
+    } else if(type === 'destination') {
+      this.destinationDropdown.open()
+      this.isDestinationChargesForm = !this.isDestinationChargesForm
+    }
+    
+  }
+
+  onInputFocus() {
+    this.originDropdown.open()
   }
 
   public canAddLabel: boolean = true;
@@ -643,7 +654,8 @@ export class SeaRateDialogComponent implements OnInit {
 
 
     this._seaFreightService.addCustomCharge(obj).subscribe((res: any) => {
-      this.isChargesForm = false;
+      this.isOriginChargesForm = false;
+      this.isDestinationChargesForm = false;
       if (res.returnId !== -1) {
         let obj = {
           addChrID: res.returnId,
@@ -663,11 +675,24 @@ export class SeaRateDialogComponent implements OnInit {
     })
   }
 
+  public addDestinationActive: boolean = false;
+  public addOriginActive: boolean = false;
   dropdownToggle(event, type) {
+    console.log(event);
+    console.log(type)
     if (event) {
-      this.isChargesForm = false;
+      this.isDestinationChargesForm = false;
+      this.isOriginChargesForm = false;
       this.surchargeBasisValidate = true
       this.labelValidate = true
+      if(type === 'destination') {
+        this.addDestinationActive = true
+      } else if(type === 'origin') {
+        this.addOriginActive = true
+      }
+    } else {
+      this.addOriginActive = false
+      this.addDestinationActive = false
     }
   }
 

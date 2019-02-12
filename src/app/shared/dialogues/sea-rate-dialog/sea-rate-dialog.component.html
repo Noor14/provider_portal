@@ -174,41 +174,54 @@
           <h5 class="model-sub-head mt-4 pull-left">Additional Charges At Port Of Origin</h5>
         </div>
         <div class="col-xl-4" *ngFor="let origin of selectedOrigins; let i=index">
-          <div class="row combine-filed-popup">
-            <div class="col-6 pr-0">
-              <div ngbDropdown #myDrop="ngbDropdown" class="combine-filed-popup-left-btn" placement="top-left">
+          <div class="row combine-filed-popup" [ngClass]="addOriginActive ? 'active' : ''">
+            <div class="col-4 pr-0">
+              <div ngbDropdown #originDropdown="ngbDropdown" class="combine-filed-popup-left-btn"
+                (openChange)="dropdownToggle($event, 'origin')">
                 <button class="btn" id="addCharge" ngbDropdownToggle>
-                  <span>{{selectedOrigins[i]?.addChrName || 'Select' | limitTo : 12 }}</span>
+                  <span>{{selectedOrigins[i]?.addChrName || 'Select' | limitTo : 7 }}</span>
                 </button>
-                <div ngbDropdownMenu aria-labelledby="addChargeExport">
-                  <button *ngIf="!isChargesForm" class="dropdown-item custom-label" (click)="showCustomChargesForm($event)">
+                <div ngbDropdownMenu aria-labelledby="originExport">
+                  <button *ngIf="!isOriginChargesForm" class="dropdown-item custom-label"
+                    (click)="showCustomChargesForm('origin')">
                     <img src="../../../../assets/images/icons/icon_add.svg" width="16" alt="">
                     Add Custom Label
                   </button>
-                  <ng-container *ngIf="!isChargesForm">
+                  <ng-container *ngIf="!isOriginChargesForm">
                     <button class="dropdown-item" *ngFor="let charge of originsList"
-                      (click)="selectCharges('EXPORT', charge, i)">{{charge.addChrName}}</button></ng-container>
-                  <div class="col-12 dropdown-item charges-form" *ngIf="isChargesForm">
-                    <div class="form-group">
-                      <label>Add Custom Label</label>
-                      <input class="form-control" type="text" [(ngModel)]="lablelName" (focus)="labelValidate = true">
-                      <small class="text-danger d-block" *ngIf="!labelValidate">Please provide name for your custom
-                        label</small>
-                      <select class="form-control" [(ngModel)]="surchargeType" (focus)="surchargeBasisValidate = true">
-                        <option *ngFor="let item of surchargesList" selected [value]="item.codeValID">
-                          {{item.codeValDesc}}</option>
-                      </select>
-                      <small class="text-danger d-block" *ngIf="!surchargeBasisValidate">Please select surcharge
-                        basis</small>
-                      <button class="btn btn-primary mt-4 hvr-sweep-to-right w-100" (click)="addCustomLabel()">Add
+                      (click)="selectCharges('EXPORT', charge, i)">{{charge.addChrName}}</button>
+                  </ng-container>
+                  <div class="row dropdown-item charges-form" *ngIf="isOriginChargesForm">
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label>Add Custom Label</label>
+                        <input class="form-control" type="text" [(ngModel)]="lablelName"
+                          (focus)="onInputFocus();labelValidate = true">
+                        <small class="text-danger d-block" *ngIf="!labelValidate">Please provide name for your custom
+                          label</small>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="surchargeType"
+                          (focus)="onInputFocus(); surchargeBasisValidate = true">
+                          <option *ngFor="let item of surchargesList" selected [value]="item.codeValID">
+                            {{item.codeValDesc}}</option>
+                        </select>
+                        <small class="text-danger d-block" *ngIf="!surchargeBasisValidate">Please select surcharge
+                          basis</small>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <button class="btn btn-primary mt-3 hvr-sweep-to-right w-100" (click)="addCustomLabel()">Add
                         Label</button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-2 pl-0 pr-0">
-              <div class="form-group combine-filed-popup-right">
+            <div class="col-4 pl-0 pr-0">
+              <div class="form-group combine-filed-popup-mid">
                 <input type="text" maxlength="15" class="form-control" [(ngModel)]="origin.Price" placeholder="0.00"
                   (keypress)="numberValid($event)">
               </div>
@@ -247,47 +260,56 @@
         </div>
 
         <div class="col-xl-4" *ngFor="let destination of selectedDestinations; let i=index">
-          <div class="row combine-filed-popup">
-            <div class="col-6 pr-0">
+          <div class="row combine-filed-popup" [ngClass]="addDestinationActive ? 'active' : ''">
+            <div class="col-4 pr-0 pl-0">
               <div ngbDropdown #destinationDropdown="ngbDropdown" (openChange)="dropdownToggle($event, 'destination')"
                 class="combine-filed-popup-left-btn" placement="top-left">
-                <button class="btn" id="addChargeExport" ngbDropdownToggle>
+                <button class="btn" id="destinationExport" ngbDropdownToggle>
                   <span>{{selectedDestinations[i]?.addChrName || 'Select' | limitTo : 12 }}</span>
                 </button>
-                <div ngbDropdownMenu aria-labelledby="addChargeExport">
-                  <button *ngIf="!isChargesForm" class="dropdown-item custom-label" (click)="showCustomChargesForm()">
+                <div ngbDropdownMenu aria-labelledby="destinationExport">
+                  <button *ngIf="!isDestinationChargesForm" class="dropdown-item custom-label" (click)="showCustomChargesForm('destination')">
                     <img src="../../../../assets/images/icons/icon_add.svg" width="16" alt="">
                     Add Custom Label
                   </button>
-                  <ng-container *ngIf="!isChargesForm">
+                  <ng-container *ngIf="!isDestinationChargesForm">
                     <button class="dropdown-item" *ngFor="let charge of destinationsList"
                       (click)="selectCharges('IMPORT', charge, i)">{{charge.addChrName}}</button></ng-container>
-                  <div class="col-12 dropdown-item charges-form" *ngIf="isChargesForm">
-                    <div class="form-group">
-                      <label>Add Custom Label</label>
-                      <input class="form-control" type="text" [(ngModel)]="lablelName" (focus)="labelValidate = true">
-                      <small class="text-danger d-block" *ngIf="!labelValidate">Please provide name for your custom
-                        label</small>
-                      <select class="form-control" [(ngModel)]="surchargeType" (focus)="surchargeBasisValidate = true">
-                        <option *ngFor="let item of surchargesList" selected [value]="item.codeValID">
-                          {{item.codeValDesc}}</option>
-                      </select>
-                      <small class="text-danger d-block" *ngIf="!surchargeBasisValidate">Please select surcharge
-                        basis</small>
-                      <button class="btn btn-primary mt-4 hvr-sweep-to-right w-100" (click)="addCustomLabel()">Add
+                  <div class="row dropdown-item charges-form" *ngIf="isDestinationChargesForm">
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label>Add Custom Label</label>
+                        <input class="form-control" type="text" [(ngModel)]="lablelName" (focus)="labelValidate = true">
+                        <small class="text-danger d-block" *ngIf="!labelValidate">Please provide name for your custom
+                          label</small>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="surchargeType"
+                          (focus)="surchargeBasisValidate = true">
+                          <option *ngFor="let item of surchargesList" selected [value]="item.codeValID">
+                            {{item.codeValDesc}}</option>
+                        </select>
+                        <small class="text-danger d-block" *ngIf="!surchargeBasisValidate">Please select surcharge
+                          basis</small>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <button class="btn btn-primary mt-3 hvr-sweep-to-right w-100" (click)="addCustomLabel()">Add
                         Label</button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-2 pl-0 pr-0">
-              <div class="form-group combine-filed-popup-right">
+            <div class="col-4 pl-0 pr-0">
+              <div class="form-group mb-0 combine-filed-popup-right">
                 <input type="text" maxlength="15" class="form-control" [(ngModel)]="destination.Price"
                   placeholder="0.00" (keypress)="numberValid($event)">
               </div>
             </div>
-            <div class="col-4 pl-0">
+            <div class="col-4 pl-0 pr-0">
               <div class="origin combine-filed-popup-right">
                 <div class="flag-container">
                   <img *ngIf="destination.currency && destination.currency.CountryCode"
