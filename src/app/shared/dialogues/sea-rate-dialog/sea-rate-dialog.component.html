@@ -174,7 +174,8 @@
           <h5 class="model-sub-head mt-4 pull-left">Additional Charges At Port Of Origin</h5>
         </div>
         <div class="col-xl-4" *ngFor="let origin of selectedOrigins; let i=index">
-          <div class="row combine-filed-popup" [ngClass]="addOriginActive ? 'active' : ''">
+          <div class="row combine-filed-popup">
+            <div class="d-flex ml-3 mr-3" [ngClass]="addOriginActive ? 'active' : ''">
             <div class="col-4 pr-0 pl-0">
               <div ngbDropdown #originDropdown="ngbDropdown" class="combine-filed-popup-left-btn"
                 (openChange)="dropdownToggle($event, 'origin')">
@@ -247,9 +248,10 @@
                 </ng-template>
               </div>
             </div>
+            </div>
           </div>
         </div>
-        <div class="col-12">
+        <div class="col-12 mt-2">
           <a (click)="addMoreCharges('origin')" href="javascript:;" class="addAnother animated fadeIn">Add More
             Charges</a>
         </div>
@@ -260,7 +262,8 @@
         </div>
 
         <div class="col-xl-4" *ngFor="let destination of selectedDestinations; let i=index">
-          <div class="row combine-filed-popup" [ngClass]="addDestinationActive ? 'active' : ''">
+          <div class="row combine-filed-popup">
+            <div class="d-flex ml-3 mr-3" [ngClass]="addDestinationActive ? 'active' : ''">
             <div class="col-4 pr-0 pl-0">
               <div ngbDropdown #destinationDropdown="ngbDropdown" (openChange)="dropdownToggle($event, 'destination')"
                 class="combine-filed-popup-left-btn" placement="top-left">
@@ -327,9 +330,10 @@
                 </ng-template>
               </div>
             </div>
+            </div>
           </div>
         </div>
-        <div class="col-12">
+        <div class="col-12 mt-2">
           <a (click)="addMoreCharges('destination')" href="javascript:;" class="addAnother animated fadeIn">Add More
             Charges</a>
         </div>

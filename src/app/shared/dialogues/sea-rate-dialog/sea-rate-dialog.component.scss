@@ -27,7 +27,6 @@
     }
 
     .combine-filed-popup {
-      margin: 0 0 10px 0;
       border-radius: 4px;
 
       &-left {
@@ -86,10 +85,13 @@
                 img {
                   margin-right: 0.5rem;
                 }
+                &:hover {
+                  color: $primary-color;
+                }
               }
 
               &.charges-form {
-                width: 315px;
+                width: 313px;
                 margin: 0;
                 padding: .25rem 0;
               }
@@ -135,7 +137,7 @@
         }
       }
 
-      &.active {
+      .active {
         box-shadow: 0 0 0 1px #00a2df;
         border-radius: 4px;
       }
