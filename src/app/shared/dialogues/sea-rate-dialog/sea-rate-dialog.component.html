@@ -174,8 +174,8 @@
           <h5 class="model-sub-head mt-4 pull-left">Additional Charges At Port Of Origin</h5>
         </div>
         <div class="col-xl-4" *ngFor="let origin of selectedOrigins; let i=index">
-          <div class="row combine-filed-popup" [ngClass]="addOriginActive ? 'active' : ''">
-            <div class="col-4 pr-0">
+          <div class="row combine-filed-popup add" [ngClass]="addOriginActive ? 'active' : ''">
+            <div class="col-4 pr-0 pl-0">
               <div ngbDropdown #originDropdown="ngbDropdown" class="combine-filed-popup-left-btn"
                 (openChange)="dropdownToggle($event, 'origin')">
                 <button class="btn" id="addCharge" ngbDropdownToggle>
@@ -221,12 +221,12 @@
               </div>
             </div>
             <div class="col-4 pl-0 pr-0">
-              <div class="form-group combine-filed-popup-mid">
+              <div class="form-group mb-0 combine-filed-popup-mid">
                 <input type="text" maxlength="15" class="form-control" [(ngModel)]="origin.Price" placeholder="0.00"
                   (keypress)="numberValid($event)">
               </div>
             </div>
-            <div class="col-4 pl-0">
+            <div class="col-4 pl-0 pr-0">
               <div class="origin combine-filed-popup-right">
                 <div class="flag-container">
                   <img *ngIf="origin.currency && origin.currency.CountryCode"
@@ -260,7 +260,7 @@
         </div>
 
         <div class="col-xl-4" *ngFor="let destination of selectedDestinations; let i=index">
-          <div class="row combine-filed-popup" [ngClass]="addDestinationActive ? 'active' : ''">
+          <div class="row combine-filed-popup add" [ngClass]="addDestinationActive ? 'active' : ''">
             <div class="col-4 pr-0 pl-0">
               <div ngbDropdown #destinationDropdown="ngbDropdown" (openChange)="dropdownToggle($event, 'destination')"
                 class="combine-filed-popup-left-btn" placement="top-left">
