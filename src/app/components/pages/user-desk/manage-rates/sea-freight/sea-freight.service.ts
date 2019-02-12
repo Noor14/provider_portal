@@ -63,7 +63,6 @@ export class SeaFreightService {
     let url: string = "providerratelcl/DeletePublishRate";
     return this._http.request('delete', baseApi + url, { body: data });
   }
-
   getAllAdditionalCharges(ProviderID) {
     let url: string = `AdditionalCharge/GetAll/${ProviderID}`;
     return this._http.get(baseApi + url);
@@ -71,6 +70,21 @@ export class SeaFreightService {
 
   getSurchargeBasis(ContainerLoadType) {
     let url: string = `AdditionalCharge/GetSurchargeBasis/${ContainerLoadType}`;
+    return this._http.get(baseApi + url);
+  }
+
+  rateValidityFCL(data) {
+    let url: string = "providerratefcl/EditRate";
+    return this._http.post(baseApi + url, data);
+  }
+  rateValidityLCL(data) {
+    let url: string = "providerratelcl/EditRate";
+    return this._http.post(baseApi + url, data);
+  }
+
+
+  getRecHistory(recId, objectName, createdBy) {
+    let url: string = `providerratefcl/GetRateHistory/${recId}/${objectName}/${createdBy}`;
     return this._http.get(baseApi + url);
   }
 

@@ -37,6 +37,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
 
   public selected_country: any;
   public countryList: any;
+  public cityList: any;
   public countryFlagImage: string;
   public transPhoneCode: string;
   public activePhone: any;
@@ -177,6 +178,11 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
         // this.selectPhoneCode(selectedCountry);
       }
 
+    });
+    this._sharedService.cityList.subscribe((state: any) => {
+      if (state) {
+        this.cityList = state;
+      }
     });
 
     this._sharedService.getLocation.subscribe((state: any) => {
@@ -735,6 +741,18 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
 
 
   formatterjobOtherLng = (x: { otherLanguage: string }) => x.otherLanguage;
+
+
+
+
+
+  searchCity = (text$: Observable<string>) =>
+    text$
+      .debounceTime(200)
+      .map(term => (!term || term.length < 3) ? []
+        : this.cityList.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1));
+  formatterCity = (x: { title: string}) => x.title;
+
 
   registration() {
     loading(true);

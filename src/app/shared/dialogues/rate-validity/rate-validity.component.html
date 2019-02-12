@@ -1,19 +1,61 @@
 <div class="provider-modal animated fadeIn">
   <div class="modal-header">
     <h4 class="provider-modal-title">Rate Validity</h4>
-    <a class="pointer crossIcon">
+    <a class="pointer crossIcon" (click)="closePopup()">
       <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
     </a>
   </div>
   <div class="modal-body">
-    <div class="form-group date-control">
-      <!-- <label>Rate Validity</label> -->
-      <div class="dateIcon">
-          <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp"
-            [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right"
-            [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate"
-            #dp="ngbDatepicker" (click)="dp.toggle()">
+    <div class="row">
+      <!-- <div class="col-3">
+        <div class="form-group">
+          <label>Currency</label>
+          <div class="origin">
+            <div class="flag-container">
+              <img *ngIf="selectedCurrency && selectedCurrency.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (selectedCurrency.CountryCode | lowercase) + '.svg'}}"
+                type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+            </div>
+            <input type="text" placeholder="AED" [(ngModel)]="selectedCurrency" class="form-control" [ngClass]="{'routeSelected': selectedCurrency && selectedCurrency.CountryCode}"
+              [ngbTypeahead]="currencies" [resultTemplate]="crt" [inputFormatter]="currencyFormatter">
+            <ng-template #crt let-r="result">
+              <div class="d-flex">
+                <div class="flag-container mr-1">
+                  <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
+                </div>
+                <ngb-highlight [result]="r.CurrencyCode"></ngb-highlight>
+              </div>
+            </ng-template>
+          </div>
         </div>
+      </div> -->
+
+      <div class="col-5" *ngIf="validityData.data.length == 1">
+      <div class="form-group">
+<label *ngIf="validityData.type != 'rateValidityLCL'">Rate</label>
+        <label *ngIf="validityData.type == 'rateValidityLCL'">Rate / CBM</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
+            </div>
+            <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="price" (keypress)="numberValid($event)">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-7">
+        <div class="form-group">
+          <label>Selected Date</label>
+          <div class="dateIcon mb-2">
+            <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date" ngbDatepicker
+              #dp="ngbDatepicker" disabled />
+          </div>
+        </div>
+      </div>
+      <div class="col-12 date-control mt-3">
+          <hr class="hr-solid mb-2">
+        <ngb-datepicker [maxDate]="maxDate" [minDate]="minDate" [navigation]="false" [displayMonths]="2" [dayTemplate]="t"
+          outsideDays="true">
+        </ngb-datepicker>
         <ng-template #t let-date="date" let-focused="focused">
           <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
             [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date"
@@ -21,23 +63,12 @@
             {{ date.day }}
           </span>
         </ng-template>
-      
-<!-- <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
-  </ngb-datepicker> -->
-  
-  <!-- <ng-template #t let-date let-focused="focused">
-    <span class="custom-day"
-          [class.focused]="focused"
-          [class.range]="isFrom(date)"
-          [class.faded]="isHovered(date) || isInside(date)"
-          (mouseenter)="hoveredDate = date"
-          (mouseleave)="hoveredDate = null">
-      {{ date.day }}
-    </span>
-  </ng-template> -->
-      <button type="submit" class="btn btn-primary pull-right hvr-sweep-to-right mt-4 mb-4">
-          Update Password
+        <hr class="hr-solid mt-0 mb-4">
+        <button type="button" class="btn btn-primary pull-right hvr-sweep-to-right mt-1 mb-2" [disabled]="(!fromDate || !this.fromDate && fromDate.month) || (!toDate || !this.toDate && toDate.month)"
+          (click)="updateRates()">
+          Update
         </button>
+      </div>
     </div>
   </div>
 </div>

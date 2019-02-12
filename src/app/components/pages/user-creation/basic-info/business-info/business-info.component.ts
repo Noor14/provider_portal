@@ -394,7 +394,8 @@ removeSelectedDocx(index,  obj, type) {
       providerID: this.userProfile.ProviderID,
       aboutUs: this.aboutUs,
       isPrivateMode: this.privateModeToggler,
-      profileID: this.userName
+      profileID: this.userName,
+      createdBY: this.userProfile.LoginID
     }
     this._basicInfoService.addBusinessInfo(obj).subscribe((res:any)=>{
       if(res && res.returnStatus == 'Success'){

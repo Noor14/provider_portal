@@ -25,6 +25,7 @@ import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-pars
 import { ManageRatesService } from '../manage-rates.service';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -58,7 +59,8 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 })
 export class GroundTransportComponent implements OnInit, OnDestroy  {
 
-  public activeTab = "activeFCL"
+  public rateValidityText = "Edit Rate / Validity";
+  public activeTab = "activeFCL";
   private draftRates: any;
   private addnsaveRates: any;
   public dtOptionsByGround: DataTables.Settings | any = {};
@@ -353,7 +355,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         paginate: {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
-        }
+        },
+        // emptyTable: "No data available in table"
       },
       fixedColumns: {
         leftColumns: 0,
@@ -499,7 +502,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         paginate: {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
-        }
+        },
+        // emptyTable: "No data available in table"
       },
       fixedColumns: {
         leftColumns: 0,
@@ -1020,7 +1024,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         paginate: {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
-        }
+        },
+        // emptyTable: "No data available in table"
       },
       fixedColumns: {
         leftColumns: 0,
@@ -1074,13 +1079,14 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
                 transportType: selectedData.split('-').pop()
               }
               this.delPublishRates.push(obj);
-              this.selectedItem('add', alltableOption)
+              this.selectedItem('add', alltableOption);
+              this.rateValidityText = "Edit Validity";
             }
           }
           if (i == cols.length && !this.checkedallpublishRates) {
             this.delPublishRates = [];
             this.selectedItem('remove', alltableOption)
-
+            this.rateValidityText = "Edit Validity";
           }
 
         });
@@ -1099,6 +1105,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
               transportType: selectedData.split('-').pop()
             }
             this.delPublishRates.push(obj)
+          }
+          if (this.delPublishRates && this.delPublishRates.length > 1) {
+            this.rateValidityText = "Edit Validity";
+          }
+          else {
+            this.rateValidityText = "Edit Rate / Validity";
           }
         });
         
@@ -1364,7 +1376,41 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       }
     }, 0);
   }
-
+  rateValidity() {
+    if (!this.delPublishRates.length) return;
+    let updateValidity = [];
+    for (let i = 0; i < this.allRatesList.length; i++) {
+      for (let y = 0; y < this.delPublishRates.length; y++) {
+        if (this.allRatesList[i].id == this.delPublishRates[y].publishRateID) {
+          updateValidity.push(this.allRatesList[i])
+        }
+      }
+    }
+    const modalRef = this.modalService.open(RateValidityComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'upper-medium-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.result.then((result) => {
+      if (result == 'Success') {
+        this.getAllPublishRates();
+        this.checkedallpublishRates = false
+        this.delPublishRates = [];
+      }
+    });
+    let obj = {
+      data: updateValidity,
+      type: "rateValidityGROUND"
+    }
+    modalRef.componentInstance.validityData = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
   saveTermNcond() {
     let obj = {
       providerID: this.userProfile.ProviderID,

@@ -19,7 +19,7 @@
       </div>
       <div class="col-xl-5 col-lg-5 col-md-12">
         <div class="card pointer" (click)="addRatesBygroundManually()">
-          <img class="card-icon" src="../../../../../assets/images/icons/manager-icon.png" alt="*" />
+          <img class="card-icon" src="../../../../../assets/images/icons/add-edit-icon.svg" alt="*" />
           <div class="card-body">
             <h5 class="card-title">Add Your Rates Manually </h5>
             <p class="sub-title">Use our tool to add your rates manually</p>
@@ -215,6 +215,10 @@
   </section>
   <section class="rates-grid mt-5 publishRateGround" [ngClass]="{'no-data': allRatesList && !allRatesList.length, 'no-scroll-add': allRatesList && allRatesList.length, 'no-pagination': allRatesList && allRatesList.length <= dtOptionsByGround.pageLength}">
     <div class="d-flex justify-content-end mb-3">
+      <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity()" [ngClass]="{ 'no-drop': !delPublishRates.length }">
+        <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" />
+        {{rateValidityText}}
+      </a>
       <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord()" [ngClass]="{'no-drop': !this.delPublishRates.length}">
         <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16">
         Delete

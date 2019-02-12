@@ -483,7 +483,7 @@ export class SeaRateDialogComponent implements OnInit {
   selectCharges(type, model, index) {
     // model.CurrId = this.selectedCurrency.CurrencyID
     console.log(this.selectedDestinations[index]);
-    if (Object.keys(this.selectedDestinations[index]).length === 0 && this.selectedDestinations[index].constructor === Object) {
+    if ((Object.keys(this.selectedDestinations[index]).length === 0 && this.selectedDestinations[index].constructor === Object) || !this.selectedDestinations[index].hasOwnProperty('currency')) {
       model.CurrId = this.selectedCurrency.CurrencyID
     } else {
       model.CurrId = this.selectedDestinations[index].currency.CurrencyID

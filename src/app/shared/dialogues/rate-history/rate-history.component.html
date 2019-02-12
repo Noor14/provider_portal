@@ -1,3 +1,102 @@
-<p>
-  rate-history works!
-</p>
+<section class="ratesHistory">
+  <div class="modal-header">
+    <h4 class="m-0">Rate History</h4>
+    <a class="pointer crossIcon" (click)="closeModal()">
+      <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
+    </a>
+  </div>
+
+  <div class="modal-body bg-light">
+    <div class="row detail">
+      <div class="col-6 mb-4">
+        <div class="ports">
+          <small class="d-block">From</small>
+          <div class="d-flex">
+            <div class="flag-container">
+              <img src="{{'../../../../assets/images/flags/1x1/'+ (originDet?.FromCountry | lowercase) + '.svg'}}" alt="icon">
+            </div>
+            <div class="location">
+              <label class="ports-text">{{originDet?.FromCountry}}</label>
+              <span class=" d-block">Port of {{originDet?.FromPort}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 mb-4">
+        <div class="ports">
+          <small class="d-block">To</small>
+          <div class="d-flex">
+            <div class="flag-container">
+              <img src="{{'../../../../assets/images/flags/1x1/'+ (destinationDet?.ToCountry | lowercase) + '.svg'}}"
+                alt="icon">
+            </div>
+            <div class="location">
+              <label class="ports-text">{{destinationDet?.ToCountry}}</label>
+              <span class=" d-block">Port of {{destinationDet?.ToPort}}</span>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-6 mb-4">
+        <div class="ports">
+          <small class="d-block">Shipping Lines</small>
+          <div class="d-flex">
+            <div class="flag-container">
+              <img [src]="baseExternalAssets + '/' + shippingInfo?.ShippingLineLogo" alt="icon">
+            </div>
+            <div class="location">
+              <label class="ports-text">{{shippingInfo?.ShippingLine}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-6 mb-4">
+        <div class="ports">
+          <small class="d-block">Customer</small>
+          <div class="d-flex">
+            <div class="flag-container">
+              <img [src]="baseExternalAssets + customerInfo?.CustomerImage" alt="icon">
+            </div>
+            <div class="location">
+              <label class="ports-text">{{customerInfo?.CustomerName}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 ">
+        <div class="ports">
+          <small class="d-block">Container</small>
+          <label class="ports-text">{{containerInfo?.ContainerSpecDesc}}</label>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="ports">
+          <small class="d-block">Cargo Type</small>
+          <label class="ports-text">{{cargoInfo?.ShippingCatName}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="list">
+    <!-- <ng-scrollbar [autoHide]="true" class="history-scroll"> -->
+    <ul class="list-group" *ngIf="history">
+      <li class="list-group-item d-flex flex-column" *ngFor="let list of history">
+        <label class="mb-0">{{list.AuditDesc.Desc}} by {{list.AuditDesc.ModifiedBy}}</label>
+        <label class="mb-0 activity">{{list.AuditDesc.Activity}}</label>
+        <small>on {{list.AuditDesc.CreatedDateTime}} from {{list.AuditDesc.Location}}</small>
+      </li>
+    </ul>
+    
+    <!-- </ng-scrollbar> -->
+  <p class=" m-0 text-center p-2" *ngIf="!history">No Results Found</p>
+  </div>
+
+</section>

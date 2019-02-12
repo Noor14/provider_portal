@@ -1,0 +1,95 @@
+@import "../../../../assets/scss/_variables";
+
+.ratesHistory {
+  .modal-header {
+    padding-left: 30px
+  }
+
+  .modal-body {
+    border-bottom: 1px solid #e9ecef;
+
+    .detail {
+      padding: 0px 15px;
+
+      .col-6 {
+        .ports {
+          font-family: $font-proxima;
+          font-size: $font-size-base;
+          max-width: 195px;
+
+          &-text {
+            font-size: $font-size-large;
+            color: $text-color-default;
+            margin-bottom: 0;
+          }
+
+          small {
+            font-size: $font-size-medium;
+            color: $secondary-grey;
+            text-transform: uppercase;
+          }
+
+          span {
+            font-size: $font-size-medium;
+            color: $text-color-default;
+            line-height: 1.5;
+          }
+
+          .flag-container {
+            width: 16px;
+            height: 14px;
+            align-items: center;
+            margin-right: 0.5rem;
+
+            img {
+              // border: 1px solid $primary-grey;
+              height: 100%;
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+  .list {
+    padding: 0rem 1rem 0 2.5rem;
+    max-height: 220px;
+    overflow-y: auto;
+
+    &-group {
+      padding-bottom: 0;
+      padding-left: 4px;
+      border-left: 1px solid #e9ecef;
+
+      &-item {
+        padding: 1.2rem 1.5rem 0.2rem 1.5rem;
+        border: 0 !important;
+        font-family: $font-proxima;
+        margin-bottom: 1rem;
+
+        small {
+          font-size: $font-size-medium;
+          color: $route-arrow-color;
+        }
+
+        .activity {
+          font-weight: 500;
+        }
+
+        // border-left: 0 !important;
+        &::before {
+          content: "";
+          height: 8px;
+          width: 8px;
+          background: #1caae3;
+          border-radius: 50%;
+          position: absolute;
+          left: -8px;
+          top: 25px;
+        }
+      }
+    }
+  }
+}

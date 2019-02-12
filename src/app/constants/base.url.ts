@@ -18,8 +18,11 @@ else if (environment.prod) {
     // PROD URL
     // baseApi = "http://partner.hashmove.com:81/api/";
     // baseExternalAssets = "http://partner.hashmove.com:81";
-    baseApi = "https://betaapi.hashmove.com/api/";
-    baseExternalAssets = "https://betaapi.hashmove.com";
+    
+    // baseApi = "https://betaapi.hashmove.com/api/";
+    // baseExternalAssets = "https://betaapi.hashmove.com";
+    baseApi = "https://betademoapi.hashmove.com/api/";
+    baseExternalAssets = "https://betademoapi.hashmove.com";
 }
 else{
     // PERSONAL URL

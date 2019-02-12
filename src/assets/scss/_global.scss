@@ -28,7 +28,12 @@ body {
       margin: auto;
     }
   }
-
+  .upper-medium-modal{
+    .modal-dialog {
+      max-width: 510px !important;
+      margin: auto;
+    }
+  }
   .large-modal {
     .modal-dialog {
       max-width: 1070px;
@@ -1522,6 +1527,20 @@ select {
               line-height: 1;
               visibility: visible !important;
 
+              .fancyOptionBoxes {
+                input[disabled="true"] + label {
+                  span {
+                    background: #f9f9f9;
+
+                    &:after {
+                      background: #f9f9f9;
+                      border: 1px solid #f2f2f2;
+                      box-shadow: none;
+                    }
+                  }
+                }
+              }
+
               span {
                 color: $place-holder-color;
                 font-family: $font-proxima;
@@ -1599,6 +1618,9 @@ select {
                   left: 0;
                 }
               }
+              // &.dataTables_empty {
+              //   color: $dark-grey-border;
+              // }
             }
           }
         }

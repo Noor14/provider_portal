@@ -17,7 +17,7 @@
       </div>
       <div class="col-xl-5 col-lg-5 col-md-12">
         <div class="card pointer" (click)="addRatesByseaManually()">
-          <img class="card-icon" src="../../../../../assets/images/icons/manager-icon.png" alt="*" />
+          <img class="card-icon" src="../../../../../assets/images/icons/add-edit-icon.svg" alt="*" />
           <div class="card-body">
             <h5 class="card-title">Add Your Rates Manually</h5>
             <p class="sub-title">Use our tool to add your rates manually</p>
@@ -173,7 +173,6 @@
                       </select>
                     </div>
                   </div>
-
                   <!-- <div class="col-3">
                     <div class="form-group">
                       <label>Handling Unit</label>
@@ -216,7 +215,10 @@
         </section>
         <section class="rates-grid mt-5 publishRatesLCL" [ngClass]="{'no-data': allRatesListLcL && !allRatesListLcL.length, 'no-scroll-add': allRatesListLcL && allRatesListLcL.length, 'no-pagination': allRatesListLcL && allRatesListLcL.length <= dtOptionsBySeaLCL.pageLength}">
           <div class="d-flex justify-content-end mb-3">
-
+          <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidityLCL()" [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
+                  <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" />
+                  {{rateValidityTextLCL}}
+                </a>
             <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('LCL')" [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
               <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16" />
               Delete
@@ -229,24 +231,24 @@
           <div class="row">
             <div class="col-12">
               <hr class="hr-solid mt-4" />
-<div class="policyEditor mb-4 mt-4 d-flex justify-content-between align-items-center">
-  <h5 class="add-rate-head">Terms & Conditions</h5>
-  <button *ngIf="disableLCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5" (click)="disableLCL = !disableLCL">
-    EDIT
-  </button>
-</div>
-<div class="form-group">
-  <quill-editor *ngIf="!disableLCL" [(ngModel)]="editorContentLCL" [options]="editorOptionsLCL" (blur)="onEditorBlured($event, 'LCL')"
-(focus)="onEditorFocused($event,'LCL')" (ready)="onEditorCreated($event,'LCL')"
-(change)="onContentChanged($event,'LCL')">
-  </quill-editor>
-  <div *ngIf="disableLCL" class="editor" [innerHTML]="editorContentLCL">
-  </div>
-  <button *ngIf="!disableLCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="button"
-    [disabled]="!editorContentLCL" (click)="saveTermNcond('LCL')">
-    SAVE
-  </button>
-</div>
+              <div class="policyEditor mb-4 mt-4 d-flex justify-content-between align-items-center">
+                <h5 class="add-rate-head">Terms & Conditions</h5>
+                <button *ngIf="disableLCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5"
+                  (click)="disableLCL = !disableLCL">
+                  EDIT
+                </button>
+              </div>
+              <div class="form-group">
+                <quill-editor *ngIf="!disableLCL" [(ngModel)]="editorContentLCL" [options]="editorOptionsLCL" (blur)="onEditorBlured($event, 'LCL')"
+                  (focus)="onEditorFocused($event,'LCL')" (ready)="onEditorCreated($event,'LCL')" (change)="onContentChanged($event,'LCL')">
+                </quill-editor>
+                <div *ngIf="disableLCL" class="editor" [innerHTML]="editorContentLCL">
+                </div>
+                <button *ngIf="!disableLCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4"
+                  type="button" [disabled]="!editorContentLCL" (click)="saveTermNcond('LCL')">
+                  SAVE
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -337,7 +339,6 @@
                       </select>
                     </div>
                   </div>
-
                   <div class="col-6">
                     <div class="form-group">
                       <label>Route</label>
@@ -451,9 +452,10 @@
         </section>
         <section class="rates-grid mt-5 publishRatesFCL" [ngClass]="{'no-data': allRatesList && !allRatesList.length, 'no-scroll-add': allRatesList && allRatesList.length, 'no-pagination': allRatesList && allRatesList.length <= dtOptionsBySeaFCL.pageLength}">
           <div class="d-flex justify-content-end mb-3">
-            <!-- <a href="javascript:;" class="grid-delete mr-4" (click)="rateValidity()"> <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16" />
-              Edit Rate Validity
-            </a> -->
+            <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity()" [ngClass]="{ 'no-drop': !delPublishRates.length }">
+              <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" />
+              {{rateValidityTextFCL}}
+            </a>
             <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('FCL')" [ngClass]="{ 'no-drop': !delPublishRates.length }">
               <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16" />
               Delete
@@ -466,25 +468,24 @@
           <div class="row">
             <div class="col-12">
               <hr class="hr-solid mt-4" />
-
-<div class="policyEditor mb-4 mt-4 d-flex justify-content-between align-items-center">
-  <h5 class="add-rate-head">Terms & Conditions</h5>
-  <button *ngIf="disableFCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5" (click)="disableFCL = !disableFCL">
-    EDIT
-  </button>
-</div>
-      <div class="form-group">
-<quill-editor *ngIf="!disableFCL" [(ngModel)]="editorContentFCL" [options]="editorOptionsFCL" (blur)="onEditorBlured($event,'FCL')"
-(focus)="onEditorFocused($event,'FCL')" (ready)="onEditorCreated($event,'FCL')"
-(change)="onContentChanged($event,'FCL')">
-        </quill-editor>
-        <div *ngIf="disableFCL" class="editor" [innerHTML]="editorContentFCL">
-        </div>
-        <button *ngIf="!disableFCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="button"
-          [disabled]="!editorContentFCL" (click)="saveTermNcond('FCL')">
-          SAVE
-        </button>
-      </div>
+              <div class="policyEditor mb-4 mt-4 d-flex justify-content-between align-items-center">
+                <h5 class="add-rate-head">Terms & Conditions</h5>
+                <button *ngIf="disableFCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5"
+                  (click)="disableFCL = !disableFCL">
+                  EDIT
+                </button>
+              </div>
+              <div class="form-group">
+                <quill-editor *ngIf="!disableFCL" [(ngModel)]="editorContentFCL" [options]="editorOptionsFCL" (blur)="onEditorBlured($event,'FCL')"
+                  (focus)="onEditorFocused($event,'FCL')" (ready)="onEditorCreated($event,'FCL')" (change)="onContentChanged($event,'FCL')">
+                </quill-editor>
+                <div *ngIf="disableFCL" class="editor" [innerHTML]="editorContentFCL">
+                </div>
+                <button *ngIf="!disableFCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4"
+                  type="button" [disabled]="!editorContentFCL" (click)="saveTermNcond('FCL')">
+                  SAVE
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -492,3 +493,98 @@
     </ngb-tab>
   </ngb-tabset>
 </section>
+
+
+
+<!-- Button trigger modal -->
+<!-- 
+<ng-template #content let-modal class="shipping-modal">
+  <div class="modal-header">
+    <div class="modal-header-text">
+      <h4 class="modal-title text-center">Upload your rates</h4>
+      <p class="text-center"> Upload your FCL and LCL rates if you already have it</p>
+      <a class="pull-right hvr-icon-forward" href="javascript:;">
+        <img src="../../../assets/images/icons/icon_billing_blue.svg">
+        <span class="link-hover-secondary ">Download our preferred format</span>
+        <i class="fa fa-angle-right hvr-icon"></i>
+      </a>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal(1)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body p-0">
+
+    <div class="documentInfo d-flex flex-column">
+      <div class="file-uploader">
+        <app-ng-files-drag-n-upload>
+          <img src="../../../assets/images/icons/manager-icon.png">
+          <p class="m-0 pt-3"> Drag here or
+            <span class="browse-span">browse</span> to upload</p>
+          <small class="drag-support"> (supported types: pdf, jpeg, png, Maximum size per document: 4 MB) </small>
+        </app-ng-files-drag-n-upload>
+      </div>
+      <div class="uploaded-file">
+        <div class="fileDesc p-3">
+          <a [href]="" target="_blank">
+            <img src="../../../../../../assets/images/icons/icon_docx.svg" alt="img" class="fileIcon mr-3">
+            <span>setup_price.jpg</span>
+            <img src="../../../../../../assets/images/icons/icon_delete -grey.svg" alt="del" class="icon-size-16 pointer pull-right mt-2">
+
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer justify-content-center pb-4">
+    <button class="btn btn-primary hvr-sweep-to-right">Upload</button>
+  </div>
+</ng-template>
+
+
+
+<button class="btn btn-lg btn-outline-primary" (click)="open2(content2)">Rate History</button>
+
+
+
+
+
+<ng-template #content3 let-modal class="paid-modal3">
+  <div class="modal-header pb-2 ">
+      <h4 class="ml-3">HM1827423900</h4>
+      <span class="text"> paid</span>
+      <button type="button" class="close" aria-label="Close" (click)="closeModal(2)">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+
+  <div class="modal-body p-0">
+
+      <ul class="list-group">
+          <li class="list-group-item">
+              <label class="mb-0 ">Amount paid
+                  <strong> AED 4,000</strong>
+              </label>
+              <small class=" mb-2 d-block">on 13 dec 2018, 11:30</small>
+          </li>
+
+          <li class="list-group-item">
+              <label class="mb-0 ">Amount paid
+                  <strong> AED 4,000</strong>
+              </label>
+              <small class=" mb-2 d-block">on 13 dec 2018, 11:30 </small>
+          </li>
+
+          <li class="list-group-item">
+              <label class="mb-0 ">Invoice of Sep 2018 generated of
+                  <strong> AED 4,000</strong>
+              </label>
+              <small class=" mb-2 d-block">on 13 Oct 2018, 11:30</small>
+          </li>
+      </ul>
+
+  </div>
+</ng-template>
+<button class="btn btn-lg btn-outline-primary" (click)="open3(content3)">Paid</button> -->
