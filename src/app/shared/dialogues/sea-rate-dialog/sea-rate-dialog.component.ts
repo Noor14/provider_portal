@@ -611,11 +611,7 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   public canAddLabel: boolean = true;
-  addCustomLabel() {
-    console.log(this.lablelName);
-    console.log(this.surchargeType);
-
-
+  addCustomLabel(type) {
     if (!this.lablelName) {
       this.labelValidate = false
       return;
@@ -648,7 +644,6 @@ export class SeaRateDialogComponent implements OnInit {
       return false
     }
 
-
     this._seaFreightService.addCustomCharge(obj).subscribe((res: any) => {
       this.isOriginChargesForm = false;
       this.isDestinationChargesForm = false;
@@ -664,7 +659,11 @@ export class SeaRateDialogComponent implements OnInit {
           addChrType: 'ADCH',
           providerID: this.userProfile.ProviderID
         }
-        this.destinationsList.push(obj)
+        if(type === 'origin') {
+          this.originsList.push(obj)
+        } else if(type === 'destination') {
+          this.destinationsList.push(obj)
+        }
         this.lablelName = ''
         this.surchargeType = ''
       }

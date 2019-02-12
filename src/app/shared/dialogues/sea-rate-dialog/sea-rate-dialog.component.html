@@ -196,7 +196,7 @@
                     <div class="col-12">
                       <div class="form-group">
                         <label class="mt-0">Add Custom Label</label>
-                        <input class="form-control has-open" type="text" [(ngModel)]="lablelName"
+                        <input class="form-control has-open" type="text" [ngClass]="!labelValidate ?  'inputError' : ''" [(ngModel)]="lablelName"
                           (focus)="labelValidate = true">
                         <small class="text-danger d-block" *ngIf="!labelValidate">Please provide name for your custom
                           label</small>
@@ -204,8 +204,8 @@
                     </div>
                     <div class="col-12">
                       <div class="form-group">
-                        <select class="form-control has-open" [(ngModel)]="surchargeType"
-                          (focus)=" surchargeBasisValidate = true">
+                        <select class="form-control has-open" [ngClass]="!surchargeBasisValidate ?  'inputError' : ''" [(ngModel)]="surchargeType"
+                          (focus)="surchargeBasisValidate = true">
                           <option *ngFor="let item of surchargesList" selected [value]="item.codeValID">
                             {{item.codeValDesc}}</option>
                         </select>
@@ -214,7 +214,7 @@
                       </div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary mt-3 has-open hvr-sweep-to-right w-100" (click)="addCustomLabel()">Add
+                      <button class="btn btn-primary mt-3 has-open hvr-sweep-to-right w-100" (click)="addCustomLabel('origin')">Add
                         Label</button>
                     </div>
                   </div>
@@ -280,14 +280,14 @@
                     <div class="col-12">
                       <div class="form-group">
                         <label class="mt-0">Add Custom Label</label>
-                        <input class="form-control has-open" type="text" [(ngModel)]="lablelName" (focus)="labelValidate = true">
+                        <input class="form-control has-open" [ngClass]="!labelValidate ?  'inputError' : ''" type="text" [(ngModel)]="lablelName" (focus)="labelValidate = true">
                         <small class="text-danger d-block" *ngIf="!labelValidate">Please provide name for your custom
                           label</small>
                       </div>
                     </div>
                     <div class="col-12">
                       <div class="form-group">
-                        <select class="form-control has-open" [(ngModel)]="surchargeType"
+                        <select class="form-control has-open" [ngClass]="!surchargeBasisValidate ?  'inputError' : ''" [(ngModel)]="surchargeType"
                           (focus)="surchargeBasisValidate = true">
                           <option *ngFor="let item of surchargesList" selected [value]="item.codeValID">
                             {{item.codeValDesc}}</option>
@@ -297,7 +297,7 @@
                       </div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary mt-3 has-open hvr-sweep-to-right w-100" (click)="addCustomLabel()">Add Label</button>
+                      <button class="btn btn-primary mt-3 has-open hvr-sweep-to-right w-100" (click)="addCustomLabel('destination')">Add Label</button>
                     </div>
                   </div>
                 </div>
