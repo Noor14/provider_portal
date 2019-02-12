@@ -176,16 +176,12 @@
         <div class="col-xl-4" *ngFor="let origin of selectedOrigins; let i=index">
           <div class="row combine-filed-popup">
             <div class="col-6 pr-0">
-              <div ngbDropdown class="combine-filed-popup-left-btn" placement="top-left">
+              <div ngbDropdown #myDrop="ngbDropdown" class="combine-filed-popup-left-btn" placement="top-left">
                 <button class="btn" id="addCharge" ngbDropdownToggle>
                   <span>{{selectedOrigins[i]?.addChrName || 'Select' | limitTo : 12 }}</span>
                 </button>
-                <!-- <div ngbDropdownMenu aria-labelledby="addCharge">
-                  <button class="dropdown-item" *ngFor="let charge of originsList"
-                    (click)="selectCharges('EXPORT', charge, i)">{{charge.addChrName}}</button>
-                </div> -->
                 <div ngbDropdownMenu aria-labelledby="addChargeExport">
-                  <button *ngIf="!isChargesForm" class="dropdown-item custom-label" (click)="showCustomChargesForm()">
+                  <button *ngIf="!isChargesForm" class="dropdown-item custom-label" (click)="showCustomChargesForm($event)">
                     <img src="../../../../assets/images/icons/icon_add.svg" width="16" alt="">
                     Add Custom Label
                   </button>

@@ -37,11 +37,15 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
     { provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter },
     NgbDropdownConfig
   ],
-  styleUrls: ["./sea-rate-dialog.component.scss"]
+  styleUrls: ["./sea-rate-dialog.component.scss"],
+  host: {
+    "(document:click)": "closeDropdown($event)"
+  }
 })
 export class SeaRateDialogComponent implements OnInit {
   @ViewChild("dp") input: NgbInputDatepicker;
   @ViewChild("rangeDp") rangeDp: ElementRef;
+  @ViewChild('myDrop') myDrop: any
   @Input() selectedData: any;
 
   public allShippingLines: any[] = [];
@@ -105,6 +109,7 @@ export class SeaRateDialogComponent implements OnInit {
     private _seaFreightService: SeaFreightService,
     private _toast: ToastrService,
     private config: NgbDropdownConfig,
+    private _eref: ElementRef
   ) {
     location.onPopState(() => this.closeModal(null));
     config.autoClose = false;
@@ -481,16 +486,15 @@ export class SeaRateDialogComponent implements OnInit {
   public selectedOrigins: any = [{}];
   public selectedDestinations: any = [{}];
   selectCharges(type, model, index) {
-    // model.CurrId = this.selectedCurrency.CurrencyID
-    console.log(this.selectedDestinations[index]);
-    if ((Object.keys(this.selectedDestinations[index]).length === 0 && this.selectedDestinations[index].constructor === Object) || !this.selectedDestinations[index].hasOwnProperty('currency')) {
-      model.CurrId = this.selectedCurrency.CurrencyID
-    } else {
-      model.CurrId = this.selectedDestinations[index].currency.CurrencyID
-    }
     model.Imp_Exp = type;
-    console.log(model)
     if (type === 'EXPORT') {
+      if ((Object.keys(this.selectedOrigins[index]).length === 0 && this.selectedOrigins[index].constructor === Object) || !this.selectedOrigins[index].hasOwnProperty('currency')) {
+        model.CurrId = this.selectedCurrency.CurrencyID
+        model.currency = this.selectedCurrency
+      } else {
+        model.CurrId = this.selectedOrigins[index].currency.CurrencyID
+        model.currency = this.selectedOrigins[index].currency
+      }
       const { selectedOrigins } = this
       selectedOrigins.forEach(element => {
         if ((Object.keys(element).length === 0 && element.constructor === Object)) {
@@ -507,6 +511,11 @@ export class SeaRateDialogComponent implements OnInit {
       this.selectedOrigins = cloneObject(selectedOrigins)
       this.originsList = this.originsList.filter(e => e.addChrID !== model.addChrID)
     } else if (type === 'IMPORT') {
+      if ((Object.keys(this.selectedDestinations[index]).length === 0 && this.selectedDestinations[index].constructor === Object) || !this.selectedDestinations[index].hasOwnProperty('currency')) {
+        model.CurrId = this.selectedCurrency.CurrencyID
+      } else {
+        model.CurrId = this.selectedDestinations[index].currency.CurrencyID
+      }
       const { selectedDestinations } = this
       selectedDestinations.forEach(element => {
         if ((Object.keys(element).length === 0 && element.constructor === Object)) {
@@ -537,12 +546,18 @@ export class SeaRateDialogComponent implements OnInit {
 
   addMoreCharges(type) {
     if (type === 'origin') {
-      if (!(Object.keys(this.selectedOrigins[this.selectedOrigins.length - 1]).length === 0 && this.selectedOrigins[this.selectedOrigins.length - 1].constructor === Object)) {
-        this.selectedOrigins.push({})
+      if (!(Object.keys(this.selectedOrigins[this.selectedOrigins.length - 1]).length === 0 && this.selectedOrigins[this.selectedOrigins.length - 1].constructor === Object) && (parseInt(this.selectedOrigins[this.selectedOrigins.length - 1].Price)) && this.selectedOrigins[this.selectedOrigins.length - 1].CurrId) {
+        console.log(this.selectedOrigins);
+
+        this.selectedOrigins.push({
+          currency: this.selectedOrigins[this.selectedOrigins.length - 1].currency
+        })
       }
     } else if (type === 'destination') {
-      if (!(Object.keys(this.selectedDestinations[this.selectedDestinations.length - 1]).length === 0 && this.selectedDestinations[this.selectedDestinations.length - 1].constructor === Object)) {
-        this.selectedDestinations.push({})
+      if (!(Object.keys(this.selectedDestinations[this.selectedDestinations.length - 1]).length === 0 && this.selectedDestinations[this.selectedDestinations.length - 1].constructor === Object) && (parseInt(this.selectedDestinations[this.selectedDestinations.length - 1].Price)) && this.selectedDestinations[this.selectedDestinations.length - 1].CurrId) {
+        this.selectedDestinations.push({
+          currency: this.selectedDestinations[this.selectedDestinations.length - 1].currency
+        })
       }
     }
   }
@@ -560,6 +575,16 @@ export class SeaRateDialogComponent implements OnInit {
     }
   }
 
+  closeDropdown(event) {
+    console.log(event);
+    if(event.target.id === '') {
+      this.myDrop.close()
+    }
+    
+    // if (!this._eref.nativeElement.contains(event.target)) // or some similar check
+    //  console.log('here')
+  }
+
   public surchargesList: any = []
   getSurchargeBasis(containerLoad) {
     this._seaFreightService.getSurchargeBasis(containerLoad).subscribe((res) => {
@@ -575,7 +600,9 @@ export class SeaRateDialogComponent implements OnInit {
   public surchargeType: any;
   public labelValidate: boolean = true
   public surchargeBasisValidate: boolean = true
-  showCustomChargesForm() {
+  showCustomChargesForm(event) {
+    event.stopPropagation()
+    this.myDrop.open()
     this.isChargesForm = !this.isChargesForm
   }
 
