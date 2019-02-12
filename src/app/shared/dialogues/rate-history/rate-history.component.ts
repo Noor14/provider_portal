@@ -115,8 +115,12 @@ export class RateHistoryComponent implements OnInit {
           }
           this.customerInfo = obj;
         }
-        this.destinationDet = records[0].Toport[0];
-        this.originDet = records[0].fromport[0];
+        if (records[0].Toport){
+          this.destinationDet = JSON.parse(records[0].Toport)[0];
+        }
+        if (records[0].fromport){
+          this.originDet = JSON.parse(records[0].fromport)[0];
+        }
         this.cargoInfo = records[0].cargoType[0];
         this.containerInfo = records[0].container[0];
       }
