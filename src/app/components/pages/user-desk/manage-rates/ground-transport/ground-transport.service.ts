@@ -41,5 +41,9 @@ export class GroundTransportService {
     let url: string = "providerrateground/EditRate";
     return this._http.post(baseApi + url, data);
   }
+  getRecHistoryGround(recId, objectName, createdBy, transportType) {
+    let url: string = `providerrateground/GetRateHistory/${recId}/${objectName}/${createdBy}/${transportType}`;
+    return this._http.get(baseApi + url);
+  }
 
 }

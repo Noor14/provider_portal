@@ -26,6 +26,7 @@ import { ManageRatesService } from '../manage-rates.service';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
+import { RateHistoryComponent } from '../../../../../shared/dialogues/rate-history/rate-history.component';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -994,7 +995,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           title: '',
           data: function (data) {
             let url = '../../../../../../assets/images/icons/menu.svg';
-            return "<img src='" + url + "' class='icon-size-16' />";
+            return "<img id = '" + data.id + '-' + data.transportType + "'  src='" + url + "' class='icon-size-16 pointer' />";
           },
           className: 'moreOption'
         }
@@ -1066,6 +1067,16 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         this.dataTablepublishByground = $(this.tablepublishByGround.nativeElement);
         let alltableOption = this.dataTablepublishByground.DataTable(this.dtOptionsByGround);
         this.publishloading = false;
+        $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
+          event.stopPropagation();
+          let selectedId = (<HTMLElement>event.target).id;
+          if (selectedId) {
+            let rateId = selectedId.split('-').shift();
+            let type = 'Rate_' + selectedId.split('-').pop();
+            let mode = selectedId.split('-').pop();
+            this.rateHistory(rateId, type, mode)
+          }
+        });
         $("#selectallpublishRates").click(() => {
           this.delPublishRates = [];
           var cols = alltableOption.column(0).nodes();
@@ -1411,6 +1422,28 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       }
     }, 0);
   }
+  rateHistory(recId, fortype, mode) {
+    const modalRef = this.modalService.open(RateHistoryComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'upper-medium-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+
+    let obj = {
+      id: recId,
+      type: fortype,
+      transportType: mode
+    }
+    modalRef.componentInstance.getRecord = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
+
   saveTermNcond() {
     let obj = {
       providerID: this.userProfile.ProviderID,

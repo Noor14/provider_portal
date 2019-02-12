@@ -2051,11 +2051,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
-
-  
-
-
-
   saveTermNcond(type) {
     let obj = {
       providerID: this.userProfile.ProviderID,
