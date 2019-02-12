@@ -92,51 +92,51 @@
 
 
 
-.paid-modal3 {
-    .modal-header {
-        border-bottom: 1px solid #e1d8d8 !important;
-        .text {
-            color: $secondary-color;
-            margin-left: 2rem;
-            text-transform: uppercase;
-            font-family: $font-proxima;
-            font-size: $font-size-base;
-            margin-top: 0.2rem;
-        }
-    }
-    .modal-body {
-        .list-group {
-            padding-bottom: 0;
-            padding-left: 4px;
-            margin-left: 27px; // border-left: 1px solid #ccc;
-            overflow-y: auto;
-            // height: 220px;
-            &-item {
-                padding: 1.1rem 1.5rem 0rem 1.5rem;
-                border: 0px;
-                border-left: 1px solid #e1d8d8 !important;
-                &:hover {
-                    z-index: 0;
-                } // border-left: 0 !important;
-                &::before {
-                    content: "";
-                    height: 8px;
-                    width: 8px;
-                    background: #1caae3;
-                    border-radius: 50%;
-                    position: absolute;
-                    left: -4px;
-                    top: 25px;
-                }
-                small {
-                    font-size: $font-size-medium;
-                    font-family: $font-proxima;
-                    color: $route-arrow-color;
-                }
-                &:last-child {
-                    padding-bottom:1rem;
-                }
-            }
-        }
-    }
-}
+// .paid-modal3 {
+//     .modal-header {
+//         border-bottom: 1px solid #e1d8d8 !important;
+//         .text {
+//             color: $secondary-color;
+//             margin-left: 2rem;
+//             text-transform: uppercase;
+//             font-family: $font-proxima;
+//             font-size: $font-size-base;
+//             margin-top: 0.2rem;
+//         }
+//     }
+//     .modal-body {
+//         .list-group {
+//             padding-bottom: 0;
+//             padding-left: 4px;
+//             margin-left: 27px; // border-left: 1px solid #ccc;
+//             overflow-y: auto;
+//             // height: 220px;
+//             &-item {
+//                 padding: 1.1rem 1.5rem 0rem 1.5rem;
+//                 border: 0px;
+//                 border-left: 1px solid #e1d8d8 !important;
+//                 &:hover {
+//                     z-index: 0;
+//                 } // border-left: 0 !important;
+//                 &::before {
+//                     content: "";
+//                     height: 8px;
+//                     width: 8px;
+//                     background: #1caae3;
+//                     border-radius: 50%;
+//                     position: absolute;
+//                     left: -4px;
+//                     top: 25px;
+//                 }
+//                 small {
+//                     font-size: $font-size-medium;
+//                     font-family: $font-proxima;
+//                     color: $route-arrow-color;
+//                 }
+//                 &:last-child {
+//                     padding-bottom:1rem;
+//                 }
+//             }
+//         }
+//     }
+// }
