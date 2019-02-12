@@ -15,6 +15,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { AirFreightService } from '../../../components/pages/user-desk/manage-rates/air-freight/air-freight.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgbDateFRParserFormatter } from '../../../constants/ngb-date-parser-formatter';
 
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -32,6 +33,9 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
   selector: 'app-air-rate-dialog',
   templateUrl: './air-rate-dialog.component.html',
   encapsulation: ViewEncapsulation.None,
+  providers: [
+    { provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }
+  ],
   styleUrls: ['./air-rate-dialog.component.scss']
 })
 export class AirRateDialogComponent implements OnInit {
