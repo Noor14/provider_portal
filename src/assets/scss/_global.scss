@@ -1618,10 +1618,9 @@ select {
                   left: 0;
                 }
               }
-              &.dataTables_empty {
-                text-align: left !important;
-                color: $dark-grey-border;
-              }
+              // &.dataTables_empty {
+              //   color: $dark-grey-border;
+              // }
             }
           }
         }

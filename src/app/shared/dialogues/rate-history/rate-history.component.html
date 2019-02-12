@@ -61,7 +61,7 @@
           <small class="d-block">Customer</small>
           <div class="d-flex">
             <div class="flag-container">
-              <img [src]="baseExternalAssets + '/' + customerInfo?.CustomerImage" alt="icon">
+              <img [src]="baseExternalAssets + customerInfo?.CustomerImage" alt="icon">
             </div>
             <div class="location">
               <label class="ports-text">{{customerInfo?.CustomerName}}</label>
@@ -85,7 +85,6 @@
       </div>
     </div>
   </div>
-<span class="pt-3 pb-3 pr-3 pl-3 text-center ng-star-inserted w-100 d-inline-block" *ngIf="!history">No Results Found</span>
   <div class="list">
     <!-- <ng-scrollbar [autoHide]="true" class="history-scroll"> -->
     <ul class="list-group" *ngIf="history">
@@ -97,6 +96,7 @@
     </ul>
     
     <!-- </ng-scrollbar> -->
+  <p class=" m-0 text-center p-2" *ngIf="!history">No Results Found</p>
   </div>
 
 </section>
