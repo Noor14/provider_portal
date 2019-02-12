@@ -18,7 +18,7 @@ import { UiSwitchModule } from 'ngx-toggle-switch';
     NgFilesModule,
     HttpClientModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
+      apiKey: 'AIzaSyDZ31Nq5gJ_cCvENKL79eeC6x4zBv9oOGU',
       libraries: ["places", "geometry"]
     }),
     FormsModule,

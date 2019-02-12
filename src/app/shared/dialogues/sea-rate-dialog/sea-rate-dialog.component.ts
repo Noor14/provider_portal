@@ -17,6 +17,7 @@ import {
 import { NgbDateFRParserFormatter } from "../../../constants/ngb-date-parser-formatter";
 import { SeaFreightService } from '../../../components/pages/user-desk/manage-rates/sea-freight/sea-freight.service';
 import { cloneObject } from '../../../components/pages/user-desk/reports/reports.component';
+import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
   one && two && two.year === one.year && two.month === one.month && two.day === one.day;
@@ -65,7 +66,6 @@ export class SeaRateDialogComponent implements OnInit {
     CountryCode: 'AE'
   };
   public selectedCurrency: any;
-
   public startDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
   public minDate: NgbDateStruct;
@@ -478,14 +478,18 @@ export class SeaRateDialogComponent implements OnInit {
     );
   currencyFormatter = (x) => x.CurrencyCode;
 
-  public priceOrigin = ''
-  public priceDestination = ''
   public selectedOrigins: any = [{}];
   public selectedDestinations: any = [{}];
   selectCharges(type, model, index) {
-    model.CurrId = this.selectedCurrency.CurrencyID
+    // model.CurrId = this.selectedCurrency.CurrencyID
+    console.log(this.selectedDestinations[index]);
+    if (Object.keys(this.selectedDestinations[index]).length === 0 && this.selectedDestinations[index].constructor === Object) {
+      model.CurrId = this.selectedCurrency.CurrencyID
+    } else {
+      model.CurrId = this.selectedDestinations[index].currency.CurrencyID
+    }
     model.Imp_Exp = type;
-
+    console.log(model)
     if (type === 'EXPORT') {
       const { selectedOrigins } = this
       selectedOrigins.forEach(element => {
@@ -518,6 +522,16 @@ export class SeaRateDialogComponent implements OnInit {
       }
       this.selectedDestinations = cloneObject(selectedDestinations)
       this.destinationsList = this.destinationsList.filter(e => e.addChrID !== model.addChrID)
+    }
+  }
+
+  getVal(idx, event, type) {
+    if (typeof event === 'object') {
+      if (type === 'origin') {
+        this.selectedOrigins[idx].CurrId = event.CurrencyID
+      } else if (type === 'destination') {
+        this.selectedDestinations[idx].CurrId = event.CurrencyID
+      }
     }
   }
 
@@ -559,18 +573,19 @@ export class SeaRateDialogComponent implements OnInit {
   public isChargesForm = false;
   public lablelName: string = ''
   public surchargeType: any;
-  public labelValidate:boolean = true
-  public surchargeBasisValidate:boolean = true
+  public labelValidate: boolean = true
+  public surchargeBasisValidate: boolean = true
   showCustomChargesForm() {
     this.isChargesForm = !this.isChargesForm
   }
 
+  public canAddLabel: boolean = true;
   addCustomLabel() {
-    if(!this.lablelName) {
+    if (!this.lablelName) {
       this.labelValidate = false
       return;
     }
-    if(!this.surchargeType) {
+    if (!this.surchargeType) {
       this.surchargeBasisValidate = false
       return;
     }
@@ -586,6 +601,20 @@ export class SeaRateDialogComponent implements OnInit {
       addChrType: 'ADCH',
       providerID: this.userProfile.ProviderID
     }
+
+    this.selectedData.addList.forEach(element => {
+      if (element.addChrName === obj.addChrName && element.addChrBasis === obj.addChrBasis) {
+        this.canAddLabel = false
+        return false;
+      }
+    });
+
+    if (!this.canAddLabel) {
+      this._toast.info('Already Added, Please try another surcharge type', 'Info')
+      return false
+    }
+
+
     this._seaFreightService.addCustomCharge(obj).subscribe((res: any) => {
       this.isChargesForm = false;
       if (res.returnId !== -1) {
@@ -610,8 +639,8 @@ export class SeaRateDialogComponent implements OnInit {
   dropdownToggle(event, type) {
     if (event) {
       this.isChargesForm = false;
-      this.surchargeBasisValidate = false
-      this.labelValidate = false
+      this.surchargeBasisValidate = true
+      this.labelValidate = true
     }
   }
 
