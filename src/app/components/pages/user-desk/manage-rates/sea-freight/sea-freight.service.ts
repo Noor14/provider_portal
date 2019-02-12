@@ -79,8 +79,12 @@ export class SeaFreightService {
   }
 
 
-  getRecHistory(recId, objectName, createdBy){
+  getRecHistoryFCL(recId, objectName, createdBy){
     let url: string = `providerratefcl/GetRateHistory/${recId}/${objectName}/${createdBy}`;
+    return this._http.get(baseApi + url);
+  }
+  getRecHistoryLCL(recId, objectName, createdBy) {
+    let url: string = `providerratelcl/GetRateHistory/${recId}/${objectName}/${createdBy}`;
     return this._http.get(baseApi + url);
   }
 

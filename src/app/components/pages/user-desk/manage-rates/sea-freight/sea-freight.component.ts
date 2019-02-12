@@ -1419,7 +1419,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           title: '',
           data: function (data) {
             let url = '../../../../../../assets/images/icons/menu.svg';
-            return "<img src='" + url + "' class='icon-size-16' />";
+            return "<img id='" + data.consolidatorPricingID + "' src='" + url + "' class='icon-size-16 pointer' />";
           },
           className: 'moreOption'
         }
@@ -1492,6 +1492,13 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         this.dataTablepublishByseaLcl = $(this.tablepublishBySeaLcl.nativeElement);
         let alltableOption = this.dataTablepublishByseaLcl.DataTable(this.dtOptionsBySeaLCL);
         this.publishloadingLcl = false;
+        $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
+          event.stopPropagation();
+          let selectedId = (<HTMLElement>event.target).id;
+          if (selectedId) {
+            this.rateHistory(selectedId, 'Rate_LCL')
+          }
+        });
         $("#selectallpublishRatesLcl").click(() => {
           this.delPublishRatesLcl = [];
           var cols = alltableOption.column(0).nodes();
