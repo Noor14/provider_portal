@@ -37,17 +37,27 @@
           }
 
           .flag-container {
-            width: 16px;
+            width: 20px;
             height: 12px;
             align-items: center;
-            margin-right: 0.5rem;
+            margin-right: 10px;
             margin-top: 1px;
 
             img {
               border: 1px solid $primary-grey;
               height: 12px;
-              width: 16px;
+              width: 20px;
               display: flex;
+            }
+            &.shipping-logo, &.customer-logo {
+              height: 18px;
+              width: 30px;
+
+              img {
+                height: 18px;
+                width: 30px;
+                border: none;
+              }
             }
           }
         }
