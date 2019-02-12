@@ -242,7 +242,7 @@ removeSelectedDocx(index,  obj, type) {
 
   selectDocx(selectedFiles: NgFilesSelected, type): void {
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.status == 1) this._toastr.error('Please select tweleve or less file(s) to upload.', '')
+      if (selectedFiles.status == 1) this._toastr.error('Please select twelve or less file(s) to upload.', '')
       else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 5 MB. Please upload smaller file.', '')
       else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
       return;

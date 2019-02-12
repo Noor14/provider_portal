@@ -322,16 +322,6 @@ export class SeaRateDialogComponent implements OnInit {
     }
     ]
 
-    // let parsedJsonSurchargeDet = JSON.parse(obj[0].JsonSurchargeDet)
-    // const impArr = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
-    // const expArr = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
-
-    // const { carrierName, containerSpecID, price, podCode, polCode, shippingCatID } = obj[0]
-    // if (!carrierName && !containerSpecID && !price && !podCode && !polCode && !shippingCatID && !expArr.length && !impArr.length) {
-    //   this._toast.error('Please fill atleast one field', 'Error')
-    //   return
-    // }
-
     this._seaFreightService.saveDraftRate(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success("Rates added successfully", "");
