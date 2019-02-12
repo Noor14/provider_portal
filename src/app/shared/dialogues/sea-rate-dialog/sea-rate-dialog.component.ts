@@ -129,7 +129,6 @@ export class SeaRateDialogComponent implements OnInit {
     this.originsList = this.selectedData.addList
     this.getSurchargeBasis(this.selectedData.forType)
     console.log(this.selectedData.addList);
-
   }
 
   allservicesBySea() {
@@ -578,7 +577,7 @@ export class SeaRateDialogComponent implements OnInit {
 
   closeDropdown(event) {
     console.log(event);
-    if(!event.target.id) {
+    if (!event.target.id && !event.target.className.includes('has-open')) {
       this.originDropdown.close()
       this.destinationDropdown.close()
     }
@@ -603,22 +602,20 @@ export class SeaRateDialogComponent implements OnInit {
   public labelValidate: boolean = true
   public surchargeBasisValidate: boolean = true
   showCustomChargesForm(type) {
-    if(type === 'origin') {
-      this.originDropdown.open()
+    if (type === 'origin') {
       this.isOriginChargesForm = !this.isOriginChargesForm
-    } else if(type === 'destination') {
-      this.destinationDropdown.open()
+    } else if (type === 'destination') {
       this.isDestinationChargesForm = !this.isDestinationChargesForm
     }
-    
-  }
 
-  onInputFocus() {
-    this.originDropdown.open()
   }
 
   public canAddLabel: boolean = true;
   addCustomLabel() {
+    console.log(this.lablelName);
+    console.log(this.surchargeType);
+
+
     if (!this.lablelName) {
       this.labelValidate = false
       return;
@@ -639,7 +636,6 @@ export class SeaRateDialogComponent implements OnInit {
       addChrType: 'ADCH',
       providerID: this.userProfile.ProviderID
     }
-
     this.selectedData.addList.forEach(element => {
       if (element.addChrName === obj.addChrName && element.addChrBasis === obj.addChrBasis) {
         this.canAddLabel = false
@@ -668,7 +664,9 @@ export class SeaRateDialogComponent implements OnInit {
           addChrType: 'ADCH',
           providerID: this.userProfile.ProviderID
         }
-        this.selectedData.addList.push(obj)
+        this.destinationsList.push(obj)
+        this.lablelName = ''
+        this.surchargeType = ''
       }
     }, (err) => {
       console.log(err);
@@ -685,9 +683,9 @@ export class SeaRateDialogComponent implements OnInit {
       this.isOriginChargesForm = false;
       this.surchargeBasisValidate = true
       this.labelValidate = true
-      if(type === 'destination') {
+      if (type === 'destination') {
         this.addDestinationActive = true
-      } else if(type === 'origin') {
+      } else if (type === 'origin') {
         this.addOriginActive = true
       }
     } else {

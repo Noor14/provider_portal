@@ -179,10 +179,10 @@
               <div ngbDropdown #originDropdown="ngbDropdown" class="combine-filed-popup-left-btn"
                 (openChange)="dropdownToggle($event, 'origin')">
                 <button class="btn" id="addCharge" ngbDropdownToggle>
-                  <span>{{selectedOrigins[i]?.addChrName || 'Select' | limitTo : 7 }}</span>
+                  {{selectedOrigins[i]?.addChrName || 'Select' | limitTo : 7 }}
                 </button>
                 <div ngbDropdownMenu aria-labelledby="originExport">
-                  <button *ngIf="!isOriginChargesForm" class="dropdown-item custom-label"
+                  <button *ngIf="!isOriginChargesForm" class="dropdown-item custom-label has-open"
                     (click)="showCustomChargesForm('origin')">
                     <img src="../../../../assets/images/icons/icon_add.svg" width="16" alt="">
                     Add Custom Label
@@ -195,16 +195,16 @@
                     <div class="col-12">
                       <div class="form-group">
                         <label>Add Custom Label</label>
-                        <input class="form-control" type="text" [(ngModel)]="lablelName"
-                          (focus)="onInputFocus();labelValidate = true">
+                        <input class="form-control has-open" type="text" [(ngModel)]="lablelName"
+                          (focus)="labelValidate = true">
                         <small class="text-danger d-block" *ngIf="!labelValidate">Please provide name for your custom
                           label</small>
                       </div>
                     </div>
                     <div class="col-12">
                       <div class="form-group">
-                        <select class="form-control" [(ngModel)]="surchargeType"
-                          (focus)="onInputFocus(); surchargeBasisValidate = true">
+                        <select class="form-control has-open" [(ngModel)]="surchargeType"
+                          (focus)=" surchargeBasisValidate = true">
                           <option *ngFor="let item of surchargesList" selected [value]="item.codeValID">
                             {{item.codeValDesc}}</option>
                         </select>
@@ -213,7 +213,7 @@
                       </div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary mt-3 hvr-sweep-to-right w-100" (click)="addCustomLabel()">Add
+                      <button class="btn btn-primary mt-3 has-open hvr-sweep-to-right w-100" (click)="addCustomLabel()">Add
                         Label</button>
                     </div>
                   </div>
@@ -264,11 +264,9 @@
             <div class="col-4 pr-0 pl-0">
               <div ngbDropdown #destinationDropdown="ngbDropdown" (openChange)="dropdownToggle($event, 'destination')"
                 class="combine-filed-popup-left-btn" placement="top-left">
-                <button class="btn" id="destinationExport" ngbDropdownToggle>
-                  <span>{{selectedDestinations[i]?.addChrName || 'Select' | limitTo : 12 }}</span>
-                </button>
+                <button class="btn" id="destinationExport" ngbDropdownToggle> {{selectedDestinations[i]?.addChrName || 'Select' | limitTo : 12 }} </button>
                 <div ngbDropdownMenu aria-labelledby="destinationExport">
-                  <button *ngIf="!isDestinationChargesForm" class="dropdown-item custom-label" (click)="showCustomChargesForm('destination')">
+                  <button *ngIf="!isDestinationChargesForm" class="dropdown-item custom-label has-open" (click)="showCustomChargesForm('destination')">
                     <img src="../../../../assets/images/icons/icon_add.svg" width="16" alt="">
                     Add Custom Label
                   </button>
@@ -279,14 +277,14 @@
                     <div class="col-12">
                       <div class="form-group">
                         <label>Add Custom Label</label>
-                        <input class="form-control" type="text" [(ngModel)]="lablelName" (focus)="labelValidate = true">
+                        <input class="form-control has-open" type="text" [(ngModel)]="lablelName" (focus)="labelValidate = true">
                         <small class="text-danger d-block" *ngIf="!labelValidate">Please provide name for your custom
                           label</small>
                       </div>
                     </div>
                     <div class="col-12">
                       <div class="form-group">
-                        <select class="form-control" [(ngModel)]="surchargeType"
+                        <select class="form-control has-open" [(ngModel)]="surchargeType"
                           (focus)="surchargeBasisValidate = true">
                           <option *ngFor="let item of surchargesList" selected [value]="item.codeValID">
                             {{item.codeValDesc}}</option>
@@ -296,8 +294,7 @@
                       </div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary mt-3 hvr-sweep-to-right w-100" (click)="addCustomLabel()">Add
-                        Label</button>
+                      <button class="btn btn-primary mt-3 has-open hvr-sweep-to-right w-100" (click)="addCustomLabel()">Add Label</button>
                     </div>
                   </div>
                 </div>
