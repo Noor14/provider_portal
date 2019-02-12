@@ -21,6 +21,7 @@
             font-size: $font-size-large;
             color: $text-color-default;
             margin-bottom: 0;
+            line-height: 1;
           }
 
           small {
@@ -31,20 +32,22 @@
 
           span {
             font-size: $font-size-medium;
-            color: $text-color-default;
-            line-height: 1.5;
+            color: $secondary-text-color;
+            line-height: 1.1;
           }
 
           .flag-container {
             width: 16px;
-            height: 14px;
+            height: 12px;
             align-items: center;
             margin-right: 0.5rem;
+            margin-top: 1px;
 
             img {
-              // border: 1px solid $primary-grey;
-              height: 100%;
-              width: 100%;
+              border: 1px solid $primary-grey;
+              height: 12px;
+              width: 16px;
+              display: flex;
             }
           }
         }
@@ -86,7 +89,7 @@
           background: #1caae3;
           border-radius: 50%;
           position: absolute;
-          left: -8.6px;
+          left: -8.5px;
           top: 25px;
         }
       }
