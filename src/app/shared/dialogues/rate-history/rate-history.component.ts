@@ -54,13 +54,13 @@ export class RateHistoryComponent implements OnInit {
           CustomerImage: JSON.parse(custDet.CustomerImage)[0].DocumentFile,
           CustomerName: custDet.CustomerName
           }
-          console.log(this.customerInfo = obj)
+          this.customerInfo = obj;
         }
         this.destinationDet = records[0].Toport[0];
         this.originDet = records[0].fromport[0];
+        this.cargoInfo = records[0].cargoType[0];
         this.shippingInfo = records[0].shippingline[0];
         this.containerInfo = records[0].container[0];
-        this.cargoInfo = records[0].cargoType[0];
       }
     })
   }
@@ -82,12 +82,10 @@ export class RateHistoryComponent implements OnInit {
             CustomerImage: JSON.parse(custDet.CustomerImage)[0].DocumentFile,
             CustomerName: custDet.CustomerName
           }
-          console.log(this.customerInfo = obj)
+         this.customerInfo = obj;
         }
         this.destinationDet = records[0].Toport[0];
         this.originDet = records[0].fromport[0];
-        this.shippingInfo = records[0].shippingline[0];
-        this.containerInfo = records[0].container[0];
         this.cargoInfo = records[0].cargoType[0];
       }
     })
