@@ -783,7 +783,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
               console.log(data);
               
               if (data.ContainerSpecID === element.containerSpecID &&
-                data.ShippingCatName === element.shippingCatName &&
                 data.PolID === element.polID &&
                 data.PodID === element.podID &&
                 data.ShippingCatID === element.shippingCatID &&
