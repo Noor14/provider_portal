@@ -281,37 +281,37 @@ export class RateValidityComponent implements OnInit {
             slab: [
               {
                 pricingID: element.slab.Pricingid1,
-                price: this.selectedCurrency.CurrencyCode+ ' ' + this.normalPrice,
+                price: this.normalPrice,
                 minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.minPrice,
                 slabName:'Normal'
               },
               {
                 pricingID: element.slab.Pricingid2,
-                price: this.selectedCurrency.CurrencyCode+ ' ' + this.plusfortyFivePrice,
+                price: this.plusfortyFivePrice,
                 minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.normalPrice,
                 slabName: '+45'
               },
               {
                 pricingID: element.slab.Pricingid3,
-                price: this.selectedCurrency.CurrencyCode+ ' ' + this.plushundredPrice,
+                price: this.plushundredPrice,
                 minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plusfortyFivePrice,
                 slabName: '+100'
               },
               {
                 pricingID: element.slab.Pricingid4,
-                price: this.selectedCurrency.CurrencyCode+ ' ' + this.plusTwoFiftyPrice,
+                price: this.plusTwoFiftyPrice,
                 minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plushundredPrice,
                 slabName: '+250'
               },
               {
                 pricingID: element.slab.Pricingid5,
-                price: this.selectedCurrency.CurrencyCode+ ' ' + this.plusFiveHundPrice,
+                price: this.plusFiveHundPrice,
                 minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plusTwoFiftyPrice,
                 slabName: '+500'
               },
               {
                 pricingID: element.slab.Pricingid6,
-                price: this.selectedCurrency.CurrencyCode+ ' ' + this.plusThousandPrice,
+                price: this.plusThousandPrice,
                 minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plusFiveHundPrice,
                 slabName: '+1000'
               }
