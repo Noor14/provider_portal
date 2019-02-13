@@ -124,7 +124,6 @@ export class RateHistoryComponent implements OnInit {
         this.originDet = records[0].fromport[0];
         this.cargoInfo = records[0].cargoType[0];
         this.shippingInfo = records[0].shippingline[0];
-        this.containerInfo = records[0].container[0];
       }
     })
   }

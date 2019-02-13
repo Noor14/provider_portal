@@ -771,8 +771,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       if (this.tabledraftBySea && this.tabledraftBySea.nativeElement) {
         this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
-        // let alltableOption = this.dataTabledraftBysea.DataTable();
-        //   alltableOption.destroy();
         let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
         if (this.allRatesList) {
           this.allRatesList.forEach(element => {

@@ -70,7 +70,7 @@
         </div>
       </div>
 
-    <div class="col-6" *ngIf="getRecord.type != 'Rate_LCL'">
+      <div class="col-6" *ngIf="getRecord.type != 'Rate_LCL' || getRecord.type != 'Rate_AIR'">
         <div class="ports">
           <small class="d-block">Container</small>
           <label class="ports-text">{{containerInfo?.ContainerSpecDesc}}</label>
@@ -85,9 +85,9 @@
       </div>
     </div>
   </div>
-  <div class="list">
+  <div class="list" *ngIf="history">
     <!-- <ng-scrollbar [autoHide]="true" class="history-scroll"> -->
-    <ul class="list-group" *ngIf="history">
+    <ul class="list-group" >
       <li class="list-group-item d-flex flex-column" *ngFor="let list of history">
         <label class="mb-0">{{list.AuditDesc.Desc}} by {{list.AuditDesc.ModifiedBy}}</label>
         <label class="mb-0 activity">{{list.AuditDesc.Activity}}</label>
@@ -96,7 +96,6 @@
     </ul>
     
     <!-- </ng-scrollbar> -->
-  <p class=" m-0 text-center p-2" *ngIf="!history">No Results Found</p>
   </div>
-
+<p class=" m-0 text-center p-2" *ngIf="!history">No Results Found</p>
 </section>
