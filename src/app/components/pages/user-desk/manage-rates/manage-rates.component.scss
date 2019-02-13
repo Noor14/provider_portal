@@ -341,13 +341,29 @@ $left-nav-icon-height: 20px;
       align-items: center;
       transition: 0.8s;
 
-      img {
-        margin-right: 5px;
-      }
-
       &.no-drop {
         filter: grayscale(1) opacity(0.5);
         cursor: no-drop;
+      }
+      &:hover {
+        .delete-icon {
+          overflow: visible;
+          g {
+            rect {
+              transform: rotate(-25deg);
+              transition: 0.5s;
+            }
+          }
+        }
+        .edit-validity-icon {
+          overflow: visible;
+    
+          g {
+            transform: rotateY(180deg);
+            transform-origin: center;
+            transition: 0.5s;
+          }
+        }
       }
     }
 
