@@ -214,8 +214,8 @@
     </ngb-accordion>
   </section>
   <section class="rates-grid mt-5 publishRateGround" [ngClass]="{'no-data': allRatesList && !allRatesList.length, 'no-scroll-add': allRatesList && allRatesList.length, 'no-pagination': allRatesList && allRatesList.length <= dtOptionsByGround.pageLength}">
-    <div class="row mb-3">
-      <div class="col-6 d-flex justify-content-start">
+    <div class="row mb-3 justify-content-end">
+    <div class="col-6 d-flex justify-content-start" *ngIf="allRatesList && allRatesList.length">
         <img src="../../../../../../assets/images/icons/Icons_Clock-2hour.svg" alt="del_icon" class="icon-size-24 mr-2" />
         Rates will be published in 2 hours
       </div>

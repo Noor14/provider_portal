@@ -1426,7 +1426,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     const modalRef = this.modalService.open(RateHistoryComponent, {
       size: 'lg',
       centered: true,
-      windowClass: 'upper-medium-modal',
+      windowClass: 'upper-medium-modal-history',
       backdrop: 'static',
       keyboard: false
     });

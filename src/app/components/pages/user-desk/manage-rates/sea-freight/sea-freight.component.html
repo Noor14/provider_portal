@@ -214,15 +214,61 @@
           </ngb-accordion>
         </section>
         <section class="rates-grid mt-5 publishRatesLCL" [ngClass]="{'no-data': allRatesListLcL && !allRatesListLcL.length, 'no-scroll-add': allRatesListLcL && allRatesListLcL.length, 'no-pagination': allRatesListLcL && allRatesListLcL.length <= dtOptionsBySeaLCL.pageLength}">
-          <div class="d-flex justify-content-end mb-3">
-            <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidityLCL()" [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
-              <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" />
-              {{rateValidityTextLCL}}
-            </a>
-            <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('LCL')" [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
-              <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16" />
-              Delete
-            </a>
+          <div class="row mb-3 justify-content-end">
+            <div class="col-6 d-flex justify-content-start" *ngIf="allRatesListLcL && allRatesListLcL.length">
+              <img src="../../../../../../assets/images/icons/Icons_Clock-2hour.svg" alt="del_icon" class="icon-size-24 mr-2" />
+              Rates will be published in 2 hours
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+              <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidityLCL()" [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
+                <!-- <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" /> -->
+                <svg class="edit-validity-icon icon-size-16 mr-2" id="17f5b310-5508-485b-8001-dbaf3458113b" data-name="Layer 1"
+                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <defs>
+                    <style>
+                      .be7dd154-90ee-45f6-a47e-11a6c4eceb87 {
+                      fill: #02bdb6;
+                    }
+
+                    .dd12900e-6340-4a89-b921-0b1d5cffc735 {
+                      fill: #fff;
+                    }
+                  </style>
+                  </defs>
+                  <title>icon</title>
+                  <g id="40ee8fd5-e28d-4347-b10e-66f9984b7564" data-name="calendar2">
+                    <path id="6d9cbed9-97a5-4544-9814-99b685f0d436" data-name="&lt;Compound Path&gt;" class="be7dd154-90ee-45f6-a47e-11a6c4eceb87"
+                      d="M15,2H3.8A2.8,2.8,0,0,0,1,4.8V16H12.2A2.8,2.8,0,0,0,15,13.2V2Z" />
+                    <path class="dd12900e-6340-4a89-b921-0b1d5cffc735" d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z" />
+                    <rect id="7d4ed2c6-f916-40cf-acce-d794196da080" data-name="&lt;Path&gt;" class="be7dd154-90ee-45f6-a47e-11a6c4eceb87"
+                      x="5" width="2" height="5" />
+                    <rect id="a37c2eb5-9844-41fa-8d51-9b1b7c64de14" data-name="&lt;Path&gt;" class="be7dd154-90ee-45f6-a47e-11a6c4eceb87"
+                      x="9" width="2" height="5" />
+                  </g>
+                </svg>
+                {{rateValidityTextLCL}}
+              </a>
+              <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('LCL')" [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
+                <!-- <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16" /> -->
+                <svg class="delete-icon icon-size-16 mr-2" id="317c8c47-17e2-4e96-9063-97bc9a32118b" data-name="Layer 1"
+                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <defs>
+                    <style>
+                      .a2933809-f108-463d-a7d6-9972aa735edc {
+                      fill: #d32020;
+                    }
+                  </style>
+                  </defs>
+                  <title>icon</title>
+                  <g id="9ddd7984-9517-4e7f-881d-6292000e8e8a" data-name="delete">
+                    <rect class="a2933809-f108-463d-a7d6-9972aa735edc" y="2" width="16" height="2" />
+                    <rect class="a2933809-f108-463d-a7d6-9972aa735edc" x="5" width="6" height="2" />
+                    <path class="a2933809-f108-463d-a7d6-9972aa735edc" d="M2,5v9a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V5Zm5,9H5V7H7Zm4,0H9V7h2Z" />
+                  </g>
+                </svg>
+                Delete
+              </a>
+            </div>
           </div>
           <table id="publishRateTableLcl" cellspacing="0" #publishByseaLcl class="row-border hover"></table>
           <app-loader-main *ngIf="publishloadingLcl"></app-loader-main>
@@ -451,15 +497,16 @@
           </ngb-accordion>
         </section>
         <section class="rates-grid mt-5 publishRatesFCL" [ngClass]="{'no-data': allRatesList && !allRatesList.length, 'no-scroll-add': allRatesList && allRatesList.length, 'no-pagination': allRatesList && allRatesList.length <= dtOptionsBySeaFCL.pageLength}">
-          <div class="row mb-3">
-            <div class="col-6 d-flex justify-content-start">
+          <div class="row mb-3 justify-content-end">
+            <div class="col-6 d-flex justify-content-start" *ngIf="allRatesList && allRatesList.length">
               <img src="../../../../../../assets/images/icons/Icons_Clock-2hour.svg" alt="del_icon" class="icon-size-24 mr-2" />
               Rates will be published in 2 hours
             </div>
             <div class="col-6 d-flex justify-content-end">
               <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity()" [ngClass]="{ 'no-drop': !delPublishRates.length }">
                 <!-- <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" /> -->
-                <svg class="edit-validity-icon icon-size-16 mr-2" id="17f5b310-5508-485b-8001-dbaf3458113b" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <svg class="edit-validity-icon icon-size-16 mr-2" id="17f5b310-5508-485b-8001-dbaf3458113b" data-name="Layer 1"
+                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                   <defs>
                     <style>
                       .be7dd154-90ee-45f6-a47e-11a6c4eceb87 {
@@ -473,17 +520,21 @@
                   </defs>
                   <title>icon</title>
                   <g id="40ee8fd5-e28d-4347-b10e-66f9984b7564" data-name="calendar2">
-                    <path id="6d9cbed9-97a5-4544-9814-99b685f0d436" data-name="&lt;Compound Path&gt;" class="be7dd154-90ee-45f6-a47e-11a6c4eceb87" d="M15,2H3.8A2.8,2.8,0,0,0,1,4.8V16H12.2A2.8,2.8,0,0,0,15,13.2V2Z"/>
-                    <path class="dd12900e-6340-4a89-b921-0b1d5cffc735" d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z"/>
-                    <rect id="7d4ed2c6-f916-40cf-acce-d794196da080" data-name="&lt;Path&gt;" class="be7dd154-90ee-45f6-a47e-11a6c4eceb87" x="5" width="2" height="5"/>
-                    <rect id="a37c2eb5-9844-41fa-8d51-9b1b7c64de14" data-name="&lt;Path&gt;" class="be7dd154-90ee-45f6-a47e-11a6c4eceb87" x="9" width="2" height="5"/>
+                    <path id="6d9cbed9-97a5-4544-9814-99b685f0d436" data-name="&lt;Compound Path&gt;" class="be7dd154-90ee-45f6-a47e-11a6c4eceb87"
+                      d="M15,2H3.8A2.8,2.8,0,0,0,1,4.8V16H12.2A2.8,2.8,0,0,0,15,13.2V2Z" />
+                    <path class="dd12900e-6340-4a89-b921-0b1d5cffc735" d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z" />
+                    <rect id="7d4ed2c6-f916-40cf-acce-d794196da080" data-name="&lt;Path&gt;" class="be7dd154-90ee-45f6-a47e-11a6c4eceb87"
+                      x="5" width="2" height="5" />
+                    <rect id="a37c2eb5-9844-41fa-8d51-9b1b7c64de14" data-name="&lt;Path&gt;" class="be7dd154-90ee-45f6-a47e-11a6c4eceb87"
+                      x="9" width="2" height="5" />
                   </g>
                 </svg>
                 {{rateValidityTextFCL}}
               </a>
               <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('FCL')" [ngClass]="{ 'no-drop': !delPublishRates.length }">
                 <!-- <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16" /> -->
-                <svg class="delete-icon icon-size-16 mr-2" id="317c8c47-17e2-4e96-9063-97bc9a32118b" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <svg class="delete-icon icon-size-16 mr-2" id="317c8c47-17e2-4e96-9063-97bc9a32118b" data-name="Layer 1"
+                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                   <defs>
                     <style>
                       .a2933809-f108-463d-a7d6-9972aa735edc {
@@ -493,9 +544,9 @@
                   </defs>
                   <title>icon</title>
                   <g id="9ddd7984-9517-4e7f-881d-6292000e8e8a" data-name="delete">
-                    <rect class="a2933809-f108-463d-a7d6-9972aa735edc" y="2" width="16" height="2"/>
-                    <rect class="a2933809-f108-463d-a7d6-9972aa735edc" x="5" width="6" height="2"/>
-                    <path class="a2933809-f108-463d-a7d6-9972aa735edc" d="M2,5v9a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V5Zm5,9H5V7H7Zm4,0H9V7h2Z"/>
+                    <rect class="a2933809-f108-463d-a7d6-9972aa735edc" y="2" width="16" height="2" />
+                    <rect class="a2933809-f108-463d-a7d6-9972aa735edc" x="5" width="6" height="2" />
+                    <path class="a2933809-f108-463d-a7d6-9972aa735edc" d="M2,5v9a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V5Zm5,9H5V7H7Zm4,0H9V7h2Z" />
                   </g>
                 </svg>
                 Delete
