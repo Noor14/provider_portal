@@ -281,38 +281,38 @@ export class RateValidityComponent implements OnInit {
             slab: [
               {
                 pricingID: element.slab.Pricingid1,
-                price: this.normalPrice,
-                minPrice: this.minPrice,
+                price: this.selectedCurrency.CurrencyCode+ ' ' + this.normalPrice,
+                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.minPrice,
                 slabName:'Normal'
               },
               {
                 pricingID: element.slab.Pricingid2,
-                price: this.plusfortyFivePrice,
-                minPrice: this.normalPrice,
+                price: this.selectedCurrency.CurrencyCode+ ' ' + this.plusfortyFivePrice,
+                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.normalPrice,
                 slabName: '+45'
               },
               {
                 pricingID: element.slab.Pricingid3,
-                price: this.plushundredPrice,
-                minPrice: this.plusfortyFivePrice,
+                price: this.selectedCurrency.CurrencyCode+ ' ' + this.plushundredPrice,
+                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plusfortyFivePrice,
                 slabName: '+100'
               },
               {
                 pricingID: element.slab.Pricingid4,
-                price: this.plusTwoFiftyPrice,
-                minPrice: this.plushundredPrice,
+                price: this.selectedCurrency.CurrencyCode+ ' ' + this.plusTwoFiftyPrice,
+                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plushundredPrice,
                 slabName: '+250'
               },
               {
                 pricingID: element.slab.Pricingid5,
-                price: this.plusFiveHundPrice,
-                minPrice: this.plusTwoFiftyPrice,
+                price: this.selectedCurrency.CurrencyCode+ ' ' + this.plusFiveHundPrice,
+                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plusTwoFiftyPrice,
                 slabName: '+500'
               },
               {
                 pricingID: element.slab.Pricingid6,
-                price: this.plusThousandPrice,
-                minPrice: this.plusFiveHundPrice,
+                price: this.selectedCurrency.CurrencyCode+ ' ' + this.plusThousandPrice,
+                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plusFiveHundPrice,
                 slabName: '+1000'
               }
             ],
