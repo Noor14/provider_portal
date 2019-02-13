@@ -546,6 +546,7 @@ export class SeaRateDialogComponent implements OnInit {
 
   addMoreCharges(type) {
     if (type === 'origin') {
+      this.config.autoClose = false;
       if (!(Object.keys(this.selectedOrigins[this.selectedOrigins.length - 1]).length === 0 && this.selectedOrigins[this.selectedOrigins.length - 1].constructor === Object) && (parseInt(this.selectedOrigins[this.selectedOrigins.length - 1].Price)) && this.selectedOrigins[this.selectedOrigins.length - 1].CurrId) {
         console.log(this.selectedOrigins);
 
@@ -577,7 +578,11 @@ export class SeaRateDialogComponent implements OnInit {
 
   closeDropdown(event) {
     console.log(event);
-    if (!event.target.id && !event.target.className.includes('has-open')) {
+    console.log(!event.target.id);
+    console.log(event.target.className.includes('has-open'));
+    let x: any = document.getElementsByClassName('dropdown-menu')
+    console.log(x.length);
+    if (!event.target.className.includes('has-open')) {
       this.originDropdown.close()
       this.destinationDropdown.close()
     }
@@ -659,9 +664,9 @@ export class SeaRateDialogComponent implements OnInit {
           addChrType: 'ADCH',
           providerID: this.userProfile.ProviderID
         }
-        if(type === 'origin') {
+        if (type === 'origin') {
           this.originsList.push(obj)
-        } else if(type === 'destination') {
+        } else if (type === 'destination') {
           this.destinationsList.push(obj)
         }
         this.lablelName = ''
