@@ -173,14 +173,14 @@
         <div class="col-12">
           <h5 class="model-sub-head mt-4 pull-left">Additional Charges At Port Of Origin</h5>
         </div>
-        <div class="col-xl-4" *ngFor="let origin of selectedOrigins; let i=index">
+        <div class="col-6" *ngFor="let origin of selectedOrigins; let i=index">
           <div class="row combine-filed-popup">
             <div class="d-flex ml-3 mr-3" [ngClass]="addOriginActive ? 'active' : ''">
-            <div class="col-4 pr-0 pl-0">
+            <div class="col-7 pr-0 pl-0">
               <div ngbDropdown #originDropdown="ngbDropdown" class="combine-filed-popup-left-btn"
                 (openChange)="dropdownToggle($event, 'origin')">
                 <button class="btn" id="addCharge" ngbDropdownToggle>
-                  {{selectedOrigins[i]?.addChrName || 'Select' | limitTo : 7 }}
+                  {{selectedOrigins[i]?.addChrName || 'Select' | limitTo : 30 }}
                 </button>
                 <div ngbDropdownMenu aria-labelledby="originExport">
                   <button *ngIf="!isOriginChargesForm" class="dropdown-item custom-label has-open"
@@ -221,13 +221,13 @@
                 </div>
               </div>
             </div>
-            <div class="col-4 pl-0 pr-0">
+            <div class="col-3 pl-0 pr-0">
               <div class="form-group mb-0 combine-filed-popup-mid">
                 <input type="text" maxlength="15" class="form-control" [(ngModel)]="origin.Price" placeholder="0.00"
                   (keypress)="numberValid($event)">
               </div>
             </div>
-            <div class="col-4 pl-0 pr-0">
+            <div class="col-2 pl-0 pr-0">
               <div class="origin combine-filed-popup-right">
                 <div class="flag-container">
                   <img *ngIf="origin.currency && origin.currency.CountryCode"
@@ -261,13 +261,13 @@
           <h5 class="model-sub-head mt-4 pull-left">Additional Charges At Port Of Destination</h5>
         </div>
 
-        <div class="col-xl-4" *ngFor="let destination of selectedDestinations; let i=index">
+        <div class="col-6" *ngFor="let destination of selectedDestinations; let i=index">
           <div class="row combine-filed-popup">
             <div class="d-flex ml-3 mr-3" [ngClass]="addDestinationActive ? 'active' : ''">
-            <div class="col-4 pr-0 pl-0">
+            <div class="col-7 pr-0 pl-0">
               <div ngbDropdown #destinationDropdown="ngbDropdown" (openChange)="dropdownToggle($event, 'destination')"
                 class="combine-filed-popup-left-btn" placement="top-left">
-                <button class="btn" id="destinationExport" ngbDropdownToggle> {{selectedDestinations[i]?.addChrName || 'Select' | limitTo : 12 }} </button>
+                <button class="btn" id="destinationExport" ngbDropdownToggle> {{selectedDestinations[i]?.addChrName || 'Select' | limitTo : 30 }} </button>
                 <div ngbDropdownMenu aria-labelledby="destinationExport">
                   <button *ngIf="!isDestinationChargesForm" class="dropdown-item custom-label has-open" (click)="showCustomChargesForm('destination')">
                     <img src="../../../../assets/images/icons/icon_add.svg" width="16" alt="">
@@ -303,13 +303,13 @@
                 </div>
               </div>
             </div>
-            <div class="col-4 pl-0 pr-0">
+            <div class="col-3 pl-0 pr-0">
               <div class="form-group mb-0 combine-filed-popup-mid">
                 <input type="text" maxlength="15" class="form-control" [(ngModel)]="destination.Price"
                   placeholder="0.00" (keypress)="numberValid($event)">
               </div>
             </div>
-            <div class="col-4 pl-0 pr-0">
+            <div class="col-2 pl-0 pr-0">
               <div class="origin combine-filed-popup-right">
                 <div class="flag-container">
                   <img *ngIf="destination.currency && destination.currency.CountryCode"
