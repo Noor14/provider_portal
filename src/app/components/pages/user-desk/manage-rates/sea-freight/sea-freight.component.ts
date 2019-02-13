@@ -780,7 +780,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
               let node = this.node();
               let data = this.data();
+              console.log(data);
+              
               if (data.ContainerSpecID === element.containerSpecID &&
+                data.ShippingCatName === element.shippingCatName &&
                 data.PolID === element.polID &&
                 data.PodID === element.podID &&
                 data.ShippingCatID === element.shippingCatID &&
