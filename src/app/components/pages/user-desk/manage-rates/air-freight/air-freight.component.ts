@@ -25,6 +25,8 @@ import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-pars
 import { ManageRatesService } from '../manage-rates.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
+import { RateHistoryComponent } from '../../../../../shared/dialogues/rate-history/rate-history.component';
 
 declare var $;
 const now = new Date();
@@ -62,7 +64,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   private draftRates: any;
   private addnsaveRates: any;
   private updatedDraftsAirArray:any;
-  
+  public rateValidityText = "Edit Rate / Validity";
   public dtOptionsByAir: DataTables.Settings | any = {};
   public dtOptionsByAirDraft: DataTables.Settings | any = {};
   @ViewChild('draftBYair') tabledraftByAir;
@@ -876,7 +878,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           title: '',
           data: function (data) {
             let url = '../../../../../../assets/images/icons/menu.svg';
-            return "<img src='" + url + "' class='icon-size-16' />";
+            return "<img id = '" + data.carrierPricingSetID + "' src='" + url + "' class='icon-size-16 pointer' />";
           },
           className: 'moreOption'
         }
@@ -946,6 +948,13 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         this.dataTablepublishByAir = $(this.tablepublishByAir.nativeElement);
         let alltableOption = this.dataTablepublishByAir.DataTable(this.dtOptionsByAir);
         this.publishloading = false;
+        $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
+          event.stopPropagation();
+          let selectedId = (<HTMLElement>event.target).id;
+          if (selectedId) {
+            this.rateHistory(selectedId, 'Rate_AIR')
+          }
+        });
         $("#selectallpublishRates").click(() => {
           this.delPublishRates = [];
           var cols = alltableOption.column(0).nodes();
@@ -954,12 +963,14 @@ export class AirFreightComponent implements OnInit, OnDestroy {
             cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
             if (this.checkedallpublishRates) {
               this.delPublishRates.push(cols[i].querySelector("input[type='checkbox']").id);
-              this.selectedItem('add', alltableOption)
+              this.selectedItem('add', alltableOption);
+              this.rateValidityText = "Edit Validity";
             }
           }
           if (i == cols.length && !this.checkedallpublishRates) {
             this.delPublishRates = [];
-            this.selectedItem('remove', alltableOption)
+            this.selectedItem('remove', alltableOption);
+            this.rateValidityText = "Edit Rate / Validity";
 
           }
 
@@ -975,7 +986,12 @@ export class AirFreightComponent implements OnInit, OnDestroy {
             selection.classList.add('selected');
             this.delPublishRates.push((<HTMLInputElement>event.target).id)
           }
-
+          if (this.delPublishRates && this.delPublishRates.length > 1) {
+            this.rateValidityText = "Edit Validity";
+          }
+          else {
+            this.rateValidityText = "Edit Rate / Validity";
+          }
         });
       }
     }, 0);
@@ -1184,6 +1200,64 @@ export class AirFreightComponent implements OnInit, OnDestroy {
       }
     }, 0);
   }
+  rateHistory(recId, fortype) {
+    const modalRef = this.modalService.open(RateHistoryComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'upper-medium-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+
+    let obj = {
+      id: recId,
+      type: fortype
+    }
+    modalRef.componentInstance.getRecord = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
+
+  rateValidity() {
+    if (!this.delPublishRates.length) return;
+    let updateValidity = [];
+    for (let i = 0; i < this.allRatesList.length; i++) {
+      for (let y = 0; y < this.delPublishRates.length; y++) {
+        if (this.allRatesList[i].carrierPricingSetID == this.delPublishRates[y]) {
+          updateValidity.push(this.allRatesList[i])
+        }
+      }
+    }
+    const modalRef = this.modalService.open(RateValidityComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'upper-medium-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.result.then((result) => {
+      if (result == 'Success') {
+        this.getAllPublishRates();
+        this.checkedallpublishRates = false
+        this.delPublishRates = [];
+      }
+    });
+    let obj = {
+      data: updateValidity,
+      type: "rateValidityAIR"
+    }
+    modalRef.componentInstance.validityData = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
+
+
 
   saveTermNcond() {
     let obj = {
