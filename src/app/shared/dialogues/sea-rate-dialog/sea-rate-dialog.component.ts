@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, Renderer2, ElementRef, Input } from '@angular/core';
 import { PlatformLocation } from '@angular/common';
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbActiveModal, NgbDropdownConfig } from "@ng-bootstrap/ng-bootstrap";
 import { SharedService } from '../../../services/shared.service';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -17,6 +17,7 @@ import {
 import { NgbDateFRParserFormatter } from "../../../constants/ngb-date-parser-formatter";
 import { SeaFreightService } from '../../../components/pages/user-desk/manage-rates/sea-freight/sea-freight.service';
 import { cloneObject } from '../../../components/pages/user-desk/reports/reports.component';
+import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
   one && two && two.year === one.year && two.month === one.month && two.day === one.day;
@@ -33,13 +34,19 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
   templateUrl: "./sea-rate-dialog.component.html",
   encapsulation: ViewEncapsulation.None,
   providers: [
-    { provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }
+    { provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter },
+    NgbDropdownConfig
   ],
-  styleUrls: ["./sea-rate-dialog.component.scss"]
+  styleUrls: ["./sea-rate-dialog.component.scss"],
+  host: {
+    "(document:click)": "closeDropdown($event)"
+  }
 })
 export class SeaRateDialogComponent implements OnInit {
   @ViewChild("dp") input: NgbInputDatepicker;
   @ViewChild("rangeDp") rangeDp: ElementRef;
+  @ViewChild('originDropdown') originDropdown: any
+  @ViewChild('destinationDropdown') destinationDropdown;
   @Input() selectedData: any;
 
   public allShippingLines: any[] = [];
@@ -64,7 +71,6 @@ export class SeaRateDialogComponent implements OnInit {
     CountryCode: 'AE'
   };
   public selectedCurrency: any;
-
   public startDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
   public minDate: NgbDateStruct;
@@ -93,6 +99,7 @@ export class SeaRateDialogComponent implements OnInit {
 
   public destinationsList = []
   public originsList = []
+  public userInfo: any;
 
   constructor(
     private location: PlatformLocation,
@@ -101,15 +108,18 @@ export class SeaRateDialogComponent implements OnInit {
     private _parserFormatter: NgbDateParserFormatter,
     private renderer: Renderer2,
     private _seaFreightService: SeaFreightService,
-    private _toast: ToastrService
+    private _toast: ToastrService,
+    private config: NgbDropdownConfig,
+    private _eref: ElementRef
   ) {
     location.onPopState(() => this.closeModal(null));
+    config.autoClose = false;
   }
 
   ngOnInit() {
-    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    if (userInfo && userInfo.returnText) {
-      this.userProfile = JSON.parse(userInfo.returnText);
+    this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    if (this.userInfo && this.userInfo.returnText) {
+      this.userProfile = JSON.parse(this.userInfo.returnText);
     }
     this.allservicesBySea();
     if (this.selectedData.data.JsonSurchargeDet) {
@@ -117,6 +127,7 @@ export class SeaRateDialogComponent implements OnInit {
     }
     this.destinationsList = this.selectedData.addList
     this.originsList = this.selectedData.addList
+    this.getSurchargeBasis(this.selectedData.forType)
   }
 
   allservicesBySea() {
@@ -301,9 +312,9 @@ export class SeaRateDialogComponent implements OnInit {
       carrierName: (this.selectedShipping) ? this.selectedShipping.CarrierName : undefined,
       carrierImage: (this.selectedShipping) ? this.selectedShipping.CarrierImage : undefined,
       providerID: this.userProfile.ProviderID,
-      containerSpecID: (this.selectedContSize == null || this.selectedContSize == 'null') ? null : this.selectedContSize,
+      containerSpecID: (this.selectedContSize == null || this.selectedContSize == 'null') ? null : parseInt(this.selectedContSize),
       containerSpecName: (this.selectedContSize == null || this.selectedContSize == 'null') ? undefined : this.getContSpecName(this.selectedContSize),
-      shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : this.selectedCategory,
+      shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : parseInt(this.selectedCategory),
       shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.getShippingName(this.selectedCategory),
       containerLoadType: "FCL",
       modeOfTrans: "SEA",
@@ -313,7 +324,7 @@ export class SeaRateDialogComponent implements OnInit {
       podID: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortID : null,
       podName: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortName : null,
       podCode: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortCode : null,
-      price: this.selectedPrice,
+      price: parseInt(this.selectedPrice),
       currencyID: (this.selectedCurrency.CurrencyID) ? this.selectedCurrency.CurrencyID : 101,
       currencyCode: (this.selectedCurrency.CurrencyCode) ? this.selectedCurrency.CurrencyCode : 'AED',
       effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
@@ -461,15 +472,18 @@ export class SeaRateDialogComponent implements OnInit {
     );
   currencyFormatter = (x) => x.CurrencyCode;
 
-  public priceOrigin = ''
-  public priceDestination = ''
   public selectedOrigins: any = [{}];
   public selectedDestinations: any = [{}];
   selectCharges(type, model, index) {
-    model.CurrId = this.selectedCurrency.CurrencyID
     model.Imp_Exp = type;
-
     if (type === 'EXPORT') {
+      if ((Object.keys(this.selectedOrigins[index]).length === 0 && this.selectedOrigins[index].constructor === Object) || !this.selectedOrigins[index].hasOwnProperty('currency')) {
+        model.CurrId = this.selectedCurrency.CurrencyID
+        model.currency = this.selectedCurrency
+      } else {
+        model.CurrId = this.selectedOrigins[index].currency.CurrencyID
+        model.currency = this.selectedOrigins[index].currency
+      }
       const { selectedOrigins } = this
       selectedOrigins.forEach(element => {
         if ((Object.keys(element).length === 0 && element.constructor === Object)) {
@@ -486,6 +500,11 @@ export class SeaRateDialogComponent implements OnInit {
       this.selectedOrigins = cloneObject(selectedOrigins)
       this.originsList = this.originsList.filter(e => e.addChrID !== model.addChrID)
     } else if (type === 'IMPORT') {
+      if ((Object.keys(this.selectedDestinations[index]).length === 0 && this.selectedDestinations[index].constructor === Object) || !this.selectedDestinations[index].hasOwnProperty('currency')) {
+        model.CurrId = this.selectedCurrency.CurrencyID
+      } else {
+        model.CurrId = this.selectedDestinations[index].currency.CurrencyID
+      }
       const { selectedDestinations } = this
       selectedDestinations.forEach(element => {
         if ((Object.keys(element).length === 0 && element.constructor === Object)) {
@@ -504,14 +523,29 @@ export class SeaRateDialogComponent implements OnInit {
     }
   }
 
+  getVal(idx, event, type) {
+    if (typeof event === 'object') {
+      if (type === 'origin') {
+        this.selectedOrigins[idx].CurrId = event.CurrencyID
+      } else if (type === 'destination') {
+        this.selectedDestinations[idx].CurrId = event.CurrencyID
+      }
+    }
+  }
+
   addMoreCharges(type) {
     if (type === 'origin') {
-      if (!(Object.keys(this.selectedOrigins[this.selectedOrigins.length - 1]).length === 0 && this.selectedOrigins[this.selectedOrigins.length - 1].constructor === Object)) {
-        this.selectedOrigins.push({})
+      this.config.autoClose = false;
+      if (!(Object.keys(this.selectedOrigins[this.selectedOrigins.length - 1]).length === 0 && this.selectedOrigins[this.selectedOrigins.length - 1].constructor === Object) && (parseInt(this.selectedOrigins[this.selectedOrigins.length - 1].Price)) && this.selectedOrigins[this.selectedOrigins.length - 1].CurrId) {
+        this.selectedOrigins.push({
+          currency: this.selectedOrigins[this.selectedOrigins.length - 1].currency
+        })
       }
     } else if (type === 'destination') {
-      if (!(Object.keys(this.selectedDestinations[this.selectedDestinations.length - 1]).length === 0 && this.selectedDestinations[this.selectedDestinations.length - 1].constructor === Object)) {
-        this.selectedDestinations.push({})
+      if (!(Object.keys(this.selectedDestinations[this.selectedDestinations.length - 1]).length === 0 && this.selectedDestinations[this.selectedDestinations.length - 1].constructor === Object) && (parseInt(this.selectedDestinations[this.selectedDestinations.length - 1].Price)) && this.selectedDestinations[this.selectedDestinations.length - 1].CurrId) {
+        this.selectedDestinations.push({
+          currency: this.selectedDestinations[this.selectedDestinations.length - 1].currency
+        })
       }
     }
   }
@@ -522,10 +556,123 @@ export class SeaRateDialogComponent implements OnInit {
     if (!this.selectedOrigins.length) {
       this.selectedOrigins = [{}]
     }
-    console.log(this.selectedOrigins);
     this.selectedDestinations = parsedJsonSurchargeDet.filter((e) => e.Imp_Exp === 'IMPORT')
     if (!this.selectedDestinations.length) {
       this.selectedDestinations = [{}]
+    }
+  }
+
+  closeDropdown(event) {
+    let x: any = document.getElementsByClassName('dropdown-menu')
+    if (!event.target.className.includes('has-open')) {
+      this.originDropdown.close()
+      this.destinationDropdown.close()
+    }
+    // if (!this._eref.nativeElement.contains(event.target)) // or some similar check
+  }
+
+  public surchargesList: any = []
+  getSurchargeBasis(containerLoad) {
+    this._seaFreightService.getSurchargeBasis(containerLoad).subscribe((res) => {
+      this.surchargesList = res
+    }, (err) => {
+      console.log(err);
+
+    })
+  }
+  public isOriginChargesForm = false;
+  public isDestinationChargesForm = false;
+  public lablelName: string = ''
+  public surchargeType: any;
+  public labelValidate: boolean = true
+  public surchargeBasisValidate: boolean = true
+  showCustomChargesForm(type) {
+    if (type === 'origin') {
+      this.isOriginChargesForm = !this.isOriginChargesForm
+    } else if (type === 'destination') {
+      this.isDestinationChargesForm = !this.isDestinationChargesForm
+    }
+
+  }
+
+  public canAddLabel: boolean = true;
+  addCustomLabel(type) {
+    if (!this.lablelName) {
+      this.labelValidate = false
+      return;
+    }
+    if (!this.surchargeType) {
+      this.surchargeBasisValidate = false
+      return;
+    }
+    const selectedSurcharge = this.surchargesList.find(obj => obj.codeValID === parseInt(this.surchargeType));
+    let obj = {
+      addChrID: -1,
+      addChrCode: 'OTHR',
+      addChrName: this.lablelName,
+      addChrDesc: this.lablelName,
+      modeOfTrans: this.selectedData.forType,
+      addChrBasis: selectedSurcharge.codeVal,
+      createdBy: this.userProfile.PrimaryEmail,
+      addChrType: 'ADCH',
+      providerID: this.userProfile.ProviderID
+    }
+    this.selectedData.addList.forEach(element => {
+      if (element.addChrName === obj.addChrName && element.addChrBasis === obj.addChrBasis) {
+        this.canAddLabel = false
+        return false;
+      }
+    });
+
+    if (!this.canAddLabel) {
+      this._toast.info('Already Added, Please try another surcharge type', 'Info')
+      return false
+    }
+
+    this._seaFreightService.addCustomCharge(obj).subscribe((res: any) => {
+      this.isOriginChargesForm = false;
+      this.isDestinationChargesForm = false;
+      if (res.returnId !== -1) {
+        let obj = {
+          addChrID: res.returnId,
+          addChrCode: 'OTHR',
+          addChrName: this.lablelName,
+          addChrDesc: this.lablelName,
+          modeOfTrans: this.selectedData.forType,
+          addChrBasis: selectedSurcharge.codeVal,
+          createdBy: this.userProfile.PrimaryEmail,
+          addChrType: 'ADCH',
+          providerID: this.userProfile.ProviderID
+        }
+        if (type === 'origin') {
+          this.originsList.push(obj)
+        } else if (type === 'destination') {
+          this.destinationsList.push(obj)
+        }
+        this.lablelName = ''
+        this.surchargeType = ''
+      }
+    }, (err) => {
+      console.log(err);
+    })
+  }
+
+  public addDestinationActive: boolean = false;
+  public addOriginActive: boolean = false;
+  dropdownToggle(event, type) {
+    if (event) {
+      this.isDestinationChargesForm = false;
+      this.isOriginChargesForm = false;
+      this.surchargeBasisValidate = true
+      this.labelValidate = true
+      if (type === 'destination') {
+        this.addDestinationActive = true
+      } else if (type === 'origin') {
+        this.addOriginActive = true
+      }
+    } else {
+      this.addOriginActive = false
+      this.addDestinationActive = false
     }
   }
 

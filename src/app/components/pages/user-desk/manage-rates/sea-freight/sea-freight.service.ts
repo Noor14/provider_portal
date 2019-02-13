@@ -6,8 +6,8 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 export class SeaFreightService {
 
   constructor(private _http: HttpClient) { }
-  
-  getAllrates(obj){
+
+  getAllrates(obj) {
     let url: string = "providerratefcl/SearchRates";
     return this._http.post(baseApi + url, obj);
   }
@@ -17,11 +17,11 @@ export class SeaFreightService {
     return this._http.post(baseApi + url, obj);
   }
 
-  getAllLogisticServiceBySea(userID, providerID){
+  getAllLogisticServiceBySea(userID, providerID) {
     let url: string = `provider/GetProviderLogisticService/${userID}/${providerID}`;
     return this._http.get(baseApi + url);
   }
-  addDraftRates(obj){
+  addDraftRates(obj) {
     let url: string = "providerratefcl/AddDraftRow";
     return this._http.post(baseApi + url, obj);
   }
@@ -30,12 +30,12 @@ export class SeaFreightService {
     return this._http.post(baseApi + url, obj);
   }
 
-  saveDraftRate(obj){
+  saveDraftRate(obj) {
     let url: string = "providerratefcl/SaveDraft";
     return this._http.post(baseApi + url, obj);
   }
 
-  saveDraftRateLCL(obj){
+  saveDraftRateLCL(obj) {
     let url: string = "providerratelcl/SaveDraft";
     return this._http.post(baseApi + url, obj);
   }
@@ -47,7 +47,7 @@ export class SeaFreightService {
     let url: string = "providerratelcl/PublishRate";
     return this._http.post(baseApi + url, obj);
   }
-  deleteNDiscardDraftRate(data){
+  deleteNDiscardDraftRate(data) {
     let url: string = "providerratefcl/DiscardDraft";
     return this._http.request('delete', baseApi + url, { body: data });
   }
@@ -63,13 +63,17 @@ export class SeaFreightService {
     let url: string = "providerratelcl/DeletePublishRate";
     return this._http.request('delete', baseApi + url, { body: data });
   }
-
-  getAllAdditionalCharges() {
-    let url: string = `AdditionalCharge/GetAll/123`;
+  getAllAdditionalCharges(ProviderID) {
+    let url: string = `AdditionalCharge/GetAll/${ProviderID}`;
     return this._http.get(baseApi + url);
   }
 
-  rateValidityFCL(data){
+  getSurchargeBasis(ContainerLoadType) {
+    let url: string = `AdditionalCharge/GetSurchargeBasis/${ContainerLoadType}`;
+    return this._http.get(baseApi + url);
+  }
+
+  rateValidityFCL(data) {
     let url: string = "providerratefcl/EditRate";
     return this._http.post(baseApi + url, data);
   }
@@ -86,6 +90,11 @@ export class SeaFreightService {
   getRecHistoryLCL(recId, objectName, createdBy) {
     let url: string = `providerratelcl/GetRateHistory/${recId}/${objectName}/${createdBy}`;
     return this._http.get(baseApi + url);
+  }
+
+  addCustomCharge(data) {
+    let url: string = `AdditionalCharge/Post`;
+    return this._http.post(baseApi + url, data);
   }
 
 

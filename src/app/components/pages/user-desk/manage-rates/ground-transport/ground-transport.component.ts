@@ -1097,7 +1097,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           if (i == cols.length && !this.checkedallpublishRates) {
             this.delPublishRates = [];
             this.selectedItem('remove', alltableOption)
-            this.rateValidityText = "Edit Validity";
+            this.rateValidityText = "Edit Rate / Validity";
           }
 
         });

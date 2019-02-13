@@ -1,6 +1,6 @@
 <div class="provider-modal animated fadeIn">
   <div class="modal-header">
-    <h4 class="provider-modal-title">Rate Validity</h4>
+    <h4 class="provider-modal-title">Update Validity</h4>
     <a class="pointer crossIcon" (click)="closePopup()">
       <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
     </a>
@@ -27,11 +27,12 @@
             </ng-template>
           </div>
         </div>
-      </div> 
-      <div class="col-5">
-        <div class="form-group">
-          <label *ngIf="validityData.type != 'rateValidityLCL'">Rate</label>
-          <label *ngIf="validityData.type == 'rateValidityLCL'">Rate / CBM</label>
+      </div> -->
+
+    <div class="col-5" *ngIf="validityData.data.length == 1 && validityData.type != 'rateValidityAIR'">
+      <div class="form-group">
+        <label *ngIf="validityData.type != 'rateValidityLCL'">Rate</label>
+        <label *ngIf="validityData.type == 'rateValidityLCL'">Rate / CBM</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
@@ -39,93 +40,91 @@
             <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="price" (keypress)="numberValid($event)">
           </div>
         </div>
-      </div>
-    </div> -->
-    <div class="row" *ngIf="validityData.data.length == 1">
-      <div class="col-3">
-        <div class="form-group">
-          <label>Minimum</label>
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
-            </div>
-            <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="minPrice" (keypress)="numberValid($event)">
+    </div>
+    <div class="col-4" *ngIf="validityData.data.length == 1 && validityData.type == 'rateValidityAIR'">
+      <div class="form-group">
+        <label>Minimum</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
           </div>
+          <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="minPrice" (keypress)="numberValid($event)">
         </div>
       </div>
-      <div class="col-3">
-        <div class="form-group">
-          <label>Normal</label>
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
-            </div>
-            <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="normalPrice"
-              (keypress)="numberValid($event)">
+    </div>
+    <div class="col-4" *ngIf="validityData.data.length == 1 && validityData.type == 'rateValidityAIR'">
+      <div class="form-group">
+        <label>Normal</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
           </div>
+          <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="normalPrice" (keypress)="numberValid($event)">
         </div>
       </div>
-      <div class="col-3">
-        <div class="form-group">
-          <label>+45</label>
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
-            </div>
-            <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="plusfortyFivePrice"
-              (keypress)="numberValid($event)">
+    </div>
+    <div class="col-4" *ngIf="validityData.data.length == 1 && validityData.type == 'rateValidityAIR'">
+      <div class="form-group">
+        <label>+45</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
           </div>
+          <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="plusfortyFivePrice"
+            (keypress)="numberValid($event)">
         </div>
       </div>
-      <div class="col-3">
-        <div class="form-group">
-          <label>+100</label>
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
-            </div>
-            <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="plushundredPrice"
-              (keypress)="numberValid($event)">
+    </div>
+    <div class="col-4" *ngIf="validityData.data.length == 1 && validityData.type == 'rateValidityAIR'">
+      <div class="form-group">
+        <label>+100</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
           </div>
+          <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="plushundredPrice"
+            (keypress)="numberValid($event)">
         </div>
       </div>
-      <div class="col-3">
-        <div class="form-group">
-          <label>+250</label>
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
-            </div>
-            <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="plusTwoFiftyPrice"
-              (keypress)="numberValid($event)">
+    </div>
+    <div class="col-4" *ngIf="validityData.data.length == 1 && validityData.type == 'rateValidityAIR'">
+      <div class="form-group">
+        <label>+250</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
           </div>
+          <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="plusTwoFiftyPrice"
+            (keypress)="numberValid($event)">
         </div>
       </div>
-      <div class="col-3">
-        <div class="form-group">
-          <label>+500</label>
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
-            </div>
-            <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="plusFiveHundPrice"
-              (keypress)="numberValid($event)">
+    </div>
+    <div class="col-4" *ngIf="validityData.data.length == 1 && validityData.type == 'rateValidityAIR'">
+      <div class="form-group">
+        <label>+500</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
           </div>
+          <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="plusFiveHundPrice"
+            (keypress)="numberValid($event)">
         </div>
       </div>
-      <div class="col-3">
-        <div class="form-group">
-          <label>+1000</label>
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
-            </div>
-            <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="plusThousandPrice"
-              (keypress)="numberValid($event)">
+    </div>
+    <div class="col-4" *ngIf="validityData.data.length == 1 && validityData.type == 'rateValidityAIR'">
+      <div class="form-group">
+        <label>+1000</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
           </div>
+          <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="plusThousandPrice"
+            (keypress)="numberValid($event)">
         </div>
       </div>
-      <div class="col-3">
+    </div>
+
+      <div class="col-7">
         <div class="form-group">
           <label>Selected Date</label>
           <div class="dateIcon mb-2">

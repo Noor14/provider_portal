@@ -233,11 +233,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   onEditorCreated(quill, type) {
   }
   onContentChanged({ quill, html, text }, type) {
-    if (type="FCL"){
+    if (type = "FCL") {
       this.editorContentFCL = html
 
     }
-    else{
+    else {
       this.editorContentLCL = html
 
     }
@@ -693,7 +693,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   setdataDraftInTableLCL() {
     setTimeout(() => {
-
       if (this.tabledraftBySeaLCL && this.tabledraftBySeaLCL.nativeElement) {
         this.dataTabledraftByseaLCL = $(this.tabledraftBySeaLCL.nativeElement);
         let alltableOption = this.dataTabledraftByseaLCL.DataTable(this.dtOptionsBySeaLCLDraft);
@@ -775,6 +774,24 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         // let alltableOption = this.dataTabledraftBysea.DataTable();
         //   alltableOption.destroy();
         let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
+        if (this.allRatesList) {
+          this.allRatesList.forEach(element => {
+            alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+              let node = this.node();
+              let data = this.data();
+              if (data.ContainerSpecID === element.containerSpecID &&
+                data.PolID === element.polID &&
+                data.PodID === element.podID &&
+                data.ShippingCatID === element.shippingCatID &&
+                data.CarrierID === element.carrierID &&
+                moment(data.EffectiveFrom).format('D MMM, Y') === moment(element.effectiveFrom).format('D MMM, Y') &&
+                moment(data.EffectiveTo).format('D MMM, Y') === moment(element.effectiveTo).format('D MMM, Y') &&
+                data.Price === element.price) {
+                node.children[0].children[0].children[0].setAttribute("disabled", true)
+              }
+            });
+          });
+        }
         alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
           let node = this.node();
           let data = this.data();
@@ -927,7 +944,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         element.parsedJsonSurchargeDet = importCharges.concat(exportCharges)
       }
     });
-
     for (var index = 0; index < this.draftsfcl.length; index++) {
       for (let i = 0; i < data.length; i++) {
         if (this.draftsfcl[index].ProviderPricingDraftID == data[i].providerPricingDraftID) {
@@ -1269,7 +1285,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             if (subTotalIMP === 0) {
               return "<span>-- Select --</span>"
             }
-            return data.currencyCode + ' ' + subTotalIMP ;
+            return data.currencyCode + ' ' + subTotalIMP;
           }
         },
         {
@@ -1962,7 +1978,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     let updateValidity = [];
     for (let i = 0; i < this.allRatesList.length; i++) {
       for (let y = 0; y < this.delPublishRates.length; y++) {
-        if (this.allRatesList[i].carrierPricingID == this.delPublishRates[y]){
+        if (this.allRatesList[i].carrierPricingID == this.delPublishRates[y]) {
           updateValidity.push(this.allRatesList[i])
         }
       }
@@ -1975,10 +1991,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       keyboard: false
     });
     modalRef.result.then((result) => {
-      if (result =='Success') {
+      if (result == 'Success') {
         this.getAllPublishRates();
         this.checkedallpublishRates = false
-        this.delPublishRates=[];
+        this.delPublishRates = [];
       }
     });
     let obj = {
@@ -2073,7 +2089,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   getAdditionalData() {
-    this._seaFreightService.getAllAdditionalCharges().subscribe((res: any) => {
+    this._seaFreightService.getAllAdditionalCharges(this.userProfile.ProviderID).subscribe((res: any) => {
       this.seaCharges = res.filter(e => e.modeOfTrans === 'SEA' && e.addChrType === 'ADCH')
     }, (err) => {
       console.log(err);

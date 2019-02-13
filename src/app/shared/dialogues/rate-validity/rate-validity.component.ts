@@ -17,6 +17,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { GroundTransportService } from '../../../components/pages/user-desk/manage-rates/ground-transport/ground-transport.service';
+import { AirFreightService } from '../../../components/pages/user-desk/manage-rates/air-freight/air-freight.service';
 
 
 const now = new Date();
@@ -61,8 +62,15 @@ export class RateValidityComponent implements OnInit {
   };
   public model: any;
   private userProfile: any;
-  public price;
+  public price:any;
   public selectedCurrency: any;
+  public minPrice: any;
+  public normalPrice: any;
+  public plusfortyFivePrice: any;
+  public plushundredPrice: any;
+  public plusTwoFiftyPrice: any;
+  public plusFiveHundPrice: any;
+  public plusThousandPrice: any;
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
   isInside = date => after(date, this.fromDate) && before(date, this.toDate);
@@ -77,6 +85,7 @@ export class RateValidityComponent implements OnInit {
     private renderer: Renderer2,
     private _seaFreightService: SeaFreightService,
     private _groundTransportService: GroundTransportService,
+    private _airFreightService: AirFreightService,
     private _sharedService: SharedService,
     private _toast: ToastrService
 
@@ -105,8 +114,6 @@ export class RateValidityComponent implements OnInit {
   }
   setData() {
     let parsed = '';
-    this.selectedCurrency = this.allCurrencies.find(obj => obj.currencyID == this.validityData.data[0].currencyID)
-    this.price = this.validityData.data[0].price;
     if (this.validityData.data[0].effectiveFrom) {
       this.fromDate.day = new Date(this.validityData.data[0].effectiveFrom).getDate();
       this.fromDate.year = new Date(this.validityData.data[0].effectiveFrom).getFullYear();
@@ -125,6 +132,20 @@ export class RateValidityComponent implements OnInit {
       parsed += " - " + this._parserFormatter.format(this.toDate);
     }
     this.rangeDp.nativeElement.value = parsed;
+    this.selectedCurrency = this.allCurrencies.find(obj => obj.currencyID == this.validityData.data[0].currencyID);
+    if (this.validityData.type != 'rateValidityAIR') {
+      this.price = this.validityData.data[0].price;
+    }
+    else if (this.validityData.type == 'rateValidityAIR') {
+      let minPrice = this.validityData.data[0].slab.minPrice1.split(' ').pop();
+      this.minPrice = (Math.ceil(minPrice)) ? Number(minPrice).toFixed(2) : null
+      this.normalPrice = (Math.ceil(this.validityData.data[0].slab.price1)) ? Number(this.validityData.data[0].slab.price1).toFixed(2) : null;
+      this.plusfortyFivePrice = (Math.ceil(this.validityData.data[0].slab.price2)) ? Number(this.validityData.data[0].slab.price2).toFixed(2) : null;
+      this.plushundredPrice = (Math.ceil(this.validityData.data[0].slab.price3)) ? Number(this.validityData.data[0].slab.price3).toFixed(2) : null;
+      this.plusTwoFiftyPrice = (Math.ceil(this.validityData.data[0].slab.price4)) ? Number(this.validityData.data[0].slab.price4).toFixed(2) : null;
+      this.plusFiveHundPrice = (Math.ceil(this.validityData.data[0].slab.price5)) ? Number(this.validityData.data[0].slab.price5).toFixed(2) : null;
+      this.plusThousandPrice = (Math.ceil(this.validityData.data[0].slab.price6)) ? Number(this.validityData.data[0].slab.price6).toFixed(2) : null;
+    }
   }
   onDateSelection(date: NgbDateStruct) {
     let parsed = '';
@@ -171,6 +192,9 @@ export class RateValidityComponent implements OnInit {
     }
     else if (this.validityData.type == 'rateValidityGROUND') {
       this.updateRatesGround()
+    }
+    else if (this.validityData.type == 'rateValidityAIR') {
+      this.updateRatesAir()
     }
   }
 
@@ -239,6 +263,70 @@ export class RateValidityComponent implements OnInit {
     }
 
     this._groundTransportService.rateValidity(rateData).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toast.success('Record successfully updated', '')
+        this.closeModal(res.returnStatus);
+      }
+    })
+  }
+
+
+  updateRatesAir() {
+    let rateData = [];
+    if (this.validityData && this.validityData.data && this.validityData.data.length) {
+      this.validityData.data.forEach(element => {
+        rateData.push(
+          {
+            carrierPricingSetID: element.carrierPricingSetID,
+            slab: [
+              {
+                pricingID: element.slab.Pricingid1,
+                price: this.normalPrice,
+                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.minPrice,
+                slabName:'Normal'
+              },
+              {
+                pricingID: element.slab.Pricingid2,
+                price: this.plusfortyFivePrice,
+                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.normalPrice,
+                slabName: '+45'
+              },
+              {
+                pricingID: element.slab.Pricingid3,
+                price: this.plushundredPrice,
+                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plusfortyFivePrice,
+                slabName: '+100'
+              },
+              {
+                pricingID: element.slab.Pricingid4,
+                price: this.plusTwoFiftyPrice,
+                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plushundredPrice,
+                slabName: '+250'
+              },
+              {
+                pricingID: element.slab.Pricingid5,
+                price: this.plusFiveHundPrice,
+                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plusTwoFiftyPrice,
+                slabName: '+500'
+              },
+              {
+                pricingID: element.slab.Pricingid6,
+                price: this.plusThousandPrice,
+                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plusFiveHundPrice,
+                slabName: '+1000'
+              }
+            ],
+            effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+            effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+            modifiedBy: this.userProfile.LoginID
+          }
+
+
+        )
+      });
+    }
+
+    this._airFreightService.rateValidity(rateData).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success('Record successfully updated', '')
         this.closeModal(res.returnStatus);

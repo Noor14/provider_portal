@@ -37,5 +37,12 @@ export class AirFreightService {
     let url: string = "ProviderRateAir/DeletePublishRate";
     return this._http.request('delete', baseApi + url, { body: data });
   }
-
+  rateValidity(data) {
+    let url: string = "ProviderRateAir/EditRate";
+    return this._http.post(baseApi + url, data);
+  }
+  getRecHistory(recId, objectName, createdBy) {
+    let url: string = `ProviderRateAir/GetRateHistory/${recId}/${objectName}/${createdBy}`;
+    return this._http.get(baseApi + url);
+  }
 }
