@@ -198,7 +198,7 @@
 
     </div>
     <div class="row mt-2">
-      <label class="sub-title col-12">Associations</label>
+      <label class="sub-title col-12">Associations (Optional)</label>
       <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let associate of allAssociations">
         <div #selectService class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-2 pointer"
           (click)="selectAssociation(associate, selectService)">
@@ -279,7 +279,7 @@
     </div>
 
     <div class="col-6 d-flex justify-content-end">
-      <button class="btn btn-primary hvr-sweep-to-right" [disabled]="!verifyProfile || !aboutUs || !addBusinessbtnEnabled || (assocService && !assocService.length) || (frtService && !frtService.length) || (valueService && !valueService.length) || (!selectedDocxlogo || (selectedDocxlogo && !selectedDocxlogo?.DocumentFile))"
+      <button class="btn btn-primary hvr-sweep-to-right" [disabled]="!verifyProfile || !aboutUs || !addBusinessbtnEnabled || (frtService && !frtService.length) || (valueService && !valueService.length) || (!selectedDocxlogo || (selectedDocxlogo && !selectedDocxlogo?.DocumentFile))"
         (click)="addCorperateInfo()">
         CREATE PROFILE
       </button>

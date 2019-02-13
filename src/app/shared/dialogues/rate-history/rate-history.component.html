@@ -70,7 +70,7 @@
         </div>
       </div>
 
-      <div class="col-6" *ngIf="getRecord.type != 'Rate_LCL' || getRecord.type != 'Rate_AIR'">
+      <div class="col-6" *ngIf="getRecord.type != 'Rate_LCL' && getRecord.type != 'Rate_AIR'">
         <div class="ports">
           <small class="d-block">Container</small>
           <label class="ports-text">{{containerInfo?.ContainerSpecDesc}}</label>
