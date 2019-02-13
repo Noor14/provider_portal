@@ -313,7 +313,7 @@ export class SeaRateDialogComponent implements OnInit {
       carrierName: (this.selectedShipping) ? this.selectedShipping.CarrierName : undefined,
       carrierImage: (this.selectedShipping) ? this.selectedShipping.CarrierImage : undefined,
       providerID: this.userProfile.ProviderID,
-      containerSpecID: (this.selectedContSize == null || this.selectedContSize == 'null') ? null : this.selectedContSize,
+      containerSpecID: (this.selectedContSize == null || this.selectedContSize == 'null') ? null : parseInt(this.selectedContSize),
       containerSpecName: (this.selectedContSize == null || this.selectedContSize == 'null') ? undefined : this.getContSpecName(this.selectedContSize),
       shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : this.selectedCategory,
       shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.getShippingName(this.selectedCategory),
@@ -577,11 +577,7 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   closeDropdown(event) {
-    console.log(event);
-    console.log(!event.target.id);
-    console.log(event.target.className.includes('has-open'));
     let x: any = document.getElementsByClassName('dropdown-menu')
-    console.log(x.length);
     if (!event.target.className.includes('has-open')) {
       this.originDropdown.close()
       this.destinationDropdown.close()
