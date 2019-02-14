@@ -176,7 +176,7 @@
         </div>
         <div class="col-6" *ngFor="let origin of selectedOrigins; let i=index">
           <div class="row combine-filed-popup">
-            <div class="d-flex ml-3 mr-3 mb-3" [ngClass]="addOriginActive ? 'active' : ''">
+            <div class="d-flex ml-3 mr-3 mb-1" [ngClass]="addOriginActive ? 'active' : ''">
               <div class="col-7 pr-0 pl-0">
                 <div ngbDropdown #originDropdown="ngbDropdown" class="combine-filed-popup-left-btn"
                   (openChange)="dropdownToggle($event, 'origin')">
@@ -254,7 +254,7 @@
             </div>
           </div>
         </div>
-        <div class="col-12 mt-2">
+        <div class="col-12">
           <a (click)="addMoreCharges('origin')" href="javascript:;" class="addAnother animated fadeIn">Add More
             Charges</a>
         </div>
@@ -266,7 +266,7 @@
 
         <div class="col-6" *ngFor="let destination of selectedDestinations; let i=index">
           <div class="row combine-filed-popup">
-            <div class="d-flex ml-3 mr-3 mb-3" [ngClass]="addDestinationActive ? 'active' : ''">
+            <div class="d-flex ml-3 mr-3 mb-1" [ngClass]="addDestinationActive ? 'active' : ''">
               <div class="col-7 pr-0 pl-0">
                 <div ngbDropdown #destinationDropdown="ngbDropdown" (openChange)="dropdownToggle($event, 'destination')"
                   class="combine-filed-popup-left-btn" placement="top-left">
@@ -340,13 +340,13 @@
             </div>
           </div>
         </div>
-        <div class="col-12 mt-2">
+        <div class="col-12">
           <a (click)="addMoreCharges('destination')" href="javascript:;" class="addAnother animated fadeIn">Add More
             Charges</a>
         </div>
       </div>
 
-      <div class="row">
+      <div class="row mb-4">
         <div class="col-12 d-flex justify-content-end">
           <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right mr-4" (click)="savedraftrow('saveNadd')">SAVE
             &

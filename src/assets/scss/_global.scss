@@ -1621,6 +1621,9 @@ select {
               &.carrierName {
                 position: relative;
                 padding-left: 35px;
+                display: flex;
+                align-items: center;
+                line-height: 1.22;
 
                 img {
                   position: absolute;
