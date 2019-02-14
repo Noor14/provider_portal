@@ -35,7 +35,7 @@
   }
 
   .status {
-    margin-bottom: 38px;
+    // margin-bottom: 38px;
 
     .card {
       border: 1px solid $boxes-border-grey;
@@ -98,6 +98,14 @@
       color: $color-topmenu;
       text-transform: uppercase;
     }
+    &-heading {
+      font-size: 1.25rem;
+      font-family: $font-pragmatica;
+      font-weight: $font-weight-mid;
+      color: $text-color-default;
+      margin-top: 2.4rem;
+      margin-bottom: 1rem;
+  }
 
     .card-title {
       margin-bottom: 0;
