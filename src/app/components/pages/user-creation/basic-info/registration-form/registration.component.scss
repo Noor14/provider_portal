@@ -93,4 +93,8 @@
             }
         }
     }
+    .info, .info-arb {
+        font-size: $font-size-medium;
+        color: $pagination-text-color;
+    }
 }
