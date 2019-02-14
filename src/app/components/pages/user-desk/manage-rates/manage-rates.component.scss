@@ -345,9 +345,11 @@ $left-nav-icon-height: 20px;
         filter: grayscale(1) opacity(0.5);
         cursor: no-drop;
       }
+
       &:hover {
         .delete-icon {
           overflow: visible;
+
           g {
             rect {
               transform: rotate(-25deg);
@@ -355,9 +357,10 @@ $left-nav-icon-height: 20px;
             }
           }
         }
+
         .edit-validity-icon {
           overflow: visible;
-    
+
           g {
             transform: rotateY(180deg);
             transform-origin: center;
@@ -423,6 +426,13 @@ $left-nav-icon-height: 20px;
         bottom: 59px;
         width: 99.8%;
       }
+    }
+
+    .rate-dur {
+      color: $color-topmenu;
+      animation: 1.2s ease-in-out infinite alternate-reverse fadeIn;
+      font-family: $font-proxima;
+      font-weight: $font-weight-mid;
     }
   }
 
