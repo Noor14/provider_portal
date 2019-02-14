@@ -540,12 +540,15 @@ export class SeaRateDialogComponent implements OnInit {
     if (type === 'origin') {
       if (!this.selectedOrigins[this.selectedOrigins.length - 1].CurrId) {
         this._toast.info('Please select currency', 'Info')
+        return;
       }
       if (!this.selectedOrigins[this.selectedOrigins.length - 1].Price) {
         this._toast.info('Please add price', 'Info')
+        return;
       }
       if (!this.selectedOrigins[this.selectedOrigins.length - 1].addChrCode) {
         this._toast.info('Please select any additional charge', 'Info')
+        return;
       }
       if (!(Object.keys(this.selectedOrigins[this.selectedOrigins.length - 1]).length === 0 && this.selectedOrigins[this.selectedOrigins.length - 1].constructor === Object) && (parseInt(this.selectedOrigins[this.selectedOrigins.length - 1].Price)) && this.selectedOrigins[this.selectedOrigins.length - 1].CurrId) {
         this.selectedOrigins.push({
@@ -556,12 +559,15 @@ export class SeaRateDialogComponent implements OnInit {
     } else if (type === 'destination') {
       if (!this.selectedDestinations[this.selectedDestinations.length - 1].CurrId) {
         this._toast.info('Please select currency', 'Info')
+        return;
       }
       if (!this.selectedDestinations[this.selectedDestinations.length - 1].Price) {
         this._toast.info('Please add price', 'Info')
+        return;
       }
       if (!this.selectedDestinations[this.selectedDestinations.length - 1].addChrCode) {
         this._toast.info('Please select any additional charge', 'Info')
+        return;
       }
       if (!(Object.keys(this.selectedDestinations[this.selectedDestinations.length - 1]).length === 0 && this.selectedDestinations[this.selectedDestinations.length - 1].constructor === Object) && (parseInt(this.selectedDestinations[this.selectedDestinations.length - 1].Price)) && this.selectedDestinations[this.selectedDestinations.length - 1].CurrId) {
         this.selectedDestinations.push({
