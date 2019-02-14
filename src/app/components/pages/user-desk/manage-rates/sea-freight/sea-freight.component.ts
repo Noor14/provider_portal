@@ -2087,11 +2087,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   getAdditionalData() {
+    console.log('here');
+    
     this._seaFreightService.getAllAdditionalCharges(this.userProfile.ProviderID).subscribe((res: any) => {
       this.seaCharges = res.filter(e => e.modeOfTrans === 'SEA' && e.addChrType === 'ADCH')
     }, (err) => {
       console.log(err);
-
     })
   }
 

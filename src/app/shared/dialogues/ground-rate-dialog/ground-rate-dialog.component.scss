@@ -6,14 +6,14 @@
     padding-left: 30px;
     padding-right: 30px;
     padding-top: 0;
-    border-bottom-left-radius: .3rem;
-    border-bottom-right-radius: .3rem;
+    border-bottom-left-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
 
     .model-sub-head {
       color: $secondary-grey;
       font-family: $font-proxima;
       font-weight: 500;
-      font-size: .875rem;
+      font-size: 0.875rem;
       text-transform: uppercase;
     }
 
@@ -26,20 +26,20 @@
         padding-bottom: 30px;
       }
     }
-      .form-group {
-        .input-group {
-          .input-group-text {
-            background: $color-white;
-            border: 1px solid $provider-input-border;
-            font-size: $font-size-medium;
-          }
+    .form-group {
+      .input-group {
+        .input-group-text {
+          background: $color-white;
+          border: 1px solid $provider-input-border;
+          font-size: $font-size-medium;
+        }
 
-          input {
-            border-bottom-left-radius: 0rem !important;
-            border-top-left-radius: 0rem !important;
-          }
+        input {
+          border-bottom-left-radius: 0rem !important;
+          border-top-left-radius: 0rem !important;
         }
       }
+    }
     .dropdown-menu {
       button {
         .flag-container {
@@ -60,7 +60,7 @@
     .destination {
       position: relative;
 
-      >.flag-container {
+      > .flag-container {
         width: 16px;
         height: 24px;
         align-items: center;
@@ -74,6 +74,56 @@
 
       .routeSelected {
         padding-left: 30px !important;
+      }
+      .dropdown {
+        &-pickup {
+          width: 100%;
+          position: absolute;
+          z-index: 999999;
+          background: #fff;
+          border: 1px solid $primary-color;
+          border-radius: 0.25rem;
+          margin-top: 0.5rem;
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            li {
+              padding: 1rem;
+              span {
+                font-family: $font-proxima;
+                font-size: $font-size-large;
+                margin-left: 1rem;
+                font-weight: 500;
+                text-transform: uppercase;
+              }
+              p {
+                color: #555;
+                font-size: 0.75rem;
+                margin-bottom: 0;
+                padding: 0 2rem;
+              }
+              &:first-child {
+                border-bottom: 1px solid #dedfe0;
+              }
+              .ports-dropdown {
+                position: relative;
+                margin-top: 0.7rem;
+                .flag-container {
+                  width: 16px;
+                  height: 24px;
+                  align-items: center;
+                  position: absolute;
+                  left: 10px;
+                  top: 11px;
+                  img {
+                    border: 1px solid $primary-grey;
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -149,7 +199,7 @@
           }
 
           .ngb-dp-day {
-            font-size: .875rem;
+            font-size: 0.875rem;
 
             &:last-child {
               .custom-day {
@@ -194,7 +244,6 @@
     padding: 0;
 
     .dropdown-item {
-
       &.active,
       &:active {
         background: $primary-grey;

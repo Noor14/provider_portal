@@ -61,7 +61,7 @@
       </div>
     </div>
     <div class="row bg-white popup-white border-bottom">
-      <div class="col-6">
+      <div class="col-4">
         <div class="form-group">
           <label>Cargo Type</label>
           <select class="form-control" [(ngModel)]="selectedCategory" (change)="cargoTypeChange(selectedCategory)">
@@ -70,7 +70,7 @@
           </select>
         </div>
       </div>
-      <div class="col-6" *ngIf="selectedData.forType == 'FCL'">
+      <div class="col-4" *ngIf="selectedData.forType == 'FCL'">
         <div class="form-group">
           <label>Container Size</label>
           <select class="form-control" [(ngModel)]="selectedContSize" [disabled]="!selectedCategory">
@@ -80,15 +80,16 @@
           </select>
         </div>
       </div>
-      <!-- <div class="col-6" *ngIf="selectedData.forType == 'LCL'">
-          <div class="form-group">
-            <label>Handling Unit</label>
-            <select class="form-control" [(ngModel)]="selectedHandlingUnit">
-              <option [value]="null" disabled>--Select--</option>
-              <option *ngFor="let handle of allHandlingType" [value]="handle.ContainerSpecID">{{handle.ContainerSpecShortName}}</option>
-            </select>
-          </div>
-        </div> -->
+      <!-- <div class="col-4" *ngIf="selectedData.forType == 'FCL'">
+        <div class="form-group">
+          <label>Customer</label>
+          <select class="form-control" [(ngModel)]="selectedCustomer">
+            <option [value]="null" disabled>--Select--</option>
+            <option *ngFor="let handle of allHandlingType" [value]="handle.ContainerSpecID">
+              {{handle.ContainerSpecShortName}}</option>
+          </select>
+        </div>
+      </div> -->
     </div>
     <div class="additional">
       <div class="row">
@@ -193,12 +194,11 @@
                         (click)="selectCharges('EXPORT', charge, i)">{{charge.addChrName}}</button>
                     </ng-container>
                     <div class="row dropdown-item charges-form" *ngIf="isOriginChargesForm">
-                      <div class="col-12">
+                      <div class="col-12 mt-2">
                         <div class="form-group">
-                          <label class="mt-0">Add Custom Label</label>
                           <input class="form-control has-open" type="text"
                             [ngClass]="!labelValidate ?  'inputError' : ''" [(ngModel)]="lablelName"
-                            (focus)="labelValidate = true">
+                            (focus)="labelValidate = true" placeholder="Label Name">
                           <small class="text-danger d-block" *ngIf="!labelValidate">Please provide name for your custom
                             label</small>
                         </div>
@@ -207,7 +207,8 @@
                         <div class="form-group">
                           <select class="form-control has-open" [ngClass]="!surchargeBasisValidate ?  'inputError' : ''"
                             [(ngModel)]="surchargeType" (focus)="surchargeBasisValidate = true">
-                            <option *ngFor="let item of surchargesList" selected [value]="item.codeValID">
+                            <option value="" hidden selected>Select Surcharge Basis</option>
+                            <option *ngFor="let item of surchargesList" [value]="item.codeValID">
                               {{item.codeValDesc}}</option>
                           </select>
                           <small class="text-danger d-block" *ngIf="!surchargeBasisValidate">Please select surcharge
@@ -215,7 +216,7 @@
                         </div>
                       </div>
                       <div class="col-12">
-                        <button class="btn btn-primary mt-3 has-open hvr-sweep-to-right w-100"
+                        <button class="btn btn-primary mt-1 mb-2 has-open hvr-sweep-to-right w-100"
                           (click)="addCustomLabel('origin')">Add
                           Label</button>
                       </div>
@@ -238,7 +239,7 @@
                   </div>
                   <input type="text" placeholder="AED" (ngModelChange)="getVal(i, $event, 'origin')"
                     [(ngModel)]="origin.currency" class="form-control" [ngbTypeahead]="currencies"
-                    [resultTemplate]="crt" [inputFormatter]="currencyFormatter"
+                    [resultTemplate]="crt" [inputFormatter]="currencyFormatter" (keyup)="onKeyDown(i, $event, 'origin')"
                     [ngClass]="{'routeSelected': origin.currency && origin.currency.CountryCode}">
                   <ng-template #crt let-r="result">
                     <div class="d-flex">
@@ -324,7 +325,7 @@
                   </div>
                   <input type="text" placeholder="AED" (ngModelChange)="getVal(i, $event, 'destination')"
                     [(ngModel)]="destination.currency" class="form-control" [ngbTypeahead]="currencies"
-                    [resultTemplate]="crt" [inputFormatter]="currencyFormatter"
+                    [resultTemplate]="crt" [inputFormatter]="currencyFormatter" (keyup)="onKeyDown(i, $event, 'destination')"
                     [ngClass]="{'routeSelected': destination.currency && destination.currency.CountryCode}">
                   <ng-template #crt let-r="result">
                     <div class="d-flex">

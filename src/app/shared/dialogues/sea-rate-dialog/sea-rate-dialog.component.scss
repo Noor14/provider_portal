@@ -93,7 +93,12 @@
               &.charges-form {
                 width: 313px;
                 margin: 0;
-                padding: .25rem 0;
+                padding: 0.25rem 0;
+                .form-control {
+                  font-family: $font-proxima;
+                  font-size: $font-size-medium !important;
+                  color: $disabled-text-color !important;
+                }
               }
 
               &:active,
@@ -183,7 +188,7 @@
     .destination {
       position: relative;
 
-      >.flag-container {
+      > .flag-container {
         width: 16px;
         height: 24px;
         align-items: center;
@@ -318,7 +323,6 @@
     padding: 0;
 
     .dropdown-item {
-
       &.active,
       &:active {
         background: $primary-grey;
