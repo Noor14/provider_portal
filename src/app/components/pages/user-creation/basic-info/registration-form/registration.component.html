@@ -647,8 +647,10 @@
             </span>
           </div>
         </div>
+      </div>
+      <div class="row">
         <div class="col-6 info sub-title d-flex align-items-center"><img class="icon-size-16 mr-2" src="../../../../../assets/images/icons/icon_info.svg" alt="info" />This will be used as your login credential</div>
-        <div class="col-6 text-right info-arb dir-otherLanguage d-flex align-items-center"><img class="icon-size-16 ml-2" src="../../../../../assets/images/icons/icon_info.svg" alt="info" />سيتم استخدام هذا بمثابة بيانات تسجيل الدخول الخاصة بك</div>
+        <div class="col-6 text-right info-arb dir-otherLanguage d-flex align-items-center" *ngIf="showTranslatedLangSide"><img class="icon-size-16 ml-2" src="../../../../../assets/images/icons/icon_info.svg" alt="info" />سيتم استخدام هذا بمثابة بيانات تسجيل الدخول الخاصة بك</div>
       </div>
     </form>
     <div class="row mt-5">
