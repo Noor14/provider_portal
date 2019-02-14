@@ -63,6 +63,7 @@ export class SeaRateDialogComponent implements OnInit {
   public selectedCategory: any;
   public selectedContSize: any;
   public selectedHandlingUnit: any;
+  public selectedCustomer: any;
   public selectedShipping: any;
   public selectedPrice: any;
   public defaultCurrency: any = {
@@ -502,8 +503,10 @@ export class SeaRateDialogComponent implements OnInit {
     } else if (type === 'IMPORT') {
       if ((Object.keys(this.selectedDestinations[index]).length === 0 && this.selectedDestinations[index].constructor === Object) || !this.selectedDestinations[index].hasOwnProperty('currency')) {
         model.CurrId = this.selectedCurrency.CurrencyID
+        model.currency = this.selectedCurrency
       } else {
         model.CurrId = this.selectedDestinations[index].currency.CurrencyID
+        model.currency = this.selectedDestinations[index].currency
       }
       const { selectedDestinations } = this
       selectedDestinations.forEach(element => {
@@ -535,15 +538,34 @@ export class SeaRateDialogComponent implements OnInit {
 
   addMoreCharges(type) {
     if (type === 'origin') {
-      this.config.autoClose = false;
+      if (!this.selectedOrigins[this.selectedOrigins.length - 1].CurrId) {
+        this._toast.info('Please select currency', 'Info')
+      }
+      if (!this.selectedOrigins[this.selectedOrigins.length - 1].Price) {
+        this._toast.info('Please add price', 'Info')
+      }
+      if (!this.selectedOrigins[this.selectedOrigins.length - 1].addChrCode) {
+        this._toast.info('Please select any additional charge', 'Info')
+      }
       if (!(Object.keys(this.selectedOrigins[this.selectedOrigins.length - 1]).length === 0 && this.selectedOrigins[this.selectedOrigins.length - 1].constructor === Object) && (parseInt(this.selectedOrigins[this.selectedOrigins.length - 1].Price)) && this.selectedOrigins[this.selectedOrigins.length - 1].CurrId) {
         this.selectedOrigins.push({
+          CurrId: this.selectedOrigins[this.selectedOrigins.length - 1].currency.CurrencyID,
           currency: this.selectedOrigins[this.selectedOrigins.length - 1].currency
         })
       }
     } else if (type === 'destination') {
+      if (!this.selectedDestinations[this.selectedDestinations.length - 1].CurrId) {
+        this._toast.info('Please select currency', 'Info')
+      }
+      if (!this.selectedDestinations[this.selectedDestinations.length - 1].Price) {
+        this._toast.info('Please add price', 'Info')
+      }
+      if (!this.selectedDestinations[this.selectedDestinations.length - 1].addChrCode) {
+        this._toast.info('Please select any additional charge', 'Info')
+      }
       if (!(Object.keys(this.selectedDestinations[this.selectedDestinations.length - 1]).length === 0 && this.selectedDestinations[this.selectedDestinations.length - 1].constructor === Object) && (parseInt(this.selectedDestinations[this.selectedDestinations.length - 1].Price)) && this.selectedDestinations[this.selectedDestinations.length - 1].CurrId) {
         this.selectedDestinations.push({
+          CurrId: this.selectedDestinations[this.selectedDestinations.length - 1].currency.CurrencyID,
           currency: this.selectedDestinations[this.selectedDestinations.length - 1].currency
         })
       }
@@ -583,7 +605,7 @@ export class SeaRateDialogComponent implements OnInit {
   public isOriginChargesForm = false;
   public isDestinationChargesForm = false;
   public lablelName: string = ''
-  public surchargeType: any;
+  public surchargeType = '';
   public labelValidate: boolean = true
   public surchargeBasisValidate: boolean = true
   showCustomChargesForm(type) {
@@ -595,8 +617,21 @@ export class SeaRateDialogComponent implements OnInit {
 
   }
 
+  onKeyDown(idx, event, type) {
+    if (!event.target.value) {
+      if (type === 'origin') {
+        this.selectedOrigins[idx].currency = {}
+        this.selectedOrigins[idx].CurrId = null;
+      } else if (type === 'destination') {
+        this.selectedDestinations[idx].currency = {}
+        this.selectedDestinations[idx].CurrId = null;
+      }
+    }
+  }
+
   public canAddLabel: boolean = true;
   addCustomLabel(type) {
+    this.canAddLabel = true
     if (!this.lablelName) {
       this.labelValidate = false
       return;
@@ -611,21 +646,20 @@ export class SeaRateDialogComponent implements OnInit {
       addChrCode: 'OTHR',
       addChrName: this.lablelName,
       addChrDesc: this.lablelName,
-      modeOfTrans: this.selectedData.forType,
+      modeOfTrans: 'SEA',
       addChrBasis: selectedSurcharge.codeVal,
       createdBy: this.userProfile.PrimaryEmail,
       addChrType: 'ADCH',
       providerID: this.userProfile.ProviderID
     }
     this.selectedData.addList.forEach(element => {
-      if (element.addChrName === obj.addChrName && element.addChrBasis === obj.addChrBasis) {
+      if (element.addChrName === obj.addChrName) {
         this.canAddLabel = false
-        return false;
       }
     });
 
     if (!this.canAddLabel) {
-      this._toast.info('Already Added, Please try another surcharge type', 'Info')
+      this._toast.info('Already Added, Please try another name', 'Info')
       return false
     }
 
@@ -638,7 +672,7 @@ export class SeaRateDialogComponent implements OnInit {
           addChrCode: 'OTHR',
           addChrName: this.lablelName,
           addChrDesc: this.lablelName,
-          modeOfTrans: this.selectedData.forType,
+          modeOfTrans: 'SEA',
           addChrBasis: selectedSurcharge.codeVal,
           createdBy: this.userProfile.PrimaryEmail,
           addChrType: 'ADCH',
