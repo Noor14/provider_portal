@@ -153,3 +153,34 @@ export const getImagePath = (fileSource: ImageSource, fileName: string, reqSize:
 
   return url
 }
+
+// Object Keys Changes
+export function changeCase(o, toCase) {
+  var newO, origKey, newKey, value
+  if (o instanceof Array) {
+    return o.map(function (value) {
+      if (typeof value === "object") {
+        value = this.toCamel(value)
+      }
+      return value
+    })
+  } else {
+    newO = {}
+    for (origKey in o) {
+      if (o.hasOwnProperty(origKey)) {
+        if (toCase === 'camel') {
+          newKey = (origKey.charAt(0).toLowerCase() + origKey.slice(1) || origKey).toString()
+        } else if ('pascal') {
+          newKey = (origKey.charAt(0).toUpperCase() + origKey.slice(1) || origKey).toString()
+        }
+
+        value = o[origKey]
+        if (value instanceof Array || (value !== null && value.constructor === Object)) {
+          value = this.toCamel(value)
+        }
+        newO[newKey] = value
+      }
+    }
+  }
+  return newO
+}

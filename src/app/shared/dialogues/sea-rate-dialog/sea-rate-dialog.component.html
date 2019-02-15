@@ -14,7 +14,7 @@
         <div class="form-group">
           <label>Shipping Line</label>
           <input type="text" class="form-control" placeholder="e.g: Maersk Shipping" [(ngModel)]="selectedShipping"
-            [ngbTypeahead]="shippings" [resultTemplate]="st" [inputFormatter]="formatter">
+            [ngbTypeahead]="shippings" [resultTemplate]="st" [inputFormatter]="formatter" [disabled]="selectedData.mode === 'publish'">
           <ng-template #st let-r="result">
             <ngb-highlight [result]="r.CarrierName"></ngb-highlight>
           </ng-template>
@@ -31,7 +31,7 @@
             </div>
             <input class="form-control" [(ngModel)]="filterOrigin" placeholder="e.g: Dubai" type="text"
               [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}" [ngbTypeahead]="ports"
-              [resultTemplate]="rt" [inputFormatter]="portsFormatter" />
+              [resultTemplate]="rt" [inputFormatter]="portsFormatter" [disabled]="selectedData.mode === 'publish'"/>
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@
             </div>
             <input placeholder="e.g: Karachi" [(ngModel)]="filterDestination" type="text" class="form-control"
               [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}" [ngbTypeahead]="ports"
-              [resultTemplate]="rt" [inputFormatter]="portsFormatter" />
+              [resultTemplate]="rt" [inputFormatter]="portsFormatter" [disabled]="selectedData.mode === 'publish'"/>
           </div>
           <ng-template #rt let-r="result">
             <div class="d-flex">
@@ -64,7 +64,7 @@
       <div class="col-4">
         <div class="form-group">
           <label>Cargo Type</label>
-          <select class="form-control" [(ngModel)]="selectedCategory" (change)="cargoTypeChange(selectedCategory)">
+          <select class="form-control" [(ngModel)]="selectedCategory" [disabled]="selectedData.mode === 'publish'" (change)="cargoTypeChange(selectedCategory)">
             <option [value]="null" disabled>--Select--</option>
             <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
           </select>
@@ -73,7 +73,7 @@
       <div class="col-4" *ngIf="selectedData.forType == 'FCL'">
         <div class="form-group">
           <label>Container Size</label>
-          <select class="form-control" [(ngModel)]="selectedContSize" [disabled]="!selectedCategory">
+          <select class="form-control" [(ngModel)]="selectedContSize" [disabled]="!selectedCategory || selectedData.mode === 'publish'">
             <option [value]="null" disabled>--Select--</option>
             <option *ngFor="let container of allContainers" [value]="container.ContainerSpecID">
               {{container.ContainerSpecShortName}}</option>
@@ -112,7 +112,7 @@
                 </div>
                 <input type="text" placeholder="AED" [(ngModel)]="selectedCurrency" class="form-control"
                   [ngbTypeahead]="currencies" [resultTemplate]="crt" [inputFormatter]="currencyFormatter"
-                  [ngClass]="{'routeSelected': selectedCurrency && selectedCurrency.CountryCode}">
+                  [ngClass]="{'routeSelected': selectedCurrency && selectedCurrency.CountryCode}" [disabled]="selectedData.mode === 'publish'">
                 <ng-template #crt let-r="result">
                   <div class="d-flex">
                     <div class="flag-container">
@@ -176,11 +176,12 @@
         </div>
         <div class="col-6" *ngFor="let origin of selectedOrigins; let i=index">
           <div class="row combine-filed-popup">
-            <div class="d-flex ml-3 mr-3 mb-1" [ngClass]="addOriginActive ? 'active' : ''">
+            <div class="d-flex ml-3 mr-3 mb-2" [ngClass]="addOriginActive ? 'active' : ''">
               <div class="col-7 pr-0 pl-0">
                 <div ngbDropdown #originDropdown="ngbDropdown" class="combine-filed-popup-left-btn"
                   (openChange)="dropdownToggle($event, 'origin')">
-                  <button class="btn has-open" id="{{selectedOrigins[i]?.addChrName}}" placement="top" ngbTooltip="{{selectedOrigins[i]?.addChrName}}" ngbDropdownToggle>
+                  <button class="btn has-open" id="{{selectedOrigins[i]?.addChrName}}" placement="top"
+                    ngbTooltip="{{selectedOrigins[i]?.addChrName}}" ngbDropdownToggle>
                     {{selectedOrigins[i]?.addChrName || 'Select' | limitTo : 30 }}
                   </button>
                   <div ngbDropdownMenu aria-labelledby="originExport">
@@ -266,11 +267,12 @@
 
         <div class="col-6" *ngFor="let destination of selectedDestinations; let i=index">
           <div class="row combine-filed-popup">
-            <div class="d-flex ml-3 mr-3 mb-1" [ngClass]="addDestinationActive ? 'active' : ''">
+            <div class="d-flex ml-3 mr-3 mb-2" [ngClass]="addDestinationActive ? 'active' : ''">
               <div class="col-7 pr-0 pl-0">
                 <div ngbDropdown #destinationDropdown="ngbDropdown" (openChange)="dropdownToggle($event, 'destination')"
                   class="combine-filed-popup-left-btn" placement="top-left">
-                  <button class="btn has-open" id="destinationExport" placement="top" ngbTooltip="{{selectedDestinations[i]?.addChrName}}" ngbDropdownToggle>
+                  <button class="btn has-open" id="destinationExport" placement="top"
+                    ngbTooltip="{{selectedDestinations[i]?.addChrName}}" ngbDropdownToggle>
                     {{selectedDestinations[i]?.addChrName || 'Select' | limitTo : 30 }} </button>
                   <div ngbDropdownMenu aria-labelledby="destinationExport">
                     <button *ngIf="!isDestinationChargesForm" class="dropdown-item custom-label has-open"
@@ -325,7 +327,8 @@
                   </div>
                   <input type="text" placeholder="AED" (ngModelChange)="getVal(i, $event, 'destination')"
                     [(ngModel)]="destination.currency" class="form-control" [ngbTypeahead]="currencies"
-                    [resultTemplate]="crt" [inputFormatter]="currencyFormatter" (keyup)="onKeyDown(i, $event, 'destination')"
+                    [resultTemplate]="crt" [inputFormatter]="currencyFormatter"
+                    (keyup)="onKeyDown(i, $event, 'destination')"
                     [ngClass]="{'routeSelected': destination.currency && destination.currency.CountryCode}">
                   <ng-template #crt let-r="result">
                     <div class="d-flex">
@@ -348,11 +351,16 @@
 
       <div class="row mb-4">
         <div class="col-12 d-flex justify-content-end">
-          <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right mr-4" (click)="savedraftrow('saveNadd')">SAVE
+          <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right mr-4" *ngIf="selectedData.mode === 'draft'"
+            (click)="savedraftrow('saveNadd')">SAVE
             &
             ADD ANOTHER</button>
-          <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right" (click)="savedraftrow('onlySave')">SAVE &
+          <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right" *ngIf="selectedData.mode === 'draft'"
+            (click)="savedraftrow('onlySave')">SAVE &
             CLOSE
+          </button>
+          <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right" *ngIf="selectedData.mode === 'publish'"
+            (click)="savedraftrow('update')"> UPDATE
           </button>
         </div>
       </div>

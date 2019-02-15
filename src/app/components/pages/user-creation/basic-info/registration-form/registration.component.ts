@@ -728,7 +728,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   jobSearch = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
-      map(term => (!term || term.length < 3) ? []
+      map(term => (!term || term.length < 2) ? []
         : this.jobTitles.filter(v => v.baseLanguage.toLowerCase().indexOf(term.toLowerCase()) > -1))
     )
   formatterjob = (x: { baseLanguage: string }) => x.baseLanguage;
