@@ -596,11 +596,11 @@ export class BillingComponent implements OnInit, OnDestroy {
     //   bytes = bytes.concat([code & 0xff, code / 256 >>> 0]);
     // }
 
-    this._billingService.makePayment(obj).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        console.log(res)
-      }
-    })
+    // this._billingService.makePayment(obj).subscribe((res: any) => {
+    //   if (res.returnStatus == "Success") {
+    //     console.log(res)
+    //   }
+    // })
 
   }
 
