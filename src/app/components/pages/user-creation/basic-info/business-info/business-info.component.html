@@ -69,7 +69,7 @@
     </div>
   </section>
   <section class="services mt-5">
-    <h5 class="m-0">Value Added Services</h5>
+    <h5 class="m-0">Value Added Services (Optional)</h5>
     <small class="sub-title">Select the value added services your company provides.</small>
     <hr class="hr-solid mb-4" />
     <div class="row">
@@ -279,7 +279,7 @@
     </div>
 
     <div class="col-6 d-flex justify-content-end">
-      <button class="btn btn-primary hvr-sweep-to-right" [disabled]="!verifyProfile || !aboutUs || !addBusinessbtnEnabled || (frtService && !frtService.length) || (valueService && !valueService.length) || (!selectedDocxlogo || (selectedDocxlogo && !selectedDocxlogo?.DocumentFile))"
+      <button class="btn btn-primary hvr-sweep-to-right" [disabled]="!verifyProfile || !aboutUs || !addBusinessbtnEnabled || (frtService && !frtService.length) || (!selectedDocxlogo || (selectedDocxlogo && !selectedDocxlogo?.DocumentFile))"
         (click)="addCorperateInfo()">
         CREATE PROFILE
       </button>

@@ -182,6 +182,8 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
         this.cityList = state;
+        console.log(this.cityList);
+        
       }
     });
 

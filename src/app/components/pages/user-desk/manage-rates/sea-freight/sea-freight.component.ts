@@ -1195,6 +1195,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.allRatesList = res.returnObject.data;
+        console.log(this.allRatesList);
         this.checkedallpublishRates = false;
         this.filterTable();
       }

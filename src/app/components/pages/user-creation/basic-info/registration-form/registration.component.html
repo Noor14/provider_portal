@@ -190,10 +190,11 @@
             <label for="city">City</label>
             <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200"
               formControlName="city" (focusout)="errorValidate()" (focus)="cityArError = false; cityError = false"
-              [ngClass]="{
-                          'inputError': cityError && businessForm.controls['city'].errors
-                        }"
-              [(ngModel)]="cityAr">
+              [ngClass]="{'inputError': cityError && businessForm.controls['city'].errors}"
+              [(ngModel)]="cityAr" [ngbTypeahead]="searchCity" [resultTemplate]="rt" [inputFormatter]="formatterCity">
+              <ng-template #st let-r="result">
+            <ngb-highlight [result]="r.title"></ngb-highlight>
+          </ng-template>
             <span *ngIf="cityError && businessForm.controls['city'].errors">
               <p class="inputError animated fadeIn" *ngIf="businessForm.controls['city'].hasError('required') && (businessForm.controls.city.dirty || businessForm.controls.city.touched)">{{requiredFields}}</p>
               <p class="inputError animated fadeIn" *ngIf="businessForm.controls['city'].hasError('pattern') && (businessForm.controls.city.dirty || businessForm.controls.city.touched)">Please
@@ -213,7 +214,7 @@
               [ngClass]="{
                           'inputError': cityArError && businessForm.controls['transCity'].errors
                         }"
-              [(ngModel)]="cityAr">
+              [(ngModel)]="cityAr" [ngbTypeahead]="searchCity" [resultTemplate]="rt" [inputFormatter]="formatterCity">
             <span *ngIf="cityArError && businessForm.controls['transCity'].errors">
               <p class="inputError animated fadeIn" *ngIf="businessForm.controls['transCity'].hasError('required') && (businessForm.controls.transCity.dirty || businessForm.controls.transCity.touched)">{{requiredFieldsOthrLng}}</p>
               <p class="inputError animated fadeIn" *ngIf="businessForm.controls['transCity'].hasError('pattern') && (businessForm.controls.transCity.dirty || businessForm.controls.transCity.touched)">يرجى
