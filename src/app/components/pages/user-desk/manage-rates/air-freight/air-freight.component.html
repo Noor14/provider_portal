@@ -141,6 +141,34 @@
                 </ng-template>
               </div>
             </div>
+            <div class="col-4">
+              <label class="pt-2">Show Only Rates For </label>
+              <div class="fancyOptionBoxes pull-left warehousing-services mr-3 pt-3">
+                <input id="Radios" name="Radios" type="radio">
+                <label for="Radios">
+                  <span></span>
+                  Marketplace
+                </label>
+              </div>
+              <div class="fancyOptionBoxes pull-left warehousing-services  pt-3">
+                <input id="Radios2" name="Radios" type="radio">
+                <label for="Radios2">
+                  <span></span>
+                  My Customers
+                </label>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="form-group">
+                <label>Customer</label>
+                <select class="form-control" [(ngModel)]="filterbyCargoTypeLcl" (change)="filterLcl()">
+                  <option [value]="undefined">All</option>
+                  <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{ cargo.ShippingCatName }}</option>
+                </select>
+              </div>
+            </div>
+
           </div>
         </ng-template>
       </ngb-panel>
