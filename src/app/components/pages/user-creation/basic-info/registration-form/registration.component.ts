@@ -222,11 +222,19 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   }
   
   getMapLatlng(country) {
+    console.log(country);
+    
     this._userCreationService.getLatlng(country.title).subscribe((res: any) => {
       if (res.status == "OK") {
         this.location = res.results[0].geometry.location;
         if (country.id) {
           let selectedCountry = this.countryList.find(obj => obj.title.toLowerCase() == country.title.toLowerCase());
+          this.cityList.forEach(element => {
+            if(element.desc[0].CountryName === selectedCountry.title) {
+              this.cityAr = element
+            }
+          });
+          
           this.selectedLangIdbyCountry = selectedCountry.desc[0].LanguageID;
           this.selectPhoneCode(selectedCountry);
           this.selectTelCode(selectedCountry);
