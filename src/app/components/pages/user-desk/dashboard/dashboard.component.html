@@ -62,7 +62,7 @@
   <div class="titleSection d-flex justify-content-between">
     <h5 class="m-0">Billing</h5>
   </div>
-  
+
   <section class="billingSummary">
     <div class="row">
     <div class="summarySection col-xl-6 col-md-6 col-sm-12 d-flex">
@@ -77,7 +77,7 @@
         <div class="rates">
           <small class="mr-2">{{providerInfo.BillingCurrencyCode}}</small>
           <span>{{providerInfo.BillingTillDate | number: '1.2-2'}}</span>
-          <span class="ml-2 badge hashmove-badge-danger"><strong>DUE DATE: 31 JAN 2019</strong></span>
+          <!-- <span class="ml-2 badge hashmove-badge-danger"><strong>DUE DATE: 31 JAN 2019</strong></span> -->
         </div>
       </div>
       </div>
@@ -88,13 +88,13 @@
            <button class="btn btn-outline-primary hvr-sweep-to-right pl-3 pr-3 pt-2 pb-2" routerLink="/provider/billing">VIEW DETAILS</button>
           </div>
             <div class="col-xl-6 col-md-12 col-sm-12 d-md-flex justify-content-md-center mb-1">
-            <button class="btn btn-primary hvr-sweep-to-right pl-4 pr-4 pt-2 pb-2">MAKE A PAYMENT</button>
+            <button class="btn btn-outline-primary hvr-sweep-to-right pl-3 pr-3 pt-2 pb-2">MAKE A PAYMENT</button>
             </div>
         </div>
       </div>
     </div>
   </section>
-  
+
   <!-- billing summery end -->
 
   <!-- booking summery -->
@@ -137,7 +137,7 @@
         <span>{{selectedBookingMode}}</span>
       </div>
       <div aria-labelledby="bookingMode" class="sortFilter dropdown-menu" ngbDropdownMenu x-placement="bottom-left">
-  
+
         <ul class="list-group">
           <li class="list-group-item pointer" (click)="selectedBookingMode = 'CURRENT BOOKINGS'">
             <span>CURRENT BOOKINGS</span>
@@ -154,7 +154,7 @@
   </div>
 
   <div class="bookings overflow-hidden" *ngIf="providerInfo.BookingDetails">
-      <div class="card animated bounceInDown pointer mt-2" *ngFor="let booking of bookings | BookingMode : selectedBookingMode" (click)="viewBookingDetails(booking.BookingID)"> 
+      <div class="card animated bounceInDown pointer mt-2" *ngFor="let booking of bookings | BookingMode : selectedBookingMode" (click)="viewBookingDetails(booking.BookingID)">
         <div class="card-body pt-2">
           <!-- booking top row -->
               <div class="bookings-header d-md-flex justify-content-md-between">
@@ -197,7 +197,7 @@
                       <small class="d-block mb-2">to</small>
                       <label class="ports-label mt-1">{{booking.PodCode}}</label>
                       <span class="d-block mb-2">Port of {{booking.PodCountry}}</span>
-                   
+
                 </div>
                 <div class="ports-calendar">
                   <span>
