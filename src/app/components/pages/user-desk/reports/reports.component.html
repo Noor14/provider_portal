@@ -68,7 +68,7 @@
         </div>
         <div class="totalspend-quantity">
           <span class="currency">{{userGraphData?.currentVsPrevious[1]?.currencyCode}}</span>
-          <span class="spends text-truncate" placement="top" ngbTooltip="{{userGraphData?.currentVsPrevious[0]?.currencyCode}} {{userGraphData?.currentVsPrevious[0]?.totalAmount
+          <span class="spends text-truncate" placement="top" ngbTooltip="{{userGraphData?.currentVsPrevious[1]?.currencyCode}} {{userGraphData?.currentVsPrevious[1]?.totalAmount
           | number: '1.2-2'}}">{{userGraphData?.currentVsPrevious[1]?.totalAmount | number: '1.2-2'}}</span>
         </div>
         <div class="bookings">{{userGraphData?.currentVsPrevious[1]?.totalBooking | number: '1.0-0'}} Bookings</div>
@@ -137,7 +137,7 @@
     <div class="col-6 customer-revenue">
         <h4 class="totalBookings-title mt-2">Top Customers By Revenue</h4>
       <div  *ngIf="topCustomers && topCustomers.length">
-      
+
       <div class="d-flex pt-3" *ngFor="let customer of topCustomers">
         <div class="customer-image mr-2">
           <img *ngIf="customer.customerImage" [src]="baseExternalAssets +'/'+ customer.customerImage">
@@ -161,7 +161,7 @@
           <span class="link-hover-grey">View more </span>
           <img src="../../../../../assets/images/icons/icon_arrow_right.svg" alt="icon" class="icon-size-14 hvr-icon mb-1">
         </a>
-      </div>      
+      </div>
     </div>
     <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!topCustomers || (topCustomers && !topCustomers.length)">
       <h4 class="totalBookings-title mt-0 mb-0">No Data to Show</h4>
