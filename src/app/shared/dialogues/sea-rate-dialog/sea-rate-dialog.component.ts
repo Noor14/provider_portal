@@ -18,6 +18,7 @@ import { NgbDateFRParserFormatter } from "../../../constants/ngb-date-parser-for
 import { SeaFreightService } from '../../../components/pages/user-desk/manage-rates/sea-freight/sea-freight.service';
 import { cloneObject } from '../../../components/pages/user-desk/reports/reports.component';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
+import { changeCase } from '../../../constants/globalFunctions';
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
   one && two && two.year === one.year && two.month === one.month && two.day === one.day;
@@ -123,9 +124,16 @@ export class SeaRateDialogComponent implements OnInit {
       this.userProfile = JSON.parse(this.userInfo.returnText);
     }
     this.allservicesBySea();
-    if (this.selectedData.data.JsonSurchargeDet) {
-      this.setEditData()
+    if (this.selectedData.mode === 'draft') {
+      if (this.selectedData.data.JsonSurchargeDet) {
+        this.setEditData(this.selectedData.mode)
+      }
+    } else if (this.selectedData.mode === 'publish') {
+      if (this.selectedData.data[0].jsonSurchargeDet) {
+        this.setEditData(this.selectedData.mode)
+      }
     }
+
     this.destinationsList = this.selectedData.addList
     this.originsList = this.selectedData.addList
     this.getSurchargeBasis(this.selectedData.forType)
@@ -144,7 +152,13 @@ export class SeaRateDialogComponent implements OnInit {
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
 
             if (this.selectedData && this.selectedData.data && this.selectedData.forType === "FCL") {
-              this.setData(this.selectedData.data);
+              if (this.selectedData.mode === 'publish') {
+                let data = changeCase(this.selectedData.data[0], 'pascal')
+                this.setData(data);
+              } else {
+                this.setData(this.selectedData.data);
+              }
+
             }
             else if (this.selectedData && this.selectedData.data && this.selectedData.forType === "LCL") {
               this.setDataLCL(this.selectedData.data);
@@ -239,11 +253,42 @@ export class SeaRateDialogComponent implements OnInit {
 
   savedraftrow(type) {
     if (this.selectedData.forType == 'FCL') {
-      this.saveDataInFCLDraft(type);
+      if (type !== 'update') {
+        this.saveDataInFCLDraft(type);
+      } else if (type === 'update') {
+        this.updateRatesfcl()
+      }
+
     }
     else if (this.selectedData.forType == 'LCL') {
       this.saveDataInLCLDraft(type);
     }
+  }
+
+  updateRatesfcl() {
+    let rateData = [];
+    console.log(this.selectedPrice);
+
+    if (this.selectedData.data && this.selectedData.data && this.selectedData.data.length) {
+      this.selectedData.data.forEach(element => {
+        rateData.push(
+          {
+            carrierPricingID: element.carrierPricingID,
+            rate: this.selectedPrice,
+            effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+            effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+            modifiedBy: this.userProfile.LoginID,
+            JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations))
+          }
+        )
+      });
+    }
+    this._seaFreightService.rateValidityFCL(rateData).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toast.success('Record successfully updated', '')
+        this.closeModal(res.returnStatus);
+      }
+    })
   }
 
   saveDataInLCLDraft(type) {
@@ -325,7 +370,7 @@ export class SeaRateDialogComponent implements OnInit {
       podID: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortID : null,
       podName: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortName : null,
       podCode: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortCode : null,
-      price: parseInt(this.selectedPrice),
+      price: this.selectedPrice,
       currencyID: (this.selectedCurrency.CurrencyID) ? this.selectedCurrency.CurrencyID : 101,
       currencyCode: (this.selectedCurrency.CurrencyCode) ? this.selectedCurrency.CurrencyCode : 'AED',
       effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
@@ -333,6 +378,49 @@ export class SeaRateDialogComponent implements OnInit {
       JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations))
     }
     ]
+
+    let ADCHValidated: boolean = true;
+    let exportCharges
+    let importCharges
+    if (obj[0].JsonSurchargeDet) {
+      const parsedJsonSurchargeDet = JSON.parse(obj[0].JsonSurchargeDet)
+      exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
+      importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
+    }
+
+    if (exportCharges.length) {
+      this.selectedOrigins.forEach(element => {
+        if (!element.Price) {
+          this._toast.error('Price is missing for ' + element.addChrName, 'Error')
+          ADCHValidated = false
+          return;
+        }
+        if (!element.CurrId) {
+          this._toast.error('Currency is missing for ' + element.addChrName, 'Error')
+          ADCHValidated = false
+          return;
+        }
+      });
+    }
+
+    if (importCharges.length) {
+      this.selectedDestinations.forEach(element => {
+        if (!element.Price) {
+          this._toast.error('Price is missing for ' + element.addChrName, 'Error')
+          ADCHValidated = false
+          return;
+        }
+        if (!element.CurrId) {
+          this._toast.error('Currency is missing for ' + element.addChrName, 'Error')
+          ADCHValidated = false
+          return;
+        }
+      });
+    }
+
+    if (!ADCHValidated) {
+      return false
+    }
 
     this._seaFreightService.saveDraftRate(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
@@ -345,10 +433,10 @@ export class SeaRateDialogComponent implements OnInit {
           this.closeModal(object);
         } else {
           this.addRow();
-          this.selectedOrigins = [{}]
-          this.selectedDestinations = [{}]
-          this.destinationsList = this.selectedData.addList
-          this.originsList = this.selectedData.addList
+          // this.selectedOrigins = [{}]
+          // this.selectedDestinations = [{}]
+          // this.destinationsList = this.selectedData.addList
+          // this.originsList = this.selectedData.addList
         }
       }
     });
@@ -578,8 +666,27 @@ export class SeaRateDialogComponent implements OnInit {
     }
   }
 
-  setEditData() {
-    const parsedJsonSurchargeDet = JSON.parse(this.selectedData.data.JsonSurchargeDet)
+  setEditData(type) {
+    let parsedJsonSurchargeDet;
+    if (type === 'publish') {
+      parsedJsonSurchargeDet = JSON.parse(this.selectedData.data[0].jsonSurchargeDet)
+    } else if (type === 'draft') {
+      parsedJsonSurchargeDet = JSON.parse(this.selectedData.data.JsonSurchargeDet)
+    }
+    this.selectedData.addList.forEach(element => {
+      this.destinationsList.forEach(e => {
+        if (e.addChrID === element.addChrID) {
+          let idx = this.destinationsList.indexOf(e)
+          this.destinationsList.splice(1, idx)
+        }
+      })
+      // this.originsList.forEach(e => {
+      //   if (e.addChrID === element.addChrID) {
+      //     let idx = this.originsList.indexOf(e)
+      //     this.originsList.splice(1, idx)
+      //   }
+      // })
+    });
     this.selectedOrigins = parsedJsonSurchargeDet.filter((e) => e.Imp_Exp === 'EXPORT')
     if (!this.selectedOrigins.length) {
       this.selectedOrigins = [{}]

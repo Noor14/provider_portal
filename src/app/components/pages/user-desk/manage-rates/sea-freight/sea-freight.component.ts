@@ -443,7 +443,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
                 });
               }
             }
-            if (subTotalIMP === 0) {
+            if (subTotalIMP === 0 || isNaN(subTotalIMP)) {
               return "<span>-- Select --</span>"
             }
             return data.CurrencyCode + ' ' + subTotalIMP;
@@ -469,7 +469,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
                 });
               }
             }
-            if (subTotalExp === 0) {
+            if (subTotalExp === 0 || isNaN(subTotalExp)) {
               return "<span>-- Select --</span>"
             }
             return data.CurrencyCode + ' ' + subTotalExp;
@@ -777,6 +777,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
               let node = this.node();
               let data = this.data();
+              if (typeof data.Price === 'string') {
+                data.Price = parseInt(data.Price)
+              }
               if (data.ContainerSpecID === element.containerSpecID &&
                 data.PolID === element.polID &&
                 data.PodID === element.podID &&
@@ -793,7 +796,14 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
           let node = this.node();
           let data = this.data();
-          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.CarrierID || !data.EffectiveFrom || !data.EffectiveTo || !data.Price || !data.ContainerSpecID) {
+          let exportCharges;
+          let importCharges;
+          if (data.JsonSurchargeDet) {
+            const parsedJsonSurchargeDet = JSON.parse(data.JsonSurchargeDet)
+            exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
+            importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
+          }
+          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.CarrierID || !data.EffectiveFrom || !data.EffectiveTo || !data.Price || !data.ContainerSpecID || !exportCharges.length || !importCharges.length) {
             node.children[0].children[0].children[0].setAttribute("disabled", true)
           }
         });
@@ -828,7 +838,15 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             if (this.checkedalldraftRates) {
               let data = alltableOption.row(i).data();
               let node = alltableOption.row(i).node();
-              if (data.PolID && data.PodID && data.ShippingCatID && data.CarrierID && data.EffectiveFrom && data.EffectiveTo && data.Price && data.ContainerSpecID) {
+
+              let exportCharges;
+              let importCharges;
+              if (data.JsonSurchargeDet) {
+                const parsedJsonSurchargeDet = JSON.parse(data.JsonSurchargeDet)
+                exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
+                importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
+              }
+              if (data.PolID && data.PodID && data.ShippingCatID && data.CarrierID && data.EffectiveFrom && data.EffectiveTo && data.Price && data.ContainerSpecID && exportCharges && importCharges && !(node.children[0].children[0].children[0].disabled)) {
                 let draftId = node.children[0].children[0].children[0].id;
                 this.publishRates.push(draftId);
                 node.children[0].children[0].children[0].checked = true;
@@ -893,7 +911,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     let object = {
       forType: type,
       data: obj,
-      addList: this.seaCharges
+      addList: this.seaCharges,
+      mode: 'draft'
     }
     modalRef.componentInstance.selectedData = object;
     setTimeout(() => {
@@ -1280,7 +1299,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
                 });
               }
             }
-            if (subTotalIMP === 0) {
+            if (subTotalIMP === 0 || isNaN(subTotalIMP)) {
               return "<span>-- Select --</span>"
             }
             return data.currencyCode + ' ' + subTotalIMP;
@@ -1306,7 +1325,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
                 });
               }
             }
-            if (subTotalExp === 0) {
+            if (subTotalExp === 0 || isNaN(subTotalExp)) {
               return "<span>-- Select --</span>"
             }
             return data.currencyCode + ' ' + subTotalExp;
@@ -1971,6 +1990,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       }
     }, 0);
   }
+
   rateValidity() {
     if (!this.delPublishRates.length) return;
     let updateValidity = [];
@@ -1981,25 +2001,53 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         }
       }
     }
-    const modalRef = this.modalService.open(RateValidityComponent, {
-      size: 'lg',
-      centered: true,
-      windowClass: 'upper-medium-modal',
-      backdrop: 'static',
-      keyboard: false
-    });
-    modalRef.result.then((result) => {
-      if (result == 'Success') {
-        this.getAllPublishRates();
-        this.checkedallpublishRates = false
-        this.delPublishRates = [];
+
+
+    if (updateValidity && updateValidity.length > 1) {
+      const modalRef = this.modalService.open(RateValidityComponent, {
+        size: 'lg',
+        centered: true,
+        windowClass: 'upper-medium-modal',
+        backdrop: 'static',
+        keyboard: false
+      });
+      modalRef.result.then((result) => {
+        if (result == 'Success') {
+          this.getAllPublishRates();
+          this.checkedallpublishRates = false
+          this.delPublishRates = [];
+        }
+      });
+      let obj = {
+        data: updateValidity,
+        type: "rateValidityFCL"
       }
-    });
-    let obj = {
-      data: updateValidity,
-      type: "rateValidityFCL"
+      modalRef.componentInstance.validityData = obj;
+    } else if (updateValidity && updateValidity.length === 1) {
+      const modalRef2 = this.modalService.open(SeaRateDialogComponent, {
+        size: 'lg',
+        centered: true,
+        windowClass: 'large-modal',
+        backdrop: 'static',
+        keyboard: false
+      });
+      modalRef2.result.then((result) => {
+        if (result == 'Success') {
+          this.getAllPublishRates();
+          this.checkedallpublishRates = false
+          this.delPublishRates = [];
+        }
+      });
+      console.log(updateValidity);
+
+      let object = {
+        forType: 'FCL',
+        data: updateValidity,
+        addList: this.seaCharges,
+        mode: 'publish'
+      }
+      modalRef2.componentInstance.selectedData = object;
     }
-    modalRef.componentInstance.validityData = obj;
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
@@ -2088,7 +2136,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   getAdditionalData() {
     console.log('here');
-    
+
     this._seaFreightService.getAllAdditionalCharges(this.userProfile.ProviderID).subscribe((res: any) => {
       this.seaCharges = res.filter(e => e.modeOfTrans === 'SEA' && e.addChrType === 'ADCH')
     }, (err) => {
