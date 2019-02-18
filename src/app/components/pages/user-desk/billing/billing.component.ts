@@ -556,50 +556,50 @@ export class BillingComponent implements OnInit, OnDestroy {
       ip_customer: "Texpo-khi-26",
       cms_with_version: "API"
     };
-    // var formdata = "merchant_email=" + "abdur@hashmove.com"
-    //   + "&secret_key=" + "ekQNVlcQwtHZv93SClVAqo9euW1k1cKgxA4sVgjrJ1qfat8NO3ofsxtXuviwH2MeCRHx81YS3o7dSf1HjpWMXqJrV1XC3KRFCzdK"
-    //   + "&currency=" + "AED"
-    //   + "&amount=" + "10"
-    //   + "&site_url=" + "http://localhost:4200/provider/billing"
-    //   + "&title=" + "test"
-    //   + "&quantity=" + "1"
-    //   + "&unit_price=" + "10"
-    //   + "&other_charges=0"
-    //   + "&discount=0"
-    //   + "&products_per_title=" + "test product 1"
-    //   + "&return_url=" + "http://localhost:58418/Home/Success"
-    //   + "&cc_first_name=" + "rizwan"
-    //   + "&cc_last_name=" + "haq"
-    //   + "&cc_phone_number=" + "111000101"
-    //   + "&phone_number=" + "111000101"
-    //   + "&billing_address=" + "test billing"
-    //   + "&city=" + "karachi"
-    //   + "&state=" + "sindh"
-    //   + "&postal_code=" + "75000"
-    //   + "&country=" + "ARE"
-    //   + "&email=" + "rizwan@texpo.com"
-    //   + "&ip_customer=" + "Texpo-khi-26"
-    //   + "&ip_merchant=100.100.100.100"
-    //   + "&address_shipping=" + "test shipping address"
-    //   + "&city_shipping=" + "karachi"
-    //   + "&state_shipping=" + "sindh"
-    //   + "&postal_code_shipping=" + "75000"
-    //   + "&country_shipping=" + "ARE"
-    //   + "&reference_no=" + "1286"
-    //   + "&msg_lang=English"
-    //   + "&cms_with_version=API"
+    var formdata = "merchant_email=" + "abdur@hashmove.com"
+      + "&secret_key=" + "ekQNVlcQwtHZv93SClVAqo9euW1k1cKgxA4sVgjrJ1qfat8NO3ofsxtXuviwH2MeCRHx81YS3o7dSf1HjpWMXqJrV1XC3KRFCzdK"
+      + "&currency=" + "AED"
+      + "&amount=" + "10"
+      + "&site_url=" + "http://localhost:4200/provider/billing"
+      + "&title=" + "test"
+      + "&quantity=" + "1"
+      + "&unit_price=" + "10"
+      + "&other_charges=0"
+      + "&discount=0"
+      + "&products_per_title=" + "test product 1"
+      + "&return_url=" + "http://localhost:58418/Home/Success"
+      + "&cc_first_name=" + "rizwan"
+      + "&cc_last_name=" + "haq"
+      + "&cc_phone_number=" + "111000101"
+      + "&phone_number=" + "111000101"
+      + "&billing_address=" + "test billing"
+      + "&city=" + "karachi"
+      + "&state=" + "sindh"
+      + "&postal_code=" + "75000"
+      + "&country=" + "ARE"
+      + "&email=" + "rizwan@texpo.com"
+      + "&ip_customer=" + "Texpo-khi-26"
+      + "&ip_merchant=100.100.100.100"
+      + "&address_shipping=" + "test shipping address"
+      + "&city_shipping=" + "karachi"
+      + "&state_shipping=" + "sindh"
+      + "&postal_code_shipping=" + "75000"
+      + "&country_shipping=" + "ARE"
+      + "&reference_no=" + "1286"
+      + "&msg_lang=English"
+      + "&cms_with_version=API"
 
-    // let bytes = []; // char codes
+    let bytes = []; // char codes
 
-    // for (var i = 0; i < formdata.length; ++i) {
-    //   var code = formdata.charCodeAt(i);
-    //   bytes = bytes.concat([code & 0xff, code / 256 >>> 0]);
-    // }
+    for (var i = 0; i < formdata.length; ++i) {
+      var code = formdata.charCodeAt(i);
+      bytes = bytes.concat([code & 0xff, code / 256 >>> 0]);
+    }
 
     this._billingService.makePayment(obj).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
+      // if (res.returnStatus == "Success") {
         console.log(res)
-      }
+      // }
     })
 
   }
