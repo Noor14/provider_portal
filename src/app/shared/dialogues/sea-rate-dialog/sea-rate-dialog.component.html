@@ -14,7 +14,8 @@
         <div class="form-group">
           <label>Shipping Line</label>
           <input type="text" class="form-control" placeholder="e.g: Maersk Shipping" [(ngModel)]="selectedShipping"
-            [ngbTypeahead]="shippings" [resultTemplate]="st" [inputFormatter]="formatter" [disabled]="selectedData.mode === 'publish'">
+            [ngbTypeahead]="shippings" [resultTemplate]="st" [inputFormatter]="formatter"
+            [disabled]="selectedData.mode === 'publish'">
           <ng-template #st let-r="result">
             <ngb-highlight [result]="r.CarrierName"></ngb-highlight>
           </ng-template>
@@ -31,7 +32,7 @@
             </div>
             <input class="form-control" [(ngModel)]="filterOrigin" placeholder="e.g: Dubai" type="text"
               [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}" [ngbTypeahead]="ports"
-              [resultTemplate]="rt" [inputFormatter]="portsFormatter" [disabled]="selectedData.mode === 'publish'"/>
+              [resultTemplate]="rt" [inputFormatter]="portsFormatter" [disabled]="selectedData.mode === 'publish'" />
           </div>
         </div>
       </div>
@@ -46,7 +47,7 @@
             </div>
             <input placeholder="e.g: Karachi" [(ngModel)]="filterDestination" type="text" class="form-control"
               [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}" [ngbTypeahead]="ports"
-              [resultTemplate]="rt" [inputFormatter]="portsFormatter" [disabled]="selectedData.mode === 'publish'"/>
+              [resultTemplate]="rt" [inputFormatter]="portsFormatter" [disabled]="selectedData.mode === 'publish'" />
           </div>
           <ng-template #rt let-r="result">
             <div class="d-flex">
@@ -64,7 +65,8 @@
       <div class="col-4">
         <div class="form-group">
           <label>Cargo Type</label>
-          <select class="form-control" [(ngModel)]="selectedCategory" [disabled]="selectedData.mode === 'publish'" (change)="cargoTypeChange(selectedCategory)">
+          <select class="form-control" [(ngModel)]="selectedCategory" [disabled]="selectedData.mode === 'publish'"
+            (change)="cargoTypeChange(selectedCategory)">
             <option [value]="null" disabled>--Select--</option>
             <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
           </select>
@@ -73,34 +75,35 @@
       <div class="col-4" *ngIf="selectedData.forType == 'FCL'">
         <div class="form-group">
           <label>Container Size</label>
-          <select class="form-control" [(ngModel)]="selectedContSize" [disabled]="!selectedCategory || selectedData.mode === 'publish'">
+          <select class="form-control" [(ngModel)]="selectedContSize"
+            [disabled]="!selectedCategory || selectedData.mode === 'publish'">
             <option [value]="null" disabled>--Select--</option>
             <option *ngFor="let container of allContainers" [value]="container.ContainerSpecID">
               {{container.ContainerSpecShortName}}</option>
           </select>
         </div>
       </div>
-      <!-- <div class="col-4" *ngIf="selectedData.forType == 'FCL'">
+      <div class="col-4" *ngIf="selectedData.forType == 'FCL'">
         <div class="form-group">
           <label>Customer</label>
           <select class="form-control" [(ngModel)]="selectedCustomer">
-            <option [value]="null" disabled>--Select--</option>
-            <option *ngFor="let handle of allHandlingType" [value]="handle.ContainerSpecID">
-              {{handle.ContainerSpecShortName}}</option>
+            <option value="" disabled>--Select--</option>
+            <option *ngFor="let customer of selectedData.customers" [value]="customer.UserID">
+              {{customer.UserName}}</option>
           </select>
         </div>
-      </div> -->
+      </div>
 
-
-      <div class="col-4">
+      <!-- <div class="col-4">
         <div class="form-group">
           <label>Customer</label>
           <select class="form-control" [(ngModel)]="filterbyCargoTypeLcl" (change)="filterLcl()">
             <option [value]="undefined">All</option>
-            <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{ cargo.ShippingCatName }}</option>
+            <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{ cargo.ShippingCatName }}
+            </option>
           </select>
         </div>
-      </div>
+      </div> -->
 
 
     </div>
@@ -125,7 +128,8 @@
                 </div>
                 <input type="text" placeholder="AED" [(ngModel)]="selectedCurrency" class="form-control"
                   [ngbTypeahead]="currencies" [resultTemplate]="crt" [inputFormatter]="currencyFormatter"
-                  [ngClass]="{'routeSelected': selectedCurrency && selectedCurrency.CountryCode}" [disabled]="selectedData.mode === 'publish'">
+                  [ngClass]="{'routeSelected': selectedCurrency && selectedCurrency.CountryCode}"
+                  [disabled]="selectedData.mode === 'publish'">
                 <ng-template #crt let-r="result">
                   <div class="d-flex">
                     <div class="flag-container">

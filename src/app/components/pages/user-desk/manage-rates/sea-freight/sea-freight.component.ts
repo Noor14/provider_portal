@@ -191,6 +191,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this.getAllPublishRatesLcl();
     this.getAllPublishRates();
     this.allservicesBySea();
+    this.getAllCustomers(this.userProfile.ProviderID)
     this.addnsaveRates = this._sharedService.draftRowFCLAdd.subscribe(state => {
       if (state && Object.keys(state).length) {
         this.setRowinDRaftTable(state, 'popup not open');
@@ -912,7 +913,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       forType: type,
       data: obj,
       addList: this.seaCharges,
-      mode: 'draft'
+      mode: 'draft',
+      customers: this.allCustomers,
     }
     modalRef.componentInstance.selectedData = object;
     setTimeout(() => {
@@ -969,6 +971,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           this.draftsfcl[index].CarrierName = data[i].carrierName;
           this.draftsfcl[index].ContainerLoadType = data[i].containerLoadType;
           this.draftsfcl[index].ContainerSpecID = data[i].containerSpecID;
+          this.draftsfcl[index].CustomerID = data[i].customerID;
           this.draftsfcl[index].ContainerSpecName = data[i].containerSpecName;
           this.draftsfcl[index].ShippingCatID = data[i].shippingCatID;
           this.draftsfcl[index].ShippingCatName = data[i].shippingCatName;
@@ -2039,12 +2042,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           this.delPublishRates = [];
         }
       });
-      console.log(updateValidity);
-
       let object = {
         forType: 'FCL',
         data: updateValidity,
         addList: this.seaCharges,
+        customers: this.allCustomers,
         mode: 'publish'
       }
       modalRef2.componentInstance.selectedData = object;
@@ -2136,12 +2138,20 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   getAdditionalData() {
-    console.log('here');
-
     this._seaFreightService.getAllAdditionalCharges(this.userProfile.ProviderID).subscribe((res: any) => {
       this.seaCharges = res.filter(e => e.modeOfTrans === 'SEA' && e.addChrType === 'ADCH')
     }, (err) => {
       console.log(err);
+    })
+  }
+  public allCustomers:any[] = []
+  getAllCustomers(ProviderID) {
+    this._seaFreightService.getAllCustomers(ProviderID).subscribe((res: any) => {
+      console.log(res);
+      this.allCustomers = res.returnObject
+    }, (err) => {
+      console.log(err);
+
     })
   }
 

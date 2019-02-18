@@ -18,7 +18,7 @@ import { NgbDateFRParserFormatter } from "../../../constants/ngb-date-parser-for
 import { SeaFreightService } from '../../../components/pages/user-desk/manage-rates/sea-freight/sea-freight.service';
 import { cloneObject } from '../../../components/pages/user-desk/reports/reports.component';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
-import { changeCase } from '../../../constants/globalFunctions';
+import { changeCase, loading } from '../../../constants/globalFunctions';
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
   one && two && two.year === one.year && two.month === one.month && two.day === one.day;
@@ -55,6 +55,7 @@ export class SeaRateDialogComponent implements OnInit {
   public allContainersType: any[] = [];
   public allContainers: any[] = [];
   public allHandlingType: any[] = [];
+  public allCustomers:any[] = []
   public allPorts: any[] = [];
   public allCurrencies: any[] = [];
   private allRatesFilledData: any[] = [];
@@ -124,6 +125,8 @@ export class SeaRateDialogComponent implements OnInit {
       this.userProfile = JSON.parse(this.userInfo.returnText);
     }
     this.allservicesBySea();
+    console.log(this.allCustomers);
+    
     if (this.selectedData.mode === 'draft') {
       if (this.selectedData.data.JsonSurchargeDet) {
         this.setEditData(this.selectedData.mode)
@@ -133,7 +136,7 @@ export class SeaRateDialogComponent implements OnInit {
         this.setEditData(this.selectedData.mode)
       }
     }
-
+    this.allCustomers = this.selectedData.customers
     this.destinationsList = this.selectedData.addList
     this.originsList = this.selectedData.addList
     this.getSurchargeBasis(this.selectedData.forType)
@@ -169,6 +172,8 @@ export class SeaRateDialogComponent implements OnInit {
     });
   }
   setData(data) {
+    console.log(data);
+    
     let parsed = "";
     this.selectedCategory = data.ShippingCatID;
     this.cargoTypeChange(this.selectedCategory);
@@ -186,6 +191,8 @@ export class SeaRateDialogComponent implements OnInit {
       obj => obj.CurrencyID == data.CurrencyID
     );
     this.selectedPrice = data.Price;
+    console.log(data);
+    this.selectedCustomer = data.CustomerID
     if (data.EffectiveFrom) {
       this.fromDate.day = new Date(data.EffectiveFrom).getDate();
       this.fromDate.year = new Date(data.EffectiveFrom).getFullYear();
@@ -353,7 +360,7 @@ export class SeaRateDialogComponent implements OnInit {
   saveDataInFCLDraft(type) {
     let obj = [{
       providerPricingDraftID: (!this.newProviderPricingDraftID) ? this.selectedData.data.ProviderPricingDraftID : this.newProviderPricingDraftID,
-      customerID: null,
+      customerID: (this.selectedCustomer ? parseInt(this.selectedCustomer) : null),
       carrierID: (this.selectedShipping) ? this.selectedShipping.CarrierID : undefined,
       carrierName: (this.selectedShipping) ? this.selectedShipping.CarrierName : undefined,
       carrierImage: (this.selectedShipping) ? this.selectedShipping.CarrierImage : undefined,
@@ -822,5 +829,4 @@ export class SeaRateDialogComponent implements OnInit {
       this.addDestinationActive = false
     }
   }
-
 }
