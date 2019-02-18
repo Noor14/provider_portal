@@ -120,7 +120,7 @@
       <ngb-panel>
         <ng-template ngbPanelTitle>
           <span>
-            <img src="../../../../../../../assets/images/icons/filter-icon.svg" alt="Filter" class="icon-size-16 mr-2">Filter
+            <img src="../../../../../../../assets/images/icons/filter-icon.svg" alt="Filter" class="icon-size-16 mr-2 filter-icon">Filter
             your results
             <img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon">
           </span>
@@ -208,6 +208,34 @@
                 </ng-template>
               </div>
             </div>
+            <div class="col-5 form-group">
+              <label>Show Only Rates For </label>
+              <div class="fancyOptionBoxes pull-left  filter-checkbox mr-3 pt-3">
+                <input id="Radios" name="Radios" type="radio">
+                <label for="Radios">
+                  <span></span>
+                  Marketplace
+                </label>
+              </div>
+              <div class="fancyOptionBoxes pull-left  filter-checkbox  pt-3">
+                <input id="Radios2" name="Radios" type="radio">
+                <label for="Radios2">
+                  <span></span>
+                  My Customers
+                </label>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="form-group">
+                <label>Customer</label>
+                <select class="form-control" [(ngModel)]="filterbyCargoTypeLcl" (change)="filterLcl()">
+                  <option [value]="undefined">All</option>
+                  <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{ cargo.ShippingCatName }}</option>
+                </select>
+              </div>
+            </div>
+
           </div>
         </ng-template>
       </ngb-panel>

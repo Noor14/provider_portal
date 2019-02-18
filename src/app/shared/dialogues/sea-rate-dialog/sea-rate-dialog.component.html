@@ -5,8 +5,8 @@
       <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
     </a>
   </div>
-  <div class="modal-body bg-light">
-    <div class="row bg-white popup-white">
+  <div class="modal-body bg-light ">
+    <div class="row bg-white popup-white pb-0">
       <div class="col-12">
         <h5 class="model-sub-head mt-4">Route Info</h5>
       </div>
@@ -90,6 +90,19 @@
           </select>
         </div>
       </div> -->
+
+
+      <div class="col-4">
+        <div class="form-group">
+          <label>Customer</label>
+          <select class="form-control" [(ngModel)]="filterbyCargoTypeLcl" (change)="filterLcl()">
+            <option [value]="undefined">All</option>
+            <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{ cargo.ShippingCatName }}</option>
+          </select>
+        </div>
+      </div>
+
+
     </div>
     <div class="additional">
       <div class="row">

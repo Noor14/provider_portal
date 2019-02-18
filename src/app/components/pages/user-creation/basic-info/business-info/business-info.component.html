@@ -1,10 +1,10 @@
 <section class="businessDetail">
-  <h3 class="title">Setup your business profile</h3>
+  <h3 class="businessDetail-title">Setup your business profile</h3>
   <p class="sub-title">
-    It takes only a few minutes to setup business profile.
+    It takes only a few minutes to send us your basic information.
   </p>
   <section class="info mt-5">
-    <h5 class="m-0">Business Information</h5>
+    <h5 class="m-0 businessDetail-heading">Business Information</h5>
     <hr class="hr-solid" />
     <div class="row">
       <div class="col-6">
@@ -46,9 +46,9 @@
       </div>
     </div>
   </section>
-  <section class="services mt-5">
-    <h5 class="m-0">Services</h5>
-    <small class="sub-title">Select the services your company provides.</small>
+  <section class="services">
+    <h5 class="mt-4 pt-3 mb-0 businessDetail-heading">Services</h5>
+    <small class="businessDetail-sub-title">Select the services your company provides.</small>
     <hr class="hr-solid mb-4" />
     <div class="row">
       <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of freightServices">
@@ -81,21 +81,21 @@
       </div>
     </div>
   </section>
-  <section class="services mt-5">
+  <section class="services">
     <div class="row">
       <div class="col-12">
-        <h5 class="m-0">A Bit More Information</h5>
+        <h5 class="mt-5 businessDetail-heading">A Bit More Information</h5>
         <hr class="hr-solid" />
       </div>
       <div class="col-12">
-        <label class="url-icon d-flex">HashMove Public URL
+        <label class="url-icon d-flex mt-2">HashMove Public URL
           <img alt="icon_info" class="ml-2 mt-1 icon-size-16" align="bottom" placement="top" ngbTooltip="HashMove members will use this unique URL to find your page"
             src="../../../../../../assets/images/icons/icon_info.svg">
         </label>
       </div>
-      <div class="col-10">
+      <div class="col-12">
         <div class="row">
-          <div class="col-7 d-flex align-items-center form-group"><label>{{profileUrl}}</label>
+          <div class="col-6 d-flex align-items-center form-group"><label>{{profileUrl}}</label>
             <input #profileName (keypress)="spaceHandler($event)" type="text" class="form-control" [ngClass]="{ inputError: addBusinessbtnEnabled === false && !spinner}"
             placeholder="eg: hashMove" />
           <svg *ngIf="addBusinessbtnEnabled && !spinner" class="available icon-size-24" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -189,18 +189,18 @@
               </div>
         </div>
       </div>
-      <div class="col-12 mt-3">
+      <div class="col-12 ">
         <div class="form-group position-relative">
-          <label>About Your Business</label>
+          <label class="mt-4">About Your Business</label>
           <textarea cols="30" [(ngModel)]="aboutUs" rows="5" class="form-control" placeholder="Tell us something about your business"></textarea>
         </div>
       </div>
 
     </div>
-    <div class="row mt-2">
-      <label class="sub-title col-12">Associations (Optional)</label>
+    <div class="row ">
+      <label class="sub-title col-12 mt-3">Associations</label>
       <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let associate of allAssociations">
-        <div #selectService class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-2 pointer"
+        <div #selectService class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-3 pointer"
           (click)="selectAssociation(associate, selectService)">
           <img [src]="baseExternalAssets + associate.assnWithImage" alt="assoc_image" />
           <span>{{ associate.assnWithName }}</span>
@@ -208,12 +208,12 @@
       </div>
     </div>
   </section>
-  <section class="document mt-3">
+  <section class="document">
     <div class="row">
       <div class="col-12">
         <div class="form-group">
-          <label class="mb-0">Gallery (Optional)</label>
-          <small class="sub-title">Upload photos and videos upto 5mb</small>
+          <label class="mb-0 mt-3">Gallery (Optional)</label>
+          <small class="businessDetail-sub-title">Upload photos and videos upto 5mb</small>
           <div class="document-Info d-flex flex-column mt-2">
             <div class="file-uploader" *ngIf="selectedGalleryDocx && selectedGalleryDocx.length < config.maxFilesCount">
               <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'gallery')" [configId]="'config'">
@@ -240,8 +240,8 @@
       </div>
       <div class="col-12">
         <div class="form-group">
-          <label class="mb-0">Awards & Certificates (Optional)</label>
-          <small class="sub-title">Upload photos and videos upto 5mb</small>
+          <label class="mb-0 mt-4">Awards & Certificates (Optional)</label>
+          <small class="businessDetail-sub-title">JPGs, JPEGs, PDF and PNGs supported.</small>
           <div class="document-Info d-flex flex-column mt-2">
             <div class="file-uploader" *ngIf="selectedCertificateDocx && selectedCertificateDocx.length < config.maxFilesCount">
               <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
@@ -265,8 +265,8 @@
       </div>
     </div>
   </section>
-  <div class="row mt-4">
-    <div class="col-6 ">
+  <div class="row ">
+    <div class="col-6 mt-5">
       <div class="fancyOptionBoxes warehousing-services pull-left">
         <input id="bonded" name="bonded" type="checkbox" [(ngModel)]="verifyProfile">
         <label for="bonded">

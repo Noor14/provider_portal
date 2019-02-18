@@ -806,7 +806,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       companyAddress: this.businessForm.value.address,
       companyPhone: this.phoneCode + this.businessForm.value.phone,
       POBox: (this.businessForm.value.poBoxNo) ? this.businessForm.value.poBoxNo : null,
-      City: this.businessForm.value.city.title.split(',')[0]
+      City: this.businessForm.value.city.title.split(',').shift()
     }
 
     let obj = {

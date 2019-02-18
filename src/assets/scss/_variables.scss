@@ -13,6 +13,7 @@ $root-font-size: 1rem;
 $font-size-base: $root-font-size - 0.25; // font-size: 12px
 $font-size-medium:$root-font-size - 0.125; // font-size: 14px
 $font-size-large: $root-font-size; // font-size: 16px
+
 //old font size
 $base-font-size:$root-font-size;
 $font-weight-light: 300;
@@ -38,6 +39,7 @@ $primary-text-shadow:#018cb5;
 $route-and-price-icon-color: #62c4eb;
 // default blue button
 $btn-default-sky-blue: #1caae3;
+$btn-light-fontsize: $font-size-medium;
 // inner pages background-color
 $inner-background-color: #f7f7f8;
 // Route Box heading color
@@ -57,6 +59,7 @@ $dropdown-shipping: #738593;
 $white-color:#ffffff;
 $container-bg: #f2f3f5;
 $primary-grey: #3f5165;
+$unactive-container-tab: #a5b2ba;
 $active-text-color: #049bd5;
 $secondary-grey: #738593;
 $disabled-text-color: #8a939d;
@@ -160,10 +163,13 @@ $form-control-focus: #80bdff;
 $tab-inactive-bg: #d6dbe1;
 $acc-bg: #f3f4f7;
 $acc-border: #b8c1c9;
+$ngb-dp-month-border-color: #dfdfdf;
+$ngb-dp-weekday-fontcolor: #777777;
 //disable colors
 $btn-disable-background:#e3e7e9;
 $btn-disable-color:$dark-grey-blue;
 $dropdown-color:#e4e9ec;
+
 //progress circle
 $probar-bg: #e6e8ec;
 $probar-color: #d2272a;
@@ -180,6 +186,13 @@ $hr-border-color: #fbfbfd;
 //button background
 $btn-bg-primary: #18a7a1;
 $btn-bg-danger: #8e161f;
+
+// calender
+$calendar-month-name-fontcolor: #2b2b2b;
+$calendar-month-name-fontsize: 15px;
+$calendar-background-color: $white-color;
+// calender
+
 
 // Data table 
 
