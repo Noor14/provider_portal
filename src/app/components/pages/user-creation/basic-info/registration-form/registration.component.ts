@@ -182,6 +182,8 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
         this.cityList = state;
+        console.log(this.cityList);
+        
       }
     });
 
@@ -220,11 +222,19 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   }
   
   getMapLatlng(country) {
+    console.log(country);
+    
     this._userCreationService.getLatlng(country.title).subscribe((res: any) => {
       if (res.status == "OK") {
         this.location = res.results[0].geometry.location;
         if (country.id) {
           let selectedCountry = this.countryList.find(obj => obj.title.toLowerCase() == country.title.toLowerCase());
+          this.cityList.forEach(element => {
+            if(element.desc[0].CountryName === selectedCountry.title) {
+              this.cityAr = element
+            }
+          });
+          
           this.selectedLangIdbyCountry = selectedCountry.desc[0].LanguageID;
           this.selectPhoneCode(selectedCountry);
           this.selectTelCode(selectedCountry);
@@ -728,7 +738,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   jobSearch = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
-      map(term => (!term || term.length < 3) ? []
+      map(term => (!term || term.length < 2) ? []
         : this.jobTitles.filter(v => v.baseLanguage.toLowerCase().indexOf(term.toLowerCase()) > -1))
     )
   formatterjob = (x: { baseLanguage: string }) => x.baseLanguage;
@@ -767,6 +777,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       loading(false);
       return
     }
+
     let UserObjectBL = {
       primaryEmail: this.personalInfoForm.value.email,
       firstName: this.personalInfoForm.value.firstName,
@@ -795,7 +806,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       companyAddress: this.businessForm.value.address,
       companyPhone: this.phoneCode + this.businessForm.value.phone,
       POBox: (this.businessForm.value.poBoxNo) ? this.businessForm.value.poBoxNo : null,
-      City: this.businessForm.value.city
+      City: this.businessForm.value.city.title.split(',')[0]
     }
 
     let obj = {
