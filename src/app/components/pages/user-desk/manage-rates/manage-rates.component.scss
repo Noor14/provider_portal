@@ -554,6 +554,16 @@ $left-nav-icon-height: 20px;
           }
         }
 
+        .fancyOptionBoxes {
+          &.filter-checkbox {
+            label {
+              line-height: 1.2;
+              font-size: 1rem !important;
+            }
+          }
+        }
+      
+
         .date-control {
           .dateIcon {
             position: relative;
