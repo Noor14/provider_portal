@@ -443,6 +443,7 @@ $left-nav-icon-height: 20px;
     z-index: 9999;
     position: relative;
 
+
     .card {
       background: $acc-bg;
       border: none;
@@ -452,6 +453,9 @@ $left-nav-icon-height: 20px;
         border: none;
 
         &.active {
+          .filter-icon {
+          transform: scaleY(-1);
+          }
           .acc-icon {
             transform: rotate(-90deg);
             margin-right: 30px;

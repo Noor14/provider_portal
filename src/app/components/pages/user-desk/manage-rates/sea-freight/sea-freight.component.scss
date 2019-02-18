@@ -137,3 +137,22 @@
 //         }
 //     }
 // }
+
+.fancyOptionBoxes {
+    &.usage-type {
+      float: left;
+      margin-right: 4.2rem;
+      margin-left: 1rem;
+    }
+
+    &.warehousing-services {
+
+      &:first-child {
+        margin-top: 0.5rem !important
+      }
+
+      label {
+        font-size: 1rem;
+      }
+    }
+  }
