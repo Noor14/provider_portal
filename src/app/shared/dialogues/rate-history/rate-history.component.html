@@ -41,9 +41,10 @@
 
       </div>
 
-    <div class="col-6 mb-4" *ngIf="getRecord.type == 'Rate_FCL'">
+      <div class="col-6 mb-4" *ngIf="getRecord.type == 'Rate_FCL' || getRecord.type == 'Rate_AIR'">
         <div class="ports">
-          <small class="d-block">Shipping Lines</small>
+          <small class="d-block" *ngIf="getRecord.type == 'Rate_FCL'">Shipping Lines</small>
+          <small class="d-block" *ngIf="getRecord.type == 'Rate_AIR'">Air Lines</small>
           <div class="d-flex">
             <div class="flag-container shipping-logo">
               <img [src]="baseExternalAssets + '/' + shippingInfo?.ShippingLineLogo" alt="icon">
