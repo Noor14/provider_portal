@@ -321,9 +321,11 @@
           h5 {
             float: left;
             font-size: $font-size-large;
-            font-weight: $font-weight-mid;
+            font-weight: $font-proxima-weight-semibold;
+            color:$color-menuheading-black;
             padding-left: 10px;
             margin-bottom: 8px;
+            text-transform: capitalize;
             padding-top: 1px; //text-shadow: 0.5px 0px $text-color-default;
           }
         }
