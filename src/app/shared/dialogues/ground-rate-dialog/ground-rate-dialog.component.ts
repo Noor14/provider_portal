@@ -79,6 +79,10 @@ export class GroundRateDialogComponent implements OnInit {
   private newProviderDraftID = undefined;
   private transPortMode
 
+  //Ahmer
+  public seaPorts = []
+  public groundPorts = []
+
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
   isInside = date => after(date, this.fromDate) && before(date, this.toDate);
@@ -105,8 +109,7 @@ export class GroundRateDialogComponent implements OnInit {
   }
 
 
-  public seaPorts = []
-  public groundPorts = []
+
   allservicesBySea() {
     this._sharedService.dataLogisticServiceBySea.subscribe(state => {
       if (state && state.length) {
@@ -169,12 +172,12 @@ export class GroundRateDialogComponent implements OnInit {
 
   }
 
-  public groundAddresses:any = []
+  public groundAddresses: any = []
   portsFilterartion(obj) {
 
     if (typeof obj === 'object') {
-      this.showPorts = false;
       this.showPickupDropdown = false;
+      this.showDestinationDropdown = false;
     }
     if (this.transPortMode == 'GROUND') {
 
@@ -301,22 +304,6 @@ export class GroundRateDialogComponent implements OnInit {
     this.closeModal(object);
   }
 
-  ports = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      map(term => (!term || term.length < 3) ? []
-        : this.seaPorts.filter(v => v.PortName && v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1))
-    )
-  portsFormatter = (x: { PortName: string }) => x.PortName;
-
-  addresses = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      map(term => (!term || term.length < 3) ? []
-        : this.groundPorts.filter(v => v.PortName && v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1))
-    )
-  addressFormatter = (x: { PortName: string }) => x.PortName;
-
   currencies = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
@@ -325,23 +312,83 @@ export class GroundRateDialogComponent implements OnInit {
     )
   currencyFormatter = (x: { CurrencyCode: string }) => x.CurrencyCode;
 
+
   public showPickupDropdown: boolean = false;
   public showDestinationDropdown: boolean = false;
-  public showPorts: boolean = false;
-  public showDoors: boolean = false;
-  toggleDropdown($event, type) {
+  public showPickupPorts: boolean = false;
+  public showPickupDoors: boolean = false;
+  public showDestPorts: boolean = false;
+  public showDestDoors: boolean = false;
+
+  toggleDropdown(type) {
     if (type === 'pickup') {
       this.showPickupDropdown = !this.showPickupDropdown
-      this.showPorts = false
-      this.showDoors = false
+      this.closeDropDown('delivery')
+      this.showPickupPorts = false
+      this.showPickupDoors = false
+    }
+    if (type === 'delivery') {
+      this.showDestinationDropdown = !this.showDestinationDropdown
+      this.closeDropDown('pickup')
+      this.showDestPorts = false
+      this.showDestDoors = false
     }
   }
 
   togglePorts(type) {
-    if (type === 'pickup') {
-      this.showPorts = true
-    } else if (type === 'door') {
-      this.showDoors = true
+    if (type === 'pickup-sea') {
+      this.showPickupPorts = true
+    } else if (type === 'pickup-door') {
+      this.showPickupDoors = true
+    } else if (type === 'delivery-sea') {
+      this.showDestPorts = true
+    } else if (type === 'delivery-door') {
+      this.showDestDoors = true
     }
   }
+
+  closeDropDown($action: string) {
+    switch ($action) {
+      case 'pickup':
+        if (this.showPickupDropdown) {
+          this.showPickupDropdown = false
+        }
+        break;
+      case 'delivery':
+        if (this.showDestinationDropdown) {
+          this.showDestinationDropdown = false
+        }
+        break;
+      default:
+        if (this.showPickupDropdown || this.showDestinationDropdown) {
+          this.showPickupDropdown = false
+          this.showDestinationDropdown = false
+        }
+        break
+    }
+  }
+
+
+  //Sea ports formatter and observer
+  ports = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 3) ? []
+        : this.seaPorts.filter(v => v.PortName && v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1))
+    )
+  portsFormatter = (x: { PortName: string }) => {
+    return x.PortName
+  };
+
+  //Ground areas formatter and observer
+  addresses = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 3) ? []
+        : this.groundPorts.filter(v => v.PortName && v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1))
+    )
+  addressFormatter = (x: { PortName: string }) => {
+    return x.PortName
+  };
+
 }

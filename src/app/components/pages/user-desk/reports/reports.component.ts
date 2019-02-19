@@ -31,14 +31,14 @@ import { ReportsService } from './reports.service';
 export class ReportsComponent implements OnInit {
 
   public baseExternalAssets: string = baseExternalAssets;
-  
+
   public isDashDataLoaded: boolean = false
   public dashboardData: any;
 
   public bookingList: any[]
   public currentBookings: any[];
-  public recentBookings:any[]=[];
-  public topCustomers:any[]=[];
+  public recentBookings: any[] = [];
+  public topCustomers: any[] = [];
 
   public userGraphData: any
 
@@ -148,16 +148,16 @@ export class ReportsComponent implements OnInit {
     this.bookingsSubscriber.unsubscribe();
   }
 
-getRecentBookings(){
-  this.bookingsSubscriber = this._sharedService.dashboardDetail.subscribe((state: any) => {
-    if (state && state.BookingDetails && state.BookingDetails.length) {
-  
-      let recentBookings = state.BookingDetails.filter(obj => obj.BookingTab === 'Current');
-      this.recentBookings = this.filterByDate(recentBookings).slice(0,3);
-   
-    }
-  });
-}
+  getRecentBookings() {
+    this.bookingsSubscriber = this._sharedService.dashboardDetail.subscribe((state: any) => {
+      if (state && state.BookingDetails && state.BookingDetails.length) {
+
+        let recentBookings = state.BookingDetails.filter(obj => obj.BookingTab === 'Current');
+        this.recentBookings = this.filterByDate(recentBookings).slice(0, 3);
+
+      }
+    });
+  }
   viewBookingDetails(bookingId) {
     let id = encryptBookingID(bookingId);
     this._router.navigate(['/provider/booking-detail', id]);
@@ -263,7 +263,7 @@ getRecentBookings(){
 
   async setlastCustomer(userGraphData: any) {
 
-   this.topCustomers =  userGraphData.customer;
+    this.topCustomers = userGraphData.customer;
   }
 
   async setBarGraphData(userGraphData: any) {
@@ -453,17 +453,18 @@ getRecentBookings(){
       ]
     }
     if (compData.totalAmount === 0) {
-      this.optionHalfRound.title = { text: 'No Data to Show', x: 'center', y: 'center' }
-      this.optionHalfRound.series[0].data = []
-      this.optionHalfRound.series = []
-      this.optionHalfRound.legend.data = []
-      this.optionHalfRound.color = []
+      const tempClone = cloneObject(this.optionHalfRound)
+      tempClone.title = { text: 'No Data to Show', x: 'center', y: 'center' }
+      tempClone.series[0].data = []
+      tempClone.series = []
+      tempClone.legend.data = []
+      tempClone.color = []
       setTimeout(() => {
         this.isVas = true
       }, 20);
       return
     }
-  
+
     let defRadius = cloneObject(this.constRadius)
     let defRadiusDiff = getRadiusDiff(compData.vasComparisonDetail.length)
     const newSeries = []
@@ -1081,7 +1082,7 @@ export const startElementsOfArr = (arr, toGet: number) => {
   return arr.slice(0, toGet)
 }
 
-export const applyRoundByDecimal = (amount: number, decimalPlaces: number): number =>{
+export const applyRoundByDecimal = (amount: number, decimalPlaces: number): number => {
   let newAmount = Number(parseFloat(amount + '').toFixed(decimalPlaces));
   return newAmount
 }
