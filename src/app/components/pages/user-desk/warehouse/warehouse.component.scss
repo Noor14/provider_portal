@@ -18,6 +18,12 @@
             font-size: 1rem;
           }
       }
+
+      .checkbox {
+        label {
+          font-size:0.875rem !important;
+        }
+      }
       .document-Info {
         margin-bottom: 1.2rem;
 
@@ -150,6 +156,9 @@
           select {
             color: #495057;
           }
+        }
+        &-label{
+          line-height:1.2;
         }
       }
     }
