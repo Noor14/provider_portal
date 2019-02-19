@@ -28,6 +28,7 @@ import { SearchPipe } from '../../../constants/search.pipe';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { BillingService } from './billing/billing.service';
+import { NgStepperModule } from '../../../directives/stepper/stepper.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -42,7 +43,8 @@ import { BillingService } from './billing/billing.service';
     SharedModule,
     DataTablesModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgStepperModule
   ],
   declarations: [
     UserDeskComponent,
