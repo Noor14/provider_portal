@@ -175,7 +175,7 @@
 
               <div class="form-group">
                 <label>Property Description</label>
-                <textarea cols="30" [(ngModel)]="aboutUs" rows="4" class="form-control" placeholder="provide details about the properties you are listing"></textarea>
+                <textarea cols="30" rows="4" class="form-control" placeholder="provide details about the properties you are listing"></textarea>
               </div>
 
             </div>
@@ -279,7 +279,7 @@
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="form-group">
                       <label>Address </label>
-                      <textarea cols="30" [(ngModel)]="aboutUs" rows="3" class="form-control" placeholder="Enter at a minimum, the street and town where the property is located"></textarea>
+                      <textarea cols="30" rows="3" class="form-control" placeholder="Enter at a minimum, the street and town where the property is located"></textarea>
                       <!-- <input type="text" maxlength="200" class="form-control" placeholder="Address line 1"> -->
                       <!-- <span class="animated fadeIn" *ngIf="addressline1Error">
                             <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline1'].hasError('required') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">{{requiredFields}}</p>
@@ -543,8 +543,8 @@
         <button class="btn btn-primary btn-register hvr-sweep-to-right pull-left disable">
           cancel</button>
       </div>
-      <div class="col-6 ">
-        <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="stepper.next()">
+      <div class="col-6">
+        <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right">
           save & add pricing </button>
       </div>
     </div>

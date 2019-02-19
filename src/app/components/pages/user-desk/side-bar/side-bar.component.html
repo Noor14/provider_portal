@@ -67,9 +67,9 @@
       </h3>
       <ul class="nav flex-column">
         <li>
-          <a href="javascript:void(0)" class="nav-link">
+<a href="javascript:void(0)" class="nav-link" (click)="tonavigate('/provider/settings')" [ngClass]="getClass('/provider/settings')">
             <img src="../../../../../assets/images/icons/icon_setting.svg" alt="icon_setting">
-            <span class="menu-text" (click)="tonavigate('/provider/settings')" [ngClass]="getClass('/provider/settings')">
+            <span class="menu-text">
               Settings
             </span>
           </a>
