@@ -55,7 +55,7 @@ export class SeaRateDialogComponent implements OnInit {
   public allContainersType: any[] = [];
   public allContainers: any[] = [];
   public allHandlingType: any[] = [];
-  public allCustomers:any[] = []
+  public allCustomers: any[] = []
   public allPorts: any[] = [];
   public allCurrencies: any[] = [];
   private allRatesFilledData: any[] = [];
@@ -125,8 +125,8 @@ export class SeaRateDialogComponent implements OnInit {
       this.userProfile = JSON.parse(this.userInfo.returnText);
     }
     this.allservicesBySea();
-    console.log(this.allCustomers);
-    
+    console.log(this.selectedData.customers);
+
     if (this.selectedData.mode === 'draft') {
       if (this.selectedData.data.JsonSurchargeDet) {
         this.setEditData(this.selectedData.mode)
@@ -173,7 +173,7 @@ export class SeaRateDialogComponent implements OnInit {
   }
   setData(data) {
     console.log(data);
-    
+
     let parsed = "";
     this.selectedCategory = data.ShippingCatID;
     this.cargoTypeChange(this.selectedCategory);
@@ -192,7 +192,10 @@ export class SeaRateDialogComponent implements OnInit {
     );
     this.selectedPrice = data.Price;
     console.log(data);
-    this.selectedCustomer = data.CustomerID
+    if (data.CustomersList) {
+      this.selectedCustomer = JSON.parse(data.CustomersList)
+    }
+
     if (data.EffectiveFrom) {
       this.fromDate.day = new Date(data.EffectiveFrom).getDate();
       this.fromDate.year = new Date(data.EffectiveFrom).getFullYear();
@@ -358,9 +361,11 @@ export class SeaRateDialogComponent implements OnInit {
 
 
   saveDataInFCLDraft(type) {
+    console.log(this.selectedCustomer);
     let obj = [{
       providerPricingDraftID: (!this.newProviderPricingDraftID) ? this.selectedData.data.ProviderPricingDraftID : this.newProviderPricingDraftID,
       customerID: (this.selectedCustomer ? parseInt(this.selectedCustomer) : null),
+      customersList: JSON.stringify(this.selectedCustomer),
       carrierID: (this.selectedShipping) ? this.selectedShipping.CarrierID : undefined,
       carrierName: (this.selectedShipping) ? this.selectedShipping.CarrierName : undefined,
       carrierImage: (this.selectedShipping) ? this.selectedShipping.CarrierImage : undefined,

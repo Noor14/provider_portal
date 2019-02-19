@@ -26,6 +26,7 @@ import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
 import { RateHistoryComponent } from '../../../../../shared/dialogues/rate-history/rate-history.component';
+import { getImagePath, ImageSource, ImageRequiredSize } from '../../../../../constants/globalFunctions';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -972,6 +973,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           this.draftsfcl[index].ContainerLoadType = data[i].containerLoadType;
           this.draftsfcl[index].ContainerSpecID = data[i].containerSpecID;
           this.draftsfcl[index].CustomerID = data[i].customerID;
+          this.draftsfcl[index].CustomersList = data[i].customersList;
           this.draftsfcl[index].ContainerSpecName = data[i].containerSpecName;
           this.draftsfcl[index].ShippingCatID = data[i].shippingCatID;
           this.draftsfcl[index].ShippingCatName = data[i].shippingCatName;
@@ -2149,6 +2151,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this._seaFreightService.getAllCustomers(ProviderID).subscribe((res: any) => {
       console.log(res);
       this.allCustomers = res.returnObject
+      this.allCustomers.forEach(e => {
+        e.CustomerImageParsed = getImagePath(ImageSource.FROM_SERVER, e.CustomerImage, ImageRequiredSize._48x48)
+      })
     }, (err) => {
       console.log(err);
 

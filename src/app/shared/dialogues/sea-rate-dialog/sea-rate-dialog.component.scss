@@ -331,4 +331,21 @@
       }
     }
   }
+  .custom-multiselect{
+    .ng-select-container {
+      max-height: 155px !important;
+      overflow-y: auto;
+    }
+    img{
+      border-radius: 50%;
+    }
+    .ng-value-label{
+      padding: 0.25rem !important;
+      font-family: $font-proxima;
+    }
+    .ng-option{
+      font-family: $font-proxima;
+      font-size: $font-size-medium;
+    }
+  }
 }

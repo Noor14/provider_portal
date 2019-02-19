@@ -61,7 +61,7 @@
         </div>
       </div>
     </div>
-    <div class="row bg-white popup-white border-bottom">
+    <div class="row bg-white popup-white">
       <div class="col-4">
         <div class="form-group">
           <label>Cargo Type</label>
@@ -83,29 +83,27 @@
           </select>
         </div>
       </div>
-      <div class="col-4" *ngIf="selectedData.forType == 'FCL'">
-        <div class="form-group">
+    </div>
+    <div class="row bg-white popup-white">
+      <div class="col-12" *ngIf="selectedData.forType == 'FCL'">
+        <div class="form-group custom-multiselect">
           <label>Customer</label>
-          <select class="form-control" [(ngModel)]="selectedCustomer">
-            <option value="" disabled>--Select--</option>
-            <option *ngFor="let customer of selectedData.customers" [value]="customer.UserID">
-              {{customer.UserName}}</option>
-          </select>
+          <ng-select [items]="selectedData.customers" [multiple]="true" [closeOnSelect]="false" [hideSelected]="true"
+            bindLabel="CustomerName" placeholder="Select Customer" [(ngModel)]="selectedCustomer">
+            <ng-template ng-label-tmp let-item="item" let-clear="clear">
+              <span class="ng-value-label">
+                <img [src]="item.CustomerImageParsed" width="20px" height="20px" onerror="this.src='../../../../favicon.ico'">
+                {{item.CustomerName}}</span>
+              <span class="ng-value-icon right" aria-hidden="true">×</span>
+            </ng-template>
+
+            <ng-template ng-option-tmp let-item="item">
+              <img [src]="item.CustomerImageParsed" width="20px" height="20px"
+                onerror="this.src='../../../../favicon.ico'"> {{item.CustomerName}}
+            </ng-template>
+          </ng-select>
         </div>
       </div>
-
-      <!-- <div class="col-4">
-        <div class="form-group">
-          <label>Customer</label>
-          <select class="form-control" [(ngModel)]="filterbyCargoTypeLcl" (change)="filterLcl()">
-            <option [value]="undefined">All</option>
-            <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{ cargo.ShippingCatName }}
-            </option>
-          </select>
-        </div>
-      </div> -->
-
-
     </div>
     <div class="additional">
       <div class="row">
