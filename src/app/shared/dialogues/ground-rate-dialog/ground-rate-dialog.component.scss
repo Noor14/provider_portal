@@ -1,5 +1,4 @@
 @import "../../../../assets/scss/_variables";
-
 .groundRates-modal {
   position: relative;
   .modal-body {
@@ -8,7 +7,6 @@
     padding-top: 0;
     border-bottom-left-radius: 0.3rem;
     border-bottom-right-radius: 0.3rem;
-
     .model-sub-head {
       color: $secondary-grey;
       font-family: $font-proxima;
@@ -16,7 +14,6 @@
       font-size: 0.875rem;
       text-transform: uppercase;
     }
-
     .popup-white {
       &.bg-white {
         padding-right: 15px;
@@ -33,7 +30,6 @@
           border: 1px solid $provider-input-border;
           font-size: $font-size-medium;
         }
-
         input {
           border-bottom-left-radius: 0rem !important;
           border-top-left-radius: 0rem !important;
@@ -48,19 +44,16 @@
           display: flex;
           margin-top: 5px;
           margin-right: 10px !important;
-
           img {
             border: 1px solid $primary-grey;
           }
         }
       }
     }
-
     .origin,
     .destination {
       position: relative;
-
-      > .flag-container {
+      >.flag-container {
         width: 16px;
         height: 24px;
         align-items: center;
@@ -71,7 +64,6 @@
           border: 1px solid $primary-grey;
         }
       }
-
       .routeSelected {
         padding-left: 30px !important;
       }
@@ -121,21 +113,26 @@
                   }
                 }
               }
+              .dropdown-menu {
+                .flag-container {
+                  position: relative;
+                  left: 0px;
+                  top: 0px;
+                  margin-top:0;
+                }
+              }
             }
           }
         }
       }
     }
   }
-
   .date-control {
     .dateIcon {
       position: relative;
-
       input {
         padding-left: 2.625rem;
       }
-
       &:before {
         content: url("../../../../assets/images/icons/Icons_Calendar.svg");
         position: absolute;
@@ -147,23 +144,18 @@
         opacity: 0.5;
       }
     }
-
     ngb-datepicker {
       border: 1px solid $primary-color;
-
       .ngb-dp-header {
         background: none !important;
-
         .ngb-dp-arrow-btn {
           &:hover {
             box-shadow: none !important;
           }
-
           .ngb-dp-navigation-chevron {
             color: $primary-color !important;
           }
         }
-
         ngb-datepicker-navigation {
           .ngb-dp-month-name {
             font-size: 0.9375rem;
@@ -171,11 +163,9 @@
           }
         }
       }
-
       .ngb-dp-months {
         .ngb-dp-month {
           position: relative;
-
           &:first-child {
             &:after {
               content: "";
@@ -189,24 +179,19 @@
             }
           }
         }
-
         .ngb-dp-week {
           background: none !important;
-
           .ngb-dp-weekday {
             color: $color-date;
             font-style: normal !important;
           }
-
           .ngb-dp-day {
             font-size: 0.875rem;
-
             &:last-child {
               .custom-day {
                 color: $danger-color !important;
               }
             }
-
             .custom-day {
               border-radius: 10px 0 !important;
               width: 100%;
@@ -215,18 +200,15 @@
               align-items: center;
               justify-content: center;
               color: $color-date;
-
               &.range {
                 background-color: $primary-color !important;
                 color: $color-white;
                 border-radius: 0 !important;
               }
-
               &.faded {
                 background-color: $primary-color !important;
                 opacity: 0.5;
               }
-
               &:hover {
                 background-color: #d2d2d238 !important;
                 color: $color-date !important;
@@ -237,12 +219,10 @@
       }
     }
   }
-
   ngb-typeahead-window {
-    max-height: 200px;
-    overflow-y: auto;
+    // max-height: 200px;
+    // overflow-y: auto;
     padding: 0;
-
     .dropdown-item {
       &.active,
       &:active {
