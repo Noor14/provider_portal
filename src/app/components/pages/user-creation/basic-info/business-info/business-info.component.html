@@ -229,7 +229,7 @@
                   <!-- <video class="animated fadeIn" controls>
                         <source src="" type="video/mp4">
                       </video> -->
-                  <img class="w-100" [src]="galleryDocx.DocumentFile" />
+                  <img class="w-auto" [src]="galleryDocx.DocumentFile" />
                   <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
                     (click)="removeSelectedDocx(i, galleryDocx, 'gallery')" />
                 </div>
@@ -254,7 +254,7 @@
             <div class="row uploadedDocx" *ngIf="selectedCertificateDocx && selectedCertificateDocx.length">
               <div class="col-lg-3 mb-2" *ngFor="let certDocx of selectedCertificateDocx; let i = index">
                 <div class="display-upload delete">
-                  <img class="w-100" [src]="certDocx.DocumentFile" />
+                  <img class="w-auto" [src]="certDocx.DocumentFile" />
                   <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
                     (click)="removeSelectedDocx(i, certDocx, 'certificate')" />
                 </div>
