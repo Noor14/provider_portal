@@ -154,6 +154,21 @@ export const getImagePath = (fileSource: ImageSource, fileName: string, reqSize:
   return url
 }
 
+
+export function isJSON(str) {
+
+  if (typeof (str) !== 'string') {
+    return false;
+  }
+  try {
+    JSON.parse(str);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+
 // Object Keys Changes
 export function changeCase(o, toCase) {
   var newO, origKey, newKey, value

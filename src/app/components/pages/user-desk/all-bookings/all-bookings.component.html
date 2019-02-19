@@ -55,7 +55,7 @@
                         <div class="ports-calendar">
                           <span>
                             <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1">
-                            {{booking.EtaLcl | date : "d MMM, yyyy"}
+                            {{booking.EtaLcl | date : "d MMM, yyyy"}}
                           </span>
                         </div>
                       </div>
@@ -68,7 +68,7 @@
                       <small class="d-block">CUSTOMER</small>
                       <div class="d-flex">
                         <div class="customer-image mt-1 mr-2">
-                          <img src="../../../../../assets/images/logos/logo.jpg">
+                          <img [src]="baseExternalAssets + booking.CustomerLogo" alt="logo" />
                         </div>
                         <label class="ports-label mt-1">
                           {{booking.CustomerName}}
@@ -171,7 +171,7 @@
                       <small class="d-block">CUSTOMER</small>
                       <div class="d-flex">
                         <div class="customer-image mt-1 mr-2">
-                          <img src="../../../../../assets/images/logos/logo.jpg">
+                          <img [src]="baseExternalAssets + booking.CustomerLogo" alt="logo" />
                         </div>
                         <label class="ports-label mt-1">
                           {{booking.CustomerName}}
@@ -274,7 +274,7 @@
                         <small class="d-block">CUSTOMER</small>
                         <div class="d-flex">
                           <div class="customer-image mt-1 mr-2">
-                            <img src="../../../../../assets/images/logos/logo.jpg">
+                            <img [src]="baseExternalAssets + booking.CustomerLogo" alt="logo" />
                           </div>
                           <label class="ports-label mt-1">
                             {{booking.CustomerName}}

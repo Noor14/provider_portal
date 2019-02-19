@@ -29,10 +29,12 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { BillingService } from './billing/billing.service';
 import { NgStepperModule } from '../../../directives/stepper/stepper.module';
+import { NgFilesModule } from '../../../directives/ng-files';
 @NgModule({
   imports: [
     CommonModule,
     NgbModule,
+    NgFilesModule,
     UserDeskRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
