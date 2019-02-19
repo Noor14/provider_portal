@@ -124,9 +124,9 @@ export class SeaRateDialogComponent implements OnInit {
     if (this.userInfo && this.userInfo.returnText) {
       this.userProfile = JSON.parse(this.userInfo.returnText);
     }
+    console.log(this.selectedData.data);
+    
     this.allservicesBySea();
-    console.log(this.selectedData.customers);
-
     if (this.selectedData.mode === 'draft') {
       if (this.selectedData.data.JsonSurchargeDet) {
         this.setEditData(this.selectedData.mode)
@@ -172,8 +172,6 @@ export class SeaRateDialogComponent implements OnInit {
     });
   }
   setData(data) {
-    console.log(data);
-
     let parsed = "";
     this.selectedCategory = data.ShippingCatID;
     this.cargoTypeChange(this.selectedCategory);
@@ -361,11 +359,19 @@ export class SeaRateDialogComponent implements OnInit {
 
 
   saveDataInFCLDraft(type) {
-    console.log(this.selectedCustomer);
+    let customers = [];
+    this.selectedCustomer.forEach(element => {
+      let obj = {
+        CustomerID: element.CustomerID,
+        CustomerType: element.CustomerType
+      }
+      customers.push(obj)
+    });
+    console.log(customers);    
     let obj = [{
       providerPricingDraftID: (!this.newProviderPricingDraftID) ? this.selectedData.data.ProviderPricingDraftID : this.newProviderPricingDraftID,
       customerID: (this.selectedCustomer ? parseInt(this.selectedCustomer) : null),
-      customersList: JSON.stringify(this.selectedCustomer),
+      customersList: JSON.stringify(customers),
       carrierID: (this.selectedShipping) ? this.selectedShipping.CarrierID : undefined,
       carrierName: (this.selectedShipping) ? this.selectedShipping.CarrierName : undefined,
       carrierImage: (this.selectedShipping) ? this.selectedShipping.CarrierImage : undefined,
@@ -833,19 +839,5 @@ export class SeaRateDialogComponent implements OnInit {
       this.addOriginActive = false
       this.addDestinationActive = false
     }
-  }
-
-  removeCustomer(customer) {
-    console.log(customer);
-    console.log(this.selectedCustomer);
-    
-    this.selectedCustomer.forEach(element => {
-      console.log(element);
-      if (element.CustomerID === customer.CustomerID) {
-        let idx = this.selectedCustomer.indexOf(element)
-        console.log(idx);
-        this.selectedCustomer.splice(idx, 1)
-      }
-    });
   }
 }
