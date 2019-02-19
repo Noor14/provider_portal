@@ -13,7 +13,6 @@ $root-font-size: 1rem;
 $font-size-base: $root-font-size - 0.25; // font-size: 12px
 $font-size-medium:$root-font-size - 0.125; // font-size: 14px
 $font-size-large: $root-font-size; // font-size: 16px
-
 //old font size
 $base-font-size:$root-font-size;
 $font-weight-light: 300;
@@ -109,7 +108,6 @@ $shipping-active-color:#00a1df;
 $shipping-subcar-active:#243748;
 $shipping-subcat-border:#8999a6;
 $shipping-subcat-text:#dbdfe2;
-
 //   provider Portal
 // bookings/ dashboard 
 $booking-card-border:#ebeff3;
@@ -169,7 +167,6 @@ $ngb-dp-weekday-fontcolor: #777777;
 $btn-disable-background:#e3e7e9;
 $btn-disable-color:$dark-grey-blue;
 $dropdown-color:#e4e9ec;
-
 //progress circle
 $probar-bg: #e6e8ec;
 $probar-color: #d2272a;
@@ -180,28 +177,23 @@ $screen-md-screen: 992px;
 $screen-lg-eight-fourty: 840px;
 $screen-sm-screen: 768px;
 $screen-xs-screen: 576px;
-
 //hr border
 $hr-border-color: #fbfbfd;
 //button background
 $btn-bg-primary: #18a7a1;
 $btn-bg-danger: #8e161f;
-
 // calender
 $calendar-month-name-fontcolor: #2b2b2b;
 $calendar-month-name-fontsize: 15px;
 $calendar-background-color: $white-color;
 // calender
-
-
 // Data table 
-
 $data-table-border: #e4e4e6;
 $data-table-header-bg: #fcfcfe;
 $data-table-selected-bg: #ecf1f5;
 // End data table
-
-
 // on rate additional charges
 $addtional-input-background:#f1f0f0;
 $addtional-input-border:#d7d8da;
+// port pickup background
+$port-pickup-background: #f7f8f9;

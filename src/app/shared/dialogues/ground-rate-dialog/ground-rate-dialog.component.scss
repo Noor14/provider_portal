@@ -82,6 +82,11 @@
             margin: 0;
             li {
               padding: 1rem;
+              &:hover {
+                cursor: pointer;
+                background: $port-pickup-background;
+                border-radius: 4px;
+              }
               span {
                 font-family: $font-proxima;
                 font-size: $font-size-large;
@@ -118,7 +123,7 @@
                   position: relative;
                   left: 0px;
                   top: 0px;
-                  margin-top:0;
+                  margin-top: 0;
                 }
               }
             }
