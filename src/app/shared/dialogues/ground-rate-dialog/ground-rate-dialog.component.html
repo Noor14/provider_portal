@@ -21,7 +21,7 @@
             </div>
             <input class="form-control" [(ngModel)]="filterOrigin" placeholder="e.g: Dubai" type="text"
               [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}" [ngbTypeahead]="ports"
-              [resultTemplate]="rt" [inputFormatter]="portsFormatter" (ngModelChange)="portsFilterartion(filterOrigin)" />
+              [resultTemplate]="rt" [inputFormatter]="portsFormatter" (click)="toggleDropdown($event, 'pickup')" (ngModelChange)="portsFilterartion(filterOrigin)" />
             <div class="dropdown-pickup" *ngIf="showPickupDropdown">
               <ul>
                 <li (click)="togglePorts('pickup')" *ngIf="!showDoors">

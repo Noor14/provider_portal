@@ -305,7 +305,7 @@ export class GroundRateDialogComponent implements OnInit {
     text$.pipe(
       debounceTime(200),
       map(term => (!term || term.length < 3) ? []
-        : this.groundsPorts.filter(v => v.PortName && v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1))
+        : this.seaPorts.filter(v => v.PortName && v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1))
     )
   portsFormatter = (x: { PortName: string }) => x.PortName;
 
