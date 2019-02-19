@@ -420,6 +420,12 @@ $left-nav-icon-height: 20px;
       }
     }
 
+    &.no-data {
+      a.addAnother {
+        bottom: 38px !important;
+      }
+    }
+
     &.no-pagination {
       a.addAnother {
         bottom: 59px;

@@ -111,6 +111,7 @@ export class BusinessInfoComponent implements OnInit {
             }
             else{
               this.spinner = false;
+              this.userName = undefined;
             }
           });
   }
