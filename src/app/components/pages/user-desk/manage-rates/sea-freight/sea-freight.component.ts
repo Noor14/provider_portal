@@ -511,6 +511,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         },
+        infoEmpty: '',
         // emptyTable: "No data available in table"
       },
       fixedColumns: {
@@ -657,6 +658,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         },
+        infoEmpty: '',
         // emptyTable: "No data available in table"
       },
       fixedColumns: {
@@ -1200,7 +1202,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.allRatesList = res.returnObject.data;
-        console.log(this.allRatesList);
         this.checkedallpublishRates = false;
         this.filterTable();
       }
@@ -1374,6 +1375,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         },
+        infoEmpty: '',
         // emptyTable: "No data available in table"
       },
       fixedColumns: {
@@ -1491,6 +1493,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         },
+        infoEmpty: '',
         // emptyTable: "No data available in table"
       },
       fixedColumns: {

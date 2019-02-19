@@ -94,7 +94,7 @@
               <span class="ng-value-label">
                 <img [src]="item.CustomerImageParsed" width="20px" height="20px" onerror="this.src='../../../../favicon.ico'">
                 {{item.CustomerName}}</span>
-              <span class="ng-value-icon right" aria-hidden="true">×</span>
+              <span class="ng-value-icon right" aria-hidden="true" (click)="clear(item)">×</span>
             </ng-template>
 
             <ng-template ng-option-tmp let-item="item">

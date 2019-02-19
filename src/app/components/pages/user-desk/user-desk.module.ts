@@ -28,13 +28,12 @@ import { SearchPipe } from '../../../constants/search.pipe';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { BillingService } from './billing/billing.service';
-import { NgSelectModule } from '@ng-select/ng-select';
-
+import { NgFilesModule } from '../../../directives/ng-files';
 @NgModule({
   imports: [
     CommonModule,
-    NgSelectModule,
     NgbModule,
+    NgFilesModule,
     UserDeskRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',

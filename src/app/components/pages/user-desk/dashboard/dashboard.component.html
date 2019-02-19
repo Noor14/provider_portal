@@ -186,7 +186,7 @@
               </div>
               <div class="ports-calendar">
                 <span>
-                  <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1"> {{booking.EtdLcl | date : "d MMM, yyyy"}} {{booking.EtdLcl | date : "H:mm"}}
+                  <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1"> {{booking.EtdLcl | date : "d MMM, yyyy"}}
                 </span>
             </div>
               </div>
@@ -197,24 +197,23 @@
                       <small class="d-block mb-2">to</small>
                       <label class="ports-label mt-1">{{booking.PodCode}}</label>
                       <span class="d-block mb-2">Port of {{booking.PodCountry}}</span>
-                   
                 </div>
                 <div class="ports-calendar">
                   <span>
-                    <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1"> {{booking.EtaLcl | date : "d MMM, yyyy"}} {{booking.EtaLcl | date : "H:mm"}}
+                    <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1"> {{booking.EtaLcl | date : "d MMM, yyyy"}}
                   </span>
                 </div>
               </div>
             </div>
             </div>
-           </div>
+          </div>
             <div class="col-lg-3 col-sm-12 mt-1 pl-4 border-separated">
               <div class="bookings-detail">
                 <div class="ports">
                     <small class="d-block">CUSTOMER</small>
                     <div class="d-flex">
                       <div class="customer-image mt-1 mr-2">
-                        <img src="../../../../../assets/images/logos/logo.jpg">
+                      <img [src]="baseExternalAssets + booking.CustomerLogo" alt="logo" />
                       </div>
                       <label class="ports-label mt-1">
                         {{booking.CustomerName}}

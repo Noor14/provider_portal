@@ -191,7 +191,7 @@ export class SeaRateDialogComponent implements OnInit {
       obj => obj.CurrencyID == data.CurrencyID
     );
     this.selectedPrice = data.Price;
-    console.log(data);
+
     if (data.CustomersList) {
       this.selectedCustomer = JSON.parse(data.CustomersList)
     }
@@ -833,5 +833,19 @@ export class SeaRateDialogComponent implements OnInit {
       this.addOriginActive = false
       this.addDestinationActive = false
     }
+  }
+
+  removeCustomer(customer) {
+    console.log(customer);
+    console.log(this.selectedCustomer);
+    
+    this.selectedCustomer.forEach(element => {
+      console.log(element);
+      if (element.CustomerID === customer.CustomerID) {
+        let idx = this.selectedCustomer.indexOf(element)
+        console.log(idx);
+        this.selectedCustomer.splice(idx, 1)
+      }
+    });
   }
 }

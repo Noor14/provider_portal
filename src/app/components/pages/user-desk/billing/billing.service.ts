@@ -12,7 +12,6 @@ export class BillingService {
       headers: new HttpHeaders({
         "Access-Control-Allow-Origin": "*",
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': data.length,
         "Access-Control-Allow-Credentials": "true"
       })
     };

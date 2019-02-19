@@ -435,6 +435,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         },
+        infoEmpty: '',
         // emptyTable: "No data available in table"
       },
       fixedColumns: {
@@ -908,6 +909,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         },
+        infoEmpty: '',
         // emptyTable: "No data available in table"
       },
       fixedColumns: {

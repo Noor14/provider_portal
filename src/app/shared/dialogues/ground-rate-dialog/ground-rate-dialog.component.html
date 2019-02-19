@@ -167,15 +167,16 @@
 
 
 
-      <div class="col-6">
+    <!-- <div class="col-6">
         <div class="form-group">
           <label>Customer</label>
-          <select class="form-control" [(ngModel)]="filterbyCargoTypeLcl" (change)="filterLcl()">
-            <option [value]="undefined">All</option>
-            <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{ cargo.ShippingCatName }}</option>
+          <select class="form-control" [(ngModel)]="selectedCustomer">
+            <option [value]="null" disabled>--Select--</option>
+            <option *ngFor="let handle of allHandlingType" [value]="handle.ContainerSpecID">
+              {{handle.ContainerSpecShortName}}</option>
           </select>
         </div>
-      </div>
+      </div> -->
 
     </div>
     <div class="row">
