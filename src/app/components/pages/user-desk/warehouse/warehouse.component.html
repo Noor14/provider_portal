@@ -2,16 +2,15 @@
   <h2>Add a warehouse </h2>
   <p class="sub-title mt-2 mb-3"> Add your warehouse and create a listing of available capacity on HashMove </p>
   <ngx-stepper #stepper class="warehouse-stepper">
-    <ngx-step [label]="'1.ADD INFO'">
+    <ngx-step [label]="'1. ADD INFO'">
       <section class="warehouse ">
         <!--  warehouse-info -->
         <div class="warehouse-info">
           <div class="row">
             <div class="col-12">
               <h5 class="mt-5">General Information</h5>
-              <p class="sub-title sub-heading mb-0">General Information about the listing .Enter its title ,
-                description,
-                images</p>
+              <p class="sub-title sub-heading mb-0">General Information about the listing .Enter its title , description, images
+              </p>
               <hr class="hr-solid mt-3">
             </div>
             <div class="col-12">
@@ -30,9 +29,8 @@
                   <div class="col-12">
                     <div class="form-group">
                       <label class="mb-0">Gallery (Optional)</label>
-                      <small class="sub-title">Images show rthe condition of the property and are very compelling for
-                        space
-                        seekers.</small>
+                      <small class="sub-title">Images show rthe condition of the property and are very compelling for space seekers.
+                      </small>
                       <div class="document-Info d-flex flex-column mt-2">
                         <div class="file-uploader">
                           <!-- <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'gallery')" [configId]="'config'"> -->
@@ -95,6 +93,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                           <div class="form-group select-city">
                             <label>City</label>
+                            <input type="text" maxlength="100" class="form-control" placeholder="Enter City">
                             <!-- <div class="flag-container">
                                     <img src="'../../../../../assets/images/flags/4x3/ae.svg" type="image/svg+xml" class="w-auto h-auto mh-100">
                                   </div>
@@ -177,18 +176,18 @@
                 <div class="row">
                   <div class="col-xl-12">
                     <h5 class="mt-5">Property Details</h5>
-                    <p class="sub-title sub-heading mb-0">Provide more information about your property thatis useful
-                      for
-                      finding a match</p>
+                    <p class="sub-title sub-heading mb-0">Provide more information about your property thatis useful for finding a match</p>
                     <hr class="hr-solid">
                   </div>
                 </div>
                 <div class="row ">
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
-                      <label class="mt-3 mb-0">Total warehouse Space</label>
-                      <span class="sub-title sub-heading w-100">Estimate total warehouse space excluding any office
-                        area.</span>
+                      <label class="form-group-label">Total warehouse Space
+                        <span class="sub-title sub-heading w-100 d-inline-block">Estimate total warehouse space excluding any office area.
+                        </span>
+                      </label>
+
                       <div class="input-group">
                         <input class="form-control input-dropdown" type="text">
                         <div class="input-group-append">
@@ -213,7 +212,7 @@
                 <div class="row ">
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
-                      <label class="mt-2 pt-1 mb-0">Offered Space on HashMove</label>
+                      <label >Offered Space on HashMove</label>
 
                       <div class="input-group">
                         <input class="form-control input-dropdown" type="text">
@@ -232,8 +231,10 @@
                 <div class="row ">
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
-                      <label class="mt-2 pt-1 mb-0">Ceiling Height</label>
-                      <span class="sub-title sub-heading w-100">Maximum Availabla height for storage</span>
+                      <label class="form-group-label">Ceiling Height
+                        <span class="sub-title sub-heading w-100 d-inline-block">Maximum Availabla height for storage</span>
+                      </label>
+
                       <div class="input-group">
                         <input class="form-control input-dropdown" type="text">
                         <div class="input-group-append">
@@ -250,9 +251,11 @@
                   </div>
                 </div>
                 <div class="row ">
-                  <div class="col-12 mb-2">
-                    <label class="mt-2 pt-1 mb-0 w-100">Minimuum Lease Space</label>
-                    <span class="sub-title sub-heading w-100 ">The minimum space that can be lend per booking</span>
+                  <div class="col-12 ">
+                    <label class="form-group-label">Minimuum Lease Space
+                      <span class="sub-title sub-heading w-100 d-inline-block">The minimum space that can be lend per booking</span>
+                    </label>
+
                   </div>
                   <div class="col-xl-3 col-md-3 col-sm-12">
                     <div class="form-group">
@@ -288,53 +291,55 @@
                 <div class="row ">
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
-                      <label class="mt-2 pt-1 mb-0">Minimuum Lease term</label>
-                      <span class="sub-title sub-heading w-100">The shortest term that this property can be rented for
-                      </span>
+                      <label class="form-group-label">Minimuum Lease term
+                        <span class="sub-title sub-heading w-100 d-inline-block">The shortest term that this property can be rented for
+                        </span>
+                      </label>
+
                     </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mt-3">
+                    <div class="fancyOptionBoxes checkbox pull-left mr-4 ">
                       <input id="Radios" name="Radios" type="radio">
                       <label for="Radios">
                         <span></span>
                         1 Day
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mt-3">
+                    <div class="fancyOptionBoxes checkbox pull-left mr-4 ">
                       <input id="Radios" name="Radios" type="radio">
                       <label for="Radios">
                         <span></span>
                         1 Week
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mt-3">
+                    <div class="fancyOptionBoxes checkbox pull-left mr-4 mb-3">
                       <input id="Radios" name="Radios" type="radio">
                       <label for="Radios">
                         <span></span>
                         1 Month
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes pull-left mr-4  mt-3">
+                    <div class="fancyOptionBoxes checkbox pull-left mr-4 mb-3">
                       <input id="Radios" name="Radios" type="radio">
                       <label for="Radios">
                         <span></span>
                         3 Months
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mt-3">
+                    <div class="fancyOptionBoxes checkbox pull-left mr-4 mb-3">
                       <input id="Radios" name="Radios" type="radio">
                       <label for="Radios">
                         <span></span>
                         6 Month
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mt-3">
+                    <div class="fancyOptionBoxes checkbox pull-left mr-4 mb-3">
                       <input id="Radios" name="Radios" type="radio">
                       <label for="Radios">
                         <span></span>
                         12 months
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mt-3">
+                    <div class="fancyOptionBoxes checkbox pull-left mr-4 mb-3">
                       <input id="Radios" name="Radios" type="radio">
                       <label for="Radios">
                         <span></span>
@@ -351,7 +356,7 @@
               <h5 class="mt-5">Other Amenities</h5>
               <hr class="hr-solid">
             </div>
-            
+
             <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
               <div class="fancyOptionBoxes warehousing-services">
                 <input id="bonded" name="bonded" type="checkbox">
@@ -384,7 +389,7 @@
         <!--  warehouse-info -->
       </section>
     </ngx-step>
-    <ngx-step [label]="'2.ADD RATES'">
+    <ngx-step [label]="'2. ADD RATES'">
       <section class="Add-warehouse ">
         <h5 class="mt-5">Add rates</h5>
         <p class="sub-title mt-2 mb-2">you can add multiple rates for different dates / months </p>
