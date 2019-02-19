@@ -527,14 +527,14 @@ export class BillingComponent implements OnInit, OnDestroy {
       secret_key: "ekQNVlcQwtHZv93SClVAqo9euW1k1cKgxA4sVgjrJ1qfat8NO3ofsxtXuviwH2MeCRHx81YS3o7dSf1HjpWMXqJrV1XC3KRFCzdK",
       currency: "AED",
       amount: "10",
-      site_url: "http://localhost:4200/provider/billing",
+      site_url: "http://10.20.1.13:9094/provider/billing",
       title: "test",
       quantity: "1",
       unit_price: "10",
       other_charges: "0",
       discount: "0",
       products_per_title: "test product 1",
-      return_url: "http://localhost:58418/Home/Success",
+      return_url: "http://10.20.1.13:9094/provider/dashboard",
       cc_first_name: "rizwan",
       cc_last_name: "haq",
       cc_phone_number: "111000101",
@@ -560,14 +560,14 @@ export class BillingComponent implements OnInit, OnDestroy {
       + "&secret_key=" + "ekQNVlcQwtHZv93SClVAqo9euW1k1cKgxA4sVgjrJ1qfat8NO3ofsxtXuviwH2MeCRHx81YS3o7dSf1HjpWMXqJrV1XC3KRFCzdK"
       + "&currency=" + "AED"
       + "&amount=" + "10"
-      + "&site_url=" + "http://localhost:4200/provider/billing"
+      + "&site_url=" + "http://10.20.1.13:9094/provider/billing"
       + "&title=" + "test"
       + "&quantity=" + "1"
       + "&unit_price=" + "10"
       + "&other_charges=0"
       + "&discount=0"
       + "&products_per_title=" + "test product 1"
-      + "&return_url=" + "http://localhost:58418/Home/Success"
+      + "&return_url=" + "http://10.20.1.13:9094/provider/dashboard"
       + "&cc_first_name=" + "rizwan"
       + "&cc_last_name=" + "haq"
       + "&cc_phone_number=" + "111000101"
@@ -588,15 +588,14 @@ export class BillingComponent implements OnInit, OnDestroy {
       + "&reference_no=" + "1286"
       + "&msg_lang=English"
       + "&cms_with_version=API"
-
     let bytes = []; // char codes
-
     for (var i = 0; i < formdata.length; ++i) {
       var code = formdata.charCodeAt(i);
-      bytes = bytes.concat([code & 0xff, code / 256 >>> 0]);
+      var buffer = new ArrayBuffer(code)
+      bytes.push(buffer.byteLength);
     }
 
-    this._billingService.makePayment(obj).subscribe((res: any) => {
+    this._billingService.makePayment(formdata).subscribe((res: any) => {
       // if (res.returnStatus == "Success") {
         console.log(res)
       // }
