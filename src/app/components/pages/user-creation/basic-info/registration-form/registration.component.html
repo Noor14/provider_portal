@@ -217,11 +217,14 @@
                 <img *ngIf="cityAr && cityAr.imageName" src="{{'../../../../../assets/images/flags/4x3/' + (cityAr.imageName | lowercase) + '.svg'}}"
                   type="image/svg+xml">
               </div>
-              <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200"
+              <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="100"
                 formControlName="city" (focusout)="errorValidate()" (focus)="cityArError = false; cityError = false"
                 [ngClass]="{'inputError': cityError && businessForm.controls['city'].errors, 'routeSelected': businessForm.value.city && businessForm.value.city.title && businessForm.value.city.id}"
                 [(ngModel)]="cityAr" [ngbTypeahead]="searchCity" [resultTemplate]="st" [inputFormatter]="formatterCity">
               <ng-template #st let-r="result">
+                <div class="flag-container mr-1">
+                  <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
+                </div>
                 <ngb-highlight [result]="r.title"></ngb-highlight>
               </ng-template>
               <span *ngIf="cityError && businessForm.controls['city'].errors">
@@ -248,11 +251,14 @@
                 <img *ngIf="cityAr && cityAr.imageName" src="{{'../../../../../assets/images/flags/4x3/' + (cityAr.imageName | lowercase) + '.svg'}}"
                   type="image/svg+xml">
               </div>
-              <input type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="200"
+              <input type="text" class="form-control" (keypress)="oneSpaceHandler($event)" maxlength="100"
                 formControlName="transCity" (focusout)="errorValidate()" (focus)="cityArError = false; cityError = false"
                 [ngClass]="{'inputError': cityArError && businessForm.controls['transCity'].errors, 'routeSelected': businessForm.value.city && businessForm.value.city.title && businessForm.value.city.id}"
                 [(ngModel)]="cityAr" [ngbTypeahead]="searchCity" [resultTemplate]="st" [inputFormatter]="formatterCity">
               <ng-template #st let-r="result">
+              <div class="flag-container mr-1">
+                <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
+              </div>
                 <ngb-highlight [result]="r.title"></ngb-highlight>
               </ng-template>
               <span *ngIf="cityArError && businessForm.controls['transCity'].errors">
@@ -548,7 +554,7 @@
             <input id="5" type="text" maxlength="100" class="form-control" (keypress)="textValidation($event)"
               placeholder="eg: Manager" [ngClass]="{'inputError': jobTitleError && personalInfoForm.controls['jobTitle'].errors}"
               formControlName="jobTitle" [(ngModel)]="selectedjobTitle" [ngbTypeahead]="jobSearch" [resultTemplate]="jt"
-              [inputFormatter]="formatterjob" formControlName="jobTitle" name="jobTitle" (focusout)="errorValidate(); onModeljobtitle(activeTransjobTitle, !activejobTitle, 'transLangjobTitle', 'en', 'ar' ,selectedjobTitle)"
+              [inputFormatter]="formatterjob" name="jobTitle" (focusout)="errorValidate(); onModeljobtitle(activeTransjobTitle, !activejobTitle, 'transLangjobTitle', 'en', 'ar' ,selectedjobTitle)"
               (focus)="transjobTitleError=false; jobTitleError=false; activejobTitle=true" (blur)="activejobTitle=false">
             <ng-template #jt let-r="result">
               <ngb-highlight [result]="r.baseLanguage"></ngb-highlight>

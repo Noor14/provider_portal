@@ -4,80 +4,99 @@
       <ng-template ngbTabTitle>Profile</ng-template>
       <ng-template ngbTabContent>
         <section class="profile">
-          <ngb-accordion #acc="ngbAccordion" activeIds="PersonalInfo">
+          <ngb-accordion activeIds="PersonalInfo">
             <ngb-panel id="PersonalInfo" title="Personal Information">
               <ng-template ngbPanelContent>
                 <div class="card">
                   <div class="card-body">
+          <form autocomplete="off" novalidate [formGroup]="personalInfoForm">
                     <div class="row">
                       <div class="col-3">
                         <div class="form-group">
-                          <label for="">Email</label>
+                          <label>Email</label>
                         </div>
                       </div>
                       <div class="col-5">
                         <div class="form-group">
-                          <input class="form-control" placeholder="Email" />
+                          <input type="email" formControlName="email" disabled readonly class="form-control" placeholder="abc@email.com" />
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-3">
                         <div class="form-group">
-                          <label for="">First Name</label>
+                          <label>First Name</label>
                         </div>
                       </div>
                       <div class="col-5">
                         <div class="form-group">
-                          <input class="form-control" placeholder="Email" />
+                        <input type="text" class="form-control" maxlength="100" (keypress)="textValidation($event)" 
+                        placeholder="eg: John" formControlName="firstName" />
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-3">
                         <div class="form-group">
-                          <label for="">Last Name</label>
+                          <label>Last Name</label>
                         </div>
                       </div>
                       <div class="col-5">
                         <div class="form-group">
-                          <input class="form-control" placeholder="Email" />
+                          <input type="text" maxlength="100" (keypress)="textValidation($event)"
+                            class="form-control" placeholder="eg: Smith" formControlName="lastName">
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-3">
                         <div class="form-group">
-                          <label for="">Job Title</label>
+                          <label>Job Title</label>
                         </div>
                       </div>
                       <div class="col-5">
                         <div class="form-group">
-                          <input class="form-control" placeholder="Email" />
+                          <input type="text" maxlength="100" class="form-control" (keypress)="textValidation($event)" placeholder="eg: Manager"
+                            formControlName="jobTitle" [ngbTypeahead]="jobSearch" [resultTemplate]="jt" [inputFormatter]="formatterjob">
+                          <ng-template #jt let-r="result">
+                            <ngb-highlight [result]="r.baseLanguage"></ngb-highlight>
+                          </ng-template>
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-3">
                         <div class="form-group">
-                          <label for="">City</label>
+                          <label>City</label>
                         </div>
                       </div>
                       <div class="col-5">
                         <div class="form-group">
-                          <input class="form-control" placeholder="Email" />
+                        <div class="flag-container" *ngIf="personalInfoForm.value.city && personalInfoForm.value.city.imageName">
+                            <img src="{{'../../../../../assets/images/flags/4x3/' + (personalInfoForm.value.city.imageName | lowercase) + '.svg'}}"
+                              type="image/svg+xml">
+                          </div>
+                            <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="100" formControlName="city"
+                              [ngbTypeahead]="searchCity" [resultTemplate]="ct" [inputFormatter]="formatterCity" placeholder="eg: Karachi">
+                            <ng-template #ct let-r="result">
+                              <div class="flag-container mr-1">
+                                  <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
+                              </div>
+                              <ngb-highlight [result]="r.title"></ngb-highlight>
+                            </ng-template>
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-3">
                         <div class="form-group">
-                          <label for="">Mobile No.</label>
+                          <label>Mobile No.</label>
                         </div>
                       </div>
                       <div class="col-5">
                         <div class="form-group">
-                          <input class="form-control" placeholder="Email" />
+                        <input class="form-control" maxlength="13" placeholder="123456789" 
+                        (keypress)="numberValid($event)" formControlName="mobile" />
                         </div>
                       </div>
                     </div>
@@ -93,44 +112,49 @@
                     <div class="row">
                       <div class="col-3">
                         <div class="form-group">
-                          <label for="">My Region</label>
+                          <label>My Region</label>
                         </div>
                       </div>
                       <div class="col-5">
                         <div class="form-group">
-                          <select class="form-control"></select>
+                          <select class="form-control" formControlName="region">
+                            <option [value]="" disabled> Please Select</option>
+                            <option *ngFor="let region of regionList">
+                                {{region.regionName}}
+                            </option>
+                          </select>
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-3">
                         <div class="form-group">
-                          <label for="">My Currency</label>
+                          <label>My Currency</label>
                         </div>
                       </div>
                       <div class="col-5">
                         <div class="form-group">
-                          <select class="form-control"></select>
-                        </div>
+                      <div class="flag-container" *ngIf="personalInfoForm.value.currency && personalInfoForm.value.currency.imageName">
+                        <img src="{{'../../../../../assets/images/flags/4x3/' + (personalInfoForm.value.currency.imageName | lowercase) + '.svg'}}"
+                          type="image/svg+xml">
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label for="">My Timezone</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <select class="form-control"></select>
+                        <input type="text" (keypress)="spaceHandler($event)" class="form-control" maxlength="5" formControlName="currency"
+                          [ngbTypeahead]="currency" [resultTemplate]="cur" [inputFormatter]="formatterCurrency" placeholder="eg: AED">
+                          <ng-template #cur let-r="result">
+                          <div class="flag-container mr-1">
+                            <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
+                          </div>
+                          <ngb-highlight [result]="r.shortName"></ngb-highlight>
+                        </ng-template>
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-6">
-                        Buttons
+                        <button class="btn btn-primary">Save</button>
                       </div>
                     </div>
+                  </form>
                   </div>
                 </div>
               </ng-template>

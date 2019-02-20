@@ -182,8 +182,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
         this.cityList = state;
-        console.log(this.cityList);
-        
       }
     });
 
@@ -222,8 +220,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   }
   
   getMapLatlng(country) {
-    console.log(country);
-    
     this._userCreationService.getLatlng(country.title).subscribe((res: any) => {
       if (res.status == "OK") {
         this.location = res.results[0].geometry.location;
@@ -798,7 +794,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       companyNameOL: this.businessForm.value.transLangOrgName,
       companyPhone: this.businessForm.value.transLangPhone + this.transPhoneCode,
       POBox: (this.businessForm.value.poBoxNoAr) ? this.businessForm.value.poBoxNoAr : null,
-      City: this.businessForm.value.transCity.title.split(',').shift(),
+      City: this.businessForm.value.transCity.title,
       languageID: this.selectedLangIdbyCountry
     }
     let CompanyObjectBL = {
@@ -806,7 +802,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       companyAddress: this.businessForm.value.address,
       companyPhone: this.phoneCode + this.businessForm.value.phone,
       POBox: (this.businessForm.value.poBoxNo) ? this.businessForm.value.poBoxNo : null,
-      City: this.businessForm.value.city.title.split(',').shift()
+      City: this.businessForm.value.city.title
     }
 
     let obj = {

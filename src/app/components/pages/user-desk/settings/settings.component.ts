@@ -6,7 +6,12 @@ import { DocumentFile } from '../../../../interfaces/document.interface';
 import { baseExternalAssets } from '../../../../constants/base.url';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../directives/ng-files';
-
+import { SettingService } from './setting.service';
+import { EMAIL_REGEX } from '../../../../constants/globalFunctions';
+import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { SharedService } from '../../../../services/shared.service';
 
 @Component({
   selector: 'app-settings',
@@ -36,10 +41,22 @@ export class SettingsComponent implements OnInit {
     maxFileSize: 12 * 1024 * 1000,
     totalFilesSize: 12 * 12 * 1024 * 1000
   };
+
+
+  // personalInfo
+  public personalInfoForm: any;
+  public jobTitles: any;
+  public cityList: any;
+  public regionList: any[] = [];
+  public currencyList:any[]=[];
+
+
   constructor(
     private _basicInfoService: BasicInfoService,
     private _toastr: ToastrService,
     private ngFilesService: NgFilesService,
+    private _settingService: SettingService,
+    private _sharedService: SharedService,
     ) { }
 
   ngOnInit() {
@@ -48,6 +65,119 @@ export class SettingsComponent implements OnInit {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
+    this.personalInfoForm = new FormGroup({
+      firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
+      lastName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
+      jobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+      city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      currency: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(2), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      region: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      email: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(EMAIL_REGEX),
+        Validators.maxLength(320)
+      ]),
+    
+      mobile: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
+    });
+    this._sharedService.cityList.subscribe((state: any) => {
+      if (state) {
+        this.cityList = state;
+      }
+    });
+    this._sharedService.regionList.subscribe((state: any) => {
+      if (state) {
+        this.regionList = state;
+      }
+    });
+    this._sharedService.currencyList.subscribe((state: any) => {
+      if (state) {
+        this.currencyList = state;
+      }
+    });
+    this.getUserDetail(this.userProfile.UserID);
+  }
+
+
+
+  getUserDetail(UserID){
+    this._settingService.getSettingInfo(UserID).subscribe((res:any)=>{
+      if(res.returnStatus == "Success"){
+        let info = res.returnObject
+        let countryId = res.returnObject.CountryID
+        this.getListJobTitle(countryId, info);
+      }
+    })
+  }
+  setPersonalInfo(info){
+    this.personalInfoForm.controls['email'].setValue(info.LoginID);
+    this.personalInfoForm.controls['firstName'].setValue(info.FirstName);
+    this.personalInfoForm.controls['lastName'].setValue(info.LastName);
+    if (info.JobTitle){
+      let obj = this.jobTitles.find(elem => elem.baseLanguage == info.JobTitle);
+      this.personalInfoForm.controls['jobTitle'].setValue(obj);
+
+    }
+    if (info.City) {
+      let obj = this.cityList.find(elem => elem.title == info.City);
+      this.personalInfoForm.controls['city'].setValue(obj);
+
+    }
+    this.personalInfoForm.controls['mobile'].setValue(info.PrimaryPhone);
+  }
+
+  textValidation(event) {
+    const pattern = /^[a-zA-Z0-9_]*$/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      if (event.charCode == 0) {
+        return true;
+      }
+      if (event.target.value) {
+        var end = event.target.selectionEnd;
+        if (event.charCode == 32 && (event.target.value[end - 1] == " " || event.target.value[end] == " ")) {
+          event.preventDefault();
+          return false;
+        }
+        else if (event.charCode == 32 && !pattern.test(inputChar)) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+      else {
+        return false;
+      }
+    }
+    else {
+      return true;
+    }
+  }
+
+  oneSpaceHandler(event) {
+    if (event.target.value) {
+      var end = event.target.selectionEnd;
+      if (event.keyCode == 32 && (event.target.value[end - 1] == " " || event.target.value[end] == " ")) {
+        event.preventDefault();
+        return false;
+      }
+    }
+    else if (event.target.selectionEnd == 0 && event.keyCode == 32) {
+      return false;
+    }
+  }
+  spaceHandler(event) {
+    if (event.charCode == 32) {
+      event.preventDefault();
+      return false;
+    }
+  }
+  numberValid(evt) {
+    let charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+      return false;
+    return true;
   }
   removeSelectedDocx(index, obj, type) {
     obj.DocumentFile = obj.DocumentFile.split(baseExternalAssets).pop();
@@ -228,4 +358,36 @@ export class SettingsComponent implements OnInit {
     const resp: JsonResponse = await this._basicInfoService.docUpload(doc).toPromise()
     return resp
   }
+  getListJobTitle(id, info) {
+    this._basicInfoService.getjobTitles(id).subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
+        this.jobTitles = res.returnObject;
+        this.setPersonalInfo(info);
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
+  }
+
+  jobSearch = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 2) ? []
+        : this.jobTitles.filter(v => v.baseLanguage.toLowerCase().indexOf(term.toLowerCase()) > -1))
+    )
+  formatterjob = (x: { baseLanguage: string }) => x.baseLanguage;
+
+  searchCity = (text$: Observable<string>) =>
+    text$
+      .debounceTime(200)
+      .map(term => (!term || term.length < 3) ? []
+        : this.cityList.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1));
+  formatterCity = (x: { title: string }) => x.title;
+
+  currency = (text$: Observable<string>) =>
+    text$
+      .debounceTime(200)
+      .map(term => (!term || term.length < 3) ? []
+        : this.currencyList.filter(v => v.shortName.toLowerCase().indexOf(term.toLowerCase()) > -1));
+  formatterCurrency = (x: { shortName: string }) => x.shortName;
 }
