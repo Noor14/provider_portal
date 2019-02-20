@@ -30,6 +30,7 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
 import { BillingService } from './billing/billing.service';
 import { NgStepperModule } from '../../../directives/stepper/stepper.module';
 import { NgFilesModule } from '../../../directives/ng-files';
+import { SettingService } from './settings/setting.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -70,7 +71,8 @@ import { NgFilesModule } from '../../../directives/ng-files';
     SupportService,
     ReportsService,
     UserGuard,
-    BillingService
+    BillingService,
+    SettingService
   ]
 })
 export class UserDeskModule { }

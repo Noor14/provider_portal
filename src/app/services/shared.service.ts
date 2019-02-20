@@ -8,6 +8,8 @@ export class SharedService {
   constructor(private _http: HttpClient) { }
 
   public countryList = new BehaviorSubject<any>(null);
+  public regionList = new BehaviorSubject<any>(null);
+  public currencyList = new BehaviorSubject<any>(null);
   public cityList = new BehaviorSubject<any>(null);
   // public countryList = this.countries.asObservable();
 
