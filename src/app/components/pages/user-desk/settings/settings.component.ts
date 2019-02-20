@@ -7,7 +7,7 @@ import { baseExternalAssets } from '../../../../constants/base.url';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../directives/ng-files';
 import { SettingService } from './setting.service';
-import { EMAIL_REGEX } from '../../../../constants/globalFunctions';
+import { EMAIL_REGEX, isJSON } from '../../../../constants/globalFunctions';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -20,6 +20,9 @@ import { SharedService } from '../../../../services/shared.service';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+
+  public baseExternalAssets: string = baseExternalAssets;
+
   public docTypes: any[] = [];
   public selectedDocx: any[] = [];
   public selectedDocxlogo: any;
@@ -28,6 +31,7 @@ export class SettingsComponent implements OnInit {
   private docTypeIdLogo = null;
   private docTypeIdCert = null;
   private docTypeIdGallery = null;
+  public companyLogo: any;
   public companyLogoDocx: any;
   public certficateDocx: any;
   public galleriesDocx: any;
@@ -53,6 +57,18 @@ export class SettingsComponent implements OnInit {
 
 //businessInfo
   public businessInfoForm: any;
+
+// Association 
+  public allAssociations: any[] = [];
+  public assocService: any[] = [];
+// Value Added Services
+  public valAddedServices: any[] = [];
+  public valueService: any[] = [];
+
+//  freightServices
+  public freightServices: any[] = [];
+  public frtService: any[] = [];
+
 
   constructor(
     private _basicInfoService: BasicInfoService,
@@ -127,7 +143,13 @@ export class SettingsComponent implements OnInit {
     this._settingService.getSettingInfo(UserID).subscribe((res:any)=>{
       if(res.returnStatus == "Success"){
         let info = res.returnObject
-        let countryId = res.returnObject.CountryID
+        let countryId = res.returnObject.CountryID;
+        this.allAssociations = res.returnObject.Association;
+        this.valAddedServices = res.returnObject.ValueAddedServices;
+        this.freightServices = res.returnObject.LogisticService;
+        if (res.returnObject.ProviderImage && isJSON(res.returnObject.ProviderImage)) {
+          this.companyLogo = JSON.parse(res.returnObject.ProviderImage).shift().ProviderLogo;
+        }
         this.getListJobTitle(countryId, info);
       }
     })
@@ -162,7 +184,54 @@ export class SettingsComponent implements OnInit {
     this.businessInfoForm.controls['phone'].setValue(info.ProviderPhone);
     this.businessInfoForm.controls['profileUrl'].setValue(info.ProfileID);
   }
-
+  selectAssociation(obj, selectedService) {
+    let selectedItem = selectedService.classList;
+    if (this.assocService && this.assocService.length) {
+      for (var i = 0; i < this.assocService.length; i++) {
+        if (this.assocService[i] == obj.AssnWithID) {
+          this.assocService.splice(i, 1);
+          selectedItem.remove('active');
+          return;
+        }
+      }
+    }
+    if ((this.assocService && !this.assocService.length) || (i == this.assocService.length)) {
+      selectedItem.add('active');
+      this.assocService.push(obj.AssnWithID);
+    }
+  }
+  valAdded(obj, selectedService) {
+    let selectedItem = selectedService.classList;
+    if (this.valueService && this.valueService.length) {
+      for (var i = 0; i < this.valueService.length; i++) {
+        if (this.valueService[i] == obj.LogServID) {
+          this.valueService.splice(i, 1);
+          selectedItem.remove('active');
+          return;
+        }
+      }
+    }
+    if ((this.valueService && !this.valueService.length) || (i == this.valueService.length)) {
+      selectedItem.add('active');
+      this.valueService.push(obj.LogServID);
+    }
+  }
+  freightService(obj, selectedService) {
+    let selectedItem = selectedService.classList;
+    if (this.frtService && this.frtService.length) {
+      for (var i = 0; i < this.frtService.length; i++) {
+        if (this.frtService[i] == obj.LogServID) {
+          this.frtService.splice(i, 1);
+          selectedItem.remove('active');
+          return;
+        }
+      }
+    }
+    if ((this.frtService && !this.frtService.length) || (i == this.frtService.length)) {
+      selectedItem.add('active');
+      this.frtService.push(obj.LogServID);
+    }
+  }
   textValidation(event) {
     const pattern = /^[a-zA-Z0-9_]*$/;
     let inputChar = String.fromCharCode(event.charCode);

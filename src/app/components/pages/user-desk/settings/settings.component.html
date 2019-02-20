@@ -172,7 +172,7 @@
                     </div>
                     <div class="col-3">
                       <div class="form-group">
-                        Image
+                        <img [src]="baseExternalAssets + companyLogo" alt="logo" />
                       </div>
                     </div>
                     <div class="col-2">
@@ -292,7 +292,7 @@
                   <div class="row">
                     <div class="col-3">
                       <div class="form-group">
-                        <label for="">About Your Business</label>
+                        <label>About Your Business</label>
                       </div>
                     </div>
                     <div class="col-7">
@@ -312,12 +312,17 @@
                   <div class="row">
                     <div class="col-3">
                       <div class="form-group">
-                        <label for="">Services</label>
+                        <label>Services</label>
                       </div>
                     </div>
                     <div class="col-7">
-                      <div class="form-group">
-
+                        <div class="row">
+                          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of freightServices">
+                            <div #selectService class="servicechip-provides text-center d-flex flex-column justify-content-center mb-2 pointer"
+                              (click)="freightService(service, selectService)">
+                              <span>{{ service.LogServName }}</span>
+                            </div>
+                          </div>
                       </div>
                     </div>
                     <div class="col-2">
@@ -327,13 +332,18 @@
                   <div class="row">
                     <div class="col-3">
                       <div class="form-group">
-                        <label for="">Value Added Services</label>
+                        <label>Value Added Services</label>
                       </div>
                     </div>
                     <div class="col-7">
-                      <div class="form-group">
-
+                    <div class="row">
+                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of valAddedServices">
+                        <div #selectService class="servicechip-valueAdded text-center d-flex flex-column justify-content-center mb-2 pointer"
+                          (click)="valAdded(service, selectService)">
+                          <span>{{service.LogServName}}</span>
+                        </div>
                       </div>
+                    </div>
                     </div>
                     <div class="col-2">
                       <img src="../../../../../assets/images/icons/warehouse-edit-icon.svg" alt="Edit" class="icon-size-16" />
@@ -342,12 +352,18 @@
                   <div class="row">
                     <div class="col-3">
                       <div class="form-group">
-                        <label for="">Associations</label>
+                        <label>Associations</label>
                       </div>
                     </div>
                     <div class="col-7">
-                      <div class="form-group">
-
+                      <div class="row">
+                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12" *ngFor="let associate of allAssociations">
+                        <div #selectService class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-2 pointer"
+                          (click)="selectAssociation(associate, selectService)">
+                            <img [src]="baseExternalAssets + associate.AssnWithImage" alt="assoc_image" />
+                          <span>{{ associate.AssnWithName }}</span>
+                        </div>
+                      </div>
                       </div>
                     </div>
                     <div class="col-2">
