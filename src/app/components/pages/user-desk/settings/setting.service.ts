@@ -11,5 +11,8 @@ export class SettingService {
     let url = `provider/GetSettings/${userId}`;
     return this._http.get(baseApi + url);
   }
-
+  deactivateAccount(obj){
+    let url = "provider/DeactivateProvider";
+    return this._http.post(baseApi + url, obj);
+  }
 }

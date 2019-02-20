@@ -111,7 +111,17 @@ export class SettingsComponent implements OnInit {
     this.getUserDetail(this.userProfile.UserID);
   }
 
-
+  getListJobTitle(id, info) {
+    this._basicInfoService.getjobTitles(id).subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
+        this.jobTitles = res.returnObject;
+        this.setPersonalInfo(info);
+        this.setBusinessInfo(info);
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
+  }
 
   getUserDetail(UserID){
     this._settingService.getSettingInfo(UserID).subscribe((res:any)=>{
@@ -385,17 +395,23 @@ export class SettingsComponent implements OnInit {
     const resp: JsonResponse = await this._basicInfoService.docUpload(doc).toPromise()
     return resp
   }
-  getListJobTitle(id, info) {
-    this._basicInfoService.getjobTitles(id).subscribe((res: any) => {
-      if (res.returnStatus == 'Success') {
-        this.jobTitles = res.returnObject;
-        this.setPersonalInfo(info);
-        this.setBusinessInfo(info);
+
+
+  deactivate(){
+    let obj = {
+      userID: this.userProfile.UserID,
+      providerID: this.userProfile.ProviderID,
+      createdBy: this.userProfile.LoginID
+    }
+    this._settingService.deactivateAccount(obj).subscribe((res:any)=>{
+      if(res.returnStatus=="Success"){
+        this._toastr.success("Account Delete Successfully", "")
       }
-    }, (err: HttpErrorResponse) => {
-      console.log(err);
     })
   }
+
+
+
 
   jobSearch = (text$: Observable<string>) =>
     text$.pipe(
