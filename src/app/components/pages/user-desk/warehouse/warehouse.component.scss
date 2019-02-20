@@ -1,268 +1,234 @@
 @import '../../../../../assets/scss/_variables';
-
 .warehouseSetup {
-  .warehouse {
-    &-info {
-      .sub-title {
-        &.sub-heading {
-          font-size: $font-size-medium;
-          line-height: 1;
-        }
-      }
-      h5.small-head {
-        font-size: $font-size-large;
-        font-weight: normal;
-      }
-      .fancyOptionBoxes {
-        label {
-            font-size: 1rem;
-          }
-      }
-
-      .checkbox {
-        label {
-          font-size:0.875rem !important;
-        }
-      }
-      .document-Info {
-        margin-bottom: 1.2rem;
-
-        .uploaded-file {
-          border: 1px solid $secondary-color;
-          border-radius: 3px;
-        }
-
-        .file-uploader {
-          border: 1px dashed #e1d8d8;
-          border-radius: 4px;
-          height: 145px;
-          background-color: white;
-
-          .drag-support {
-            color: $text-grey;
-            font-size: $font-size-medium;
-            position: relative;
-          }
-
-          .browse-span {
-            color: $secondary-color;
-            font-weight: 500;
-          }
-
-          text-align: center;
-
-          app-ng-files-drag-n-upload {
-            label {
-              padding: 2.88rem 60px;
+    .warehouse {
+        &-info {
+            .sub-title {
+                &.sub-heading {
+                    font-size: $font-size-medium;
+                    line-height: 1;
+                }
             }
-          }
-
-          img {
-            margin-top: 20px;
-          }
-        }
-        .uploadedDocx {
-            .display-upload {
-              position: relative;
-              width: 100%;
-              height: 100%;
-              display: flex;
-              z-index: 0;
-    
-              img,
-              video {
-                border-radius: 4px;
-                border: 1px solid $input-border;
+            h5.small-head {
+                font-size: $font-size-large;
+                font-weight: normal;
+            }
+            .fancyOptionBoxes {
+                label {
+                    font-size: 1rem;
+                }
+            }
+            .checkbox {
+                label {
+                    font-size: 0.875rem !important;
+                }
+            }
+            .document-Info {
+                margin-bottom: 1.2rem;
+                .uploaded-file {
+                    border: 1px solid $secondary-color;
+                    border-radius: 3px;
+                }
+                .file-uploader {
+                    border: 1px dashed #e1d8d8;
+                    border-radius: 4px;
+                    height: 145px;
+                    background-color: white;
+                    .drag-support {
+                        color: $text-grey;
+                        font-size: $font-size-medium;
+                        position: relative;
+                    }
+                    .browse-span {
+                        color: $secondary-color;
+                        font-weight: 500;
+                    }
+                    text-align: center;
+                    app-ng-files-drag-n-upload {
+                        label {
+                            padding: 2.88rem 60px;
+                        }
+                    }
+                    img {
+                        margin-top: 20px;
+                    }
+                }
+                .uploadedDocx {
+                    .display-upload {
+                        position: relative;
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        z-index: 0;
+                        img,
+                        video {
+                            border-radius: 4px;
+                            border: 1px solid $input-border;
+                            width: 100%;
+                            min-height: 100%;
+                            max-height: 10rem;
+                            display: flex;
+                        }
+                        .delete-icon {
+                            position: absolute;
+                            top: -10px;
+                            right: -8px;
+                            min-height: auto;
+                            background: $white-color;
+                            padding: 3px;
+                            border-radius: 50%;
+                            width: 23px;
+                            height: auto;
+                            border: none;
+                        }
+                    }
+                }
+                &.removeBorder {
+                    border: none;
+                }
+            }
+            .select-city {
+                >.flag-container {
+                    width: 16px;
+                    height: 12px;
+                    -webkit-box-align: center;
+                    -ms-flex-align: center;
+                    align-items: center;
+                    position: absolute;
+                    left: 25px;
+                    top: 50px;
+                    img {
+                        border: 1px solid $primary-grey;
+                    }
+                }
+                input#typeahead {
+                    &.citySelected {
+                        padding-left: 1.8rem;
+                    }
+                }
+            }
+            agm-map {
+                height: 336px;
                 width: 100%;
-                min-height: 100%;
-                max-height: 10rem;
-                display: flex;
-              }
-    
-              .delete-icon {
-                position: absolute;
-                top: -10px;
-                right: -8px;
-                min-height: auto;
-                background: $white-color;
-                padding: 3px;
-                border-radius: 50%;
-                width: 23px;
-                height: auto;
-                border: none;
-              }
+                margin-top: 2.5rem;
+                display: inline-block;
             }
-          }
-
-        &.removeBorder {
-          border: none;
-        }
-      }
-
-      .select-city {
-        >.flag-container {
-          width: 16px;
-          height: 12px;
-          -webkit-box-align: center;
-          -ms-flex-align: center;
-          align-items: center;
-          position: absolute;
-          left: 25px;
-          top: 50px;
-
-          img {
-            border: 1px solid $primary-grey;
-          }
-        }
-
-        input#typeahead {
-          &.citySelected {
-            padding-left: 1.8rem;
-          }
-        }
-      }
-
-      agm-map {
-        height: 336px;
-        width: 100%;
-        margin-top: 2.5rem;
-        display: inline-block;
-      }
-
-      .add-icon {
-        span {
-          color: $secondary-grey;
-          font-family: $font-proxima;
-          font-size: $font-size-medium;
-          position: absolute;
-          margin-left: 1.5rem;
-        }
-
-        img {
-          width: 16px;
-          height: 16px;
-          margin-top: 2px;
-        }
-      }
-
-      .form-group {
-        select {
-          font-size: 0.8rem;
-          color: $place-holder-color;
-          font-family: $font-proxima;
-        }
-
-        .input-group-append {
-          select {
-            color: #495057;
-          }
-        }
-        &-label{
-          line-height:1.2;
-        }
-      }
-    }
-  }
-
-  // Add warehouse css
-  .Add-warehouse {
-    &-rates {
-      .table-hover {
-        margin: 0px;
-
-        thead {
-          tr {
-            th {
-              font-size: $font-size-medium;
-              color: #7c8186;
-              font-weight: normal;
-              width: 10%;
-              vertical-align: middle;
-
-              span {
-                font-size: 0.8125rem;
-              }
+            .add-icon {
+                span {
+                    color: $secondary-grey;
+                    font-family: $font-proxima;
+                    font-size: $font-size-medium;
+                    position: absolute;
+                    margin-left: 1.5rem;
+                }
+                img {
+                    width: 16px;
+                    height: 16px;
+                    margin-top: 2px;
+                }
             }
-          }
+            .form-group {
+                select {
+                    font-size: 0.8rem;
+                    color: $place-holder-color;
+                    font-family: $font-proxima;
+                }
+                .input-group-append {
+                    select {
+                        color: #495057;
+                    }
+                }
+                &-label {
+                    line-height: 1.2;
+                }
+            }
         }
-
-        tbody {
-          label {
-            font-family: "Proxima Nova";
-            color: $place-holder-color;
-            font-style: italic;
-          }
-
-          span {
-            color: $color-topmenuactive;
-            font-family: $font-proxima;
-            font-size: $font-size-medium; // position: absolute;
-
+    } // Add warehouse css
+    .Add-warehouse {
+        &-rates {
+            .table-hover {
+                margin: 0px;
+                thead {
+                    tr {
+                        th {
+                            font-size: $font-size-medium;
+                            color: #7c8186;
+                            font-weight: normal;
+                            width: 10%;
+                            vertical-align: middle;
+                            span {
+                                font-size: 0.8125rem;
+                            }
+                        }
+                    }
+                }
+                tbody {
+                    label {
+                        font-family: "Proxima Nova";
+                        color: $place-holder-color;
+                        font-style: italic;
+                    }
+                    span {
+                        color: $color-topmenuactive;
+                        font-family: $font-proxima;
+                        font-size: $font-size-medium; // position: absolute;
+                        img {
+                            width: 16px;
+                            height: 16px;
+                            margin-right: 0.625rem;
+                        }
+                    }
+                    .select-country-list {
+                        .text {
+                            font-family: $font-proxima;
+                            font-size: $font-size-large;
+                            position: absolute;
+                            color: $color-menuheading-black;
+                            line-height: 2;
+                        }
+                        .dropdown-toggle {
+                            &::after {
+                                margin-top: 0.7rem !important;
+                                margin-left: 2.255rem !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        &-link {
+            span {
+                color: $secondary-grey;
+                text-decoration: none;
+                font-size: $font-size-medium;
+                font-family: $font-proxima;
+                text-transform: uppercase;
+            }
             img {
-              width: 16px;
-              height: 16px;
-              margin-right: 0.625rem;
+              position: relative;
+              top:-2px;
             }
-          }
-
-          .select-country-list {
-            .text {
-              font-family: $font-proxima;
-              font-size: $font-size-large;
-              position: absolute;
-              color: $color-menuheading-black;
-              line-height: 2;
-            }
-
-            .dropdown-toggle {
-              &::after {
-                margin-top: 0.7rem !important;
-                margin-left: 2.255rem !important;
-              }
-            }
-          }
         }
-      }
+        button {
+            font-size: $font-size-large;
+            color: $white-color;
+            text-transform: uppercase;
+            padding: 0.75rem 1.45rem;
+            &:disabled {
+                font-weight: $font-proxima-weight-semibold;
+            }
+        }
     }
-
-    &-link {
-      a {
-        color: $secondary-grey;
-        text-decoration: none;
-        font-size: $font-size-medium;
-        font-family: $font-proxima;
-        text-transform: uppercase;
-      }
-
-      .fa-angle-left {
-        font-size: $root-font-size;
-        padding-right: 0.325rem;
-      }
-    }
-
-    button {
-      font-size: $font-size-large;
-      color: $white-color;
-      text-transform: uppercase;
-      padding: 0.75rem 1.45rem;
-
-      &:disabled {
-        font-weight: $font-proxima-weight-semibold;
-      }
-    }
-  }
 }
 
 @media (max-width: $screen-xs-screen) {
-  .documentInfo {
-    .file-uploader {
-      height: 175px !important;
+    .documentInfo {
+        .file-uploader {
+            height: 175px !important;
+        }
     }
-  }
-
-  .Add-warehouse {
-    button {
-      padding: 0.75rem 0.5rem !important;
+    .Add-warehouse {
+        button {
+            padding: 0.75rem 0.5rem !important;
+        }
     }
-  }
 }
