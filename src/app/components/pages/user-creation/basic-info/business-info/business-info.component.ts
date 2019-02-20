@@ -37,9 +37,7 @@ export class BusinessInfoComponent implements OnInit {
   private docTypeIdLogo = null;
   private docTypeIdCert = null;
   private docTypeIdGallery = null;
-  // private docTypeId = null;
   public docxId: any;
-  // private fileStatus = undefined;
   private fileStatusLogo = undefined;
   private fileStatusGallery = undefined;
   private fileStatusCert = undefined;
@@ -94,7 +92,7 @@ export class BusinessInfoComponent implements OnInit {
     }
     this.getbusinessServices();
 
-       Observable.fromEvent(this.profileName.nativeElement, 'keyup')
+      Observable.fromEvent(this.profileName.nativeElement, 'keyup')
       // get value
       .map((evt: any) => evt.target.value)
       // text length must be > 2 chars
