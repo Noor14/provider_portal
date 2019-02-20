@@ -17,8 +17,7 @@
                       </div>
                       <div class="col-5">
                         <div class="form-group">
-                          <input type="email" formControlName="email" disabled readonly class="form-control"
-                            placeholder="abc@email.com" />
+                          <input type="email" formControlName="email" readonly class="form-control" placeholder="abc@email.com" />
                         </div>
                       </div>
                     </div>
@@ -169,7 +168,7 @@
                   <div class="row">
                     <div class="col-3">
                       <div class="form-group">
-                        <label for="">Logo</label>
+                        <label>Logo</label>
                       </div>
                     </div>
                     <div class="col-3">
@@ -181,116 +180,135 @@
                       Change Logo
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-3">
-                      <div class="form-group">
-                        <label for="">Company Name</label>
+                  <form autocomplete="off" novalidate [formGroup]="businessInfoForm">
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>Company Name</label>
+                        </div>
+                      </div>
+                      <div class="col-5">
+                        <div class="form-group">
+                          <input type="text" class="form-control" readonly maxlength="100" placeholder="Company Name"
+                            formControlName="orgName" />
+                        </div>
                       </div>
                     </div>
-                    <div class="col-5">
-                      <div class="form-group">
-                        <input class="form-control" placeholder="Email" />
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>Address</label>
+                        </div>
+                      </div>
+                      <div class="col-5">
+                        <div class="form-group">
+                          <textarea (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200"
+                            formControlName="address">
+                  </textarea>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-3">
-                      <div class="form-group">
-                        <label for="">Address</label>
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>P.O Box</label>
+                        </div>
+                      </div>
+                      <div class="col-5">
+                        <div class="form-group">
+                          <input type="text" (keypress)="spaceHandler($event)" class="form-control" maxlength="16"
+                            formControlName="poBoxNo">
+                        </div>
                       </div>
                     </div>
-                    <div class="col-5">
-                      <div class="form-group">
-                        <input class="form-control" placeholder="Email" />
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>City</label>
+                        </div>
+                      </div>
+                      <div class="col-5">
+                        <div class="form-group">
+                          <div class="flag-container" *ngIf="businessInfoForm.value.city && businessInfoForm.value.city.imageName">
+                            <img src="{{'../../../../../assets/images/flags/4x3/' + (businessInfoForm.value.city.imageName | lowercase) + '.svg'}}"
+                              type="image/svg+xml">
+                          </div>
+                          <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="100"
+                            formControlName="city" [ngbTypeahead]="searchCity" [resultTemplate]="ct" [inputFormatter]="formatterCity"
+                            placeholder="eg: Karachi">
+                          <ng-template #ct let-r="result">
+                            <div class="flag-container mr-1">
+                              <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
+                                class="mw-100 w-auto h-auto mh-100">
+                            </div>
+                            <ngb-highlight [result]="r.title"></ngb-highlight>
+                          </ng-template>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-3">
-                      <div class="form-group">
-                        <label for="">P.O Box</label>
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>Telephone</label>
+                        </div>
+                      </div>
+                      <div class="col-5">
+                        <div class="form-group">
+                          <input type="text" class="form-control" maxlength="13" placeholder="123456789"
+                            formControlName="phone" (keypress)="numberValid($event)" />
+                        </div>
                       </div>
                     </div>
-                    <div class="col-5">
-                      <div class="form-group">
-                        <input class="form-control" placeholder="Email" />
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>Website</label>
+                        </div>
+                      </div>
+                      <div class="col-5">
+                        <div class="form-group">
+                          <input class="form-control" placeholder="Email" />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-3">
-                      <div class="form-group">
-                        <label for="">City</label>
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>HashMove Public URL</label>
+                        </div>
+                      </div>
+                      <div class="col-5">
+                        <div class="form-group">
+                          <input class="form-control" readonly placeholder="Profile ID" formControlName="profileUrl" />
+                        </div>
                       </div>
                     </div>
-                    <div class="col-5">
-                      <div class="form-group">
-                        <input class="form-control" placeholder="Email" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-3">
-                      <div class="form-group">
-                        <label for="">Telephone</label>
-                      </div>
-                    </div>
-                    <div class="col-5">
-                      <div class="form-group">
-                        <input class="form-control" placeholder="Email" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-3">
-                      <div class="form-group">
-                        <label for="">Website</label>
-                      </div>
-                    </div>
-                    <div class="col-5">
-                      <div class="form-group">
-                        <input class="form-control" placeholder="Email" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-3">
-                      <div class="form-group">
-                        <label for="">HashMove Public URL</label>
-                      </div>
-                    </div>
-                    <div class="col-5">
-                      <div class="form-group">
-                        <input class="form-control" placeholder="Email" />
-                      </div>
-                    </div>
-                  </div>
+                  </form>
                 </div>
               </ng-template>
             </ngb-panel>
             <ngb-panel id="Gallery" title="Gallery">
               <ng-template ngbPanelContent>
-                  <div class="animated fadeInDown">
+                <div class="animated fadeInDown">
                   <div class="row">
-                      <div class="col-12">
-                        <div class="card">
-                          <div class="card-body">
-                            <div class="document-Info d-flex flex-column mt-2">
-                              <div class="file-uploader">
-                                <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
-                                  <img src="../../../../../assets/images/icons/manager-icon.png" />
-                                  <p class="m-0 mt-3">
-                                    Drag here or <span class="browse-span">browse</span> to upload
-                                  </p>
-                                </app-ng-files-drag-n-upload>
-                              </div>
-                              <div class="row uploadedDocx">
-                                <div class="col-lg-3 mb-2">
-                                  <div class="display-upload delete">
-                                    <!-- <img class="w-100" [src]="certDocx.DocumentFile" /> -->
-                                    <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
-                                      (click)="removeSelectedDocx('i', 'certDocx', 'certificate')" />
-                                  </div>
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="document-Info d-flex flex-column mt-2">
+                            <div class="file-uploader">
+                              <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
+                                <img src="../../../../../assets/images/icons/manager-icon.png" />
+                                <p class="m-0 mt-3">
+                                  Drag here or <span class="browse-span">browse</span> to upload
+                                </p>
+                              </app-ng-files-drag-n-upload>
+                            </div>
+                            <div class="row uploadedDocx">
+                              <div class="col-lg-3 mb-2">
+                                <div class="display-upload delete">
+                                  <!-- <img class="w-100" [src]="certDocx.DocumentFile" /> -->
+                                  <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
+                                    (click)="removeSelectedDocx('i', 'certDocx', 'certificate')" />
                                 </div>
                               </div>
                             </div>
@@ -298,13 +316,14 @@
                         </div>
                       </div>
                     </div>
-                    </div>
+                  </div>
+                </div>
               </ng-template>
             </ngb-panel>
             <ngb-panel id="BusinessProfile" title="Business Profile">
               <ng-template ngbPanelContent>
-                  <div class="animated fadeInDown">
-                <div class="row">
+                <div class="animated fadeInDown">
+                  <div class="row">
                     <div class="col-3">
                       <div class="form-group">
                         <label for="">About Your Business</label>
@@ -332,7 +351,7 @@
                     </div>
                     <div class="col-7">
                       <div class="form-group">
-  
+
                       </div>
                     </div>
                     <div class="col-2">
@@ -347,7 +366,7 @@
                     </div>
                     <div class="col-7">
                       <div class="form-group">
-  
+
                       </div>
                     </div>
                     <div class="col-2">
@@ -362,38 +381,39 @@
                     </div>
                     <div class="col-7">
                       <div class="form-group">
-  
+
                       </div>
                     </div>
                     <div class="col-2">
                       <img src="../../../../../assets/images/icons/warehouse-edit-icon.svg" alt="Edit" class="icon-size-16" />
                     </div>
                   </div>
-                  </div>
+                </div>
               </ng-template>
             </ngb-panel>
             <ngb-panel id="AwardsCert" title="Awards & Certificate">
               <ng-template ngbPanelContent>
-                  <div class="animated fadeInDown">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="card">
-                      <div class="card-body">
-                        <div class="document-Info d-flex flex-column mt-2">
-                          <div class="file-uploader">
-                            <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
-                              <img src="../../../assets/images/icons/manager-icon.png" />
-                              <p class="m-0 mt-3">
-                                Drag here or <span class="browse-span">browse</span> to upload
-                              </p>
-                            </app-ng-files-drag-n-upload>
-                          </div>
-                          <div class="row uploadedDocx">
-                            <div class="col-lg-3 mb-2">
-                              <div class="display-upload delete">
-                                <!-- <img class="w-100" [src]="certDocx.DocumentFile" /> -->
-                                <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
-                                  (click)="removeSelectedDocx('i', 'certDocx', 'certificate')" />
+                <div class="animated fadeInDown">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="document-Info d-flex flex-column mt-2">
+                            <div class="file-uploader">
+                              <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
+                                <img src="../../../assets/images/icons/manager-icon.png" />
+                                <p class="m-0 mt-3">
+                                  Drag here or <span class="browse-span">browse</span> to upload
+                                </p>
+                              </app-ng-files-drag-n-upload>
+                            </div>
+                            <div class="row uploadedDocx">
+                              <div class="col-lg-3 mb-2">
+                                <div class="display-upload delete">
+                                  <!-- <img class="w-100" [src]="certDocx.DocumentFile" /> -->
+                                  <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
+                                    (click)="removeSelectedDocx('i', 'certDocx', 'certificate')" />
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -402,53 +422,52 @@
                     </div>
                   </div>
                 </div>
-                  </div>
               </ng-template>
             </ngb-panel>
             <ngb-panel id="ChangePassword" title="Change Password">
               <ng-template ngbPanelContent>
-                  <div class="animated fadeInDown">
-                <div class="row">
-                  <div class="col-3">
-                    <div class="form-group">
-                      <label for="">Current Password</label>
+                <div class="animated fadeInDown">
+                  <div class="row">
+                    <div class="col-3">
+                      <div class="form-group">
+                        <label for="">Current Password</label>
+                      </div>
+                    </div>
+                    <div class="col-5">
+                      <div class="form-group">
+                        <input class="form-control" placeholder="Email" />
+                      </div>
                     </div>
                   </div>
-                  <div class="col-5">
-                    <div class="form-group">
-                      <input class="form-control" placeholder="Email" />
+                  <div class="row">
+                    <div class="col-3">
+                      <div class="form-group">
+                        <label for="">New Password</label>
+                      </div>
+                    </div>
+                    <div class="col-5">
+                      <div class="form-group">
+                        <input class="form-control" placeholder="Email" />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-3">
-                    <div class="form-group">
-                      <label for="">New Password</label>
+                  <div class="row">
+                    <div class="col-3">
+                      <div class="form-group">
+                        <label for="">Confirm Password</label>
+                      </div>
+                    </div>
+                    <div class="col-5">
+                      <div class="form-group">
+                        <input class="form-control" placeholder="Email" />
+                      </div>
                     </div>
                   </div>
-                  <div class="col-5">
-                    <div class="form-group">
-                      <input class="form-control" placeholder="Email" />
+                  <div class="row">
+                    <div class="col-6">
+                      Buttons
                     </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-3">
-                    <div class="form-group">
-                      <label for="">Confirm Password</label>
-                    </div>
-                  </div>
-                  <div class="col-5">
-                    <div class="form-group">
-                      <input class="form-control" placeholder="Email" />
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-6">
-                    Buttons
-                  </div>
-                </div>
                 </div>
               </ng-template>
             </ngb-panel>

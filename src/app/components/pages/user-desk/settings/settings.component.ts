@@ -51,6 +51,8 @@ export class SettingsComponent implements OnInit {
   public regionList: any[] = [];
   public currencyList:any[]=[];
 
+//businessInfo
+  public businessInfoForm: any;
 
   constructor(
     private _basicInfoService: BasicInfoService,
@@ -78,9 +80,19 @@ export class SettingsComponent implements OnInit {
         Validators.pattern(EMAIL_REGEX),
         Validators.maxLength(320)
       ]),
-    
       mobile: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
     });
+
+    this.businessInfoForm = new FormGroup({
+      orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
+      address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      poBoxNo: new FormControl(null, [Validators.maxLength(16), Validators.minLength(4)]),
+      socialUrl: new FormControl(null),
+      profileUrl: new FormControl(null, [Validators.required]),
+      });
+
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
         this.cityList = state;
@@ -125,6 +137,20 @@ export class SettingsComponent implements OnInit {
 
     }
     this.personalInfoForm.controls['mobile'].setValue(info.PrimaryPhone);
+  }
+
+
+
+  setBusinessInfo(info) {
+    this.businessInfoForm.controls['orgName'].setValue(info.ProviderName);
+    this.businessInfoForm.controls['address'].setValue(info.ProviderAddress);
+    this.businessInfoForm.controls['poBoxNo'].setValue(info.POBox);
+    if (info.City) {
+      let obj = this.cityList.find(elem => elem.title == info.City);
+      this.businessInfoForm.controls['city'].setValue(obj);
+    }
+    this.businessInfoForm.controls['phone'].setValue(info.ProviderPhone);
+    this.businessInfoForm.controls['profileUrl'].setValue(info.ProfileID);
   }
 
   textValidation(event) {
@@ -364,6 +390,7 @@ export class SettingsComponent implements OnInit {
       if (res.returnStatus == 'Success') {
         this.jobTitles = res.returnObject;
         this.setPersonalInfo(info);
+        this.setBusinessInfo(info);
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
