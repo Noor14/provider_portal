@@ -220,7 +220,7 @@
                       </label>
                     </div>
                     <small class="d-block pt-2 mb-1 mt-3">DOCUMENT STATUS</small>
-                    <span class="pending">{{booking.DocumentStatus}}</span>
+                    <span class="docstatus" [ngClass]="booking.DocumentStatus | lowercase">{{booking.DocumentStatus | lowercase}}</span>
                 </div>
               </div>
             </div>
