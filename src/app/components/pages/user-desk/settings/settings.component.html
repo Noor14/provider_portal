@@ -7,7 +7,7 @@
           <ngb-accordion activeIds="PersonalInfo">
             <ngb-panel id="PersonalInfo" title="Personal Information">
               <ng-template ngbPanelContent>
-          <form autocomplete="off" novalidate [formGroup]="personalInfoForm">
+               <form autocomplete="off" novalidate [formGroup]="personalInfoForm">
                     <div class="row">
                       <div class="col-3">
                         <div class="form-group">
@@ -16,7 +16,7 @@
                       </div>
                       <div class="col-5">
                         <div class="form-group">
-                          <input type="email" formControlName="email" disabled readonly class="form-control" placeholder="abc@email.com" />
+                          <input type="email" formControlName="email" readonly class="form-control" placeholder="abc@email.com" />
                         </div>
                       </div>
                     </div>
@@ -160,7 +160,7 @@
                 <div class="row">
                   <div class="col-3">
                     <div class="form-group">
-                      <label for="">Logo</label>
+                      <label>Logo</label>
                     </div>
                   </div>
                   <div class="col-3">
@@ -172,10 +172,85 @@
                     Change Logo
                   </div>
                 </div>
+              <form autocomplete="off" novalidate [formGroup]="businessInfoForm">
                 <div class="row">
                   <div class="col-3">
                     <div class="form-group">
-                      <label for="">Company Name</label>
+                      <label>Company Name</label>
+                    </div>
+                  </div>
+                  <div class="col-5">
+                    <div class="form-group">
+                      <input type="text" class="form-control" readonly maxlength="100" 
+                        placeholder="Company Name" formControlName="orgName" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label>Address</label>
+                    </div>
+                  </div>
+                  <div class="col-5">
+                    <div class="form-group">
+                    <textarea (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200" formControlName="address">
+                  </textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label>P.O Box</label>
+                    </div>
+                  </div>
+                  <div class="col-5">
+                    <div class="form-group">
+                      <input type="text" (keypress)="spaceHandler($event)" class="form-control" maxlength="16" formControlName="poBoxNo">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label>City</label>
+                    </div>
+                  </div>
+                  <div class="col-5">
+                <div class="form-group">
+                  <div class="flag-container" *ngIf="businessInfoForm.value.city && businessInfoForm.value.city.imageName">
+                    <img src="{{'../../../../../assets/images/flags/4x3/' + (businessInfoForm.value.city.imageName | lowercase) + '.svg'}}"
+                      type="image/svg+xml">
+                  </div>
+                  <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="100" formControlName="city"
+                    [ngbTypeahead]="searchCity" [resultTemplate]="ct" [inputFormatter]="formatterCity" placeholder="eg: Karachi">
+                  <ng-template #ct let-r="result">
+                    <div class="flag-container mr-1">
+                      <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}" class="mw-100 w-auto h-auto mh-100">
+                    </div>
+                    <ngb-highlight [result]="r.title"></ngb-highlight>
+                  </ng-template>
+                </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label>Telephone</label>
+                    </div>
+                  </div>
+                  <div class="col-5">
+                    <div class="form-group">
+                      <input type="text" class="form-control" maxlength="13" placeholder="123456789" formControlName="phone"
+                      (keypress)="numberValid($event)" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label>Website</label>
                     </div>
                   </div>
                   <div class="col-5">
@@ -187,75 +262,16 @@
                 <div class="row">
                   <div class="col-3">
                     <div class="form-group">
-                      <label for="">Address</label>
+                      <label>HashMove Public URL</label>
                     </div>
                   </div>
                   <div class="col-5">
                     <div class="form-group">
-                      <input class="form-control" placeholder="Email" />
+                      <input class="form-control" readonly placeholder="Profile ID" formControlName="profileUrl" />
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-3">
-                    <div class="form-group">
-                      <label for="">P.O Box</label>
-                    </div>
-                  </div>
-                  <div class="col-5">
-                    <div class="form-group">
-                      <input class="form-control" placeholder="Email" />
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-3">
-                    <div class="form-group">
-                      <label for="">City</label>
-                    </div>
-                  </div>
-                  <div class="col-5">
-                    <div class="form-group">
-                      <input class="form-control" placeholder="Email" />
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-3">
-                    <div class="form-group">
-                      <label for="">Telephone</label>
-                    </div>
-                  </div>
-                  <div class="col-5">
-                    <div class="form-group">
-                      <input class="form-control" placeholder="Email" />
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-3">
-                    <div class="form-group">
-                      <label for="">Website</label>
-                    </div>
-                  </div>
-                  <div class="col-5">
-                    <div class="form-group">
-                      <input class="form-control" placeholder="Email" />
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-3">
-                    <div class="form-group">
-                      <label for="">HashMove Public URL</label>
-                    </div>
-                  </div>
-                  <div class="col-5">
-                    <div class="form-group">
-                      <input class="form-control" placeholder="Email" />
-                    </div>
-                  </div>
-                </div>
+              </form>
               </ng-template>
             </ngb-panel>
             <ngb-panel id="Gallery" title="Gallery">
