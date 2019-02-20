@@ -1,4 +1,46 @@
 @import "../../../../../assets/scss/_variables";
 .settings{
-  
+  ngb-tabset {
+    .nav {
+      border: none;
+      margin-bottom: 2.5rem;
+      &-item {
+        width: 33.33%;
+        text-align: center;
+      }
+      &-link {
+        background: none !important;
+        border: none !important;
+        box-shadow: 0 1px 0 0 $grey-border;
+        font-family: $font-proxima;
+        font-size: $font-size-medium;
+        color: $color-topmenu;
+        font-weight: $font-weight-mid;
+        text-transform: uppercase;
+
+        &.active {
+          box-shadow: 0 2px 0 0 $primary-color;
+          color: $primary-color;
+        }
+      }
+    }
+  }
+  .accordion {
+    >.card {
+      background: none;
+      border: none;
+
+      >.card-header {
+        background: none;
+        border: none;
+
+        a {
+          font-family: $font-pragmatica;
+          font-weight: $font-weight-mid;
+          color: $text-color-default;
+          font-size: 20px;
+        }
+      }
+    }
+  }
 }

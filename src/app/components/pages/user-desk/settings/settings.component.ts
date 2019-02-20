@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { JsonResponse } from '../../../../interfaces/JsonResponse';
 import { BasicInfoService } from '../../user-creation/basic-info/basic-info.service';
 import { ToastrService } from 'ngx-toastr';
@@ -11,6 +11,7 @@ import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '.
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
