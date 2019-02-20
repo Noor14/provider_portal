@@ -391,7 +391,6 @@ $left-nav-icon-height: 20px;
       animation-delay: 0.1s;
       width: 99.8%;
       background: $color-white;
-
       // border-bottom: 1px solid $data-table-border;
       &:before {
         content: url("assets/images/icons/icon_add.svg");
@@ -418,6 +417,12 @@ $left-nav-icon-height: 20px;
         a.addAnother {
           bottom: 59px;
         }
+      }
+    }
+
+    &.no-data {
+      a.addAnother {
+        bottom: 38px !important;
       }
     }
 
