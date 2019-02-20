@@ -75,6 +75,32 @@
         background: $color-white;
         border: 1px solid $grey-border;
         overflow: hidden;
+
+        .city-dropdown {
+          position: relative;
+          display: inline-block;
+          width: 100%;
+      
+          .flag-container {
+            width: 16px;
+            height: 12px;
+            position: absolute;
+            left: 20px;
+            top: 19px;
+            display: flex;
+      
+            img {
+              width: 16px;
+              height: 12px;
+              border: 1px solid $primary-grey;
+            }
+          }
+          input {
+            &.routeSelected {
+              padding-left: 2.8rem;
+            }
+          }
+        }
       }
     }
   }
