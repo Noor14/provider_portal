@@ -34,7 +34,6 @@
     >.card {
       background: none;
       border: none;
-      overflow: hidden;
 
       >.card-header {
         background: none;
@@ -50,15 +49,16 @@
           padding-left: 12px;
 
           &:before {
-            content: url("../../../../../assets/images/icons/icon_arrow_left.svg");
+            content: "";
             position: absolute;
-            left: -26px;
+            left: -24px;
             height: 17px;
-            width: 25px;
+            width: 20px;
             transform: rotate(270deg);
             top: 3px;
             transition: all 0.8s ease-in-out;
             display: flex;
+            background: url("../../../../../assets/images/icons/icon_arrow_left.svg") no-repeat;
           }
         }
         &.active {
@@ -74,9 +74,7 @@
       >.card-body {
         background: $color-white;
         border: 1px solid $grey-border;
-        animation-name: fadeInUp;
-        animation-fill-mode: both;
-        animation-duration: 1s;
+        overflow: hidden;
       }
     }
   }
