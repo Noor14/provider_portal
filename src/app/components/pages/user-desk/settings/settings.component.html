@@ -287,39 +287,6 @@
                 </div>
               </ng-template>
             </ngb-panel>
-            <ngb-panel id="Gallery" title="Gallery">
-              <ng-template ngbPanelContent>
-                <div class="animated fadeInDown">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="document-Info d-flex flex-column mt-2">
-                            <div class="file-uploader">
-                              <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
-                                <img src="../../../../../assets/images/icons/manager-icon.png" />
-                                <p class="m-0 mt-3">
-                                  Drag here or <span class="browse-span">browse</span> to upload
-                                </p>
-                              </app-ng-files-drag-n-upload>
-                            </div>
-                            <div class="row uploadedDocx">
-                              <div class="col-lg-3 mb-2">
-                                <div class="display-upload delete">
-                                  <!-- <img class="w-100" [src]="certDocx.DocumentFile" /> -->
-                                  <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
-                                    (click)="removeSelectedDocx('i', 'certDocx', 'certificate')" />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </ngb-panel>
             <ngb-panel id="BusinessProfile" title="Business Profile">
               <ng-template ngbPanelContent>
                 <div class="animated fadeInDown">
@@ -386,6 +353,39 @@
                     </div>
                     <div class="col-2">
                       <img src="../../../../../assets/images/icons/warehouse-edit-icon.svg" alt="Edit" class="icon-size-16" />
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-panel>
+            <ngb-panel id="Gallery" title="Gallery">
+              <ng-template ngbPanelContent>
+                <div class="animated fadeInDown">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="document-Info d-flex flex-column mt-2">
+                            <div class="file-uploader">
+                              <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
+                                <img src="../../../../../assets/images/icons/manager-icon.png" />
+                                <p class="m-0 mt-3">
+                                  Drag here or <span class="browse-span">browse</span> to upload
+                                </p>
+                              </app-ng-files-drag-n-upload>
+                            </div>
+                            <div class="row uploadedDocx">
+                              <div class="col-lg-3 mb-2">
+                                <div class="display-upload delete">
+                                  <!-- <img class="w-100" [src]="certDocx.DocumentFile" /> -->
+                                  <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
+                                    (click)="removeSelectedDocx('i', 'certDocx', 'certificate')" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -476,7 +476,7 @@
 
           <div class="row">
             <div class="col-8">
-              <h5>Delete Account</h5>
+              <a href="javascript:;" (click)="deactivate()">Delete Account</a>
               <p>This action cannot be undone. Once you hit this button and confirm your intention to delete your
                 account, the
                 data associated to your account will be deleted. Data related to your company will be still be retained
