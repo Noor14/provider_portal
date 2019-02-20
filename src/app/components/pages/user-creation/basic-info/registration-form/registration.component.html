@@ -283,9 +283,7 @@
           <div class="form-group">
             <label>Telephone</label>
             <div class="select-number">
-              <div class="input-group-prepend" [ngClass]="{
-                                          'inputError': phoneError && businessForm.controls['phone'].errors
-                                         }"
+              <div class="input-group-prepend" [ngClass]="{'inputError': phoneError && businessForm.controls['phone'].errors}"
                 (focusout)="errorValidate()">
                 <div ngbDropdown class="select-country-list">
                   <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
