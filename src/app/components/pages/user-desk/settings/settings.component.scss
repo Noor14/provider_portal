@@ -136,4 +136,47 @@
       }
     }
   }
+
+  .servicechip {
+    border-radius: 4px;
+    border: 1px solid $input-border;
+    background: $white-color;
+    position: relative;
+    font-family: $font-proxima;
+
+    &.active {
+      box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
+      border-radius: 4px;
+      border: 1px solid $primary-color !important;
+      background: $white-color !important;
+
+      &:before {
+        content: url("../../../../../assets/images/icons/selection_tick.svg");
+        width: 44px;
+        height: 44px;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    }
+
+    &-provides,
+    &-valueAdded {
+      @extend .servicechip;
+      height: 50px;
+    }
+
+    &-asscoiation {
+      @extend .servicechip;
+      height: 150px;
+      padding: 1rem;
+
+      img {
+        width: 40%;
+        align-self: center;
+        margin-bottom: 0.5rem;
+        max-height: 4rem;
+      }
+    }
+  }
 }
