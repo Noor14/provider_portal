@@ -132,6 +132,12 @@
               padding-left: 2.8rem;
             }
           }
+          &.currency {
+            ngb-typeahead-window {
+              top: auto !important;
+              bottom: 50px;
+            }
+          }
         }
       }
     }
