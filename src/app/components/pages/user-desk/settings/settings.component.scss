@@ -262,4 +262,16 @@
     text-transform: uppercase;
     letter-spacing: 1px;
   }
+
+  .regional {
+    h6 {
+      @extend .change-logo;
+    }
+    small {
+      font-family: $font-proxima;
+      color: $secondary-text-color;
+      font-size: $font-size-medium;
+      letter-spacing: 0.5px;
+    }
+  }
 }
