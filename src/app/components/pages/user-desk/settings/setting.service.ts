@@ -11,6 +11,15 @@ export class SettingService {
     let url = `provider/GetSettings/${userId}`;
     return this._http.get(baseApi + url);
   }
+  deSelectService(obj){
+    let url = "provider/DeleteProviderService";
+    return this._http.request('delete', baseApi + url, { body: obj });
+  }
+  selectProviderService(obj) {
+    let url = "provider/AddProviderService";
+    return this._http.post(baseApi + url, obj);
+  }
+
   changePassword(obj){
     let url = "users/ChangePassword ";
     return this._http.put(baseApi + url, obj);

@@ -318,13 +318,13 @@
                       </div>
                     </div>
                     <div class="col-9">
-                      <div class="row">
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of freightServices">
-                          <div #selectService [ngClass]="{'active': service.IsSelected }" class="servicechip-provides text-center d-flex flex-column justify-content-center mb-2 pointer"
-                            (click)="freightService(service, selectService)">
-                            <span>{{ service.LogServName }}</span>
+                        <div class="row">
+                          <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of freightServices">
+                            <div #selectService [ngClass]="{'active': service.IsSelected && service.ProvLogServID }" class="servicechip-provides text-center d-flex flex-column justify-content-center mb-2 pointer"
+                              (click)="freightService(service, selectService)">
+                              <span>{{ service.LogServName }}</span>
+                            </div>
                           </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -336,14 +336,14 @@
                       </div>
                     </div>
                     <div class="col-9">
-                      <div class="row">
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of valAddedServices">
-                          <div #selectService [ngClass]="{'active': service.IsSelected }" class="servicechip-valueAdded text-center d-flex flex-column justify-content-center mb-2 pointer"
-                            (click)="valAdded(service, selectService)">
-                            <span>{{service.LogServName}}</span>
-                          </div>
+                    <div class="row">
+                      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of valAddedServices">
+                        <div #selectService [ngClass]="{'active': service.IsSelected && service.ProvLogServID}" class="servicechip-valueAdded text-center d-flex flex-column justify-content-center mb-2 pointer"
+                          (click)="valAdded(service, selectService)">
+                          <span>{{service.LogServName}}</span>
                         </div>
                       </div>
+                    </div>
                     </div>
                   </div>
                   <hr class="hr-solid mt-4 mb-4">
@@ -355,13 +355,13 @@
                     </div>
                     <div class="col-9">
                       <div class="row">
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12" *ngFor="let associate of allAssociations">
-                          <div #selectService [ngClass]="{'active': associate.IsSelected }" class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-2 pointer"
-                            (click)="selectAssociation(associate, selectService)">
+                      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12" *ngFor="let associate of allAssociations">
+                        <div #selectService [ngClass]="{'active': associate.IsSelected && associate.ProviderAssnID}" class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-2 pointer"
+                          (click)="selectAssociation(associate, selectService)">
                             <img [src]="baseExternalAssets + associate.AssnWithImage" alt="assoc_image" />
-                            <span>{{ associate.AssnWithName }}</span>
-                          </div>
+                          <span>{{ associate.AssnWithName }}</span>
                         </div>
+                      </div>
                       </div>
                     </div>
                   </div>
@@ -452,7 +452,7 @@
                       </div>
                       <div class="col-4 d-flex align-items-center form-group">
                         <p class="inputError animated fadeIn mt-0" *ngIf="(credentialInfoForm.controls['currentPassword'].hasError('maxlength') || credentialInfoForm.controls['currentPassword'].hasError('minlength')) && (credentialInfoForm.controls.currentPassword.dirty || credentialInfoForm.controls.currentPassword.touched)">
-                          Password should be between 6 to 30 characters
+                          Password must be between 6 to 30 characters
                         </p>
                       </div>
                     </div>
@@ -469,11 +469,11 @@
                         </div>
                       </div>
                       <div class="col-4 d-flex align-items-center form-group">
-                        <p class="inputError animated fadeIn mt-0" *ngIf="(credentialInfoForm.value.currentPassword === credentialInfoForm.value.newPassword) && (credentialInfoForm.controls.newPassword.dirty || credentialInfoForm.controls.newPassword.touched)">
-                          New password should be different from current password
+                        <p class="inputError animated fadeIn mt-0" *ngIf="(!credentialInfoForm.controls['newPassword'].hasError('maxlength') && !credentialInfoForm.controls['newPassword'].hasError('minlength')) && (credentialInfoForm.value.currentPassword === credentialInfoForm.value.newPassword) && (credentialInfoForm.controls.newPassword.dirty || credentialInfoForm.controls.newPassword.touched)">
+                          New password must be different from current password
                         </p>
                         <p class="inputError animated fadeIn mt-0" *ngIf="(credentialInfoForm.controls['newPassword'].hasError('maxlength') || credentialInfoForm.controls['newPassword'].hasError('minlength')) && (credentialInfoForm.controls.newPassword.dirty || credentialInfoForm.controls.newPassword.touched)">
-                          Password should be between 6 to 30 characters
+                          Password must be between 6 to 30 characters
                         </p>
                       </div>
                     </div>
@@ -491,10 +491,10 @@
                       </div>
                       <div class="col-4 d-flex align-items-center form-group">
                         <p class="inputError animated fadeIn mt-0" *ngIf="!credentialInfoForm.controls['confirmPassword'].hasError('minlength') && (credentialInfoForm.value.newPassword !== credentialInfoForm.value.confirmPassword) && (credentialInfoForm.controls.confirmPassword.dirty || credentialInfoForm.controls.confirmPassword.touched)">
-                          Confirm password and new password should be same
+                          Confirm password and new password must be same
                         </p>
                         <p class="inputError animated fadeIn mt-0" *ngIf="(credentialInfoForm.controls['confirmPassword'].hasError('maxlength') || credentialInfoForm.controls['confirmPassword'].hasError('minlength')) && (credentialInfoForm.controls.confirmPassword.dirty || credentialInfoForm.controls.confirmPassword.touched)">
-                          Password should be between 6 to 30 characters
+                          Password must be between 6 to 30 characters
                         </p>
                       </div>
                     </div>
