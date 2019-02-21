@@ -19,6 +19,14 @@ export class SettingService {
     let url = "provider/AddProviderService";
     return this._http.post(baseApi + url, obj);
   }
+  deSelectAssociationService(obj) {
+    let url = "provider/DeleteAssociation";
+    return this._http.request('delete', baseApi + url, { body: obj });
+  }
+  selectAssociationService(obj) {
+    let url = "provider/AddAssociation";
+    return this._http.post(baseApi + url, obj);
+  }
 
   changePassword(obj){
     let url = "users/ChangePassword ";

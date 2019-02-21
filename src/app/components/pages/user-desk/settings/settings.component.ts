@@ -218,6 +218,26 @@ export class SettingsComponent implements OnInit {
     this.businessInfoForm.controls['phone'].setValue(info.ProviderPhone);
     this.businessInfoForm.controls['profileUrl'].setValue(info.ProfileID);
   }
+
+
+  freightService(obj, selectedService) {
+    let selectedItem = selectedService.classList;
+    if (this.frtService && this.frtService.length) {
+      for (var i = 0; i < this.frtService.length; i++) {
+        if (this.frtService[i].LogServID == obj.LogServID) {
+          this.frtService.splice(i, 1);
+          selectedItem.remove('active');
+          this.removeServices(obj);
+          return;
+        }
+      }
+    }
+    if ((this.frtService && !this.frtService.length) || (i == this.frtService.length)) {
+      selectedItem.add('active');
+      this.frtService.push(obj);
+      this.selectServices(obj);
+    }
+  }
   selectAssociation(obj, selectedService) {
     let selectedItem = selectedService.classList;
     if (this.assocService && this.assocService.length) {
@@ -225,6 +245,7 @@ export class SettingsComponent implements OnInit {
         if (this.assocService[i].AssnWithID == obj.AssnWithID) {
           this.assocService.splice(i, 1);
           selectedItem.remove('active');
+          this.removeAssocServices(obj);
           return;
         }
       }
@@ -232,6 +253,7 @@ export class SettingsComponent implements OnInit {
     if ((this.assocService && !this.assocService.length) || (i == this.assocService.length)) {
       selectedItem.add('active');
       this.assocService.push(obj);
+      this.selectAssocServices(obj);
     }
   }
   valAdded(obj, selectedService) {
@@ -253,6 +275,34 @@ export class SettingsComponent implements OnInit {
 
     }
   }
+
+  selectAssocServices(obj) {
+    let object = {
+      providerID: this.userProfile.ProviderID,
+      createdBy: this.userProfile.LoginID,
+      serviceID: obj.AssnWithID
+    }
+    this._settingService.selectAssociationService(object).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        obj.ProviderAssnID = res.returnObject;
+      }
+    })
+  }
+  removeAssocServices(obj) {
+    let object = {
+      providerID: this.userProfile.ProviderID,
+      createdBy: this.userProfile.LoginID,
+      serviceID: obj.ProviderAssnID
+    }
+    this._settingService.deSelectAssociationService(object).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        obj.ProviderAssnID = null;
+      }
+    })
+  }
+
+
+
   selectServices(obj) {
     let object = {
       providerID: this.userProfile.ProviderID,
@@ -279,25 +329,6 @@ export class SettingsComponent implements OnInit {
   }
 
 
-
-  freightService(obj, selectedService) {
-    let selectedItem = selectedService.classList;
-    if (this.frtService && this.frtService.length) {
-      for (var i = 0; i < this.frtService.length; i++) {
-        if (this.frtService[i].LogServID == obj.LogServID) {
-          this.frtService.splice(i, 1);
-          selectedItem.remove('active');
-          this.removeServices(obj);
-          return;
-        }
-      }
-    }
-    if ((this.frtService && !this.frtService.length) || (i == this.frtService.length)) {
-      selectedItem.add('active');
-      this.frtService.push(obj);
-      this.selectServices(obj);
-    }
-  }
   textValidation(event) {
     const pattern = /^[a-zA-Z0-9_]*$/;
     let inputChar = String.fromCharCode(event.charCode);
@@ -547,8 +578,6 @@ export class SettingsComponent implements OnInit {
       }
     })
   }
-
-
 
 
   jobSearch = (text$: Observable<string>) =>
