@@ -222,7 +222,7 @@ export class SettingsComponent implements OnInit {
     let selectedItem = selectedService.classList;
     if (this.assocService && this.assocService.length) {
       for (var i = 0; i < this.assocService.length; i++) {
-        if (this.assocService[i] == obj.AssnWithID) {
+        if (this.assocService[i].AssnWithID == obj.AssnWithID) {
           this.assocService.splice(i, 1);
           selectedItem.remove('active');
           return;
@@ -231,14 +231,14 @@ export class SettingsComponent implements OnInit {
     }
     if ((this.assocService && !this.assocService.length) || (i == this.assocService.length)) {
       selectedItem.add('active');
-      this.assocService.push(obj.AssnWithID);
+      this.assocService.push(obj);
     }
   }
   valAdded(obj, selectedService) {
     let selectedItem = selectedService.classList;
     if (this.valueService && this.valueService.length) {
       for (var i = 0; i < this.valueService.length; i++) {
-        if (this.valueService[i] == obj.LogServID) {
+        if (this.valueService[i].LogServID == obj.LogServID) {
           this.valueService.splice(i, 1);
           selectedItem.remove('active');
           this.removeServices(obj);
@@ -248,7 +248,7 @@ export class SettingsComponent implements OnInit {
     }
     if ((this.valueService && !this.valueService.length) || (i == this.valueService.length)) {
       selectedItem.add('active');
-      this.valueService.push(obj.LogServID);
+      this.valueService.push(obj);
       this.selectServices(obj);
 
     }
@@ -284,7 +284,7 @@ export class SettingsComponent implements OnInit {
     let selectedItem = selectedService.classList;
     if (this.frtService && this.frtService.length) {
       for (var i = 0; i < this.frtService.length; i++) {
-        if (this.frtService[i] == obj.LogServID) {
+        if (this.frtService[i].LogServID == obj.LogServID) {
           this.frtService.splice(i, 1);
           selectedItem.remove('active');
           this.removeServices(obj);
@@ -294,7 +294,7 @@ export class SettingsComponent implements OnInit {
     }
     if ((this.frtService && !this.frtService.length) || (i == this.frtService.length)) {
       selectedItem.add('active');
-      this.frtService.push(obj.LogServID);
+      this.frtService.push(obj);
       this.selectServices(obj);
     }
   }
