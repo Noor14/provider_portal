@@ -5,7 +5,6 @@
 //         max-width: 895px;
 //     }
 // }
-
 // .modal {
 //     &-header {
 //         border-bottom: none;
@@ -85,10 +84,6 @@
 //         }
 //     }
 // }
-
-
-
-
 // .paid-modal3 {
 //     .modal-header {
 //         border-bottom: 1px solid #e1d8d8 !important;
@@ -137,5 +132,45 @@
 //         }
 //     }
 // }
-
-
+.text-editor {
+    .editor {
+        font-family: $font-proxima;
+        font-size: $root-font-size;
+        color: $color-menuheading-black !important;
+        h1 {
+            font-size: 2rem !important;
+        }
+        h2 {
+            font-size: 1.5rem !important;
+        }
+        h3 {
+            font-size: 1.28rem !important;
+        }
+        h4 {
+            font-size: $root-font-size !important;
+        }
+        h5 {
+            font-size: $font-size-medium !important;
+        }
+        h6 {
+            font-size: $font-size-base !important;
+        }
+        p {
+            font-size: $root-font-size;
+            color: $color-menuheading-black;
+        }
+        ol,
+        ul {
+            li {
+                font-family: $font-proxima;
+                font-size: 1.125rem !important;
+                line-height: 2;
+                padding-left: 0px;
+                color: $color-menuheading-black !important;
+                &::before {
+                    color: $color-topmenuactive;
+                }
+            }
+        }
+    }
+}

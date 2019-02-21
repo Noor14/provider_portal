@@ -599,7 +599,7 @@
                   EDIT
                 </button>
               </div>
-              <div class="form-group">
+              <div class="form-group text-editor ">
                 <quill-editor *ngIf="!disableFCL" [(ngModel)]="editorContentFCL" [options]="editorOptionsFCL" (blur)="onEditorBlured($event,'FCL')"
                   (focus)="onEditorFocused($event,'FCL')" (ready)="onEditorCreated($event,'FCL')" (change)="onContentChanged($event,'FCL')">
                 </quill-editor>
