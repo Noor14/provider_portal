@@ -13,7 +13,7 @@ export class SettingService {
   }
   deSelectService(obj){
     let url = "provider/DeleteProviderService";
-    return this._http.delete(baseApi + url, obj);
+    return this._http.request('delete', baseApi + url, { body: obj });
   }
   selectProviderService(obj) {
     let url = "provider/AddProviderService";

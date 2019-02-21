@@ -115,11 +115,7 @@ export class SettingsComponent implements OnInit {
       profileUrl: new FormControl(null, [Validators.required]),
       });
 
-    this._sharedService.cityList.subscribe((state: any) => {
-      if (state) {
-        this.cityList = state;
-      }
-    });
+ 
     this._sharedService.regionList.subscribe((state: any) => {
       if (state) {
         this.regionList = state;
@@ -133,12 +129,21 @@ export class SettingsComponent implements OnInit {
     this.getUserDetail(this.userProfile.UserID);
   }
 
+  getCities(info){
+    this._sharedService.cityList.subscribe((state: any) => {
+      if (state) {
+        this.cityList = state;
+        this.setPersonalInfo(info);
+        this.setBusinessInfo(info);
+      }
+    });
+  }
+
   getListJobTitle(id, info) {
     this._basicInfoService.getjobTitles(id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.jobTitles = res.returnObject;
-        this.setPersonalInfo(info);
-        this.setBusinessInfo(info);
+        this.getCities(info);
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
@@ -151,8 +156,11 @@ export class SettingsComponent implements OnInit {
         let info = res.returnObject
         let countryId = res.returnObject.CountryID;
         this.allAssociations = res.returnObject.Association;
+        this.assocService = this.allAssociations.filter(obj => obj.IsSelected && obj.ProviderAssnID);
         this.valAddedServices = res.returnObject.ValueAddedServices;
+        this.valueService = this.valAddedServices.filter(obj => obj.IsSelected && obj.ProvLogServID);
         this.freightServices = res.returnObject.LogisticService;
+        this.frtService = this.freightServices.filter(obj => obj.IsSelected && obj.ProvLogServID);
         if (res.returnObject.ProviderImage && isJSON(res.returnObject.ProviderImage)) {
           this.companyLogo = JSON.parse(res.returnObject.ProviderImage).shift().ProviderLogo;
         }
@@ -262,7 +270,6 @@ export class SettingsComponent implements OnInit {
       providerID: this.userProfile.ProviderID,
       createdBy: this.userProfile.LoginID,
       serviceID: obj.ProvLogServID
-
     }
     this._settingService.deSelectService(object).subscribe((res:any)=>{
       if(res.returnStatus=="Success"){
