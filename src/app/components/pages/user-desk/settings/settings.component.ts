@@ -162,7 +162,7 @@ export class SettingsComponent implements OnInit {
   }
   updatePassword() {
     if (this.credentialInfoForm.value.currentPassword === this.credentialInfoForm.value.newPassword) {
-      this._toastr.error('New password should be different from current password', '');
+      this._toastr.error('New password must be different from current password', '');
       return;
     }
     let obj = {
@@ -233,6 +233,7 @@ export class SettingsComponent implements OnInit {
         if (this.valueService[i] == obj.LogServID) {
           this.valueService.splice(i, 1);
           selectedItem.remove('active');
+          this.removeServices(obj);
           return;
         }
       }
@@ -240,8 +241,38 @@ export class SettingsComponent implements OnInit {
     if ((this.valueService && !this.valueService.length) || (i == this.valueService.length)) {
       selectedItem.add('active');
       this.valueService.push(obj.LogServID);
+      this.selectServices(obj);
+
     }
   }
+  selectServices(obj) {
+    let object = {
+      providerID: this.userProfile.ProviderID,
+      createdBy: this.userProfile.LoginID,
+      serviceID: obj.LogServID
+    }
+    this._settingService.selectProviderService(object).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        obj.ProvLogServID = res.returnObject;
+      }
+    })
+  }
+  removeServices(obj){
+    let object={
+      providerID: this.userProfile.ProviderID,
+      createdBy: this.userProfile.LoginID,
+      serviceID: obj.ProvLogServID
+
+    }
+    this._settingService.deSelectService(object).subscribe((res:any)=>{
+      if(res.returnStatus=="Success"){
+        obj.ProvLogServID = null;
+      }
+    })
+  }
+
+
+
   freightService(obj, selectedService) {
     let selectedItem = selectedService.classList;
     if (this.frtService && this.frtService.length) {
@@ -249,6 +280,7 @@ export class SettingsComponent implements OnInit {
         if (this.frtService[i] == obj.LogServID) {
           this.frtService.splice(i, 1);
           selectedItem.remove('active');
+          this.removeServices(obj);
           return;
         }
       }
@@ -256,6 +288,7 @@ export class SettingsComponent implements OnInit {
     if ((this.frtService && !this.frtService.length) || (i == this.frtService.length)) {
       selectedItem.add('active');
       this.frtService.push(obj.LogServID);
+      this.selectServices(obj);
     }
   }
   textValidation(event) {
