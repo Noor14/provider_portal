@@ -228,12 +228,33 @@
   }
   .setting-discard-btn {
     @extend .setting-update-btn;
-    color: $footer-border;
+    color: $color-topmenu;
 
     svg {
       transform: rotate(45deg);
       opacity: 0.8;
-      fill: $footer-border;
+      fill: $color-topmenu;
     }
+  }
+
+  .provider-logo {
+    width: 120px;
+    height: 120px;
+    border: 1px solid $input-border;
+    border-radius: 4px;
+    padding: 10px;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+  .change-logo {
+    font-family: $font-proxima;
+    font-size: $font-size-medium;
+    color: $color-topmenu;
+    font-weight: $font-weight-mid;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 }

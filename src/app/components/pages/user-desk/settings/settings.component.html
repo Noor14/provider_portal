@@ -165,19 +165,19 @@
             <ngb-panel id="BusinessInfo" title="Business Information">
               <ng-template ngbPanelContent>
                 <div class="animated fadeInDown">
-                  <div class="row">
+                  <div class="row mb-3">
                     <div class="col-3">
                       <div class="form-group">
                         <label>Logo</label>
                       </div>
                     </div>
-                    <div class="col-3">
-                      <div class="form-group">
+                    <div class="col-2">
+                      <div class="provider-logo d-flex justify-content-center align-items-center">
                         <img [src]="baseExternalAssets + companyLogo" alt="logo" />
                       </div>
                     </div>
-                    <div class="col-2">
-                      Change Logo
+                    <div class="col-2 d-flex justify-content-start align-items-center">
+                      <div class="change-logo">Change Logo</div>
                     </div>
                   </div>
                   <form autocomplete="off" novalidate [formGroup]="businessInfoForm">
