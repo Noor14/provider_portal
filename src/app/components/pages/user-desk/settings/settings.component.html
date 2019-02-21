@@ -436,47 +436,65 @@
             <ngb-panel id="ChangePassword" title="Change Password">
               <ng-template ngbPanelContent>
                 <div class="animated fadeInDown">
-                  <div class="row">
+                  <form autocomplete="off" novalidate [formGroup]="credentialInfoForm">                  
+                    <div class="row">
                     <div class="col-3">
                       <div class="form-group">
-                        <label for="">Current Password</label>
+                        <label>Current Password</label>
                       </div>
                     </div>
                     <div class="col-5">
                       <div class="form-group">
-                        <input class="form-control" placeholder="Email" />
+                        <input class="form-control" type="password" placeholder="eg: 123456" (keypress)="spaceHandler($event)" formControlName="currentPassword" />
+                        <p *ngIf="(credentialInfoForm.controls['currentPassword'].hasError('maxlength') || credentialInfoForm.controls['currentPassword'].hasError('minlength')) && (credentialInfoForm.controls.currentPassword.dirty || credentialInfoForm.controls.currentPassword.touched)">
+                          Password should be between 6 to 30 characters
+                        </p>
                       </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-3">
                       <div class="form-group">
-                        <label for="">New Password</label>
+                        <label>New Password</label>
                       </div>
                     </div>
                     <div class="col-5">
                       <div class="form-group">
-                        <input class="form-control" placeholder="Email" />
+                        <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="eg: 12345678" formControlName="newPassword" />
+                        <p *ngIf="(credentialInfoForm.value.currentPassword === credentialInfoForm.value.newPassword) && (credentialInfoForm.controls.newPassword.dirty || credentialInfoForm.controls.newPassword.touched)">
+                          New password should be different from current password
+                        </p>
+                        <p *ngIf="(credentialInfoForm.controls['newPassword'].hasError('maxlength') || credentialInfoForm.controls['newPassword'].hasError('minlength')) && (credentialInfoForm.controls.newPassword.dirty || credentialInfoForm.controls.newPassword.touched)">
+                          Password should be between 6 to 30 characters
+                        </p>
                       </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-3">
                       <div class="form-group">
-                        <label for="">Confirm Password</label>
+                        <label>Confirm Password</label>
                       </div>
                     </div>
                     <div class="col-5">
                       <div class="form-group">
-                        <input class="form-control" placeholder="Email" />
+                        <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="eg: 12345678" formControlName="confirmPassword"/>
+                      <p *ngIf="!credentialInfoForm.controls['confirmPassword'].hasError('minlength') && (credentialInfoForm.value.newPassword !== credentialInfoForm.value.confirmPassword) && (credentialInfoForm.controls.confirmPassword.dirty || credentialInfoForm.controls.confirmPassword.touched)">
+                        Confirm password and new password should be same
+                      </p>
+                      <p *ngIf="(credentialInfoForm.controls['confirmPassword'].hasError('maxlength') || credentialInfoForm.controls['confirmPassword'].hasError('minlength')) && (credentialInfoForm.controls.confirmPassword.dirty || credentialInfoForm.controls.confirmPassword.touched)">
+                        Password should be between 6 to 30 characters
+                      </p>
                       </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-6">
-                      Buttons
+                      <button [disabled]="credentialInfoForm.invalid || (credentialInfoForm.value.newPassword === credentialInfoForm.value.currentPassword) || (credentialInfoForm.value.newPassword !== credentialInfoForm.value.confirmPassword)"
+                    (click)="updatePassword()" class="btn btn-primary">Update Password</button>
                     </div>
                   </div>
+                  </form>
                 </div>
               </ng-template>
             </ngb-panel>
