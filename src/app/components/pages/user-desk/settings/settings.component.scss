@@ -179,4 +179,35 @@
       }
     }
   }
+
+  .delete-acc {
+    a {
+      color: $danger-color;
+      font-family: $font-proxima;
+      font-size: $font-size-medium;
+      font-weight: $font-weight-mid;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+  
+      &:hover {
+        .delete-icon {
+          overflow: visible;
+  
+          g {
+            rect {
+              transform: rotate(-25deg);
+              transition: 0.5s;
+            }
+          }
+        }
+      }
+    }
+    p {
+      font-family: $font-proxima;
+      font-size: $font-size-medium;
+      color: $secondary-text-color;
+      letter-spacing: 0.5px;
+    }
+  }
 }

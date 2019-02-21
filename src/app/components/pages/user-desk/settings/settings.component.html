@@ -481,12 +481,29 @@
               </ng-template>
             </ngb-panel>
           </ngb-accordion>
-          <hr class="hr-solid mt-5 mb-4">
+          <hr class="hr-solid mt-4 mb-4">
 
           <div class="row">
-            <div class="col-8">
-              <a href="javascript:;" (click)="deactivate()">Delete Account</a>
-              <p>This action cannot be undone. Once you hit this button and confirm your intention to delete your
+            <div class="col-8 delete-acc">
+              <a href="javascript:;" (click)="deactivate()">
+                  <svg class="delete-icon icon-size-16 mr-2" id="317c8c47-17e2-4e96-9063-97bc9a32118b" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16">
+                  <defs>
+                    <style>
+                      .a2933809-f108-463d-a7d6-9972aa735edc {
+                        fill: #d32020;
+                      }
+                    </style>
+                  </defs>
+                  <title>icon</title>
+                  <g id="9ddd7984-9517-4e7f-881d-6292000e8e8a" data-name="delete">
+                    <rect class="a2933809-f108-463d-a7d6-9972aa735edc" y="2" width="16" height="2" />
+                    <rect class="a2933809-f108-463d-a7d6-9972aa735edc" x="5" width="6" height="2" />
+                    <path class="a2933809-f108-463d-a7d6-9972aa735edc" d="M2,5v9a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V5Zm5,9H5V7H7Zm4,0H9V7h2Z" />
+                  </g>
+                </svg>
+                Delete Account</a>
+              <p class="pl-4 mt-2">This action cannot be undone. Once you hit this button and confirm your intention to delete your
                 account, the
                 data associated to your account will be deleted. Data related to your company will be still be retained
                 however
