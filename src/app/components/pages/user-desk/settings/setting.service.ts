@@ -13,6 +13,6 @@ export class SettingService {
   }
   deactivateAccount(obj){
     let url = "provider/DeactivateProvider";
-    return this._http.post(baseApi + url, obj);
+    return this._http.put(baseApi + url, obj);
   }
 }
