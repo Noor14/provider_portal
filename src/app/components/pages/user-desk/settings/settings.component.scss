@@ -216,4 +216,24 @@
       letter-spacing: 0.5px;
     }
   }
+  .setting-update-btn {
+    font-family: $font-proxima;
+    font-size: $font-size-large;
+    color: $secondary-color;
+    font-weight: $font-weight-mid;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  .setting-discard-btn {
+    @extend .setting-update-btn;
+    color: $footer-border;
+
+    svg {
+      transform: rotate(45deg);
+      opacity: 0.8;
+      fill: $footer-border;
+    }
+  }
 }
