@@ -1,395 +1,396 @@
 <section class="settings">
-  <ngb-tabset>
-    <ngb-tab>
-      <ng-template ngbTabTitle>Profile</ng-template>
-      <ng-template ngbTabContent>
-        <section class="profile">
-          <ngb-accordion activeIds="PersonalInfo">
-            <ngb-panel id="PersonalInfo" title="Personal Information">
-              <ng-template ngbPanelContent>
-                <div class="animated fadeInDown">
-                  <form autocomplete="off" novalidate [formGroup]="personalInfoForm">
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>Email</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <input type="email" formControlName="email" readonly class="form-control" placeholder="abc@email.com" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>First Name</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <input type="text" class="form-control" maxlength="100" (keypress)="textValidation($event)"
-                            placeholder="eg: John" formControlName="firstName" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>Last Name</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <input type="text" maxlength="100" (keypress)="textValidation($event)" class="form-control"
-                            placeholder="eg: Smith" formControlName="lastName">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>Job Title</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <input type="text" maxlength="100" class="form-control" (keypress)="textValidation($event)"
-                            placeholder="eg: Manager" formControlName="jobTitle" [ngbTypeahead]="jobSearch"
-                            [resultTemplate]="jt" [inputFormatter]="formatterjob">
-                          <ng-template #jt let-r="result">
-                            <ngb-highlight [result]="r.baseLanguage"></ngb-highlight>
-                          </ng-template>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>City</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group city-dropdown">
-                          <div class="flag-container" *ngIf="personalInfoForm.value.city && personalInfoForm.value.city.imageName">
-                            <img src="{{'../../../../../assets/images/flags/4x3/' + (personalInfoForm.value.city.imageName | lowercase) + '.svg'}}"
-                              type="image/svg+xml">
-                          </div>
-                          <input type="text" (keypress)="oneSpaceHandler($event)" [ngClass]="{'routeSelected': personalInfoForm.value.city && personalInfoForm.value.city.imageName}"
-                            class="form-control" maxlength="100" formControlName="city" [ngbTypeahead]="searchCity"
-                            [resultTemplate]="ct" [inputFormatter]="formatterCity" placeholder="eg: Karachi">
-                          <ng-template #ct let-r="result">
-                            <div class="flag-container mr-1">
-                              <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
-                                class="">
-                            </div>
-                            <ngb-highlight [result]="r.title"></ngb-highlight>
-                          </ng-template>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>Mobile No.</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <input class="form-control" maxlength="13" placeholder="123456789" (keypress)="numberValid($event)"
-                            formControlName="mobile" />
-                        </div>
-                      </div>
-                    </div>
-                    <hr class="hr-solid">
-                    <div class="row mt-4 mb-4">
-                      <div class="col-8 regional">
-                        <h6>Regional Settings</h6>
-                        <small>Update these regional settings to change the way that dates, quotes and units of measurement
-                          are displayed
-                          to you on HashMove.</small>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>My Region</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <select class="form-control" formControlName="region">
-                            <option [value]="" disabled> Please Select</option>
-                            <option *ngFor="let region of regionList">
-                              {{region.regionName}}
-                            </option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>My Currency</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group city-dropdown currency">
-                          <div class="flag-container" *ngIf="personalInfoForm.value.currency && personalInfoForm.value.currency.imageName">
-                            <img src="{{'../../../../../assets/images/flags/4x3/' + (personalInfoForm.value.currency.imageName | lowercase) + '.svg'}}"
-                              type="image/svg+xml">
-                          </div>
-                          <input type="text" (keypress)="spaceHandler($event)" [ngClass]="{'routeSelected': personalInfoForm.value.currency && personalInfoForm.value.currency.imageName}"
-                            class="form-control" maxlength="5" formControlName="currency" [ngbTypeahead]="currency"
-                            [resultTemplate]="cur" [inputFormatter]="formatterCurrency" placeholder="eg: AED">
-                          <ng-template #cur let-r="result">
-                            <div class="flag-container mr-1">
-                              <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
-                                class="">
-                            </div>
-                            <ngb-highlight [result]="r.shortName"></ngb-highlight>
-                          </ng-template>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-6">
-                        <button class="btn btn-primary">Save</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </ng-template>
-            </ngb-panel>
-            <ngb-panel id="BusinessInfo" title="Business Information">
-              <ng-template ngbPanelContent>
-                <div class="animated fadeInDown">
-                  <div class="row mb-3">
-                    <div class="col-3">
-                      <div class="form-group">
-                        <label>Logo</label>
-                      </div>
-                    </div>
-                    <div class="col-2">
-                      <div class="provider-logo d-flex justify-content-center align-items-center">
-                        <img [src]="baseExternalAssets + companyLogo" alt="logo" />
-                      </div>
-                    </div>
-                    <div class="col-2 d-flex justify-content-start align-items-center">
-                      <div class="change-logo">Change Logo</div>
-                    </div>
-                  </div>
-                  <form autocomplete="off" novalidate [formGroup]="businessInfoForm">
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>Company Name</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <input type="text" class="form-control" readonly maxlength="100" placeholder="Company Name"
-                            formControlName="orgName" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>Address</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <textarea (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200"
-                            formControlName="address">
-                  </textarea>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>P.O Box</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <input type="text" (keypress)="spaceHandler($event)" class="form-control" maxlength="16"
-                            formControlName="poBoxNo">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>City</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group city-dropdown">
-                          <div class="flag-container" *ngIf="businessInfoForm.value.city && businessInfoForm.value.city.imageName">
-                            <img src="{{'../../../../../assets/images/flags/4x3/' + (businessInfoForm.value.city.imageName | lowercase) + '.svg'}}"
-                              type="image/svg+xml">
-                          </div>
-                          <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" [ngClass]="{'routeSelected': businessInfoForm.value.city && businessInfoForm.value.city.imageName}"
-                            maxlength="100" formControlName="city" [ngbTypeahead]="searchCity" [resultTemplate]="ct"
-                            [inputFormatter]="formatterCity" placeholder="eg: Karachi">
-                          <ng-template #ct let-r="result">
-                            <div class="flag-container mr-1">
-                              <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
-                                class="">
-                            </div>
-                            <ngb-highlight [result]="r.title"></ngb-highlight>
-                          </ng-template>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>Telephone</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <input type="text" class="form-control" maxlength="13" placeholder="123456789"
-                            formControlName="phone" (keypress)="numberValid($event)" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>Website</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <input class="form-control" placeholder="Email" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>HashMove Public URL</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <input class="form-control" readonly placeholder="Profile ID" formControlName="profileUrl" />
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </ng-template>
-            </ngb-panel>
-            <ngb-panel id="BusinessProfile" title="Business Profile">
-              <ng-template ngbPanelContent>
-                <div class="animated fadeInDown">
-                  <div class="row">
-                    <div class="col-3">
-                      <div class="form-group">
-                        <label>About Your Business</label>
-                      </div>
-                    </div>
-                    <div class="col-8">
-                      <div class="form-group">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et
-                        dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea
-                        commodo consequat.
-                      </div>
-                    </div>
-                    <div class="col-1 d-flex justify-content-end align-items-center">
-                      <img src="../../../../../assets/images/icons/warehouse-edit-icon.svg" alt="Edit" class="icon-size-16" />
-                    </div>
-                  </div>
-                  <hr class="hr-solid mt-4 mb-4">
-                  <div class="row">
-                    <div class="col-3">
-                      <div class="form-group">
-                        <label>Services</label>
-                      </div>
-                    </div>
-                    <div class="col-9">
-                        <div class="row">
-                          <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of freightServices">
-                            <div #selectService [ngClass]="{'active': service.IsSelected && service.ProvLogServID }" class="servicechip-provides text-center d-flex flex-column justify-content-center mb-2 pointer"
-                              (click)="freightService(service, selectService)">
-                              <span>{{ service.LogServName }}</span>
-                            </div>
-                          </div>
-                      </div>
-                    </div>
-                  </div>
-                  <hr class="hr-solid mt-4 mb-4">
-                  <div class="row">
-                    <div class="col-3">
-                      <div class="form-group">
-                        <label>Value Added Services</label>
-                      </div>
-                    </div>
-                    <div class="col-9">
-                    <div class="row">
-                      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of valAddedServices">
-                        <div #selectService [ngClass]="{'active': service.IsSelected && service.ProvLogServID}" class="servicechip-valueAdded text-center d-flex flex-column justify-content-center mb-2 pointer"
-                          (click)="valAdded(service, selectService)">
-                          <span>{{service.LogServName}}</span>
-                        </div>
-                      </div>
-                    </div>
-                    </div>
-                  </div>
-                  <hr class="hr-solid mt-4 mb-4">
-                  <div class="row">
-                    <div class="col-3">
-                      <div class="form-group">
-                        <label>Associations</label>
-                      </div>
-                    </div>
-                    <div class="col-9">
+    <ngb-tabset>
+      <ngb-tab>
+        <ng-template ngbTabTitle>Profile</ng-template>
+        <ng-template ngbTabContent>
+          <section class="profile">
+            <ngb-accordion activeIds="PersonalInfo">
+              <ngb-panel id="PersonalInfo" title="Personal Information">
+                <ng-template ngbPanelContent>
+                  <div class="animated fadeInDown">
+                    <form autocomplete="off" novalidate [formGroup]="personalInfoForm">
                       <div class="row">
-                      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12" *ngFor="let associate of allAssociations">
-                        <div #selectService [ngClass]="{'active': associate.IsSelected && associate.ProviderAssnID}" class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-2 pointer"
-                          (click)="selectAssociation(associate, selectService)">
-                            <img [src]="baseExternalAssets + associate.AssnWithImage" alt="assoc_image" />
-                          <span>{{ associate.AssnWithName }}</span>
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>Email</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group">
+                            <input type="email" formControlName="email" readonly class="form-control" placeholder="abc@email.com" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>First Name</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group">
+                            <input type="text" class="form-control" maxlength="100" (keypress)="textValidation($event)"
+                              placeholder="eg: John" formControlName="firstName" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>Last Name</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group">
+                            <input type="text" maxlength="100" (keypress)="textValidation($event)" class="form-control"
+                              placeholder="eg: Smith" formControlName="lastName">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>Job Title</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group">
+                            <input type="text" maxlength="100" class="form-control" (keypress)="textValidation($event)"
+                              placeholder="eg: Manager" formControlName="jobTitle" [ngbTypeahead]="jobSearch"
+                              [resultTemplate]="jt" [inputFormatter]="formatterjob">
+                            <ng-template #jt let-r="result">
+                              <ngb-highlight [result]="r.baseLanguage"></ngb-highlight>
+                            </ng-template>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>City</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group city-dropdown">
+                            <div class="flag-container" *ngIf="personalInfoForm.value.city && personalInfoForm.value.city.imageName">
+                              <img src="{{'../../../../../assets/images/flags/4x3/' + (personalInfoForm.value.city.imageName | lowercase) + '.svg'}}"
+                                type="image/svg+xml">
+                            </div>
+                            <input type="text" (keypress)="oneSpaceHandler($event)" [ngClass]="{'routeSelected': personalInfoForm.value.city && personalInfoForm.value.city.imageName}"
+                              class="form-control" maxlength="100" formControlName="city" [ngbTypeahead]="searchCity"
+                              [resultTemplate]="ct" [inputFormatter]="formatterCity" placeholder="eg: Karachi">
+                            <ng-template #ct let-r="result">
+                              <div class="flag-container mr-1">
+                                <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
+                                  class="">
+                              </div>
+                              <ngb-highlight [result]="r.title"></ngb-highlight>
+                            </ng-template>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>Mobile No.</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group">
+                            <input class="form-control" maxlength="13" placeholder="123456789" (keypress)="numberValid($event)"
+                              formControlName="mobile" />
+                          </div>
+                        </div>
+                      </div>
+                      <hr class="hr-solid mt-4">
+                      <div class="row mt-4 mb-4">
+                        <div class="col-8 regional">
+                          <h6>Regional Settings</h6>
+                          <small>Update these regional settings to change the way that dates, quotes and units of measurement
+                            are displayed
+                            to you on HashMove.</small>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>My Region</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group">
+                            <select class="form-control" formControlName="region">
+                              <option [value]="" disabled> Please Select</option>
+                              <option *ngFor="let region of regionList">
+                                {{region.regionName}}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>My Currency</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group city-dropdown currency">
+                            <div class="flag-container" *ngIf="personalInfoForm.value.currency && personalInfoForm.value.currency.imageName">
+                              <img src="{{'../../../../../assets/images/flags/4x3/' + (personalInfoForm.value.currency.imageName | lowercase) + '.svg'}}"
+                                type="image/svg+xml">
+                            </div>
+                            <input type="text" (keypress)="spaceHandler($event)" [ngClass]="{'routeSelected': personalInfoForm.value.currency && personalInfoForm.value.currency.imageName}"
+                              class="form-control" maxlength="5" formControlName="currency" [ngbTypeahead]="currency"
+                              [resultTemplate]="cur" [inputFormatter]="formatterCurrency" placeholder="eg: AED">
+                            <ng-template #cur let-r="result">
+                              <div class="flag-container mr-1">
+                                <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
+                                  class="">
+                              </div>
+                              <ngb-highlight [result]="r.shortName"></ngb-highlight>
+                            </ng-template>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-6">
+                          <button class="btn btn-primary">Save</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel id="BusinessInfo" title="Business Information">
+                <ng-template ngbPanelContent>
+                  <div class="animated fadeInDown">
+                    <div class="row mb-3">
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>Logo</label>
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        <div class="provider-logo d-flex justify-content-center align-items-center">
+                          <img [src]="baseExternalAssets + companyLogo" alt="logo" />
+                        </div>
+                      </div>
+                      <div class="col-2 d-flex justify-content-start align-items-center">
+                        <div class="change-logo">Change Logo</div>
+                      </div>
+                    </div>
+                    <form autocomplete="off" novalidate [formGroup]="businessInfoForm">
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>Company Name</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group">
+                            <input type="text" class="form-control" readonly maxlength="100" placeholder="Company Name"
+                              formControlName="orgName" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>Address</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group">
+                            <textarea (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200"
+                              formControlName="address">
+                    </textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>P.O Box</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group">
+                            <input type="text" (keypress)="spaceHandler($event)" class="form-control" maxlength="16"
+                              formControlName="poBoxNo">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>City</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group city-dropdown">
+                            <div class="flag-container" *ngIf="businessInfoForm.value.city && businessInfoForm.value.city.imageName">
+                              <img src="{{'../../../../../assets/images/flags/4x3/' + (businessInfoForm.value.city.imageName | lowercase) + '.svg'}}"
+                                type="image/svg+xml">
+                            </div>
+                            <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" [ngClass]="{'routeSelected': businessInfoForm.value.city && businessInfoForm.value.city.imageName}"
+                              maxlength="100" formControlName="city" [ngbTypeahead]="searchCity" [resultTemplate]="ct"
+                              [inputFormatter]="formatterCity" placeholder="eg: Karachi">
+                            <ng-template #ct let-r="result">
+                              <div class="flag-container mr-1">
+                                <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
+                                  class="">
+                              </div>
+                              <ngb-highlight [result]="r.title"></ngb-highlight>
+                            </ng-template>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>Telephone</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group">
+                            <input type="text" class="form-control" maxlength="13" placeholder="123456789"
+                              formControlName="phone" (keypress)="numberValid($event)" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>Website</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group">
+                            <input class="form-control" placeholder="Email" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>HashMove Public URL</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group">
+                            <input class="form-control" readonly placeholder="Profile ID" formControlName="profileUrl" />
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel id="BusinessProfile" title="Business Profile">
+                <ng-template ngbPanelContent>
+                  <div class="animated fadeInDown">
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>About Your Business</label>
+                        </div>
+                      </div>
+                      <div class="col-8">
+                        <div class="form-group">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                          labore et
+                          dolore
+                          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                          aliquip ex ea
+                          commodo consequat.
+                        </div>
+                      </div>
+                      <div class="col-1 d-flex justify-content-end align-items-center">
+                        <img src="../../../../../assets/images/icons/warehouse-edit-icon.svg" alt="Edit" class="icon-size-16" />
+                      </div>
+                    </div>
+                    <hr class="hr-solid mt-4 mb-4">
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>Services</label>
+                        </div>
+                      </div>
+                      <div class="col-9">
+                          <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of freightServices">
+                              <div #selectService [ngClass]="{'active': service.IsSelected && service.ProvLogServID }" class="servicechip-provides text-center d-flex flex-column justify-content-center mb-2 pointer"
+                                (click)="freightService(service, selectService)">
+                                <span>{{ service.LogServName }}</span>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr class="hr-solid mt-4 mb-4">
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>Value Added Services</label>
+                        </div>
+                      </div>
+                      <div class="col-9">
+                      <div class="row">
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12" *ngFor="let service of valAddedServices">
+                          <div #selectService [ngClass]="{'active': service.IsSelected && service.ProvLogServID}" class="servicechip-valueAdded text-center d-flex flex-column justify-content-center mb-2 pointer"
+                            (click)="valAdded(service, selectService)">
+                            <span>{{service.LogServName}}</span>
+                          </div>
                         </div>
                       </div>
                       </div>
                     </div>
+                    <hr class="hr-solid mt-4 mb-4">
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>Associations</label>
+                        </div>
+                      </div>
+                      <div class="col-9">
+                        <div class="row">
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12" *ngFor="let associate of allAssociations">
+                          <div #selectService [ngClass]="{'active': associate.IsSelected && associate.ProviderAssnID}" class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-2 pointer"
+                            (click)="selectAssociation(associate, selectService)">
+                              <img [src]="baseExternalAssets + associate.AssnWithImage" alt="assoc_image" />
+                            <span>{{ associate.AssnWithName }}</span>
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </ng-template>
-            </ngb-panel>
-            <ngb-panel id="Gallery" title="Gallery">
-              <ng-template ngbPanelContent>
-                <div class="animated fadeInDown">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="document-Info d-flex flex-column mt-2">
-                            <div class="file-uploader">
-                              <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
-                                <img src="../../../../../assets/images/icons/manager-icon.png" />
-                                <p class="m-0 mt-3">
-                                  Drag here or <span class="browse-span">browse</span> to upload
-                                </p>
-                              </app-ng-files-drag-n-upload>
-                            </div>
-                            <div class="row uploadedDocx">
-                              <div class="col-lg-3 mb-2">
-                                <div class="display-upload delete">
-                                  <!-- <img class="w-100" [src]="certDocx.DocumentFile" /> -->
-                                  <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
-                                    (click)="removeSelectedDocx('i', 'certDocx', 'certificate')" />
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel id="Gallery" title="Gallery">
+                <ng-template ngbPanelContent>
+                  <div class="animated fadeInDown">
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="document-Info d-flex flex-column mt-2">
+                              <div class="file-uploader">
+                                <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
+                                  <img src="../../../../../assets/images/icons/manager-icon.png" />
+                                  <p class="m-0 mt-3">
+                                    Drag here or <span class="browse-span">browse</span> to upload
+                                  </p>
+                                </app-ng-files-drag-n-upload>
+                              </div>
+                              <div class="row uploadedDocx">
+                                <div class="col-lg-3 mb-2">
+                                  <div class="display-upload delete">
+                                    <!-- <img class="w-100" [src]="certDocx.DocumentFile" /> -->
+                                    <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
+                                      (click)="removeSelectedDocx('i', 'certDocx', 'certificate')" />
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -398,31 +399,31 @@
                       </div>
                     </div>
                   </div>
-                </div>
-              </ng-template>
-            </ngb-panel>
-            <ngb-panel id="AwardsCert" title="Awards & Certificate">
-              <ng-template ngbPanelContent>
-                <div class="animated fadeInDown">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="document-Info d-flex flex-column mt-2">
-                            <div class="file-uploader">
-                              <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
-                                <img src="../../../assets/images/icons/manager-icon.png" />
-                                <p class="m-0 mt-3">
-                                  Drag here or <span class="browse-span">browse</span> to upload
-                                </p>
-                              </app-ng-files-drag-n-upload>
-                            </div>
-                            <div class="row uploadedDocx">
-                              <div class="col-lg-3 mb-2">
-                                <div class="display-upload delete">
-                                  <!-- <img class="w-100" [src]="certDocx.DocumentFile" /> -->
-                                  <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
-                                    (click)="removeSelectedDocx('i', 'certDocx', 'certificate')" />
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel id="AwardsCert" title="Awards & Certificate">
+                <ng-template ngbPanelContent>
+                  <div class="animated fadeInDown">
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="document-Info d-flex flex-column mt-2">
+                              <div class="file-uploader">
+                                <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
+                                  <img src="../../../assets/images/icons/manager-icon.png" />
+                                  <p class="m-0 mt-3">
+                                    Drag here or <span class="browse-span">browse</span> to upload
+                                  </p>
+                                </app-ng-files-drag-n-upload>
+                              </div>
+                              <div class="row uploadedDocx">
+                                <div class="col-lg-3 mb-2">
+                                  <div class="display-upload delete">
+                                    <!-- <img class="w-100" [src]="certDocx.DocumentFile" /> -->
+                                    <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
+                                      (click)="removeSelectedDocx('i', 'certDocx', 'certificate')" />
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -431,185 +432,189 @@
                       </div>
                     </div>
                   </div>
-                </div>
-              </ng-template>
-            </ngb-panel>
-            <ngb-panel id="ChangePassword" title="Change Password">
-              <ng-template ngbPanelContent>
-                <div class="animated fadeInDown">
-                  <form autocomplete="off" novalidate [formGroup]="credentialInfoForm">
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>Current Password</label>
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel id="ChangePassword" title="Change Password">
+                <ng-template ngbPanelContent>
+                  <div class="animated fadeInDown">
+                    <form autocomplete="off" novalidate [formGroup]="credentialInfoForm">
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>Current Password</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group confirmPassword">
+                            <input class="form-control" type="password" placeholder="eg: 123456" (keypress)="spaceHandler($event)"
+                              formControlName="currentPassword" />
+                              <i class="fa fa-eye pointer" aria-hidden="true" [ngClass]="colorEye" (click)=confirmPassword($event)></i>
+                          </div>
+                        </div>
+                        <div class="col-4 d-flex align-items-center form-group">
+                          <p class="inputError animated fadeIn mt-0" *ngIf="(credentialInfoForm.controls['currentPassword'].hasError('maxlength') || credentialInfoForm.controls['currentPassword'].hasError('minlength')) && (credentialInfoForm.controls.currentPassword.dirty || credentialInfoForm.controls.currentPassword.touched)">
+                            Password must be between 6 to 30 characters
+                          </p>
                         </div>
                       </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <input class="form-control" type="password" placeholder="eg: 123456" (keypress)="spaceHandler($event)"
-                            formControlName="currentPassword" />
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>New Password</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group confirmPassword">
+                            <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="eg: 12345678"
+                              formControlName="newPassword" />
+                              <i class="fa fa-eye pointer" aria-hidden="true" [ngClass]="colorEye" (click)=confirmPassword($event)></i>
+                          </div>
+                        </div>
+                        <div class="col-4 d-flex align-items-center form-group">
+                          <p class="inputError animated fadeIn mt-0" *ngIf="(!credentialInfoForm.controls['newPassword'].hasError('maxlength') && !credentialInfoForm.controls['newPassword'].hasError('minlength')) && (credentialInfoForm.value.currentPassword === credentialInfoForm.value.newPassword) && (credentialInfoForm.controls.newPassword.dirty || credentialInfoForm.controls.newPassword.touched)">
+                            New password must be different from current password
+                          </p>
+                          <p class="inputError animated fadeIn mt-0" *ngIf="(credentialInfoForm.controls['newPassword'].hasError('maxlength') || credentialInfoForm.controls['newPassword'].hasError('minlength')) && (credentialInfoForm.controls.newPassword.dirty || credentialInfoForm.controls.newPassword.touched)">
+                            Password must be between 6 to 30 characters
+                          </p>
                         </div>
                       </div>
-                      <div class="col-4 d-flex align-items-center form-group">
-                        <p class="inputError animated fadeIn mt-0" *ngIf="(credentialInfoForm.controls['currentPassword'].hasError('maxlength') || credentialInfoForm.controls['currentPassword'].hasError('minlength')) && (credentialInfoForm.controls.currentPassword.dirty || credentialInfoForm.controls.currentPassword.touched)">
-                          Password must be between 6 to 30 characters
-                        </p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>New Password</label>
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label>Confirm Password</label>
+                          </div>
+                        </div>
+                        <div class="col-5">
+                          <div class="form-group confirmPassword">
+                            <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="eg: 12345678"
+                              formControlName="confirmPassword" />
+                              <i class="fa fa-eye pointer" aria-hidden="true" [ngClass]="colorEye" (click)=confirmPassword($event)></i>
+                          </div>
+                        </div>
+                        <div class="col-4 d-flex align-items-center form-group">
+                          <p class="inputError animated fadeIn mt-0" *ngIf="!credentialInfoForm.controls['confirmPassword'].hasError('minlength') && (credentialInfoForm.value.newPassword !== credentialInfoForm.value.confirmPassword) && (credentialInfoForm.controls.confirmPassword.dirty || credentialInfoForm.controls.confirmPassword.touched)">
+                            Confirm password and new password must be same
+                          </p>
+                          <p class="inputError animated fadeIn mt-0" *ngIf="(credentialInfoForm.controls['confirmPassword'].hasError('maxlength') || credentialInfoForm.controls['confirmPassword'].hasError('minlength')) && (credentialInfoForm.controls.confirmPassword.dirty || credentialInfoForm.controls.confirmPassword.touched)">
+                            Password must be between 6 to 30 characters
+                          </p>
                         </div>
                       </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="eg: 12345678"
-                            formControlName="newPassword" />
-                        </div>
-                      </div>
-                      <div class="col-4 d-flex align-items-center form-group">
-                        <p class="inputError animated fadeIn mt-0" *ngIf="(!credentialInfoForm.controls['newPassword'].hasError('maxlength') && !credentialInfoForm.controls['newPassword'].hasError('minlength')) && (credentialInfoForm.value.currentPassword === credentialInfoForm.value.newPassword) && (credentialInfoForm.controls.newPassword.dirty || credentialInfoForm.controls.newPassword.touched)">
-                          New password must be different from current password
-                        </p>
-                        <p class="inputError animated fadeIn mt-0" *ngIf="(credentialInfoForm.controls['newPassword'].hasError('maxlength') || credentialInfoForm.controls['newPassword'].hasError('minlength')) && (credentialInfoForm.controls.newPassword.dirty || credentialInfoForm.controls.newPassword.touched)">
-                          Password must be between 6 to 30 characters
-                        </p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="form-group">
-                          <label>Confirm Password</label>
-                        </div>
-                      </div>
-                      <div class="col-5">
-                        <div class="form-group">
-                          <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="eg: 12345678"
-                            formControlName="confirmPassword" />
-                        </div>
-                      </div>
-                      <div class="col-4 d-flex align-items-center form-group">
-                        <p class="inputError animated fadeIn mt-0" *ngIf="!credentialInfoForm.controls['confirmPassword'].hasError('minlength') && (credentialInfoForm.value.newPassword !== credentialInfoForm.value.confirmPassword) && (credentialInfoForm.controls.confirmPassword.dirty || credentialInfoForm.controls.confirmPassword.touched)">
-                          Confirm password and new password must be same
-                        </p>
-                        <p class="inputError animated fadeIn mt-0" *ngIf="(credentialInfoForm.controls['confirmPassword'].hasError('maxlength') || credentialInfoForm.controls['confirmPassword'].hasError('minlength')) && (credentialInfoForm.controls.confirmPassword.dirty || credentialInfoForm.controls.confirmPassword.touched)">
-                          Password must be between 6 to 30 characters
-                        </p>
-                      </div>
-                    </div>
-                    <div class="row mt-4">
-                      <div class="col-6">
-                          <button class="setting-discard-btn mr-4">
-                          <svg  class="icon-size-16 mr-1" data-name="Layer 1" id="969970e9-5f21-4072-86a7-6672decd15e6" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                            <g data-name="add" id="0d761291-d7c4-42bf-9433-98aad825bfb6">
-                              <g data-name="sucess" id="bede06dd-acf7-4be6-a923-734e194ecf5e">
-                                <path class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" d="M8,2A6,6,0,1,1,2,8,6.007,6.007,0,0,1,8,2M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0Z"></path>
-                              </g>
-                              <polygon class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" points="11 7 9 7 9 5 7 5 7 7 5 7 5 9 7 9 7 11 9 11 9 9 11 9 11 7"></polygon>
-                            </g>
-                          </svg>
-                          Discart</button>
-                        <button [disabled]="credentialInfoForm.invalid || (credentialInfoForm.value.newPassword === credentialInfoForm.value.currentPassword) || (credentialInfoForm.value.newPassword !== credentialInfoForm.value.confirmPassword)"
-                          (click)="updatePassword()" class="setting-update-btn">
-                          <svg class="icon-size-16 mr-1" id="b1317f11-92b2-4fe7-b9b7-f7347d5965ce" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="background: #fff;">
-                            <defs>
-                              <style>
-                                .e81d3206-aafd-409f-8b0c-2b6826922766 {
-                                  fill: #02bdb6;
-                                }
-                          
-                                .\35 625662d-fc96-4a60-8cdc-d6d1934d7651 {
-                                  fill: #02bdb6;
-                                }
-                              </style>
-                            </defs>
-                            <g id="bd7b2ffc-e30d-421d-8d45-c357208e125a" data-name="sucess">
-                              <g id="3156f19b-9492-47f2-b828-b3acf53006ca" data-name="custom_clearance">
-                                <g id="f4e93677-c57e-4258-95d7-e91b784ee37e" data-name="&lt;Group&gt;">
-                                  <polygon class="e81d3206-aafd-409f-8b0c-2b6826922766" points="10.469 5 7.2 8.098 5.531 6.516 4 7.967 7.2 11 12 6.451 10.469 5"/>
-                                  <polygon class="5625662d-fc96-4a60-8cdc-d6d1934d7651" points="10.469 5 7.2 8.098 5.531 6.516 4 7.967 7.2 11 12 6.451 10.469 5"/>
+                      <div class="row mt-4">
+                        <div class="col-6">
+                            <button [disabled]="credentialInfoForm.invalid || (credentialInfoForm.value.newPassword === credentialInfoForm.value.currentPassword) || (credentialInfoForm.value.newPassword !== credentialInfoForm.value.confirmPassword)"
+                            (click)="updatePassword()" class="setting-discard-btn mr-4">
+                            <svg  class="icon-size-16 mr-1" data-name="Layer 1" id="969970e9-5f21-4072-86a7-6672decd15e6" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                              <g data-name="add" id="0d761291-d7c4-42bf-9433-98aad825bfb6">
+                                <g data-name="sucess" id="bede06dd-acf7-4be6-a923-734e194ecf5e">
+                                  <path class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" d="M8,2A6,6,0,1,1,2,8,6.007,6.007,0,0,1,8,2M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0Z"></path>
                                 </g>
+                                <polygon class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" points="11 7 9 7 9 5 7 5 7 7 5 7 5 9 7 9 7 11 9 11 9 9 11 9 11 7"></polygon>
                               </g>
-                              <path class="5625662d-fc96-4a60-8cdc-d6d1934d7651" d="M8,2A6,6,0,1,1,2,8,6.007,6.007,0,0,1,8,2M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0Z"/>
-                            </g>
-                          </svg>
-                          Update Password</button>
+                            </svg>
+                            Discart</button>
+                          <button [disabled]="credentialInfoForm.invalid || (credentialInfoForm.value.newPassword === credentialInfoForm.value.currentPassword) || (credentialInfoForm.value.newPassword !== credentialInfoForm.value.confirmPassword)"
+                            (click)="updatePassword()" class="setting-update-btn">
+                            <svg class="icon-size-16 mr-1" id="b1317f11-92b2-4fe7-b9b7-f7347d5965ce" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="background: #fff;">
+                              <defs>
+                                <style>
+                                  .e81d3206-aafd-409f-8b0c-2b6826922766 {
+                                    fill: #02bdb6;
+                                  }
+                            
+                                  .\35 625662d-fc96-4a60-8cdc-d6d1934d7651 {
+                                    fill: #02bdb6;
+                                  }
+                                </style>
+                              </defs>
+                              <g id="bd7b2ffc-e30d-421d-8d45-c357208e125a" data-name="sucess">
+                                <g id="3156f19b-9492-47f2-b828-b3acf53006ca" data-name="custom_clearance">
+                                  <g id="f4e93677-c57e-4258-95d7-e91b784ee37e" data-name="&lt;Group&gt;">
+                                    <polygon class="e81d3206-aafd-409f-8b0c-2b6826922766" points="10.469 5 7.2 8.098 5.531 6.516 4 7.967 7.2 11 12 6.451 10.469 5"/>
+                                    <polygon class="5625662d-fc96-4a60-8cdc-d6d1934d7651" points="10.469 5 7.2 8.098 5.531 6.516 4 7.967 7.2 11 12 6.451 10.469 5"/>
+                                  </g>
+                                </g>
+                                <path class="5625662d-fc96-4a60-8cdc-d6d1934d7651" d="M8,2A6,6,0,1,1,2,8,6.007,6.007,0,0,1,8,2M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0Z"/>
+                              </g>
+                            </svg>
+                            Update Password</button>
+                        </div>
                       </div>
-                    </div>
-                  </form>
-                </div>
-              </ng-template>
-            </ngb-panel>
-          </ngb-accordion>
-          <hr class="hr-solid mt-4 mb-4">
-          <div class="row">
-            <div class="col-8 delete-acc">
-              <a href="javascript:;" (click)="deactivate()">
-                <svg class="delete-icon icon-size-16 mr-2" id="317c8c47-17e2-4e96-9063-97bc9a32118b" data-name="Layer 1"
-                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                  <defs>
-                    <style>
-                      .a2933809-f108-463d-a7d6-9972aa735edc {
-                        fill: #d32020;
-                      }
-
-                    </style>
-                  </defs>
-                  <title>icon</title>
-                  <g id="9ddd7984-9517-4e7f-881d-6292000e8e8a" data-name="delete">
-                    <rect class="a2933809-f108-463d-a7d6-9972aa735edc" y="2" width="16" height="2" />
-                    <rect class="a2933809-f108-463d-a7d6-9972aa735edc" x="5" width="6" height="2" />
-                    <path class="a2933809-f108-463d-a7d6-9972aa735edc" d="M2,5v9a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V5Zm5,9H5V7H7Zm4,0H9V7h2Z" />
-                  </g>
-                </svg>
-                Delete Account</a>
-              <p class="pl-4 mt-2">This action cannot be undone. Once you hit this button and confirm your intention to
-                delete your
-                account, the
-                data associated to your account will be deleted. Data related to your company will be still be retained
-                however
-                all your activity will be lost - forever!</p>
+                    </form>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+            </ngb-accordion>
+            <hr class="hr-solid mt-4 mb-4">
+            <div class="row">
+              <div class="col-8 delete-acc">
+                <a href="javascript:;" (click)="deactivate()">
+                  <svg class="delete-icon icon-size-16 mr-2" id="317c8c47-17e2-4e96-9063-97bc9a32118b" data-name="Layer 1"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                    <defs>
+                      <style>
+                        .a2933809-f108-463d-a7d6-9972aa735edc {
+                          fill: #d32020;
+                        }
+  
+                      </style>
+                    </defs>
+                    <title>icon</title>
+                    <g id="9ddd7984-9517-4e7f-881d-6292000e8e8a" data-name="delete">
+                      <rect class="a2933809-f108-463d-a7d6-9972aa735edc" y="2" width="16" height="2" />
+                      <rect class="a2933809-f108-463d-a7d6-9972aa735edc" x="5" width="6" height="2" />
+                      <path class="a2933809-f108-463d-a7d6-9972aa735edc" d="M2,5v9a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V5Zm5,9H5V7H7Zm4,0H9V7h2Z" />
+                    </g>
+                  </svg>
+                  Delete Account</a>
+                <p class="pl-4 mt-2">This action cannot be undone. Once you hit this button and confirm your intention to
+                  delete your
+                  account, the
+                  data associated to your account will be deleted. Data related to your company will be still be retained
+                  however
+                  all your activity will be lost - forever!</p>
+              </div>
             </div>
-          </div>
-        </section>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab>
-      <ng-template ngbTabTitle>Document Manager</ng-template>
-      <ng-template ngbTabContent>
-        <section class="DocumentManager">
-          <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
-            farm-to-table
-            craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
-            vinyl
-            cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS
-            salvia
-            yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
-            sustainable jean
-            shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher
-            vero
-            sint qui sapiente accusamus tattooed echo park.</p>
-        </section>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab>
-      <ng-template ngbTabTitle>Notification</ng-template>
-      <ng-template ngbTabContent>
-        <section class="Notification">
-          <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
-            farm-to-table
-            craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
-            vinyl
-            cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS
-            salvia
-            yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
-            sustainable jean
-            shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher
-            vero
-            sint qui sapiente accusamus tattooed echo park.</p>
-        </section>
-      </ng-template>
-    </ngb-tab>
-  </ngb-tabset>
-</section>
+          </section>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>Document Manager</ng-template>
+        <ng-template ngbTabContent>
+          <section class="DocumentManager">
+            <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
+              farm-to-table
+              craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
+              vinyl
+              cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS
+              salvia
+              yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
+              sustainable jean
+              shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher
+              vero
+              sint qui sapiente accusamus tattooed echo park.</p>
+          </section>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>Notification</ng-template>
+        <ng-template ngbTabContent>
+          <section class="Notification">
+            <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
+              farm-to-table
+              craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
+              vinyl
+              cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS
+              salvia
+              yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
+              sustainable jean
+              shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher
+              vero
+              sint qui sapiente accusamus tattooed echo park.</p>
+          </section>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </section>
+  
