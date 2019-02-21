@@ -225,6 +225,11 @@
     border: none;
     padding: 0;
     cursor: pointer;
+
+    &:disabled {
+      cursor: no-drop;
+      filter: grayscale(1);
+    }
   }
   .setting-discard-btn {
     @extend .setting-update-btn;
