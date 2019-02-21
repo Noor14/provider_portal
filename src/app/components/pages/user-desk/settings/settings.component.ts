@@ -50,6 +50,7 @@ export class SettingsComponent implements OnInit {
 
   // personalInfo
   public personalInfoForm: any;
+  public credentialInfoForm: any;
   public jobTitles: any;
   public cityList: any;
   public regionList: any[] = [];
@@ -84,6 +85,11 @@ export class SettingsComponent implements OnInit {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
+    this.credentialInfoForm = new FormGroup({
+      currentPassword: new FormControl(null, { validators: [Validators.required, Validators.minLength(6), Validators.maxLength(30)], updateOn: 'blur'}),
+      newPassword: new FormControl(null, { validators: [Validators.required, Validators.minLength(6), Validators.maxLength(30)], updateOn: 'blur'}),
+      confirmPassword: new FormControl('', { validators: [Validators.required, Validators.minLength(6), Validators.maxLength(30)], updateOn: 'blur'}),
+    });
     this.personalInfoForm = new FormGroup({
       firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
       lastName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
@@ -151,6 +157,26 @@ export class SettingsComponent implements OnInit {
           this.companyLogo = JSON.parse(res.returnObject.ProviderImage).shift().ProviderLogo;
         }
         this.getListJobTitle(countryId, info);
+      }
+    })
+  }
+  updatePassword() {
+    if (this.credentialInfoForm.value.currentPassword === this.credentialInfoForm.value.newPassword) {
+      this._toastr.error('New password should be different from current password', '');
+      return;
+    }
+    let obj = {
+      email: this.userProfile.LoginID,
+      password: this.credentialInfoForm.value.newPassword,
+      confirmPassword: this.credentialInfoForm.value.confirmPassword,
+      currentPassword: this.credentialInfoForm.value.currentPassword
+    }
+    this._settingService.changePassword(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this.credentialInfoForm.reset();
+        this._toastr.success(res.returnText, '');
+      }else{
+        this._toastr.error(res.returnText, '');
       }
     })
   }
@@ -296,6 +322,9 @@ export class SettingsComponent implements OnInit {
     else if (type == 'certificate') {
       obj.DocumentID = this.docTypeIdCert;
     }
+
+
+
 
     this._basicInfoService.removeDoc(obj).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
