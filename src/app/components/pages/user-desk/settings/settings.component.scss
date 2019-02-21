@@ -90,12 +90,14 @@
               width: 15px;
               height: 12px;
               margin-right: 10px !important;
+
               img {
                 width: 16px;
                 height: 12px;
                 border: 1px solid $primary-grey;
               }
             }
+
             ngb-highlight {
               padding-right: 1rem;
             }
@@ -132,6 +134,7 @@
               padding-left: 2.8rem;
             }
           }
+
           &.currency {
             ngb-typeahead-window {
               top: auto !important;
@@ -195,11 +198,11 @@
       text-transform: uppercase;
       display: flex;
       align-items: center;
-  
+
       &:hover {
         .delete-icon {
           overflow: visible;
-  
+
           g {
             rect {
               transform: rotate(-25deg);
@@ -209,6 +212,7 @@
         }
       }
     }
+
     p {
       font-family: $font-proxima;
       font-size: $font-size-medium;
@@ -216,6 +220,7 @@
       letter-spacing: 0.5px;
     }
   }
+
   .setting-update-btn {
     font-family: $font-proxima;
     font-size: $font-size-large;
@@ -231,6 +236,7 @@
       filter: grayscale(1);
     }
   }
+
   .setting-discard-btn {
     @extend .setting-update-btn;
     color: $color-topmenu;
@@ -254,6 +260,7 @@
       height: auto;
     }
   }
+
   .change-logo {
     font-family: $font-proxima;
     font-size: $font-size-medium;
@@ -267,6 +274,7 @@
     h6 {
       @extend .change-logo;
     }
+
     small {
       font-family: $font-proxima;
       color: $secondary-text-color;
@@ -274,17 +282,71 @@
       letter-spacing: 0.5px;
     }
   }
+
   .confirmPassword {
     position: relative;
+
     i {
       position: absolute;
       right: 15px;
       top: 15px;
+
       &.black {
         color: $text-color-default
       }
+
       &.grey {
         color: $text-grey;
+      }
+    }
+  }
+
+  .document-Info {
+    .file-uploader {
+      border: 1px dashed #e1d8d8;
+      border-radius: 4px;
+
+      .browse-span {
+        color: $secondary-color;
+        font-weight: 500;
+      }
+      text-align: center;
+      app-ng-files-drag-n-upload {
+        label {
+          padding: 2rem 60px;
+        }
+      }
+    }
+    .uploadedDocx {
+      margin-top: 1rem;
+      .display-upload {
+        position: relative;
+        height: 200px;
+        z-index: 0;
+        display: flex;
+        justify-content: center;
+        border: 1px solid $input-border;
+        background: $color-white;
+        border-radius: 4px;
+        img,
+        video {
+          border-radius: 4px;
+          max-width: 100%;
+          height: 100%;
+          display: flex;
+        }
+        .delete-icon {
+          position: absolute;
+          top: -10px;
+          right: -8px;
+          min-height: auto;
+          background: $white-color;
+          padding: 3px;
+          border-radius: 50%;
+          width: 23px;
+          height: auto;
+          border: none;
+        }
       }
     }
   }
