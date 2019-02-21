@@ -39,7 +39,6 @@ export class SettingsComponent implements OnInit {
   private fileStatusGallery = undefined;
   private fileStatusCert = undefined;
   private userProfile: any;
-  public colorEye;
 
   public config: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', 'bmp', 'svg'],
@@ -170,15 +169,12 @@ export class SettingsComponent implements OnInit {
     })
   }
   confirmPassword(event) {
-    let element = event.currentTarget.nextSibling.nextSibling;
+    let element = event.currentTarget.previousElementSibling;
     if (element.type === "password" && element.value) {
       element.type = "text";
-      this.colorEye = "grey";
     }
     else {
       element.type = "password";
-      this.colorEye = "black";
-
     };
   }
   updatePassword() {
