@@ -39,6 +39,7 @@ export class SettingsComponent implements OnInit {
   private fileStatusGallery = undefined;
   private fileStatusCert = undefined;
   private userProfile: any;
+  public colorEye;
 
   public config: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', 'bmp', 'svg'],
@@ -167,6 +168,18 @@ export class SettingsComponent implements OnInit {
         this.getListJobTitle(countryId, info);
       }
     })
+  }
+  confirmPassword(event) {
+    let element = event.currentTarget.nextSibling.nextSibling;
+    if (element.type === "password" && element.value) {
+      element.type = "text";
+      this.colorEye = "grey";
+    }
+    else {
+      element.type = "password";
+      this.colorEye = "black";
+
+    };
   }
   updatePassword() {
     if (this.credentialInfoForm.value.currentPassword === this.credentialInfoForm.value.newPassword) {
