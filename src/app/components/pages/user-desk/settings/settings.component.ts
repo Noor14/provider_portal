@@ -200,7 +200,7 @@ export class SettingsComponent implements OnInit {
           isJSON(res.returnObject.UploadedTradeLicense[0].DocumentFileName)) {
           let tradeLiscence = res.returnObject.UploadedTradeLicense[0];
           this.uploadedLiscence = JSON.parse(tradeLiscence.DocumentFileName);
-          this.docTypeIdCert = this.uploadedLiscence[0].DocumentID;
+          this.docTypeIdLiscence = this.uploadedLiscence[0].DocumentID;
           this.uploadedLiscence.map(obj => {
             obj.DocumentFile = this.baseExternalAssets + obj.DocumentFile;
           })
@@ -475,7 +475,7 @@ export class SettingsComponent implements OnInit {
         else if (type == 'liscence') {
           this.uploadedLiscence.splice(index, 1);
           if (!this.uploadedLiscence || (this.uploadedLiscence && !this.uploadedLiscence.length)) {
-            this.docTypeIdCert = null;
+            this.docTypeIdLiscence = null;
           }
         }
       }
