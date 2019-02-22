@@ -338,6 +338,14 @@
           height: auto;
           border: none;
         }
+        &:hover {
+          .delete-icon {
+            animation-name: pulse;
+            animation-fill-mode: both;
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+          }
+        }
       }
     }
   }

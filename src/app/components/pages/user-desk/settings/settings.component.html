@@ -487,7 +487,7 @@
                         <div class="row uploadedDocx">
                           <div class="col-lg-3 mb-2" *ngFor="let galleryDocx of uploadedGalleries; let i = index">
                             <div class="display-upload delete">
-                              <img class="w-100" [src]="galleryDocx.DocumentFile" />
+                              <img [src]="galleryDocx.DocumentFile" />
                               <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
                                 (click)="removeSelectedDocx(i, galleryDocx, 'gallery')" />
                             </div>
@@ -516,7 +516,7 @@
                         <div class="row uploadedDocx">
                           <div class="col-lg-3 mb-2" *ngFor="let certDocx of uploadedCertificates; let i=index">
                             <div class="display-upload delete">
-                              <img class="w-100" [src]="certDocx.DocumentFile" />
+                              <img [src]="certDocx.DocumentFile" />
                               <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
                                 (click)="removeSelectedDocx(i, certDocx, 'certificate')" />
                             </div>
@@ -700,7 +700,7 @@
                     <div class="row uploadedDocx">
                       <div class="col-lg-3 mb-2" *ngFor="let liscenceDocx of uploadedLiscence; let i=index">
                         <div class="display-upload delete">
-                          <img class="w-100" [src]="liscenceDocx.DocumentFile" />
+                          <img [src]="liscenceDocx.DocumentFile" />
                           <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
                             (click)="removeSelectedDocx(i, liscenceDocx, 'liscence')" />
                         </div>
