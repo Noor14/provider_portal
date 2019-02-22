@@ -182,12 +182,12 @@ export class SeaRateDialogComponent implements OnInit {
     this.cargoTypeChange(this.selectedCategory);
     this.selectedContSize = data.ContainerSpecID;
     console.log(this.allPorts);
-
+    
     this.filterOrigin = this.allPorts.find(
       obj => obj.id == data.PolID
     );
     console.log(this.filterOrigin);
-
+    
     this.filterDestination = this.allPorts.find(
       obj => obj.id == data.PodID
     );
@@ -611,19 +611,12 @@ export class SeaRateDialogComponent implements OnInit {
 
   selectCharges(type, model, index) {
     model.Imp_Exp = type;
-
     if (type === 'EXPORT') {
-      let selectedCurrency = {
-        CurrencyID: this.selectedCurrency.id,
-        CurrencyCode: this.selectedCurrency.shortName,
-        CountryCode: this.selectedCurrency.imageName
-      }
       if ((Object.keys(this.selectedOrigins[index]).length === 0 && this.selectedOrigins[index].constructor === Object) || !this.selectedOrigins[index].hasOwnProperty('currency')) {
-        model.CurrId = selectedCurrency.CurrencyID
-        model.currency = selectedCurrency
+        model.CurrId = this.selectedCurrency.CurrencyID
+        model.currency = this.selectedCurrency
       } else {
-        this.selectedOrigins[index].currency
-        model.CurrId = this.selectedOrigins[index].currency.id
+        model.CurrId = this.selectedOrigins[index].currency.CurrencyID
         model.currency = this.selectedOrigins[index].currency
       }
       const { selectedOrigins } = this
@@ -641,14 +634,12 @@ export class SeaRateDialogComponent implements OnInit {
       }
       this.selectedOrigins = cloneObject(selectedOrigins)
       this.originsList = this.originsList.filter(e => e.addChrID !== model.addChrID)
-      console.log(this.originsList);
-
     } else if (type === 'IMPORT') {
       if ((Object.keys(this.selectedDestinations[index]).length === 0 && this.selectedDestinations[index].constructor === Object) || !this.selectedDestinations[index].hasOwnProperty('currency')) {
-        model.CurrId = selectedCurrency.CurrencyID
-        model.currency = selectedCurrency
+        model.CurrId = this.selectedCurrency.CurrencyID
+        model.currency = this.selectedCurrency
       } else {
-        model.CurrId = this.selectedDestinations[index].currency.id
+        model.CurrId = this.selectedDestinations[index].currency.CurrencyID
         model.currency = this.selectedDestinations[index].currency
       }
       const { selectedDestinations } = this
@@ -886,7 +877,7 @@ export class SeaRateDialogComponent implements OnInit {
   getDropdownsList() {
     this.allPorts = JSON.parse(localStorage.getItem('shippingPortDetails'))
     console.log(this.allPorts);
-
+    
     this._sharedService.currenciesList.subscribe(res => {
       if (res) {
         console.log(res);
