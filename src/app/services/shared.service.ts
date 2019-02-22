@@ -31,12 +31,15 @@ export class SharedService {
 
   private userLocation = new BehaviorSubject<any>(null);
   public getLocation = this.userLocation.asObservable();
-  
+
   public formChanger = new BehaviorSubject<boolean>(true);
   public formChange = new BehaviorSubject<boolean>(true);
 
   public IsloggedIn = new BehaviorSubject<boolean>(null);
   public signOutToggler = new BehaviorSubject<boolean>(null);
+
+  private currencyDataSource = new BehaviorSubject<any[]>(null);
+  currenciesList = this.currencyDataSource.asObservable();
 
   setMapLocation(data) {
     this.userLocation.next(data);
@@ -47,4 +50,8 @@ export class SharedService {
   // setCountries(data) {
   //   this.countries.next(data);
   // }
+
+  setCurrency(data: any[]) {
+    this.currencyDataSource.next(data);
+  }
 }

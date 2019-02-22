@@ -12,6 +12,11 @@ export class ManageRatesService {
     return this._http.post(baseApi + url, obj);
   }
 
-  
+  getShippingData() {
+    let url: string = "shippingModeCatMapping/GetShippingCriteria";
+    return this._http.get(baseApi + url);
+  }
+
+
 
 }

@@ -78,7 +78,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
   ],
   providers: [
     UserCreationService,
-    BasicInfoService,
+    BasicInfoService
   ]
 })
 export class PagesModule { }

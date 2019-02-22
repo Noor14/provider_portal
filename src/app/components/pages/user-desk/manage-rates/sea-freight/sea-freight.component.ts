@@ -26,7 +26,7 @@ import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
 import { RateHistoryComponent } from '../../../../../shared/dialogues/rate-history/rate-history.component';
-import { getImagePath, ImageSource, ImageRequiredSize } from '../../../../../constants/globalFunctions';
+import { getImagePath, ImageSource, ImageRequiredSize, changeCase, loading } from '../../../../../constants/globalFunctions';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -155,6 +155,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   public disableFCL: boolean;
   public disableLCL: boolean;
   public seaCharges: any = []
+  public allCustomers: any[] = []
 
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
@@ -192,6 +193,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this.getAllPublishRatesLcl();
     this.getAllPublishRates();
     this.allservicesBySea();
+
+    // fill dropdow lists
+    this.getDropdownsList()
+    this.getDraftRates()
+
     this.getAllCustomers(this.userProfile.ProviderID)
     this.addnsaveRates = this._sharedService.draftRowFCLAdd.subscribe(state => {
       if (state && Object.keys(state).length) {
@@ -220,7 +226,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.draftRates.unsubscribe();
+    // this.draftRates.unsubscribe();
     this.addnsaveRates.unsubscribe();
     this.addnsaveRatesLCL.unsubscribe();
   }
@@ -241,7 +247,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     }
     else {
       this.editorContentLCL = html
-
     }
   }
 
@@ -296,11 +301,14 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this.getAllPublishRatesLcl()
   }
   addRatesManually() {
-    this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        this.setRowinDRaftTable(res.returnObject, 'openPopup')
-      }
-    })
+    this.updatePopupRates(0, 'FCL');
+    this.generateDraftTable();
+
+    // this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
+    //   if (res.returnStatus == "Success") {
+    //     this.setRowinDRaftTable(res.returnObject, 'openPopup')
+    //   }
+    // })
   }
   setRowinDRaftTable(obj, type) {
     this.draftDataBYSeaFCL.push(obj);
@@ -448,7 +456,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             if (subTotalIMP === 0 || isNaN(subTotalIMP)) {
               return "<span>-- Select --</span>"
             }
-            return data.CurrencyCode + ' ' + subTotalIMP;
+            // return data.CurrencyCode + ' ' + subTotalIMP;
+            return subTotalIMP.toLocaleString('en-US', {
+              style: 'currency',
+              currency: data.CurrencyCode,
+            });
           }
         },
         {
@@ -474,7 +486,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             if (subTotalExp === 0 || isNaN(subTotalExp)) {
               return "<span>-- Select --</span>"
             }
-            return data.CurrencyCode + ' ' + subTotalExp;
+            // return data.CurrencyCode + ' ' + subTotalExp;
+            return subTotalExp.toLocaleString('en-US', {
+              style: 'currency',
+              currency: data.CurrencyCode,
+            });
           }
         },
         {
@@ -903,9 +919,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       keyboard: false
     });
     modalRef.result.then((result) => {
-      if (result && result.data && result.data.length) {
+      if (result) {
         if (type == 'FCL') {
-          this.setAddDraftData(result.data);
+          console.log(result);
+          this.setAddDraftData(result);
         }
         else if (type == 'LCL') {
           this.setAddDraftDataLCL(result.data);
@@ -955,6 +972,14 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       this.generateDraftTableLCL();
     }
   }
+
+
+  /**
+   *
+   *  Setting Draft Data in FCL Drafts Tabls
+   * @param {Array} data
+   * @memberof SeaFreightComponent
+   */
   setAddDraftData(data) {
     data.forEach(element => {
       if (element.JsonSurchargeDet) {
@@ -965,38 +990,17 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT');
         element.parsedJsonSurchargeDet = importCharges.concat(exportCharges)
       }
-    });
-    for (var index = 0; index < this.draftsfcl.length; index++) {
-      for (let i = 0; i < data.length; i++) {
-        if (this.draftsfcl[index].ProviderPricingDraftID == data[i].providerPricingDraftID) {
-          this.draftsfcl[index].CarrierID = data[i].carrierID;
-          this.draftsfcl[index].CarrierImage = data[i].carrierImage;
-          this.draftsfcl[index].CarrierName = data[i].carrierName;
-          this.draftsfcl[index].ContainerLoadType = data[i].containerLoadType;
-          this.draftsfcl[index].ContainerSpecID = data[i].containerSpecID;
-          this.draftsfcl[index].CustomerID = data[i].customerID;
-          this.draftsfcl[index].CustomersList = data[i].customersList;
-          this.draftsfcl[index].ContainerSpecName = data[i].containerSpecName;
-          this.draftsfcl[index].ShippingCatID = data[i].shippingCatID;
-          this.draftsfcl[index].ShippingCatName = data[i].shippingCatName;
-          this.draftsfcl[index].CurrencyID = data[i].currencyID;
-          this.draftsfcl[index].CurrencyCode = data[i].currencyCode;
-          this.draftsfcl[index].Price = data[i].price;
-          this.draftsfcl[index].EffectiveFrom = data[i].effectiveFrom;
-          this.draftsfcl[index].EffectiveTo = data[i].effectiveTo;
-          this.draftsfcl[index].PodCode = data[i].podCode;
-          this.draftsfcl[index].PolCode = data[i].polCode;
-          this.draftsfcl[index].PodName = data[i].podName;
-          this.draftsfcl[index].PolName = data[i].polName;
-          this.draftsfcl[index].PodID = data[i].podID;
-          this.draftsfcl[index].PolID = data[i].polID;
-          this.draftsfcl[index].JsonSurchargeDet = JSON.stringify(data[i].parsedJsonSurchargeDet)
+      let dataObj = changeCase(element, 'pascal')
+      this.draftsfcl.forEach(e => {
+        if (e.ProviderPricingDraftID === element.providerPricingDraftID) {
+          let idx = this.draftsfcl.indexOf(e)
+          this.draftsfcl.splice(idx, 1)
         }
-      }
-    }
-    if (index == this.draftsfcl.length) {
-      this.generateDraftTable();
-    }
+      })
+      this.draftsfcl.unshift(dataObj)
+    });
+    this.generateDraftTable();
+
   }
   addAnotherRates() {
     if (this.activeTab == "activeFCL") {
@@ -1080,8 +1084,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             this.allCargoType = state[index].DropDownValues.Category;
             this.allContainersType = state[index].DropDownValues.ContainerFCL;
             this.allHandlingType = state[index].DropDownValues.ContainerLCL;
-            this.allPorts = state[index].DropDownValues.Port;
-            this.allCurrencies = state[index].DropDownValues.UserCurrency;
+            // this.allPorts = state[index].DropDownValues.Port;
+            // this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if (state[index].TCFCL) {
               this.editorContentFCL = state[index].TCFCL;
               this.disableFCL = true;
@@ -1090,10 +1094,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
               this.editorContentLCL = state[index].TCLCL;
               this.disableLCL = true;
             }
-            if (state[index].DraftDataFCL) {
-              this.allSeaDraftRatesByFCL = state[index].DraftDataFCL;
-              this.draftsfcl = this.allSeaDraftRatesByFCL;
-            }
+            // if (state[index].DraftDataFCL) {
+            //   this.allSeaDraftRatesByFCL = state[index].DraftDataFCL;
+            //   this.draftsfcl = this.allSeaDraftRatesByFCL;
+            // }
             if (state[index].DraftDataLCL) {
               this.allSeaDraftRatesByLCL = state[index].DraftDataLCL;
               this.draftslcl = this.allSeaDraftRatesByLCL;
@@ -1310,6 +1314,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
               return "<span>-- Select --</span>"
             }
             return data.currencyCode + ' ' + subTotalIMP;
+            // return subTotalIMP.toLocaleString('en-US', {
+            //   style: 'currency',
+            //   currency: data.CurrencyCode,
+            // });
           }
         },
         {
@@ -1336,6 +1344,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
               return "<span>-- Select --</span>"
             }
             return data.currencyCode + ' ' + subTotalExp;
+            // return subTotalExp.toLocaleString('en-US', {
+            //   style: 'currency',
+            //   currency: data.CurrencyCode,
+            // });
           }
         },
         {
@@ -2149,19 +2161,52 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       console.log(err);
     })
   }
-  public allCustomers:any[] = []
+
+  /**
+   *
+   * Getting list of all customers
+   * @param {number} ProviderID
+   * @memberof SeaFreightComponent
+   */
   getAllCustomers(ProviderID) {
     this._seaFreightService.getAllCustomers(ProviderID).subscribe((res: any) => {
       console.log(res);
-      this.allCustomers = res.returnObject
-      this.allCustomers.forEach(e => {
-        e.CustomerImageParsed = getImagePath(ImageSource.FROM_SERVER, e.CustomerImage, ImageRequiredSize._48x48)
-      })
-    }, (err) => {
-      console.log(err);
+      if (res.returnId > 0) {
+        this.allCustomers = res.returnObject
+        this.allCustomers.forEach(e => {
+          e.CustomerImageParsed = getImagePath(ImageSource.FROM_SERVER, e.CustomerImage, ImageRequiredSize._48x48)
+        })
+      }
 
+    }, (err) => {
     })
   }
 
 
+
+  /**
+   * Getting all dropdown values to fill
+   *
+   * @memberof SeaFreightComponent
+   */
+  getDropdownsList() {
+    this.allPorts = JSON.parse(localStorage.getItem('shippingPortDetails'))
+    this._sharedService.currenciesList.subscribe(res => {
+      if (res) {
+        this.allCurrencies = res;
+      }
+    })
+  }
+
+  getDraftRates() {
+    loading(true)
+    this._seaFreightService.getAllDrafts(this.userProfile.ProviderID).subscribe((res: any) => {
+      console.log(res);
+      this.allSeaDraftRatesByFCL = changeCase(res.returnObject, 'pascal')
+      this.draftsfcl = changeCase(res.returnObject, 'pascal')
+      loading(false)
+    }, (err: any) => {
+      loading(false)
+    })
+  }
 }

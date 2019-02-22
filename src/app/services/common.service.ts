@@ -61,4 +61,13 @@ export class CommonService {
     return this._http.get(baseApi + url);
   }
 
+  getPortsData($portType?: string) {
+    let portType = $portType
+    if (!portType) {
+      portType = 'SEA'
+    }
+    let url: string = `ports/GetPortsByType/${0}/${portType}`;
+    return this._http.get(baseApi + url);
+  }
+
 }

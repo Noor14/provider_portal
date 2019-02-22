@@ -174,8 +174,10 @@ export function changeCase(o, toCase) {
   var newO, origKey, newKey, value
   if (o instanceof Array) {
     return o.map(function (value) {
-      if (typeof value === "object") {
-        value = this.toCamel(value)
+      if (typeof value === "object" && toCase === 'camel') {
+        value = changeCase(value, 'camel')
+      } else if(typeof value === "object" && toCase === 'pascal') {
+        value = changeCase(value, 'pascal')
       }
       return value
     })
