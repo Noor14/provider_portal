@@ -226,9 +226,15 @@ removeSelectedDocx(index,  obj, type) {
       }
       else if (type == 'gallery') {
         this.selectedGalleryDocx.splice(index, 1);
+        if (!this.selectedGalleryDocx || (this.selectedGalleryDocx && !this.selectedGalleryDocx.length)) {
+          this.docTypeIdGallery = null;
+        }
       }
       else if (type == 'certificate') {
         this.selectedCertificateDocx.splice(index, 1);
+        if (!this.selectedCertificateDocx || (this.selectedCertificateDocx && !this.selectedCertificateDocx.length)) {
+          this.docTypeIdGallery = null;
+        }
       }
     }
     else  {

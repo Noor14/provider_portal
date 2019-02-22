@@ -27,15 +27,19 @@ export class SettingsComponent implements OnInit {
   private docTypeIdLogo = null;
   private docTypeIdCert = null;
   private docTypeIdGallery = null;
+  private docTypeIdLiscence = null;
   public uploadedlogo: any;
   public companyLogoDocx: any;
   public certficateDocx: any;
   public galleriesDocx: any;
+  public liscenceDocx: any;
   public uploadedGalleries: any[] = [];
   public uploadedCertificates: any[] = [];
+  public uploadedLiscence: any[] = [];
   private fileStatusLogo = undefined;
   private fileStatusGallery = undefined;
   private fileStatusCert = undefined;
+  private fileStatusLiscence = undefined;
   private userProfile: any;
 
   public config: NgFilesConfig = {
@@ -92,22 +96,22 @@ export class SettingsComponent implements OnInit {
       firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
       lastName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
       jobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
-      city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
-      currency: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(2), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
-      region: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3)]),
+      currency: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(2)]),
+      region: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(3)]),
       email: new FormControl(null, [
         Validators.required,
         Validators.pattern(EMAIL_REGEX),
         Validators.maxLength(320)
       ]),
-      mobile: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
+      mobile: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(13)]),
     });
 
     this.businessInfoForm = new FormGroup({
       orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
-      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
-      address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
-      city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      phone: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(13)]),
+      address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10)]),
+      city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3)]),
       poBoxNo: new FormControl(null, [Validators.maxLength(16), Validators.minLength(4)]),
       socialUrl: new FormControl(null),
       profileUrl: new FormControl(null, [Validators.required]),
@@ -157,6 +161,7 @@ export class SettingsComponent implements OnInit {
         this.galleriesDocx = res.returnObject.Gallery;
         this.certficateDocx = res.returnObject.AwardCertificate;
         this.companyLogoDocx = res.returnObject.CompanyLogo;
+        this.liscenceDocx = res.returnObject.TradeLicense;
         this.assocService = this.allAssociations.filter(obj => obj.IsSelected && obj.ProviderAssnID);
         this.valAddedServices = res.returnObject.ValueAddedServices;
         this.valueService = this.valAddedServices.filter(obj => obj.IsSelected && obj.ProvLogServID);
@@ -190,7 +195,16 @@ export class SettingsComponent implements OnInit {
             obj.DocumentFile = this.baseExternalAssets + obj.DocumentFile;
           })
         }
-
+        if (res.returnObject.UploadedTradeLicense && res.returnObject.UploadedTradeLicense[0].DocumentFileName &&
+          res.returnObject.UploadedTradeLicense[0].DocumentFileName != "[]" &&
+          isJSON(res.returnObject.UploadedTradeLicense[0].DocumentFileName)) {
+          let tradeLiscence = res.returnObject.UploadedTradeLicense[0];
+          this.uploadedLiscence = JSON.parse(tradeLiscence.DocumentFileName);
+          this.docTypeIdCert = this.uploadedLiscence[0].DocumentID;
+          this.uploadedLiscence.map(obj => {
+            obj.DocumentFile = this.baseExternalAssets + obj.DocumentFile;
+          })
+        }
         this.getListJobTitle(countryId, info);
       }
     })
@@ -262,9 +276,14 @@ export class SettingsComponent implements OnInit {
     if (this.frtService && this.frtService.length) {
       for (var i = 0; i < this.frtService.length; i++) {
         if (this.frtService[i].LogServID == obj.LogServID) {
-          this.frtService.splice(i, 1);
-          selectedItem.remove('active');
-          this.removeServices(obj);
+          if (this.frtService.length > 1){
+            this.frtService.splice(i, 1);
+            selectedItem.remove('active');
+            this.removeServices(obj);
+          }
+          else{
+              this._toastr.info("At least one service is mandatory",'')
+          }
           return;
         }
       }
@@ -430,6 +449,9 @@ export class SettingsComponent implements OnInit {
     else if (type == 'certificate') {
       obj.DocumentID = this.docTypeIdCert;
     }
+    else if (type == 'liscence') {
+      obj.DocumentID = this.docTypeIdLiscence;
+    }
 
     this._basicInfoService.removeDoc(obj).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
@@ -446,6 +468,13 @@ export class SettingsComponent implements OnInit {
         else if (type == 'certificate') {
           this.uploadedCertificates.splice(index, 1);
           if (!this.uploadedCertificates || (this.uploadedCertificates && !this.uploadedCertificates.length)) {
+            this.docTypeIdCert = null;
+          }
+        }
+
+        else if (type == 'liscence') {
+          this.uploadedLiscence.splice(index, 1);
+          if (!this.uploadedLiscence || (this.uploadedLiscence && !this.uploadedLiscence.length)) {
             this.docTypeIdCert = null;
           }
         }
@@ -534,7 +563,11 @@ export class SettingsComponent implements OnInit {
       object = this.certficateDocx;
       object.DocumentID = this.docTypeIdCert;
       object.DocumentLastStatus = this.fileStatusCert;
-
+    }
+    else if (type == 'liscence') {
+      object = this.liscenceDocx;
+      object.DocumentID = this.docTypeIdLiscence;
+      object.DocumentLastStatus = this.fileStatusLiscence;
     }
     object.UserID = this.userProfile.UserID;
     object.ProviderID = this.userProfile.ProviderID;
@@ -567,7 +600,10 @@ export class SettingsComponent implements OnInit {
           else if (type == 'certificate') {
             this.docTypeIdCert = resObj.DocumentID;
             this.fileStatusCert = resObj.DocumentLastStaus;
-
+          }
+          else if (type == 'liscence') {
+            this.docTypeIdLiscence= resObj.DocumentID;
+            this.fileStatusLiscence = resObj.DocumentLastStaus;
           }
           let fileObj = JSON.parse(resObj.DocumentFile);
           fileObj.forEach(element => {
@@ -586,6 +622,9 @@ export class SettingsComponent implements OnInit {
           }
           else if (type == 'certificate') {
             this.uploadedCertificates = fileObj;
+          }
+          else if (type == 'liscence') {
+            this.uploadedLiscence = fileObj;
           }
           this._toastr.success("File upload successfully", "");
         }
