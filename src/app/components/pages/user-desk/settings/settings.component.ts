@@ -31,8 +31,8 @@ export class SettingsComponent implements OnInit {
   public companyLogoDocx: any;
   public certficateDocx: any;
   public galleriesDocx: any;
-  public uploadedGalleries: any[]=[];
-  public uploadedCertificates: any[]=[];
+  public uploadedGalleries: any[] = [];
+  public uploadedCertificates: any[] = [];
   private fileStatusLogo = undefined;
   private fileStatusGallery = undefined;
   private fileStatusCert = undefined;
@@ -52,19 +52,19 @@ export class SettingsComponent implements OnInit {
   public jobTitles: any;
   public cityList: any;
   public regionList: any[] = [];
-  public currencyList:any[]=[];
+  public currencyList: any[] = [];
 
-//businessInfo
+  //businessInfo
   public businessInfoForm: any;
 
-// Association 
+  // Association 
   public allAssociations: any[] = [];
   public assocService: any[] = [];
-// Value Added Services
+  // Value Added Services
   public valAddedServices: any[] = [];
   public valueService: any[] = [];
 
-//  freightServices
+  //  freightServices
   public freightServices: any[] = [];
   public frtService: any[] = [];
 
@@ -75,7 +75,7 @@ export class SettingsComponent implements OnInit {
     private ngFilesService: NgFilesService,
     private _settingService: SettingService,
     private _sharedService: SharedService,
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.ngFilesService.addConfig(this.config, 'config');
@@ -84,9 +84,9 @@ export class SettingsComponent implements OnInit {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
     this.credentialInfoForm = new FormGroup({
-      currentPassword: new FormControl(null, { validators: [Validators.required, Validators.minLength(6), Validators.maxLength(30)], updateOn: 'blur'}),
-      newPassword: new FormControl(null, { validators: [Validators.required, Validators.minLength(6), Validators.maxLength(30)], updateOn: 'blur'}),
-      confirmPassword: new FormControl('', { validators: [Validators.required, Validators.minLength(6), Validators.maxLength(30)], updateOn: 'blur'}),
+      currentPassword: new FormControl(null, { validators: [Validators.required, Validators.minLength(6), Validators.maxLength(30)], updateOn: 'blur' }),
+      newPassword: new FormControl(null, { validators: [Validators.required, Validators.minLength(6), Validators.maxLength(30)], updateOn: 'blur' }),
+      confirmPassword: new FormControl('', { validators: [Validators.required, Validators.minLength(6), Validators.maxLength(30)], updateOn: 'blur' }),
     });
     this.personalInfoForm = new FormGroup({
       firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
@@ -111,9 +111,9 @@ export class SettingsComponent implements OnInit {
       poBoxNo: new FormControl(null, [Validators.maxLength(16), Validators.minLength(4)]),
       socialUrl: new FormControl(null),
       profileUrl: new FormControl(null, [Validators.required]),
-      });
+    });
 
- 
+
     this._sharedService.regionList.subscribe((state: any) => {
       if (state) {
         this.regionList = state;
@@ -127,7 +127,7 @@ export class SettingsComponent implements OnInit {
     this.getUserDetail(this.userProfile.UserID);
   }
 
-  getCities(info){
+  getCities(info) {
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
         this.cityList = state;
@@ -148,9 +148,9 @@ export class SettingsComponent implements OnInit {
     })
   }
 
-  getUserDetail(UserID){
-    this._settingService.getSettingInfo(UserID).subscribe((res:any)=>{
-      if(res.returnStatus == "Success"){
+  getUserDetail(UserID) {
+    this._settingService.getSettingInfo(UserID).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
         let info = res.returnObject
         let countryId = res.returnObject.CountryID;
         this.allAssociations = res.returnObject.Association;
@@ -170,18 +170,18 @@ export class SettingsComponent implements OnInit {
           this.docTypeIdLogo = this.uploadedlogo.DocumentID;
           this.uploadedlogo.DocumentFile = this.baseExternalAssets + this.uploadedlogo.DocumentFile
         }
-        if (res.returnObject.UploadedGallery && res.returnObject.UploadedGallery[0].DocumentFileName && 
-          res.returnObject.UploadedGallery[0].DocumentFileName!="[]" && 
-          isJSON(res.returnObject.UploadedGallery[0].DocumentFileName)){
+        if (res.returnObject.UploadedGallery && res.returnObject.UploadedGallery[0].DocumentFileName &&
+          res.returnObject.UploadedGallery[0].DocumentFileName != "[]" &&
+          isJSON(res.returnObject.UploadedGallery[0].DocumentFileName)) {
           let gallery = res.returnObject.UploadedGallery[0];
           this.uploadedGalleries = JSON.parse(gallery.DocumentFileName);
           this.docTypeIdGallery = this.uploadedGalleries[0].DocumentID;
-          this.uploadedGalleries.map(obj=>{
+          this.uploadedGalleries.map(obj => {
             obj.DocumentFile = this.baseExternalAssets + obj.DocumentFile;
           })
         }
-        if (res.returnObject.UploadedAwardCertificate && res.returnObject.UploadedAwardCertificate[0].DocumentFileName && 
-          res.returnObject.UploadedAwardCertificate[0].DocumentFileName !="[]" && 
+        if (res.returnObject.UploadedAwardCertificate && res.returnObject.UploadedAwardCertificate[0].DocumentFileName &&
+          res.returnObject.UploadedAwardCertificate[0].DocumentFileName != "[]" &&
           isJSON(res.returnObject.UploadedAwardCertificate[0].DocumentFileName)) {
           let certificate = res.returnObject.UploadedAwardCertificate[0];
           this.uploadedCertificates = JSON.parse(certificate.DocumentFileName);
@@ -195,7 +195,7 @@ export class SettingsComponent implements OnInit {
       }
     })
   }
- 
+
   updatePassword() {
     if (this.credentialInfoForm.value.currentPassword === this.credentialInfoForm.value.newPassword) {
       this._toastr.error('New password must be different from current password', '');
@@ -211,16 +211,16 @@ export class SettingsComponent implements OnInit {
       if (res.returnStatus == "Success") {
         this.credentialInfoForm.reset();
         this._toastr.success(res.returnText, '');
-      }else{
+      } else {
         this._toastr.error(res.returnText, '');
       }
     })
   }
-  setPersonalInfo(info){
+  setPersonalInfo(info) {
     this.personalInfoForm.controls['email'].setValue(info.LoginID);
     this.personalInfoForm.controls['firstName'].setValue(info.FirstName);
     this.personalInfoForm.controls['lastName'].setValue(info.LastName);
-    if (info.JobTitle){
+    if (info.JobTitle) {
       let obj = this.jobTitles.find(elem => elem.baseLanguage == info.JobTitle);
       this.personalInfoForm.controls['jobTitle'].setValue(obj);
 
@@ -247,7 +247,7 @@ export class SettingsComponent implements OnInit {
     this.businessInfoForm.controls['orgName'].setValue(info.ProviderName);
     this.businessInfoForm.controls['address'].setValue(info.ProviderAddress);
     this.businessInfoForm.controls['poBoxNo'].setValue(info.POBox);
-    if (info.ProviderCityID ) {
+    if (info.ProviderCityID) {
       let obj = this.cityList.find(elem => elem.id == info.ProviderCityID);
       this.businessInfoForm.controls['city'].setValue(obj);
     }
@@ -352,14 +352,14 @@ export class SettingsComponent implements OnInit {
       }
     })
   }
-  removeServices(obj){
-    let object={
+  removeServices(obj) {
+    let object = {
       providerID: this.userProfile.ProviderID,
       createdBy: this.userProfile.LoginID,
       serviceID: obj.ProvLogServID
     }
-    this._settingService.deSelectService(object).subscribe((res:any)=>{
-      if(res.returnStatus=="Success"){
+    this._settingService.deSelectService(object).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
         obj.ProvLogServID = null;
       }
     })
@@ -439,7 +439,7 @@ export class SettingsComponent implements OnInit {
         }
         else if (type == 'gallery') {
           this.uploadedGalleries.splice(index, 1);
-          if (!this.uploadedGalleries || (this.uploadedGalleries && !this.uploadedGalleries.length)){
+          if (!this.uploadedGalleries || (this.uploadedGalleries && !this.uploadedGalleries.length)) {
             this.docTypeIdGallery = null;
           }
         }
@@ -604,17 +604,17 @@ export class SettingsComponent implements OnInit {
   }
 
 
-  deactivate(){
-    this._settingService.deactivateAccount(this.userProfile.UserID, this.userProfile.UserID).subscribe((res:any)=>{
-      if(res.returnStatus == "Success"){
+  deactivate() {
+    this._settingService.deactivateAccount(this.userProfile.UserID, this.userProfile.UserID).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
         this._toastr.info(res.returnText, "")
       }
-      else{
+      else {
         this._toastr.info(res.returnText, "")
       }
     })
   }
-  updatePersonalInfo(){
+  updatePersonalInfo() {
     let obj = {
       userID: this.userProfile.UserID,
       firstName: this.personalInfoForm.value.firstName,
@@ -624,9 +624,9 @@ export class SettingsComponent implements OnInit {
       mobileNumber: this.personalInfoForm.value.mobile,
       regionID: this.personalInfoForm.value.region,
       currencyID: this.personalInfoForm.value.currency.id
-    } 
-    this._settingService.personalSetting(obj).subscribe((res:any)=>{
-      if(res.returnStatus=="Success"){
+    }
+    this._settingService.personalSetting(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
         this._toastr.success('Personal Information Updated', '')
       }
     })
