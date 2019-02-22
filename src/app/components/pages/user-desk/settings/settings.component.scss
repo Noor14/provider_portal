@@ -235,17 +235,17 @@
       cursor: no-drop;
       filter: grayscale(1);
     }
+    &:hover {
+      svg {
+        animation-name: flip;
+        backface-visibility: visible;
+      }
+    }
   }
 
   .setting-discard-btn {
     @extend .setting-update-btn;
     color: $color-topmenu;
-
-    svg {
-      transform: rotate(45deg);
-      opacity: 0.8;
-      fill: $color-topmenu;
-    }
   }
 
   .provider-logo {
@@ -283,7 +283,23 @@
     }
   }
 
- 
+  .confirmPassword {
+    position: relative;
+
+    i {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+
+      &.black {
+        color: $text-color-default
+      }
+
+      &.grey {
+        color: $text-grey;
+      }
+    }
+  }
 
   .document-Info {
     .file-uploader {
