@@ -684,17 +684,31 @@
       <ng-template ngbTabTitle>Document Manager</ng-template>
       <ng-template ngbTabContent>
         <section class="DocumentManager">
-          <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
-            farm-to-table
-            craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
-            vinyl
-            cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS
-            salvia
-            yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
-            sustainable jean
-            shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher
-            vero
-            sint qui sapiente accusamus tattooed echo park.</p>
+          <h5 class="mb-0 mt-5">Trade License</h5>
+          <small class="sub-title">Upload your company's trade license.</small>
+            <div class="row mt-2">
+                <div class="col-12">
+                  <div class="document-Info d-flex flex-column mt-2">
+                    <div class="file-uploader">
+                      <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
+                        <img src="../../../assets/images/icons/manager-icon.png" />
+                        <p class="m-0 mt-3">
+                          Drag here or <span class="browse-span">browse</span> to upload
+                        </p>
+                      </app-ng-files-drag-n-upload>
+                    </div>
+                    <div class="row uploadedDocx">
+                      <div class="col-lg-3 mb-2" *ngFor="let certDocx of uploadedCertificates; let i=index">
+                        <div class="display-upload delete">
+                          <img class="w-100" [src]="certDocx.DocumentFile" />
+                          <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
+                            (click)="removeSelectedDocx(i, certDocx, 'certificate')" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
         </section>
       </ng-template>
     </ngb-tab>
@@ -702,17 +716,7 @@
       <ng-template ngbTabTitle>Notification</ng-template>
       <ng-template ngbTabContent>
         <section class="Notification">
-          <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
-            farm-to-table
-            craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
-            vinyl
-            cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS
-            salvia
-            yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
-            sustainable jean
-            shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher
-            vero
-            sint qui sapiente accusamus tattooed echo park.</p>
+          <p>Under Construction</p>
         </section>
       </ng-template>
     </ngb-tab>
