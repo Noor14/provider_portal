@@ -122,7 +122,7 @@
                         <div class="form-group">
                           <select class="form-control" formControlName="region">
                             <option [value]="" disabled> Please Select</option>
-                            <option *ngFor="let region of regionList">
+                            <option *ngFor="let region of regionList" [value]="region.regionID">
                               {{region.regionName}}
                             </option>
                           </select>

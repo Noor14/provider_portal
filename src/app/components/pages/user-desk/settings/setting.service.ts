@@ -29,11 +29,19 @@ export class SettingService {
   }
 
   changePassword(obj){
-    let url = "users/ChangePassword ";
+    let url = "users/ChangePassword";
     return this._http.put(baseApi + url, obj);
   }
   deactivateAccount(deletingUserID, deleteByUserID){
     let url = `users/DeleteAccountRequest/${deletingUserID}/${deleteByUserID}`;
     return this._http.delete(baseApi + url);
+  }
+  personalSetting(obj){
+    let url = "provider/UpdatePersonalSettings";
+    return this._http.put(baseApi + url, obj);
+  }
+  businessSetting(obj) {
+    let url = "provider/UpdateBusinessSettings";
+    return this._http.put(baseApi + url, obj);
   }
 }

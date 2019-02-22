@@ -225,11 +225,19 @@ export class SettingsComponent implements OnInit {
       this.personalInfoForm.controls['jobTitle'].setValue(obj);
 
     }
-    if (info.City) {
-      let obj = this.cityList.find(elem => elem.title == info.City);
+    if (info.CityID) {
+      let obj = this.cityList.find(elem => elem.id == info.CityID);
       this.personalInfoForm.controls['city'].setValue(obj);
-
     }
+    if (info.CurrencyID) {
+      let obj = this.currencyList.find(elem => elem.id == info.CurrencyID);
+      this.personalInfoForm.controls['currency'].setValue(obj);
+    }
+    if (info.RegionID) {
+      let obj = this.regionList.find(elem => elem.regionID == info.RegionID);
+      this.personalInfoForm.controls['region'].setValue(obj.regionID);
+    }
+
     this.personalInfoForm.controls['mobile'].setValue(info.PrimaryPhone);
   }
 
@@ -239,13 +247,14 @@ export class SettingsComponent implements OnInit {
     this.businessInfoForm.controls['orgName'].setValue(info.ProviderName);
     this.businessInfoForm.controls['address'].setValue(info.ProviderAddress);
     this.businessInfoForm.controls['poBoxNo'].setValue(info.POBox);
-    if (info.City) {
-      let obj = this.cityList.find(elem => elem.title == info.City);
+    if (info.ProviderCityID ) {
+      let obj = this.cityList.find(elem => elem.id == info.ProviderCityID);
       this.businessInfoForm.controls['city'].setValue(obj);
     }
     this.businessInfoForm.controls['phone'].setValue(info.ProviderPhone);
     this.businessInfoForm.controls['profileUrl'].setValue(info.ProfileID);
   }
+
 
 
   freightService(obj, selectedService) {
@@ -606,10 +615,37 @@ export class SettingsComponent implements OnInit {
     })
   }
   updatePersonalInfo(){
-    console.log('info')
+    let obj = {
+      userID: this.userProfile.UserID,
+      firstName: this.personalInfoForm.value.firstName,
+      lastName: this.personalInfoForm.value.lastName,
+      jobTitle: this.personalInfoForm.value.jobTitle.baseLanguage,
+      cityID: this.personalInfoForm.value.city.id,
+      mobileNumber: this.personalInfoForm.value.mobile,
+      regionID: this.personalInfoForm.value.region,
+      currencyID: this.personalInfoForm.value.currency.id
+    } 
+    this._settingService.personalSetting(obj).subscribe((res:any)=>{
+      if(res.returnStatus=="Success"){
+        this._toastr.success('Personal Information Updated', '')
+      }
+    })
   }
   updatebussinesInfo() {
-    console.log('info')
+    let obj = {
+      userID: this.userProfile.UserID,
+      providerID: this.userProfile.ProviderID,
+      address: this.businessInfoForm.value.address,
+      poBox: this.businessInfoForm.value.poBoxNo,
+      cityID: this.businessInfoForm.value.city.id,
+      telephone: this.businessInfoForm.value.phone,
+      website: this.businessInfoForm.value.socialUrl
+    }
+    this._settingService.businessSetting(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toastr.success('Business Information Updated', '')
+      }
+    })
   }
 
   jobSearch = (text$: Observable<string>) =>
