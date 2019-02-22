@@ -180,6 +180,29 @@
                     <hr class="hr-solid">
                   </div>
                 </div>
+                <div class="row">
+
+                  <div class=" col-xl-6 col-md-6 col-sm-12 ">
+                    <div class="form-group">
+                      <label>Property Type</label>
+                      <div class="fancyOptionBoxes checkbox pull-left mb-3">
+                        <input id="bonded" name="bonded" type="checkbox">
+                        <label for="bonded">
+                          <span></span>
+                          Full Warehouse
+                        </label>
+                      </div>
+                      <div class="fancyOptionBoxes checkbox pull-left ml-4 mb-3">
+                        <input id="transportation" name="transportation" type="checkbox">
+                        <label for="transportation">
+                          <span></span>
+                          Shared Warehouse
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="row ">
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
@@ -212,7 +235,7 @@
                 <div class="row ">
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
-                      <label >Offered Space on HashMove</label>
+                      <label>Offered Space on HashMove</label>
 
                       <div class="input-group">
                         <input class="form-control input-dropdown" type="text">
@@ -511,8 +534,10 @@
 
         <div class="row">
           <div class="col-6 Add-warehouse-link mt-3" (click)="stepper.prev()">
-            <i class="fa fa-angle-left"></i>
-            <a href="javascript:;">go back </a>
+            <a class="hvr-icon-back grey-anc-btn" href="javascript:;">
+              <img src="../../../../../assets/images/icons/icon_arrow_left.svg" alt="icon" class="icon-size-14 hvr-icon">
+              <span class="link-hover-grey">go back </span>
+            </a>
           </div>
 
           <div class="col-6 mt-3">
