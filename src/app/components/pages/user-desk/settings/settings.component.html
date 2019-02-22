@@ -690,7 +690,7 @@
                 <div class="col-12">
                   <div class="document-Info d-flex flex-column mt-2">
                     <div class="file-uploader">
-                      <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
+                      <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'liscence')" [configId]="'config'">
                         <img src="../../../assets/images/icons/manager-icon.png" />
                         <p class="m-0 mt-3">
                           Drag here or <span class="browse-span">browse</span> to upload
@@ -698,11 +698,11 @@
                       </app-ng-files-drag-n-upload>
                     </div>
                     <div class="row uploadedDocx">
-                      <div class="col-lg-3 mb-2" *ngFor="let certDocx of uploadedCertificates; let i=index">
+                      <div class="col-lg-3 mb-2" *ngFor="let liscenceDocx of uploadedLiscence; let i=index">
                         <div class="display-upload delete">
-                          <img class="w-100" [src]="certDocx.DocumentFile" />
+                          <img class="w-100" [src]="liscenceDocx.DocumentFile" />
                           <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
-                            (click)="removeSelectedDocx(i, certDocx, 'certificate')" />
+                            (click)="removeSelectedDocx(i, liscenceDocx, 'liscence')" />
                         </div>
                       </div>
                     </div>
