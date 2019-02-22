@@ -206,8 +206,8 @@
                 text-transform: uppercase;
             }
             img {
-              position: relative;
-              top:-2px;
+                position: relative;
+                top: -2px;
             }
         }
         button {
@@ -233,4 +233,14 @@
             padding: 0.75rem 0.5rem !important;
         }
     }
+}
+
+.commission-rates {
+    .checkbox {
+        label {
+            font-size: 0.875rem !important;
+            line-height: 1.5;
+        }
+    }
+ 
 }
