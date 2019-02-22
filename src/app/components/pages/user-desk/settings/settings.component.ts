@@ -27,7 +27,7 @@ export class SettingsComponent implements OnInit {
   private docTypeIdLogo = null;
   private docTypeIdCert = null;
   private docTypeIdGallery = null;
-  public companyLogo: any;
+  public uploadedlogo: any;
   public companyLogoDocx: any;
   public certficateDocx: any;
   public galleriesDocx: any;
@@ -156,13 +156,19 @@ export class SettingsComponent implements OnInit {
         this.allAssociations = res.returnObject.Association;
         this.galleriesDocx = res.returnObject.Gallery;
         this.certficateDocx = res.returnObject.AwardCertificate;
+        this.companyLogoDocx = res.returnObject.CompanyLogo;
         this.assocService = this.allAssociations.filter(obj => obj.IsSelected && obj.ProviderAssnID);
         this.valAddedServices = res.returnObject.ValueAddedServices;
         this.valueService = this.valAddedServices.filter(obj => obj.IsSelected && obj.ProvLogServID);
         this.freightServices = res.returnObject.LogisticService;
         this.frtService = this.freightServices.filter(obj => obj.IsSelected && obj.ProvLogServID);
-        if (res.returnObject.ProviderImage && isJSON(res.returnObject.ProviderImage)) {
-          this.companyLogo = JSON.parse(res.returnObject.ProviderImage).shift().ProviderLogo;
+        if (res.returnObject.UploadedCompanyLogo && res.returnObject.UploadedCompanyLogo[0].DocumentFileName &&
+          res.returnObject.UploadedCompanyLogo[0].DocumentFileName != "[]" &&
+          isJSON(res.returnObject.UploadedCompanyLogo[0].DocumentFileName)) {
+          let logo = res.returnObject.UploadedCompanyLogo[0];
+          this.uploadedlogo = JSON.parse(logo.DocumentFileName)[0];
+          this.docTypeIdLogo = this.uploadedlogo.DocumentID;
+          this.uploadedlogo.DocumentFile = this.baseExternalAssets + this.uploadedlogo.DocumentFile
         }
         if (res.returnObject.UploadedGallery && res.returnObject.UploadedGallery[0].DocumentFileName && 
           res.returnObject.UploadedGallery[0].DocumentFileName!="[]" && 
@@ -420,13 +426,19 @@ export class SettingsComponent implements OnInit {
       if (res.returnStatus == 'Success') {
         this._toastr.success('Remove selected document succesfully', "");
         if (type == 'logo') {
-          this.selectedDocxlogo = {};
+          this.uploadedlogo = {};
         }
         else if (type == 'gallery') {
           this.uploadedGalleries.splice(index, 1);
+          if (!this.uploadedGalleries || (this.uploadedGalleries && !this.uploadedGalleries.length)){
+            this.docTypeIdGallery = null;
+          }
         }
         else if (type == 'certificate') {
           this.uploadedCertificates.splice(index, 1);
+          if (!this.uploadedCertificates || (this.uploadedCertificates && !this.uploadedCertificates.length)) {
+            this.docTypeIdCert = null;
+          }
         }
       }
       else {
@@ -548,8 +560,6 @@ export class SettingsComponent implements OnInit {
             this.fileStatusCert = resObj.DocumentLastStaus;
 
           }
-          // this.docTypeId = resObj.DocumentID;
-          // this.fileStatus = resObj.DocumentLastStaus;
           let fileObj = JSON.parse(resObj.DocumentFile);
           fileObj.forEach(element => {
             element.DocumentFile = baseExternalAssets + element.DocumentFile;
@@ -558,9 +568,9 @@ export class SettingsComponent implements OnInit {
             docFiles[index + 1].DocumentID = resObj.DocumentID;
             docFiles[index + 1].DocumentLastStatus = resObj.DocumentLastStaus;
           }
-          // this.selectedDocx = fileObj;
+
           if (type == 'logo') {
-            this.selectedDocxlogo = fileObj[0];
+            this.uploadedlogo = fileObj[0];
           }
           else if (type == 'gallery') {
             this.uploadedGalleries = fileObj;
@@ -587,12 +597,20 @@ export class SettingsComponent implements OnInit {
 
   deactivate(){
     this._settingService.deactivateAccount(this.userProfile.UserID, this.userProfile.UserID).subscribe((res:any)=>{
-      if(res.returnStatus=="Success"){
-        this._toastr.info("Account Delete Successfully", "")
+      if(res.returnStatus == "Success"){
+        this._toastr.info(res.returnText, "")
+      }
+      else{
+        this._toastr.info(res.returnText, "")
       }
     })
   }
-
+  updatePersonalInfo(){
+    console.log('info')
+  }
+  updatebussinesInfo() {
+    console.log('info')
+  }
 
   jobSearch = (text$: Observable<string>) =>
     text$.pipe(
