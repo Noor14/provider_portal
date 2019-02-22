@@ -92,9 +92,9 @@ export class SettingsComponent implements OnInit {
       firstName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
       lastName: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
       jobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
-      city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
-      currency: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(2), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
-      region: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3)]),
+      currency: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(2)]),
+      region: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(3)]),
       email: new FormControl(null, [
         Validators.required,
         Validators.pattern(EMAIL_REGEX),
@@ -105,9 +105,9 @@ export class SettingsComponent implements OnInit {
 
     this.businessInfoForm = new FormGroup({
       orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
-      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
-      address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
-      city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      phone: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(13)]),
+      address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10)]),
+      city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3)]),
       poBoxNo: new FormControl(null, [Validators.maxLength(16), Validators.minLength(4)]),
       socialUrl: new FormControl(null),
       profileUrl: new FormControl(null, [Validators.required]),
@@ -262,9 +262,14 @@ export class SettingsComponent implements OnInit {
     if (this.frtService && this.frtService.length) {
       for (var i = 0; i < this.frtService.length; i++) {
         if (this.frtService[i].LogServID == obj.LogServID) {
-          this.frtService.splice(i, 1);
-          selectedItem.remove('active');
-          this.removeServices(obj);
+          if (this.frtService.length > 1){
+            this.frtService.splice(i, 1);
+            selectedItem.remove('active');
+            this.removeServices(obj);
+          }
+          else{
+              this._toastr.info("At least one service is mandatory",'')
+          }
           return;
         }
       }

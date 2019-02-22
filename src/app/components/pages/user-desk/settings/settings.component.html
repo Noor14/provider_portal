@@ -161,9 +161,9 @@
                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px"
                             viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
                             <polygon fill="#FFFFFF" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11 
-      11,9.534 9.458,7.998 " />
+                            11,9.534 9.458,7.998 " />
                             <polygon fill="#738593" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11 
-      11,9.534 9.458,7.998 " />
+                                11,9.534 9.458,7.998 " />
                             <g>
                               <defs>
                                 <rect id="SVGID_1_" width="16" height="16" />
@@ -172,12 +172,13 @@
                                 <use xlink:href="#SVGID_1_" overflow="visible" />
                               </clipPath>
                               <path clip-path="url(#SVGID_2_)" fill="#738593" d="M8,2c3.309,0,6,2.691,6,6c0,3.309-2.691,6-6,6c-3.309,0-6-2.691-6-6
-        C2,4.691,4.691,2,8,2 M8,0C3.582,0,0,3.582,0,8s3.582,8,8,8s8-3.582,8-8S12.418,0,8,0" />
+                              C2,4.691,4.691,2,8,2 M8,0C3.582,0,0,3.582,0,8s3.582,8,8,8s8-3.582,8-8S12.418,0,8,0" />
                             </g>
                           </svg>
                           Discard
                         </button>
-                        <button class="d-flex align-items-start" [disabled]="personalInfoForm.invalid" (click)="updatePersonalInfo()" class="setting-update-btn">
+                      <button class="d-flex align-items-start" [disabled]="personalInfoForm.invalid || !personalInfoForm.value.city.id ||  !personalInfoForm.value.currency.id" (click)="updatePersonalInfo()"
+                        class="setting-update-btn">
                           <svg class="icon-size-16 mr-2 animated" id="b1317f11-92b2-4fe7-b9b7-f7347d5965ce" data-name="Layer 1"
                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="background: #fff;">
                             <defs>
@@ -185,7 +186,6 @@
                                 .e81d3206-aafd-409f-8b0c-2b6826922766 {
                                       fill: #02bdb6;
                                     }
-    
                                     .\35 625662d-fc96-4a60-8cdc-d6d1934d7651 {
                                       fill: #02bdb6;
                                     }
@@ -260,7 +260,7 @@
                     <div class="row">
                       <div class="col-3">
                         <div class="form-group">
-                          <label>P.O Box</label>
+                          <label>P.O Box (Optional)</label>
                         </div>
                       </div>
                       <div class="col-5">
@@ -316,7 +316,7 @@
                       </div>
                       <div class="col-5">
                         <div class="form-group">
-                          <input class="form-control" placeholder="Email" />
+                        <input class="form-control" placeholder="www.facebook.com" formControlName="socialUrl" />
                         </div>
                       </div>
                     </div>
@@ -339,9 +339,9 @@
                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px"
                             viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
                             <polygon fill="#FFFFFF" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11 
-11,9.534 9.458,7.998 " />
+                              11,9.534 9.458,7.998 " />
                             <polygon fill="#738593" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11 
-11,9.534 9.458,7.998 " />
+                                11,9.534 9.458,7.998 " />
                             <g>
                               <defs>
                                 <rect id="SVGID_1_" width="16" height="16" />
@@ -350,25 +350,25 @@
                                 <use xlink:href="#SVGID_1_" overflow="visible" />
                               </clipPath>
                               <path clip-path="url(#SVGID_2_)" fill="#738593" d="M8,2c3.309,0,6,2.691,6,6c0,3.309-2.691,6-6,6c-3.309,0-6-2.691-6-6
-C2,4.691,4.691,2,8,2 M8,0C3.582,0,0,3.582,0,8s3.582,8,8,8s8-3.582,8-8S12.418,0,8,0" />
+                                C2,4.691,4.691,2,8,2 M8,0C3.582,0,0,3.582,0,8s3.582,8,8,8s8-3.582,8-8S12.418,0,8,0" />
                             </g>
                           </svg>
                           Discard
                         </button>
-                        <button class="d-flex align-items-start" [disabled]="businessInfoForm.invalid" (click)="updatebussinesInfo()" class="setting-update-btn">
+                        <button class="d-flex align-items-start" [disabled]="businessInfoForm.invalid || !businessInfoForm.value.city.id" (click)="updatebussinesInfo()" class="setting-update-btn">
                           <svg class="icon-size-16 mr-2 animated" id="b1317f11-92b2-4fe7-b9b7-f7347d5965ce" data-name="Layer 1"
                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="background: #fff;">
                             <defs>
                               <style>
                                 .e81d3206-aafd-409f-8b0c-2b6826922766 {
-                  fill: #02bdb6;
-                }
+                                  fill: #02bdb6;
+                                }
 
-                .\35 625662d-fc96-4a60-8cdc-d6d1934d7651 {
-                  fill: #02bdb6;
-                }
+                                .\35 625662d-fc96-4a60-8cdc-d6d1934d7651 {
+                                  fill: #02bdb6;
+                                }
 
-              </style>
+                                </style>
                             </defs>
                             <g id="bd7b2ffc-e30d-421d-8d45-c357208e125a" data-name="sucess">
                               <g id="3156f19b-9492-47f2-b828-b3acf53006ca" data-name="custom_clearance">
