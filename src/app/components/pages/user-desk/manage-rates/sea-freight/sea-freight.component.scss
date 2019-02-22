@@ -167,8 +167,15 @@
                 line-height: 2;
                 padding-left: 0px;
                 color: $color-menuheading-black !important;
+                list-style: none;
                 &::before {
                     color: $color-topmenuactive;
+                    content: "\2022";
+                    font-weight: bold;
+                    display: inline-block; 
+                    transform: scale(1.5);
+                    width: 1em;
+                    margin-left: -1em;
                 }
             }
         }
