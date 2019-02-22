@@ -230,6 +230,7 @@
     border: none;
     padding: 0;
     cursor: pointer;
+    line-height: 1;
 
     &:disabled {
       cursor: no-drop;
