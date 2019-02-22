@@ -11,7 +11,7 @@ export class SettingService {
     let url = `provider/GetSettings/${userId}`;
     return this._http.get(baseApi + url);
   }
-  deSelectService(obj){
+  deSelectService(obj) {
     let url = "provider/DeleteProviderService";
     return this._http.request('delete', baseApi + url, { body: obj });
   }
@@ -28,12 +28,20 @@ export class SettingService {
     return this._http.post(baseApi + url, obj);
   }
 
-  changePassword(obj){
-    let url = "users/ChangePassword ";
+  changePassword(obj) {
+    let url = "users/ChangePassword";
     return this._http.put(baseApi + url, obj);
   }
-  deactivateAccount(deletingUserID, deleteByUserID){
+  deactivateAccount(deletingUserID, deleteByUserID) {
     let url = `users/DeleteAccountRequest/${deletingUserID}/${deleteByUserID}`;
     return this._http.delete(baseApi + url);
+  }
+  personalSetting(obj) {
+    let url = "provider/UpdatePersonalSettings";
+    return this._http.put(baseApi + url, obj);
+  }
+  businessSetting(obj) {
+    let url = "provider/UpdateBusinessSettings";
+    return this._http.put(baseApi + url, obj);
   }
 }

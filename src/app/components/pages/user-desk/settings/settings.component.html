@@ -122,7 +122,7 @@
                         <div class="form-group">
                           <select class="form-control" formControlName="region">
                             <option [value]="" disabled> Please Select</option>
-                            <option *ngFor="let region of regionList">
+                            <option *ngFor="let region of regionList" [value]="region.regionID">
                               {{region.regionName}}
                             </option>
                           </select>
@@ -477,7 +477,7 @@ C2,4.691,4.691,2,8,2 M8,0C3.582,0,0,3.582,0,8s3.582,8,8,8s8-3.582,8-8S12.418,0,8
                     <div class="col-12">
                       <div class="document-Info d-flex flex-column mt-2">
                         <div class="file-uploader">
-                          <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
+                          <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'gallery')" [configId]="'config'">
                             <img src="../../../../../assets/images/icons/manager-icon.png" />
                             <p class="m-0 mt-3">
                               Drag here or <span class="browse-span">browse</span> to upload
@@ -485,11 +485,11 @@ C2,4.691,4.691,2,8,2 M8,0C3.582,0,0,3.582,0,8s3.582,8,8,8s8-3.582,8-8S12.418,0,8
                           </app-ng-files-drag-n-upload>
                         </div>
                         <div class="row uploadedDocx">
-                          <div class="col-lg-3 mb-2">
+                          <div class="col-lg-3 mb-2" *ngFor="let galleryDocx of uploadedGalleries; let i = index">
                             <div class="display-upload delete">
-                              <!-- <img class="w-100" [src]="certDocx.DocumentFile" /> -->
+                              <img class="w-100" [src]="galleryDocx.DocumentFile" />
                               <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
-                                (click)="removeSelectedDocx('i', 'certDocx', 'certificate')" />
+                                (click)="removeSelectedDocx(i, galleryDocx, 'gallery')" />
                             </div>
                           </div>
                         </div>
@@ -514,11 +514,11 @@ C2,4.691,4.691,2,8,2 M8,0C3.582,0,0,3.582,0,8s3.582,8,8,8s8-3.582,8-8S12.418,0,8
                           </app-ng-files-drag-n-upload>
                         </div>
                         <div class="row uploadedDocx">
-                          <div class="col-lg-3 mb-2">
+                          <div class="col-lg-3 mb-2" *ngFor="let certDocx of uploadedCertificates; let i=index">
                             <div class="display-upload delete">
-                              <!-- <img class="w-100" [src]="certDocx.DocumentFile" /> -->
+                              <img class="w-100" [src]="certDocx.DocumentFile" />
                               <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
-                                (click)="removeSelectedDocx('i', 'certDocx', 'certificate')" />
+                                (click)="removeSelectedDocx(i, certDocx, 'certificate')" />
                             </div>
                           </div>
                         </div>
@@ -539,10 +539,9 @@ C2,4.691,4.691,2,8,2 M8,0C3.582,0,0,3.582,0,8s3.582,8,8,8s8-3.582,8-8S12.418,0,8
                         </div>
                       </div>
                       <div class="col-5">
-                        <div class="form-group confirmPassword">
-                          <input class="form-control password" type="password" placeholder="eg: 123456" (keypress)="spaceHandler($event)"
+                        <div class="form-group">
+                          <input class="form-control" type="password" placeholder="eg: 123456" (keypress)="spaceHandler($event)"
                             formControlName="currentPassword" />
-                          <i class="fa fa-eye pointer" (click)=confirmPassword($event)></i>
                         </div>
                       </div>
                       <div class="col-4 d-flex align-items-center form-group">
@@ -558,10 +557,9 @@ C2,4.691,4.691,2,8,2 M8,0C3.582,0,0,3.582,0,8s3.582,8,8,8s8-3.582,8-8S12.418,0,8
                         </div>
                       </div>
                       <div class="col-5">
-                        <div class="form-group confirmPassword">
-                          <input class="form-control password" type="password" (keypress)="spaceHandler($event)"
-                            placeholder="eg: 12345678" formControlName="newPassword" />
-                          <i class="fa fa-eye pointer" (click)=confirmPassword($event)></i>
+                        <div class="form-group">
+                          <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="eg: 12345678"
+                            formControlName="newPassword" />
                         </div>
                       </div>
                       <div class="col-4 d-flex align-items-center form-group">
@@ -580,10 +578,9 @@ C2,4.691,4.691,2,8,2 M8,0C3.582,0,0,3.582,0,8s3.582,8,8,8s8-3.582,8-8S12.418,0,8
                         </div>
                       </div>
                       <div class="col-5">
-                        <div class="form-group confirmPassword">
-                          <input class="form-control password" type="password" (keypress)="spaceHandler($event)"
-                            placeholder="eg: 12345678" formControlName="confirmPassword" />
-                          <i class="fa fa-eye pointer" (click)=confirmPassword($event)></i>
+                        <div class="form-group">
+                          <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="eg: 12345678"
+                            formControlName="confirmPassword" />
                         </div>
                       </div>
                       <div class="col-4 d-flex align-items-center form-group">
@@ -631,7 +628,6 @@ C2,4.691,4.691,2,8,2 M8,0C3.582,0,0,3.582,0,8s3.582,8,8,8s8-3.582,8-8S12.418,0,8
                                 .\35 625662d-fc96-4a60-8cdc-d6d1934d7651 {
                                   fill: #02bdb6;
                                 }
-
                               </style>
                             </defs>
                             <g id="bd7b2ffc-e30d-421d-8d45-c357208e125a" data-name="sucess">
@@ -663,7 +659,6 @@ C2,4.691,4.691,2,8,2 M8,0C3.582,0,0,3.582,0,8s3.582,8,8,8s8-3.582,8-8S12.418,0,8
                       .a2933809-f108-463d-a7d6-9972aa735edc {
                         fill: #d32020;
                       }
-
                     </style>
                   </defs>
                   <title>icon</title>
