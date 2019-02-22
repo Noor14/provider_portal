@@ -283,23 +283,7 @@
     }
   }
 
-  .confirmPassword {
-    position: relative;
-
-    i {
-      position: absolute;
-      right: 15px;
-      top: 15px;
-
-      &.black {
-        color: $text-color-default
-      }
-
-      &.grey {
-        color: $text-grey;
-      }
-    }
-  }
+ 
 
   .document-Info {
     .file-uploader {

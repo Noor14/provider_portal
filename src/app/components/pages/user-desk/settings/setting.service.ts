@@ -32,8 +32,8 @@ export class SettingService {
     let url = "users/ChangePassword ";
     return this._http.put(baseApi + url, obj);
   }
-  deactivateAccount(obj){
-    let url = "provider/DeactivateProvider";
-    return this._http.put(baseApi + url, obj);
+  deactivateAccount(deletingUserID, deleteByUserID){
+    let url = `users/DeleteAccountRequest/${deletingUserID}/${deleteByUserID}`;
+    return this._http.delete(baseApi + url);
   }
 }

@@ -378,7 +378,7 @@
                     <div class="col-12">
                       <div class="document-Info d-flex flex-column mt-2">
                         <div class="file-uploader">
-                          <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
+                          <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'gallery')" [configId]="'config'">
                             <img src="../../../../../assets/images/icons/manager-icon.png" />
                             <p class="m-0 mt-3">
                               Drag here or <span class="browse-span">browse</span> to upload
@@ -386,11 +386,11 @@
                           </app-ng-files-drag-n-upload>
                         </div>
                         <div class="row uploadedDocx">
-                          <div class="col-lg-3 mb-2">
+                          <div class="col-lg-3 mb-2" *ngFor="let galleryDocx of uploadedGalleries; let i = index">
                             <div class="display-upload delete">
-                              <!-- <img class="w-100" [src]="certDocx.DocumentFile" /> -->
+                              <img class="w-100" [src]="galleryDocx.DocumentFile" />
                               <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
-                                (click)="removeSelectedDocx('i', 'certDocx', 'certificate')" />
+                                (click)="removeSelectedDocx(i, galleryDocx, 'gallery')" />
                             </div>
                           </div>
                         </div>
@@ -415,11 +415,11 @@
                           </app-ng-files-drag-n-upload>
                         </div>
                         <div class="row uploadedDocx">
-                          <div class="col-lg-3 mb-2">
+                          <div class="col-lg-3 mb-2" *ngFor="let certDocx of uploadedCertificates; let i=index">
                             <div class="display-upload delete">
-                              <!-- <img class="w-100" [src]="certDocx.DocumentFile" /> -->
+                              <img class="w-100" [src]="certDocx.DocumentFile" />
                               <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
-                                (click)="removeSelectedDocx('i', 'certDocx', 'certificate')" />
+                                (click)="removeSelectedDocx(i, certDocx, 'certificate')" />
                             </div>
                           </div>
                         </div>
@@ -440,10 +440,9 @@
                         </div>
                       </div>
                       <div class="col-5">
-                        <div class="form-group confirmPassword">
-                          <input class="form-control password" type="password" placeholder="eg: 123456" (keypress)="spaceHandler($event)"
+                        <div class="form-group">
+                          <input class="form-control" type="password" placeholder="eg: 123456" (keypress)="spaceHandler($event)"
                             formControlName="currentPassword" />
-                          <i class="fa fa-eye pointer" (click)=confirmPassword($event)></i>
                         </div>
                       </div>
                       <div class="col-4 d-flex align-items-center form-group">
@@ -459,10 +458,9 @@
                         </div>
                       </div>
                       <div class="col-5">
-                        <div class="form-group confirmPassword">
-                          <input class="form-control password" type="password" (keypress)="spaceHandler($event)" placeholder="eg: 12345678"
+                        <div class="form-group">
+                          <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="eg: 12345678"
                             formControlName="newPassword" />
-                          <i class="fa fa-eye pointer" (click)=confirmPassword($event)></i>
                         </div>
                       </div>
                       <div class="col-4 d-flex align-items-center form-group">
@@ -481,10 +479,9 @@
                         </div>
                       </div>
                       <div class="col-5">
-                        <div class="form-group confirmPassword">
-                            <input class="form-control password" type="password" (keypress)="spaceHandler($event)" placeholder="eg: 12345678"
+                        <div class="form-group">
+                            <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="eg: 12345678"
                             formControlName="confirmPassword" />
-                          <i class="fa fa-eye pointer" (click)=confirmPassword($event)></i>
                         </div>
                       </div>
                       <div class="col-4 d-flex align-items-center form-group">

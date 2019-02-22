@@ -23,11 +23,7 @@ export class SettingsComponent implements OnInit {
 
   public baseExternalAssets: string = baseExternalAssets;
 
-  public docTypes: any[] = [];
-  public selectedDocx: any[] = [];
   public selectedDocxlogo: any;
-  public selectedGalleryDocx: any[] = [];
-  public selectedCertificateDocx: any[] = [];
   private docTypeIdLogo = null;
   private docTypeIdCert = null;
   private docTypeIdGallery = null;
@@ -35,13 +31,15 @@ export class SettingsComponent implements OnInit {
   public companyLogoDocx: any;
   public certficateDocx: any;
   public galleriesDocx: any;
+  public uploadedGalleries: any[]=[];
+  public uploadedCertificates: any[]=[];
   private fileStatusLogo = undefined;
   private fileStatusGallery = undefined;
   private fileStatusCert = undefined;
   private userProfile: any;
 
   public config: NgFilesConfig = {
-    acceptExtensions: ['jpg', 'png', 'bmp', 'svg'],
+    acceptExtensions: ['jpg', 'png', 'bmp'],
     maxFilesCount: 12,
     maxFileSize: 12 * 1024 * 1000,
     totalFilesSize: 12 * 12 * 1024 * 1000
@@ -156,6 +154,8 @@ export class SettingsComponent implements OnInit {
         let info = res.returnObject
         let countryId = res.returnObject.CountryID;
         this.allAssociations = res.returnObject.Association;
+        this.galleriesDocx = res.returnObject.Gallery;
+        this.certficateDocx = res.returnObject.AwardCertificate;
         this.assocService = this.allAssociations.filter(obj => obj.IsSelected && obj.ProviderAssnID);
         this.valAddedServices = res.returnObject.ValueAddedServices;
         this.valueService = this.valAddedServices.filter(obj => obj.IsSelected && obj.ProvLogServID);
@@ -164,19 +164,32 @@ export class SettingsComponent implements OnInit {
         if (res.returnObject.ProviderImage && isJSON(res.returnObject.ProviderImage)) {
           this.companyLogo = JSON.parse(res.returnObject.ProviderImage).shift().ProviderLogo;
         }
+        if (res.returnObject.UploadedGallery && res.returnObject.UploadedGallery[0].DocumentFileName && 
+          res.returnObject.UploadedGallery[0].DocumentFileName!="[]" && 
+          isJSON(res.returnObject.UploadedGallery[0].DocumentFileName)){
+          let gallery = res.returnObject.UploadedGallery[0];
+          this.uploadedGalleries = JSON.parse(gallery.DocumentFileName);
+          this.docTypeIdGallery = this.uploadedGalleries[0].DocumentID;
+          this.uploadedGalleries.map(obj=>{
+            obj.DocumentFile = this.baseExternalAssets + obj.DocumentFile;
+          })
+        }
+        if (res.returnObject.UploadedAwardCertificate && res.returnObject.UploadedAwardCertificate[0].DocumentFileName && 
+          res.returnObject.UploadedAwardCertificate[0].DocumentFileName !="[]" && 
+          isJSON(res.returnObject.UploadedAwardCertificate[0].DocumentFileName)) {
+          let certificate = res.returnObject.UploadedAwardCertificate[0];
+          this.uploadedCertificates = JSON.parse(certificate.DocumentFileName);
+          this.docTypeIdCert = this.uploadedCertificates[0].DocumentID;
+          this.uploadedCertificates.map(obj => {
+            obj.DocumentFile = this.baseExternalAssets + obj.DocumentFile;
+          })
+        }
+
         this.getListJobTitle(countryId, info);
       }
     })
   }
-  confirmPassword(event) {
-    let element = event.currentTarget.previousElementSibling;
-    if (element.type === "password" && element.value) {
-      element.type = "text";
-    }
-    else {
-      element.type = "password";
-    };
-  }
+ 
   updatePassword() {
     if (this.credentialInfoForm.value.currentPassword === this.credentialInfoForm.value.newPassword) {
       this._toastr.error('New password must be different from current password', '');
@@ -403,9 +416,6 @@ export class SettingsComponent implements OnInit {
       obj.DocumentID = this.docTypeIdCert;
     }
 
-
-
-
     this._basicInfoService.removeDoc(obj).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this._toastr.success('Remove selected document succesfully', "");
@@ -413,10 +423,10 @@ export class SettingsComponent implements OnInit {
           this.selectedDocxlogo = {};
         }
         else if (type == 'gallery') {
-          this.selectedGalleryDocx.splice(index, 1);
+          this.uploadedGalleries.splice(index, 1);
         }
         else if (type == 'certificate') {
-          this.selectedCertificateDocx.splice(index, 1);
+          this.uploadedCertificates.splice(index, 1);
         }
       }
       else {
@@ -553,10 +563,10 @@ export class SettingsComponent implements OnInit {
             this.selectedDocxlogo = fileObj[0];
           }
           else if (type == 'gallery') {
-            this.selectedGalleryDocx = fileObj;
+            this.uploadedGalleries = fileObj;
           }
           else if (type == 'certificate') {
-            this.selectedCertificateDocx = fileObj;
+            this.uploadedCertificates = fileObj;
           }
           this._toastr.success("File upload successfully", "");
         }
@@ -576,14 +586,9 @@ export class SettingsComponent implements OnInit {
 
 
   deactivate(){
-    let obj = {
-      userID: this.userProfile.UserID,
-      providerID: this.userProfile.ProviderID,
-      createdBy: this.userProfile.LoginID
-    }
-    this._settingService.deactivateAccount(obj).subscribe((res:any)=>{
+    this._settingService.deactivateAccount(this.userProfile.UserID, this.userProfile.UserID).subscribe((res:any)=>{
       if(res.returnStatus=="Success"){
-        this._toastr.success("Account Delete Successfully", "")
+        this._toastr.info("Account Delete Successfully", "")
       }
     })
   }
