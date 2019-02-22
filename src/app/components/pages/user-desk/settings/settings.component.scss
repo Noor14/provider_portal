@@ -1,100 +1,359 @@
 @import "../../../../../assets/scss/_variables";
-.navbar {
-    margin-bottom: 48px;
 
-    ul {
-      width: 100%;
+.settings {
+  ngb-tabset {
+    .nav {
+      border: none;
+      margin-bottom: 1rem;
 
-      li {
-        flex: 1;
-        box-shadow: 0px 1px 0px 0px $grey-border;
+      &-item {
+        width: 33.33%;
+        text-align: center;
+      }
 
-        .nav-link {
-          color: rgba(115, 133, 147, 0.6);
-          font-size: $font-size-large;
+      &-link {
+        background: none !important;
+        border: none !important;
+        box-shadow: 0 1px 0 0 $grey-border;
+        font-family: $font-proxima;
+        font-size: $font-size-medium;
+        color: $color-topmenu;
+        font-weight: $font-weight-mid;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+
+        &.active {
+          box-shadow: 0 2px 0 0 $primary-color;
+          color: $primary-color;
+        }
+      }
+    }
+  }
+
+  .accordion {
+    >.card {
+      background: none;
+      border: none;
+
+      >.card-header {
+        background: none;
+        border: none;
+        margin-top: 5px;
+
+        a {
+          font-family: $font-pragmatica;
           font-weight: $font-weight-mid;
-          font-family: $font-proxima;
-          align-content: center;
-          display: flex;
-          justify-content: center;
-          outline: none;
+          color: $text-color-default;
+          font-size: 20px;
           position: relative;
+          padding-left: 12px;
 
-          img {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-            vertical-align: sub;
-            filter: grayscale(1);
-            opacity: 0.6;
-            z-index: 5;
-            position: relative;
+          &:before {
+            content: "";
+            position: absolute;
+            left: -24px;
+            height: 17px;
+            width: 20px;
+            transform: rotate(270deg);
+            top: 3px;
+            transition: all 0.8s ease-in-out;
+            display: flex;
+            background: url("../../../../../assets/images/icons/icon_arrow_left.svg") no-repeat;
+          }
+        }
 
-            &[alt="icon_air"] {
-              transform: rotate(-20deg);
+        &.active {
+          margin-bottom: 5px;
+
+          a {
+            &:before {
+              transform: rotate(90deg);
             }
           }
+        }
+      }
 
-          &.active {
-            img {
-              filter: grayscale(0);
-              opacity: 1;
-            }
+      >.card-body {
+        background: $color-white;
+        border: 1px solid $grey-border;
+        overflow: hidden;
 
-            .menu-text {
-              color: $primary-color;
-            }
+        ngb-typeahead-window {
+          max-height: 200px;
+          overflow-y: auto;
+          padding: 0;
 
-            box-shadow: 0px 2px 0px 0px $color-topmenuactive;
-          }
+          .dropdown-item {
+            display: flex;
 
-          &:hover {
-            color: $primary-color;
-
-            .man-tab-ico {
-              position: relative;
+            .flag-container {
+              width: 15px;
+              height: 12px;
+              margin-right: 10px !important;
 
               img {
-                filter: grayscale(0);
-                opacity: 1;
+                width: 16px;
+                height: 12px;
+                border: 1px solid $primary-grey;
               }
+            }
 
-              &:after {
-                content: '';
-                position: absolute;
-                top: 40%;
-                left: 30%;
-                width: 5px;
-                height: 5px;
-                background: rgba(0, 162, 223, .5);
-                opacity: 0;
-                border-radius: 50%;
-                transform: scale(1, 1) translate(-50%);
-                transform-origin: 50% 50%;
-                animation: ripple 1s ease-out infinite;
-              }
+            ngb-highlight {
+              padding-right: 1rem;
+            }
 
-              @keyframes ripple {
-                0% {
-                  transform: scale(0, 0);
-                  opacity: 1;
-                  background: rgba(255, 255, 255, .5);
-                }
+            &.active,
+            &:active {
+              background: $primary-grey;
+            }
+          }
+        }
 
-                20% {
-                  transform: rgba(255, 255, 255, .5);
-                  opacity: 1;
-                  background: $white-color;
-                }
+        .city-dropdown {
+          position: relative;
+          display: inline-block;
+          width: 100%;
 
-                100% {
-                  opacity: 0;
-                  transform: scale(10, 10);
-                }
-              }
+          >.flag-container {
+            width: 16px;
+            height: 12px;
+            position: absolute;
+            left: 20px;
+            top: 19px;
+            display: flex;
+
+            img {
+              width: 16px;
+              height: 12px;
+              border: 1px solid $primary-grey;
+            }
+          }
+
+          input {
+            &.routeSelected {
+              padding-left: 2.8rem;
+            }
+          }
+
+          &.currency {
+            ngb-typeahead-window {
+              top: auto !important;
+              bottom: 50px;
             }
           }
         }
       }
     }
   }
+
+  .servicechip {
+    border-radius: 4px;
+    border: 1px solid $input-border;
+    background: $white-color;
+    position: relative;
+    font-family: $font-proxima;
+
+    &.active {
+      box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
+      border-radius: 4px;
+      border: 1px solid $primary-color !important;
+      background: $white-color !important;
+
+      &:before {
+        content: url("../../../../../assets/images/icons/selection_tick.svg");
+        width: 44px;
+        height: 44px;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    }
+
+    &-provides,
+    &-valueAdded {
+      @extend .servicechip;
+      height: 50px;
+    }
+
+    &-asscoiation {
+      @extend .servicechip;
+      height: 150px;
+      padding: 1rem;
+
+      img {
+        width: 40%;
+        align-self: center;
+        margin-bottom: 0.5rem;
+        max-height: 4rem;
+      }
+    }
+  }
+
+  .delete-acc {
+    a {
+      color: $danger-color;
+      font-family: $font-proxima;
+      font-size: $font-size-medium;
+      font-weight: $font-weight-mid;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        .delete-icon {
+          overflow: visible;
+
+          g {
+            rect {
+              transform: rotate(-25deg);
+              transition: 0.5s;
+            }
+          }
+        }
+      }
+    }
+
+    p {
+      font-family: $font-proxima;
+      font-size: $font-size-medium;
+      color: $secondary-text-color;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .setting-update-btn {
+    font-family: $font-proxima;
+    font-size: $font-size-large;
+    color: $secondary-color;
+    font-weight: $font-weight-mid;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: no-drop;
+      filter: grayscale(1);
+    }
+  }
+
+  .setting-discard-btn {
+    @extend .setting-update-btn;
+    color: $color-topmenu;
+
+    svg {
+      transform: rotate(45deg);
+      opacity: 0.8;
+      fill: $color-topmenu;
+    }
+  }
+
+  .provider-logo {
+    width: 120px;
+    height: 120px;
+    border: 1px solid $input-border;
+    border-radius: 4px;
+    padding: 10px;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .change-logo {
+    font-family: $font-proxima;
+    font-size: $font-size-medium;
+    color: $color-topmenu;
+    font-weight: $font-weight-mid;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .regional {
+    h6 {
+      @extend .change-logo;
+    }
+
+    small {
+      font-family: $font-proxima;
+      color: $secondary-text-color;
+      font-size: $font-size-medium;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .confirmPassword {
+    position: relative;
+
+    i {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+
+      &.black {
+        color: $text-color-default
+      }
+
+      &.grey {
+        color: $text-grey;
+      }
+    }
+  }
+
+  .document-Info {
+    .file-uploader {
+      border: 1px dashed #e1d8d8;
+      border-radius: 4px;
+
+      .browse-span {
+        color: $secondary-color;
+        font-weight: 500;
+      }
+
+      text-align: center;
+
+      app-ng-files-drag-n-upload {
+        label {
+          padding: 2rem 60px;
+        }
+      }
+    }
+
+    .uploadedDocx {
+      margin-top: 1rem;
+
+      .display-upload {
+        position: relative;
+        height: 200px;
+        z-index: 0;
+        display: flex;
+        justify-content: center;
+        border: 1px solid $input-border;
+        background: $color-white;
+        border-radius: 4px;
+
+        img,
+        video {
+          border-radius: 4px;
+          max-width: 100%;
+          height: 100%;
+          display: flex;
+        }
+
+        .delete-icon {
+          position: absolute;
+          top: -10px;
+          right: -8px;
+          min-height: auto;
+          background: $white-color;
+          padding: 3px;
+          border-radius: 50%;
+          width: 23px;
+          height: auto;
+          border: none;
+        }
+      }
+    }
+  }
+}

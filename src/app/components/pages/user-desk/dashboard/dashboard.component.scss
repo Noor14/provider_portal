@@ -168,22 +168,21 @@
                     margin-bottom: 0;
                     font-weight: $font-proxima-weight-semibold;
                 }
-                .pending {
+                .docstatus {
                     font-size: $font-size-large;
-                    color: $danger-color;
                     line-height: 1.25;
-                    text-transform: capitalize !important;
+                    text-transform: capitalize;
+                    &.pending{
+                    color: rgb(211, 32, 32);
+                    }
+                    &.approved {
+                        color: rgb(2, 189, 182);
+                    }
                 }
                 .secondary {
-             
-                    @extend.pending;
-                    color: $secondary-color;
-        
-                }
-                .approved {
-                    @extend.pending;
-                  color: $secondary-color;
-                    
+                    font-size: $font-size-large;
+                    color: rgb(2, 189, 182);
+                    line-height: 1.25;
                 }
                 .customer-image {
                     width: 44px;
