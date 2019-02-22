@@ -177,7 +177,7 @@
                           </svg>
                           Discard
                         </button>
-                        <button class="d-flex align-items-start" (click)="updatePersonalInfo()" class="setting-update-btn">
+                        <button class="d-flex align-items-start" [disabled]="personalInfoForm.invalid" (click)="updatePersonalInfo()" class="setting-update-btn">
                           <svg class="icon-size-16 mr-2 animated" id="b1317f11-92b2-4fe7-b9b7-f7347d5965ce" data-name="Layer 1"
                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="background: #fff;">
                             <defs>
@@ -212,15 +212,15 @@
             <ngb-panel id="BusinessInfo" title="Business Information">
               <ng-template ngbPanelContent>
                 <div class="animated fadeInDown">
-                  <div class="row mb-3">
+                <div class="row mb-3" >
                     <div class="col-3">
                       <div class="form-group">
                         <label>Logo</label>
                       </div>
                     </div>
-                    <div class="col-2">
+                      <div class="col-2">
                       <div class="provider-logo d-flex justify-content-center align-items-center">
-                        <img [src]="uploadedlogo.DocumentFile" alt="logo" />
+                        <img *ngIf="uploadedlogo && uploadedlogo.DocumentFile" [src]="uploadedlogo.DocumentFile" alt="logo" />
                       </div>
                     </div>
                     <div class="col-2 d-flex justify-content-start align-items-center">
@@ -355,7 +355,7 @@ C2,4.691,4.691,2,8,2 M8,0C3.582,0,0,3.582,0,8s3.582,8,8,8s8-3.582,8-8S12.418,0,8
                           </svg>
                           Discard
                         </button>
-                        <button class="d-flex align-items-start" (click)="updatebussinesInfo()" class="setting-update-btn">
+                        <button class="d-flex align-items-start" [disabled]="businessInfoForm.invalid" (click)="updatebussinesInfo()" class="setting-update-btn">
                           <svg class="icon-size-16 mr-2 animated" id="b1317f11-92b2-4fe7-b9b7-f7347d5965ce" data-name="Layer 1"
                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="background: #fff;">
                             <defs>
