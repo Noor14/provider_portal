@@ -312,7 +312,13 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     this.transPhoneCode = description[0].CountryPhoneCode_OtherLang;
     // this.phoneCountryId = list.id
   }
-
+  onSelectedCity(obj){
+    if(obj && typeof obj == "object" ){
+      this.countryFlagImage = obj.imageName;
+      this.mobileCountFlagImage = obj.imageName;
+    }
+    return;
+  }
   selectTelCode(list) {
     this.mobileCountFlagImage = list.code;
     let description = list.desc;
