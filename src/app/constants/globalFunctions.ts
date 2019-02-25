@@ -1,6 +1,7 @@
 import { AbstractControl, ValidatorFn, FormControl } from '@angular/forms';
 import { baseExternalAssets } from './base.url';
 import { Base64 } from 'js-base64';
+import * as moment from 'moment'
 
 
 export const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -207,4 +208,16 @@ export const removeDuplicates = (myArr, prop) => {
   return myArr.filter((obj, pos, arr) => {
     return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
   });
+}
+
+/** Gets the difference in days, month or year between two dates
+  * @param  firstDate First Date
+  * @param secDate Second Date
+  * @param mode difference mode e.g: 'days', 'months' or 'years'
+*/
+export function getDateDiff(firstDate: string, secDate: string, mode: any, format: string) {
+  const a = moment(firstDate, format);
+  const b = moment(secDate, format);
+  const test = a.diff(b, mode);
+  return test + 1;
 }
