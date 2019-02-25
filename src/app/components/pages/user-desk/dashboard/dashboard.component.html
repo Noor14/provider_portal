@@ -77,7 +77,7 @@
         <div class="rates">
           <small class="mr-2">{{providerInfo.BillingCurrencyCode}}</small>
           <span>{{providerInfo.BillingTillDate | number: '1.2-2'}}</span>
-          <span class="ml-2 badge hashmove-badge-danger"><strong>DUE DATE: 31 JAN 2019</strong></span>
+          <!-- <span class="ml-2 badge hashmove-badge-danger"><strong>DUE DATE: 31 JAN 2019</strong></span> -->
         </div>
       </div>
       </div>
@@ -85,8 +85,7 @@
       <div class="summarySection col-xl-6 col-md-6 col-sm-12 d-flex justify-content-end align-items-center">
         <div class="row">
           <div class="col-xl-6 col-md-12 col-sm-12 d-md-flex justify-content-md-center mb-1">
-           <button class="btn btn-outline-primary hvr-sweep-to-right pl-3 pr-3 pt-2 pb-2" *ngIf="providerInfo?.BillingTillDate > 0 " routerLink="/provider/billing">VIEW DETAILS</button>
-           <button class="btn btn-outline-primary hvr-sweep-to-right pl-3 pr-3 pt-2 pb-2" *ngIf="!providerInfo.BillingTillDate || providerInfo.BillingTillDate <=0" routerLink="/provider/billing">VIEW DETAILS</button>
+           <button class="btn btn-outline-primary hvr-sweep-to-right pl-3 pr-3 pt-2 pb-2" routerLink="/provider/billing">VIEW DETAILS</button>
           </div>
             <div class="col-xl-6 col-md-12 col-sm-12 d-md-flex justify-content-md-center mb-1">
             <button class="btn btn-outline-primary hvr-sweep-to-right pl-3 pr-3 pt-2 pb-2">MAKE A PAYMENT</button>
