@@ -4,7 +4,7 @@
       <ng-template ngbTabTitle>Profile</ng-template>
       <ng-template ngbTabContent>
         <section class="profile">
-          <ngb-accordion activeIds="PersonalInfo">
+          <ngb-accordion [activeIds]="activeAccordions">
             <ngb-panel id="PersonalInfo" title="Personal Information">
               <ng-template ngbPanelContent>
                 <div class="animated fadeInDown">
@@ -540,7 +540,7 @@
                       </div>
                       <div class="col-5">
                         <div class="form-group">
-                          <input class="form-control" type="password" placeholder="eg: 123456" (keypress)="spaceHandler($event)"
+                          <input class="form-control" type="password" placeholder="•••••" (keypress)="spaceHandler($event)"
                             formControlName="currentPassword" />
                         </div>
                       </div>
@@ -558,7 +558,7 @@
                       </div>
                       <div class="col-5">
                         <div class="form-group">
-                          <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="eg: 12345678"
+                          <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="New Password"
                             formControlName="newPassword" />
                         </div>
                       </div>
@@ -579,7 +579,7 @@
                       </div>
                       <div class="col-5">
                         <div class="form-group">
-                          <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="eg: 12345678"
+                          <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="Confirm Password"
                             formControlName="confirmPassword" />
                         </div>
                       </div>
@@ -681,7 +681,7 @@
       </ng-template>
     </ngb-tab>
     <ngb-tab>
-      <ng-template ngbTabTitle>Document Manager</ng-template>
+      <ng-template ngbTabTitle><div class="setting-noti"><span class="circle"></span></div>Document Manager</ng-template>
       <ng-template ngbTabContent>
         <section class="DocumentManager">
           <h5 class="mb-0 mt-5">Trade License</h5>

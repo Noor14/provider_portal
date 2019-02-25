@@ -22,7 +22,7 @@ import { SharedService } from '../../../../services/shared.service';
 export class SettingsComponent implements OnInit {
 
   public baseExternalAssets: string = baseExternalAssets;
-
+  public activeAccordions: string[] = ['PersonalInfo', 'BusinessInfo', 'BusinessProfile', 'Gallery', 'AwardsCert', 'ChangePassword'];
   public selectedDocxlogo: any;
   private docTypeIdLogo = null;
   private docTypeIdCert = null;
