@@ -57,6 +57,7 @@ export class SeaRateDialogComponent implements OnInit {
   public allHandlingType: any[] = [];
   public allCustomers: any[] = []
   public allPorts: any[] = [];
+  public seaPorts: any[] = [];
   public allCurrencies: any[] = [];
   private allRatesFilledData: any[] = [];
   public filterOrigin: any = {};
@@ -69,9 +70,9 @@ export class SeaRateDialogComponent implements OnInit {
   public selectedShipping: any;
   public selectedPrice: any;
   public defaultCurrency: any = {
-    id: 101,
-    shortName: "AED",
-    imageName: 'AE'
+    CurrencyID: 101,
+    CurrencyCode: "AED",
+    CountryCode: 'AE'
   };
   public selectedCurrency: any = this.defaultCurrency;
   public startDate: NgbDateStruct;
@@ -145,19 +146,19 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   allservicesBySea() {
+    this.getDropdownsList()
     this._sharedService.dataLogisticServiceBySea.subscribe(state => {
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
             this.allShippingLines = state[index].DropDownValues.ShippingLine;
-            this.allCargoType = state[index].DropDownValues.Category;
-            this.allContainersType = state[index].DropDownValues.ContainerFCL;
+            // this.allCargoType = state[index].DropDownValues.Category;
+            // this.allContainersType = state[index].DropDownValues.ContainerFCL;
             this.allHandlingType = state[index].DropDownValues.ContainerLCL;
             // this.allPorts = state[index].DropDownValues.Port;
             // this.allCurrencies = state[index].DropDownValues.UserCurrency;
 
             if (this.selectedData && this.selectedData.data && this.selectedData.forType === "FCL") {
-              this.getDropdownsList()
               if (this.selectedData.mode === 'publish') {
                 this.disabledCustomers = true;
                 let data = changeCase(this.selectedData.data[0], 'pascal')
@@ -181,22 +182,22 @@ export class SeaRateDialogComponent implements OnInit {
     this.selectedCategory = data.ShippingCatID;
     this.cargoTypeChange(this.selectedCategory);
     this.selectedContSize = data.ContainerSpecID;
-    console.log(this.allPorts);
-    
-    this.filterOrigin = this.allPorts.find(
-      obj => obj.id == data.PolID
+    console.log(this.seaPorts);
+
+    this.filterOrigin = this.seaPorts.find(
+      obj => obj.PortID == data.PolID
     );
     console.log(this.filterOrigin);
-    
-    this.filterDestination = this.allPorts.find(
-      obj => obj.id == data.PodID
+
+    this.filterDestination = this.seaPorts.find(
+      obj => obj.PortID == data.PodID
     );
 
     this.selectedShipping = this.allShippingLines.find(
       obj => obj.CarrierID == data.CarrierID
     );
     this.selectedCurrency = this.allCurrencies.find(
-      obj => obj.id == data.CurrencyID
+      obj => obj.CurrencyID == data.CurrencyID
     );
     this.selectedPrice = data.Price;
 
@@ -232,10 +233,10 @@ export class SeaRateDialogComponent implements OnInit {
     this.selectedCategory = data.ShippingCatID;
     this.cargoTypeChange(this.selectedCategory);
     this.selectedHandlingUnit = data.ContainerSpecID;
-    this.filterOrigin = this.allPorts.find(
+    this.filterOrigin = this.seaPorts.find(
       obj => obj.PortID == data.PolID
     );
-    this.filterDestination = this.allPorts.find(
+    this.filterDestination = this.seaPorts.find(
       obj => obj.PortID == data.PodID
     );
     this.selectedCurrency = this.allCurrencies.find(
@@ -266,7 +267,7 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   cargoTypeChange(type) {
-    let data = this.allContainersType.filter(obj => obj.ShippingCatID == type);
+    let data = this.fclContainers.filter(obj => obj.ShippingCatID == type);
     this.allContainers = data;
   }
 
@@ -295,7 +296,10 @@ export class SeaRateDialogComponent implements OnInit {
             effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
             effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
             modifiedBy: this.userProfile.LoginID,
-            JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations))
+            JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
+            customerID: element.customerID,
+            jsonCustomerDetail: element.jsonCustomerDetail,
+            customerType: element.customerType
           }
         )
       });
@@ -369,7 +373,9 @@ export class SeaRateDialogComponent implements OnInit {
 
   saveDataInFCLDraft(type) {
     let customers = [];
-    if (this.selectedCustomer) {
+    console.log(this.selectedCustomer);
+
+    if (this.selectedCustomer.length) {
       this.selectedCustomer.forEach(element => {
         let obj = {
           CustomerID: element.CustomerID,
@@ -383,7 +389,7 @@ export class SeaRateDialogComponent implements OnInit {
 
     let obj = {
       providerPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ProviderPricingDraftID : 0,
-      customerID: (this.selectedCustomer ? this.selectedCustomer[0].CustomerID : null),
+      customerID: (this.selectedCustomer.length ? this.selectedCustomer[0].CustomerID : null),
       customersList: (customers.length ? customers : null),
       carrierID: (this.selectedShipping) ? this.selectedShipping.CarrierID : undefined,
       carrierName: (this.selectedShipping) ? this.selectedShipping.CarrierName : undefined,
@@ -395,22 +401,20 @@ export class SeaRateDialogComponent implements OnInit {
       shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.getShippingName(this.selectedCategory),
       containerLoadType: "FCL",
       modeOfTrans: "SEA",
-      polID: (this.filterOrigin && this.filterOrigin.id) ? this.filterOrigin.id : null,
-      polName: (this.filterOrigin && this.filterOrigin.id) ? this.filterOrigin.shortName : null,
-      polCode: (this.filterOrigin && this.filterOrigin.id) ? this.filterOrigin.code : null,
-      podID: (this.filterDestination && this.filterDestination.id) ? this.filterDestination.id : null,
-      podName: (this.filterDestination && this.filterDestination.id) ? this.filterDestination.shortName : null,
-      podCode: (this.filterDestination && this.filterDestination.id) ? this.filterDestination.code : null,
+      polID: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortID : null,
+      polName: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortName : null,
+      polCode: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortCode : null,
+      podID: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortID : null,
+      podName: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortName : null,
+      podCode: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortCode : null,
       price: this.selectedPrice,
-      currencyID: (this.selectedCurrency.id) ? this.selectedCurrency.id : 101,
-      currencyCode: (this.selectedCurrency.shortName) ? this.selectedCurrency.shortName : 'AED',
+      currencyID: (this.selectedCurrency.CurrencyID) ? this.selectedCurrency.CurrencyID : 101,
+      currencyCode: (this.selectedCurrency.CurrencyCode) ? this.selectedCurrency.CurrencyCode : 'AED',
       effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
       effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
       JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
-      createdBy: this.userInfo.LoginID
+      createdBy: this.userProfile.LoginID
     }
-
-
     let ADCHValidated: boolean = true;
     let exportCharges
     let importCharges
@@ -465,15 +469,11 @@ export class SeaRateDialogComponent implements OnInit {
       this._toast.info('Please fill atleast one field to save', 'Info')
       return;
     }
-    console.log(type);
-
     this._seaFreightService.saveDraftRate(obj).subscribe((res: any) => {
       if (res.returnId > 0) {
         this._toast.success("Rates added successfully", "Success");
         // this.allRatesFilledData.push(obj);
         if (type === "onlySave") {
-          console.log(res.returnObject[0]);
-
           // let object = {
           //   data: this.allRatesFilledData
           // };
@@ -584,14 +584,14 @@ export class SeaRateDialogComponent implements OnInit {
       map(term =>
         !term || term.length < 3
           ? []
-          : this.allPorts.filter(
+          : this.seaPorts.filter(
             v =>
-              v.shortName &&
-              v.shortName.toLowerCase().indexOf(term.toLowerCase()) > -1
+              v.PortName &&
+              v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1
           )
       )
     );
-  portsFormatter = (x: { shortName: string }) => x.shortName;
+  portsFormatter = (x: { PortName: string }) => x.PortName;
 
   currencies = (text$: Observable<string>) =>
     text$.pipe(
@@ -601,12 +601,12 @@ export class SeaRateDialogComponent implements OnInit {
           ? []
           : this.allCurrencies.filter(
             v =>
-              v.shortName &&
-              v.shortName.toLowerCase().indexOf(term.toLowerCase()) > -1
+              v.CurrencyCode &&
+              v.CurrencyCode.toLowerCase().indexOf(term.toLowerCase()) > -1
           )
       )
     );
-  currencyFormatter = (x) => x.shortName;
+  currencyFormatter = (x) => x.CurrencyCode;
 
 
   selectCharges(type, model, index) {
@@ -869,15 +869,23 @@ export class SeaRateDialogComponent implements OnInit {
     }
   }
 
+
+  public combinedContainers = []
+  public fclContainers = []
+  public selectedFCLContainers = []
+  public shippingCategories = []
   /**
    * Getting all dropdown values to fill
    *
    * @memberof SeaFreightComponent
    */
   getDropdownsList() {
-    this.allPorts = JSON.parse(localStorage.getItem('shippingPortDetails'))
-    console.log(this.allPorts);
-    
+    this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
+    this.seaPorts = this.allPorts.filter(e => e.PortType === 'SEA')
+    this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
+    this.fclContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FCL')
+    let uniq = {}
+    this.allCargoType = this.fclContainers.filter(obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true));
     this._sharedService.currenciesList.subscribe(res => {
       if (res) {
         console.log(res);

@@ -25,12 +25,12 @@
           <label>Port of Origin</label>
           <div class="origin">
             <div class="flag-container">
-              <img *ngIf="filterOrigin && filterOrigin.imageName"
-                src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.imageName | lowercase) + '.svg'}}"
+              <img *ngIf="filterOrigin && filterOrigin.CountryCode"
+                src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
                 type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
             </div>
             <input class="form-control" [(ngModel)]="filterOrigin" placeholder="e.g: Dubai" type="text"
-              [ngClass]="{'routeSelected': filterOrigin && filterOrigin.imageName}" [ngbTypeahead]="ports"
+              [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}" [ngbTypeahead]="ports"
               [resultTemplate]="rt" [inputFormatter]="portsFormatter" [disabled]="selectedData.mode === 'publish'" />
           </div>
         </div>
@@ -40,21 +40,21 @@
           <label>Port of Destination</label>
           <div class="destination">
             <div class="flag-container">
-              <img *ngIf="filterDestination && filterDestination.imageName"
-                src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.imageName | lowercase) + '.svg'}}"
+              <img *ngIf="filterDestination && filterDestination.CountryCode"
+                src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
                 type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
             </div>
             <input placeholder="e.g: Karachi" [(ngModel)]="filterDestination" type="text" class="form-control"
-              [ngClass]="{'routeSelected': filterDestination && filterDestination.imageName}" [ngbTypeahead]="ports"
+              [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}" [ngbTypeahead]="ports"
               [resultTemplate]="rt" [inputFormatter]="portsFormatter" [disabled]="selectedData.mode === 'publish'" />
           </div>
           <ng-template #rt let-r="result">
             <div class="d-flex">
               <div class="flag-container mr-1">
-                <img src="{{'../../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
+                <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}"
                   class="mw-100 w-auto h-auto mh-100">
               </div>
-              <ngb-highlight [result]="r.shortName"></ngb-highlight>
+              <ngb-highlight [result]="r.PortName"></ngb-highlight>
             </div>
           </ng-template>
         </div>
@@ -117,20 +117,20 @@
             <div class="col-6 pl-0">
               <div class="origin combine-filed-popup-right">
                 <div class="flag-container">
-                  <img *ngIf="selectedCurrency && selectedCurrency.imageName"
-                    src="{{'../../../../../assets/images/flags/4x3/' + (selectedCurrency.imageName | lowercase) + '.svg'}}"
+                  <img *ngIf="selectedCurrency && selectedCurrency.CountryCode"
+                    src="{{'../../../../../assets/images/flags/4x3/' + (selectedCurrency.CountryCode | lowercase) + '.svg'}}"
                     type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                 </div>
                 <input type="text" placeholder="AED" [(ngModel)]="selectedCurrency" class="form-control"
                   [ngbTypeahead]="currencies" [resultTemplate]="crt" [inputFormatter]="currencyFormatter"
-                  [ngClass]="{'routeSelected': selectedCurrency && selectedCurrency.imageName}"
+                  [ngClass]="{'routeSelected': selectedCurrency && selectedCurrency.CountryCode}"
                   [disabled]="selectedData.mode === 'publish'">
                 <ng-template #crt let-r="result">
                   <div class="d-flex">
                     <div class="flag-container">
-                      <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
+                      <img src="{{'../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}"
                         style="max-width:20px;max-height:22px;"></div>
-                    <ngb-highlight [result]="r.shortName"></ngb-highlight>
+                    <ngb-highlight [result]="r.CurrencyCode"></ngb-highlight>
                   </div>
                 </ng-template>
               </div>
@@ -237,20 +237,20 @@
               <div class="col-2 pl-0 pr-0">
                 <div class="origin combine-filed-popup-right">
                   <div class="flag-container">
-                    <img *ngIf="origin.currency && origin.currency.imageName"
-                      src="{{'../../../../../assets/images/flags/4x3/' + (origin.currency.imageName | lowercase) + '.svg'}}"
+                    <img *ngIf="origin.currency && origin.currency.CountryCode"
+                      src="{{'../../../../../assets/images/flags/4x3/' + (origin.currency.CountryCode | lowercase) + '.svg'}}"
                       type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                   </div>
                   <input type="text" placeholder="AED" (ngModelChange)="getVal(i, $event, 'origin')"
                     [(ngModel)]="origin.currency" class="form-control" [ngbTypeahead]="currencies"
                     [resultTemplate]="crt" [inputFormatter]="currencyFormatter" (keyup)="onKeyDown(i, $event, 'origin')"
-                    [ngClass]="{'routeSelected': origin.currency && origin.currency.imageName}">
+                    [ngClass]="{'routeSelected': origin.currency && origin.currency.CountryCode}">
                   <ng-template #crt let-r="result">
                     <div class="d-flex">
                       <div class="flag-container">
-                        <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
+                        <img src="{{'../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}"
                           style="max-width:20px;max-height:22px;"></div>
-                      <ngb-highlight [result]="r.shortName"></ngb-highlight>
+                      <ngb-highlight [result]="r.CurrencyCode"></ngb-highlight>
                     </div>
                   </ng-template>
                 </div>
@@ -320,21 +320,21 @@
               <div class="col-2 pl-0 pr-0">
                 <div class="origin combine-filed-popup-right">
                   <div class="flag-container">
-                    <img *ngIf="destination.currency && destination.currency.imageName"
-                      src="{{'../../../../../assets/images/flags/4x3/' + (destination.currency.imageName | lowercase) + '.svg'}}"
+                    <img *ngIf="destination.currency && destination.currency.CountryCode"
+                      src="{{'../../../../../assets/images/flags/4x3/' + (destination.currency.CountryCode | lowercase) + '.svg'}}"
                       type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                   </div>
                   <input type="text" placeholder="AED" (ngModelChange)="getVal(i, $event, 'destination')"
                     [(ngModel)]="destination.currency" class="form-control" [ngbTypeahead]="currencies"
                     [resultTemplate]="crt" [inputFormatter]="currencyFormatter"
                     (keyup)="onKeyDown(i, $event, 'destination')"
-                    [ngClass]="{'routeSelected': destination.currency && destination.currency.imageName}">
+                    [ngClass]="{'routeSelected': destination.currency && destination.currency.CountryCode}">
                   <ng-template #crt let-r="result">
                     <div class="d-flex">
                       <div class="flag-container">
-                        <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
+                        <img src="{{'../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}"
                           style="max-width:20px;max-height:22px;"></div>
-                      <ngb-highlight [result]="r.shortName"></ngb-highlight>
+                      <ngb-highlight [result]="r.CurrencyCode"></ngb-highlight>
                     </div>
                   </ng-template>
                 </div>

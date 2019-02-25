@@ -26,7 +26,10 @@ import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
 import { RateHistoryComponent } from '../../../../../shared/dialogues/rate-history/rate-history.component';
-import { getImagePath, ImageSource, ImageRequiredSize, changeCase, loading } from '../../../../../constants/globalFunctions';
+import { getImagePath, ImageSource, ImageRequiredSize, changeCase, loading, removeDuplicates } from '../../../../../constants/globalFunctions';
+import { HttpErrorResponse } from '@angular/common/http';
+import { CommonService } from '../../../../../services/common.service';
+import { cloneObject } from '../../reports/reports.component';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -178,7 +181,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     private element: ElementRef,
     private renderer: Renderer2,
     private _parserFormatter: NgbDateParserFormatter,
-    private _toast: ToastrService
+    private _toast: ToastrService,
+    private _commonService: CommonService
   ) {
   }
 
@@ -197,6 +201,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     // fill dropdow lists
     this.getDropdownsList()
     this.getDraftRates()
+    this.getPortsData()
+    this.getContainersMapping()
 
     this.getAllCustomers(this.userProfile.ProviderID)
     this.addnsaveRates = this._sharedService.draftRowFCLAdd.subscribe(state => {
@@ -352,6 +358,20 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           data: function (data) {
             return '<div class="fancyOptionBoxes"> <input id = "' + data.ProviderPricingDraftID + '" type = "checkbox"> <label for= "' + data.ProviderPricingDraftID + '"> <span> </span></label></div>';
           }
+        },
+        {
+          title: 'RATE FOR',
+          data: function (data) {
+
+            if (!data.CustomerID) {
+              // return "<span>-- Select --</span>"
+              return "<img src='../../../../favicon.ico' class='icon-size-24 mr-2' /> Marketplace"
+            } else {
+              let parsedJsonCustomerDetail = JSON.parse(data.JsonCustomerDetail)
+              let url = baseExternalAssets + "/" + parsedJsonCustomerDetail[0].CustomerImage;
+              return "<img src='" + url + "' class='icon-size-24 mr-2' onerror=\"this.src='../../../../favicon.ico'\"/>" + parsedJsonCustomerDetail[0].CustomerName
+            }
+          },
         },
         {
           title: 'SHIPPING LINE',
@@ -1205,7 +1225,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     }
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.allRatesList = res.returnObject.data;
+        this.allRatesList = cloneObject(res.returnObject.data);
         this.checkedallpublishRates = false;
         this.filterTable();
       }
@@ -1248,6 +1268,24 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           data: function (data) {
             return '<div class="fancyOptionBoxes"> <input id = "' + data.carrierPricingID + '" type = "checkbox"> <label for= "' + data.carrierPricingID + '"> <span> </span></label></div>';
           }
+        },
+        {
+          title: 'RATE FOR',
+          data: function (data) {
+            if (!data.customerID) {
+              // return "<span>-- Select --</span>"
+              return "<img src='../../../../favicon.ico' class='icon-size-24 mr-2' /> Marketplace"
+            } else {
+              if (data.jsonCustomerDetail) {
+                let parsedJsonCustomerDetail = JSON.parse(data.jsonCustomerDetail)
+                let url = baseExternalAssets + "/" + parsedJsonCustomerDetail[0].CustomerImage;
+                return "<img src='" + url + "' class='icon-size-24 mr-2' onerror=\"this.src='../../../../favicon.ico'\"/>" + parsedJsonCustomerDetail[0].CustomerName
+              } else {
+                return "<img src='../../../../favicon.ico' class='icon-size-24 mr-2' /> Marketplace"
+              }
+
+            }
+          },
         },
         {
           title: 'SHIPPING LINE',
@@ -2140,18 +2178,18 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       transportType: (this.activeTab == 'activeFCL') ? "FCL" : "LCL",
       modifiedBy: this.userProfile.LoginID
     }
-    this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        this._toast.success("Term and Condition saved Successfully", "");
-        if (this.activeTab == 'activeFCL') {
-          this._sharedService.termNcondFCL.next(this.editorContentFCL);
-          this.disableFCL = true;
-        } else {
-          this._sharedService.termNcondLCL.next(this.editorContentLCL);
-          this.disableLCL = true;
-        }
-      }
-    })
+    // this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
+    //   if (res.returnStatus == "Success") {
+    //     this._toast.success("Term and Condition saved Successfully", "");
+    //     if (this.activeTab == 'activeFCL') {
+    //       this._sharedService.termNcondFCL.next(this.editorContentFCL);
+    //       this.disableFCL = true;
+    //     } else {
+    //       this._sharedService.termNcondLCL.next(this.editorContentLCL);
+    //       this.disableLCL = true;
+    //     }
+    //   }
+    // })
   }
 
   getAdditionalData() {
@@ -2190,7 +2228,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
    * @memberof SeaFreightComponent
    */
   getDropdownsList() {
-    this.allPorts = JSON.parse(localStorage.getItem('shippingPortDetails'))
     this._sharedService.currenciesList.subscribe(res => {
       if (res) {
         this.allCurrencies = res;
@@ -2209,4 +2246,26 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       loading(false)
     })
   }
+
+  getPortsData() {
+    this._manageRatesService.getPortsData().subscribe((res: any) => {
+      this.allPorts = res;
+      localStorage.setItem("PortDetails", JSON.stringify(res));
+    }, (err: HttpErrorResponse) => {
+      loading(false)
+    })
+  }
+
+  public allContainers = []
+  public fclContainers = []
+  public shippingCategories = []
+  getContainersMapping() {
+    this._manageRatesService.getContainersMapping().subscribe((res: any) => {
+      this.allContainers = res.returnObject;
+      localStorage.setItem('containers', JSON.stringify(this.allContainers))
+    }, (err: any) => {
+
+    })
+  }
+
 }

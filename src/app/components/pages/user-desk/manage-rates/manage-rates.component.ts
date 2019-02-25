@@ -25,7 +25,6 @@ export class ManageRatesComponent implements OnInit {
       let userProfile = JSON.parse(userInfo.returnText);
       this.getAllservicesBySea(userProfile.UserID, userProfile.ProviderID);
     }
-    this.getShippingData()
   }
   // ngOnDestroy() {
   //   this._sharedService.termNcondAir.unsubscribe();
@@ -47,14 +46,4 @@ export class ManageRatesComponent implements OnInit {
       return 'active'
     }
   };
-
-  getShippingData() {
-    loading(true)
-    this._manageRatesService.getShippingData().subscribe((res: any) => {
-      console.log(res);
-      localStorage.setItem('shippingCategories', res.returnText)
-    }, (err) => {
-      loading(false)
-    })
-  }
 }

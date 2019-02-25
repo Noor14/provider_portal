@@ -88,7 +88,7 @@ export function CustomValidator(control: AbstractControl) {
   }
 
 
-  
+
 
 };
 export const YOUTUBE_REGEX: RegExp = /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/
@@ -176,7 +176,7 @@ export function changeCase(o, toCase) {
     return o.map(function (value) {
       if (typeof value === "object" && toCase === 'camel') {
         value = changeCase(value, 'camel')
-      } else if(typeof value === "object" && toCase === 'pascal') {
+      } else if (typeof value === "object" && toCase === 'pascal') {
         value = changeCase(value, 'pascal')
       }
       return value
@@ -200,4 +200,11 @@ export function changeCase(o, toCase) {
     }
   }
   return newO
+}
+
+
+export const removeDuplicates = (myArr, prop) => {
+  return myArr.filter((obj, pos, arr) => {
+    return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
+  });
 }

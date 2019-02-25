@@ -17,17 +17,17 @@ export class PagesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getPortsData()
+    // this.getPortsData()
     this.getCurrenciesList()
   }
 
-  getPortsData() {
-    this._commonService.getPortsData().subscribe((res: any) => {
-      localStorage.setItem("PortDetails", JSON.stringify(res));
-    }, (err: HttpErrorResponse) => {
-      loading(false)
-    })
-  }
+  // getPortsData() {
+  //   this._commonService.getPortsData().subscribe((res: any) => {
+  //     localStorage.setItem("PortDetails", JSON.stringify(res));
+  //   }, (err: HttpErrorResponse) => {
+  //     loading(false)
+  //   })
+  // }
 
   getCurrenciesList() {
     this._commonService.getCurrency().subscribe((res: any) => {
