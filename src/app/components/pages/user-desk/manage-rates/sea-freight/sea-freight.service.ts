@@ -83,7 +83,7 @@ export class SeaFreightService {
   }
 
 
-  getRecHistoryFCL(recId, objectName, createdBy){
+  getRecHistoryFCL(recId, objectName, createdBy) {
     let url: string = `providerratefcl/GetRateHistory/${recId}/${objectName}/${createdBy}`;
     return this._http.get(baseApi + url);
   }
@@ -97,5 +97,22 @@ export class SeaFreightService {
     return this._http.post(baseApi + url, data);
   }
 
+  getAllCustomers(ProviderID) {
+    let url: string = `provider/GetProviderCustomerMapping/${ProviderID}`;
+    return this._http.get(baseApi + url);
+  }
+
+
+  /**
+   *
+   * 
+   * @param {number} ProviderID
+   * @returns  
+   * @memberof SeaFreightService
+   */
+  getAllDrafts(ProviderID) {
+    let url: string = `providerratefcl/GetAllDrafts/${ProviderID}`;
+    return this._http.get(baseApi + url);
+  }
 
 }

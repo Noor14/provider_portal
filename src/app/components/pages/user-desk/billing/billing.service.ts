@@ -16,6 +16,8 @@ export class BillingService {
       })
     };
     let url: string = "https://www.paytabs.com/apiv2/create_pay_page";
-    return this._http.post(url, data, httpOptions);
+    console.log(JSON.stringify(data));
+
+    return this._http.post(url, data);
   }
-  }
+}

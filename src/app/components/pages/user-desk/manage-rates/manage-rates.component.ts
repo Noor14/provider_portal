@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { SeaFreightService } from './sea-freight/sea-freight.service';
 import { SharedService } from '../../../../services/shared.service';
+import { loading } from '../../../../constants/globalFunctions';
+import { ManageRatesService } from './manage-rates.service';
 
 @Component({
   selector: 'app-manage-rates',
@@ -13,7 +15,8 @@ export class ManageRatesComponent implements OnInit {
   constructor(
     private _router: Router,
     private _seaFreightService: SeaFreightService,
-    private _sharedService: SharedService
+    private _sharedService: SharedService,
+    private _manageRatesService: ManageRatesService
   ) { }
 
   ngOnInit() {
@@ -22,7 +25,6 @@ export class ManageRatesComponent implements OnInit {
       let userProfile = JSON.parse(userInfo.returnText);
       this.getAllservicesBySea(userProfile.UserID, userProfile.ProviderID);
     }
-
   }
   // ngOnDestroy() {
   //   this._sharedService.termNcondAir.unsubscribe();
@@ -30,12 +32,12 @@ export class ManageRatesComponent implements OnInit {
   //   this._sharedService.termNcondFCL.unsubscribe();
   //   this._sharedService.termNcondLCL.unsubscribe();
   // }
-  getAllservicesBySea(userID, providerID){
-  this._seaFreightService.getAllLogisticServiceBySea(userID, providerID).subscribe((res:any )=> {
-    if (res.returnStatus == "Success")
-      this._sharedService.dataLogisticServiceBySea.next(res.returnObject);
-  });
-}
+  getAllservicesBySea(userID, providerID) {
+    this._seaFreightService.getAllLogisticServiceBySea(userID, providerID).subscribe((res: any) => {
+      if (res.returnStatus == "Success")
+        this._sharedService.dataLogisticServiceBySea.next(res.returnObject);
+    });
+  }
   tonavigate(url) {
     this._router.navigate([url]);
   }

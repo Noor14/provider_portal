@@ -64,7 +64,16 @@ export class CommonService {
   }
 
   getCurrency() {
-    const url: string = "Currency/GetDropDownDetail/100";
+    const url: string = "currency/GetCurrencyList/0";
+    return this._http.get(baseApi + url);
+  }
+
+  getPortsData($portType?: string) {
+    let portType = $portType
+    if (!portType) {
+      portType = 'SEA'
+    }
+    let url: string = `Ports/GetPortsList/0/${portType}`;
     return this._http.get(baseApi + url);
   }
 

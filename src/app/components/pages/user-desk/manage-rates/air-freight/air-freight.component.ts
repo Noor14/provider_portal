@@ -27,6 +27,9 @@ import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
 import { RateHistoryComponent } from '../../../../../shared/dialogues/rate-history/rate-history.component';
+import { loading } from '../../../../../constants/globalFunctions';
+import { HttpErrorResponse } from '@angular/common/http';
+import { CommonService } from '../../../../../services/common.service';
 
 declare var $;
 const now = new Date();
@@ -63,7 +66,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
 
   private draftRates: any;
   private addnsaveRates: any;
-  private updatedDraftsAirArray:any;
+  private updatedDraftsAirArray: any;
   public rateValidityText = "Edit Rate / Validity";
   public dtOptionsByAir: DataTables.Settings | any = {};
   public dtOptionsByAirDraft: DataTables.Settings | any = {};
@@ -119,7 +122,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
 
 
   public disable: boolean;
-  public editorContent :any;
+  public editorContent: any;
   public editorOptions = {
     placeholder: "insert content..."
   };
@@ -134,7 +137,8 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private _parserFormatter: NgbDateParserFormatter,
     private _manageRatesService: ManageRatesService,
-    private _toast: ToastrService
+    private _toast: ToastrService,
+    private _commonService: CommonService
   ) { }
 
   ngOnInit() {
@@ -148,6 +152,11 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.getAllPublishRates();
     this.allservicesByAir();
+    if (localStorage.getItem('AirPortDetails')) {
+      this.allPorts = JSON.parse(localStorage.getItem('AirPortDetails'))
+    } else {
+      this.getPortsData()
+    }
     this.addnsaveRates = this._sharedService.draftRowAddAir.subscribe(state => {
       if (state && Object.keys(state).length) {
         this.setRowinDraftTable(state, 'popup not open');
@@ -176,7 +185,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    this.draftRates.unsubscribe();
+    // this.draftRates.unsubscribe();
     this.addnsaveRates.unsubscribe();
     this.updatedDraftsAirArray.unsubscribe()
   }
@@ -184,28 +193,28 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   clearFilter(event) {
     event.preventDefault();
     event.stopPropagation();
-      if ((this.filterbyAirLine && this.filterbyAirLine != 'undefined') ||
-        (this.filterbyCargoType && this.filterbyCargoType != 'undefined') ||
-        (this.filterDestination && Object.keys(this.filterDestination).length) ||
-        (this.filterOrigin && Object.keys(this.filterOrigin).length) ||
-        (this.fromDate && Object.keys(this.fromDate).length) ||
-        (this.toDate && Object.keys(this.toDate).length)
-      ) {
-        this.model = null;
-        this.fromDate = null;
-        this.toDate = null;
-        this.filterbyAirLine = 'undefined';
-        this.filterbyCargoType = 'undefined';
-        this.filterDestination = {};
-        this.filterOrigin = {};
-        this.filter();
-      }
+    if ((this.filterbyAirLine && this.filterbyAirLine != 'undefined') ||
+      (this.filterbyCargoType && this.filterbyCargoType != 'undefined') ||
+      (this.filterDestination && Object.keys(this.filterDestination).length) ||
+      (this.filterOrigin && Object.keys(this.filterOrigin).length) ||
+      (this.fromDate && Object.keys(this.fromDate).length) ||
+      (this.toDate && Object.keys(this.toDate).length)
+    ) {
+      this.model = null;
+      this.fromDate = null;
+      this.toDate = null;
+      this.filterbyAirLine = 'undefined';
+      this.filterbyCargoType = 'undefined';
+      this.filterDestination = {};
+      this.filterOrigin = {};
+      this.filter();
+    }
   }
   filter() {
     this.getAllPublishRates()
   }
-   addRatesManually() {
-     this._airFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID, currencyID : 101 }).subscribe((res: any) => {
+  addRatesManually() {
+    this._airFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID, currencyID: 101 }).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.setRowinDraftTable(res.returnObject, 'openPopup');
       }
@@ -213,7 +222,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   }
 
   setRowinDraftTable(obj, type) {
-    if (typeof obj.slab == "string"){
+    if (typeof obj.slab == "string") {
       obj.slab = JSON.parse(obj.slab);
     }
     this.draftDataBYAIR.unshift(obj);
@@ -223,15 +232,15 @@ export class AirFreightComponent implements OnInit, OnDestroy {
       this.draftslist = this.draftDataBYAIR;
     }
     if (type == 'openPopup') {
-    this.updatePopupRates(obj.CarrierPricingSetID);
-  }
+      this.updatePopupRates(obj.CarrierPricingSetID);
+    }
     this._sharedService.updatedDraftsAir.next(this.draftslist)
     this.generateDraftTable();
   }
-  
+
   generateDraftTable() {
     this.dtOptionsByAirDraft = {
-     data: this.draftslist,
+      data: this.draftslist,
       columns: [
         {
           title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRates" type = "checkbox"> <label for= "selectallDraftRates"> <span> </span></label></div>',
@@ -284,13 +293,13 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           title: 'MINIMUM PRICE',
           data: function (data) {
             let minPrice = data.slab.minPrice1.split(' ').pop();
-            if (data.slab && data.slab.minPrice1 && Math.ceil(minPrice)){
-            return (Number(data.slab.minPrice1.split(' ').pop())).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.slab.minPrice1.split(' ').shift(),
-            });
+            if (data.slab && data.slab.minPrice1 && Math.ceil(minPrice)) {
+              return (Number(data.slab.minPrice1.split(' ').pop())).toLocaleString('en-US', {
+                style: 'currency',
+                currency: data.slab.minPrice1.split(' ').shift(),
+              });
             }
-            else{
+            else {
               return "<span>-- Select --</span>"
             }
           },
@@ -299,7 +308,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           title: 'NORMAL PRICE',
           data: function (data) {
             let normalPrice = data.slab.priceWithCode1.split(' ').pop()
-            if (data.slab && data.slab.priceWithCode1 && Math.ceil(normalPrice)){
+            if (data.slab && data.slab.priceWithCode1 && Math.ceil(normalPrice)) {
               return (Number(data.slab.priceWithCode1.split(' ').pop())).toLocaleString('en-US', {
                 style: 'currency',
                 currency: data.slab.priceWithCode1.split(' ').shift(),
@@ -315,30 +324,30 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           data: function (data) {
             let plusFortyFivePrice = data.slab.priceWithCode2.split(' ').pop()
             if (data.slab && data.slab.priceWithCode2 && Math.ceil(plusFortyFivePrice)) {
-            return (Number(data.slab.priceWithCode2.split(' ').pop())).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.slab.priceWithCode2.split(' ').shift(),
-            });
-          }
-          else{
+              return (Number(data.slab.priceWithCode2.split(' ').pop())).toLocaleString('en-US', {
+                style: 'currency',
+                currency: data.slab.priceWithCode2.split(' ').shift(),
+              });
+            }
+            else {
               return "<span>-- Select --</span>"
-          }
+            }
           },
         },
- 
+
         {
           title: '+100 PRICE',
           data: function (data) {
             let plusHundredPrice = data.slab.priceWithCode3.split(' ').pop()
-            if (data.slab && data.slab.priceWithCode3 && Math.ceil(plusHundredPrice)){
+            if (data.slab && data.slab.priceWithCode3 && Math.ceil(plusHundredPrice)) {
               return (Number(data.slab.priceWithCode3.split(' ').pop())).toLocaleString('en-US', {
                 style: 'currency',
                 currency: data.slab.priceWithCode3.split(' ').shift(),
               });
             }
-              else{
-            return "<span>-- Select --</span>"
-          }
+            else {
+              return "<span>-- Select --</span>"
+            }
           },
         },
 
@@ -347,11 +356,11 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           data: function (data) {
             let plustwoFityPrice = data.slab.priceWithCode4.split(' ').pop()
             if (data.slab && data.slab.priceWithCode4 && Math.ceil(plustwoFityPrice)) {
-            return (Number(data.slab.priceWithCode4.split(' ').pop())).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.slab.priceWithCode4.split(' ').shift(),
-            });
-          }
+              return (Number(data.slab.priceWithCode4.split(' ').pop())).toLocaleString('en-US', {
+                style: 'currency',
+                currency: data.slab.priceWithCode4.split(' ').shift(),
+              });
+            }
             else {
               return "<span>-- Select --</span>"
             }
@@ -363,11 +372,11 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           data: function (data) {
             let plusFiveHundredPrice = data.slab.priceWithCode5.split(' ').pop();
             if (data.slab && data.slab.priceWithCode5 && Math.ceil(plusFiveHundredPrice)) {
-            return (Number(data.slab.priceWithCode5.split(' ').pop())).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.slab.priceWithCode5.split(' ').shift(),
-            });
-          }
+              return (Number(data.slab.priceWithCode5.split(' ').pop())).toLocaleString('en-US', {
+                style: 'currency',
+                currency: data.slab.priceWithCode5.split(' ').shift(),
+              });
+            }
             else {
               return "<span>-- Select --</span>"
             }
@@ -378,14 +387,14 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           data: function (data) {
             let plusThousandPrice = data.slab.priceWithCode6.split(' ').pop()
             if (data.slab && data.slab.priceWithCode6 && Math.ceil(plusThousandPrice)) {
-            return (Number(data.slab.priceWithCode6.split(' ').pop())).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.slab.priceWithCode6.split(' ').shift(),
-            });
-          }
-          else{
+              return (Number(data.slab.priceWithCode6.split(' ').pop())).toLocaleString('en-US', {
+                style: 'currency',
+                currency: data.slab.priceWithCode6.split(' ').shift(),
+              });
+            }
+            else {
               return "<span>-- Select --</span>"
-          }
+            }
           },
         },
 
@@ -418,7 +427,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           $('.draft-Air .dataTables_paginate').show();
         }
       },
-  
+
       info: true,
       destroy: true,
       // pagingType: 'full_numbers',
@@ -466,7 +475,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           width: "150"
         }
       ]
-    
+
     };
 
     this.setdataDraftInTable();
@@ -488,7 +497,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
             || !data.slab.priceWithCode2 || !Math.ceil(data.slab.priceWithCode2.split(' ').pop())
             || !data.slab.priceWithCode1 || !Math.ceil(data.slab.priceWithCode1.split(' ').pop())
             || !data.slab.minPrice1 || !Math.ceil(data.slab.minPrice1.split(' ').pop())
-            ) {
+          ) {
             node.children[0].children[0].children[0].setAttribute("disabled", true)
           }
         });
@@ -526,7 +535,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
                 && data.slab.priceWithCode2 && Math.ceil(data.slab.priceWithCode2.split(' ').pop())
                 && data.slab.priceWithCode1 && Math.ceil(data.slab.priceWithCode1.split(' ').pop())
                 && data.slab.minPrice1 && Math.ceil(data.slab.minPrice1.split(' ').pop())
-              ){
+              ) {
                 let draftId = node.children[0].children[0].children[0].id;
                 this.publishRates.push(draftId);
                 node.children[0].children[0].children[0].checked = true;
@@ -637,23 +646,23 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     }
   }
   addAnotherRates() {
-      this.addRatesManually();
+    this.addRatesManually();
   }
   addRatesByAirManually() {
-      if ((!this.allDraftRatesByAIR || (this.allDraftRatesByAIR && !this.allDraftRatesByAIR.length)) && (!this.draftDataBYAIR || (this.draftDataBYAIR && !this.draftDataBYAIR.length))) {
-        this.addRatesManually();
+    if ((!this.allDraftRatesByAIR || (this.allDraftRatesByAIR && !this.allDraftRatesByAIR.length)) && (!this.draftDataBYAIR || (this.draftDataBYAIR && !this.draftDataBYAIR.length))) {
+      this.addRatesManually();
     }
   }
   filterBydate(date, type) {
-      if (!date && this.fromDate && this.toDate) {
-        this.fromDate = null;
-        this.toDate = null;
-        this.getAllPublishRates();
-      }
-      else {
-        return;
-      }
+    if (!date && this.fromDate && this.toDate) {
+      this.fromDate = null;
+      this.toDate = null;
+      this.getAllPublishRates();
     }
+    else {
+      return;
+    }
+  }
 
   onDateSelection(date: NgbDateStruct) {
     let parsed = '';
@@ -687,14 +696,14 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           if (state[index].LogServName == "SEA") {
             this.allAirLines = state[index].DropDownValues.AirLine;
             this.allCargoType = state[index].DropDownValues.Category;
-            this.allPorts = state[index].DropDownValues.AirPort;
+            // this.allPorts = state[index].DropDownValues.AirPort;
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
-            if(state[index].TCAIR){
+            if (state[index].TCAIR) {
               this.editorContent = state[index].TCAIR;
               this.disable = true;
             }
-            this.updatedDraftsAirArray = this._sharedService.updatedDraftsAir.subscribe((res:any)=>{
-              if (!res){
+            this.updatedDraftsAirArray = this._sharedService.updatedDraftsAir.subscribe((res: any) => {
+              if (!res) {
                 if (state[index].DraftDataAir && state[index].DraftDataAir.length) {
                   state[index].DraftDataAir.map(elem => {
                     if (typeof elem.slab == "string") {
@@ -705,7 +714,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
                   this.draftslist = this.allDraftRatesByAIR;
                 }
               }
-              else if (res && res.length){
+              else if (res && res.length) {
                 this.draftslist = res;
               }
             })
@@ -718,19 +727,19 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   }
 
   filterByroute(obj) {
-      if (typeof obj == 'object') {
-        this.getAllPublishRates();
-      }
-      else if (!obj) {
-        this.getAllPublishRates();
-      }
-      else {
-        return;
-      }
+    if (typeof obj == 'object') {
+      this.getAllPublishRates();
     }
+    else if (!obj) {
+      this.getAllPublishRates();
+    }
+    else {
+      return;
+    }
+  }
 
   filtertionPort(obj) {
-      if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates();
+    if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates();
   }
 
   getAllPublishRates() {
@@ -750,14 +759,14 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     }
     this._airFreightService.getAllrates(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        if (res.returnObject && res.returnObject.length){
-        res.returnObject.map(elem => {
-          if (typeof elem.slab == "string") {
-            elem.slab = JSON.parse(elem.slab);
-          }
-        });
-        this.allRatesList = res.returnObject;
-        }else{
+        if (res.returnObject && res.returnObject.length) {
+          res.returnObject.map(elem => {
+            if (typeof elem.slab == "string") {
+              elem.slab = JSON.parse(elem.slab);
+            }
+          });
+          this.allRatesList = res.returnObject;
+        } else {
           this.allRatesList = [];
         }
         this.checkedallpublishRates = false;
@@ -802,9 +811,9 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           title: 'CARGO TYPE',
           data: 'shippingCatName',
         },
-          {
+        {
           title: 'MINIMUM PRICE',
-            data: function (data) {
+          data: function (data) {
             return (Number(data.slab.minPrice1.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.slab.minPrice1.split(' ').shift(),
@@ -820,7 +829,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
             });
           },
         },
-        
+
         {
           title: '+45 PRICE',
           data: function (data) {
@@ -830,7 +839,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
             });
           },
         },
-       
+
         {
           title: '+100 PRICE',
           data: function (data) {
@@ -840,7 +849,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
             });
           },
         },
-   
+
         {
           title: '+250 PRICE',
           data: function (data) {
@@ -862,13 +871,13 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         {
           title: '+1000 PRICE',
           data: function (data) {
-              return (Number(data.slab.priceWithCode6.split(' ').pop())).toLocaleString('en-US', {
-                style: 'currency',
-                currency: data.slab.priceWithCode6.split(' ').shift(),
-              });
+            return (Number(data.slab.priceWithCode6.split(' ').pop())).toLocaleString('en-US', {
+              style: 'currency',
+              currency: data.slab.priceWithCode6.split(' ').shift(),
+            });
           },
         },
-      
+
         {
           title: 'RATE VALIDITY',
           data: function (data) {
@@ -944,7 +953,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     this.setdataInTable();
   }
 
-   setdataInTable() {
+  setdataInTable() {
     setTimeout(() => {
       if (this.tablepublishByAir && this.tablepublishByAir.nativeElement) {
         this.dataTablepublishByAir = $(this.tablepublishByAir.nativeElement);
@@ -1017,27 +1026,27 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     }
   }
   orgfilter() {
-      if (this.filterOrigin && typeof this.filterOrigin == "object" && Object.keys(this.filterOrigin).length) {
-        return this.filterOrigin.PortID;
-      }
-      else if (this.filterOrigin && typeof this.filterOrigin == "string") {
-        return -1;
-      }
-      else if (!this.filterOrigin) {
-        return null;
-      }
+    if (this.filterOrigin && typeof this.filterOrigin == "object" && Object.keys(this.filterOrigin).length) {
+      return this.filterOrigin.PortID;
+    }
+    else if (this.filterOrigin && typeof this.filterOrigin == "string") {
+      return -1;
+    }
+    else if (!this.filterOrigin) {
+      return null;
+    }
 
   }
   destfilter() {
-      if (this.filterDestination && typeof this.filterDestination == "object" && Object.keys(this.filterDestination).length) {
-        return this.filterDestination.PortID;
-      }
-      else if (this.filterDestination && typeof this.filterDestination == "string") {
-        return -1;
-      }
-      else if (!this.filterDestination) {
-        return null;
-      }
+    if (this.filterDestination && typeof this.filterDestination == "object" && Object.keys(this.filterDestination).length) {
+      return this.filterDestination.PortID;
+    }
+    else if (this.filterDestination && typeof this.filterDestination == "string") {
+      return -1;
+    }
+    else if (!this.filterDestination) {
+      return null;
+    }
 
   }
 
@@ -1077,7 +1086,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
- 
+
   delPubRecord() {
     if (!this.delPublishRates.length) return;
     const modalRef = this.modalService.open(ConfirmDeleteDialogComponent, {
@@ -1126,7 +1135,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
   }
 
   deletepublishRecord() {
-      this.delPubRecord()
+    this.delPubRecord()
   }
 
   publishRate() {
@@ -1172,11 +1181,11 @@ export class AirFreightComponent implements OnInit, OnDestroy {
             if (this.allDraftRatesByAIR && this.allDraftRatesByAIR.length && this.allDraftRatesByAIR[index].CarrierPricingSetID == id) {
               this.allDraftRatesByAIR.splice(index, 1);
               let ind = this.draftslist.findIndex(obj => obj.CarrierPricingSetID == id);
-              if(ind >=0){
+              if (ind >= 0) {
                 this.draftslist.splice(ind, 1);
               }
-             }
-             else{
+            }
+            else {
               this.draftslist.splice(index, 1);
             }
             // this.draftslist.splice(index, 1);
@@ -1277,5 +1286,21 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     })
   }
 
-  
+
+  /**
+   *
+   * Get Airports Dropdown List
+   * @memberof AirFreightComponent
+   */
+  getPortsData() {
+    loading(true)
+    this._commonService.getPortsData('Airports').subscribe((res: any) => {
+      this.allPorts = res
+      localStorage.setItem("AirPortDetails", JSON.stringify(res));
+    }, (err: HttpErrorResponse) => {
+      loading(false)
+    })
+  }
+
+
 }

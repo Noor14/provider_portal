@@ -13,8 +13,8 @@
       <div class="col-4" *ngIf="selectedData.forType == 'FCL'">
         <div class="form-group">
           <label>Shipping Line</label>
-          <input type="text" class="form-control" placeholder="e.g: Maersk Shipping" [(ngModel)]="selectedShipping"
-            [ngbTypeahead]="shippings" [resultTemplate]="st" [inputFormatter]="formatter" [disabled]="selectedData.mode === 'publish'">
+          <input type="text" class="form-control" placeholder="e.g: Maersk Shipping" [(ngModel)]="selectedShipping" [ngbTypeahead]="shippings"
+            [resultTemplate]="st" [inputFormatter]="formatter" [disabled]="selectedData.mode === 'publish'">
           <ng-template #st let-r="result">
             <ngb-highlight [result]="r.CarrierName"></ngb-highlight>
           </ng-template>
@@ -31,7 +31,7 @@
             </div>
             <input class="form-control" [(ngModel)]="filterOrigin" placeholder="e.g: Dubai" type="text"
               [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}" [ngbTypeahead]="ports"
-              [resultTemplate]="rt" [inputFormatter]="portsFormatter" [disabled]="selectedData.mode === 'publish'"/>
+              [resultTemplate]="rt" [inputFormatter]="portsFormatter" [disabled]="selectedData.mode === 'publish'" />
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@
             </div>
             <input placeholder="e.g: Karachi" [(ngModel)]="filterDestination" type="text" class="form-control"
               [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}" [ngbTypeahead]="ports"
-              [resultTemplate]="rt" [inputFormatter]="portsFormatter" [disabled]="selectedData.mode === 'publish'"/>
+              [resultTemplate]="rt" [inputFormatter]="portsFormatter" [disabled]="selectedData.mode === 'publish'" />
           </div>
           <ng-template #rt let-r="result">
             <div class="d-flex">
@@ -60,7 +60,7 @@
         </div>
       </div>
     </div>
-    <div class="row bg-white popup-white border-bottom">
+    <div class="row bg-white popup-white">
       <div class="col-4">
         <div class="form-group">
           <label>Cargo Type</label>
@@ -80,16 +80,27 @@
           </select>
         </div>
       </div>
-      <!-- <div class="col-4" *ngIf="selectedData.forType == 'FCL'">
-        <div class="form-group">
+    </div>
+    <div class="row bg-white popup-white">
+      <div class="col-12" *ngIf="selectedData.forType == 'FCL'">
+        <div class="form-group custom-multiselect">
           <label>Customer</label>
-          <select class="form-control" [(ngModel)]="selectedCustomer">
-            <option [value]="null" disabled>--Select--</option>
-            <option *ngFor="let handle of allHandlingType" [value]="handle.ContainerSpecID">
-              {{handle.ContainerSpecShortName}}</option>
-          </select>
+          <ng-select [items]="selectedData.customers" [multiple]="true" [closeOnSelect]="false" [hideSelected]="true"
+            bindLabel="CustomerName" placeholder="Select Customer" [disabled]="disabledCustomers" [(ngModel)]="selectedCustomer">
+            <ng-template ng-label-tmp let-item="item" let-clear="clear">
+              <span class="ng-value-label">
+                <img [src]="item.CustomerImageParsed" width="20px" height="20px" onerror="this.src='../../../../favicon.ico'">
+                {{item.CustomerName}}</span>
+              <span class="ng-value-icon right" aria-hidden="true" (click)="clear(item)">×</span>
+            </ng-template>
+
+            <ng-template ng-option-tmp let-item="item">
+              <img [src]="item.CustomerImageParsed" width="20px" height="20px"
+                onerror="this.src='../../../../favicon.ico'"> {{item.CustomerName}}
+            </ng-template>
+          </ng-select>
         </div>
-      </div> -->
+      </div>
     </div>
     <div class="additional">
       <div class="row">
@@ -112,7 +123,8 @@
                 </div>
                 <input type="text" placeholder="AED" [(ngModel)]="selectedCurrency" class="form-control"
                   [ngbTypeahead]="currencies" [resultTemplate]="crt" [inputFormatter]="currencyFormatter"
-                  [ngClass]="{'routeSelected': selectedCurrency && selectedCurrency.CountryCode}" [disabled]="selectedData.mode === 'publish'">
+                  [ngClass]="{'routeSelected': selectedCurrency && selectedCurrency.CountryCode}"
+                  [disabled]="selectedData.mode === 'publish'">
                 <ng-template #crt let-r="result">
                   <div class="d-flex">
                     <div class="flag-container">
@@ -135,8 +147,7 @@
             </div>
             <div class="col-6 pl-0">
               <div class="form-group combine-filed-popup-right">
-                <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00"
-                  [(ngModel)]="selectedPrice" (keypress)="numberValid($event)">
+                <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice" (keypress)="numberValid($event)">
               </div>
             </div>
           </div>
@@ -150,15 +161,12 @@
             </div>
             <div class="col-8 pl-0 date-control">
               <div class="form-group combine-filed-popup-right dateIcon">
-                <input id="dpicker" autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date"
-                  name="dp" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="top-right"
-                  [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate"
-                  #dp="ngbDatepicker" (click)="dp.toggle()">
+                <input id="dpicker" autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp" ngbDatepicker
+                  [dayTemplate]="t" [autoClose]="false" placement="top-right" [outsideDays]="true" [navigation]="false" [displayMonths]="2"
+                  [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker" (click)="dp.toggle()">
                 <ng-template #t let-date="date" let-focused="focused">
-                  <span class="custom-day"
-                    [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
-                    [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)"
-                    (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                  <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)" [class.faded]="isHovered(date) || isInside(date)"
+                    (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
                     {{ date.day }}
                   </span>
                 </ng-template>
@@ -178,48 +186,44 @@
           <div class="row combine-filed-popup">
             <div class="d-flex ml-3 mr-3 mb-2" [ngClass]="addOriginActive ? 'active' : ''">
               <div class="col-7 pr-0 pl-0">
-                <div ngbDropdown #originDropdown="ngbDropdown" class="combine-filed-popup-left-btn"
-                  (openChange)="dropdownToggle($event, 'origin')">
-                  <button class="btn has-open" id="{{selectedOrigins[i]?.addChrName}}" placement="top"
-                    ngbTooltip="{{selectedOrigins[i]?.addChrName}}" ngbDropdownToggle>
+                <div ngbDropdown #originDropdown="ngbDropdown" class="combine-filed-popup-left-btn" (openChange)="dropdownToggle($event, 'origin')">
+                  <button class="btn has-open" id="{{selectedOrigins[i]?.addChrName}}" placement="top" ngbTooltip="{{selectedOrigins[i]?.addChrName}}"
+                    ngbDropdownToggle>
                     {{selectedOrigins[i]?.addChrName || 'Select' | limitTo : 30 }}
                   </button>
                   <div ngbDropdownMenu aria-labelledby="originExport">
-                    <button *ngIf="!isOriginChargesForm" id="{{selectedOrigins[i]?.addChrName}}"
-                      class="dropdown-item custom-label has-open" (click)="showCustomChargesForm('origin')">
-                      <img src="../../../../assets/images/icons/icon_add.svg" width="16" alt="">
-                      Add Custom Label
+                    <button *ngIf="!isOriginChargesForm" id="{{selectedOrigins[i]?.addChrName}}" class="dropdown-item custom-label has-open"
+                      (click)="showCustomChargesForm('origin')">
+                      <img src="../../../../assets/images/icons/icon_add.svg" width="16" alt=""> Add Custom Label
                     </button>
                     <ng-container *ngIf="!isOriginChargesForm">
-                      <button class="dropdown-item" *ngFor="let charge of originsList"
-                        (click)="selectCharges('EXPORT', charge, i)">{{charge.addChrName}}</button>
+                      <button class="dropdown-item" *ngFor="let charge of originsList" (click)="selectCharges('EXPORT', charge, i)">{{charge.addChrName}}</button>
                     </ng-container>
                     <div class="row dropdown-item charges-form" *ngIf="isOriginChargesForm">
                       <div class="col-12 mt-2">
                         <div class="form-group">
                           <input class="form-control has-open" type="text"
                             [ngClass]="!labelValidate ?  'inputError' : ''" [(ngModel)]="lablelName"
-                            (focus)="labelValidate = true" placeholder="Label Name">
+                            (focus)="labelValidate = true" placeholder="Charge Label / Term">
                           <small class="text-danger d-block" *ngIf="!labelValidate">Please provide name for your custom
                             label</small>
                         </div>
                       </div>
                       <div class="col-12">
                         <div class="form-group">
-                          <select class="form-control has-open" [ngClass]="!surchargeBasisValidate ?  'inputError' : ''"
-                            [(ngModel)]="surchargeType" (focus)="surchargeBasisValidate = true">
+                          <select class="form-control has-open" [ngClass]="!surchargeBasisValidate ?  'inputError' : ''" [(ngModel)]="surchargeType"
+                            (focus)="surchargeBasisValidate = true">
                             <option value="" hidden selected>Select Surcharge Basis</option>
                             <option *ngFor="let item of surchargesList" [value]="item.codeValID">
                               {{item.codeValDesc}}</option>
                           </select>
-                          <small class="text-danger d-block" *ngIf="!surchargeBasisValidate">Please select surcharge
-                            basis</small>
+                          <small class="text-danger d-block" *ngIf="!surchargeBasisValidate">Please select surcharge basis
+                          </small>
                         </div>
                       </div>
                       <div class="col-12">
-                        <button class="btn btn-primary mt-1 mb-2 has-open hvr-sweep-to-right w-100"
-                          (click)="addCustomLabel('origin')">Add
-                          Label</button>
+                        <button class="btn btn-primary mt-1 mb-2 has-open hvr-sweep-to-right w-100" (click)="addCustomLabel('origin')">Add Label
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -227,8 +231,7 @@
               </div>
               <div class="col-3 pl-0 pr-0">
                 <div class="form-group mb-0 combine-filed-popup-mid">
-                  <input type="text" maxlength="15" class="form-control" [(ngModel)]="origin.Price" placeholder="0.00"
-                    (keypress)="numberValid($event)">
+                  <input type="text" maxlength="15" class="form-control" [(ngModel)]="origin.Price" placeholder="0.00" (keypress)="numberValid($event)">
                 </div>
               </div>
               <div class="col-2 pl-0 pr-0">
@@ -256,8 +259,8 @@
           </div>
         </div>
         <div class="col-12">
-          <a (click)="addMoreCharges('origin')" href="javascript:;" class="addAnother animated fadeIn">Add More
-            Charges</a>
+          <a (click)="addMoreCharges('origin')" href="javascript:;" class="addAnother animated fadeIn">Add More Charges
+          </a>
         </div>
       </div>
       <div class="row" *ngIf="selectedData.forType == 'FCL'">
@@ -269,44 +272,41 @@
           <div class="row combine-filed-popup">
             <div class="d-flex ml-3 mr-3 mb-2" [ngClass]="addDestinationActive ? 'active' : ''">
               <div class="col-7 pr-0 pl-0">
-                <div ngbDropdown #destinationDropdown="ngbDropdown" (openChange)="dropdownToggle($event, 'destination')"
-                  class="combine-filed-popup-left-btn" placement="top-left">
-                  <button class="btn has-open" id="destinationExport" placement="top"
-                    ngbTooltip="{{selectedDestinations[i]?.addChrName}}" ngbDropdownToggle>
+                <div ngbDropdown #destinationDropdown="ngbDropdown" (openChange)="dropdownToggle($event, 'destination')" class="combine-filed-popup-left-btn"
+                  placement="top-left">
+                  <button class="btn has-open" id="destinationExport" placement="top" ngbTooltip="{{selectedDestinations[i]?.addChrName}}"
+                    ngbDropdownToggle>
                     {{selectedDestinations[i]?.addChrName || 'Select' | limitTo : 30 }} </button>
                   <div ngbDropdownMenu aria-labelledby="destinationExport">
-                    <button *ngIf="!isDestinationChargesForm" class="dropdown-item custom-label has-open"
-                      (click)="showCustomChargesForm('destination')">
-                      <img src="../../../../assets/images/icons/icon_add.svg" width="16" alt="">
-                      Add Custom Label
+                    <button *ngIf="!isDestinationChargesForm" class="dropdown-item custom-label has-open" (click)="showCustomChargesForm('destination')">
+                      <img src="../../../../assets/images/icons/icon_add.svg" width="16" alt=""> Add Custom Label
                     </button>
                     <ng-container *ngIf="!isDestinationChargesForm">
-                      <button class="dropdown-item" *ngFor="let charge of destinationsList"
-                        (click)="selectCharges('IMPORT', charge, i)">{{charge.addChrName}}</button></ng-container>
+                      <button class="dropdown-item" *ngFor="let charge of destinationsList" (click)="selectCharges('IMPORT', charge, i)">{{charge.addChrName}}</button>
+                    </ng-container>
                     <div class="row dropdown-item charges-form" *ngIf="isDestinationChargesForm">
                       <div class="col-12">
                         <div class="form-group">
                           <label class="mt-0">Add Custom Label</label>
                           <input class="form-control has-open" [ngClass]="!labelValidate ?  'inputError' : ''"
-                            type="text" [(ngModel)]="lablelName" (focus)="labelValidate = true">
+                            type="text" [(ngModel)]="lablelName" (focus)="labelValidate = true" placeholder="Charge Label / Term">
                           <small class="text-danger d-block" *ngIf="!labelValidate">Please provide name for your custom
                             label</small>
                         </div>
                       </div>
                       <div class="col-12">
                         <div class="form-group">
-                          <select class="form-control has-open" [ngClass]="!surchargeBasisValidate ?  'inputError' : ''"
-                            [(ngModel)]="surchargeType" (focus)="surchargeBasisValidate = true">
+                          <select class="form-control has-open" [ngClass]="!surchargeBasisValidate ?  'inputError' : ''" [(ngModel)]="surchargeType"
+                            (focus)="surchargeBasisValidate = true">
                             <option *ngFor="let item of surchargesList" selected [value]="item.codeValID">
                               {{item.codeValDesc}}</option>
                           </select>
-                          <small class="text-danger d-block" *ngIf="!surchargeBasisValidate">Please select surcharge
-                            basis</small>
+                          <small class="text-danger d-block" *ngIf="!surchargeBasisValidate">Please select surcharge basis
+                          </small>
                         </div>
                       </div>
                       <div class="col-12">
-                        <button class="btn btn-primary mt-3 has-open hvr-sweep-to-right w-100"
-                          (click)="addCustomLabel('destination')">Add Label</button>
+                        <button class="btn btn-primary mt-3 has-open hvr-sweep-to-right w-100" (click)="addCustomLabel('destination')">Add Label</button>
                       </div>
                     </div>
                   </div>
@@ -314,8 +314,7 @@
               </div>
               <div class="col-3 pl-0 pr-0">
                 <div class="form-group mb-0 combine-filed-popup-mid">
-                  <input type="text" maxlength="15" class="form-control" [(ngModel)]="destination.Price"
-                    placeholder="0.00" (keypress)="numberValid($event)">
+                  <input type="text" maxlength="15" class="form-control" [(ngModel)]="destination.Price" placeholder="0.00" (keypress)="numberValid($event)">
                 </div>
               </div>
               <div class="col-2 pl-0 pr-0">
@@ -344,23 +343,18 @@
           </div>
         </div>
         <div class="col-12">
-          <a (click)="addMoreCharges('destination')" href="javascript:;" class="addAnother animated fadeIn">Add More
-            Charges</a>
+          <a (click)="addMoreCharges('destination')" href="javascript:;" class="addAnother animated fadeIn">Add More Charges
+          </a>
         </div>
       </div>
 
       <div class="row mb-4">
         <div class="col-12 d-flex justify-content-end">
-          <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right mr-4" *ngIf="selectedData.mode === 'draft'"
-            (click)="savedraftrow('saveNadd')">SAVE
-            &
-            ADD ANOTHER</button>
-          <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right" *ngIf="selectedData.mode === 'draft'"
-            (click)="savedraftrow('onlySave')">SAVE &
-            CLOSE
+          <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right mr-4" *ngIf="selectedData.mode === 'draft'" (click)="savedraftrow('saveNadd')">SAVE & ADD ANOTHER</button>
+          <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right" *ngIf="selectedData.mode === 'draft'" (click)="savedraftrow('onlySave')">SAVE & CLOSE
           </button>
-          <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right" *ngIf="selectedData.mode === 'publish'"
-            (click)="savedraftrow('update')"> UPDATE
+          <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right" *ngIf="selectedData.mode === 'publish'" (click)="savedraftrow('update')">
+            UPDATE
           </button>
         </div>
       </div>

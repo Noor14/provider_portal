@@ -23,15 +23,16 @@ import { GroundRateDialogComponent } from '../../shared/dialogues/ground-rate-di
 import { TruncatePipe } from '../../constants/truncateFilter';
 import { RateHistoryComponent } from '../../shared/dialogues/rate-history/rate-history.component';
 import { RateValidityComponent } from '../../shared/dialogues/rate-validity/rate-validity.component';
- 
+import { NgSelectModule } from '@ng-select/ng-select';
+
 @NgModule({
   imports: [
     CommonModule,
     PagesRoutingModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
-    NgbModule.forRoot()
-
+    NgbModule.forRoot(),
+    NgSelectModule
   ],
   declarations: [
     PagesComponent,
@@ -73,11 +74,11 @@ import { RateValidityComponent } from '../../shared/dialogues/rate-validity/rate
     GroundRateDialogComponent,
     RateHistoryComponent,
     RateValidityComponent
- 
+
   ],
   providers: [
     UserCreationService,
-    BasicInfoService,
-   ]
+    BasicInfoService
+  ]
 })
 export class PagesModule { }

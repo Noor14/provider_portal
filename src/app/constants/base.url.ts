@@ -4,11 +4,10 @@ export let baseApi;
 export let baseExternalAssets;
 if (environment.qa) {
     // QA URL
-    // baseApi = "http://10.20.1.13:8091/api/";
-    // baseExternalAssets = "http://10.20.1.13:8091";
-
-    baseApi = "http://10.20.1.13:7091/api/";
-    baseExternalAssets = "http://10.20.1.13:7091";
+    baseApi = "http://10.20.1.13:8091/api/";
+    baseExternalAssets = "http://10.20.1.13:8091";
+    // baseApi = "http://10.20.1.13:7091/api/";
+    // baseExternalAssets = "http://10.20.1.13:7091";
 
 }
 else if (environment.pers) {
@@ -22,10 +21,10 @@ else if (environment.prod) {
     // baseApi = "http://partner.hashmove.com:81/api/";
     // baseExternalAssets = "http://partner.hashmove.com:81";
 
-    // baseApi = "https://betaapi.hashmove.com/api/";
-    // baseExternalAssets = "https://betaapi.hashmove.com";
-    baseApi = "https://betademoapi.hashmove.com/api/";
-    baseExternalAssets = "https://betademoapi.hashmove.com";
+    baseApi = "https://betaapi.hashmove.com/api/";
+    baseExternalAssets = "https://betaapi.hashmove.com";
+    // baseApi = "https://betademoapi.hashmove.com/api/";
+    // baseExternalAssets = "https://betademoapi.hashmove.com";
 }
 else {
     // PERSONAL URL
