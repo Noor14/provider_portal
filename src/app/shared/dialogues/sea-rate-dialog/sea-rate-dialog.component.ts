@@ -611,13 +611,13 @@ export class SeaRateDialogComponent implements OnInit {
 
   selectCharges(type, model, index) {
     model.Imp_Exp = type;
-
+    let selectedCurrency = {
+      CurrencyID: this.selectedCurrency.id,
+      CurrencyCode: this.selectedCurrency.shortName,
+      CountryCode: this.selectedCurrency.imageName
+    }
     if (type === 'EXPORT') {
-      let selectedCurrency = {
-        CurrencyID: this.selectedCurrency.id,
-        CurrencyCode: this.selectedCurrency.shortName,
-        CountryCode: this.selectedCurrency.imageName
-      }
+
       if ((Object.keys(this.selectedOrigins[index]).length === 0 && this.selectedOrigins[index].constructor === Object) || !this.selectedOrigins[index].hasOwnProperty('currency')) {
         model.CurrId = selectedCurrency.CurrencyID
         model.currency = selectedCurrency
