@@ -456,29 +456,15 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           title: 'Import Charges',
           data: function (data) {
             console.log(data);
-            
-            let subTotalIMP: any = 0;
-            let totalImp = []
             if (!data.CurrencyCode) {
               data.CurrencyCode = ''
             }
-            if (data.JsonSurchargeDet) {
-              let parsedJsonSurchargeDet = JSON.parse(data.JsonSurchargeDet)
-              const impCharges = parsedJsonSurchargeDet.filter((e) => e.Imp_Exp === 'IMPORT')
-              if (impCharges.length) {
-                impCharges.forEach(element => {
-                  totalImp.push(parseInt(element.Price));
-                });
-                subTotalIMP = totalImp.reduce((all, item) => {
-                  return all + item;
-                });
-              }
-            }
-            if (subTotalIMP === 0 || isNaN(subTotalIMP)) {
+
+            if (data.TotalImportCharges === 0 || !(data.TotalImportCharges)) {
               return "<span>-- Select --</span>"
             }
             // return data.CurrencyCode + ' ' + subTotalIMP;
-            return subTotalIMP.toLocaleString('en-US', {
+            return data.TotalImportCharges.toLocaleString('en-US', {
               style: 'currency',
               currency: data.CurrencyCode,
             });
@@ -487,28 +473,14 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         {
           title: 'Export Charges',
           data: function (data) {
-            let subTotalExp: any = 0;
-            let totalExp = []
             if (!data.CurrencyCode) {
               data.CurrencyCode = ''
             }
-            if (data.JsonSurchargeDet) {
-              let parsedJsonSurchargeDet = JSON.parse(data.JsonSurchargeDet)
-              const expCharges = parsedJsonSurchargeDet.filter((e) => e.Imp_Exp === 'EXPORT')
-              if (expCharges.length) {
-                expCharges.forEach(element => {
-                  totalExp.push(parseInt(element.Price));
-                });
-                subTotalExp = totalExp.reduce((all, item) => {
-                  return all + item;
-                });
-              }
-            }
-            if (subTotalExp === 0 || isNaN(subTotalExp)) {
+            if (data.TotalExportCharges === 0 || !(data.TotalExportCharges)) {
               return "<span>-- Select --</span>"
             }
-            // return data.CurrencyCode + ' ' + subTotalExp;
-            return subTotalExp.toLocaleString('en-US', {
+            // return data.CurrencyCode + ' ' + data.TotalExportCharges;
+            return data.TotalImportCharges.toLocaleString('en-US', {
               style: 'currency',
               currency: data.CurrencyCode,
             });
@@ -1302,8 +1274,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             let url = baseExternalAssets + "/" + data.carrierImage;
             let dateDiff = getDateDiff(moment(data.effectiveTo).format("L"), moment(new Date()).format("L"), 'days', "MM-DD-YYYY")
             let template = " ";
-            if(dateDiff <= 15) {
-              template = '<span class="badge badge-danger mt-2">Rate Expiring in ' + dateDiff + ' days</span>' 
+            if (dateDiff <= 15) {
+              template = '<span class="badge badge-danger mt-2">Rate Expiring in ' + dateDiff + ' days</span>'
             }
             return "<div class='w-100'><img src='" + url + "' class='icon-size-24 mr-2' />" + data.carrierName + '</div> ' + template;
           },
@@ -1681,7 +1653,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           }
 
         });
-
+        let publishFCLtable = $('#publishRateTable').DataTable();
+        $('#publishRateTable').on('order.dt', function () {
+          // This will show: "Ordering on column 1 (asc)", for example
+          var order = publishFCLtable.order();
+          $('#orderInfo').html('Ordering on column ' + order[0][0] + ' (' + order[0][1] + ')');
+        });
         $('#publishRateTable').off('click').on('click', 'input[type="checkbox"]', (event) => {
           let index = this.delPublishRates.indexOf((<HTMLInputElement>event.target).id);
           let selection = event.currentTarget.parentElement.parentElement.parentElement;

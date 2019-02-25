@@ -385,7 +385,6 @@ export class SeaRateDialogComponent implements OnInit {
 
     let totalImp = []
     let totalExp = []
-    console.log(this.selectedOrigins)
     const expCharges = this.selectedOrigins.filter((e) => e.Imp_Exp === 'EXPORT')
     const impCharges = this.selectedDestinations.filter((e) => e.Imp_Exp === 'IMPORT')
     if (impCharges.length) {

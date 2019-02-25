@@ -21,14 +21,6 @@ export class PagesComponent implements OnInit {
     this.getCurrenciesList()
   }
 
-  // getPortsData() {
-  //   this._commonService.getPortsData().subscribe((res: any) => {
-  //     localStorage.setItem("PortDetails", JSON.stringify(res));
-  //   }, (err: HttpErrorResponse) => {
-  //     loading(false)
-  //   })
-  // }
-
   getCurrenciesList() {
     this._commonService.getCurrency().subscribe((res: any) => {
       this._sharedService.setCurrency(res);
