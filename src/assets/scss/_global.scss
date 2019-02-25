@@ -4,7 +4,7 @@ body {
   font-family: $font-pragmatica; //font-size: $base-font-size;
   font-weight: $font-weight-normal;
   font-style: normal;
-  background: #fdfdff;
+  background: $right-side-background;
 
   a {
     text-decoration: none !important;
@@ -28,12 +28,21 @@ body {
       margin: auto;
     }
   }
-  .upper-medium-modal{
+
+  .upper-medium-modal {
     .modal-dialog {
       max-width: 700px !important;
       margin: auto;
     }
   }
+
+  .upper-medium-modal-history {
+    .modal-dialog {
+      max-width: 500px !important;
+      margin: auto;
+    }
+  }
+
   .large-modal {
     .modal-dialog {
       max-width: 1070px;
@@ -722,7 +731,7 @@ input[type="checkbox"]:focus+label>span {
     }
 
     &.inputError {
-      border: 1px solid $danger-color;
+      box-shadow: inset 0px 0px 0px 1px #d32020 !important;
     }
 
     &.inputErrorRemove {
@@ -1069,7 +1078,7 @@ input[type="checkbox"]:focus+label>span {
 
       .dropdown {
         margin-left: 0;
-        margin-right: 12px;
+        margin-right: 19px;
         top: 12px;
       }
 
@@ -1528,7 +1537,7 @@ select {
               visibility: visible !important;
 
               .fancyOptionBoxes {
-                input[disabled="true"] + label {
+                input[disabled="true"]+label {
                   span {
                     background: #f9f9f9;
 
@@ -1612,12 +1621,16 @@ select {
               &.carrierName {
                 position: relative;
                 padding-left: 35px;
+                display: flex;
+                align-items: center;
+                line-height: 1.22;
 
                 img {
                   position: absolute;
                   left: 0;
                 }
               }
+
               // &.dataTables_empty {
               //   color: $dark-grey-border;
               // }

@@ -24,7 +24,7 @@
         </div>
         <div class="summaryQuantity pt-2 pb-2">
           <div class="rates">
-            <small class="mr-2"> {{providerBillingDashboard?.billingTile.currencyCode}}</small>
+            <small class="mr-2"> {{(providerBillingDashboard?.billingTile.currencyCode)?providerBillingDashboard?.billingTile.currencyCode:userCurrencyCode}}</small>
             <span>{{providerBillingDashboard?.billingTile.amount | number : '1.2-2'}}</span>
           </div>
         </div>
@@ -38,7 +38,7 @@
         </div>
         <div class="summaryQuantity d-flex pt-2 pb-2">
           <div class="rates">
-            <small class="mr-2">{{providerBillingDashboard?.paymentDueTile?.currencyCode}}</small>
+            <small class="mr-2">{{(providerBillingDashboard?.paymentDueTile?.currencyCode)?providerBillingDashboard?.paymentDueTile?.currencyCode:userCurrencyCode}}</small>
             <span>{{providerBillingDashboard?.paymentDueTile?.amount | number : '1.2-2'}}</span>
             <span *ngIf="providerBillingDashboard?.paymentDueTile?.dueDate" class="badge hashmove-badge-danger">
               <strong>Due Date {{providerBillingDashboard?.paymentDueTile?.dueDate | date : "d MMM, yyyy"}}</strong>
@@ -55,7 +55,7 @@
         </div>
         <div class="summaryQuantity d-flex pt-2 pb-2">
           <div class="rates">
-            <small class="mr-2">{{providerBillingDashboard?.totalBillingTile?.currencyCode}}</small>
+            <small class="mr-2">{{(providerBillingDashboard?.totalBillingTile?.currencyCode)?providerBillingDashboard?.totalBillingTile?.currencyCode:userCurrencyCode}}</small>
             <span>{{providerBillingDashboard?.totalBillingTile?.amount | number :'1.2-2'}}</span>
           </div>
         </div>

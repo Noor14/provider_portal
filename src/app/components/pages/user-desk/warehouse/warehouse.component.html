@@ -1,63 +1,16 @@
 <section class="warehouseSetup">
   <h2>Add a warehouse </h2>
   <p class="sub-title mt-2 mb-3"> Add your warehouse and create a listing of available capacity on HashMove </p>
-  <div #stepper class="warehouse-stepper">
-    <!-- add -info -->
-     <!-- [label]="'1.ADD INFO'" -->
-    <div>
+  <ngx-stepper #stepper class="warehouse-stepper">
+    <ngx-step [label]="'1. ADD INFO'">
       <section class="warehouse ">
-
-        <h5 class="mt-4 pt-1">Qualification Profile </h5>
-        <p class="sub-title mt-2 mb-2">Please specify your sector and product experience </p>
-
-        <!--  warehouse-services -->
-        <!-- <div class="row">
-          <div class="col-12">
-            <div #selectCategory class="warehouse-service text-center">
-              <span>
-                <img src=" ../../../../../assets/images/shipping/Goods.png ">
-              </span>
-              <span class="ml-2"> General Goods </span>
-            </div>
-
-            <div #selectCategory class="warehouse-service text-center">
-              <span>
-                <img src="../../../../../assets/images/shipping/Autos.png">
-              </span>
-              <span class="ml-2">Autos</span>
-            </div>
-
-            <div #selectCategory class="warehouse-service text-center">
-              <span>
-                <img src="../../../../../assets/images/shipping/Perishables.png" />
-              </span>
-              <span class="ml-1">Perishables</span>
-            </div>
-
-            <div #selectCategory class="warehouse-service text-center">
-              <span>
-                <img src="../../../../../assets/images/shipping/HeavyItems.png ">
-              </span>
-              <span class="ml-1">Heavy Equipment</span>
-            </div>
-
-            <div #selectCategory class="warehouse-service text-center">
-              <span>
-                <img src="../../../../../assets/images/shipping/HazardousItems.png">
-              </span>
-              <span>Hazardous items</span>
-            </div>
-
-          </div>
-        </div> -->
-        <!--  warehouse-services -->
-
         <!--  warehouse-info -->
         <div class="warehouse-info">
           <div class="row">
             <div class="col-12">
               <h5 class="mt-5">General Information</h5>
-              <p class="sub-title sub-heading mb-0">Please enter warehouse name and featured images / videos.</p>
+              <p class="sub-title sub-heading mb-0">General Information about the listing .Enter its title , description, images
+              </p>
               <hr class="hr-solid mt-3">
             </div>
             <div class="col-12">
@@ -65,53 +18,73 @@
                 <div class="row">
                   <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group">
-                      <label>Warehouse Title</label>
+                      <label>Listing Name</label>
                       <input type="text" maxlength="100" class="form-control">
-                      <!-- <span class="animated fadeIn" *ngIf="whnameError">
-                            <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whName'].hasError('required') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">{{requiredFields}}</p>
-                            <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whName'].hasError('pattern') && generalForm.controls['whName'].hasError('minlength') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">Warehouse
-                              name must be at least 5 characters long</p>
-                            <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whName'].hasError('pattern') && generalForm.controls['whName'].hasError('maxlength') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">Warehouse
-                              name should not exceed from 50 characters</p>
-                            <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whName'].hasError('pattern') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">Please
-                              enter valid information</p>
-                          </span> -->
+                    </div>
+                    <div class="form-group">
+                      <label>Property Description</label>
+                      <textarea cols="30" rows="4" class="form-control" placeholder="provide details about the properties you are listing"></textarea>
                     </div>
                   </div>
-                </div>
-                <div class="row">
                   <div class="col-12">
-                    <h5 class="small-head mt-3">Upload Featured Gallery</h5>
-                    <p class="sub-title sub-heading mb-0">You may add upto 1 video and 4 photos.</p>
-
-                    <div class="documentInfo d-flex flex-column mt-3">
-                      <div class="file-uploader">
-                        <img src="../../../assets/images/icons/manager-icon.png">
-                        <p class="m-0 pt-3"> Drag here or
-                          <span class="browse-span">browse</span> to upload</p>
-                        <small class="drag-support"> (supported types: pdf, jpeg, png, Maximum size per document: 4 MB)
-                        </small>
-                      </div>
-                    </div>
-
-                    <div class="row uploadedDocx">
-                      <div class="col-lg-3 ">
-                        <div class="display-upload delete pb-3">
-                          <video class="animated fadeIn" controls>
-
-                            <source src="" type="video/mp4">
-                          </video>
-                          <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon">
+                    <div class="form-group">
+                      <label class="mb-0">Gallery (Optional)</label>
+                      <small class="sub-title">Images show rthe condition of the property and are very compelling for space seekers.
+                      </small>
+                      <div class="document-Info d-flex flex-column mt-2">
+                        <div class="file-uploader">
+                          <!-- <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'gallery')" [configId]="'config'"> -->
+                          <img src="../../../assets/images/icons/manager-icon.png" />
+                          <p class="m-0 mt-3">
+                            Drag here or
+                            <span class="browse-span">browse</span> to upload </p>
+                          <small class="drag-support"> ( Maximum size per document: 5 MB) </small>
+                          <!-- </app-ng-files-drag-n-upload> -->
+                        </div>
+                        <div class="row uploadedDocx ">
+                          <div class="col-lg-3 mt-3">
+                            <div class="display-upload delete">
+                              <video class="animated fadeIn" controls>
+                                <source src="" type="video/mp4">
+                              </video>
+                              <img class="w-100" />
+                              <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </div>
+                <!-- <div class="row">
+                      <div class="col-12">
+                 <h5 class="small-head mt-3">Property Description</h5>
+                        <p class="sub-title sub-heading mb-0">You may add upto 1 video and 4 photos.</p>
+                        <div class="documentInfo d-flex flex-column mt-3">
+                          <div class="file-uploader">
+                            <img src="../../../assets/images/icons/manager-icon.png">
+                            <p class="m-0 pt-3"> Drag here or
+                              <span class="browse-span">browse</span> to upload</p>
+                            <small class="drag-support"> (supported types: pdf, jpeg, png, Maximum size per document: 4 MB) </small>
+                          </div>
+                        </div>
+                        <div class="row uploadedDocx">
+                          <div class="col-lg-3 ">
+                            <div class="display-upload delete pb-3">
+                              <video class="animated fadeIn" controls>
+          
+                                <source src="" type="video/mp4">
+                              </video>
+                              <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon">
+                            </div>
+                          </div>
+                        </div>
+                </div>
+                </div> -->
                 <div class="row ">
                   <div class="col-12">
-                    <h5 class="mt-5">Location</h5>
-                    <p class="sub-title sub-heading mb-0">Please enter the exact address of the</p>
+                    <h5 class="mt-5">Property Location</h5>
+                    <p class="sub-title sub-heading mb-0">Enter the exact address of the Property</p>
                     <hr class="hr-solid">
                   </div>
                   <div class="col-xl-6 col-md-6 col-sm-12">
@@ -120,72 +93,74 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                           <div class="form-group select-city">
                             <label>City</label>
-                            <!-- <div class="flag-container">
-                                <img src="'../../../../../assets/images/flags/4x3/ae.svg" type="image/svg+xml" class="w-auto h-auto mh-100">
-                              </div> -->
                             <input type="text" maxlength="100" class="form-control" placeholder="Enter City">
-                            <!-- <span class="animated fadeIn" *ngIf="cityError">
-                                  <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">{{requiredFields}}</p>
-                                  <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
-                                    should be minimum 3 characters</p>
-                                  <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('maxlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
-                                    should not exceed from 100 characters</p>
-                                  <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('pattern') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">Please
-                                    enter valid information</p>
-                                </span> -->
-                            <!-- <p class="inputError animated fadeIn" *ngIf="citySelError">City should be select from dropdown</p> -->
-                            <!-- <ng-template #rt let-r="result">
-                                  <div class="d-flex">
-                                    <div class="flag-container mr-1 flag-icon-20-12">
-                                      <img src="{{'../../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
-                                        class="w-auto h-auto mh-100">
-                                    </div>
-                                    <ngb-highlight [result]="r.title"></ngb-highlight>
+                            <!-- <div class="flag-container">
+                                    <img src="'../../../../../assets/images/flags/4x3/ae.svg" type="image/svg+xml" class="w-auto h-auto mh-100">
                                   </div>
-                                </ng-template> -->
+                            <input type="text" maxlength="100" class="form-control" placeholder="Enter City">
+                            <span class="animated fadeIn" *ngIf="cityError">
+                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">{{requiredFields}}</p>
+                                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
+                                        should be minimum 3 characters</p>
+                                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('maxlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
+                                        should not exceed from 100 characters</p>
+                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('pattern') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">Please
+                                        enter valid information</p>
+                                    </span>
+                             <p class="inputError animated fadeIn" *ngIf="citySelError">City should be select from dropdown</p> -->
+                            <!-- <ng-template #rt let-r="result">
+                                      <div class="d-flex">
+                                        <div class="flag-container mr-1 flag-icon-20-12">
+                                          <img src="{{'../../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
+                                            class="w-auto h-auto mh-100">
+                                        </div>
+                                        <ngb-highlight [result]="r.title"></ngb-highlight>
+                                      </div>
+                                    </ng-template> -->
                           </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
                           <div class="form-group">
-                            <label>Address Line 1</label>
-                            <input type="text" maxlength="200" class="form-control" placeholder="Address line 1">
+                            <label>Address </label>
+                            <textarea cols="30" rows="3" class="form-control" placeholder="Enter at a minimum, the street and town where the property is located"></textarea>
+                            <!-- <input type="text" maxlength="200" class="form-control" placeholder="Address line 1"> -->
                             <!-- <span class="animated fadeIn" *ngIf="addressline1Error">
-                                  <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline1'].hasError('required') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">{{requiredFields}}</p>
-                                  <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline1'].hasError('pattern') && locationForm.controls['addressline1'].hasError('minlength') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">Address
-                                    should be minimum 10 characters</p>
-                                  <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline1'].hasError('pattern') && locationForm.controls['addressline1'].hasError('maxlength') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">Address
-                                    should not exceed from 200 characters</p>
-                                  <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline1'].hasError('pattern') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">Please
-                                    enter valid information</p>
-                                </span> -->
+                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline1'].hasError('required') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">{{requiredFields}}</p>
+                                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline1'].hasError('pattern') && locationForm.controls['addressline1'].hasError('minlength') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">Address
+                                        should be minimum 10 characters</p>
+                                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline1'].hasError('pattern') && locationForm.controls['addressline1'].hasError('maxlength') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">Address
+                                        should not exceed from 200 characters</p>
+                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline1'].hasError('pattern') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">Please
+                                        enter valid information</p>
+                                    </span> -->
                           </div>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                          <div class="form-group">
-                            <label>Address Line 2</label>
-                            <input type="text" maxlength="200" class="form-control" placeholder="Address line 2">
-                            <!-- <span class="animated fadeIn" *ngIf="addressline2Error">
-                                  <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline2'].hasError('required') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">{{requiredFields}}</p>
-                                  <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline2'].hasError('pattern') && locationForm.controls['addressline2'].hasError('minlength') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Address
-                                    should be minimum 10 characters</p>
-                                  <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline2'].hasError('pattern') && locationForm.controls['addressline2'].hasError('maxlength') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Address
-                                    should not exceed from 200 characters</p>
-                                  <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline2'].hasError('pattern') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Please
-                                    enter valid information</p>
-                                </span> -->
-                          </div>
-                        </div>
+                        <!-- <div class="col-lg-12 col-md-12 col-sm-12">
+                              <div class="form-group">
+                                <label>Address Line 2</label>
+                                <input type="text" maxlength="200" class="form-control" placeholder="Address line 2"> -->
+                        <!-- <span class="animated fadeIn" *ngIf="addressline2Error">
+                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline2'].hasError('required') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">{{requiredFields}}</p>
+                                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline2'].hasError('pattern') && locationForm.controls['addressline2'].hasError('minlength') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Address
+                                        should be minimum 10 characters</p>
+                                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline2'].hasError('pattern') && locationForm.controls['addressline2'].hasError('maxlength') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Address
+                                        should not exceed from 200 characters</p>
+                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline2'].hasError('pattern') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Please
+                                        enter valid information</p>
+                                    </span> -->
+                        <!-- </div>
+                            </div> -->
                         <div class="col-lg-6 col-md-6 col-sm-12">
                           <div class="form-group">
                             <label>P.O Box</label>
                             <input type="text" maxlength="16" class="form-control">
                             <!-- <span class="animated fadeIn" *ngIf="poBoxError">
-                                  <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('required') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">{{requiredFields}}</p>
-                                  <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('minlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">PO
-                                    address should be minimum 4 characters</p>
-                                  <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('maxlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">PO
-                                    address should not exceed from 16 characters</p>
-                                </span> -->
+                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('required') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">{{requiredFields}}</p>
+                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('minlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">PO
+                                        address should be minimum 4 characters</p>
+                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('maxlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">PO
+                                        address should not exceed from 16 characters</p>
+                                    </span> -->
                           </div>
                         </div>
                       </div>
@@ -193,40 +168,49 @@
                   </div>
                   <div class="col-6 map">
                     <!-- <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
-                          <agm-marker [latitude]="location.lat" [longitude]="location.lng"
-                            [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
-                        </agm-map> -->
+                              <agm-marker [latitude]="location.lat" [longitude]="location.lng"
+                                [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
+                            </agm-map> -->
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-12">
+                    <h5 class="mt-5">Property Details</h5>
+                    <p class="sub-title sub-heading mb-0">Provide more information about your property thatis useful for finding a match</p>
+                    <hr class="hr-solid">
+                  </div>
+                </div>
+                <div class="row">
+
+                  <div class=" col-xl-6 col-md-6 col-sm-12 ">
+                    <div class="form-group">
+                      <label>Property Type</label>
+                      <div class="fancyOptionBoxes checkbox pull-left mb-3">
+                        <input id="fullwarehouse" name="fullwarehouse" type="checkbox">
+                        <label for="fullwarehouse">
+                          <span></span>
+                          Full Warehouse
+                        </label>
+                      </div>
+                      <div class="fancyOptionBoxes checkbox pull-left ml-4 mb-3">
+                        <input id="sharedwarehouse" name="sharedwarehouse" type="checkbox">
+                        <label for="sharedwarehouse">
+                          <span></span>
+                          Shared Warehouse
+                        </label>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-xl-12">
-                    <h5 class="mt-5">Warehouse Details</h5>
-                    <p class="sub-title sub-heading mb-0">Please enter your warehouse details</p>
-                    <hr class="hr-solid">
-                  </div>
-                  <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
-                    <label class="col pl-0">Usage Type</label>
-                    <div class="fancyOptionBoxes pull-left mr-5 warehousing-services">
-                      <input id="Radios" name="Radios" type="radio">
-                      <label for="Radios">
-                        <span></span>
-                        Shared Warehouse
-                      </label>
-                    </div>
-                    <div class="fancyOptionBoxes pull-left warehousing-services">
-                      <input id="Radios2" name="Radios" type="radio">
-                      <label for="Radios2">
-                        <span></span>
-                        Dedicated Warehouse
-                      </label>
-                    </div>
-                  </div>
-                </div>
                 <div class="row ">
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
-                      <label class="mt-4 pt-1">Total Covered Area</label>
+                      <label class="form-group-label">Total warehouse Space
+                        <span class="sub-title sub-heading w-100 d-inline-block">Estimate total warehouse space excluding any office area.
+                        </span>
+                      </label>
+
                       <div class="input-group">
                         <input class="form-control input-dropdown" type="text">
                         <div class="input-group-append">
@@ -239,122 +223,27 @@
                         </div>
                       </div>
                       <!-- <span class="animated fadeIn" *ngIf="whAreaError">
-                            <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whArea'].hasError('required') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">{{requiredFields}}</p>
-                            <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whArea'].hasError('pattern') && generalForm.controls['whArea'].hasError('minlength') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Range 100 to 1,00,000</p>
-                            <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whArea'].hasError('pattern') && generalForm.controls['whArea'].hasError('maxlength') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Range 100 to 1,00,000</p>
-                            <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whArea'].hasError('pattern') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Please
-                              enter valid information</p>
-                          </span> -->
-                      <span class="sub-title sub-heading noti w-100">Estimate total warehouse space excluding any
-                        office area.</span>
+                                    <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whArea'].hasError('required') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">{{requiredFields}}</p>
+                                    <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whArea'].hasError('pattern') && generalForm.controls['whArea'].hasError('minlength') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Range 100 to 1,00,000</p>
+                                    <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whArea'].hasError('pattern') && generalForm.controls['whArea'].hasError('maxlength') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Range 100 to 1,00,000</p>
+                                    <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whArea'].hasError('pattern') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Please
+                                      enter valid information</p>
+                                  </span> -->
                     </div>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row ">
                   <div class="col-xl-6 col-md-6 col-sm-12">
-                    <!-- <div class="row combine-field">
-                      <div class="col-6 origin">
-                        <div class="flag-container">
-                          <img *ngIf="filterOriginLcl && filterOriginLcl.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterOriginLcl.CountryCode | lowercase) + '.svg'}}"
-                            type="image/svg+xml" class="w-auto h-auto mh-100">
-                        </div>
-                        <input class="form-control" [(ngModel)]="filterOriginLcl" (focusout)="filtertionPort(filterOriginLcl , 'LCL')"
-                          (ngModelChange)="filterByroute(filterOriginLcl, 'LCL')" placeholder="Origin" type="text"
-                          [ngClass]="{'routeSelected': filterOriginLcl && filterOriginLcl.CountryCode}" [ngbTypeahead]="ports"
-                          [resultTemplate]="rt" [inputFormatter]="formatter" />
-                      </div>
-                      <div class="col-6 destination">
-                        <div class="flag-container">
-                          <img *ngIf="filterDestinationLcl && filterDestinationLcl.CountryCode" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestinationLcl.CountryCode | lowercase) + '.svg'}}"
-                            type="image/svg+xml" class="w-auto h-auto mh-100">
-                        </div>
-                        <input placeholder="Destination" [(ngModel)]="filterDestinationLcl" (focusout)="filtertionPort(filterDestinationLcl, 'LCL')"
-                          (ngModelChange)="filterByroute(filterDestinationLcl, 'LCL')" type="text" class="form-control"
-                          [ngClass]="{'routeSelected': filterDestinationLcl && filterDestinationLcl.CountryCode}"
-                          [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
-                      </div>
-                    </div> -->
-                  </div>
-                  <div class="col-xl-6 col-md-6 col-sm-12 mt-2">Day Select</div>
-                  <div class="col-12">
-                    <div class="add-icon d-flex">
-                      <img src="../../../../../../assets/images/icons/icon_add.svg">
-                      <span>Add More Days</span>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div class="row ">
-            <div class="col-12">
-              <h5 class="mt-5 pt-1">Capacity Details</h5>
-              <p class="sub-title sub-heading mb-0">Please enter the total capacity in pallets per storage category.</p>
-              <hr class="hr-solid">
-            </div>
-            <label class="col-12 racked mt-2">Racked Storage</label>
-            <div class="col-xl-5 col-md-6 col-sm-12  d-flex">
-              <div class="mr-4">
-                <label class="switcher-title">Do you have racked storage space available ?</label>
-              </div>
-            </div>
-            <div class="col-1 switch-box">
-              <!-- <ui-switch [checked]="true"></ui-switch> -->
-            </div>
-            <div class="col-12">
-              <form autocomplete="off">
-                <div class="row">
-                  <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group">
-                      <label class="mt-1">Total Pallet Rack</label>
-                      <input type="text" maxlength="100" class="form-control" placeholder="Total pallet positions in rack">
-                      <!-- <span class="animated fadeIn">
-                            <p class="inputError animated fadeIn" *ngIf="rackStorageForm.controls['palletRack'].hasError('required') && (rackStorageForm.controls.palletRack.dirty || rackStorageForm.controls.palletRack.touched)">{{requiredFields}}</p>
-                            <p class="inputError animated fadeIn" *ngIf="!rackStorageForm.controls['palletRack'].hasError('pattern') && rackStorageForm.controls['palletRack'].hasError('minlength') && (rackStorageForm.controls.palletRack.dirty || rackStorageForm.controls.palletRack.touched)">Pallet
-                              rack must be at least 1 character long</p>
-                            <p class="inputError animated fadeIn" *ngIf="!rackStorageForm.controls['palletRack'].hasError('pattern') && rackStorageForm.controls['palletRack'].hasError('maxlength') && (rackStorageForm.controls.palletRack.dirty || rackStorageForm.controls.palletRack.touched)">Pallet
-                              rack should not exceed from 100 characters</p>
-                            <p class="inputError animated fadeIn" *ngIf="rackStorageForm.controls['palletRack'].hasError('pattern') && (rackStorageForm.controls.palletRack.dirty || rackStorageForm.controls.palletRack.touched)">Please
-                              enter valid information</p>
-                          </span> -->
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group">
-                      <label>Racking</label>
-                      <select class="form-control">
-                        <option value="" selected>eg: 2 Highr</option>
-                        <option>fgf</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group">
-                      <label>Max. Height</label>
-                      <select class="form-control">
-                        <option value="" selected>eg: 4ft or less</option>
-                        <option>ghfh</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-6">
-                    <div class="form-group">
-                      <label>Max. Rack Weight</label>
+                      <label>Offered Space on HashMove</label>
+
                       <div class="input-group">
-                        <select class="form-control">
-                          <option value="" selected>eg: 1000 kg or less / pallet</option>
-                        </select>
+                        <input class="form-control input-dropdown" type="text">
                         <div class="input-group-append">
-                          <select class="form-control input-dropdown">
-                            <option value="" selected>lbs</option>
+                          <select class="form-control input-dropdown" name="weightUnit">
+                            <option value="" selected>sqft</option>
                             <option>
-                              Ibs
+                              sqft
                             </option>
                           </select>
                         </div>
@@ -362,33 +251,123 @@
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
-          </div>
-          <div class="row">
-            <label class="col-12 racked mt-3 mb-2">Bulk Storage</label>
-            <div class="col-xl-5 col-md-6 col-sm-12 ">
-              <label class="switcher-title">Do you have bulk storage space available?</label>
-            </div>
-            <div class="col-1  switch-box">
-              <!-- <ui-switch [checked]="true"></ui-switch> -->
-            </div>
-            <div class="col-12">
-              <form autocomplete="off" novalidate>
-                <div class="row">
-                  <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="row ">
+                  <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
-                      <label class="mt-3">Total Pallet Bulk</label>
-                      <input type="text" maxlength="100" class="form-control" placeholder="Total pallet positions in bulk">
-                      <!-- <span class="animated fadeIn">
-                            <p class="inputError animated fadeIn" *ngIf="bulkStorageForm.controls['palletBulk'].hasError('required') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">{{requiredFields}}</p>
-                            <p class="inputError animated fadeIn" *ngIf="!bulkStorageForm.controls['palletBulk'].hasError('pattern') && bulkStorageForm.controls['palletBulk'].hasError('minlength') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">Bulk
-                              pallet must be at least 5 character long</p>
-                            <p class="inputError animated fadeIn" *ngIf="!bulkStorageForm.controls['palletBulk'].hasError('pattern') && bulkStorageForm.controls['palletBulk'].hasError('maxlength') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">Bulk
-                              pallet should not exceed from 100 characters</p>
-                            <p class="inputError animated fadeIn" *ngIf="bulkStorageForm.controls['palletBulk'].hasError('pattern') && (bulkStorageForm.controls.palletBulk.dirty || bulkStorageForm.controls.palletBulk.touched)">Please
-                              enter valid information</p>
-                          </span> -->
+                      <label class="form-group-label">Ceiling Height
+                        <span class="sub-title sub-heading w-100 d-inline-block">Maximum Availabla height for storage</span>
+                      </label>
+
+                      <div class="input-group">
+                        <input class="form-control input-dropdown" type="text">
+                        <div class="input-group-append">
+                          <select class="form-control input-dropdown" name="weightUnit">
+                            <option value="" selected>sqft</option>
+                            <option>
+                              sqft
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row ">
+                  <div class="col-12 ">
+                    <label class="form-group-label">Minimuum Lease Space
+                      <span class="sub-title sub-heading w-100 d-inline-block">The minimum space that can be lend per booking</span>
+                    </label>
+
+                  </div>
+                  <div class="col-xl-3 col-md-3 col-sm-12">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <input class="form-control input-dropdown" type="text">
+                        <div class="input-group-append">
+                          <select class="form-control input-dropdown" name="weightUnit">
+                            <option value="" selected>sqft</option>
+                            <option>
+                              sqft
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-3 col-md-3 col-sm-12">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <input class="form-control input-dropdown" type="text">
+                        <div class="input-group-append">
+                          <select class="form-control input-dropdown" name="weightUnit">
+                            <option value="" selected>sqft</option>
+                            <option>
+                              sqft
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row ">
+                  <div class="col-xl-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                      <label class="form-group-label">Minimuum Lease term
+                        <span class="sub-title sub-heading w-100 d-inline-block">The shortest term that this property can be rented for
+                        </span>
+                      </label>
+
+                    </div>
+                    <div class="fancyOptionBoxes checkbox pull-left mr-4 ">
+                      <input id="Radios" name="Radios" type="radio">
+                      <label for="Radios">
+                        <span></span>
+                        1 Day
+                      </label>
+                    </div>
+                    <div class="fancyOptionBoxes checkbox pull-left mr-4 ">
+                      <input id="Radios" name="Radios" type="radio">
+                      <label for="Radios">
+                        <span></span>
+                        1 Week
+                      </label>
+                    </div>
+                    <div class="fancyOptionBoxes checkbox pull-left mr-4 mb-3">
+                      <input id="Radios" name="Radios" type="radio">
+                      <label for="Radios">
+                        <span></span>
+                        1 Month
+                      </label>
+                    </div>
+                    <div class="fancyOptionBoxes checkbox pull-left mr-4 mb-3">
+                      <input id="Radios" name="Radios" type="radio">
+                      <label for="Radios">
+                        <span></span>
+                        3 Months
+                      </label>
+                    </div>
+                    <div class="fancyOptionBoxes checkbox pull-left mr-4 mb-3">
+                      <input id="Radios" name="Radios" type="radio">
+                      <label for="Radios">
+                        <span></span>
+                        6 Month
+                      </label>
+                    </div>
+                    <div class="fancyOptionBoxes checkbox pull-left mr-4 mb-3">
+                      <input id="Radios" name="Radios" type="radio">
+                      <label for="Radios">
+                        <span></span>
+                        12 months
+                      </label>
+                    </div>
+                    <div class="fancyOptionBoxes checkbox pull-left mr-4 mb-3">
+                      <input id="Radios" name="Radios" type="radio">
+                      <label for="Radios">
+                        <span></span>
+                        Any lease term
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -397,57 +376,45 @@
           </div>
           <div class="row ">
             <div class="col-12">
-              <h5 class="mt-5">Warehousing Services</h5>
-              <p class="sub-title sub-heading mb-0">Please select all available warehousing services</p>
+              <h5 class="mt-5">Other Amenities</h5>
+              <hr class="hr-solid">
             </div>
-            <hr class="hr-solid">
-            <div class=" col-xl-6 col-md-6 col-sm-12 ">
-              <div class="fancyOptionBoxes warehousing-services">
-                <input id="bonded" name="bonded" type="checkbox">
-                <label for="bonded">
-                  <span></span>
-                  Bonded Warehouse
-                </label>
-              </div>
-              <div class="fancyOptionBoxes warehousing-services">
-                <input id="temperature" name="temperature" type="checkbox">
-                <label for="temperature">
-                  <span></span>
-                  Temperature Controlled
-                </label>
-              </div>
-              <div class="fancyOptionBoxes warehousing-services">
-                <input id="transportation" name="transportation" type="checkbox">
-                <label for="transportation">
-                  <span></span>
-                  Transportation Service
-                </label>
+
+            <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
+              <div class="form-group">
+                <div class="fancyOptionBoxes warehousing-services">
+                  <input id="bonded" name="bonded" type="checkbox">
+                  <label for="bonded">
+                    <span></span>
+                    Bonded Warehouse
+                  </label>
+                </div>
+                <div class="fancyOptionBoxes warehousing-services mt-3">
+                  <input id="transportation" name="transportation" type="checkbox">
+                  <label for="transportation">
+                    <span></span>
+                    Transportation Service
+                  </label>
+                </div>
               </div>
             </div>
           </div>
-
-          <div class="row ">
-            <div class=" col-6  d-flex align-self-center">
-              <button class="btn btn-primary btn-register hvr-sweep-to-right pull-left disable">
+          <div class="row mt-5">
+            <div class="col-6">
+              <button class="btn btn-primary btn-register hvr-sweep-to-right text-uppercase pl-5 pr-5 pt-2 pb-2 disable">
                 cancel</button>
             </div>
-            <div class="col-6 ">
-              <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="stepper.next()">
+            <div class="col-6">
+              <button class="btn btn-primary btn-register hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 pull-right" (click)="stepper.next()">
                 save & add pricing </button>
             </div>
           </div>
-        </div>
 
+        </div>
         <!--  warehouse-info -->
       </section>
-
-
-    </div>
-    <!-- add -info -->
-
-    <!--  add rates  -->
-    <!-- [label]="'2.ADD RATES'" -->
-    <div>
+    </ngx-step>
+    <ngx-step [label]="'2. ADD RATES'">
       <section class="Add-warehouse ">
         <h5 class="mt-5">Add rates</h5>
         <p class="sub-title mt-2 mb-2">you can add multiple rates for different dates / months </p>
@@ -569,8 +536,10 @@
 
         <div class="row">
           <div class="col-6 Add-warehouse-link mt-3" (click)="stepper.prev()">
-            <i class="fa fa-angle-left"></i>
-            <a href="javascript:;">go back </a>
+            <a class="hvr-icon-back grey-anc-btn" href="javascript:;">
+              <img src="../../../../../assets/images/icons/icon_arrow_left.svg" alt="icon" class="icon-size-14 hvr-icon">
+              <span class="link-hover-grey">go back </span>
+            </a>
           </div>
 
           <div class="col-6 mt-3">
@@ -581,9 +550,73 @@
 
 
       </section>
-    </div>
-    <!--  add rates  -->
+    </ngx-step>
+  </ngx-stepper>
+</section>
 
+<section class="commission-rates mt-5">
+
+  <div class="row">
+    <div class="col-12">
+      <h5 class="mt-5">Commission</h5>
+      <hr class="hr-solid">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
+      <div class="form-group">
+        <div class="fancyOptionBoxes checkbox pull-left ">
+          <input id="bonded" name="bonded" type="checkbox">
+          <label for="fixed Amount">
+            <span></span>
+            Fixed Amount per booking
+          </label>
+        </div>
+        <div class="fancyOptionBoxes checkbox  pull-left ml-4">
+          <input id="transportation" name="transportation" type="checkbox">
+          <label for="Fixed pecentage">
+            <span></span>
+            Fixed percentage per booking
+          </label>
+        </div>
+      </div>
+    </div>
 
   </div>
+
+  <div class="row ">
+    <div class="col-2">
+      <div class="form-group mt-3 ">
+        <label>Per Booking</label>
+        <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="%">
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="form-group mt-3">
+          <label for="inputState">Minimum Commission</label>
+          <div class="input-group">
+        <div class="input-group-prepend">
+        <select id="inputState" class="form-control input-dropdown">
+          <option selected>AED</option>
+          <option>12</option>
+        </select>
+        </div>
+
+        <input type="text" class="form-control" aria-label="Text input with dropdown button">
+        </div>
+
+        <!-- <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text"><select><option>1</option></select></div>
+            </div>
+            <input class="form-control ng-untouched ng-pristine ng-valid" maxlength="15" placeholder="0.00" type="text" ng-reflect-maxlength="15">
+          </div> -->
+      </div>
+
+    </div>
+
+  </div>
+
 </section>

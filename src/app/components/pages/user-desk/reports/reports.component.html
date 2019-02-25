@@ -59,7 +59,7 @@
     <!-- Spend Col 2 -->
     <div class="totalspend-section-boxes col-xl-6 col-md-6 col-sm-12 pl-5">
 
-      <div class="totalspendbox totalspend-summary mt-3">
+      <div class=" totalspendbox totalspend-summary mt-3 border-right-0">
         <div class="totalspend-icon">
           <img src="../../../../../assets/images/icons/icon_booking_current.svg">
         </div>
@@ -213,7 +213,7 @@
                   </div>
                   <div class="ports-calendar">
                     <span>
-                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1"> {{booking.EtdLcl | date : "d MMM, yyyy"}} {{booking.EtdLcl | date : "H:mm"}}
+                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1"> {{booking.EtdLcl | date : "d MMM, yyyy"}}
                     </span>
                   </div>
                 </div>
@@ -228,7 +228,7 @@
                   </div>
                   <div class="ports-calendar">
                     <span>
-                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1"> {{booking.EtaLcl | date : "d MMM, yyyy"}} {{booking.EtaLcl | date : "H:mm"}}
+                      <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1"> {{booking.EtaLcl | date : "d MMM, yyyy"}}
                     </span>
                   </div>
                 </div>
@@ -241,14 +241,14 @@
                 <small class="d-block">CUSTOMER</small>
                 <div class="d-flex">
                   <div class="customer-image mt-1 mr-2">
-                    <img src="../../../../../assets/images/logos/logo.jpg">
+                    <img [src]="baseExternalAssets + booking.CustomerLogo" alt="logo" />
                   </div>
                   <label class="ports-label mt-1">
                     {{booking.CustomerName}}
                   </label>
                 </div>
                 <small class="d-block pt-2 mb-1 mt-3">DOCUMENT STATUS</small>
-                <span class="pending">{{booking.DocumentStatus}}</span>
+                <span class="docstatus" [ngClass]="booking.DocumentStatus | lowercase">{{booking.DocumentStatus | lowercase}}</span>
               </div>
             </div>
           </div>

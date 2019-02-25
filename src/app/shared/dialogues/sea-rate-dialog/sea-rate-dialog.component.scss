@@ -7,6 +7,8 @@
     padding-top: 0;
     border-bottom-left-radius: 0.3rem;
     border-bottom-right-radius: 0.3rem;
+    overflow-y: auto;
+    max-height: 700px;
 
     .model-sub-head {
       color: $secondary-grey;
@@ -27,6 +29,8 @@
     }
 
     .combine-filed-popup {
+      border-radius: 4px;
+
       &-left {
         font-size: 1rem;
         color: #2b2b2b;
@@ -65,9 +69,62 @@
           }
 
           .dropdown-menu {
-            max-height: 200px;
+            max-height: 250px;
             overflow-y: auto;
+            border: 1px solid $primary-color;
+            box-shadow: 0 0 5px -1px $primary-color;
+
+            .dropdown-item {
+              &.custom-label {
+                color: $primary-color;
+                font-family: $font-proxima;
+                font-size: $font-size-medium;
+                padding: 0.5rem 1.5rem;
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+
+                img {
+                  margin-right: 0.5rem;
+                }
+                &:hover {
+                  color: $primary-color;
+                }
+              }
+
+              &.charges-form {
+                width: 313px;
+                margin: 0;
+                padding: 0.25rem 0;
+                .form-control {
+                  font-family: $font-proxima;
+                  font-size: $font-size-medium !important;
+                  color: $disabled-text-color !important;
+                }
+              }
+
+              &:active,
+              &:hover {
+                background: none !important;
+                color: inherit;
+              }
+            }
+
+            .additional-dialog {
+              width: 343px;
+              overflow: unset;
+              margin: 0;
+              padding: 15px 0;
+            }
           }
+        }
+      }
+
+      &-mid {
+        input {
+          border-radius: 0px !important;
+          border-color: #ced4da;
+          border-left: 0;
         }
       }
 
@@ -85,6 +142,11 @@
             outline: 0 !important;
           }
         }
+      }
+
+      .active {
+        box-shadow: 0 0 0 1px #00a2df;
+        border-radius: 4px;
       }
     }
 
@@ -128,7 +190,7 @@
     .destination {
       position: relative;
 
-      >.flag-container {
+      > .flag-container {
         width: 16px;
         height: 24px;
         align-items: center;
@@ -263,12 +325,10 @@
     padding: 0;
 
     .dropdown-item {
-
       &.active,
       &:active {
         background: $primary-grey;
       }
-
     }
   }
 }

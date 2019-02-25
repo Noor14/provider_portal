@@ -38,13 +38,14 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 export class GroundRateDialogComponent implements OnInit {
   @ViewChild("dp") input: NgbInputDatepicker;
   @ViewChild('rangeDp') rangeDp: ElementRef;
+  @ViewChild('originPickupBox') originPickupBox: ElementRef;
   @Input() selectedData: any;
   public loading: boolean;
   public allShippingLines: any[] = [];
   public allCargoType: any[] = []
   public allContainers: any[] = [];
   private allPorts: any[] = [];
-  public groundsPorts: any[]= [];
+  public groundsPorts: any[] = [];
   public allCurrencies: any[] = [];
   private allRatesFilledData: any[] = []
   public filterOrigin: any = {};
@@ -104,6 +105,8 @@ export class GroundRateDialogComponent implements OnInit {
   }
 
 
+  public seaPorts = []
+  public groundPorts = []
   allservicesBySea() {
     this._sharedService.dataLogisticServiceBySea.subscribe(state => {
       if (state && state.length) {
@@ -113,6 +116,8 @@ export class GroundRateDialogComponent implements OnInit {
             this.allContainers = state[index].DropDownValues.ContainerGround;
             this.allPorts = state[index].DropDownValues.Port.concat(state[index].DropDownValues.GroundPort);
             this.groundsPorts = Object.assign([], this.allPorts)
+            this.seaPorts = this.groundsPorts.filter(e => e.PortType === 'SEA')
+            this.groundPorts = this.groundsPorts.filter(e => e.PortType === 'GROUND')
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if (this.selectedData) {
               this.transPortMode = this.selectedData.TransportType
@@ -128,10 +133,10 @@ export class GroundRateDialogComponent implements OnInit {
     if (this.transPortMode == 'TRUCK') {
       this.groundsPorts = this.allPorts.filter(elem => elem.PortType.toLowerCase() == 'ground');
     }
-    if (this.transPortMode == 'GROUND'){
+    if (this.transPortMode == 'GROUND') {
       this.allContainers = this.allContainers.filter(obj => obj.ContainerSizeNature.toLowerCase() == 'container')
     }
-    else if (this.transPortMode == 'TRUCK'){
+    else if (this.transPortMode == 'TRUCK') {
       this.allContainers = this.allContainers.filter(obj => obj.ContainerSizeNature.toLowerCase() == 'truck')
     }
     this.selectedCategory = this.allCargoType.find(obj => obj.ShippingCatName.toLowerCase() == 'goods');
@@ -164,22 +169,28 @@ export class GroundRateDialogComponent implements OnInit {
 
   }
 
+  public groundAddresses:any = []
+  portsFilterartion(obj) {
 
-  portsFilterartion(obj){
+    if (typeof obj === 'object') {
+      this.showPorts = false;
+      this.showPickupDropdown = false;
+    }
     if (this.transPortMode == 'GROUND') {
 
-    if(obj && obj.PortType && obj.PortType == 'SEA'){
-      this.groundsPorts = this.allPorts.filter(elem=>elem.PortType.toLowerCase() != 'sea');
+      if (obj && obj.PortType && obj.PortType == 'SEA') {
+        this.groundsPorts = this.allPorts.filter(elem => elem.PortType.toLowerCase() != 'sea');
+      }
+      else if ((!this.filterOrigin || (this.filterOrigin && !this.filterOrigin.PortType)) && (!this.filterDestination || (this.filterDestination && !this.filterDestination.PortType))) {
+        // this.groundsPorts = this.allPorts;
+        this.groundAddresses = this.allPorts
+      }
+      else {
+        return
+      }
+
     }
-    else if((!this.filterOrigin || (this.filterOrigin && !this.filterOrigin.PortType)) && (!this.filterDestination || (this.filterDestination && !this.filterDestination.PortType))){
-      this.groundsPorts = this.allPorts;
-    }
-    else{
-      return
-    }
-  
   }
-   }
 
 
   savedraftrow(type) {
@@ -193,7 +204,7 @@ export class GroundRateDialogComponent implements OnInit {
         containerSpecDesc: (this.selectedContSize == null || this.selectedContSize == 'null') ? undefined : this.getContSpecName(this.selectedContSize),
         shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : this.selectedCategory.ShippingCatID,
         shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.selectedCategory.ShippingCatName,
-        containerLoadType: (this.transPortMode == 'GROUND')? "FCL" :"FTL",
+        containerLoadType: (this.transPortMode == 'GROUND') ? "FCL" : "FTL",
         transportType: this.transPortMode,
         modeOfTrans: this.transPortMode,
         priceBasis: (this.transPortMode == 'GROUND') ? 'PER_CONTAINER' : 'PER_TRUCK',
@@ -203,7 +214,7 @@ export class GroundRateDialogComponent implements OnInit {
         polName: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortName : null,
         polCode: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortCode : null,
         polType: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortType : null,
-        podID:  (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortID : null,
+        podID: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortID : null,
         podName: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortName : null,
         podCode: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortCode : null,
         podType: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortType : null,
@@ -298,6 +309,14 @@ export class GroundRateDialogComponent implements OnInit {
     )
   portsFormatter = (x: { PortName: string }) => x.PortName;
 
+  addresses = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 3) ? []
+        : this.groundPorts.filter(v => v.PortName && v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1))
+    )
+  addressFormatter = (x: { PortName: string }) => x.PortName;
+
   currencies = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
@@ -306,5 +325,23 @@ export class GroundRateDialogComponent implements OnInit {
     )
   currencyFormatter = (x: { CurrencyCode: string }) => x.CurrencyCode;
 
+  public showPickupDropdown: boolean = false;
+  public showDestinationDropdown: boolean = false;
+  public showPorts: boolean = false;
+  public showDoors: boolean = false;
+  toggleDropdown($event, type) {
+    if (type === 'pickup') {
+      this.showPickupDropdown = !this.showPickupDropdown
+      this.showPorts = false
+      this.showDoors = false
+    }
+  }
 
+  togglePorts(type) {
+    if (type === 'pickup') {
+      this.showPorts = true
+    } else if (type === 'door') {
+      this.showDoors = true
+    }
+  }
 }

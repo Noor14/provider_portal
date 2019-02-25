@@ -143,7 +143,7 @@
                     height: 33px;
                     margin-right: 15px;
                 }
-                .info{
+                .info {
                     line-height: 16px;
                 }
             }
@@ -168,10 +168,16 @@
                     margin-bottom: 0;
                     font-weight: $font-proxima-weight-semibold;
                 }
-                .pending {
+                .docstatus {
                     font-size: $font-size-large;
-                    color: rgb(211, 32, 32);
                     line-height: 1.25;
+                    text-transform: capitalize;
+                    &.pending{
+                    color: rgb(211, 32, 32);
+                    }
+                    &.approved {
+                        color: rgb(2, 189, 182);
+                    }
                 }
                 .secondary {
                     font-size: $font-size-large;

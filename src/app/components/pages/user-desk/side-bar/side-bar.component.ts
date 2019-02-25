@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 import { SharedService } from '../../../../services/shared.service';
 
 
@@ -15,7 +14,6 @@ export class SideBarComponent implements OnInit, OnDestroy {
   public currentBookings: any[] = [];
   
   constructor(
-    private _router: Router,
     private _sharedService: SharedService
   ) { }
 
@@ -29,12 +27,5 @@ export class SideBarComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.allBookingsSubscriber.unsubscribe();
   }
-  getClass(path): string {
-    if(location.pathname.indexOf(path) >= 0){
-      return 'active'
-    }
-  };
-  tonavigate(url) {
-    this._router.navigate([url]);
-  }
+
 }

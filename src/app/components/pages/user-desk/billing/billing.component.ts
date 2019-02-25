@@ -181,6 +181,67 @@ export class BillingComponent implements OnInit, OnDestroy {
     ]
   };
 
+  public emptybar = {
+    color: ['#02bdb6', '#8472d5'],
+    tooltip: {
+      trigger: 'axis',
+      // formatter: '{b} <br> {c} ({d}%)',
+      axisPointer: {
+        type: 'shadow'
+      },
+      backgroundColor: ['rgba(255,255,255,1)'],
+      padding: [20, 24],
+      extraCssText: 'box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.2);',
+      textStyle: {
+        color: '#2b2b2b', //#738593
+        decoration: 'none',
+        fontFamily: 'Proxima Nova, sans-serif',
+        fontSize: 16,
+        //fontStyle: 'italic',
+        //fontWeight: 'bold'
+      }
+    },
+    legend: {
+      data: [] //Hamza
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: [
+      {
+        type: 'category',
+        data: [], //Hamza
+        axisTick: {
+          alignWithLabel: true
+        }
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value',
+        // type: 'category',
+        // data: ['0', '1k', '2M', '4M', '10M']
+      }
+    ],
+    series: [
+      {
+        name: '',
+        type: 'bar',
+        barGap: 0.1,
+        barWidth: 10,
+        itemStyle: {
+          normal: {
+            barBorderRadius: 15,
+          }
+        },
+        data: [] //Hamza
+      },
+    ]
+  }
+
   public providerBillingDashboard: ProviderBillingDashboard
   public providerBillingDashboardInvoice: ProviderBillingDashboardInvoice[] = []
   public viewBillingInvoice: ProviderBillingDashboardInvoice[] = []
@@ -194,6 +255,7 @@ export class BillingComponent implements OnInit, OnDestroy {
   public isTableLoaded: boolean = false
 
   public billingStatusList: CodeValMst[] = []
+  userCurrencyCode
 
 
   constructor(
@@ -258,13 +320,19 @@ export class BillingComponent implements OnInit, OnDestroy {
   }
 
   onInvoiceCatClick($selectedCat: string) {
+    const { providerBillingDashboardInvoice } = this
+
+    if (!providerBillingDashboardInvoice || providerBillingDashboardInvoice.length === 0) {
+      return
+    }
+
     setTimeout(() => {
       this.isTableLoaded = false
     }, 0);
     this.selectedCat = $selectedCat
 
     this.viewBillingInvoice = cloneObject([])
-    const { providerBillingDashboardInvoice } = this
+
     if ($selectedCat.toLowerCase() === 'all') {
       this.viewBillingInvoice = cloneObject(providerBillingDashboardInvoice)
     } else {
@@ -307,7 +375,9 @@ export class BillingComponent implements OnInit, OnDestroy {
       }
 
       this.currCurrency = currentCurrency
+
       const { currCurrency } = this
+      this.userCurrencyCode = currentCurrency.sortedCountryName
       const baseCurrencyID = this._currencyControl.getBaseCurrencyID();
       const res2: JsonResponse = await this._commonService.getExchangeRateList(baseCurrencyID).toPromise()
       this.exchangeData = res2.returnObject
@@ -327,7 +397,7 @@ export class BillingComponent implements OnInit, OnDestroy {
     const { providerBillingDashboard, exchangeRate } = this
 
     if (!providerBillingDashboard.graphStatistics || providerBillingDashboard.graphStatistics.length === 0) {
-      let copyOfBarGraph = cloneObject(this.statistics)
+      let copyOfBarGraph = cloneObject(this.emptybar)
 
       copyOfBarGraph.title = { text: 'No Data to Show', x: 'center', y: 'center' }
       copyOfBarGraph.color = []
@@ -451,20 +521,20 @@ export class BillingComponent implements OnInit, OnDestroy {
     this.dtTrigger.unsubscribe();
   }
 
-  payment(){
+  payment() {
     let obj = {
       merchant_email: "abdur@hashmove.com",
       secret_key: "ekQNVlcQwtHZv93SClVAqo9euW1k1cKgxA4sVgjrJ1qfat8NO3ofsxtXuviwH2MeCRHx81YS3o7dSf1HjpWMXqJrV1XC3KRFCzdK",
       currency: "AED",
       amount: "10",
-      site_url: "http://localhost:4200/provider/billing",
+      site_url: "http://10.20.1.13:9094/provider/billing",
       title: "test",
       quantity: "1",
       unit_price: "10",
       other_charges: "0",
       discount: "0",
       products_per_title: "test product 1",
-      return_url: "http://localhost:58418/Home/Success",
+      return_url: "http://10.20.1.13:9094/provider/dashboard",
       cc_first_name: "rizwan",
       cc_last_name: "haq",
       cc_phone_number: "111000101",
@@ -486,50 +556,49 @@ export class BillingComponent implements OnInit, OnDestroy {
       ip_customer: "Texpo-khi-26",
       cms_with_version: "API"
     };
-    // var formdata = "merchant_email=" + "abdur@hashmove.com"
-    //   + "&secret_key=" + "ekQNVlcQwtHZv93SClVAqo9euW1k1cKgxA4sVgjrJ1qfat8NO3ofsxtXuviwH2MeCRHx81YS3o7dSf1HjpWMXqJrV1XC3KRFCzdK"
-    //   + "&currency=" + "AED"
-    //   + "&amount=" + "10"
-    //   + "&site_url=" + "http://localhost:4200/provider/billing"
-    //   + "&title=" + "test"
-    //   + "&quantity=" + "1"
-    //   + "&unit_price=" + "10"
-    //   + "&other_charges=0"
-    //   + "&discount=0"
-    //   + "&products_per_title=" + "test product 1"
-    //   + "&return_url=" + "http://localhost:58418/Home/Success"
-    //   + "&cc_first_name=" + "rizwan"
-    //   + "&cc_last_name=" + "haq"
-    //   + "&cc_phone_number=" + "111000101"
-    //   + "&phone_number=" + "111000101"
-    //   + "&billing_address=" + "test billing"
-    //   + "&city=" + "karachi"
-    //   + "&state=" + "sindh"
-    //   + "&postal_code=" + "75000"
-    //   + "&country=" + "ARE"
-    //   + "&email=" + "rizwan@texpo.com"
-    //   + "&ip_customer=" + "Texpo-khi-26"
-    //   + "&ip_merchant=100.100.100.100"
-    //   + "&address_shipping=" + "test shipping address"
-    //   + "&city_shipping=" + "karachi"
-    //   + "&state_shipping=" + "sindh"
-    //   + "&postal_code_shipping=" + "75000"
-    //   + "&country_shipping=" + "ARE"
-    //   + "&reference_no=" + "1286"
-    //   + "&msg_lang=English"
-    //   + "&cms_with_version=API"
+    var formdata = "merchant_email=" + "abdur@hashmove.com"
+      + "&secret_key=" + "ekQNVlcQwtHZv93SClVAqo9euW1k1cKgxA4sVgjrJ1qfat8NO3ofsxtXuviwH2MeCRHx81YS3o7dSf1HjpWMXqJrV1XC3KRFCzdK"
+      + "&currency=" + "AED"
+      + "&amount=" + "10"
+      + "&site_url=" + "http://10.20.1.13:9094/provider/billing"
+      + "&title=" + "test"
+      + "&quantity=" + "1"
+      + "&unit_price=" + "10"
+      + "&other_charges=0"
+      + "&discount=0"
+      + "&products_per_title=" + "test product 1"
+      + "&return_url=" + "http://10.20.1.13:9094/provider/dashboard"
+      + "&cc_first_name=" + "rizwan"
+      + "&cc_last_name=" + "haq"
+      + "&cc_phone_number=" + "111000101"
+      + "&phone_number=" + "111000101"
+      + "&billing_address=" + "test billing"
+      + "&city=" + "karachi"
+      + "&state=" + "sindh"
+      + "&postal_code=" + "75000"
+      + "&country=" + "ARE"
+      + "&email=" + "rizwan@texpo.com"
+      + "&ip_customer=" + "Texpo-khi-26"
+      + "&ip_merchant=100.100.100.100"
+      + "&address_shipping=" + "test shipping address"
+      + "&city_shipping=" + "karachi"
+      + "&state_shipping=" + "sindh"
+      + "&postal_code_shipping=" + "75000"
+      + "&country_shipping=" + "ARE"
+      + "&reference_no=" + "1286"
+      + "&msg_lang=English"
+      + "&cms_with_version=API"
+    let bytes = []; // char codes
+    for (var i = 0; i < formdata.length; ++i) {
+      var code = formdata.charCodeAt(i);
+      var buffer = new ArrayBuffer(code)
+      bytes.push(buffer.byteLength);
+    }
 
-    // let bytes = []; // char codes
-
-    // for (var i = 0; i < formdata.length; ++i) {
-    //   var code = formdata.charCodeAt(i);
-    //   bytes = bytes.concat([code & 0xff, code / 256 >>> 0]);
-    // }
-
-    this._billingService.makePayment(obj).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
+    this._billingService.makePayment(formdata).subscribe((res: any) => {
+      // if (res.returnStatus == "Success") {
         console.log(res)
-      }
+      // }
     })
 
   }

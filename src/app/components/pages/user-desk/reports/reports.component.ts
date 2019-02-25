@@ -13,7 +13,7 @@ import * as echarts from 'echarts'
 import { firstBy } from 'thenby';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonService } from '../../../../services/common.service';
-import { encryptBookingID } from '../../../../constants/globalFunctions';
+import { encryptBookingID, isJSON } from '../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
 // import { CurrencyControl } from '../../../shared/currency/currency.injectable';
 // import { CurrencyDetails, ExchangeRate, Rate } from '../../../interfaces/currencyDetails';
@@ -151,10 +151,13 @@ export class ReportsComponent implements OnInit {
 getRecentBookings(){
   this.bookingsSubscriber = this._sharedService.dashboardDetail.subscribe((state: any) => {
     if (state && state.BookingDetails && state.BookingDetails.length) {
-  
+      state.BookingDetails.map(elem => {
+        if (elem.CustomerImage && typeof elem.CustomerImage == "string" && isJSON(elem.CustomerImage)) {
+          elem.CustomerLogo = JSON.parse(elem.CustomerImage).shift().DocumentFile
+        }
+      })
       let recentBookings = state.BookingDetails.filter(obj => obj.BookingTab === 'Current');
       this.recentBookings = this.filterByDate(recentBookings).slice(0,3);
-   
     }
   });
 }

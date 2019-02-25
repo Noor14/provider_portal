@@ -56,7 +56,7 @@
 
   .bookings {
     .border-separated {
-      border-right: 1px solid #6c757d2b
+      border-right: 1px solid #6c757d2b;
     }
 
     &-header {
@@ -111,10 +111,18 @@
           font-weight: $font-proxima-weight-semibold;
         }
 
-        .pending {
+        .docstatus {
           font-size: $font-size-large;
-          color: rgb(211, 32, 32);
           line-height: 1.25;
+          text-transform: capitalize;
+
+          &.pending {
+            color: rgb(211, 32, 32);
+          }
+
+          &.approved {
+            color: rgb(2, 189, 182);
+          }
         }
 
         .secondary {

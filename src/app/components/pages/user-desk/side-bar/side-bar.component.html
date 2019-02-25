@@ -9,8 +9,7 @@
       </h3>
       <ul class="nav flex-column">
         <li>
-          <a href="javascript:void(0)" class="nav-link" (click)="tonavigate('/provider/dashboard')"
-            [ngClass]="getClass('/provider/dashboard')">
+        <a href="javascript:void(0)" class="nav-link" [routerLink]="['/provider/dashboard']" [routerLinkActive]="['active']">
             <img src="../../../../../assets/images/icons/icon_dashboard.svg" alt="icon_dashboard">
             <span class="menu-text">
               Dashboard
@@ -18,16 +17,14 @@
           </a>
         </li>
         <li>
-          <a href="javascript:void(0)" class="nav-link" (click)="tonavigate('/provider/allbookings')"
-            [ngClass]="getClass('/provider/allbookings')">
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/allbookings']">
             <img src="../../../../../assets/images/icons/icon_booking.svg" alt="icon_booking">
             <span class="menu-text">Bookings</span>
           </a>
           <span class="badge badge-secondary" *ngIf="currentBookings && currentBookings.length">{{currentBookings.length}}</span>
         </li>
         <li>
-          <a href="javascript:void(0)" class="nav-link" (click)="tonavigate('/provider/billing')"
-            [ngClass]="getClass('/provider/billing')">
+          <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/billing']">
             <img src="../../../../../assets/images/icons/billing.svg" alt="icon_billing">
             <span class="menu-text">
               Billing
@@ -35,8 +32,7 @@
           </a>
         </li>
         <li>
-          <a href="javascript:void(0)" class="nav-link" (click)="tonavigate('/provider/reports')"
-            [ngClass]="getClass('/provider/reports')">
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/reports']">
             <img src="../../../../../assets/images/icons/icon_report.svg" alt="icon_report">
             <span class="menu-text">
               Reports
@@ -44,7 +40,7 @@
           </a>
         </li>
               <li>
-                <a href="javascript:void(0)" class="nav-link" (click)="tonavigate('/provider/manage-rates')" [ngClass]="getClass('/provider/manage-rates')">
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/manage-rates']">
                 <img src="../../../../../assets/images/icons/icon_rate.svg" alt="icon_report">
                   <span class="menu-text">
                     Manage Rates
@@ -52,7 +48,7 @@
                 </a>
               </li>
       <li>
-        <a href="javascript:void(0)" class="nav-link" (click)="tonavigate('/provider/deals')" [ngClass]="getClass('/provider/deals')">
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/deals']">
       <img src="../../../../../assets/images/icons/icon_deal.svg" alt="icon_report">
           <span class="menu-text">
             Manage Deals
@@ -67,15 +63,15 @@
       </h3>
       <ul class="nav flex-column">
         <li>
-          <a href="javascript:void(0)" class="nav-link">
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/settings']">
             <img src="../../../../../assets/images/icons/icon_setting.svg" alt="icon_setting">
-            <span class="menu-text" (click)="tonavigate('/provider/settings')" [ngClass]="getClass('/provider/settings')">
+            <span class="menu-text">
               Settings
             </span>
           </a>
         </li>
         <li>
-          <a href="javascript:void(0)" class="nav-link" (click)="tonavigate('/provider/support')" [ngClass]="getClass('/provider/support')">
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/support']">
             <img src="../../../../../assets/images/icons/icon_support.svg" alt="icon_support">
             <span class="menu-text">
               Support

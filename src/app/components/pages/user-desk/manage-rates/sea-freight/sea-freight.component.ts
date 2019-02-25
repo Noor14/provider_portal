@@ -233,11 +233,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   onEditorCreated(quill, type) {
   }
   onContentChanged({ quill, html, text }, type) {
-    if (type="FCL"){
+    if (type = "FCL") {
       this.editorContentFCL = html
 
     }
-    else{
+    else {
       this.editorContentLCL = html
 
     }
@@ -443,7 +443,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
                 });
               }
             }
-            if (subTotalIMP === 0) {
+            if (subTotalIMP === 0 || isNaN(subTotalIMP)) {
               return "<span>-- Select --</span>"
             }
             return data.CurrencyCode + ' ' + subTotalIMP;
@@ -469,7 +469,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
                 });
               }
             }
-            if (subTotalExp === 0) {
+            if (subTotalExp === 0 || isNaN(subTotalExp)) {
               return "<span>-- Select --</span>"
             }
             return data.CurrencyCode + ' ' + subTotalExp;
@@ -509,6 +509,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         },
+        infoEmpty: '',
         // emptyTable: "No data available in table"
       },
       fixedColumns: {
@@ -655,6 +656,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         },
+        infoEmpty: '',
         // emptyTable: "No data available in table"
       },
       fixedColumns: {
@@ -693,7 +695,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   setdataDraftInTableLCL() {
     setTimeout(() => {
-
       if (this.tabledraftBySeaLCL && this.tabledraftBySeaLCL.nativeElement) {
         this.dataTabledraftByseaLCL = $(this.tabledraftBySeaLCL.nativeElement);
         let alltableOption = this.dataTabledraftByseaLCL.DataTable(this.dtOptionsBySeaLCLDraft);
@@ -772,13 +773,39 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       if (this.tabledraftBySea && this.tabledraftBySea.nativeElement) {
         this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
-        // let alltableOption = this.dataTabledraftBysea.DataTable();
-        //   alltableOption.destroy();
         let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
+        if (this.allRatesList) {
+          this.allRatesList.forEach(element => {
+            alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+              let node = this.node();
+              let data = this.data();
+              if (typeof data.Price === 'string') {
+                data.Price = parseInt(data.Price)
+              }
+              if (data.ContainerSpecID === element.containerSpecID &&
+                data.PolID === element.polID &&
+                data.PodID === element.podID &&
+                data.ShippingCatID === element.shippingCatID &&
+                data.CarrierID === element.carrierID &&
+                moment(data.EffectiveFrom).format('D MMM, Y') === moment(element.effectiveFrom).format('D MMM, Y') &&
+                moment(data.EffectiveTo).format('D MMM, Y') === moment(element.effectiveTo).format('D MMM, Y') &&
+                data.Price === element.price) {
+                node.children[0].children[0].children[0].setAttribute("disabled", true)
+              }
+            });
+          });
+        }
         alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
           let node = this.node();
           let data = this.data();
-          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.CarrierID || !data.EffectiveFrom || !data.EffectiveTo || !data.Price || !data.ContainerSpecID) {
+          let exportCharges;
+          let importCharges;
+          if (data.JsonSurchargeDet) {
+            const parsedJsonSurchargeDet = JSON.parse(data.JsonSurchargeDet)
+            exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
+            importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
+          }
+          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.CarrierID || !data.EffectiveFrom || !data.EffectiveTo || !data.Price || !data.ContainerSpecID || !exportCharges.length || !importCharges.length) {
             node.children[0].children[0].children[0].setAttribute("disabled", true)
           }
         });
@@ -813,7 +840,15 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             if (this.checkedalldraftRates) {
               let data = alltableOption.row(i).data();
               let node = alltableOption.row(i).node();
-              if (data.PolID && data.PodID && data.ShippingCatID && data.CarrierID && data.EffectiveFrom && data.EffectiveTo && data.Price && data.ContainerSpecID) {
+
+              let exportCharges;
+              let importCharges;
+              if (data.JsonSurchargeDet) {
+                const parsedJsonSurchargeDet = JSON.parse(data.JsonSurchargeDet)
+                exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
+                importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
+              }
+              if (data.PolID && data.PodID && data.ShippingCatID && data.CarrierID && data.EffectiveFrom && data.EffectiveTo && data.Price && data.ContainerSpecID && exportCharges && importCharges && !(node.children[0].children[0].children[0].disabled)) {
                 let draftId = node.children[0].children[0].children[0].id;
                 this.publishRates.push(draftId);
                 node.children[0].children[0].children[0].checked = true;
@@ -878,7 +913,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     let object = {
       forType: type,
       data: obj,
-      addList: this.seaCharges
+      addList: this.seaCharges,
+      mode: 'draft'
     }
     modalRef.componentInstance.selectedData = object;
     setTimeout(() => {
@@ -927,7 +963,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         element.parsedJsonSurchargeDet = importCharges.concat(exportCharges)
       }
     });
-
     for (var index = 0; index < this.draftsfcl.length; index++) {
       for (let i = 0; i < data.length; i++) {
         if (this.draftsfcl[index].ProviderPricingDraftID == data[i].providerPricingDraftID) {
@@ -1266,10 +1301,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
                 });
               }
             }
-            if (subTotalIMP === 0) {
+            if (subTotalIMP === 0 || isNaN(subTotalIMP)) {
               return "<span>-- Select --</span>"
             }
-            return data.currencyCode + ' ' + subTotalIMP ;
+            return data.currencyCode + ' ' + subTotalIMP;
           }
         },
         {
@@ -1292,7 +1327,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
                 });
               }
             }
-            if (subTotalExp === 0) {
+            if (subTotalExp === 0 || isNaN(subTotalExp)) {
               return "<span>-- Select --</span>"
             }
             return data.currencyCode + ' ' + subTotalExp;
@@ -1335,6 +1370,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         },
+        infoEmpty: '',
         // emptyTable: "No data available in table"
       },
       fixedColumns: {
@@ -1452,6 +1488,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
           previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
         },
+        infoEmpty: '',
         // emptyTable: "No data available in table"
       },
       fixedColumns: {
@@ -1957,35 +1994,62 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       }
     }, 0);
   }
+
   rateValidity() {
     if (!this.delPublishRates.length) return;
     let updateValidity = [];
     for (let i = 0; i < this.allRatesList.length; i++) {
       for (let y = 0; y < this.delPublishRates.length; y++) {
-        if (this.allRatesList[i].carrierPricingID == this.delPublishRates[y]){
+        if (this.allRatesList[i].carrierPricingID == this.delPublishRates[y]) {
           updateValidity.push(this.allRatesList[i])
         }
       }
     }
-    const modalRef = this.modalService.open(RateValidityComponent, {
-      size: 'lg',
-      centered: true,
-      windowClass: 'upper-medium-modal',
-      backdrop: 'static',
-      keyboard: false
-    });
-    modalRef.result.then((result) => {
-      if (result =='Success') {
-        this.getAllPublishRates();
-        this.checkedallpublishRates = false
-        this.delPublishRates=[];
+
+
+    if (updateValidity && updateValidity.length > 1) {
+      const modalRef = this.modalService.open(RateValidityComponent, {
+        size: 'lg',
+        centered: true,
+        windowClass: 'upper-medium-modal',
+        backdrop: 'static',
+        keyboard: false
+      });
+      modalRef.result.then((result) => {
+        if (result == 'Success') {
+          this.getAllPublishRates();
+          this.checkedallpublishRates = false
+          this.delPublishRates = [];
+        }
+      });
+      let obj = {
+        data: updateValidity,
+        type: "rateValidityFCL"
       }
-    });
-    let obj = {
-      data: updateValidity,
-      type: "rateValidityFCL"
+      modalRef.componentInstance.validityData = obj;
+    } else if (updateValidity && updateValidity.length === 1) {
+      const modalRef2 = this.modalService.open(SeaRateDialogComponent, {
+        size: 'lg',
+        centered: true,
+        windowClass: 'large-modal',
+        backdrop: 'static',
+        keyboard: false
+      });
+      modalRef2.result.then((result) => {
+        if (result == 'Success') {
+          this.getAllPublishRates();
+          this.checkedallpublishRates = false
+          this.delPublishRates = [];
+        }
+      });
+      let object = {
+        forType: 'FCL',
+        data: updateValidity,
+        addList: this.seaCharges,
+        mode: 'publish'
+      }
+      modalRef2.componentInstance.selectedData = object;
     }
-    modalRef.componentInstance.validityData = obj;
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
@@ -2034,7 +2098,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(RateHistoryComponent, {
       size: 'lg',
       centered: true,
-      windowClass: 'upper-medium-modal',
+      windowClass: 'upper-medium-modal-history',
       backdrop: 'static',
       keyboard: false
     });
@@ -2073,11 +2137,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   getAdditionalData() {
-    this._seaFreightService.getAllAdditionalCharges().subscribe((res: any) => {
+    this._seaFreightService.getAllAdditionalCharges(this.userProfile.ProviderID).subscribe((res: any) => {
       this.seaCharges = res.filter(e => e.modeOfTrans === 'SEA' && e.addChrType === 'ADCH')
     }, (err) => {
       console.log(err);
-
     })
   }
 

@@ -37,22 +37,20 @@ export class BusinessInfoComponent implements OnInit {
   private docTypeIdLogo = null;
   private docTypeIdCert = null;
   private docTypeIdGallery = null;
-  // private docTypeId = null;
   public docxId: any;
-  // private fileStatus = undefined;
   private fileStatusLogo = undefined;
   private fileStatusGallery = undefined;
   private fileStatusCert = undefined;
   public selectedFiles: any;
   public selectedLogo: any;
   public config: NgFilesConfig = {
-    acceptExtensions: ['jpg', 'png', 'bmp', 'svg'],
+    acceptExtensions: ['jpg', 'png', 'bmp'],
     maxFilesCount: 12,
     maxFileSize: 12*1024*1000,
     totalFilesSize: 12*12*1024*1000
   };
   public configLogo: NgFilesConfig = {
-    acceptExtensions: ['jpg', 'png', 'bmp', 'svg'],
+    acceptExtensions: ['jpg', 'png', 'bmp'],
     maxFilesCount: 1,
     maxFileSize: 5 * 1024 * 1000,
     totalFilesSize: 1 * 5 * 1024 * 1000
@@ -94,7 +92,7 @@ export class BusinessInfoComponent implements OnInit {
     }
     this.getbusinessServices();
 
-       Observable.fromEvent(this.profileName.nativeElement, 'keyup')
+      Observable.fromEvent(this.profileName.nativeElement, 'keyup')
       // get value
       .map((evt: any) => evt.target.value)
       // text length must be > 2 chars
@@ -111,6 +109,7 @@ export class BusinessInfoComponent implements OnInit {
             }
             else{
               this.spinner = false;
+              this.userName = undefined;
             }
           });
   }
@@ -227,9 +226,15 @@ removeSelectedDocx(index,  obj, type) {
       }
       else if (type == 'gallery') {
         this.selectedGalleryDocx.splice(index, 1);
+        if (!this.selectedGalleryDocx || (this.selectedGalleryDocx && !this.selectedGalleryDocx.length)) {
+          this.docTypeIdGallery = null;
+        }
       }
       else if (type == 'certificate') {
         this.selectedCertificateDocx.splice(index, 1);
+        if (!this.selectedCertificateDocx || (this.selectedCertificateDocx && !this.selectedCertificateDocx.length)) {
+          this.docTypeIdGallery = null;
+        }
       }
     }
     else  {

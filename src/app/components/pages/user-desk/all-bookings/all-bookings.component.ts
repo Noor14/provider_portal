@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { SharedService } from '../../../../services/shared.service';
-import { encryptBookingID } from '../../../../constants/globalFunctions';
+import { encryptBookingID, isJSON } from '../../../../constants/globalFunctions';
 import { baseExternalAssets } from '../../../../constants/base.url';
 import { Router } from '@angular/router';
 import { PaginationInstance } from 'ngx-pagination';
@@ -34,6 +34,11 @@ export class AllBookingsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.allBookingsSubscriber= this._sharedService.dashboardDetail.subscribe((state: any) => {
       if (state && state.BookingDetails && state.BookingDetails.length) {
+        state.BookingDetails.map(elem => {
+            if (elem.CustomerImage && typeof elem.CustomerImage == "string" && isJSON(elem.CustomerImage)) {
+              elem.CustomerLogo = JSON.parse(elem.CustomerImage).shift().DocumentFile
+            }
+          })
         let pastBookings = state.BookingDetails.filter(obj => obj.BookingTab === 'Past');
         this.pastBookings = this.filterByDate(pastBookings);
         let currentBookings = state.BookingDetails.filter(obj => obj.BookingTab === 'Current');

@@ -112,8 +112,8 @@ export class RateHistoryComponent implements OnInit {
           })
           this.history = records[0].History;
         }
-        if (records[0].customer) {
-          let custDet = JSON.parse(records[0].customer)[0];
+        if (records[0].customer && records[0].customer.length) {
+          let custDet = records[0].customer[0];
           let obj = {
             CustomerImage: JSON.parse(custDet.CustomerImage)[0].DocumentFile,
             CustomerName: custDet.CustomerName
@@ -124,7 +124,6 @@ export class RateHistoryComponent implements OnInit {
         this.originDet = records[0].fromport[0];
         this.cargoInfo = records[0].cargoType[0];
         this.shippingInfo = records[0].shippingline[0];
-        this.containerInfo = records[0].container[0];
       }
     })
   }

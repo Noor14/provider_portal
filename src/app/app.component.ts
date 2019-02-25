@@ -21,8 +21,8 @@ export class AppComponent implements OnInit{
 
   constructor(
     private _commonService : CommonService,
-     private _sharedService: SharedService,
-     private _router: Router,
+    private _sharedService: SharedService,
+    private _router: Router,
     ){}
   
   ngOnInit() {
@@ -39,13 +39,13 @@ export class AppComponent implements OnInit{
     })
 
     this._commonService.getCountry().subscribe((res:any) => {
-         if(res && res.length){
-           res.map((obj) => {
+        if(res && res.length){
+          res.map((obj) => {
             if (typeof (obj.desc) == "string") {
               obj.desc = JSON.parse(obj.desc);
             }
           })
-         this._sharedService.countryList.next(res);
+        this._sharedService.countryList.next(res);
         }
       });
 
@@ -57,6 +57,16 @@ export class AppComponent implements OnInit{
           }
         })
         this._sharedService.cityList.next(res);
+      }
+    });
+    this._commonService.getRegions().subscribe((res: any) => {
+      if (res && res.length) {
+        this._sharedService.regionList.next(res);
+      }
+    });
+    this._commonService.getAllCurrency(100).subscribe((res: any) => {
+      if (res && res.length) {
+        this._sharedService.currencyList.next(res);
       }
     });
 
