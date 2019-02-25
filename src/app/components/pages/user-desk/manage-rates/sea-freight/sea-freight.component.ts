@@ -1657,7 +1657,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         $('#publishRateTable').on('order.dt', function () {
           // This will show: "Ordering on column 1 (asc)", for example
           var order = publishFCLtable.order();
-          $('#orderInfo').html('Ordering on column ' + order[0][0] + ' (' + order[0][1] + ')');
+          let title = publishFCLtable.column(order[0][0]).header();
+          console.log($(title).html())
+          console.log(order[0][1]);
+          
         });
         $('#publishRateTable').off('click').on('click', 'input[type="checkbox"]', (event) => {
           let index = this.delPublishRates.indexOf((<HTMLInputElement>event.target).id);
@@ -2184,8 +2187,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   getAdditionalData() {
+    loading(true)
     this._seaFreightService.getAllAdditionalCharges(this.userProfile.ProviderID).subscribe((res: any) => {
       this.seaCharges = res.filter(e => e.modeOfTrans === 'SEA' && e.addChrType === 'ADCH')
+      loading(false)
     }, (err) => {
       console.log(err);
     })
