@@ -292,13 +292,18 @@ export class SettingsComponent implements OnInit {
     if (this.frtService && this.frtService.length) {
       for (var i = 0; i < this.frtService.length; i++) {
         if (this.frtService[i].LogServID == obj.LogServID) {
-          if (this.frtService.length > 1){
+          if (this.frtService.length > 1 && obj.IsRemovable){
             this.frtService.splice(i, 1);
             selectedItem.remove('active');
             this.removeServices(obj);
           }
           else{
-              this._toastr.info("At least one service is mandatory",'')
+            if (!obj.IsRemovable){
+              this._toastr.info("Service can not be removed. Please first removed the rates", '')
+            }
+            else{
+              this._toastr.info("At least one service is mandatory.", '')
+            }
           }
           return;
         }
