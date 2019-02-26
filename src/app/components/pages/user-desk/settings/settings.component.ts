@@ -365,7 +365,8 @@ export class SettingsComponent implements OnInit {
     let object = {
       providerID: this.userProfile.ProviderID,
       createdBy: this.userProfile.LoginID,
-      serviceID: obj.LogServID
+      serviceID: obj.LogServID,
+      serviceType: obj.ServiceType
     }
     this._settingService.selectProviderService(object).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
