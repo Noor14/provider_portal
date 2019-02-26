@@ -781,8 +781,9 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       loading(false);
       return
     }
-    console.log(this.businessForm.value.transCity)
-    console.log(this.showTranslatedLangSide);
+
+    let UserObjectOL: any = {}
+    let CompanyObjectOL: any = {}
 
     let UserObjectBL = {
       primaryEmail: this.personalInfoForm.value.email,
@@ -793,8 +794,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       phoneCodeCountryID: this.phoneCountryId,
       jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.baseLanguage : this.personalInfoForm.value.jobTitle,
     }
-    let UserObjectOL: any = {}
-    let CompanyObjectOL: any = {}
+
     if (this.showTranslatedLangSide) {
       UserObjectOL = {
         languageID: this.selectedLangIdbyCountry,
