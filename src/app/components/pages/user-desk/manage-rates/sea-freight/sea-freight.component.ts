@@ -398,7 +398,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
               let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
               let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
               const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-              return "<div class='row'> <div class='col-5 text-truncate'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.PodName + "</div> </div>";
+              return "<div class='row'> <div class='col-5 text-truncate' data-toggle='tooltip' data-placement='top' title='" + data.PolName + "'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate' data-toggle='tooltip' data-placement='top' title='" + data.PodName + "'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.PodName + "</div> </div>";
 
               // return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
             }
@@ -455,7 +455,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         {
           title: 'Import Charges',
           data: function (data) {
-            console.log(data);
             if (!data.CurrencyCode) {
               data.CurrencyCode = ''
             }
@@ -495,6 +494,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         }
       ],
       drawCallback: function () {
+        // $('[data-toggle="tooltip"]').tooltip();
         let $api = this.api();
         let pages = $api.page.info().pages;
         if (pages === 1 || !pages) {
@@ -549,6 +549,18 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         {
           targets: -4,
           width: '200',
+        },
+        {
+          targets: 6,
+          orderable: false,
+        },
+        {
+          targets: 8,
+          orderable: false,
+        },
+        {
+          targets: 9,
+          orderable: false,
         },
         {
           targets: "_all",
@@ -1191,6 +1203,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   getAllPublishRates() {
     this.publishloading = true;
+    console.log($('#publishRateTable'));
+    console.log(this.selectedColumn);
+          console.log(this.selectedDir);
+
     let obj = {
       // providerID: 1047,     
       providerID: this.userProfile.ProviderID,
@@ -1205,7 +1221,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
       customerID: (this.filterbyCustomer ? parseInt(this.filterbyCustomer) : null),
       sortColumn: null,
-      sortColumnDirection: null
+      sortColumnDirection: this.selectedDir
     }
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
       this.publishloading = false;
@@ -1291,7 +1307,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
             let podCode = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-            return "<div class='row'> <div class='col-5 text-truncate' ><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.polName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.podName + "</div> </div>";
+            return "<div class='row'> <div class='col-5 text-truncate' title='" + data.polName + "'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.polName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate' title='" + data.podName + "'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.podName + "</div> </div>";
           },
           className: "routeCell"
         },
@@ -1440,6 +1456,18 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         {
           targets: -4,
           width: '200',
+        },
+        {
+          targets: 6,
+          orderable: false,
+        },
+        {
+          targets: 8,
+          orderable: false,
+        },
+        {
+          targets: 9,
+          orderable: false,
         },
         {
           targets: "_all",
@@ -1624,12 +1652,18 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
 
-
+  public selectedColumn;
+  public selectedDir;
   setdataInTable() {
     setTimeout(() => {
       if (this.tablepublishBySea && this.tablepublishBySea.nativeElement) {
         this.dataTablepublishBysea = $(this.tablepublishBySea.nativeElement);
-        let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsBySeaFCL);
+        let alltableOption;
+        if(this.fromType === 'publish') {
+          alltableOption = this.dataTablepublishBysea.DataTable().draw();
+        } else {
+          alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsBySeaFCL);
+        }
         this.publishloading = false;
         $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
           event.stopPropagation();
@@ -1657,14 +1691,17 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           }
 
         });
-        let publishFCLtable = $('#publishRateTable').DataTable();
+        // let publishFCLtable = $('#publishRateTable').DataTable(alltableOption);
         $('#publishRateTable').on('order.dt', function () {
-          // This will show: "Ordering on column 1 (asc)", for example
-          var order = publishFCLtable.order();
-          let title = publishFCLtable.column(order[0][0]).header();
-          console.log($(title).html())
-          console.log(order[0][1]);
-          
+          console.log('here')
+          let order = alltableOption.order();
+          // let title = publishFCLtable.column(order[0][0]).header();
+          // console.log($(title).html())
+          console.log(order);
+          let columnRef = order[0][0]
+          let columnDir = order[0][1]
+          this.selectedColumn = order[0][0]
+          this.selectedDir = order[0][1]
         });
         $('#publishRateTable').off('click').on('click', 'input[type="checkbox"]', (event) => {
           let index = this.delPublishRates.indexOf((<HTMLInputElement>event.target).id);
@@ -2276,7 +2313,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   public filterbyCustomer;
-  filterRecords() {
+  public fromType: string = ''
+  filterRecords(type) {
+    this.fromType = 'publish';
     this.getAllPublishRates()
   }
 
