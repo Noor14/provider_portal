@@ -299,6 +299,7 @@
     padding: 0;
     cursor: pointer;
     line-height: 1;
+    outline: 0;
 
     &:disabled {
       cursor: no-drop;
@@ -307,8 +308,9 @@
 
     &:hover {
       svg {
-        animation-name: flip;
-        backface-visibility: visible;
+        animation-name: heartBeat;
+        animation-duration: 1.5s;
+        animation-timing-function: ease-in-out;
       }
     }
   }
