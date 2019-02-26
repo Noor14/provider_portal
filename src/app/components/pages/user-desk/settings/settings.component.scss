@@ -325,6 +325,10 @@
     border: none;
     outline: 0;
     cursor: pointer;
+    &:disabled {
+      cursor: no-drop;
+      filter: grayscale(1);
+    }
   }
 
   .editor {
