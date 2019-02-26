@@ -299,6 +299,7 @@
     padding: 0;
     cursor: pointer;
     line-height: 1;
+    outline: 0;
 
     &:disabled {
       cursor: no-drop;
@@ -307,8 +308,9 @@
 
     &:hover {
       svg {
-        animation-name: flip;
-        backface-visibility: visible;
+        animation-name: heartBeat;
+        animation-duration: 1.5s;
+        animation-timing-function: ease-in-out;
       }
     }
   }
@@ -417,6 +419,30 @@
           }
         }
       }
+    }
+  }
+}
+
+@media only screen and (max-width: $screen-lg-screen) {
+
+}
+
+@media only screen and (max-width: $screen-md-screen) {
+  .nav-tabs {
+    justify-content: center !important;
+    .nav-item {
+      flex: unset !important;
+      width: 50% !important;
+      margin-bottom: 1rem;
+    }
+  }
+
+}
+
+@media only screen and (max-width: $screen-sm-screen) {
+  .nav-tabs {
+    .nav-item {
+      width: 100% !important;
     }
   }
 }
