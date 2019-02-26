@@ -17,7 +17,7 @@
                       date : "H:mm"}}</small>
                   </div>
                 </div>
-                <div class="d-flex mt-1 bookings-header-company">
+                <div class="d-flex mt-1 bookings-header-company" *ngIf="booking.ContainerLoad != 'FTL' && booking.ContainerLoad != 'LCL'">
                   <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
                   <span>{{booking.CarrierName}}</span>
                 </div>
@@ -122,7 +122,7 @@
                     <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}</small>
                   </div>
                 </div>
-                <div class="d-flex mt-1 bookings-header-company">
+                <div class="d-flex mt-1 bookings-header-company" *ngIf="booking.ContainerLoad != 'FTL' && booking.ContainerLoad != 'LCL'">
                   <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
                   <span>{{booking.CarrierName}}</span>
                 </div>
@@ -225,7 +225,7 @@
                       <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}</small>
                     </div>
                   </div>
-                  <div class="d-flex mt-1 bookings-header-company">
+                  <div class="d-flex mt-1 bookings-header-company" *ngIf="booking.ContainerLoad != 'FTL' && booking.ContainerLoad != 'LCL'">
                     <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
                     <span>{{booking.CarrierName}}</span>
                   </div>

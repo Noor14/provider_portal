@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnChanges } from '@angular/core';
 import { JsonResponse } from '../../../../interfaces/JsonResponse';
 import { BasicInfoService } from '../../user-creation/basic-info/basic-info.service';
 import { ToastrService } from 'ngx-toastr';
@@ -135,8 +135,13 @@ export class SettingsComponent implements OnInit {
       }
     });
     this.getUserDetail(this.userProfile.UserID);
+    this.onChanges();
   }
-
+  onChanges(): void {
+    this.personalInfoForm.valueChanges.subscribe(val => {
+    // console.log(val);
+    });
+  }
   onContentChanged({ quill, html, text }) {
       this.editorContent = html
   }

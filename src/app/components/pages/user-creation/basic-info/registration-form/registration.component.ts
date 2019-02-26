@@ -807,7 +807,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
         companyNameOL: this.businessForm.value.transLangOrgName,
         companyPhone: this.businessForm.value.transLangPhone + this.transPhoneCode,
         POBox: (this.businessForm.value.poBoxNoAr) ? this.businessForm.value.poBoxNoAr : null,
-        City: this.businessForm.value.transCity.title,
+        City: this.businessForm.value.transCity.id,
         languageID: this.selectedLangIdbyCountry
       }
     }
@@ -817,7 +817,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       companyAddress: this.businessForm.value.address,
       companyPhone: this.phoneCode + this.businessForm.value.phone,
       POBox: (this.businessForm.value.poBoxNo) ? this.businessForm.value.poBoxNo : null,
-      City: this.businessForm.value.city.title
+      City: this.businessForm.value.city.id
     }
 
     let obj = {
