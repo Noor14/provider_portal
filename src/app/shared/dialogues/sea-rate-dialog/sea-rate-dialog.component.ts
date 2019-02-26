@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Renderer2, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, EventEmitter, ViewChild, Renderer2, ElementRef, Input, Output } from '@angular/core';
 import { PlatformLocation } from '@angular/common';
 import { NgbActiveModal, NgbDropdownConfig } from "@ng-bootstrap/ng-bootstrap";
 import { SharedService } from '../../../services/shared.service';
@@ -49,6 +49,7 @@ export class SeaRateDialogComponent implements OnInit {
   @ViewChild('originDropdown') originDropdown: any
   @ViewChild('destinationDropdown') destinationDropdown;
   @Input() selectedData: any;
+  @Output() savedRow = new EventEmitter<any>()
 
   public allShippingLines: any[] = [];
   public allCargoType: any[] = [];
@@ -177,18 +178,13 @@ export class SeaRateDialogComponent implements OnInit {
     });
   }
   setData(data) {
-    console.log(data);
     let parsed = "";
     this.selectedCategory = data.ShippingCatID;
     this.cargoTypeChange(this.selectedCategory);
     this.selectedContSize = data.ContainerSpecID;
-    console.log(this.seaPorts);
-
     this.filterOrigin = this.seaPorts.find(
       obj => obj.PortID == data.PolID
     );
-    console.log(this.filterOrigin);
-
     this.filterDestination = this.seaPorts.find(
       obj => obj.PortID == data.PodID
     );
@@ -371,10 +367,10 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
 
+  public TotalImportCharges: number = 0
+  public TotalExportCharges: number = 0
   saveDataInFCLDraft(type) {
     let customers = [];
-    console.log(this.selectedCustomer);
-
     if (this.selectedCustomer.length) {
       this.selectedCustomer.forEach(element => {
         let obj = {
@@ -384,6 +380,27 @@ export class SeaRateDialogComponent implements OnInit {
           CustomerImage: element.CustomerImage
         }
         customers.push(obj)
+      });
+    }
+
+    let totalImp = []
+    let totalExp = []
+    const expCharges = this.selectedOrigins.filter((e) => e.Imp_Exp === 'EXPORT')
+    const impCharges = this.selectedDestinations.filter((e) => e.Imp_Exp === 'IMPORT')
+    if (impCharges.length) {
+      impCharges.forEach(element => {
+        totalImp.push(parseInt(element.Price));
+      });
+      this.TotalImportCharges = totalImp.reduce((all, item) => {
+        return all + item;
+      });
+    }
+    if (expCharges.length) {
+      expCharges.forEach(element => {
+        totalExp.push(parseInt(element.Price));
+      });
+      this.TotalExportCharges = totalExp.reduce((all, item) => {
+        return all + item;
       });
     }
 
@@ -413,6 +430,8 @@ export class SeaRateDialogComponent implements OnInit {
       effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
       effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
       JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
+      TotalImportCharges: this.TotalImportCharges,
+      TotalExportCharges: this.TotalExportCharges,
       createdBy: this.userProfile.LoginID
     }
     let ADCHValidated: boolean = true;
@@ -479,7 +498,10 @@ export class SeaRateDialogComponent implements OnInit {
           // };
           this.closeModal(res.returnObject);
         } else {
-          this.addRow();
+          this.selectedPrice = undefined;
+          this.selectedContSize = null;
+          this.savedRow.emit(res.returnObject)
+          // this.addRow();
           // this.selectedOrigins = [{}]
           // this.selectedDestinations = [{}]
           // this.destinationsList = this.selectedData.addList
@@ -757,8 +779,6 @@ export class SeaRateDialogComponent implements OnInit {
     this._seaFreightService.getSurchargeBasis(containerLoad).subscribe((res) => {
       this.surchargesList = res
     }, (err) => {
-      console.log(err);
-
     })
   }
   public isOriginChargesForm = false;
@@ -888,7 +908,6 @@ export class SeaRateDialogComponent implements OnInit {
     this.allCargoType = this.fclContainers.filter(obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true));
     this._sharedService.currenciesList.subscribe(res => {
       if (res) {
-        console.log(res);
         this.allCurrencies = res;
       }
     })
