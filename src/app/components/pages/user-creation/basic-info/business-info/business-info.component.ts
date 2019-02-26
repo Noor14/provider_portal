@@ -68,6 +68,13 @@ export class BusinessInfoComponent implements OnInit {
   public privateModeToggler: boolean = false;
   public verifyProfile: boolean = false;
   @ViewChild('profileName') profileName: ElementRef;
+
+
+// editor 
+  public editorOptions = {
+    placeholder: "Tell us something about your business"
+  };
+
   constructor(
     private _toastr: ToastrService,
     private _basicInfoService: BasicInfoService,
@@ -115,7 +122,9 @@ export class BusinessInfoComponent implements OnInit {
   }
 
 
-
+  onContentChanged({ quill, html, text }) {
+    this.aboutUs = html
+  }
   spaceHandler(event) {
     if (event.charCode == 32) {
       event.preventDefault();

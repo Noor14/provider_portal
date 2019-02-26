@@ -3,7 +3,6 @@
   <p class="sub-title">
     It takes only a few minutes to send us your basic information.
   </p>
-
   <section class="info mt-5">
     <h5 class="m-0">Business Information</h5>
     <hr class="hr-solid" />
@@ -208,7 +207,8 @@
       <div class="col-12 mt-3">
         <div class="form-group position-relative">
           <label>About Your Business</label>
-          <textarea cols="30" [(ngModel)]="aboutUs" rows="5" class="form-control" placeholder="Tell us something about your business"></textarea>
+          <quill-editor [options]="editorOptions" (change)="onContentChanged($event)">
+          </quill-editor>
         </div>
       </div>
     </div>

@@ -408,7 +408,8 @@ export class SettingsComponent implements OnInit {
   companyAboutUs(){
     let object = {
       providerID: this.userProfile.ProviderID,
-      about: this.editorContent
+      about: this.editorContent,
+      ModifiedBy: this.userProfile.LoginID
     }
     this._settingService.companyAbout(object).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
@@ -713,7 +714,8 @@ export class SettingsComponent implements OnInit {
       poBox: this.businessInfoForm.value.poBoxNo,
       cityID: this.businessInfoForm.value.city.id,
       telephone: this.businessInfoForm.value.phone,
-      website: this.businessInfoForm.value.socialUrl
+      website: this.businessInfoForm.value.socialUrl,
+      ModifiedBy : this.userProfile.LoginID
     }
     this._settingService.businessSetting(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {

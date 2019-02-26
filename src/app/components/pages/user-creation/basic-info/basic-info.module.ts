@@ -11,12 +11,14 @@ import { BasicInfoService } from './basic-info.service';
 import { BusinessInfoComponent } from './business-info/business-info.component';
 import { NgFilesModule } from '../../../../directives/ng-files';
 import { UiSwitchModule } from 'ngx-toggle-switch';
+import { QuillEditorModule } from 'ngx-quill-editor';
 
 @NgModule({
   imports: [
     CommonModule,
     NgFilesModule,
     HttpClientModule,
+    QuillEditorModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDZ31Nq5gJ_cCvENKL79eeC6x4zBv9oOGU',
       libraries: ["places", "geometry"]
