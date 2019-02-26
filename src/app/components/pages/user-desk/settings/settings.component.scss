@@ -7,7 +7,7 @@
       margin-bottom: 1rem;
 
       &-item {
-        width: 33.33%;
+        flex: 1;
         text-align: center;
       }
 
@@ -299,6 +299,7 @@
     padding: 0;
     cursor: pointer;
     line-height: 1;
+    outline: 0;
 
     &:disabled {
       cursor: no-drop;
@@ -307,8 +308,9 @@
 
     &:hover {
       svg {
-        animation-name: flip;
-        backface-visibility: visible;
+        animation-name: heartBeat;
+        animation-duration: 1.5s;
+        animation-timing-function: ease-in-out;
       }
     }
   }
@@ -317,6 +319,72 @@
     @extend .setting-update-btn;
     color: $color-topmenu;
   }
+
+  .editButton {
+    background: none;
+    border: none;
+    outline: 0;
+    cursor: pointer;
+  }
+
+  .editor {
+    border: 1px solid $data-table-border;
+    padding: 0 1rem;
+    border-radius: 4px;
+    background: $color-white;
+    text-align: justify;
+    color: $color-topmenu;
+    font-size: $font-size-medium;
+    height: 200px;
+    overflow-y: auto;
+    font-family: $font-proxima;
+    font-size: $root-font-size;
+    color: $color-menuheading-black !important;
+    h1 {
+        font-size: 2rem !important;
+    }
+    h2 {
+        font-size: 1.5rem !important;
+    }
+    h3 {
+        font-size: 1.28rem !important;
+    }
+    h4 {
+        font-size: $root-font-size !important;
+    }
+    h5 {
+        font-size: $font-size-medium !important;
+    }
+    h6 {
+        font-size: $font-size-base !important;
+    }
+    p {
+        font-size: $root-font-size;
+        color: $color-menuheading-black;
+        margin: 0;
+        line-height: 1.5;
+    }
+    ol,
+    ul {
+        li {
+            font-family: $font-proxima;
+            font-size: 1.125rem !important;
+            line-height: 2;
+            padding-left: 0px;
+            color: $color-menuheading-black !important;
+            list-style: none;
+            &::before {
+                color: $color-topmenuactive;
+                content: "\2022";
+                font-weight: bold;
+                display: inline-block;
+                transform: scale(1.5);
+                width: 1em;
+                margin-left: -1em;
+            }
+        }
+    }
+}
 
   .provider-logo {
     width: 120px;
@@ -417,6 +485,30 @@
           }
         }
       }
+    }
+  }
+}
+
+@media only screen and (max-width: $screen-lg-screen) {
+
+}
+
+@media only screen and (max-width: $screen-md-screen) {
+  .nav-tabs {
+    justify-content: center !important;
+    .nav-item {
+      flex: unset !important;
+      width: 50% !important;
+      margin-bottom: 1rem;
+    }
+  }
+
+}
+
+@media only screen and (max-width: $screen-sm-screen) {
+  .nav-tabs {
+    .nav-item {
+      width: 100% !important;
     }
   }
 }
