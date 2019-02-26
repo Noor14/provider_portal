@@ -6,7 +6,7 @@ import { LoaderComponent } from './loader/loader.component';
   imports: [
     CommonModule,
   ],
- declarations: [LoaderComponent],
- exports: [LoaderComponent]
+  declarations: [LoaderComponent],
+  exports: [LoaderComponent]
 })
 export class SharedModule { }

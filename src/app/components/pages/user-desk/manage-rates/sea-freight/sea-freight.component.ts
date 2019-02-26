@@ -538,6 +538,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           width: '235'
         },
         {
+          targets: 3,
+          width: '235'
+        },
+        {
           targets: -1,
           width: 'auto',
           orderable: false,
