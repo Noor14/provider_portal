@@ -1,7 +1,7 @@
 <Section class="dashboard" *ngIf="providerInfo">
   <!-- row -->
   <div class="welcomeSection">
-    <h3>Hey {{providerInfo.CompanyName}}, Welcome<span *ngIf="providerInfo.LoginRank > 1"> Back</span>!</h3>
+    <h2>Hey {{providerInfo.CompanyName}}, Welcome<span *ngIf="providerInfo.LoginRank > 1"> Back</span>!</h2>
     <p class="provider-info" *ngIf="providerInfo.LoginRank > 1">
       Last logged in {{providerInfo.LastLoginDate | date : "d MMM, yyyy"}} {{providerInfo.LastLoginDate | date :
       "H:mm"}} from {{providerInfo.LastLoginCountryName}}

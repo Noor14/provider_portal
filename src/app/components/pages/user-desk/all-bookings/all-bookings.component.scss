@@ -1,14 +1,6 @@
 @import "../../../../../assets/scss/_variables";
 
 .allbookings {
-  .title {
-    font-size: $root-font-size*2;
-    font-family: $font-pragmatica;
-    font-weight: $font-weight-mid;
-    color: $text-color-default;
-    margin-bottom: 2rem;
-  }
-
   .nav-tabs {
     border: none;
     margin-bottom: 30px;
