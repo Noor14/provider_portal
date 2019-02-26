@@ -249,7 +249,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   onContentChanged({ quill, html, text }, type) {
     if (type = "FCL") {
       this.editorContentFCL = html
-
     }
     else {
       this.editorContentLCL = html
