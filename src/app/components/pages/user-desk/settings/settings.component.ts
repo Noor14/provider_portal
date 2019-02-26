@@ -7,7 +7,7 @@ import { baseExternalAssets } from '../../../../constants/base.url';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../directives/ng-files';
 import { SettingService } from './setting.service';
-import { EMAIL_REGEX, isJSON } from '../../../../constants/globalFunctions';
+import { EMAIL_REGEX, isJSON, loading } from '../../../../constants/globalFunctions';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -22,7 +22,7 @@ import { SharedService } from '../../../../services/shared.service';
 export class SettingsComponent implements OnInit {
 
   public baseExternalAssets: string = baseExternalAssets;
-
+  public activeAccordions: string[] = ['PersonalInfo', 'BusinessInfo', 'BusinessProfile', 'Gallery', 'AwardsCert', 'ChangePassword'];
   public selectedDocxlogo: any;
   private docTypeIdLogo = null;
   private docTypeIdCert = null;
@@ -137,6 +137,7 @@ export class SettingsComponent implements OnInit {
         this.cityList = state;
         this.setPersonalInfo(info);
         this.setBusinessInfo(info);
+        loading(false);
       }
     });
   }
@@ -153,6 +154,7 @@ export class SettingsComponent implements OnInit {
   }
 
   getUserDetail(UserID) {
+    loading(true);
     this._settingService.getSettingInfo(UserID).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         let info = res.returnObject

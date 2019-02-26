@@ -58,7 +58,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
     ])
   ]
 })
-export class GroundTransportComponent implements OnInit, OnDestroy  {
+export class GroundTransportComponent implements OnInit, OnDestroy {
 
   public rateValidityText = "Edit Rate / Validity";
   public activeTab = "activeFCL";
@@ -123,7 +123,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
 
   // term and condition
   public disable: boolean;
-  public editorContent :any;
+  public editorContent: any;
   public editorOptions = {
     placeholder: "insert content..."
   };
@@ -200,10 +200,10 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   }
 
   addRatesManually() {
-    let obj={
+    let obj = {
       createdBy: this.userProfile.LoginID,
       providerID: this.userProfile.ProviderID,
-      transportType: (this.activeTab == 'activeFCL')? 'GROUND' : 'TRUCK' 
+      transportType: (this.activeTab == 'activeFCL') ? 'GROUND' : 'TRUCK'
     }
     this._seaFreightService.addDraftRates(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
@@ -211,7 +211,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       }
     })
   }
- onEditorBlured(quill) {
+  onEditorBlured(quill) {
   }
 
   onEditorFocused(quill) {
@@ -223,14 +223,14 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     this.editorContent = html
   }
   setRowinDraftTable(obj, type) {
-    if (obj && obj.TransportType == 'GROUND'){
-    this.draftDataBYGround.unshift(obj);
-    if (this.draftRatesByGround && this.draftRatesByGround.length) {
-      this.draftslist = this.draftRatesByGround.concat(this.draftDataBYGround);
-    } else {
-      this.draftslist = this.draftDataBYGround;
-    }
-    this.generateDraftTable();
+    if (obj && obj.TransportType == 'GROUND') {
+      this.draftDataBYGround.unshift(obj);
+      if (this.draftRatesByGround && this.draftRatesByGround.length) {
+        this.draftslist = this.draftRatesByGround.concat(this.draftDataBYGround);
+      } else {
+        this.draftslist = this.draftDataBYGround;
+      }
+      this.generateDraftTable();
     }
     else if (obj && obj.TransportType == 'TRUCK') {
       this.draftDataBYGroundFTL.unshift(obj);
@@ -374,7 +374,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           targets: 1,
           width: '235'
         },
-     
+
         {
           targets: -1,
           width: '12',
@@ -388,7 +388,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           targets: "_all",
           width: "150"
         },
-        
+
       ]
 
     }
@@ -636,7 +636,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
           let node = this.node();
           let data = this.data();
-          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.ContainerSpecID || !data.Price || !data.EffectiveFrom || !data.EffectiveTo){
+          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.ContainerSpecID || !data.Price || !data.EffectiveFrom || !data.EffectiveTo) {
             node.children[0].children[0].children[0].setAttribute("disabled", true)
           }
         });
@@ -665,22 +665,22 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           this.checkedalldraftRates = !this.checkedalldraftRates;
           for (var i = 0; i < cols.length; i += 1) {
             if (this.checkedalldraftRates) {
-                let data = alltableOption.row(i).data();
-                let node = alltableOption.row(i).node();
-                if (data.PolID && data.PodID && data.ShippingCatID && data.ContainerSpecID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
-                  let draftId = node.children[0].children[0].children[0].id;
-                  let obj = {
-                    draftID: draftId,
-                    providerID: this.userProfile.ProviderID,
-                    transportType: "GROUND",
-                  }
-                  this.publishRates.push(obj);
-                  node.children[0].children[0].children[0].checked = true;
-                  node.classList.add('selected');
+              let data = alltableOption.row(i).data();
+              let node = alltableOption.row(i).node();
+              if (data.PolID && data.PodID && data.ShippingCatID && data.ContainerSpecID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
+                let draftId = node.children[0].children[0].children[0].id;
+                let obj = {
+                  draftID: draftId,
+                  providerID: this.userProfile.ProviderID,
+                  transportType: "GROUND",
                 }
-                else {
-                  node.children[0].children[0].children[0].checked = false;
-                }
+                this.publishRates.push(obj);
+                node.children[0].children[0].children[0].checked = true;
+                node.classList.add('selected');
+              }
+              else {
+                node.children[0].children[0].children[0].checked = false;
+              }
             }
           }
           if (i == cols.length && !this.checkedalldraftRates) {
@@ -719,12 +719,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
 
   updatePopupRates(rowId) {
     let obj;
-    if (this.activeTab =='activeFCL'){
+    if (this.activeTab == 'activeFCL') {
       obj = this.draftslist.find(obj => obj.ID == rowId);
     }
-    else if(this.activeTab == 'activeFTL'){
+    else if (this.activeTab == 'activeFTL') {
       obj = this.draftslistFTL.find(obj => obj.ID == rowId);
-      }
+    }
     const modalRef = this.modalService.open(GroundRateDialogComponent, {
       size: 'lg',
       centered: true,
@@ -748,42 +748,42 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
   }
 
   setAddDraftData(data) {
-      if (this.activeTab == "activeFCL") {
-        this.forDraftfilterFCL(data);
-      }
-      else if (this.activeTab == "activeFTL") {
-        this.forDraftfilterFTL(data);
-      }  
+    if (this.activeTab == "activeFCL") {
+      this.forDraftfilterFCL(data);
     }
+    else if (this.activeTab == "activeFTL") {
+      this.forDraftfilterFTL(data);
+    }
+  }
 
-  forDraftfilterFCL(data){
-      for (var index = 0; index < this.draftslist.length; index++) {
-        for (let i = 0; i < data.length; i++) {
-          if (this.draftslist[index].ID == data[i].ID) {
-            this.draftslist[index].ContainerLoadType = data[i].containerLoadType;
-            this.draftslist[index].TransportType = data[i].transportType;
-            this.draftslist[index].ShippingCatID = data[i].shippingCatID;
-            this.draftslist[index].ShippingCatName = data[i].shippingCatName;
-            this.draftslist[index].ContainerSpecID = data[i].containerSpecID;
-            this.draftslist[index].ContainerSpecDesc = data[i].containerSpecDesc;
-            this.draftslist[index].CurrencyID = data[i].currencyID;
-            this.draftslist[index].CurrencyCode = data[i].currencyCode;
-            this.draftslist[index].EffectiveFrom = data[i].effectiveFrom;
-            this.draftslist[index].EffectiveTo = data[i].effectiveTo;
-            this.draftslist[index].PodCode = data[i].podCode;
-            this.draftslist[index].PolCode = data[i].polCode;
-            this.draftslist[index].PodName = data[i].podName;
-            this.draftslist[index].PolName = data[i].polName;
-            this.draftslist[index].PodID = data[i].podID;
-            this.draftslist[index].PolID = data[i].polID;
-            this.draftslist[index].Price = data[i].price;
-          }
+  forDraftfilterFCL(data) {
+    for (var index = 0; index < this.draftslist.length; index++) {
+      for (let i = 0; i < data.length; i++) {
+        if (this.draftslist[index].ID == data[i].ID) {
+          this.draftslist[index].ContainerLoadType = data[i].containerLoadType;
+          this.draftslist[index].TransportType = data[i].transportType;
+          this.draftslist[index].ShippingCatID = data[i].shippingCatID;
+          this.draftslist[index].ShippingCatName = data[i].shippingCatName;
+          this.draftslist[index].ContainerSpecID = data[i].containerSpecID;
+          this.draftslist[index].ContainerSpecDesc = data[i].containerSpecDesc;
+          this.draftslist[index].CurrencyID = data[i].currencyID;
+          this.draftslist[index].CurrencyCode = data[i].currencyCode;
+          this.draftslist[index].EffectiveFrom = data[i].effectiveFrom;
+          this.draftslist[index].EffectiveTo = data[i].effectiveTo;
+          this.draftslist[index].PodCode = data[i].podCode;
+          this.draftslist[index].PolCode = data[i].polCode;
+          this.draftslist[index].PodName = data[i].podName;
+          this.draftslist[index].PolName = data[i].polName;
+          this.draftslist[index].PodID = data[i].podID;
+          this.draftslist[index].PolID = data[i].polID;
+          this.draftslist[index].Price = data[i].price;
         }
       }
+    }
     if (index == this.draftslist.length) {
       this.generateDraftTable();
     }
-    }
+  }
   forDraftfilterFTL(data) {
     for (var index = 0; index < this.draftslistFTL.length; index++) {
       for (let i = 0; i < data.length; i++) {
@@ -812,17 +812,17 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
       this.generateDraftTableFTL();
     }
   }
-  
+
 
   addAnotherRates() {
     this.addRatesManually();
 
   }
   addRatesBygroundManually() {
-    if (this.activeTab =='activeFCL'){
-    if ((!this.draftRatesByGround || (this.draftRatesByGround && !this.draftRatesByGround.length)) && (!this.draftDataBYGround || (this.draftDataBYGround && !this.draftDataBYGround.length))) {
-      this.addRatesManually();
-    }
+    if (this.activeTab == 'activeFCL') {
+      if ((!this.draftRatesByGround || (this.draftRatesByGround && !this.draftRatesByGround.length)) && (!this.draftDataBYGround || (this.draftDataBYGround && !this.draftDataBYGround.length))) {
+        this.addRatesManually();
+      }
     }
     else if (this.activeTab == 'activeFTL') {
       if ((!this.draftRatesByGroundFTL || (this.draftRatesByGroundFTL && !this.draftRatesByGroundFTL.length)) && (!this.draftDataBYGroundFTL || (this.draftDataBYGroundFTL && !this.draftDataBYGroundFTL.length))) {
@@ -874,17 +874,19 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
           if (state[index].LogServName == "SEA") {
             this.allCargoType = state[index].DropDownValues.Category;
             this.allContainersType = state[index].DropDownValues.ContainerGround;
-            this.allPorts = state[index].DropDownValues.Port.concat(state[index].DropDownValues.GroundPort);
+            const seaPorts: Array<any> = (state[index].DropDownValues.Port && state[index].DropDownValues.Port.length > 0) ? state[index].DropDownValues.Port : []
+            const groundAreas: Array<any> = (state[index].DropDownValues.GroundPort && state[index].DropDownValues.GroundPort.length > 0) ? state[index].DropDownValues.GroundPort : []
+            this.allPorts = seaPorts.concat(groundAreas);
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
-            if(state[index].TCGround){
-            this.editorContent = state[index].TCGround;
-            this.disable = true;
+            if (state[index].TCGround) {
+              this.editorContent = state[index].TCGround;
+              this.disable = true;
             }
             if (state[index].DraftDataGround && state[index].DraftDataGround.length) {
-              this.draftRatesByGround = state[index].DraftDataGround.filter(obj=> obj.TransportType.toLowerCase() == 'ground');
+              this.draftRatesByGround = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'ground');
               this.draftslist = this.draftRatesByGround;
               this.draftRatesByGroundFTL = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'truck');
-              this.draftslistFTL = this.draftRatesByGroundFTL; 
+              this.draftslistFTL = this.draftRatesByGroundFTL;
             }
             this.generateDraftTable();
             this.generateDraftTableFTL();
@@ -969,7 +971,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         },
         {
           title: 'MODE',
-          data: function(data){
+          data: function (data) {
             let string = data.transportType.toLowerCase();
             return string.charAt(0).toUpperCase() + string.slice(1);
           }
@@ -1127,7 +1129,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
             this.rateValidityText = "Edit Rate / Validity";
           }
         });
-        
+
       }
     }, 0);
   }
@@ -1176,7 +1178,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
 
   discardDraft() {
     let discardarr = [];
-    if (this.activeTab =="activeFCL"){
+    if (this.activeTab == "activeFCL") {
       this.draftslist.forEach(elem => {
         let obj = {
           draftID: elem.ID,
@@ -1185,7 +1187,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         discardarr.push(obj)
       })
     }
-    else if (this.activeTab == "activeFTL"){
+    else if (this.activeTab == "activeFTL") {
       this.draftslistFTL.forEach(elem => {
         let obj = {
           draftID: elem.ID,
@@ -1194,7 +1196,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
         discardarr.push(obj)
       })
     }
-  
+
     const modalRef = this.modalService.open(DiscardDraftComponent, {
       size: 'lg',
       centered: true,
@@ -1344,20 +1346,20 @@ export class GroundTransportComponent implements OnInit, OnDestroy  {
     });
     modalRef.result.then((result) => {
       if (result == "Success") {
-      if(this.activeTab=="activeFCL"){
-        for (let index = 0; index < this.draftslist.length; index++) {
-          if (this.draftslist[index].ID == id) {
-            if (this.draftRatesByGround && this.draftRatesByGround.length && this.draftRatesByGround[index].ID == id) {
-              this.draftRatesByGround.splice(index, 1);
+        if (this.activeTab == "activeFCL") {
+          for (let index = 0; index < this.draftslist.length; index++) {
+            if (this.draftslist[index].ID == id) {
+              if (this.draftRatesByGround && this.draftRatesByGround.length && this.draftRatesByGround[index].ID == id) {
+                this.draftRatesByGround.splice(index, 1);
+              }
+              this.draftslist.splice(index, 1);
+              this.draftDataBYGround = this.draftslist;
+              this.generateDraftTable();
+              this.publishRates = [];
+              break;
             }
-            this.draftslist.splice(index, 1);
-            this.draftDataBYGround = this.draftslist;
-            this.generateDraftTable();
-            this.publishRates = [];
-            break;
           }
         }
-      }
         else if (this.activeTab == "activeFTL") {
           for (let index = 0; index < this.draftslistFTL.length; index++) {
             if (this.draftslistFTL[index].ID == id) {

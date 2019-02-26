@@ -242,7 +242,29 @@ export class BillingComponent implements OnInit, OnDestroy {
     ]
   }
 
-  public providerBillingDashboard: ProviderBillingDashboard
+  public providerBillingDashboard: ProviderBillingDashboard = {
+    "billingTile": {
+      "currencyID": 0,
+      "currencyCode": "",
+      "title": "Billed This Month",
+      "amount": 0.0
+    },
+    "paymentDueTile": {
+      "currencyID": 0,
+      "currencyCode": "",
+      "title": "Payment Due",
+      "amount": 0.0,
+      "dueDate": null
+    },
+    "totalBillingTile": {
+      "currencyID": 0,
+      "currencyCode": "",
+      "title": "Total Amount Billed",
+      "amount": 0.0
+    },
+    "graphStatistics": [],
+    "invoices": null
+  }
   public providerBillingDashboardInvoice: ProviderBillingDashboardInvoice[] = []
   public viewBillingInvoice: ProviderBillingDashboardInvoice[] = []
   public isBarGraph: boolean
@@ -255,7 +277,7 @@ export class BillingComponent implements OnInit, OnDestroy {
   public isTableLoaded: boolean = false
 
   public billingStatusList: CodeValMst[] = []
-  userCurrencyCode
+  public userCurrencyCode: string
 
 
   constructor(
@@ -290,29 +312,33 @@ export class BillingComponent implements OnInit, OnDestroy {
 
       const { returnId, returnObject, returnText } = res
       if (returnId > 0) {
-        this.providerBillingDashboard = returnObject
-        this.setBillingDashboardData()
-
-        this.providerBillingDashboardInvoice = cloneObject(this.providerBillingDashboard.invoices)
-        this.viewBillingInvoice = cloneObject(this.providerBillingDashboard.invoices)
-        setTimeout(() => {
-          this.dtTrigger.next()
-        }, 0);
-
-        setTimeout(() => {
-          this.isTableLoaded = true
-        }, 10);
-
+        this.providerBillingDashboard = returnObject;
+        this.setBillingConfig();
       } else {
         this._toastr.error(returnText, 'Failed')
       }
 
     }, (err: HttpErrorResponse) => {
       const { message } = err
+      this.setBillingConfig()
       console.log('ProviderBillingDashboard', message);
     })
 
 
+  }
+
+  private setBillingConfig() {
+    try {
+      this.setBillingDashboardData();
+      this.providerBillingDashboardInvoice = cloneObject(this.providerBillingDashboard.invoices);
+      this.viewBillingInvoice = cloneObject(this.providerBillingDashboard.invoices);
+      this.dtTrigger.next();
+      setTimeout(() => {
+        this.isTableLoaded = true;
+      }, 10);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   setBillingDashboardData() {
@@ -597,7 +623,7 @@ export class BillingComponent implements OnInit, OnDestroy {
 
     this._billingService.makePayment(formdata).subscribe((res: any) => {
       // if (res.returnStatus == "Success") {
-        console.log(res)
+      console.log(res)
       // }
     })
 

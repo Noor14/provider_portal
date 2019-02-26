@@ -137,7 +137,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   }
   ngOnInit() {
     this.businessForm = new FormGroup({
-      orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4), Validators.pattern( /^(?=.*?[a-zA-Z])[^.]+$/)]),
+      orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4), Validators.pattern(/[a-zA-Z]/)]),
       transLangOrgName: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(100), Validators.minLength(2)]),
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
       transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
@@ -312,7 +312,13 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     this.transPhoneCode = description[0].CountryPhoneCode_OtherLang;
     // this.phoneCountryId = list.id
   }
-
+  onSelectedCity(obj){
+    if(obj && typeof obj == "object" ){
+      this.countryFlagImage = obj.imageName;
+      this.mobileCountFlagImage = obj.imageName;
+    }
+    return;
+  }
   selectTelCode(list) {
     this.mobileCountFlagImage = list.code;
     let description = list.desc;

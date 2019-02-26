@@ -1,9 +1,7 @@
 <section class="reports">
   <div class="row">
     <div class="col-xl-6 col-sm-12">
-      <h4 class="reports-title">
-        Report
-      </h4>
+      <h2>Report</h2>
     </div>
     <div class="col-xl-6 col-sm-12 reports-top-btn mt-1 text-right ">
 
@@ -68,7 +66,7 @@
         </div>
         <div class="totalspend-quantity">
           <span class="currency">{{userGraphData?.currentVsPrevious[1]?.currencyCode}}</span>
-          <span class="spends text-truncate" placement="top" ngbTooltip="{{userGraphData?.currentVsPrevious[0]?.currencyCode}} {{userGraphData?.currentVsPrevious[0]?.totalAmount
+          <span class="spends text-truncate" placement="top" ngbTooltip="{{userGraphData?.currentVsPrevious[1]?.currencyCode}} {{userGraphData?.currentVsPrevious[1]?.totalAmount
           | number: '1.2-2'}}">{{userGraphData?.currentVsPrevious[1]?.totalAmount | number: '1.2-2'}}</span>
         </div>
         <div class="bookings">{{userGraphData?.currentVsPrevious[1]?.totalBooking | number: '1.0-0'}} Bookings</div>
@@ -134,10 +132,10 @@
     </div>
 
   <div class="row comparision-section">
-    <div class="col-6 customer-revenue">
+    <div class="col-5 customer-revenue">
         <h4 class="totalBookings-title mt-2">Top Customers By Revenue</h4>
       <div  *ngIf="topCustomers && topCustomers.length">
-      
+
       <div class="d-flex pt-3" *ngFor="let customer of topCustomers">
         <div class="customer-image mr-2">
           <img *ngIf="customer.customerImage" [src]="baseExternalAssets +'/'+ customer.customerImage">
@@ -161,13 +159,13 @@
           <span class="link-hover-grey">View more </span>
           <img src="../../../../../assets/images/icons/icon_arrow_right.svg" alt="icon" class="icon-size-14 hvr-icon mb-1">
         </a>
-      </div>      
+      </div>
     </div>
     <div class="justify-content-center d-flex align-items-center no-record" *ngIf="!topCustomers || (topCustomers && !topCustomers.length)">
       <h4 class="totalBookings-title mt-0 mb-0">No Data to Show</h4>
     </div>
   </div>
-    <div class="booking-comparision col-md-6 col-xl-6 col-sm-12 pt-3">
+    <div class="booking-comparision col-md-7 col-xl-7 col-sm-12 pt-3">
       <h4 class="totalBookings-title pt-3 mt-4">Booking Type Comparision</h4>
       <div class="mt-0">
         <div *ngIf="isTypeCompare" echarts [options]="userPieChart" [theme]="theme" class="demo-chart"></div>

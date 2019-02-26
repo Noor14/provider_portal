@@ -117,7 +117,9 @@ export class GroundRateDialogComponent implements OnInit {
           if (state[index].LogServName == "SEA") {
             this.allCargoType = state[index].DropDownValues.Category;
             this.allContainers = state[index].DropDownValues.ContainerGround;
-            this.allPorts = state[index].DropDownValues.Port.concat(state[index].DropDownValues.GroundPort);
+            const seaPorts: Array<any> = (state[index].DropDownValues.Port && state[index].DropDownValues.Port.length > 0) ? state[index].DropDownValues.Port : []
+            const groundAreas: Array<any> = (state[index].DropDownValues.GroundPort && state[index].DropDownValues.GroundPort.length > 0) ? state[index].DropDownValues.GroundPort : []
+            this.allPorts = seaPorts.concat(groundAreas);
             this.groundsPorts = Object.assign([], this.allPorts)
             this.seaPorts = this.groundsPorts.filter(e => e.PortType === 'SEA')
             this.groundPorts = this.groundsPorts.filter(e => e.PortType === 'GROUND')

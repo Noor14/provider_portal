@@ -1,343 +1,465 @@
 @import "../../../../../assets/scss/_variables";
+
 .settings {
-    ngb-tabset {
-        .nav {
-            border: none;
-            margin-bottom: 1rem;
-            &-item {
-                width: 33.33%;
-                text-align: center;
-            }
-            &-link {
-                background: none !important;
-                border: none !important;
-                box-shadow: 0 1px 0 0 $grey-border;
-                font-family: $font-proxima;
-                font-size: $font-size-medium;
-                color: $color-topmenu;
-                font-weight: $font-weight-mid;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                &.active {
-                    box-shadow: 0 2px 0 0 $primary-color;
-                    color: $primary-color;
-                }
-            }
-        }
-    }
-    .accordion {
-        >.card {
-            background: none;
-            border: none;
-            >.card-header {
-                background: none;
-                border: none;
-                margin-top: 5px;
-                a {
-                    font-family: $font-pragmatica;
-                    font-weight: $font-weight-mid;
-                    color: $text-color-default;
-                    font-size: 20px;
-                    position: relative;
-                    padding-left: 12px;
-                    &:before {
-                        content: "";
-                        position: absolute;
-                        left: -24px;
-                        height: 17px;
-                        width: 20px;
-                        transform: rotate(270deg);
-                        top: 3px;
-                        transition: all 0.8s ease-in-out;
-                        display: flex;
-                        background: url("../../../../../assets/images/icons/icon_arrow_left.svg") no-repeat;
-                    }
-                }
-                &.active {
-                    margin-bottom: 5px;
-                    a {
-                        &:before {
-                            transform: rotate(90deg);
-                        }
-                    }
-                }
-            }
-            >.card-body {
-                background: $color-white;
-                border: 1px solid $grey-border;
-                overflow: hidden;
-                ngb-typeahead-window {
-                    max-height: 200px;
-                    overflow-y: auto;
-                    padding: 0;
-                    .dropdown-item {
-                        display: flex;
-                        .flag-container {
-                            width: 15px;
-                            height: 12px;
-                            margin-right: 10px !important;
-                            img {
-                                width: 16px;
-                                height: 12px;
-                                border: 1px solid $primary-grey;
-                            }
-                        }
-                        ngb-highlight {
-                            padding-right: 1rem;
-                        }
-                        &.active,
-                        &:active {
-                            background: $primary-grey;
-                        }
-                    }
-                }
-                .city-dropdown {
-                    position: relative;
-                    display: inline-block;
-                    width: 100%;
-                    >.flag-container {
-                        width: 16px;
-                        height: 12px;
-                        position: absolute;
-                        left: 20px;
-                        top: 19px;
-                        display: flex;
-                        img {
-                            width: 16px;
-                            height: 12px;
-                            border: 1px solid $primary-grey;
-                        }
-                    }
-                    input {
-                        &.routeSelected {
-                            padding-left: 2.8rem;
-                        }
-                    }
-                    &.currency {
-                        ngb-typeahead-window {
-                            top: auto !important;
-                            bottom: 50px;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    .servicechip {
-        border-radius: 4px;
-        border: 1px solid $input-border;
-        background: $white-color;
-        position: relative;
-        font-family: $font-proxima;
-        &.active {
-            box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
-            border-radius: 4px;
-            border: 1px solid $primary-color !important;
-            background: $white-color !important;
-            &:before {
-                content: url("../../../../../assets/images/icons/selection_tick.svg");
-                width: 44px;
-                height: 44px;
-                position: absolute;
-                right: 0;
-                top: 0;
-            }
-        }
-        &-provides,
-        &-valueAdded {
-            @extend .servicechip;
-            height: 50px;
-        }
-        &-asscoiation {
-            @extend .servicechip;
-            height: 150px;
-            padding: 1rem;
-            img {
-                width: 40%;
-                align-self: center;
-                margin-bottom: 0.5rem;
-                max-height: 4rem;
-            }
-        }
-    }
-    .delete-acc {
-        a {
-            color: $danger-color;
-            font-family: $font-proxima;
-            font-size: $font-size-medium;
-            font-weight: $font-weight-mid;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            &:hover {
-                .delete-icon {
-                    overflow: visible;
-                    g {
-                        rect {
-                            transform: rotate(-25deg);
-                            transition: 0.5s;
-                        }
-                    }
-                }
-            }
-        }
-        p {
-            font-family: $font-proxima;
-            font-size: $font-size-medium;
-            color: $secondary-text-color;
-            letter-spacing: 0.5px;
-        }
-    }
-    .setting-update-btn {
-        font-family: $font-proxima;
-        font-size: $font-size-large;
-        color: $secondary-color;
-        font-weight: $font-weight-mid;
-        background: none;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-        line-height: 1;
-        &:disabled {
-            cursor: no-drop;
-            filter: grayscale(1);
-        }
-        &:hover {
-            svg {
-                animation-name: flip;
-                backface-visibility: visible;
-            }
-        }
-    }
-    .setting-discard-btn {
-        @extend .setting-update-btn;
-        color: $color-topmenu;
-    }
-    .provider-logo {
-        width: 120px;
-        height: 120px;
-        border: 1px solid $input-border;
-        border-radius: 4px;
-        padding: 10px;
-        img {
-            width: 100%;
-            height: auto;
-        }
-    }
-    .change-logo {
+  ngb-tabset {
+    .nav {
+      border: none;
+      margin-bottom: 1rem;
+
+      &-item {
+        flex: 1;
+        text-align: center;
+      }
+
+      &-link {
+        background: none !important;
+        border: none !important;
+        box-shadow: 0 1px 0 0 $grey-border;
         font-family: $font-proxima;
         font-size: $font-size-medium;
         color: $color-topmenu;
         font-weight: $font-weight-mid;
         text-transform: uppercase;
         letter-spacing: 1px;
-    }
-    .regional {
-        h6 {
-            @extend .change-logo;
+
+        &.active {
+          box-shadow: 0 2px 0 0 $primary-color;
+          color: $primary-color;
         }
-        small {
-            font-family: $font-proxima;
-            color: $secondary-text-color;
-            font-size: $font-size-medium;
-            letter-spacing: 0.5px;
-        }
-    }
-    .document-Info {
-        .file-uploader {
-            border: 1px dashed #e1d8d8;
-            border-radius: 4px;
-            .browse-span {
-                color: $secondary-color;
-                font-weight: 500;
+
+        .setting-noti {
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          margin-right: 10px;
+          .circle {
+            height: 8px;
+            width: 8px;
+            border-radius: 50%;
+            background-color: $danger-color;
+            position: relative;
+            display: inline-block;
+            -webkit-transition: height .25s ease, width .25s ease;
+            transition: height .25s ease, width .25s ease;
+  
+            &:before,
+            &:after {
+              content: '';
+              display: block;
+              position: absolute;
+              top: -2px;
+              right: 0px;
+              bottom: 0;
+              left: -2px;
+              border-radius: 50%;
+              border: 1px solid #da7070;
+              width: 12px;
+              height: 12px;
             }
-            text-align: center;
-            background-color: #fff;
-            app-ng-files-drag-n-upload {
-                label {
-                    padding: 2rem 60px;
-                }
+  
+            &:before {
+              -webkit-animation: ripple2 2s linear infinite;
+              animation: ripple2 2s linear infinite;
             }
-        }
-        .uploadedDocx {
-            margin-top: 1rem;
-            .display-upload {
-                position: relative;
-                height: 200px;
-                z-index: 0;
-                display: flex;
-                justify-content: center;
-                border: 1px solid $input-border;
-                background: $color-white;
-                border-radius: 4px;
-                img,
-                video {
-                    border-radius: 4px;
-                    max-width: 100%;
-                    height: 100%;
-                    display: flex;
-                }
-                .delete-icon {
-                    position: absolute;
-                    top: -10px;
-                    right: -8px;
-                    min-height: auto;
-                    background: $white-color;
-                    padding: 3px;
-                    border-radius: 50%;
-                    width: 23px;
-                    height: auto;
-                    border: none;
-                }
-                &:hover {
-                    .delete-icon {
-                        animation-name: pulse;
-                        animation-fill-mode: both;
-                        animation-duration: 1s;
-                        animation-iteration-count: infinite;
-                    }
-                }
+  
+            &:after {
+              -webkit-animation: ripple2 2s linear 1s infinite;
+              animation: ripple2 2s linear 1s infinite;
             }
+          }
+  
+          @keyframes ripple {
+            0% {
+              box-shadow: 0 0 0 0 rgba(2, 189, 182, 0.3), 0 0 0 0.2em rgba(2, 189, 182, 0.3), 0 0 0 0.75em rgba(2, 189, 182, 0.3), 0 0 0 1em rgba(2, 189, 182, 0.3);
+            }
+  
+            100% {
+              box-shadow: 0 0 0 0.2em rgba(2, 189, 182, 0.3), 0 0 0 0.5em rgba(2, 189, 182, 0.3), 0 0 0em 1.5em rgba(255, 255, 255, 0), 0 0 0 2em rgba(70, 173, 169, 0);
+            }
+          }
+  
+          @keyframes ripple2 {
+            0% {
+              -webkit-transform: scale(1);
+            }
+  
+            75% {
+              -webkit-transform: scale(1.75);
+              opacity: 1;
+            }
+  
+            100% {
+              -webkit-transform: scale(2);
+              opacity: 0;
+            }
+          }
         }
+      }
     }
+  }
+
+  .accordion {
+    >.card {
+      background: none;
+      border: none;
+
+      >.card-header {
+        background: none;
+        border: none;
+        margin-top: 5px;
+
+        a {
+          font-family: $font-pragmatica;
+          font-weight: $font-weight-mid;
+          color: $text-color-default;
+          font-size: 20px;
+          position: relative;
+          padding-left: 12px;
+
+          &:before {
+            content: "";
+            position: absolute;
+            left: -24px;
+            height: 17px;
+            width: 20px;
+            transform: rotate(270deg);
+            top: 3px;
+            transition: all 0.8s ease-in-out;
+            display: flex;
+            background: url("../../../../../assets/images/icons/icon_arrow_left.svg") no-repeat;
+          }
+        }
+
+        &.active {
+          margin-bottom: 5px;
+
+          a {
+            &:before {
+              transform: rotate(90deg);
+            }
+          }
+        }
+      }
+
+      >.card-body {
+        background: $color-white;
+        border: 1px solid $grey-border;
+        overflow: hidden;
+
+        ngb-typeahead-window {
+          max-height: 200px;
+          overflow-y: auto;
+          padding: 0;
+
+          .dropdown-item {
+            display: flex;
+
+            .flag-container {
+              width: 15px;
+              height: 12px;
+              margin-right: 10px !important;
+
+              img {
+                width: 16px;
+                height: 12px;
+                border: 1px solid $primary-grey;
+              }
+            }
+
+            ngb-highlight {
+              padding-right: 1rem;
+            }
+
+            &.active,
+            &:active {
+              background: $primary-grey;
+            }
+          }
+        }
+
+        .city-dropdown {
+          position: relative;
+          display: inline-block;
+          width: 100%;
+
+          >.flag-container {
+            width: 16px;
+            height: 12px;
+            position: absolute;
+            left: 20px;
+            top: 19px;
+            display: flex;
+
+            img {
+              width: 16px;
+              height: 12px;
+              border: 1px solid $primary-grey;
+            }
+          }
+
+          input {
+            &.routeSelected {
+              padding-left: 2.8rem;
+            }
+          }
+
+          &.currency {
+            ngb-typeahead-window {
+              top: auto !important;
+              bottom: 50px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .servicechip {
+    border-radius: 4px;
+    border: 1px solid $input-border;
+    background: $white-color;
+    position: relative;
+    font-family: $font-proxima;
+
+    &.active {
+      box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
+      border-radius: 4px;
+      border: 1px solid $primary-color !important;
+      background: $white-color !important;
+
+      &:before {
+        content: url("../../../../../assets/images/icons/selection_tick.svg");
+        width: 44px;
+        height: 44px;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    }
+
+    &-provides,
+    &-valueAdded {
+      @extend .servicechip;
+      height: 50px;
+    }
+
+    &-asscoiation {
+      @extend .servicechip;
+      height: 150px;
+      padding: 1rem;
+
+      img {
+        width: 40%;
+        align-self: center;
+        margin-bottom: 0.5rem;
+        max-height: 4rem;
+      }
+    }
+  }
+
+  .delete-acc {
+    a {
+      color: $danger-color;
+      font-family: $font-proxima;
+      font-size: $font-size-medium;
+      font-weight: $font-weight-mid;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        .delete-icon {
+          overflow: visible;
+
+          g {
+            rect {
+              transform: rotate(-25deg);
+              transition: 0.5s;
+            }
+          }
+        }
+      }
+    }
+
+    p {
+      font-family: $font-proxima;
+      font-size: $font-size-medium;
+      color: $secondary-text-color;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .setting-update-btn {
+    font-family: $font-proxima;
+    font-size: $font-size-large;
+    color: $secondary-color;
+    font-weight: $font-weight-mid;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    line-height: 1;
+    outline: 0;
+
+    &:disabled {
+      cursor: no-drop;
+      filter: grayscale(1);
+    }
+
+    &:hover {
+      svg {
+        animation-name: heartBeat;
+        animation-duration: 1.5s;
+        animation-timing-function: ease-in-out;
+      }
+    }
+  }
+
+  .setting-discard-btn {
+    @extend .setting-update-btn;
+    color: $color-topmenu;
+  }
+
+  .provider-logo {
+    width: 120px;
+    height: 120px;
+    border: 1px solid $input-border;
+    border-radius: 4px;
+    padding: 10px;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .change-logo {
+    font-family: $font-proxima;
+    font-size: $font-size-medium;
+    color: $color-topmenu;
+    font-weight: $font-weight-mid;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .regional {
+    h6 {
+      @extend .change-logo;
+    }
+
+    small {
+      font-family: $font-proxima;
+      color: $secondary-text-color;
+      font-size: $font-size-medium;
+      letter-spacing: 0.5px;
+    }
+  }
+
+
+  .document-Info {
+    .file-uploader {
+      border: 1px dashed #e1d8d8;
+      border-radius: 4px;
+
+      .browse-span {
+        color: $secondary-color;
+        font-weight: 500;
+      }
+
+      text-align: center;
+      background-color: #fff;
+
+      app-ng-files-drag-n-upload {
+        label {
+          padding: 2rem 60px;
+        }
+      }
+    }
+
+    .uploadedDocx {
+      margin-top: 1rem;
+
+      .display-upload {
+        position: relative;
+        height: 200px;
+        z-index: 0;
+        display: flex;
+        justify-content: center;
+        border: 1px solid $input-border;
+        background: $color-white;
+        border-radius: 4px;
+
+        img,
+        video {
+          border-radius: 4px;
+          max-width: 100%;
+          height: 100%;
+          display: flex;
+        }
+
+        .delete-icon {
+          position: absolute;
+          top: -10px;
+          right: -8px;
+          min-height: auto;
+          background: $white-color;
+          padding: 3px;
+          border-radius: 50%;
+          width: 23px;
+          height: auto;
+          border: none;
+        }
+
+        &:hover {
+          .delete-icon {
+            animation-name: pulse;
+            animation-fill-mode: both;
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+          }
+        }
+      }
+    }
+  }
 }
 
+
 @media only screen and (max-width: $screen-fourteen-hundred) and (min-width: $screen-lg-screen) {
-    .nav {
-        &-link {
-            font-size: 0.8rem;
-        }
-    }
+  .nav {
+      &-link {
+          font-size: 0.8rem;
+      }
+  }
 }
 
 @media only screen and (max-width: $screen-lg-screen) {
-    .nav {
-        justify-content: center;
-        &-item {
-            justify-content: center;
-            width: 30% !important;
-            margin: 10px;
-            flex: unset;
-        }
-        &-link {
-            font-size: $font-size-large;
-        }
-    }
+  .nav {
+      justify-content: center;
+      &-item {
+          justify-content: center;
+          width: 30% !important;
+          margin: 10px;
+          flex: unset;
+      }
+      &-link {
+          font-size: $font-size-large;
+      }
+  }
 }
 
 @media only screen and (max-width: $screen-md-screen) {
-    .nav {
-        &-item {
-            width: 45%;
-            flex: unset;
-        }
-    }
+  .nav {
+      &-item {
+          width: 45%;
+          flex: unset;
+      }
+  }
 }
 
 @media only screen and (max-width: $screen-sm-screen) {
-    .nav {
-        &-item {
-            width: 100% !important;
-        }
-    }
+  .nav {
+      &-item {
+          width: 100% !important;
+      }
+  }
 }
