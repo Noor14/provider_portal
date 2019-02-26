@@ -4,6 +4,7 @@ import { SeaFreightService } from './sea-freight/sea-freight.service';
 import { SharedService } from '../../../../services/shared.service';
 import { loading } from '../../../../constants/globalFunctions';
 import { ManageRatesService } from './manage-rates.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-manage-rates',
@@ -25,6 +26,8 @@ export class ManageRatesComponent implements OnInit {
       let userProfile = JSON.parse(userInfo.returnText);
       this.getAllservicesBySea(userProfile.UserID, userProfile.ProviderID);
     }
+    this.getPortsData()
+    this.getContainers()
   }
   // ngOnDestroy() {
   //   this._sharedService.termNcondAir.unsubscribe();
@@ -46,4 +49,20 @@ export class ManageRatesComponent implements OnInit {
       return 'active'
     }
   };
+
+  getPortsData() {
+    this._manageRatesService.getPortsData().subscribe((res: any) => {
+      localStorage.setItem("PortDetails", JSON.stringify(res));
+    }, (err: HttpErrorResponse) => {
+      loading(false)
+    })
+  }
+
+  getContainers() {
+    this._manageRatesService.getContainersMapping().subscribe((res: any) => {
+      localStorage.setItem("containers", JSON.stringify(res.returnObject));
+    }, (err: HttpErrorResponse) => {
+      loading(false)
+    })
+  }
 }

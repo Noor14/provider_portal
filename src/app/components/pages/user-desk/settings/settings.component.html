@@ -399,16 +399,18 @@
                     </div>
                     <div class="col-xl-8 col-lg-8 col-md-12 col-sm-8 col-xs-12">
                       <div class="form-group">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et
-                        dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea
-                        commodo consequat.
+                      <quill-editor *ngIf="editable" [(ngModel)]="editorContent" [options]="editorOptions" (change)="onContentChanged($event)">
+                      </quill-editor>
+                        <div *ngIf="!editable" [innerHTML]="editorContent"></div>
                       </div>
                     </div>
-                    <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 col-xs-12 d-flex justify-content-end align-items-center">
+                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-8 col-xs-12 d-flex justify-content-end align-items-center">
+                    <button *ngIf="!editable" (click)="editable = true" class=" mr-2">
                       <img src="../../../../../assets/images/icons/warehouse-edit-icon.svg" alt="Edit" class="icon-size-16" />
+                    </button>
+                    <button *ngIf="editable" [disabled]="!editorContent" (click)="companyAboutUs()">
+                      <img src="../../../../../assets/images/icons/warehouse-edit-icon.svg" alt="save" class="icon-size-16" />
+                    </button>
                     </div>
                   </div>
                   <hr class="hr-solid mt-4 mb-4">

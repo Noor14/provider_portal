@@ -394,7 +394,7 @@
                   <div class="col-3">
                     <div class="form-group">
                       <label>Shipping Lines</label>
-                      <select class="form-control" [(ngModel)]="filterbyShippingLine" placeholder="Select" (change)="filter()">
+                      <select class="form-control" [(ngModel)]="filterbyShippingLine" placeholder="Select">
                         <option [value]="undefined">All</option>
                         <option *ngFor="let shipping of allShippingLines" [value]="shipping.CarrierID">{{ shipping.CarrierName }}</option>
                       </select>
@@ -412,8 +412,7 @@
                                   '.svg'
                               }}" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100" />
                           </div>
-                          <input class="form-control" [(ngModel)]="filterOrigin" (focusout)="filtertionPort(filterOrigin, 'FCL')" (ngModelChange)="filterByroute(filterOrigin, 'FCL')"
-                            placeholder="Origin" type="text" [ngClass]="{
+                          <input class="form-control" [(ngModel)]="filterOrigin" placeholder="Origin" type="text" [ngClass]="{
                               routeSelected:
                                 filterOrigin && filterOrigin.CountryCode
                             }" [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
@@ -429,11 +428,7 @@
                                   '.svg'
                               }}" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100" />
                           </div>
-                          <input placeholder="Destination" [(ngModel)]="filterDestination" (focusout)="
-                              filtertionPort(filterDestination, 'FCL')
-                            " (ngModelChange)="
-                              filterByroute(filterDestination, 'FCL')
-                            " type="text" class="form-control" [ngClass]="{
+                          <input placeholder="Destination" [(ngModel)]="filterDestination" type="text" class="form-control" [ngClass]="{
                               routeSelected:
                                 filterDestination &&
                                 filterDestination.CountryCode
@@ -457,7 +452,7 @@
                   <div class="col-3">
                     <div class="form-group">
                       <label>Cargo Type</label>
-                      <select class="form-control" [(ngModel)]="filterbyCargoType" (change)="filter()">
+                      <select class="form-control" [(ngModel)]="filterbyCargoType">
                         <option [value]="undefined">All</option>
                         <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{ cargo.ShippingCatName }}</option>
                       </select>
@@ -466,9 +461,9 @@
                   <div class="col-3">
                     <div class="form-group">
                       <label>Container</label>
-                      <select class="form-control" [(ngModel)]="filterbyContainerType" (change)="filter()">
+                      <select class="form-control" [(ngModel)]="filterbyContainerType">
                         <option [value]="undefined">All</option>
-                        <option *ngFor="let container of (allContainersType | unique)" [value]="container.ContainerSpecID">{{ container.ContainerSpecShortName }}</option>
+                        <option *ngFor="let container of (fclContainers | unique)" [value]="container.ContainerSpecID">{{ container.ContainerSpecShortName }}</option>
                       </select>
                     </div>
                   </div>
@@ -516,14 +511,18 @@
                   <div class="col-4">
                     <div class="form-group">
                       <label>Customer</label>
-                      <select class="form-control" [(ngModel)]="filterbyCargoTypeLcl" (change)="filterLcl()">
-                        <option [value]="undefined">All</option>
-                        <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{ cargo.ShippingCatName }}</option>
+                      <select class="form-control" [(ngModel)]="filterbyCustomer">
+                        <option [value]="undefined">Please Select</option>
+                        <option *ngFor="let customer of allCustomers" [value]="customer.CustomerID">{{ customer.CustomerName }}</option>
                       </select>
                     </div>
                   </div>
-
-
+                  <div class="col-8">
+                    <div class="form-group">
+                      <label for="">&nbsp;</label>
+                      <button class="btn btn-primary w-50 btn-lg" (click)="filterRecords('fcl')">Filter Records</button>
+                    </div>
+                  </div>
                 </div>
               </ng-template>
             </ngb-panel>

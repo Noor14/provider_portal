@@ -27,6 +27,10 @@ export class SettingService {
     let url = "provider/AddAssociation";
     return this._http.post(baseApi + url, obj);
   }
+  companyAbout(obj){
+    let url = "provider/UpdateAboutBusiness";
+    return this._http.put(baseApi + url, obj); 
+  }
 
   changePassword(obj) {
     let url = "users/ChangePassword";

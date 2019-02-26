@@ -72,6 +72,12 @@ export class SettingsComponent implements OnInit {
   public freightServices: any[] = [];
   public frtService: any[] = [];
 
+  // about Editor
+  public editorContent:any;
+  public editable:boolean
+  public editorOptions= {
+    placeholder: "insert content..."
+  };
 
   constructor(
     private _basicInfoService: BasicInfoService,
@@ -131,6 +137,10 @@ export class SettingsComponent implements OnInit {
     this.getUserDetail(this.userProfile.UserID);
   }
 
+  onContentChanged({ quill, html, text }) {
+      this.editorContent = html
+  }
+
   getCities(info) {
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
@@ -169,6 +179,10 @@ export class SettingsComponent implements OnInit {
         this.valueService = this.valAddedServices.filter(obj => obj.IsSelected && obj.ProvLogServID);
         this.freightServices = res.returnObject.LogisticService;
         this.frtService = this.freightServices.filter(obj => obj.IsSelected && obj.ProvLogServID);
+        if (res.returnObject.About) {
+          this.editorContent = res.returnObject.About;
+          this.editable = false;
+        }
         if (res.returnObject.UploadedCompanyLogo && res.returnObject.UploadedCompanyLogo[0].DocumentFileName &&
           res.returnObject.UploadedCompanyLogo[0].DocumentFileName != "[]" &&
           isJSON(res.returnObject.UploadedCompanyLogo[0].DocumentFileName)) {
@@ -365,7 +379,7 @@ export class SettingsComponent implements OnInit {
     let object = {
       providerID: this.userProfile.ProviderID,
       createdBy: this.userProfile.LoginID,
-      serviceID: obj.LogServID
+      serviceID: obj.LogServID,
     }
     this._settingService.selectProviderService(object).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
@@ -377,16 +391,36 @@ export class SettingsComponent implements OnInit {
     let object = {
       providerID: this.userProfile.ProviderID,
       createdBy: this.userProfile.LoginID,
-      serviceID: obj.ProvLogServID
+      serviceID: obj.ProvLogServID,
+      serviceType: obj.ServiceType,
+      logServID: obj.LogServID
     }
     this._settingService.deSelectService(object).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         obj.ProvLogServID = null;
       }
+      else{
+        this._toastr.error(res.returnText,'');
+      }
     })
   }
 
-
+  companyAboutUs(){
+    let object = {
+      providerID: this.userProfile.ProviderID,
+      about: this.editorContent,
+      ModifiedBy: this.userProfile.LoginID
+    }
+    this._settingService.companyAbout(object).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this.editable = false;
+        this._toastr.success('Updated Successfully.', '');
+      }
+      else {
+        this._toastr.error(res.returnText, '');
+      }
+    })
+  }
   textValidation(event) {
     const pattern = /^[a-zA-Z0-9_]*$/;
     let inputChar = String.fromCharCode(event.charCode);
@@ -680,7 +714,8 @@ export class SettingsComponent implements OnInit {
       poBox: this.businessInfoForm.value.poBoxNo,
       cityID: this.businessInfoForm.value.city.id,
       telephone: this.businessInfoForm.value.phone,
-      website: this.businessInfoForm.value.socialUrl
+      website: this.businessInfoForm.value.socialUrl,
+      ModifiedBy : this.userProfile.LoginID
     }
     this._settingService.businessSetting(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {

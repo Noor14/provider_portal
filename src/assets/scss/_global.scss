@@ -1617,12 +1617,20 @@ select {
                 position: relative;
                 padding-left: 35px;
                 display: flex;
+                flex-direction: column;
                 align-items: center;
-                line-height: 1.22;
-
+                line-height: 1.5;
                 img {
                   position: absolute;
                   left: 0;
+                }
+                .badge{
+                  background-color: transparentize($color: $danger-color, $amount: 0.9);
+                  color: $danger-color;
+                  font-family: $font-proxima;
+                  font-style: normal !important;
+                  border: 1px solid $danger-color;
+                  font-size: $font-size-medium - 0.15 !important;
                 }
               }
 

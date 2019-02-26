@@ -82,7 +82,7 @@
       </div>
     </div>
     <div class="row bg-white popup-white">
-      <div class="col-12" *ngIf="selectedData.forType == 'FCL'">
+      <div class="col-12" *ngIf="selectedData.forType == 'FCL' && selectedData.customers.length">
         <div class="form-group custom-multiselect">
           <label>Customer</label>
           <ng-select [items]="selectedData.customers" [multiple]="true" [closeOnSelect]="false" [hideSelected]="true"
