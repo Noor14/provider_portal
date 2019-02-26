@@ -11,24 +11,24 @@
                 <div class="animated fadeInDown">
                   <form autocomplete="off" novalidate [formGroup]="personalInfoForm">
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>Email</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                           <input type="email" formControlName="email" readonly class="form-control" placeholder="abc@email.com" />
                         </div>
                       </div>
                     </div>
                     <div class="row mt-3">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>First Name</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                           <input type="text" class="form-control" maxlength="100" (keypress)="textValidation($event)"
                             placeholder="eg: John" formControlName="firstName" />
@@ -36,12 +36,12 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>Last Name</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                           <input type="text" maxlength="100" (keypress)="textValidation($event)" class="form-control"
                             placeholder="eg: Smith" formControlName="lastName">
@@ -49,12 +49,12 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>Job Title</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                           <input type="text" maxlength="100" class="form-control" (keypress)="textValidation($event)"
                             placeholder="eg: Manager" formControlName="jobTitle" [ngbTypeahead]="jobSearch"
@@ -66,12 +66,12 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>City</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group city-dropdown">
                           <div class="flag-container" *ngIf="personalInfoForm.value.city && personalInfoForm.value.city.imageName">
                             <img src="{{'../../../../../assets/images/flags/4x3/' + (personalInfoForm.value.city.imageName | lowercase) + '.svg'}}"
@@ -91,12 +91,12 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>Mobile No.</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                           <input class="form-control" maxlength="13" placeholder="123456789" (keypress)="numberValid($event)"
                             formControlName="mobile" />
@@ -114,12 +114,12 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>My Region</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                           <select class="form-control" formControlName="region">
                             <option [value]="" disabled> Please Select</option>
@@ -131,12 +131,12 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>My Currency</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group city-dropdown currency">
                           <div class="flag-container" *ngIf="personalInfoForm.value.currency && personalInfoForm.value.currency.imageName">
                             <img src="{{'../../../../../assets/images/flags/4x3/' + (personalInfoForm.value.currency.imageName | lowercase) + '.svg'}}"
@@ -214,17 +214,17 @@
               <ng-template ngbPanelContent>
                 <div class="animated fadeInDown">
                 <div class="row mb-3" >
-                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-4 col-xs-12">
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                       <div class="form-group">
                         <label>Logo</label>
                       </div>
                     </div>
-                      <div class="col-xl-2 col-lg-3 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                       <div class="provider-logo d-flex justify-content-center align-items-center">
                         <img *ngIf="uploadedlogo && uploadedlogo.DocumentFile" [src]="uploadedlogo.DocumentFile" alt="logo" />
                       </div>
                     </div>
-                    <div class="col-xl-2 col-lg-4 col-md-12 col-sm-8 col-xs-12 d-flex justify-content-start align-items-center">
+                    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-xs-12 d-flex justify-content-start align-items-center">
                       <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'logo')" [configId]="'config'">
                         <div class="change-logo">Change Logo</div>
                       </app-ng-files-drag-n-upload>
@@ -232,12 +232,12 @@
                   </div>
                   <form autocomplete="off" novalidate [formGroup]="businessInfoForm">
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>Company Name</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                           <input type="text" class="form-control" readonly maxlength="100" placeholder="Company Name"
                             formControlName="orgName" />
@@ -245,12 +245,12 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>Address</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                           <textarea (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="200"
                             formControlName="address">
@@ -259,12 +259,12 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>P.O Box (Optional)</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                           <input type="text" (keypress)="spaceHandler($event)" class="form-control" maxlength="16"
                             formControlName="poBoxNo">
@@ -272,12 +272,12 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>City</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group city-dropdown">
                           <div class="flag-container" *ngIf="businessInfoForm.value.city && businessInfoForm.value.city.imageName">
                             <img src="{{'../../../../../assets/images/flags/4x3/' + (businessInfoForm.value.city.imageName | lowercase) + '.svg'}}"
@@ -297,12 +297,12 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>Telephone</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                           <input type="text" class="form-control" maxlength="13" placeholder="123456789"
                             formControlName="phone" (keypress)="numberValid($event)" />
@@ -310,24 +310,24 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>Website (Optional)</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                         <input class="form-control" placeholder="www.facebook.com" formControlName="socialUrl" />
                         </div>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>HashMove Public URL</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                           <input class="form-control" readonly placeholder="Profile ID" formControlName="profileUrl" />
                         </div>
@@ -413,14 +413,14 @@
                   </div>
                   <hr class="hr-solid mt-4 mb-4">
                   <div class="row">
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                       <div class="form-group">
                         <label>Services</label>
                       </div>
                     </div>
-                    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-xs-12">
+                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-8 col-xs-12">
                       <div class="row">
-                        <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12" *ngFor="let service of freightServices">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let service of freightServices">
                           <div #selectService [ngClass]="{'active': service.IsSelected && service.ProvLogServID }"
                             class="servicechip-provides text-center d-flex flex-column justify-content-center mb-2 pointer"
                             (click)="freightService(service, selectService)">
@@ -437,9 +437,9 @@
                         <label>Value Added Services</label>
                       </div>
                     </div>
-                    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-xs-12">
+                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-8 col-xs-12">
                       <div class="row">
-                        <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12" *ngFor="let service of valAddedServices">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let service of valAddedServices">
                           <div #selectService [ngClass]="{'active': service.IsSelected && service.ProvLogServID}" class="servicechip-valueAdded text-center d-flex flex-column justify-content-center mb-2 pointer"
                             (click)="valAdded(service, selectService)">
                             <span>{{service.LogServName}}</span>
@@ -450,14 +450,14 @@
                   </div>
                   <hr class="hr-solid mt-4 mb-4">
                   <div class="row">
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                       <div class="form-group">
                         <label>Associations</label>
                       </div>
                     </div>
-                    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-xs-12">
+                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-8 col-xs-12">
                       <div class="row">
-                        <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12" *ngFor="let associate of allAssociations">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let associate of allAssociations">
                           <div #selectService [ngClass]="{'active': associate.IsSelected && associate.ProviderAssnID}"
                             class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-2 pointer"
                             (click)="selectAssociation(associate, selectService)">
@@ -534,12 +534,12 @@
                 <div class="animated fadeInDown">
                   <form autocomplete="off" novalidate [formGroup]="credentialInfoForm">
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>Current Password</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                           <input class="form-control" type="password" placeholder="•••••" (keypress)="spaceHandler($event)"
                             formControlName="currentPassword" />
@@ -552,12 +552,12 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>New Password</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                           <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="New Password"
                             formControlName="newPassword" />
@@ -573,12 +573,12 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                           <label>Confirm Password</label>
                         </div>
                       </div>
-                      <div class="col-xl-5 col-lg-8 col-md-12 col-sm-8 col-xs-12">
+                      <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                           <input class="form-control" type="password" (keypress)="spaceHandler($event)" placeholder="Confirm Password"
                             formControlName="confirmPassword" />
@@ -594,7 +594,7 @@
                       </div>
                     </div>
                     <div class="row mt-5 mb-4">
-                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-8 col-xs-12 d-flex">
+                      <div class="col-xl-6 col-lg-6 col-md-8 col-sm-8 col-xs-12 d-flex">
                         <button class="setting-discard-btn mr-4 d-flex align-items-start">
                           <svg class="icon-size-16 mr-2 animated" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px"
@@ -699,7 +699,7 @@
                       </app-ng-files-drag-n-upload>
                     </div>
                     <div class="row uploadedDocx">
-                      <div class=" col-xl-3 col-lg-4 col-md-6 col-sm-4 col-xs-12 mb-2" *ngFor="let liscenceDocx of uploadedLiscence; let i=index">
+                      <div class=" col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12 mb-2" *ngFor="let liscenceDocx of uploadedLiscence; let i=index">
                         <div class="display-upload delete">
                           <img [src]="liscenceDocx.DocumentFile" />
                           <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
