@@ -120,7 +120,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   public onRegistrationForm;
   public showTranslatedLangSide;
 
- constructor(
+  constructor(
     private _toastr: ToastrService,
     private _userCreationService: UserCreationService,
     private _commonService: CommonService,
@@ -129,7 +129,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     private _router: Router,
     private ngZone: NgZone,
     private cdRef: ChangeDetectorRef,
-   private _basicInfoService: BasicInfoService,
+    private _basicInfoService: BasicInfoService,
   ) { }
 
   ngAfterViewChecked() {
@@ -137,7 +137,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   }
   ngOnInit() {
     this.businessForm = new FormGroup({
-      orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4), Validators.pattern(/[a-zA-Z]/)]),
+      orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
       transLangOrgName: new FormControl(null, [CustomValidator.bind(this), Validators.maxLength(100), Validators.minLength(2)]),
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
       transLangPhone: new FormControl(null, [CustomValidator.bind(this), Validators.minLength(7), Validators.maxLength(13)]),
@@ -206,7 +206,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       }
     })
   }
-  
+
   getListJobTitle(id) {
     this._basicInfoService.getjobTitles(id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
@@ -218,7 +218,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       console.log(err);
     })
   }
-  
+
   getMapLatlng(country) {
     this._userCreationService.getLatlng(country.title).subscribe((res: any) => {
       if (res.status == "OK") {
@@ -226,11 +226,11 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
         if (country.id) {
           let selectedCountry = this.countryList.find(obj => obj.title.toLowerCase() == country.title.toLowerCase());
           this.cityList.forEach(element => {
-            if(element.desc[0].CountryName === selectedCountry.title) {
+            if (element.desc[0].CountryName === selectedCountry.title) {
               this.cityAr = element
             }
           });
-          
+
           this.selectedLangIdbyCountry = selectedCountry.desc[0].LanguageID;
           this.selectPhoneCode(selectedCountry);
           this.selectTelCode(selectedCountry);
@@ -245,17 +245,19 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     })
   }
 
-  countryWiseMaping(country){
-    if (country && country.id){
-    this.showTranslatedLangSide = (country.desc[0].RegionCode == 'MET') ? true : false;
+  countryWiseMaping(country) {
+    console.log(country);
+
+    if (country && country.id) {
+      this.showTranslatedLangSide = (country.desc[0].RegionCode === 'MET') ? true : false;
       this.transLangEmail = '';
-     this.selectedjobTitle = undefined;
-    this.businessForm.reset();
-    this.personalInfoForm.reset();
-    // this.getlabelsDescription();
-    this.onRegistrationForm = true;
+      this.selectedjobTitle = undefined;
+      this.businessForm.reset();
+      this.personalInfoForm.reset();
+      // this.getlabelsDescription();
+      this.onRegistrationForm = true;
     }
-     else {
+    else {
       this.onRegistrationForm = false;
     }
   }
@@ -693,7 +695,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       return false;
     }
   }
- 
+
   textValidation(event) {
     const pattern = /^[a-zA-Z0-9_]*$/;
     let inputChar = String.fromCharCode(event.charCode);
@@ -757,7 +759,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       .debounceTime(200)
       .map(term => (!term || term.length < 3) ? []
         : this.cityList.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1));
-  formatterCity = (x: { title: string}) => x.title;
+  formatterCity = (x: { title: string }) => x.title;
 
 
   registration() {
@@ -773,6 +775,8 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       loading(false);
       return
     }
+    console.log(this.businessForm.value.transCity)
+    console.log(this.showTranslatedLangSide);
 
     let UserObjectBL = {
       primaryEmail: this.personalInfoForm.value.email,
@@ -783,20 +787,25 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       phoneCodeCountryID: this.phoneCountryId,
       jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.baseLanguage : this.personalInfoForm.value.jobTitle,
     }
-    let UserObjectOL = {
-      languageID: this.selectedLangIdbyCountry,
-      firstName: this.personalInfoForm.value.transLangfirstName,
-      lastName: this.personalInfoForm.value.transLanglastName,
-      jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.otherLanguage : this.personalInfoForm.value.transLangjobTitle,
-      primaryPhone: this.personalInfoForm.value.transLangtelephone + this.transmobileCode,
+    let UserObjectOL: any = {}
+    let CompanyObjectOL: any = {}
+    if (this.showTranslatedLangSide) {
+      UserObjectOL = {
+        languageID: this.selectedLangIdbyCountry,
+        firstName: this.personalInfoForm.value.transLangfirstName,
+        lastName: this.personalInfoForm.value.transLanglastName,
+        jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.otherLanguage : this.personalInfoForm.value.transLangjobTitle,
+        primaryPhone: this.personalInfoForm.value.transLangtelephone + this.transmobileCode,
+      }
+      CompanyObjectOL = {
+        companyNameOL: this.businessForm.value.transLangOrgName,
+        companyPhone: this.businessForm.value.transLangPhone + this.transPhoneCode,
+        POBox: (this.businessForm.value.poBoxNoAr) ? this.businessForm.value.poBoxNoAr : null,
+        City: this.businessForm.value.transCity.title,
+        languageID: this.selectedLangIdbyCountry
+      }
     }
-    let CompanyObjectOL = {
-      companyNameOL: this.businessForm.value.transLangOrgName,
-      companyPhone: this.businessForm.value.transLangPhone + this.transPhoneCode,
-      POBox: (this.businessForm.value.poBoxNoAr) ? this.businessForm.value.poBoxNoAr : null,
-      City: this.businessForm.value.transCity.title,
-      languageID: this.selectedLangIdbyCountry
-    }
+
     let CompanyObjectBL = {
       companyName: this.businessForm.value.orgName,
       companyAddress: this.businessForm.value.address,
