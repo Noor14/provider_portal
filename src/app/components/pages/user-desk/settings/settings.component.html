@@ -401,14 +401,14 @@
                       <div class="form-group">
                       <quill-editor *ngIf="editable" [(ngModel)]="editorContent" [options]="editorOptions" (change)="onContentChanged($event)">
                       </quill-editor>
-                        <div *ngIf="!editable" [innerHTML]="editorContent"></div>
+                        <div class="editor" *ngIf="!editable" [innerHTML]="editorContent"></div>
                       </div>
                     </div>
-                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-8 col-xs-12 d-flex justify-content-end align-items-center">
-                    <button *ngIf="!editable" (click)="editable = true" class=" mr-2">
+                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-8 col-xs-12 d-flex justify-content-end align-items-start">
+                    <button *ngIf="!editable" (click)="editable = true" class="editButton">
                       <img src="../../../../../assets/images/icons/warehouse-edit-icon.svg" alt="Edit" class="icon-size-16" />
                     </button>
-                    <button *ngIf="editable" [disabled]="!editorContent" (click)="companyAboutUs()">
+                    <button class="editButton" *ngIf="editable" [disabled]="!editorContent" (click)="companyAboutUs()">
                       <img src="../../../../../assets/images/icons/warehouse-edit-icon.svg" alt="save" class="icon-size-16" />
                     </button>
                     </div>
