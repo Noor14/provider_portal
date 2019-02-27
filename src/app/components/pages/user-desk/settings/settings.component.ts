@@ -75,8 +75,25 @@ export class SettingsComponent implements OnInit {
   // about Editor
   public editorContent:any;
   public editable:boolean
+  private toolbarOptions = [
+  ['bold', 'italic', 'underline'],        // toggled buttons
+  
+  [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+  [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+  [{ 'direction': 'rtl' }],                         // text direction
+
+  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+  [{ 'align': [] }],
+
+  ['clean']                                         // remove formatting button
+];
   public editorOptions= {
-    placeholder: "insert content..."
+    placeholder: "insert content...",
+    modules: {
+      toolbar: this.toolbarOptions
+    }
   };
 
   constructor(
