@@ -1,0 +1,199 @@
+<!-- manage device table -->
+<div class="table-info mt-2" [ngClass]="tableType">
+  <!-- <label class="table-info-count" *ngIf="tableType === 'draftFCL'">Showing top {{pageSize}} of {{data.length}}
+    record(s)</label> -->
+  <label class="table-info-count" *ngIf="tableType === 'publishFCL'">Showing top {{data.length}} of {{totalRecords}}
+    record(s)</label>
+  <div ngbDropdown class="d-flex sort-dropdown mt-2 pull-right" *ngIf="tableType === 'publishFCL'">
+    <button class="btn btn-primary p-0" id="dropdownBasic2" ngbDropdownToggle>Sort By: {{selectedSort.title}}
+    </button>
+    <div ngbDropdownMenu>
+      <button class="dropdown-item" (click)="onSortClick('CustomerName', 'Rate For', 'CustomerID')">Rate For</button>
+      <button class="dropdown-item" (click)="onSortClick('carrierName', 'Shipping Line', 'CarrierName')">Shipping
+        Line</button>
+      <button class="dropdown-item"
+        (click)="onSortClick('polName', 'Origin/Departure', 'PolName')">Origin/Departure</button>
+      <button class="dropdown-item" (click)="onSortClick('shippingCatName', 'Cargo Type', 'ShippingCatName')">Cargo
+        Type</button>
+      <button class="dropdown-item"
+        (click)="onSortClick('containerSpecDesc', 'Container', 'ContainerSpecDesc')">Container</button>
+      <button class="dropdown-item" (click)="onSortClick('effectiveTo', 'Rate Validity', 'EffectiveFrom')">Rate
+        Validity</button>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table info-table mt-3">
+      <thead>
+        <tr>
+          <th>
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'publishFCL'">
+              <input id="selectallpublishRates" type="checkbox" [ngModel]="checkAllPublish"
+                (change)="onCheck('all', null)">
+              <label for="selectallpublishRates"> <span> </span>
+              </label>
+            </div>
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'draftFCL'">
+              <input id="selectallDraftRates" type="checkbox" [ngModel]="checkAllDrafts"
+                (change)="onCheck('all', null)">
+              <label for="selectallDraftRates"> <span> </span>
+              </label>
+            </div>
+          </th>
+          <th scope="col" *ngFor="let tabHead of thList;let i =index" [ngClass]="tabHead.activeClass"
+            (click)="onHeadClick(i, tabHead.activeClass, tabHead.sortKey)" scope="col">
+            {{tabHead.title}}
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let device of data | paginate: devicPageConfig" [ngClass]="device?.dateDiff && tableType === 'publishFCL' ? 'has-badge' : ''">
+          <td class="text-center">
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'publishFCL'">
+              <input id="{{device.carrierPricingID}}" type="checkbox" [ngModel]="device.isChecked"
+                (change)="device.isChecked = !device.isChecked; onCheck(device.carrierPricingID, device)">
+              <label for="{{device.carrierPricingID}}"> <span> </span>
+              </label>
+            </div>
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'draftFCL'">
+              <input id="{{device.providerPricingDraftID}}" type="checkbox" [ngModel]="device.isChecked"
+                [disabled]="validateRow(device)"
+                (change)="device.isChecked = !device.isChecked; onCheck(device.providerPricingDraftID, device, tableType)">
+              <label for="{{device.providerPricingDraftID}}"> <span> </span>
+              </label>
+            </div>
+          </td>
+          <td>
+            <!-- <ng-template #popContentStatus><b>{{device.parsedpublishStatus.Status}}</b></ng-template> -->
+            <button *ngIf="device.parsedpublishStatus"
+              class="btn rounded-circle icon-size-8 p-0 btn-{{device.parsedpublishStatus.Status === 'PENDING' ? 'danger' : 'success'}}"
+              placement="top" ngbTooltip="{{device.parsedpublishStatus.Status}}"></button>
+          </td>
+          <td (click)="draftAction(device, 'edit')">
+            <img *ngIf="device?.parsedjsonCustomerDetail && device.customerID"
+              [src]="getUIImage(device?.parsedjsonCustomerDetail[0].CustomerImage, false)" alt="" class="mr-2 rounded"
+              height="24px" width="24px">
+            <img *ngIf="!device.customerID" src="../../../../assets/images/favicon.png" alt="" class="mr-2 rounded"
+              height="24px" width="24px">
+            <span *ngIf="device.customerID" ngbTooltip="{{device?.parsedjsonCustomerDetail[0]?.CustomerName}}"
+              placement="top"
+              [ngClass]="device?.parsedjsonCustomerDetail[0].CustomerName > 20 ? 'text-ecllipse': ''">{{device?.parsedjsonCustomerDetail[0].CustomerName}}</span>
+            <span *ngIf="!device.customerID">Marketplace</span>
+            <!-- <span class="info-table-date">{{ device.HashMoveBookingDate | date: 'dd MMM, yyyy HH:mm'}}</span> -->
+          </td>
+          <td (click)="draftAction(device, 'edit')">
+            <div class="info-table-ports d-flex">
+              <div class="d-block text-truncate">
+                <img [src]="getUIImage(device.carrierImage, true)" alt="" class="mr-2 rounded" height="24px"
+                  width="24px">
+                {{device?.carrierName || '-- Select --'}}
+              </div>
+              <span class="badge badge-danger mt-2" *ngIf="device?.dateDiff && tableType === 'publishFCL'">Rate Expiring in {{device.dateDiff}}
+                days</span>
+              <!-- <img src="../../../assets/images/icons/grid-arrow.svg" class="mr-2 ml-2">
+              <div class="d-block text-truncate">
+                <img src="../../../assets/images/icons/flags/1x1/{{device?.PodCode?.split(' ')[0]?.toLowerCase()}}.svg"
+                  class="flag-icon-20-14 mr-2 border">{{device?.PodCode}}
+              </div> -->
+            </div>
+          </td>
+          <td (click)="draftAction(device, 'edit')">
+            <div class="ports">
+              <img *ngIf="device?.polCode"
+                src="../../../../assets/images/flags/4x3/{{device?.polCode.split(' ').shift().toLowerCase()}}.svg"
+                alt="" class="mr-2" width="18px">
+              <span placement="top" ngbTooltip="{{device?.polName}}"
+                [ngClass]="device?.polName?.length > 10 ? 'text-truncate': ''">{{device?.polName || '-- Select --'}}</span>
+              <img src="../../../../assets/images/icons/grid-arrow.svg" alt="" class="mr-2 ml-2">
+              <img *ngIf="device?.podCode"
+                src="../../../../assets/images/flags/4x3/{{device?.podCode.split(' ').shift().toLowerCase()}}.svg"
+                alt="" class="mr-2" width="18px">
+              <span placement="top" ngbTooltip="{{device.podName}}"
+                [ngClass]="device?.podName?.length > 10 ? 'text-truncate': ''">{{device?.podName || '-- Select --'}}</span>
+            </div>
+          </td>
+          <td (click)="draftAction(device, 'edit')">
+            <div class="d-flex info-table-logo align-items-center">
+              <span class=""
+                [ngClass]="device?.shippingCatName?.length > 30 ? 'text-truncate': ''">{{device?.shippingCatName || '-- Select --'}}</span>
+            </div>
+          </td>
+          <td (click)="draftAction(device, 'edit')">
+            <div class="d-flex info-table-logo align-items-center">
+              <!-- <img [src]="getUIImage(device.CarrierImage, false)" alt="" class="mr-2 "> -->
+              <span *ngIf="tableType === 'publishFCL'">{{device.containerSpecDesc || '-- Select --'}}</span>
+              <span *ngIf="tableType === 'draftFCL'">{{device.containerSpecName || '-- Select --'}}</span>
+            </div>
+          </td>
+          <td (click)="draftAction(device, 'edit')">
+            <div class="d-flex info-table-logo align-items-center">
+              <span class="" *ngIf="device.currencyCode && device.price">{{device.currencyCode}}
+                {{device.price | number:'1.0-0'}}</span>
+              <span *ngIf="!device.price"> -- Select --</span>
+            </div>
+          </td>
+          <td (click)="draftAction(device, 'edit')">
+            <div class="d-flex align-items-center">
+              <span class="">{{device.effectiveFrom | date : "d MMM, yyyy" || '-- Select --'}}</span>
+              <span *ngIf="!device.effectiveTo && !device.effectiveFrom">-- Select --</span>
+              <span class="mr-2 ml-2" *ngIf="device.effectiveTo && device.effectiveFrom">to</span>
+              <span class="">{{device.effectiveTo | date : "d MMM, yyyy"}}</span>
+            </div>
+          </td>
+          <td (click)="draftAction(device, 'edit')">
+            <div class="d-flex info-table-logo align-items-center">
+              <!-- <img [src]="getUIImage(device.CarrierImage, false)" alt="" class="mr-2 "> -->
+              <span *ngIf="device.totalExportCharges && device.baseCurrencyCode">{{device.baseCurrencyCode}} {{device.totalImportCharges}}</span>
+              <span *ngIf="!device.totalExportCharges">-- Select --</span>
+            </div>
+          </td>
+          <td (click)="draftAction(device, 'edit')">
+            <div class="d-flex info-table-logo align-items-center">
+              <!-- <img [src]="getUIImage(device.CarrierImage, false)" alt="" class="mr-2 "> -->
+              <span *ngIf="device.totalExportCharges && device.baseCurrencyCode">
+                {{device.baseCurrencyCode}}
+                {{device.totalExportCharges}}</span>
+              <span *ngIf="!device.totalExportCharges">-- Select --</span>
+            </div>
+          </td>
+          <td>
+            <div class="d-block" *ngIf="tableType === 'publishFCL'">
+              <a href="javascript:;" (click)="publishAction(device, 'history')">
+                <img src="../../../../assets/images/icons/menu.svg" class="mr-2 icon-size-16" alt="">
+              </a>
+              <!-- <a href="javascript:;" placement="left" [ngbPopover]="popContent" popoverClass="table-action-dropdown">
+                <img src="../../../assets/images/icons/menu.svg" alt="" class="mr-2 icon-size-16">
+              </a> -->
+              <!-- <ng-template #popContent>
+                <ul class="list-group list-group-flush fadeIn animated p-1">
+                  <li class="list-group-item border-0 pointer">
+                    <img src="../../../assets/images/icons/device_icon.svg" class="icon-size-16 mr-3"> View Devices
+                  </li>
+                </ul>
+              </ng-template> -->
+            </div>
+            <div *ngIf="tableType === 'draftFCL'">
+              <a href="javascript:;" (click)="draftAction(device, 'delete')">
+                <img src="../../../../assets/images/icons/icon_del_round.svg" width="16px" alt="">
+              </a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="paginationBox text-right mt-3 col-12 p-0 d-flex justify-content-end" *ngIf="tableType === 'publishFCL'">
+    <!-- <p class="pager-info mr-3">Showing {{devicPageConfig.currentPage}} to 5 of {{data.length}} enteries</p> -->
+    <!-- <pagination-controls [id]="devicPageConfig.id" [maxSize]="maxSize" [directionLinks]="directionLinks"
+      [autoHide]="autoHide" [previousLabel]="labels.previousLabel" [nextLabel]="labels.nextLabel"
+      (pageChange)="onPageChange($event, 'publish')"></pagination-controls> -->
+    <ngb-pagination [(page)]="page" [pageSize]="data.length" (pageChange)="onPageChangeBootstrap($event)"
+      [collectionSize]="totalRecords"></ngb-pagination>
+
+  </div>
+
+  <!-- <div class="table-info mt-2">
+    <label class="table-info-count">Showing {{devicPageConfig.itemsPerPage}} - {{tableData?.length}}</label>
+  </div> -->
+
+  <!--/ manage device table -->

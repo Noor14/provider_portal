@@ -325,22 +325,28 @@ $left-nav-icon-height: 20px;
             font-family: $font-proxima;
             font-weight: $font-weight-mid;
             font-size: $font-size-medium;
-            position: absolute;
-            padding: 18px 20px 18px 60px;
-            bottom: 61px;
-            left: 1px;
+            // position: absolute;
+            padding: 1rem 5rem 1rem 1rem;
+            // bottom: 61px;
+            // left: 1px;
             z-index: 1;
             animation-delay: 0.1s;
+            display: flex;
+            align-items: center;
             width: 99.8%;
-            background: $color-white; // border-bottom: 1px solid $data-table-border;
-            &:before {
-                content: url("assets/images/icons/icon_add.svg");
-                position: absolute;
-                left: 21px;
-                top: 20px;
-                width: 16px;
-                height: 16px;
+            background: $color-white; 
+            img{
+                margin-right: 0.5rem;
             }
+            // border-bottom: 1px solid $data-table-border;
+            // &:before {
+            //     content: url("assets/images/icons/icon_add.svg");
+            //     position: absolute;
+            //     left: 21px;
+            //     top: 20px;
+            //     width: 16px;
+            //     height: 16px;
+            // }
         }
         &.without-scroll {
             &.no-data {
