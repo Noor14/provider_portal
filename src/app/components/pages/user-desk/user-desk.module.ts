@@ -32,7 +32,6 @@ import { NgStepperModule } from '../../../directives/stepper/stepper.module';
 import { NgFilesModule } from '../../../directives/ng-files';
 import { SettingService } from './settings/setting.service';
 import { QuillEditorModule } from 'ngx-quill-editor';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -66,7 +65,7 @@ import { QuillEditorModule } from 'ngx-quill-editor';
     SettingsComponent,
     DataMapComponent,
     SearchPipe,
-    WarehouseComponent
+    WarehouseComponent,
   ],
   providers: [
     ViewBookingService,

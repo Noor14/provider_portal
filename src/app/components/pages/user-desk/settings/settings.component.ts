@@ -7,7 +7,7 @@ import { baseExternalAssets } from '../../../../constants/base.url';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../directives/ng-files';
 import { SettingService } from './setting.service';
-import { EMAIL_REGEX, isJSON, loading } from '../../../../constants/globalFunctions';
+import { EMAIL_REGEX, isJSON, loading, GEN_URL, patternValidator, FACEBOOK_REGEX, TWITTER_REGEX, INSTAGRAM_REGEX, LINKEDIN_REGEX, YOUTUBE_REGEX } from '../../../../constants/globalFunctions';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -57,6 +57,22 @@ export class SettingsComponent implements OnInit {
   public cityList: any;
   public regionList: any[] = [];
   public currencyList: any[] = [];
+  public countryList: any[] = [];
+
+
+  public countryFlagImage: string;
+  public mobileCountFlagImage: string;
+  public phoneCountryId: any;
+  public mobileCountryId: any;
+  public phoneCode;
+  public mobileCode;
+
+  public socialLink: any;
+  public selectedSocialsite: any;
+  public socialInputValidate: string;
+  public socialSites;
+
+
 
   //businessInfo
   public businessInfoForm: any;
@@ -68,9 +84,14 @@ export class SettingsComponent implements OnInit {
   public valAddedServices: any[] = [];
   public valueService: any[] = [];
 
+  // social
+  public socialWebs: any[] = [];
+
   //  freightServices
   public freightServices: any[] = [];
   public frtService: any[] = [];
+  public wareHouseTypeToggler: boolean = false;
+  public IsRealEstate: boolean = false;
 
   // about Editor
   public editorContent:any;
@@ -127,12 +148,12 @@ export class SettingsComponent implements OnInit {
         Validators.pattern(EMAIL_REGEX),
         Validators.maxLength(320)
       ]),
-      mobile: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(13)]),
+      mobile: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
     });
 
     this.businessInfoForm = new FormGroup({
       orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
-      phone: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(13)]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
       address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10)]),
       city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3)]),
       poBoxNo: new FormControl(null, [Validators.maxLength(16), Validators.minLength(4)]),
@@ -151,6 +172,12 @@ export class SettingsComponent implements OnInit {
         this.currencyList = state;
       }
     });
+    this._sharedService.countryList.subscribe((state: any) => {
+      if (state) {
+        this.countryList = state;
+      }
+
+    });
     this.getUserDetail(this.userProfile.UserID);
     this.onChanges();
   }
@@ -163,6 +190,45 @@ export class SettingsComponent implements OnInit {
       this.editorContent = html
   }
 
+  selectedSocialLink(obj) {
+    this.selectedSocialsite = obj;
+    this.businessInfoForm.controls['socialUrl'].reset();
+    if (obj.socialMediaPortalsID === 100) {
+      this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(FACEBOOK_REGEX)]);
+      this.socialLinkValidate()
+    }
+    else if (obj.socialMediaPortalsID === 101) {
+      this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(TWITTER_REGEX)]);
+      this.socialLinkValidate()
+    } else if (obj.socialMediaPortalsID === 102) {
+      this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(INSTAGRAM_REGEX)]);
+      this.socialLinkValidate()
+    } else if (obj.socialMediaPortalsID === 103) {
+      this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(LINKEDIN_REGEX)]);
+      this.socialLinkValidate()
+    } else if (obj.socialMediaPortalsID === 104) {
+      this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(YOUTUBE_REGEX)]);
+      this.socialLinkValidate()
+    }
+    else {
+      this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(GEN_URL)]);
+      this.socialLinkValidate()
+    }
+  }
+  socialLinkValidate() {
+
+    if (this.selectedSocialsite && this.businessInfoForm.controls['socialUrl'].value && this.businessInfoForm.controls['socialUrl'].status === 'INVALID') {
+      // let index = this.selectedSocialsite.title.toLowerCase().indexOf(this.socialSites.toLowerCase());
+      this.socialInputValidate = 'Your social url is not valid';
+    }
+    else if (!this.businessInfoForm.controls['socialUrl'].value) {
+      this.socialInputValidate = '';
+    }
+    else {
+      this.socialInputValidate = '';
+    }
+
+  }
   getCities(info) {
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
@@ -174,8 +240,8 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  getListJobTitle(id, info) {
-    this._basicInfoService.getjobTitles(id).subscribe((res: any) => {
+  getListJobTitle(info) {
+    this._basicInfoService.getjobTitles(info.CountryID).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.jobTitles = res.returnObject;
         this.getCities(info);
@@ -189,61 +255,68 @@ export class SettingsComponent implements OnInit {
     loading(true);
     this._settingService.getSettingInfo(UserID).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        let info = res.returnObject
-        let countryId = res.returnObject.CountryID;
-        this.allAssociations = res.returnObject.Association;
-        this.galleriesDocx = res.returnObject.Gallery;
-        this.certficateDocx = res.returnObject.AwardCertificate;
-        this.companyLogoDocx = res.returnObject.CompanyLogo;
-        this.liscenceDocx = res.returnObject.TradeLicense;
+        let info = res.returnObject;
+        this.socialWebs = info.SocialMedia;
+        this.allAssociations = info.Association;
+        this.galleriesDocx = info.Gallery;
+        this.certficateDocx = info.AwardCertificate;
+        this.companyLogoDocx = info.CompanyLogo;
+        this.liscenceDocx = info.TradeLicense;
         this.assocService = this.allAssociations.filter(obj => obj.IsSelected && obj.ProviderAssnID);
-        this.valAddedServices = res.returnObject.ValueAddedServices;
+        this.valAddedServices = info.ValueAddedServices;
         this.valueService = this.valAddedServices.filter(obj => obj.IsSelected && obj.ProvLogServID);
-        this.freightServices = res.returnObject.LogisticService;
+        this.freightServices = info.LogisticService;
         this.frtService = this.freightServices.filter(obj => obj.IsSelected && obj.ProvLogServID);
-        if (res.returnObject.About) {
-          this.editorContent = res.returnObject.About;
+        if (this.frtService && this.frtService.length){
+            let data = this.frtService.find(obj=> obj.LogServCode == 'WRHS');
+          if (data && Object.keys(data).length){
+            this.wareHouseTypeToggler = true;
+            this.IsRealEstate = data.IsRealEstate
+          }
+        }
+        if (info.About) {
+          this.editorContent = info.About;
           this.editable = false;
         }
-        if (res.returnObject.UploadedCompanyLogo && res.returnObject.UploadedCompanyLogo[0].DocumentFileName &&
-          res.returnObject.UploadedCompanyLogo[0].DocumentFileName != "[]" &&
-          isJSON(res.returnObject.UploadedCompanyLogo[0].DocumentFileName)) {
-          let logo = res.returnObject.UploadedCompanyLogo[0];
+        if (info.UploadedCompanyLogo && info.UploadedCompanyLogo[0].DocumentFileName &&
+          info.UploadedCompanyLogo[0].DocumentFileName != "[]" &&
+          isJSON(info.UploadedCompanyLogo[0].DocumentFileName)) {
+          let logo = info.UploadedCompanyLogo[0];
           this.uploadedlogo = JSON.parse(logo.DocumentFileName)[0];
           this.docTypeIdLogo = this.uploadedlogo.DocumentID;
           this.uploadedlogo.DocumentFile = this.baseExternalAssets + this.uploadedlogo.DocumentFile
         }
-        if (res.returnObject.UploadedGallery && res.returnObject.UploadedGallery[0].DocumentFileName &&
-          res.returnObject.UploadedGallery[0].DocumentFileName != "[]" &&
-          isJSON(res.returnObject.UploadedGallery[0].DocumentFileName)) {
-          let gallery = res.returnObject.UploadedGallery[0];
+        if (info.UploadedGallery && info.UploadedGallery[0].DocumentFileName &&
+          info.UploadedGallery[0].DocumentFileName != "[]" &&
+          isJSON(info.UploadedGallery[0].DocumentFileName)) {
+          let gallery = info.UploadedGallery[0];
           this.uploadedGalleries = JSON.parse(gallery.DocumentFileName);
           this.docTypeIdGallery = this.uploadedGalleries[0].DocumentID;
           this.uploadedGalleries.map(obj => {
             obj.DocumentFile = this.baseExternalAssets + obj.DocumentFile;
           })
         }
-        if (res.returnObject.UploadedAwardCertificate && res.returnObject.UploadedAwardCertificate[0].DocumentFileName &&
-          res.returnObject.UploadedAwardCertificate[0].DocumentFileName != "[]" &&
-          isJSON(res.returnObject.UploadedAwardCertificate[0].DocumentFileName)) {
-          let certificate = res.returnObject.UploadedAwardCertificate[0];
+        if (info.UploadedAwardCertificate && info.UploadedAwardCertificate[0].DocumentFileName &&
+          info.UploadedAwardCertificate[0].DocumentFileName != "[]" &&
+          isJSON(info.UploadedAwardCertificate[0].DocumentFileName)) {
+          let certificate = info.UploadedAwardCertificate[0];
           this.uploadedCertificates = JSON.parse(certificate.DocumentFileName);
           this.docTypeIdCert = this.uploadedCertificates[0].DocumentID;
           this.uploadedCertificates.map(obj => {
             obj.DocumentFile = this.baseExternalAssets + obj.DocumentFile;
           })
         }
-        if (res.returnObject.UploadedTradeLicense && res.returnObject.UploadedTradeLicense[0].DocumentFileName &&
-          res.returnObject.UploadedTradeLicense[0].DocumentFileName != "[]" &&
-          isJSON(res.returnObject.UploadedTradeLicense[0].DocumentFileName)) {
-          let tradeLiscence = res.returnObject.UploadedTradeLicense[0];
+        if (info.UploadedTradeLicense && info.UploadedTradeLicense[0].DocumentFileName &&
+          info.UploadedTradeLicense[0].DocumentFileName != "[]" &&
+          isJSON(info.UploadedTradeLicense[0].DocumentFileName)) {
+          let tradeLiscence = info.UploadedTradeLicense[0];
           this.uploadedLiscence = JSON.parse(tradeLiscence.DocumentFileName);
           this.docTypeIdLiscence = this.uploadedLiscence[0].DocumentID;
           this.uploadedLiscence.map(obj => {
             obj.DocumentFile = this.baseExternalAssets + obj.DocumentFile;
           })
         }
-        this.getListJobTitle(countryId, info);
+        this.getListJobTitle(info);
       }
     })
   }
@@ -274,8 +347,15 @@ export class SettingsComponent implements OnInit {
     this.personalInfoForm.controls['lastName'].setValue(info.LastName);
     if (info.JobTitle) {
       let obj = this.jobTitles.find(elem => elem.baseLanguage == info.JobTitle);
-      this.personalInfoForm.controls['jobTitle'].setValue(obj);
-
+      if (obj && Object.keys(obj).length){
+        this.personalInfoForm.controls['jobTitle'].setValue(obj);
+      }
+      else{
+        let obj = {
+          baseLanguage: info.JobTitle
+        }
+        this.personalInfoForm.controls['jobTitle'].setValue(obj);
+      }
     }
     if (info.CityID) {
       let obj = this.cityList.find(elem => elem.id == info.CityID);
@@ -289,7 +369,10 @@ export class SettingsComponent implements OnInit {
       let obj = this.regionList.find(elem => elem.regionID == info.RegionID);
       this.personalInfoForm.controls['region'].setValue(obj.regionID);
     }
-
+    let selectedCountry = this.countryList.find(obj => obj.id == info.PhoneCodeCountryID);
+    if (selectedCountry && Object.keys(selectedCountry).length) {
+      this.selectPhoneCode(selectedCountry);
+    }
     this.personalInfoForm.controls['mobile'].setValue(info.PrimaryPhone);
   }
 
@@ -299,14 +382,26 @@ export class SettingsComponent implements OnInit {
     this.businessInfoForm.controls['orgName'].setValue(info.ProviderName);
     this.businessInfoForm.controls['address'].setValue(info.ProviderAddress);
     this.businessInfoForm.controls['poBoxNo'].setValue(info.POBox);
+    this.businessInfoForm.controls['profileUrl'].setValue(info.ProfileID);
     if (info.ProviderCityID) {
       let obj = this.cityList.find(elem => elem.id == info.ProviderCityID);
       this.businessInfoForm.controls['city'].setValue(obj);
     }
+    let selectedCountry = this.countryList.find(obj => obj.id == info.ProviderPhoneCodeCountryID);
+    if (selectedCountry && Object.keys(selectedCountry).length) {
+      this.selectTelCode(selectedCountry);
+    }
+    if (info.SocialMediaAccountID && info.ProviderWebAdd) {
+      let obj = this.socialWebs.find(elem => elem.SocialMediaPortalsID == info.SocialMediaAccountID);
+      if (!obj) {
+          this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(GEN_URL)]);
+        }else{
+        this.selectedSocialLink(obj);
+        this.businessInfoForm.controls['socialUrl'].setValue(info.ProviderWebAdd);
+        }
+    }
     this.businessInfoForm.controls['phone'].setValue(info.ProviderPhone);
-    this.businessInfoForm.controls['profileUrl'].setValue(info.ProfileID);
   }
-
 
 
   freightService(obj, selectedService) {
@@ -317,6 +412,10 @@ export class SettingsComponent implements OnInit {
           if (this.frtService.length > 1 && obj.IsRemovable){
             this.frtService.splice(i, 1);
             selectedItem.remove('active');
+            if (obj.LogServCode == "WRHS") {
+              this.wareHouseTypeToggler = false;
+              this.IsRealEstate = false;
+            }
             this.removeServices(obj);
           }
           else{
@@ -335,6 +434,9 @@ export class SettingsComponent implements OnInit {
       selectedItem.add('active');
       this.frtService.push(obj);
       this.selectServices(obj);
+      if (obj.LogServCode == "WRHS") {
+        this.wareHouseTypeToggler = true;
+      }
     }
   }
   selectAssociation(obj, selectedService) {
@@ -400,13 +502,24 @@ export class SettingsComponent implements OnInit {
     })
   }
 
-
-
+  selectPhoneCode(list) {
+    this.mobileCountFlagImage = list.code;
+    let description = list.desc;
+    this.mobileCode = description[0].CountryPhoneCode;
+    this.mobileCountryId = list.id
+  }
+  selectTelCode(list) {
+    this.countryFlagImage = list.code;
+    let description = list.desc;
+    this.phoneCode = description[0].CountryPhoneCode;
+    this.phoneCountryId = list.id
+  }
   selectServices(obj) {
     let object = {
       providerID: this.userProfile.ProviderID,
       createdBy: this.userProfile.LoginID,
       serviceID: obj.LogServID,
+      logServCode: obj.LogServCode,
     }
     this._settingService.selectProviderService(object).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
@@ -420,6 +533,7 @@ export class SettingsComponent implements OnInit {
       createdBy: this.userProfile.LoginID,
       serviceID: obj.ProvLogServID,
       serviceType: obj.ServiceType,
+      logServCode: obj.LogServCode,
       logServID: obj.LogServID
     }
     this._settingService.deSelectService(object).subscribe((res: any) => {
@@ -431,6 +545,24 @@ export class SettingsComponent implements OnInit {
       }
     })
   }
+
+  realEstateSel(type){
+    this.IsRealEstate = (type == 'owner')? false: true
+    let object = {
+      providerID: this.userProfile.ProviderID,
+      modifiedBy: this.userProfile.LoginID,
+      isRealEstate: this.IsRealEstate,
+    }
+    this._settingService.updateRealRstate(object).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toastr.success('Updated successfully', '');
+      }
+      else {
+        this._toastr.error('Error Occured', '');
+      }
+    })
+  }
+
 
   companyAboutUs(){
     let object = {
@@ -724,6 +856,8 @@ export class SettingsComponent implements OnInit {
       jobTitle: this.personalInfoForm.value.jobTitle.baseLanguage,
       cityID: this.personalInfoForm.value.city.id,
       mobileNumber: this.personalInfoForm.value.mobile,
+      countryPhoneCode: this.mobileCode,
+      phoneCodeCountryID: this.mobileCountryId,
       regionID: this.personalInfoForm.value.region,
       currencyID: this.personalInfoForm.value.currency.id
     }
@@ -741,7 +875,10 @@ export class SettingsComponent implements OnInit {
       poBox: this.businessInfoForm.value.poBoxNo,
       cityID: this.businessInfoForm.value.city.id,
       telephone: this.businessInfoForm.value.phone,
-      website: this.businessInfoForm.value.socialUrl,
+      countryPhoneCode: this.phoneCode,
+      phoneCodeCountryID: this.phoneCountryId,
+      socialMediaAccountID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.selectedSocialsite.SocialMediaPortalsID : null,
+      website : (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.socialSites : null,
       ModifiedBy : this.userProfile.LoginID
     }
     this._settingService.businessSetting(obj).subscribe((res: any) => {

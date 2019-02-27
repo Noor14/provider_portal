@@ -99,17 +99,16 @@
                       <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                             <div class="select-number">
-                              <div class="input-group-prepend" [ngClass]="{'inputError': phoneError && businessForm.controls['phone'].errors}"
-                                (focusout)="errorValidate()">
+                              <div class="input-group-prepend">
                                 <div ngbDropdown class="select-country-list">
                                   <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                                 <div class="flag-container">
-                                      <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
+                                      <img *ngIf="!mobileCountFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
                                         type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
-                                      <img *ngIf="countryFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (countryFlagImage | lowercase) + '.svg'"
+                                      <img *ngIf="mobileCountFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (mobileCountFlagImage | lowercase) + '.svg'"
                                         alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                                     </div>
-                                    <span>{{phoneCode}}</span>
+                                    <span>{{mobileCode}}</span>
                                   </div>
                                   <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                                     <ul class="list-group">
@@ -124,10 +123,7 @@
                                   </div>
                                 </div>
                                 <input type="text" class="form-control select-country-code" maxlength="13" placeholder="123456789"
-                                  formControlName="phone" (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)"
-                                  (focus)="translangPhoneError=false; phoneError=false; activePhone=true" (keypress)="NumberValid($event)" />
-                                  <!-- <input class="form-control select-country-code" maxlength="13" placeholder="123456789" (keypress)="numberValid($event)"
-                            formControlName="mobile" /> -->
+                                  formControlName="mobile" (keypress)="numberValid($event)" />
                               </div>
                             </div>
                           </div>
@@ -152,7 +148,7 @@
                       <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="form-group">
                           <select class="form-control" formControlName="region">
-                            <option [value]="" disabled> Please Select</option>
+                            <option [value]="null" disabled> Please Select</option>
                             <option *ngFor="let region of regionList" [value]="region.regionID">
                               {{region.regionName}}
                             </option>
@@ -335,8 +331,7 @@
                       <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                           <div class="form-group">
                               <div class="select-number">
-                                <div class="input-group-prepend" [ngClass]="{'inputError': phoneError && businessForm.controls['phone'].errors}"
-                                  (focusout)="errorValidate()">
+                                <div class="input-group-prepend">
                                   <div ngbDropdown class="select-country-list">
                                     <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                                   <div class="flag-container">
@@ -349,7 +344,7 @@
                                     </div>
                                     <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                                       <ul class="list-group">
-                                        <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
+                                        <li class="list-group-item" *ngFor="let list of countryList" (click)="selectTelCode(list)">
                                           <div class="flag-container">
                                             <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}"
                                               class="mw-100 w-auto h-auto mh-100">
@@ -360,10 +355,7 @@
                                     </div>
                                   </div>
                                   <input type="text" class="form-control select-country-code" maxlength="13" placeholder="123456789"
-                                    formControlName="phone" (blur)="activePhone=false" (ngModelChange)="onModelPhoneChange(activeTransPhone, activePhone, 'transLangPhone', $event)"
-                                    (focus)="translangPhoneError=false; phoneError=false; activePhone=true" (keypress)="NumberValid($event)" />
-                                    <!-- <input class="form-control select-country-code" maxlength="13" placeholder="123456789" (keypress)="numberValid($event)"
-                              formControlName="mobile" /> -->
+                                    formControlName="phone" (keypress)="numberValid($event)" />
                                 </div>
                               </div>
                             </div>
@@ -378,23 +370,20 @@
                       <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                           <div class="form-group">
                         <div class="select-number">
-                          <div class="input-group-prepend" [ngClass]=" { 
-                              'inputError': socialInputValidate && businessForm.controls['socialUrl'].errors
-                            }">
+<div class="input-group-prepend" [ngClass]=" {'inputError': socialInputValidate && businessInfoForm.controls['socialUrl'].errors}">
                             <div ngbDropdown class="select-country-list social">
                               <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                                <span *ngIf="selectedSocialsite && selectedSocialsite.title">{{selectedSocialsite.title}}</span>
+                                <span *ngIf="selectedSocialsite && selectedSocialsite.Title">{{selectedSocialsite.Title}}</span>
                               </div>
                               <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="social">
                                 <ul class="list-group">
-                                  <li class="list-group-item" *ngFor="let link of socialLink" (click)="selectedSocialLink(link)">
-                                    <span>{{link.title}}</span>
+                                  <li class="list-group-item" *ngFor="let link of socialWebs" (click)="selectedSocialLink(link)">
+                                    <span>{{link.Title}}</span>
                                   </li>
                                 </ul>
                               </div>
                             </div>
                             <div class="col social-link-field">
-                              <!-- <label class="social-place-label">http://</label> -->
                               <input type="text" class="form-control select-country-code" formControlName="socialUrl" [(ngModel)]="socialSites"
                                 maxlength="100" placeholder="http://www.company.com" (focusout)="socialLinkValidate()" (focus)="socialInputValidate=''" />
                             </div>
@@ -484,7 +473,13 @@
                       <div class="form-group">
                       <quill-editor *ngIf="editable" [(ngModel)]="editorContent" [options]="editorOptions" (change)="onContentChanged($event)">
                       </quill-editor>
-                        <div class="editor" *ngIf="!editable" [innerHTML]="editorContent"></div>
+                      <div class="editor" *ngIf="!editable" [innerHTML]="editorContent"></div>
+                        <!-- <div class="read-more-link">
+                          <a readMore [readMore-length]="430" [readMore-element]="aboutContent">
+                            <span class="less">Less <i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                            <span class="more">More <i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                          </a>
+                        </div> -->
                       </div>
                     </div>
                     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-8 col-xs-12 d-flex justify-content-end align-items-start">
@@ -510,6 +505,23 @@
                             class="servicechip-provides text-center d-flex flex-column justify-content-center mb-2 pointer"
                             (click)="freightService(service, selectService)">
                             <span>{{ service.LogServName }}</span>
+                          </div>
+                        </div>
+                        <div class="col-12 d-flex mt-3 animated fadeIn" *ngIf="wareHouseTypeToggler">
+                          <div class="fancyOptionBoxes mr-4">
+                          <input id="owner" name="warehouseType" type="radio" [checked]="!IsRealEstate" (change)="realEstateSel('owner')">
+                            <label for="owner">
+                              <span></span>
+                              I'm an owner / operator for Warehousing
+                            </label>
+                          </div>
+
+                          <div class="fancyOptionBoxes">
+                          <input id="realEstate" name="warehouseType" type="radio" [checked]="IsRealEstate" (change)="realEstateSel('realState')">
+                            <label for="realEstate">
+                              <span></span>
+                              I'm a Real Estate Agent for Warehousing
+                            </label>
                           </div>
                         </div>
                       </div>

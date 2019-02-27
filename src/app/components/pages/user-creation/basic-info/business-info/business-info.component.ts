@@ -174,7 +174,7 @@ export class BusinessInfoComponent implements OnInit {
         if (this.frtService[i] == obj.logServID) {
           this.frtService.splice(i, 1);
           selectedItem.remove('active');
-          if (obj.logServName == "Warehousing") {
+          if (obj.logServCode == "WRHS") {
             this.wareHouseTypeToggler = false;
           }
           return;
@@ -184,7 +184,7 @@ export class BusinessInfoComponent implements OnInit {
     if ((this.frtService && !this.frtService.length) || (i == this.frtService.length)) {
       selectedItem.add('active');
       this.frtService.push(obj.logServID);
-      if (obj.logServName == "Warehousing"){
+      if (obj.logServCode == "WRHS"){
         this.wareHouseTypeToggler = true;
       }
     }

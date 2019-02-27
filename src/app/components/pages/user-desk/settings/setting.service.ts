@@ -19,6 +19,10 @@ export class SettingService {
     let url = "provider/AddProviderService";
     return this._http.post(baseApi + url, obj);
   }
+  updateRealRstate(obj) {
+    let url = "provider/UpdateWarehouseOwner";
+    return this._http.put(baseApi + url, obj);
+  }
   deSelectAssociationService(obj) {
     let url = "provider/DeleteAssociation";
     return this._http.request('delete', baseApi + url, { body: obj });

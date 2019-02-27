@@ -43,6 +43,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   public activePhone: any;
   public activeTransPhone: any;
   public phoneCountryId: any;
+  public mobileCountryId:any
   public phoneCode;
 
   public mobileCountFlagImage: string;
@@ -246,8 +247,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   }
 
   countryWiseMaping(country) {
-    console.log(country);
-
     if (country && country.id) {
       this.showTranslatedLangSide = (country.desc[0].RegionCode === 'MET') ? true : false;
       this.transLangEmail = '';
@@ -312,12 +311,17 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     let description = list.desc;
     this.phoneCode = description[0].CountryPhoneCode;
     this.transPhoneCode = description[0].CountryPhoneCode_OtherLang;
-    // this.phoneCountryId = list.id
+    this.phoneCountryId = list.id
   }
   onSelectedCity(obj){
     if(obj && typeof obj == "object" ){
       this.countryFlagImage = obj.imageName;
       this.mobileCountFlagImage = obj.imageName;
+      let description = obj.desc;
+      this.phoneCountryId = description[0].CountryID;
+      this.mobileCountryId = description[0].CountryID;
+      this.mobileCode = description[0].CountryPhoneCode;
+      this.phoneCode = description[0].CountryPhoneCode;
     }
     return;
   }
@@ -326,7 +330,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     let description = list.desc;
     this.mobileCode = description[0].CountryPhoneCode;
     this.transmobileCode = description[0].CountryPhoneCode_OtherLang;
-    this.phoneCountryId = list.id
+    this.mobileCountryId = list.id
   }
   onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
     if (!this.showTranslatedLangSide) return;
@@ -791,7 +795,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       lastName: this.personalInfoForm.value.lastName,
       primaryPhone: this.personalInfoForm.value.telephone,
       countryPhoneCode: this.mobileCode,
-      phoneCodeCountryID: this.phoneCountryId,
+      phoneCodeCountryID: this.mobileCountryId,
       jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.baseLanguage : this.personalInfoForm.value.jobTitle,
     }
 
@@ -817,7 +821,9 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       companyAddress: this.businessForm.value.address,
       companyPhone: this.phoneCode + this.businessForm.value.phone,
       POBox: (this.businessForm.value.poBoxNo) ? this.businessForm.value.poBoxNo : null,
-      City: this.businessForm.value.city.id
+      City: this.businessForm.value.city.id,
+      countryPhoneCode: this.phoneCode,
+      phoneCodeCountryID: this.phoneCountryId,
     }
 
     let obj = {
