@@ -37,14 +37,17 @@
     <ngb-tab id="activeLCL">
       <ng-template ngbTabTitle>
         <span (click)="filterTableLcl(); generateDraftTableLCL()">
-          <svg data-name="Layer 1" id="ee0cf102-a966-4a3f-95ef-2d85d2845fce" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg data-name="Layer 1" id="ee0cf102-a966-4a3f-95ef-2d85d2845fce" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
             <g data-name="box" id="77a57afb-dc84-48f7-bcef-1ea8af6a0a74">
-              <path class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a" d="M12,2.236l10,5v9.528l-10,5-10-5V7.236l10-5M12,0,0,6V18l12,6,12-6V6L12,0Z"
-                data-name="<Compound Path>" id="b7ad858c-ef80-4b01-8e89-887b6e7eba38"></path>
-              <polygon class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a" data-name="<Path>" id="3d2841e7-73c0-49f4-a43e-30e1679abe1b"
+              <path class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a"
+                d="M12,2.236l10,5v9.528l-10,5-10-5V7.236l10-5M12,0,0,6V18l12,6,12-6V6L12,0Z" data-name="<Compound Path>"
+                id="b7ad858c-ef80-4b01-8e89-887b6e7eba38"></path>
+              <polygon class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a" data-name="<Path>"
+                id="3d2841e7-73c0-49f4-a43e-30e1679abe1b"
                 points="12 12.504 0.5 7.316 1.334 5.496 12 10.307 22.666 5.496 23.5 7.316 12 12.504"></polygon>
-              <rect class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a" data-name="<Path>" height="12" id="221b7dca-da17-44bc-bf0a-eaf6705915cb"
-                width="2" x="11" y="11"></rect>
+              <rect class="container-svg 324b713b-d0fb-4a53-8548-411c4a22720a" data-name="<Path>" height="12"
+                id="221b7dca-da17-44bc-bf0a-eaf6705915cb" width="2" x="11" y="11"></rect>
             </g>
           </svg>LCL</span>
       </ng-template>
@@ -55,19 +58,21 @@
             'no-pagination':
               draftslcl.length <= dtOptionsBySeaLCLDraft.pageLength}">
           <table id="draftRateTableLCL" cellspacing="0" #draftBYseaLCL class="row-border hover"></table>
-          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloadingLCL">Add another rates</a>
+          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()"
+            *ngIf="!draftloadingLCL">Add another rates</a>
           <!-- <app-loader-main *ngIf="draftloadingLCL"></app-loader-main> -->
         </section>
         <div class="row mt-4">
           <div class="col-12 text-right actions">
-            <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase" [disabled]="!draftslcl || (draftslcl && !draftslcl.length)"
-              (click)="discardDraftLcl()">
+            <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase"
+              [disabled]="!draftslcl || (draftslcl && !draftslcl.length)" (click)="discardDraftLcl()">
               Discard Draft
             </button>
             <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">
               Save Draft
             </button>
-            <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRatesLCL.length" (click)="publishRateLcl()">
+            <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRatesLCL.length"
+              (click)="publishRateLcl()">
               Publish Rates
             </button>
           </div>
@@ -79,17 +84,21 @@
             <ngb-panel>
               <ng-template ngbPanelTitle>
                 <span>
-                  <img src="../../../../../../../assets/images/icons/filter-icon.svg" alt="Filter" class="icon-size-16 filter-icon mr-2" />Filter your results
-                  <img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon" />
+                  <img src="../../../../../../../assets/images/icons/filter-icon.svg" alt="Filter"
+                    class="icon-size-16 filter-icon mr-2" />Filter your results
+                  <img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction"
+                    class="icon-size-16 acc-icon" />
                 </span>
                 <span class="clear-filter" (click)="clearFilter($event, 'LCL')">
-                  <svg id="969970e9-5f21-4072-86a7-6672decd15e6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <svg id="969970e9-5f21-4072-86a7-6672decd15e6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16">
                     <g id="0d761291-d7c4-42bf-9433-98aad825bfb6" data-name="add">
                       <g id="bede06dd-acf7-4be6-a923-734e194ecf5e" data-name="sucess">
-                        <path class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" d="M8,2A6,6,0,1,1,2,8,6.007,6.007,0,0,1,8,2M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0Z"
-                        />
+                        <path class="c06d2a3e-2056-48b9-8ea4-a92f4739f949"
+                          d="M8,2A6,6,0,1,1,2,8,6.007,6.007,0,0,1,8,2M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0Z" />
                       </g>
-                      <polygon class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" points="11 7 9 7 9 5 7 5 7 7 5 7 5 9 7 9 7 11 9 11 9 9 11 9 11 7" />
+                      <polygon class="c06d2a3e-2056-48b9-8ea4-a92f4739f949"
+                        points="11 7 9 7 9 5 7 5 7 7 5 7 5 9 7 9 7 11 9 11 9 9 11 9 11 7" />
                     </g>
                   </svg>
                   Reset Filter(s)</span>
@@ -110,7 +119,8 @@
                                   '.svg'
                               }}" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100" />
                           </div>
-                          <input class="form-control" [(ngModel)]="filterOriginLcl" (focusout)="filtertionPort(filterOriginLcl, 'LCL')" (ngModelChange)="
+                          <input class="form-control" [(ngModel)]="filterOriginLcl"
+                            (focusout)="filtertionPort(filterOriginLcl, 'LCL')" (ngModelChange)="
                               filterByroute(filterOriginLcl, 'LCL')
                             " placeholder="Origin" type="text" [ngClass]="{
                               routeSelected:
@@ -159,7 +169,8 @@
                       <label>Cargo Type</label>
                       <select class="form-control" [(ngModel)]="filterbyCargoTypeLcl" (change)="filterLcl()">
                         <option [value]="undefined">All</option>
-                        <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{ cargo.ShippingCatName }}</option>
+                        <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">
+                          {{ cargo.ShippingCatName }}</option>
                       </select>
                     </div>
                   </div>
@@ -176,10 +187,11 @@
                     <div class="form-group date-control">
                       <label>Rate Validity</label>
                       <div class="dateIcon">
-                        <input autocomplete="off" #rangeDpLCL class="form-control" placeholder="Start Date - End Date" name="dplcl" [(ngModel)]="modelLCL"
-                          ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right" [outsideDays]="true"
-                          [navigation]="false" [displayMonths]="2" [maxDate]="maxDateLCL" [minDate]="minDateLCL" #dpLCL="ngbDatepicker"
-                          (click)="dpLCL.toggle()" (ngModelChange)="filterBydate(modelLCL, 'LCL')" />
+                        <input autocomplete="off" #rangeDpLCL class="form-control" placeholder="Start Date - End Date"
+                          name="dplcl" [(ngModel)]="modelLCL" ngbDatepicker [dayTemplate]="t" [autoClose]="false"
+                          placement="bottom-right" [outsideDays]="true" [navigation]="false" [displayMonths]="2"
+                          [maxDate]="maxDateLCL" [minDate]="minDateLCL" #dpLCL="ngbDatepicker" (click)="dpLCL.toggle()"
+                          (ngModelChange)="filterBydate(modelLCL, 'LCL')" />
                       </div>
                       <ng-template #t let-date="date" let-focused="focused">
                         <span class="custom-day" [class.range]="
@@ -189,7 +201,8 @@
                             isHoveredLCL(date)
                           " [class.faded]="
                             isHoveredLCL(date) || isInsideLCL(date)
-                          " (click)="onDateSelectionLCL(date)" (mouseenter)="hoveredDateLCL = date" (mouseleave)="hoveredDateLCL = null">
+                          " (click)="onDateSelectionLCL(date)" (mouseenter)="hoveredDateLCL = date"
+                          (mouseleave)="hoveredDateLCL = null">
                           {{ date.day }}
                         </span>
                       </ng-template>
@@ -233,16 +246,19 @@
             </ngb-panel>
           </ngb-accordion>
         </section>
-        <section class="rates-grid mt-5 publishRatesLCL" [ngClass]="{'no-data': allRatesListLcL && !allRatesListLcL.length, 'no-scroll-add': allRatesListLcL && allRatesListLcL.length, 'no-pagination': allRatesListLcL && allRatesListLcL.length <= dtOptionsBySeaLCL.pageLength}">
+        <section class="rates-grid mt-5 publishRatesLCL"
+          [ngClass]="{'no-data': allRatesListLcL && !allRatesListLcL.length, 'no-scroll-add': allRatesListLcL && allRatesListLcL.length, 'no-pagination': allRatesListLcL && allRatesListLcL.length <= dtOptionsBySeaLCL.pageLength}">
           <div class="row mb-3 justify-content-end">
             <div class="col-6 d-flex justify-content-start rate-dur" *ngIf="allRatesListLcL && allRatesListLcL.length">
-              <img src="../../../../../../assets/images/icons/Icons_Clock-2hour.svg" alt="del_icon" class="icon-size-24 mr-2" /> Rates will be published in 2 hours
+              <img src="../../../../../../assets/images/icons/Icons_Clock-2hour.svg" alt="del_icon"
+                class="icon-size-24 mr-2" /> All Pending Rates will be published in 2 hours
             </div>
             <div class="col-6 d-flex justify-content-end">
-              <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidityLCL()" [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
+              <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidityLCL()"
+                [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
                 <!-- <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" /> -->
-                <svg class="edit-validity-icon icon-size-16 mr-2" id="17f5b310-5508-485b-8001-dbaf3458113b" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16">
+                <svg class="edit-validity-icon icon-size-16 mr-2" id="17f5b310-5508-485b-8001-dbaf3458113b"
+                  data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                   <defs>
                     <style>
                       .be7dd154-90ee-45f6-a47e-11a6c4eceb87 {
@@ -256,22 +272,24 @@
                   </defs>
                   <title>icon</title>
                   <g id="40ee8fd5-e28d-4347-b10e-66f9984b7564" data-name="calendar2">
-                    <path id="6d9cbed9-97a5-4544-9814-99b685f0d436" data-name="&lt;Compound Path&gt;" class="be7dd154-90ee-45f6-a47e-11a6c4eceb87"
+                    <path id="6d9cbed9-97a5-4544-9814-99b685f0d436" data-name="&lt;Compound Path&gt;"
+                      class="be7dd154-90ee-45f6-a47e-11a6c4eceb87"
                       d="M15,2H3.8A2.8,2.8,0,0,0,1,4.8V16H12.2A2.8,2.8,0,0,0,15,13.2V2Z" />
-                    <path class="dd12900e-6340-4a89-b921-0b1d5cffc735" d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z"
-                    />
-                    <rect id="7d4ed2c6-f916-40cf-acce-d794196da080" data-name="&lt;Path&gt;" class="be7dd154-90ee-45f6-a47e-11a6c4eceb87" x="5"
-                      width="2" height="5" />
-                    <rect id="a37c2eb5-9844-41fa-8d51-9b1b7c64de14" data-name="&lt;Path&gt;" class="be7dd154-90ee-45f6-a47e-11a6c4eceb87" x="9"
-                      width="2" height="5" />
+                    <path class="dd12900e-6340-4a89-b921-0b1d5cffc735"
+                      d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z" />
+                    <rect id="7d4ed2c6-f916-40cf-acce-d794196da080" data-name="&lt;Path&gt;"
+                      class="be7dd154-90ee-45f6-a47e-11a6c4eceb87" x="5" width="2" height="5" />
+                    <rect id="a37c2eb5-9844-41fa-8d51-9b1b7c64de14" data-name="&lt;Path&gt;"
+                      class="be7dd154-90ee-45f6-a47e-11a6c4eceb87" x="9" width="2" height="5" />
                   </g>
                 </svg>
                 {{rateValidityTextLCL}}
               </a>
-              <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('LCL')" [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
+              <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('LCL')"
+                [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
                 <!-- <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16" /> -->
-                <svg class="delete-icon icon-size-16 mr-2" id="317c8c47-17e2-4e96-9063-97bc9a32118b" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16">
+                <svg class="delete-icon icon-size-16 mr-2" id="317c8c47-17e2-4e96-9063-97bc9a32118b" data-name="Layer 1"
+                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                   <defs>
                     <style>
                       .a2933809-f108-463d-a7d6-9972aa735edc {
@@ -283,7 +301,8 @@
                   <g id="9ddd7984-9517-4e7f-881d-6292000e8e8a" data-name="delete">
                     <rect class="a2933809-f108-463d-a7d6-9972aa735edc" y="2" width="16" height="2" />
                     <rect class="a2933809-f108-463d-a7d6-9972aa735edc" x="5" width="6" height="2" />
-                    <path class="a2933809-f108-463d-a7d6-9972aa735edc" d="M2,5v9a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V5Zm5,9H5V7H7Zm4,0H9V7h2Z" />
+                    <path class="a2933809-f108-463d-a7d6-9972aa735edc"
+                      d="M2,5v9a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V5Zm5,9H5V7H7Zm4,0H9V7h2Z" />
                   </g>
                 </svg>
                 Delete
@@ -299,18 +318,20 @@
               <hr class="hr-solid mt-4" />
               <div class="policyEditor mb-4 mt-4 d-flex justify-content-between align-items-center">
                 <h5 class="add-rate-head">Terms & Conditions</h5>
-                <button *ngIf="disableLCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5" (click)="disableLCL = !disableLCL">
+                <button *ngIf="disableLCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5"
+                  (click)="disableLCL = !disableLCL">
                   EDIT
                 </button>
               </div>
               <div class="form-group">
-                <quill-editor *ngIf="!disableLCL" [(ngModel)]="editorContentLCL" [options]="editorOptionsLCL" (blur)="onEditorBlured($event, 'LCL')"
-                  (focus)="onEditorFocused($event,'LCL')" (ready)="onEditorCreated($event,'LCL')" (change)="onContentChanged($event,'LCL')">
+                <quill-editor *ngIf="!disableLCL" [(ngModel)]="editorContentLCL" [options]="editorOptionsLCL"
+                  (blur)="onEditorBlured($event, 'LCL')" (focus)="onEditorFocused($event,'LCL')"
+                  (ready)="onEditorCreated($event,'LCL')" (change)="onContentChanged($event,'LCL')">
                 </quill-editor>
                 <div *ngIf="disableLCL" class="editor" [innerHTML]="editorContentLCL">
                 </div>
-                <button *ngIf="!disableLCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="button" [disabled]="!editorContentLCL"
-                  (click)="saveTermNcond('LCL')">
+                <button *ngIf="!disableLCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4"
+                  type="button" [disabled]="!editorContentLCL" (click)="saveTermNcond('LCL')">
                   SAVE
                 </button>
               </div>
@@ -322,47 +343,51 @@
     <ngb-tab id="activeFCL">
       <ng-template ngbTabTitle>
         <span (click)="filterTable(); generateDraftTable()">
-          <svg data-name="Layer 1" id="3e0bd723-1f5e-404f-9c9e-f9fa6a56c26b" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg data-name="Layer 1" id="3e0bd723-1f5e-404f-9c9e-f9fa6a56c26b" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
             <g data-name="container" id="6744cc39-0259-4947-99c3-524da0baf146">
-              <path class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" d="M22,10V22H2V10H22m2-2H0V24H24V8Z" data-name="<Compound Path>"
-                id="a13d3843-8cbe-44ec-8bff-9c9271c255f7"></path>
-              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="10" id="3bc9a61b-e64a-4a26-a0db-69d1ce9d6b6e"
-                width="2" x="5" y="11"></rect>
-              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="10" id="15063ed6-0b45-423b-a60a-fb9e8a38780a"
-                width="2" x="11" y="11"></rect>
-              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="10" id="435b81d5-b0c3-4dda-b6bf-ec8fa8fd643e"
-                width="2" x="17" y="11"></rect>
-              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="2" id="0dc9424e-7fc7-46da-a1ac-89446f588598"
-                transform="translate(-1.607 8.121) rotate(-45)" width="7.543" x="5.229" y="5"></rect>
-              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="7.543" id="713c3bf1-8eef-4a1e-a553-96a0cf70b1ea"
-                transform="translate(0.15 12.363) rotate(-44.995)" width="2" x="14" y="2.229"></rect>
-              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="4" id="9e10ba48-acd1-4fa3-a431-1799e0b0691c"
-                width="2" x="11"></rect>
+              <path class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" d="M22,10V22H2V10H22m2-2H0V24H24V8Z"
+                data-name="<Compound Path>" id="a13d3843-8cbe-44ec-8bff-9c9271c255f7"></path>
+              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="10"
+                id="3bc9a61b-e64a-4a26-a0db-69d1ce9d6b6e" width="2" x="5" y="11"></rect>
+              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="10"
+                id="15063ed6-0b45-423b-a60a-fb9e8a38780a" width="2" x="11" y="11"></rect>
+              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="10"
+                id="435b81d5-b0c3-4dda-b6bf-ec8fa8fd643e" width="2" x="17" y="11"></rect>
+              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="2"
+                id="0dc9424e-7fc7-46da-a1ac-89446f588598" transform="translate(-1.607 8.121) rotate(-45)" width="7.543"
+                x="5.229" y="5"></rect>
+              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="7.543"
+                id="713c3bf1-8eef-4a1e-a553-96a0cf70b1ea" transform="translate(0.15 12.363) rotate(-44.995)" width="2"
+                x="14" y="2.229"></rect>
+              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="4"
+                id="9e10ba48-acd1-4fa3-a431-1799e0b0691c" width="2" x="11"></rect>
             </g>
           </svg>
           FCL</span>
       </ng-template>
       <ng-template ngbTabContent>
-        <section [ngClass]="{
-            'no-data': draftsfcl && !draftsfcl.length,
-            'no-scroll-add': draftsfcl && draftsfcl.length,
-            'no-pagination':
-            draftsfcl && draftsfcl.length <= dtOptionsBySeaFCLDraft.pageLength
-          }" class="rates-grid draft-grid draft-Fcl">
-          <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table>
-          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloading">Add another rates</a>
+        <section class="rates-grid draft-grid draft-Fcl">
+          <!-- <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table> -->
+          <app-ui-table *ngIf="draftsfcl.length" [tableType]="'draftFCL'" [(tableData)]="draftsfcl"
+            (checkedRows)="tableCheckedRows($event)"></app-ui-table>
+          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()">
+            <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
+            Add another rates
+          </a>
           <!-- <app-loader-main *ngIf="draftloading"></app-loader-main> -->
         </section>
         <div class="row mt-4">
           <div class="col-12 text-right actions">
-            <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase" [disabled]="!draftsfcl || (draftsfcl && !draftsfcl.length)"
-              (click)="discardDraft()">
+            <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase"
+              [disabled]="!draftsfcl || (draftsfcl && !draftsfcl.length)" (click)="discardDraft()">
               Discard Draft
             </button>
             <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">
               Save Draft
             </button>
-            <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRates.length" (click)="publishRate()">
+            <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRates.length"
+              (click)="publishRate()">
               Publish Rates
             </button>
           </div>
@@ -374,17 +399,21 @@
             <ngb-panel>
               <ng-template ngbPanelTitle>
                 <span>
-                  <img src="../../../../../../../assets/images/icons/filter-icon.svg" alt="Filter" class="icon-size-16 mr-2 filter-icon" />Filter your results
-                  <img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction" class="icon-size-16 acc-icon" />
+                  <img src="../../../../../../../assets/images/icons/filter-icon.svg" alt="Filter"
+                    class="icon-size-16 mr-2 filter-icon" />Filter your results
+                  <img src="../../../../../../../assets/images/icons/icon_arrow_right.svg" alt="direction"
+                    class="icon-size-16 acc-icon" />
                 </span>
                 <span class="clear-filter" (click)="clearFilter($event, 'FCL')">
-                  <svg id="969970e9-5f21-4072-86a7-6672decd15e6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <svg id="969970e9-5f21-4072-86a7-6672decd15e6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16">
                     <g id="0d761291-d7c4-42bf-9433-98aad825bfb6" data-name="add">
                       <g id="bede06dd-acf7-4be6-a923-734e194ecf5e" data-name="sucess">
-                        <path class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" d="M8,2A6,6,0,1,1,2,8,6.007,6.007,0,0,1,8,2M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0Z"
-                        />
+                        <path class="c06d2a3e-2056-48b9-8ea4-a92f4739f949"
+                          d="M8,2A6,6,0,1,1,2,8,6.007,6.007,0,0,1,8,2M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0Z" />
                       </g>
-                      <polygon class="c06d2a3e-2056-48b9-8ea4-a92f4739f949" points="11 7 9 7 9 5 7 5 7 7 5 7 5 9 7 9 7 11 9 11 9 9 11 9 11 7" />
+                      <polygon class="c06d2a3e-2056-48b9-8ea4-a92f4739f949"
+                        points="11 7 9 7 9 5 7 5 7 7 5 7 5 9 7 9 7 11 9 11 9 9 11 9 11 7" />
                     </g>
                   </svg>
                   Reset Filter(s)</span>
@@ -396,7 +425,8 @@
                       <label>Shipping Lines</label>
                       <select class="form-control" [(ngModel)]="filterbyShippingLine" placeholder="Select">
                         <option [value]="undefined">All</option>
-                        <option *ngFor="let shipping of allShippingLines" [value]="shipping.CarrierID">{{ shipping.CarrierName }}</option>
+                        <option *ngFor="let shipping of allShippingLines" [value]="shipping.CarrierID">
+                          {{ shipping.CarrierName }}</option>
                       </select>
                     </div>
                   </div>
@@ -412,7 +442,8 @@
                                   '.svg'
                               }}" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100" />
                           </div>
-                          <input class="form-control" [(ngModel)]="filterOrigin" placeholder="Origin" type="text" [ngClass]="{
+                          <input class="form-control" [(ngModel)]="filterOrigin" placeholder="Origin" type="text"
+                            [ngClass]="{
                               routeSelected:
                                 filterOrigin && filterOrigin.CountryCode
                             }" [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
@@ -428,7 +459,8 @@
                                   '.svg'
                               }}" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100" />
                           </div>
-                          <input placeholder="Destination" [(ngModel)]="filterDestination" type="text" class="form-control" [ngClass]="{
+                          <input placeholder="Destination" [(ngModel)]="filterDestination" type="text"
+                            class="form-control" [ngClass]="{
                               routeSelected:
                                 filterDestination &&
                                 filterDestination.CountryCode
@@ -454,7 +486,8 @@
                       <label>Cargo Type</label>
                       <select class="form-control" [(ngModel)]="filterbyCargoType">
                         <option [value]="undefined">All</option>
-                        <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{ cargo.ShippingCatName }}</option>
+                        <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">
+                          {{ cargo.ShippingCatName }}</option>
                       </select>
                     </div>
                   </div>
@@ -463,7 +496,8 @@
                       <label>Container</label>
                       <select class="form-control" [(ngModel)]="filterbyContainerType">
                         <option [value]="undefined">All</option>
-                        <option *ngFor="let container of (fclContainers | unique)" [value]="container.ContainerSpecID">{{ container.ContainerSpecShortName }}</option>
+                        <option *ngFor="let container of (fclContainers | unique)" [value]="container.ContainerSpecID">
+                          {{ container.ContainerSpecShortName }}</option>
                       </select>
                     </div>
                   </div>
@@ -471,10 +505,11 @@
                     <div class="form-group date-control">
                       <label>Rate Validity</label>
                       <div class="dateIcon">
-                        <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date" name="dp" [(ngModel)]="model"
-                          ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right" [outsideDays]="true"
-                          [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker"
-                          (click)="dp.toggle()" (ngModelChange)="filterBydate(model, 'FCL')" />
+                        <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date"
+                          name="dp" [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false"
+                          placement="bottom-right" [outsideDays]="true" [navigation]="false" [displayMonths]="2"
+                          [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker" (click)="dp.toggle()"
+                          (ngModelChange)="filterBydate(model, 'FCL')" />
                       </div>
                       <ng-template #t let-date="date" let-focused="focused">
                         <span class="custom-day" [class.range]="
@@ -482,8 +517,8 @@
                             isTo(date) ||
                             isInside(date) ||
                             isHovered(date)
-                          " [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)" (mouseenter)="hoveredDate = date"
-                          (mouseleave)="hoveredDate = null">
+                          " [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)"
+                          (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
                           {{ date.day }}
                         </span>
                       </ng-template>
@@ -493,14 +528,14 @@
                   <div class="col-5 form-group">
                     <label>Show Only Rates For </label>
                     <div class="fancyOptionBoxes pull-left  filter-checkbox mr-3 pt-3">
-                      <input id="Radios" name="Radios" type="radio">
+                      <input id="Radios" name="Radios" type="radio" (change)="isMarketplace = !isMarketplace; isCustomer = false">
                       <label for="Radios">
                         <span></span>
                         Marketplace
                       </label>
                     </div>
                     <div class="fancyOptionBoxes pull-left  filter-checkbox  pt-3">
-                      <input id="Radios2" name="Radios" type="radio">
+                      <input id="Radios2" name="Radios" type="radio" (change)="isCustomer = !isCustomer; isMarketplace = false">
                       <label for="Radios2">
                         <span></span>
                         My Customers
@@ -508,19 +543,21 @@
                     </div>
                   </div>
 
-                  <div class="col-4">
+                  <div class="col-4" *ngIf="isCustomer">
                     <div class="form-group">
                       <label>Customer</label>
                       <select class="form-control" [(ngModel)]="filterbyCustomer">
                         <option [value]="undefined">Please Select</option>
-                        <option *ngFor="let customer of allCustomers" [value]="customer.CustomerID">{{ customer.CustomerName }}</option>
+                        <option *ngFor="let customer of allCustomers" [value]="customer.CustomerID">
+                          {{ customer.CustomerName }}</option>
                       </select>
                     </div>
                   </div>
                   <div class="col-8">
                     <div class="form-group">
                       <label for="">&nbsp;</label>
-                      <button class="btn btn-primary w-50 btn-lg" (click)="filterRecords('publish')">Filter Records</button>
+                      <button class="btn btn-primary w-50 btn-lg" (click)="filterRecords('publish')">Filter
+                        Records</button>
                     </div>
                   </div>
                 </div>
@@ -528,16 +565,19 @@
             </ngb-panel>
           </ngb-accordion>
         </section>
-        <section class="rates-grid mt-5 publishRatesFCL" [ngClass]="{'no-data': allRatesList && !allRatesList.length, 'no-scroll-add': allRatesList && allRatesList.length, 'no-pagination': allRatesList && allRatesList.length <= dtOptionsBySeaFCL.pageLength}">
-          <div class="row mb-3 justify-content-end">
+        <section class="rates-grid mt-5 publishRatesFCL"
+          [ngClass]="{'no-data': allRatesList && !allRatesList.length, 'no-scroll-add': allRatesList && allRatesList.length, 'no-pagination': allRatesList && allRatesList.length <= dtOptionsBySeaFCL.pageLength}">
+          <div class="row mb-3 justify-content-end" *ngIf="allRatesList">
             <div class="col-6 d-flex justify-content-start rate-dur" *ngIf="allRatesList && allRatesList.length">
-              <img src="../../../../../../assets/images/icons/Icons_Clock-2hour.svg" alt="del_icon" class="icon-size-24 mr-2" /> Rates will be published in 2 hours
+              <img src="../../../../../../assets/images/icons/Icons_Clock-2hour.svg" alt="del_icon"
+                class="icon-size-24 mr-2" /> Unpublished Rates will be published in 2 hours
             </div>
             <div class="col-6 d-flex justify-content-end">
-              <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity()" [ngClass]="{ 'no-drop': !delPublishRates.length }">
+              <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity()"
+                [ngClass]="{ 'no-drop': !delPublishRates.length }">
                 <!-- <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" /> -->
-                <svg class="edit-validity-icon icon-size-16 mr-2" id="17f5b310-5508-485b-8001-dbaf3458113b" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16">
+                <svg class="edit-validity-icon icon-size-16 mr-2" id="17f5b310-5508-485b-8001-dbaf3458113b"
+                  data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                   <defs>
                     <style>
                       .be7dd154-90ee-45f6-a47e-11a6c4eceb87 {
@@ -551,22 +591,24 @@
                   </defs>
                   <title>icon</title>
                   <g id="40ee8fd5-e28d-4347-b10e-66f9984b7564" data-name="calendar2">
-                    <path id="6d9cbed9-97a5-4544-9814-99b685f0d436" data-name="&lt;Compound Path&gt;" class="be7dd154-90ee-45f6-a47e-11a6c4eceb87"
+                    <path id="6d9cbed9-97a5-4544-9814-99b685f0d436" data-name="&lt;Compound Path&gt;"
+                      class="be7dd154-90ee-45f6-a47e-11a6c4eceb87"
                       d="M15,2H3.8A2.8,2.8,0,0,0,1,4.8V16H12.2A2.8,2.8,0,0,0,15,13.2V2Z" />
-                    <path class="dd12900e-6340-4a89-b921-0b1d5cffc735" d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z"
-                    />
-                    <rect id="7d4ed2c6-f916-40cf-acce-d794196da080" data-name="&lt;Path&gt;" class="be7dd154-90ee-45f6-a47e-11a6c4eceb87" x="5"
-                      width="2" height="5" />
-                    <rect id="a37c2eb5-9844-41fa-8d51-9b1b7c64de14" data-name="&lt;Path&gt;" class="be7dd154-90ee-45f6-a47e-11a6c4eceb87" x="9"
-                      width="2" height="5" />
+                    <path class="dd12900e-6340-4a89-b921-0b1d5cffc735"
+                      d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z" />
+                    <rect id="7d4ed2c6-f916-40cf-acce-d794196da080" data-name="&lt;Path&gt;"
+                      class="be7dd154-90ee-45f6-a47e-11a6c4eceb87" x="5" width="2" height="5" />
+                    <rect id="a37c2eb5-9844-41fa-8d51-9b1b7c64de14" data-name="&lt;Path&gt;"
+                      class="be7dd154-90ee-45f6-a47e-11a6c4eceb87" x="9" width="2" height="5" />
                   </g>
                 </svg>
                 {{rateValidityTextFCL}}
               </a>
-              <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('FCL')" [ngClass]="{ 'no-drop': !delPublishRates.length }">
+              <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('FCL')"
+                [ngClass]="{ 'no-drop': !delPublishRates.length }">
                 <!-- <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16" /> -->
-                <svg class="delete-icon icon-size-16 mr-2" id="317c8c47-17e2-4e96-9063-97bc9a32118b" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16">
+                <svg class="delete-icon icon-size-16 mr-2" id="317c8c47-17e2-4e96-9063-97bc9a32118b" data-name="Layer 1"
+                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                   <defs>
                     <style>
                       .a2933809-f108-463d-a7d6-9972aa735edc {
@@ -578,14 +620,18 @@
                   <g id="9ddd7984-9517-4e7f-881d-6292000e8e8a" data-name="delete">
                     <rect class="a2933809-f108-463d-a7d6-9972aa735edc" y="2" width="16" height="2" />
                     <rect class="a2933809-f108-463d-a7d6-9972aa735edc" x="5" width="6" height="2" />
-                    <path class="a2933809-f108-463d-a7d6-9972aa735edc" d="M2,5v9a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V5Zm5,9H5V7H7Zm4,0H9V7h2Z" />
+                    <path class="a2933809-f108-463d-a7d6-9972aa735edc"
+                      d="M2,5v9a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V5Zm5,9H5V7H7Zm4,0H9V7h2Z" />
                   </g>
                 </svg>
                 Delete
               </a>
             </div>
           </div>
-          <table id="publishRateTable" cellspacing="0" #publishBysea class="row-border hover"></table>
+          <!-- <table id="publishRateTable" cellspacing="0" #publishBysea class="row-border hover"></table> -->
+          <app-ui-table *ngIf="allRatesList" [tableType]="'publishFCL'" [tableData]="allRatesList"
+            (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters($event)" (pageEvent)="paging($event)" [totalRecords]="totalPublishedRecords"></app-ui-table>
+            <div *ngIf="!allRatesList">No Records Found</div>
           <app-loader-main *ngIf="publishloading"></app-loader-main>
         </section>
         <section class="term-cond">
@@ -594,18 +640,20 @@
               <hr class="hr-solid mt-4" />
               <div class="policyEditor mb-4 mt-4 d-flex justify-content-between align-items-center">
                 <h5 class="add-rate-head">Terms & Conditions</h5>
-                <button *ngIf="disableFCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5" (click)="disableFCL = !disableFCL">
+                <button *ngIf="disableFCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5"
+                  (click)="disableFCL = !disableFCL">
                   EDIT
                 </button>
               </div>
               <div class="form-group text-editor ">
-                <quill-editor *ngIf="!disableFCL" [(ngModel)]="editorContentFCL" [options]="editorOptionsFCL" (blur)="onEditorBlured($event,'FCL')"
-                  (focus)="onEditorFocused($event,'FCL')" (ready)="onEditorCreated($event,'FCL')" (change)="onContentChanged($event,'FCL')">
+                <quill-editor *ngIf="!disableFCL" [(ngModel)]="editorContentFCL" [options]="editorOptionsFCL"
+                  (blur)="onEditorBlured($event,'FCL')" (focus)="onEditorFocused($event,'FCL')"
+                  (ready)="onEditorCreated($event,'FCL')" (change)="onContentChanged($event,'FCL')">
                 </quill-editor>
                 <div *ngIf="disableFCL" class="editor" [innerHTML]="editorContentFCL">
                 </div>
-                <button *ngIf="!disableFCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="button" [disabled]="!editorContentFCL"
-                  (click)="saveTermNcond('FCL')">
+                <button *ngIf="!disableFCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4"
+                  type="button" [disabled]="!editorContentFCL" (click)="saveTermNcond('FCL')">
                   SAVE
                 </button>
               </div>

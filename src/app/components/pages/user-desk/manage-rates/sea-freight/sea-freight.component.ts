@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, QueryList, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, QueryList, AfterViewInit, OnDestroy, Output } from '@angular/core';
 import {
   NgbDatepicker,
   NgbInputDatepicker,
@@ -30,6 +30,7 @@ import { getImagePath, ImageSource, ImageRequiredSize, changeCase, loading, remo
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonService } from '../../../../../services/common.service';
 import { cloneObject } from '../../reports/reports.component';
+
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -63,7 +64,6 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 })
 
 export class SeaFreightComponent implements OnInit, OnDestroy {
-
   private draftRates: any;
   private addnsaveRates: any;
   private addnsaveRatesLCL: any;
@@ -1013,6 +1013,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         }
       })
       this.draftsfcl.unshift(dataObj)
+      this.getDraftRates() //@todo remove it when we get the mechanism for parent to child changes emit
+
     });
     this.generateDraftTable();
 
@@ -1201,31 +1203,38 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     }
   }
 
+  public sortColumn: string = 'CarrierName'
+  public sortColumnDirection: string = 'ASC'
+  public isCustomer: boolean = false
+  public isMarketplace: boolean = false
+  public pageNo: number = 1;
+  public pageSize: number = 5;
+  public totalPublishedRecords: number;
   getAllPublishRates() {
     this.publishloading = true;
-    console.log($('#publishRateTable'));
-    console.log(this.selectedColumn);
-          console.log(this.selectedDir);
-
     let obj = {
       // providerID: 1047,     
       providerID: this.userProfile.ProviderID,
-      pageNo: 1,
-      pageSize: 50,
+      pageNo: this.pageNo,
+      pageSize: this.pageSize,
       carrierID: (this.filterbyShippingLine == 'undefined') ? null : this.filterbyShippingLine,
       shippingCatID: (this.filterbyCargoType == 'undefined') ? null : this.filterbyCargoType,
-      containerSpecID: (this.filterbyContainerType == 'undefined') ? null : parseInt(this.filterbyContainerType),
+      containerSpecID: (this.filterbyContainerType == 'undefined') ? null : this.filterbyContainerType,
       polID: this.orgfilter("FCL"),
       podID: this.destfilter("FCL"),
       effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
       effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
       customerID: (this.filterbyCustomer ? parseInt(this.filterbyCustomer) : null),
-      sortColumn: null,
-      sortColumnDirection: this.selectedDir
+      customerType: (this.isCustomer ? 'CUSTOMER' : (this.isMarketplace ? 'MARKETPLACE' : null)),
+      sortColumn: this.sortColumn,
+      sortColumnDirection: this.sortColumnDirection
     }
+    console.log(obj);
+    // return;
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
       this.publishloading = false;
       if (res.returnId > 0) {
+        this.totalPublishedRecords = res.returnObject.recordsTotal
         this.allRatesList = cloneObject(res.returnObject.data);
         this.checkedallpublishRates = false;
         this.filterTable();
@@ -1658,12 +1667,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       if (this.tablepublishBySea && this.tablepublishBySea.nativeElement) {
         this.dataTablepublishBysea = $(this.tablepublishBySea.nativeElement);
-        let alltableOption;
-        if(this.fromType === 'publish') {
-          alltableOption = this.dataTablepublishBysea.DataTable().draw();
-        } else {
-          alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsBySeaFCL);
-        }
+        let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsBySeaFCL);
         this.publishloading = false;
         $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
           event.stopPropagation();
@@ -1692,17 +1696,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
         });
         // let publishFCLtable = $('#publishRateTable').DataTable(alltableOption);
-        $('#publishRateTable').on('order.dt', function () {
-          console.log('here')
-          let order = alltableOption.order();
-          // let title = publishFCLtable.column(order[0][0]).header();
-          // console.log($(title).html())
-          console.log(order);
-          let columnRef = order[0][0]
-          let columnDir = order[0][1]
-          this.selectedColumn = order[0][0]
-          this.selectedDir = order[0][1]
-        });
         $('#publishRateTable').off('click').on('click', 'input[type="checkbox"]', (event) => {
           let index = this.delPublishRates.indexOf((<HTMLInputElement>event.target).id);
           let selection = event.currentTarget.parentElement.parentElement.parentElement;
@@ -1982,6 +1975,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           this.publishRates = [];
           this.generateDraftTable();
           this.getAllPublishRates();
+          this.getDraftRates() // todo remove is when we get the mechanism for transfer data between components
         }
       }
     })
@@ -2028,6 +2022,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         for (let index = 0; index < this.draftsfcl.length; index++) {
           if (this.draftsfcl[index].ProviderPricingDraftID == id) {
             this.draftsfcl.splice(index, 1);
+            this.getDraftRates() //@todo remove it when we get the mechanism for parent to child changes emit
             this.generateDraftTable();
             this.publishRates = [];
             break;
@@ -2096,7 +2091,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       }
     }
 
-
+    console.log(updateValidity)
     if (updateValidity && updateValidity.length > 1) {
       const modalRef = this.modalService.open(RateValidityComponent, {
         size: 'lg',
@@ -2283,8 +2278,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     loading(true)
     this._seaFreightService.getAllDrafts(this.userProfile.ProviderID).subscribe((res: any) => {
       if (res.returnObject) {
+        this.draftloading = false
         this.allSeaDraftRatesByFCL = changeCase(res.returnObject, 'pascal')
         this.draftsfcl = changeCase(res.returnObject, 'pascal')
+        // this.draftsfcl = res.returnObject
+        console.log(this.draftsfcl);
       }
       loading(false)
     }, (err: any) => {
@@ -2312,10 +2310,44 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     })
   }
 
+  tableCheckedRows(event) {
+    if (event.type === 'publishFCL') {
+      if (typeof event.list[0] === 'object') {
+        if (event.list[0].type === 'history') {
+          this.rateHistory(event.list[0].id, 'Rate_FCL')
+        }
+      } else if (typeof event.list[0] === 'number') {
+        this.delPublishRates = event.list
+      }
+    } else if (event.type === 'draftFCL') {
+      if (typeof event.list[0] === 'object') {
+        if (event.list[0].type === 'delete') {
+          this.deleteRow(event.list[0].id)
+        } else if (event.list[0].type === 'edit') {
+          this.updatePopupRates(event.list[0].id, 'FCL')
+        }
+      } else {
+        this.publishRates = event.list;
+      }
+    }
+  }
+
+  sortedFilters(event) {
+    console.log(event);
+    this.sortColumn = event.column
+    this.sortColumnDirection = event.direction
+    this.getAllPublishRates()
+  }
+
+  paging(event) {
+    console.log(event);
+    this.pageNo = event;
+    this.getAllPublishRates()
+  }
+
   public filterbyCustomer;
   public fromType: string = ''
   filterRecords(type) {
-    this.fromType = 'publish';
     this.getAllPublishRates()
   }
 

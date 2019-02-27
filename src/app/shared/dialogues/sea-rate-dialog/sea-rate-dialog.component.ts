@@ -197,7 +197,8 @@ export class SeaRateDialogComponent implements OnInit {
     );
     this.selectedPrice = data.Price;
 
-    if (data.JsonCustomerDetail) {
+    
+    if (data.JsonCustomerDetail && data.CustomerID) {
       this.selectedCustomer = JSON.parse(data.JsonCustomerDetail)
       this.disabledCustomers = true;
     }
