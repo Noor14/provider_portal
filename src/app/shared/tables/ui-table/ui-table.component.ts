@@ -1,0 +1,281 @@
+import { Component, OnInit, Input, Output, OnChanges, EventEmitter, SimpleChange } from '@angular/core';
+import { getImagePath, ImageSource, ImageRequiredSize, getDateDiff, changeCase } from '../../../constants/globalFunctions';
+import { baseExternalAssets } from '../../../constants/base.url';
+import * as moment from 'moment';
+import { PaginationInstance } from 'ngx-pagination';
+import { cloneObject } from '../../../components/pages/user-desk/reports/reports.component';
+import { firstBy } from 'thenby';
+
+@Component({
+  selector: 'app-ui-table',
+  templateUrl: './ui-table.component.html',
+  styleUrls: ['./ui-table.component.scss']
+})
+export class UiTableComponent implements OnInit, OnChanges {
+  @Input() tableData: any;
+  @Input() tableType: string;
+  @Input() totalRecords: number
+  @Output() checkedRows = new EventEmitter<any>()
+  @Output() sorting = new EventEmitter<any>()
+  @Output() pageEvent = new EventEmitter<any>()
+
+  public selectedSort: any = {
+    title: 'Rate For',
+    value: 'CustomerName',
+    column: 'CustomerID'
+  }
+  public data: any[] = []
+  public maxSize: number = 7;
+  public directionLinks: boolean = true;
+  public autoHide: boolean = false;
+  public checkAllPublish: boolean = false;
+  public checkAllDrafts: boolean = false;
+
+  // pagination vars
+  // public pageSize: number = 5;
+  public page: number = 1
+
+  public thList: Array<HMTableHead> = [
+
+    { title: "", activeClass: '', sortKey: "" },
+    { title: "Rate For", activeClass: '', sortKey: "CustomerName" },
+    { title: "Shipping Line", activeClass: '', sortKey: "" },
+    { title: "Origin/Departure", activeClass: '', sortKey: "" },
+    { title: "Cargo Type", activeClass: '', sortKey: "" },
+    { title: "Container", activeClass: '', sortKey: "" },
+    { title: "Rate", activeClass: '', sortKey: "" },
+    { title: "Rate Validity", activeClass: '', sortKey: "" },
+    { title: "Import Charges", activeClass: '', sortKey: "" },
+    { title: "Export Charges", activeClass: '', sortKey: "" },
+  ]
+
+  public devicPageConfig: PaginationInstance = {
+    id: 'publish',
+    itemsPerPage: 5,
+    currentPage: 1,
+  };
+
+  public labels: any = {
+    previousLabel: '',
+    nextLabel: '',
+    screenReaderPaginationLabel: 'Pagination',
+    screenReaderPageLabel: 'page',
+    screenReaderCurrentLabel: `You're on page`
+  };
+
+  constructor() { }
+
+  ngOnInit() {
+    if (this.tableType === 'draftFCL') {
+      this.tableData = changeCase(this.tableData, 'camel')
+    }
+    this.data = this.tableData
+    this.data.forEach(e => {
+      if (e.jsonCustomerDetail) {
+        e.parsedjsonCustomerDetail = JSON.parse(e.jsonCustomerDetail)
+      }
+      if (e.publishStatus) {
+        e.parsedpublishStatus = JSON.parse(e.publishStatus)
+      }
+      e.isChecked = false
+      let dateDiff = getDateDiff(moment(e.effectiveTo).format("L"), moment(new Date()).format("L"), 'days', "MM-DD-YYYY")
+      if (dateDiff <= 15) {
+        e.dateDiff = dateDiff
+      } else {
+        e.dateDiff = null
+      }
+    })
+    console.log(this.data)
+  }
+
+  onPageChangeBootstrap(event) {
+    this.page = event;
+    this.pageEvent.emit(this.page)
+  }
+
+  onHeadClick($index: number, $activeClass: string, $fieldToSort: any) {
+    const cloneThList: HMTableHead[] = cloneObject(this.thList)
+    let direction: number
+    if ($activeClass === 'sorting_asc') {
+      cloneThList[$index].activeClass = 'sorting_desc'
+      direction = -1
+    } else {
+      cloneThList[$index].activeClass = 'sorting_asc'
+      direction = 1
+    }
+    const thLength = cloneThList.length
+    for (let index = 0; index < thLength; index++) {
+      if (index !== $index) {
+        cloneThList[index].activeClass = 'none_sorting_asc'
+      }
+    }
+    this.thList = cloneThList
+
+    this.data.sort(
+      firstBy($fieldToSort, { direction })
+    );
+  }
+
+  onPageChange(number: any, type) {
+    this.devicPageConfig.currentPage = number;
+  }
+
+  getUIImage($image: string, type) {
+    if (type) {
+      return baseExternalAssets + "/" + $image;
+    }
+    return getImagePath(ImageSource.FROM_SERVER, $image, ImageRequiredSize.original)
+  }
+
+  public checkList = [];
+  onCheck(type, model) {
+    if (type === 'all') {
+      if (this.tableType === 'draftFCL') {
+        this.checkAllDrafts = !this.checkAllDrafts
+        if (this.checkAllDrafts) {
+          this.data.forEach(e => {
+            if (!this.validateRow(e)) {
+              e.isChecked = true
+              this.checkList.push(e.providerPricingDraftID)
+            }
+          })
+        } else if (!this.checkAllDrafts) {
+          this.data.forEach(e => {
+            e.isChecked = false
+          })
+          this.checkList = []
+        }
+      } else if (this.tableType === 'publishFCL') {
+        this.checkAllPublish = !this.checkAllPublish
+        if (this.checkAllPublish) {
+          this.data.forEach(e => {
+            e.isChecked = true
+            this.checkList.push(e.carrierPricingID)
+          })
+        } else if (!this.checkAllPublish) {
+          this.data.forEach(e => {
+            e.isChecked = false
+          })
+          this.checkList = []
+        }
+      }
+    } else {
+      if (!model.isChecked) {
+        this.checkList.forEach(e => {
+          if (e === type) {
+            let idx = this.checkList.indexOf(e)
+            this.checkList.splice(idx, 1)
+          }
+        })
+      } else if (model.isChecked) {
+        this.checkList.push(type)
+      }
+    }
+    let obj = {
+      type: this.tableType,
+      list: this.checkList
+    }
+    this.checkedRows.emit(obj)
+  }
+
+  draftAction(row, action) {
+    console.log(row, action);
+    if (this.tableType === 'publishFCL')
+      return;
+
+    let obj = {}
+    if (action === 'delete') {
+      obj = {
+        type: 'delete',
+        id: row.providerPricingDraftID
+      }
+    } else if (action === 'edit') {
+      obj = {
+        type: 'edit',
+        id: row.providerPricingDraftID
+      }
+    }
+    this.checkList.push(obj)
+    const emitObj = {
+      type: this.tableType,
+      list: this.checkList
+    }
+    this.checkedRows.emit(emitObj)
+    this.checkList = []
+  }
+
+  publishAction(row, action) {
+    if (this.tableType === 'draftFCL')
+      return;
+
+    let obj = {}
+    if (action === 'history') {
+      obj = {
+        type: 'history',
+        id: row.carrierPricingID
+      }
+    }
+    this.checkList.push(obj)
+    const emitObj = {
+      type: this.tableType,
+      list: this.checkList
+    }
+    this.checkedRows.emit(emitObj)
+    this.checkList = []
+  }
+
+  validateRow(row) {
+    if (!row.polID ||
+      !row.podID ||
+      !row.price ||
+      !row.totalExportCharges ||
+      !row.totalImportCharges ||
+      !row.shippingCatID ||
+      !row.effectiveFrom ||
+      !row.effectiveTo ||
+      !row.containerSpecID ||
+      !row.carrierID
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  onSortClick(value, title, column) {
+    this.selectedSort = {
+      title: title,
+      value: value,
+      column: column
+    }
+    // this.data.sort(
+    //   firstBy(this.selectedSort.value, 1)
+    // );
+    let sortObj = {
+      direction: 'ASC',
+      column: column
+    }
+    this.sorting.emit(sortObj)
+  }
+
+  ngOnChanges(changes) {
+    console.log(changes);
+    this.data = changeCase(changes.tableData.currentValue, 'camel')
+    this.data.forEach(e => {
+      if (e.jsonCustomerDetail) {
+        e.parsedjsonCustomerDetail = JSON.parse(e.jsonCustomerDetail)
+      }
+      if (e.parsedpublishStatus) {
+        e.parsedpublishStatus = JSON.parse(e.publishStatus)
+      }
+      e.isChecked = false
+    })
+    this.checkList = []
+  }
+}
+
+export interface HMTableHead {
+  title: string;
+  activeClass: string;
+  sortKey: string;
+}

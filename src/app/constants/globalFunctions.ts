@@ -194,7 +194,11 @@ export function changeCase(o, toCase) {
 
         value = o[origKey]
         if (value instanceof Array || (value !== null && value.constructor === Object)) {
-          value = this.toCamel(value)
+          if (typeof value === "object" && toCase === 'camel') {
+            value = changeCase(value, 'camel')
+          } else if (typeof value === "object" && toCase === 'pascal') {
+            value = changeCase(value, 'pascal')
+          }
         }
         newO[newKey] = value
       }
