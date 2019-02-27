@@ -505,11 +505,11 @@
                     </div>
                     <div class="col-xl-9 col-lg-9 col-md-12 col-sm-8 col-xs-12">
                       <div class="row">
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let service of freightServices">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4" *ngFor="let service of freightServices">
                           <div #selectService [ngClass]="{'active': service.IsSelected && service.ProvLogServID }"
-                            class="servicechip-provides text-center d-flex flex-column justify-content-center mb-2 pointer"
+                            class="servicechip-provides text-center d-flex flex-column justify-content-center pointer"
                             (click)="freightService(service, selectService)">
-                            <span>{{ service.LogServName }}</span>
+                            <span class="d-flex align-items-center justify-content-center"><img alt="icon" class="icon-size-16 mr-3 align-top" src="../../../../assets/images/icons/icons_ship_blue.svg">{{ service.LogServName }}</span>
                           </div>
                         </div>
                       </div>
@@ -524,8 +524,8 @@
                     </div>
                     <div class="col-xl-9 col-lg-9 col-md-12 col-sm-8 col-xs-12">
                       <div class="row">
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let service of valAddedServices">
-                          <div #selectService [ngClass]="{'active': service.IsSelected && service.ProvLogServID}" class="servicechip-valueAdded text-center d-flex flex-column justify-content-center mb-2 pointer"
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4" *ngFor="let service of valAddedServices">
+                          <div #selectService [ngClass]="{'active': service.IsSelected && service.ProvLogServID}" class="servicechip-valueAdded text-center d-flex flex-column justify-content-center pointer"
                             (click)="valAdded(service, selectService)">
                             <span>{{service.LogServName}}</span>
                           </div>
@@ -542,12 +542,12 @@
                     </div>
                     <div class="col-xl-9 col-lg-9 col-md-12 col-sm-8 col-xs-12">
                       <div class="row">
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let associate of allAssociations">
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3" *ngFor="let associate of allAssociations">
                           <div #selectService [ngClass]="{'active': associate.IsSelected && associate.ProviderAssnID}"
-                            class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-2 pointer"
+                            class="servicechip-asscoiation text-center pointer d-flex align-items-center justify-content-center"
                             (click)="selectAssociation(associate, selectService)">
                             <img [src]="baseExternalAssets + associate.AssnWithImage" alt="assoc_image" />
-                            <span>{{ associate.AssnWithName }}</span>
+                            <!-- <span>{{ associate.AssnWithName }}</span> -->
                           </div>
                         </div>
                       </div>

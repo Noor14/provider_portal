@@ -1850,14 +1850,12 @@ quill-editor {
   padding: 0 1rem;
   border-radius: 4px;
   background: $color-white;
-  text-align: justify;
   color: $color-topmenu;
   font-size: $font-size-medium;
+  text-align: left;
   height: 200px;
   overflow-y: auto;
   font-family: $font-proxima;
-  font-size: $font-size-medium;
-  color: $color-menuheading-black !important;
   h1 {
       font-size: 2rem !important;
   }
@@ -1881,6 +1879,25 @@ quill-editor {
       color: $color-menuheading-black;
       margin: 0;
       line-height: 1.5;
+  }
+  .ql-align {
+    &-center {
+      text-align: center;
+    }
+    &-right {
+    text-align: right;      
+    }
+    &-justify {
+    text-align: justify;      
+    }
+  }
+  ol {
+    li {
+    list-style: unset !important;
+      &:before {
+        content: "" !important;
+      }
+    }
   }
   ol,
   ul {
