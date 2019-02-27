@@ -34,6 +34,7 @@ export class UiTableComponent implements OnInit, OnChanges {
   // pagination vars
   // public pageSize: number = 5;
   public page: number = 1
+  // collectionSize = this.totalRecords
 
   public thList: Array<HMTableHead> = [
 
@@ -63,12 +64,16 @@ export class UiTableComponent implements OnInit, OnChanges {
     screenReaderCurrentLabel: `You're on page`
   };
 
+  public containerLoad:string;
+
   constructor() { }
 
   ngOnInit() {
     if (this.tableType === 'draftFCL') {
       this.tableData = changeCase(this.tableData, 'camel')
     }
+    console.log(this.tableData);
+    this.containerLoad = this.tableData[0].containerLoadType
     this.data = this.tableData
     this.data.forEach(e => {
       if (e.jsonCustomerDetail) {
@@ -85,7 +90,6 @@ export class UiTableComponent implements OnInit, OnChanges {
         e.dateDiff = null
       }
     })
-    console.log(this.data)
   }
 
   onPageChangeBootstrap(event) {
@@ -187,12 +191,14 @@ export class UiTableComponent implements OnInit, OnChanges {
     if (action === 'delete') {
       obj = {
         type: 'delete',
-        id: row.providerPricingDraftID
+        id: (row.containerLoadType === 'FCL' ? row.providerPricingDraftID : row.consolidatorPricingDraftID),
+        load: row.containerLoadType
       }
     } else if (action === 'edit') {
       obj = {
         type: 'edit',
-        id: row.providerPricingDraftID
+        id: (row.containerLoadType === 'FCL' ? row.providerPricingDraftID : row.consolidatorPricingDraftID),
+        load: row.containerLoadType
       }
     }
     this.checkList.push(obj)

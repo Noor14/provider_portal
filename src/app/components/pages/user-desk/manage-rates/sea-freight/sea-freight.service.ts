@@ -110,8 +110,8 @@ export class SeaFreightService {
    * @returns  
    * @memberof SeaFreightService
    */
-  getAllDrafts(ProviderID) {
-    let url: string = `providerratefcl/GetAllDrafts/${ProviderID}`;
+  getAllDrafts(type, ProviderID) {
+    let url: string = `providerrate${type}/GetAllDrafts/${ProviderID}`;
     return this._http.get(baseApi + url);
   }
 

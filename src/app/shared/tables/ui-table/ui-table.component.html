@@ -39,15 +39,26 @@
               </label>
             </div>
           </th>
-          <th scope="col" *ngFor="let tabHead of thList;let i =index" [ngClass]="tabHead.activeClass"
+          <!-- <th scope="col" *ngFor="let tabHead of thList;let i =index" [ngClass]="tabHead.activeClass"
             (click)="onHeadClick(i, tabHead.activeClass, tabHead.sortKey)" scope="col">
             {{tabHead.title}}
-          </th>
+          </th> -->
+          <th> </th>
+          <th> Rate For </th>
+          <th *ngIf="containerLoad === 'FCL'"> Shipping Line </th>
+          <th> Origin/Departure </th>
+          <th> Cargo Type </th>
+          <th *ngIf="containerLoad === 'FCL'"> Container </th>
+          <th> Rate </th>
+          <th> Rate Validity </th>
+          <th> Import Charges </th>
+          <th> Export Charges </th>
           <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let device of data | paginate: devicPageConfig" [ngClass]="device?.dateDiff && tableType === 'publishFCL' ? 'has-badge' : ''">
+        <tr *ngFor="let device of data | paginate: devicPageConfig"
+          [ngClass]="device?.dateDiff && tableType === 'publishFCL' ? 'has-badge' : ''">
           <td class="text-center">
             <div class="fancyOptionBoxes" *ngIf="tableType === 'publishFCL'">
               <input id="{{device.carrierPricingID}}" type="checkbox" [ngModel]="device.isChecked"
@@ -81,14 +92,15 @@
             <span *ngIf="!device.customerID">Marketplace</span>
             <!-- <span class="info-table-date">{{ device.HashMoveBookingDate | date: 'dd MMM, yyyy HH:mm'}}</span> -->
           </td>
-          <td (click)="draftAction(device, 'edit')">
+          <td (click)="draftAction(device, 'edit')" *ngIf="containerLoad === 'FCL'">
             <div class="info-table-ports d-flex">
               <div class="d-block text-truncate">
                 <img [src]="getUIImage(device.carrierImage, true)" alt="" class="mr-2 rounded" height="24px"
                   width="24px">
                 {{device?.carrierName || '-- Select --'}}
               </div>
-              <span class="badge badge-danger mt-2" *ngIf="device?.dateDiff && tableType === 'publishFCL'">Rate Expiring in {{device.dateDiff}}
+              <span class="badge badge-danger mt-2" *ngIf="device?.dateDiff && tableType === 'publishFCL'">Rate Expiring
+                in {{device.dateDiff}}
                 days</span>
               <!-- <img src="../../../assets/images/icons/grid-arrow.svg" class="mr-2 ml-2">
               <div class="d-block text-truncate">
@@ -112,7 +124,7 @@
                 [ngClass]="device?.podName?.length > 10 ? 'text-truncate': ''">{{device?.podName || '-- Select --'}}</span>
             </div>
           </td>
-          <td (click)="draftAction(device, 'edit')">
+          <td (click)="draftAction(device, 'edit')" *ngIf="containerLoad === 'FCL'">
             <div class="d-flex info-table-logo align-items-center">
               <span class=""
                 [ngClass]="device?.shippingCatName?.length > 30 ? 'text-truncate': ''">{{device?.shippingCatName || '-- Select --'}}</span>
@@ -143,7 +155,8 @@
           <td (click)="draftAction(device, 'edit')">
             <div class="d-flex info-table-logo align-items-center">
               <!-- <img [src]="getUIImage(device.CarrierImage, false)" alt="" class="mr-2 "> -->
-              <span *ngIf="device.totalExportCharges && device.baseCurrencyCode">{{device.baseCurrencyCode}} {{device.totalImportCharges}}</span>
+              <span *ngIf="device.totalExportCharges && device.baseCurrencyCode">{{device.baseCurrencyCode}}
+                {{device.totalImportCharges | number: '2.0-0'}}</span>
               <span *ngIf="!device.totalExportCharges">-- Select --</span>
             </div>
           </td>
@@ -152,7 +165,7 @@
               <!-- <img [src]="getUIImage(device.CarrierImage, false)" alt="" class="mr-2 "> -->
               <span *ngIf="device.totalExportCharges && device.baseCurrencyCode">
                 {{device.baseCurrencyCode}}
-                {{device.totalExportCharges}}</span>
+                {{device.totalExportCharges | number: '2.0-0'}}</span>
               <span *ngIf="!device.totalExportCharges">-- Select --</span>
             </div>
           </td>
@@ -182,12 +195,12 @@
       </tbody>
     </table>
   </div>
-  <div class="paginationBox text-right mt-3 col-12 p-0 d-flex justify-content-end" *ngIf="tableType === 'publishFCL'">
+  <div class="paginationBox text-right mt-3 col-12 p-0 d-flex justify-content-end">
     <!-- <p class="pager-info mr-3">Showing {{devicPageConfig.currentPage}} to 5 of {{data.length}} enteries</p> -->
     <!-- <pagination-controls [id]="devicPageConfig.id" [maxSize]="maxSize" [directionLinks]="directionLinks"
       [autoHide]="autoHide" [previousLabel]="labels.previousLabel" [nextLabel]="labels.nextLabel"
       (pageChange)="onPageChange($event, 'publish')"></pagination-controls> -->
-    <ngb-pagination [(page)]="page" [pageSize]="data.length" (pageChange)="onPageChangeBootstrap($event)"
+    <ngb-pagination [(page)]="page" [pageSize]="5" (pageChange)="onPageChangeBootstrap($event)"
       [collectionSize]="totalRecords"></ngb-pagination>
 
   </div>
