@@ -67,10 +67,6 @@ export class SettingsComponent implements OnInit {
   public phoneCode;
   public mobileCode;
 
-  public socialLink: any;
-  public selectedSocialsite: any;
-  public socialInputValidate: string;
-  public socialSites;
 
 
 
@@ -86,6 +82,10 @@ export class SettingsComponent implements OnInit {
 
   // social
   public socialWebs: any[] = [];
+  public selectedSocialsite: any;
+  public socialInputValidate: string;
+  public socialSites;
+
 
   //  freightServices
   public freightServices: any[] = [];
@@ -373,6 +373,12 @@ export class SettingsComponent implements OnInit {
     if (selectedCountry && Object.keys(selectedCountry).length) {
       this.selectPhoneCode(selectedCountry);
     }
+    else {
+      let selectedCountry = this.countryList.find(obj => obj.id == info.CountryID);
+      if (selectedCountry && Object.keys(selectedCountry).length) {
+        this.selectPhoneCode(selectedCountry);
+      }
+    }
     this.personalInfoForm.controls['mobile'].setValue(info.PrimaryPhone);
   }
 
@@ -391,6 +397,13 @@ export class SettingsComponent implements OnInit {
     if (selectedCountry && Object.keys(selectedCountry).length) {
       this.selectTelCode(selectedCountry);
     }
+    else{
+      let selectedCountry = this.countryList.find(obj => obj.id == info.CountryID);
+      if (selectedCountry && Object.keys(selectedCountry).length) {
+        this.selectTelCode(selectedCountry);
+      }
+    }
+    this.businessInfoForm.controls['phone'].setValue(info.ProviderPhone);
     if (info.SocialMediaAccountID && info.ProviderWebAdd) {
       let obj = this.socialWebs.find(elem => elem.SocialMediaPortalsID == info.SocialMediaAccountID);
       if (!obj) {
@@ -400,7 +413,12 @@ export class SettingsComponent implements OnInit {
         this.businessInfoForm.controls['socialUrl'].setValue(info.ProviderWebAdd);
         }
     }
-    this.businessInfoForm.controls['phone'].setValue(info.ProviderPhone);
+    else{
+      this.selectedSocialsite = this.socialWebs[this.socialWebs.length - 1];
+      if (this.selectedSocialsite.socialMediaPortalsID === 105) {
+        this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(GEN_URL)]);
+      }
+    }
   }
 
 
