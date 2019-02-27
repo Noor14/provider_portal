@@ -342,7 +342,7 @@
     height: 200px;
     overflow-y: auto;
     font-family: $font-proxima;
-    font-size: $root-font-size;
+    font-size: $font-size-medium;
     color: $color-menuheading-black !important;
     h1 {
         font-size: 2rem !important;
@@ -363,7 +363,7 @@
         font-size: $font-size-base !important;
     }
     p {
-        font-size: $root-font-size;
+        font-size: $font-size-medium;
         color: $color-menuheading-black;
         margin: 0;
         line-height: 1.5;
@@ -372,11 +372,11 @@
     ul {
         li {
             font-family: $font-proxima;
-            font-size: 1.125rem !important;
-            line-height: 2;
+            font-size: $font-size-medium !important;
             padding-left: 0px;
             color: $color-menuheading-black !important;
             list-style: none;
+            position: relative;
             &::before {
                 color: $color-topmenuactive;
                 content: "\2022";
@@ -384,7 +384,9 @@
                 display: inline-block;
                 transform: scale(1.5);
                 width: 1em;
-                margin-left: -1em;
+                position: absolute;
+                left: 0;
+                top: -2px;
             }
         }
     }
