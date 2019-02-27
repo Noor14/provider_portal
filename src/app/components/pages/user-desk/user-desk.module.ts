@@ -31,11 +31,14 @@ import { BillingService } from './billing/billing.service';
 import { NgStepperModule } from '../../../directives/stepper/stepper.module';
 import { NgFilesModule } from '../../../directives/ng-files';
 import { SettingService } from './settings/setting.service';
+import { QuillEditorModule } from 'ngx-quill-editor';
+
 @NgModule({
   imports: [
     CommonModule,
     NgbModule,
     NgFilesModule,
+    QuillEditorModule,
     UserDeskRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',

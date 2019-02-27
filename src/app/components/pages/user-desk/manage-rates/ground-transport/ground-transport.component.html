@@ -51,7 +51,7 @@
           class="rates-grid draft-grid draft-GroundFTL">
           <table id="draftRateTableFTL" cellspacing="0" #draftBYGroundFTL class="row-border hover"></table>
           <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloadingFTL">Add
-            another rates</a>
+            another rate</a>
           <!-- <app-loader-main *ngIf="draftloadingFTL"></app-loader-main> -->
         </section>
         <div class="row mt-4">
@@ -71,32 +71,35 @@
     <ngb-tab id="activeFCL">
       <ng-template ngbTabTitle>
         <span (click)="generateDraftTable()">
-          <svg data-name="Layer 1" id="3e0bd723-1f5e-404f-9c9e-f9fa6a56c26b" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <g data-name="container" id="6744cc39-0259-4947-99c3-524da0baf146">
-              <path class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" d="M22,10V22H2V10H22m2-2H0V24H24V8Z"
-                data-name="<Compound Path>" id="a13d3843-8cbe-44ec-8bff-9c9271c255f7"></path>
-              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="10" id="3bc9a61b-e64a-4a26-a0db-69d1ce9d6b6e"
-                width="2" x="5" y="11"></rect>
-              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="10" id="15063ed6-0b45-423b-a60a-fb9e8a38780a"
-                width="2" x="11" y="11"></rect>
-              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="10" id="435b81d5-b0c3-4dda-b6bf-ec8fa8fd643e"
-                width="2" x="17" y="11"></rect>
-              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="2" id="0dc9424e-7fc7-46da-a1ac-89446f588598"
-                transform="translate(-1.607 8.121) rotate(-45)" width="7.543" x="5.229" y="5"></rect>
-              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="7.543" id="713c3bf1-8eef-4a1e-a553-96a0cf70b1ea"
-                transform="translate(0.15 12.363) rotate(-44.995)" width="2" x="14" y="2.229"></rect>
-              <rect class="container-svg 750c96f3-85fa-4da3-ae5f-980e0f5745ce" data-name="<Path>" height="4" id="9e10ba48-acd1-4fa3-a431-1799e0b0691c"
-                width="2" x="11"></rect>
-            </g>
-          </svg>
-          FCL</span>
+            <svg id="f7905435-1486-49b3-baf9-4dca76d453f9" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+
+              <title>Icons</title>
+              <g id="d1bd0fc5-aee7-4161-bcfc-9917552a4e20" data-name="truck">
+                <path id="3b886d42-d469-4fa8-a176-d1a6f9535320" data-name="&lt;Path&gt;" class="a2024788-efba-4438-b0be-f26b285b4fd6" d="M21.5,14h-2c0-4-2.5-6.5-6.5-6.5v-2A8.138,8.138,0,0,1,21.5,14Z"/>
+                <g id="dece99b0-ccfe-46cd-9e08-09c04af070eb" data-name="&lt;Group&gt;">
+                  <path id="1e109160-3fc6-427d-a960-9408ecfded4d" data-name="&lt;Compound Path&gt;" class="a2024788-efba-4438-b0be-f26b285b4fd6" d="M6,16a3.5,3.5,0,1,0,3.5,3.5A3.5,3.5,0,0,0,6,16Zm0,5.25A1.75,1.75,0,1,1,7.75,19.5,1.75,1.75,0,0,1,6,21.25Z"/>
+                </g>
+                <g id="0a8baa5b-ca15-44f3-b7a0-e022331802c0" data-name="&lt;Group&gt;">
+                  <g id="c0230789-57cf-47bc-a80f-830d7c300074" data-name="&lt;Group&gt;">
+                    <path id="b3ca8f69-77be-4bef-880a-c916143eb129" data-name="&lt;Path&gt;" class="a2024788-efba-4438-b0be-f26b285b4fd6" d="M14,3H3.24A3.24,3.24,0,0,0,0,6.24V19H4.331a1.739,1.739,0,0,1,3.337,0H14Z"/>
+                  </g>
+                </g>
+                <g id="e2c8b36e-a3d6-4f64-aece-7314231b6800" data-name="&lt;Group&gt;">
+                  <path id="ab7af316-2d2b-4ee2-8291-e72c5310f1ec" data-name="&lt;Compound Path&gt;" class="a2024788-efba-4438-b0be-f26b285b4fd6" d="M18,16a3.5,3.5,0,1,0,3.5,3.5A3.5,3.5,0,0,0,18,16Zm0,5.25a1.75,1.75,0,1,1,1.75-1.75A1.75,1.75,0,0,1,18,21.25Z"/>
+                </g>
+                <g id="589008c7-8e5d-4302-9187-3d291cab846d" data-name="&lt;Group&gt;">
+                  <path id="08fec5ba-4e9f-4b7f-b673-94d24fdb6a92" data-name="&lt;Compound Path&gt;" class="a2024788-efba-4438-b0be-f26b285b4fd6" d="M22,14v3H20.793a3.746,3.746,0,0,0-5.587,0H13.735l-.429-3H22m2-2H11l1,7h4.331a1.739,1.739,0,0,1,3.337,0H24V12Z"/>
+                </g>
+              </g>
+            </svg>
+          LTL</span>
       </ng-template>
       <ng-template ngbTabContent>
         <section [ngClass]="{'no-data': !draftslist.length, 'no-scroll-add' : draftslist.length, 'no-pagination': draftslist.length <= dtOptionsByGroundDraft.pageLength}"
           class="rates-grid draft-grid draft-Ground">
           <table id="draftRateTable" cellspacing="0" #draftBYGround class="row-border hover"></table>
           <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" *ngIf="!draftloading">Add
-            another rates</a>
+            another rate</a>
           <!-- <app-loader-main *ngIf="draftloading"></app-loader-main> -->
         </section>
         <div class="row mt-4">
