@@ -1840,3 +1840,80 @@ select {
     }
   }
 }
+
+quill-editor {
+  background-color: $white-color;
+}
+
+.editor {
+  border: 1px solid $data-table-border;
+  padding: 0 1rem;
+  border-radius: 4px;
+  background: $color-white;
+  text-align: justify;
+  color: $color-topmenu;
+  font-size: $font-size-medium;
+  height: 200px;
+  overflow-y: auto;
+  font-family: $font-proxima;
+  font-size: $font-size-medium;
+  color: $color-menuheading-black !important;
+  h1 {
+      font-size: 2rem !important;
+  }
+  h2 {
+      font-size: 1.5rem !important;
+  }
+  h3 {
+      font-size: 1.28rem !important;
+  }
+  h4 {
+      font-size: $root-font-size !important;
+  }
+  h5 {
+      font-size: $font-size-medium !important;
+  }
+  h6 {
+      font-size: $font-size-base !important;
+  }
+  p {
+      font-size: $font-size-medium;
+      color: $color-menuheading-black;
+      margin: 0;
+      line-height: 1.5;
+  }
+  ol,
+  ul {
+    padding-left: 1rem;
+    padding-right: 1rem;
+      li {
+          font-family: $font-proxima;
+          font-size: $font-size-medium !important;
+          padding-left: 0px;
+          color: $color-menuheading-black !important;
+          list-style: none;
+          position: relative;
+          &::before {
+              color: $color-topmenuactive;
+              content: "\2022";
+              font-weight: bold;
+              display: inline-block;
+              transform: scale(1.8);
+              position: absolute;
+              left: -10px;
+              top: -1px;
+          }
+          &.ql-direction-rtl {
+            &.ql-align-right {
+              direction: rtl !important;
+              text-align: right !important;
+
+              &:before {
+                left: auto;
+                right: -10px;
+              }
+            }
+          }
+      }
+  }
+}
