@@ -375,7 +375,7 @@
                               <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                                 <span *ngIf="selectedSocialsite && selectedSocialsite.Title">{{selectedSocialsite.Title}}</span>
                               </div>
-                              <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="social">
+                              <div class="animated fadeIn country-section website" ngbDropdownMenu aria-labelledby="social">
                                 <ul class="list-group">
                                   <li class="list-group-item" *ngFor="let link of socialWebs" (click)="selectedSocialLink(link)">
                                     <span>{{link.Title}}</span>
