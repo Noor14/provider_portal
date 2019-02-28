@@ -7,7 +7,7 @@
     <h5 class="m-0">Business Information</h5>
     <hr class="hr-solid" />
     <div class="row">
-      <div class="col-6">
+      <div class="col-xl-6 col-lg-6 col-md-8 col-sm-12">
         <div class="form-group">
           <label>Company Name</label>
           <input type="text" readonly class="form-control" placeholder="Company Name" [(ngModel)]="orgName" />
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="document mt-2 row">
-      <div class="col-6">
+      <div class="col-xl-6 col-lg-6 col-md-8 col-sm-12">
         <div class="form-group">
           <label>Company Logo</label>
           <div class="document-Info d-flex flex-column mb-0">
@@ -100,9 +100,9 @@
             src="../../../../../../assets/images/icons/icon_info.svg">
         </label>
       </div>
-      <div class="col-10">
+      <div class="col-xl-10 col-lg-11 col-md-12">
         <div class="row">
-          <div class="col-7 d-flex align-items-center form-group"><label>{{profileUrl}}</label>
+          <div class="col-xl-8 col-lg-7 col-md-8 col-sm-12 d-flex align-items-center form-group"><label>{{profileUrl}}</label>
             <input #profileName (keypress)="profileNameValid($event)" type="text" class="form-control" [ngClass]="{ inputError: addBusinessbtnEnabled === false && !spinner}"
               placeholder="eg: hashMove" />
             <svg *ngIf="addBusinessbtnEnabled && userName && !spinner" class="available icon-size-24" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -201,12 +201,12 @@
           <!-- <div class="col-3 mb-3 d-flex align-items-center animated fadeIn" *ngIf="addBusinessbtnEnabled === false && !spinner">
             <small class="alert-text">This public URL is not available</small>
           </div> -->
-          <div class="col-3 mb-3 d-flex align-items-center animated fadeIn">
-            <small class="alert-text hideMe" *ngIf="profilUrlValid">Special Character is not allowed</small>
+          <div class="col-xl-4 col-lg-5 col-md-4 col-sm-12 mb-3 d-flex align-items-center animated fadeIn">
+            <small class="alert-text" *ngIf="profilUrlValid">Special Character is not allowed</small>
           </div>
-          <div *ngIf="addBusinessbtnEnabled === false && !spinner" class="col-12 mb-3 animated fadeIn ">
+          <div *ngIf="addBusinessbtnEnabled === false && !spinner" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3 animated fadeIn ">
             <small *ngIf="addBusinessbtnEnabled === false && !spinner" class="alert-text">
-              This company page already exists in order to become an admin of<br />the page, an existing admin must add you.
+              This company page already exists in order to become an admin of the page, an existing admin must add you.
             </small>
 
           </div>
