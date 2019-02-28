@@ -195,11 +195,14 @@
               </g>
 
             </svg>
-            <p class="animated fadeIn inputError" *ngIf="profilUrlValid">Special Character is not allowed</p>
+            <p class="animated fadeIn inputError" ></p>
           </div>
 
-          <div class="col-5 mb-3 d-flex align-items-center animated fadeIn " *ngIf="addBusinessbtnEnabled === false && !spinner">
+          <!-- <div class="col-3 mb-3 d-flex align-items-center animated fadeIn" *ngIf="addBusinessbtnEnabled === false && !spinner">
             <small class="alert-text">This public URL is not available</small>
+          </div> -->
+          <div class="col-3 mb-3 d-flex align-items-center animated fadeIn">
+            <small class="alert-text hideMe" *ngIf="profilUrlValid">Special Character is not allowed</small>
           </div>
           <div *ngIf="addBusinessbtnEnabled === false && !spinner" class="col-12 mb-3 animated fadeIn ">
             <small *ngIf="addBusinessbtnEnabled === false && !spinner" class="alert-text">

@@ -357,10 +357,11 @@
         color: $secondary-text-color;
 
       }
+
       .com-logo {
-          .display-upload {
-            height: 150px;
-          }
+        .display-upload {
+          height: 150px;
+        }
       }
 
     }
@@ -459,4 +460,31 @@
 
   }
 
+}
+.hideMe {
+  -moz-animation: cssAnimation 0s ease-in 5s forwards;
+  /* Firefox */
+  -webkit-animation: cssAnimation 0s ease-in 5s forwards;
+  /* Safari and Chrome */
+  -o-animation: cssAnimation 0s ease-in 5s forwards;
+  /* Opera */
+  animation: cssAnimation 0s ease-in 5s forwards;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+@keyframes cssAnimation {
+  to {
+      width:0;
+      height:0;
+      overflow:hidden;
+      transition: 1s;
+  }
+}
+@-webkit-keyframes cssAnimation {
+  to {
+      width:0;
+      height:0;
+      visibility:hidden;
+      transition: 1s;
+  }
 }

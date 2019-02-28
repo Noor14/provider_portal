@@ -1846,7 +1846,9 @@ select {
 }
 
 quill-editor {
-  background-color: $white-color;
+  .ql-toolbar, .quill-editor {
+    background-color: $white-color;
+  }
 }
 
 .editor {
