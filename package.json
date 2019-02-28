@@ -58,6 +58,7 @@
     "ngx-pagination": "^3.1.1",
     "ngx-quill-editor": "^2.2.2",
     "ngx-scrollbar": "^1.5.7",
+    "ngx-take-until-destroy": "^5.4.0",
     "ngx-toastr": "^8.4.0",
     "ngx-toggle-switch": "^2.0.5",
     "rxjs": "^5.5.6",

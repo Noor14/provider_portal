@@ -47,7 +47,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let device of data | paginate: devicPageConfig"
+        <tr *ngFor="let device of  ( tableType === 'draftFCL' ? (data | paginate: devicPageConfig) : (data))"
           [ngClass]="device?.dateDiff && tableType === 'publishFCL' ? 'has-badge' : ''">
           <td class="text-center">
             <div class="fancyOptionBoxes" *ngIf="tableType === 'publishFCL' && containerLoad === 'FCL'">
@@ -193,15 +193,19 @@
       </tbody>
     </table>
   </div>
-  <div class="paginationBox text-right mt-3 col-12 p-0 d-flex justify-content-end" *ngIf="totalRecords > 5">
-    <!-- <p class="pager-info mr-3">Showing {{devicPageConfig.currentPage}} to 5 of {{data.length}} enteries</p> -->
-    <!-- <pagination-controls [id]="devicPageConfig.id" [maxSize]="maxSize" [directionLinks]="directionLinks"
-      [autoHide]="autoHide" [previousLabel]="labels.previousLabel" [nextLabel]="labels.nextLabel"
-      (pageChange)="onPageChange($event, 'publish')"></pagination-controls> -->
+  <div *ngIf="tableType === 'draftFCL' && data?.length > devicPageConfig.itemsPerPage"
+    class="paginationBox text-right mt-3 col-12 p-0 d-flex justify-content-end">
+    <p class="pager-info mr-3">Showing {{devicPageConfig.currentPage}} to 5 of {{data.length}} enteries</p>
+    <pagination-controls [id]="devicPageConfig.id" [directionLinks]="directionLinks" [autoHide]="autoHide"
+      [previousLabel]="labels.previousLabel" [nextLabel]="labels.nextLabel" (pageChange)="onPageChange($event)">
+    </pagination-controls>
+  </div>
+  <div *ngIf="tableType === 'publishFCL' && totalRecords > 5"
+    class="paginationBox text-right mt-3 col-12 p-0 d-flex justify-content-end">
     <ngb-pagination [(page)]="page" [pageSize]="5" (pageChange)="onPageChangeBootstrap($event)"
       [collectionSize]="totalCount"></ngb-pagination>
-
   </div>
+
 
   <!-- <div class="table-info mt-2">
     <label class="table-info-count">Showing {{devicPageConfig.itemsPerPage}} - {{tableData?.length}}</label>

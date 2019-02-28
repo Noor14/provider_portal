@@ -13,7 +13,7 @@ import { firstBy } from 'thenby';
 })
 export class UiTableComponent implements OnInit, OnChanges {
   @Input() tableData: any;
-  @Input() tableType: string;
+  @Input() tableType: string; //draftFCL; publishFCL
   @Input() totalRecords: number
   @Input() containerLoad: string;
   @Output() checkedRows = new EventEmitter<any>()
@@ -25,7 +25,7 @@ export class UiTableComponent implements OnInit, OnChanges {
     value: 'CustomerName',
     column: 'CustomerID'
   }
-  public data: any[] = []
+  public data: Array<any> = []
   public maxSize: number = 7;
   public directionLinks: boolean = true;
   public autoHide: boolean = false;
@@ -53,7 +53,7 @@ export class UiTableComponent implements OnInit, OnChanges {
   ]
 
   public devicPageConfig: PaginationInstance = {
-    id: 'publish',
+    id: 'some_unq_publish',
     itemsPerPage: 5,
     currentPage: 1,
   };
@@ -137,7 +137,7 @@ export class UiTableComponent implements OnInit, OnChanges {
     );
   }
 
-  onPageChange(number: any, type) {
+  onPageChange(number: any) {
     this.devicPageConfig.currentPage = number;
   }
 
@@ -307,7 +307,11 @@ export class UiTableComponent implements OnInit, OnChanges {
     console.log(changes);
     if (changes.hasOwnProperty('totalRecords')) {
       if (changes.tableRecords) {
-        this.totalCount = changes.tableRecords.currentValue
+        if (this.tableType === 'draftFCL') {
+          this.totalCount = this.tableData.length
+        } else if (this.tableType === 'publishFCL') {
+          this.totalCount = this.totalRecords
+        }
       }
     }
 

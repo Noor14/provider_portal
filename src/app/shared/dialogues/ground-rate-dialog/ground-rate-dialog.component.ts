@@ -101,6 +101,7 @@ export class GroundRateDialogComponent implements OnInit {
 
 
   ngOnInit() {
+    this.setDateLimit()
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
@@ -392,5 +393,26 @@ export class GroundRateDialogComponent implements OnInit {
   addressFormatter = (x: { PortName: string }) => {
     return x.PortName
   };
+
+  setDateLimit() {
+    const date = new Date();
+
+    this.minDate = {
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+      year: date.getFullYear()
+    };
+
+    // this.maxDate = {
+    //   year: ((this.minDate.month === 12 && this.minDate.day >= 17) ? date.getFullYear() + 1 : date.getFullYear()),
+    //   month:
+    //     moment(date)
+    //       .add(15, "days")
+    //       .month() + 1,
+    //   day: moment(date)
+    //     .add(15, "days")
+    //     .date()
+    // };
+  }
 
 }

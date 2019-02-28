@@ -58,7 +58,7 @@
             'no-pagination':
               draftslcl.length <= dtOptionsBySeaLCLDraft.pageLength}">
           <!-- <table id="draftRateTableLCL" cellspacing="0" #draftBYseaLCL class="row-border hover"></table> -->
-          <app-ui-table *ngIf="draftslcl.length" [tableType]="'draftFCL'" [(tableData)]="draftslcl"
+          <app-ui-table *ngIf="draftslcl.length" [tableType]="'draftFCL'" [tableData]="draftslcl"
             (checkedRows)="tableCheckedRows($event)" [containerLoad]="'LCL'"></app-ui-table>
           <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()">
             <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
@@ -376,7 +376,7 @@
       <ng-template ngbTabContent>
         <section class="rates-grid draft-grid draft-Fcl">
           <!-- <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table> -->
-          <app-ui-table *ngIf="draftsfcl.length" [tableType]="'draftFCL'" [(tableData)]="draftsfcl"
+          <app-ui-table *ngIf="draftsfcl.length" [tableType]="'draftFCL'" [tableData]="draftsfcl"
             (checkedRows)="tableCheckedRows($event)" [containerLoad]="'FCL'"></app-ui-table>
           <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()">
             <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
@@ -678,7 +678,7 @@
 
 
 <!-- Button trigger modal -->
-<!-- 
+<!--
 <ng-template #content let-modal class="shipping-modal">
   <div class="modal-header">
     <div class="modal-header-text">
