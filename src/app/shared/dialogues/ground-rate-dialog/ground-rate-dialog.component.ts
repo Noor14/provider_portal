@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Renderer2, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Renderer2, ElementRef, Input, ɵConsole } from '@angular/core';
 import { PlatformLocation } from '@angular/common';
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { SharedService } from '../../../services/shared.service';
@@ -16,6 +16,8 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateFRParserFormatter } from "../../../constants/ngb-date-parser-formatter";
 import { GroundTransportService } from '../../../components/pages/user-desk/manage-rates/ground-transport/ground-transport.service';
+import { ManageRatesService } from '../../../components/pages/user-desk/manage-rates/manage-rates.service';
+import { cloneObject } from '../../../components/pages/user-desk/reports/reports.component';
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
   one && two && two.year === one.year && two.month === one.month && two.day === one.day;
@@ -33,13 +35,19 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
   templateUrl: './ground-rate-dialog.component.html',
   encapsulation: ViewEncapsulation.None,
   providers: [{ provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }],
-  styleUrls: ['./ground-rate-dialog.component.scss']
+  styleUrls: ['./ground-rate-dialog.component.scss'],
+  host: {
+    "(document:click)": "closeDropdown($event)"
+  }
 })
 export class GroundRateDialogComponent implements OnInit {
   @ViewChild("dp") input: NgbInputDatepicker;
   @ViewChild('rangeDp') rangeDp: ElementRef;
   @ViewChild('originPickupBox') originPickupBox: ElementRef;
+  @ViewChild('originDropdown') originDropdown: any
+  @ViewChild('destinationDropdown') destinationDropdown;
   @Input() selectedData: any;
+
   public loading: boolean;
   public allShippingLines: any[] = [];
   public allCargoType: any[] = []
@@ -51,7 +59,9 @@ export class GroundRateDialogComponent implements OnInit {
   public filterOrigin: any = {};
   public filterDestination: any = {};
   public userProfile: any;
-  public selectedCategory: any;
+  public selectedCategory: any = {
+    ShippingCatName: ''
+  };
   public selectedContSize: any;
   public selectedPrice: any;
   public defaultCurrency: any = {
@@ -59,7 +69,7 @@ export class GroundRateDialogComponent implements OnInit {
     CurrencyCode: 'AED',
     CountryCode: 'AE',
   }
-  public selectedCurrency: any;
+  public selectedCurrency: any = this.defaultCurrency;
 
   public startDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
@@ -88,9 +98,22 @@ export class GroundRateDialogComponent implements OnInit {
   isInside = date => after(date, this.fromDate) && before(date, this.toDate);
   isFrom = date => equals(date, this.fromDate);
   isTo = date => equals(date, this.toDate);
+
+  public selectedCustomer: any[] = [];
+  public destinationsList = []
+  public originsList = []
+  public userInfo: any;
+  public selectedOrigins: any = [{}];
+  public selectedDestinations: any = [{}];
+  public disabledCustomers: boolean = false;
+  public addDestinationActive: boolean = false;
+  public addOriginActive: boolean = false;
+  public allCustomers: any[] = [];
+
   constructor(
     private location: PlatformLocation,
     private _activeModal: NgbActiveModal,
+    private _manageRateService: ManageRatesService,
     private _sharedService: SharedService,
     private _parserFormatter: NgbDateParserFormatter,
     private renderer: Renderer2,
@@ -101,16 +124,25 @@ export class GroundRateDialogComponent implements OnInit {
 
 
   ngOnInit() {
+    this.setDateLimit()
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
     this.allservicesBySea();
+
+    this.allCustomers = this.selectedData.customers
+    this.destinationsList = this.selectedData.addList
+    this.originsList = this.selectedData.addList
+    // this.getSurchargeBasis(this.selectedData.forType)
+    console.log(this.selectedData);
+
   }
 
 
 
   allservicesBySea() {
+    // this.getDropdownsList()
     this._sharedService.dataLogisticServiceBySea.subscribe(state => {
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
@@ -119,10 +151,10 @@ export class GroundRateDialogComponent implements OnInit {
             this.allContainers = state[index].DropDownValues.ContainerGround;
             const seaPorts: Array<any> = (state[index].DropDownValues.Port && state[index].DropDownValues.Port.length > 0) ? state[index].DropDownValues.Port : []
             const groundAreas: Array<any> = (state[index].DropDownValues.GroundPort && state[index].DropDownValues.GroundPort.length > 0) ? state[index].DropDownValues.GroundPort : []
-            this.allPorts = seaPorts.concat(groundAreas);
+            // this.allPorts = seaPorts.concat(groundAreas);
             this.groundsPorts = Object.assign([], this.allPorts)
-            this.seaPorts = this.groundsPorts.filter(e => e.PortType === 'SEA')
-            this.groundPorts = this.groundsPorts.filter(e => e.PortType === 'GROUND')
+            // this.seaPorts = this.groundsPorts.filter(e => e.PortType === 'SEA')
+            // this.groundPorts = this.groundsPorts.filter(e => e.PortType === 'GROUND')
             this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if (this.selectedData) {
               this.transPortMode = this.selectedData.TransportType
@@ -202,7 +234,7 @@ export class GroundRateDialogComponent implements OnInit {
     this.loading = true;
     let obj = [
       {
-        ID: (!this.newProviderDraftID) ? this.selectedData.ID : this.newProviderDraftID,
+        ID: (this.selectedData) ? this.selectedData.ID : 0,
         customerID: null,
         providerID: this.userProfile.ProviderID,
         containerSpecID: (this.selectedContSize == null || this.selectedContSize == 'null') ? null : this.selectedContSize,
@@ -392,5 +424,26 @@ export class GroundRateDialogComponent implements OnInit {
   addressFormatter = (x: { PortName: string }) => {
     return x.PortName
   };
+
+  setDateLimit() {
+    const date = new Date();
+
+    this.minDate = {
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+      year: date.getFullYear()
+    };
+
+    // this.maxDate = {
+    //   year: ((this.minDate.month === 12 && this.minDate.day >= 17) ? date.getFullYear() + 1 : date.getFullYear()),
+    //   month:
+    //     moment(date)
+    //       .add(15, "days")
+    //       .month() + 1,
+    //   day: moment(date)
+    //     .add(15, "days")
+    //     .date()
+    // };
+  }
 
 }

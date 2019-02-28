@@ -7,8 +7,8 @@ export class SeaFreightService {
 
   constructor(private _http: HttpClient) { }
 
-  getAllrates(obj) {
-    let url: string = "providerratefcl/SearchRates";
+  getAllrates(type, obj) {
+    let url: string = `providerrate${type}/SearchRates`;
     return this._http.post(baseApi + url, obj);
   }
 
@@ -39,8 +39,8 @@ export class SeaFreightService {
     let url: string = "providerratelcl/SaveDraft";
     return this._http.post(baseApi + url, obj);
   }
-  publishDraftRate(obj) {
-    let url: string = "providerratefcl/PublishRate";
+  publishDraftRate(type, obj) {
+    let url: string = `providerrate${type}/PublishRate`;
     return this._http.post(baseApi + url, obj);
   }
   publishDraftRateLCL(obj) {
@@ -73,8 +73,8 @@ export class SeaFreightService {
     return this._http.get(baseApi + url);
   }
 
-  rateValidityFCL(data) {
-    let url: string = "providerratefcl/EditRate";
+  rateValidityFCL(type, data) {
+    let url: string = `providerrate${type}/EditRate`;
     return this._http.post(baseApi + url, data);
   }
   rateValidityLCL(data) {

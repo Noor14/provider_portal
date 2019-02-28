@@ -62,7 +62,7 @@ export class RateValidityComponent implements OnInit {
   };
   public model: any;
   private userProfile: any;
-  public price:any;
+  public price: any;
   public selectedCurrency: any;
   public minPrice: any;
   public normalPrice: any;
@@ -183,12 +183,13 @@ export class RateValidityComponent implements OnInit {
     return true;
   }
   updateRates() {
+    console.log(this.validityData);
 
-    if (this.validityData.type =='rateValidityFCL'){
-      this.updateRatesfcl()
+    if (this.validityData.type == 'fcl') {
+      this.updateRatesfcl('fcl')
     }
-    else if (this.validityData.type == 'rateValidityLCL') {
-      this.updateRateslcl()
+    else if (this.validityData.type == 'lcl') {
+      this.updateRatesfcl('lcl')
     }
     else if (this.validityData.type == 'rateValidityGROUND') {
       this.updateRatesGround()
@@ -198,23 +199,32 @@ export class RateValidityComponent implements OnInit {
     }
   }
 
-  updateRatesfcl(){
+  updateRatesfcl(type) {
     let rateData = [];
     if (this.validityData && this.validityData.data && this.validityData.data.length) {
       this.validityData.data.forEach(element => {
-        rateData.push(
-          {
+        if (type === 'fcl') {
+          let FCLObj = {
             carrierPricingID: element.carrierPricingID,
             rate: this.price,
             effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
             effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
             modifiedBy: this.userProfile.LoginID
           }
-        )
+          rateData.push(FCLObj)
+        } else if (type === 'lcl') {
+          let LCLObj = {
+            consolidatorPricingID: element.consolidatorPricingID,
+            rate: this.price,
+            effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+            effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+            modifiedBy: this.userProfile.LoginID
+          }
+          rateData.push(LCLObj)
+        }
       });
     }
-
-    this._seaFreightService.rateValidityFCL(rateData).subscribe((res: any) => {
+    this._seaFreightService.rateValidityFCL(type, rateData).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success('Record successfully updated', '')
         this.closeModal(res.returnStatus);
@@ -282,37 +292,37 @@ export class RateValidityComponent implements OnInit {
               {
                 pricingID: element.slab.Pricingid1,
                 price: this.normalPrice,
-                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.minPrice,
-                slabName:'Normal'
+                minPrice: this.selectedCurrency.CurrencyCode + ' ' + this.minPrice,
+                slabName: 'Normal'
               },
               {
                 pricingID: element.slab.Pricingid2,
                 price: this.plusfortyFivePrice,
-                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.normalPrice,
+                minPrice: this.selectedCurrency.CurrencyCode + ' ' + this.normalPrice,
                 slabName: '+45'
               },
               {
                 pricingID: element.slab.Pricingid3,
                 price: this.plushundredPrice,
-                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plusfortyFivePrice,
+                minPrice: this.selectedCurrency.CurrencyCode + ' ' + this.plusfortyFivePrice,
                 slabName: '+100'
               },
               {
                 pricingID: element.slab.Pricingid4,
                 price: this.plusTwoFiftyPrice,
-                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plushundredPrice,
+                minPrice: this.selectedCurrency.CurrencyCode + ' ' + this.plushundredPrice,
                 slabName: '+250'
               },
               {
                 pricingID: element.slab.Pricingid5,
                 price: this.plusFiveHundPrice,
-                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plusTwoFiftyPrice,
+                minPrice: this.selectedCurrency.CurrencyCode + ' ' + this.plusTwoFiftyPrice,
                 slabName: '+500'
               },
               {
                 pricingID: element.slab.Pricingid6,
                 price: this.plusThousandPrice,
-                minPrice: this.selectedCurrency.CurrencyCode+ ' ' + this.plusFiveHundPrice,
+                minPrice: this.selectedCurrency.CurrencyCode + ' ' + this.plusFiveHundPrice,
                 slabName: '+1000'
               }
             ],
