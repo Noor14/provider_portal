@@ -67,6 +67,8 @@ export class SettingsComponent implements OnInit {
   public phoneCode;
   public mobileCode;
 
+  public personalInfoToggler: boolean = false;
+
 
 
 
@@ -183,7 +185,13 @@ export class SettingsComponent implements OnInit {
   }
   onChanges(): void {
     this.personalInfoForm.valueChanges.subscribe(val => {
-    // console.log(val);
+      // console.log(this.personalInfoToggler, this.personalInfoForm.controls);
+      //  this.personalInfoForm.controls.forEach(element => {
+      //    if (element.touched){
+      //      this.personalInfoToggler = true;
+      //      console.log(this.personalInfoToggler);
+      //    }
+      //  });
     });
   }
   onContentChanged({ quill, html, text }) {
@@ -380,6 +388,7 @@ export class SettingsComponent implements OnInit {
       }
     }
     this.personalInfoForm.controls['mobile'].setValue(info.PrimaryPhone);
+    this.personalInfoToggler = false;
   }
 
 
