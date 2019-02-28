@@ -2239,18 +2239,18 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       transportType: (this.activeTab == 'activeFCL') ? "FCL" : "LCL",
       modifiedBy: this.userProfile.LoginID
     }
-    // this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
-    //   if (res.returnStatus == "Success") {
-    //     this._toast.success("Term and Condition saved Successfully", "");
-    //     if (this.activeTab == 'activeFCL') {
-    //       this._sharedService.termNcondFCL.next(this.editorContentFCL);
-    //       this.disableFCL = true;
-    //     } else {
-    //       this._sharedService.termNcondLCL.next(this.editorContentLCL);
-    //       this.disableLCL = true;
-    //     }
-    //   }
-    // })
+    this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toast.success("Term and Condition saved Successfully", "");
+        if (this.activeTab == 'activeFCL') {
+          this._sharedService.termNcondFCL.next(this.editorContentFCL);
+          this.disableFCL = true;
+        } else {
+          this._sharedService.termNcondLCL.next(this.editorContentLCL);
+          this.disableLCL = true;
+        }
+      }
+    })
   }
 
   getAdditionalData() {

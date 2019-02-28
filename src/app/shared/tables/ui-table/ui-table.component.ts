@@ -312,14 +312,19 @@ export class UiTableComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes) {
     console.log(changes);
-    if (changes.hasOwnProperty('totalRecords')) {
-      if (changes.tableRecords) {
-        if (this.tableType === 'draftFCL') {
-          this.totalCount = this.tableData.length
-        } else if (this.tableType === 'publishFCL') {
-          this.totalCount = this.totalRecords
-        }
+    if (changes.totalRecords) {
+      console.log(changes.totalRecords.currentValue);
+      if (this.tableType === 'draftFCL') {
+        this.totalCount = this.tableData.length
+      } else if (this.tableType === 'publishFCL') {
+        this.totalCount = changes.totalRecords.currentValue
+        console.log(changes.totalRecords.currentValue);
+
+        console.log(this.totalCount);
+
       }
+      // this.page = 1
+      // this.onPageChangeBootstrap(1)
     }
 
     if (changes.hasOwnProperty('containerLoad')) {
@@ -329,6 +334,7 @@ export class UiTableComponent implements OnInit, OnChanges {
     }
 
     this.data = changeCase(changes.tableData.currentValue, 'camel')
+    this.checkAllPublish = false;
     this.data.forEach(e => {
       if (e.jsonCustomerDetail) {
         e.parsedjsonCustomerDetail = JSON.parse(e.jsonCustomerDetail)
