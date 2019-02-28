@@ -1,5 +1,5 @@
 <!-- manage device table -->
-<div class="table-info mt-2" [ngClass]="tableType">
+<div class="table-info mt-2 {{tableType}} {{containerLoad}}">
   <!-- <label class="table-info-count" *ngIf="tableType === 'draftFCL'">Showing top {{pageSize}} of {{data.length}}
     record(s)</label> -->
   <label class="table-info-count" *ngIf="tableType === 'publishFCL'">Showing top {{data.length}} of {{totalRecords}}
@@ -39,20 +39,10 @@
               </label>
             </div>
           </th>
-          <!-- <th scope="col" *ngFor="let tabHead of thList;let i =index" [ngClass]="tabHead.activeClass"
+          <th scope="col" *ngFor="let tabHead of thList;let i =index" [ngClass]="tabHead.activeClass"
             (click)="onHeadClick(i, tabHead.activeClass, tabHead.sortKey)" scope="col">
             {{tabHead.title}}
-          </th> -->
-          <th> </th>
-          <th> Rate For </th>
-          <th *ngIf="containerLoad === 'FCL'"> Shipping Line </th>
-          <th> Origin/Departure </th>
-          <th> Cargo Type </th>
-          <th *ngIf="containerLoad === 'FCL'"> Container </th>
-          <th> Rate </th>
-          <th> Rate Validity </th>
-          <th> Import Charges </th>
-          <th> Export Charges </th>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -92,8 +82,8 @@
             <span *ngIf="!device.customerID">Marketplace</span>
             <!-- <span class="info-table-date">{{ device.HashMoveBookingDate | date: 'dd MMM, yyyy HH:mm'}}</span> -->
           </td>
-          <td (click)="draftAction(device, 'edit')" *ngIf="containerLoad === 'FCL'">
-            <div class="info-table-ports d-flex">
+          <td (click)="draftAction(device, 'edit')">
+            <div class="info-table-ports d-flex" *ngIf="device.carrierName">
               <div class="d-block text-truncate">
                 <img [src]="getUIImage(device.carrierImage, true)" alt="" class="mr-2 rounded" height="24px"
                   width="24px">
@@ -102,11 +92,6 @@
               <span class="badge badge-danger mt-2" *ngIf="device?.dateDiff && tableType === 'publishFCL'">Rate Expiring
                 in {{device.dateDiff}}
                 days</span>
-              <!-- <img src="../../../assets/images/icons/grid-arrow.svg" class="mr-2 ml-2">
-              <div class="d-block text-truncate">
-                <img src="../../../assets/images/icons/flags/1x1/{{device?.PodCode?.split(' ')[0]?.toLowerCase()}}.svg"
-                  class="flag-icon-20-14 mr-2 border">{{device?.PodCode}}
-              </div> -->
             </div>
           </td>
           <td (click)="draftAction(device, 'edit')">
@@ -124,8 +109,8 @@
                 [ngClass]="device?.podName?.length > 10 ? 'text-truncate': ''">{{device?.podName || '-- Select --'}}</span>
             </div>
           </td>
-          <td (click)="draftAction(device, 'edit')" *ngIf="containerLoad === 'FCL'">
-            <div class="d-flex info-table-logo align-items-center">
+          <td (click)="draftAction(device, 'edit')">
+            <div class="d-flex info-table-logo align-items-center" *ngIf="device.shippingCatName">
               <span class=""
                 [ngClass]="device?.shippingCatName?.length > 30 ? 'text-truncate': ''">{{device?.shippingCatName || '-- Select --'}}</span>
             </div>
@@ -195,13 +180,13 @@
       </tbody>
     </table>
   </div>
-  <div class="paginationBox text-right mt-3 col-12 p-0 d-flex justify-content-end">
+  <div class="paginationBox text-right mt-3 col-12 p-0 d-flex justify-content-end" *ngIf="totalRecords > 5">
     <!-- <p class="pager-info mr-3">Showing {{devicPageConfig.currentPage}} to 5 of {{data.length}} enteries</p> -->
     <!-- <pagination-controls [id]="devicPageConfig.id" [maxSize]="maxSize" [directionLinks]="directionLinks"
       [autoHide]="autoHide" [previousLabel]="labels.previousLabel" [nextLabel]="labels.nextLabel"
       (pageChange)="onPageChange($event, 'publish')"></pagination-controls> -->
     <ngb-pagination [(page)]="page" [pageSize]="5" (pageChange)="onPageChangeBootstrap($event)"
-      [collectionSize]="totalRecords"></ngb-pagination>
+      [collectionSize]="totalCount"></ngb-pagination>
 
   </div>
 

@@ -178,14 +178,18 @@
       table {
         thead {
           th {
-            &:nth-child(3) {
-              min-width: 7rem;
-            }
-            &:nth-child(4) {
-              min-width: 7rem;
+            &:nth-child(5) {
+              min-width: 10rem;
             }
             &:nth-child(7) {
               min-width: 15rem;
+            }
+          }
+        }
+        tbody{
+          td{
+            &:nth-child(4), &:nth-child(7) {
+              display: none;
             }
           }
         }

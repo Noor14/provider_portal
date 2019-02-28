@@ -37,7 +37,6 @@ export class UiTableComponent implements OnInit, OnChanges {
   // collectionSize = this.totalRecords
 
   public thList: Array<HMTableHead> = [
-
     { title: "", activeClass: '', sortKey: "" },
     { title: "Rate For", activeClass: '', sortKey: "CustomerName" },
     { title: "Shipping Line", activeClass: '', sortKey: "" },
@@ -64,16 +63,31 @@ export class UiTableComponent implements OnInit, OnChanges {
     screenReaderCurrentLabel: `You're on page`
   };
 
-  public containerLoad:string;
+  public containerLoad: string;
+  public totalCount: number;
 
   constructor() { }
 
   ngOnInit() {
     if (this.tableType === 'draftFCL') {
       this.tableData = changeCase(this.tableData, 'camel')
+      this.totalCount = this.tableData.length
+    } else if (this.tableType === 'publishFCL') {
+      this.totalCount = this.totalRecords
     }
-    console.log(this.tableData);
     this.containerLoad = this.tableData[0].containerLoadType
+    if (this.containerLoad === 'LCL') {
+      this.thList = [
+        { title: "", activeClass: '', sortKey: "" },
+        { title: "Rate For", activeClass: '', sortKey: "CustomerName" },
+        { title: "Origin/Departure", activeClass: '', sortKey: "" },
+        { title: "Cargo Type", activeClass: '', sortKey: "" },
+        { title: "Rate", activeClass: '', sortKey: "" },
+        { title: "Rate Validity", activeClass: '', sortKey: "" },
+        { title: "Import Charges", activeClass: '', sortKey: "" },
+        { title: "Export Charges", activeClass: '', sortKey: "" },
+      ]
+    }
     this.data = this.tableData
     this.data.forEach(e => {
       if (e.jsonCustomerDetail) {
