@@ -34,9 +34,9 @@ export class UiTableComponent implements OnInit, OnChanges {
   // pagination vars
   // public pageSize: number = 5;
   public page: number = 1
+  // collectionSize = this.totalRecords
 
   public thList: Array<HMTableHead> = [
-
     { title: "", activeClass: '', sortKey: "" },
     { title: "Rate For", activeClass: '', sortKey: "CustomerName" },
     { title: "Shipping Line", activeClass: '', sortKey: "" },
@@ -63,11 +63,30 @@ export class UiTableComponent implements OnInit, OnChanges {
     screenReaderCurrentLabel: `You're on page`
   };
 
+  public containerLoad: string;
+  public totalCount: number;
+
   constructor() { }
 
   ngOnInit() {
     if (this.tableType === 'draftFCL') {
       this.tableData = changeCase(this.tableData, 'camel')
+      this.totalCount = this.tableData.length
+    } else if (this.tableType === 'publishFCL') {
+      this.totalCount = this.totalRecords
+    }
+    this.containerLoad = this.tableData[0].containerLoadType
+    if (this.containerLoad === 'LCL') {
+      this.thList = [
+        { title: "", activeClass: '', sortKey: "" },
+        { title: "Rate For", activeClass: '', sortKey: "CustomerName" },
+        { title: "Origin/Departure", activeClass: '', sortKey: "" },
+        { title: "Cargo Type", activeClass: '', sortKey: "" },
+        { title: "Rate", activeClass: '', sortKey: "" },
+        { title: "Rate Validity", activeClass: '', sortKey: "" },
+        { title: "Import Charges", activeClass: '', sortKey: "" },
+        { title: "Export Charges", activeClass: '', sortKey: "" },
+      ]
     }
     this.data = this.tableData
     this.data.forEach(e => {
@@ -85,7 +104,6 @@ export class UiTableComponent implements OnInit, OnChanges {
         e.dateDiff = null
       }
     })
-    console.log(this.data)
   }
 
   onPageChangeBootstrap(event) {
@@ -187,12 +205,14 @@ export class UiTableComponent implements OnInit, OnChanges {
     if (action === 'delete') {
       obj = {
         type: 'delete',
-        id: row.providerPricingDraftID
+        id: (row.containerLoadType === 'FCL' ? row.providerPricingDraftID : row.consolidatorPricingDraftID),
+        load: row.containerLoadType
       }
     } else if (action === 'edit') {
       obj = {
         type: 'edit',
-        id: row.providerPricingDraftID
+        id: (row.containerLoadType === 'FCL' ? row.providerPricingDraftID : row.consolidatorPricingDraftID),
+        load: row.containerLoadType
       }
     }
     this.checkList.push(obj)

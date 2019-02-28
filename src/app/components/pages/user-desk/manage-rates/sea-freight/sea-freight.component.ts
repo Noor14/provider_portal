@@ -200,7 +200,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
     // fill dropdow lists
     this.getDropdownsList()
-    this.getDraftRates()
+    this.getDraftRates('fcl')
+    this.getDraftRates('lcl')
     this.getPortsData()
     this.getContainersMapping()
 
@@ -328,11 +329,13 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this.generateDraftTable();
   }
   addRatesManuallyLCL() {
-    this._seaFreightService.addDraftRatesLCL({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        this.setRowinDRaftTableLCL(res.returnObject, 'openPopup');
-      }
-    })
+    this.updatePopupRates(0, 'LCL');
+    // this.generateDraftTableLCL();
+    // this._seaFreightService.addDraftRatesLCL({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
+    //   if (res.returnStatus == "Success") {
+    //     this.setRowinDRaftTableLCL(res.returnObject, 'openPopup');
+    //   }
+    // })
   }
   setRowinDRaftTableLCL(obj, type) {
     this.draftDataBYSeaLCL.push(obj);
@@ -341,7 +344,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     } else {
       this.draftslcl = this.draftDataBYSeaLCL;
     }
-    this.generateDraftTableLCL();
+    // this.generateDraftTableLCL();
     if (type == 'openPopup') {
       this.updatePopupRates(obj.ConsolidatorPricingDraftID, 'LCL');
     }
@@ -933,15 +936,16 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     modalRef.result.then((result) => {
       if (result) {
         if (type == 'FCL') {
-          this.setAddDraftData(result);
+          this.setAddDraftData(type, result);
         }
         else if (type == 'LCL') {
-          this.setAddDraftDataLCL(result.data);
+          this.setAddDraftData(type, result);
+          // this.setAddDraftDataLCL(result.data);
         }
       }
     });
     modalRef.componentInstance.savedRow.subscribe((emmitedValue) => {
-      this.setAddDraftData(emmitedValue);
+      this.setAddDraftData(type, emmitedValue);
     });
     let object = {
       forType: type,
@@ -959,33 +963,33 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   }
 
-  setAddDraftDataLCL(data) {
-    for (var index = 0; index < this.draftslcl.length; index++) {
-      for (let i = 0; i < data.length; i++) {
-        if (this.draftslcl[index].ConsolidatorPricingDraftID == data[i].consolidatorPricingDraftID) {
-          this.draftslcl[index].ContainerLoadType = data[i].containerLoadType;
-          this.draftslcl[index].ContainerSpecID = data[i].containerSpecID;
-          this.draftslcl[index].ContainerSpecShortName = data[i].containerSpecShortName;
-          this.draftslcl[index].ShippingCatID = data[i].shippingCatID;
-          this.draftslcl[index].ShippingCatName = data[i].shippingCatName;
-          this.draftslcl[index].CurrencyID = data[i].currencyID;
-          this.draftslcl[index].CurrencyCode = data[i].currencyCode;
-          this.draftslcl[index].Price = data[i].price;
-          this.draftslcl[index].EffectiveFrom = data[i].effectiveFrom;
-          this.draftslcl[index].EffectiveTo = data[i].effectiveTo;
-          this.draftslcl[index].PodCode = data[i].podCode;
-          this.draftslcl[index].PolCode = data[i].polCode;
-          this.draftslcl[index].PodName = data[i].podName;
-          this.draftslcl[index].PolName = data[i].polName;
-          this.draftslcl[index].PodID = data[i].podID;
-          this.draftslcl[index].PolID = data[i].polID;
-        }
-      }
-    }
-    if (index == this.draftslcl.length) {
-      this.generateDraftTableLCL();
-    }
-  }
+  // setAddDraftDataLCL(data) {
+  //   for (var index = 0; index < this.draftslcl.length; index++) {
+  //     for (let i = 0; i < data.length; i++) {
+  //       if (this.draftslcl[index].ConsolidatorPricingDraftID == data[i].consolidatorPricingDraftID) {
+  //         this.draftslcl[index].ContainerLoadType = data[i].containerLoadType;
+  //         this.draftslcl[index].ContainerSpecID = data[i].containerSpecID;
+  //         this.draftslcl[index].ContainerSpecShortName = data[i].containerSpecShortName;
+  //         this.draftslcl[index].ShippingCatID = data[i].shippingCatID;
+  //         this.draftslcl[index].ShippingCatName = data[i].shippingCatName;
+  //         this.draftslcl[index].CurrencyID = data[i].currencyID;
+  //         this.draftslcl[index].CurrencyCode = data[i].currencyCode;
+  //         this.draftslcl[index].Price = data[i].price;
+  //         this.draftslcl[index].EffectiveFrom = data[i].effectiveFrom;
+  //         this.draftslcl[index].EffectiveTo = data[i].effectiveTo;
+  //         this.draftslcl[index].PodCode = data[i].podCode;
+  //         this.draftslcl[index].PolCode = data[i].polCode;
+  //         this.draftslcl[index].PodName = data[i].podName;
+  //         this.draftslcl[index].PolName = data[i].polName;
+  //         this.draftslcl[index].PodID = data[i].podID;
+  //         this.draftslcl[index].PolID = data[i].polID;
+  //       }
+  //     }
+  //   }
+  //   if (index == this.draftslcl.length) {
+  //     // this.generateDraftTableLCL();
+  //   }
+  // }
 
 
   /**
@@ -994,7 +998,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
    * @param {Array} data
    * @memberof SeaFreightComponent
    */
-  setAddDraftData(data) {
+  setAddDraftData(type, data) {
     data.forEach(element => {
       if (element.JsonSurchargeDet) {
         let importCharges = []
@@ -1005,14 +1009,25 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         element.parsedJsonSurchargeDet = importCharges.concat(exportCharges)
       }
       let dataObj = changeCase(element, 'pascal')
-      this.draftsfcl.forEach(e => {
-        if (e.ProviderPricingDraftID === element.providerPricingDraftID) {
-          let idx = this.draftsfcl.indexOf(e)
-          this.draftsfcl.splice(idx, 1)
-        }
-      })
-      this.draftsfcl.unshift(dataObj)
-      this.getDraftRates() //@todo remove it when we get the mechanism for parent to child changes emit
+      if (type === 'FCL') {
+        this.draftsfcl.forEach(e => {
+          if (e.ProviderPricingDraftID === element.providerPricingDraftID) {
+            let idx = this.draftsfcl.indexOf(e)
+            this.draftsfcl.splice(idx, 1)
+          }
+        })
+        this.draftsfcl.unshift(dataObj)
+      } else if (type === 'LCL') {
+        this.draftslcl.forEach(e => {
+          if (e.ConsolidatorPricingDraftID === element.ConsolidatorPricingDraftID) {
+            let idx = this.draftslcl.indexOf(e)
+            this.draftslcl.splice(idx, 1)
+          }
+        })
+        this.draftslcl.unshift(dataObj)
+      }
+
+      this.getDraftRates(type.toLowerCase()) //@todo remove it when we get the mechanism for parent to child changes emit
 
     });
     this.generateDraftTable();
@@ -1114,12 +1129,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             //   this.allSeaDraftRatesByFCL = state[index].DraftDataFCL;
             //   this.draftsfcl = this.allSeaDraftRatesByFCL;
             // }
-            if (state[index].DraftDataLCL) {
-              this.allSeaDraftRatesByLCL = state[index].DraftDataLCL;
-              this.draftslcl = this.allSeaDraftRatesByLCL;
-            }
+            // if (state[index].DraftDataLCL) {
+            //   this.allSeaDraftRatesByLCL = state[index].DraftDataLCL;
+            //   this.draftslcl = this.allSeaDraftRatesByLCL;
+            // }
             this.generateDraftTable();
-            this.generateDraftTableLCL();
+            // this.generateDraftTableLCL();
             this.draftloading = true;
             this.draftloadingLCL = true;
           }
@@ -1838,7 +1853,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         this.allSeaDraftRatesByLCL = [];
         this.draftDataBYSeaLCL = [];
         this.publishRatesLCL = [];
-        this.generateDraftTableLCL();
+        // this.generateDraftTableLCL();
       }
     }, (reason) => {
       // console.log("reason");
@@ -1974,7 +1989,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           this.publishRates = [];
           this.generateDraftTable();
           this.getAllPublishRates();
-          this.getDraftRates() // todo remove is when we get the mechanism for transfer data between components
+          this.getDraftRates('fcl') // todo remove is when we get the mechanism for transfer data between components
         }
       }
     })
@@ -1993,7 +2008,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         if (this.publishRatesLCL.length == i) {
           this.checkedalldraftRates = false;
           this.publishRatesLCL = [];
-          this.generateDraftTableLCL();
+          // this.generateDraftTableLCL();
           this.getAllPublishRatesLcl();
         }
       }
@@ -2021,7 +2036,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         for (let index = 0; index < this.draftsfcl.length; index++) {
           if (this.draftsfcl[index].ProviderPricingDraftID == id) {
             this.draftsfcl.splice(index, 1);
-            this.getDraftRates() //@todo remove it when we get the mechanism for parent to child changes emit
+            this.getDraftRates('fcl') //@todo remove it when we get the mechanism for parent to child changes emit
             this.generateDraftTable();
             this.publishRates = [];
             break;
@@ -2058,7 +2073,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         for (let index = 0; index < this.draftslcl.length; index++) {
           if (this.draftslcl[index].ConsolidatorPricingDraftID == id) {
             this.draftslcl.splice(index, 1);
-            this.generateDraftTableLCL();
+            // this.generateDraftTableLCL();
             this.publishRatesLCL = [];
             break;
           }
@@ -2273,15 +2288,19 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     })
   }
 
-  getDraftRates() {
+  getDraftRates(type) {
     loading(true)
-    this._seaFreightService.getAllDrafts(this.userProfile.ProviderID).subscribe((res: any) => {
+    this._seaFreightService.getAllDrafts(type, this.userProfile.ProviderID).subscribe((res: any) => {
       if (res.returnObject) {
-        this.draftloading = false
-        this.allSeaDraftRatesByFCL = changeCase(res.returnObject, 'pascal')
-        this.draftsfcl = changeCase(res.returnObject, 'pascal')
-        // this.draftsfcl = res.returnObject
-        console.log(this.draftsfcl);
+        console.log(res.returnObject);
+        
+        if (type === 'fcl') {
+          this.allSeaDraftRatesByFCL = changeCase(res.returnObject, 'pascal')
+          this.draftsfcl = changeCase(res.returnObject, 'pascal')
+        } else if (type === 'lcl') {
+          this.allSeaDraftRatesByLCL = changeCase(res.returnObject, 'pascal')
+          this.draftslcl = changeCase(res.returnObject, 'pascal')
+        }
       }
       loading(false)
     }, (err: any) => {
@@ -2323,7 +2342,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         if (event.list[0].type === 'delete') {
           this.deleteRow(event.list[0].id)
         } else if (event.list[0].type === 'edit') {
-          this.updatePopupRates(event.list[0].id, 'FCL')
+          this.updatePopupRates(event.list[0].id, event.list[0].load)
         }
       } else {
         this.publishRates = event.list;
