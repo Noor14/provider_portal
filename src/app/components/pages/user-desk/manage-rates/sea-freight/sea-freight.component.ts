@@ -2360,7 +2360,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     if (event.type === 'publishFCL') {
       if (typeof event.list[0] === 'object') {
         if (event.list[0].type === 'history') {
-          this.rateHistory(event.list[0].id, 'Rate_FCL')
+          if(event.list[0].load === 'FCL') {
+            this.rateHistory(event.list[0].id, 'Rate_FCL')
+          } else if(event.list[0].load === 'LCL') {
+            this.rateHistory(event.list[0].id, 'Rate_LCL')
+          }
         }
       } else {
         this.delPublishRates = event.list

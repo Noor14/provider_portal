@@ -243,9 +243,12 @@ export class UiTableComponent implements OnInit, OnChanges {
 
     let obj = {}
     if (action === 'history') {
+      console.log(row);
+      
       obj = {
         type: 'history',
-        id: row.carrierPricingID
+        id: (this.containerLoad === 'FCL' ? row.carrierPricingID : row.consolidatorPricingID),
+        load: this.containerLoad
       }
     }
     this.checkList.push(obj)
