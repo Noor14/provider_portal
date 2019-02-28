@@ -54,15 +54,23 @@
           <span>{{ service.logServName }}</span>
         </div>
       </div>
-      <!-- <div class="col-12 mt-3">
+      <div class="col-12 d-flex mt-3 animated fadeIn" *ngIf="wareHouseTypeToggler">
+          <div class="fancyOptionBoxes mr-4">
+          <input id="owner" name="warehouseType" type="radio" checked (change)="IsRealEstate = false">
+            <label for="owner">
+              <span></span>
+              I'm an owner / operator for Warehousing
+            </label>
+          </div>
+        
           <div class="fancyOptionBoxes">
-            <input id="bonded" name="bonded" type="checkbox" [(ngModel)]="verifyProfile">
-            <label for="bonded">
+          <input id="realEstate" name="warehouseType" type="radio" (change)="IsRealEstate = true">
+            <label for="realEstate">
               <span></span>
               I'm a Real Estate Agent for Warehousing
             </label>
-          </div>
-        </div> -->
+        </div>
+        </div>
     </div>
   </section>
 

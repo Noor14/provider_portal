@@ -170,6 +170,7 @@ export interface BookingDetails {
   UserName: string;
   UserCountryName: string;
   UserCityName: string;
+  BookingUserInfo: any;
 }
 
 

@@ -220,7 +220,7 @@
               <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" maxlength="100"
                 formControlName="city" (focusout)="errorValidate()" (focus)="cityArError = false; cityError = false"
                 [ngClass]="{'inputError': cityError && businessForm.controls['city'].errors, 'routeSelected': businessForm.value.city && businessForm.value.city.title && businessForm.value.city.id}"
-                [(ngModel)]="cityAr" [ngbTypeahead]="searchCity"
+                [(ngModel)]="cityAr" (ngModelChange)= "onSelectedCity(cityAr)" [ngbTypeahead]="searchCity"
                 [resultTemplate]="st"
               [inputFormatter]="formatterCity">
               <ng-template #st let-r="result">
