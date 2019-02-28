@@ -434,7 +434,7 @@ export class SeaRateDialogComponent implements OnInit {
         return all + item;
       });
     }
-
+    console.log(this.selectedData.forType)
     let obj = {
       providerPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ProviderPricingDraftID : 0,
       consolidatorPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ConsolidatorPricingDraftID : 0,
@@ -448,7 +448,7 @@ export class SeaRateDialogComponent implements OnInit {
       containerSpecName: (this.selectedContSize == null || this.selectedContSize == 'null') ? undefined : this.getContSpecName(this.selectedContSize),
       shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : parseInt(this.selectedCategory),
       shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.getShippingName(this.selectedCategory),
-      containerLoadType: (type === 'FCL' ? 'FCL' : 'LCL'),
+      containerLoadType: this.selectedData.forType,
       modeOfTrans: "SEA",
       polID: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortID : null,
       polName: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortName : null,
