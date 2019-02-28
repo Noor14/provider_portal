@@ -10,18 +10,19 @@ import { SettingService } from '../../../components/pages/user-desk/settings/set
 
 @Component({
   selector: 'app-confirm-delete-dialog',
+  providers: [SeaFreightService, AirFreightService, GroundTransportService, WarehouseService],
   templateUrl: './confirm-delete-dialog.component.html',
   styleUrls: ['./confirm-delete-dialog.component.scss']
 })
 export class ConfirmDeleteDialogComponent implements OnInit {
   
   @Input() deleteIds: any;
-  private userProfile: any
+  private userProfile: any;
   constructor(
+    private _settingService: SettingService,
     private seaFreightService : SeaFreightService,
     private airFreightService: AirFreightService,
     private groundTransportService: GroundTransportService,
-    private _settingService: SettingService,
     private warehouseService: WarehouseService,
     private location: PlatformLocation,
     private _activeModal: NgbActiveModal,
@@ -123,11 +124,11 @@ export class ConfirmDeleteDialogComponent implements OnInit {
       this._settingService.deactivateAccount(this.deleteIds.data, this.deleteIds.data).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
           this._toast.info(res.returnText, "");
-          this.closeModal(null);
         }
         else {
-          this._toast.info(res.returnText, "")
+          this._toast.info(res.returnText, "");
         }
+        this.closeModal(null);
       })
     }
   }
