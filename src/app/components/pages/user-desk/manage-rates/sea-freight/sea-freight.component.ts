@@ -1930,7 +1930,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             this.delPublishRates = [];
           }
         }
-      this.getAllPublishRates('lcl')
+        this.getAllPublishRates('lcl')
       }
     }, (reason) => {
       // console.log("reason");
@@ -1958,7 +1958,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   publishRate(type) {
-    this._seaFreightService.publishDraftRate(type, this.publishRates).subscribe((res: any) => {
+    let param = {
+      pricingIDList: this.publishRates,
+      providerID: (this.draftsfcl.length === this.publishRates.length) ? -1 : this.userProfile.ProviderID
+    }
+    this._seaFreightService.publishDraftRate(type, param).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         if (type === 'fcl') {
           for (var i = 0; i < this.publishRates.length; i++) {
@@ -1977,7 +1981,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             }
           }
         }
-
+        this._toast.success(res.returnText, 'Success')
         if (this.publishRates.length == i) {
           this.checkedalldraftRates = false;
           this.publishRates = [];
@@ -2296,8 +2300,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     loading(true)
     this._seaFreightService.getAllDrafts(type, this.userProfile.ProviderID).subscribe((res: any) => {
       if (res.returnObject) {
-        console.log(res.returnObject);
-
         if (type === 'fcl') {
           this.allSeaDraftRatesByFCL = changeCase(res.returnObject, 'pascal')
           this.draftsfcl = changeCase(res.returnObject, 'pascal')

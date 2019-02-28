@@ -143,12 +143,8 @@ export class SeaRateDialogComponent implements OnInit {
         this.setEditData(this.selectedData.mode)
       }
     }
-    // let date = new Date();
-    // this.minDate = {
-    //   year: date.getFullYear(),
-    //   month: date.getMonth() + 1,
-    //   day: date.getDate()
-    // };
+
+
 
     this.allCustomers = this.selectedData.customers
     this.destinationsList = this.selectedData.addList
@@ -159,6 +155,8 @@ export class SeaRateDialogComponent implements OnInit {
   allservicesBySea() {
     this.getDropdownsList()
     this._sharedService.dataLogisticServiceBySea.subscribe(state => {
+      console.log(state);
+      
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
@@ -168,8 +166,10 @@ export class SeaRateDialogComponent implements OnInit {
             this.allHandlingType = state[index].DropDownValues.ContainerLCL;
             // this.allPorts = state[index].DropDownValues.Port;
             // this.allCurrencies = state[index].DropDownValues.UserCurrency;
-
+            console.log(this.selectedData.forType);
             if (this.selectedData && this.selectedData.data && this.selectedData.forType === "FCL") {
+              
+              
               if (this.selectedData.mode === 'publish') {
                 this.disabledCustomers = true;
                 let data = changeCase(this.selectedData.data[0], 'pascal')
@@ -201,9 +201,9 @@ export class SeaRateDialogComponent implements OnInit {
     const date = new Date();
 
     this.minDate = {
+      year: date.getFullYear(),
       month: date.getMonth() + 1,
-      day: date.getDate(),
-      year: date.getFullYear()
+      day: date.getDate()
     };
     // this.maxDate = {
     //   year: ((this.minDate.month === 12 && this.minDate.day >= 17) ? date.getFullYear() + 1 : date.getFullYear()),
@@ -218,6 +218,7 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   setData(data) {
+    console.log(data);
     let parsed = "";
     this.selectedCategory = data.ShippingCatID;
     this.cargoTypeChange(this.selectedCategory);
@@ -987,10 +988,14 @@ export class SeaRateDialogComponent implements OnInit {
   getDropdownsList() {
     this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
     this.seaPorts = this.allPorts.filter(e => e.PortType === 'SEA')
+    this.groundPorts = this.allPorts.filter(e => e.PortType === 'Ground')
+    console.log(this.groundPorts);
+    
     this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
     this.fclContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FCL')
     let uniq = {}
     this.allCargoType = this.fclContainers.filter(obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true));
+    this.selectedCategory = this.allCargoType.find(obj => obj.ShippingCatName.toLowerCase() == 'goods');
     this._sharedService.currenciesList.subscribe(res => {
       if (res) {
         this.allCurrencies = res;
@@ -1076,8 +1081,20 @@ export class SeaRateDialogComponent implements OnInit {
       else {
         return
       }
-
     }
   }
+
+
+  //Ground areas formatter and observer
+  public groundPorts = []
+  addresses = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 3) ? []
+        : this.groundPorts.filter(v => v.PortName && v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1))
+    )
+  addressFormatter = (x: { PortName: string }) => {
+    return x.PortName
+  };
 
 }

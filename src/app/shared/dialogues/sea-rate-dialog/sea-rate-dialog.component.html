@@ -310,8 +310,7 @@
                   [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate"
                   #dp="ngbDatepicker" (click)="dp.toggle()">
                 <ng-template #t let-date="date" let-focused="focused">
-                  <span class="custom-day"
-                    [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
+                  <span class="custom-day" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
                     [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)"
                     (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
                     {{ date.day }}
