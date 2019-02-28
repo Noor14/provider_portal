@@ -57,9 +57,13 @@
             'no-scroll-add': draftslcl.length,
             'no-pagination':
               draftslcl.length <= dtOptionsBySeaLCLDraft.pageLength}">
-          <table id="draftRateTableLCL" cellspacing="0" #draftBYseaLCL class="row-border hover"></table>
-          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()"
-            *ngIf="!draftloadingLCL">Add another rates</a>
+          <!-- <table id="draftRateTableLCL" cellspacing="0" #draftBYseaLCL class="row-border hover"></table> -->
+          <app-ui-table *ngIf="draftslcl.length" [tableType]="'draftFCL'" [(tableData)]="draftslcl"
+            (checkedRows)="tableCheckedRows($event)"></app-ui-table>
+          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()">
+            <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
+            Add another rates
+          </a>
           <!-- <app-loader-main *ngIf="draftloadingLCL"></app-loader-main> -->
         </section>
         <div class="row mt-4">
@@ -310,6 +314,8 @@
             </div>
           </div>
           <table id="publishRateTableLcl" cellspacing="0" #publishByseaLcl class="row-border hover"></table>
+          <!-- <app-ui-table *ngIf="allRatesListLcL.length" [tableType]="'publishFCL'" [(tableData)]="allRatesListLcL"
+            (checkedRows)="tableCheckedRows($event)"></app-ui-table> -->
           <app-loader-main *ngIf="publishloadingLcl"></app-loader-main>
         </section>
         <section class="term-cond">
@@ -528,14 +534,16 @@
                   <div class="col-5 form-group">
                     <label>Show Only Rates For </label>
                     <div class="fancyOptionBoxes pull-left  filter-checkbox mr-3 pt-3">
-                      <input id="Radios" name="Radios" type="radio" (change)="isMarketplace = !isMarketplace; isCustomer = false">
+                      <input id="Radios" name="Radios" type="radio"
+                        (change)="isMarketplace = !isMarketplace; isCustomer = false">
                       <label for="Radios">
                         <span></span>
                         Marketplace
                       </label>
                     </div>
                     <div class="fancyOptionBoxes pull-left  filter-checkbox  pt-3">
-                      <input id="Radios2" name="Radios" type="radio" (change)="isCustomer = !isCustomer; isMarketplace = false">
+                      <input id="Radios2" name="Radios" type="radio"
+                        (change)="isCustomer = !isCustomer; isMarketplace = false">
                       <label for="Radios2">
                         <span></span>
                         My Customers
@@ -630,8 +638,9 @@
           </div>
           <!-- <table id="publishRateTable" cellspacing="0" #publishBysea class="row-border hover"></table> -->
           <app-ui-table *ngIf="allRatesList" [tableType]="'publishFCL'" [tableData]="allRatesList"
-            (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters($event)" (pageEvent)="paging($event)" [totalRecords]="totalPublishedRecords"></app-ui-table>
-            <div *ngIf="!allRatesList">No Records Found</div>
+            (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters($event)" (pageEvent)="paging($event)"
+            [totalRecords]="totalPublishedRecords"></app-ui-table>
+          <div *ngIf="!allRatesList">No Records Found</div>
           <app-loader-main *ngIf="publishloading"></app-loader-main>
         </section>
         <section class="term-cond">

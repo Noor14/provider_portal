@@ -170,7 +170,16 @@ export class SeaRateDialogComponent implements OnInit {
 
             }
             else if (this.selectedData && this.selectedData.data && this.selectedData.forType === "LCL") {
-              this.setDataLCL(this.selectedData.data);
+              if (this.selectedData.mode === 'publish') {
+                this.disabledCustomers = true;
+                let data = changeCase(this.selectedData.data[0], 'pascal')
+                this.setData(data);
+                // this.setDataLCL(data);
+              } else {
+                this.setData(this.selectedData.data);
+                // this.setDataLCL(this.selectedData.data);
+              }
+
             }
           }
         }
@@ -197,7 +206,7 @@ export class SeaRateDialogComponent implements OnInit {
     );
     this.selectedPrice = data.Price;
 
-    
+
     if (data.JsonCustomerDetail && data.CustomerID) {
       this.selectedCustomer = JSON.parse(data.JsonCustomerDetail)
       this.disabledCustomers = true;
@@ -275,10 +284,9 @@ export class SeaRateDialogComponent implements OnInit {
       } else if (type === 'update') {
         this.updateRatesfcl()
       }
-
     }
     else if (this.selectedData.forType == 'LCL') {
-      this.saveDataInLCLDraft(type);
+      this.saveDataInFCLDraft(type);
     }
   }
 
@@ -311,7 +319,7 @@ export class SeaRateDialogComponent implements OnInit {
 
   saveDataInLCLDraft(type) {
     let obj = [{
-      consolidatorPricingDraftID: (!this.newProviderPricingDraftID) ? this.selectedData.data.ConsolidatorPricingDraftID : this.newProviderPricingDraftID,
+      consolidatorPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ConsolidatorPricingDraftID : 0,
       customerID: null,
       providerID: this.userProfile.ProviderID,
       // containerSpecID: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? null : this.selectedHandlingUnit,
@@ -407,6 +415,7 @@ export class SeaRateDialogComponent implements OnInit {
 
     let obj = {
       providerPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ProviderPricingDraftID : 0,
+      consolidatorPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ConsolidatorPricingDraftID : 0,
       customerID: (this.selectedCustomer.length ? this.selectedCustomer[0].CustomerID : null),
       customersList: (customers.length ? customers : null),
       carrierID: (this.selectedShipping) ? this.selectedShipping.CarrierID : undefined,
@@ -417,7 +426,7 @@ export class SeaRateDialogComponent implements OnInit {
       containerSpecName: (this.selectedContSize == null || this.selectedContSize == 'null') ? undefined : this.getContSpecName(this.selectedContSize),
       shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : parseInt(this.selectedCategory),
       shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.getShippingName(this.selectedCategory),
-      containerLoadType: "FCL",
+      containerLoadType: (type === 'FCL' ? 'FCL' : 'LCL'),
       modeOfTrans: "SEA",
       polID: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortID : null,
       polName: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortName : null,
@@ -435,6 +444,7 @@ export class SeaRateDialogComponent implements OnInit {
       TotalExportCharges: this.TotalExportCharges,
       createdBy: this.userProfile.LoginID
     }
+
     let ADCHValidated: boolean = true;
     let exportCharges
     let importCharges
@@ -489,27 +499,49 @@ export class SeaRateDialogComponent implements OnInit {
       this._toast.info('Please fill atleast one field to save', 'Info')
       return;
     }
-    this._seaFreightService.saveDraftRate(obj).subscribe((res: any) => {
-      if (res.returnId > 0) {
-        this._toast.success("Rates added successfully", "Success");
-        // this.allRatesFilledData.push(obj);
-        if (type === "onlySave") {
-          // let object = {
-          //   data: this.allRatesFilledData
-          // };
-          this.closeModal(res.returnObject);
-        } else {
-          this.selectedPrice = undefined;
-          this.selectedContSize = null;
-          this.savedRow.emit(res.returnObject)
-          // this.addRow();
-          // this.selectedOrigins = [{}]
-          // this.selectedDestinations = [{}]
-          // this.destinationsList = this.selectedData.addList
-          // this.originsList = this.selectedData.addList
+
+    if (this.selectedData.forType === 'FCL') {
+      this._seaFreightService.saveDraftRate(obj).subscribe((res: any) => {
+        if (res.returnId > 0) {
+          this._toast.success("Rates added successfully", "Success");
+          if (type === "onlySave") {
+            this.closeModal(res.returnObject);
+          } else {
+            this.selectedPrice = undefined;
+            this.selectedContSize = null;
+            this.savedRow.emit(res.returnObject)
+          }
         }
-      }
-    });
+      });
+    } else if (this.selectedData.forType == 'LCL') {
+      //   this._seaFreightService.saveDraftRateLCL(obj).subscribe((res: any) => {
+      //   if (res.returnStatus == "Success") {
+      //     this._toast.success("Rates added successfully", "");
+      //     this.allRatesFilledData.push(obj[0]);
+      //     if (type != "saveNadd") {
+      //       let object = {
+      //         data: this.allRatesFilledData
+      //       };
+      //       this.closeModal(object);
+      //     } else {
+      //       this.addRowLCL();
+      //     }
+      //   }
+      // });
+
+      this._seaFreightService.saveDraftRateLCL(obj).subscribe((res: any) => {
+        if (res.returnId > 0) {
+          this._toast.success("Rates added successfully", "Success");
+          if (type === "onlySave") {
+            this.closeModal(res.returnObject);
+          } else {
+            this.selectedPrice = undefined;
+            this.selectedContSize = null;
+            this.savedRow.emit(res.returnObject)
+          }
+        }
+      });
+    }
   }
 
 
