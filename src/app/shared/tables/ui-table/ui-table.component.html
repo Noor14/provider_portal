@@ -153,7 +153,7 @@
           <td (click)="draftAction(device, 'edit')">
             <div class="d-flex info-table-logo align-items-center">
               <!-- <img [src]="getUIImage(device.CarrierImage, false)" alt="" class="mr-2 "> -->
-              <span *ngIf="device.totalExportCharges && device.baseCurrencyCode">{{device.baseCurrencyCode}}
+              <span *ngIf="device.totalExportCharges && device.totalExportCharges > 0 && device.baseCurrencyCode">{{device.baseCurrencyCode}} 
                 {{device.totalImportCharges | number: '2.0-0'}}</span>
               <span *ngIf="!device.totalExportCharges">-- Select --</span>
             </div>
@@ -161,7 +161,7 @@
           <td (click)="draftAction(device, 'edit')">
             <div class="d-flex info-table-logo align-items-center">
               <!-- <img [src]="getUIImage(device.CarrierImage, false)" alt="" class="mr-2 "> -->
-              <span *ngIf="device.totalExportCharges && device.baseCurrencyCode">
+              <span *ngIf="device.totalExportCharges && device.totalExportCharges > 0 && device.baseCurrencyCode">
                 {{device.baseCurrencyCode}}
                 {{device.totalExportCharges | number: '2.0-0'}}</span>
               <span *ngIf="!device.totalExportCharges">-- Select --</span>
