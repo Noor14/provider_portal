@@ -16,16 +16,21 @@
                 font-family: $font-proxima;
                 .badge {
                     opacity: 0.6;
+                    font-size: 0.875rem !important;
+                    margin-left: 1.35rem;
+                    padding: 0em 0.45em !important;
+                    line-height: 1.5 !important;
                 }
                 &.active {
                     box-shadow: 0px 2px 0px 0px $color-topmenuactive;
                     color: $color-topmenuactive;
                     .badge {
                         opacity: 1;
-                        background-color: $primary-color;
-                        font-size: $font-size-medium !important;
+                        background-color: #00a2df;
+                        font-size: 0.875rem !important;
                         margin-left: 1.35rem;
-                        padding:0.25rem 0.5rem !important;
+                        padding: 0em 0.45em !important;
+                        line-height: 1.5 !important;
                     }
                 }
             }
