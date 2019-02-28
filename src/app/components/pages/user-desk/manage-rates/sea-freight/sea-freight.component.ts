@@ -1959,8 +1959,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   publishRate(type) {
     let param = {
-      pricingIDList: this.publishRates,
-      providerID: (this.draftsfcl.length === this.publishRates.length) ? -1 : this.userProfile.ProviderID
+      pricingIDList: (this.draftsfcl.length === this.publishRates.length) ? [-1] : this.publishRates,
+      providerID: this.userProfile.ProviderID
     }
     this._seaFreightService.publishDraftRate(type, param).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
