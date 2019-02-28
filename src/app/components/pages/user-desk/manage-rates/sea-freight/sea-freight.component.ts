@@ -194,8 +194,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
-    this.getAllPublishRatesLcl();
-    this.getAllPublishRates();
+
+    // this.getAllPublishRatesLcl();
+    this.getAllPublishRates('fcl');
+    // this.getAllPublishRates('lcl');
     this.allservicesBySea();
 
     // fill dropdow lists
@@ -301,7 +303,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     }
   }
   filter() {
-    this.getAllPublishRates()
+    // this.getAllPublishRates()
   }
   filterLcl() {
     this.getAllPublishRatesLcl()
@@ -1149,10 +1151,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     if (type == "FCL") {
 
       if (typeof obj == 'object') {
-        this.getAllPublishRates();
+        // this.getAllPublishRates();
       }
       else if (!obj) {
-        this.getAllPublishRates();
+        // this.getAllPublishRates();
       }
       else {
         return;
@@ -1201,7 +1203,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       if (!date) {
         this.fromDate = {};
         this.toDate = {};
-        this.getAllPublishRates();
+        // this.getAllPublishRates();
       }
     }
   }
@@ -1209,12 +1211,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
 
   filtertionPort(obj, type) {
-    if (type == "FCL") {
-      if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates();
-    }
-    else if (type == "LCL") {
-      if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates();
-    }
+    // if (type == "FCL") {
+    //   if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates();
+    // }
+    // else if (type == "LCL") {
+    //   if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates();
+    // }
   }
 
   public sortColumn: string = 'CarrierName'
@@ -1224,7 +1226,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   public pageNo: number = 1;
   public pageSize: number = 5;
   public totalPublishedRecords: number;
-  getAllPublishRates() {
+  getAllPublishRates(type) {
     this.publishloading = true;
     let obj = {
       // providerID: 1047,     
@@ -1243,15 +1245,19 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       sortColumn: this.sortColumn,
       sortColumnDirection: this.sortColumnDirection
     }
-    console.log(obj);
-    // return;
-    this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
+    this._seaFreightService.getAllrates(type, obj).subscribe((res: any) => {
       this.publishloading = false;
+      console.log(res);
       if (res.returnId > 0) {
         this.totalPublishedRecords = res.returnObject.recordsTotal
-        this.allRatesList = cloneObject(res.returnObject.data);
-        this.checkedallpublishRates = false;
-        this.filterTable();
+        if (type === 'fcl') {
+          this.allRatesList = cloneObject(res.returnObject.data);
+          this.checkedallpublishRates = false;
+        } else if (type === 'lcl') {
+          this.allRatesListLcL = res.returnObject.data;
+          this.checkedallpublishRatesLcl = false;
+        }
+        // this.filterTable();
         this.publishloading = false;
       }
     })
@@ -1273,13 +1279,13 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       sortColumn: null,
       sortColumnDirection: null
     }
-    this._seaFreightService.getAllratesLCL(obj).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        this.allRatesListLcL = res.returnObject.data;
-        this.checkedallpublishRatesLcl = false;
-        this.filterTableLcl();
-      }
-    })
+    // this._seaFreightService.getAllratesLCL(obj).subscribe((res: any) => {
+    //   if (res.returnStatus == "Success") {
+    //     this.allRatesListLcL = res.returnObject.data;
+    //     this.checkedallpublishRatesLcl = false;
+    //     this.filterTableLcl();
+    //   }
+    // })
   }
 
 
@@ -1974,29 +1980,40 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   }
 
-  publishRate() {
-    this._seaFreightService.publishDraftRate(this.publishRates).subscribe((res: any) => {
+  publishRate(type) {
+    this._seaFreightService.publishDraftRate(type, this.publishRates).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        for (var i = 0; i < this.publishRates.length; i++) {
-          for (let y = 0; y < this.draftsfcl.length; y++) {
-            if (this.draftsfcl[y].ProviderPricingDraftID == this.publishRates[i]) {
-              this.draftsfcl.splice(y, 1);
+        if (type === 'fcl') {
+          for (var i = 0; i < this.publishRates.length; i++) {
+            for (let y = 0; y < this.draftsfcl.length; y++) {
+              if (this.draftsfcl[y].ProviderPricingDraftID == this.publishRates[i]) {
+                this.draftsfcl.splice(y, 1);
+              }
+            }
+          }
+        } else if (type === 'lcl') {
+          for (var i = 0; i < this.publishRates.length; i++) {
+            for (let y = 0; y < this.draftslcl.length; y++) {
+              if (this.draftslcl[y].ConsolidatorPricingDraftID == this.publishRates[i]) {
+                this.draftslcl.splice(y, 1);
+              }
             }
           }
         }
+
         if (this.publishRates.length == i) {
           this.checkedalldraftRates = false;
           this.publishRates = [];
-          this.generateDraftTable();
-          this.getAllPublishRates();
-          this.getDraftRates('fcl') // todo remove is when we get the mechanism for transfer data between components
+          // this.generateDraftTable();
+          this.getAllPublishRates(type);
+          this.getDraftRates(type) // todo remove is when we get the mechanism for transfer data between components
         }
       }
     })
   }
 
   publishRateLcl() {
-    this._seaFreightService.publishDraftRateLCL(this.publishRatesLCL).subscribe((res: any) => {
+    this._seaFreightService.publishDraftRateLCL(this.publishRates).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         for (var i = 0; i < this.publishRatesLCL.length; i++) {
           for (let y = 0; y < this.draftslcl.length; y++) {
@@ -2094,13 +2111,23 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
-  rateValidity() {
+  rateValidity(type) {
     if (!this.delPublishRates.length) return;
     let updateValidity = [];
-    for (let i = 0; i < this.allRatesList.length; i++) {
-      for (let y = 0; y < this.delPublishRates.length; y++) {
-        if (this.allRatesList[i].carrierPricingID == this.delPublishRates[y]) {
-          updateValidity.push(this.allRatesList[i])
+    if (type === 'fcl') {
+      for (let i = 0; i < this.allRatesList.length; i++) {
+        for (let y = 0; y < this.delPublishRates.length; y++) {
+          if (this.allRatesList[i].carrierPricingID == this.delPublishRates[y]) {
+            updateValidity.push(this.allRatesList[i])
+          }
+        }
+      }
+    } else if (type === 'lcl') {
+      for (let i = 0; i < this.allRatesListLcL.length; i++) {
+        for (let y = 0; y < this.delPublishRates.length; y++) {
+          if (this.allRatesListLcL[i].consolidatorPricingID == this.delPublishRates[y]) {
+            updateValidity.push(this.allRatesListLcL[i])
+          }
         }
       }
     }
@@ -2116,14 +2143,14 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       });
       modalRef.result.then((result) => {
         if (result == 'Success') {
-          this.getAllPublishRates();
+          this.getAllPublishRates(type);
           this.checkedallpublishRates = false
           this.delPublishRates = [];
         }
       });
       let obj = {
         data: updateValidity,
-        type: "rateValidityFCL"
+        type: type
       }
       modalRef.componentInstance.validityData = obj;
     } else if (updateValidity && updateValidity.length === 1) {
@@ -2136,13 +2163,13 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       });
       modalRef2.result.then((result) => {
         if (result == 'Success') {
-          this.getAllPublishRates();
+          this.getAllPublishRates(type);
           this.checkedallpublishRates = false
           this.delPublishRates = [];
         }
       });
       let object = {
-        forType: 'FCL',
+        forType: type.toUpperCase(),
         data: updateValidity,
         addList: this.seaCharges,
         customers: this.allCustomers,
@@ -2293,7 +2320,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this._seaFreightService.getAllDrafts(type, this.userProfile.ProviderID).subscribe((res: any) => {
       if (res.returnObject) {
         console.log(res.returnObject);
-        
+
         if (type === 'fcl') {
           this.allSeaDraftRatesByFCL = changeCase(res.returnObject, 'pascal')
           this.draftsfcl = changeCase(res.returnObject, 'pascal')
@@ -2329,12 +2356,13 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   tableCheckedRows(event) {
+    console.log(event);
     if (event.type === 'publishFCL') {
       if (typeof event.list[0] === 'object') {
         if (event.list[0].type === 'history') {
           this.rateHistory(event.list[0].id, 'Rate_FCL')
         }
-      } else if (typeof event.list[0] === 'number') {
+      } else {
         this.delPublishRates = event.list
       }
     } else if (event.type === 'draftFCL') {
@@ -2350,23 +2378,32 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     }
   }
 
-  sortedFilters(event) {
+  sortedFilters(type, event) {
     console.log(event);
     this.sortColumn = event.column
     this.sortColumnDirection = event.direction
-    this.getAllPublishRates()
+    this.getAllPublishRates(type)
   }
 
-  paging(event) {
+  paging(type, event) {
     console.log(event);
     this.pageNo = event;
-    this.getAllPublishRates()
+    this.getAllPublishRates(type)
   }
 
   public filterbyCustomer;
   public fromType: string = ''
   filterRecords(type) {
-    this.getAllPublishRates()
+    this.getAllPublishRates(type)
+  }
+
+  onTabChange(event) {
+    console.log(event);
+    if (event === 'activeLCL') {
+      this.getAllPublishRates('lcl')
+    } else if (event === 'activeFCL') {
+      this.getAllPublishRates('fcl')
+    }
   }
 
 }

@@ -278,38 +278,60 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   savedraftrow(type) {
-    if (this.selectedData.forType == 'FCL') {
-      if (type !== 'update') {
-        this.saveDataInFCLDraft(type);
-      } else if (type === 'update') {
-        this.updateRatesfcl()
-      }
-    }
-    else if (this.selectedData.forType == 'LCL') {
+    console.log(type);
+    
+    if (type !== 'update') {
       this.saveDataInFCLDraft(type);
+    } else if (type === 'update') {
+      console.log(this.selectedData.forType.toLowerCase())
+      this.updateRatesfcl(this.selectedData.forType.toLowerCase())
     }
+    // if (this.selectedData.forType == 'FCL') {
+    //   if (type !== 'update') {
+    //     this.saveDataInFCLDraft(type);
+    //   } else if (type === 'update') {
+    //     this.updateRatesfcl()
+    //   }
+    // } else if (this.selectedData.forType == 'LCL') {
+    //   this.saveDataInFCLDraft(type);
+    // }
   }
 
-  updateRatesfcl() {
+  updateRatesfcl(type) {
+    console.log(type);
     let rateData = [];
     if (this.selectedData.data && this.selectedData.data && this.selectedData.data.length) {
       this.selectedData.data.forEach(element => {
-        rateData.push(
-          {
-            carrierPricingID: element.carrierPricingID,
-            rate: this.selectedPrice,
-            effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
-            effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
-            modifiedBy: this.userProfile.LoginID,
-            JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
-            customerID: element.customerID,
-            jsonCustomerDetail: element.jsonCustomerDetail,
-            customerType: element.customerType
-          }
-        )
+        let LCLObj = {
+          consolidatorPricingID: element.consolidatorPricingID,
+          rate: this.selectedPrice,
+          effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+          effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+          modifiedBy: this.userProfile.LoginID,
+          JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
+          customerID: element.customerID,
+          jsonCustomerDetail: element.jsonCustomerDetail,
+          customerType: element.customerType
+        }
+        let FCLObj = {
+          carrierPricingID: element.carrierPricingID,
+          rate: this.selectedPrice,
+          effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+          effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+          modifiedBy: this.userProfile.LoginID,
+          JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
+          customerID: element.customerID,
+          jsonCustomerDetail: element.jsonCustomerDetail,
+          customerType: element.customerType
+        }
+        if (type === 'fcl') {
+          rateData.push(FCLObj)
+        } else if (type === 'lcl') {
+          rateData.push(LCLObj)
+        }
       });
     }
-    this._seaFreightService.rateValidityFCL(rateData).subscribe((res: any) => {
+    this._seaFreightService.rateValidityFCL(type, rateData).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success('Record successfully updated', '')
         this.closeModal(res.returnStatus);

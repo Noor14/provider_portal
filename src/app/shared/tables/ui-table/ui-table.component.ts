@@ -15,6 +15,7 @@ export class UiTableComponent implements OnInit, OnChanges {
   @Input() tableData: any;
   @Input() tableType: string;
   @Input() totalRecords: number
+  @Input() containerLoad: string;
   @Output() checkedRows = new EventEmitter<any>()
   @Output() sorting = new EventEmitter<any>()
   @Output() pageEvent = new EventEmitter<any>()
@@ -30,6 +31,8 @@ export class UiTableComponent implements OnInit, OnChanges {
   public autoHide: boolean = false;
   public checkAllPublish: boolean = false;
   public checkAllDrafts: boolean = false;
+  public LCLRecords: number;
+  public FCLRecords: number;
 
   // pagination vars
   // public pageSize: number = 5;
@@ -63,7 +66,6 @@ export class UiTableComponent implements OnInit, OnChanges {
     screenReaderCurrentLabel: `You're on page`
   };
 
-  public containerLoad: string;
   public totalCount: number;
 
   constructor() { }
@@ -75,7 +77,8 @@ export class UiTableComponent implements OnInit, OnChanges {
     } else if (this.tableType === 'publishFCL') {
       this.totalCount = this.totalRecords
     }
-    this.containerLoad = this.tableData[0].containerLoadType
+    console.log(this.containerLoad);
+
     if (this.containerLoad === 'LCL') {
       this.thList = [
         { title: "", activeClass: '', sortKey: "" },
@@ -147,6 +150,7 @@ export class UiTableComponent implements OnInit, OnChanges {
 
   public checkList = [];
   onCheck(type, model) {
+    console.log(type, model);
     if (type === 'all') {
       if (this.tableType === 'draftFCL') {
         this.checkAllDrafts = !this.checkAllDrafts
@@ -154,7 +158,12 @@ export class UiTableComponent implements OnInit, OnChanges {
           this.data.forEach(e => {
             if (!this.validateRow(e)) {
               e.isChecked = true
-              this.checkList.push(e.providerPricingDraftID)
+              console.log(this.containerLoad);
+              if (this.containerLoad === 'FCL') {
+                this.checkList.push(e.providerPricingDraftID)
+              } else if (this.containerLoad === 'LCL') {
+                this.checkList.push(e.consolidatorPricingDraftID)
+              }
             }
           })
         } else if (!this.checkAllDrafts) {
@@ -168,7 +177,11 @@ export class UiTableComponent implements OnInit, OnChanges {
         if (this.checkAllPublish) {
           this.data.forEach(e => {
             e.isChecked = true
-            this.checkList.push(e.carrierPricingID)
+            if (this.containerLoad === 'FCL') {
+              this.checkList.push(e.carrierPricingID)
+            } else if (this.containerLoad === 'LCL') {
+              this.checkList.push(e.consolidatorPricingID)
+            }
           })
         } else if (!this.checkAllPublish) {
           this.data.forEach(e => {
@@ -245,20 +258,35 @@ export class UiTableComponent implements OnInit, OnChanges {
   }
 
   validateRow(row) {
-    if (!row.polID ||
-      !row.podID ||
-      !row.price ||
-      !row.totalExportCharges ||
-      !row.totalImportCharges ||
-      !row.shippingCatID ||
-      !row.effectiveFrom ||
-      !row.effectiveTo ||
-      !row.containerSpecID ||
-      !row.carrierID
-    ) {
-      return true;
-    } else {
-      return false;
+    if (this.containerLoad === 'FCL') {
+      if (!row.polID ||
+        !row.podID ||
+        !row.price ||
+        !row.totalExportCharges ||
+        !row.totalImportCharges ||
+        !row.shippingCatID ||
+        !row.effectiveFrom ||
+        !row.effectiveTo ||
+        !row.containerSpecID ||
+        !row.carrierID
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (this.containerLoad === 'LCL') {
+      if (!row.polID ||
+        !row.podID ||
+        !row.price ||
+        !row.totalExportCharges ||
+        !row.totalImportCharges ||
+        !row.effectiveFrom ||
+        !row.effectiveTo
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
@@ -268,9 +296,6 @@ export class UiTableComponent implements OnInit, OnChanges {
       value: value,
       column: column
     }
-    // this.data.sort(
-    //   firstBy(this.selectedSort.value, 1)
-    // );
     let sortObj = {
       direction: 'ASC',
       column: column
@@ -280,6 +305,18 @@ export class UiTableComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes) {
     console.log(changes);
+    if (changes.hasOwnProperty('totalRecords')) {
+      if (changes.tableRecords) {
+        this.totalCount = changes.tableRecords.currentValue
+      }
+    }
+
+    if (changes.hasOwnProperty('containerLoad')) {
+      if (changes.containerLoad) {
+        this.containerLoad = changes.containerLoad.currentValue
+      }
+    }
+
     this.data = changeCase(changes.tableData.currentValue, 'camel')
     this.data.forEach(e => {
       if (e.jsonCustomerDetail) {

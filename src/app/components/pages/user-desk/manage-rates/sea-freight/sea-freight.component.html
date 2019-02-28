@@ -28,7 +28,7 @@
       </div>
     </div>
   </section>
-  <ngb-tabset activeId="activeFCL" (tabChange)="activeTab = $event.nextId">
+  <ngb-tabset activeId="activeFCL" (tabChange)="activeTab = $event.nextId; onTabChange(activeTab)">
     <ngb-tab [disabled]="true">
       <ng-template ngbTabTitle>
         <span>Unpublished Rates</span>
@@ -59,7 +59,7 @@
               draftslcl.length <= dtOptionsBySeaLCLDraft.pageLength}">
           <!-- <table id="draftRateTableLCL" cellspacing="0" #draftBYseaLCL class="row-border hover"></table> -->
           <app-ui-table *ngIf="draftslcl.length" [tableType]="'draftFCL'" [(tableData)]="draftslcl"
-            (checkedRows)="tableCheckedRows($event)"></app-ui-table>
+            (checkedRows)="tableCheckedRows($event)" [containerLoad]="'LCL'"></app-ui-table>
           <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()">
             <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
             Add another rates
@@ -75,8 +75,8 @@
             <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">
               Save Draft
             </button>
-            <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRatesLCL.length"
-              (click)="publishRateLcl()">
+            <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRates.length"
+              (click)="publishRate('lcl')">
               Publish Rates
             </button>
           </div>
@@ -258,8 +258,8 @@
                 class="icon-size-24 mr-2" /> All Pending Rates will be published in 2 hours
             </div>
             <div class="col-6 d-flex justify-content-end">
-              <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidityLCL()"
-                [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
+              <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity('lcl')"
+                [ngClass]="{ 'no-drop': !delPublishRates.length }">
                 <!-- <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" /> -->
                 <svg class="edit-validity-icon icon-size-16 mr-2" id="17f5b310-5508-485b-8001-dbaf3458113b"
                   data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -290,7 +290,7 @@
                 {{rateValidityTextLCL}}
               </a>
               <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('LCL')"
-                [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
+                [ngClass]="{ 'no-drop': !delPublishRates.length }">
                 <!-- <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16" /> -->
                 <svg class="delete-icon icon-size-16 mr-2" id="317c8c47-17e2-4e96-9063-97bc9a32118b" data-name="Layer 1"
                   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -313,9 +313,10 @@
               </a>
             </div>
           </div>
-          <table id="publishRateTableLcl" cellspacing="0" #publishByseaLcl class="row-border hover"></table>
-          <!-- <app-ui-table *ngIf="allRatesListLcL.length" [tableType]="'publishFCL'" [(tableData)]="allRatesListLcL"
-            (checkedRows)="tableCheckedRows($event)"></app-ui-table> -->
+          <!-- <table id="publishRateTableLcl" cellspacing="0" #publishByseaLcl class="row-border hover"></table> -->
+          <app-ui-table *ngIf="allRatesListLcL" [tableType]="'publishFCL'" [tableData]="allRatesListLcL"
+            (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('lcl', $event)"
+            (pageEvent)="paging('lcl', $event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'LCL'"></app-ui-table>
           <app-loader-main *ngIf="publishloadingLcl"></app-loader-main>
         </section>
         <section class="term-cond">
@@ -376,7 +377,7 @@
         <section class="rates-grid draft-grid draft-Fcl">
           <!-- <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table> -->
           <app-ui-table *ngIf="draftsfcl.length" [tableType]="'draftFCL'" [(tableData)]="draftsfcl"
-            (checkedRows)="tableCheckedRows($event)"></app-ui-table>
+            (checkedRows)="tableCheckedRows($event)" [containerLoad]="'FCL'"></app-ui-table>
           <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()">
             <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
             Add another rates
@@ -393,7 +394,7 @@
               Save Draft
             </button>
             <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRates.length"
-              (click)="publishRate()">
+              (click)="publishRate('fcl')">
               Publish Rates
             </button>
           </div>
@@ -564,7 +565,7 @@
                   <div class="col-8">
                     <div class="form-group">
                       <label for="">&nbsp;</label>
-                      <button class="btn btn-primary w-50 btn-lg" (click)="filterRecords('publish')">Filter
+                      <button class="btn btn-primary w-50 btn-lg" (click)="filterRecords('fcl')">Filter
                         Records</button>
                     </div>
                   </div>
@@ -581,7 +582,7 @@
                 class="icon-size-24 mr-2" /> Unpublished Rates will be published in 2 hours
             </div>
             <div class="col-6 d-flex justify-content-end">
-              <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity()"
+              <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity('fcl')"
                 [ngClass]="{ 'no-drop': !delPublishRates.length }">
                 <!-- <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" /> -->
                 <svg class="edit-validity-icon icon-size-16 mr-2" id="17f5b310-5508-485b-8001-dbaf3458113b"
@@ -638,8 +639,8 @@
           </div>
           <!-- <table id="publishRateTable" cellspacing="0" #publishBysea class="row-border hover"></table> -->
           <app-ui-table *ngIf="allRatesList" [tableType]="'publishFCL'" [tableData]="allRatesList"
-            (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters($event)" (pageEvent)="paging($event)"
-            [totalRecords]="totalPublishedRecords"></app-ui-table>
+            (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('fcl', $event)"
+            (pageEvent)="paging('fcl' ,$event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'FCL'"></app-ui-table>
           <div *ngIf="!allRatesList">No Records Found</div>
           <app-loader-main *ngIf="publishloading"></app-loader-main>
         </section>
