@@ -100,7 +100,7 @@ export class UiTableComponent implements OnInit, OnChanges {
         if (e.parsedpublishStatus.Status === 'PENDING') {
           e.parsedpublishStatus.printStatus = 'Unpublished'
         } else if (e.parsedpublishStatus.Status === 'POSTED') {
-          e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MMMM Do YYYY, h:mm:ss a')
+          e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MMMM Do YYYY h:mm:ss A')
         }
       }
       e.isChecked = false
@@ -313,15 +313,10 @@ export class UiTableComponent implements OnInit, OnChanges {
   ngOnChanges(changes) {
     console.log(changes);
     if (changes.totalRecords) {
-      console.log(changes.totalRecords.currentValue);
       if (this.tableType === 'draftFCL') {
         this.totalCount = this.tableData.length
       } else if (this.tableType === 'publishFCL') {
         this.totalCount = changes.totalRecords.currentValue
-        console.log(changes.totalRecords.currentValue);
-
-        console.log(this.totalCount);
-
       }
       // this.page = 1
       // this.onPageChangeBootstrap(1)
@@ -344,7 +339,7 @@ export class UiTableComponent implements OnInit, OnChanges {
         if (e.parsedpublishStatus.Status === 'PENDING') {
           e.parsedpublishStatus.printStatus = 'Unpublished'
         } else if (e.parsedpublishStatus.Status === 'POSTED') {
-          e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MM/DD/YYYY, h:mm:ss a')
+          e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MM/DD/YYYY h:mm:ss A')
         }
       }
       e.isChecked = false

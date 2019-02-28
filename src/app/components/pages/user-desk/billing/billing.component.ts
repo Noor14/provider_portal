@@ -332,10 +332,16 @@ export class BillingComponent implements OnInit, OnDestroy {
       this.setBillingDashboardData();
       this.providerBillingDashboardInvoice = cloneObject(this.providerBillingDashboard.invoices);
       this.viewBillingInvoice = cloneObject(this.providerBillingDashboard.invoices);
-      this.dtTrigger.next();
-      setTimeout(() => {
-        this.isTableLoaded = true;
-      }, 10);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          this.isTableLoaded = true;
+          resolve()
+        }, 0);
+      }).then(() => {
+        setTimeout(() => {
+          this.dtTrigger.next();
+        }, 0);
+      })
     } catch (error) {
       console.log(error);
     }
