@@ -65,6 +65,7 @@ export class BusinessInfoComponent implements OnInit {
   public spinner:boolean = false;
   public addBusinessbtnEnabled : boolean = undefined;
   public profileUrl:string;
+  public profilUrlValid: booleam = false;
   public privateModeToggler: boolean = false;
   public verifyProfile: boolean = false;
   public wareHouseTypeToggler: boolean = false;
@@ -144,10 +145,23 @@ export class BusinessInfoComponent implements OnInit {
   onContentChanged({ quill, html, text }) {
     this.aboutUs = html
   }
-  spaceHandler(event) {
+  profileNameValid(event) {
     if (event.charCode == 32) {
       event.preventDefault();
       return false;
+    }
+    else{
+      let charCode = (event.which) ? event.which : event.keyCode;
+      let keyChar = String.fromCharCode(charCode);
+      let regex = /^[a-z0-9]+$/;
+      if (!regex.test(keyChar)){
+        this.profilUrlValid = true;
+        event.preventDefault();
+        return false;
+      }
+      else{
+        this.profilUrlValid = false;
+      }
     }
   }
   validate(userName){
