@@ -1958,10 +1958,19 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   publishRate(type) {
-    let param = {
-      pricingIDList: (this.draftsfcl.length === this.publishRates.length) ? [-1] : this.publishRates,
-      providerID: this.userProfile.ProviderID
+    let param;
+    if (type === 'fcl') {
+      param = {
+        pricingIDList: (this.draftsfcl.length === this.publishRates.length) ? [-1] : this.publishRates,
+        providerID: this.userProfile.ProviderID
+      }
+    } else if (type === 'lcl') {
+      param = {
+        pricingIDList: (this.draftslcl.length === this.publishRates.length) ? [-1] : this.publishRates,
+        providerID: this.userProfile.ProviderID
+      }
     }
+
     this._seaFreightService.publishDraftRate(type, param).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         if (type === 'fcl') {
