@@ -17,10 +17,16 @@
                       date : "H:mm"}}</small>
                   </div>
                 </div>
-                <div class="d-flex mt-1 bookings-header-company" *ngIf="booking.ContainerLoad != 'FTL' && booking.ContainerLoad != 'LCL'">
-                  <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
-                  <span>{{booking.CarrierName}}</span>
+              <div class="d-flex mt-1 bookings-header-company">
+                <div class="mr-3">
+                  <span class="status">Booking:</span>
+                  <span class="badge badge-pill hashmove-badge-active">In-Review</span>
                 </div>
+                <div>
+                  <span class="status">Shipment:</span>
+                  <span class="badge badge-pill hashmove-badge-warning">{{booking.ShippingStatus}}</span>
+                </div>
+              </div>
               </div>
               <hr class="hr-solid mt-1">
               <!-- booking top row -->
@@ -74,8 +80,6 @@
                           {{booking.CustomerName}}
                         </label>
                       </div>
-                      <small class="d-block pt-2 mb-1 mt-3">DOCUMENT STATUS</small>
-                      <span class="docstatus" [ngClass]="booking.DocumentStatus | lowercase">{{booking.DocumentStatus | lowercase}}</span>
                     </div>
                   </div>
                 </div>
@@ -87,8 +91,6 @@
                       <label class="ports-label mt-1" placement="top" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
                         {{booking.CurrencyCode}} {{booking.BookingTotalAmount | number:'1.2-2'}}
                       </label>
-                      <small class="d-block pt-2 mt-4 mb-1">SHIPPING STATUS</small>
-                      <span class="secondary">{{booking.ShippingStatus}}</span>
                     </div>
                   </div>
                 </div>
@@ -122,9 +124,15 @@
                     <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}</small>
                   </div>
                 </div>
-                <div class="d-flex mt-1 bookings-header-company" *ngIf="booking.ContainerLoad != 'FTL' && booking.ContainerLoad != 'LCL'">
-                  <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
-                  <span>{{booking.CarrierName}}</span>
+                <div class="d-flex mt-1 bookings-header-company">
+                  <div class="mr-3">
+                    <span class="status">Booking:</span>
+                    <span class="badge badge-pill hashmove-badge-active">In-Review</span>
+                  </div>
+                  <div>
+                    <span class="status">Shipment:</span>
+                    <span class="badge badge-pill hashmove-badge-warning">{{booking.ShippingStatus}}</span>
+                  </div>
                 </div>
               </div>
               <hr class="hr-solid mt-1">
@@ -154,7 +162,6 @@
                           <small class="d-block mb-2">to</small>
                           <label class="ports-label mt-1">{{booking.PodCode}}</label>
                           <span class="d-block mb-2">Port of {{booking.PodCountry}}</span>
-    
                         </div>
                         <div class="ports-calendar">
                           <span>
@@ -177,8 +184,6 @@
                           {{booking.CustomerName}}
                         </label>
                       </div>
-                      <small class="d-block pt-2 mb-1 mt-3">DOCUMENT STATUS</small>
-                      <span class="docstatus" [ngClass]="booking.DocumentStatus | lowercase">{{booking.DocumentStatus | lowercase}}</span>
                     </div>
                   </div>
                 </div>
@@ -190,8 +195,6 @@
                       <label class="ports-label mt-1" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
                         {{booking.CurrencyCode}} {{booking.BookingTotalAmount | number:'1.2-2'}}
                       </label>
-                      <small class="d-block pt-2 mt-4 mb-1">SHIPPING STATUS</small>
-                      <span class="secondary">{{booking.ShippingStatus}}</span>
                     </div>
                   </div>
                 </div>
@@ -225,10 +228,16 @@
                       <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}</small>
                     </div>
                   </div>
-                  <div class="d-flex mt-1 bookings-header-company" *ngIf="booking.ContainerLoad != 'FTL' && booking.ContainerLoad != 'LCL'">
-                    <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
-                    <span>{{booking.CarrierName}}</span>
+                <div class="d-flex mt-1 bookings-header-company">
+                  <div class="mr-3">
+                    <span class="status">Booking:</span>
+                    <span class="badge badge-pill hashmove-badge-active">In-Review</span>
                   </div>
+                  <div>
+                    <span class="status">Shipment:</span>
+                    <span class="badge badge-pill hashmove-badge-warning">{{booking.ShippingStatus}}</span>
+                  </div>
+                </div>
                 </div>
                 <hr class="hr-solid mt-1">
                 <!-- booking top row -->
@@ -280,8 +289,6 @@
                             {{booking.CustomerName}}
                           </label>
                         </div>
-                        <small class="d-block pt-2 mb-1 mt-3">DOCUMENT STATUS</small>
-                        <span class="docstatus" [ngClass]="booking.DocumentStatus | lowercase">{{booking.DocumentStatus | lowercase}}</span>
                       </div>
                     </div>
                   </div>
@@ -293,8 +300,6 @@
                         <label class="ports-label mt-1" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
                           {{booking.CurrencyCode}} {{booking.BookingTotalAmount | number:'1.2-2'}}
                         </label>
-                        <small class="d-block pt-2 mt-4 mb-1">SHIPPING STATUS</small>
-                        <span class="secondary">{{booking.ShippingStatus}}</span>
                       </div>
                     </div>
                   </div>
