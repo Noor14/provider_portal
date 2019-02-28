@@ -408,7 +408,7 @@ export class SettingsComponent implements OnInit {
     this.personalInfoToggler = false;
   }
   resetbusinessInfo(){
-    this.setPersonalInfo(this.info);
+    this.setBusinessInfo(this.info);
     this.businessInfoToggler = false;
   }
 
