@@ -30,4 +30,24 @@ export class ManageRatesService {
     let url: string = "shippingModeCatMapping/GetContainerSpecMapping";
     return this._http.get(baseApi + url);
   }
+
+  getAllCustomers(ProviderID) {
+    let url: string = `provider/GetProviderCustomerMapping/${ProviderID}`;
+    return this._http.get(baseApi + url);
+  }
+
+  getAllAdditionalCharges(ProviderID) {
+    let url: string = `AdditionalCharge/GetAll/${ProviderID}`;
+    return this._http.get(baseApi + url);
+  }
+
+  addCustomCharge(data) {
+    let url: string = `AdditionalCharge/Post`;
+    return this._http.post(baseApi + url, data);
+  }
+
+  getSurchargeBasis(ContainerLoadType) {
+    let url: string = `AdditionalCharge/GetSurchargeBasis/${ContainerLoadType}`;
+    return this._http.get(baseApi + url);
+  }
 }

@@ -36,7 +36,7 @@
     </ngb-tab>
     <ngb-tab id="activeLCL">
       <ng-template ngbTabTitle>
-        <span (click)="filterTableLcl(); generateDraftTableLCL()">
+        <span>
           <svg data-name="Layer 1" id="ee0cf102-a966-4a3f-95ef-2d85d2845fce" viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg">
             <g data-name="box" id="77a57afb-dc84-48f7-bcef-1ea8af6a0a74">
@@ -116,41 +116,36 @@
                         <div class="col-6 origin pl-0">
                           <div class="flag-container">
                             <img *ngIf="
-                                filterOriginLcl && filterOriginLcl.CountryCode
+                                filterOrigin && filterOrigin.CountryCode
                               " src="{{
                                 '../../../../../assets/images/flags/4x3/' +
-                                  (filterOriginLcl.CountryCode | lowercase) +
+                                  (filterOrigin.CountryCode | lowercase) +
                                   '.svg'
                               }}" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100" />
                           </div>
-                          <input class="form-control" [(ngModel)]="filterOriginLcl"
-                            (focusout)="filtertionPort(filterOriginLcl, 'LCL')" (ngModelChange)="
-                              filterByroute(filterOriginLcl, 'LCL')
-                            " placeholder="Origin" type="text" [ngClass]="{
+                          <input class="form-control" [(ngModel)]="filterOrigin" placeholder="Origin" type="text"
+                            [ngClass]="{
                               routeSelected:
-                                filterOriginLcl && filterOriginLcl.CountryCode
+                                filterOrigin && filterOrigin.CountryCode
                             }" [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
                         </div>
                         <div class="col-6 destination pl-0">
                           <div class="flag-container">
                             <img *ngIf="
-                                filterDestinationLcl &&
-                                filterDestinationLcl.CountryCode
+                                filterDestination &&
+                                filterDestination.CountryCode
                               " src="{{
                                 '../../../../../assets/images/flags/4x3/' +
-                                  (filterDestinationLcl.CountryCode
+                                  (filterDestination.CountryCode
                                     | lowercase) +
                                   '.svg'
                               }}" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100" />
                           </div>
-                          <input placeholder="Destination" [(ngModel)]="filterDestinationLcl" (focusout)="
-                              filtertionPort(filterDestinationLcl, 'LCL')
-                            " (ngModelChange)="
-                              filterByroute(filterDestinationLcl, 'LCL')
-                            " type="text" class="form-control" [ngClass]="{
+                          <input placeholder="Destination" [(ngModel)]="filterDestination" type="text"
+                            class="form-control" [ngClass]="{
                               routeSelected:
-                                filterDestinationLcl &&
-                                filterDestinationLcl.CountryCode
+                                filterDestination &&
+                                filterDestination.CountryCode
                             }" [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
                         </div>
                       </div>
@@ -171,7 +166,7 @@
                   <div class="col-4">
                     <div class="form-group">
                       <label>Cargo Type</label>
-                      <select class="form-control" [(ngModel)]="filterbyCargoTypeLcl" (change)="filterLcl()">
+                      <select class="form-control" [(ngModel)]="filterbyCargoType">
                         <option [value]="undefined">All</option>
                         <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">
                           {{ cargo.ShippingCatName }}</option>
@@ -189,43 +184,43 @@
                   </div> -->
                   <div class="col-4">
                     <div class="form-group date-control">
-                      <label>Rate Validity</label>
-                      <div class="dateIcon">
-                        <input autocomplete="off" #rangeDpLCL class="form-control" placeholder="Start Date - End Date"
-                          name="dplcl" [(ngModel)]="modelLCL" ngbDatepicker [dayTemplate]="t" [autoClose]="false"
-                          placement="bottom-right" [outsideDays]="true" [navigation]="false" [displayMonths]="2"
-                          [maxDate]="maxDateLCL" [minDate]="minDateLCL" #dpLCL="ngbDatepicker" (click)="dpLCL.toggle()"
-                          (ngModelChange)="filterBydate(modelLCL, 'LCL')" />
+                      <div class="form-group date-control">
+                        <label>Rate Validity</label>
+                        <div class="dateIcon">
+                          <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date"
+                            name="dp" [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false"
+                            placement="bottom-right" [outsideDays]="true" [navigation]="false" [displayMonths]="2"
+                            [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker" (click)="dp.toggle()"
+                            (ngModelChange)="filterBydate(model, 'LCL')" />
+                        </div>
+                        <ng-template #t let-date="date" let-focused="focused">
+                          <span class="custom-day" [class.range]="
+                            isFrom(date) ||
+                            isTo(date) ||
+                            isInside(date) ||
+                            isHovered(date)
+                          " [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)"
+                            (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                            {{ date.day }}
+                          </span>
+                        </ng-template>
                       </div>
-                      <ng-template #t let-date="date" let-focused="focused">
-                        <span class="custom-day" [class.range]="
-                            isFromLCL(date) ||
-                            isToLCL(date) ||
-                            isInsideLCL(date) ||
-                            isHoveredLCL(date)
-                          " [class.faded]="
-                            isHoveredLCL(date) || isInsideLCL(date)
-                          " (click)="onDateSelectionLCL(date)" (mouseenter)="hoveredDateLCL = date"
-                          (mouseleave)="hoveredDateLCL = null">
-                          {{ date.day }}
-                        </span>
-                      </ng-template>
                     </div>
                   </div>
 
-
-
                   <div class="col-5 form-group">
                     <label>Show Only Rates For </label>
-                    <div class="fancyOptionBoxes pull-left filter-checkbox mr-3 pt-3">
-                      <input id="Radios" name="Radios" type="radio">
+                    <div class="fancyOptionBoxes pull-left  filter-checkbox mr-3 pt-3">
+                      <input id="Radios" name="Radios" type="radio"
+                        (change)="isMarketplace = !isMarketplace; isCustomer = false">
                       <label for="Radios">
                         <span></span>
                         Marketplace
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes pull-left filter-checkbox pt-3">
-                      <input id="Radios2" name="Radios" type="radio">
+                    <div class="fancyOptionBoxes pull-left  filter-checkbox  pt-3">
+                      <input id="Radios2" name="Radios" type="radio"
+                        (change)="isCustomer = !isCustomer; isMarketplace = false">
                       <label for="Radios2">
                         <span></span>
                         My Customers
@@ -233,18 +228,23 @@
                     </div>
                   </div>
 
-                  <!-- <div class="col-4">
+                  <div class="col-4" *ngIf="isCustomer">
                     <div class="form-group">
                       <label>Customer</label>
-                      <select class="form-control" [(ngModel)]="filterbyCargoTypeLcl" (change)="filterLcl()">
-                        <option [value]="undefined">All</option>
-                        <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{ cargo.ShippingCatName }}</option>
+                      <select class="form-control" [(ngModel)]="filterbyCustomer">
+                        <option [value]="undefined">Please Select</option>
+                        <option *ngFor="let customer of allCustomers" [value]="customer.CustomerID">
+                          {{ customer.CustomerName }}</option>
                       </select>
                     </div>
-                  </div> -->
-
-
-
+                  </div>
+                  <div class="col-8">
+                    <div class="form-group">
+                      <label for="">&nbsp;</label>
+                      <button class="btn btn-primary w-50 btn-lg" (click)="filterRecords('lcl')">Filter
+                        Records</button>
+                    </div>
+                  </div>
                 </div>
               </ng-template>
             </ngb-panel>
@@ -316,7 +316,8 @@
           <!-- <table id="publishRateTableLcl" cellspacing="0" #publishByseaLcl class="row-border hover"></table> -->
           <app-ui-table *ngIf="allRatesListLcL" [tableType]="'publishFCL'" [tableData]="allRatesListLcL"
             (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('lcl', $event)"
-            (pageEvent)="paging('lcl', $event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'LCL'"></app-ui-table>
+            (pageEvent)="paging('lcl', $event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'LCL'">
+          </app-ui-table>
           <app-loader-main *ngIf="publishloadingLcl"></app-loader-main>
         </section>
         <section class="term-cond">
@@ -349,7 +350,7 @@
     </ngb-tab>
     <ngb-tab id="activeFCL">
       <ng-template ngbTabTitle>
-        <span (click)="filterTable(); generateDraftTable()">
+        <span>
           <svg data-name="Layer 1" id="3e0bd723-1f5e-404f-9c9e-f9fa6a56c26b" viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg">
             <g data-name="container" id="6744cc39-0259-4947-99c3-524da0baf146">
@@ -640,7 +641,8 @@
           <!-- <table id="publishRateTable" cellspacing="0" #publishBysea class="row-border hover"></table> -->
           <app-ui-table *ngIf="allRatesList" [tableType]="'publishFCL'" [tableData]="allRatesList"
             (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('fcl', $event)"
-            (pageEvent)="paging('fcl' ,$event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'FCL'"></app-ui-table>
+            (pageEvent)="paging('fcl' ,$event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'FCL'">
+          </app-ui-table>
           <div *ngIf="!allRatesList">No Records Found</div>
           <app-loader-main *ngIf="publishloading"></app-loader-main>
         </section>

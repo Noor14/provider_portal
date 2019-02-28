@@ -20,6 +20,7 @@ import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/co
 import * as moment from 'moment';
 // import { DataTableDirective } from 'angular-datatables';
 import { GroundRateDialogComponent } from '../../../../../shared/dialogues/ground-rate-dialog/ground-rate-dialog.component';
+import { SeaRateDialogComponent } from '../../../../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
 import { GroundTransportService } from './ground-transport.service';
 import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-parser-formatter';
 import { ManageRatesService } from '../manage-rates.service';
@@ -27,6 +28,8 @@ import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
 import { RateHistoryComponent } from '../../../../../shared/dialogues/rate-history/rate-history.component';
+import { HttpErrorResponse } from '@angular/common/http';
+import { loading, getImagePath, ImageRequiredSize, ImageSource } from '../../../../../constants/globalFunctions';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -166,6 +169,10 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
         this.editorContent = state;
       }
     })
+
+    this.getPortsData()
+    this.getAllCustomers(this.userProfile.ProviderID)
+    this.getAdditionalData()
   }
 
 
@@ -200,16 +207,17 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   }
 
   addRatesManually() {
-    let obj = {
-      createdBy: this.userProfile.LoginID,
-      providerID: this.userProfile.ProviderID,
-      transportType: (this.activeTab == 'activeFCL') ? 'GROUND' : 'TRUCK'
-    }
-    this._seaFreightService.addDraftRates(obj).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        this.setRowinDraftTable(res.returnObject, 'openPopup');
-      }
-    })
+    this.updatePopupRates(0, 'FTL');
+    // let obj = {
+    //   createdBy: this.userProfile.LoginID,
+    //   providerID: this.userProfile.ProviderID,
+    //   transportType: (this.activeTab == 'activeFCL') ? 'GROUND' : 'TRUCK'
+    // }
+    // this._seaFreightService.addDraftRates(obj).subscribe((res: any) => {
+    //   if (res.returnStatus == "Success") {
+    //     this.setRowinDraftTable(res.returnObject, 'openPopup');
+    //   }
+    // })
   }
   onEditorBlured(quill) {
   }
@@ -242,7 +250,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
       this.generateDraftTableFTL();
     }
     if (type == 'openPopup') {
-      this.updatePopupRates(obj.ID);
+      this.updatePopupRates(obj.ID, 'FTL');
     }
   }
 
@@ -567,7 +575,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
           if (event.target.nodeName != "SPAN" || event.target.innerText) {
             if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
               let rowId = event.currentTarget.cells[0].children[0].children[0].id;
-              this.updatePopupRates(rowId);
+              this.updatePopupRates(rowId, 'FTL');
             }
           }
         });
@@ -653,7 +661,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
           if (event.target.nodeName != "SPAN" || event.target.innerText) {
             if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
               let rowId = event.currentTarget.cells[0].children[0].children[0].id;
-              this.updatePopupRates(rowId);
+              this.updatePopupRates(rowId, 'FTL');
             }
           }
         });
@@ -717,18 +725,33 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   }
 
 
-  updatePopupRates(rowId) {
+  updatePopupRates(rowId, type) {
     let obj;
     if (this.activeTab == 'activeFCL') {
-      obj = this.draftslist.find(obj => obj.ID == rowId);
+      obj = {
+        ID: this.draftslist.find(obj => obj.ID == rowId),
+        forType: type,
+        data: obj,
+        addList: this.groundCharges,
+        mode: 'draft',
+        customers: this.allCustomers,
+      }
     }
     else if (this.activeTab == 'activeFTL') {
-      obj = this.draftslistFTL.find(obj => obj.ID == rowId);
+      // obj = this.draftslistFTL.find(obj => obj.ID == rowId);
+      obj = {
+        ID: this.draftslistFTL.find(obj => obj.ID == rowId),
+        forType: type,
+        data: obj,
+        addList: this.groundCharges,
+        mode: 'draft',
+        customers: this.allCustomers,
+      }
     }
-    const modalRef = this.modalService.open(GroundRateDialogComponent, {
+    const modalRef = this.modalService.open(SeaRateDialogComponent, {
       size: 'lg',
       centered: true,
-      windowClass: '',
+      windowClass: 'large-modal',
       backdrop: 'static',
       keyboard: false
     });
@@ -1462,6 +1485,56 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
         this._toast.success("Term and Condition saved Successfully", "");
         this.disable = true;
       }
+    })
+  }
+
+  // NEW GROUND WORKING
+  getPortsData() {
+    this._manageRatesService.getPortsData('ground').subscribe((res: any) => {
+      console.log(res);
+      let ports = JSON.parse(localStorage.getItem("PortDetails"));
+      localStorage.setItem("PortDetails", JSON.stringify(ports.concat(res)));
+    }, (err: HttpErrorResponse) => {
+      loading(false)
+    })
+  }
+
+  public allCustomers: any[] = []
+  public groundCharges: any[] = []
+  /**
+   *
+   * Getting list of all customers
+   * @param {number} ProviderID
+   * @memberof SeaFreightComponent
+   */
+  getAllCustomers(ProviderID) {
+    this._manageRatesService.getAllCustomers(ProviderID).subscribe((res: any) => {
+      if (res.returnId > 0) {
+        this.allCustomers = res.returnObject
+        this.allCustomers.forEach(e => {
+          e.CustomerImageParsed = getImagePath(ImageSource.FROM_SERVER, e.CustomerImage, ImageRequiredSize._48x48)
+        })
+      }
+    }, (err) => {
+    })
+  }
+
+  /**
+   *
+   * Getting all additional charges list
+   * @memberof GroundTransportComponent
+   */
+  getAdditionalData() {
+    loading(true)
+    this._manageRatesService.getAllAdditionalCharges(this.userProfile.ProviderID).subscribe((res: any) => {
+      console.log(res);
+
+      this.groundCharges = res.filter(e => e.modeOfTrans === 'TRUCK' && e.addChrType === 'ADCH')
+      console.log(this.groundCharges);
+
+      loading(false)
+    }, (err) => {
+      console.log(err);
     })
   }
 

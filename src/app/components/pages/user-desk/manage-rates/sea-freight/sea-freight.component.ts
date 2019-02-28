@@ -1,28 +1,22 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, QueryList, AfterViewInit, OnDestroy, Output } from '@angular/core';
 import {
-  NgbDatepicker,
   NgbInputDatepicker,
   NgbDateStruct,
-  NgbCalendar,
-  NgbDateAdapter,
   NgbDateParserFormatter,
   NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
-import { trigger, state, animate, transition, style } from '@angular/animations';
+import { trigger, animate, transition, style } from '@angular/animations';
 import { DiscardDraftComponent } from '../../../../../shared/dialogues/discard-draft/discard-draft.component';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
 import { SeaFreightService } from './sea-freight.service';
 import { SharedService } from '../../../../../services/shared.service';
 import { baseExternalAssets } from '../../../../../constants/base.url';
 import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
-// import { NgModel } from '@angular/forms';
 import * as moment from 'moment';
-// import { DataTableDirective } from 'angular-datatables';
 import { SeaRateDialogComponent } from '../../../../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
 import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-parser-formatter';
 import { ManageRatesService } from '../manage-rates.service';
-import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
 import { RateHistoryComponent } from '../../../../../shared/dialogues/rate-history/rate-history.component';
@@ -203,21 +197,20 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     // fill dropdow lists
     this.getDropdownsList()
     this.getDraftRates('fcl')
-    this.getDraftRates('lcl')
     this.getPortsData()
     this.getContainersMapping()
 
     this.getAllCustomers(this.userProfile.ProviderID)
-    this.addnsaveRates = this._sharedService.draftRowFCLAdd.subscribe(state => {
-      if (state && Object.keys(state).length) {
-        this.setRowinDRaftTable(state, 'popup not open');
-      }
-    })
-    this.addnsaveRatesLCL = this._sharedService.draftRowLCLAdd.subscribe(state => {
-      if (state && Object.keys(state).length) {
-        this.setRowinDRaftTableLCL(state, 'popup not open');
-      }
-    })
+    // this.addnsaveRates = this._sharedService.draftRowFCLAdd.subscribe(state => {
+    //   if (state && Object.keys(state).length) {
+    //     this.setRowinDRaftTable(state, 'popup not open');
+    //   }
+    // })
+    // this.addnsaveRatesLCL = this._sharedService.draftRowLCLAdd.subscribe(state => {
+    //   if (state && Object.keys(state).length) {
+    //     this.setRowinDRaftTableLCL(state, 'popup not open');
+    //   }
+    // })
     this._sharedService.termNcondFCL.subscribe(state => {
       if (state) {
         this.editorContentFCL = state;
@@ -236,8 +229,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // this.draftRates.unsubscribe();
-    this.addnsaveRates.unsubscribe();
-    this.addnsaveRatesLCL.unsubscribe();
+    // this.addnsaveRates.unsubscribe();
+    // this.addnsaveRatesLCL.unsubscribe();
   }
 
 
@@ -279,7 +272,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         this.toDate = null;
         this.filterDestination = {};
         this.filterOrigin = {};
-        this.filter();
+        // this.filter();
       }
     }
     else if (type == "LCL") {
@@ -298,38 +291,37 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         this.filterbyHandlingType = 'undefined';
         this.filterDestinationLcl = {};
         this.filterOriginLcl = {};
-        this.filterLcl();
+        // this.filterLcl();
       }
     }
   }
-  filter() {
-    // this.getAllPublishRates()
-  }
-  filterLcl() {
-    this.getAllPublishRatesLcl()
-  }
+  // filter() {
+  //   // this.getAllPublishRates()
+  // }
+  // filterLcl() {
+  //   this.getAllPublishRatesLcl()
+  // }
   addRatesManually() {
     this.updatePopupRates(0, 'FCL');
-    this.generateDraftTable();
-
+    // this.generateDraftTable();
     // this._seaFreightService.addDraftRates({ createdBy: this.userProfile.LoginID, providerID: this.userProfile.ProviderID }).subscribe((res: any) => {
     //   if (res.returnStatus == "Success") {
     //     this.setRowinDRaftTable(res.returnObject, 'openPopup')
     //   }
     // })
   }
-  setRowinDRaftTable(obj, type) {
-    this.draftDataBYSeaFCL.push(obj);
-    if (this.allSeaDraftRatesByFCL && this.allSeaDraftRatesByFCL.length) {
-      this.draftsfcl = this.allSeaDraftRatesByFCL.concat(this.draftDataBYSeaFCL);
-    } else {
-      this.draftsfcl = this.draftDataBYSeaFCL;
-    }
-    if (type == 'openPopup') {
-      this.updatePopupRates(obj.ProviderPricingDraftID, 'FCL');
-    }
-    this.generateDraftTable();
-  }
+  // setRowinDRaftTable(obj, type) {
+  //   this.draftDataBYSeaFCL.push(obj);
+  //   if (this.allSeaDraftRatesByFCL && this.allSeaDraftRatesByFCL.length) {
+  //     this.draftsfcl = this.allSeaDraftRatesByFCL.concat(this.draftDataBYSeaFCL);
+  //   } else {
+  //     this.draftsfcl = this.draftDataBYSeaFCL;
+  //   }
+  //   if (type == 'openPopup') {
+  //     this.updatePopupRates(obj.ProviderPricingDraftID, 'FCL');
+  //   }
+  //   this.generateDraftTable();
+  // }
   addRatesManuallyLCL() {
     this.updatePopupRates(0, 'LCL');
     // this.generateDraftTableLCL();
@@ -339,581 +331,581 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     //   }
     // })
   }
-  setRowinDRaftTableLCL(obj, type) {
-    this.draftDataBYSeaLCL.push(obj);
-    if (this.allSeaDraftRatesByLCL && this.allSeaDraftRatesByLCL.length) {
-      this.draftslcl = this.allSeaDraftRatesByLCL.concat(this.draftDataBYSeaLCL);
-    } else {
-      this.draftslcl = this.draftDataBYSeaLCL;
-    }
-    // this.generateDraftTableLCL();
-    if (type == 'openPopup') {
-      this.updatePopupRates(obj.ConsolidatorPricingDraftID, 'LCL');
-    }
-  }
+  // setRowinDRaftTableLCL(obj, type) {
+  //   this.draftDataBYSeaLCL.push(obj);
+  //   if (this.allSeaDraftRatesByLCL && this.allSeaDraftRatesByLCL.length) {
+  //     this.draftslcl = this.allSeaDraftRatesByLCL.concat(this.draftDataBYSeaLCL);
+  //   } else {
+  //     this.draftslcl = this.draftDataBYSeaLCL;
+  //   }
+  //   // this.generateDraftTableLCL();
+  //   if (type == 'openPopup') {
+  //     this.updatePopupRates(obj.ConsolidatorPricingDraftID, 'LCL');
+  //   }
+  // }
 
 
-  generateDraftTable() {
-    this.dtOptionsBySeaFCLDraft = {
-      data: this.draftsfcl,
-      columns: [
-        {
-          title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRates" type = "checkbox"> <label for= "selectallDraftRates"> <span> </span></label></div>',
-          data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.ProviderPricingDraftID + '" type = "checkbox"> <label for= "' + data.ProviderPricingDraftID + '"> <span> </span></label></div>';
-          }
-        },
-        {
-          title: 'RATE FOR',
-          data: function (data) {
+  // generateDraftTable() {
+  //   this.dtOptionsBySeaFCLDraft = {
+  //     data: this.draftsfcl,
+  //     columns: [
+  //       {
+  //         title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRates" type = "checkbox"> <label for= "selectallDraftRates"> <span> </span></label></div>',
+  //         data: function (data) {
+  //           return '<div class="fancyOptionBoxes"> <input id = "' + data.ProviderPricingDraftID + '" type = "checkbox"> <label for= "' + data.ProviderPricingDraftID + '"> <span> </span></label></div>';
+  //         }
+  //       },
+  //       {
+  //         title: 'RATE FOR',
+  //         data: function (data) {
 
-            if (!data.CustomerID) {
-              // return "<span>-- Select --</span>"
-              return "<img src='../../../../favicon.ico' class='icon-size-24 mr-2' /> Marketplace"
-            } else {
-              let parsedJsonCustomerDetail = JSON.parse(data.JsonCustomerDetail)
-              let url = baseExternalAssets + "/" + parsedJsonCustomerDetail[0].CustomerImage;
-              return "<img src='" + url + "' class='icon-size-24 mr-2' onerror=\"this.src='../../../../favicon.ico'\"/>" + parsedJsonCustomerDetail[0].CustomerName
-            }
-          },
-        },
-        {
-          title: 'SHIPPING LINE',
-          data: function (data) {
-            if (!data.CarrierID) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              let url = baseExternalAssets + "/" + data.CarrierImage;
-              return "<img src='" + url + "' class='icon-size-24 mr-2' />" + data.CarrierName;
-            }
-          },
-          className: 'carrierName'
+  //           if (!data.CustomerID) {
+  //             // return "<span>-- Select --</span>"
+  //             return "<img src='../../../../favicon.ico' class='icon-size-24 mr-2' /> Marketplace"
+  //           } else {
+  //             let parsedJsonCustomerDetail = JSON.parse(data.JsonCustomerDetail)
+  //             let url = baseExternalAssets + "/" + parsedJsonCustomerDetail[0].CustomerImage;
+  //             return "<img src='" + url + "' class='icon-size-24 mr-2' onerror=\"this.src='../../../../favicon.ico'\"/>" + parsedJsonCustomerDetail[0].CustomerName
+  //           }
+  //         },
+  //       },
+  //       {
+  //         title: 'SHIPPING LINE',
+  //         data: function (data) {
+  //           if (!data.CarrierID) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             let url = baseExternalAssets + "/" + data.CarrierImage;
+  //             return "<img src='" + url + "' class='icon-size-24 mr-2' />" + data.CarrierName;
+  //           }
+  //         },
+  //         className: 'carrierName'
 
-        },
-        {
-          title: 'ORIGIN / DEPARTURE',
-          data: function (data) {
-            const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-            if (!data.PolID || !data.PodID) {
-              return "<div class='row'> <div class='col-5 text-truncate'><span> -- From -- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><span> -- To -- </span></div> </div>";
-            }
-            else {
-              let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
-              let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
-              const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-              return "<div class='row'> <div class='col-5 text-truncate' data-toggle='tooltip' data-placement='top' title='" + data.PolName + "'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate' data-toggle='tooltip' data-placement='top' title='" + data.PodName + "'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.PodName + "</div> </div>";
+  //       },
+  //       {
+  //         title: 'ORIGIN / DEPARTURE',
+  //         data: function (data) {
+  //           const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
+  //           if (!data.PolID || !data.PodID) {
+  //             return "<div class='row'> <div class='col-5 text-truncate'><span> -- From -- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><span> -- To -- </span></div> </div>";
+  //           }
+  //           else {
+  //             let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
+  //             let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
+  //             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
+  //             return "<div class='row'> <div class='col-5 text-truncate' data-toggle='tooltip' data-placement='top' title='" + data.PolName + "'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate' data-toggle='tooltip' data-placement='top' title='" + data.PodName + "'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.PodName + "</div> </div>";
 
-              // return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
-            }
-          },
-          className: 'routeCell'
-        },
-        {
-          title: 'CARGO TYPE',
-          data: function (data) {
-            if (!data.ShippingCatID) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return data.ShippingCatName;
-            }
-          }
-        },
-        {
-          title: 'CONTAINER',
-          data: function (data) {
-            if (!data.ContainerSpecID) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return data.ContainerSpecName;
-            }
-          }
-        },
-        {
-          title: 'RATE',
-          data: function (data) {
-            if (!data.Price) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return (Number(data.Price)).toLocaleString('en-US', {
-                style: 'currency',
-                currency: data.CurrencyCode,
-              });
-            }
-          }
-        },
-        {
-          title: 'RATE VALIDITY',
-          data: function (data) {
-            if (!data.EffectiveFrom || !data.EffectiveTo) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return moment(data.EffectiveFrom).format('D MMM, Y') + ' to ' + moment(data.EffectiveTo).format('D MMM, Y')
-            }
-          }
-        },
-        {
-          title: 'Import Charges',
-          data: function (data) {
-            if (!data.CurrencyCode) {
-              data.CurrencyCode = ''
-            }
+  //             // return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
+  //           }
+  //         },
+  //         className: 'routeCell'
+  //       },
+  //       {
+  //         title: 'CARGO TYPE',
+  //         data: function (data) {
+  //           if (!data.ShippingCatID) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             return data.ShippingCatName;
+  //           }
+  //         }
+  //       },
+  //       {
+  //         title: 'CONTAINER',
+  //         data: function (data) {
+  //           if (!data.ContainerSpecID) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             return data.ContainerSpecName;
+  //           }
+  //         }
+  //       },
+  //       {
+  //         title: 'RATE',
+  //         data: function (data) {
+  //           if (!data.Price) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             return (Number(data.Price)).toLocaleString('en-US', {
+  //               style: 'currency',
+  //               currency: data.CurrencyCode,
+  //             });
+  //           }
+  //         }
+  //       },
+  //       {
+  //         title: 'RATE VALIDITY',
+  //         data: function (data) {
+  //           if (!data.EffectiveFrom || !data.EffectiveTo) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             return moment(data.EffectiveFrom).format('D MMM, Y') + ' to ' + moment(data.EffectiveTo).format('D MMM, Y')
+  //           }
+  //         }
+  //       },
+  //       {
+  //         title: 'Import Charges',
+  //         data: function (data) {
+  //           if (!data.CurrencyCode) {
+  //             data.CurrencyCode = ''
+  //           }
 
-            if (data.TotalImportCharges === 0 || !(data.TotalImportCharges)) {
-              return "<span>-- Select --</span>"
-            }
-            // return data.CurrencyCode + ' ' + subTotalIMP;
-            return data.TotalImportCharges.toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.CurrencyCode,
-            });
-          }
-        },
-        {
-          title: 'Export Charges',
-          data: function (data) {
-            if (!data.CurrencyCode) {
-              data.CurrencyCode = ''
-            }
-            if (data.TotalExportCharges === 0 || !(data.TotalExportCharges)) {
-              return "<span>-- Select --</span>"
-            }
-            // return data.CurrencyCode + ' ' + data.TotalExportCharges;
-            return data.TotalImportCharges.toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.CurrencyCode,
-            });
-          }
-        },
-        {
-          title: '',
-          data: function (data) {
-            let url = '../../../../../../assets/images/icons/icon_del_round.svg';
-            return "<img id='" + data.ProviderPricingDraftID + "' src='" + url + "' class='icon-size-16 pointer' />";
-          }
-        }
-      ],
-      drawCallback: function () {
-        // $('[data-toggle="tooltip"]').tooltip();
-        let $api = this.api();
-        let pages = $api.page.info().pages;
-        if (pages === 1 || !pages) {
-          $('.draft-Fcl .dataTables_paginate').hide();
-        } else {
-          // SHow everything
-          $('.draft-Fcl .dataTables_paginate').show();
-        }
-      },
-      info: true,
-      destroy: true,
-      // pagingType: 'full_numbers',
-      pageLength: 5,
-      scrollX: true,
-      // scrollY: '60vh',
-      scrollCollapse: true,
-      searching: false,
-      lengthChange: false,
-      responsive: true,
-      order: [[1, "asc"]],
-      language: {
-        paginate: {
-          next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
-          previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
-        },
-        infoEmpty: '',
-        // emptyTable: "No data available in table"
-      },
-      fixedColumns: {
-        leftColumns: 0,
-        rightColumns: 1
-      },
-      columnDefs: [
-        {
-          targets: 0,
-          width: 'auto',
-          orderable: false,
-        },
-        {
-          targets: 2,
-          width: '235'
-        },
-        {
-          targets: 3,
-          width: '235'
-        },
-        {
-          targets: -1,
-          width: 'auto',
-          orderable: false,
-        },
-        {
-          targets: -4,
-          width: '200',
-        },
-        {
-          targets: 6,
-          orderable: false,
-        },
-        {
-          targets: 8,
-          orderable: false,
-        },
-        {
-          targets: 9,
-          orderable: false,
-        },
-        {
-          targets: "_all",
-          width: "150"
-        }
-      ],
+  //           if (data.TotalImportCharges === 0 || !(data.TotalImportCharges)) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           // return data.CurrencyCode + ' ' + subTotalIMP;
+  //           return data.TotalImportCharges.toLocaleString('en-US', {
+  //             style: 'currency',
+  //             currency: data.CurrencyCode,
+  //           });
+  //         }
+  //       },
+  //       {
+  //         title: 'Export Charges',
+  //         data: function (data) {
+  //           if (!data.CurrencyCode) {
+  //             data.CurrencyCode = ''
+  //           }
+  //           if (data.TotalExportCharges === 0 || !(data.TotalExportCharges)) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           // return data.CurrencyCode + ' ' + data.TotalExportCharges;
+  //           return data.TotalImportCharges.toLocaleString('en-US', {
+  //             style: 'currency',
+  //             currency: data.CurrencyCode,
+  //           });
+  //         }
+  //       },
+  //       {
+  //         title: '',
+  //         data: function (data) {
+  //           let url = '../../../../../../assets/images/icons/icon_del_round.svg';
+  //           return "<img id='" + data.ProviderPricingDraftID + "' src='" + url + "' class='icon-size-16 pointer' />";
+  //         }
+  //       }
+  //     ],
+  //     drawCallback: function () {
+  //       // $('[data-toggle="tooltip"]').tooltip();
+  //       let $api = this.api();
+  //       let pages = $api.page.info().pages;
+  //       if (pages === 1 || !pages) {
+  //         $('.draft-Fcl .dataTables_paginate').hide();
+  //       } else {
+  //         // SHow everything
+  //         $('.draft-Fcl .dataTables_paginate').show();
+  //       }
+  //     },
+  //     info: true,
+  //     destroy: true,
+  //     // pagingType: 'full_numbers',
+  //     pageLength: 5,
+  //     scrollX: true,
+  //     // scrollY: '60vh',
+  //     scrollCollapse: true,
+  //     searching: false,
+  //     lengthChange: false,
+  //     responsive: true,
+  //     order: [[1, "asc"]],
+  //     language: {
+  //       paginate: {
+  //         next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
+  //         previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
+  //       },
+  //       infoEmpty: '',
+  //       // emptyTable: "No data available in table"
+  //     },
+  //     fixedColumns: {
+  //       leftColumns: 0,
+  //       rightColumns: 1
+  //     },
+  //     columnDefs: [
+  //       {
+  //         targets: 0,
+  //         width: 'auto',
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: 2,
+  //         width: '235'
+  //       },
+  //       {
+  //         targets: 3,
+  //         width: '235'
+  //       },
+  //       {
+  //         targets: -1,
+  //         width: 'auto',
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: -4,
+  //         width: '200',
+  //       },
+  //       {
+  //         targets: 6,
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: 8,
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: 9,
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: "_all",
+  //         width: "150"
+  //       }
+  //     ],
 
-    }
+  //   }
 
-    this.setdataDraftInTable();
-  }
+  //   this.setdataDraftInTable();
+  // }
 
-  generateDraftTableLCL() {
-    this.dtOptionsBySeaLCLDraft = {
-      data: this.draftslcl,
-      columns: [
-        {
-          title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRatesLCL" type = "checkbox"> <label for= "selectallDraftRatesLCL"> <span> </span></label></div>',
-          data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.ConsolidatorPricingDraftID + '" type = "checkbox"> <label for= "' + data.ConsolidatorPricingDraftID + '"> <span> </span></label></div>';
-          }
-        },
-        {
-          title: 'ORIGIN / DEPARTURE',
-          data: function (data) {
-            const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-            if (!data.PolID || !data.PodID) {
-              return "<div class='row'> <div class='col-5 text-truncate'><span> -- From -- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><span> -- To -- </span></div> </div>";
-            }
-            else {
-              let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
-              let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
-              const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-              return "<div class='row'> <div class='col-5 text-truncate'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.PodName + "</div> </div>";
+  // generateDraftTableLCL() {
+  //   this.dtOptionsBySeaLCLDraft = {
+  //     data: this.draftslcl,
+  //     columns: [
+  //       {
+  //         title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRatesLCL" type = "checkbox"> <label for= "selectallDraftRatesLCL"> <span> </span></label></div>',
+  //         data: function (data) {
+  //           return '<div class="fancyOptionBoxes"> <input id = "' + data.ConsolidatorPricingDraftID + '" type = "checkbox"> <label for= "' + data.ConsolidatorPricingDraftID + '"> <span> </span></label></div>';
+  //         }
+  //       },
+  //       {
+  //         title: 'ORIGIN / DEPARTURE',
+  //         data: function (data) {
+  //           const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
+  //           if (!data.PolID || !data.PodID) {
+  //             return "<div class='row'> <div class='col-5 text-truncate'><span> -- From -- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><span> -- To -- </span></div> </div>";
+  //           }
+  //           else {
+  //             let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
+  //             let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
+  //             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
+  //             return "<div class='row'> <div class='col-5 text-truncate'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.PodName + "</div> </div>";
 
-              // return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
-            }
-          },
+  //             // return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
+  //           }
+  //         },
 
-          className: 'routeCell'
-        },
-        {
-          title: 'CARGO TYPE',
-          data: function (data) {
-            if (!data.ShippingCatName) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return data.ShippingCatName;
-            }
-          }
-        },
-        // {
-        //   title: 'HANDLING UNIT',
-        //   data: function (data) {
-        //     if (!data.ContainerSpecShortName) {
-        //       return "<span>-- Select --</span>"
-        //     }
-        //     else {
-        //       return data.ContainerSpecShortName;
-        //     }
-        //   }
-        // },
-        {
-          title: 'RATE / CBM',
-          data: function (data) {
-            if (!data.Price) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return (Number(data.Price)).toLocaleString('en-US', {
-                style: 'currency',
-                currency: data.CurrencyCode,
-              });
-            }
-          }
-        },
-        {
-          title: 'RATE VALIDITY',
-          data: function (data) {
-            if (!data.EffectiveFrom || !data.EffectiveTo) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return moment(data.EffectiveFrom).format('D MMM, Y') + ' to ' + moment(data.EffectiveTo).format('D MMM, Y')
-            }
-          }
-        },
-        {
-          title: '',
-          data: function (data) {
-            let url = '../../../../../../assets/images/icons/icon_del_round.svg';
-            return "<img id='" + data.ConsolidatorPricingDraftID + "' src='" + url + "' class='icon-size-16 pointer' />";
-          }
-        }
-      ],
-      drawCallback: function () {
-        let $api = this.api();
-        let pages = $api.page.info().pages;
-        if (pages === 1 || !pages) {
-          $('.draft-Lcl .dataTables_paginate').hide();
-        } else {
-          // SHow everything
-          $('.draft-Lcl .dataTables_paginate').show();
-        }
-      },
-      info: true,
-      destroy: true,
-      // pagingType: 'full_numbers',
-      pageLength: 5,
-      scrollX: true,
-      scrollY: '60vh',
-      scrollCollapse: true,
-      searching: false,
-      lengthChange: false,
-      responsive: true,
-      order: [[1, "asc"]],
-      language: {
-        paginate: {
-          next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
-          previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
-        },
-        infoEmpty: '',
-        // emptyTable: "No data available in table"
-      },
-      fixedColumns: {
-        leftColumns: 0,
-        rightColumns: 1
-      },
-      columnDefs: [
-        {
-          targets: 0,
-          width: 'auto',
-          orderable: false,
-        },
-        {
-          targets: 1,
-          width: '235'
-        },
-        {
-          targets: -1,
-          width: '12',
-          orderable: false,
-        },
-        {
-          targets: -2,
-          width: '200',
-        },
-        {
-          targets: "_all",
-          width: "150"
-        }
-      ],
+  //         className: 'routeCell'
+  //       },
+  //       {
+  //         title: 'CARGO TYPE',
+  //         data: function (data) {
+  //           if (!data.ShippingCatName) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             return data.ShippingCatName;
+  //           }
+  //         }
+  //       },
+  //       // {
+  //       //   title: 'HANDLING UNIT',
+  //       //   data: function (data) {
+  //       //     if (!data.ContainerSpecShortName) {
+  //       //       return "<span>-- Select --</span>"
+  //       //     }
+  //       //     else {
+  //       //       return data.ContainerSpecShortName;
+  //       //     }
+  //       //   }
+  //       // },
+  //       {
+  //         title: 'RATE / CBM',
+  //         data: function (data) {
+  //           if (!data.Price) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             return (Number(data.Price)).toLocaleString('en-US', {
+  //               style: 'currency',
+  //               currency: data.CurrencyCode,
+  //             });
+  //           }
+  //         }
+  //       },
+  //       {
+  //         title: 'RATE VALIDITY',
+  //         data: function (data) {
+  //           if (!data.EffectiveFrom || !data.EffectiveTo) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             return moment(data.EffectiveFrom).format('D MMM, Y') + ' to ' + moment(data.EffectiveTo).format('D MMM, Y')
+  //           }
+  //         }
+  //       },
+  //       {
+  //         title: '',
+  //         data: function (data) {
+  //           let url = '../../../../../../assets/images/icons/icon_del_round.svg';
+  //           return "<img id='" + data.ConsolidatorPricingDraftID + "' src='" + url + "' class='icon-size-16 pointer' />";
+  //         }
+  //       }
+  //     ],
+  //     drawCallback: function () {
+  //       let $api = this.api();
+  //       let pages = $api.page.info().pages;
+  //       if (pages === 1 || !pages) {
+  //         $('.draft-Lcl .dataTables_paginate').hide();
+  //       } else {
+  //         // SHow everything
+  //         $('.draft-Lcl .dataTables_paginate').show();
+  //       }
+  //     },
+  //     info: true,
+  //     destroy: true,
+  //     // pagingType: 'full_numbers',
+  //     pageLength: 5,
+  //     scrollX: true,
+  //     scrollY: '60vh',
+  //     scrollCollapse: true,
+  //     searching: false,
+  //     lengthChange: false,
+  //     responsive: true,
+  //     order: [[1, "asc"]],
+  //     language: {
+  //       paginate: {
+  //         next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
+  //         previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
+  //       },
+  //       infoEmpty: '',
+  //       // emptyTable: "No data available in table"
+  //     },
+  //     fixedColumns: {
+  //       leftColumns: 0,
+  //       rightColumns: 1
+  //     },
+  //     columnDefs: [
+  //       {
+  //         targets: 0,
+  //         width: 'auto',
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: 1,
+  //         width: '235'
+  //       },
+  //       {
+  //         targets: -1,
+  //         width: '12',
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: -2,
+  //         width: '200',
+  //       },
+  //       {
+  //         targets: "_all",
+  //         width: "150"
+  //       }
+  //     ],
 
-    }
+  //   }
 
-    this.setdataDraftInTableLCL();
-  }
+  //   this.setdataDraftInTableLCL();
+  // }
 
-  setdataDraftInTableLCL() {
-    setTimeout(() => {
-      if (this.tabledraftBySeaLCL && this.tabledraftBySeaLCL.nativeElement) {
-        this.dataTabledraftByseaLCL = $(this.tabledraftBySeaLCL.nativeElement);
-        let alltableOption = this.dataTabledraftByseaLCL.DataTable(this.dtOptionsBySeaLCLDraft);
-        alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
-          let node = this.node();
-          let data = this.data();
-          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.Price || !data.EffectiveFrom || !data.EffectiveTo) {
-            node.children[0].children[0].children[0].setAttribute("disabled", true)
-          }
-        });
-        this.draftloadingLCL = false;
-        $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
-          event.stopPropagation();
-          let delId = (<HTMLElement>event.target).id;
-          if (delId) {
-            this.deleteRowLCL(delId);
-          }
-        });
-        $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
-          event.stopPropagation();
-          if (event.target.nodeName != "SPAN" || event.target.innerText) {
-            if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
-              let rowId = event.currentTarget.cells[0].children[0].children[0].id;
-              this.updatePopupRates(rowId, 'LCL');
-            }
+  // setdataDraftInTableLCL() {
+  //   setTimeout(() => {
+  //     if (this.tabledraftBySeaLCL && this.tabledraftBySeaLCL.nativeElement) {
+  //       this.dataTabledraftByseaLCL = $(this.tabledraftBySeaLCL.nativeElement);
+  //       let alltableOption = this.dataTabledraftByseaLCL.DataTable(this.dtOptionsBySeaLCLDraft);
+  //       alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+  //         let node = this.node();
+  //         let data = this.data();
+  //         if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.Price || !data.EffectiveFrom || !data.EffectiveTo) {
+  //           node.children[0].children[0].children[0].setAttribute("disabled", true)
+  //         }
+  //       });
+  //       this.draftloadingLCL = false;
+  //       $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
+  //         event.stopPropagation();
+  //         let delId = (<HTMLElement>event.target).id;
+  //         if (delId) {
+  //           this.deleteRowLCL(delId);
+  //         }
+  //       });
+  //       $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
+  //         event.stopPropagation();
+  //         if (event.target.nodeName != "SPAN" || event.target.innerText) {
+  //           if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
+  //             let rowId = event.currentTarget.cells[0].children[0].children[0].id;
+  //             this.updatePopupRates(rowId, 'LCL');
+  //           }
 
-          }
-        });
+  //         }
+  //       });
 
-        $("#selectallDraftRatesLCL").click((event) => {
-          this.publishRatesLCL = [];
-          var cols = alltableOption.column(0).nodes();
-          this.checkedalldraftRatesLCL = !this.checkedalldraftRatesLCL;
-          for (var i = 0; i < cols.length; i += 1) {
-            cols[i].querySelector("input[type='checkbox']").checked = this.checkedalldraftRatesLCL;
-            if (this.checkedalldraftRatesLCL) {
-              let data = alltableOption.row(i).data();
-              let node = alltableOption.row(i).node();
-              if (data.PolID && data.PodID && data.ShippingCatID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
-                let draftId = node.children[0].children[0].children[0].id;
-                this.publishRatesLCL.push(draftId);
-                node.children[0].children[0].children[0].checked = true;
-                node.classList.add('selected');
-              }
-              else {
-                node.children[0].children[0].children[0].checked = false;
-              }
-            }
-          }
-          if (i == cols.length && !this.checkedalldraftRatesLCL) {
-            this.publishRatesLCL = [];
-            this.selectedItem('remove', alltableOption)
-          }
-        });
+  //       $("#selectallDraftRatesLCL").click((event) => {
+  //         this.publishRatesLCL = [];
+  //         var cols = alltableOption.column(0).nodes();
+  //         this.checkedalldraftRatesLCL = !this.checkedalldraftRatesLCL;
+  //         for (var i = 0; i < cols.length; i += 1) {
+  //           cols[i].querySelector("input[type='checkbox']").checked = this.checkedalldraftRatesLCL;
+  //           if (this.checkedalldraftRatesLCL) {
+  //             let data = alltableOption.row(i).data();
+  //             let node = alltableOption.row(i).node();
+  //             if (data.PolID && data.PodID && data.ShippingCatID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
+  //               let draftId = node.children[0].children[0].children[0].id;
+  //               this.publishRatesLCL.push(draftId);
+  //               node.children[0].children[0].children[0].checked = true;
+  //               node.classList.add('selected');
+  //             }
+  //             else {
+  //               node.children[0].children[0].children[0].checked = false;
+  //             }
+  //           }
+  //         }
+  //         if (i == cols.length && !this.checkedalldraftRatesLCL) {
+  //           this.publishRatesLCL = [];
+  //           this.selectedItem('remove', alltableOption)
+  //         }
+  //       });
 
-        $('#draftRateTableLCL').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
-          event.stopPropagation();
-          let index = this.publishRatesLCL.indexOf((<HTMLInputElement>event.target).id);
-          let selection = event.currentTarget.parentElement.parentElement.parentElement;
-          if (index >= 0) {
-            this.publishRatesLCL.splice(index, 1);
-            selection.classList.remove('selected');
+  //       $('#draftRateTableLCL').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
+  //         event.stopPropagation();
+  //         let index = this.publishRatesLCL.indexOf((<HTMLInputElement>event.target).id);
+  //         let selection = event.currentTarget.parentElement.parentElement.parentElement;
+  //         if (index >= 0) {
+  //           this.publishRatesLCL.splice(index, 1);
+  //           selection.classList.remove('selected');
 
-          } else {
-            this.publishRatesLCL.push((<HTMLInputElement>event.target).id);
-            selection.classList.add('selected');
-          }
+  //         } else {
+  //           this.publishRatesLCL.push((<HTMLInputElement>event.target).id);
+  //           selection.classList.add('selected');
+  //         }
 
-        });
+  //       });
 
-      }
+  //     }
 
-    }, 0);
-  }
-  setdataDraftInTable() {
-    setTimeout(() => {
-      if (this.tabledraftBySea && this.tabledraftBySea.nativeElement) {
-        this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
-        let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
-        if (this.allRatesList) {
-          this.allRatesList.forEach(element => {
-            alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
-              let node = this.node();
-              let data = this.data();
-              if (typeof data.Price === 'string') {
-                data.Price = parseInt(data.Price)
-              }
-              if (data.ContainerSpecID === element.containerSpecID &&
-                data.PolID === element.polID &&
-                data.PodID === element.podID &&
-                data.ShippingCatID === element.shippingCatID &&
-                data.CarrierID === element.carrierID &&
-                moment(data.EffectiveFrom).format('D MMM, Y') === moment(element.effectiveFrom).format('D MMM, Y') &&
-                moment(data.EffectiveTo).format('D MMM, Y') === moment(element.effectiveTo).format('D MMM, Y') &&
-                data.Price === element.price) {
-                node.children[0].children[0].children[0].setAttribute("disabled", true)
-              }
-            });
-          });
-        }
-        alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
-          let node = this.node();
-          let data = this.data();
-          let exportCharges;
-          let importCharges;
-          if (data.JsonSurchargeDet) {
-            const parsedJsonSurchargeDet = JSON.parse(data.JsonSurchargeDet)
-            exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
-            importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
-          }
-          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.CarrierID || !data.EffectiveFrom || !data.EffectiveTo || !data.Price || !data.ContainerSpecID || !exportCharges.length || !importCharges.length) {
-            node.children[0].children[0].children[0].setAttribute("disabled", true)
-          }
-        });
-        this.draftloading = false;
-        $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
-          event.stopPropagation();
-          let delId = (<HTMLElement>event.target).id;
-          if (delId) {
-            this.deleteRow(delId);
-          }
-        });
-        $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
-          event.stopPropagation();
-          if (event.target.nodeName != "SPAN" || event.target.innerText) {
-            if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
-              let rowId = event.currentTarget.cells[0].children[0].children[0].id;
-              this.updatePopupRates(rowId, 'FCL');
-            }
-          }
-        });
-        // $(alltableOption.table().container()).on('click', 'tfoot tr td a', (event) => {
-        //     event.stopPropagation();
-        //     this.addAnotherRates();
+  //   }, 0);
+  // }
+  // setdataDraftInTable() {
+  //   setTimeout(() => {
+  //     if (this.tabledraftBySea && this.tabledraftBySea.nativeElement) {
+  //       this.dataTabledraftBysea = $(this.tabledraftBySea.nativeElement);
+  //       let alltableOption = this.dataTabledraftBysea.DataTable(this.dtOptionsBySeaFCLDraft);
+  //       if (this.allRatesList) {
+  //         this.allRatesList.forEach(element => {
+  //           alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+  //             let node = this.node();
+  //             let data = this.data();
+  //             if (typeof data.Price === 'string') {
+  //               data.Price = parseInt(data.Price)
+  //             }
+  //             if (data.ContainerSpecID === element.containerSpecID &&
+  //               data.PolID === element.polID &&
+  //               data.PodID === element.podID &&
+  //               data.ShippingCatID === element.shippingCatID &&
+  //               data.CarrierID === element.carrierID &&
+  //               moment(data.EffectiveFrom).format('D MMM, Y') === moment(element.effectiveFrom).format('D MMM, Y') &&
+  //               moment(data.EffectiveTo).format('D MMM, Y') === moment(element.effectiveTo).format('D MMM, Y') &&
+  //               data.Price === element.price) {
+  //               node.children[0].children[0].children[0].setAttribute("disabled", true)
+  //             }
+  //           });
+  //         });
+  //       }
+  //       alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+  //         let node = this.node();
+  //         let data = this.data();
+  //         let exportCharges;
+  //         let importCharges;
+  //         if (data.JsonSurchargeDet) {
+  //           const parsedJsonSurchargeDet = JSON.parse(data.JsonSurchargeDet)
+  //           exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
+  //           importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
+  //         }
+  //         if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.CarrierID || !data.EffectiveFrom || !data.EffectiveTo || !data.Price || !data.ContainerSpecID || !exportCharges.length || !importCharges.length) {
+  //           node.children[0].children[0].children[0].setAttribute("disabled", true)
+  //         }
+  //       });
+  //       this.draftloading = false;
+  //       $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
+  //         event.stopPropagation();
+  //         let delId = (<HTMLElement>event.target).id;
+  //         if (delId) {
+  //           this.deleteRow(delId);
+  //         }
+  //       });
+  //       $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
+  //         event.stopPropagation();
+  //         if (event.target.nodeName != "SPAN" || event.target.innerText) {
+  //           if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
+  //             let rowId = event.currentTarget.cells[0].children[0].children[0].id;
+  //             this.updatePopupRates(rowId, 'FCL');
+  //           }
+  //         }
+  //       });
+  //       // $(alltableOption.table().container()).on('click', 'tfoot tr td a', (event) => {
+  //       //     event.stopPropagation();
+  //       //     this.addAnotherRates();
 
-        // });
+  //       // });
 
-        $("#selectallDraftRates").click((event) => {
-          this.publishRates = [];
-          var cols = alltableOption.column(0).nodes();
-          this.checkedalldraftRates = !this.checkedalldraftRates;
-          for (var i = 0; i < cols.length; i += 1) {
-            if (this.checkedalldraftRates) {
-              let data = alltableOption.row(i).data();
-              let node = alltableOption.row(i).node();
+  //       $("#selectallDraftRates").click((event) => {
+  //         this.publishRates = [];
+  //         var cols = alltableOption.column(0).nodes();
+  //         this.checkedalldraftRates = !this.checkedalldraftRates;
+  //         for (var i = 0; i < cols.length; i += 1) {
+  //           if (this.checkedalldraftRates) {
+  //             let data = alltableOption.row(i).data();
+  //             let node = alltableOption.row(i).node();
 
-              let exportCharges;
-              let importCharges;
-              if (data.JsonSurchargeDet) {
-                const parsedJsonSurchargeDet = JSON.parse(data.JsonSurchargeDet)
-                exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
-                importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
-              }
-              if (data.PolID && data.PodID && data.ShippingCatID && data.CarrierID && data.EffectiveFrom && data.EffectiveTo && data.Price && data.ContainerSpecID && exportCharges && importCharges && !(node.children[0].children[0].children[0].disabled)) {
-                let draftId = node.children[0].children[0].children[0].id;
-                this.publishRates.push(draftId);
-                node.children[0].children[0].children[0].checked = true;
-                node.classList.add('selected');
-              }
-              else {
-                node.children[0].children[0].children[0].checked = false;
-                // node.children[0].children[0].children[0].setAttribute("disabled", true)
-              }
-            }
-          }
-          if (i == cols.length && !this.checkedalldraftRates) {
-            this.publishRates = [];
-            this.selectedItem('remove', alltableOption);
-          }
-        });
+  //             let exportCharges;
+  //             let importCharges;
+  //             if (data.JsonSurchargeDet) {
+  //               const parsedJsonSurchargeDet = JSON.parse(data.JsonSurchargeDet)
+  //               exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
+  //               importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
+  //             }
+  //             if (data.PolID && data.PodID && data.ShippingCatID && data.CarrierID && data.EffectiveFrom && data.EffectiveTo && data.Price && data.ContainerSpecID && exportCharges && importCharges && !(node.children[0].children[0].children[0].disabled)) {
+  //               let draftId = node.children[0].children[0].children[0].id;
+  //               this.publishRates.push(draftId);
+  //               node.children[0].children[0].children[0].checked = true;
+  //               node.classList.add('selected');
+  //             }
+  //             else {
+  //               node.children[0].children[0].children[0].checked = false;
+  //               // node.children[0].children[0].children[0].setAttribute("disabled", true)
+  //             }
+  //           }
+  //         }
+  //         if (i == cols.length && !this.checkedalldraftRates) {
+  //           this.publishRates = [];
+  //           this.selectedItem('remove', alltableOption);
+  //         }
+  //       });
 
-        $('#draftRateTable').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
-          event.stopPropagation();
-          let index = this.publishRates.indexOf((<HTMLInputElement>event.target).id)
-          let selection = event.currentTarget.parentElement.parentElement.parentElement;
-          if (index >= 0) {
-            this.publishRates.splice(index, 1);
-            selection.classList.remove('selected');
-          } else {
-            this.publishRates.push((<HTMLInputElement>event.target).id);
-            selection.classList.add('selected');
-          }
+  //       $('#draftRateTable').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
+  //         event.stopPropagation();
+  //         let index = this.publishRates.indexOf((<HTMLInputElement>event.target).id)
+  //         let selection = event.currentTarget.parentElement.parentElement.parentElement;
+  //         if (index >= 0) {
+  //           this.publishRates.splice(index, 1);
+  //           selection.classList.remove('selected');
+  //         } else {
+  //           this.publishRates.push((<HTMLInputElement>event.target).id);
+  //           selection.classList.add('selected');
+  //         }
 
-        });
-      }
+  //       });
+  //     }
 
-    }, 0);
-  }
+  //   }, 0);
+  // }
 
 
   updatePopupRates(rowId, type) {
@@ -965,35 +957,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   }
 
-  // setAddDraftDataLCL(data) {
-  //   for (var index = 0; index < this.draftslcl.length; index++) {
-  //     for (let i = 0; i < data.length; i++) {
-  //       if (this.draftslcl[index].ConsolidatorPricingDraftID == data[i].consolidatorPricingDraftID) {
-  //         this.draftslcl[index].ContainerLoadType = data[i].containerLoadType;
-  //         this.draftslcl[index].ContainerSpecID = data[i].containerSpecID;
-  //         this.draftslcl[index].ContainerSpecShortName = data[i].containerSpecShortName;
-  //         this.draftslcl[index].ShippingCatID = data[i].shippingCatID;
-  //         this.draftslcl[index].ShippingCatName = data[i].shippingCatName;
-  //         this.draftslcl[index].CurrencyID = data[i].currencyID;
-  //         this.draftslcl[index].CurrencyCode = data[i].currencyCode;
-  //         this.draftslcl[index].Price = data[i].price;
-  //         this.draftslcl[index].EffectiveFrom = data[i].effectiveFrom;
-  //         this.draftslcl[index].EffectiveTo = data[i].effectiveTo;
-  //         this.draftslcl[index].PodCode = data[i].podCode;
-  //         this.draftslcl[index].PolCode = data[i].polCode;
-  //         this.draftslcl[index].PodName = data[i].podName;
-  //         this.draftslcl[index].PolName = data[i].polName;
-  //         this.draftslcl[index].PodID = data[i].podID;
-  //         this.draftslcl[index].PolID = data[i].polID;
-  //       }
-  //     }
-  //   }
-  //   if (index == this.draftslcl.length) {
-  //     // this.generateDraftTableLCL();
-  //   }
-  // }
-
-
   /**
    *
    *  Setting Draft Data in FCL Drafts Tabls
@@ -1028,12 +991,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         })
         this.draftslcl.unshift(dataObj)
       }
-
       this.getDraftRates(type.toLowerCase()) //@todo remove it when we get the mechanism for parent to child changes emit
-
     });
-    this.generateDraftTable();
-
+    // this.generateDraftTable();
   }
   addAnotherRates() {
     if (this.activeTab == "activeFCL") {
@@ -1077,36 +1037,36 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
     this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
     if (this.fromDate && this.fromDate.month && this.toDate && this.toDate.month) {
-      // this.getAllPublishRates();
+      this.getAllPublishRates('fcl');
     }
 
   }
 
-  onDateSelectionLCL(date: NgbDateStruct) {
-    let parsed = '';
-    if (!this.fromDateLCL && !this.toDateLCL) {
-      this.fromDateLCL = date;
-    } else if (this.fromDateLCL && !this.toDateLCL && after(date, this.fromDateLCL)) {
-      this.toDateLCL = date;
-      // this.model = `${this.fromDateLCL.year} - ${this.toDateLCL.year}`;
-      this.inputLCL.close();
-    } else {
-      this.toDateLCL = null;
-      this.fromDateLCL = date;
-    }
-    if (this.fromDateLCL) {
-      parsed += this._parserFormatter.format(this.fromDateLCL);
-    }
-    if (this.toDateLCL) {
-      parsed += ' - ' + this._parserFormatter.format(this.toDateLCL);
-    }
+  // onDateSelectionLCL(date: NgbDateStruct) {
+  //   let parsed = '';
+  //   if (!this.fromDateLCL && !this.toDateLCL) {
+  //     this.fromDateLCL = date;
+  //   } else if (this.fromDateLCL && !this.toDateLCL && after(date, this.fromDateLCL)) {
+  //     this.toDateLCL = date;
+  //     // this.model = `${this.fromDateLCL.year} - ${this.toDateLCL.year}`;
+  //     this.inputLCL.close();
+  //   } else {
+  //     this.toDateLCL = null;
+  //     this.fromDateLCL = date;
+  //   }
+  //   if (this.fromDateLCL) {
+  //     parsed += this._parserFormatter.format(this.fromDateLCL);
+  //   }
+  //   if (this.toDateLCL) {
+  //     parsed += ' - ' + this._parserFormatter.format(this.toDateLCL);
+  //   }
 
-    this.renderer.setProperty(this.rangeDpLCL.nativeElement, 'value', parsed);
-    if (this.fromDateLCL && this.fromDateLCL.month && this.toDateLCL && this.toDateLCL.month) {
-      this.getAllPublishRatesLcl();
-    }
+  //   this.renderer.setProperty(this.rangeDpLCL.nativeElement, 'value', parsed);
+  //   if (this.fromDateLCL && this.fromDateLCL.month && this.toDateLCL && this.toDateLCL.month) {
+  //     this.getAllPublishRates('lcl');
+  //   }
 
-  }
+  // }
 
   allservicesBySea() {
     this.draftRates = this._sharedService.dataLogisticServiceBySea.subscribe(state => {
@@ -1116,7 +1076,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             this.allShippingLines = state[index].DropDownValues.ShippingLine;
             // this.allCargoType = state[index].DropDownValues.Category;
             // this.allContainersType = state[index].DropDownValues.ContainerFCL;
-            this.allHandlingType = state[index].DropDownValues.ContainerLCL;
+            // this.allHandlingType = state[index].DropDownValues.ContainerLCL;
             // this.allPorts = state[index].DropDownValues.Port;
             // this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if (state[index].TCFCL) {
@@ -1135,7 +1095,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             //   this.allSeaDraftRatesByLCL = state[index].DraftDataLCL;
             //   this.draftslcl = this.allSeaDraftRatesByLCL;
             // }
-            this.generateDraftTable();
+            // this.generateDraftTable();
             // this.generateDraftTableLCL();
             this.draftloading = true;
             this.draftloadingLCL = true;
@@ -1147,32 +1107,32 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
 
 
-  filterByroute(obj, type) {
-    if (type == "FCL") {
+  // filterByroute(obj, type) {
+  //   if (type == "FCL") {
 
-      if (typeof obj == 'object') {
-        // this.getAllPublishRates();
-      }
-      else if (!obj) {
-        // this.getAllPublishRates();
-      }
-      else {
-        return;
-      }
-    }
-    else if (type == "LCL") {
-      if (typeof obj == 'object') {
-        this.getAllPublishRatesLcl();
-      }
-      else if (!obj) {
-        this.getAllPublishRatesLcl();
-      }
-      else {
-        return;
-      }
-    }
+  //     if (typeof obj == 'object') {
+  //       // this.getAllPublishRates();
+  //     }
+  //     else if (!obj) {
+  //       // this.getAllPublishRates();
+  //     }
+  //     else {
+  //       return;
+  //     }
+  //   }
+  //   else if (type == "LCL") {
+  //     if (typeof obj == 'object') {
+  //       this.getAllPublishRatesLcl();
+  //     }
+  //     else if (!obj) {
+  //       this.getAllPublishRatesLcl();
+  //     }
+  //     else {
+  //       return;
+  //     }
+  //   }
 
-  }
+  // }
 
 
   filterBydate(date, type) {
@@ -1187,10 +1147,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       }
     }
     if (type == "LCL") {
-      if (!date && this.fromDateLCL && this.toDateLCL) {
-        this.fromDateLCL = null;
-        this.toDateLCL = null;
-        this.getAllPublishRatesLcl();
+      if (!date && this.fromDate && this.toDate) {
+        this.fromDate = null;
+        this.toDate = null;
+        // this.getAllPublishRatesLcl();
       }
       else {
         return;
@@ -1219,7 +1179,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     // }
   }
 
-  public sortColumn: string = 'CarrierName'
+  public sortColumn: string = 'EffectiveFrom'
   public sortColumnDirection: string = 'ASC'
   public isCustomer: boolean = false
   public isMarketplace: boolean = false
@@ -1229,15 +1189,14 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   getAllPublishRates(type) {
     this.publishloading = true;
     let obj = {
-      // providerID: 1047,     
       providerID: this.userProfile.ProviderID,
       pageNo: this.pageNo,
       pageSize: this.pageSize,
       carrierID: (this.filterbyShippingLine == 'undefined') ? null : this.filterbyShippingLine,
       shippingCatID: (this.filterbyCargoType == 'undefined') ? null : this.filterbyCargoType,
       containerSpecID: (this.filterbyContainerType == 'undefined') ? null : this.filterbyContainerType,
-      polID: this.orgfilter("FCL"),
-      podID: this.destfilter("FCL"),
+      polID: this.orgfilter(),
+      podID: this.destfilter(),
       effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
       effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
       customerID: (this.filterbyCustomer ? parseInt(this.filterbyCustomer) : null),
@@ -1257,553 +1216,570 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           this.allRatesListLcL = res.returnObject.data;
           this.checkedallpublishRatesLcl = false;
         }
-        // this.filterTable();
         this.publishloading = false;
       }
     })
 
   }
 
-  getAllPublishRatesLcl() {
-    this.publishloadingLcl = true;
-    let obj = {
-      providerID: this.userProfile.ProviderID,
-      pageNo: 1,
-      pageSize: 50,
-      shippingCatID: (this.filterbyCargoTypeLcl == 'undefined') ? null : this.filterbyCargoTypeLcl,
-      containerSpecID: (this.filterbyHandlingType == 'undefined') ? null : this.filterbyHandlingType,
-      polID: this.orgfilter("LCL"),
-      podID: this.destfilter("LCL"),
-      effectiveFrom: (this.fromDateLCL && this.fromDateLCL.month) ? this.fromDateLCL.month + '/' + this.fromDateLCL.day + '/' + this.fromDateLCL.year : null,
-      effectiveTo: (this.toDateLCL && this.toDateLCL.month) ? this.toDateLCL.month + '/' + this.toDateLCL.day + '/' + this.toDateLCL.year : null,
-      sortColumn: null,
-      sortColumnDirection: null
-    }
-    // this._seaFreightService.getAllratesLCL(obj).subscribe((res: any) => {
-    //   if (res.returnStatus == "Success") {
-    //     this.allRatesListLcL = res.returnObject.data;
-    //     this.checkedallpublishRatesLcl = false;
-    //     this.filterTableLcl();
-    //   }
-    // })
-  }
+  // getAllPublishRatesLcl() {
+  //   this.publishloadingLcl = true;
+  //   let obj = {
+  //     providerID: this.userProfile.ProviderID,
+  //     pageNo: 1,
+  //     pageSize: 50,
+  //     shippingCatID: (this.filterbyCargoTypeLcl == 'undefined') ? null : this.filterbyCargoTypeLcl,
+  //     containerSpecID: (this.filterbyHandlingType == 'undefined') ? null : this.filterbyHandlingType,
+  //     polID: this.orgfilter("LCL"),
+  //     podID: this.destfilter("LCL"),
+  //     effectiveFrom: (this.fromDateLCL && this.fromDateLCL.month) ? this.fromDateLCL.month + '/' + this.fromDateLCL.day + '/' + this.fromDateLCL.year : null,
+  //     effectiveTo: (this.toDateLCL && this.toDateLCL.month) ? this.toDateLCL.month + '/' + this.toDateLCL.day + '/' + this.toDateLCL.year : null,
+  //     sortColumn: null,
+  //     sortColumnDirection: null
+  //   }
+  //   // this._seaFreightService.getAllratesLCL(obj).subscribe((res: any) => {
+  //   //   if (res.returnStatus == "Success") {
+  //   //     this.allRatesListLcL = res.returnObject.data;
+  //   //     this.checkedallpublishRatesLcl = false;
+  //   //     this.filterTableLcl();
+  //   //   }
+  //   // })
+  // }
 
 
-  filterTable() {
-    this.dtOptionsBySeaFCL = {
-      data: this.allRatesList,
-      columns: [
-        {
-          title: '<div class="fancyOptionBoxes"> <input id = "selectallpublishRates" type = "checkbox"> <label for= "selectallpublishRates"> <span> </span></label></div>',
-          data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.carrierPricingID + '" type = "checkbox"> <label for= "' + data.carrierPricingID + '"> <span> </span></label></div>';
-          }
-        },
-        {
-          title: 'RATE FOR',
-          data: function (data) {
-            if (!data.customerID) {
-              // return "<span>-- Select --</span>"
-              return "<img src='../../../../favicon.ico' class='icon-size-24 mr-2' /> Marketplace"
-            } else {
-              if (data.jsonCustomerDetail) {
-                let parsedJsonCustomerDetail = JSON.parse(data.jsonCustomerDetail)
-                let url = baseExternalAssets + "/" + parsedJsonCustomerDetail[0].CustomerImage;
-                return "<img src='" + url + "' class='icon-size-24 mr-2' onerror=\"this.src='../../../../favicon.ico'\"/>" + parsedJsonCustomerDetail[0].CustomerName
-              } else {
-                return "<img src='../../../../favicon.ico' class='icon-size-24 mr-2' /> Marketplace"
-              }
+  // filterTable() {
+  //   this.dtOptionsBySeaFCL = {
+  //     data: this.allRatesList,
+  //     columns: [
+  //       {
+  //         title: '<div class="fancyOptionBoxes"> <input id = "selectallpublishRates" type = "checkbox"> <label for= "selectallpublishRates"> <span> </span></label></div>',
+  //         data: function (data) {
+  //           return '<div class="fancyOptionBoxes"> <input id = "' + data.carrierPricingID + '" type = "checkbox"> <label for= "' + data.carrierPricingID + '"> <span> </span></label></div>';
+  //         }
+  //       },
+  //       {
+  //         title: 'RATE FOR',
+  //         data: function (data) {
+  //           if (!data.customerID) {
+  //             // return "<span>-- Select --</span>"
+  //             return "<img src='../../../../favicon.ico' class='icon-size-24 mr-2' /> Marketplace"
+  //           } else {
+  //             if (data.jsonCustomerDetail) {
+  //               let parsedJsonCustomerDetail = JSON.parse(data.jsonCustomerDetail)
+  //               let url = baseExternalAssets + "/" + parsedJsonCustomerDetail[0].CustomerImage;
+  //               return "<img src='" + url + "' class='icon-size-24 mr-2' onerror=\"this.src='../../../../favicon.ico'\"/>" + parsedJsonCustomerDetail[0].CustomerName
+  //             } else {
+  //               return "<img src='../../../../favicon.ico' class='icon-size-24 mr-2' /> Marketplace"
+  //             }
 
-            }
-          },
-        },
-        {
-          title: 'SHIPPING LINE',
-          data: function (data) {
-            let url = baseExternalAssets + "/" + data.carrierImage;
-            let dateDiff = getDateDiff(moment(data.effectiveTo).format("L"), moment(new Date()).format("L"), 'days', "MM-DD-YYYY")
-            let template = " ";
-            if (dateDiff <= 15) {
-              template = '<span class="badge badge-danger mt-2">Rate Expiring in ' + dateDiff + ' days</span>'
-            }
-            return "<div class='w-100'><img src='" + url + "' class='icon-size-24 mr-2' />" + data.carrierName + '</div> ' + template;
-          },
-          className: "carrierName"
-        },
-        {
-          title: 'ORIGIN / DEPARTURE',
-          data: function (data) {
-            let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
-            let podCode = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
-            const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-            return "<div class='row'> <div class='col-5 text-truncate' title='" + data.polName + "'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.polName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate' title='" + data.podName + "'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.podName + "</div> </div>";
-          },
-          className: "routeCell"
-        },
-        {
-          title: 'CARGO TYPE',
-          data: 'shippingCatName',
-        },
-        {
-          title: 'CONTAINER',
-          data: 'containerSpecDesc',
-        },
-        {
-          title: 'RATE',
-          data: function (data) {
-            return (Number(data.priceWithCode.split(' ').pop())).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.priceWithCode.split(' ').shift(),
-            });
-          },
-        },
-        {
-          title: 'RATE VALIDITY',
-          data: function (data) {
-            return moment(data.effectiveFrom).format('D MMM, Y') + ' to ' + moment(data.effectiveTo).format('D MMM, Y')
-          }
-        },
-        {
-          title: 'Import Charges',
-          data: function (data) {
-            let subTotalIMP: any = 0;
-            let totalImp = []
-            if (!data.currencyCode) {
-              data.currencyCode = ''
-            }
-            if (data.jsonSurchargeDet) {
-              let parsedJsonSurchargeDet = JSON.parse(data.jsonSurchargeDet)
-              const impCharges = parsedJsonSurchargeDet.filter((e) => e.Imp_Exp === 'IMPORT')
-              if (impCharges.length) {
-                impCharges.forEach(element => {
-                  totalImp.push(parseInt(element.Price));
-                });
-                subTotalIMP = totalImp.reduce((all, item) => {
-                  return all + item;
-                });
-              }
-            }
-            if (subTotalIMP === 0 || isNaN(subTotalIMP)) {
-              return "<span>-- Select --</span>"
-            }
-            return data.currencyCode + ' ' + subTotalIMP;
-            // return subTotalIMP.toLocaleString('en-US', {
-            //   style: 'currency',
-            //   currency: data.CurrencyCode,
-            // });
-          }
-        },
-        {
-          title: 'Export Charges',
-          data: function (data) {
-            let subTotalExp: any = 0;
-            let totalExp = []
-            if (!data.currencyCode) {
-              data.currencyCode = ''
-            }
-            if (data.jsonSurchargeDet) {
-              let parsedJsonSurchargeDet = JSON.parse(data.jsonSurchargeDet)
-              const expCharges = parsedJsonSurchargeDet.filter((e) => e.Imp_Exp === 'EXPORT')
-              if (expCharges.length) {
-                expCharges.forEach(element => {
-                  totalExp.push(parseInt(element.Price));
-                });
-                subTotalExp = totalExp.reduce((all, item) => {
-                  return all + item;
-                });
-              }
-            }
-            if (subTotalExp === 0 || isNaN(subTotalExp)) {
-              return "<span>-- Select --</span>"
-            }
-            return data.currencyCode + ' ' + subTotalExp;
-            // return subTotalExp.toLocaleString('en-US', {
-            //   style: 'currency',
-            //   currency: data.CurrencyCode,
-            // });
-          }
-        },
-        {
-          title: '',
-          data: function (data) {
-            let url = '../../../../../../assets/images/icons/menu.svg';
-            return "<img id='" + data.carrierPricingID + "' src='" + url + "' class='icon-size-16 pointer' />";
-          },
-          className: 'moreOption'
-        }
-      ],
-      drawCallback: function () {
-        let $api = this.api();
-        let pages = $api.page.info().pages;
-        if (pages === 1 || !pages) {
-          $('.publishRatesFCL .dataTables_paginate').hide();
-        } else {
-          // SHow everything
-          $('.publishRatesFCL .dataTables_paginate').show();
-        }
-      },
-      // processing: true,
-      // serverSide: true,
-      // retrieve: true,
-      destroy: true,
-      // pagingType: 'full_numbers',
-      pageLength: 5,
-      scrollX: true,
-      // scrollY: '60vh',
-      scrollCollapse: true,
-      searching: false,
-      lengthChange: false,
-      responsive: true,
-      order: [[1, "asc"]],
-      language: {
-        paginate: {
-          next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
-          previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
-        },
-        infoEmpty: '',
-        // emptyTable: "No data available in table"
-      },
-      fixedColumns: {
-        leftColumns: 0,
-        rightColumns: 1
-      },
-      columnDefs: [
-        {
-          targets: 0,
-          width: 'auto',
-          orderable: false,
-        },
-        {
-          targets: 2,
-          width: '235'
-        },
-        {
-          targets: -1,
-          width: 'auto',
-          orderable: false,
-        },
-        {
-          targets: -4,
-          width: '200',
-        },
-        {
-          targets: 6,
-          orderable: false,
-        },
-        {
-          targets: 8,
-          orderable: false,
-        },
-        {
-          targets: 9,
-          orderable: false,
-        },
-        {
-          targets: "_all",
-          width: "150"
-        }
-      ]
-    };
-    this.setdataInTable();
-  }
+  //           }
+  //         },
+  //       },
+  //       {
+  //         title: 'SHIPPING LINE',
+  //         data: function (data) {
+  //           let url = baseExternalAssets + "/" + data.carrierImage;
+  //           let dateDiff = getDateDiff(moment(data.effectiveTo).format("L"), moment(new Date()).format("L"), 'days', "MM-DD-YYYY")
+  //           let template = " ";
+  //           if (dateDiff <= 15) {
+  //             template = '<span class="badge badge-danger mt-2">Rate Expiring in ' + dateDiff + ' days</span>'
+  //           }
+  //           return "<div class='w-100'><img src='" + url + "' class='icon-size-24 mr-2' />" + data.carrierName + '</div> ' + template;
+  //         },
+  //         className: "carrierName"
+  //       },
+  //       {
+  //         title: 'ORIGIN / DEPARTURE',
+  //         data: function (data) {
+  //           let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
+  //           let podCode = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
+  //           const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
+  //           return "<div class='row'> <div class='col-5 text-truncate' title='" + data.polName + "'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.polName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate' title='" + data.podName + "'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.podName + "</div> </div>";
+  //         },
+  //         className: "routeCell"
+  //       },
+  //       {
+  //         title: 'CARGO TYPE',
+  //         data: 'shippingCatName',
+  //       },
+  //       {
+  //         title: 'CONTAINER',
+  //         data: 'containerSpecDesc',
+  //       },
+  //       {
+  //         title: 'RATE',
+  //         data: function (data) {
+  //           return (Number(data.priceWithCode.split(' ').pop())).toLocaleString('en-US', {
+  //             style: 'currency',
+  //             currency: data.priceWithCode.split(' ').shift(),
+  //           });
+  //         },
+  //       },
+  //       {
+  //         title: 'RATE VALIDITY',
+  //         data: function (data) {
+  //           return moment(data.effectiveFrom).format('D MMM, Y') + ' to ' + moment(data.effectiveTo).format('D MMM, Y')
+  //         }
+  //       },
+  //       {
+  //         title: 'Import Charges',
+  //         data: function (data) {
+  //           let subTotalIMP: any = 0;
+  //           let totalImp = []
+  //           if (!data.currencyCode) {
+  //             data.currencyCode = ''
+  //           }
+  //           if (data.jsonSurchargeDet) {
+  //             let parsedJsonSurchargeDet = JSON.parse(data.jsonSurchargeDet)
+  //             const impCharges = parsedJsonSurchargeDet.filter((e) => e.Imp_Exp === 'IMPORT')
+  //             if (impCharges.length) {
+  //               impCharges.forEach(element => {
+  //                 totalImp.push(parseInt(element.Price));
+  //               });
+  //               subTotalIMP = totalImp.reduce((all, item) => {
+  //                 return all + item;
+  //               });
+  //             }
+  //           }
+  //           if (subTotalIMP === 0 || isNaN(subTotalIMP)) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           return data.currencyCode + ' ' + subTotalIMP;
+  //           // return subTotalIMP.toLocaleString('en-US', {
+  //           //   style: 'currency',
+  //           //   currency: data.CurrencyCode,
+  //           // });
+  //         }
+  //       },
+  //       {
+  //         title: 'Export Charges',
+  //         data: function (data) {
+  //           let subTotalExp: any = 0;
+  //           let totalExp = []
+  //           if (!data.currencyCode) {
+  //             data.currencyCode = ''
+  //           }
+  //           if (data.jsonSurchargeDet) {
+  //             let parsedJsonSurchargeDet = JSON.parse(data.jsonSurchargeDet)
+  //             const expCharges = parsedJsonSurchargeDet.filter((e) => e.Imp_Exp === 'EXPORT')
+  //             if (expCharges.length) {
+  //               expCharges.forEach(element => {
+  //                 totalExp.push(parseInt(element.Price));
+  //               });
+  //               subTotalExp = totalExp.reduce((all, item) => {
+  //                 return all + item;
+  //               });
+  //             }
+  //           }
+  //           if (subTotalExp === 0 || isNaN(subTotalExp)) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           return data.currencyCode + ' ' + subTotalExp;
+  //           // return subTotalExp.toLocaleString('en-US', {
+  //           //   style: 'currency',
+  //           //   currency: data.CurrencyCode,
+  //           // });
+  //         }
+  //       },
+  //       {
+  //         title: '',
+  //         data: function (data) {
+  //           let url = '../../../../../../assets/images/icons/menu.svg';
+  //           return "<img id='" + data.carrierPricingID + "' src='" + url + "' class='icon-size-16 pointer' />";
+  //         },
+  //         className: 'moreOption'
+  //       }
+  //     ],
+  //     drawCallback: function () {
+  //       let $api = this.api();
+  //       let pages = $api.page.info().pages;
+  //       if (pages === 1 || !pages) {
+  //         $('.publishRatesFCL .dataTables_paginate').hide();
+  //       } else {
+  //         // SHow everything
+  //         $('.publishRatesFCL .dataTables_paginate').show();
+  //       }
+  //     },
+  //     // processing: true,
+  //     // serverSide: true,
+  //     // retrieve: true,
+  //     destroy: true,
+  //     // pagingType: 'full_numbers',
+  //     pageLength: 5,
+  //     scrollX: true,
+  //     // scrollY: '60vh',
+  //     scrollCollapse: true,
+  //     searching: false,
+  //     lengthChange: false,
+  //     responsive: true,
+  //     order: [[1, "asc"]],
+  //     language: {
+  //       paginate: {
+  //         next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
+  //         previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
+  //       },
+  //       infoEmpty: '',
+  //       // emptyTable: "No data available in table"
+  //     },
+  //     fixedColumns: {
+  //       leftColumns: 0,
+  //       rightColumns: 1
+  //     },
+  //     columnDefs: [
+  //       {
+  //         targets: 0,
+  //         width: 'auto',
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: 2,
+  //         width: '235'
+  //       },
+  //       {
+  //         targets: -1,
+  //         width: 'auto',
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: -4,
+  //         width: '200',
+  //       },
+  //       {
+  //         targets: 6,
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: 8,
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: 9,
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: "_all",
+  //         width: "150"
+  //       }
+  //     ]
+  //   };
+  //   this.setdataInTable();
+  // }
 
 
 
-  filterTableLcl() {
-    this.dtOptionsBySeaLCL = {
-      data: this.allRatesListLcL,
-      columns: [
-        {
-          title: '<div class="fancyOptionBoxes"> <input id = "selectallpublishRatesLcl" type = "checkbox"> <label for= "selectallpublishRatesLcl"> <span> </span></label></div>',
-          data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.consolidatorPricingID + '" type = "checkbox"> <label for= "' + data.consolidatorPricingID + '"> <span> </span></label></div>';
-          }
-        },
+  // filterTableLcl() {
+  //   this.dtOptionsBySeaLCL = {
+  //     data: this.allRatesListLcL,
+  //     columns: [
+  //       {
+  //         title: '<div class="fancyOptionBoxes"> <input id = "selectallpublishRatesLcl" type = "checkbox"> <label for= "selectallpublishRatesLcl"> <span> </span></label></div>',
+  //         data: function (data) {
+  //           return '<div class="fancyOptionBoxes"> <input id = "' + data.consolidatorPricingID + '" type = "checkbox"> <label for= "' + data.consolidatorPricingID + '"> <span> </span></label></div>';
+  //         }
+  //       },
 
-        {
-          title: 'ORIGIN / DEPARTURE',
-          data: function (data) {
-            let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
-            let podCode = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
-            const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-            return "<div class='row'> <div class='col-5 text-truncate' ><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.polName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.podName + "</div> </div>";
-          },
-          className: "routeCell"
-        },
-        {
-          title: 'CARGO TYPE',
-          data: 'shippingCatName',
-        },
-        // {
-        //   title: 'HANDLING UNIT',
-        //   data: 'containerSpecShortName',
-        // },
-        {
-          title: 'RATE / CBM',
-          data: function (data) {
-            return (Number(data.price)).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.currencyCode,
-            });
-          }
-        },
-        {
-          title: 'RATE VALIDITY',
-          data: function (data) {
-            return moment(data.effectiveFrom).format('D MMM, Y') + ' to ' + moment(data.effectiveTo).format('D MMM, Y')
-          }
-        },
-        {
-          title: '',
-          data: function (data) {
-            let url = '../../../../../../assets/images/icons/menu.svg';
-            return "<img id='" + data.consolidatorPricingID + "' src='" + url + "' class='icon-size-16 pointer' />";
-          },
-          className: 'moreOption'
-        }
-      ],
-      drawCallback: function () {
-        let $api = this.api();
-        let pages = $api.page.info().pages;
-        if (pages === 1 || !pages) {
-          $('.publishRatesLCL .dataTables_paginate').hide();
-        } else {
-          // SHow everything
-          $('.publishRatesLCL.dataTables_paginate').show();
-        }
-      },
-      // processing: true,
-      // serverSide: true,
-      // retrieve: true,
-      destroy: true,
-      // pagingType: 'full_numbers',
-      pageLength: 5,
-      scrollX: true,
-      scrollY: '60vh',
-      scrollCollapse: true,
-      searching: false,
-      lengthChange: false,
-      responsive: true,
-      order: [[1, "asc"]],
-      language: {
-        paginate: {
-          next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
-          previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
-        },
-        infoEmpty: '',
-        // emptyTable: "No data available in table"
-      },
-      fixedColumns: {
-        leftColumns: 0,
-        rightColumns: 1
-      },
-      columnDefs: [
-        {
-          targets: 0,
-          width: 'auto',
-          orderable: false,
-        },
-        {
-          targets: 1,
-          width: '235'
-        },
-        {
-          targets: -1,
-          width: '12',
-          orderable: false,
-        },
-        {
-          targets: -2,
-          width: '200',
-        },
-        {
-          targets: "_all",
-          width: "150"
-        }
-      ]
-    };
-    this.setdataInTableLcl();
-  }
+  //       {
+  //         title: 'ORIGIN / DEPARTURE',
+  //         data: function (data) {
+  //           let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
+  //           let podCode = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
+  //           const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
+  //           return "<div class='row'> <div class='col-5 text-truncate' ><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.polName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.podName + "</div> </div>";
+  //         },
+  //         className: "routeCell"
+  //       },
+  //       {
+  //         title: 'CARGO TYPE',
+  //         data: 'shippingCatName',
+  //       },
+  //       // {
+  //       //   title: 'HANDLING UNIT',
+  //       //   data: 'containerSpecShortName',
+  //       // },
+  //       {
+  //         title: 'RATE / CBM',
+  //         data: function (data) {
+  //           return (Number(data.price)).toLocaleString('en-US', {
+  //             style: 'currency',
+  //             currency: data.currencyCode,
+  //           });
+  //         }
+  //       },
+  //       {
+  //         title: 'RATE VALIDITY',
+  //         data: function (data) {
+  //           return moment(data.effectiveFrom).format('D MMM, Y') + ' to ' + moment(data.effectiveTo).format('D MMM, Y')
+  //         }
+  //       },
+  //       {
+  //         title: '',
+  //         data: function (data) {
+  //           let url = '../../../../../../assets/images/icons/menu.svg';
+  //           return "<img id='" + data.consolidatorPricingID + "' src='" + url + "' class='icon-size-16 pointer' />";
+  //         },
+  //         className: 'moreOption'
+  //       }
+  //     ],
+  //     drawCallback: function () {
+  //       let $api = this.api();
+  //       let pages = $api.page.info().pages;
+  //       if (pages === 1 || !pages) {
+  //         $('.publishRatesLCL .dataTables_paginate').hide();
+  //       } else {
+  //         // SHow everything
+  //         $('.publishRatesLCL.dataTables_paginate').show();
+  //       }
+  //     },
+  //     // processing: true,
+  //     // serverSide: true,
+  //     // retrieve: true,
+  //     destroy: true,
+  //     // pagingType: 'full_numbers',
+  //     pageLength: 5,
+  //     scrollX: true,
+  //     scrollY: '60vh',
+  //     scrollCollapse: true,
+  //     searching: false,
+  //     lengthChange: false,
+  //     responsive: true,
+  //     order: [[1, "asc"]],
+  //     language: {
+  //       paginate: {
+  //         next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
+  //         previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
+  //       },
+  //       infoEmpty: '',
+  //       // emptyTable: "No data available in table"
+  //     },
+  //     fixedColumns: {
+  //       leftColumns: 0,
+  //       rightColumns: 1
+  //     },
+  //     columnDefs: [
+  //       {
+  //         targets: 0,
+  //         width: 'auto',
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: 1,
+  //         width: '235'
+  //       },
+  //       {
+  //         targets: -1,
+  //         width: '12',
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: -2,
+  //         width: '200',
+  //       },
+  //       {
+  //         targets: "_all",
+  //         width: "150"
+  //       }
+  //     ]
+  //   };
+  //   this.setdataInTableLcl();
+  // }
 
-  setdataInTableLcl() {
-    setTimeout(() => {
-      if (this.tablepublishBySeaLcl && this.tablepublishBySeaLcl.nativeElement) {
-        this.dataTablepublishByseaLcl = $(this.tablepublishBySeaLcl.nativeElement);
-        let alltableOption = this.dataTablepublishByseaLcl.DataTable(this.dtOptionsBySeaLCL);
-        this.publishloadingLcl = false;
-        $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
-          event.stopPropagation();
-          let selectedId = (<HTMLElement>event.target).id;
-          if (selectedId) {
-            this.rateHistory(selectedId, 'Rate_LCL')
-          }
-        });
-        $("#selectallpublishRatesLcl").click(() => {
-          this.delPublishRatesLcl = [];
-          var cols = alltableOption.column(0).nodes();
-          this.checkedallpublishRatesLcl = !this.checkedallpublishRatesLcl;
-          for (var i = 0; i < cols.length; i += 1) {
-            cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRatesLcl;
-            if (this.checkedallpublishRatesLcl) {
-              this.delPublishRatesLcl.push(cols[i].querySelector("input[type='checkbox']").id);
-              this.selectedItem('add', alltableOption);
-              this.rateValidityTextLCL = "Edit Validity"
-            }
-          }
-          if (i == cols.length && !this.checkedallpublishRatesLcl) {
-            this.delPublishRatesLcl = [];
-            this.selectedItem('remove', alltableOption);
-            this.rateValidityTextLCL = "Edit Rate / Validity"
+  // setdataInTableLcl() {
+  //   setTimeout(() => {
+  //     if (this.tablepublishBySeaLcl && this.tablepublishBySeaLcl.nativeElement) {
+  //       this.dataTablepublishByseaLcl = $(this.tablepublishBySeaLcl.nativeElement);
+  //       let alltableOption = this.dataTablepublishByseaLcl.DataTable(this.dtOptionsBySeaLCL);
+  //       this.publishloadingLcl = false;
+  //       $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
+  //         event.stopPropagation();
+  //         let selectedId = (<HTMLElement>event.target).id;
+  //         if (selectedId) {
+  //           this.rateHistory(selectedId, 'Rate_LCL')
+  //         }
+  //       });
+  //       $("#selectallpublishRatesLcl").click(() => {
+  //         this.delPublishRatesLcl = [];
+  //         var cols = alltableOption.column(0).nodes();
+  //         this.checkedallpublishRatesLcl = !this.checkedallpublishRatesLcl;
+  //         for (var i = 0; i < cols.length; i += 1) {
+  //           cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRatesLcl;
+  //           if (this.checkedallpublishRatesLcl) {
+  //             this.delPublishRatesLcl.push(cols[i].querySelector("input[type='checkbox']").id);
+  //             this.selectedItem('add', alltableOption);
+  //             this.rateValidityTextLCL = "Edit Validity"
+  //           }
+  //         }
+  //         if (i == cols.length && !this.checkedallpublishRatesLcl) {
+  //           this.delPublishRatesLcl = [];
+  //           this.selectedItem('remove', alltableOption);
+  //           this.rateValidityTextLCL = "Edit Rate / Validity"
 
-          }
+  //         }
 
-        });
+  //       });
 
-        $('#publishRateTableLcl').off('click').on('click', 'input[type="checkbox"]', (event) => {
-          let index = this.delPublishRatesLcl.indexOf((<HTMLInputElement>event.target).id);
-          let selection = event.currentTarget.parentElement.parentElement.parentElement;
-          if (index >= 0) {
-            this.delPublishRatesLcl.splice(index, 1);
-            selection.classList.remove('selected');
-          } else {
-            selection.classList.add('selected');
-            this.delPublishRatesLcl.push((<HTMLInputElement>event.target).id)
-          }
-          if (this.delPublishRatesLcl && this.delPublishRatesLcl.length > 1) {
-            this.rateValidityTextLCL = "Edit Validity";
-          }
-          else {
-            this.rateValidityTextLCL = "Edit Rate / Validity";
-          }
-        });
-      }
-    }, 0);
-  }
+  //       $('#publishRateTableLcl').off('click').on('click', 'input[type="checkbox"]', (event) => {
+  //         let index = this.delPublishRatesLcl.indexOf((<HTMLInputElement>event.target).id);
+  //         let selection = event.currentTarget.parentElement.parentElement.parentElement;
+  //         if (index >= 0) {
+  //           this.delPublishRatesLcl.splice(index, 1);
+  //           selection.classList.remove('selected');
+  //         } else {
+  //           selection.classList.add('selected');
+  //           this.delPublishRatesLcl.push((<HTMLInputElement>event.target).id)
+  //         }
+  //         if (this.delPublishRatesLcl && this.delPublishRatesLcl.length > 1) {
+  //           this.rateValidityTextLCL = "Edit Validity";
+  //         }
+  //         else {
+  //           this.rateValidityTextLCL = "Edit Rate / Validity";
+  //         }
+  //       });
+  //     }
+  //   }, 0);
+  // }
 
 
   public selectedColumn;
   public selectedDir;
-  setdataInTable() {
-    setTimeout(() => {
-      if (this.tablepublishBySea && this.tablepublishBySea.nativeElement) {
-        this.dataTablepublishBysea = $(this.tablepublishBySea.nativeElement);
-        let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsBySeaFCL);
-        this.publishloading = false;
-        $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
-          event.stopPropagation();
-          let selectedId = (<HTMLElement>event.target).id;
-          if (selectedId) {
-            this.rateHistory(selectedId, 'Rate_FCL')
-          }
-        });
-        $("#selectallpublishRates").click(() => {
-          this.delPublishRates = [];
-          var cols = alltableOption.column(0).nodes();
-          this.checkedallpublishRates = !this.checkedallpublishRates;
-          for (var i = 0; i < cols.length; i += 1) {
-            cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
-            if (this.checkedallpublishRates) {
-              this.delPublishRates.push(cols[i].querySelector("input[type='checkbox']").id);
-              this.selectedItem('add', alltableOption);
-              this.rateValidityTextFCL = "Edit Validity";
-            }
-          }
-          if (i == cols.length && !this.checkedallpublishRates) {
-            this.delPublishRates = [];
-            this.selectedItem('remove', alltableOption);
-            this.rateValidityTextFCL = "Edit Rate / Validity";
-          }
+  // setdataInTable() {
+  //   setTimeout(() => {
+  //     if (this.tablepublishBySea && this.tablepublishBySea.nativeElement) {
+  //       this.dataTablepublishBysea = $(this.tablepublishBySea.nativeElement);
+  //       let alltableOption = this.dataTablepublishBysea.DataTable(this.dtOptionsBySeaFCL);
+  //       this.publishloading = false;
+  //       $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
+  //         event.stopPropagation();
+  //         let selectedId = (<HTMLElement>event.target).id;
+  //         if (selectedId) {
+  //           this.rateHistory(selectedId, 'Rate_FCL')
+  //         }
+  //       });
+  //       $("#selectallpublishRates").click(() => {
+  //         this.delPublishRates = [];
+  //         var cols = alltableOption.column(0).nodes();
+  //         this.checkedallpublishRates = !this.checkedallpublishRates;
+  //         for (var i = 0; i < cols.length; i += 1) {
+  //           cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
+  //           if (this.checkedallpublishRates) {
+  //             this.delPublishRates.push(cols[i].querySelector("input[type='checkbox']").id);
+  //             this.selectedItem('add', alltableOption);
+  //             this.rateValidityTextFCL = "Edit Validity";
+  //           }
+  //         }
+  //         if (i == cols.length && !this.checkedallpublishRates) {
+  //           this.delPublishRates = [];
+  //           this.selectedItem('remove', alltableOption);
+  //           this.rateValidityTextFCL = "Edit Rate / Validity";
+  //         }
 
-        });
-        // let publishFCLtable = $('#publishRateTable').DataTable(alltableOption);
-        $('#publishRateTable').off('click').on('click', 'input[type="checkbox"]', (event) => {
-          let index = this.delPublishRates.indexOf((<HTMLInputElement>event.target).id);
-          let selection = event.currentTarget.parentElement.parentElement.parentElement;
-          if (index >= 0) {
-            this.delPublishRates.splice(index, 1);
-            selection.classList.remove('selected');
-          } else {
-            selection.classList.add('selected');
-            this.delPublishRates.push((<HTMLInputElement>event.target).id);
-          }
-          if (this.delPublishRates && this.delPublishRates.length > 1) {
-            this.rateValidityTextFCL = "Edit Validity";
-          }
-          else {
-            this.rateValidityTextFCL = "Edit Rate / Validity";
-          }
+  //       });
+  //       // let publishFCLtable = $('#publishRateTable').DataTable(alltableOption);
+  //       $('#publishRateTable').off('click').on('click', 'input[type="checkbox"]', (event) => {
+  //         let index = this.delPublishRates.indexOf((<HTMLInputElement>event.target).id);
+  //         let selection = event.currentTarget.parentElement.parentElement.parentElement;
+  //         if (index >= 0) {
+  //           this.delPublishRates.splice(index, 1);
+  //           selection.classList.remove('selected');
+  //         } else {
+  //           selection.classList.add('selected');
+  //           this.delPublishRates.push((<HTMLInputElement>event.target).id);
+  //         }
+  //         if (this.delPublishRates && this.delPublishRates.length > 1) {
+  //           this.rateValidityTextFCL = "Edit Validity";
+  //         }
+  //         else {
+  //           this.rateValidityTextFCL = "Edit Rate / Validity";
+  //         }
 
-        });
+  //       });
 
 
-      }
-    }, 0);
+  //     }
+  //   }, 0);
+  // }
+
+  // selectedItem(type, alltableOption) {
+  //   if (type == 'add') {
+  //     alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+  //       var data = this.node();
+  //       data.classList.add('selected');
+  //       // ... do something with data(), or this.node(), etc
+  //     });
+  //   }
+  //   else {
+  //     alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+  //       var data = this.node();
+  //       data.classList.remove('selected');
+  //       data.children[0].children[0].children[0].checked = false;
+  //       // ... do something with data(), or this.node(), etc
+  //     });
+  //   }
+  // }
+  orgfilter(type?) {
+    if (this.filterOrigin && typeof this.filterOrigin == "object" && Object.keys(this.filterOrigin).length) {
+      return this.filterOrigin.PortID;
+    }
+    else if (this.filterOrigin && typeof this.filterOrigin == "string") {
+      return -1;
+    }
+    else if (!this.filterOrigin) {
+      return null;
+    }
+    // if (type == "FCL") {
+    //   if (this.filterOrigin && typeof this.filterOrigin == "object" && Object.keys(this.filterOrigin).length) {
+    //     return this.filterOrigin.PortID;
+    //   }
+    //   else if (this.filterOrigin && typeof this.filterOrigin == "string") {
+    //     return -1;
+    //   }
+    //   else if (!this.filterOrigin) {
+    //     return null;
+    //   }
+    // }
+    // else if (type == "LCL") {
+    //   if (this.filterOriginLcl && typeof this.filterOriginLcl == "object" && Object.keys(this.filterOriginLcl).length) {
+    //     return this.filterOriginLcl.PortID;
+    //   }
+    //   else if (this.filterOriginLcl && typeof this.filterOriginLcl == "string") {
+    //     return -1;
+    //   }
+    //   else if (!this.filterOriginLcl) {
+    //     return null;
+    //   }
+    // }
   }
-
-  selectedItem(type, alltableOption) {
-    if (type == 'add') {
-      alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
-        var data = this.node();
-        data.classList.add('selected');
-        // ... do something with data(), or this.node(), etc
-      });
+  destfilter(type?) {
+    if (this.filterDestination && typeof this.filterDestination == "object" && Object.keys(this.filterDestination).length) {
+      return this.filterDestination.PortID;
     }
-    else {
-      alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
-        var data = this.node();
-        data.classList.remove('selected');
-        data.children[0].children[0].children[0].checked = false;
-        // ... do something with data(), or this.node(), etc
-      });
+    else if (this.filterDestination && typeof this.filterDestination == "string") {
+      return -1;
     }
-  }
-  orgfilter(type) {
-    if (type == "FCL") {
-      if (this.filterOrigin && typeof this.filterOrigin == "object" && Object.keys(this.filterOrigin).length) {
-        return this.filterOrigin.PortID;
-      }
-      else if (this.filterOrigin && typeof this.filterOrigin == "string") {
-        return -1;
-      }
-      else if (!this.filterOrigin) {
-        return null;
-      }
+    else if (!this.filterDestination) {
+      return null;
     }
-    else if (type == "LCL") {
-      if (this.filterOriginLcl && typeof this.filterOriginLcl == "object" && Object.keys(this.filterOriginLcl).length) {
-        return this.filterOriginLcl.PortID;
-      }
-      else if (this.filterOriginLcl && typeof this.filterOriginLcl == "string") {
-        return -1;
-      }
-      else if (!this.filterOriginLcl) {
-        return null;
-      }
-    }
-  }
-  destfilter(type) {
-    if (type == "FCL") {
-      if (this.filterDestination && typeof this.filterDestination == "object" && Object.keys(this.filterDestination).length) {
-        return this.filterDestination.PortID;
-      }
-      else if (this.filterDestination && typeof this.filterDestination == "string") {
-        return -1;
-      }
-      else if (!this.filterDestination) {
-        return null;
-      }
-    }
-    if (type == "LCL") {
-      if (this.filterDestinationLcl && typeof this.filterDestinationLcl == "object" && Object.keys(this.filterDestinationLcl).length) {
-        return this.filterDestinationLcl.PortID;
-      }
-      else if (this.filterDestinationLcl && typeof this.filterDestinationLcl == "string") {
-        return -1;
-      }
-      else if (!this.filterDestinationLcl) {
-        return null;
-      }
-    }
+    // if (type == "FCL") {
+    //   if (this.filterDestination && typeof this.filterDestination == "object" && Object.keys(this.filterDestination).length) {
+    //     return this.filterDestination.PortID;
+    //   }
+    //   else if (this.filterDestination && typeof this.filterDestination == "string") {
+    //     return -1;
+    //   }
+    //   else if (!this.filterDestination) {
+    //     return null;
+    //   }
+    // }
+    // if (type == "LCL") {
+    //   if (this.filterDestinationLcl && typeof this.filterDestinationLcl == "object" && Object.keys(this.filterDestinationLcl).length) {
+    //     return this.filterDestinationLcl.PortID;
+    //   }
+    //   else if (this.filterDestinationLcl && typeof this.filterDestinationLcl == "string") {
+    //     return -1;
+    //   }
+    //   else if (!this.filterDestinationLcl) {
+    //     return null;
+    //   }
+    // }
   }
 
   discardDraft() {
@@ -1824,7 +1800,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         this.allSeaDraftRatesByFCL = [];
         this.draftDataBYSeaFCL = [];
         this.publishRates = [];
-        this.generateDraftTable();
+        // this.generateDraftTable();
       }
     }, (reason) => {
       // console.log("reason");
@@ -1892,7 +1868,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         if (this.allRatesList.length == this.delPublishRates.length) {
           this.allRatesList = [];
           this.delPublishRates = [];
-          this.filterTable();
+          // this.filterTable();
         }
         else {
           for (var i = 0; i < this.delPublishRates.length; i++) {
@@ -1903,11 +1879,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
             }
           }
           if (i == this.delPublishRates.length) {
-            this.filterTable();
+            // this.filterTable();
             this.delPublishRates = [];
           }
         }
-
+        this.getAllPublishRates('fcl')
       }
     }, (reason) => {
       // console.log("reason");
@@ -1924,7 +1900,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     }, 0);
   }
   delLclPubRecord() {
-    if (!this.delPublishRatesLcl.length) return;
+    if (!this.delPublishRates.length) return;
     const modalRef = this.modalService.open(ConfirmDeleteDialogComponent, {
       size: 'lg',
       centered: true,
@@ -1935,31 +1911,31 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     modalRef.result.then((result) => {
       if (result == "Success") {
         this.checkedallpublishRates = false;
-        if (this.allRatesListLcL.length == this.delPublishRatesLcl.length) {
+        if (this.allRatesListLcL.length == this.delPublishRates.length) {
           this.allRatesListLcL = [];
-          this.delPublishRatesLcl = [];
-          this.filterTableLcl();
+          this.delPublishRates = [];
+          // this.filterTableLcl();
         }
         else {
-          for (var i = 0; i < this.delPublishRatesLcl.length; i++) {
+          for (var i = 0; i < this.delPublishRates.length; i++) {
             for (let y = 0; y < this.allRatesListLcL.length; y++) {
-              if (this.delPublishRatesLcl[i] == this.allRatesListLcL[y].consolidatorPricingID) {
+              if (this.delPublishRates[i] == this.allRatesListLcL[y].consolidatorPricingID) {
                 this.allRatesListLcL.splice(y, 1);
               }
             }
           }
-          if (i == this.delPublishRatesLcl.length) {
-            this.filterTableLcl();
-            this.delPublishRatesLcl = [];
+          if (i == this.delPublishRates.length) {
+            // this.filterTableLcl();
+            this.delPublishRates = [];
           }
         }
-
+      this.getAllPublishRates('lcl')
       }
     }, (reason) => {
       // console.log("reason");
     });
     let obj = {
-      data: this.delPublishRatesLcl,
+      data: this.delPublishRates,
       type: "publishSeaRateLCL"
     }
     modalRef.componentInstance.deleteIds = obj;
@@ -2012,25 +1988,25 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     })
   }
 
-  publishRateLcl() {
-    this._seaFreightService.publishDraftRateLCL(this.publishRates).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        for (var i = 0; i < this.publishRatesLCL.length; i++) {
-          for (let y = 0; y < this.draftslcl.length; y++) {
-            if (this.draftslcl[y].ConsolidatorPricingDraftID == this.publishRatesLCL[i]) {
-              this.draftslcl.splice(y, 1);
-            }
-          }
-        }
-        if (this.publishRatesLCL.length == i) {
-          this.checkedalldraftRates = false;
-          this.publishRatesLCL = [];
-          // this.generateDraftTableLCL();
-          this.getAllPublishRatesLcl();
-        }
-      }
-    })
-  }
+  // publishRateLcl() {
+  //   this._seaFreightService.publishDraftRateLCL(this.publishRates).subscribe((res: any) => {
+  //     if (res.returnStatus == "Success") {
+  //       for (var i = 0; i < this.publishRatesLCL.length; i++) {
+  //         for (let y = 0; y < this.draftslcl.length; y++) {
+  //           if (this.draftslcl[y].ConsolidatorPricingDraftID == this.publishRatesLCL[i]) {
+  //             this.draftslcl.splice(y, 1);
+  //           }
+  //         }
+  //       }
+  //       if (this.publishRatesLCL.length == i) {
+  //         this.checkedalldraftRates = false;
+  //         this.publishRatesLCL = [];
+  //         // this.generateDraftTableLCL();
+  //         this.getAllPublishRatesLcl();
+  //       }
+  //     }
+  //   })
+  // }
 
   ports = (text$: Observable<string>) =>
     text$.pipe(
@@ -2054,7 +2030,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           if (this.draftsfcl[index].ProviderPricingDraftID == id) {
             this.draftsfcl.splice(index, 1);
             this.getDraftRates('fcl') //@todo remove it when we get the mechanism for parent to child changes emit
-            this.generateDraftTable();
+            // this.generateDraftTable();
             this.publishRates = [];
             break;
           }
@@ -2203,7 +2179,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     });
     modalRef.result.then((result) => {
       if (result == 'Success') {
-        this.getAllPublishRatesLcl();
+        // this.getAllPublishRatesLcl();
         this.checkedallpublishRatesLcl = false
         this.delPublishRatesLcl = [];
       }
@@ -2360,9 +2336,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     if (event.type === 'publishFCL') {
       if (typeof event.list[0] === 'object') {
         if (event.list[0].type === 'history') {
-          if(event.list[0].load === 'FCL') {
+          if (event.list[0].load === 'FCL') {
             this.rateHistory(event.list[0].id, 'Rate_FCL')
-          } else if(event.list[0].load === 'LCL') {
+          } else if (event.list[0].load === 'LCL') {
             this.rateHistory(event.list[0].id, 'Rate_LCL')
           }
         }
@@ -2402,11 +2378,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   onTabChange(event) {
-    console.log(event);
     if (event === 'activeLCL') {
       this.getAllPublishRates('lcl')
+      this.getDraftRates('lcl')
     } else if (event === 'activeFCL') {
       this.getAllPublishRates('fcl')
+      this.getDraftRates('fcl')
     }
   }
 

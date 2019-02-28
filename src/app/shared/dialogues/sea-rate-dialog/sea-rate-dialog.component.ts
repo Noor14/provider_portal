@@ -46,6 +46,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 export class SeaRateDialogComponent implements OnInit {
   @ViewChild("dp") input: NgbInputDatepicker;
   @ViewChild("rangeDp") rangeDp: ElementRef;
+  @ViewChild('originPickupBox') originPickupBox: ElementRef;
   @ViewChild('originDropdown') originDropdown: any
   @ViewChild('destinationDropdown') destinationDropdown;
   @Input() selectedData: any;
@@ -78,7 +79,7 @@ export class SeaRateDialogComponent implements OnInit {
   public selectedCurrency: any = this.defaultCurrency;
   public startDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
-  public minDate: NgbDateStruct;
+  public minDate = new Date();
   public hoveredDate: NgbDateStruct;
   public fromDate: any = {
     day: null,
@@ -140,6 +141,13 @@ export class SeaRateDialogComponent implements OnInit {
         this.setEditData(this.selectedData.mode)
       }
     }
+    // let date = new Date();
+    // this.minDate = {
+    //   year: date.getFullYear(),
+    //   month: date.getMonth() + 1,
+    //   day: date.getDate()
+    // };
+
     this.allCustomers = this.selectedData.customers
     this.destinationsList = this.selectedData.addList
     this.originsList = this.selectedData.addList
@@ -279,7 +287,7 @@ export class SeaRateDialogComponent implements OnInit {
 
   savedraftrow(type) {
     console.log(type);
-    
+
     if (type !== 'update') {
       this.saveDataInFCLDraft(type);
     } else if (type === 'update') {
@@ -848,7 +856,6 @@ export class SeaRateDialogComponent implements OnInit {
     } else if (type === 'destination') {
       this.isDestinationChargesForm = !this.isDestinationChargesForm
     }
-
   }
 
   onKeyDown(idx, event, type) {
@@ -967,4 +974,87 @@ export class SeaRateDialogComponent implements OnInit {
       }
     })
   }
+
+
+  // GROUND WORKING 
+  public showPickupDropdown: boolean = false;
+  public showDestinationDropdown: boolean = false;
+  public showPickupPorts: boolean = false;
+  public showPickupDoors: boolean = false;
+  public showDestPorts: boolean = false;
+  public showDestDoors: boolean = false;
+
+  toggleDropdown(type) {
+    if (type === 'pickup') {
+      this.showPickupDropdown = !this.showPickupDropdown
+      this.closeDropDown('delivery')
+      this.showPickupPorts = false
+      this.showPickupDoors = false
+    }
+    if (type === 'delivery') {
+      this.showDestinationDropdown = !this.showDestinationDropdown
+      this.closeDropDown('pickup')
+      this.showDestPorts = false
+      this.showDestDoors = false
+    }
+  }
+
+  togglePorts(type) {
+    if (type === 'pickup-sea') {
+      this.showPickupPorts = true
+    } else if (type === 'pickup-door') {
+      this.showPickupDoors = true
+    } else if (type === 'delivery-sea') {
+      this.showDestPorts = true
+    } else if (type === 'delivery-door') {
+      this.showDestDoors = true
+    }
+  }
+
+  closeDropDown($action: string) {
+    switch ($action) {
+      case 'pickup':
+        if (this.showPickupDropdown) {
+          this.showPickupDropdown = false
+        }
+        break;
+      case 'delivery':
+        if (this.showDestinationDropdown) {
+          this.showDestinationDropdown = false
+        }
+        break;
+      default:
+        if (this.showPickupDropdown || this.showDestinationDropdown) {
+          this.showPickupDropdown = false
+          this.showDestinationDropdown = false
+        }
+        break
+    }
+  }
+
+  public groundAddresses: any = []
+  public groundsPorts:any = []
+  private transPortMode = 'GROUND'
+  portsFilterartion(obj) {
+
+    if (typeof obj === 'object') {
+      this.showPickupDropdown = false;
+      this.showDestinationDropdown = false;
+    }
+    if (this.transPortMode == 'GROUND') {
+
+      if (obj && obj.PortType && obj.PortType == 'SEA') {
+        this.groundsPorts = this.allPorts.filter(elem => elem.PortType.toLowerCase() != 'sea');
+      }
+      else if ((!this.filterOrigin || (this.filterOrigin && !this.filterOrigin.PortType)) && (!this.filterDestination || (this.filterDestination && !this.filterDestination.PortType))) {
+        // this.groundsPorts = this.allPorts;
+        this.groundAddresses = this.allPorts
+      }
+      else {
+        return
+      }
+
+    }
+  }
+
 }

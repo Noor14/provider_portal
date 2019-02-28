@@ -81,14 +81,19 @@
             <!-- <ng-template #popContentStatus><b>{{device.parsedpublishStatus.Status}}</b></ng-template> -->
             <button *ngIf="device.parsedpublishStatus"
               class="btn rounded-circle icon-size-8 p-0 btn-{{device.parsedpublishStatus.Status === 'PENDING' ? 'danger' : 'success'}}"
-              placement="top" ngbTooltip="{{device.parsedpublishStatus.Status}}"></button>
+              placement="top" ngbTooltip="{{device.parsedpublishStatus.printStatus}}"></button>
           </td>
           <td (click)="draftAction(device, 'edit')">
-            <img *ngIf="device?.parsedjsonCustomerDetail && device.customerID"
+            <img
+              *ngIf="device?.parsedjsonCustomerDetail && device.customerID && device?.parsedjsonCustomerDetail[0].CustomerImage"
               [src]="getUIImage(device?.parsedjsonCustomerDetail[0].CustomerImage, false)" alt="" class="mr-2 rounded"
-              height="24px" width="24px">
-            <img *ngIf="!device.customerID" src="../../../../assets/images/favicon.png" alt="" class="mr-2 rounded"
-              height="24px" width="24px">
+              height="24px" width="24px" onerror="'../../../../favicon.ico'">
+            <img
+              *ngIf="device?.parsedjsonCustomerDetail && device.customerID && !device?.parsedjsonCustomerDetail[0].CustomerImage"
+              src="../../../../favicon.ico" alt="" class="mr-2 rounded" height="24px" width="24px"
+              onerror="'../../../../favicon.ico'">
+            <img *ngIf="!device.customerID" src="../../../../favicon.ico" alt="" class="mr-2 rounded" height="24px"
+              width="24px">
             <span *ngIf="device.customerID" ngbTooltip="{{device?.parsedjsonCustomerDetail[0]?.CustomerName}}"
               placement="top"
               [ngClass]="device?.parsedjsonCustomerDetail[0].CustomerName > 20 ? 'text-ecllipse': ''">{{device?.parsedjsonCustomerDetail[0].CustomerName}}</span>
@@ -117,9 +122,8 @@
                 alt="" class="mr-2" width="18px">
               <span class="ports-names" placement="top" ngbTooltip="{{device.podName}}"
                 [ngClass]="device?.podName?.length > 10 ? 'text-truncate': ''">{{device?.podName || '-- Select --'}}</span>
-              <span class="badge badge-danger mt-2" *ngIf="device?.dateDiff && tableType === 'publishFCL'">Rate Expiring
-                in {{device.dateDiff}}
-                days</span>
+              <span class="badge badge-danger mt-2" *ngIf="device?.dateDiff && device.dateDiff > 0 && tableType === 'publishFCL'">Rate Expiring in {{device.dateDiff}} days</span>
+              <span class="badge badge-danger mt-2" *ngIf="device?.dateDiff && device.dateDiff < 0 && tableType === 'publishFCL'">Rate has been expired</span>
             </div>
           </td>
           <td (click)="draftAction(device, 'edit')">
@@ -153,7 +157,8 @@
           <td (click)="draftAction(device, 'edit')">
             <div class="d-flex info-table-logo align-items-center">
               <!-- <img [src]="getUIImage(device.CarrierImage, false)" alt="" class="mr-2 "> -->
-              <span *ngIf="device.totalExportCharges && device.totalExportCharges > 0 && device.baseCurrencyCode">{{device.baseCurrencyCode}} 
+              <span
+                *ngIf="device.totalExportCharges && device.totalExportCharges > 0 && device.baseCurrencyCode">{{device.baseCurrencyCode}}
                 {{device.totalImportCharges | number: '2.0-0'}}</span>
               <span *ngIf="!device.totalExportCharges">-- Select --</span>
             </div>

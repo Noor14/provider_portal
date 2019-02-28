@@ -77,7 +77,6 @@ export class UiTableComponent implements OnInit, OnChanges {
     } else if (this.tableType === 'publishFCL') {
       this.totalCount = this.totalRecords
     }
-    console.log(this.containerLoad);
 
     if (this.containerLoad === 'LCL') {
       this.thList = [
@@ -98,6 +97,11 @@ export class UiTableComponent implements OnInit, OnChanges {
       }
       if (e.publishStatus) {
         e.parsedpublishStatus = JSON.parse(e.publishStatus)
+        if (e.parsedpublishStatus.Status === 'PENDING') {
+          e.parsedpublishStatus.printStatus = 'Unpublished'
+        } else if (e.parsedpublishStatus.Status === 'POSTED') {
+          e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MMMM Do YYYY, h:mm:ss a')
+        }
       }
       e.isChecked = false
       let dateDiff = getDateDiff(moment(e.effectiveTo).format("L"), moment(new Date()).format("L"), 'days', "MM-DD-YYYY")
@@ -244,7 +248,7 @@ export class UiTableComponent implements OnInit, OnChanges {
     let obj = {}
     if (action === 'history') {
       console.log(row);
-      
+
       obj = {
         type: 'history',
         id: (this.containerLoad === 'FCL' ? row.carrierPricingID : row.consolidatorPricingID),
@@ -309,8 +313,8 @@ export class UiTableComponent implements OnInit, OnChanges {
   ngOnChanges(changes) {
     console.log(changes);
     if (changes.hasOwnProperty('totalRecords')) {
-      if (changes.tableRecords) {
-        this.totalCount = changes.tableRecords.currentValue
+      if (changes.totalRecords) {
+        this.totalCount = changes.totalRecords.currentValue
       }
     }
 
@@ -325,10 +329,21 @@ export class UiTableComponent implements OnInit, OnChanges {
       if (e.jsonCustomerDetail) {
         e.parsedjsonCustomerDetail = JSON.parse(e.jsonCustomerDetail)
       }
-      if (e.parsedpublishStatus) {
+      if (e.publishStatus) {
         e.parsedpublishStatus = JSON.parse(e.publishStatus)
+        if (e.parsedpublishStatus.Status === 'PENDING') {
+          e.parsedpublishStatus.printStatus = 'Unpublished'
+        } else if (e.parsedpublishStatus.Status === 'POSTED') {
+          e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MM/DD/YYYY, h:mm:ss a')
+        }
       }
       e.isChecked = false
+      let dateDiff = getDateDiff(moment(e.effectiveTo).format("L"), moment(new Date()).format("L"), 'days', "MM-DD-YYYY")
+      if (dateDiff <= 15) {
+        e.dateDiff = dateDiff
+      } else {
+        e.dateDiff = null
+      }
     })
     this.checkList = []
   }
