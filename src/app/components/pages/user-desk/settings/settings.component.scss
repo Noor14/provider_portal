@@ -167,11 +167,13 @@
     background: $white-color;
     position: relative;
     font-family: $font-proxima;
+    filter: grayscale(1);
 
     &.active {
       box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
       border: 2px solid $primary-color !important;
       background: $white-color !important;
+      filter: grayscale(0);
     }
 
     &-provides,
@@ -324,46 +326,52 @@
     .uploadedDocx {
       margin-top: 1rem;
 
-      .display-upload {
-        position: relative;
-        height: 200px;
-        z-index: 0;
-        display: flex;
-        justify-content: center;
-        border: 1px solid $input-border;
-        background: $color-white;
-        border-radius: 4px;
+      .uploaded-images {
+        display: table;
 
-        img,
-        video {
+        .display-upload {
+          position: relative;
+          height: 200px;
+          z-index: 0;
+          border: 1px solid $input-border;
+          background: $color-white;
           border-radius: 4px;
-          max-width: 100%;
-          height: 100%;
-          display: flex;
-        }
+          text-align: center;
+          display: table-cell;
+          vertical-align: middle;
 
-        .delete-icon {
-          position: absolute;
-          top: -10px;
-          right: -8px;
-          min-height: auto;
-          background: $white-color;
-          padding: 3px;
-          border-radius: 50%;
-          width: 23px;
-          height: auto;
-          border: none;
-        }
+          img,
+          video {
+            border-radius: 4px;
+            max-width: 100%;
+            max-height: 100%;
+          }
 
-        &:hover {
           .delete-icon {
-            animation-name: pulse;
-            animation-fill-mode: both;
-            animation-duration: 1s;
-            animation-iteration-count: infinite;
+            position: absolute;
+            top: -10px;
+            right: -8px;
+            min-height: auto;
+            background: $white-color;
+            padding: 3px;
+            border-radius: 50%;
+            width: 23px;
+            height: auto;
+            border: none;
+          }
+
+          &:hover {
+            .delete-icon {
+              animation-name: pulse;
+              animation-fill-mode: both;
+              animation-duration: 1s;
+              animation-iteration-count: infinite;
+            }
           }
         }
       }
+
+      
     }
   }
   @media(max-width: $screen-md-screen) {

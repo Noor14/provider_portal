@@ -460,4 +460,11 @@
 
   }
 
+  @media (max-width: 525px) {
+    .associations {
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+    }
+  }
+
 }
