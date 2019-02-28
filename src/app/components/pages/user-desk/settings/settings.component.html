@@ -181,9 +181,9 @@
                         </div>
                       </div>
                     </div>
-                    <div class="row mt-5 mb-4">
+                    <div class="row mt-5 mb-4 animated fadeIn" *ngIf="personalInfoToggler">
                       <div class="col-xl-6 col-lg-6 col-md-12 col-sm-8 col-xs-12 d-flex">
-                        <button class="setting-discard-btn mr-4 d-flex align-items-start">
+                        <button class="setting-discard-btn mr-4 d-flex align-items-start" (click)="resetPersonalInfo()">
                           <svg class="icon-size-16 mr-2 animated" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px"
                             viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
@@ -375,7 +375,7 @@
                               <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                                 <span *ngIf="selectedSocialsite && selectedSocialsite.Title">{{selectedSocialsite.Title}}</span>
                               </div>
-                              <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="social">
+                              <div class="animated fadeIn country-section website" ngbDropdownMenu aria-labelledby="social">
                                 <ul class="list-group">
                                   <li class="list-group-item" *ngFor="let link of socialWebs" (click)="selectedSocialLink(link)">
                                     <span>{{link.Title}}</span>
@@ -405,9 +405,9 @@
                         </div>
                       </div>
                     </div>
-                    <div class="row mt-5 mb-4">
+                    <div class="row mt-5 mb-4 animated fadeIn" *ngIf="businessInfoToggler">
                       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-8 col-xs-12 d-flex">
-                        <button class="setting-discard-btn mr-4 d-flex align-items-start">
+                      <button class="setting-discard-btn mr-4 d-flex align-items-start" (click)="resetbusinessInfo()">
                           <svg class="icon-size-16 mr-2 animated" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px"
                             viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
@@ -586,7 +586,7 @@
                           </app-ng-files-drag-n-upload>
                         </div>
                         <div class="row uploadedDocx">
-                          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-2" *ngFor="let galleryDocx of uploadedGalleries; let i = index">
+                          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-2 uploaded-images" *ngFor="let galleryDocx of uploadedGalleries; let i = index">
                             <div class="display-upload delete">
                               <img [src]="galleryDocx.DocumentFile" />
                               <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
@@ -615,7 +615,7 @@
                           </app-ng-files-drag-n-upload>
                         </div>
                         <div class="row uploadedDocx">
-                          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-2" *ngFor="let certDocx of uploadedCertificates; let i=index">
+                          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-2 uploaded-images" *ngFor="let certDocx of uploadedCertificates; let i=index">
                             <div class="display-upload delete">
                               <img [src]="certDocx.DocumentFile" />
                               <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
@@ -799,7 +799,7 @@
                       </app-ng-files-drag-n-upload>
                     </div>
                     <div class="row uploadedDocx">
-                      <div class=" col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12 mb-2" *ngFor="let liscenceDocx of uploadedLiscence; let i=index">
+                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-2 uploaded-images" *ngFor="let liscenceDocx of uploadedLiscence; let i=index">
                         <div class="display-upload delete">
                           <img [src]="liscenceDocx.DocumentFile" />
                           <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"

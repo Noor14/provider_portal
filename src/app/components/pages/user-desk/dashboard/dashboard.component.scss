@@ -148,10 +148,12 @@
                 }
             }
             &-company {
-                img {
-                    width: 28px;
-                    height: 28px;
-                    margin-right: 10px;
+                .status{
+                color: $secondary-grey;
+                font-size: $font-size-base;
+                font-family: $font-proxima;
+                font-weight: $font-proxima-weight-semibold;
+                text-transform: uppercase;
                 }
             }
         }
@@ -167,22 +169,6 @@
                     color: $text-color-default;
                     margin-bottom: 0;
                     font-weight: $font-proxima-weight-semibold;
-                }
-                .docstatus {
-                    font-size: $font-size-large;
-                    line-height: 1.25;
-                    text-transform: capitalize;
-                    &.pending{
-                    color: rgb(211, 32, 32);
-                    }
-                    &.approved {
-                        color: rgb(2, 189, 182);
-                    }
-                }
-                .secondary {
-                    font-size: $font-size-large;
-                    color: rgb(2, 189, 182);
-                    line-height: 1.25;
                 }
                 .customer-image {
                     width: 44px;

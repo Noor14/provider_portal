@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { JsonResponse } from '../../../../interfaces/JsonResponse';
 import { BasicInfoService } from '../../user-creation/basic-info/basic-info.service';
 import { ToastrService } from 'ngx-toastr';
@@ -11,7 +11,9 @@ import { EMAIL_REGEX, isJSON, loading, GEN_URL, patternValidator, FACEBOOK_REGEX
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SharedService } from '../../../../services/shared.service';
+import { ConfirmDeleteDialogComponent } from '../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Component({
   selector: 'app-settings',
@@ -49,7 +51,8 @@ export class SettingsComponent implements OnInit {
     totalFilesSize: 12 * 12 * 1024 * 1000
   };
 
-
+  // SettingInfo
+  private info: any;
   // personalInfo
   public personalInfoForm: any;
   public credentialInfoForm: any;
@@ -66,6 +69,9 @@ export class SettingsComponent implements OnInit {
   public mobileCountryId: any;
   public phoneCode;
   public mobileCode;
+
+  public personalInfoToggler: boolean = false;
+  public businessInfoToggler: boolean = false;
 
 
 
@@ -94,23 +100,23 @@ export class SettingsComponent implements OnInit {
   public IsRealEstate: boolean = false;
 
   // about Editor
-  public editorContent:any;
-  public editable:boolean
+  public editorContent: any;
+  public editable: boolean
   private toolbarOptions = [
-  ['bold', 'italic', 'underline'],        // toggled buttons
-  
-  [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-  [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-  [{ 'direction': 'rtl' }],                         // text direction
+    ['bold', 'italic', 'underline'],        // toggled buttons
 
-  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+    [{ 'direction': 'rtl' }],                         // text direction
 
-  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-  [{ 'align': [] }],
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
 
-  ['clean']                                         // remove formatting button
-];
-  public editorOptions= {
+    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    [{ 'align': [] }],
+
+    ['clean']                                         // remove formatting button
+  ];
+  public editorOptions = {
     placeholder: "insert content...",
     modules: {
       toolbar: this.toolbarOptions
@@ -118,6 +124,7 @@ export class SettingsComponent implements OnInit {
   };
 
   constructor(
+    private modalService: NgbModal,
     private _basicInfoService: BasicInfoService,
     private _toastr: ToastrService,
     private ngFilesService: NgFilesService,
@@ -183,11 +190,28 @@ export class SettingsComponent implements OnInit {
   }
   onChanges(): void {
     this.personalInfoForm.valueChanges.subscribe(val => {
-    // console.log(val);
+      for (const key in this.personalInfoForm.controls) {
+        if (this.personalInfoForm.controls.hasOwnProperty(key)) {
+          if (this.personalInfoForm.controls[key].dirty) {
+            this.personalInfoToggler = true;
+          }
+
+        }
+      }
+    });
+    this.businessInfoForm.valueChanges.subscribe(val => {
+      for (const key in this.businessInfoForm.controls) {
+        if (this.businessInfoForm.controls.hasOwnProperty(key)) {
+          if (this.businessInfoForm.controls[key].dirty) {
+            this.businessInfoToggler = true;
+          }
+
+        }
+      }
     });
   }
   onContentChanged({ quill, html, text }) {
-      this.editorContent = html
+    this.editorContent = html
   }
 
   selectedSocialLink(obj) {
@@ -255,68 +279,68 @@ export class SettingsComponent implements OnInit {
     loading(true);
     this._settingService.getSettingInfo(UserID).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        let info = res.returnObject;
-        this.socialWebs = info.SocialMedia;
-        this.allAssociations = info.Association;
-        this.galleriesDocx = info.Gallery;
-        this.certficateDocx = info.AwardCertificate;
-        this.companyLogoDocx = info.CompanyLogo;
-        this.liscenceDocx = info.TradeLicense;
+        this.info = res.returnObject;
+        this.socialWebs = this.info.SocialMedia;
+        this.allAssociations = this.info.Association;
+        this.galleriesDocx = this.info.Gallery;
+        this.certficateDocx = this.info.AwardCertificate;
+        this.companyLogoDocx = this.info.CompanyLogo;
+        this.liscenceDocx = this.info.TradeLicense;
         this.assocService = this.allAssociations.filter(obj => obj.IsSelected && obj.ProviderAssnID);
-        this.valAddedServices = info.ValueAddedServices;
+        this.valAddedServices = this.info.ValueAddedServices;
         this.valueService = this.valAddedServices.filter(obj => obj.IsSelected && obj.ProvLogServID);
-        this.freightServices = info.LogisticService;
+        this.freightServices = this.info.LogisticService;
         this.frtService = this.freightServices.filter(obj => obj.IsSelected && obj.ProvLogServID);
-        if (this.frtService && this.frtService.length){
-            let data = this.frtService.find(obj=> obj.LogServCode == 'WRHS');
-          if (data && Object.keys(data).length){
+        if (this.frtService && this.frtService.length) {
+          let data = this.frtService.find(obj => obj.LogServCode == 'WRHS');
+          if (data && Object.keys(data).length) {
             this.wareHouseTypeToggler = true;
             this.IsRealEstate = data.IsRealEstate
           }
         }
-        if (info.About) {
-          this.editorContent = info.About;
+        if (this.info.About) {
+          this.editorContent = this.info.About;
           this.editable = false;
         }
-        if (info.UploadedCompanyLogo && info.UploadedCompanyLogo[0].DocumentFileName &&
-          info.UploadedCompanyLogo[0].DocumentFileName != "[]" &&
-          isJSON(info.UploadedCompanyLogo[0].DocumentFileName)) {
-          let logo = info.UploadedCompanyLogo[0];
+        if (this.info.UploadedCompanyLogo && this.info.UploadedCompanyLogo[0].DocumentFileName &&
+          this.info.UploadedCompanyLogo[0].DocumentFileName != "[]" &&
+          isJSON(this.info.UploadedCompanyLogo[0].DocumentFileName)) {
+          let logo = this.info.UploadedCompanyLogo[0];
           this.uploadedlogo = JSON.parse(logo.DocumentFileName)[0];
           this.docTypeIdLogo = this.uploadedlogo.DocumentID;
           this.uploadedlogo.DocumentFile = this.baseExternalAssets + this.uploadedlogo.DocumentFile
         }
-        if (info.UploadedGallery && info.UploadedGallery[0].DocumentFileName &&
-          info.UploadedGallery[0].DocumentFileName != "[]" &&
-          isJSON(info.UploadedGallery[0].DocumentFileName)) {
-          let gallery = info.UploadedGallery[0];
+        if (this.info.UploadedGallery && this.info.UploadedGallery[0].DocumentFileName &&
+          this.info.UploadedGallery[0].DocumentFileName != "[]" &&
+          isJSON(this.info.UploadedGallery[0].DocumentFileName)) {
+          let gallery = this.info.UploadedGallery[0];
           this.uploadedGalleries = JSON.parse(gallery.DocumentFileName);
           this.docTypeIdGallery = this.uploadedGalleries[0].DocumentID;
           this.uploadedGalleries.map(obj => {
             obj.DocumentFile = this.baseExternalAssets + obj.DocumentFile;
           })
         }
-        if (info.UploadedAwardCertificate && info.UploadedAwardCertificate[0].DocumentFileName &&
-          info.UploadedAwardCertificate[0].DocumentFileName != "[]" &&
-          isJSON(info.UploadedAwardCertificate[0].DocumentFileName)) {
-          let certificate = info.UploadedAwardCertificate[0];
+        if (this.info.UploadedAwardCertificate && this.info.UploadedAwardCertificate[0].DocumentFileName &&
+          this.info.UploadedAwardCertificate[0].DocumentFileName != "[]" &&
+          isJSON(this.info.UploadedAwardCertificate[0].DocumentFileName)) {
+          let certificate = this.info.UploadedAwardCertificate[0];
           this.uploadedCertificates = JSON.parse(certificate.DocumentFileName);
           this.docTypeIdCert = this.uploadedCertificates[0].DocumentID;
           this.uploadedCertificates.map(obj => {
             obj.DocumentFile = this.baseExternalAssets + obj.DocumentFile;
           })
         }
-        if (info.UploadedTradeLicense && info.UploadedTradeLicense[0].DocumentFileName &&
-          info.UploadedTradeLicense[0].DocumentFileName != "[]" &&
-          isJSON(info.UploadedTradeLicense[0].DocumentFileName)) {
-          let tradeLiscence = info.UploadedTradeLicense[0];
+        if (this.info.UploadedTradeLicense && this.info.UploadedTradeLicense[0].DocumentFileName &&
+          this.info.UploadedTradeLicense[0].DocumentFileName != "[]" &&
+          isJSON(this.info.UploadedTradeLicense[0].DocumentFileName)) {
+          let tradeLiscence = this.info.UploadedTradeLicense[0];
           this.uploadedLiscence = JSON.parse(tradeLiscence.DocumentFileName);
           this.docTypeIdLiscence = this.uploadedLiscence[0].DocumentID;
           this.uploadedLiscence.map(obj => {
             obj.DocumentFile = this.baseExternalAssets + obj.DocumentFile;
           })
         }
-        this.getListJobTitle(info);
+        this.getListJobTitle(this.info);
       }
     })
   }
@@ -347,10 +371,10 @@ export class SettingsComponent implements OnInit {
     this.personalInfoForm.controls['lastName'].setValue(info.LastName);
     if (info.JobTitle) {
       let obj = this.jobTitles.find(elem => elem.baseLanguage == info.JobTitle);
-      if (obj && Object.keys(obj).length){
+      if (obj && Object.keys(obj).length) {
         this.personalInfoForm.controls['jobTitle'].setValue(obj);
       }
-      else{
+      else {
         let obj = {
           baseLanguage: info.JobTitle
         }
@@ -380,6 +404,15 @@ export class SettingsComponent implements OnInit {
       }
     }
     this.personalInfoForm.controls['mobile'].setValue(info.PrimaryPhone);
+    this.personalInfoToggler = false;
+  }
+  resetPersonalInfo() {
+    this.personalInfoForm.reset();
+    this.setPersonalInfo(this.info);
+  }
+  resetbusinessInfo() {
+    this.businessInfoForm.reset();
+    this.setBusinessInfo(this.info);
   }
 
 
@@ -397,7 +430,7 @@ export class SettingsComponent implements OnInit {
     if (selectedCountry && Object.keys(selectedCountry).length) {
       this.selectTelCode(selectedCountry);
     }
-    else{
+    else {
       let selectedCountry = this.countryList.find(obj => obj.id == info.CountryID);
       if (selectedCountry && Object.keys(selectedCountry).length) {
         this.selectTelCode(selectedCountry);
@@ -406,19 +439,16 @@ export class SettingsComponent implements OnInit {
     this.businessInfoForm.controls['phone'].setValue(info.ProviderPhone);
     if (info.SocialMediaAccountID && info.ProviderWebAdd) {
       let obj = this.socialWebs.find(elem => elem.SocialMediaPortalsID == info.SocialMediaAccountID);
-      if (!obj) {
-          this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(GEN_URL)]);
-        }else{
-        this.selectedSocialLink(obj);
-        this.businessInfoForm.controls['socialUrl'].setValue(info.ProviderWebAdd);
-        }
+      this.selectedSocialLink(obj);
+      this.businessInfoForm.controls['socialUrl'].setValue(info.ProviderWebAdd);
     }
-    else{
+    else {
       this.selectedSocialsite = this.socialWebs[this.socialWebs.length - 1];
       if (this.selectedSocialsite.socialMediaPortalsID === 105) {
         this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(GEN_URL)]);
       }
     }
+    this.businessInfoToggler = false
   }
 
 
@@ -427,7 +457,7 @@ export class SettingsComponent implements OnInit {
     if (this.frtService && this.frtService.length) {
       for (var i = 0; i < this.frtService.length; i++) {
         if (this.frtService[i].LogServID == obj.LogServID) {
-          if (this.frtService.length > 1 && obj.IsRemovable){
+          if (this.frtService.length > 1 && obj.IsRemovable) {
             this.frtService.splice(i, 1);
             selectedItem.remove('active');
             if (obj.LogServCode == "WRHS") {
@@ -436,11 +466,11 @@ export class SettingsComponent implements OnInit {
             }
             this.removeServices(obj);
           }
-          else{
-            if (!obj.IsRemovable){
+          else {
+            if (!obj.IsRemovable) {
               this._toastr.info("Service can not be removed. Please first removed the rates", '')
             }
-            else{
+            else {
               this._toastr.info("At least one service is mandatory.", '')
             }
           }
@@ -558,14 +588,14 @@ export class SettingsComponent implements OnInit {
       if (res.returnStatus == "Success") {
         obj.ProvLogServID = null;
       }
-      else{
-        this._toastr.error(res.returnText,'');
+      else {
+        this._toastr.error(res.returnText, '');
       }
     })
   }
 
-  realEstateSel(type){
-    this.IsRealEstate = (type == 'owner')? false: true
+  realEstateSel(type) {
+    this.IsRealEstate = (type == 'owner') ? false : true
     let object = {
       providerID: this.userProfile.ProviderID,
       modifiedBy: this.userProfile.LoginID,
@@ -582,7 +612,7 @@ export class SettingsComponent implements OnInit {
   }
 
 
-  companyAboutUs(){
+  companyAboutUs() {
     let object = {
       providerID: this.userProfile.ProviderID,
       about: this.editorContent,
@@ -815,7 +845,7 @@ export class SettingsComponent implements OnInit {
             this.fileStatusCert = resObj.DocumentLastStaus;
           }
           else if (type == 'liscence') {
-            this.docTypeIdLiscence= resObj.DocumentID;
+            this.docTypeIdLiscence = resObj.DocumentID;
             this.fileStatusLiscence = resObj.DocumentLastStaus;
           }
           let fileObj = JSON.parse(resObj.DocumentFile);
@@ -857,14 +887,23 @@ export class SettingsComponent implements OnInit {
 
 
   deactivate() {
-    this._settingService.deactivateAccount(this.userProfile.UserID, this.userProfile.UserID).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        this._toastr.info(res.returnText, "")
+    const modalRef = this.modalService.open(ConfirmDeleteDialogComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    let obj = {
+      data: this.userProfile.UserID,
+      type: "DelAccount"
+    }
+    modalRef.componentInstance.deleteIds = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
       }
-      else {
-        this._toastr.info(res.returnText, "")
-      }
-    })
+    }, 0);
   }
   updatePersonalInfo() {
     let obj = {
@@ -882,6 +921,7 @@ export class SettingsComponent implements OnInit {
     this._settingService.personalSetting(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toastr.success('Personal Information Updated', '')
+        this.personalInfoToggler = false;
       }
     })
   }
@@ -896,12 +936,13 @@ export class SettingsComponent implements OnInit {
       countryPhoneCode: this.phoneCode,
       phoneCodeCountryID: this.phoneCountryId,
       socialMediaAccountID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.selectedSocialsite.SocialMediaPortalsID : null,
-      website : (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.socialSites : null,
-      ModifiedBy : this.userProfile.LoginID
+      website: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.socialSites : null,
+      ModifiedBy: this.userProfile.LoginID
     }
     this._settingService.businessSetting(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this._toastr.success('Business Information Updated', '')
+        this._toastr.success('Business Information Updated', '');
+        this.businessInfoToggler = false;
       }
     })
   }
