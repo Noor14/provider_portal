@@ -100,7 +100,7 @@ export class UiTableComponent implements OnInit, OnChanges {
         if (e.parsedpublishStatus.Status === 'PENDING') {
           e.parsedpublishStatus.printStatus = 'Unpublished'
         } else if (e.parsedpublishStatus.Status === 'POSTED') {
-          e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MMMM Do YYYY, h:mm:ss a')
+          e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MMMM Do YYYY h:mm:ss A')
         }
       }
       e.isChecked = false
@@ -312,14 +312,14 @@ export class UiTableComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes) {
     console.log(changes);
-    if (changes.hasOwnProperty('totalRecords')) {
-      if (changes.tableRecords) {
-        if (this.tableType === 'draftFCL') {
-          this.totalCount = this.tableData.length
-        } else if (this.tableType === 'publishFCL') {
-          this.totalCount = this.totalRecords
-        }
+    if (changes.totalRecords) {
+      if (this.tableType === 'draftFCL') {
+        this.totalCount = this.tableData.length
+      } else if (this.tableType === 'publishFCL') {
+        this.totalCount = changes.totalRecords.currentValue
       }
+      // this.page = 1
+      // this.onPageChangeBootstrap(1)
     }
 
     if (changes.hasOwnProperty('containerLoad')) {
@@ -329,6 +329,7 @@ export class UiTableComponent implements OnInit, OnChanges {
     }
 
     this.data = changeCase(changes.tableData.currentValue, 'camel')
+    this.checkAllPublish = false;
     this.data.forEach(e => {
       if (e.jsonCustomerDetail) {
         e.parsedjsonCustomerDetail = JSON.parse(e.jsonCustomerDetail)
@@ -338,7 +339,7 @@ export class UiTableComponent implements OnInit, OnChanges {
         if (e.parsedpublishStatus.Status === 'PENDING') {
           e.parsedpublishStatus.printStatus = 'Unpublished'
         } else if (e.parsedpublishStatus.Status === 'POSTED') {
-          e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MM/DD/YYYY, h:mm:ss a')
+          e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MM/DD/YYYY h:mm:ss A')
         }
       }
       e.isChecked = false

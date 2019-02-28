@@ -1958,10 +1958,19 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   publishRate(type) {
-    let param = {
-      pricingIDList: this.publishRates,
-      providerID: (this.draftsfcl.length === this.publishRates.length) ? -1 : this.userProfile.ProviderID
+    let param;
+    if (type === 'fcl') {
+      param = {
+        pricingIDList: (this.draftsfcl.length === this.publishRates.length) ? [-1] : this.publishRates,
+        providerID: this.userProfile.ProviderID
+      }
+    } else if (type === 'lcl') {
+      param = {
+        pricingIDList: (this.draftslcl.length === this.publishRates.length) ? [-1] : this.publishRates,
+        providerID: this.userProfile.ProviderID
+      }
     }
+
     this._seaFreightService.publishDraftRate(type, param).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         if (type === 'fcl') {
@@ -2230,18 +2239,18 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       transportType: (this.activeTab == 'activeFCL') ? "FCL" : "LCL",
       modifiedBy: this.userProfile.LoginID
     }
-    // this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
-    //   if (res.returnStatus == "Success") {
-    //     this._toast.success("Term and Condition saved Successfully", "");
-    //     if (this.activeTab == 'activeFCL') {
-    //       this._sharedService.termNcondFCL.next(this.editorContentFCL);
-    //       this.disableFCL = true;
-    //     } else {
-    //       this._sharedService.termNcondLCL.next(this.editorContentLCL);
-    //       this.disableLCL = true;
-    //     }
-    //   }
-    // })
+    this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toast.success("Term and Condition saved Successfully", "");
+        if (this.activeTab == 'activeFCL') {
+          this._sharedService.termNcondFCL.next(this.editorContentFCL);
+          this.disableFCL = true;
+        } else {
+          this._sharedService.termNcondLCL.next(this.editorContentLCL);
+          this.disableLCL = true;
+        }
+      }
+    })
   }
 
   getAdditionalData() {
