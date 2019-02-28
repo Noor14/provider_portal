@@ -406,12 +406,8 @@ export class SettingsComponent implements OnInit {
     this.businessInfoForm.controls['phone'].setValue(info.ProviderPhone);
     if (info.SocialMediaAccountID && info.ProviderWebAdd) {
       let obj = this.socialWebs.find(elem => elem.SocialMediaPortalsID == info.SocialMediaAccountID);
-      if (!obj) {
-          this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(GEN_URL)]);
-        }else{
         this.selectedSocialLink(obj);
         this.businessInfoForm.controls['socialUrl'].setValue(info.ProviderWebAdd);
-        }
     }
     else{
       this.selectedSocialsite = this.socialWebs[this.socialWebs.length - 1];
