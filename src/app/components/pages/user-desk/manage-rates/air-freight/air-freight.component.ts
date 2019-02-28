@@ -30,6 +30,8 @@ import { RateHistoryComponent } from '../../../../../shared/dialogues/rate-histo
 import { loading } from '../../../../../constants/globalFunctions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonService } from '../../../../../services/common.service';
+import { untilDestroyed } from 'ngx-take-until-destroy';
+
 
 declare var $;
 const now = new Date();
@@ -65,8 +67,6 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 export class AirFreightComponent implements OnInit, OnDestroy {
 
   private draftRates: any;
-  private addnsaveRates: any;
-  private updatedDraftsAirArray: any;
   public rateValidityText = "Edit Rate / Validity";
   public dtOptionsByAir: DataTables.Settings | any = {};
   public dtOptionsByAirDraft: DataTables.Settings | any = {};
@@ -157,7 +157,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
     } else {
       this.getPortsData()
     }
-    this.addnsaveRates = this._sharedService.draftRowAddAir.subscribe(state => {
+    this._sharedService.draftRowAddAir.pipe(untilDestroyed(this)).subscribe(state => {
       if (state && Object.keys(state).length) {
         this.setRowinDraftTable(state, 'popup not open');
       }
@@ -185,9 +185,6 @@ export class AirFreightComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    // this.draftRates.unsubscribe();
-    this.addnsaveRates.unsubscribe();
-    this.updatedDraftsAirArray.unsubscribe()
   }
 
   clearFilter(event) {
@@ -702,7 +699,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
               this.editorContent = state[index].TCAIR;
               this.disable = true;
             }
-            this.updatedDraftsAirArray = this._sharedService.updatedDraftsAir.subscribe((res: any) => {
+            this._sharedService.updatedDraftsAir.pipe(untilDestroyed(this)).subscribe((res: any) => {
               if (!res) {
                 if (state[index].DraftDataAir && state[index].DraftDataAir.length) {
                   state[index].DraftDataAir.map(elem => {

@@ -124,6 +124,7 @@ export class GroundRateDialogComponent implements OnInit {
 
 
   ngOnInit() {
+    this.setDateLimit()
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
@@ -133,7 +134,7 @@ export class GroundRateDialogComponent implements OnInit {
     this.allCustomers = this.selectedData.customers
     this.destinationsList = this.selectedData.addList
     this.originsList = this.selectedData.addList
-    this.getSurchargeBasis(this.selectedData.forType)
+    // this.getSurchargeBasis(this.selectedData.forType)
     console.log(this.selectedData);
 
   }
@@ -141,7 +142,7 @@ export class GroundRateDialogComponent implements OnInit {
 
 
   allservicesBySea() {
-    this.getDropdownsList()
+    // this.getDropdownsList()
     this._sharedService.dataLogisticServiceBySea.subscribe(state => {
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
@@ -424,251 +425,25 @@ export class GroundRateDialogComponent implements OnInit {
     return x.PortName
   };
 
+  setDateLimit() {
+    const date = new Date();
 
-  // GROUND NEW WORKING
-  public combinedContainers = []
-  public fclContainers = []
-  public selectedFCLContainers = []
-  public shippingCategories = []
-  /**
-   * Getting all dropdown values to fill
-   *
-   * @memberof SeaFreightComponent
-   */
-  getDropdownsList() {
-    this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
-    this.seaPorts = this.allPorts.filter(e => e.PortType === 'SEA')
-    this.groundPorts = this.allPorts.filter(e => e.PortType === 'Ground')
-    this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
-    this.fclContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FCL')
-    let uniq = {}
-    this.allCargoType = this.fclContainers.filter(obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true));
-    this._sharedService.currenciesList.subscribe(res => {
-      if (res) {
-        this.allCurrencies = res;
-      }
-    })
-  }
+    this.minDate = {
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+      year: date.getFullYear()
+    };
 
-
-  public isOriginChargesForm = false;
-  public isDestinationChargesForm = false;
-  public lablelName: string = ''
-  public surchargeType = '';
-  public labelValidate: boolean = true
-  public surchargeBasisValidate: boolean = true
-
-  /**
-   *
-   * Dropdown Toggle Event of Additional  Charges List
-   * @param {*} event
-   * @param {*} type
-   * @memberof GroundRateDialogComponent
-   */
-  dropdownToggle(event, type) {
-    if (event) {
-      this.isDestinationChargesForm = false;
-      this.isOriginChargesForm = false;
-      this.surchargeBasisValidate = true
-      this.labelValidate = true
-      if (type === 'destination') {
-        this.addDestinationActive = true
-      } else if (type === 'origin') {
-        this.addOriginActive = true
-      }
-    } else {
-      this.addOriginActive = false
-      this.addDestinationActive = false
-    }
-  }
-
-
-  /**
-   * Toggle Custom Add Charges Form
-   *
-   * @param {*} type
-   * @memberof GroundRateDialogComponent
-   */
-  showCustomChargesForm(type) {
-    if (type === 'origin') {
-      this.isOriginChargesForm = !this.isOriginChargesForm
-    } else if (type === 'destination') {
-      this.isDestinationChargesForm = !this.isDestinationChargesForm
-    }
-  }
-
-  public surchargesList: any = []
-  /**
-   *
-   *  Get Surcharge Basis Dropdown Fields
-   * @param {*} containerLoad
-   * @memberof GroundRateDialogComponent
-   */
-  getSurchargeBasis(containerLoad) {
-    this._manageRateService.getSurchargeBasis(containerLoad).subscribe((res) => {
-      console.log(res)
-      this.surchargesList = res
-    }, (err) => {
-    })
-  }
-
-
-  /**
-   *
-   * On Key Down
-   * @param {*} idx
-   * @param {*} event
-   * @param {*} type
-   * @memberof GroundRateDialogComponent
-   */
-  onKeyDown(idx, event, type) {
-    if (!event.target.value) {
-      if (type === 'origin') {
-        this.selectedOrigins[idx].currency = {}
-        this.selectedOrigins[idx].CurrId = null;
-      } else if (type === 'destination') {
-        this.selectedDestinations[idx].currency = {}
-        this.selectedDestinations[idx].CurrId = null;
-      }
-    }
-  }
-
-  public canAddLabel: boolean = true;
-  /**
-   *
-   * On Adding Custom Label
-   * @param {*} type
-   * @returns
-   * @memberof GroundRateDialogComponent
-   */
-  addCustomLabel(type) {
-    this.canAddLabel = true
-    if (!this.lablelName) {
-      this.labelValidate = false
-      return;
-    }
-    if (!this.surchargeType) {
-      this.surchargeBasisValidate = false
-      return;
-    }
-    const selectedSurcharge = this.surchargesList.find(obj => obj.codeValID === parseInt(this.surchargeType));
-    let obj = {
-      addChrID: -1,
-      addChrCode: 'OTHR',
-      addChrName: this.lablelName,
-      addChrDesc: this.lablelName,
-      modeOfTrans: 'SEA',
-      addChrBasis: selectedSurcharge.codeVal,
-      createdBy: this.userProfile.PrimaryEmail,
-      addChrType: 'ADCH',
-      providerID: this.userProfile.ProviderID
-    }
-    this.selectedData.addList.forEach(element => {
-      if (element.addChrName === obj.addChrName) {
-        this.canAddLabel = false
-      }
-    });
-
-    if (!this.canAddLabel) {
-      this._toast.info('Already Added, Please try another name', 'Info')
-      return false
-    }
-    this._manageRateService.addCustomCharge(obj).subscribe((res: any) => {
-      this.isOriginChargesForm = false;
-      this.isDestinationChargesForm = false;
-      if (res.returnId !== -1) {
-        let obj = {
-          addChrID: res.returnId,
-          addChrCode: 'OTHR',
-          addChrName: this.lablelName,
-          addChrDesc: this.lablelName,
-          modeOfTrans: 'SEA',
-          addChrBasis: selectedSurcharge.codeVal,
-          createdBy: this.userProfile.PrimaryEmail,
-          addChrType: 'ADCH',
-          providerID: this.userProfile.ProviderID
-        }
-        if (type === 'origin') {
-          this.originsList.push(obj)
-        } else if (type === 'destination') {
-          this.destinationsList.push(obj)
-        }
-        this.lablelName = ''
-        this.surchargeType = ''
-      }
-    }, (err) => {
-      console.log(err);
-    })
-  }
-
-  selectCharges(type, model, index) {
-    model.Imp_Exp = type;
-    if (type === 'EXPORT') {
-      if ((Object.keys(this.selectedOrigins[index]).length === 0 && this.selectedOrigins[index].constructor === Object) || !this.selectedOrigins[index].hasOwnProperty('currency')) {
-        model.CurrId = this.selectedCurrency.CurrencyID
-        model.currency = this.selectedCurrency
-      } else {
-        model.CurrId = this.selectedOrigins[index].currency.CurrencyID
-        model.currency = this.selectedOrigins[index].currency
-      }
-      const { selectedOrigins } = this
-      selectedOrigins.forEach(element => {
-        if ((Object.keys(element).length === 0 && element.constructor === Object)) {
-          let idx = selectedOrigins.indexOf(element)
-          selectedOrigins.splice(idx, 1)
-        }
-      });
-      if (selectedOrigins[index]) {
-        this.originsList.push(selectedOrigins[index])
-        selectedOrigins[index] = model;
-      } else {
-        selectedOrigins.push(model)
-      }
-      this.selectedOrigins = cloneObject(selectedOrigins)
-      this.originsList = this.originsList.filter(e => e.addChrID !== model.addChrID)
-    } else if (type === 'IMPORT') {
-      if ((Object.keys(this.selectedDestinations[index]).length === 0 && this.selectedDestinations[index].constructor === Object) || !this.selectedDestinations[index].hasOwnProperty('currency')) {
-        model.CurrId = this.selectedCurrency.CurrencyID
-        model.currency = this.selectedCurrency
-      } else {
-        model.CurrId = this.selectedDestinations[index].currency.CurrencyID
-        model.currency = this.selectedDestinations[index].currency
-      }
-      const { selectedDestinations } = this
-      selectedDestinations.forEach(element => {
-        if ((Object.keys(element).length === 0 && element.constructor === Object)) {
-          let idx = selectedDestinations.indexOf(element)
-          selectedDestinations.splice(idx, 1)
-        }
-      });
-      if (selectedDestinations[index]) {
-        this.destinationsList.push(selectedDestinations[index])
-        selectedDestinations[index] = model;
-      } else {
-        selectedDestinations.push(model)
-      }
-      this.selectedDestinations = cloneObject(selectedDestinations)
-      this.destinationsList = this.destinationsList.filter(e => e.addChrID !== model.addChrID)
-    }
-  }
-
-  getVal(idx, event, type) {
-    if (typeof event === 'object') {
-      if (type === 'origin') {
-        this.selectedOrigins[idx].CurrId = event.CurrencyID
-      } else if (type === 'destination') {
-        this.selectedDestinations[idx].CurrId = event.CurrencyID
-      }
-    }
-  }
-
-  closeDropdown(event) {
-    let x: any = document.getElementsByClassName('dropdown-menu')
-    if (!event.target.className.includes('has-open')) {
-      this.originDropdown.close()
-      this.destinationDropdown.close()
-    }
-    // if (!this._eref.nativeElement.contains(event.target)) // or some similar check
+    // this.maxDate = {
+    //   year: ((this.minDate.month === 12 && this.minDate.day >= 17) ? date.getFullYear() + 1 : date.getFullYear()),
+    //   month:
+    //     moment(date)
+    //       .add(15, "days")
+    //       .month() + 1,
+    //   day: moment(date)
+    //     .add(15, "days")
+    //     .date()
+    // };
   }
 
 }

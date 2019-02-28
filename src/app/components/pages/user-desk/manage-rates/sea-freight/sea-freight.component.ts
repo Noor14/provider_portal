@@ -930,6 +930,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     modalRef.result.then((result) => {
       if (result) {
         if (type == 'FCL') {
+          loading(true)
           this.setAddDraftData(type, result);
         }
         else if (type == 'LCL') {

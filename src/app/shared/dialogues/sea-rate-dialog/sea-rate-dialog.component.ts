@@ -19,7 +19,8 @@ import { SeaFreightService } from '../../../components/pages/user-desk/manage-ra
 import { cloneObject } from '../../../components/pages/user-desk/reports/reports.component';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 import { changeCase, loading } from '../../../constants/globalFunctions';
-const now = new Date();
+import *  as moment from 'moment'
+
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
   one && two && two.year === one.year && two.month === one.month && two.day === one.day;
 
@@ -79,7 +80,7 @@ export class SeaRateDialogComponent implements OnInit {
   public selectedCurrency: any = this.defaultCurrency;
   public startDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
-  public minDate = new Date();
+  public minDate: NgbDateStruct;
   public hoveredDate: NgbDateStruct;
   public fromDate: any = {
     day: null,
@@ -127,6 +128,7 @@ export class SeaRateDialogComponent implements OnInit {
 
   ngOnInit() {
     this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    this.setDateLimit()
     if (this.userInfo && this.userInfo.returnText) {
       this.userProfile = JSON.parse(this.userInfo.returnText);
     }
@@ -194,6 +196,27 @@ export class SeaRateDialogComponent implements OnInit {
       }
     });
   }
+
+  setDateLimit() {
+    const date = new Date();
+
+    this.minDate = {
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+      year: date.getFullYear()
+    };
+    // this.maxDate = {
+    //   year: ((this.minDate.month === 12 && this.minDate.day >= 17) ? date.getFullYear() + 1 : date.getFullYear()),
+    //   month:
+    //     moment(date)
+    //       .add(15, "days")
+    //       .month() + 1,
+    //   day: moment(date)
+    //     .add(15, "days")
+    //     .date()
+    // };
+  }
+
   setData(data) {
     let parsed = "";
     this.selectedCategory = data.ShippingCatID;
@@ -215,7 +238,7 @@ export class SeaRateDialogComponent implements OnInit {
     this.selectedPrice = data.Price;
 
 
-    if (data.JsonCustomerDetail && data.CustomerID) {
+    if (data.JsonCustomerDetail) {
       this.selectedCustomer = JSON.parse(data.JsonCustomerDetail)
       this.disabledCustomers = true;
     }
@@ -1033,7 +1056,7 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   public groundAddresses: any = []
-  public groundsPorts:any = []
+  public groundsPorts: any = []
   private transPortMode = 'GROUND'
   portsFilterartion(obj) {
 
