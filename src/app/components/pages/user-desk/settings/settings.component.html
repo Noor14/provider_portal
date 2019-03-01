@@ -342,7 +342,7 @@
                                       </div>
                                       <span>{{phoneCode}}</span>
                                     </div>
-                                    <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                                    <div class="animated fadeIn country-section website" ngbDropdownMenu aria-labelledby="phoneCode">
                                       <ul class="list-group">
                                         <li class="list-group-item" *ngFor="let list of countryList" (click)="selectTelCode(list)">
                                           <div class="flag-container">
@@ -586,7 +586,7 @@
                           </app-ng-files-drag-n-upload>
                         </div>
                         <div class="row uploadedDocx">
-                          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-2 uploaded-images" *ngFor="let galleryDocx of uploadedGalleries; let i = index">
+                          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-3 uploaded-images" *ngFor="let galleryDocx of uploadedGalleries; let i = index">
                             <div class="display-upload delete">
                               <img [src]="galleryDocx.DocumentFile" />
                               <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
@@ -615,7 +615,7 @@
                           </app-ng-files-drag-n-upload>
                         </div>
                         <div class="row uploadedDocx">
-                          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-2 uploaded-images" *ngFor="let certDocx of uploadedCertificates; let i=index">
+                          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-3 uploaded-images" *ngFor="let certDocx of uploadedCertificates; let i=index">
                             <div class="display-upload delete">
                               <img [src]="certDocx.DocumentFile" />
                               <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
@@ -799,7 +799,7 @@
                       </app-ng-files-drag-n-upload>
                     </div>
                     <div class="row uploadedDocx">
-                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-2 uploaded-images" *ngFor="let liscenceDocx of uploadedLiscence; let i=index">
+                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-3 uploaded-images" *ngFor="let liscenceDocx of uploadedLiscence; let i=index">
                         <div class="display-upload delete">
                           <img [src]="liscenceDocx.DocumentFile" />
                           <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"

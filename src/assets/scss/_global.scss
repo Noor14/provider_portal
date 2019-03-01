@@ -832,7 +832,6 @@ input[type="checkbox"]:focus+label>span {
     &:focus {
       -webkit-box-shadow: none !important;
       box-shadow: none !important;
-      box-shadow: 0px 0px 0px 1px $form-control-focus !important;
     }
 
     &::placeholder {
