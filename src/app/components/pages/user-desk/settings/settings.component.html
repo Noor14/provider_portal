@@ -575,7 +575,7 @@
                   <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                       <div class="document-Info d-flex flex-column mt-2">
-                        <div class="file-uploader">
+                        <div class="file-uploader" *ngIf="uploadedGalleries && uploadedGalleries.length < config.maxFilesCount">
                           <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'gallery')" [configId]="'config'">
                             <img src="../../../../../assets/images/icons/manager-icon.png" />
                             <p class="m-0 mt-3">
@@ -604,7 +604,7 @@
                   <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                       <div class="document-Info d-flex flex-column mt-2">
-                        <div class="file-uploader">
+                        <div class="file-uploader" *ngIf="uploadedCertificates && uploadedCertificates.length < config.maxFilesCount">
                           <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'certificate')" [configId]="'config'">
                             <img src="../../../assets/images/icons/manager-icon.png" />
                             <p class="m-0 mt-3">
