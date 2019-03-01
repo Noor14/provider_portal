@@ -993,9 +993,12 @@ export class SeaRateDialogComponent implements OnInit {
     
     this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
     this.fclContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FCL')
+    console.log(this.fclContainers);
+    
     let uniq = {}
     this.allCargoType = this.fclContainers.filter(obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true));
-    this.selectedCategory = this.allCargoType.find(obj => obj.ShippingCatName.toLowerCase() == 'goods');
+    console.log(this.allCargoType);
+    // this.selectedCategory = this.allCargoType.find(obj => obj.ShippingCatName.toLowerCase() == 'goods');
     this._sharedService.currenciesList.subscribe(res => {
       if (res) {
         this.allCurrencies = res;
