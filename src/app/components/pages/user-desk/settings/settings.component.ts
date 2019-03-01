@@ -123,6 +123,10 @@ export class SettingsComponent implements OnInit {
     }
   };
 
+
+  // show more
+  public showTogglerText:string;
+
   constructor(
     private modalService: NgbModal,
     private _basicInfoService: BasicInfoService,
@@ -274,7 +278,17 @@ export class SettingsComponent implements OnInit {
       console.log(err);
     })
   }
-
+  showToggler(type){
+    let elem = document.getElementsByClassName('editor')[0];
+      if (elem.classList.contains('showMore')){
+        elem.classList.remove('showMore');
+        this.showTogglerText = "Show more"
+      }
+      else{
+        elem.classList.add('showMore');
+        this.showTogglerText = "Show less"
+      }
+  }
   getUserDetail(UserID) {
     loading(true);
     this._settingService.getSettingInfo(UserID).subscribe((res: any) => {
@@ -301,6 +315,17 @@ export class SettingsComponent implements OnInit {
         if (this.info.About) {
           this.editorContent = this.info.About;
           this.editable = false;
+          if(this.editorContent.length > 700){
+            let elem = document.getElementsByClassName('editor')[0];
+            if (elem.classList.contains('showMore')) {
+              elem.classList.remove('showMore');
+              this.showTogglerText = "Show more"
+            }
+            else {
+              elem.classList.add('showMore');
+              this.showTogglerText = "Show less"
+            }
+          }
         }
         if (this.info.UploadedCompanyLogo && this.info.UploadedCompanyLogo[0].DocumentFileName &&
           this.info.UploadedCompanyLogo[0].DocumentFileName != "[]" &&

@@ -473,13 +473,10 @@
                       <div class="form-group">
                       <quill-editor *ngIf="editable" [(ngModel)]="editorContent" [options]="editorOptions" (change)="onContentChanged($event)">
                       </quill-editor>
-                      <div class="editor" *ngIf="!editable" [innerHTML]="editorContent"></div>
-                        <!-- <div class="read-more-link">
-                          <a readMore [readMore-length]="430" [readMore-element]="aboutContent">
-                            <span class="less">Less <i class="fa fa-angle-right" aria-hidden="true"></i></span>
-                            <span class="more">More <i class="fa fa-angle-right" aria-hidden="true"></i></span>
-                          </a>
-                        </div> -->
+                        <div class="editor" *ngIf="!editable" [innerHTML]="editorContent"></div>
+                        <div class="read-more-link" *ngIf="!editable">
+                          <span (click)="showToggler()">{{showTogglerText}}</span>
+                        </div>
                       </div>
                     </div>
                     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-8 col-xs-12 d-flex justify-content-end align-items-start">
