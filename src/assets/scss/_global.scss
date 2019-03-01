@@ -912,6 +912,7 @@ input[type="checkbox"]:focus+label>span {
         .country-section {
           &.dropdown-menu {
             padding: 0;
+            right: -19px !important;
 
             ul {
               li {

@@ -53,7 +53,7 @@
                   </a>
                   <a class="hvr-icon-forward m-0" href="javascript:;" *ngIf="bookingDetails.BookingStatus.toLowerCase() != 'cancelled' && bookingDetails.BookingStatus.toLowerCase() != 'completed'"
                     (click)="openDialogue('updated')">
-                    <span class="link-hover-secondary">Update Status</span>
+                    <span class="link-hover-secondary mr-1">Update Status</span>
                     <i class="fa fa-angle-right hvr-icon"></i>
                   </a>
                 </strong>
@@ -82,7 +82,7 @@
               <strong class="billing-rate">
                 {{bookingDetails.CurrencyCode}} {{bookingDetails.BookingTotalAmount | number: '1.2-2'}}
                 <a class="pull-right hvr-icon-forward" href="javascript:;" (click)="viewInvoice()">
-                  <span class="link-hover-secondary">View Invoice</span>
+                  <span class="link-hover-secondary mr-1">View Invoice</span>
                   <i class="fa fa-angle-right hvr-icon"></i>
                 </a>
               </strong>

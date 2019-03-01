@@ -76,6 +76,12 @@
       }
     }
 
+    @media (max-width: 390px) {
+      .countryBox {
+        width: 200px;
+      }
+    }
+
     agm-map {
       height: 360px;
     }

@@ -7,7 +7,7 @@
     <h5 class="m-0">Business Information</h5>
     <hr class="hr-solid" />
     <div class="row">
-      <div class="col-xl-6 col-lg-6 col-md-8 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-8 col-sm-6 col-12">
         <div class="form-group">
           <label>Company Name</label>
           <input type="text" readonly class="form-control" placeholder="Company Name" [(ngModel)]="orgName" />
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="document mt-2 row">
-      <div class="col-xl-6 col-lg-6 col-md-8 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-8 col-sm-6 col-12">
         <div class="form-group">
           <label>Company Logo</label>
           <div class="document-Info d-flex flex-column mb-0">
@@ -30,7 +30,7 @@
             </div>
             <label *ngIf="!selectedDocxlogo || (selectedDocxlogo && !selectedDocxlogo?.DocumentFile)">300 x 300 recommended. JPGs, JPEGs, and PNGs supported.</label>
             <div class="row uploadedDocx com-logo" *ngIf="selectedDocxlogo && selectedDocxlogo?.DocumentFile">
-              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-xs-12 uploaded-images">
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-10 col-12 uploaded-images">
                 <div class="display-upload delete">
                   <img [src]="selectedDocxlogo.DocumentFile" alt="logo" />
                   <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
@@ -102,7 +102,7 @@
       </div>
       <div class="col-xl-10 col-lg-11 col-md-12">
         <div class="row">
-          <div class="col-xl-8 col-lg-7 col-md-8 col-sm-12 d-flex align-items-center form-group"><label>{{profileUrl}}</label>
+          <div class="col-xl-8 col-lg-7 col-md-8 col-sm-12 d-xl-flex d-lg-flex d-md-flex align-items-center form-group"><label>{{profileUrl}}</label>
             <input #profileName (keypress)="profileNameValid($event)" type="text" class="form-control" [ngClass]="{ inputError: addBusinessbtnEnabled === false && !spinner}"
               placeholder="eg: hashMove" />
             <svg *ngIf="addBusinessbtnEnabled && userName && !spinner" class="available icon-size-24" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -230,10 +230,10 @@
     <div class="row mt-2 form-group">
       <label class="sub-title col-12">Associations (Optional)</label>
       <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6 associations" *ngFor="let associate of allAssociations">
-        <div #selectService class="servicechip-asscoiation text-center d-flex flex-column justify-content-center mb-2 pointer"
+        <div #selectService class="servicechip-asscoiation text-center mb-2 pointer"
           (click)="selectAssociation(associate, selectService)">
           <img [src]="baseExternalAssets + associate.assnWithImage" alt="assoc_image" />
-          <span>{{ associate.assnWithName }}</span>
+          <span class="w-100 d-inline-block">{{ associate.assnWithName }}</span>
         </div>
       </div>
     </div>
@@ -256,7 +256,7 @@
             </div>
 
             <div class="row uploadedDocx" *ngIf="selectedGalleryDocx && selectedGalleryDocx.length">
-              <div class="col-lg-3 mb-2 uploaded-images" *ngFor="let galleryDocx of selectedGalleryDocx; let i = index">
+              <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 mb-3 uploaded-images" *ngFor="let galleryDocx of selectedGalleryDocx; let i = index">
                 <div class="display-upload delete">
                   <img class="w-auto" [src]="galleryDocx.DocumentFile" />
                   <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
@@ -281,7 +281,7 @@
               </app-ng-files-drag-n-upload>
             </div>
             <div class="row uploadedDocx" *ngIf="selectedCertificateDocx && selectedCertificateDocx.length">
-              <div class="col-lg-3 mb-2 uploaded-images" *ngFor="let certDocx of selectedCertificateDocx; let i = index">
+              <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 mb-3 uploaded-images" *ngFor="let certDocx of selectedCertificateDocx; let i = index">
                 <div class="display-upload delete">
                   <img class="w-auto" [src]="certDocx.DocumentFile" />
                   <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
@@ -296,7 +296,7 @@
   </section>
 
   <div class="row mt-5">
-    <div class="col-6 ">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-4">
       <div class="fancyOptionBoxes warehousing-services pull-left">
         <input id="bonded" name="bonded" type="checkbox" [(ngModel)]="verifyProfile">
         <label for="bonded">
@@ -307,8 +307,8 @@
       </div>
     </div>
 
-    <div class="col-6 d-flex justify-content-end">
-      <button class="pl-5 pr-5 pt-2 pb-2 btn btn-primary hvr-sweep-to-right" [disabled]="!verifyProfile || !aboutUs || !addBusinessbtnEnabled || !userName || (frtService && !frtService.length) || (!selectedDocxlogo || (selectedDocxlogo && !selectedDocxlogo?.DocumentFile))"
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+      <button class="pl-5 pr-5 pt-2 pb-2 btn btn-primary hvr-sweep-to-right pull-right" [disabled]="!verifyProfile || !aboutUs || !addBusinessbtnEnabled || !userName || (frtService && !frtService.length) || (!selectedDocxlogo || (selectedDocxlogo && !selectedDocxlogo?.DocumentFile))"
         (click)="addCorperateInfo()">
         CREATE PROFILE
       </button>

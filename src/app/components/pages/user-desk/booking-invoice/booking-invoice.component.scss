@@ -51,6 +51,9 @@
             font-size: $font-size-base;
             padding: .45rem 0rem;
             border: 0 !important;
+            strong {
+                color:$primary-color ;
+            }
             .long-text {
                 width: 70%;
                 font-family: $font-proxima;
