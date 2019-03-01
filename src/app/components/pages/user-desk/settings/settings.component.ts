@@ -126,6 +126,7 @@ export class SettingsComponent implements OnInit {
 
   // show more
   public showTogglerText:string;
+  private showMoreTextLength:number = 700;
 
   constructor(
     private modalService: NgbModal,
@@ -282,11 +283,11 @@ export class SettingsComponent implements OnInit {
     let elem = document.getElementsByClassName('editor')[0];
       if (elem.classList.contains('showMore')){
         elem.classList.remove('showMore');
-        this.showTogglerText = "Show more"
+        this.showTogglerText = "Show Less"
       }
       else{
         elem.classList.add('showMore');
-        this.showTogglerText = "Show less"
+        this.showTogglerText = "Show More"
       }
   }
   getUserDetail(UserID) {
@@ -315,15 +316,15 @@ export class SettingsComponent implements OnInit {
         if (this.info.About) {
           this.editorContent = this.info.About;
           this.editable = false;
-          if(this.editorContent.length > 700){
+          if(this.editorContent.length > this.showMoreTextLength){
             let elem = document.getElementsByClassName('editor')[0];
             if (elem.classList.contains('showMore')) {
               elem.classList.remove('showMore');
-              this.showTogglerText = "Show more"
+              this.showTogglerText = "Show Less"
             }
             else {
               elem.classList.add('showMore');
-              this.showTogglerText = "Show less"
+              this.showTogglerText = "Show More"
             }
           }
         }
@@ -647,6 +648,17 @@ export class SettingsComponent implements OnInit {
       if (res.returnStatus == "Success") {
         this.editable = false;
         this._toastr.success('Updated Successfully.', '');
+        if(this.editorContent.length > this.showMoreTextLength){
+          let elem = document.getElementsByClassName('editor')[0];
+          if (elem.classList.contains('showMore')) {
+            elem.classList.remove('showMore');
+            this.showTogglerText = "Show Less"
+          }
+          else {
+            elem.classList.add('showMore');
+            this.showTogglerText = "Show More"
+          }
+        }
       }
       else {
         this._toastr.error(res.returnText, '');

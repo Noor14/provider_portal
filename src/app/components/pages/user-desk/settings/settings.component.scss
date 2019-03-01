@@ -256,6 +256,14 @@
     color: $color-topmenu;
   }
 
+  .hvr-icon-forward {
+    font-size: 0.875rem;
+    color: $secondary-color;
+    font-family: $font-proxima;
+    font-weight: $font-proxima-weight-semibold;
+    margin-top: 0.25rem;
+  }
+
   .editButton {
     background: none;
     border: none;
