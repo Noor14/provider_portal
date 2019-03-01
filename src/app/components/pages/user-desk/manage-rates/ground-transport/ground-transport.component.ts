@@ -206,8 +206,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     this.getAllPublishRates()
   }
 
-  addRatesManually() {
-    this.updatePopupRates(0, 'FTL');
+  addRatesManually(activeTab) {
+    let type = (activeTab === 'activeFCL' ? 'FCL-Ground' : 'FTL')
+    this.updatePopupRates(0, type);
     // let obj = {
     //   createdBy: this.userProfile.LoginID,
     //   providerID: this.userProfile.ProviderID,
@@ -838,18 +839,18 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
 
   addAnotherRates() {
-    this.addRatesManually();
+    this.addRatesManually(this.activeTab);
 
   }
   addRatesBygroundManually() {
     if (this.activeTab == 'activeFCL') {
       if ((!this.draftRatesByGround || (this.draftRatesByGround && !this.draftRatesByGround.length)) && (!this.draftDataBYGround || (this.draftDataBYGround && !this.draftDataBYGround.length))) {
-        this.addRatesManually();
+        this.addRatesManually(this.activeTab);
       }
     }
     else if (this.activeTab == 'activeFTL') {
       if ((!this.draftRatesByGroundFTL || (this.draftRatesByGroundFTL && !this.draftRatesByGroundFTL.length)) && (!this.draftDataBYGroundFTL || (this.draftDataBYGroundFTL && !this.draftDataBYGroundFTL.length))) {
-        this.addRatesManually();
+        this.addRatesManually(this.activeTab);
       }
     }
   }
@@ -1490,9 +1491,10 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
   // NEW GROUND WORKING
   getPortsData() {
-    this._manageRatesService.getPortsData('ground').subscribe((res: any) => {
+    this._manageRatesService.getPortsData('GROUND').subscribe((res: any) => {
       console.log(res);
       let ports = JSON.parse(localStorage.getItem("PortDetails"));
+      console.log(ports.concat(res));
       localStorage.setItem("PortDetails", JSON.stringify(ports.concat(res)));
     }, (err: HttpErrorResponse) => {
       loading(false)

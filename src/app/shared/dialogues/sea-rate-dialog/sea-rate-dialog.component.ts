@@ -156,7 +156,7 @@ export class SeaRateDialogComponent implements OnInit {
     this.getDropdownsList()
     this._sharedService.dataLogisticServiceBySea.subscribe(state => {
       console.log(state);
-      
+
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
@@ -168,8 +168,8 @@ export class SeaRateDialogComponent implements OnInit {
             // this.allCurrencies = state[index].DropDownValues.UserCurrency;
             console.log(this.selectedData.forType);
             if (this.selectedData && this.selectedData.data && this.selectedData.forType === "FCL") {
-              
-              
+
+
               if (this.selectedData.mode === 'publish') {
                 this.disabledCustomers = true;
                 let data = changeCase(this.selectedData.data[0], 'pascal')
@@ -311,7 +311,6 @@ export class SeaRateDialogComponent implements OnInit {
 
   savedraftrow(type) {
     console.log(type);
-
     if (type !== 'update') {
       this.saveDataInFCLDraft(type);
     } else if (type === 'update') {
@@ -376,7 +375,7 @@ export class SeaRateDialogComponent implements OnInit {
       consolidatorPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ConsolidatorPricingDraftID : 0,
       customerID: null,
       providerID: this.userProfile.ProviderID,
-      // containerSpecID: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? null : this.selectedHandlingUnit,
+      // containerSpecID: (this.selectedContSize == null || this.selectedContSize == 'null') ? null : this.selectedContSize,
       // containerSpecShortName: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? undefined : this.getHandlingSpecName(this.selectedHandlingUnit),
       containerSpecID: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? null : null,
       containerSpecShortName: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? undefined : null,
@@ -554,6 +553,7 @@ export class SeaRateDialogComponent implements OnInit {
       return;
     }
 
+    console.log(obj);
     if (this.selectedData.forType === 'FCL') {
       this._seaFreightService.saveDraftRate(obj).subscribe((res: any) => {
         if (res.returnId > 0) {
@@ -988,17 +988,17 @@ export class SeaRateDialogComponent implements OnInit {
   getDropdownsList() {
     this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
     this.seaPorts = this.allPorts.filter(e => e.PortType === 'SEA')
-    this.groundPorts = this.allPorts.filter(e => e.PortType === 'Ground')
-    console.log(this.groundPorts);
-    
     this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
     this.fclContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FCL')
-    console.log(this.fclContainers);
-    
     let uniq = {}
     this.allCargoType = this.fclContainers.filter(obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true));
-    console.log(this.allCargoType);
-    // this.selectedCategory = this.allCargoType.find(obj => obj.ShippingCatName.toLowerCase() == 'goods');
+    if (this.selectedData.forType === 'FCL-Ground' || this.selectedData.forType === 'FTL') {
+      let selectedCategory = this.allCargoType.find(obj => obj.ShippingCatName.toLowerCase() == 'goods');
+      this.selectedCategory = selectedCategory.ShippingCatID
+      this.groundPorts = this.allPorts.filter(e => e.PortType === 'Ground')
+      this.allContainers = (this.selectedData.forType === 'FCL-Ground' ? this.fclContainers.filter(e => e.ShippingCatID === this.selectedCategory) : this.combinedContainers.filter(e => e.ContainerFor === 'FTL' && e.ShippingCatID === this.selectedCategory))
+      console.log(this.groundPorts)
+    }
     this._sharedService.currenciesList.subscribe(res => {
       if (res) {
         this.allCurrencies = res;

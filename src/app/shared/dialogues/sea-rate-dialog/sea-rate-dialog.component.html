@@ -6,7 +6,7 @@
     </a>
   </div>
   <div class="modal-body bg-light ">
-    <div class="row bg-white popup-white pb-0" *ngIf="selectedData.forType !== 'FTL'">
+    <div class="row bg-white popup-white pb-0" *ngIf="(selectedData.forType !== 'FCL-Ground' && selectedData.forType !== 'FTL')">
       <div class="col-12">
         <h5 class="model-sub-head mt-4">Route Info</h5>
       </div>
@@ -61,7 +61,7 @@
         </div>
       </div>
     </div>
-    <div class="row bg-white popup-white pb-0" *ngIf="selectedData.forType === 'FTL'">
+    <div class="row bg-white popup-white pb-0" *ngIf="selectedData.forType === 'FCL-Ground' || selectedData.forType === 'FTL'">
       <div class="col-6">
         <div class="form-group">
           <label>Origin</label>
@@ -204,14 +204,14 @@
       <div class="col-4">
         <div class="form-group">
           <label>Cargo Type</label>
-          <select class="form-control" [(ngModel)]="selectedCategory" [disabled]="selectedData.mode === 'publish'"
+          <select class="form-control" [(ngModel)]="selectedCategory" [disabled]="selectedData.mode === 'publish' || selectedData.forType === 'FCL-Ground' || selectedData.forType === 'FTL' "
             (change)="cargoTypeChange(selectedCategory)">
             <option [value]="null" disabled>--Select--</option>
             <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
           </select>
         </div>
       </div>
-      <div class="col-4" *ngIf="selectedData.forType == 'FCL'">
+      <div class="col-4" *ngIf="selectedData.forType == 'FCL' || selectedData.forType == 'FCL-Ground' || selectedData.forType == 'FTL'">
         <div class="form-group">
           <label>Container Size</label>
           <select class="form-control" [(ngModel)]="selectedContSize"
@@ -285,7 +285,7 @@
         <div class="col-xl-4 col-md-4 col-sm-12">
           <div class="row combine-filed-popup">
             <div class="col-6 pr-0">
-              <div class="combine-filed-popup-left" *ngIf="selectedData.forType == 'FCL'">Freight Charges</div>
+              <div class="combine-filed-popup-left" *ngIf="selectedData.forType !== 'LCL'">Freight Charges</div>
               <div class="combine-filed-popup-left" *ngIf="selectedData.forType == 'LCL'">Rate / cbm</div>
             </div>
             <div class="col-6 pl-0">
