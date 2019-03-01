@@ -1,5 +1,9 @@
 @import "../../../../../assets/scss/_variables";
 .dashboard {
+    .bookingTypeSection {
+        z-index: 9999;
+        position: relative;
+    }
     .dropdown {
         &-toggle {
             color: $secondary-grey;
@@ -233,6 +237,7 @@
                 }
             }
         }
+
         @media (max-width: $screen-md-screen) {
             .border-separated {
                 border-right: 0px;
