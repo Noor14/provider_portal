@@ -20,7 +20,7 @@ export class CommonService {
     let url: string = "Region/GetAll";
     return this._http.get(baseApi + url);
   }
-  getAllCurrency(languageID){
+  getAllCurrency(languageID) {
     let url: string = `currency/GetDropDownDetail/${languageID}`;
     return this._http.get(baseApi + url);
   }
@@ -63,17 +63,22 @@ export class CommonService {
     return this._http.get(baseApi + url)
   }
 
-  getCurrency() {
-    const url: string = "currency/GetCurrencyList/0";
-    return this._http.get(baseApi + url);
-  }
-
   getPortsData($portType?: string) {
     let portType = $portType
     if (!portType) {
       portType = 'SEA'
     }
     let url: string = `Ports/GetPortsList/0/${portType}`;
+    return this._http.get(baseApi + url);
+  }
+
+  getCurrencyNew() {
+    const url: string = "currency/GetCurrencyList/0";
+    return this._http.get(baseApi + url);
+  }
+
+  getCurrency() {
+    const url: string = "Currency/GetDropDownDetail/100";
     return this._http.get(baseApi + url);
   }
 

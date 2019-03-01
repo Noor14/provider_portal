@@ -19,7 +19,8 @@ import { SeaFreightService } from '../../../components/pages/user-desk/manage-ra
 import { cloneObject } from '../../../components/pages/user-desk/reports/reports.component';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 import { changeCase, loading } from '../../../constants/globalFunctions';
-const now = new Date();
+import *  as moment from 'moment'
+
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
   one && two && two.year === one.year && two.month === one.month && two.day === one.day;
 
@@ -46,6 +47,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 export class SeaRateDialogComponent implements OnInit {
   @ViewChild("dp") input: NgbInputDatepicker;
   @ViewChild("rangeDp") rangeDp: ElementRef;
+  @ViewChild('originPickupBox') originPickupBox: ElementRef;
   @ViewChild('originDropdown') originDropdown: any
   @ViewChild('destinationDropdown') destinationDropdown;
   @Input() selectedData: any;
@@ -126,6 +128,7 @@ export class SeaRateDialogComponent implements OnInit {
 
   ngOnInit() {
     this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    this.setDateLimit()
     if (this.userInfo && this.userInfo.returnText) {
       this.userProfile = JSON.parse(this.userInfo.returnText);
     }
@@ -140,6 +143,9 @@ export class SeaRateDialogComponent implements OnInit {
         this.setEditData(this.selectedData.mode)
       }
     }
+
+
+
     this.allCustomers = this.selectedData.customers
     this.destinationsList = this.selectedData.addList
     this.originsList = this.selectedData.addList
@@ -149,6 +155,8 @@ export class SeaRateDialogComponent implements OnInit {
   allservicesBySea() {
     this.getDropdownsList()
     this._sharedService.dataLogisticServiceBySea.subscribe(state => {
+      console.log(state);
+      
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
@@ -158,8 +166,10 @@ export class SeaRateDialogComponent implements OnInit {
             this.allHandlingType = state[index].DropDownValues.ContainerLCL;
             // this.allPorts = state[index].DropDownValues.Port;
             // this.allCurrencies = state[index].DropDownValues.UserCurrency;
-
+            console.log(this.selectedData.forType);
             if (this.selectedData && this.selectedData.data && this.selectedData.forType === "FCL") {
+              
+              
               if (this.selectedData.mode === 'publish') {
                 this.disabledCustomers = true;
                 let data = changeCase(this.selectedData.data[0], 'pascal')
@@ -186,7 +196,29 @@ export class SeaRateDialogComponent implements OnInit {
       }
     });
   }
+
+  setDateLimit() {
+    const date = new Date();
+
+    this.minDate = {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate()
+    };
+    // this.maxDate = {
+    //   year: ((this.minDate.month === 12 && this.minDate.day >= 17) ? date.getFullYear() + 1 : date.getFullYear()),
+    //   month:
+    //     moment(date)
+    //       .add(15, "days")
+    //       .month() + 1,
+    //   day: moment(date)
+    //     .add(15, "days")
+    //     .date()
+    // };
+  }
+
   setData(data) {
+    console.log(data);
     let parsed = "";
     this.selectedCategory = data.ShippingCatID;
     this.cargoTypeChange(this.selectedCategory);
@@ -207,7 +239,7 @@ export class SeaRateDialogComponent implements OnInit {
     this.selectedPrice = data.Price;
 
 
-    if (data.JsonCustomerDetail && data.CustomerID) {
+    if (data.JsonCustomerDetail) {
       this.selectedCustomer = JSON.parse(data.JsonCustomerDetail)
       this.disabledCustomers = true;
     }
@@ -278,38 +310,60 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   savedraftrow(type) {
-    if (this.selectedData.forType == 'FCL') {
-      if (type !== 'update') {
-        this.saveDataInFCLDraft(type);
-      } else if (type === 'update') {
-        this.updateRatesfcl()
-      }
-    }
-    else if (this.selectedData.forType == 'LCL') {
+    console.log(type);
+
+    if (type !== 'update') {
       this.saveDataInFCLDraft(type);
+    } else if (type === 'update') {
+      console.log(this.selectedData.forType.toLowerCase())
+      this.updateRatesfcl(this.selectedData.forType.toLowerCase())
     }
+    // if (this.selectedData.forType == 'FCL') {
+    //   if (type !== 'update') {
+    //     this.saveDataInFCLDraft(type);
+    //   } else if (type === 'update') {
+    //     this.updateRatesfcl()
+    //   }
+    // } else if (this.selectedData.forType == 'LCL') {
+    //   this.saveDataInFCLDraft(type);
+    // }
   }
 
-  updateRatesfcl() {
+  updateRatesfcl(type) {
+    console.log(type);
     let rateData = [];
     if (this.selectedData.data && this.selectedData.data && this.selectedData.data.length) {
       this.selectedData.data.forEach(element => {
-        rateData.push(
-          {
-            carrierPricingID: element.carrierPricingID,
-            rate: this.selectedPrice,
-            effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
-            effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
-            modifiedBy: this.userProfile.LoginID,
-            JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
-            customerID: element.customerID,
-            jsonCustomerDetail: element.jsonCustomerDetail,
-            customerType: element.customerType
-          }
-        )
+        let LCLObj = {
+          consolidatorPricingID: element.consolidatorPricingID,
+          rate: this.selectedPrice,
+          effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+          effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+          modifiedBy: this.userProfile.LoginID,
+          JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
+          customerID: element.customerID,
+          jsonCustomerDetail: element.jsonCustomerDetail,
+          customerType: element.customerType
+        }
+        let FCLObj = {
+          carrierPricingID: element.carrierPricingID,
+          rate: this.selectedPrice,
+          effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+          effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+          modifiedBy: this.userProfile.LoginID,
+          JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
+          customerID: element.customerID,
+          jsonCustomerDetail: element.jsonCustomerDetail,
+          customerType: element.customerType
+        }
+        if (type === 'fcl') {
+          rateData.push(FCLObj)
+        } else if (type === 'lcl') {
+          rateData.push(LCLObj)
+        }
       });
     }
-    this._seaFreightService.rateValidityFCL(rateData).subscribe((res: any) => {
+    this._seaFreightService.rateValidityFCL(type, rateData).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success('Record successfully updated', '')
         this.closeModal(res.returnStatus);
@@ -412,7 +466,7 @@ export class SeaRateDialogComponent implements OnInit {
         return all + item;
       });
     }
-
+    console.log(this.selectedData.forType)
     let obj = {
       providerPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ProviderPricingDraftID : 0,
       consolidatorPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ConsolidatorPricingDraftID : 0,
@@ -426,7 +480,7 @@ export class SeaRateDialogComponent implements OnInit {
       containerSpecName: (this.selectedContSize == null || this.selectedContSize == 'null') ? undefined : this.getContSpecName(this.selectedContSize),
       shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : parseInt(this.selectedCategory),
       shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.getShippingName(this.selectedCategory),
-      containerLoadType: (type === 'FCL' ? 'FCL' : 'LCL'),
+      containerLoadType: this.selectedData.forType,
       modeOfTrans: "SEA",
       polID: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortID : null,
       polName: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortName : null,
@@ -826,7 +880,6 @@ export class SeaRateDialogComponent implements OnInit {
     } else if (type === 'destination') {
       this.isDestinationChargesForm = !this.isDestinationChargesForm
     }
-
   }
 
   onKeyDown(idx, event, type) {
@@ -935,14 +988,116 @@ export class SeaRateDialogComponent implements OnInit {
   getDropdownsList() {
     this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
     this.seaPorts = this.allPorts.filter(e => e.PortType === 'SEA')
+    this.groundPorts = this.allPorts.filter(e => e.PortType === 'Ground')
+    console.log(this.groundPorts);
+    
     this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
     this.fclContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FCL')
+    console.log(this.fclContainers);
+    
     let uniq = {}
     this.allCargoType = this.fclContainers.filter(obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true));
+    console.log(this.allCargoType);
+    // this.selectedCategory = this.allCargoType.find(obj => obj.ShippingCatName.toLowerCase() == 'goods');
     this._sharedService.currenciesList.subscribe(res => {
       if (res) {
         this.allCurrencies = res;
       }
     })
   }
+
+
+  // GROUND WORKING 
+  public showPickupDropdown: boolean = false;
+  public showDestinationDropdown: boolean = false;
+  public showPickupPorts: boolean = false;
+  public showPickupDoors: boolean = false;
+  public showDestPorts: boolean = false;
+  public showDestDoors: boolean = false;
+
+  toggleDropdown(type) {
+    if (type === 'pickup') {
+      this.showPickupDropdown = !this.showPickupDropdown
+      this.closeDropDown('delivery')
+      this.showPickupPorts = false
+      this.showPickupDoors = false
+    }
+    if (type === 'delivery') {
+      this.showDestinationDropdown = !this.showDestinationDropdown
+      this.closeDropDown('pickup')
+      this.showDestPorts = false
+      this.showDestDoors = false
+    }
+  }
+
+  togglePorts(type) {
+    if (type === 'pickup-sea') {
+      this.showPickupPorts = true
+    } else if (type === 'pickup-door') {
+      this.showPickupDoors = true
+    } else if (type === 'delivery-sea') {
+      this.showDestPorts = true
+    } else if (type === 'delivery-door') {
+      this.showDestDoors = true
+    }
+  }
+
+  closeDropDown($action: string) {
+    switch ($action) {
+      case 'pickup':
+        if (this.showPickupDropdown) {
+          this.showPickupDropdown = false
+        }
+        break;
+      case 'delivery':
+        if (this.showDestinationDropdown) {
+          this.showDestinationDropdown = false
+        }
+        break;
+      default:
+        if (this.showPickupDropdown || this.showDestinationDropdown) {
+          this.showPickupDropdown = false
+          this.showDestinationDropdown = false
+        }
+        break
+    }
+  }
+
+  public groundAddresses: any = []
+  public groundsPorts: any = []
+  private transPortMode = 'GROUND'
+  portsFilterartion(obj) {
+
+    if (typeof obj === 'object') {
+      this.showPickupDropdown = false;
+      this.showDestinationDropdown = false;
+    }
+    if (this.transPortMode == 'GROUND') {
+
+      if (obj && obj.PortType && obj.PortType == 'SEA') {
+        this.groundsPorts = this.allPorts.filter(elem => elem.PortType.toLowerCase() != 'sea');
+      }
+      else if ((!this.filterOrigin || (this.filterOrigin && !this.filterOrigin.PortType)) && (!this.filterDestination || (this.filterDestination && !this.filterDestination.PortType))) {
+        // this.groundsPorts = this.allPorts;
+        this.groundAddresses = this.allPorts
+      }
+      else {
+        return
+      }
+    }
+  }
+
+
+  //Ground areas formatter and observer
+  public groundPorts = []
+  addresses = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 3) ? []
+        : this.groundPorts.filter(v => v.PortName && v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1))
+    )
+  addressFormatter = (x: { PortName: string }) => {
+    return x.PortName
+  };
+
 }

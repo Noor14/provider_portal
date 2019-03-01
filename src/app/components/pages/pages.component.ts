@@ -22,7 +22,7 @@ export class PagesComponent implements OnInit {
   }
 
   getCurrenciesList() {
-    this._commonService.getCurrency().subscribe((res: any) => {
+    this._commonService.getCurrencyNew().subscribe((res: any) => {
       this._sharedService.setCurrency(res);
     }, (err: HttpErrorResponse) => {
       loading(false)

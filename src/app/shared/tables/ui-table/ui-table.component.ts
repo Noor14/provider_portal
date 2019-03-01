@@ -13,8 +13,9 @@ import { firstBy } from 'thenby';
 })
 export class UiTableComponent implements OnInit, OnChanges {
   @Input() tableData: any;
-  @Input() tableType: string;
+  @Input() tableType: string; //draftFCL; publishFCL
   @Input() totalRecords: number
+  @Input() containerLoad: string;
   @Output() checkedRows = new EventEmitter<any>()
   @Output() sorting = new EventEmitter<any>()
   @Output() pageEvent = new EventEmitter<any>()
@@ -24,12 +25,14 @@ export class UiTableComponent implements OnInit, OnChanges {
     value: 'CustomerName',
     column: 'CustomerID'
   }
-  public data: any[] = []
+  public data: Array<any> = []
   public maxSize: number = 7;
   public directionLinks: boolean = true;
   public autoHide: boolean = false;
   public checkAllPublish: boolean = false;
   public checkAllDrafts: boolean = false;
+  public LCLRecords: number;
+  public FCLRecords: number;
 
   // pagination vars
   // public pageSize: number = 5;
@@ -50,7 +53,7 @@ export class UiTableComponent implements OnInit, OnChanges {
   ]
 
   public devicPageConfig: PaginationInstance = {
-    id: 'publish',
+    id: 'some_unq_publish',
     itemsPerPage: 5,
     currentPage: 1,
   };
@@ -63,7 +66,6 @@ export class UiTableComponent implements OnInit, OnChanges {
     screenReaderCurrentLabel: `You're on page`
   };
 
-  public containerLoad: string;
   public totalCount: number;
 
   constructor() { }
@@ -75,7 +77,7 @@ export class UiTableComponent implements OnInit, OnChanges {
     } else if (this.tableType === 'publishFCL') {
       this.totalCount = this.totalRecords
     }
-    this.containerLoad = this.tableData[0].containerLoadType
+
     if (this.containerLoad === 'LCL') {
       this.thList = [
         { title: "", activeClass: '', sortKey: "" },
@@ -95,6 +97,11 @@ export class UiTableComponent implements OnInit, OnChanges {
       }
       if (e.publishStatus) {
         e.parsedpublishStatus = JSON.parse(e.publishStatus)
+        if (e.parsedpublishStatus.Status === 'PENDING') {
+          e.parsedpublishStatus.printStatus = 'Unpublished'
+        } else if (e.parsedpublishStatus.Status === 'POSTED') {
+          e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MMMM Do YYYY h:mm:ss A')
+        }
       }
       e.isChecked = false
       let dateDiff = getDateDiff(moment(e.effectiveTo).format("L"), moment(new Date()).format("L"), 'days', "MM-DD-YYYY")
@@ -134,7 +141,7 @@ export class UiTableComponent implements OnInit, OnChanges {
     );
   }
 
-  onPageChange(number: any, type) {
+  onPageChange(number: any) {
     this.devicPageConfig.currentPage = number;
   }
 
@@ -147,6 +154,7 @@ export class UiTableComponent implements OnInit, OnChanges {
 
   public checkList = [];
   onCheck(type, model) {
+    console.log(type, model);
     if (type === 'all') {
       if (this.tableType === 'draftFCL') {
         this.checkAllDrafts = !this.checkAllDrafts
@@ -154,7 +162,12 @@ export class UiTableComponent implements OnInit, OnChanges {
           this.data.forEach(e => {
             if (!this.validateRow(e)) {
               e.isChecked = true
-              this.checkList.push(e.providerPricingDraftID)
+              console.log(this.containerLoad);
+              if (this.containerLoad === 'FCL') {
+                this.checkList.push(e.providerPricingDraftID)
+              } else if (this.containerLoad === 'LCL') {
+                this.checkList.push(e.consolidatorPricingDraftID)
+              }
             }
           })
         } else if (!this.checkAllDrafts) {
@@ -168,7 +181,11 @@ export class UiTableComponent implements OnInit, OnChanges {
         if (this.checkAllPublish) {
           this.data.forEach(e => {
             e.isChecked = true
-            this.checkList.push(e.carrierPricingID)
+            if (this.containerLoad === 'FCL') {
+              this.checkList.push(e.carrierPricingID)
+            } else if (this.containerLoad === 'LCL') {
+              this.checkList.push(e.consolidatorPricingID)
+            }
           })
         } else if (!this.checkAllPublish) {
           this.data.forEach(e => {
@@ -230,9 +247,12 @@ export class UiTableComponent implements OnInit, OnChanges {
 
     let obj = {}
     if (action === 'history') {
+      console.log(row);
+
       obj = {
         type: 'history',
-        id: row.carrierPricingID
+        id: (this.containerLoad === 'FCL' ? row.carrierPricingID : row.consolidatorPricingID),
+        load: this.containerLoad
       }
     }
     this.checkList.push(obj)
@@ -245,20 +265,35 @@ export class UiTableComponent implements OnInit, OnChanges {
   }
 
   validateRow(row) {
-    if (!row.polID ||
-      !row.podID ||
-      !row.price ||
-      !row.totalExportCharges ||
-      !row.totalImportCharges ||
-      !row.shippingCatID ||
-      !row.effectiveFrom ||
-      !row.effectiveTo ||
-      !row.containerSpecID ||
-      !row.carrierID
-    ) {
-      return true;
-    } else {
-      return false;
+    if (this.containerLoad === 'FCL') {
+      if (!row.polID ||
+        !row.podID ||
+        !row.price ||
+        !row.totalExportCharges ||
+        !row.totalImportCharges ||
+        !row.shippingCatID ||
+        !row.effectiveFrom ||
+        !row.effectiveTo ||
+        !row.containerSpecID ||
+        !row.carrierID
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (this.containerLoad === 'LCL') {
+      if (!row.polID ||
+        !row.podID ||
+        !row.price ||
+        !row.totalExportCharges ||
+        !row.totalImportCharges ||
+        !row.effectiveFrom ||
+        !row.effectiveTo
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
@@ -268,9 +303,6 @@ export class UiTableComponent implements OnInit, OnChanges {
       value: value,
       column: column
     }
-    // this.data.sort(
-    //   firstBy(this.selectedSort.value, 1)
-    // );
     let sortObj = {
       direction: 'ASC',
       column: column
@@ -280,15 +312,43 @@ export class UiTableComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes) {
     console.log(changes);
+    if (changes.totalRecords) {
+      if (this.tableType === 'draftFCL') {
+        this.totalCount = this.tableData.length
+      } else if (this.tableType === 'publishFCL') {
+        this.totalCount = changes.totalRecords.currentValue
+      }
+      // this.page = 1
+      // this.onPageChangeBootstrap(1)
+    }
+
+    if (changes.hasOwnProperty('containerLoad')) {
+      if (changes.containerLoad) {
+        this.containerLoad = changes.containerLoad.currentValue
+      }
+    }
+
     this.data = changeCase(changes.tableData.currentValue, 'camel')
+    this.checkAllPublish = false;
     this.data.forEach(e => {
       if (e.jsonCustomerDetail) {
         e.parsedjsonCustomerDetail = JSON.parse(e.jsonCustomerDetail)
       }
-      if (e.parsedpublishStatus) {
+      if (e.publishStatus) {
         e.parsedpublishStatus = JSON.parse(e.publishStatus)
+        if (e.parsedpublishStatus.Status === 'PENDING') {
+          e.parsedpublishStatus.printStatus = 'Unpublished'
+        } else if (e.parsedpublishStatus.Status === 'POSTED') {
+          e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MM/DD/YYYY h:mm:ss A')
+        }
       }
       e.isChecked = false
+      let dateDiff = getDateDiff(moment(e.effectiveTo).format("L"), moment(new Date()).format("L"), 'days', "MM-DD-YYYY")
+      if (dateDiff <= 15) {
+        e.dateDiff = dateDiff
+      } else {
+        e.dateDiff = null
+      }
     })
     this.checkList = []
   }

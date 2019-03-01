@@ -28,7 +28,7 @@
       </div>
     </div>
   </section>
-  <ngb-tabset activeId="activeFCL" (tabChange)="activeTab = $event.nextId">
+  <ngb-tabset activeId="activeFCL" (tabChange)="activeTab = $event.nextId; onTabChange(activeTab)">
     <ngb-tab [disabled]="true">
       <ng-template ngbTabTitle>
         <span>Unpublished Rates</span>
@@ -36,7 +36,7 @@
     </ngb-tab>
     <ngb-tab id="activeLCL">
       <ng-template ngbTabTitle>
-        <span (click)="filterTableLcl(); generateDraftTableLCL()">
+        <span>
           <svg data-name="Layer 1" id="ee0cf102-a966-4a3f-95ef-2d85d2845fce" viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg">
             <g data-name="box" id="77a57afb-dc84-48f7-bcef-1ea8af6a0a74">
@@ -58,8 +58,8 @@
             'no-pagination':
               draftslcl.length <= dtOptionsBySeaLCLDraft.pageLength}">
           <!-- <table id="draftRateTableLCL" cellspacing="0" #draftBYseaLCL class="row-border hover"></table> -->
-          <app-ui-table *ngIf="draftslcl.length" [tableType]="'draftFCL'" [(tableData)]="draftslcl"
-            (checkedRows)="tableCheckedRows($event)"></app-ui-table>
+          <app-ui-table *ngIf="draftslcl.length" [tableType]="'draftFCL'" [tableData]="draftslcl"
+            (checkedRows)="tableCheckedRows($event)" [containerLoad]="'LCL'"></app-ui-table>
           <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()">
             <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
             Add another rates
@@ -75,8 +75,8 @@
             <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">
               Save Draft
             </button>
-            <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRatesLCL.length"
-              (click)="publishRateLcl()">
+            <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRates.length"
+              (click)="publishRate('lcl')">
               Publish Rates
             </button>
           </div>
@@ -116,41 +116,36 @@
                         <div class="col-6 origin pl-0">
                           <div class="flag-container">
                             <img *ngIf="
-                                filterOriginLcl && filterOriginLcl.CountryCode
+                                filterOrigin && filterOrigin.CountryCode
                               " src="{{
                                 '../../../../../assets/images/flags/4x3/' +
-                                  (filterOriginLcl.CountryCode | lowercase) +
+                                  (filterOrigin.CountryCode | lowercase) +
                                   '.svg'
                               }}" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100" />
                           </div>
-                          <input class="form-control" [(ngModel)]="filterOriginLcl"
-                            (focusout)="filtertionPort(filterOriginLcl, 'LCL')" (ngModelChange)="
-                              filterByroute(filterOriginLcl, 'LCL')
-                            " placeholder="Origin" type="text" [ngClass]="{
+                          <input class="form-control" [(ngModel)]="filterOrigin" placeholder="Origin" type="text"
+                            [ngClass]="{
                               routeSelected:
-                                filterOriginLcl && filterOriginLcl.CountryCode
+                                filterOrigin && filterOrigin.CountryCode
                             }" [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
                         </div>
                         <div class="col-6 destination pl-0">
                           <div class="flag-container">
                             <img *ngIf="
-                                filterDestinationLcl &&
-                                filterDestinationLcl.CountryCode
+                                filterDestination &&
+                                filterDestination.CountryCode
                               " src="{{
                                 '../../../../../assets/images/flags/4x3/' +
-                                  (filterDestinationLcl.CountryCode
+                                  (filterDestination.CountryCode
                                     | lowercase) +
                                   '.svg'
                               }}" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100" />
                           </div>
-                          <input placeholder="Destination" [(ngModel)]="filterDestinationLcl" (focusout)="
-                              filtertionPort(filterDestinationLcl, 'LCL')
-                            " (ngModelChange)="
-                              filterByroute(filterDestinationLcl, 'LCL')
-                            " type="text" class="form-control" [ngClass]="{
+                          <input placeholder="Destination" [(ngModel)]="filterDestination" type="text"
+                            class="form-control" [ngClass]="{
                               routeSelected:
-                                filterDestinationLcl &&
-                                filterDestinationLcl.CountryCode
+                                filterDestination &&
+                                filterDestination.CountryCode
                             }" [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="formatter" />
                         </div>
                       </div>
@@ -171,7 +166,7 @@
                   <div class="col-4">
                     <div class="form-group">
                       <label>Cargo Type</label>
-                      <select class="form-control" [(ngModel)]="filterbyCargoTypeLcl" (change)="filterLcl()">
+                      <select class="form-control" [(ngModel)]="filterbyCargoType">
                         <option [value]="undefined">All</option>
                         <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">
                           {{ cargo.ShippingCatName }}</option>
@@ -189,43 +184,43 @@
                   </div> -->
                   <div class="col-4">
                     <div class="form-group date-control">
-                      <label>Rate Validity</label>
-                      <div class="dateIcon">
-                        <input autocomplete="off" #rangeDpLCL class="form-control" placeholder="Start Date - End Date"
-                          name="dplcl" [(ngModel)]="modelLCL" ngbDatepicker [dayTemplate]="t" [autoClose]="false"
-                          placement="bottom-right" [outsideDays]="true" [navigation]="false" [displayMonths]="2"
-                          [maxDate]="maxDateLCL" [minDate]="minDateLCL" #dpLCL="ngbDatepicker" (click)="dpLCL.toggle()"
-                          (ngModelChange)="filterBydate(modelLCL, 'LCL')" />
+                      <div class="form-group date-control">
+                        <label>Rate Validity</label>
+                        <div class="dateIcon">
+                          <input autocomplete="off" #rangeDp class="form-control" placeholder="Start Date - End Date"
+                            name="dp" [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false"
+                            placement="bottom-right" [outsideDays]="true" [navigation]="false" [displayMonths]="2"
+                            [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker" (click)="dp.toggle()"
+                            (ngModelChange)="filterBydate(model, 'LCL')" />
+                        </div>
+                        <ng-template #t let-date="date" let-focused="focused">
+                          <span class="custom-day" [class.range]="
+                            isFrom(date) ||
+                            isTo(date) ||
+                            isInside(date) ||
+                            isHovered(date)
+                          " [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)"
+                            (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                            {{ date.day }}
+                          </span>
+                        </ng-template>
                       </div>
-                      <ng-template #t let-date="date" let-focused="focused">
-                        <span class="custom-day" [class.range]="
-                            isFromLCL(date) ||
-                            isToLCL(date) ||
-                            isInsideLCL(date) ||
-                            isHoveredLCL(date)
-                          " [class.faded]="
-                            isHoveredLCL(date) || isInsideLCL(date)
-                          " (click)="onDateSelectionLCL(date)" (mouseenter)="hoveredDateLCL = date"
-                          (mouseleave)="hoveredDateLCL = null">
-                          {{ date.day }}
-                        </span>
-                      </ng-template>
                     </div>
                   </div>
 
-
-
                   <div class="col-5 form-group">
                     <label>Show Only Rates For </label>
-                    <div class="fancyOptionBoxes pull-left filter-checkbox mr-3 pt-3">
-                      <input id="Radios" name="Radios" type="radio">
+                    <div class="fancyOptionBoxes pull-left  filter-checkbox mr-3 pt-3">
+                      <input id="Radios" name="Radios" type="radio"
+                        (change)="isMarketplace = !isMarketplace; isCustomer = false">
                       <label for="Radios">
                         <span></span>
                         Marketplace
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes pull-left filter-checkbox pt-3">
-                      <input id="Radios2" name="Radios" type="radio">
+                    <div class="fancyOptionBoxes pull-left  filter-checkbox  pt-3">
+                      <input id="Radios2" name="Radios" type="radio"
+                        (change)="isCustomer = !isCustomer; isMarketplace = false">
                       <label for="Radios2">
                         <span></span>
                         My Customers
@@ -233,18 +228,23 @@
                     </div>
                   </div>
 
-                  <!-- <div class="col-4">
+                  <div class="col-4" *ngIf="isCustomer">
                     <div class="form-group">
                       <label>Customer</label>
-                      <select class="form-control" [(ngModel)]="filterbyCargoTypeLcl" (change)="filterLcl()">
-                        <option [value]="undefined">All</option>
-                        <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{ cargo.ShippingCatName }}</option>
+                      <select class="form-control" [(ngModel)]="filterbyCustomer">
+                        <option [value]="undefined">Please Select</option>
+                        <option *ngFor="let customer of allCustomers" [value]="customer.CustomerID">
+                          {{ customer.CustomerName }}</option>
                       </select>
                     </div>
-                  </div> -->
-
-
-
+                  </div>
+                  <div class="col-8">
+                    <div class="form-group">
+                      <label for="">&nbsp;</label>
+                      <button class="btn btn-primary w-50 btn-lg" (click)="filterRecords('lcl')">Filter
+                        Records</button>
+                    </div>
+                  </div>
                 </div>
               </ng-template>
             </ngb-panel>
@@ -258,8 +258,8 @@
                 class="icon-size-24 mr-2" /> All Pending Rates will be published in 2 hours
             </div>
             <div class="col-6 d-flex justify-content-end">
-              <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidityLCL()"
-                [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
+              <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity('lcl')"
+                [ngClass]="{ 'no-drop': !delPublishRates.length }">
                 <!-- <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" /> -->
                 <svg class="edit-validity-icon icon-size-16 mr-2" id="17f5b310-5508-485b-8001-dbaf3458113b"
                   data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -290,7 +290,7 @@
                 {{rateValidityTextLCL}}
               </a>
               <a href="javascript:;" class="grid-delete" (click)="deletepublishRecord('LCL')"
-                [ngClass]="{ 'no-drop': !delPublishRatesLcl.length }">
+                [ngClass]="{ 'no-drop': !delPublishRates.length }">
                 <!-- <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16" /> -->
                 <svg class="delete-icon icon-size-16 mr-2" id="317c8c47-17e2-4e96-9063-97bc9a32118b" data-name="Layer 1"
                   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -313,9 +313,11 @@
               </a>
             </div>
           </div>
-          <table id="publishRateTableLcl" cellspacing="0" #publishByseaLcl class="row-border hover"></table>
-          <!-- <app-ui-table *ngIf="allRatesListLcL.length" [tableType]="'publishFCL'" [(tableData)]="allRatesListLcL"
-            (checkedRows)="tableCheckedRows($event)"></app-ui-table> -->
+          <!-- <table id="publishRateTableLcl" cellspacing="0" #publishByseaLcl class="row-border hover"></table> -->
+          <app-ui-table *ngIf="allRatesListLcL" [tableType]="'publishFCL'" [tableData]="allRatesListLcL"
+            (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('lcl', $event)"
+            (pageEvent)="paging('lcl', $event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'LCL'">
+          </app-ui-table>
           <app-loader-main *ngIf="publishloadingLcl"></app-loader-main>
         </section>
         <section class="term-cond">
@@ -348,7 +350,7 @@
     </ngb-tab>
     <ngb-tab id="activeFCL">
       <ng-template ngbTabTitle>
-        <span (click)="filterTable(); generateDraftTable()">
+        <span>
           <svg data-name="Layer 1" id="3e0bd723-1f5e-404f-9c9e-f9fa6a56c26b" viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg">
             <g data-name="container" id="6744cc39-0259-4947-99c3-524da0baf146">
@@ -375,8 +377,8 @@
       <ng-template ngbTabContent>
         <section class="rates-grid draft-grid draft-Fcl">
           <!-- <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table> -->
-          <app-ui-table *ngIf="draftsfcl.length" [tableType]="'draftFCL'" [(tableData)]="draftsfcl"
-            (checkedRows)="tableCheckedRows($event)"></app-ui-table>
+          <app-ui-table *ngIf="draftsfcl.length" [tableType]="'draftFCL'" [tableData]="draftsfcl"
+            (checkedRows)="tableCheckedRows($event)" [containerLoad]="'FCL'"></app-ui-table>
           <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()">
             <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
             Add another rates
@@ -393,7 +395,7 @@
               Save Draft
             </button>
             <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRates.length"
-              (click)="publishRate()">
+              (click)="publishRate('fcl')">
               Publish Rates
             </button>
           </div>
@@ -564,7 +566,7 @@
                   <div class="col-8">
                     <div class="form-group">
                       <label for="">&nbsp;</label>
-                      <button class="btn btn-primary w-50 btn-lg" (click)="filterRecords('publish')">Filter
+                      <button class="btn btn-primary w-50 btn-lg" (click)="filterRecords('fcl')">Filter
                         Records</button>
                     </div>
                   </div>
@@ -581,7 +583,7 @@
                 class="icon-size-24 mr-2" /> Unpublished Rates will be published in 2 hours
             </div>
             <div class="col-6 d-flex justify-content-end">
-              <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity()"
+              <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity('fcl')"
                 [ngClass]="{ 'no-drop': !delPublishRates.length }">
                 <!-- <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" /> -->
                 <svg class="edit-validity-icon icon-size-16 mr-2" id="17f5b310-5508-485b-8001-dbaf3458113b"
@@ -638,8 +640,9 @@
           </div>
           <!-- <table id="publishRateTable" cellspacing="0" #publishBysea class="row-border hover"></table> -->
           <app-ui-table *ngIf="allRatesList" [tableType]="'publishFCL'" [tableData]="allRatesList"
-            (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters($event)" (pageEvent)="paging($event)"
-            [totalRecords]="totalPublishedRecords"></app-ui-table>
+            (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('fcl', $event)"
+            (pageEvent)="paging('fcl' ,$event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'FCL'">
+          </app-ui-table>
           <div *ngIf="!allRatesList">No Records Found</div>
           <app-loader-main *ngIf="publishloading"></app-loader-main>
         </section>
@@ -677,7 +680,7 @@
 
 
 <!-- Button trigger modal -->
-<!-- 
+<!--
 <ng-template #content let-modal class="shipping-modal">
   <div class="modal-header">
     <div class="modal-header-text">
