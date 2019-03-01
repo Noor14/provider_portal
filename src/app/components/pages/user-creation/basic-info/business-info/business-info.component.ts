@@ -302,13 +302,31 @@ removeSelectedDocx(index,  obj, type) {
 
   selectDocx(selectedFiles: NgFilesSelected, type): void {
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.status == 1) this._toastr.error('Please select twelve or less file(s) to upload.', '')
+      if (selectedFiles.status == 1) this._toastr.error('Please select 12 or less file(s) to upload.', '')
       else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 5 MB. Please upload smaller file.', '')
       else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
       return;
     }
     else {
       try {
+        if (type == 'certificate') {
+          if (this.selectedCertificateDocx.length + selectedFiles.files.length > this.config.maxFilesCount) {
+            this._toastr.error('Please select 12 or less file(s) to upload.', '');
+            return;
+          }
+        }
+        else if (type == 'logo') {
+          if (selectedFiles.files.length == 1 && typeof this.selectedDocxlogo == 'object' && !Object.keys(this.selectedDocxlogo).length) {
+            this._toastr.error('Please select only 1 file to upload.', '')
+            return;
+          }
+        }
+        else if (type == 'gallery') {
+          if (this.selectedGalleryDocx.length + selectedFiles.files.length > this.config.maxFilesCount) {
+            this._toastr.error('Please select 12 or less file(s) to upload.', '')
+            return;
+          }
+        }
         this.onFileChange(selectedFiles, type)
       } catch (error) {
         console.log(error);

@@ -778,6 +778,24 @@ export class SettingsComponent implements OnInit {
     }
     else {
       try {
+        if (type == 'certificate') {
+          if (this.uploadedCertificates.length + selectedFiles.files.length > this.config.maxFilesCount) {
+            this._toastr.error('Please select 12 or less file(s) to upload.', '');
+            return;
+          }
+        }
+        else if (type == 'liscence') {
+          if (this.uploadedLiscence.length + selectedFiles.files.length > this.config.maxFilesCount) {
+            this._toastr.error('Please select 12 or less file(s) to upload.', '')
+            return;
+          }
+        }
+        else if (type == 'gallery') {
+          if (this.uploadedGalleries.length + selectedFiles.files.length > this.config.maxFilesCount) {
+            this._toastr.error('Please select 12 or less file(s) to upload.', '')
+            return;
+          }
+        }
         this.onFileChange(selectedFiles, type)
       } catch (error) {
         console.log(error);
