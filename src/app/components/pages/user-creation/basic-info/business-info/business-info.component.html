@@ -30,9 +30,9 @@
             </div>
             <label *ngIf="!selectedDocxlogo || (selectedDocxlogo && !selectedDocxlogo?.DocumentFile)">300 x 300 recommended. JPGs, JPEGs, and PNGs supported.</label>
             <div class="row uploadedDocx com-logo" *ngIf="selectedDocxlogo && selectedDocxlogo?.DocumentFile">
-              <div class="col-lg-4">
+              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-xs-12 uploaded-images">
                 <div class="display-upload delete">
-                  <img [src]="selectedDocxlogo.DocumentFile" class="w-100" alt="logo" />
+                  <img [src]="selectedDocxlogo.DocumentFile" alt="logo" />
                   <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
                     (click)="removeSelectedDocx('index', selectedDocxlogo, 'logo')" />
                 </div>
@@ -256,7 +256,7 @@
             </div>
 
             <div class="row uploadedDocx" *ngIf="selectedGalleryDocx && selectedGalleryDocx.length">
-              <div class="col-lg-3 mb-2" *ngFor="let galleryDocx of selectedGalleryDocx; let i = index">
+              <div class="col-lg-3 mb-2 uploaded-images" *ngFor="let galleryDocx of selectedGalleryDocx; let i = index">
                 <div class="display-upload delete">
                   <img class="w-auto" [src]="galleryDocx.DocumentFile" />
                   <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
@@ -281,7 +281,7 @@
               </app-ng-files-drag-n-upload>
             </div>
             <div class="row uploadedDocx" *ngIf="selectedCertificateDocx && selectedCertificateDocx.length">
-              <div class="col-lg-3 mb-2" *ngFor="let certDocx of selectedCertificateDocx; let i = index">
+              <div class="col-lg-3 mb-2 uploaded-images" *ngFor="let certDocx of selectedCertificateDocx; let i = index">
                 <div class="display-upload delete">
                   <img class="w-auto" [src]="certDocx.DocumentFile" />
                   <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"

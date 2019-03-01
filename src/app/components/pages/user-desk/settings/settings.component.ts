@@ -123,6 +123,11 @@ export class SettingsComponent implements OnInit {
     }
   };
 
+
+  // show more
+  public showTogglerText:string;
+  private showMoreTextLength:number = 700;
+
   constructor(
     private modalService: NgbModal,
     private _basicInfoService: BasicInfoService,
@@ -274,7 +279,17 @@ export class SettingsComponent implements OnInit {
       console.log(err);
     })
   }
-
+  showToggler(type){
+    let elem = document.getElementsByClassName('editor')[0];
+      if (elem.classList.contains('showMore')){
+        elem.classList.remove('showMore');
+        this.showTogglerText = "Show Less"
+      }
+      else{
+        elem.classList.add('showMore');
+        this.showTogglerText = "Show More"
+      }
+  }
   getUserDetail(UserID) {
     loading(true);
     this._settingService.getSettingInfo(UserID).subscribe((res: any) => {
@@ -301,6 +316,17 @@ export class SettingsComponent implements OnInit {
         if (this.info.About) {
           this.editorContent = this.info.About;
           this.editable = false;
+          if(this.editorContent.length > this.showMoreTextLength){
+            let elem = document.getElementsByClassName('editor')[0];
+            if (elem.classList.contains('showMore')) {
+              elem.classList.remove('showMore');
+              this.showTogglerText = "Show Less"
+            }
+            else {
+              elem.classList.add('showMore');
+              this.showTogglerText = "Show More"
+            }
+          }
         }
         if (this.info.UploadedCompanyLogo && this.info.UploadedCompanyLogo[0].DocumentFileName &&
           this.info.UploadedCompanyLogo[0].DocumentFileName != "[]" &&
@@ -622,6 +648,17 @@ export class SettingsComponent implements OnInit {
       if (res.returnStatus == "Success") {
         this.editable = false;
         this._toastr.success('Updated Successfully.', '');
+        if(this.editorContent.length > this.showMoreTextLength){
+          let elem = document.getElementsByClassName('editor')[0];
+          if (elem.classList.contains('showMore')) {
+            elem.classList.remove('showMore');
+            this.showTogglerText = "Show Less"
+          }
+          else {
+            elem.classList.add('showMore');
+            this.showTogglerText = "Show More"
+          }
+        }
       }
       else {
         this._toastr.error(res.returnText, '');
@@ -734,7 +771,7 @@ export class SettingsComponent implements OnInit {
 
   selectDocx(selectedFiles: NgFilesSelected, type): void {
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.status == 1) this._toastr.error('Please select twelve or less file(s) to upload.', '')
+      if (selectedFiles.status == 1) this._toastr.error('Please select 12 or less file(s) to upload.', '')
       else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 5 MB. Please upload smaller file.', '')
       else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
       return;

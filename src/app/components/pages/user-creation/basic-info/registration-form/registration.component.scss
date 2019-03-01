@@ -53,10 +53,16 @@
 
       .selected {
         padding-left: 40px;
+        border: 1px solid $input-border;
       }
 
       input {
         height: 48px;
+        border: none;
+        &:focus {
+          outline: 0;
+          box-shadow: none;
+        }
       }
     }
 

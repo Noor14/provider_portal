@@ -832,7 +832,6 @@ input[type="checkbox"]:focus+label>span {
     &:focus {
       -webkit-box-shadow: none !important;
       box-shadow: none !important;
-      box-shadow: 0px 0px 0px 1px $form-control-focus !important;
     }
 
     &::placeholder {
@@ -1852,16 +1851,14 @@ quill-editor {
 }
 
 .editor {
-  border: 1px solid $data-table-border;
   padding: 0 1rem;
   border-radius: 4px;
   background: $color-white;
   color: $color-menuheading-black;
   font-size: $font-size-medium;
   text-align: left;
-  height: 200px;
-  overflow-y: auto;
   font-family: $font-proxima;
+  transition: 0.5s;
   h1 {
       font-size: 2rem !important;
   }
@@ -1938,6 +1935,10 @@ quill-editor {
             }
           }
       }
+  }
+  &.showMore {
+    height: 210px;
+    overflow-y: hidden;
   }
 }
 
