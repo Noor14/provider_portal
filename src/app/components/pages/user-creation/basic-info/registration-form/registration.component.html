@@ -31,11 +31,11 @@
   <section class="animated fadeInUp mt-5" *ngIf="onRegistrationForm">
     <section class="services">
       <div class="row">
-        <div class="licenseNaming col-6">
+        <div class="licenseNaming col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
           <h5 class="m-0">Company Activities</h5>
           <small>Your company provides expertise in the following</small>
         </div>
-        <div class="licenseNaming col-6 dir-otherLanguage" *ngIf="showTranslatedLangSide">
+        <div class="licenseNaming col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 dir-otherLanguage" *ngIf="showTranslatedLangSide">
           <h5 class="m-0">نشاطات الشركة</h5>
           <small class="arabicLng">توفر شركتك الخبرة في ما يلي</small>
         </div>
@@ -52,10 +52,10 @@
       </div>
     </section>
     <div class="row mt-5">
-      <div class="licenseNaming col-6">
+      <div class="licenseNaming col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
         <h5 class="m-0">Your Organization Information</h5>
       </div>
-      <div class="licenseNaming col-6 dir-otherLanguage" *ngIf="showTranslatedLangSide">
+      <div class="licenseNaming col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 dir-otherLanguage" *ngIf="showTranslatedLangSide">
         <h5 class="m-0">شركة بيانات المتصل</h5>
         <!-- <small class="arabicLng">نطلب المعلومات الشخصية الخاصة بك للحصول على اتصال معكم</small> -->
       </div>
@@ -445,11 +445,11 @@
       </div>
     </form>
     <div class="row mt-5">
-      <div class="licenseNaming col-6">
+      <div class="licenseNaming col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
         <h5 class="m-0">Personal Information</h5>
         <!-- <small>We require your personal information to get in touch with you</small> -->
       </div>
-      <div class="licenseNaming col-6 dir-otherLanguage" *ngIf="showTranslatedLangSide">
+      <div class="licenseNaming col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 dir-otherLanguage" *ngIf="showTranslatedLangSide">
         <h5 class="m-0">المعلومات الشخصية الخاصة بك</h5>
         <!-- <small class="arabicLng">نطلب المعلومات الشخصية الخاصة بك للحصول على اتصال معكم</small> -->
       </div>
@@ -725,6 +725,11 @@
                 should not exceed from 320 characters</p>
             </span>
           </div>
+          <div class="row">
+            <div class="col-12 info sub-title d-flex align-items-center"><img class="icon-size-16 mr-2" src="../../../../../assets/images/icons/icon_info.svg"
+                alt="info" />This will be used as your login
+              credential</div>
+          </div>
         </div>
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="showTranslatedLangSide">
           <div class="form-group dir-otherLanguage">
@@ -745,16 +750,13 @@
                 ألا يتجاوز البريد الإلكتروني 320 حرفًا</p>
             </span>
           </div>
+          <div class="row">
+            <div class="col-12 text-right info-arb dir-otherLanguage d-flex align-items-center" *ngIf="showTranslatedLangSide"><img
+                class="icon-size-16 ml-2" src="../../../../../assets/images/icons/icon_info.svg" alt="info" />سيتم استخدام
+              هذا بمثابة بيانات تسجيل
+              الدخول الخاصة بك</div>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-6 info sub-title d-flex align-items-center"><img class="icon-size-16 mr-2" src="../../../../../assets/images/icons/icon_info.svg"
-            alt="info" />This will be used as your login
-          credential</div>
-        <div class="col-6 text-right info-arb dir-otherLanguage d-flex align-items-center" *ngIf="showTranslatedLangSide"><img
-            class="icon-size-16 ml-2" src="../../../../../assets/images/icons/icon_info.svg" alt="info" />سيتم استخدام
-          هذا بمثابة بيانات تسجيل
-          الدخول الخاصة بك</div>
       </div>
     </form>
     <div class="row mt-5">
