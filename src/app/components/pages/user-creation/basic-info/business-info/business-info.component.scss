@@ -5,6 +5,10 @@
 
   .services {
 
+    .associations {
+      display: table;
+    }
+
     ngb-tooltip-window {
 
       &.tooltip {
@@ -95,70 +99,42 @@
 
 
       &-provides,
-
       &-valueAdded {
-
         @extend .servicechip;
-
         height: 50px;
-
       }
 
 
       &-asscoiation {
-
         @extend .servicechip;
-
-        height: 150px;
-
+        height: 11rem;
         padding: 1rem;
 
 
         img {
-
-          width: 40%;
-
-          align-self: center;
-
+          max-width: 50%;
+          max-height: 100%;
           margin-bottom: 0.5rem;
-
           max-height: 4rem;
-
         }
-
       }
-
     }
-
 
     .alert-text {
-
       color: $probar-color;
-
     }
 
-
     svg {
-
       &.available {
-
         position: absolute;
-
         right: 25px;
-
         top: 12px;
-
       }
 
-
       &.spinner {
-
         position: absolute;
-
         right: 11px;
-
         bottom: 4px;
-
       }
 
 
@@ -456,10 +432,7 @@
   }
 
   @media (max-width: 525px) {
-    .associations {
-      flex: 0 0 100% !important;
-      max-width: 100% !important;
-    }
+
   }
 
 }
