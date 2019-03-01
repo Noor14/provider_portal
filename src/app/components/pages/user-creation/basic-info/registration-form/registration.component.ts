@@ -43,6 +43,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   public activePhone: any;
   public activeTransPhone: any;
   public phoneCountryId: any;
+  public mobileCountryId:any
   public phoneCode;
 
   public mobileCountFlagImage: string;
@@ -120,7 +121,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   public onRegistrationForm;
   public showTranslatedLangSide;
 
- constructor(
+  constructor(
     private _toastr: ToastrService,
     private _userCreationService: UserCreationService,
     private _commonService: CommonService,
@@ -129,7 +130,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     private _router: Router,
     private ngZone: NgZone,
     private cdRef: ChangeDetectorRef,
-   private _basicInfoService: BasicInfoService,
+    private _basicInfoService: BasicInfoService,
   ) { }
 
   ngAfterViewChecked() {
@@ -206,7 +207,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       }
     })
   }
-  
+
   getListJobTitle(id) {
     this._basicInfoService.getjobTitles(id).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
@@ -218,7 +219,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       console.log(err);
     })
   }
-  
+
   getMapLatlng(country) {
     this._userCreationService.getLatlng(country.title).subscribe((res: any) => {
       if (res.status == "OK") {
@@ -226,11 +227,11 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
         if (country.id) {
           let selectedCountry = this.countryList.find(obj => obj.title.toLowerCase() == country.title.toLowerCase());
           this.cityList.forEach(element => {
-            if(element.desc[0].CountryName === selectedCountry.title) {
+            if (element.desc[0].CountryName === selectedCountry.title) {
               this.cityAr = element
             }
           });
-          
+
           this.selectedLangIdbyCountry = selectedCountry.desc[0].LanguageID;
           this.selectPhoneCode(selectedCountry);
           this.selectTelCode(selectedCountry);
@@ -245,17 +246,17 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     })
   }
 
-  countryWiseMaping(country){
-    if (country && country.id){
-    this.showTranslatedLangSide = (country.desc[0].RegionCode == 'MET') ? true : false;
+  countryWiseMaping(country) {
+    if (country && country.id) {
+      this.showTranslatedLangSide = (country.desc[0].RegionCode === 'MET') ? true : false;
       this.transLangEmail = '';
-     this.selectedjobTitle = undefined;
-    this.businessForm.reset();
-    this.personalInfoForm.reset();
-    // this.getlabelsDescription();
-    this.onRegistrationForm = true;
+      this.selectedjobTitle = undefined;
+      this.businessForm.reset();
+      this.personalInfoForm.reset();
+      // this.getlabelsDescription();
+      this.onRegistrationForm = true;
     }
-     else {
+    else {
       this.onRegistrationForm = false;
     }
   }
@@ -310,12 +311,17 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     let description = list.desc;
     this.phoneCode = description[0].CountryPhoneCode;
     this.transPhoneCode = description[0].CountryPhoneCode_OtherLang;
-    // this.phoneCountryId = list.id
+    this.phoneCountryId = list.id
   }
   onSelectedCity(obj){
     if(obj && typeof obj == "object" ){
       this.countryFlagImage = obj.imageName;
       this.mobileCountFlagImage = obj.imageName;
+      let description = obj.desc;
+      this.phoneCountryId = description[0].CountryID;
+      this.mobileCountryId = description[0].CountryID;
+      this.mobileCode = description[0].CountryPhoneCode;
+      this.phoneCode = description[0].CountryPhoneCode;
     }
     return;
   }
@@ -324,7 +330,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     let description = list.desc;
     this.mobileCode = description[0].CountryPhoneCode;
     this.transmobileCode = description[0].CountryPhoneCode_OtherLang;
-    this.phoneCountryId = list.id
+    this.mobileCountryId = list.id
   }
   onModelChange(fromActive, currentActive, $controlName, source, target, $value) {
     if (!this.showTranslatedLangSide) return;
@@ -699,7 +705,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       return false;
     }
   }
- 
+
   textValidation(event) {
     const pattern = /^[a-zA-Z0-9_]*$/;
     let inputChar = String.fromCharCode(event.charCode);
@@ -763,7 +769,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       .debounceTime(200)
       .map(term => (!term || term.length < 3) ? []
         : this.cityList.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1));
-  formatterCity = (x: { title: string}) => x.title;
+  formatterCity = (x: { title: string }) => x.title;
 
 
   registration() {
@@ -780,35 +786,44 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       return
     }
 
+    let UserObjectOL: any = {}
+    let CompanyObjectOL: any = {}
+
     let UserObjectBL = {
       primaryEmail: this.personalInfoForm.value.email,
       firstName: this.personalInfoForm.value.firstName,
       lastName: this.personalInfoForm.value.lastName,
       primaryPhone: this.personalInfoForm.value.telephone,
       countryPhoneCode: this.mobileCode,
-      phoneCodeCountryID: this.phoneCountryId,
+      phoneCodeCountryID: this.mobileCountryId,
       jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.baseLanguage : this.personalInfoForm.value.jobTitle,
     }
-    let UserObjectOL = {
-      languageID: this.selectedLangIdbyCountry,
-      firstName: this.personalInfoForm.value.transLangfirstName,
-      lastName: this.personalInfoForm.value.transLanglastName,
-      jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.otherLanguage : this.personalInfoForm.value.transLangjobTitle,
-      primaryPhone: this.personalInfoForm.value.transLangtelephone + this.transmobileCode,
+
+    if (this.showTranslatedLangSide) {
+      UserObjectOL = {
+        languageID: this.selectedLangIdbyCountry,
+        firstName: this.personalInfoForm.value.transLangfirstName,
+        lastName: this.personalInfoForm.value.transLanglastName,
+        jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.otherLanguage : this.personalInfoForm.value.transLangjobTitle,
+        primaryPhone: this.personalInfoForm.value.transLangtelephone + this.transmobileCode,
+      }
+      CompanyObjectOL = {
+        companyNameOL: this.businessForm.value.transLangOrgName,
+        companyPhone: this.businessForm.value.transLangPhone + this.transPhoneCode,
+        POBox: (this.businessForm.value.poBoxNoAr) ? this.businessForm.value.poBoxNoAr : null,
+        City: this.businessForm.value.transCity.id,
+        languageID: this.selectedLangIdbyCountry
+      }
     }
-    let CompanyObjectOL = {
-      companyNameOL: this.businessForm.value.transLangOrgName,
-      companyPhone: this.businessForm.value.transLangPhone + this.transPhoneCode,
-      POBox: (this.businessForm.value.poBoxNoAr) ? this.businessForm.value.poBoxNoAr : null,
-      City: this.businessForm.value.transCity.title,
-      languageID: this.selectedLangIdbyCountry
-    }
+
     let CompanyObjectBL = {
       companyName: this.businessForm.value.orgName,
       companyAddress: this.businessForm.value.address,
       companyPhone: this.phoneCode + this.businessForm.value.phone,
       POBox: (this.businessForm.value.poBoxNo) ? this.businessForm.value.poBoxNo : null,
-      City: this.businessForm.value.city.title
+      City: this.businessForm.value.city.id,
+      countryPhoneCode: this.phoneCode,
+      phoneCodeCountryID: this.phoneCountryId,
     }
 
     let obj = {

@@ -169,7 +169,7 @@
                     <p>+/- {{bookingDetails.TransitTime}} Days</p>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex">
+              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
                   <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Voyage #
@@ -177,14 +177,14 @@
                     <p>{{bookingDetails.VoyageRefNum}}</p>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex">
+              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
                   <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Vessel Name</h5>
                     <p>{{bookingDetails.VesselName}}</p>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex">
+              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
                   <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Vessel #
@@ -192,7 +192,7 @@
                     <p>{{bookingDetails.VesselCode}}</p>
                   </div>
                 </div>
-                <div class="media col-12">
+             <div class="media col-12" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
                   <div class="align-self-start mr-3">
                     <img [src]="baseExternalAssets + '/' + bookingDetails.CarrierImage" alt="icon" width="62px" height="62px">
                   </div>

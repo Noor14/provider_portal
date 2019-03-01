@@ -7,11 +7,13 @@ import { baseExternalAssets } from '../../../../constants/base.url';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../directives/ng-files';
 import { SettingService } from './setting.service';
-import { EMAIL_REGEX, isJSON, loading } from '../../../../constants/globalFunctions';
+import { EMAIL_REGEX, isJSON, loading, GEN_URL, patternValidator, FACEBOOK_REGEX, TWITTER_REGEX, INSTAGRAM_REGEX, LINKEDIN_REGEX, YOUTUBE_REGEX } from '../../../../constants/globalFunctions';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SharedService } from '../../../../services/shared.service';
+import { ConfirmDeleteDialogComponent } from '../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Component({
   selector: 'app-settings',
@@ -49,7 +51,8 @@ export class SettingsComponent implements OnInit {
     totalFilesSize: 12 * 12 * 1024 * 1000
   };
 
-
+  // SettingInfo
+  private info: any;
   // personalInfo
   public personalInfoForm: any;
   public credentialInfoForm: any;
@@ -57,6 +60,21 @@ export class SettingsComponent implements OnInit {
   public cityList: any;
   public regionList: any[] = [];
   public currencyList: any[] = [];
+  public countryList: any[] = [];
+
+
+  public countryFlagImage: string;
+  public mobileCountFlagImage: string;
+  public phoneCountryId: any;
+  public mobileCountryId: any;
+  public phoneCode;
+  public mobileCode;
+
+  public personalInfoToggler: boolean = false;
+  public businessInfoToggler: boolean = false;
+
+
+
 
   //businessInfo
   public businessInfoForm: any;
@@ -68,12 +86,45 @@ export class SettingsComponent implements OnInit {
   public valAddedServices: any[] = [];
   public valueService: any[] = [];
 
+  // social
+  public socialWebs: any[] = [];
+  public selectedSocialsite: any;
+  public socialInputValidate: string;
+  public socialSites;
+
+
   //  freightServices
   public freightServices: any[] = [];
   public frtService: any[] = [];
+  public wareHouseTypeToggler: boolean = false;
+  public IsRealEstate: boolean = false;
 
+  // about Editor
+  public editorContent: any;
+  public editable: boolean
+  private toolbarOptions = [
+    ['bold', 'italic', 'underline'],        // toggled buttons
+
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+    [{ 'direction': 'rtl' }],                         // text direction
+
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    [{ 'align': [] }],
+
+    ['clean']                                         // remove formatting button
+  ];
+  public editorOptions = {
+    placeholder: "insert content...",
+    modules: {
+      toolbar: this.toolbarOptions
+    }
+  };
 
   constructor(
+    private modalService: NgbModal,
     private _basicInfoService: BasicInfoService,
     private _toastr: ToastrService,
     private ngFilesService: NgFilesService,
@@ -104,12 +155,12 @@ export class SettingsComponent implements OnInit {
         Validators.pattern(EMAIL_REGEX),
         Validators.maxLength(320)
       ]),
-      mobile: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(13)]),
+      mobile: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
     });
 
     this.businessInfoForm = new FormGroup({
       orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
-      phone: new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(13)]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
       address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10)]),
       city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3)]),
       poBoxNo: new FormControl(null, [Validators.maxLength(16), Validators.minLength(4)]),
@@ -128,9 +179,80 @@ export class SettingsComponent implements OnInit {
         this.currencyList = state;
       }
     });
+    this._sharedService.countryList.subscribe((state: any) => {
+      if (state) {
+        this.countryList = state;
+      }
+
+    });
     this.getUserDetail(this.userProfile.UserID);
+    this.onChanges();
+  }
+  onChanges(): void {
+    this.personalInfoForm.valueChanges.subscribe(val => {
+      for (const key in this.personalInfoForm.controls) {
+        if (this.personalInfoForm.controls.hasOwnProperty(key)) {
+          if (this.personalInfoForm.controls[key].dirty) {
+            this.personalInfoToggler = true;
+          }
+
+        }
+      }
+    });
+    this.businessInfoForm.valueChanges.subscribe(val => {
+      for (const key in this.businessInfoForm.controls) {
+        if (this.businessInfoForm.controls.hasOwnProperty(key)) {
+          if (this.businessInfoForm.controls[key].dirty) {
+            this.businessInfoToggler = true;
+          }
+
+        }
+      }
+    });
+  }
+  onContentChanged({ quill, html, text }) {
+    this.editorContent = html
   }
 
+  selectedSocialLink(obj) {
+    this.selectedSocialsite = obj;
+    this.businessInfoForm.controls['socialUrl'].reset();
+    if (obj.socialMediaPortalsID === 100) {
+      this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(FACEBOOK_REGEX)]);
+      this.socialLinkValidate()
+    }
+    else if (obj.socialMediaPortalsID === 101) {
+      this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(TWITTER_REGEX)]);
+      this.socialLinkValidate()
+    } else if (obj.socialMediaPortalsID === 102) {
+      this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(INSTAGRAM_REGEX)]);
+      this.socialLinkValidate()
+    } else if (obj.socialMediaPortalsID === 103) {
+      this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(LINKEDIN_REGEX)]);
+      this.socialLinkValidate()
+    } else if (obj.socialMediaPortalsID === 104) {
+      this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(YOUTUBE_REGEX)]);
+      this.socialLinkValidate()
+    }
+    else {
+      this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(GEN_URL)]);
+      this.socialLinkValidate()
+    }
+  }
+  socialLinkValidate() {
+
+    if (this.selectedSocialsite && this.businessInfoForm.controls['socialUrl'].value && this.businessInfoForm.controls['socialUrl'].status === 'INVALID') {
+      // let index = this.selectedSocialsite.title.toLowerCase().indexOf(this.socialSites.toLowerCase());
+      this.socialInputValidate = 'Your social url is not valid';
+    }
+    else if (!this.businessInfoForm.controls['socialUrl'].value) {
+      this.socialInputValidate = '';
+    }
+    else {
+      this.socialInputValidate = '';
+    }
+
+  }
   getCities(info) {
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
@@ -142,8 +264,8 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  getListJobTitle(id, info) {
-    this._basicInfoService.getjobTitles(id).subscribe((res: any) => {
+  getListJobTitle(info) {
+    this._basicInfoService.getjobTitles(info.CountryID).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this.jobTitles = res.returnObject;
         this.getCities(info);
@@ -157,57 +279,68 @@ export class SettingsComponent implements OnInit {
     loading(true);
     this._settingService.getSettingInfo(UserID).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        let info = res.returnObject
-        let countryId = res.returnObject.CountryID;
-        this.allAssociations = res.returnObject.Association;
-        this.galleriesDocx = res.returnObject.Gallery;
-        this.certficateDocx = res.returnObject.AwardCertificate;
-        this.companyLogoDocx = res.returnObject.CompanyLogo;
-        this.liscenceDocx = res.returnObject.TradeLicense;
+        this.info = res.returnObject;
+        this.socialWebs = this.info.SocialMedia;
+        this.allAssociations = this.info.Association;
+        this.galleriesDocx = this.info.Gallery;
+        this.certficateDocx = this.info.AwardCertificate;
+        this.companyLogoDocx = this.info.CompanyLogo;
+        this.liscenceDocx = this.info.TradeLicense;
         this.assocService = this.allAssociations.filter(obj => obj.IsSelected && obj.ProviderAssnID);
-        this.valAddedServices = res.returnObject.ValueAddedServices;
+        this.valAddedServices = this.info.ValueAddedServices;
         this.valueService = this.valAddedServices.filter(obj => obj.IsSelected && obj.ProvLogServID);
-        this.freightServices = res.returnObject.LogisticService;
+        this.freightServices = this.info.LogisticService;
         this.frtService = this.freightServices.filter(obj => obj.IsSelected && obj.ProvLogServID);
-        if (res.returnObject.UploadedCompanyLogo && res.returnObject.UploadedCompanyLogo[0].DocumentFileName &&
-          res.returnObject.UploadedCompanyLogo[0].DocumentFileName != "[]" &&
-          isJSON(res.returnObject.UploadedCompanyLogo[0].DocumentFileName)) {
-          let logo = res.returnObject.UploadedCompanyLogo[0];
+        if (this.frtService && this.frtService.length) {
+          let data = this.frtService.find(obj => obj.LogServCode == 'WRHS');
+          if (data && Object.keys(data).length) {
+            this.wareHouseTypeToggler = true;
+            this.IsRealEstate = data.IsRealEstate
+          }
+        }
+        if (this.info.About) {
+          this.editorContent = this.info.About;
+          this.editable = false;
+        }
+        if (this.info.UploadedCompanyLogo && this.info.UploadedCompanyLogo[0].DocumentFileName &&
+          this.info.UploadedCompanyLogo[0].DocumentFileName != "[]" &&
+          isJSON(this.info.UploadedCompanyLogo[0].DocumentFileName)) {
+          let logo = this.info.UploadedCompanyLogo[0];
           this.uploadedlogo = JSON.parse(logo.DocumentFileName)[0];
           this.docTypeIdLogo = this.uploadedlogo.DocumentID;
           this.uploadedlogo.DocumentFile = this.baseExternalAssets + this.uploadedlogo.DocumentFile
         }
-        if (res.returnObject.UploadedGallery && res.returnObject.UploadedGallery[0].DocumentFileName &&
-          res.returnObject.UploadedGallery[0].DocumentFileName != "[]" &&
-          isJSON(res.returnObject.UploadedGallery[0].DocumentFileName)) {
-          let gallery = res.returnObject.UploadedGallery[0];
+        if (this.info.UploadedGallery && this.info.UploadedGallery[0].DocumentFileName &&
+          this.info.UploadedGallery[0].DocumentFileName != "[]" &&
+          isJSON(this.info.UploadedGallery[0].DocumentFileName)) {
+          let gallery = this.info.UploadedGallery[0];
           this.uploadedGalleries = JSON.parse(gallery.DocumentFileName);
           this.docTypeIdGallery = this.uploadedGalleries[0].DocumentID;
           this.uploadedGalleries.map(obj => {
             obj.DocumentFile = this.baseExternalAssets + obj.DocumentFile;
           })
         }
-        if (res.returnObject.UploadedAwardCertificate && res.returnObject.UploadedAwardCertificate[0].DocumentFileName &&
-          res.returnObject.UploadedAwardCertificate[0].DocumentFileName != "[]" &&
-          isJSON(res.returnObject.UploadedAwardCertificate[0].DocumentFileName)) {
-          let certificate = res.returnObject.UploadedAwardCertificate[0];
+        if (this.info.UploadedAwardCertificate && this.info.UploadedAwardCertificate[0].DocumentFileName &&
+          this.info.UploadedAwardCertificate[0].DocumentFileName != "[]" &&
+          isJSON(this.info.UploadedAwardCertificate[0].DocumentFileName)) {
+          let certificate = this.info.UploadedAwardCertificate[0];
           this.uploadedCertificates = JSON.parse(certificate.DocumentFileName);
           this.docTypeIdCert = this.uploadedCertificates[0].DocumentID;
           this.uploadedCertificates.map(obj => {
             obj.DocumentFile = this.baseExternalAssets + obj.DocumentFile;
           })
         }
-        if (res.returnObject.UploadedTradeLicense && res.returnObject.UploadedTradeLicense[0].DocumentFileName &&
-          res.returnObject.UploadedTradeLicense[0].DocumentFileName != "[]" &&
-          isJSON(res.returnObject.UploadedTradeLicense[0].DocumentFileName)) {
-          let tradeLiscence = res.returnObject.UploadedTradeLicense[0];
+        if (this.info.UploadedTradeLicense && this.info.UploadedTradeLicense[0].DocumentFileName &&
+          this.info.UploadedTradeLicense[0].DocumentFileName != "[]" &&
+          isJSON(this.info.UploadedTradeLicense[0].DocumentFileName)) {
+          let tradeLiscence = this.info.UploadedTradeLicense[0];
           this.uploadedLiscence = JSON.parse(tradeLiscence.DocumentFileName);
           this.docTypeIdLiscence = this.uploadedLiscence[0].DocumentID;
           this.uploadedLiscence.map(obj => {
             obj.DocumentFile = this.baseExternalAssets + obj.DocumentFile;
           })
         }
-        this.getListJobTitle(countryId, info);
+        this.getListJobTitle(this.info);
       }
     })
   }
@@ -238,8 +371,15 @@ export class SettingsComponent implements OnInit {
     this.personalInfoForm.controls['lastName'].setValue(info.LastName);
     if (info.JobTitle) {
       let obj = this.jobTitles.find(elem => elem.baseLanguage == info.JobTitle);
-      this.personalInfoForm.controls['jobTitle'].setValue(obj);
-
+      if (obj && Object.keys(obj).length) {
+        this.personalInfoForm.controls['jobTitle'].setValue(obj);
+      }
+      else {
+        let obj = {
+          baseLanguage: info.JobTitle
+        }
+        this.personalInfoForm.controls['jobTitle'].setValue(obj);
+      }
     }
     if (info.CityID) {
       let obj = this.cityList.find(elem => elem.id == info.CityID);
@@ -253,8 +393,26 @@ export class SettingsComponent implements OnInit {
       let obj = this.regionList.find(elem => elem.regionID == info.RegionID);
       this.personalInfoForm.controls['region'].setValue(obj.regionID);
     }
-
+    let selectedCountry = this.countryList.find(obj => obj.id == info.PhoneCodeCountryID);
+    if (selectedCountry && Object.keys(selectedCountry).length) {
+      this.selectPhoneCode(selectedCountry);
+    }
+    else {
+      let selectedCountry = this.countryList.find(obj => obj.id == info.CountryID);
+      if (selectedCountry && Object.keys(selectedCountry).length) {
+        this.selectPhoneCode(selectedCountry);
+      }
+    }
     this.personalInfoForm.controls['mobile'].setValue(info.PrimaryPhone);
+    this.personalInfoToggler = false;
+  }
+  resetPersonalInfo() {
+    this.personalInfoForm.reset();
+    this.setPersonalInfo(this.info);
+  }
+  resetbusinessInfo() {
+    this.businessInfoForm.reset();
+    this.setBusinessInfo(this.info);
   }
 
 
@@ -263,14 +421,35 @@ export class SettingsComponent implements OnInit {
     this.businessInfoForm.controls['orgName'].setValue(info.ProviderName);
     this.businessInfoForm.controls['address'].setValue(info.ProviderAddress);
     this.businessInfoForm.controls['poBoxNo'].setValue(info.POBox);
+    this.businessInfoForm.controls['profileUrl'].setValue(info.ProfileID);
     if (info.ProviderCityID) {
       let obj = this.cityList.find(elem => elem.id == info.ProviderCityID);
       this.businessInfoForm.controls['city'].setValue(obj);
     }
+    let selectedCountry = this.countryList.find(obj => obj.id == info.ProviderPhoneCodeCountryID);
+    if (selectedCountry && Object.keys(selectedCountry).length) {
+      this.selectTelCode(selectedCountry);
+    }
+    else {
+      let selectedCountry = this.countryList.find(obj => obj.id == info.CountryID);
+      if (selectedCountry && Object.keys(selectedCountry).length) {
+        this.selectTelCode(selectedCountry);
+      }
+    }
     this.businessInfoForm.controls['phone'].setValue(info.ProviderPhone);
-    this.businessInfoForm.controls['profileUrl'].setValue(info.ProfileID);
+    if (info.SocialMediaAccountID && info.ProviderWebAdd) {
+      let obj = this.socialWebs.find(elem => elem.SocialMediaPortalsID == info.SocialMediaAccountID);
+      this.selectedSocialLink(obj);
+      this.businessInfoForm.controls['socialUrl'].setValue(info.ProviderWebAdd);
+    }
+    else {
+      this.selectedSocialsite = this.socialWebs[this.socialWebs.length - 1];
+      if (this.selectedSocialsite.socialMediaPortalsID === 105) {
+        this.businessInfoForm.controls['socialUrl'].setValidators([patternValidator(GEN_URL)]);
+      }
+    }
+    this.businessInfoToggler = false
   }
-
 
 
   freightService(obj, selectedService) {
@@ -278,13 +457,22 @@ export class SettingsComponent implements OnInit {
     if (this.frtService && this.frtService.length) {
       for (var i = 0; i < this.frtService.length; i++) {
         if (this.frtService[i].LogServID == obj.LogServID) {
-          if (this.frtService.length > 1){
+          if (this.frtService.length > 1 && obj.IsRemovable) {
             this.frtService.splice(i, 1);
             selectedItem.remove('active');
+            if (obj.LogServCode == "WRHS") {
+              this.wareHouseTypeToggler = false;
+              this.IsRealEstate = false;
+            }
             this.removeServices(obj);
           }
-          else{
-              this._toastr.info("At least one service is mandatory",'')
+          else {
+            if (!obj.IsRemovable) {
+              this._toastr.info("Service can not be removed. Please first removed the rates", '')
+            }
+            else {
+              this._toastr.info("At least one service is mandatory.", '')
+            }
           }
           return;
         }
@@ -294,6 +482,9 @@ export class SettingsComponent implements OnInit {
       selectedItem.add('active');
       this.frtService.push(obj);
       this.selectServices(obj);
+      if (obj.LogServCode == "WRHS") {
+        this.wareHouseTypeToggler = true;
+      }
     }
   }
   selectAssociation(obj, selectedService) {
@@ -359,13 +550,24 @@ export class SettingsComponent implements OnInit {
     })
   }
 
-
-
+  selectPhoneCode(list) {
+    this.mobileCountFlagImage = list.code;
+    let description = list.desc;
+    this.mobileCode = description[0].CountryPhoneCode;
+    this.mobileCountryId = list.id
+  }
+  selectTelCode(list) {
+    this.countryFlagImage = list.code;
+    let description = list.desc;
+    this.phoneCode = description[0].CountryPhoneCode;
+    this.phoneCountryId = list.id
+  }
   selectServices(obj) {
     let object = {
       providerID: this.userProfile.ProviderID,
       createdBy: this.userProfile.LoginID,
-      serviceID: obj.LogServID
+      serviceID: obj.LogServID,
+      logServCode: obj.LogServCode,
     }
     this._settingService.selectProviderService(object).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
@@ -377,16 +579,55 @@ export class SettingsComponent implements OnInit {
     let object = {
       providerID: this.userProfile.ProviderID,
       createdBy: this.userProfile.LoginID,
-      serviceID: obj.ProvLogServID
+      serviceID: obj.ProvLogServID,
+      serviceType: obj.ServiceType,
+      logServCode: obj.LogServCode,
+      logServID: obj.LogServID
     }
     this._settingService.deSelectService(object).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         obj.ProvLogServID = null;
       }
+      else {
+        this._toastr.error(res.returnText, '');
+      }
+    })
+  }
+
+  realEstateSel(type) {
+    this.IsRealEstate = (type == 'owner') ? false : true
+    let object = {
+      providerID: this.userProfile.ProviderID,
+      modifiedBy: this.userProfile.LoginID,
+      isRealEstate: this.IsRealEstate,
+    }
+    this._settingService.updateRealRstate(object).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toastr.success('Updated successfully', '');
+      }
+      else {
+        this._toastr.error('Error Occured', '');
+      }
     })
   }
 
 
+  companyAboutUs() {
+    let object = {
+      providerID: this.userProfile.ProviderID,
+      about: this.editorContent,
+      ModifiedBy: this.userProfile.LoginID
+    }
+    this._settingService.companyAbout(object).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this.editable = false;
+        this._toastr.success('Updated Successfully.', '');
+      }
+      else {
+        this._toastr.error(res.returnText, '');
+      }
+    })
+  }
   textValidation(event) {
     const pattern = /^[a-zA-Z0-9_]*$/;
     let inputChar = String.fromCharCode(event.charCode);
@@ -604,7 +845,7 @@ export class SettingsComponent implements OnInit {
             this.fileStatusCert = resObj.DocumentLastStaus;
           }
           else if (type == 'liscence') {
-            this.docTypeIdLiscence= resObj.DocumentID;
+            this.docTypeIdLiscence = resObj.DocumentID;
             this.fileStatusLiscence = resObj.DocumentLastStaus;
           }
           let fileObj = JSON.parse(resObj.DocumentFile);
@@ -646,14 +887,23 @@ export class SettingsComponent implements OnInit {
 
 
   deactivate() {
-    this._settingService.deactivateAccount(this.userProfile.UserID, this.userProfile.UserID).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        this._toastr.info(res.returnText, "")
+    const modalRef = this.modalService.open(ConfirmDeleteDialogComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    let obj = {
+      data: this.userProfile.UserID,
+      type: "DelAccount"
+    }
+    modalRef.componentInstance.deleteIds = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
       }
-      else {
-        this._toastr.info(res.returnText, "")
-      }
-    })
+    }, 0);
   }
   updatePersonalInfo() {
     let obj = {
@@ -663,12 +913,15 @@ export class SettingsComponent implements OnInit {
       jobTitle: this.personalInfoForm.value.jobTitle.baseLanguage,
       cityID: this.personalInfoForm.value.city.id,
       mobileNumber: this.personalInfoForm.value.mobile,
+      countryPhoneCode: this.mobileCode,
+      phoneCodeCountryID: this.mobileCountryId,
       regionID: this.personalInfoForm.value.region,
       currencyID: this.personalInfoForm.value.currency.id
     }
     this._settingService.personalSetting(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toastr.success('Personal Information Updated', '')
+        this.personalInfoToggler = false;
       }
     })
   }
@@ -680,11 +933,16 @@ export class SettingsComponent implements OnInit {
       poBox: this.businessInfoForm.value.poBoxNo,
       cityID: this.businessInfoForm.value.city.id,
       telephone: this.businessInfoForm.value.phone,
-      website: this.businessInfoForm.value.socialUrl
+      countryPhoneCode: this.phoneCode,
+      phoneCodeCountryID: this.phoneCountryId,
+      socialMediaAccountID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.selectedSocialsite.SocialMediaPortalsID : null,
+      website: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.socialSites : null,
+      ModifiedBy: this.userProfile.LoginID
     }
     this._settingService.businessSetting(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this._toastr.success('Business Information Updated', '')
+        this._toastr.success('Business Information Updated', '');
+        this.businessInfoToggler = false;
       }
     })
   }

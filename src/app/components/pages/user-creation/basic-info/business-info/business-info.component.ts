@@ -65,9 +65,36 @@ export class BusinessInfoComponent implements OnInit {
   public spinner:boolean = false;
   public addBusinessbtnEnabled : boolean = undefined;
   public profileUrl:string;
+  public profilUrlValid: boolean = false;
   public privateModeToggler: boolean = false;
   public verifyProfile: boolean = false;
+  public wareHouseTypeToggler: boolean = false;
+  public IsRealEstate: boolean = false;
   @ViewChild('profileName') profileName: ElementRef;
+
+
+// editor 
+  private toolbarOptions = [
+    ['bold', 'italic', 'underline'],        // toggled buttons
+
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+    [{ 'direction': 'rtl' }],                         // text direction
+
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    [{ 'align': [] }],
+
+    ['clean']                                         // remove formatting button
+  ];
+  public editorOptions = {
+    placeholder: "Tell us something about your business",
+    modules: {
+      toolbar: this.toolbarOptions
+    }
+  };
+
   constructor(
     private _toastr: ToastrService,
     private _basicInfoService: BasicInfoService,
@@ -112,14 +139,36 @@ export class BusinessInfoComponent implements OnInit {
               this.userName = undefined;
             }
           });
+
+
   }
 
 
-
-  spaceHandler(event) {
+  onContentChanged({ quill, html, text }) {
+    this.aboutUs = html
+  }
+  profileNameValid(event) {
     if (event.charCode == 32) {
       event.preventDefault();
       return false;
+    }
+    else{
+      let charCode = (event.which) ? event.which : event.keyCode;
+      let keyChar = String.fromCharCode(charCode);
+      let regex = /^[a-z0-9]+$/;
+      if (!regex.test(keyChar)){
+        this.profilUrlValid = true;
+        if (this.profilUrlValid) {
+          setTimeout(() => {
+            this.profilUrlValid = false;
+          }, 2500)
+        }
+        event.preventDefault();
+        return false;
+      }
+      else{
+        this.profilUrlValid = false;
+      }
     }
   }
   validate(userName){
@@ -146,6 +195,9 @@ export class BusinessInfoComponent implements OnInit {
         if (this.frtService[i] == obj.logServID) {
           this.frtService.splice(i, 1);
           selectedItem.remove('active');
+          if (obj.logServCode == "WRHS") {
+            this.wareHouseTypeToggler = false;
+          }
           return;
         }
       }
@@ -153,6 +205,9 @@ export class BusinessInfoComponent implements OnInit {
     if ((this.frtService && !this.frtService.length) || (i == this.frtService.length)) {
       selectedItem.add('active');
       this.frtService.push(obj.logServID);
+      if (obj.logServCode == "WRHS"){
+        this.wareHouseTypeToggler = true;
+      }
     }
   }
 
@@ -399,6 +454,7 @@ removeSelectedDocx(index,  obj, type) {
       providerID: this.userProfile.ProviderID,
       aboutUs: this.aboutUs,
       isPrivateMode: this.privateModeToggler,
+      IsRealEstate: (this.wareHouseTypeToggler)? this.IsRealEstate : null,
       profileID: this.userName,
       createdBY: this.userProfile.LoginID
     }

@@ -6,17 +6,20 @@ import { AirFreightService } from '../../../components/pages/user-desk/manage-ra
 import { GroundTransportService } from '../../../components/pages/user-desk/manage-rates/ground-transport/ground-transport.service';
 import { WarehouseService } from '../../../components/pages/user-desk/manage-rates/warehouse-list/warehouse.service';
 import { ToastrService } from 'ngx-toastr';
+import { SettingService } from '../../../components/pages/user-desk/settings/setting.service';
 
 @Component({
   selector: 'app-confirm-delete-dialog',
+  providers: [SeaFreightService, AirFreightService, GroundTransportService, WarehouseService],
   templateUrl: './confirm-delete-dialog.component.html',
   styleUrls: ['./confirm-delete-dialog.component.scss']
 })
 export class ConfirmDeleteDialogComponent implements OnInit {
   
   @Input() deleteIds: any;
-  private userProfile: any
+  private userProfile: any;
   constructor(
+    private _settingService: SettingService,
     private seaFreightService : SeaFreightService,
     private airFreightService: AirFreightService,
     private groundTransportService: GroundTransportService,
@@ -115,6 +118,17 @@ export class ConfirmDeleteDialogComponent implements OnInit {
           this.closeModal(res.returnStatus);
           this._toast.success('Successfully deleted','');
         }
+      })
+    }
+    else if (this.deleteIds.type == "DelAccount") {
+      this._settingService.deactivateAccount(this.deleteIds.data, this.deleteIds.data).subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this._toast.info(res.returnText, "");
+        }
+        else {
+          this._toast.info(res.returnText, "");
+        }
+        this.closeModal(null);
       })
     }
   }

@@ -82,7 +82,7 @@
       </div>
     </div>
     <div class="row bg-white popup-white">
-      <div class="col-12" *ngIf="selectedData.forType == 'FCL'">
+      <div class="col-12" *ngIf="selectedData.customers.length">
         <div class="form-group custom-multiselect">
           <label>Customer</label>
           <ng-select [items]="selectedData.customers" [multiple]="true" [closeOnSelect]="false" [hideSelected]="true"
@@ -178,7 +178,7 @@
 
 
       <!-- Additional charges -->
-      <div class="row" *ngIf="selectedData.forType == 'FCL'">
+      <div class="row">
         <div class="col-12">
           <h5 class="model-sub-head mt-4 pull-left">Additional Charges At Port Of Origin</h5>
         </div>
@@ -263,11 +263,10 @@
           </a>
         </div>
       </div>
-      <div class="row" *ngIf="selectedData.forType == 'FCL'">
+      <div class="row">
         <div class="col-12">
           <h5 class="model-sub-head mt-4 pull-left">Additional Charges At Port Of Destination</h5>
         </div>
-
         <div class="col-6" *ngFor="let destination of selectedDestinations; let i=index">
           <div class="row combine-filed-popup">
             <div class="d-flex ml-3 mr-3 mb-2" [ngClass]="addDestinationActive ? 'active' : ''">

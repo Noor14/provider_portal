@@ -10,17 +10,26 @@
               <!-- booking top row -->
               <div class="bookings-header d-md-flex justify-content-md-between">
                 <div class="d-flex bookings-header-number">
-                  <img src="../../../../../assets/images/icons/icon_pin_sea.svg">
+                  <img *ngIf="booking.ShippingModeCode === 'SEA'" src="../../../../../assets/images/icons/icon_pin_sea.svg">
+                <img *ngIf="booking.ShippingModeCode === 'AIR'" src="../../../../../assets/images/icons/icon_pin_air.svg">
+                <img *ngIf="booking.ShippingModeCode === 'WAREHOUSE'" src="../../../../../assets/images/icons/icon_pin_warehouse.svg">
+                <img *ngIf="booking.ShippingModeCode === 'TRUCK'" src="../../../../../assets/images/icons/icon_pin_truck.svg">
                   <div class="d-flex flex-column info">
                     <span>{{booking.HashMoveBookingNum}}</span>
                     <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate |
                       date : "H:mm"}}</small>
                   </div>
                 </div>
-                <div class="d-flex mt-1 bookings-header-company">
-                  <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
-                  <span>{{booking.CarrierName}}</span>
+              <div class="d-flex mt-1 bookings-header-company">
+                <div class="mr-3">
+                  <span class="status">Booking:</span>
+                  <span class="badge badge-pill hashmove-badge-active">In-Review</span>
                 </div>
+                <div>
+                  <span class="status">Shipment:</span>
+                  <span class="badge badge-pill hashmove-badge-warning">{{booking.ShippingStatus}}</span>
+                </div>
+              </div>
               </div>
               <hr class="hr-solid mt-1">
               <!-- booking top row -->
@@ -65,17 +74,15 @@
                 <div class="col-lg-3 col-sm-12 mt-1 pl-4 border-separated">
                   <div class="bookings-detail">
                     <div class="ports">
-                      <small class="d-block">CUSTOMER</small>
-                      <div class="d-flex">
-                        <div class="customer-image mt-1 mr-2">
+                      <small class="d-block mb-2">CUSTOMER</small>
+                      <div class="d-flex mt-1">
+                        <div class="customer-image mr-2">
                           <img [src]="baseExternalAssets + booking.CustomerLogo" alt="logo" />
                         </div>
-                        <label class="ports-label mt-1">
+                        <label class="ports-label">
                           {{booking.CustomerName}}
                         </label>
                       </div>
-                      <small class="d-block pt-2 mb-1 mt-3">DOCUMENT STATUS</small>
-                      <span class="docstatus" [ngClass]="booking.DocumentStatus | lowercase">{{booking.DocumentStatus | lowercase}}</span>
                     </div>
                   </div>
                 </div>
@@ -84,11 +91,9 @@
                   <div class="bookings-detail">
                     <div class="ports">
                       <small class="d-block mb-2">Price</small>
-                      <label class="ports-label mt-1" placement="top" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
+                      <label class="ports-label" placement="top" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
                         {{booking.CurrencyCode}} {{booking.BookingTotalAmount | number:'1.2-2'}}
                       </label>
-                      <small class="d-block pt-2 mt-4 mb-1">SHIPPING STATUS</small>
-                      <span class="secondary">{{booking.ShippingStatus}}</span>
                     </div>
                   </div>
                 </div>
@@ -116,15 +121,24 @@
               <!-- booking top row -->
               <div class="bookings-header d-md-flex justify-content-md-between">
                 <div class="d-flex bookings-header-number">
-                  <img src="../../../../../assets/images/icons/icon_pin_sea.svg">
+                  <img *ngIf="booking.ShippingModeCode === 'SEA'" src="../../../../../assets/images/icons/icon_pin_sea.svg">
+                <img *ngIf="booking.ShippingModeCode === 'AIR'" src="../../../../../assets/images/icons/icon_pin_air.svg">
+                <img *ngIf="booking.ShippingModeCode === 'WAREHOUSE'" src="../../../../../assets/images/icons/icon_pin_warehouse.svg">
+                <img *ngIf="booking.ShippingModeCode === 'TRUCK'" src="../../../../../assets/images/icons/icon_pin_truck.svg">
                   <div class="d-flex flex-column info">
                     <span>{{booking.HashMoveBookingNum}}</span>
                     <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}</small>
                   </div>
                 </div>
                 <div class="d-flex mt-1 bookings-header-company">
-                  <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
-                  <span>{{booking.CarrierName}}</span>
+                  <div class="mr-3">
+                    <span class="status">Booking:</span>
+                    <span class="badge badge-pill hashmove-badge-active">In-Review</span>
+                  </div>
+                  <div>
+                    <span class="status">Shipment:</span>
+                    <span class="badge badge-pill hashmove-badge-warning">{{booking.ShippingStatus}}</span>
+                  </div>
                 </div>
               </div>
               <hr class="hr-solid mt-1">
@@ -154,7 +168,6 @@
                           <small class="d-block mb-2">to</small>
                           <label class="ports-label mt-1">{{booking.PodCode}}</label>
                           <span class="d-block mb-2">Port of {{booking.PodCountry}}</span>
-    
                         </div>
                         <div class="ports-calendar">
                           <span>
@@ -168,17 +181,15 @@
                 <div class="col-lg-3 col-sm-12 mt-1 pl-4 border-separated">
                   <div class="bookings-detail">
                     <div class="ports">
-                      <small class="d-block">CUSTOMER</small>
-                      <div class="d-flex">
-                        <div class="customer-image mt-1 mr-2">
+                      <small class="d-block mb-2">CUSTOMER</small>
+                      <div class="d-flex mt-1">
+                        <div class="customer-image mr-2">
                           <img [src]="baseExternalAssets + booking.CustomerLogo" alt="logo" />
                         </div>
-                        <label class="ports-label mt-1">
+                        <label class="ports-label">
                           {{booking.CustomerName}}
                         </label>
                       </div>
-                      <small class="d-block pt-2 mb-1 mt-3">DOCUMENT STATUS</small>
-                      <span class="docstatus" [ngClass]="booking.DocumentStatus | lowercase">{{booking.DocumentStatus | lowercase}}</span>
                     </div>
                   </div>
                 </div>
@@ -187,11 +198,9 @@
                   <div class="bookings-detail">
                     <div class="ports">
                       <small class="d-block mb-2">Price</small>
-                      <label class="ports-label mt-1" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
+                      <label class="ports-label" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
                         {{booking.CurrencyCode}} {{booking.BookingTotalAmount | number:'1.2-2'}}
                       </label>
-                      <small class="d-block pt-2 mt-4 mb-1">SHIPPING STATUS</small>
-                      <span class="secondary">{{booking.ShippingStatus}}</span>
                     </div>
                   </div>
                 </div>
@@ -219,16 +228,25 @@
                 <!-- booking top row -->
                 <div class="bookings-header d-md-flex justify-content-md-between">
                   <div class="d-flex bookings-header-number">
-                    <img src="../../../../../assets/images/icons/icon_pin_sea.svg">
+                    <img *ngIf="booking.ShippingModeCode === 'SEA'" src="../../../../../assets/images/icons/icon_pin_sea.svg">
+                <img *ngIf="booking.ShippingModeCode === 'AIR'" src="../../../../../assets/images/icons/icon_pin_air.svg">
+                <img *ngIf="booking.ShippingModeCode === 'WAREHOUSE'" src="../../../../../assets/images/icons/icon_pin_warehouse.svg">
+                <img *ngIf="booking.ShippingModeCode === 'TRUCK'" src="../../../../../assets/images/icons/icon_pin_truck.svg">
                     <div class="d-flex flex-column info">
                       <span>{{booking.HashMoveBookingNum}}</span>
                       <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date : "H:mm"}}</small>
                     </div>
                   </div>
-                  <div class="d-flex mt-1 bookings-header-company">
-                    <img [src]="baseExternalAssets +'/'+ booking.CarrierImage">
-                    <span>{{booking.CarrierName}}</span>
+                <div class="d-flex mt-1 bookings-header-company">
+                  <div class="mr-3">
+                    <span class="status">Booking:</span>
+                    <span class="badge badge-pill hashmove-badge-active">In-Review</span>
                   </div>
+                  <div>
+                    <span class="status">Shipment:</span>
+                    <span class="badge badge-pill hashmove-badge-warning">{{booking.ShippingStatus}}</span>
+                  </div>
+                </div>
                 </div>
                 <hr class="hr-solid mt-1">
                 <!-- booking top row -->
@@ -271,17 +289,15 @@
                   <div class="col-lg-3 col-sm-12 mt-1 pl-4 border-separated">
                     <div class="bookings-detail">
                       <div class="ports">
-                        <small class="d-block">CUSTOMER</small>
-                        <div class="d-flex">
-                          <div class="customer-image mt-1 mr-2">
+                        <small class="d-block mb-2">CUSTOMER</small>
+                        <div class="d-flex mt-1">
+                          <div class="customer-image mr-2">
                             <img [src]="baseExternalAssets + booking.CustomerLogo" alt="logo" />
                           </div>
-                          <label class="ports-label mt-1">
+                          <label class="ports-label">
                             {{booking.CustomerName}}
                           </label>
                         </div>
-                        <small class="d-block pt-2 mb-1 mt-3">DOCUMENT STATUS</small>
-                        <span class="docstatus" [ngClass]="booking.DocumentStatus | lowercase">{{booking.DocumentStatus | lowercase}}</span>
                       </div>
                     </div>
                   </div>
@@ -290,11 +306,9 @@
                     <div class="bookings-detail">
                       <div class="ports">
                         <small class="d-block mb-2">Price</small>
-                        <label class="ports-label mt-1" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
+                        <label class="ports-label" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
                           {{booking.CurrencyCode}} {{booking.BookingTotalAmount | number:'1.2-2'}}
                         </label>
-                        <small class="d-block pt-2 mt-4 mb-1">SHIPPING STATUS</small>
-                        <span class="secondary">{{booking.ShippingStatus}}</span>
                       </div>
                     </div>
                   </div>

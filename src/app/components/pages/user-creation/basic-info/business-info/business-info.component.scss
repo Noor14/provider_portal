@@ -357,10 +357,11 @@
         color: $secondary-text-color;
 
       }
+
       .com-logo {
-          .display-upload {
-            height: 150px;
-          }
+        .display-upload {
+          height: 150px;
+        }
       }
 
     }
@@ -457,6 +458,13 @@
 
     }
 
+  }
+
+  @media (max-width: 525px) {
+    .associations {
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+    }
   }
 
 }
