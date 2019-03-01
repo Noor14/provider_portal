@@ -805,14 +805,18 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
         firstName: this.personalInfoForm.value.transLangfirstName,
         lastName: this.personalInfoForm.value.transLanglastName,
         jobTitle: (typeof this.selectedjobTitle === "object") ? this.selectedjobTitle.otherLanguage : this.personalInfoForm.value.transLangjobTitle,
-        primaryPhone: this.personalInfoForm.value.transLangtelephone + this.transmobileCode,
+        primaryPhone: this.personalInfoForm.value.transLangtelephone,
+        countryPhoneCode: this.transmobileCode,
+        phoneCodeCountryID: this.mobileCountryId,
       }
       CompanyObjectOL = {
         companyNameOL: this.businessForm.value.transLangOrgName,
-        companyPhone: this.businessForm.value.transLangPhone + this.transPhoneCode,
+        companyPhone: this.businessForm.value.transLangPhone,
         POBox: (this.businessForm.value.poBoxNoAr) ? this.businessForm.value.poBoxNoAr : null,
         City: this.businessForm.value.transCity.id,
-        languageID: this.selectedLangIdbyCountry
+        languageID: this.selectedLangIdbyCountry,
+        countryPhoneCode: this.transPhoneCode,
+        phoneCodeCountryID: this.phoneCountryId
       }
     }
 
@@ -823,7 +827,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
       POBox: (this.businessForm.value.poBoxNo) ? this.businessForm.value.poBoxNo : null,
       City: this.businessForm.value.city.id,
       countryPhoneCode: this.phoneCode,
-      phoneCodeCountryID: this.phoneCountryId,
+      phoneCodeCountryID: this.phoneCountryId
     }
 
     let obj = {
