@@ -315,13 +315,19 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
   }
   onSelectedCity(obj){
     if(obj && typeof obj == "object" ){
-      this.countryFlagImage = obj.imageName;
-      this.mobileCountFlagImage = obj.imageName;
       let description = obj.desc;
-      this.phoneCountryId = description[0].CountryID;
-      this.mobileCountryId = description[0].CountryID;
-      this.mobileCode = description[0].CountryPhoneCode;
-      this.phoneCode = description[0].CountryPhoneCode;
+      let selectedCountry = this.countryList.find(obj => obj.id == description[0].CountryID);
+      if (selectedCountry && typeof selectedCountry == 'object' && Object.keys(selectedCountry).length){
+      let desc = selectedCountry.desc;
+      this.countryFlagImage = selectedCountry.code;
+      this.mobileCountFlagImage = selectedCountry.code;
+      this.phoneCountryId = selectedCountry.id;
+      this.mobileCountryId = selectedCountry.id;
+      this.mobileCode = desc[0].CountryPhoneCode;
+      this.phoneCode = desc[0].CountryPhoneCode;
+      this.transPhoneCode = desc[0].CountryPhoneCode_OtherLang;
+      this.transmobileCode = desc[0].CountryPhoneCode_OtherLang;
+    }
     }
     return;
   }

@@ -784,6 +784,12 @@ export class SettingsComponent implements OnInit {
             return;
           }
         }
+        else if (type == 'logo') {
+          if (selectedFiles.files.length == 1 && typeof this.uploadedlogo == 'object' && !Object.keys(this.uploadedlogo).length) {
+            this._toastr.error('Please select only 1 file to upload.', '')
+            return;
+          }
+        }
         else if (type == 'liscence') {
           if (this.uploadedLiscence.length + selectedFiles.files.length > this.config.maxFilesCount) {
             this._toastr.error('Please select 12 or less file(s) to upload.', '')
