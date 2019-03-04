@@ -51,29 +51,34 @@ export class WarehouseListComponent implements OnInit {
   }
 
   getWhlist(providerId) {
-    // loading(true)
-    this._warehouseService.getWarehouseList(providerId).subscribe((res: any) => {
+    loading(true)
+    const wId = 0;
+    this._warehouseService.getWarehouseList(providerId, wId).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.allWareHouseList = res.returnObject;
-        this.allWareHouseList.forEach((obj, index) => {
-          const albumArr = []
-          obj.UploadedGalleries.forEach((elem, ind) => {
-            const album = {
-              src: baseExternalAssets + elem.DocumentFile,
-              caption: elem.DocumentFileName,
-              thumb: baseExternalAssets + elem.DocumentFile,
-              DocumentUploadedFileType: elem.DocumentUploadedFileType
-            };
-            albumArr.push(album);
-            obj.parsedGallery = albumArr;
-          })
-
-        })
-        // loading(false);
+        loading(false);
+        if (res.returnObject){
+          this.allWareHouseList = res.returnObject;
+          if (this.allWareHouseList && this.allWareHouseList.length) {
+            this.allWareHouseList.forEach((obj, index) => {
+              const albumArr = []
+              obj.UploadedGalleries.forEach((elem, ind) => {
+                const album = {
+                  src: baseExternalAssets + elem.DocumentFile,
+                  caption: elem.DocumentFileName,
+                  thumb: baseExternalAssets + elem.DocumentFile,
+                  DocumentUploadedFileType: elem.DocumentUploadedFileType
+                };
+                albumArr.push(album);
+                obj.parsedGallery = albumArr;
+              })
+            })
+          }
+        }
+    
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
-      // loading(false);
+      loading(false);
 
     })
   }

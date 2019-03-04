@@ -2,5 +2,6 @@ export const environment = {
     prod: false,
     dev: false,
     qa: false,
-    pers: true
+    pers: true,
+    uat: false
 };

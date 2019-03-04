@@ -7,14 +7,14 @@
       <ul class="navbar-nav flex-row">
         <li class="nav-item" (click)="login()" *ngIf="isLoggedIn">
           <a class="nav-link loginLink" href="javascript:;">
-            LOG IN
-            <img src="../../../assets/images/icons/icon_arrow_right_secondary.svg" alt="arrow" class="icon-size-16 mb-1">
+            Login
+            <img src="../../../assets/images/icons/icons_login.svg" alt="arrow" class="icon-size-20">
           </a>
         </li>
-        <li (click)="menuClose()" class="nav-item" ngbDropdown placement="bottom-right">
+        <li class="nav-item" ngbDropdown placement="bottom-right" *ngIf="!isLoggedIn && logoutDisplay">
           <a class="nav-link hvr-icon-hang" id="dropdownBasic" ngbDropdownToggle>
-            <!-- <img *ngIf="userImagePath" class="nav-user-photo" [src]="userImagePath" alt="user_icon"> -->
-            <img *ngIf="!isLoggedIn && logoutDisplay" class="" src="../../../../assets/images/icons/Icons_User.svg" alt="user_icon">
+            <img *ngIf="userAvatar" class="nav-user-photo" [src]="userAvatar" alt="user_icon">
+           <img *ngIf="!userAvatar" src="../../../../assets/images/icons/icons_user.svg" alt="user_icon">
             <i class="fa fa-angle-down hvr-icon"></i>
           </a>
           <ul ngbDropdownMenu aria-labelledby="dropdownBasic" class="animated fadeIn userDropdown">

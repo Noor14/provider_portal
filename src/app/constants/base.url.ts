@@ -16,6 +16,12 @@ else if (environment.pers) {
     baseExternalAssets = "http://10.20.1.13:9091";
 
 }
+else if (environment.uat) {
+    // DEV URL
+    baseApi = "http://10.20.1.53:9091/api/";
+    baseExternalAssets = "http://10.20.1.53:9091";
+
+}
 else if (environment.prod) {
     // PROD URL
     // baseApi = "http://partner.hashmove.com:81/api/";

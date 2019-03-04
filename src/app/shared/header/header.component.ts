@@ -3,6 +3,8 @@ import { LoginDialogComponent } from '../dialogues/login-dialog/login-dialog.com
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmLogoutDialogComponent } from '../dialogues/confirm-logout-dialog/confirm-logout-dialog.component';
 import { SharedService } from '../../services/shared.service';
+import { baseExternalAssets } from '../../constants/base.url';
+import { isJSON } from '../../constants/globalFunctions';
 
 
 
@@ -15,6 +17,7 @@ export class HeaderComponent implements OnInit {
 
   logoutDisplay: boolean;
   isLoggedIn: boolean;
+  public userAvatar: string;
   constructor(
     private modalService: NgbModal,
     private _sharedService: SharedService,
@@ -33,6 +36,14 @@ export class HeaderComponent implements OnInit {
     this._sharedService.signOutToggler.subscribe((state: any) => {
         this.signOutToggler();
     })
+
+      if (localStorage.getItem('userInfo') && Object.keys('userInfo').length) {
+        let userObj = JSON.parse(localStorage.getItem('userInfo'));
+        let userData = JSON.parse(userObj.returnText)
+        if (userData.ProviderImage && userData.ProviderImage != "[]" && isJSON(userData.ProviderImage)) {
+          this.userAvatar = baseExternalAssets + JSON.parse(userData.ProviderImage)[0].DocumentFile;
+        }
+      }
     
   }
 

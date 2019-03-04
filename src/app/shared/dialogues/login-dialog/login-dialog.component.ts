@@ -6,9 +6,8 @@ import { FormGroup, FormControl, Validators, AbstractControl, ValidatorFn } from
 import { ToastrService } from 'ngx-toastr';
 import { JsonResponse } from '../../../interfaces/JsonResponse'
 // import { EMAIL_REGEX, ValidateEmail, HashStorage, Tea, CurrencyControl, getDefaultCountryCode } from '../../../constants/globalfunctions';
-import { EMAIL_REGEX, ValidateEmail, patternValidator } from '../../../constants/globalFunctions';
+import { EMAIL_REGEX, ValidateEmail, patternValidator, isJSON } from '../../../constants/globalFunctions';
 
-// import { baseExternalAssets } from '../../../constants/base.url';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 // import { DataService } from '../../../services/commonservice/data.service';
@@ -16,6 +15,7 @@ import * as moment from 'moment';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 import { UserCreationService } from '../../../components/pages/user-creation/user-creation.service';
 import { SharedService } from '../../../services/shared.service';
+import { baseExternalAssets } from '../../../constants/base.url';
 
 
 @Component({
@@ -56,6 +56,9 @@ export class LoginDialogComponent implements OnInit {
         let userObj = JSON.parse(localStorage.getItem('userInfo'));
         this.saveUserData = JSON.parse(userObj.returnText)
         this.savedUser = true;
+        if (this.saveUserData.ProviderImage && this.saveUserData.ProviderImage !="[]"  && isJSON(this.saveUserData.ProviderImage)){
+          this.userAvatar = baseExternalAssets + JSON.parse(this.saveUserData.ProviderImage)[0].DocumentFile;
+        }
         this.placeholder = "Enter your unique password";
         this.userName = this.saveUserData.FirstNameBL + ' ' + this.saveUserData.LastNameBL
       }
