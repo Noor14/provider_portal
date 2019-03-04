@@ -10,6 +10,7 @@
     "qa": "ng build --prod --env=qa --aot=true --build-optimizer",
     "pers": "ng build --prod --env=pers --aot=true --build-optimizer",
     "dev": "ng build --prod --env=dev --aot=true --build-optimizer",
+    "uat": "ng build --prod --env=uat --aot=true --build-optimizer",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

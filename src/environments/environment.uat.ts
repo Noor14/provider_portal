@@ -1,7 +1,7 @@
 export const environment = {
     prod: false,
-    dev: true,
+    dev: false,
     qa: false,
     pers: false,
-    uat: false
+    uat: true
 };

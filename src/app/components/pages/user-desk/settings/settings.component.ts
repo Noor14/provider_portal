@@ -53,6 +53,7 @@ export class SettingsComponent implements OnInit {
 
   // SettingInfo
   private info: any;
+
   // personalInfo
   public personalInfoForm: any;
   public credentialInfoForm: any;
@@ -78,6 +79,7 @@ export class SettingsComponent implements OnInit {
 
   //businessInfo
   public businessInfoForm: any;
+  public isPrivateMode: boolean;
 
   // Association 
   public allAssociations: any[] = [];
@@ -295,6 +297,7 @@ export class SettingsComponent implements OnInit {
     this._settingService.getSettingInfo(UserID).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.info = res.returnObject;
+        this.isPrivateMode = this.info.IsPrivateMode;
         this.socialWebs = this.info.SocialMedia;
         this.allAssociations = this.info.Association;
         this.galleriesDocx = this.info.Gallery;
@@ -785,7 +788,7 @@ export class SettingsComponent implements OnInit {
           }
         }
         else if (type == 'logo') {
-          if (selectedFiles.files.length == 1 && typeof this.uploadedlogo == 'object' && !Object.keys(this.uploadedlogo).length) {
+          if (selectedFiles.files.length > 1 && typeof this.uploadedlogo == 'object') {
             this._toastr.error('Please select only 1 file to upload.', '')
             return;
           }
@@ -994,6 +997,7 @@ export class SettingsComponent implements OnInit {
       poBox: this.businessInfoForm.value.poBoxNo,
       cityID: this.businessInfoForm.value.city.id,
       telephone: this.businessInfoForm.value.phone,
+      isPrivateMode: this.isPrivateMode,
       countryPhoneCode: this.phoneCode,
       phoneCodeCountryID: this.phoneCountryId,
       socialMediaAccountID: (this.selectedSocialsite && Object.keys(this.selectedSocialsite).length && this.socialSites) ? this.selectedSocialsite.SocialMediaPortalsID : null,
