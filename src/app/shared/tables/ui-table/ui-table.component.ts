@@ -236,13 +236,13 @@ export class UiTableComponent implements OnInit, OnChanges {
     if (action === 'delete') {
       obj = {
         type: 'delete',
-        id: ((this.transMode === 'GROUND') ? row.iD : ((this.transMode === 'SEA' && row.containerLoadType === 'FCL') ? row.providerPricingDraftID : row.consolidatorPricingDraftID)),
+        id: ((this.transMode === 'GROUND') ? row.id : ((this.transMode === 'SEA' && row.containerLoadType === 'FCL') ? row.providerPricingDraftID : row.consolidatorPricingDraftID)),
         load: row.containerLoadType
       }
     } else if (action === 'edit') {
       obj = {
         type: 'edit',
-        id: (row.containerLoadType === 'FCL' ? row.providerPricingDraftID : row.consolidatorPricingDraftID),
+        id: ((this.transMode === 'GROUND') ? row.id : ((this.transMode === 'SEA' && row.containerLoadType === 'FCL') ? row.providerPricingDraftID : row.consolidatorPricingDraftID)),
         load: row.containerLoadType
       }
     }

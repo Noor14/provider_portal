@@ -730,27 +730,18 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
 
   updatePopupRates(rowId, type) {
+    console.log(rowId);
+    console.log(this.draftslist);
     let obj;
     if (this.activeTab == 'activeFCL') {
-      obj = {
-        ID: this.draftslist.find(obj => obj.ID == rowId),
-        forType: type,
-        data: obj,
-        addList: this.groundCharges,
-        mode: 'draft',
-        customers: this.allCustomers,
+      if (rowId > 0) {
+        obj = this.draftslist.find(elem => elem.Id == rowId);
+      } else {
+        obj = null
       }
     }
     else if (this.activeTab == 'activeFTL') {
-      // obj = this.draftslistFTL.find(obj => obj.ID == rowId);
-      obj = {
-        ID: this.draftslistFTL.find(obj => obj.ID == rowId),
-        forType: type,
-        data: obj,
-        addList: this.groundCharges,
-        mode: 'draft',
-        customers: this.allCustomers,
-      }
+      obj = this.draftslistFTL.find(elem => elem.Id == rowId);
     }
     const modalRef = this.modalService.open(SeaRateDialogComponent, {
       size: 'lg',
@@ -765,8 +756,15 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
         this.setAddDraftData(result[0].containerLoadType, result);
       }
     });
-
-    modalRef.componentInstance.selectedData = obj;
+    let object = {
+      ID: rowId,
+      forType: (type === 'FCL' ? 'FCL-Ground' : type),
+      data: obj,
+      addList: this.groundCharges,
+      mode: 'draft',
+      customers: this.allCustomers,
+    }
+    modalRef.componentInstance.selectedData = object;
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
@@ -1237,11 +1235,13 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
   discardDraft() {
     let discardarr = [];
+    console.log(this.draftslist);
+
     if (this.activeTab == "activeFCL") {
       this.draftslist.forEach(elem => {
         let obj = {
-          draftID: elem.ID,
-          transportType: elem.TransportType,
+          draftID: elem.Id,
+          transportType: elem.ModeOfTrans,
         }
         discardarr.push(obj)
       })
@@ -1249,8 +1249,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     else if (this.activeTab == "activeFTL") {
       this.draftslistFTL.forEach(elem => {
         let obj = {
-          draftID: elem.ID,
-          transportType: elem.TransportType,
+          draftID: elem.Id,
+          transportType: elem.ModeOfTrans,
         }
         discardarr.push(obj)
       })
@@ -1270,14 +1270,14 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
           this.draftRatesByGround = [];
           this.draftDataBYGround = [];
           this.publishRates = [];
-          // this.generateDraftTable();
+          this.getDraftRates('ground', 'fcl')
         }
         else if (this.activeTab == "activeFTL") {
           this.draftslistFTL = [];
           this.draftRatesByGroundFTL = [];
           this.draftDataBYGroundFTL = [];
           this.publishRatesFTL = [];
-          // this.generateDraftTableFTL();
+          this.getDraftRates('ground', 'ftl')
         }
       }
     }, (reason) => {
@@ -1406,18 +1406,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     modalRef.result.then((result) => {
       if (result == "Success") {
         if (this.activeTab == "activeFCL") {
-          for (let index = 0; index < this.draftslist.length; index++) {
-            if (this.draftslist[index].ID == id) {
-              if (this.draftRatesByGround && this.draftRatesByGround.length && this.draftRatesByGround[index].ID == id) {
-                this.draftRatesByGround.splice(index, 1);
-              }
-              this.draftslist.splice(index, 1);
-              this.draftDataBYGround = this.draftslist;
-              this.generateDraftTable();
-              this.publishRates = [];
-              break;
-            }
-          }
+          this.draftDataBYGround = this.draftslist;
+          this.getDraftRates('ground', 'FCL')
+          this.publishRates = [];
         }
         else if (this.activeTab == "activeFTL") {
           for (let index = 0; index < this.draftslistFTL.length; index++) {
@@ -1661,10 +1652,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   getDraftRates(type, containerLoad) {
     loading(true)
     this._manageRatesService.getAllDrafts(type, this.userProfile.ProviderID, containerLoad).subscribe((res: any) => {
-      if (res.returnObject) {
+      console.log(res);
+
+      if (res.returnId > 0) {
         if (containerLoad === 'FCL') {
           console.log(res);
-          this.draftslist = changeCase(res.returnObject, 'pascal')
+          this.draftslist = (res.returnObject ? changeCase(res.returnObject, 'pascal') : [])
           // this.allSeaDraftRatesByFCL = changeCase(res.returnObject, 'pascal')
         } else if (containerLoad === 'FTL') {
           // this.allSeaDraftRatesByLCL = changeCase(res.returnObject, 'pascal')
