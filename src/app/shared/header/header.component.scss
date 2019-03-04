@@ -1,18 +1,89 @@
 @import '../../../assets/scss/_variables';
+
 header {
-    background: $white-color;
-    padding: 6px 0;
-    border-bottom: 1px solid $grey-border;
-    box-shadow: 0 14px 97px #eaeaea;
-     .navbar {
-        padding-left: 1rem;
-        padding-right: 1rem;
-        .logo {
-            width: 180px;
-            height: auto;
-        }
-        .loginLink {
-            color: $secondary-color;
-        }
+  background: $white-color;
+  padding: 6px 0;
+  border-bottom: 1px solid $grey-border;
+  box-shadow: 0 14px 97px #eaeaea;
+
+  .navbar {
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    .logo {
+      width: 180px;
+      height: auto;
     }
+
+    .loginLink {
+      color: $secondary-color;
+    }
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    width: 240px;
+    box-shadow: 0px 8px 27px #b9b7b7;
+    border: 0px;
+
+    .dropdown-item {
+      font-size: $font-size-large;
+      text-transform: capitalize;
+      padding: 0.7rem 1.5rem;
+      transition: all 0.5s ease;
+
+      a {
+        padding: 0 !important;
+
+        .svg-icon {
+          width: 20px;
+          margin-right: 21px;
+        }
+
+        span {
+          position: relative;
+          color: #2b2b2b;
+          text-decoration: none;
+          line-height: 24px;
+          width: auto;
+
+          &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 1px;
+            background: $primary-color;
+            transform: scaleX(0);
+            transition: all 0.5s ease;
+          }
+        }
+      }
+      &:hover {
+          padding-left: 2rem;
+        a {
+          span {
+            color: $primary-color;
+            &::before {
+              transform: scaleX(1);
+            }
+          }
+        }
+      }
+    }
+
+    &:before {
+      content: " ";
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-bottom: 12px solid #eaeaec;
+      position: absolute;
+      top: -12px;
+      z-index: -1;
+      right: 2.5rem;
+    }
+  }
 }
