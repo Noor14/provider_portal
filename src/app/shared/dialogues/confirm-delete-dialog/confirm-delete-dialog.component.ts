@@ -94,9 +94,12 @@ export class ConfirmDeleteDialogComponent implements OnInit {
     }
 
     else if (this.deleteIds.type == "publishRateGround") {
+      console.log(this.deleteIds);
+      
       let obj = {
         publishedRateTransportType: this.deleteIds.data,
-        modifiedBy: this.userProfile.LoginID
+        modifiedBy: this.userProfile.LoginID,
+        containerLoadType: 'FTL'
       };
       this.groundTransportService.deletePublishRate(obj).subscribe((res: any) => {
         if (res.returnStatus == "Success") {

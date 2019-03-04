@@ -28,7 +28,7 @@
       </div>
     </div>
   </section>
-  <ngb-tabset activeId="activeFCL" (tabChange)="activeTab = $event.nextId">
+  <ngb-tabset activeId="activeFTL" (tabChange)="activeTab = $event.nextId; onTabChange(activeTab)">
     <ngb-tab [disabled]="true">
       <ng-template ngbTabTitle> <span>Unpublished Rates</span> </ng-template>
     </ngb-tab>
@@ -76,7 +76,7 @@
           <!-- <table id="draftRateTableFTL" cellspacing="0" #draftBYGroundFTL class="row-border hover"></table> -->
           <app-ui-table *ngIf="draftslistFTL.length" [tableType]="'draftFCL'" [tableData]="draftslistFTL"
             (checkedRows)="tableCheckedRows($event)" [containerLoad]="'FTL'" [transMode]="'GROUND'"></app-ui-table>
-          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" >Add
+          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()">Add
             another rate</a>
           <!-- <app-loader-main *ngIf="draftloadingFTL"></app-loader-main> -->
         </section>
@@ -87,15 +87,15 @@
               Draft
             </button>
             <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">Save Draft</button>
-            <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRatesFTL.length"
-              (click)="publishRateFTL()">Publish
+            <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRates.length"
+              (click)="publishRate('ftl')">Publish
               Rates
             </button>
           </div>
         </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab id="activeFCL">
+    <!-- <ngb-tab id="activeFCL">
       <ng-template ngbTabTitle>
         <span (click)="generateDraftTable()">
           <svg data-name="Layer 1" id="3e0bd723-1f5e-404f-9c9e-f9fa6a56c26b" viewBox="0 0 24 24"
@@ -126,12 +126,10 @@
         <section
           [ngClass]="{'no-data': !draftslist.length, 'no-scroll-add' : draftslist.length, 'no-pagination': draftslist.length <= dtOptionsByGroundDraft.pageLength}"
           class="rates-grid draft-grid draft-Ground">
-          <!-- <table id="draftRateTable" cellspacing="0" #draftBYGround class="row-border hover"></table> -->
           <app-ui-table *ngIf="draftslist.length" [tableType]="'draftFCL'" [tableData]="draftslist"
             (checkedRows)="tableCheckedRows($event)" [containerLoad]="'FCL'" [transMode]="'GROUND'"></app-ui-table>
           <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" >Add
             another rate</a>
-          <!-- <app-loader-main *ngIf="draftloading"></app-loader-main> -->
         </section>
         <div class="row mt-4">
           <div class="col-12 text-right actions">
@@ -140,13 +138,13 @@
             </button>
             <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">Save Draft</button>
             <button class="btn btn-primary btn-lg hvr-sweep-to-right" [disabled]="!publishRates.length"
-              (click)="publishRate()">Publish
+              (click)="publishRate('fcl')">Publish
               Rates
             </button>
           </div>
         </div>
       </ng-template>
-    </ngb-tab>
+    </ngb-tab> -->
   </ngb-tabset>
   <hr class="hr-solid mt-4">
   <h5 class="add-rate-head mb-4 mt-4">Your Rates</h5>
@@ -219,14 +217,14 @@
             <div class="col-4">
               <div class="form-group">
                 <label>Traller / Container</label>
-                <select class="form-control" [(ngModel)]="filterbyContainerType" (change)="filter()">
+                <select class="form-control" [(ngModel)]="filterbyContainerType">
                   <option [value]="undefined">All</option>
                   <option *ngFor="let container of allContainersType" [value]="container.ContainerSpecID">
                     {{container.ContainerWithSize}}</option>
                 </select>
               </div>
             </div>
-            <div class="col-2">
+            <!-- <div class="col-2">
               <div class="form-group">
                 <label>Mode</label>
                 <select class="form-control" [(ngModel)]="filterbyMode" (change)="filter()">
@@ -235,7 +233,7 @@
                   <option [value]="'TRUCK'">FTL</option>
                 </select>
               </div>
-            </div>
+            </div> -->
             <div class="col-4">
               <div class="form-group date-control">
                 <label>Rate Validity</label>
@@ -258,31 +256,39 @@
             <div class="col-5 form-group">
               <label>Show Only Rates For </label>
               <div class="fancyOptionBoxes pull-left  filter-checkbox mr-3 pt-3">
-                <input id="Radios" name="Radios" type="radio">
+                <input id="Radios" name="Radios" type="radio"
+                  (change)="isMarketplace = !isMarketplace; isCustomer = false">
                 <label for="Radios">
                   <span></span>
                   Marketplace
                 </label>
               </div>
-              <div class="fancyOptionBoxes pull-left filter-checkbox pt-3">
-                <input id="Radios2" name="Radios" type="radio">
+              <div class="fancyOptionBoxes pull-left  filter-checkbox  pt-3">
+                <input id="Radios2" name="Radios" type="radio"
+                  (change)="isCustomer = !isCustomer; isMarketplace = false">
                 <label for="Radios2">
                   <span></span>
                   My Customers
                 </label>
               </div>
             </div>
-
-            <!-- <div class="col-4">
+            <div class="col-4" *ngIf="isCustomer">
               <div class="form-group">
                 <label>Customer</label>
-                <select class="form-control" [(ngModel)]="filterbyCargoTypeLcl" (change)="filterLcl()">
-                  <option [value]="undefined">All</option>
-                  <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{ cargo.ShippingCatName }}</option>
+                <select class="form-control" [(ngModel)]="filterbyCustomer">
+                  <option [value]="undefined">Please Select</option>
+                  <option *ngFor="let customer of allCustomers" [value]="customer.CustomerID">
+                    {{ customer.CustomerName }}</option>
                 </select>
               </div>
-            </div> -->
-
+            </div>
+            <div class="col-8">
+              <div class="form-group">
+                <label for="">&nbsp;</label>
+                <button class="btn btn-primary w-50 btn-lg" (click)="filterRecords('ftl')">Filter
+                  Records</button>
+              </div>
+            </div>
           </div>
         </ng-template>
       </ngb-panel>
@@ -352,7 +358,11 @@
         </a>
       </div>
     </div>
-    <table id="publishRateTable" cellspacing="0" #publishByground class="row-border hover"></table>
+    <!-- <table id="publishRateTable" cellspacing="0" #publishByground class="row-border hover"></table> -->
+    <app-ui-table *ngIf="allRatesList?.length" [tableType]="'publishFCL'" [tableData]="allRatesList"
+      (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('ftl', $event)"
+      (pageEvent)="paging('ftl', $event)" [totalRecords]="totalPublishedRecords"
+      [containerLoad]="(activeTab === 'activeFCL' ? 'FCL' : 'FTL')" [transMode]="'GROUND'"></app-ui-table>
     <app-loader-main *ngIf="publishloading"></app-loader-main>
   </section>
   <section class="term-cond">

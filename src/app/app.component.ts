@@ -6,6 +6,7 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import '../assets/scss/_loader.css';
 import { HttpErrorResponse } from '@angular/common/http';
+import { removeDuplicateCurrencies, compareValues } from './components/pages/user-desk/billing/billing.component';
 
 
 
@@ -66,7 +67,10 @@ export class AppComponent implements OnInit{
     });
     this._commonService.getAllCurrency(100).subscribe((res: any) => {
       if (res && res.length) {
-        this._sharedService.currencyList.next(res);
+        let currencyList = res;
+        currencyList = removeDuplicateCurrencies(currencyList)
+        currencyList.sort(compareValues('title', "asc"));
+        this._sharedService.currencyList.next(currencyList);
       }
     });
 

@@ -1,30 +1,22 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, QueryList, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, OnDestroy } from '@angular/core';
 import {
-  NgbDatepicker,
   NgbInputDatepicker,
   NgbDateStruct,
-  NgbCalendar,
-  NgbDateAdapter,
   NgbDateParserFormatter,
   NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
-import { trigger, state, animate, transition, style } from '@angular/animations';
+import { trigger, animate, transition, style } from '@angular/animations';
 import { DiscardDraftComponent } from '../../../../../shared/dialogues/discard-draft/discard-draft.component';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { getJwtToken } from '../../../../../services/jwt.injectable';
+import { Observable, Subscription } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
 import { SharedService } from '../../../../../services/shared.service';
 import { baseExternalAssets } from '../../../../../constants/base.url';
 import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
-// import { NgModel } from '@angular/forms';
 import * as moment from 'moment';
-// import { DataTableDirective } from 'angular-datatables';
-import { GroundRateDialogComponent } from '../../../../../shared/dialogues/ground-rate-dialog/ground-rate-dialog.component';
 import { SeaRateDialogComponent } from '../../../../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
 import { GroundTransportService } from './ground-transport.service';
 import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-parser-formatter';
 import { ManageRatesService } from '../manage-rates.service';
-import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
 import { RateHistoryComponent } from '../../../../../shared/dialogues/rate-history/rate-history.component';
@@ -64,7 +56,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 export class GroundTransportComponent implements OnInit, OnDestroy {
 
   public rateValidityText = "Edit Rate / Validity";
-  public activeTab = "activeFCL";
+  public activeTab = "activeFTL";
   private draftRates: any;
   private addnsaveRates: any;
   public dtOptionsByGround: DataTables.Settings | any = {};
@@ -74,9 +66,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   @ViewChild('draftBYGroundFTL') tabledraftByGroundFTL;
   @ViewChild('publishByground') tablepublishByGround;
   @ViewChild("dp") input: NgbInputDatepicker;
-  // @ViewChild(NgModel) datePick: NgModel;
   @ViewChild('rangeDp') rangeDp: ElementRef;
-  // @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
   public dataTablepublishByground: any;
   public dataTabledraftByground: any;
@@ -137,9 +127,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   isInside = date => after(date, this.fromDate) && before(date, this.toDate);
   isFrom = date => equals(date, this.fromDate);
   isTo = date => equals(date, this.toDate);
-  pageNo: any;
-  sortColumn: any;
-  sortColumnDirection: any;
   constructor(
     private modalService: NgbModal,
     private _seaFreightService: GroundTransportService,
@@ -160,28 +147,23 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
-    this.getAllPublishRates('fcl');
+    this.getAllPublishRates('FTL');
     this.allservicesByGround();
-    this.addnsaveRates = this._sharedService.draftRowAddGround.subscribe(state => {
-      if (state && Object.keys(state).length) {
-        this.setRowinDraftTable(state, 'popup not open');
-      }
-    })
+
     this._sharedService.termNcondGround.subscribe(state => {
       if (state) {
         this.editorContent = state;
       }
     })
-    this.getDraftRates('ground', 'FCL')
+    this.getDraftRates('ground', 'FTL')
     this.getPortsData()
     this.getAllCustomers(this.userProfile.ProviderID)
     this.getAdditionalData()
+    this.getDropdownsList()
   }
 
 
   ngOnDestroy() {
-    // this.draftRates.unsubscribe();
-    this.addnsaveRates.unsubscribe();
   }
 
   clearFilter(event) {
@@ -741,7 +723,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
       }
     }
     else if (this.activeTab == 'activeFTL') {
-      obj = this.draftslistFTL.find(elem => elem.Id == rowId);
+      if (rowId > 0) {
+        obj = this.draftslistFTL.find(elem => elem.Id == rowId);
+      } else {
+        obj = null
+      }
     }
     const modalRef = this.modalService.open(SeaRateDialogComponent, {
       size: 'lg',
@@ -754,6 +740,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
       console.log(result);
       if (result) {
         this.setAddDraftData(result[0].containerLoadType, result);
+        this.getAllPublishRates('ftl')
       }
     });
     let object = {
@@ -893,7 +880,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     if (!date && this.fromDate && this.toDate) {
       this.fromDate = null;
       this.toDate = null;
-      this.getAllPublishRates('fcl');
+      // this.getAllPublishRates('fcl');
     }
     else {
       return;
@@ -919,9 +906,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     }
 
     this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
-    if (this.fromDate && this.fromDate.month && this.toDate && this.toDate.month) {
-      this.getAllPublishRates('fcl');
-    }
+    // if (this.fromDate && this.fromDate.month && this.toDate && this.toDate.month) {
+    //   this.getAllPublishRates('fcl');
+    // }
   }
 
   allservicesByGround() {
@@ -929,20 +916,20 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
-            this.allCargoType = state[index].DropDownValues.Category;
-            this.allContainersType = state[index].DropDownValues.ContainerGround;
-            const seaPorts: Array<any> = (state[index].DropDownValues.Port && state[index].DropDownValues.Port.length > 0) ? state[index].DropDownValues.Port : []
-            const groundAreas: Array<any> = (state[index].DropDownValues.GroundPort && state[index].DropDownValues.GroundPort.length > 0) ? state[index].DropDownValues.GroundPort : []
-            this.allPorts = seaPorts.concat(groundAreas);
-            this.allCurrencies = state[index].DropDownValues.UserCurrency;
+            // this.allCargoType = state[index].DropDownValues.Category;
+            // this.allContainersType = state[index].DropDownValues.ContainerGround;
+            // const seaPorts: Array<any> = (state[index].DropDownValues.Port && state[index].DropDownValues.Port.length > 0) ? state[index].DropDownValues.Port : []
+            // const groundAreas: Array<any> = (state[index].DropDownValues.GroundPort && state[index].DropDownValues.GroundPort.length > 0) ? state[index].DropDownValues.GroundPort : []
+            // this.allPorts = seaPorts.concat(groundAreas);
+            // this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if (state[index].TCGround) {
               this.editorContent = state[index].TCGround;
               this.disable = true;
             }
             if (state[index].DraftDataGround && state[index].DraftDataGround.length) {
-              this.draftRatesByGround = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'ground');
+              // this.draftRatesByGround = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'ground');
               // this.draftslist = this.draftRatesByGround;
-              this.draftRatesByGroundFTL = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'truck');
+              // this.draftRatesByGroundFTL = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'truck');
               // this.draftslistFTL = this.draftRatesByGroundFTL;
             }
             // this.generateDraftTable();
@@ -968,35 +955,43 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
   }
   filtertionPort(obj) {
-    if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates('fcl');
+    // if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates('fcl');
 
   }
 
-  getAllPublishRates(type) {
+  public sortColumn: string = 'EffectiveFrom'
+  public sortColumnDirection: string = 'ASC'
+  public isCustomer: boolean = false
+  public isMarketplace: boolean = false
+  public pageNo: number = 1;
+  public pageSize: number = 5;
+  public totalPublishedRecords: number;
+  getAllPublishRates(type?) {
     this.publishloading = true;
     let obj = {
       providerID: this.userProfile.ProviderID,
-      pageNo: 1,
-      pageSize: 50,
+      pageNo: this.pageNo,
+      pageSize: this.pageSize,
       mode: this.filterbyMode,
-      containerSpecID: (this.filterbyContainerType == 'undefined') ? null : this.filterbyContainerType,
+      containerSpecID: (this.filterbyContainerType == 'undefined') ? null : parseInt(this.filterbyContainerType),
       polID: this.orgfilter(),
       podID: this.destfilter(),
       effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
       effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
-      sortColumn: null,
-      sortColumnDirection: null
+      customerID: (this.filterbyCustomer ? parseInt(this.filterbyCustomer) : null),
+      customerType: (this.isCustomer ? 'CUSTOMER' : (this.isMarketplace ? 'MARKETPLACE' : null)),
+      containerLoadType: type,
+      sortColumn: this.sortColumn,
+      sortColumnDirection: this.sortColumnDirection
     }
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        if (!res.returnObject) {
-          this.allRatesList = [];
-        }
-        else {
-          this.allRatesList = res.returnObject;
-        }
+      console.log(res);
+      this.publishloading = false;
+      if (res.returnId > 0) {
+        this.totalPublishedRecords = res.returnObject.recordsTotal
+        this.allRatesList = res.returnObject.data;
         this.checkedallpublishRates = false;
-        this.filterTable();
+        this.publishloading = false;
       }
     })
 
@@ -1119,95 +1114,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
         }
       ]
     };
-    this.setdataInTable();
   }
 
-
-  setdataInTable() {
-    setTimeout(() => {
-      if (this.tablepublishByGround && this.tablepublishByGround.nativeElement) {
-        this.dataTablepublishByground = $(this.tablepublishByGround.nativeElement);
-        let alltableOption = this.dataTablepublishByground.DataTable(this.dtOptionsByGround);
-        this.publishloading = false;
-        $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
-          event.stopPropagation();
-          let selectedId = (<HTMLElement>event.target).id;
-          if (selectedId) {
-            let rateId = selectedId.split('-').shift();
-            let type = 'Rate_' + selectedId.split('-').pop();
-            let mode = selectedId.split('-').pop();
-            this.rateHistory(rateId, type, mode)
-          }
-        });
-        $("#selectallpublishRates").click(() => {
-          this.delPublishRates = [];
-          var cols = alltableOption.column(0).nodes();
-          this.checkedallpublishRates = !this.checkedallpublishRates;
-          for (var i = 0; i < cols.length; i += 1) {
-            cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
-            if (this.checkedallpublishRates) {
-              let selectedData = cols[i].querySelector("input[type='checkbox']").id;
-              let obj = {
-                publishRateID: selectedData.split('-').shift(),
-                transportType: selectedData.split('-').pop()
-              }
-              this.delPublishRates.push(obj);
-              this.selectedItem('add', alltableOption);
-              this.rateValidityText = "Edit Validity";
-            }
-          }
-          if (i == cols.length && !this.checkedallpublishRates) {
-            this.delPublishRates = [];
-            this.selectedItem('remove', alltableOption)
-            this.rateValidityText = "Edit Rate / Validity";
-          }
-
-        });
-
-        $('#publishRateTable').off('click').on('click', 'input[type="checkbox"]', (event) => {
-          let selectedData = (<HTMLInputElement>event.target).id
-          let index = this.delPublishRates.findIndex(obj => obj.publishRateID == selectedData.split('-').shift());
-          let selection = event.currentTarget.parentElement.parentElement.parentElement;
-          if (index >= 0) {
-            this.delPublishRates.splice(index, 1);
-            selection.classList.remove('selected');
-          } else {
-            selection.classList.add('selected');
-            let obj = {
-              publishRateID: selectedData.split('-').shift(),
-              transportType: selectedData.split('-').pop()
-            }
-            this.delPublishRates.push(obj)
-          }
-          if (this.delPublishRates && this.delPublishRates.length > 1) {
-            this.rateValidityText = "Edit Validity";
-          }
-          else {
-            this.rateValidityText = "Edit Rate / Validity";
-          }
-        });
-
-      }
-    }, 0);
-  }
-
-  selectedItem(type, alltableOption) {
-    if (type == 'add') {
-      alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
-        var data = this.node();
-        data.classList.add('selected');
-        // ... do something with data(), or this.node(), etc
-      });
-    }
-    else {
-      alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
-        var node = this.node();
-        node.classList.remove('selected');
-        node.children[0].children[0].children[0].checked = false;
-        // ... do something with data(), or this.node(), etc
-      });
-    }
-  }
   orgfilter() {
     if (this.filterOrigin && typeof this.filterOrigin == "object" && Object.keys(this.filterOrigin).length) {
       return this.filterOrigin.PortID;
@@ -1235,8 +1143,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
   discardDraft() {
     let discardarr = [];
-    console.log(this.draftslist);
-
     if (this.activeTab == "activeFCL") {
       this.draftslist.forEach(elem => {
         let obj = {
@@ -1270,14 +1176,14 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
           this.draftRatesByGround = [];
           this.draftDataBYGround = [];
           this.publishRates = [];
-          this.getDraftRates('ground', 'fcl')
+          this.getDraftRates('ground', 'FCL')
         }
         else if (this.activeTab == "activeFTL") {
           this.draftslistFTL = [];
           this.draftRatesByGroundFTL = [];
           this.draftDataBYGroundFTL = [];
           this.publishRatesFTL = [];
-          this.getDraftRates('ground', 'ftl')
+          this.getDraftRates('ground', 'FTL')
         }
       }
     }, (reason) => {
@@ -1312,7 +1218,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
         if (this.allRatesList.length == this.delPublishRates.length) {
           this.allRatesList = [];
           this.delPublishRates = [];
-          this.filterTable();
+          // this.filterTable();
         }
         else {
           for (var i = 0; i < this.delPublishRates.length; i++) {
@@ -1323,11 +1229,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
             }
           }
           if (i == this.delPublishRates.length) {
-            this.filterTable();
+            // this.filterTable();
             this.delPublishRates = [];
           }
         }
-
+        this.getAllPublishRates('FTL')
       }
     }, (reason) => {
       // console.log("reason");
@@ -1348,8 +1254,22 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     this.delPubRecord()
   }
 
-  publishRate() {
-    this._seaFreightService.publishDraftRate(this.publishRates).subscribe((res: any) => {
+  publishRate(type) {
+    let param;
+    if (type === 'fcl') {
+      param = {
+        pricingIDList: (this.draftslist.length === this.publishRates.length) ? [-1] : this.publishRates,
+        providerID: this.userProfile.ProviderID,
+        containerLoadType: type.toUpperCase()
+      }
+    } else if (type === 'ftl') {
+      param = {
+        pricingIDList: (this.draftslistFTL.length === this.publishRates.length) ? [-1] : this.publishRates,
+        providerID: this.userProfile.ProviderID,
+        containerLoadType: type.toUpperCase()
+      }
+    }
+    this._seaFreightService.publishDraftRate(param).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         for (var i = 0; i < this.publishRates.length; i++) {
           for (let y = 0; y < this.draftslist.length; y++) {
@@ -1361,27 +1281,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
         if (this.publishRates.length == i) {
           this.checkedalldraftRates = false;
           this.publishRates = [];
-          this.generateDraftTable();
-          this.getAllPublishRates('fcl');
-        }
-      }
-    })
-  }
-  publishRateFTL() {
-    this._seaFreightService.publishDraftRate(this.publishRatesFTL).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        for (var i = 0; i < this.publishRatesFTL.length; i++) {
-          for (let y = 0; y < this.draftslistFTL.length; y++) {
-            if (this.draftslistFTL[y].ID == this.publishRatesFTL[i].draftID) {
-              this.draftslistFTL.splice(y, 1);
-            }
-          }
-        }
-        if (this.publishRatesFTL.length == i) {
-          this.checkedalldraftRatesFTL = false;
-          this.publishRatesFTL = [];
-          // this.generateDraftTableFTL();
-          this.getAllPublishRates('ftl');
+          this.getDraftRates('ground', type.toUpperCase())
+          this.getAllPublishRates(type.toUpperCase());
         }
       }
     })
@@ -1411,22 +1312,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
           this.publishRates = [];
         }
         else if (this.activeTab == "activeFTL") {
-          for (let index = 0; index < this.draftslistFTL.length; index++) {
-            if (this.draftslistFTL[index].ID == id) {
-              if (this.draftRatesByGroundFTL && this.draftRatesByGroundFTL.length && this.draftRatesByGroundFTL[index].ID == id) {
-                this.draftRatesByGroundFTL.splice(index, 1);
-              }
-              this.draftslistFTL.splice(index, 1);
-              this.draftDataBYGroundFTL = this.draftslistFTL;
-              // this.generateDraftTableFTL();
-              this.publishRatesFTL = [];
-              break;
-            }
-          }
+          this.getDraftRates('ground', 'FTL')
+          this.publishRates = [];
         }
       }
     }, (reason) => {
-      // console.log("reason");
     });
     let obj = {
       data: [{
@@ -1442,41 +1332,87 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
       }
     }, 0);
   }
+
+
+  /**
+   *
+   * RATE VALIDITY POPUP
+   * @returns
+   * @memberof GroundTransportComponent
+   */
   rateValidity() {
     if (!this.delPublishRates.length) return;
     let updateValidity = [];
     for (let i = 0; i < this.allRatesList.length; i++) {
       for (let y = 0; y < this.delPublishRates.length; y++) {
-        if (this.allRatesList[i].id == this.delPublishRates[y].publishRateID) {
+        if (this.allRatesList[i].id == this.delPublishRates[y]) {
           updateValidity.push(this.allRatesList[i])
         }
       }
     }
-    const modalRef = this.modalService.open(RateValidityComponent, {
-      size: 'lg',
-      centered: true,
-      windowClass: 'upper-medium-modal',
-      backdrop: 'static',
-      keyboard: false
-    });
-    modalRef.result.then((result) => {
-      if (result == 'Success') {
-        this.getAllPublishRates('fcl');
-        this.checkedallpublishRates = false
-        this.delPublishRates = [];
+
+    if (updateValidity && updateValidity.length > 1) {
+      const modalRef = this.modalService.open(RateValidityComponent, {
+        size: 'lg',
+        centered: true,
+        windowClass: 'upper-medium-modal',
+        backdrop: 'static',
+        keyboard: false
+      });
+      modalRef.result.then((result) => {
+        if (result == 'Success') {
+          this.getAllPublishRates('FCL');
+          this.checkedallpublishRates = false
+          this.delPublishRates = [];
+        }
+      });
+      let obj = {
+        data: updateValidity,
+        type: "rateValidityGROUND"
       }
-    });
-    let obj = {
-      data: updateValidity,
-      type: "rateValidityGROUND"
+      modalRef.componentInstance.validityData = obj;
+    } else if (updateValidity && updateValidity.length === 1) {
+      const modalRef2 = this.modalService.open(SeaRateDialogComponent, {
+        size: 'lg',
+        centered: true,
+        windowClass: 'large-modal',
+        backdrop: 'static',
+        keyboard: false
+      });
+      modalRef2.result.then((result) => {
+        if (result == 'Success') {
+          this.getAllPublishRates('FTL');
+          this.checkedallpublishRates = false
+          this.delPublishRates = [];
+        }
+      });
+      let object = {
+        ID: updateValidity[0].id,
+        forType: (this.activeTab === 'activeFCL' ? 'FCL' : 'FTL'),
+        data: updateValidity,
+        addList: this.groundCharges,
+        customers: this.allCustomers,
+        mode: 'publish'
+      }
+      modalRef2.componentInstance.selectedData = object;
     }
-    modalRef.componentInstance.validityData = obj;
+
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
       }
     }, 0);
   }
+
+
+  /**
+   *
+   * RATE HISTORY POPUP
+   * @param {*} recId
+   * @param {*} fortype
+   * @param {*} mode
+   * @memberof GroundTransportComponent
+   */
   rateHistory(recId, fortype, mode) {
     const modalRef = this.modalService.open(RateHistoryComponent, {
       size: 'lg',
@@ -1499,6 +1435,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
+
+  /**
+   *
+   * SAVE TERMS & CONDITIONS
+   * @memberof GroundTransportComponent
+   */
   saveTermNcond() {
     let obj = {
       providerID: this.userProfile.ProviderID,
@@ -1555,9 +1497,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   getAdditionalData() {
     loading(true)
     this._manageRatesService.getAllAdditionalCharges(this.userProfile.ProviderID).subscribe((res: any) => {
-      console.log(res);
       this.groundCharges = res.filter(e => e.modeOfTrans === 'TRUCK' && e.addChrType === 'ADCH')
-      console.log(this.groundCharges);
       loading(false)
     }, (err) => {
       console.log(err);
@@ -1577,9 +1517,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
       if (typeof event.list[0] === 'object') {
         if (event.list[0].type === 'history') {
           if (event.list[0].load === 'FCL') {
-            // this.rateHistory(event.list[0].id, 'Rate_FCL')
-          } else if (event.list[0].load === 'LCL') {
-            // this.rateHistory(event.list[0].id, 'Rate_LCL')
+            this.rateHistory(event.list[0].id, 'Rate_FCL', 'FCL')
+          } else if (event.list[0].load === 'FTL') {
+            this.rateHistory(event.list[0].id, 'Rate_FTL', 'FTL')
           }
         }
       } else {
@@ -1629,16 +1569,18 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   public filterbyCustomer;
   public fromType: string = ''
   filterRecords(type) {
-    // this.getAllPublishRates(type)
+    this.getAllPublishRates('FTL')
   }
 
   onTabChange(event) {
     if (event === 'activeFTL') {
-      // this.getAllPublishRates('ground',)
+      this.getAllPublishRates('FTL')
       this.getDraftRates('ground', 'FTL')
+      this.publishRates = []
     } else if (event === 'activeFCL') {
-      // this.getAllPublishRates('fcl')
+      this.getAllPublishRates('fcl')
       this.getDraftRates('ground', 'FCL')
+      this.publishRates = []
     }
   }
 
@@ -1652,16 +1594,10 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   getDraftRates(type, containerLoad) {
     loading(true)
     this._manageRatesService.getAllDrafts(type, this.userProfile.ProviderID, containerLoad).subscribe((res: any) => {
-      console.log(res);
-
       if (res.returnId > 0) {
         if (containerLoad === 'FCL') {
-          console.log(res);
           this.draftslist = (res.returnObject ? changeCase(res.returnObject, 'pascal') : [])
-          // this.allSeaDraftRatesByFCL = changeCase(res.returnObject, 'pascal')
         } else if (containerLoad === 'FTL') {
-          // this.allSeaDraftRatesByLCL = changeCase(res.returnObject, 'pascal')
-          // this.draftslcl = changeCase(res.returnObject, 'pascal')
           this.draftslistFTL = changeCase(res.returnObject, 'pascal')
         }
       }
@@ -1669,6 +1605,22 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     }, (err: any) => {
       loading(false)
     })
+  }
+
+
+
+  public combinedContainers = []
+  public allContainers = []
+  public selectedFCLContainers = []
+  public shippingCategories = []
+  /**
+   * FILLIN DROPDOWN DETAILS
+   *
+   * @memberof GroundTransportComponent
+   */
+  getDropdownsList() {
+    this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
+    this.allContainersType = this.combinedContainers.filter(e => e.ContainerFor === 'FTL' && e.ShippingCatName === 'Goods')
   }
 
 }
