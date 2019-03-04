@@ -73,9 +73,10 @@
         <section
           [ngClass]="{'no-data': !draftslistFTL.length, 'no-scroll-add' : draftslistFTL.length, 'no-pagination': draftslistFTL.length <= dtOptionsByGroundDraftFTL.pageLength}"
           class="rates-grid draft-grid draft-GroundFTL">
-          <table id="draftRateTableFTL" cellspacing="0" #draftBYGroundFTL class="row-border hover"></table>
-          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()"
-            *ngIf="!draftloadingFTL">Add
+          <!-- <table id="draftRateTableFTL" cellspacing="0" #draftBYGroundFTL class="row-border hover"></table> -->
+          <app-ui-table *ngIf="draftslistFTL.length" [tableType]="'draftFCL'" [tableData]="draftslistFTL"
+            (checkedRows)="tableCheckedRows($event)" [containerLoad]="'FTL'" [transMode]="'GROUND'"></app-ui-table>
+          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" >Add
             another rate</a>
           <!-- <app-loader-main *ngIf="draftloadingFTL"></app-loader-main> -->
         </section>
@@ -125,9 +126,10 @@
         <section
           [ngClass]="{'no-data': !draftslist.length, 'no-scroll-add' : draftslist.length, 'no-pagination': draftslist.length <= dtOptionsByGroundDraft.pageLength}"
           class="rates-grid draft-grid draft-Ground">
-          <table id="draftRateTable" cellspacing="0" #draftBYGround class="row-border hover"></table>
-          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()"
-            *ngIf="!draftloading">Add
+          <!-- <table id="draftRateTable" cellspacing="0" #draftBYGround class="row-border hover"></table> -->
+          <app-ui-table *ngIf="draftslist.length" [tableType]="'draftFCL'" [tableData]="draftslist"
+            (checkedRows)="tableCheckedRows($event)" [containerLoad]="'FCL'" [transMode]="'GROUND'"></app-ui-table>
+          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()" >Add
             another rate</a>
           <!-- <app-loader-main *ngIf="draftloading"></app-loader-main> -->
         </section>

@@ -13,6 +13,7 @@ import { firstBy } from 'thenby';
 })
 export class UiTableComponent implements OnInit, OnChanges {
   @Input() tableData: any;
+  @Input() transMode: string;
   @Input() tableType: string; //draftFCL; publishFCL
   @Input() totalRecords: number
   @Input() containerLoad: string;
@@ -78,7 +79,7 @@ export class UiTableComponent implements OnInit, OnChanges {
       this.totalCount = this.totalRecords
     }
 
-    if (this.containerLoad === 'LCL') {
+    if (this.containerLoad === 'LCL' && this.transMode === 'SEA') {
       this.thList = [
         { title: "", activeClass: '', sortKey: "" },
         { title: "Rate For", activeClass: '', sortKey: "CustomerName" },
@@ -89,8 +90,21 @@ export class UiTableComponent implements OnInit, OnChanges {
         { title: "Import Charges", activeClass: '', sortKey: "" },
         { title: "Export Charges", activeClass: '', sortKey: "" },
       ]
+    } else if ((this.containerLoad === 'FCL' || this.containerLoad === 'FTL') && this.transMode === 'GROUND') {
+      this.thList = [
+        { title: "", activeClass: '', sortKey: "" },
+        { title: "Origin/Departure", activeClass: '', sortKey: "" },
+        { title: "Cargo Type", activeClass: '', sortKey: "" },
+        { title: "Size", activeClass: '', sortKey: "" },
+        { title: "Rate", activeClass: '', sortKey: "" },
+        { title: "Rate Validity", activeClass: '', sortKey: "" },
+        { title: "Import Charges", activeClass: '', sortKey: "" },
+        { title: "Export Charges", activeClass: '', sortKey: "" },
+      ]
     }
     this.data = this.tableData
+    console.log(this.data);
+
     this.data.forEach(e => {
       if (e.jsonCustomerDetail) {
         e.parsedjsonCustomerDetail = JSON.parse(e.jsonCustomerDetail)
@@ -222,7 +236,7 @@ export class UiTableComponent implements OnInit, OnChanges {
     if (action === 'delete') {
       obj = {
         type: 'delete',
-        id: (row.containerLoadType === 'FCL' ? row.providerPricingDraftID : row.consolidatorPricingDraftID),
+        id: ((this.transMode === 'GROUND') ? row.iD : ((this.transMode === 'SEA' && row.containerLoadType === 'FCL') ? row.providerPricingDraftID : row.consolidatorPricingDraftID)),
         load: row.containerLoadType
       }
     } else if (action === 'edit') {

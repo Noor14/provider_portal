@@ -29,7 +29,7 @@ import { ToastrService } from 'ngx-toastr';
 import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
 import { RateHistoryComponent } from '../../../../../shared/dialogues/rate-history/rate-history.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import { loading, getImagePath, ImageRequiredSize, ImageSource } from '../../../../../constants/globalFunctions';
+import { loading, getImagePath, ImageRequiredSize, ImageSource, changeCase } from '../../../../../constants/globalFunctions';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -137,6 +137,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   isInside = date => after(date, this.fromDate) && before(date, this.toDate);
   isFrom = date => equals(date, this.fromDate);
   isTo = date => equals(date, this.toDate);
+  pageNo: any;
+  sortColumn: any;
+  sortColumnDirection: any;
   constructor(
     private modalService: NgbModal,
     private _seaFreightService: GroundTransportService,
@@ -157,7 +160,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
-    this.getAllPublishRates();
+    this.getAllPublishRates('fcl');
     this.allservicesByGround();
     this.addnsaveRates = this._sharedService.draftRowAddGround.subscribe(state => {
       if (state && Object.keys(state).length) {
@@ -169,7 +172,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
         this.editorContent = state;
       }
     })
-
+    this.getDraftRates('ground', 'FCL')
     this.getPortsData()
     this.getAllCustomers(this.userProfile.ProviderID)
     this.getAdditionalData()
@@ -203,7 +206,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
   }
   filter() {
-    this.getAllPublishRates()
+    this.getAllPublishRates('fcl')
   }
 
   addRatesManually(activeTab) {
@@ -757,8 +760,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
       keyboard: false
     });
     modalRef.result.then((result) => {
-      if (result && result.data && result.data.length) {
-        this.setAddDraftData(result.data);
+      console.log(result);
+      if (result) {
+        this.setAddDraftData(result[0].containerLoadType, result);
       }
     });
 
@@ -771,13 +775,45 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
   }
 
-  setAddDraftData(data) {
-    if (this.activeTab == "activeFCL") {
-      this.forDraftfilterFCL(data);
-    }
-    else if (this.activeTab == "activeFTL") {
-      this.forDraftfilterFTL(data);
-    }
+
+  /**
+   *
+   * Setting Data in Drafts Tabls
+   * @param {*} type
+   * @param {*} data
+   * @memberof GroundTransportComponent
+   */
+  setAddDraftData(type, data) {
+    data.forEach(element => {
+      if (element.JsonSurchargeDet) {
+        let importCharges = []
+        let exportCharges = []
+        let parsedJsonSurchargeDet = JSON.parse(element.JsonSurchargeDet)
+        importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT');
+        exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT');
+        element.parsedJsonSurchargeDet = importCharges.concat(exportCharges)
+      }
+      let dataObj = changeCase(element, 'pascal')
+      if (type === 'FCL') {
+        this.draftslist.forEach(e => {
+          if (e.ProviderPricingDraftID === element.providerPricingDraftID) {
+            let idx = this.draftslist.indexOf(e)
+            this.draftslist.splice(idx, 1)
+          }
+        })
+        this.draftslist.unshift(dataObj)
+      } else if (type === 'LCL') {
+        this.draftslistFTL.forEach(e => {
+          if (e.ConsolidatorPricingDraftID === element.ConsolidatorPricingDraftID) {
+            let idx = this.draftslistFTL.indexOf(e)
+            this.draftslistFTL.splice(idx, 1)
+          }
+        })
+        this.draftslistFTL.unshift(dataObj)
+      }
+      this.getDraftRates('ground', type) //@todo remove it when we get the mechanism for parent to child changes emit
+    });
+    // this.generateDraftTable();
   }
 
   forDraftfilterFCL(data) {
@@ -860,7 +896,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     if (!date && this.fromDate && this.toDate) {
       this.fromDate = null;
       this.toDate = null;
-      this.getAllPublishRates();
+      this.getAllPublishRates('fcl');
     }
     else {
       return;
@@ -887,7 +923,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
     this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
     if (this.fromDate && this.fromDate.month && this.toDate && this.toDate.month) {
-      this.getAllPublishRates();
+      this.getAllPublishRates('fcl');
     }
   }
 
@@ -910,7 +946,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
               this.draftRatesByGround = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'ground');
               this.draftslist = this.draftRatesByGround;
               this.draftRatesByGroundFTL = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'truck');
-              this.draftslistFTL = this.draftRatesByGroundFTL;
+              // this.draftslistFTL = this.draftRatesByGroundFTL;
             }
             this.generateDraftTable();
             this.generateDraftTableFTL();
@@ -924,10 +960,10 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
   filterByroute(obj) {
     if (typeof obj == 'object') {
-      this.getAllPublishRates();
+      // this.getAllPublishRates();
     }
     else if (!obj) {
-      this.getAllPublishRates();
+      // this.getAllPublishRates();
     }
     else {
       return;
@@ -935,11 +971,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
   }
   filtertionPort(obj) {
-    if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates();
+    if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates('fcl');
 
   }
 
-  getAllPublishRates() {
+  getAllPublishRates(type) {
     this.publishloading = true;
     let obj = {
       providerID: this.userProfile.ProviderID,
@@ -1327,7 +1363,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
           this.checkedalldraftRates = false;
           this.publishRates = [];
           this.generateDraftTable();
-          this.getAllPublishRates();
+          this.getAllPublishRates('fcl');
         }
       }
     })
@@ -1346,7 +1382,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
           this.checkedalldraftRatesFTL = false;
           this.publishRatesFTL = [];
           this.generateDraftTableFTL();
-          this.getAllPublishRates();
+          this.getAllPublishRates('ftl');
         }
       }
     })
@@ -1435,7 +1471,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     });
     modalRef.result.then((result) => {
       if (result == 'Success') {
-        this.getAllPublishRates();
+        this.getAllPublishRates('fcl');
         this.checkedallpublishRates = false
         this.delPublishRates = [];
       }
@@ -1530,13 +1566,116 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     loading(true)
     this._manageRatesService.getAllAdditionalCharges(this.userProfile.ProviderID).subscribe((res: any) => {
       console.log(res);
-
       this.groundCharges = res.filter(e => e.modeOfTrans === 'TRUCK' && e.addChrType === 'ADCH')
       console.log(this.groundCharges);
-
       loading(false)
     }, (err) => {
       console.log(err);
+    })
+  }
+
+
+  /**
+   *
+   * Emitter for checkboxes in table
+   * @param {*} event
+   * @memberof GroundTransportComponent
+   */
+  tableCheckedRows(event) {
+    console.log(event);
+    if (event.type === 'publishFCL') {
+      if (typeof event.list[0] === 'object') {
+        if (event.list[0].type === 'history') {
+          if (event.list[0].load === 'FCL') {
+            // this.rateHistory(event.list[0].id, 'Rate_FCL')
+          } else if (event.list[0].load === 'LCL') {
+            // this.rateHistory(event.list[0].id, 'Rate_LCL')
+          }
+        }
+      } else {
+        this.delPublishRates = event.list
+      }
+    } else if (event.type === 'draftFCL') {
+      if (typeof event.list[0] === 'object') {
+        if (event.list[0].type === 'delete') {
+          this.deleteRow(event.list[0].id)
+        } else if (event.list[0].type === 'edit') {
+          this.updatePopupRates(event.list[0].id, event.list[0].load)
+        }
+      } else {
+        this.publishRates = event.list;
+      }
+    }
+  }
+
+
+  /**
+   *
+   * Emitter for sorting columns
+   * @param {*} type
+   * @param {*} event
+   * @memberof GroundTransportComponent
+   */
+  sortedFilters(type, event) {
+    console.log(event);
+    this.sortColumn = event.column
+    this.sortColumnDirection = event.direction
+    this.getAllPublishRates(type)
+  }
+
+  /**
+   *
+   * Emitter for Paging
+   * @param {*} type
+   * @param {*} event
+   * @memberof GroundTransportComponent
+   */
+  paging(type, event) {
+    console.log(event);
+    this.pageNo = event;
+    this.getAllPublishRates(type)
+  }
+
+  public filterbyCustomer;
+  public fromType: string = ''
+  filterRecords(type) {
+    // this.getAllPublishRates(type)
+  }
+
+  onTabChange(event) {
+    if (event === 'activeFTL') {
+      // this.getAllPublishRates('ground',)
+      this.getDraftRates('ground', 'FTL')
+    } else if (event === 'activeFCL') {
+      // this.getAllPublishRates('fcl')
+      this.getDraftRates('ground', 'FCL')
+    }
+  }
+
+
+  /**
+   *
+   * Get All Draft Rates for FCL/FTL
+   * @param {*} type
+   * @memberof GroundTransportComponent
+   */
+  getDraftRates(type, containerLoad) {
+    loading(true)
+    this._manageRatesService.getAllDrafts(type, this.userProfile.ProviderID, containerLoad).subscribe((res: any) => {
+      if (res.returnObject) {
+        if (containerLoad === 'FCL') {
+          console.log(res);
+          
+          // this.allSeaDraftRatesByFCL = changeCase(res.returnObject, 'pascal')
+          this.draftslistFTL = changeCase(res.returnObject, 'pascal')
+        } else if (containerLoad === 'FTL') {
+          // this.allSeaDraftRatesByLCL = changeCase(res.returnObject, 'pascal')
+          // this.draftslcl = changeCase(res.returnObject, 'pascal')
+        }
+      }
+      loading(false)
+    }, (err: any) => {
+      loading(false)
     })
   }
 

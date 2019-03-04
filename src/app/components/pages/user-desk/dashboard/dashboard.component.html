@@ -47,8 +47,8 @@
     </div>
     <div class="summaryQuantity d-flex pt-2 pb-2">
       <div class="rates">
-      <small class="mr-2">{{providerInfo.BillingCurrencyCode}}</small>
-      <span>{{providerInfo.BillingTillDate | number: '1.2-2'}}</span>
+      <small class="mr-2">{{providerInfo?.RevenueCurrency}}</small>
+      <span>{{providerInfo?.TotalRevenue | number: '1.2-2'}}</span>
       </div>
     </div>
 </div>

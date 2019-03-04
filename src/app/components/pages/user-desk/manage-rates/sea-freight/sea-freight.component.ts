@@ -2307,7 +2307,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   getDraftRates(type) {
     loading(true)
-    this._seaFreightService.getAllDrafts(type, this.userProfile.ProviderID).subscribe((res: any) => {
+    this._seaFreightService.getAllDrafts(type, this.userProfile.ProviderID, '').subscribe((res: any) => {
       if (res.returnObject) {
         if (type === 'fcl') {
           this.allSeaDraftRatesByFCL = changeCase(res.returnObject, 'pascal')

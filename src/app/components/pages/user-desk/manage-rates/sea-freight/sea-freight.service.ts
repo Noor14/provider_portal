@@ -30,8 +30,8 @@ export class SeaFreightService {
     return this._http.post(baseApi + url, obj);
   }
 
-  saveDraftRate(obj) {
-    let url: string = "providerratefcl/SaveDraft";
+  saveDraftRate(type, obj) {
+    let url: string = `providerrate${type}/SaveDraft`;
     return this._http.post(baseApi + url, obj);
   }
 
@@ -110,8 +110,8 @@ export class SeaFreightService {
    * @returns  
    * @memberof SeaFreightService
    */
-  getAllDrafts(type, ProviderID) {
-    let url: string = `providerrate${type}/GetAllDrafts/${ProviderID}`;
+  getAllDrafts(type, ProviderID, ContainerLoad, ) {
+    let url: string = `providerrate${type}/GetAllDrafts/${ProviderID}/${ContainerLoad}`;
     return this._http.get(baseApi + url);
   }
 
