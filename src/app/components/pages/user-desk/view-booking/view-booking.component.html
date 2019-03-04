@@ -220,28 +220,6 @@
             </label>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
-                <a (click)="downloadDoc(certOrigin, $event)" href="javascript:;" class="doc-title" [ngClass]="{'primary-text': certOrigin && certOrigin.DocumentFileName}">
-                  Certificate of Origin
-                  <label class="sub-text d-flex" *ngIf="certOrigin && certOrigin.DocumentFileName">Uploaded on
-                    {{certOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{certOrigin.DocumentUploadDate |
-                    date : "H:mm"}}</label>
-                </a>
-
-                <div class="d-flex align-items-center">
-                  <button class="btn disable" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && certOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && certOrigin.DocumentLastStatus.toLowerCase() != 'approved'"
-                    (click)="reuploadDoc(certOrigin)">Reject</button>
-                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && (certOrigin.DocumentLastStatus.toLowerCase() != 'approved' &&  certOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"
-                    (click)="approvedDoc(certOrigin)">Approve</button>
-                  <span class="badge hashmove-badge-warning" *ngIf="certOrigin && !certOrigin.DocumentFileName">
-                    AWAITING FROM CUSTOMER
-                  </span>
-                  <span class="badge badge-success" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
-                    APPROVED
-                  </span>
-                  <span class="badge hashmove-badge-danger" *ngIf="certOrigin && certOrigin.DocumentFileName &&  certOrigin.DocumentLastStatus.toLowerCase() == 're-upload'"> REJECTED </span>
-                </div>
-              </li>
-              <li class="list-group-item">
                 <a href="javascript:;" class="doc-title" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocOrigin && invoiceDocOrigin.DocumentFileName}">
                   Invoice
                   <label class="sub-text d-flex" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName">Uploaded
@@ -359,7 +337,28 @@
                   <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable && (ladingBill.DocumentLastStatus.toLowerCase() != 'approved' && ladingBill.DocumentLastStatus.toLowerCase() != 're-upload')"
                     (click)="approvedDoc(ladingBill)">Approve</button>
                 </div>
-
+              </li>
+              <li class="list-group-item">
+                <a (click)="downloadDoc(certOrigin, $event)" href="javascript:;" class="doc-title" [ngClass]="{'primary-text': certOrigin && certOrigin.DocumentFileName}">
+                  Certificate of Origin
+                  <label class="sub-text d-flex" *ngIf="certOrigin && certOrigin.DocumentFileName">Uploaded on
+                    {{certOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{certOrigin.DocumentUploadDate |
+                    date : "H:mm"}}</label>
+                </a>
+                <div class="d-flex align-items-center">
+                  <button class="btn disable" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && certOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && certOrigin.DocumentLastStatus.toLowerCase() != 'approved'"
+                    (click)="reuploadDoc(certOrigin)">Reject</button>
+                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && (certOrigin.DocumentLastStatus.toLowerCase() != 'approved' &&  certOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"
+                    (click)="approvedDoc(certOrigin)">Approve</button>
+                  <span class="badge hashmove-badge-warning" *ngIf="certOrigin && !certOrigin.DocumentFileName">
+                    AWAITING FROM CUSTOMER
+                  </span>
+                  <span class="badge badge-success" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
+                    APPROVED
+                  </span>
+                  <span class="badge hashmove-badge-danger" *ngIf="certOrigin && certOrigin.DocumentFileName &&  certOrigin.DocumentLastStatus.toLowerCase() == 're-upload'">
+                    REJECTED </span>
+                </div>
               </li>
             </ul>
           </div>
