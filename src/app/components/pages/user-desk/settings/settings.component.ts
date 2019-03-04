@@ -788,7 +788,7 @@ export class SettingsComponent implements OnInit {
           }
         }
         else if (type == 'logo') {
-          if (selectedFiles.files.length > 1 && typeof this.uploadedlogo == 'object') {
+          if (selectedFiles.files.length > 1) {
             this._toastr.error('Please select only 1 file to upload.', '')
             return;
           }

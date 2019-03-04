@@ -148,7 +148,8 @@
         </div>
       </div>
       <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide"
-        responsive="responsive" previousLabel="" nextLabel="" *ngIf="allWareHouseList.length > paginationConfig.itemsPerPage">
+        responsive="responsive" previousLabel="" nextLabel="" *ngIf="allWareHouseList && allWareHouseList.length >
+        paginationConfig.itemsPerPage">
       </pagination-controls>
       <div class="overflow-hidden" *ngIf="!allWareHouseList || (allWareHouseList && !allWareHouseList.length)">
         <div class="animated bounceInDown card text-center p-1">

@@ -11,8 +11,8 @@ export class WarehouseService {
     let url: string = `warehousesetup/Get/${wid}/${userId}`;
     return this._http.get(baseApi + url);
   }
-  getWarehouseList(providerId) {
-    let url: string = `warehousesetup/GetAll/${providerId}`;
+  getWarehouseList(providerId, wid) {
+    let url: string = `warehousesetup/GetAll/${providerId}/${wid}`;
     return this._http.get(baseApi + url);
   }
 
