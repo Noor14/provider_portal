@@ -6,15 +6,15 @@
       </a>
       <ul class="navbar-nav flex-row">
         <li class="nav-item" (click)="login()" *ngIf="isLoggedIn">
-          <a class="nav-link loginLink" href="javascript:;">
+          <a class="nav-link loginLink d-flex align-items-center" href="javascript:;">
             Login
             <img src="../../../assets/images/icons/icons_login.svg" alt="arrow" class="icon-size-20">
           </a>
         </li>
         <li class="nav-item" ngbDropdown placement="bottom-right" *ngIf="!isLoggedIn && logoutDisplay">
-          <a class="nav-link hvr-icon-hang" id="dropdownBasic" ngbDropdownToggle>
-            <img *ngIf="userAvatar" class="nav-user-photo" [src]="userAvatar" alt="user_icon">
-           <img *ngIf="!userAvatar" src="../../../../assets/images/icons/icons_user.svg" alt="user_icon">
+          <a class="nav-link hvr-icon-hang d-flex align-items-center pointer" id="dropdownBasic" ngbDropdownToggle>
+            <img *ngIf="userAvatar" class="user-avatar mr-2" [src]="userAvatar" alt="user_icon">
+           <img *ngIf="!userAvatar" class="user-avatar mr-2" src="../../../../assets/images/icons/icons_user.svg" alt="user_icon">
             <i class="fa fa-angle-down hvr-icon"></i>
           </a>
           <ul ngbDropdownMenu aria-labelledby="dropdownBasic" class="animated fadeIn userDropdown">
@@ -59,7 +59,7 @@
                 <span class="">Support </span></a>
             </li>
             <li class="dropdown-item">
-              <a href="javascript:;" class="dropdown-item" (click)="logOut()">
+              <a href="javascript:;" (click)="logOut()">
                 <img src="../../../assets/images/icons/icon_logout.svg" class="svg-icon" alt="Logout" />
                 <span class="">Logout</span></a>
             </li>
