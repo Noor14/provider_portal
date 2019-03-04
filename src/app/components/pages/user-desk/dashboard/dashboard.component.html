@@ -155,7 +155,7 @@
 
   <div class="bookings overflow-hidden" *ngIf="providerInfo.BookingDetails">
       <div class="card animated bounceInDown pointer mt-2" *ngFor="let booking of bookings | BookingMode : selectedBookingMode" (click)="viewBookingDetails(booking.BookingID)">
-        <div class="card-body pt-2 pb-0">
+        <div class="card-body pt-2">
           <!-- booking top row -->
               <div class="bookings-header d-md-flex justify-content-md-between">
                 <div class="d-flex bookings-header-number">

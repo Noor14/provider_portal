@@ -316,7 +316,7 @@ removeSelectedDocx(index,  obj, type) {
           }
         }
         else if (type == 'logo') {
-          if (selectedFiles.files.length > 1 && typeof this.selectedDocxlogo == 'object' && !Object.keys(this.selectedDocxlogo).length) {
+          if (selectedFiles.files.length > 1 && (!this.selectedDocxlogo || (this.selectedDocxlogo && typeof this.selectedDocxlogo == 'object' && !Object.keys(this.selectedDocxlogo).length))) {
             this._toastr.error('Please select only 1 file to upload.', '')
             return;
           }
