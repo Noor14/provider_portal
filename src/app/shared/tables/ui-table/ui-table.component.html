@@ -107,9 +107,9 @@
               onerror="'../../../../favicon.ico'">
             <img *ngIf="!device.customerID" src="../../../../favicon.ico" alt="" class="mr-2 rounded" height="24px"
               width="24px">
-            <span *ngIf="device.customerID" ngbTooltip="{{device?.parsedjsonCustomerDetail[0]?.CustomerName}}"
+            <span *ngIf="device?.customerID" ngbTooltip="{{device?.parsedjsonCustomerDetail[0]?.CustomerName}}"
               placement="top"
-              [ngClass]="device?.parsedjsonCustomerDetail[0].CustomerName > 20 ? 'text-ecllipse': ''">{{device?.parsedjsonCustomerDetail[0].CustomerName}}</span>
+              [ngClass]="device?.parsedjsonCustomerDetail[0]?.CustomerName > 20 ? 'text-ecllipse': ''">{{device?.parsedjsonCustomerDetail[0]?.CustomerName}}</span>
             <span *ngIf="!device.customerID">Marketplace</span>
             <!-- <span class="info-table-date">{{ device.HashMoveBookingDate | date: 'dd MMM, yyyy HH:mm'}}</span> -->
           </td>

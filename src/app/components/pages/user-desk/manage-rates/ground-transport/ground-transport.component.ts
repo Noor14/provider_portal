@@ -235,27 +235,27 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     this.editorContent = html
   }
   setRowinDraftTable(obj, type) {
-    if (obj && obj.TransportType == 'GROUND') {
-      this.draftDataBYGround.unshift(obj);
-      if (this.draftRatesByGround && this.draftRatesByGround.length) {
-        this.draftslist = this.draftRatesByGround.concat(this.draftDataBYGround);
-      } else {
-        this.draftslist = this.draftDataBYGround;
-      }
-      this.generateDraftTable();
-    }
-    else if (obj && obj.TransportType == 'TRUCK') {
-      this.draftDataBYGroundFTL.unshift(obj);
-      if (this.draftRatesByGroundFTL && this.draftRatesByGroundFTL.length) {
-        this.draftslistFTL = this.draftRatesByGroundFTL.concat(this.draftDataBYGroundFTL);
-      } else {
-        this.draftslistFTL = this.draftDataBYGroundFTL;
-      }
-      this.generateDraftTableFTL();
-    }
-    if (type == 'openPopup') {
-      this.updatePopupRates(obj.ID, 'FTL');
-    }
+    // if (obj && obj.TransportType == 'GROUND') {
+    //   this.draftDataBYGround.unshift(obj);
+    //   if (this.draftRatesByGround && this.draftRatesByGround.length) {
+    //     this.draftslist = this.draftRatesByGround.concat(this.draftDataBYGround);
+    //   } else {
+    //     this.draftslist = this.draftDataBYGround;
+    //   }
+    //   this.generateDraftTable();
+    // }
+    // else if (obj && obj.TransportType == 'TRUCK') {
+    //   this.draftDataBYGroundFTL.unshift(obj);
+    //   if (this.draftRatesByGroundFTL && this.draftRatesByGroundFTL.length) {
+    //     this.draftslistFTL = this.draftRatesByGroundFTL.concat(this.draftDataBYGroundFTL);
+    //   } else {
+    //     this.draftslistFTL = this.draftDataBYGroundFTL;
+    //   }
+    //   this.generateDraftTableFTL();
+    // }
+    // if (type == 'openPopup') {
+    //   this.updatePopupRates(obj.ID, 'FTL');
+    // }
   }
 
   generateDraftTable() {
@@ -405,328 +405,328 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
     }
 
-    this.setdataDraftInTable();
+    // this.setdataDraftInTable();
   }
-  generateDraftTableFTL() {
-    this.dtOptionsByGroundDraftFTL = {
-      data: this.draftslistFTL,
-      columns: [
-        {
-          title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRatesFTL" type = "checkbox"> <label for= "selectallDraftRatesFTL"> <span> </span></label></div>',
-          data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.ID + '" type = "checkbox"> <label for= "' + data.ID + '"> <span> </span></label></div>';
-          }
-        },
-        {
-          title: 'ORIGIN / DEPARTURE',
-          data: function (data) {
-            const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-            if (!data.PolID || !data.PodID) {
-              return "<div class='row'> <div class='col-5 text-truncate'><span> -- From -- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><span> -- To -- </span></div> </div>";
-            }
-            else {
-              let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
-              let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
-              const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-              return "<div class='row'> <div class='col-5 text-truncate'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.PodName + "</div> </div>";
+  // generateDraftTableFTL() {
+  //   this.dtOptionsByGroundDraftFTL = {
+  //     data: this.draftslistFTL,
+  //     columns: [
+  //       {
+  //         title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRatesFTL" type = "checkbox"> <label for= "selectallDraftRatesFTL"> <span> </span></label></div>',
+  //         data: function (data) {
+  //           return '<div class="fancyOptionBoxes"> <input id = "' + data.ID + '" type = "checkbox"> <label for= "' + data.ID + '"> <span> </span></label></div>';
+  //         }
+  //       },
+  //       {
+  //         title: 'ORIGIN / DEPARTURE',
+  //         data: function (data) {
+  //           const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
+  //           if (!data.PolID || !data.PodID) {
+  //             return "<div class='row'> <div class='col-5 text-truncate'><span> -- From -- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><span> -- To -- </span></div> </div>";
+  //           }
+  //           else {
+  //             let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
+  //             let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
+  //             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
+  //             return "<div class='row'> <div class='col-5 text-truncate'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.PodName + "</div> </div>";
 
-              // return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
-            }
-          },
+  //             // return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
+  //           }
+  //         },
 
-          className: 'routeCell'
-        },
-        {
-          title: 'CARGO TYPE',
-          data: function (data) {
-            if (!data.ShippingCatID) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return data.ShippingCatName;
-            }
-          }
-        },
-        {
-          title: 'SIZE',
-          data: function (data) {
-            if (!data.ContainerSpecID) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return data.ContainerSpecDesc;
-            }
-          }
-        },
-        {
-          title: 'RATE',
-          data: function (data) {
-            if (!data.Price) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return (Number(data.Price)).toLocaleString('en-US', {
-                style: 'currency',
-                currency: data.CurrencyCode,
-              });
-            }
-          }
-        },
-        {
-          title: 'RATE VALIDITY',
-          data: function (data) {
-            if (!data.EffectiveFrom || !data.EffectiveTo) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return moment(data.EffectiveFrom).format('D MMM, Y') + ' to ' + moment(data.EffectiveTo).format('D MMM, Y')
-            }
-          }
-        },
-        {
-          title: '',
-          data: function (data) {
-            let url = '../../../../../../assets/images/icons/icon_del_round.svg';
-            return "<img id='" + data.ID + "' src='" + url + "' class='icon-size-16 pointer' />";
-          }
-        }
-      ],
-      drawCallback: function () {
-        let $api = this.api();
-        let pages = $api.page.info().pages;
-        if (pages === 1 || !pages) {
-          $('.draft-GroundFTL .dataTables_paginate').hide();
-        } else {
-          // SHow everything
-          $('.draft-GroundFTL .dataTables_paginate').show();
-        }
-      },
-      info: true,
-      destroy: true,
-      // pagingType: 'full_numbers',
-      pageLength: 5,
-      scrollX: true,
-      scrollY: '60vh',
-      scrollCollapse: true,
-      searching: false,
-      lengthChange: false,
-      responsive: true,
-      order: [[1, "asc"]],
-      language: {
-        paginate: {
-          next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
-          previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
-        },
-        infoEmpty: '',
-        // emptyTable: "No data available in table"
-      },
-      fixedColumns: {
-        leftColumns: 0,
-        rightColumns: 1
-      },
-      columnDefs: [
-        {
-          targets: 0,
-          width: 'auto',
-          orderable: false,
-        },
-        {
-          targets: 1,
-          width: '235'
-        },
+  //         className: 'routeCell'
+  //       },
+  //       {
+  //         title: 'CARGO TYPE',
+  //         data: function (data) {
+  //           if (!data.ShippingCatID) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             return data.ShippingCatName;
+  //           }
+  //         }
+  //       },
+  //       {
+  //         title: 'SIZE',
+  //         data: function (data) {
+  //           if (!data.ContainerSpecID) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             return data.ContainerSpecDesc;
+  //           }
+  //         }
+  //       },
+  //       {
+  //         title: 'RATE',
+  //         data: function (data) {
+  //           if (!data.Price) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             return (Number(data.Price)).toLocaleString('en-US', {
+  //               style: 'currency',
+  //               currency: data.CurrencyCode,
+  //             });
+  //           }
+  //         }
+  //       },
+  //       {
+  //         title: 'RATE VALIDITY',
+  //         data: function (data) {
+  //           if (!data.EffectiveFrom || !data.EffectiveTo) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             return moment(data.EffectiveFrom).format('D MMM, Y') + ' to ' + moment(data.EffectiveTo).format('D MMM, Y')
+  //           }
+  //         }
+  //       },
+  //       {
+  //         title: '',
+  //         data: function (data) {
+  //           let url = '../../../../../../assets/images/icons/icon_del_round.svg';
+  //           return "<img id='" + data.ID + "' src='" + url + "' class='icon-size-16 pointer' />";
+  //         }
+  //       }
+  //     ],
+  //     drawCallback: function () {
+  //       let $api = this.api();
+  //       let pages = $api.page.info().pages;
+  //       if (pages === 1 || !pages) {
+  //         $('.draft-GroundFTL .dataTables_paginate').hide();
+  //       } else {
+  //         // SHow everything
+  //         $('.draft-GroundFTL .dataTables_paginate').show();
+  //       }
+  //     },
+  //     info: true,
+  //     destroy: true,
+  //     // pagingType: 'full_numbers',
+  //     pageLength: 5,
+  //     scrollX: true,
+  //     scrollY: '60vh',
+  //     scrollCollapse: true,
+  //     searching: false,
+  //     lengthChange: false,
+  //     responsive: true,
+  //     order: [[1, "asc"]],
+  //     language: {
+  //       paginate: {
+  //         next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
+  //         previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
+  //       },
+  //       infoEmpty: '',
+  //       // emptyTable: "No data available in table"
+  //     },
+  //     fixedColumns: {
+  //       leftColumns: 0,
+  //       rightColumns: 1
+  //     },
+  //     columnDefs: [
+  //       {
+  //         targets: 0,
+  //         width: 'auto',
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: 1,
+  //         width: '235'
+  //       },
 
-        {
-          targets: -1,
-          width: '12',
-          orderable: false,
-        },
-        {
-          targets: -2,
-          width: '200',
-        },
-        {
-          targets: "_all",
-          width: "150"
-        },
+  //       {
+  //         targets: -1,
+  //         width: '12',
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: -2,
+  //         width: '200',
+  //       },
+  //       {
+  //         targets: "_all",
+  //         width: "150"
+  //       },
 
-      ]
-    }
+  //     ]
+  //   }
 
-    this.setdataDraftInTableFTL();
-  }
-  setdataDraftInTableFTL() {
-    setTimeout(() => {
-      if (this.tabledraftByGroundFTL && this.tabledraftByGroundFTL.nativeElement) {
-        this.dataTabledraftBygroundFTL = $(this.tabledraftByGroundFTL.nativeElement);
-        let alltableOption = this.dataTabledraftBygroundFTL.DataTable(this.dtOptionsByGroundDraftFTL);
-        alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
-          let node = this.node();
-          let data = this.data();
-          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.ContainerSpecID || !data.Price || !data.EffectiveFrom || !data.EffectiveTo) {
-            node.children[0].children[0].children[0].setAttribute("disabled", true)
-          }
-        });
-        this.draftloadingFTL = false;
-        $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
-          event.stopPropagation();
-          let delId = (<HTMLElement>event.target).id;
-          if (delId) {
-            this.deleteRow(delId);
-          }
-        });
-        $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
-          event.stopPropagation();
-          if (event.target.nodeName != "SPAN" || event.target.innerText) {
-            if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
-              let rowId = event.currentTarget.cells[0].children[0].children[0].id;
-              this.updatePopupRates(rowId, 'FTL');
-            }
-          }
-        });
+  //   this.setdataDraftInTableFTL();
+  // }
+  // setdataDraftInTableFTL() {
+  //   setTimeout(() => {
+  //     if (this.tabledraftByGroundFTL && this.tabledraftByGroundFTL.nativeElement) {
+  //       this.dataTabledraftBygroundFTL = $(this.tabledraftByGroundFTL.nativeElement);
+  //       let alltableOption = this.dataTabledraftBygroundFTL.DataTable(this.dtOptionsByGroundDraftFTL);
+  //       alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+  //         let node = this.node();
+  //         let data = this.data();
+  //         if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.ContainerSpecID || !data.Price || !data.EffectiveFrom || !data.EffectiveTo) {
+  //           node.children[0].children[0].children[0].setAttribute("disabled", true)
+  //         }
+  //       });
+  //       this.draftloadingFTL = false;
+  //       $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
+  //         event.stopPropagation();
+  //         let delId = (<HTMLElement>event.target).id;
+  //         if (delId) {
+  //           this.deleteRow(delId);
+  //         }
+  //       });
+  //       $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
+  //         event.stopPropagation();
+  //         if (event.target.nodeName != "SPAN" || event.target.innerText) {
+  //           if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
+  //             let rowId = event.currentTarget.cells[0].children[0].children[0].id;
+  //             this.updatePopupRates(rowId, 'FTL');
+  //           }
+  //         }
+  //       });
 
-        $("#selectallDraftRatesFTL").click((event) => {
-          this.publishRatesFTL = [];
-          var cols = alltableOption.column(0).nodes();
-          let data = alltableOption.column(0).data();
-          this.checkedalldraftRatesFTL = !this.checkedalldraftRatesFTL;
-          for (var i = 0; i < cols.length; i += 1) {
-            if (this.checkedalldraftRatesFTL) {
-              let data = alltableOption.row(i).data();
-              let node = alltableOption.row(i).node();
-              if (data.PolID && data.PodID && data.ShippingCatID && data.ContainerSpecID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
-                let draftId = node.children[0].children[0].children[0].id;
-                let obj = {
-                  draftID: draftId,
-                  providerID: this.userProfile.ProviderID,
-                  transportType: "TRUCK",
-                }
-                this.publishRatesFTL.push(obj);
-                node.children[0].children[0].children[0].checked = true;
-                node.classList.add('selected');
-              }
-              else {
-                node.children[0].children[0].children[0].checked = false;
-              }
-            }
-          }
-          if (i == cols.length && !this.checkedalldraftRatesFTL) {
-            this.publishRatesFTL = [];
-            this.selectedItem('remove', alltableOption)
-          }
-        });
+  //       $("#selectallDraftRatesFTL").click((event) => {
+  //         this.publishRatesFTL = [];
+  //         var cols = alltableOption.column(0).nodes();
+  //         let data = alltableOption.column(0).data();
+  //         this.checkedalldraftRatesFTL = !this.checkedalldraftRatesFTL;
+  //         for (var i = 0; i < cols.length; i += 1) {
+  //           if (this.checkedalldraftRatesFTL) {
+  //             let data = alltableOption.row(i).data();
+  //             let node = alltableOption.row(i).node();
+  //             if (data.PolID && data.PodID && data.ShippingCatID && data.ContainerSpecID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
+  //               let draftId = node.children[0].children[0].children[0].id;
+  //               let obj = {
+  //                 draftID: draftId,
+  //                 providerID: this.userProfile.ProviderID,
+  //                 transportType: "TRUCK",
+  //               }
+  //               this.publishRatesFTL.push(obj);
+  //               node.children[0].children[0].children[0].checked = true;
+  //               node.classList.add('selected');
+  //             }
+  //             else {
+  //               node.children[0].children[0].children[0].checked = false;
+  //             }
+  //           }
+  //         }
+  //         if (i == cols.length && !this.checkedalldraftRatesFTL) {
+  //           this.publishRatesFTL = [];
+  //           this.selectedItem('remove', alltableOption)
+  //         }
+  //       });
 
-        $('#draftRateTableFTL').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
-          event.stopPropagation();
-          let targetedId = (<HTMLInputElement>event.target).id
-          let index = this.publishRatesFTL.findIndex(obj => obj.draftID == targetedId);
-          let selection = event.currentTarget.parentElement.parentElement.parentElement;
-          if (index >= 0) {
-            this.publishRatesFTL.splice(index, 1);
-            selection.classList.remove('selected');
+  //       $('#draftRateTableFTL').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
+  //         event.stopPropagation();
+  //         let targetedId = (<HTMLInputElement>event.target).id
+  //         let index = this.publishRatesFTL.findIndex(obj => obj.draftID == targetedId);
+  //         let selection = event.currentTarget.parentElement.parentElement.parentElement;
+  //         if (index >= 0) {
+  //           this.publishRatesFTL.splice(index, 1);
+  //           selection.classList.remove('selected');
 
-          }
-          else {
-            let obj = {
-              draftID: targetedId,
-              providerID: this.userProfile.ProviderID,
-              transportType: "TRUCK",
-            }
-            this.publishRatesFTL.push(obj);
-            selection.classList.add('selected');
-          }
+  //         }
+  //         else {
+  //           let obj = {
+  //             draftID: targetedId,
+  //             providerID: this.userProfile.ProviderID,
+  //             transportType: "TRUCK",
+  //           }
+  //           this.publishRatesFTL.push(obj);
+  //           selection.classList.add('selected');
+  //         }
 
-        });
-      }
+  //       });
+  //     }
 
-    }, 0);
-  }
-  setdataDraftInTable() {
-    setTimeout(() => {
-      if (this.tabledraftByGround && this.tabledraftByGround.nativeElement) {
-        this.dataTabledraftByground = $(this.tabledraftByGround.nativeElement);
-        let alltableOption = this.dataTabledraftByground.DataTable(this.dtOptionsByGroundDraft);
-        alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
-          let node = this.node();
-          let data = this.data();
-          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.ContainerSpecID || !data.Price || !data.EffectiveFrom || !data.EffectiveTo) {
-            node.children[0].children[0].children[0].setAttribute("disabled", true)
-          }
-        });
-        this.draftloading = false;
-        $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
-          event.stopPropagation();
-          let delId = (<HTMLElement>event.target).id;
-          if (delId) {
-            this.deleteRow(delId);
-          }
-        });
-        $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
-          event.stopPropagation();
-          if (event.target.nodeName != "SPAN" || event.target.innerText) {
-            if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
-              let rowId = event.currentTarget.cells[0].children[0].children[0].id;
-              this.updatePopupRates(rowId, 'FTL');
-            }
-          }
-        });
+  //   }, 0);
+  // }
+  // setdataDraftInTable() {
+  //   setTimeout(() => {
+  //     if (this.tabledraftByGround && this.tabledraftByGround.nativeElement) {
+  //       this.dataTabledraftByground = $(this.tabledraftByGround.nativeElement);
+  //       let alltableOption = this.dataTabledraftByground.DataTable(this.dtOptionsByGroundDraft);
+  //       alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+  //         let node = this.node();
+  //         let data = this.data();
+  //         if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.ContainerSpecID || !data.Price || !data.EffectiveFrom || !data.EffectiveTo) {
+  //           node.children[0].children[0].children[0].setAttribute("disabled", true)
+  //         }
+  //       });
+  //       this.draftloading = false;
+  //       $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
+  //         event.stopPropagation();
+  //         let delId = (<HTMLElement>event.target).id;
+  //         if (delId) {
+  //           this.deleteRow(delId);
+  //         }
+  //       });
+  //       $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
+  //         event.stopPropagation();
+  //         if (event.target.nodeName != "SPAN" || event.target.innerText) {
+  //           if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
+  //             let rowId = event.currentTarget.cells[0].children[0].children[0].id;
+  //             this.updatePopupRates(rowId, 'FTL');
+  //           }
+  //         }
+  //       });
 
-        $("#selectallDraftRates").click((event) => {
-          this.publishRates = [];
-          var cols = alltableOption.column(0).nodes();
-          let data = alltableOption.column(0).data();
-          this.checkedalldraftRates = !this.checkedalldraftRates;
-          for (var i = 0; i < cols.length; i += 1) {
-            if (this.checkedalldraftRates) {
-              let data = alltableOption.row(i).data();
-              let node = alltableOption.row(i).node();
-              if (data.PolID && data.PodID && data.ShippingCatID && data.ContainerSpecID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
-                let draftId = node.children[0].children[0].children[0].id;
-                let obj = {
-                  draftID: draftId,
-                  providerID: this.userProfile.ProviderID,
-                  transportType: "GROUND",
-                }
-                this.publishRates.push(obj);
-                node.children[0].children[0].children[0].checked = true;
-                node.classList.add('selected');
-              }
-              else {
-                node.children[0].children[0].children[0].checked = false;
-              }
-            }
-          }
-          if (i == cols.length && !this.checkedalldraftRates) {
-            this.publishRates = [];
-            this.selectedItem('remove', alltableOption)
-          }
-        });
+  //       $("#selectallDraftRates").click((event) => {
+  //         this.publishRates = [];
+  //         var cols = alltableOption.column(0).nodes();
+  //         let data = alltableOption.column(0).data();
+  //         this.checkedalldraftRates = !this.checkedalldraftRates;
+  //         for (var i = 0; i < cols.length; i += 1) {
+  //           if (this.checkedalldraftRates) {
+  //             let data = alltableOption.row(i).data();
+  //             let node = alltableOption.row(i).node();
+  //             if (data.PolID && data.PodID && data.ShippingCatID && data.ContainerSpecID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
+  //               let draftId = node.children[0].children[0].children[0].id;
+  //               let obj = {
+  //                 draftID: draftId,
+  //                 providerID: this.userProfile.ProviderID,
+  //                 transportType: "GROUND",
+  //               }
+  //               this.publishRates.push(obj);
+  //               node.children[0].children[0].children[0].checked = true;
+  //               node.classList.add('selected');
+  //             }
+  //             else {
+  //               node.children[0].children[0].children[0].checked = false;
+  //             }
+  //           }
+  //         }
+  //         if (i == cols.length && !this.checkedalldraftRates) {
+  //           this.publishRates = [];
+  //           this.selectedItem('remove', alltableOption)
+  //         }
+  //       });
 
-        $('#draftRateTable').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
-          event.stopPropagation();
-          let targetedId = (<HTMLInputElement>event.target).id
-          let index = this.publishRates.findIndex(obj => obj.draftID == targetedId);
-          let selection = event.currentTarget.parentElement.parentElement.parentElement;
-          if (index >= 0) {
-            this.publishRates.splice(index, 1);
-            selection.classList.remove('selected');
+  //       $('#draftRateTable').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
+  //         event.stopPropagation();
+  //         let targetedId = (<HTMLInputElement>event.target).id
+  //         let index = this.publishRates.findIndex(obj => obj.draftID == targetedId);
+  //         let selection = event.currentTarget.parentElement.parentElement.parentElement;
+  //         if (index >= 0) {
+  //           this.publishRates.splice(index, 1);
+  //           selection.classList.remove('selected');
 
-          }
-          else {
-            let obj = {
-              draftID: targetedId,
-              providerID: this.userProfile.ProviderID,
-              transportType: "GROUND",
-            }
-            this.publishRates.push(obj);
-            selection.classList.add('selected');
+  //         }
+  //         else {
+  //           let obj = {
+  //             draftID: targetedId,
+  //             providerID: this.userProfile.ProviderID,
+  //             transportType: "GROUND",
+  //           }
+  //           this.publishRates.push(obj);
+  //           selection.classList.add('selected');
 
-          }
+  //         }
 
-        });
-      }
+  //       });
+  //     }
 
-    }, 0);
-  }
+  //   }, 0);
+  // }
 
 
   updatePopupRates(rowId, type) {
@@ -816,67 +816,66 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     // this.generateDraftTable();
   }
 
-  forDraftfilterFCL(data) {
-    for (var index = 0; index < this.draftslist.length; index++) {
-      for (let i = 0; i < data.length; i++) {
-        if (this.draftslist[index].ID == data[i].ID) {
-          this.draftslist[index].ContainerLoadType = data[i].containerLoadType;
-          this.draftslist[index].TransportType = data[i].transportType;
-          this.draftslist[index].ShippingCatID = data[i].shippingCatID;
-          this.draftslist[index].ShippingCatName = data[i].shippingCatName;
-          this.draftslist[index].ContainerSpecID = data[i].containerSpecID;
-          this.draftslist[index].ContainerSpecDesc = data[i].containerSpecDesc;
-          this.draftslist[index].CurrencyID = data[i].currencyID;
-          this.draftslist[index].CurrencyCode = data[i].currencyCode;
-          this.draftslist[index].EffectiveFrom = data[i].effectiveFrom;
-          this.draftslist[index].EffectiveTo = data[i].effectiveTo;
-          this.draftslist[index].PodCode = data[i].podCode;
-          this.draftslist[index].PolCode = data[i].polCode;
-          this.draftslist[index].PodName = data[i].podName;
-          this.draftslist[index].PolName = data[i].polName;
-          this.draftslist[index].PodID = data[i].podID;
-          this.draftslist[index].PolID = data[i].polID;
-          this.draftslist[index].Price = data[i].price;
-        }
-      }
-    }
-    if (index == this.draftslist.length) {
-      this.generateDraftTable();
-    }
-  }
-  forDraftfilterFTL(data) {
-    for (var index = 0; index < this.draftslistFTL.length; index++) {
-      for (let i = 0; i < data.length; i++) {
-        if (this.draftslistFTL[index].ID == data[i].ID) {
-          this.draftslistFTL[index].ContainerLoadType = data[i].containerLoadType;
-          this.draftslistFTL[index].TransportType = data[i].transportType;
-          this.draftslistFTL[index].ShippingCatID = data[i].shippingCatID;
-          this.draftslistFTL[index].ShippingCatName = data[i].shippingCatName;
-          this.draftslistFTL[index].ContainerSpecID = data[i].containerSpecID;
-          this.draftslistFTL[index].ContainerSpecDesc = data[i].containerSpecDesc;
-          this.draftslistFTL[index].CurrencyID = data[i].currencyID;
-          this.draftslistFTL[index].CurrencyCode = data[i].currencyCode;
-          this.draftslistFTL[index].EffectiveFrom = data[i].effectiveFrom;
-          this.draftslistFTL[index].EffectiveTo = data[i].effectiveTo;
-          this.draftslistFTL[index].PodCode = data[i].podCode;
-          this.draftslistFTL[index].PolCode = data[i].polCode;
-          this.draftslistFTL[index].PodName = data[i].podName;
-          this.draftslistFTL[index].PolName = data[i].polName;
-          this.draftslistFTL[index].PodID = data[i].podID;
-          this.draftslistFTL[index].PolID = data[i].polID;
-          this.draftslistFTL[index].Price = data[i].price;
-        }
-      }
-    }
-    if (index == this.draftslistFTL.length) {
-      this.generateDraftTableFTL();
-    }
-  }
+  // forDraftfilterFCL(data) {
+  //   for (var index = 0; index < this.draftslist.length; index++) {
+  //     for (let i = 0; i < data.length; i++) {
+  //       if (this.draftslist[index].ID == data[i].ID) {
+  //         this.draftslist[index].ContainerLoadType = data[i].containerLoadType;
+  //         this.draftslist[index].TransportType = data[i].transportType;
+  //         this.draftslist[index].ShippingCatID = data[i].shippingCatID;
+  //         this.draftslist[index].ShippingCatName = data[i].shippingCatName;
+  //         this.draftslist[index].ContainerSpecID = data[i].containerSpecID;
+  //         this.draftslist[index].ContainerSpecDesc = data[i].containerSpecDesc;
+  //         this.draftslist[index].CurrencyID = data[i].currencyID;
+  //         this.draftslist[index].CurrencyCode = data[i].currencyCode;
+  //         this.draftslist[index].EffectiveFrom = data[i].effectiveFrom;
+  //         this.draftslist[index].EffectiveTo = data[i].effectiveTo;
+  //         this.draftslist[index].PodCode = data[i].podCode;
+  //         this.draftslist[index].PolCode = data[i].polCode;
+  //         this.draftslist[index].PodName = data[i].podName;
+  //         this.draftslist[index].PolName = data[i].polName;
+  //         this.draftslist[index].PodID = data[i].podID;
+  //         this.draftslist[index].PolID = data[i].polID;
+  //         this.draftslist[index].Price = data[i].price;
+  //       }
+  //     }
+  //   }
+  //   if (index == this.draftslist.length) {
+  //     this.generateDraftTable();
+  //   }
+  // }
+  // forDraftfilterFTL(data) {
+  //   for (var index = 0; index < this.draftslistFTL.length; index++) {
+  //     for (let i = 0; i < data.length; i++) {
+  //       if (this.draftslistFTL[index].ID == data[i].ID) {
+  //         this.draftslistFTL[index].ContainerLoadType = data[i].containerLoadType;
+  //         this.draftslistFTL[index].TransportType = data[i].transportType;
+  //         this.draftslistFTL[index].ShippingCatID = data[i].shippingCatID;
+  //         this.draftslistFTL[index].ShippingCatName = data[i].shippingCatName;
+  //         this.draftslistFTL[index].ContainerSpecID = data[i].containerSpecID;
+  //         this.draftslistFTL[index].ContainerSpecDesc = data[i].containerSpecDesc;
+  //         this.draftslistFTL[index].CurrencyID = data[i].currencyID;
+  //         this.draftslistFTL[index].CurrencyCode = data[i].currencyCode;
+  //         this.draftslistFTL[index].EffectiveFrom = data[i].effectiveFrom;
+  //         this.draftslistFTL[index].EffectiveTo = data[i].effectiveTo;
+  //         this.draftslistFTL[index].PodCode = data[i].podCode;
+  //         this.draftslistFTL[index].PolCode = data[i].polCode;
+  //         this.draftslistFTL[index].PodName = data[i].podName;
+  //         this.draftslistFTL[index].PolName = data[i].polName;
+  //         this.draftslistFTL[index].PodID = data[i].podID;
+  //         this.draftslistFTL[index].PolID = data[i].polID;
+  //         this.draftslistFTL[index].Price = data[i].price;
+  //       }
+  //     }
+  //   }
+  //   if (index == this.draftslistFTL.length) {
+  //     this.generateDraftTableFTL();
+  //   }
+  // }
 
 
   addAnotherRates() {
     this.addRatesManually(this.activeTab);
-
   }
   addRatesBygroundManually() {
     if (this.activeTab == 'activeFCL') {
@@ -944,12 +943,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
             }
             if (state[index].DraftDataGround && state[index].DraftDataGround.length) {
               this.draftRatesByGround = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'ground');
-              this.draftslist = this.draftRatesByGround;
+              // this.draftslist = this.draftRatesByGround;
               this.draftRatesByGroundFTL = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'truck');
               // this.draftslistFTL = this.draftRatesByGroundFTL;
             }
-            this.generateDraftTable();
-            this.generateDraftTableFTL();
+            // this.generateDraftTable();
+            // this.generateDraftTableFTL();
             this.draftloading = true;
             this.draftloadingFTL = true;
           }
@@ -1271,14 +1270,14 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
           this.draftRatesByGround = [];
           this.draftDataBYGround = [];
           this.publishRates = [];
-          this.generateDraftTable();
+          // this.generateDraftTable();
         }
         else if (this.activeTab == "activeFTL") {
           this.draftslistFTL = [];
           this.draftRatesByGroundFTL = [];
           this.draftDataBYGroundFTL = [];
           this.publishRatesFTL = [];
-          this.generateDraftTableFTL();
+          // this.generateDraftTableFTL();
         }
       }
     }, (reason) => {
@@ -1381,7 +1380,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
         if (this.publishRatesFTL.length == i) {
           this.checkedalldraftRatesFTL = false;
           this.publishRatesFTL = [];
-          this.generateDraftTableFTL();
+          // this.generateDraftTableFTL();
           this.getAllPublishRates('ftl');
         }
       }
@@ -1428,7 +1427,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
               }
               this.draftslistFTL.splice(index, 1);
               this.draftDataBYGroundFTL = this.draftslistFTL;
-              this.generateDraftTableFTL();
+              // this.generateDraftTableFTL();
               this.publishRatesFTL = [];
               break;
             }
@@ -1665,12 +1664,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
       if (res.returnObject) {
         if (containerLoad === 'FCL') {
           console.log(res);
-          
+          this.draftslist = changeCase(res.returnObject, 'pascal')
           // this.allSeaDraftRatesByFCL = changeCase(res.returnObject, 'pascal')
-          this.draftslistFTL = changeCase(res.returnObject, 'pascal')
         } else if (containerLoad === 'FTL') {
           // this.allSeaDraftRatesByLCL = changeCase(res.returnObject, 'pascal')
           // this.draftslcl = changeCase(res.returnObject, 'pascal')
+          this.draftslistFTL = changeCase(res.returnObject, 'pascal')
         }
       }
       loading(false)

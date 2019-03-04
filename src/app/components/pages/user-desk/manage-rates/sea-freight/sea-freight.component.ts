@@ -2081,6 +2081,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           if (this.draftslcl[index].ConsolidatorPricingDraftID == id) {
             this.draftslcl.splice(index, 1);
             // this.generateDraftTableLCL();
+            this.getDraftRates('lcl')
             this.publishRatesLCL = [];
             break;
           }
@@ -2360,7 +2361,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     } else if (event.type === 'draftFCL') {
       if (typeof event.list[0] === 'object') {
         if (event.list[0].type === 'delete') {
-          this.deleteRow(event.list[0].id)
+          if (event.list[0].load === 'LCL') {
+            this.deleteRowLCL(event.list[0].id)
+          } else if (event.list[0].load === 'FCL') {
+            this.deleteRow(event.list[0].id)
+          }
         } else if (event.list[0].type === 'edit') {
           this.updatePopupRates(event.list[0].id, event.list[0].load)
         }
