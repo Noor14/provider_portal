@@ -1,5 +1,6 @@
 <!-- manage device table -->
-<div class="table-info mt-2 {{tableType}} {{containerLoad}}">
+<div class="table-info mt-2 {{tableType}}" [ngClass]="transMode === 'GROUND' ? transMode : containerLoad">
+
   <!-- <label class="table-info-count" *ngIf="tableType === 'draftFCL'">Showing top {{pageSize}} of {{data.length}}
     record(s)</label> -->
   <label class="table-info-count" *ngIf="tableType === 'publishFCL'">Showing top {{data.length}} of {{totalRecords}}
@@ -50,30 +51,56 @@
         <tr *ngFor="let device of  ( tableType === 'draftFCL' ? (data | paginate: devicPageConfig) : (data))"
           [ngClass]="device?.dateDiff && tableType === 'publishFCL' ? 'has-badge' : ''">
           <td class="text-center">
-            <div class="fancyOptionBoxes" *ngIf="tableType === 'publishFCL' && containerLoad === 'FCL'">
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'publishFCL' && containerLoad === 'FCL' && transMode === 'SEA'">
               <input id="{{device.carrierPricingID}}" type="checkbox" [ngModel]="device.isChecked"
                 (change)="device.isChecked = !device.isChecked; onCheck(device.carrierPricingID, device)">
               <label for="{{device.carrierPricingID}}"> <span> </span>
               </label>
             </div>
-            <div class="fancyOptionBoxes" *ngIf="tableType === 'publishFCL' && containerLoad === 'LCL'">
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'publishFCL' && containerLoad === 'LCL' && transMode === 'SEA'">
               <input id="{{device.consolidatorPricingID}}" type="checkbox" [ngModel]="device.isChecked"
                 (change)="device.isChecked = !device.isChecked; onCheck(device.consolidatorPricingID, device)">
               <label for="{{device.consolidatorPricingID}}"> <span> </span>
               </label>
             </div>
-            <div class="fancyOptionBoxes" *ngIf="tableType === 'draftFCL' && containerLoad === 'FCL'">
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'publishFCL' && containerLoad === 'FCL' && transMode === 'GROUND'">
+              <input id="{{device.id}}" type="checkbox" [ngModel]="device.isChecked"
+                (change)="device.isChecked = !device.isChecked; onCheck(device.id, device)">
+              <label for="{{device.id}}"> <span> </span>
+              </label>
+            </div>
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'publishFCL' && containerLoad === 'FTL' && transMode === 'GROUND'">
+              <input id="{{device.id}}" type="checkbox" [ngModel]="device.isChecked"
+                (change)="device.isChecked = !device.isChecked; onCheck(device.id, device)">
+              <label for="{{device.id}}"> <span> </span>
+              </label>
+            </div>
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'draftFCL' && containerLoad === 'FCL' && transMode === 'SEA'">
               <input id="{{device.providerPricingDraftID}}" type="checkbox" [ngModel]="device.isChecked"
                 [disabled]="validateRow(device)"
                 (change)="device.isChecked = !device.isChecked; onCheck(device.providerPricingDraftID, device)">
               <label for="{{device.providerPricingDraftID}}"> <span> </span>
               </label>
             </div>
-            <div class="fancyOptionBoxes" *ngIf="tableType === 'draftFCL' && containerLoad === 'LCL'">
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'draftFCL' && containerLoad === 'LCL' && transMode === 'SEA'">
               <input id="{{device.consolidatorPricingDraftID}}" type="checkbox" [ngModel]="device.isChecked"
                 [disabled]="validateRow(device)"
                 (change)="device.isChecked = !device.isChecked; onCheck(device.consolidatorPricingDraftID, device)">
               <label for="{{device.consolidatorPricingDraftID}}"> <span> </span>
+              </label>
+            </div>
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'draftFCL' && containerLoad === 'FCL' && transMode === 'GROUND'">
+              <input id="{{device.id}}" type="checkbox" [ngModel]="device.isChecked"
+                [disabled]="validateRow(device)"
+                (change)="device.isChecked = !device.isChecked; onCheck(device.id, device)">
+              <label for="{{device.id}}"> <span> </span>
+              </label>
+            </div>
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'draftFCL' && containerLoad === 'FTL' && transMode === 'GROUND'">
+              <input id="{{device.id}}" type="checkbox" [ngModel]="device.isChecked"
+                [disabled]="validateRow(device)"
+                (change)="device.isChecked = !device.isChecked; onCheck(device.id, device)">
+              <label for="{{device.id}}"> <span> </span>
               </label>
             </div>
           </td>
@@ -94,9 +121,9 @@
               onerror="'../../../../favicon.ico'">
             <img *ngIf="!device.customerID" src="../../../../favicon.ico" alt="" class="mr-2 rounded" height="24px"
               width="24px">
-            <span *ngIf="device.customerID" ngbTooltip="{{device?.parsedjsonCustomerDetail[0]?.CustomerName}}"
+            <span *ngIf="device?.customerID" ngbTooltip="{{device?.parsedjsonCustomerDetail[0]?.CustomerName}}"
               placement="top"
-              [ngClass]="device?.parsedjsonCustomerDetail[0].CustomerName > 20 ? 'text-ecllipse': ''">{{device?.parsedjsonCustomerDetail[0].CustomerName}}</span>
+              [ngClass]="device?.parsedjsonCustomerDetail[0]?.CustomerName > 20 ? 'text-ecllipse': ''">{{device?.parsedjsonCustomerDetail[0]?.CustomerName}}</span>
             <span *ngIf="!device.customerID">Marketplace</span>
             <!-- <span class="info-table-date">{{ device.HashMoveBookingDate | date: 'dd MMM, yyyy HH:mm'}}</span> -->
           </td>

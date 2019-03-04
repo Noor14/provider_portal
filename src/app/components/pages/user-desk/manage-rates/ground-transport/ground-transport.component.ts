@@ -1,35 +1,27 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, QueryList, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, OnDestroy } from '@angular/core';
 import {
-  NgbDatepicker,
   NgbInputDatepicker,
   NgbDateStruct,
-  NgbCalendar,
-  NgbDateAdapter,
   NgbDateParserFormatter,
   NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
-import { trigger, state, animate, transition, style } from '@angular/animations';
+import { trigger, animate, transition, style } from '@angular/animations';
 import { DiscardDraftComponent } from '../../../../../shared/dialogues/discard-draft/discard-draft.component';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { getJwtToken } from '../../../../../services/jwt.injectable';
+import { Observable, Subscription } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
 import { SharedService } from '../../../../../services/shared.service';
 import { baseExternalAssets } from '../../../../../constants/base.url';
 import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
-// import { NgModel } from '@angular/forms';
 import * as moment from 'moment';
-// import { DataTableDirective } from 'angular-datatables';
-import { GroundRateDialogComponent } from '../../../../../shared/dialogues/ground-rate-dialog/ground-rate-dialog.component';
 import { SeaRateDialogComponent } from '../../../../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
 import { GroundTransportService } from './ground-transport.service';
 import { NgbDateFRParserFormatter } from '../../../../../constants/ngb-date-parser-formatter';
 import { ManageRatesService } from '../manage-rates.service';
-import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
 import { RateHistoryComponent } from '../../../../../shared/dialogues/rate-history/rate-history.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import { loading, getImagePath, ImageRequiredSize, ImageSource } from '../../../../../constants/globalFunctions';
+import { loading, getImagePath, ImageRequiredSize, ImageSource, changeCase } from '../../../../../constants/globalFunctions';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -64,7 +56,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 export class GroundTransportComponent implements OnInit, OnDestroy {
 
   public rateValidityText = "Edit Rate / Validity";
-  public activeTab = "activeFCL";
+  public activeTab = "activeFTL";
   private draftRates: any;
   private addnsaveRates: any;
   public dtOptionsByGround: DataTables.Settings | any = {};
@@ -74,9 +66,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   @ViewChild('draftBYGroundFTL') tabledraftByGroundFTL;
   @ViewChild('publishByground') tablepublishByGround;
   @ViewChild("dp") input: NgbInputDatepicker;
-  // @ViewChild(NgModel) datePick: NgModel;
   @ViewChild('rangeDp') rangeDp: ElementRef;
-  // @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
   public dataTablepublishByground: any;
   public dataTabledraftByground: any;
@@ -157,28 +147,23 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
-    this.getAllPublishRates();
+    this.getAllPublishRates('FTL');
     this.allservicesByGround();
-    this.addnsaveRates = this._sharedService.draftRowAddGround.subscribe(state => {
-      if (state && Object.keys(state).length) {
-        this.setRowinDraftTable(state, 'popup not open');
-      }
-    })
+
     this._sharedService.termNcondGround.subscribe(state => {
       if (state) {
         this.editorContent = state;
       }
     })
-
+    this.getDraftRates('ground', 'FTL')
     this.getPortsData()
     this.getAllCustomers(this.userProfile.ProviderID)
     this.getAdditionalData()
+    this.getDropdownsList()
   }
 
 
   ngOnDestroy() {
-    // this.draftRates.unsubscribe();
-    this.addnsaveRates.unsubscribe();
   }
 
   clearFilter(event) {
@@ -203,11 +188,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
   }
   filter() {
-    this.getAllPublishRates()
+    this.getAllPublishRates('fcl')
   }
 
-  addRatesManually() {
-    this.updatePopupRates(0, 'FTL');
+  addRatesManually(activeTab) {
+    let type = (activeTab === 'activeFCL' ? 'FCL-Ground' : 'FTL')
+    this.updatePopupRates(0, type);
     // let obj = {
     //   createdBy: this.userProfile.LoginID,
     //   providerID: this.userProfile.ProviderID,
@@ -231,27 +217,27 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     this.editorContent = html
   }
   setRowinDraftTable(obj, type) {
-    if (obj && obj.TransportType == 'GROUND') {
-      this.draftDataBYGround.unshift(obj);
-      if (this.draftRatesByGround && this.draftRatesByGround.length) {
-        this.draftslist = this.draftRatesByGround.concat(this.draftDataBYGround);
-      } else {
-        this.draftslist = this.draftDataBYGround;
-      }
-      this.generateDraftTable();
-    }
-    else if (obj && obj.TransportType == 'TRUCK') {
-      this.draftDataBYGroundFTL.unshift(obj);
-      if (this.draftRatesByGroundFTL && this.draftRatesByGroundFTL.length) {
-        this.draftslistFTL = this.draftRatesByGroundFTL.concat(this.draftDataBYGroundFTL);
-      } else {
-        this.draftslistFTL = this.draftDataBYGroundFTL;
-      }
-      this.generateDraftTableFTL();
-    }
-    if (type == 'openPopup') {
-      this.updatePopupRates(obj.ID, 'FTL');
-    }
+    // if (obj && obj.TransportType == 'GROUND') {
+    //   this.draftDataBYGround.unshift(obj);
+    //   if (this.draftRatesByGround && this.draftRatesByGround.length) {
+    //     this.draftslist = this.draftRatesByGround.concat(this.draftDataBYGround);
+    //   } else {
+    //     this.draftslist = this.draftDataBYGround;
+    //   }
+    //   this.generateDraftTable();
+    // }
+    // else if (obj && obj.TransportType == 'TRUCK') {
+    //   this.draftDataBYGroundFTL.unshift(obj);
+    //   if (this.draftRatesByGroundFTL && this.draftRatesByGroundFTL.length) {
+    //     this.draftslistFTL = this.draftRatesByGroundFTL.concat(this.draftDataBYGroundFTL);
+    //   } else {
+    //     this.draftslistFTL = this.draftDataBYGroundFTL;
+    //   }
+    //   this.generateDraftTableFTL();
+    // }
+    // if (type == 'openPopup') {
+    //   this.updatePopupRates(obj.ID, 'FTL');
+    // }
   }
 
   generateDraftTable() {
@@ -401,351 +387,346 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
     }
 
-    this.setdataDraftInTable();
+    // this.setdataDraftInTable();
   }
-  generateDraftTableFTL() {
-    this.dtOptionsByGroundDraftFTL = {
-      data: this.draftslistFTL,
-      columns: [
-        {
-          title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRatesFTL" type = "checkbox"> <label for= "selectallDraftRatesFTL"> <span> </span></label></div>',
-          data: function (data) {
-            return '<div class="fancyOptionBoxes"> <input id = "' + data.ID + '" type = "checkbox"> <label for= "' + data.ID + '"> <span> </span></label></div>';
-          }
-        },
-        {
-          title: 'ORIGIN / DEPARTURE',
-          data: function (data) {
-            const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-            if (!data.PolID || !data.PodID) {
-              return "<div class='row'> <div class='col-5 text-truncate'><span> -- From -- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><span> -- To -- </span></div> </div>";
-            }
-            else {
-              let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
-              let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
-              const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
-              return "<div class='row'> <div class='col-5 text-truncate'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.PodName + "</div> </div>";
+  // generateDraftTableFTL() {
+  //   this.dtOptionsByGroundDraftFTL = {
+  //     data: this.draftslistFTL,
+  //     columns: [
+  //       {
+  //         title: '<div class="fancyOptionBoxes"> <input id = "selectallDraftRatesFTL" type = "checkbox"> <label for= "selectallDraftRatesFTL"> <span> </span></label></div>',
+  //         data: function (data) {
+  //           return '<div class="fancyOptionBoxes"> <input id = "' + data.ID + '" type = "checkbox"> <label for= "' + data.ID + '"> <span> </span></label></div>';
+  //         }
+  //       },
+  //       {
+  //         title: 'ORIGIN / DEPARTURE',
+  //         data: function (data) {
+  //           const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
+  //           if (!data.PolID || !data.PodID) {
+  //             return "<div class='row'> <div class='col-5 text-truncate'><span> -- From -- </span></div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><span> -- To -- </span></div> </div>";
+  //           }
+  //           else {
+  //             let polUrl = '../../../../../../assets/images/flags/4x3/' + data.PolCode.split(' ').shift().toLowerCase() + '.svg';
+  //             let podCode = '../../../../../../assets/images/flags/4x3/' + data.PodCode.split(' ').shift().toLowerCase() + '.svg';
+  //             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
+  //             return "<div class='row'> <div class='col-5 text-truncate'><img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + "</div> <div class='col-2'><img src='" + arrow + "' /></div> <div class='col-5 text-truncate'><img src='" + podCode + "' class='icon-size-22-14 mr-2' />" + data.PodName + "</div> </div>";
 
-              // return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
-            }
-          },
+  //             // return "<img src='" + polUrl + "' class='icon-size-22-14 mr-2' />" + data.PolName + " <img src='" + arrow + "' class='ml-2 mr-2' />" + "<img src='" + podCode + "' class='icon-size-22-14 ml-1 mr-2' />" + data.PodName;
+  //           }
+  //         },
 
-          className: 'routeCell'
-        },
-        {
-          title: 'CARGO TYPE',
-          data: function (data) {
-            if (!data.ShippingCatID) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return data.ShippingCatName;
-            }
-          }
-        },
-        {
-          title: 'SIZE',
-          data: function (data) {
-            if (!data.ContainerSpecID) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return data.ContainerSpecDesc;
-            }
-          }
-        },
-        {
-          title: 'RATE',
-          data: function (data) {
-            if (!data.Price) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return (Number(data.Price)).toLocaleString('en-US', {
-                style: 'currency',
-                currency: data.CurrencyCode,
-              });
-            }
-          }
-        },
-        {
-          title: 'RATE VALIDITY',
-          data: function (data) {
-            if (!data.EffectiveFrom || !data.EffectiveTo) {
-              return "<span>-- Select --</span>"
-            }
-            else {
-              return moment(data.EffectiveFrom).format('D MMM, Y') + ' to ' + moment(data.EffectiveTo).format('D MMM, Y')
-            }
-          }
-        },
-        {
-          title: '',
-          data: function (data) {
-            let url = '../../../../../../assets/images/icons/icon_del_round.svg';
-            return "<img id='" + data.ID + "' src='" + url + "' class='icon-size-16 pointer' />";
-          }
-        }
-      ],
-      drawCallback: function () {
-        let $api = this.api();
-        let pages = $api.page.info().pages;
-        if (pages === 1 || !pages) {
-          $('.draft-GroundFTL .dataTables_paginate').hide();
-        } else {
-          // SHow everything
-          $('.draft-GroundFTL .dataTables_paginate').show();
-        }
-      },
-      info: true,
-      destroy: true,
-      // pagingType: 'full_numbers',
-      pageLength: 5,
-      scrollX: true,
-      scrollY: '60vh',
-      scrollCollapse: true,
-      searching: false,
-      lengthChange: false,
-      responsive: true,
-      order: [[1, "asc"]],
-      language: {
-        paginate: {
-          next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
-          previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
-        },
-        infoEmpty: '',
-        // emptyTable: "No data available in table"
-      },
-      fixedColumns: {
-        leftColumns: 0,
-        rightColumns: 1
-      },
-      columnDefs: [
-        {
-          targets: 0,
-          width: 'auto',
-          orderable: false,
-        },
-        {
-          targets: 1,
-          width: '235'
-        },
+  //         className: 'routeCell'
+  //       },
+  //       {
+  //         title: 'CARGO TYPE',
+  //         data: function (data) {
+  //           if (!data.ShippingCatID) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             return data.ShippingCatName;
+  //           }
+  //         }
+  //       },
+  //       {
+  //         title: 'SIZE',
+  //         data: function (data) {
+  //           if (!data.ContainerSpecID) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             return data.ContainerSpecDesc;
+  //           }
+  //         }
+  //       },
+  //       {
+  //         title: 'RATE',
+  //         data: function (data) {
+  //           if (!data.Price) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             return (Number(data.Price)).toLocaleString('en-US', {
+  //               style: 'currency',
+  //               currency: data.CurrencyCode,
+  //             });
+  //           }
+  //         }
+  //       },
+  //       {
+  //         title: 'RATE VALIDITY',
+  //         data: function (data) {
+  //           if (!data.EffectiveFrom || !data.EffectiveTo) {
+  //             return "<span>-- Select --</span>"
+  //           }
+  //           else {
+  //             return moment(data.EffectiveFrom).format('D MMM, Y') + ' to ' + moment(data.EffectiveTo).format('D MMM, Y')
+  //           }
+  //         }
+  //       },
+  //       {
+  //         title: '',
+  //         data: function (data) {
+  //           let url = '../../../../../../assets/images/icons/icon_del_round.svg';
+  //           return "<img id='" + data.ID + "' src='" + url + "' class='icon-size-16 pointer' />";
+  //         }
+  //       }
+  //     ],
+  //     drawCallback: function () {
+  //       let $api = this.api();
+  //       let pages = $api.page.info().pages;
+  //       if (pages === 1 || !pages) {
+  //         $('.draft-GroundFTL .dataTables_paginate').hide();
+  //       } else {
+  //         // SHow everything
+  //         $('.draft-GroundFTL .dataTables_paginate').show();
+  //       }
+  //     },
+  //     info: true,
+  //     destroy: true,
+  //     // pagingType: 'full_numbers',
+  //     pageLength: 5,
+  //     scrollX: true,
+  //     scrollY: '60vh',
+  //     scrollCollapse: true,
+  //     searching: false,
+  //     lengthChange: false,
+  //     responsive: true,
+  //     order: [[1, "asc"]],
+  //     language: {
+  //       paginate: {
+  //         next: '<img src="../../../../../../assets/images/icons/icon_arrow_right.svg" class="icon-size-16">',
+  //         previous: '<img src="../../../../../../assets/images/icons/icon_arrow_left.svg" class="icon-size-16">'
+  //       },
+  //       infoEmpty: '',
+  //       // emptyTable: "No data available in table"
+  //     },
+  //     fixedColumns: {
+  //       leftColumns: 0,
+  //       rightColumns: 1
+  //     },
+  //     columnDefs: [
+  //       {
+  //         targets: 0,
+  //         width: 'auto',
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: 1,
+  //         width: '235'
+  //       },
 
-        {
-          targets: -1,
-          width: '12',
-          orderable: false,
-        },
-        {
-          targets: -2,
-          width: '200',
-        },
-        {
-          targets: "_all",
-          width: "150"
-        },
+  //       {
+  //         targets: -1,
+  //         width: '12',
+  //         orderable: false,
+  //       },
+  //       {
+  //         targets: -2,
+  //         width: '200',
+  //       },
+  //       {
+  //         targets: "_all",
+  //         width: "150"
+  //       },
 
-      ]
-    }
+  //     ]
+  //   }
 
-    this.setdataDraftInTableFTL();
-  }
-  setdataDraftInTableFTL() {
-    setTimeout(() => {
-      if (this.tabledraftByGroundFTL && this.tabledraftByGroundFTL.nativeElement) {
-        this.dataTabledraftBygroundFTL = $(this.tabledraftByGroundFTL.nativeElement);
-        let alltableOption = this.dataTabledraftBygroundFTL.DataTable(this.dtOptionsByGroundDraftFTL);
-        alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
-          let node = this.node();
-          let data = this.data();
-          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.ContainerSpecID || !data.Price || !data.EffectiveFrom || !data.EffectiveTo) {
-            node.children[0].children[0].children[0].setAttribute("disabled", true)
-          }
-        });
-        this.draftloadingFTL = false;
-        $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
-          event.stopPropagation();
-          let delId = (<HTMLElement>event.target).id;
-          if (delId) {
-            this.deleteRow(delId);
-          }
-        });
-        $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
-          event.stopPropagation();
-          if (event.target.nodeName != "SPAN" || event.target.innerText) {
-            if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
-              let rowId = event.currentTarget.cells[0].children[0].children[0].id;
-              this.updatePopupRates(rowId, 'FTL');
-            }
-          }
-        });
+  //   this.setdataDraftInTableFTL();
+  // }
+  // setdataDraftInTableFTL() {
+  //   setTimeout(() => {
+  //     if (this.tabledraftByGroundFTL && this.tabledraftByGroundFTL.nativeElement) {
+  //       this.dataTabledraftBygroundFTL = $(this.tabledraftByGroundFTL.nativeElement);
+  //       let alltableOption = this.dataTabledraftBygroundFTL.DataTable(this.dtOptionsByGroundDraftFTL);
+  //       alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+  //         let node = this.node();
+  //         let data = this.data();
+  //         if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.ContainerSpecID || !data.Price || !data.EffectiveFrom || !data.EffectiveTo) {
+  //           node.children[0].children[0].children[0].setAttribute("disabled", true)
+  //         }
+  //       });
+  //       this.draftloadingFTL = false;
+  //       $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
+  //         event.stopPropagation();
+  //         let delId = (<HTMLElement>event.target).id;
+  //         if (delId) {
+  //           this.deleteRow(delId);
+  //         }
+  //       });
+  //       $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
+  //         event.stopPropagation();
+  //         if (event.target.nodeName != "SPAN" || event.target.innerText) {
+  //           if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
+  //             let rowId = event.currentTarget.cells[0].children[0].children[0].id;
+  //             this.updatePopupRates(rowId, 'FTL');
+  //           }
+  //         }
+  //       });
 
-        $("#selectallDraftRatesFTL").click((event) => {
-          this.publishRatesFTL = [];
-          var cols = alltableOption.column(0).nodes();
-          let data = alltableOption.column(0).data();
-          this.checkedalldraftRatesFTL = !this.checkedalldraftRatesFTL;
-          for (var i = 0; i < cols.length; i += 1) {
-            if (this.checkedalldraftRatesFTL) {
-              let data = alltableOption.row(i).data();
-              let node = alltableOption.row(i).node();
-              if (data.PolID && data.PodID && data.ShippingCatID && data.ContainerSpecID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
-                let draftId = node.children[0].children[0].children[0].id;
-                let obj = {
-                  draftID: draftId,
-                  providerID: this.userProfile.ProviderID,
-                  transportType: "TRUCK",
-                }
-                this.publishRatesFTL.push(obj);
-                node.children[0].children[0].children[0].checked = true;
-                node.classList.add('selected');
-              }
-              else {
-                node.children[0].children[0].children[0].checked = false;
-              }
-            }
-          }
-          if (i == cols.length && !this.checkedalldraftRatesFTL) {
-            this.publishRatesFTL = [];
-            this.selectedItem('remove', alltableOption)
-          }
-        });
+  //       $("#selectallDraftRatesFTL").click((event) => {
+  //         this.publishRatesFTL = [];
+  //         var cols = alltableOption.column(0).nodes();
+  //         let data = alltableOption.column(0).data();
+  //         this.checkedalldraftRatesFTL = !this.checkedalldraftRatesFTL;
+  //         for (var i = 0; i < cols.length; i += 1) {
+  //           if (this.checkedalldraftRatesFTL) {
+  //             let data = alltableOption.row(i).data();
+  //             let node = alltableOption.row(i).node();
+  //             if (data.PolID && data.PodID && data.ShippingCatID && data.ContainerSpecID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
+  //               let draftId = node.children[0].children[0].children[0].id;
+  //               let obj = {
+  //                 draftID: draftId,
+  //                 providerID: this.userProfile.ProviderID,
+  //                 transportType: "TRUCK",
+  //               }
+  //               this.publishRatesFTL.push(obj);
+  //               node.children[0].children[0].children[0].checked = true;
+  //               node.classList.add('selected');
+  //             }
+  //             else {
+  //               node.children[0].children[0].children[0].checked = false;
+  //             }
+  //           }
+  //         }
+  //         if (i == cols.length && !this.checkedalldraftRatesFTL) {
+  //           this.publishRatesFTL = [];
+  //           this.selectedItem('remove', alltableOption)
+  //         }
+  //       });
 
-        $('#draftRateTableFTL').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
-          event.stopPropagation();
-          let targetedId = (<HTMLInputElement>event.target).id
-          let index = this.publishRatesFTL.findIndex(obj => obj.draftID == targetedId);
-          let selection = event.currentTarget.parentElement.parentElement.parentElement;
-          if (index >= 0) {
-            this.publishRatesFTL.splice(index, 1);
-            selection.classList.remove('selected');
+  //       $('#draftRateTableFTL').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
+  //         event.stopPropagation();
+  //         let targetedId = (<HTMLInputElement>event.target).id
+  //         let index = this.publishRatesFTL.findIndex(obj => obj.draftID == targetedId);
+  //         let selection = event.currentTarget.parentElement.parentElement.parentElement;
+  //         if (index >= 0) {
+  //           this.publishRatesFTL.splice(index, 1);
+  //           selection.classList.remove('selected');
 
-          }
-          else {
-            let obj = {
-              draftID: targetedId,
-              providerID: this.userProfile.ProviderID,
-              transportType: "TRUCK",
-            }
-            this.publishRatesFTL.push(obj);
-            selection.classList.add('selected');
-          }
+  //         }
+  //         else {
+  //           let obj = {
+  //             draftID: targetedId,
+  //             providerID: this.userProfile.ProviderID,
+  //             transportType: "TRUCK",
+  //           }
+  //           this.publishRatesFTL.push(obj);
+  //           selection.classList.add('selected');
+  //         }
 
-        });
-      }
+  //       });
+  //     }
 
-    }, 0);
-  }
-  setdataDraftInTable() {
-    setTimeout(() => {
-      if (this.tabledraftByGround && this.tabledraftByGround.nativeElement) {
-        this.dataTabledraftByground = $(this.tabledraftByGround.nativeElement);
-        let alltableOption = this.dataTabledraftByground.DataTable(this.dtOptionsByGroundDraft);
-        alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
-          let node = this.node();
-          let data = this.data();
-          if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.ContainerSpecID || !data.Price || !data.EffectiveFrom || !data.EffectiveTo) {
-            node.children[0].children[0].children[0].setAttribute("disabled", true)
-          }
-        });
-        this.draftloading = false;
-        $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
-          event.stopPropagation();
-          let delId = (<HTMLElement>event.target).id;
-          if (delId) {
-            this.deleteRow(delId);
-          }
-        });
-        $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
-          event.stopPropagation();
-          if (event.target.nodeName != "SPAN" || event.target.innerText) {
-            if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
-              let rowId = event.currentTarget.cells[0].children[0].children[0].id;
-              this.updatePopupRates(rowId, 'FTL');
-            }
-          }
-        });
+  //   }, 0);
+  // }
+  // setdataDraftInTable() {
+  //   setTimeout(() => {
+  //     if (this.tabledraftByGround && this.tabledraftByGround.nativeElement) {
+  //       this.dataTabledraftByground = $(this.tabledraftByGround.nativeElement);
+  //       let alltableOption = this.dataTabledraftByground.DataTable(this.dtOptionsByGroundDraft);
+  //       alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
+  //         let node = this.node();
+  //         let data = this.data();
+  //         if (!data.PolID || !data.PodID || !data.ShippingCatID || !data.ContainerSpecID || !data.Price || !data.EffectiveFrom || !data.EffectiveTo) {
+  //           node.children[0].children[0].children[0].setAttribute("disabled", true)
+  //         }
+  //       });
+  //       this.draftloading = false;
+  //       $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
+  //         event.stopPropagation();
+  //         let delId = (<HTMLElement>event.target).id;
+  //         if (delId) {
+  //           this.deleteRow(delId);
+  //         }
+  //       });
+  //       $(alltableOption.table().container()).on('click', 'tbody tr', (event) => {
+  //         event.stopPropagation();
+  //         if (event.target.nodeName != "SPAN" || event.target.innerText) {
+  //           if (event.currentTarget && event.currentTarget.cells.length && event.currentTarget.cells[0].children.length) {
+  //             let rowId = event.currentTarget.cells[0].children[0].children[0].id;
+  //             this.updatePopupRates(rowId, 'FTL');
+  //           }
+  //         }
+  //       });
 
-        $("#selectallDraftRates").click((event) => {
-          this.publishRates = [];
-          var cols = alltableOption.column(0).nodes();
-          let data = alltableOption.column(0).data();
-          this.checkedalldraftRates = !this.checkedalldraftRates;
-          for (var i = 0; i < cols.length; i += 1) {
-            if (this.checkedalldraftRates) {
-              let data = alltableOption.row(i).data();
-              let node = alltableOption.row(i).node();
-              if (data.PolID && data.PodID && data.ShippingCatID && data.ContainerSpecID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
-                let draftId = node.children[0].children[0].children[0].id;
-                let obj = {
-                  draftID: draftId,
-                  providerID: this.userProfile.ProviderID,
-                  transportType: "GROUND",
-                }
-                this.publishRates.push(obj);
-                node.children[0].children[0].children[0].checked = true;
-                node.classList.add('selected');
-              }
-              else {
-                node.children[0].children[0].children[0].checked = false;
-              }
-            }
-          }
-          if (i == cols.length && !this.checkedalldraftRates) {
-            this.publishRates = [];
-            this.selectedItem('remove', alltableOption)
-          }
-        });
+  //       $("#selectallDraftRates").click((event) => {
+  //         this.publishRates = [];
+  //         var cols = alltableOption.column(0).nodes();
+  //         let data = alltableOption.column(0).data();
+  //         this.checkedalldraftRates = !this.checkedalldraftRates;
+  //         for (var i = 0; i < cols.length; i += 1) {
+  //           if (this.checkedalldraftRates) {
+  //             let data = alltableOption.row(i).data();
+  //             let node = alltableOption.row(i).node();
+  //             if (data.PolID && data.PodID && data.ShippingCatID && data.ContainerSpecID && data.Price && data.EffectiveFrom && data.EffectiveTo) {
+  //               let draftId = node.children[0].children[0].children[0].id;
+  //               let obj = {
+  //                 draftID: draftId,
+  //                 providerID: this.userProfile.ProviderID,
+  //                 transportType: "GROUND",
+  //               }
+  //               this.publishRates.push(obj);
+  //               node.children[0].children[0].children[0].checked = true;
+  //               node.classList.add('selected');
+  //             }
+  //             else {
+  //               node.children[0].children[0].children[0].checked = false;
+  //             }
+  //           }
+  //         }
+  //         if (i == cols.length && !this.checkedalldraftRates) {
+  //           this.publishRates = [];
+  //           this.selectedItem('remove', alltableOption)
+  //         }
+  //       });
 
-        $('#draftRateTable').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
-          event.stopPropagation();
-          let targetedId = (<HTMLInputElement>event.target).id
-          let index = this.publishRates.findIndex(obj => obj.draftID == targetedId);
-          let selection = event.currentTarget.parentElement.parentElement.parentElement;
-          if (index >= 0) {
-            this.publishRates.splice(index, 1);
-            selection.classList.remove('selected');
+  //       $('#draftRateTable').off('click').on('click', 'tbody tr td input[type="checkbox"]', (event) => {
+  //         event.stopPropagation();
+  //         let targetedId = (<HTMLInputElement>event.target).id
+  //         let index = this.publishRates.findIndex(obj => obj.draftID == targetedId);
+  //         let selection = event.currentTarget.parentElement.parentElement.parentElement;
+  //         if (index >= 0) {
+  //           this.publishRates.splice(index, 1);
+  //           selection.classList.remove('selected');
 
-          }
-          else {
-            let obj = {
-              draftID: targetedId,
-              providerID: this.userProfile.ProviderID,
-              transportType: "GROUND",
-            }
-            this.publishRates.push(obj);
-            selection.classList.add('selected');
+  //         }
+  //         else {
+  //           let obj = {
+  //             draftID: targetedId,
+  //             providerID: this.userProfile.ProviderID,
+  //             transportType: "GROUND",
+  //           }
+  //           this.publishRates.push(obj);
+  //           selection.classList.add('selected');
 
-          }
+  //         }
 
-        });
-      }
+  //       });
+  //     }
 
-    }, 0);
-  }
+  //   }, 0);
+  // }
 
 
   updatePopupRates(rowId, type) {
+    console.log(rowId);
+    console.log(this.draftslist);
     let obj;
     if (this.activeTab == 'activeFCL') {
-      obj = {
-        ID: this.draftslist.find(obj => obj.ID == rowId),
-        forType: type,
-        data: obj,
-        addList: this.groundCharges,
-        mode: 'draft',
-        customers: this.allCustomers,
+      if (rowId > 0) {
+        obj = this.draftslist.find(elem => elem.Id == rowId);
+      } else {
+        obj = null
       }
     }
     else if (this.activeTab == 'activeFTL') {
-      // obj = this.draftslistFTL.find(obj => obj.ID == rowId);
-      obj = {
-        ID: this.draftslistFTL.find(obj => obj.ID == rowId),
-        forType: type,
-        data: obj,
-        addList: this.groundCharges,
-        mode: 'draft',
-        customers: this.allCustomers,
+      if (rowId > 0) {
+        obj = this.draftslistFTL.find(elem => elem.Id == rowId);
+      } else {
+        obj = null
       }
     }
     const modalRef = this.modalService.open(SeaRateDialogComponent, {
@@ -756,12 +737,21 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
       keyboard: false
     });
     modalRef.result.then((result) => {
-      if (result && result.data && result.data.length) {
-        this.setAddDraftData(result.data);
+      console.log(result);
+      if (result) {
+        this.setAddDraftData(result[0].containerLoadType, result);
+        this.getAllPublishRates('ftl')
       }
     });
-
-    modalRef.componentInstance.selectedData = obj;
+    let object = {
+      ID: rowId,
+      forType: (type === 'FCL' ? 'FCL-Ground' : type),
+      data: obj,
+      addList: this.groundCharges,
+      mode: 'draft',
+      customers: this.allCustomers,
+    }
+    modalRef.componentInstance.selectedData = object;
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
@@ -770,86 +760,117 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
   }
 
-  setAddDraftData(data) {
-    if (this.activeTab == "activeFCL") {
-      this.forDraftfilterFCL(data);
-    }
-    else if (this.activeTab == "activeFTL") {
-      this.forDraftfilterFTL(data);
-    }
+
+  /**
+   *
+   * Setting Data in Drafts Tabls
+   * @param {*} type
+   * @param {*} data
+   * @memberof GroundTransportComponent
+   */
+  setAddDraftData(type, data) {
+    data.forEach(element => {
+      if (element.JsonSurchargeDet) {
+        let importCharges = []
+        let exportCharges = []
+        let parsedJsonSurchargeDet = JSON.parse(element.JsonSurchargeDet)
+        importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT');
+        exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT');
+        element.parsedJsonSurchargeDet = importCharges.concat(exportCharges)
+      }
+      let dataObj = changeCase(element, 'pascal')
+      if (type === 'FCL') {
+        this.draftslist.forEach(e => {
+          if (e.ProviderPricingDraftID === element.providerPricingDraftID) {
+            let idx = this.draftslist.indexOf(e)
+            this.draftslist.splice(idx, 1)
+          }
+        })
+        this.draftslist.unshift(dataObj)
+      } else if (type === 'LCL') {
+        this.draftslistFTL.forEach(e => {
+          if (e.ConsolidatorPricingDraftID === element.ConsolidatorPricingDraftID) {
+            let idx = this.draftslistFTL.indexOf(e)
+            this.draftslistFTL.splice(idx, 1)
+          }
+        })
+        this.draftslistFTL.unshift(dataObj)
+      }
+      this.getDraftRates('ground', type) //@todo remove it when we get the mechanism for parent to child changes emit
+    });
+    // this.generateDraftTable();
   }
 
-  forDraftfilterFCL(data) {
-    for (var index = 0; index < this.draftslist.length; index++) {
-      for (let i = 0; i < data.length; i++) {
-        if (this.draftslist[index].ID == data[i].ID) {
-          this.draftslist[index].ContainerLoadType = data[i].containerLoadType;
-          this.draftslist[index].TransportType = data[i].transportType;
-          this.draftslist[index].ShippingCatID = data[i].shippingCatID;
-          this.draftslist[index].ShippingCatName = data[i].shippingCatName;
-          this.draftslist[index].ContainerSpecID = data[i].containerSpecID;
-          this.draftslist[index].ContainerSpecDesc = data[i].containerSpecDesc;
-          this.draftslist[index].CurrencyID = data[i].currencyID;
-          this.draftslist[index].CurrencyCode = data[i].currencyCode;
-          this.draftslist[index].EffectiveFrom = data[i].effectiveFrom;
-          this.draftslist[index].EffectiveTo = data[i].effectiveTo;
-          this.draftslist[index].PodCode = data[i].podCode;
-          this.draftslist[index].PolCode = data[i].polCode;
-          this.draftslist[index].PodName = data[i].podName;
-          this.draftslist[index].PolName = data[i].polName;
-          this.draftslist[index].PodID = data[i].podID;
-          this.draftslist[index].PolID = data[i].polID;
-          this.draftslist[index].Price = data[i].price;
-        }
-      }
-    }
-    if (index == this.draftslist.length) {
-      this.generateDraftTable();
-    }
-  }
-  forDraftfilterFTL(data) {
-    for (var index = 0; index < this.draftslistFTL.length; index++) {
-      for (let i = 0; i < data.length; i++) {
-        if (this.draftslistFTL[index].ID == data[i].ID) {
-          this.draftslistFTL[index].ContainerLoadType = data[i].containerLoadType;
-          this.draftslistFTL[index].TransportType = data[i].transportType;
-          this.draftslistFTL[index].ShippingCatID = data[i].shippingCatID;
-          this.draftslistFTL[index].ShippingCatName = data[i].shippingCatName;
-          this.draftslistFTL[index].ContainerSpecID = data[i].containerSpecID;
-          this.draftslistFTL[index].ContainerSpecDesc = data[i].containerSpecDesc;
-          this.draftslistFTL[index].CurrencyID = data[i].currencyID;
-          this.draftslistFTL[index].CurrencyCode = data[i].currencyCode;
-          this.draftslistFTL[index].EffectiveFrom = data[i].effectiveFrom;
-          this.draftslistFTL[index].EffectiveTo = data[i].effectiveTo;
-          this.draftslistFTL[index].PodCode = data[i].podCode;
-          this.draftslistFTL[index].PolCode = data[i].polCode;
-          this.draftslistFTL[index].PodName = data[i].podName;
-          this.draftslistFTL[index].PolName = data[i].polName;
-          this.draftslistFTL[index].PodID = data[i].podID;
-          this.draftslistFTL[index].PolID = data[i].polID;
-          this.draftslistFTL[index].Price = data[i].price;
-        }
-      }
-    }
-    if (index == this.draftslistFTL.length) {
-      this.generateDraftTableFTL();
-    }
-  }
+  // forDraftfilterFCL(data) {
+  //   for (var index = 0; index < this.draftslist.length; index++) {
+  //     for (let i = 0; i < data.length; i++) {
+  //       if (this.draftslist[index].ID == data[i].ID) {
+  //         this.draftslist[index].ContainerLoadType = data[i].containerLoadType;
+  //         this.draftslist[index].TransportType = data[i].transportType;
+  //         this.draftslist[index].ShippingCatID = data[i].shippingCatID;
+  //         this.draftslist[index].ShippingCatName = data[i].shippingCatName;
+  //         this.draftslist[index].ContainerSpecID = data[i].containerSpecID;
+  //         this.draftslist[index].ContainerSpecDesc = data[i].containerSpecDesc;
+  //         this.draftslist[index].CurrencyID = data[i].currencyID;
+  //         this.draftslist[index].CurrencyCode = data[i].currencyCode;
+  //         this.draftslist[index].EffectiveFrom = data[i].effectiveFrom;
+  //         this.draftslist[index].EffectiveTo = data[i].effectiveTo;
+  //         this.draftslist[index].PodCode = data[i].podCode;
+  //         this.draftslist[index].PolCode = data[i].polCode;
+  //         this.draftslist[index].PodName = data[i].podName;
+  //         this.draftslist[index].PolName = data[i].polName;
+  //         this.draftslist[index].PodID = data[i].podID;
+  //         this.draftslist[index].PolID = data[i].polID;
+  //         this.draftslist[index].Price = data[i].price;
+  //       }
+  //     }
+  //   }
+  //   if (index == this.draftslist.length) {
+  //     this.generateDraftTable();
+  //   }
+  // }
+  // forDraftfilterFTL(data) {
+  //   for (var index = 0; index < this.draftslistFTL.length; index++) {
+  //     for (let i = 0; i < data.length; i++) {
+  //       if (this.draftslistFTL[index].ID == data[i].ID) {
+  //         this.draftslistFTL[index].ContainerLoadType = data[i].containerLoadType;
+  //         this.draftslistFTL[index].TransportType = data[i].transportType;
+  //         this.draftslistFTL[index].ShippingCatID = data[i].shippingCatID;
+  //         this.draftslistFTL[index].ShippingCatName = data[i].shippingCatName;
+  //         this.draftslistFTL[index].ContainerSpecID = data[i].containerSpecID;
+  //         this.draftslistFTL[index].ContainerSpecDesc = data[i].containerSpecDesc;
+  //         this.draftslistFTL[index].CurrencyID = data[i].currencyID;
+  //         this.draftslistFTL[index].CurrencyCode = data[i].currencyCode;
+  //         this.draftslistFTL[index].EffectiveFrom = data[i].effectiveFrom;
+  //         this.draftslistFTL[index].EffectiveTo = data[i].effectiveTo;
+  //         this.draftslistFTL[index].PodCode = data[i].podCode;
+  //         this.draftslistFTL[index].PolCode = data[i].polCode;
+  //         this.draftslistFTL[index].PodName = data[i].podName;
+  //         this.draftslistFTL[index].PolName = data[i].polName;
+  //         this.draftslistFTL[index].PodID = data[i].podID;
+  //         this.draftslistFTL[index].PolID = data[i].polID;
+  //         this.draftslistFTL[index].Price = data[i].price;
+  //       }
+  //     }
+  //   }
+  //   if (index == this.draftslistFTL.length) {
+  //     this.generateDraftTableFTL();
+  //   }
+  // }
 
 
   addAnotherRates() {
-    this.addRatesManually();
-
+    this.addRatesManually(this.activeTab);
   }
   addRatesBygroundManually() {
     if (this.activeTab == 'activeFCL') {
       if ((!this.draftRatesByGround || (this.draftRatesByGround && !this.draftRatesByGround.length)) && (!this.draftDataBYGround || (this.draftDataBYGround && !this.draftDataBYGround.length))) {
-        this.addRatesManually();
+        this.addRatesManually(this.activeTab);
       }
     }
     else if (this.activeTab == 'activeFTL') {
       if ((!this.draftRatesByGroundFTL || (this.draftRatesByGroundFTL && !this.draftRatesByGroundFTL.length)) && (!this.draftDataBYGroundFTL || (this.draftDataBYGroundFTL && !this.draftDataBYGroundFTL.length))) {
-        this.addRatesManually();
+        this.addRatesManually(this.activeTab);
       }
     }
   }
@@ -859,7 +880,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     if (!date && this.fromDate && this.toDate) {
       this.fromDate = null;
       this.toDate = null;
-      this.getAllPublishRates();
+      // this.getAllPublishRates('fcl');
     }
     else {
       return;
@@ -885,9 +906,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     }
 
     this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
-    if (this.fromDate && this.fromDate.month && this.toDate && this.toDate.month) {
-      this.getAllPublishRates();
-    }
+    // if (this.fromDate && this.fromDate.month && this.toDate && this.toDate.month) {
+    //   this.getAllPublishRates('fcl');
+    // }
   }
 
   allservicesByGround() {
@@ -895,24 +916,24 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
-            this.allCargoType = state[index].DropDownValues.Category;
-            this.allContainersType = state[index].DropDownValues.ContainerGround;
-            const seaPorts: Array<any> = (state[index].DropDownValues.Port && state[index].DropDownValues.Port.length > 0) ? state[index].DropDownValues.Port : []
-            const groundAreas: Array<any> = (state[index].DropDownValues.GroundPort && state[index].DropDownValues.GroundPort.length > 0) ? state[index].DropDownValues.GroundPort : []
-            this.allPorts = seaPorts.concat(groundAreas);
-            this.allCurrencies = state[index].DropDownValues.UserCurrency;
+            // this.allCargoType = state[index].DropDownValues.Category;
+            // this.allContainersType = state[index].DropDownValues.ContainerGround;
+            // const seaPorts: Array<any> = (state[index].DropDownValues.Port && state[index].DropDownValues.Port.length > 0) ? state[index].DropDownValues.Port : []
+            // const groundAreas: Array<any> = (state[index].DropDownValues.GroundPort && state[index].DropDownValues.GroundPort.length > 0) ? state[index].DropDownValues.GroundPort : []
+            // this.allPorts = seaPorts.concat(groundAreas);
+            // this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if (state[index].TCGround) {
               this.editorContent = state[index].TCGround;
               this.disable = true;
             }
             if (state[index].DraftDataGround && state[index].DraftDataGround.length) {
-              this.draftRatesByGround = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'ground');
-              this.draftslist = this.draftRatesByGround;
-              this.draftRatesByGroundFTL = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'truck');
-              this.draftslistFTL = this.draftRatesByGroundFTL;
+              // this.draftRatesByGround = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'ground');
+              // this.draftslist = this.draftRatesByGround;
+              // this.draftRatesByGroundFTL = state[index].DraftDataGround.filter(obj => obj.TransportType.toLowerCase() == 'truck');
+              // this.draftslistFTL = this.draftRatesByGroundFTL;
             }
-            this.generateDraftTable();
-            this.generateDraftTableFTL();
+            // this.generateDraftTable();
+            // this.generateDraftTableFTL();
             this.draftloading = true;
             this.draftloadingFTL = true;
           }
@@ -923,10 +944,10 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
   filterByroute(obj) {
     if (typeof obj == 'object') {
-      this.getAllPublishRates();
+      // this.getAllPublishRates();
     }
     else if (!obj) {
-      this.getAllPublishRates();
+      // this.getAllPublishRates();
     }
     else {
       return;
@@ -934,35 +955,43 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
   }
   filtertionPort(obj) {
-    if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates();
+    // if ((typeof obj == "object" && Object.keys(obj).length) || (typeof obj == "string" && obj)) this.getAllPublishRates('fcl');
 
   }
 
-  getAllPublishRates() {
+  public sortColumn: string = 'EffectiveFrom'
+  public sortColumnDirection: string = 'ASC'
+  public isCustomer: boolean = false
+  public isMarketplace: boolean = false
+  public pageNo: number = 1;
+  public pageSize: number = 5;
+  public totalPublishedRecords: number;
+  getAllPublishRates(type?) {
     this.publishloading = true;
     let obj = {
       providerID: this.userProfile.ProviderID,
-      pageNo: 1,
-      pageSize: 50,
+      pageNo: this.pageNo,
+      pageSize: this.pageSize,
       mode: this.filterbyMode,
-      containerSpecID: (this.filterbyContainerType == 'undefined') ? null : this.filterbyContainerType,
+      containerSpecID: (this.filterbyContainerType == 'undefined') ? null : parseInt(this.filterbyContainerType),
       polID: this.orgfilter(),
       podID: this.destfilter(),
       effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
       effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
-      sortColumn: null,
-      sortColumnDirection: null
+      customerID: (this.filterbyCustomer ? parseInt(this.filterbyCustomer) : null),
+      customerType: (this.isCustomer ? 'CUSTOMER' : (this.isMarketplace ? 'MARKETPLACE' : null)),
+      containerLoadType: type,
+      sortColumn: this.sortColumn,
+      sortColumnDirection: this.sortColumnDirection
     }
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        if (!res.returnObject) {
-          this.allRatesList = [];
-        }
-        else {
-          this.allRatesList = res.returnObject;
-        }
+      console.log(res);
+      this.publishloading = false;
+      if (res.returnId > 0) {
+        this.totalPublishedRecords = res.returnObject.recordsTotal
+        this.allRatesList = res.returnObject.data;
         this.checkedallpublishRates = false;
-        this.filterTable();
+        this.publishloading = false;
       }
     })
 
@@ -1085,95 +1114,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
         }
       ]
     };
-    this.setdataInTable();
   }
 
-
-  setdataInTable() {
-    setTimeout(() => {
-      if (this.tablepublishByGround && this.tablepublishByGround.nativeElement) {
-        this.dataTablepublishByground = $(this.tablepublishByGround.nativeElement);
-        let alltableOption = this.dataTablepublishByground.DataTable(this.dtOptionsByGround);
-        this.publishloading = false;
-        $(alltableOption.table().container()).on('click', 'img.pointer', (event) => {
-          event.stopPropagation();
-          let selectedId = (<HTMLElement>event.target).id;
-          if (selectedId) {
-            let rateId = selectedId.split('-').shift();
-            let type = 'Rate_' + selectedId.split('-').pop();
-            let mode = selectedId.split('-').pop();
-            this.rateHistory(rateId, type, mode)
-          }
-        });
-        $("#selectallpublishRates").click(() => {
-          this.delPublishRates = [];
-          var cols = alltableOption.column(0).nodes();
-          this.checkedallpublishRates = !this.checkedallpublishRates;
-          for (var i = 0; i < cols.length; i += 1) {
-            cols[i].querySelector("input[type='checkbox']").checked = this.checkedallpublishRates;
-            if (this.checkedallpublishRates) {
-              let selectedData = cols[i].querySelector("input[type='checkbox']").id;
-              let obj = {
-                publishRateID: selectedData.split('-').shift(),
-                transportType: selectedData.split('-').pop()
-              }
-              this.delPublishRates.push(obj);
-              this.selectedItem('add', alltableOption);
-              this.rateValidityText = "Edit Validity";
-            }
-          }
-          if (i == cols.length && !this.checkedallpublishRates) {
-            this.delPublishRates = [];
-            this.selectedItem('remove', alltableOption)
-            this.rateValidityText = "Edit Rate / Validity";
-          }
-
-        });
-
-        $('#publishRateTable').off('click').on('click', 'input[type="checkbox"]', (event) => {
-          let selectedData = (<HTMLInputElement>event.target).id
-          let index = this.delPublishRates.findIndex(obj => obj.publishRateID == selectedData.split('-').shift());
-          let selection = event.currentTarget.parentElement.parentElement.parentElement;
-          if (index >= 0) {
-            this.delPublishRates.splice(index, 1);
-            selection.classList.remove('selected');
-          } else {
-            selection.classList.add('selected');
-            let obj = {
-              publishRateID: selectedData.split('-').shift(),
-              transportType: selectedData.split('-').pop()
-            }
-            this.delPublishRates.push(obj)
-          }
-          if (this.delPublishRates && this.delPublishRates.length > 1) {
-            this.rateValidityText = "Edit Validity";
-          }
-          else {
-            this.rateValidityText = "Edit Rate / Validity";
-          }
-        });
-
-      }
-    }, 0);
-  }
-
-  selectedItem(type, alltableOption) {
-    if (type == 'add') {
-      alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
-        var data = this.node();
-        data.classList.add('selected');
-        // ... do something with data(), or this.node(), etc
-      });
-    }
-    else {
-      alltableOption.rows().every(function (rowIdx, tableLoop, rowLoop) {
-        var node = this.node();
-        node.classList.remove('selected');
-        node.children[0].children[0].children[0].checked = false;
-        // ... do something with data(), or this.node(), etc
-      });
-    }
-  }
   orgfilter() {
     if (this.filterOrigin && typeof this.filterOrigin == "object" && Object.keys(this.filterOrigin).length) {
       return this.filterOrigin.PortID;
@@ -1204,8 +1146,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     if (this.activeTab == "activeFCL") {
       this.draftslist.forEach(elem => {
         let obj = {
-          draftID: elem.ID,
-          transportType: elem.TransportType,
+          draftID: elem.Id,
+          transportType: elem.ModeOfTrans,
         }
         discardarr.push(obj)
       })
@@ -1213,8 +1155,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     else if (this.activeTab == "activeFTL") {
       this.draftslistFTL.forEach(elem => {
         let obj = {
-          draftID: elem.ID,
-          transportType: elem.TransportType,
+          draftID: elem.Id,
+          transportType: elem.ModeOfTrans,
         }
         discardarr.push(obj)
       })
@@ -1234,14 +1176,14 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
           this.draftRatesByGround = [];
           this.draftDataBYGround = [];
           this.publishRates = [];
-          this.generateDraftTable();
+          this.getDraftRates('ground', 'FCL')
         }
         else if (this.activeTab == "activeFTL") {
           this.draftslistFTL = [];
           this.draftRatesByGroundFTL = [];
           this.draftDataBYGroundFTL = [];
           this.publishRatesFTL = [];
-          this.generateDraftTableFTL();
+          this.getDraftRates('ground', 'FTL')
         }
       }
     }, (reason) => {
@@ -1276,7 +1218,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
         if (this.allRatesList.length == this.delPublishRates.length) {
           this.allRatesList = [];
           this.delPublishRates = [];
-          this.filterTable();
+          // this.filterTable();
         }
         else {
           for (var i = 0; i < this.delPublishRates.length; i++) {
@@ -1287,11 +1229,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
             }
           }
           if (i == this.delPublishRates.length) {
-            this.filterTable();
+            // this.filterTable();
             this.delPublishRates = [];
           }
         }
-
+        this.getAllPublishRates('FTL')
       }
     }, (reason) => {
       // console.log("reason");
@@ -1312,8 +1254,22 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     this.delPubRecord()
   }
 
-  publishRate() {
-    this._seaFreightService.publishDraftRate(this.publishRates).subscribe((res: any) => {
+  publishRate(type) {
+    let param;
+    if (type === 'fcl') {
+      param = {
+        pricingIDList: (this.draftslist.length === this.publishRates.length) ? [-1] : this.publishRates,
+        providerID: this.userProfile.ProviderID,
+        containerLoadType: type.toUpperCase()
+      }
+    } else if (type === 'ftl') {
+      param = {
+        pricingIDList: (this.draftslistFTL.length === this.publishRates.length) ? [-1] : this.publishRates,
+        providerID: this.userProfile.ProviderID,
+        containerLoadType: type.toUpperCase()
+      }
+    }
+    this._seaFreightService.publishDraftRate(param).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         for (var i = 0; i < this.publishRates.length; i++) {
           for (let y = 0; y < this.draftslist.length; y++) {
@@ -1325,27 +1281,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
         if (this.publishRates.length == i) {
           this.checkedalldraftRates = false;
           this.publishRates = [];
-          this.generateDraftTable();
-          this.getAllPublishRates();
-        }
-      }
-    })
-  }
-  publishRateFTL() {
-    this._seaFreightService.publishDraftRate(this.publishRatesFTL).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        for (var i = 0; i < this.publishRatesFTL.length; i++) {
-          for (let y = 0; y < this.draftslistFTL.length; y++) {
-            if (this.draftslistFTL[y].ID == this.publishRatesFTL[i].draftID) {
-              this.draftslistFTL.splice(y, 1);
-            }
-          }
-        }
-        if (this.publishRatesFTL.length == i) {
-          this.checkedalldraftRatesFTL = false;
-          this.publishRatesFTL = [];
-          this.generateDraftTableFTL();
-          this.getAllPublishRates();
+          this.getDraftRates('ground', type.toUpperCase())
+          this.getAllPublishRates(type.toUpperCase());
         }
       }
     })
@@ -1370,36 +1307,16 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     modalRef.result.then((result) => {
       if (result == "Success") {
         if (this.activeTab == "activeFCL") {
-          for (let index = 0; index < this.draftslist.length; index++) {
-            if (this.draftslist[index].ID == id) {
-              if (this.draftRatesByGround && this.draftRatesByGround.length && this.draftRatesByGround[index].ID == id) {
-                this.draftRatesByGround.splice(index, 1);
-              }
-              this.draftslist.splice(index, 1);
-              this.draftDataBYGround = this.draftslist;
-              this.generateDraftTable();
-              this.publishRates = [];
-              break;
-            }
-          }
+          this.draftDataBYGround = this.draftslist;
+          this.getDraftRates('ground', 'FCL')
+          this.publishRates = [];
         }
         else if (this.activeTab == "activeFTL") {
-          for (let index = 0; index < this.draftslistFTL.length; index++) {
-            if (this.draftslistFTL[index].ID == id) {
-              if (this.draftRatesByGroundFTL && this.draftRatesByGroundFTL.length && this.draftRatesByGroundFTL[index].ID == id) {
-                this.draftRatesByGroundFTL.splice(index, 1);
-              }
-              this.draftslistFTL.splice(index, 1);
-              this.draftDataBYGroundFTL = this.draftslistFTL;
-              this.generateDraftTableFTL();
-              this.publishRatesFTL = [];
-              break;
-            }
-          }
+          this.getDraftRates('ground', 'FTL')
+          this.publishRates = [];
         }
       }
     }, (reason) => {
-      // console.log("reason");
     });
     let obj = {
       data: [{
@@ -1415,41 +1332,87 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
       }
     }, 0);
   }
+
+
+  /**
+   *
+   * RATE VALIDITY POPUP
+   * @returns
+   * @memberof GroundTransportComponent
+   */
   rateValidity() {
     if (!this.delPublishRates.length) return;
     let updateValidity = [];
     for (let i = 0; i < this.allRatesList.length; i++) {
       for (let y = 0; y < this.delPublishRates.length; y++) {
-        if (this.allRatesList[i].id == this.delPublishRates[y].publishRateID) {
+        if (this.allRatesList[i].id == this.delPublishRates[y]) {
           updateValidity.push(this.allRatesList[i])
         }
       }
     }
-    const modalRef = this.modalService.open(RateValidityComponent, {
-      size: 'lg',
-      centered: true,
-      windowClass: 'upper-medium-modal',
-      backdrop: 'static',
-      keyboard: false
-    });
-    modalRef.result.then((result) => {
-      if (result == 'Success') {
-        this.getAllPublishRates();
-        this.checkedallpublishRates = false
-        this.delPublishRates = [];
+
+    if (updateValidity && updateValidity.length > 1) {
+      const modalRef = this.modalService.open(RateValidityComponent, {
+        size: 'lg',
+        centered: true,
+        windowClass: 'upper-medium-modal',
+        backdrop: 'static',
+        keyboard: false
+      });
+      modalRef.result.then((result) => {
+        if (result == 'Success') {
+          this.getAllPublishRates('FCL');
+          this.checkedallpublishRates = false
+          this.delPublishRates = [];
+        }
+      });
+      let obj = {
+        data: updateValidity,
+        type: "rateValidityGROUND"
       }
-    });
-    let obj = {
-      data: updateValidity,
-      type: "rateValidityGROUND"
+      modalRef.componentInstance.validityData = obj;
+    } else if (updateValidity && updateValidity.length === 1) {
+      const modalRef2 = this.modalService.open(SeaRateDialogComponent, {
+        size: 'lg',
+        centered: true,
+        windowClass: 'large-modal',
+        backdrop: 'static',
+        keyboard: false
+      });
+      modalRef2.result.then((result) => {
+        if (result == 'Success') {
+          this.getAllPublishRates('FTL');
+          this.checkedallpublishRates = false
+          this.delPublishRates = [];
+        }
+      });
+      let object = {
+        ID: updateValidity[0].id,
+        forType: (this.activeTab === 'activeFCL' ? 'FCL' : 'FTL'),
+        data: updateValidity,
+        addList: this.groundCharges,
+        customers: this.allCustomers,
+        mode: 'publish'
+      }
+      modalRef2.componentInstance.selectedData = object;
     }
-    modalRef.componentInstance.validityData = obj;
+
     setTimeout(() => {
       if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
       }
     }, 0);
   }
+
+
+  /**
+   *
+   * RATE HISTORY POPUP
+   * @param {*} recId
+   * @param {*} fortype
+   * @param {*} mode
+   * @memberof GroundTransportComponent
+   */
   rateHistory(recId, fortype, mode) {
     const modalRef = this.modalService.open(RateHistoryComponent, {
       size: 'lg',
@@ -1472,6 +1435,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
+
+  /**
+   *
+   * SAVE TERMS & CONDITIONS
+   * @memberof GroundTransportComponent
+   */
   saveTermNcond() {
     let obj = {
       providerID: this.userProfile.ProviderID,
@@ -1490,9 +1459,10 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
   // NEW GROUND WORKING
   getPortsData() {
-    this._manageRatesService.getPortsData('ground').subscribe((res: any) => {
+    this._manageRatesService.getPortsData('GROUND').subscribe((res: any) => {
       console.log(res);
       let ports = JSON.parse(localStorage.getItem("PortDetails"));
+      console.log(ports.concat(res));
       localStorage.setItem("PortDetails", JSON.stringify(ports.concat(res)));
     }, (err: HttpErrorResponse) => {
       loading(false)
@@ -1527,15 +1497,130 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   getAdditionalData() {
     loading(true)
     this._manageRatesService.getAllAdditionalCharges(this.userProfile.ProviderID).subscribe((res: any) => {
-      console.log(res);
-
       this.groundCharges = res.filter(e => e.modeOfTrans === 'TRUCK' && e.addChrType === 'ADCH')
-      console.log(this.groundCharges);
-
       loading(false)
     }, (err) => {
       console.log(err);
     })
+  }
+
+
+  /**
+   *
+   * Emitter for checkboxes in table
+   * @param {*} event
+   * @memberof GroundTransportComponent
+   */
+  tableCheckedRows(event) {
+    console.log(event);
+    if (event.type === 'publishFCL') {
+      if (typeof event.list[0] === 'object') {
+        if (event.list[0].type === 'history') {
+          if (event.list[0].load === 'FCL') {
+            this.rateHistory(event.list[0].id, 'Rate_FCL', 'FCL')
+          } else if (event.list[0].load === 'FTL') {
+            this.rateHistory(event.list[0].id, 'Rate_FTL', 'FTL')
+          }
+        }
+      } else {
+        this.delPublishRates = event.list
+      }
+    } else if (event.type === 'draftFCL') {
+      if (typeof event.list[0] === 'object') {
+        if (event.list[0].type === 'delete') {
+          this.deleteRow(event.list[0].id)
+        } else if (event.list[0].type === 'edit') {
+          this.updatePopupRates(event.list[0].id, event.list[0].load)
+        }
+      } else {
+        this.publishRates = event.list;
+      }
+    }
+  }
+
+
+  /**
+   *
+   * Emitter for sorting columns
+   * @param {*} type
+   * @param {*} event
+   * @memberof GroundTransportComponent
+   */
+  sortedFilters(type, event) {
+    console.log(event);
+    this.sortColumn = event.column
+    this.sortColumnDirection = event.direction
+    this.getAllPublishRates(type)
+  }
+
+  /**
+   *
+   * Emitter for Paging
+   * @param {*} type
+   * @param {*} event
+   * @memberof GroundTransportComponent
+   */
+  paging(type, event) {
+    console.log(event);
+    this.pageNo = event;
+    this.getAllPublishRates(type)
+  }
+
+  public filterbyCustomer;
+  public fromType: string = ''
+  filterRecords(type) {
+    this.getAllPublishRates('FTL')
+  }
+
+  onTabChange(event) {
+    if (event === 'activeFTL') {
+      this.getAllPublishRates('FTL')
+      this.getDraftRates('ground', 'FTL')
+      this.publishRates = []
+    } else if (event === 'activeFCL') {
+      this.getAllPublishRates('fcl')
+      this.getDraftRates('ground', 'FCL')
+      this.publishRates = []
+    }
+  }
+
+
+  /**
+   *
+   * Get All Draft Rates for FCL/FTL
+   * @param {*} type
+   * @memberof GroundTransportComponent
+   */
+  getDraftRates(type, containerLoad) {
+    loading(true)
+    this._manageRatesService.getAllDrafts(type, this.userProfile.ProviderID, containerLoad).subscribe((res: any) => {
+      if (res.returnId > 0) {
+        if (containerLoad === 'FCL') {
+          this.draftslist = (res.returnObject ? changeCase(res.returnObject, 'pascal') : [])
+        } else if (containerLoad === 'FTL') {
+          this.draftslistFTL = changeCase(res.returnObject, 'pascal')
+        }
+      }
+      loading(false)
+    }, (err: any) => {
+      loading(false)
+    })
+  }
+
+
+
+  public combinedContainers = []
+  public allContainers = []
+  public selectedFCLContainers = []
+  public shippingCategories = []
+  /**
+   * FILLIN DROPDOWN DETAILS
+   *
+   * @memberof GroundTransportComponent
+   */
+  getDropdownsList() {
+    this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
+    this.allContainersType = this.combinedContainers.filter(e => e.ContainerFor === 'FTL' && e.ShippingCatName === 'Goods')
   }
 
 }

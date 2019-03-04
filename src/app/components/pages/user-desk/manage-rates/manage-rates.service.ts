@@ -50,4 +50,8 @@ export class ManageRatesService {
     let url: string = `AdditionalCharge/GetSurchargeBasis/${ContainerLoadType}`;
     return this._http.get(baseApi + url);
   }
+  getAllDrafts(type, ProviderID, ContainerLoad) {
+    let url: string = `providerrate${type}/GetAllDrafts/${ProviderID}/${ContainerLoad}`;
+    return this._http.get(baseApi + url);
+  }
 }

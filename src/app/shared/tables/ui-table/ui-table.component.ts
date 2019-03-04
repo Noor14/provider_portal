@@ -13,6 +13,7 @@ import { firstBy } from 'thenby';
 })
 export class UiTableComponent implements OnInit, OnChanges {
   @Input() tableData: any;
+  @Input() transMode: string;
   @Input() tableType: string; //draftFCL; publishFCL
   @Input() totalRecords: number
   @Input() containerLoad: string;
@@ -78,7 +79,7 @@ export class UiTableComponent implements OnInit, OnChanges {
       this.totalCount = this.totalRecords
     }
 
-    if (this.containerLoad === 'LCL') {
+    if (this.containerLoad === 'LCL' && this.transMode === 'SEA') {
       this.thList = [
         { title: "", activeClass: '', sortKey: "" },
         { title: "Rate For", activeClass: '', sortKey: "CustomerName" },
@@ -89,8 +90,21 @@ export class UiTableComponent implements OnInit, OnChanges {
         { title: "Import Charges", activeClass: '', sortKey: "" },
         { title: "Export Charges", activeClass: '', sortKey: "" },
       ]
+    } else if ((this.containerLoad === 'FCL' || this.containerLoad === 'FTL') && this.transMode === 'GROUND') {
+      this.thList = [
+        { title: "", activeClass: '', sortKey: "" },
+        { title: "Origin/Departure", activeClass: '', sortKey: "" },
+        { title: "Cargo Type", activeClass: '', sortKey: "" },
+        { title: "Size", activeClass: '', sortKey: "" },
+        { title: "Rate", activeClass: '', sortKey: "" },
+        { title: "Rate Validity", activeClass: '', sortKey: "" },
+        { title: "Import Charges", activeClass: '', sortKey: "" },
+        { title: "Export Charges", activeClass: '', sortKey: "" },
+      ]
     }
     this.data = this.tableData
+    console.log(this.data);
+
     this.data.forEach(e => {
       if (e.jsonCustomerDetail) {
         e.parsedjsonCustomerDetail = JSON.parse(e.jsonCustomerDetail)
@@ -163,10 +177,12 @@ export class UiTableComponent implements OnInit, OnChanges {
             if (!this.validateRow(e)) {
               e.isChecked = true
               console.log(this.containerLoad);
-              if (this.containerLoad === 'FCL') {
+              if (this.containerLoad === 'FCL' && this.transMode === 'SEA') {
                 this.checkList.push(e.providerPricingDraftID)
-              } else if (this.containerLoad === 'LCL') {
+              } else if (this.containerLoad === 'LCL' && this.transMode === 'SEA') {
                 this.checkList.push(e.consolidatorPricingDraftID)
+              } else if (this.transMode === 'GROUND') {
+                this.checkList.push(e.id)
               }
             }
           })
@@ -181,10 +197,12 @@ export class UiTableComponent implements OnInit, OnChanges {
         if (this.checkAllPublish) {
           this.data.forEach(e => {
             e.isChecked = true
-            if (this.containerLoad === 'FCL') {
+            if (this.containerLoad === 'FCL' && this.transMode === 'SEA') {
               this.checkList.push(e.carrierPricingID)
-            } else if (this.containerLoad === 'LCL') {
+            } else if (this.containerLoad === 'LCL' && this.transMode === 'SEA') {
               this.checkList.push(e.consolidatorPricingID)
+            } else if(this.transMode === 'GROUND') {
+              this.checkList.push(e.id)
             }
           })
         } else if (!this.checkAllPublish) {
@@ -222,13 +240,13 @@ export class UiTableComponent implements OnInit, OnChanges {
     if (action === 'delete') {
       obj = {
         type: 'delete',
-        id: (row.containerLoadType === 'FCL' ? row.providerPricingDraftID : row.consolidatorPricingDraftID),
+        id: ((this.transMode === 'GROUND') ? row.id : ((this.transMode === 'SEA' && row.containerLoadType === 'FCL') ? row.providerPricingDraftID : row.consolidatorPricingDraftID)),
         load: row.containerLoadType
       }
     } else if (action === 'edit') {
       obj = {
         type: 'edit',
-        id: (row.containerLoadType === 'FCL' ? row.providerPricingDraftID : row.consolidatorPricingDraftID),
+        id: ((this.transMode === 'GROUND') ? row.id : ((this.transMode === 'SEA' && row.containerLoadType === 'FCL') ? row.providerPricingDraftID : row.consolidatorPricingDraftID)),
         load: row.containerLoadType
       }
     }
@@ -248,10 +266,9 @@ export class UiTableComponent implements OnInit, OnChanges {
     let obj = {}
     if (action === 'history') {
       console.log(row);
-
       obj = {
         type: 'history',
-        id: (this.containerLoad === 'FCL' ? row.carrierPricingID : row.consolidatorPricingID),
+        id: ((this.transMode === 'GROUND') ? row.id : ((this.transMode === 'SEA' && row.containerLoadType === 'FCL') ? row.providerPricingDraftID : row.consolidatorPricingDraftID)),
         load: this.containerLoad
       }
     }
@@ -265,7 +282,7 @@ export class UiTableComponent implements OnInit, OnChanges {
   }
 
   validateRow(row) {
-    if (this.containerLoad === 'FCL') {
+    if (this.containerLoad === 'FCL' && this.transMode === 'SEA') {
       if (!row.polID ||
         !row.podID ||
         !row.price ||
@@ -281,7 +298,20 @@ export class UiTableComponent implements OnInit, OnChanges {
       } else {
         return false;
       }
-    } else if (this.containerLoad === 'LCL') {
+    } else if (this.containerLoad === 'LCL' && this.transMode === 'SEA') {
+      if (!row.polID ||
+        !row.podID ||
+        !row.price ||
+        !row.totalExportCharges ||
+        !row.totalImportCharges ||
+        !row.effectiveFrom ||
+        !row.effectiveTo
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (this.transMode === 'GROUND') {
       if (!row.polID ||
         !row.podID ||
         !row.price ||
@@ -328,28 +358,33 @@ export class UiTableComponent implements OnInit, OnChanges {
       }
     }
 
-    this.data = changeCase(changes.tableData.currentValue, 'camel')
-    this.checkAllPublish = false;
-    this.data.forEach(e => {
-      if (e.jsonCustomerDetail) {
-        e.parsedjsonCustomerDetail = JSON.parse(e.jsonCustomerDetail)
-      }
-      if (e.publishStatus) {
-        e.parsedpublishStatus = JSON.parse(e.publishStatus)
-        if (e.parsedpublishStatus.Status === 'PENDING') {
-          e.parsedpublishStatus.printStatus = 'Unpublished'
-        } else if (e.parsedpublishStatus.Status === 'POSTED') {
-          e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MM/DD/YYYY h:mm:ss A')
+    if (changes.tableData) {
+      this.data = changeCase(changes.tableData.currentValue, 'camel')
+      this.checkAllPublish = false;
+      this.data.forEach(e => {
+        if (e.jsonCustomerDetail) {
+          e.parsedjsonCustomerDetail = JSON.parse(e.jsonCustomerDetail)
         }
-      }
-      e.isChecked = false
-      let dateDiff = getDateDiff(moment(e.effectiveTo).format("L"), moment(new Date()).format("L"), 'days', "MM-DD-YYYY")
-      if (dateDiff <= 15) {
-        e.dateDiff = dateDiff
-      } else {
-        e.dateDiff = null
-      }
-    })
+        if (e.publishStatus) {
+          e.parsedpublishStatus = JSON.parse(e.publishStatus)
+          if (e.parsedpublishStatus.Status === 'PENDING') {
+            e.parsedpublishStatus.printStatus = 'Unpublished'
+          } else if (e.parsedpublishStatus.Status === 'POSTED') {
+            e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MM/DD/YYYY h:mm:ss A')
+          }
+        }
+        e.isChecked = false
+        let dateDiff = getDateDiff(moment(e.effectiveTo).format("L"), moment(new Date()).format("L"), 'days', "MM-DD-YYYY")
+        if (dateDiff <= 15) {
+          e.dateDiff = dateDiff
+        } else {
+          e.dateDiff = null
+        }
+      })
+    }
+
+    console.log(this.data);
+
     this.checkList = []
   }
 }

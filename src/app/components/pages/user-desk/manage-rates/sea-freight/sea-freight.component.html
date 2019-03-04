@@ -59,7 +59,7 @@
               draftslcl.length <= dtOptionsBySeaLCLDraft.pageLength}">
           <!-- <table id="draftRateTableLCL" cellspacing="0" #draftBYseaLCL class="row-border hover"></table> -->
           <app-ui-table *ngIf="draftslcl.length" [tableType]="'draftFCL'" [tableData]="draftslcl"
-            (checkedRows)="tableCheckedRows($event)" [containerLoad]="'LCL'"></app-ui-table>
+            (checkedRows)="tableCheckedRows($event)" [containerLoad]="'LCL'" [transMode]="'SEA'"></app-ui-table>
           <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()">
             <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
             Add another rates
@@ -69,7 +69,7 @@
         <div class="row mt-4">
           <div class="col-12 text-right actions">
             <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase"
-              [disabled]="!draftslcl || (draftslcl && !draftslcl.length)" (click)="discardDraftLcl()">
+              [disabled]="!draftslcl || (draftslcl && !draftslcl.length)" (click)="discardDraft('lcl')">
               Discard Draft
             </button>
             <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">
@@ -316,7 +316,7 @@
           <!-- <table id="publishRateTableLcl" cellspacing="0" #publishByseaLcl class="row-border hover"></table> -->
           <app-ui-table *ngIf="allRatesListLcL" [tableType]="'publishFCL'" [tableData]="allRatesListLcL"
             (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('lcl', $event)"
-            (pageEvent)="paging('lcl', $event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'LCL'">
+            (pageEvent)="paging('lcl', $event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'LCL'" [transMode]="'SEA'">
           </app-ui-table>
           <app-loader-main *ngIf="publishloadingLcl"></app-loader-main>
         </section>
@@ -378,7 +378,7 @@
         <section class="rates-grid draft-grid draft-Fcl">
           <!-- <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table> -->
           <app-ui-table *ngIf="draftsfcl.length" [tableType]="'draftFCL'" [tableData]="draftsfcl"
-            (checkedRows)="tableCheckedRows($event)" [containerLoad]="'FCL'"></app-ui-table>
+            (checkedRows)="tableCheckedRows($event)" [containerLoad]="'FCL'" [transMode]="'SEA'"></app-ui-table>
           <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()">
             <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
             Add another rates
@@ -388,7 +388,7 @@
         <div class="row mt-4">
           <div class="col-12 text-right actions">
             <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase"
-              [disabled]="!draftsfcl || (draftsfcl && !draftsfcl.length)" (click)="discardDraft()">
+              [disabled]="!draftsfcl || (draftsfcl && !draftsfcl.length)" (click)="discardDraft('fcl')">
               Discard Draft
             </button>
             <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">
@@ -641,7 +641,7 @@
           <!-- <table id="publishRateTable" cellspacing="0" #publishBysea class="row-border hover"></table> -->
           <app-ui-table *ngIf="allRatesList" [tableType]="'publishFCL'" [tableData]="allRatesList"
             (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('fcl', $event)"
-            (pageEvent)="paging('fcl' ,$event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'FCL'">
+            (pageEvent)="paging('fcl' ,$event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'FCL'" [transMode]="'SEA'">
           </app-ui-table>
           <div *ngIf="!allRatesList">No Records Found</div>
           <app-loader-main *ngIf="publishloading"></app-loader-main>

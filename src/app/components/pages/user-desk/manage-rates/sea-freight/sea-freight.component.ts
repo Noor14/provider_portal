@@ -1783,11 +1783,17 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     // }
   }
 
-  discardDraft() {
+  discardDraft(type) {
     let discardarr = [];
-    this.draftsfcl.forEach(elem => {
-      discardarr.push(elem.ProviderPricingDraftID)
-    })
+    if (type === 'fcl') {
+      this.draftsfcl.forEach(elem => {
+        discardarr.push(elem.ProviderPricingDraftID)
+      })
+    } else if (type === 'lcl') {
+      this.draftslcl.forEach(elem => {
+        discardarr.push(elem.ConsolidatorPricingDraftID)
+      })
+    }
     const modalRef = this.modalService.open(DiscardDraftComponent, {
       size: 'lg',
       centered: true,
@@ -1801,7 +1807,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         this.allSeaDraftRatesByFCL = [];
         this.draftDataBYSeaFCL = [];
         this.publishRates = [];
-        // this.generateDraftTable();
+        this.getDraftRates(type)
       }
     }, (reason) => {
       // console.log("reason");
@@ -2081,6 +2087,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           if (this.draftslcl[index].ConsolidatorPricingDraftID == id) {
             this.draftslcl.splice(index, 1);
             // this.generateDraftTableLCL();
+            this.getDraftRates('lcl')
             this.publishRatesLCL = [];
             break;
           }
@@ -2307,7 +2314,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   getDraftRates(type) {
     loading(true)
-    this._seaFreightService.getAllDrafts(type, this.userProfile.ProviderID).subscribe((res: any) => {
+    this._seaFreightService.getAllDrafts(type, this.userProfile.ProviderID, '').subscribe((res: any) => {
       if (res.returnObject) {
         if (type === 'fcl') {
           this.allSeaDraftRatesByFCL = changeCase(res.returnObject, 'pascal')
@@ -2360,7 +2367,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     } else if (event.type === 'draftFCL') {
       if (typeof event.list[0] === 'object') {
         if (event.list[0].type === 'delete') {
-          this.deleteRow(event.list[0].id)
+          if (event.list[0].load === 'LCL') {
+            this.deleteRowLCL(event.list[0].id)
+          } else if (event.list[0].load === 'FCL') {
+            this.deleteRow(event.list[0].id)
+          }
         } else if (event.list[0].type === 'edit') {
           this.updatePopupRates(event.list[0].id, event.list[0].load)
         }

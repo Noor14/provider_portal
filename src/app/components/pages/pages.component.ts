@@ -18,7 +18,7 @@ export class PagesComponent implements OnInit {
 
   ngOnInit() {
     // this.getPortsData()
-    this.getCurrenciesList()
+    // this.getCurrenciesList()
   }
 
   getCurrenciesList() {
