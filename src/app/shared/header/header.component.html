@@ -7,8 +7,8 @@
       <ul class="navbar-nav flex-row">
         <li class="nav-item" (click)="login()" *ngIf="isLoggedIn">
           <a class="nav-link loginLink d-flex align-items-center" href="javascript:;">
-            Login
-            <img src="../../../assets/images/icons/icons_login.svg" alt="arrow" class="icon-size-20">
+            <span class="mr-2">Login</span>
+            <img src="../../../assets/images/icons/icons_login.svg" alt="login" class="icon-size-20">
           </a>
         </li>
         <li class="nav-item" ngbDropdown placement="bottom-right" *ngIf="!isLoggedIn && logoutDisplay">
@@ -18,9 +18,12 @@
             <i class="fa fa-angle-down hvr-icon"></i>
           </a>
           <ul ngbDropdownMenu aria-labelledby="dropdownBasic" class="animated fadeIn userDropdown">
-            <li class="dropdown-item"><a href="javascript:;" [routerLinkActive]="['active']" [routerLink]="['/provider/dashboard']">
+            <li class="dropdown-item">
+              <a href="javascript:;" [routerLinkActive]="['active']" [routerLink]="['/provider/dashboard']">
                 <img src="../../../assets/images/icons/icon_dashboard.svg" class="svg-icon" alt="Dashboard" />
-                <span> Dashboard</span></a></li>
+                <span> Dashboard</span>
+              </a>
+            </li>
             <li class="dropdown-item">
               <a href="javascript:;" [routerLinkActive]="['active']" [routerLink]="['/provider/allbookings']">
                 <img src="../../../assets/images/icons/icon_booking.svg" class="svg-icon" alt="Bookings" />
