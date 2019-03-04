@@ -39,7 +39,8 @@
       "pers": "environments/environment.pers.ts",
       "dev": "environments/environment.dev.ts",
       "prod": "environments/environment.prod.ts",
-      "qa": "environments/environment.qa.ts"
+      "qa": "environments/environment.qa.ts",
+      "uat": "environments/environment.uat.ts"
     }
   }],
   "e2e": {

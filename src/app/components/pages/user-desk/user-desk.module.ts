@@ -32,6 +32,7 @@ import { NgStepperModule } from '../../../directives/stepper/stepper.module';
 import { NgFilesModule } from '../../../directives/ng-files';
 import { SettingService } from './settings/setting.service';
 import { QuillEditorModule } from 'ngx-quill-editor';
+import { UiSwitchModule } from 'ngx-toggle-switch';
 @NgModule({
   imports: [
     CommonModule,
@@ -39,6 +40,7 @@ import { QuillEditorModule } from 'ngx-quill-editor';
     NgFilesModule,
     QuillEditorModule,
     UserDeskRoutingModule,
+    UiSwitchModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBs4tYXYGUA2kDvELgCYcbhYeoVgZCxumg',
       libraries: ["places", "geometry"]
