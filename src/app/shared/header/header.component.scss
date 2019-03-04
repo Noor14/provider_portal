@@ -18,6 +18,16 @@ header {
     .loginLink {
       color: $secondary-color;
     }
+
+    &-nav {
+      .nav-item {
+        .nav-link {
+          &:after {
+            content: unset;
+          }
+        }
+      }
+    }
   }
 
   .dropdown-menu {
@@ -60,11 +70,14 @@ header {
           }
         }
       }
+
       &:hover {
-          padding-left: 2rem;
+        padding-left: 2rem;
+
         a {
           span {
             color: $primary-color;
+
             &::before {
               transform: scaleX(1);
             }
