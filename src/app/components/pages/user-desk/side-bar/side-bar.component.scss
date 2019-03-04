@@ -43,13 +43,11 @@ $leftsidebar-h3-color: #c6c8ca;
                     }
                 }
                 .badge {
-                    background-color: #738593 !important;
-                    border-radius: 1rem !important;
-                    font-weight: normal !important;
-                    padding: 0.4em 0.5em !important;
-                    float: right;
-                    margin-right: 80px !important;
-                    border: 0;
+                    background-color: #738593;
+                    font-weight: normal;
+                    padding: 0.4em 0.5em;
+                    margin-right: 4rem;
+                    border-radius:50%; 
                 }
                 @media (max-width: $screen-md-screen) {
                     .badge {
