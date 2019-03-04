@@ -7,14 +7,63 @@
       <ul class="navbar-nav flex-row">
         <li class="nav-item" (click)="login()" *ngIf="isLoggedIn">
           <a class="nav-link loginLink" href="javascript:;">
-            LOG IN
-            <img src="../../../assets/images/icons/icon_arrow_right_secondary.svg" alt="arrow" class="icon-size-16 mb-1">
+            Login
+            <img src="../../../assets/images/icons/icons_login.svg" alt="arrow" class="icon-size-20">
           </a>
         </li>
-        <li class="nav-item" (click)="logOut()" *ngIf="!isLoggedIn && logoutDisplay">
-          <a class="nav-link text-danger" href="javascript:;">
-            SIGN OUT
+        <li class="nav-item" ngbDropdown placement="bottom-right" *ngIf="!isLoggedIn && logoutDisplay">
+          <a class="nav-link hvr-icon-hang" id="dropdownBasic" ngbDropdownToggle>
+            <img *ngIf="userAvatar" class="nav-user-photo" [src]="userAvatar" alt="user_icon">
+           <img *ngIf="!userAvatar" src="../../../../assets/images/icons/icons_user.svg" alt="user_icon">
+            <i class="fa fa-angle-down hvr-icon"></i>
           </a>
+          <ul ngbDropdownMenu aria-labelledby="dropdownBasic" class="animated fadeIn userDropdown">
+            <li class="dropdown-item"><a href="javascript:;" [routerLinkActive]="['active']" [routerLink]="['/provider/dashboard']">
+                <img src="../../../assets/images/icons/icon_dashboard.svg" class="svg-icon" alt="Dashboard" />
+                <span class=""> Dashboard</span></a></li>
+            <li class="dropdown-item">
+              <a href="javascript:;" [routerLinkActive]="['active']" [routerLink]="['/provider/allbookings']">
+                <img src="../../../assets/images/icons/icon_booking.svg" class="svg-icon" alt="Bookings" />
+                <span class="">Bookings</span>
+              </a>
+            </li>
+            <li class="dropdown-item">
+              <a href="javascript:;" [routerLinkActive]="['active']" [routerLink]="['/provider/billing']">
+                <img src="../../../assets/images/icons/billing.svg" class="svg-icon" alt="Billing" />
+                <span class="">Billing</span></a>
+            </li>
+            <li class="dropdown-item">
+              <a href="javascript:;" [routerLinkActive]="['active']" [routerLink]="['/provider/reports']">
+                <img src="../../../assets/images/icons/icon_report.svg" class="svg-icon" alt="Reports" />
+                <span class="">Reports</span></a>
+            </li>
+            <li class="dropdown-item">
+              <a href="javascript:;" [routerLinkActive]="['active']" [routerLink]="['/provider/manage-rates']">
+                <img src="../../../assets/images/icons/icon_rate.svg" class="svg-icon" alt="Manage Rates" />
+                <span class="">Manage Rates </span></a>
+            </li>
+            <li class="dropdown-item">
+              <a href="javascript:;" [routerLinkActive]="['active']" [routerLink]="['/provider/deals']">
+                <img src="../../../assets/images/icons/icon_deal.svg" class="svg-icon" alt="Manage Deals" />
+                <span class="">Manage Deals </span></a>
+            </li>
+            <li><hr class="hr-solid mb-2"></li>
+            <li class="dropdown-item">
+              <a href="javascript:;" [routerLinkActive]="['active']" [routerLink]="['/provider/settings']">
+                <img src="../../../assets/images/icons/icon_setting.svg" class="svg-icon" alt="Settings" />
+                <span class="">Settings </span></a>
+            </li>
+            <li class="dropdown-item">
+              <a href="javascript:;" [routerLinkActive]="['active']" [routerLink]="['/provider/support']">
+                <img src="../../../assets/images/icons/icon_support.svg" class="svg-icon" alt="Support" />
+                <span class="">Support </span></a>
+            </li>
+            <li class="dropdown-item">
+              <a href="javascript:;" class="dropdown-item" (click)="logOut()">
+                <img src="../../../assets/images/icons/icon_logout.svg" class="svg-icon" alt="Logout" />
+                <span class="">Logout</span></a>
+            </li>
+          </ul>
         </li>
       </ul>
     </nav>
