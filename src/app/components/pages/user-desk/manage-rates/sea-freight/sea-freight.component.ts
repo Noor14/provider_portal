@@ -1783,11 +1783,17 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     // }
   }
 
-  discardDraft() {
+  discardDraft(type) {
     let discardarr = [];
-    this.draftsfcl.forEach(elem => {
-      discardarr.push(elem.ProviderPricingDraftID)
-    })
+    if (type === 'fcl') {
+      this.draftsfcl.forEach(elem => {
+        discardarr.push(elem.ProviderPricingDraftID)
+      })
+    } else if (type === 'lcl') {
+      this.draftslcl.forEach(elem => {
+        discardarr.push(elem.ConsolidatorPricingDraftID)
+      })
+    }
     const modalRef = this.modalService.open(DiscardDraftComponent, {
       size: 'lg',
       centered: true,
@@ -1801,7 +1807,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         this.allSeaDraftRatesByFCL = [];
         this.draftDataBYSeaFCL = [];
         this.publishRates = [];
-        // this.generateDraftTable();
+        this.getDraftRates(type)
       }
     }, (reason) => {
       // console.log("reason");

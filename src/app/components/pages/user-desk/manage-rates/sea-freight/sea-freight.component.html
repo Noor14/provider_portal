@@ -69,7 +69,7 @@
         <div class="row mt-4">
           <div class="col-12 text-right actions">
             <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase"
-              [disabled]="!draftslcl || (draftslcl && !draftslcl.length)" (click)="discardDraftLcl()">
+              [disabled]="!draftslcl || (draftslcl && !draftslcl.length)" (click)="discardDraft('lcl')">
               Discard Draft
             </button>
             <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">
@@ -388,7 +388,7 @@
         <div class="row mt-4">
           <div class="col-12 text-right actions">
             <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase"
-              [disabled]="!draftsfcl || (draftsfcl && !draftsfcl.length)" (click)="discardDraft()">
+              [disabled]="!draftsfcl || (draftsfcl && !draftsfcl.length)" (click)="discardDraft('fcl')">
               Discard Draft
             </button>
             <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2">
