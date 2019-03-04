@@ -221,7 +221,7 @@
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
                 <a href="javascript:;" class="doc-title" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocOrigin && invoiceDocOrigin.DocumentFileName}">
-                  Invoice
+                  Commercial Inovice
                   <label class="sub-text d-flex" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName">Uploaded
                     on {{invoiceDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}}
                     {{invoiceDocOrigin.DocumentUploadDate
@@ -272,7 +272,7 @@
             <ul class="list-group list-group-flush mb-3">
               <li class="list-group-item">
                 <a href="javascript:;" class="doc-title" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocDestination && invoiceDocDestination.DocumentFileName}">
-                  Invoice
+                  Commercial Inovice
                   <label class="sub-text d-flex" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName">Uploaded
                     on {{invoiceDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}}
                     {{invoiceDocDestination.DocumentUploadDate

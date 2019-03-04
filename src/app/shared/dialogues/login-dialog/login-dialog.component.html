@@ -11,20 +11,24 @@
       <form class="form-component" autocomplete="off" novalidate [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
 
         <div *ngIf="savedUser">
+          <div class="user-profile-main gradient-border">
+            <img *ngIf="userAvatar" [src]="userAvatar" alt="user_icon">
+            <img *ngIf="!userAvatar" src="../../../../assets/images/icons/icons_user.svg" alt="user_icon">
+          </div>
           <h4 class="username">Hi, {{userName}}</h4>
         </div>
-
 
         <!-- input row -->
         <div class="row form-group" [hidden]="savedUser">
           <div class="col">
             <label>Email</label>
             <!-- <input type="email"  (focusout)="errorMessages()" (focus)="emailError=false" autocomplete="off" formControlName="loginUserID" class="form-control" [ngClass]="(emailError)?'user-invalid':''" -->
-            <input type="email" (focusout)="emailError=true" (focus)="emailError=false" autocomplete="off" formControlName="loginUserID"
-              class="form-control" [ngClass]="{'user-invalid': loginForm.controls['loginUserID'].hasError('pattern') && emailError}"
+            <input type="email" (focusout)="emailError=true" (focus)="emailError=false" autocomplete="off"
+              formControlName="loginUserID" class="form-control" [ngClass]="{'user-invalid': loginForm.controls['loginUserID'].hasError('pattern') && emailError}"
               placeholder="John@company.com" required>
             <span *ngIf="emailError">
-              <p class="animated fadeIn invalid-error" *ngIf="loginForm.controls['loginUserID'].errors && loginForm.controls['loginUserID'].hasError('pattern')">Please enter valid information</p>
+              <p class="animated fadeIn invalid-error" *ngIf="loginForm.controls['loginUserID'].errors && loginForm.controls['loginUserID'].hasError('pattern')">Please
+                enter valid information</p>
             </span>
 
           </div>
@@ -38,8 +42,8 @@
           <div class="col">
             <label *ngIf="!savedUser">Password</label>
             <i class="fa fa-eye pointer" aria-hidden="true" [ngClass]="colorEye" (click)=confirmPassword($event)></i>
-            <input type="password" autocomplete="off" autocomplete="off" formControlName="password"
-              class="form-control password" placeholder="{{placeholder}}" required>
+            <input type="password" autocomplete="off" autocomplete="off" formControlName="password" class="form-control password"
+              placeholder="{{placeholder}}" required>
 
           </div>
         </div>
@@ -48,10 +52,12 @@
         <!-- button row -->
         <div class="col login-btn">
           <div class="form-group">
-            <button type="submit" class="btn btn-primary pull-right full-width-btn hvr-sweep-to-right" [disabled]="loginForm.invalid || loading">Login <i *ngIf="loading" class="fa fa-spinner fa-spin"></i></button>
+            <button type="submit" class="btn btn-primary pull-right full-width-btn hvr-sweep-to-right" [disabled]="loginForm.invalid || loading">Login
+              <i *ngIf="loading" class="fa fa-spinner fa-spin"></i></button>
           </div>
           <div class="forgot-password">
-            <a href="javascript:;" class="forgot-password hvr-icon-wobble-horizontal" (click)="forgetPassword()">Forgot Password?
+            <a href="javascript:;" class="forgot-password hvr-icon-wobble-horizontal" (click)="forgetPassword()">Forgot
+              Password?
               <!-- <i class="fa fa-angle-right hvr-icon" aria-hidden="true"></i> -->
               <img src="../../../../assets/images/icons/icon_arrow_right.svg" alt="Arrow Icon" class="icon-svg hvr-icon">
             </a>
