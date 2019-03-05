@@ -4,7 +4,8 @@
   <!-- <label class="table-info-count" *ngIf="tableType === 'draftFCL'">Showing top {{pageSize}} of {{data.length}}
     record(s)</label> -->
   <label class="table-info-count" *ngIf="tableType === 'publishFCL'">Showing top {{data.length}} of {{totalRecords}}
-    record(s)</label>
+    record{{totalRecords > 1 ? 's': ''}}
+    </label>
   <div ngbDropdown class="d-flex sort-dropdown mt-2 pull-right" *ngIf="tableType === 'publishFCL'">
     <button class="btn btn-primary p-0" id="dropdownBasic2" ngbDropdownToggle>Sort By: {{selectedSort.title}}
     </button>
@@ -114,11 +115,11 @@
             <img
               *ngIf="device?.parsedjsonCustomerDetail && device.customerID && device?.parsedjsonCustomerDetail[0].CustomerImage"
               [src]="getUIImage(device?.parsedjsonCustomerDetail[0].CustomerImage, false)" alt="" class="mr-2 rounded"
-              height="24px" width="24px" onerror="'../../../../favicon.ico'">
+              height="24px" width="24px" onerror="'../../../../assets/images/icons/icons_user.svg'">
             <img
               *ngIf="device?.parsedjsonCustomerDetail && device.customerID && !device?.parsedjsonCustomerDetail[0].CustomerImage"
-              src="../../../../favicon.ico" alt="" class="mr-2 rounded" height="24px" width="24px"
-              onerror="'../../../../favicon.ico'">
+              src="../../../../assets/images/icons/icons_user.svg" alt="" class="mr-2 rounded" height="24px" width="24px"
+              onerror="'../../../../assets/images/icons/icons_user.svg'">
             <img *ngIf="!device.customerID" src="../../../../favicon.ico" alt="" class="mr-2 rounded" height="24px"
               width="24px">
             <span *ngIf="device?.customerID" ngbTooltip="{{device?.parsedjsonCustomerDetail[0]?.CustomerName}}"
@@ -128,7 +129,7 @@
             <!-- <span class="info-table-date">{{ device.HashMoveBookingDate | date: 'dd MMM, yyyy HH:mm'}}</span> -->
           </td>
           <td (click)="draftAction(device, 'edit')">
-            <div class="info-table-ports d-flex" *ngIf="device.carrierName">
+            <div class="info-table-ports d-flex">
               <div class="d-block text-truncate">
                 <img [src]="getUIImage(device.carrierImage, true)" alt="" class="mr-2 rounded" height="24px"
                   width="24px">
@@ -154,7 +155,7 @@
             </div>
           </td>
           <td (click)="draftAction(device, 'edit')">
-            <div class="d-flex info-table-logo align-items-center" *ngIf="device.shippingCatName">
+            <div class="d-flex info-table-logo align-items-center">
               <span class=""
                 [ngClass]="device?.shippingCatName?.length > 30 ? 'text-truncate': ''">{{device?.shippingCatName || '-- Select --'}}</span>
             </div>
@@ -227,7 +228,7 @@
   </div>
   <div *ngIf="tableType === 'draftFCL' && data?.length > devicPageConfig.itemsPerPage"
     class="paginationBox text-right mt-3 col-12 p-0 d-flex justify-content-end">
-    <p class="pager-info mr-3">Showing {{devicPageConfig.currentPage}} to 5 of {{data.length}} enteries</p>
+    <p class="pager-info">Showing {{devicPageConfig.currentPage}} to 5 of {{data.length}} enteries</p>
     <pagination-controls [id]="devicPageConfig.id" [directionLinks]="directionLinks" [autoHide]="autoHide"
       [previousLabel]="labels.previousLabel" [nextLabel]="labels.nextLabel" (pageChange)="onPageChange($event)">
     </pagination-controls>
@@ -237,10 +238,4 @@
     <ngb-pagination [(page)]="page" [pageSize]="5" (pageChange)="onPageChangeBootstrap($event)"
       [(collectionSize)]="totalCount"></ngb-pagination>
   </div>
-
-
-  <!-- <div class="table-info mt-2">
-    <label class="table-info-count">Showing {{devicPageConfig.itemsPerPage}} - {{tableData?.length}}</label>
-  </div> -->
-
   <!--/ manage device table -->
