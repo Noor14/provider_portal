@@ -24,12 +24,12 @@
     <div class="col-6 d-flex justify-content-end align-items-center warehouse-status">
       <label class="m-0 mr-2">SHOW :</label>
       <div class="fancyOptionBoxes mr-2">
-        <input id="RadioOne" name="ActiveFilter" type="radio" />
-        <label for="RadioOne"> <span></span> Acive </label>
+        <input id="checkboxOne" type="checkbox" />
+        <label for="checkboxOne"> <span></span> Acive </label>
       </div>
       <div class="fancyOptionBoxes">
-        <input id="RadioTwo" name="ActiveFilter" type="radio" />
-        <label for="RadioTwo"> <span></span> Inacive </label>
+        <input id="checkboxTwo" type="checkbox" />
+        <label for="checkboxTwo"> <span></span> Inacive </label>
       </div>
     </div>
   </div>
@@ -78,7 +78,7 @@
                   </li>
                 </ul>
                 <div class="warehouse-features mt-3 d-flex">
-                  <div class="icons" *ngFor="let facilities of wareHouse.WarehouseFacilities">
+                  <div class="icons" *ngFor="let facilities of wareHouse.FacilitiesProviding">
                     <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse" *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse'"
                       [ngClass]="{
                         'warehouse-features-active':

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { WarehouseService } from './warehouse.service';
-import { loading } from '../../../../../constants/globalFunctions';
+import { loading, isJSON } from '../../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Lightbox } from 'ngx-lightbox';
@@ -59,9 +59,14 @@ export class WarehouseListComponent implements OnInit {
         if (res.returnObject && res.returnObject.WHModel && res.returnObject.WHModel.length){
           this.allWareHouseList = res.returnObject.WHModel;
           if (this.allWareHouseList && this.allWareHouseList.length) {
-            this.allWareHouseList.forEach((obj, index) => {
+            this.allWareHouseList.map((obj)=>{
+              if (obj.FacilitiesProviding && obj.FacilitiesProviding != "[]" && isJSON(obj.FacilitiesProviding)){
+                obj.FacilitiesProviding = JSON.parse(obj.FacilitiesProviding);
+              }
+            })
+              this.allWareHouseList.forEach((obj, index) => {
               const albumArr = []
-              obj.UploadedGalleries.forEach((elem, ind) => {
+                obj.WHGallery.forEach((elem, ind) => {
                 const album = {
                   src: baseExternalAssets + elem.DocumentFile,
                   caption: elem.DocumentFileName,
