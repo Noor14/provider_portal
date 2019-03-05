@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Type, NgModuleFactory } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UserGuard } from '../user-creation/user.guard';
 
@@ -15,7 +15,11 @@ import { SettingsComponent } from './settings/settings.component';
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { ManageRatesModule } from './manage-rates/manage-rates.module';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
+import { Observable } from 'rxjs';
 
+export function manageRatesModuleChildren(): Type<any> | NgModuleFactory<any> | Promise<Type<any>> | Observable<Type<any>> {
+    return ManageRatesModule;
+}
 const routes: Routes = [
     {
         path: '',
@@ -32,7 +36,7 @@ const routes: Routes = [
             { path: 'add-warehouse', component: WarehouseComponent },
             { path: 'payment_result', component: PaymentResultComponent }, 
             { path: 'booking-detail/:id', component: ViewBookingComponent },
-            { path: 'manage-rates', loadChildren: () => ManageRatesModule },
+            { path: 'manage-rates', loadChildren: manageRatesModuleChildren },
             { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
     }

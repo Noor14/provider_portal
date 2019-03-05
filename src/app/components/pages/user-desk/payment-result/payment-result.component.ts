@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { BillingService } from '../billing/billing.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-payment-result',
   templateUrl: './payment-result.component.html',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PaymentResultComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _billingService: BillingService,
+    private _toastr: ToastrService,
+    ) { }
 
   ngOnInit() {
+    this.addPayment();
   }
+  addPayment() {
+    let obj={}
+    this._billingService.addPayment(obj).subscribe((res: any) => {
+      // if (res.returnStatus == "Success") {
+      console.log(res)
+      this._toastr.success('Payment add successfully', '');
+      }
+    )
 
+}
 }
