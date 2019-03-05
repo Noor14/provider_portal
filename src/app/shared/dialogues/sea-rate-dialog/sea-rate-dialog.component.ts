@@ -316,7 +316,7 @@ export class SeaRateDialogComponent implements OnInit {
 
   cargoTypeChange(type) {
     let data = this.fclContainers.filter(obj => obj.ShippingCatID == type);
-    // this.allContainers = data;
+    this.allContainers = data;
   }
 
   savedraftrow(type) {
