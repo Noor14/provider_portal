@@ -67,8 +67,8 @@ export class SeaRateDialogComponent implements OnInit {
   public filterOrigin: any = {};
   public filterDestination: any = {};
   public userProfile: any;
-  public selectedCategory: any;
-  public selectedContSize: any;
+  public selectedCategory: any = null;
+  public selectedContSize: any = null;
   public selectedHandlingUnit: any;
   public selectedCustomer: any[] = [];
   public selectedShipping: any;
