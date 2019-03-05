@@ -4,9 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { PagesModule } from './components/pages/pages.module';
 import { Observable } from 'rxjs';
 
-export function pagesModuleChildren(): Type<any> | NgModuleFactory<any> | Promise<Type<any>> | Observable<Type<any>> {
+const pagesModuleChildren = ((): Type<any> | NgModuleFactory<any> | Promise<Type<any>> | Observable<Type<any>> => {
   return PagesModule;
-}
+})
 const appRoutes:Routes = [
   { path: '', loadChildren: pagesModuleChildren}
 ]

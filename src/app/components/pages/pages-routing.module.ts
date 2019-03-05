@@ -5,12 +5,12 @@ import { UserDeskModule } from './user-desk/user-desk.module';
 import { UserCreationModule } from './user-creation/user-creation.module';
 import { Observable } from 'rxjs';
 
-export function userDeskModuleChildren(): Type<any> | NgModuleFactory<any> | Promise<Type<any>> | Observable<Type<any>> {
+const userDeskModuleChildren = ((): Type<any> | NgModuleFactory<any> | Promise<Type<any>> | Observable<Type<any>> => {
   return UserDeskModule;
-} 
-export function userCreationModuleChildren(): Type<any> | NgModuleFactory<any> | Promise<Type<any>> | Observable<Type<any>> {
+})
+const userCreationModuleChildren =((): Type<any> | NgModuleFactory<any> | Promise<Type<any>> | Observable<Type<any>> =>{
   return UserCreationModule;
-}
+})
 
 const routes: Routes = [
   {

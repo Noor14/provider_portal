@@ -17,9 +17,9 @@ import { ManageRatesModule } from './manage-rates/manage-rates.module';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
 import { Observable } from 'rxjs';
 
-export function manageRatesModuleChildren(): Type<any> | NgModuleFactory<any> | Promise<Type<any>> | Observable<Type<any>> {
+const manageRatesModuleChildren = ((): Type<any> | NgModuleFactory<any> | Promise<Type<any>> | Observable<Type<any>> => {
     return ManageRatesModule;
-}
+})
 const routes: Routes = [
     {
         path: '',
