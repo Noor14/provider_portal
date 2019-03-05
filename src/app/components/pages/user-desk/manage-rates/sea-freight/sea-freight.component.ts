@@ -260,9 +260,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         (this.filterbyCargoType && this.filterbyCargoType != 'undefined') ||
         (this.filterbyContainerType && this.filterbyContainerType != 'undefined') ||
         (this.filterDestination && Object.keys(this.filterDestination).length) ||
-        (this.filterOrigin && Object.keys(this.filterOrigin).length) ||
-        (this.fromDate && Object.keys(this.fromDate).length) ||
-        (this.toDate && Object.keys(this.toDate).length)
+        (this.filterOrigin && Object.keys(this.filterOrigin).length)
       ) {
         this.filterbyShippingLine = 'undefined';
         this.filterbyCargoType = 'undefined';
@@ -272,26 +270,24 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         this.toDate = null;
         this.filterDestination = {};
         this.filterOrigin = {};
-        // this.filter();
+        this.getAllPublishRates('fcl')
       }
     }
     else if (type == "LCL") {
       if (
-        (this.filterbyCargoTypeLcl && this.filterbyCargoTypeLcl != 'undefined') ||
+        (this.filterbyCargoType && this.filterbyCargoType != 'undefined') ||
         (this.filterbyHandlingType && this.filterbyHandlingType != 'undefined') ||
-        (this.filterDestinationLcl && Object.keys(this.filterDestinationLcl).length) ||
-        (this.filterOriginLcl && Object.keys(this.filterOriginLcl).length) ||
-        (this.fromDateLCL && Object.keys(this.fromDateLCL).length) ||
-        (this.toDateLCL && Object.keys(this.toDateLCL).length)
+        (this.filterDestination && Object.keys(this.filterDestination).length) ||
+        (this.filterOrigin && Object.keys(this.filterOrigin).length)
       ) {
-        this.modelLCL = null;
-        this.fromDateLCL = null;
-        this.toDateLCL = null;
-        this.filterbyCargoTypeLcl = 'undefined';
+        this.model = null;
+        this.fromDate = null;
+        this.toDate = null;
+        this.filterbyCargoType = 'undefined';
         this.filterbyHandlingType = 'undefined';
-        this.filterDestinationLcl = {};
-        this.filterOriginLcl = {};
-        // this.filterLcl();
+        this.filterDestination = {};
+        this.filterOrigin = {};
+        this.getAllPublishRates('lcl')
       }
     }
   }
@@ -940,6 +936,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       }
     });
     modalRef.componentInstance.savedRow.subscribe((emmitedValue) => {
+      console.log(emmitedValue);
       this.setAddDraftData(type, emmitedValue);
     });
     let object = {
@@ -1038,7 +1035,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
     this.renderer.setProperty(this.rangeDp.nativeElement, 'value', parsed);
     if (this.fromDate && this.fromDate.month && this.toDate && this.toDate.month) {
-      this.getAllPublishRates('fcl');
+      // this.getAllPublishRates('fcl');
     }
 
   }
@@ -1207,7 +1204,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     }
     this._seaFreightService.getAllrates(type, obj).subscribe((res: any) => {
       this.publishloading = false;
-      console.log(res);
       if (res.returnId > 0) {
         this.totalPublishedRecords = res.returnObject.recordsTotal
         if (type === 'fcl') {
@@ -1804,6 +1800,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     modalRef.result.then((result) => {
       if (result == "Success") {
         this.draftsfcl = [];
+        this.draftslcl = [];
         this.allSeaDraftRatesByFCL = [];
         this.draftDataBYSeaFCL = [];
         this.publishRates = [];
@@ -1814,7 +1811,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     });
     let obj = {
       data: discardarr,
-      type: "draftSeaRateFCL"
+      type: (type === 'fcl' ? 'draftSeaRateFCL' : 'draftSeaRateLCL')
     }
     modalRef.componentInstance.deleteIds = obj;
     setTimeout(() => {
@@ -2008,26 +2005,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     })
   }
 
-  // publishRateLcl() {
-  //   this._seaFreightService.publishDraftRateLCL(this.publishRates).subscribe((res: any) => {
-  //     if (res.returnStatus == "Success") {
-  //       for (var i = 0; i < this.publishRatesLCL.length; i++) {
-  //         for (let y = 0; y < this.draftslcl.length; y++) {
-  //           if (this.draftslcl[y].ConsolidatorPricingDraftID == this.publishRatesLCL[i]) {
-  //             this.draftslcl.splice(y, 1);
-  //           }
-  //         }
-  //       }
-  //       if (this.publishRatesLCL.length == i) {
-  //         this.checkedalldraftRates = false;
-  //         this.publishRatesLCL = [];
-  //         // this.generateDraftTableLCL();
-  //         this.getAllPublishRatesLcl();
-  //       }
-  //     }
-  //   })
-  // }
-
   ports = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
@@ -2128,8 +2105,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         }
       }
     }
-
-    console.log(updateValidity)
     if (updateValidity && updateValidity.length > 1) {
       const modalRef = this.modalService.open(RateValidityComponent, {
         size: 'lg',
@@ -2319,9 +2294,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         if (type === 'fcl') {
           this.allSeaDraftRatesByFCL = changeCase(res.returnObject, 'pascal')
           this.draftsfcl = changeCase(res.returnObject, 'pascal')
+          this.draftsfcl = this.draftsfcl.reverse()
         } else if (type === 'lcl') {
           this.allSeaDraftRatesByLCL = changeCase(res.returnObject, 'pascal')
           this.draftslcl = changeCase(res.returnObject, 'pascal')
+          this.draftslcl = this.draftslcl.reverse()
         }
       }
       loading(false)
@@ -2382,14 +2359,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   }
 
   sortedFilters(type, event) {
-    console.log(event);
     this.sortColumn = event.column
     this.sortColumnDirection = event.direction
     this.getAllPublishRates(type)
   }
 
   paging(type, event) {
-    console.log(event);
     this.pageNo = event;
     this.getAllPublishRates(type)
   }

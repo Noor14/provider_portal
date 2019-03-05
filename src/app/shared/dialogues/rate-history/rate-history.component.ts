@@ -4,6 +4,7 @@ import { SeaFreightService } from '../../../components/pages/user-desk/manage-ra
 import { baseExternalAssets } from '../../../constants/base.url';
 import { GroundTransportService } from '../../../components/pages/user-desk/manage-rates/ground-transport/ground-transport.service';
 import { AirFreightService } from '../../../components/pages/user-desk/manage-rates/air-freight/air-freight.service';
+import { loading } from '../../../constants/globalFunctions';
 @Component({
   selector: 'app-rate-history',
   templateUrl: './rate-history.component.html',
@@ -47,8 +48,10 @@ export class RateHistoryComponent implements OnInit {
     }
   }
   getHistoryFCL(){
+    loading(true)
     this._seaFreightService.getRecHistoryFCL(this.getRecord.id, this.getRecord.type, this.userProfile.LoginID).subscribe((res:any)=>{
       if(res.returnStatus=="Success"){
+        loading(false)
         let records = JSON.parse(res.returnObject);
         if (records[0].History && records[0].History.length){
           records[0].History.map(obj => {
@@ -129,6 +132,8 @@ export class RateHistoryComponent implements OnInit {
   }
   getHistoryGround() {
     this._groundTransportService.getRecHistoryGround(this.getRecord.id, this.getRecord.type, this.userProfile.LoginID, this.getRecord.transportType).subscribe((res: any) => {
+      console.log(res);
+      
       if (res.returnStatus == "Success") {
         let records = JSON.parse(res.returnObject);
         if (records[0].History && records[0].History.length) {

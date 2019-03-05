@@ -228,7 +228,7 @@
   </div>
   <div *ngIf="tableType === 'draftFCL' && data?.length > devicPageConfig.itemsPerPage"
     class="paginationBox text-right mt-3 col-12 p-0 d-flex justify-content-end">
-    <p class="pager-info mr-3">Showing {{devicPageConfig.currentPage}} to 5 of {{data.length}} enteries</p>
+    <p class="pager-info">Showing {{devicPageConfig.currentPage}} to 5 of {{data.length}} enteries</p>
     <pagination-controls [id]="devicPageConfig.id" [directionLinks]="directionLinks" [autoHide]="autoHide"
       [previousLabel]="labels.previousLabel" [nextLabel]="labels.nextLabel" (pageChange)="onPageChange($event)">
     </pagination-controls>
@@ -238,10 +238,4 @@
     <ngb-pagination [(page)]="page" [pageSize]="5" (pageChange)="onPageChangeBootstrap($event)"
       [(collectionSize)]="totalCount"></ngb-pagination>
   </div>
-
-
-  <!-- <div class="table-info mt-2">
-    <label class="table-info-count">Showing {{devicPageConfig.itemsPerPage}} - {{tableData?.length}}</label>
-  </div> -->
-
   <!--/ manage device table -->

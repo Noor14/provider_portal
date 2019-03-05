@@ -130,6 +130,11 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._sharedService.currencyList.subscribe(res => {
+      if (res) {
+        this.allCurrencies = res;
+      }
+    })
     this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.setDateLimit()
     if (this.userInfo && this.userInfo.returnText) {
@@ -154,18 +159,12 @@ export class SeaRateDialogComponent implements OnInit {
     this.destinationsList = this.selectedData.addList
     this.originsList = this.selectedData.addList
     this.getSurchargeBasis(this.containerLoadParam)
-    this._sharedService.currencyList.subscribe(res => {
-      console.log(res);
-      if (res) {
-        this.allCurrencies = res;
-      }
-    })
+
   }
 
   allservicesBySea() {
     this.getDropdownsList()
     this._sharedService.dataLogisticServiceBySea.subscribe(state => {
-      console.log(state);
 
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
@@ -176,7 +175,6 @@ export class SeaRateDialogComponent implements OnInit {
             this.allHandlingType = state[index].DropDownValues.ContainerLCL;
             // this.allPorts = state[index].DropDownValues.Port;
             // this.allCurrencies = state[index].DropDownValues.UserCurrency;
-            console.log(this.selectedData.forType);
             if (this.selectedData && this.selectedData.data && this.containerLoadParam === "FCL") {
               if (this.selectedData.mode === 'publish') {
                 this.disabledCustomers = true;
@@ -231,27 +229,37 @@ export class SeaRateDialogComponent implements OnInit {
     this.selectedCategory = data.ShippingCatID;
     this.cargoTypeChange(this.selectedCategory);
     this.selectedContSize = data.ContainerSpecID;
-    // let allContainers = this.combinedContainers.filter(e => e.ContainerSpecID === data.ContainerSpecID)
-    // this.selectedContSize = allContainers[0].ContainerSpecID
-    this.filterOrigin = this.seaPorts.find(
-      obj => obj.PortID == data.PolID
-    );
-    this.filterDestination = this.seaPorts.find(
-      obj => obj.PortID == data.PodID
-    );
+
+    if (data.PolType === 'Ground') {
+      this.filterOrigin = this.groundPorts.find(
+        obj => obj.PortID == data.PolID
+      );
+    } else {
+      this.filterOrigin = this.seaPorts.find(
+        obj => obj.PortID == data.PolID
+      );
+    }
+    if (data.PodType === 'Ground') {
+      this.filterDestination = this.groundPorts.find(
+        obj => obj.PortID == data.PodID
+      );
+    } else {
+      this.filterDestination = this.seaPorts.find(
+        obj => obj.PortID == data.PodID
+      );
+    }
 
     this.selectedShipping = this.allShippingLines.find(
       obj => obj.CarrierID == data.CarrierID
     );
+
     this.selectedCurrency = this.allCurrencies.find(
-      obj => obj.id == data.CurrencyID
+      obj => obj.id === data.CurrencyID
     );
     this.selectedPrice = data.Price;
-
-
-    if (data.JsonCustomerDetail) {
+    this.disabledCustomers = true;
+    if (data.JsonCustomerDetail && data.CustomerType !== 'null') {
       this.selectedCustomer = JSON.parse(data.JsonCustomerDetail)
-      this.disabledCustomers = true;
     }
 
     if (data.EffectiveFrom) {
@@ -315,16 +323,16 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   cargoTypeChange(type) {
-    let data = this.fclContainers.filter(obj => obj.ShippingCatID == type);
-    this.allContainers = data;
+    if (this.transPortMode === 'SEA') {
+      let data = this.fclContainers.filter(obj => obj.ShippingCatID == type);
+      this.allContainers = data;
+    }
   }
 
   savedraftrow(type) {
-    console.log(type);
     if (type !== 'update') {
       this.saveDataInFCLDraft(type);
     } else if (type === 'update') {
-      console.log(this.containerLoadParam.toLowerCase())
       this.updateRatesfcl(this.containerLoadParam.toLowerCase())
     }
     // if (this.selectedData.forType == 'FCL') {
@@ -339,7 +347,6 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   updateRatesfcl(type) {
-    console.log(type);
     let rateData = [];
     if (this.selectedData.data && this.selectedData.data && this.selectedData.data.length) {
       this.selectedData.data.forEach(element => {
@@ -355,7 +362,7 @@ export class SeaRateDialogComponent implements OnInit {
           customerType: element.customerType
         }
         let FCLObj = {
-          ID: element.carrierPricingID,
+          carrierPricingID: element.carrierPricingID,
           rate: this.selectedPrice,
           effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
           effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
@@ -490,10 +497,6 @@ export class SeaRateDialogComponent implements OnInit {
         return all + item;
       });
     }
-
-    console.log(this.containerLoadParam)
-    console.log(this.transPortMode);
-
     let obj = {
       ID: (this.selectedData.ID ? this.selectedData.ID : 0),
       providerPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ProviderPricingDraftID : 0,
@@ -587,6 +590,17 @@ export class SeaRateDialogComponent implements OnInit {
       this._toast.info('Please fill atleast one field to save', 'Info')
       return;
     }
+
+    if ((obj.podID && obj.polID) && obj.podID === obj.polID) {
+      this._toast.warning('Source and Destination ports cannot be same', 'Warning')
+      return;
+    }
+
+    if (!obj.price || obj.price < 1) {
+      this._toast.warning('Freight Charges cannot be zero', 'Warning')
+      return;
+    }
+
     console.log(obj);
     if (this.selectedData.forType === 'FCL') {
       this._seaFreightService.saveDraftRate(this.selectedData.forType.toLowerCase(), obj).subscribe((res: any) => {
@@ -1031,10 +1045,10 @@ export class SeaRateDialogComponent implements OnInit {
       let selectedCategory = this.allCargoType.find(obj => obj.ShippingCatName.toLowerCase() == 'goods');
       this.selectedCategory = selectedCategory.ShippingCatID
       this.groundPorts = this.allPorts.filter(e => e.PortType === 'Ground')
-      console.log(this.groundPorts);
       if (this.groundPorts.length === 0) {
+        loading(true)
         this._manageRateService.getPortsData('ground').subscribe((res: any) => {
-          console.log(res);
+          loading(false)
           this.groundPorts = res;
           localStorage.setItem('PortDetails', JSON.stringify(this.allPorts.concat(this.groundPorts)))
         })
@@ -1111,11 +1125,11 @@ export class SeaRateDialogComponent implements OnInit {
     if (this.transPortMode == 'GROUND') {
 
       if (obj && obj.PortType && obj.PortType == 'SEA') {
-        this.groundsPorts = this.allPorts.filter(elem => elem.PortType.toLowerCase() != 'sea');
+        // this.groundPorts = this.allPorts.filter(elem => elem.PortType.toLowerCase() != 'sea');
       }
       else if ((!this.filterOrigin || (this.filterOrigin && !this.filterOrigin.PortType)) && (!this.filterDestination || (this.filterDestination && !this.filterDestination.PortType))) {
         // this.groundsPorts = this.allPorts;
-        this.groundAddresses = this.allPorts
+        // this.groundAddresses = this.allPorts
       }
       else {
         return
@@ -1135,5 +1149,6 @@ export class SeaRateDialogComponent implements OnInit {
   addressFormatter = (x: { PortName: string }) => {
     return x.PortName
   };
+
 
 }

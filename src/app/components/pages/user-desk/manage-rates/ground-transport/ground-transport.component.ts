@@ -1278,6 +1278,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
             }
           }
         }
+        this._toast.success(res.returnText, 'Success')
         if (this.publishRates.length == i) {
           this.checkedalldraftRates = false;
           this.publishRates = [];
