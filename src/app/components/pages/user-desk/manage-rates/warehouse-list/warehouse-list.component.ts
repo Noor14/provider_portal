@@ -56,8 +56,8 @@ export class WarehouseListComponent implements OnInit {
     this._warehouseService.getWarehouseList(providerId, wId).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         loading(false);
-        if (res.returnObject){
-          this.allWareHouseList = res.returnObject;
+        if (res.returnObject && res.returnObject.WHModel && res.returnObject.WHModel.length){
+          this.allWareHouseList = res.returnObject.WHModel;
           if (this.allWareHouseList && this.allWareHouseList.length) {
             this.allWareHouseList.forEach((obj, index) => {
               const albumArr = []

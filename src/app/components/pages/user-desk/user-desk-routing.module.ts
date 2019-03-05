@@ -13,6 +13,8 @@ import { DealsComponent } from './deals/deals.component';
 import { BillingComponent } from './billing/billing.component';
 import { SettingsComponent } from './settings/settings.component';
 import { WarehouseComponent } from './warehouse/warehouse.component';
+import { ManageRatesModule } from './manage-rates/manage-rates.module';
+import { PaymentResultComponent } from './payment-result/payment-result.component';
 
 const routes: Routes = [
     {
@@ -28,8 +30,9 @@ const routes: Routes = [
             { path: 'support', component: SupportComponent }, 
             { path: 'deals', component: DealsComponent }, 
             { path: 'add-warehouse', component: WarehouseComponent },
+            { path: 'payment_result', component: PaymentResultComponent }, 
             { path: 'booking-detail/:id', component: ViewBookingComponent },
-            { path: 'manage-rates', loadChildren: 'app/components/pages/user-desk/manage-rates/manage-rates.module#ManageRatesModule' },
+            { path: 'manage-rates', loadChildren: () => ManageRatesModule },
             { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
     }

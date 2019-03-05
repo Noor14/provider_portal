@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PagesComponent } from './pages.component';
+import { UserDeskModule } from './user-desk/user-desk.module';
+import { UserCreationModule } from './user-creation/user-creation.module';
 
 
 const routes: Routes = [
@@ -8,8 +10,8 @@ const routes: Routes = [
     path: '',
     component: PagesComponent,
     children: [
-      { path: 'provider', loadChildren: 'app/components/pages/user-desk/user-desk.module#UserDeskModule' }, 
-      { path: '', loadChildren: 'app/components/pages/user-creation/user-creation.module#UserCreationModule' }, 
+      { path: 'provider', loadChildren: () => UserDeskModule },
+      { path: '', loadChildren: () => UserCreationModule }
     ]
   }
 ];

@@ -33,6 +33,7 @@ import { NgFilesModule } from '../../../directives/ng-files';
 import { SettingService } from './settings/setting.service';
 import { QuillEditorModule } from 'ngx-quill-editor';
 import { UiSwitchModule } from 'ngx-toggle-switch';
+import { PaymentResultComponent } from './payment-result/payment-result.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -68,6 +69,7 @@ import { UiSwitchModule } from 'ngx-toggle-switch';
     DataMapComponent,
     SearchPipe,
     WarehouseComponent,
+    PaymentResultComponent,
   ],
   providers: [
     ViewBookingService,
