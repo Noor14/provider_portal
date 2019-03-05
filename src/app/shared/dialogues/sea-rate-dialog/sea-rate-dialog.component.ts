@@ -250,6 +250,12 @@ export class SeaRateDialogComponent implements OnInit {
       );
     }
 
+    this.containerChange(data.ContainerSpecID)
+    if(data.CouplePrice) {
+      this.couplePrice = data.CouplePrice
+      this.showDoubleRates = true;
+    }
+
     this.selectedShipping = this.allShippingLines.find(
       obj => obj.CarrierID == data.CarrierID
     );
@@ -375,6 +381,7 @@ export class SeaRateDialogComponent implements OnInit {
         }
         let FTLObj = {
           pricingID: element.id,
+          couplePrice: parseInt(this.couplePrice),
           rate: this.selectedPrice,
           effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
           effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
@@ -385,11 +392,11 @@ export class SeaRateDialogComponent implements OnInit {
           jsonCustomerDetail: element.jsonCustomerDetail,
           customerType: element.customerType
         }
-        if (type === 'fcl') {
+        if (type === 'fcl' && this.transPortMode === 'SEA' ) {
           rateData.push(FCLObj)
-        } else if (type === 'lcl') {
+        } else if (type === 'lcl' && this.transPortMode === 'SEA') {
           rateData.push(LCLObj)
-        } else if (type === 'ftl') {
+        } else if ((type === 'ftl' && this.transPortMode === 'GROUND') || (type === 'fcl' && this.transPortMode === 'GROUND')) {
           type = 'ground'
           rateData.push(FTLObj)
         }
@@ -1100,8 +1107,11 @@ export class SeaRateDialogComponent implements OnInit {
       if(fclContainers.length) {
         this.priceBasis = fclContainers[0].PriceBasis
         this.showDoubleRates = true
+        this.containerLoadParam = 'FCL'
       } else {
+        this.couplePrice = null
         this.showDoubleRates = false
+        this.containerLoadParam = 'FTL'
       }
       if(ftlContainers.length) {
         this.priceBasis = ftlContainers[0].PriceBasis
