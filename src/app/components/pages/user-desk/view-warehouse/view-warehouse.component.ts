@@ -49,15 +49,20 @@ export class ViewWarehouseComponent implements OnInit, OnDestroy {
         loading(false);
         if (res.returnObject && res.returnObject.WHModel && res.returnObject.WHModel.length) {
           this.wareHouse = res.returnObject.WHModel[0];
-          if (this.wareHouse && this.wareHouse.length) {
-            this.wareHouse.map((obj) => {
-              if (obj.FacilitiesProviding && obj.FacilitiesProviding != "[]" && isJSON(obj.FacilitiesProviding)) {
-                obj.FacilitiesProviding = JSON.parse(obj.FacilitiesProviding);
+          if (this.wareHouse && Object.keys(this.wareHouse).length) {
+            for (const key in this.wareHouse) {
+              if (this.wareHouse.hasOwnProperty(key) && key == 'FacilitiesProviding') {
+                if (this.wareHouse[key] && this.wareHouse[key] != "[]" && isJSON(this.wareHouse[key])) {
+                  this.wareHouse[key] = JSON.parse(this.wareHouse[key]);
+                }
               }
-              if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {
-                obj.WHGallery = JSON.parse(obj.WHGallery);
+              else if (this.wareHouse.hasOwnProperty(key) && key == 'WHGallery') {
+                if (this.wareHouse[key] && this.wareHouse[key] != "[]" && isJSON(this.wareHouse[key])) {
+                  this.wareHouse[key] = JSON.parse(this.wareHouse[key]);
+                }
               }
-            })
+
+            }
           }
         }
 
