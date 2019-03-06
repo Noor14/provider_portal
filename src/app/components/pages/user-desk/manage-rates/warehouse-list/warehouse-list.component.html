@@ -35,20 +35,20 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div class="card mb-4" *ngFor="let wareHouse of allWareHouseList">
+      <div class="card mb-4" *ngFor="let wareHouse of allWareHouseList | paginate: paginationConfig" [ngClass]="{'inActive' : wareHouse.IsBlocked, 'noRate' : !wareHouse.IsRateAvailable}">
         <div class="card-body">
           <div class="row mt-1">
             <div class="col-3">
-              <div *ngFor="let doc of wareHouse.parsedGallery; let j = index" (click)="openGallery(wareHouse.parsedGallery, j)">
-                <div class="gallery-section" *ngIf="j == 0">
+              <div *ngFor="let doc of wareHouse.WHGallery; let i = index" (click)="openGallery(wareHouse.WHGallery, i)">
+                <div class="gallery-section" *ngIf="i == 0">
                   <div class="images-carousel">
-                    <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
+                    <img [src]="baseExternalAssets + doc.DocumentFile" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
                     <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
-                      <source [src]="doc.DocumentFile" type="video/mp4" />
+                      <source [src]="baseExternalAssets + doc.DocumentFile" type="video/mp4" />
                     </video>
                     <div class="gallery-section-item d-flex justify-content-center align-items-center">
                       <img src="../../../assets/images/icons/icon_pictures.svg" alt="" class="icon-size-14 mr-1" />
-                      {{ wareHouse.UploadedGalleries.length }}
+                      {{ wareHouse.WHGallery.length }}
                     </div>
                   </div>
                 </div>
@@ -113,7 +113,7 @@
               <button class="btn btn-outline-primary hvr-sweep-to-right book-btn pull-right text-uppercase">
                 Add rates
               </button>
-              <div class="noti">
+              <div class="noti" *ngIf="!wareHouse.IsRateAvailable">
                 Add rates in order to appear in search result.
               </div>
             </div>
@@ -130,9 +130,11 @@
                   <img src="../../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16" alt="icon" />
                   <span>Active / Inactive
                     <div class="switch-box float-right">
-                      <ui-switch (change)="activeToggler(wareHouse.WHID)" [checked]="activeToggle"></ui-switch>
+                      <ui-switch (change)="activeToggler(wareHouse.WHID, wareHouse.IsBlocked)"
+                        [checked]="!wareHouse.IsBlocked"></ui-switch>
                     </div>
-                    <span class="warehouse-status">Currently: Inactive</span>
+                    <span class="warehouse-status" *ngIf="wareHouse.IsBlocked">Currently: Inactive</span>
+                    <span class="warehouse-status" *ngIf="!wareHouse.IsBlocked">Currently: Active</span>
                   </span>
                 </li>
                 <li class="list-group-item" (click)="deleteWarehouse(wareHouse.WHID)">
@@ -147,9 +149,8 @@
           </ng-template>
         </div>
       </div>
-      <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide"
-        responsive="responsive" previousLabel="" nextLabel="" *ngIf="allWareHouseList && allWareHouseList.length >
-        paginationConfig.itemsPerPage">
+      <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide" responsive="responsive"
+       previousLabel="" nextLabel="" *ngIf="allWareHouseList.length > paginationConfig.itemsPerPage">
       </pagination-controls>
       <div class="overflow-hidden" *ngIf="!allWareHouseList || (allWareHouseList && !allWareHouseList.length)">
         <div class="animated bounceInDown card text-center p-1">

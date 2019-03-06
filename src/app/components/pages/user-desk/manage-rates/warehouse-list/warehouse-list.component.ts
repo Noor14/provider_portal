@@ -19,6 +19,7 @@ import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/co
 })
 export class WarehouseListComponent implements OnInit {
 
+  public baseExternalAssets: string = baseExternalAssets;
   public userProfile;
   public allWareHouseList: any[] = [];
 
@@ -29,7 +30,6 @@ export class WarehouseListComponent implements OnInit {
     itemsPerPage: 5, currentPage: 1
   }
   public searchBy: string
-  public activeToggle: boolean = false;
   constructor(
     private _warehouseService: WarehouseService,
     private _modalService: NgbModal,
@@ -64,18 +64,10 @@ export class WarehouseListComponent implements OnInit {
                 obj.FacilitiesProviding = JSON.parse(obj.FacilitiesProviding);
               }
             })
-              this.allWareHouseList.forEach((obj, index) => {
-              const albumArr = []
-                obj.WHGallery.forEach((elem, ind) => {
-                const album = {
-                  src: baseExternalAssets + elem.DocumentFile,
-                  caption: elem.DocumentFileName,
-                  thumb: baseExternalAssets + elem.DocumentFile,
-                  DocumentUploadedFileType: elem.DocumentUploadedFileType
-                };
-                albumArr.push(album);
-                obj.parsedGallery = albumArr;
-              })
+              this.allWareHouseList.forEach((obj) => {
+                if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)){
+                  obj.WHGallery = JSON.parse(obj.WHGallery);
+            }
             })
           }
         }
@@ -84,7 +76,6 @@ export class WarehouseListComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       console.log(err);
       loading(false);
-
     })
   }
 
@@ -133,10 +124,10 @@ export class WarehouseListComponent implements OnInit {
     }, 0);
 
   }
-  activeToggler(whID){
+  activeToggler(whID, whStatus){
     let obj={
       whid: whID,
-      status: this.activeToggle,
+      status: whStatus,
       modifiedBy: this.userProfile.LoginID
     }
     this._warehouseService.activeWarehouseToggler(obj).subscribe((res: any) => {
