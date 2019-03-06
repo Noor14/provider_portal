@@ -1,33 +1,6 @@
 @import "../../../../../assets/scss/_variables";
 
 .viewWarehoueDetail {
-  .search-bar {
-    .record-count {
-      font-family: $font-proxima;
-      font-size: $font-size-medium;
-      color: $secondary-text-color;
-    }
-
-    .warehouse-status {
-      >label {
-        font-family: $font-proxima;
-        font-weight: $font-weight-mid;
-        font-size: $font-size-base;
-        color: $color-topmenu;
-        text-transform: uppercase;
-      }
-
-      .fancyOptionBoxes {
-        label {
-          font-family: $font-proxima;
-          font-size: $font-size-large;
-          color: $color-menuheading-black;
-          line-height: 1;
-        }
-      }
-    }
-  }
-
   .card {
     border: 1px solid $left-sidebar-border-color;
     transition: all ease 0.7s;
@@ -92,15 +65,7 @@
               font-family: $font-proxima;
               color: $text-color-default;
               line-height: 1;
-
-              .tooltip {
-                width: 16rem;
-
-                .tooltip-inner {
-                  width: 16rem;
-                  max-width: 16rem;
-                }
-              }
+              margin-right: 1rem;
             }
           }
 
@@ -125,8 +90,6 @@
         }
       }
 
-
-
       .book-btn {
         margin-top: 12px;
         width: 188px;
@@ -138,48 +101,20 @@
 
       .noti {
         font-family: $font-proxima;
-        font-size: $font-size-medium;
-        color: $probar-color;
+        font-size: $font-size-base;
+        color: $color-topmenu;
         position: relative;
         padding-left: 2rem;
         margin-top: 1.5rem;
 
         &::before {
-        //   content: url("../../../../../../assets/images/icons/icon_info_red.svg");
+          content: url("../../../../../assets/images/icons/warehouse-edit-icon.svg");
           position: absolute;
           left: 0px;
           top: 3px;
           width: 16px;
           height: 16px;
         }
-      }
-    }
-
-    &.noRate {
-      border: 1px solid $probar-color;
-    }
-
-    &.inActive {
-      &::before {
-        content: "INACTIVE";
-        position: absolute;
-        top: -12px;
-        left: 21px;
-        border-radius: 2rem;
-        padding: 0.2rem 1.7rem;
-        background-color: $danger-color;
-        color: $white-color;
-        font-family: $font-proxima;
-        font-size: $font-size-base;
-        font-weight: $font-weight-bold;
-      }
-
-      .row {
-        opacity: 0.5;
-      }
-
-      &:hover {
-        box-shadow: none;
       }
     }
 
@@ -191,52 +126,6 @@
         background-color: $secondary-color !important;
         border-color: $secondary-color;
         color: $white-color !important;
-      }
-    }
-
-    .warehouse-options {
-      position: absolute;
-      right: 5px;
-      top: 10px;
-    }
-
-    ngb-popover-window {
-      width: 255px;
-      box-shadow: 0px 20px 50px 0px rgba(51, 59, 69, 0.15);
-      border: none;
-
-      .arrow {
-        display: none;
-      }
-
-      .option-popup {
-        .list-group {
-          &-item {
-            display: flex;
-            align-items: start;
-            border: none;
-            cursor: pointer;
-            font-family: $font-proxima;
-            font-size: $font-size-large;
-            color: $text-color-default;
-            margin: 10px 0;
-            padding: 0;
-            line-height: 1;
-
-            img {
-              margin-right: 20px;
-            }
-
-            .warehouse-status {
-              font-size: $font-size-medium;
-              color: $text-grey;
-            }
-
-            &:last-child {
-              color: $danger-color;
-            }
-          }
-        }
       }
     }
   }

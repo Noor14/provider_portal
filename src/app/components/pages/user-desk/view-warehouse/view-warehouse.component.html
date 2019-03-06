@@ -1,86 +1,86 @@
 <section class="viewWarehoueDetail">
-<div class="row">
-  <div class="col-md-12">
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="row mt-1">
-          <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12">
-            <div *ngFor="let doc of wareHouse.WHGallery; let i = index" (click)="openGallery(wareHouse.WHGallery, i)">
-              <div class="gallery-section" *ngIf="i == 0">
-                <div class="images-carousel">
-                  <img [src]="baseExternalAssets + doc.DocumentFile" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
-                  <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
-                    <source [src]="baseExternalAssets + doc.DocumentFile" type="video/mp4" />
-                  </video>
-                  <div class="gallery-section-item d-flex justify-content-center align-items-center">
-                    <img src="../../../assets/images/icons/icon_pictures.svg" alt="" class="icon-size-14 mr-1" />
-                    {{ wareHouse.WHGallery.length }}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row mt-1">
+            <div class="col-3">
+              <div *ngFor="let doc of wareHouse.WHGallery; let i = index" (click)="openGallery(wareHouse.WHGallery, i)">
+                <div class="gallery-section" *ngIf="i == 0">
+                  <div class="images-carousel">
+                    <img [src]="baseExternalAssets + doc.DocumentFile" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
+                    <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
+                      <source [src]="baseExternalAssets + doc.DocumentFile" type="video/mp4" />
+                    </video>
+                    <div class="gallery-section-item d-flex justify-content-center align-items-center">
+                      <img src="../../../assets/images/icons/icon_pictures.svg" alt="" class="icon-size-14 mr-1" />
+                      {{ wareHouse.WHGallery.length }}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="mt-1 col-xl-6 col-lg-6 col-md-7 col-sm-7 col-12 Wcontent">
-            <h5 class="card-title">{{ wareHouse.WHName }}</h5>
-            <div class="warehousing-content">
-              <ul class="list-group">
-                <li class="list-group-item">
-                  <img src="../../../assets/images/icons/Icons_Location-grey.svg" alt="icon" class="icon-size-16 mr-2" />
-                  <span>
-                    {{ wareHouse.CityName }}, {{ wareHouse.CountryName }}
-                  </span>
-                </li>
-                <li class="list-group-item mr-4">
-                  <img src="../../../assets/images/icons/icon_grid.svg" alt="icon" class="icon-size-14 mr-2" />
-                  {{ wareHouse.TotalCoveredArea }}
-                  {{ wareHouse.TotalCoveredAreaUnit }}
-                  <!-- <sup>2</sup> -->
-                </li>
-              </ul>
-              <div class="warehouse-features mt-3 d-flex">
-                <div class="icons" *ngFor="let facilities of wareHouse.FacilitiesProviding">
-                  <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse" *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse'"
-                    [ngClass]="{
-                        'warehouse-features-active':
-                          facilities.BusinessLogic == 'IsBondedWarehouse' &&
-                          facilities.IsAllowed
-                      }">
-                    <img src="../../../assets/images/icons/Icons_Warehousing_green.svg" alt="footer icon" class="hvr-icon" />
-                  </span>
-                  <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Temp. Controlled" *ngIf="
-                        facilities.BusinessLogic == 'IsTempratureControlled'
-                      "
-                    [ngClass]="{
-                        'warehouse-features-active':
-                          facilities.BusinessLogic ==
-                            'IsTempratureControlled' && facilities.IsAllowed
-                      }">
-                    <img src="../../../assets/images/icons/Weight-Icon_1.svg" alt="footer icon" class="hvr-icon" />
-                  </span>
-                  <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Transport Available"
-                    *ngIf="facilities.BusinessLogic == 'IsTransportAvailable'" [ngClass]="{
-                        'warehouse-features-active':
-                          facilities.BusinessLogic == 'IsTransportAvailable' &&
-                          facilities.IsAllowed
-                      }">
-                    <img src="../../../assets/images/icons/Icons_Cargo_Truck_blue.svg" alt="footer icon" class="hvr-icon" />
-                  </span>
+            <div class="mt-1 col-6 pl-0 Wcontent">
+              <h5 class="card-title">{{ wareHouse.WHName }}</h5>
+              <div class="warehousing-content">
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <img src="../../../assets/images/icons/Icons_Location-grey.svg" alt="icon" class="icon-size-16 mr-2" />
+                    <span>
+                      {{ wareHouse.CityName }}, {{ wareHouse.CountryName }}
+                    </span>
+                  </li>
+                  <li class="list-group-item mr-4">
+                    <img src="../../../assets/images/icons/icon_grid.svg" alt="icon" class="icon-size-14 mr-2" />
+                    {{ wareHouse.TotalCoveredArea }}
+                    {{ wareHouse.TotalCoveredAreaUnit }}
+                    <!-- <sup>2</sup> -->
+                  </li>
+  
+                </ul>
+                <div class="warehouse-features mt-3 d-flex">
+                  <div class="icons" *ngFor="let facilities of wareHouse.FacilitiesProviding">
+                    <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse" *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse'"
+                      [ngClass]="{
+                          'warehouse-features-active':
+                            facilities.BusinessLogic == 'IsBondedWarehouse' &&
+                            facilities.IsAllowed
+                        }">
+                      <img src="../../../assets/images/icons/Icons_Warehousing_green.svg" alt="footer icon" class="hvr-icon" />
+                    </span>
+                    <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Temp. Controlled" *ngIf="
+                          facilities.BusinessLogic == 'IsTempratureControlled'
+                        "
+                      [ngClass]="{
+                          'warehouse-features-active':
+                            facilities.BusinessLogic ==
+                              'IsTempratureControlled' && facilities.IsAllowed
+                        }">
+                      <img src="../../../assets/images/icons/Weight-Icon_1.svg" alt="footer icon" class="hvr-icon" />
+                    </span>
+                    <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Transport Available"
+                      *ngIf="facilities.BusinessLogic == 'IsTransportAvailable'" [ngClass]="{
+                          'warehouse-features-active':
+                            facilities.BusinessLogic == 'IsTransportAvailable' &&
+                            facilities.IsAllowed
+                        }">
+                      <img src="../../../assets/images/icons/Icons_Cargo_Truck_blue.svg" alt="footer icon" class="hvr-icon" />
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 flex-column d-flex justify-content-center">
-            <button class="btn btn-outline-primary hvr-sweep-to-right book-btn pull-right text-uppercase">
-              Add rates
-            </button>
-            <div class="noti" *ngIf="!wareHouse.IsRateAvailable">
-              Add rates in order to appear in search result.
+            <div class="col-md-3 flex-column d-flex justify-content-center align-items-center">
+              <button class="btn btn-outline-primary hvr-sweep-to-right book-btn pull-right text-uppercase">
+                Add rates
+              </button>
+              <div class="noti" *ngIf="!wareHouse.IsRateAvailable">
+                EDIT DETAILS
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-</section>
+  </section>
