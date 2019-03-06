@@ -5,17 +5,19 @@ import { SharedService } from '../../../../services/shared.service';
 import { loading } from '../../../../constants/globalFunctions';
 import { ManageRatesService } from './manage-rates.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { SettingService } from '../settings/setting.service';
 
 @Component({
   selector: 'app-manage-rates',
   templateUrl: './manage-rates.component.html',
   styleUrls: ['./manage-rates.component.scss']
 })
-export class ManageRatesComponent implements OnInit {
+export class ManageRatesComponent implements OnInit, OnDestroy {
 
   constructor(
     private _router: Router,
     private _seaFreightService: SeaFreightService,
+    private _settingService: SettingService,
     private _sharedService: SharedService,
     private _manageRatesService: ManageRatesService
   ) { }
@@ -25,16 +27,14 @@ export class ManageRatesComponent implements OnInit {
     if (userInfo && userInfo.returnText) {
       let userProfile = JSON.parse(userInfo.returnText);
       this.getAllservicesBySea(userProfile.UserID, userProfile.ProviderID);
+      this.getUserDetail(userProfile.UserID);
     }
     this.getPortsData()
     this.getContainers()
   }
-  // ngOnDestroy() {
-  //   this._sharedService.termNcondAir.unsubscribe();
-  //   this._sharedService.termNcondGround.unsubscribe();
-  //   this._sharedService.termNcondFCL.unsubscribe();
-  //   this._sharedService.termNcondLCL.unsubscribe();
-  // }
+  ngOnDestroy() {
+  }
+
   getAllservicesBySea(userID, providerID) {
     this._seaFreightService.getAllLogisticServiceBySea(userID, providerID).subscribe((res: any) => {
       if (res.returnStatus == "Success")
@@ -63,6 +63,18 @@ export class ManageRatesComponent implements OnInit {
       localStorage.setItem("containers", JSON.stringify(res.returnObject));
     }, (err: HttpErrorResponse) => {
       loading(false)
+    })
+  }
+
+  getUserDetail(UserID) {
+    loading(true);
+    this._settingService.getSettingInfo(UserID).subscribe((res: any) => {
+      loading(false);
+      if (res.returnStatus == "Success") {
+        localStorage.setItem('userCurrency', res.returnObject.CurrencyID)
+      }
+    }, (err) => {
+      loading(false);
     })
   }
 }

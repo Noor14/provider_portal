@@ -270,6 +270,19 @@
         }
       }
     }
+    .shippingline {
+      position: relative;
+      &-container {
+        position: absolute;
+        img {
+          width: 1.5rem;
+          height: 1.5rem;
+          top: 0.75rem;
+          position: absolute;
+          left: 1rem;
+        }
+      }
+    }
   }
 
   .date-control {

@@ -18,7 +18,7 @@ import { NgbDateFRParserFormatter } from "../../../constants/ngb-date-parser-for
 import { SeaFreightService } from '../../../components/pages/user-desk/manage-rates/sea-freight/sea-freight.service';
 import { cloneObject } from '../../../components/pages/user-desk/reports/reports.component';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
-import { changeCase, loading } from '../../../constants/globalFunctions';
+import { changeCase, loading, getImagePath, ImageSource, ImageRequiredSize } from '../../../constants/globalFunctions';
 import *  as moment from 'moment'
 import { ManageRatesService } from '../../../components/pages/user-desk/manage-rates/manage-rates.service';
 
@@ -113,6 +113,7 @@ export class SeaRateDialogComponent implements OnInit {
   public selectedDestinations: any = [{}];
   public disabledCustomers: boolean = false;
   public containerLoadParam: string = 'FCL'
+  public userCurrency: number;
 
   constructor(
     private location: PlatformLocation,
@@ -137,6 +138,7 @@ export class SeaRateDialogComponent implements OnInit {
       }
     })
     this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    this.setCurrency()
     this.setDateLimit()
     if (this.userInfo && this.userInfo.returnText) {
       this.userProfile = JSON.parse(this.userInfo.returnText);
@@ -171,11 +173,8 @@ export class SeaRateDialogComponent implements OnInit {
         for (let index = 0; index < state.length; index++) {
           if (state[index].LogServName == "SEA") {
             this.allShippingLines = state[index].DropDownValues.ShippingLine;
-            // this.allCargoType = state[index].DropDownValues.Category;
-            // this.allContainersType = state[index].DropDownValues.ContainerFCL;
+            console.log(this.allShippingLines);
             this.allHandlingType = state[index].DropDownValues.ContainerLCL;
-            // this.allPorts = state[index].DropDownValues.Port;
-            // this.allCurrencies = state[index].DropDownValues.UserCurrency;
             if (this.selectedData && this.selectedData.data && this.containerLoadParam === "FCL") {
               if (this.selectedData.mode === 'publish') {
                 this.disabledCustomers = true;
@@ -184,7 +183,6 @@ export class SeaRateDialogComponent implements OnInit {
               } else {
                 this.setData(this.selectedData.data);
               }
-
             }
             else if (this.selectedData && this.selectedData.data && (this.containerLoadParam === "LCL" || this.containerLoadParam === "FTL")) {
               if (this.selectedData.mode === 'publish') {
@@ -251,7 +249,7 @@ export class SeaRateDialogComponent implements OnInit {
     }
 
     this.containerChange(data.ContainerSpecID)
-    if(data.CouplePrice) {
+    if (data.CouplePrice) {
       this.couplePrice = data.CouplePrice
       this.showDoubleRates = true;
     }
@@ -392,7 +390,7 @@ export class SeaRateDialogComponent implements OnInit {
           jsonCustomerDetail: element.jsonCustomerDetail,
           customerType: element.customerType
         }
-        if (type === 'fcl' && this.transPortMode === 'SEA' ) {
+        if (type === 'fcl' && this.transPortMode === 'SEA') {
           rateData.push(FCLObj)
         } else if (type === 'lcl' && this.transPortMode === 'SEA') {
           rateData.push(LCLObj)
@@ -445,6 +443,7 @@ export class SeaRateDialogComponent implements OnInit {
 
     let totalImp = []
     let totalExp = []
+
     const expCharges = this.selectedOrigins.filter((e) => e.Imp_Exp === 'EXPORT')
     const impCharges = this.selectedDestinations.filter((e) => e.Imp_Exp === 'IMPORT')
     if (impCharges.length) {
@@ -597,6 +596,7 @@ export class SeaRateDialogComponent implements OnInit {
             this.closeModal(res.returnObject);
           } else {
             this.selectedPrice = undefined;
+            this.couplePrice = null;
             this.selectedContSize = null;
             this.savedRow.emit(res.returnObject)
           }
@@ -692,7 +692,7 @@ export class SeaRateDialogComponent implements OnInit {
           )
       )
     );
-  formatter = (x: { CarrierName: string }) => x.CarrierName;
+  formatter = (x: { CarrierName: string; CarrierImage: string }) => x.CarrierName
 
   ports = (text$: Observable<string>) =>
     text$.pipe(
@@ -1001,6 +1001,7 @@ export class SeaRateDialogComponent implements OnInit {
     this.fclContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FCL')
     let uniq = {}
     this.allCargoType = this.fclContainers.filter(obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true));
+    console.log(this.allCargoType)
     if (this.selectedData.forType === 'FCL-Ground' || this.selectedData.forType === 'FTL') {
       this.transPortMode = 'GROUND'
       let selectedCategory = this.allCargoType.find(obj => obj.ShippingCatName.toLowerCase() == 'goods');
@@ -1104,7 +1105,7 @@ export class SeaRateDialogComponent implements OnInit {
     if (this.transPortMode === 'GROUND') {
       let fclContainers = this.allContainers.filter(e => e.ContainerSpecID === parseInt(containerID) && e.ContainerSpecGroupName === 'Container')
       let ftlContainers = this.allContainers.filter(e => e.ContainerSpecID === parseInt(containerID))
-      if(fclContainers.length) {
+      if (fclContainers.length) {
         this.priceBasis = fclContainers[0].PriceBasis
         this.showDoubleRates = true
         this.containerLoadParam = 'FCL'
@@ -1113,16 +1114,35 @@ export class SeaRateDialogComponent implements OnInit {
         this.showDoubleRates = false
         this.containerLoadParam = 'FTL'
       }
-      if(ftlContainers.length) {
+      if (ftlContainers.length) {
         this.priceBasis = ftlContainers[0].PriceBasis
       }
-    } else if(this.transPortMode === 'SEA') {
+    } else if (this.transPortMode === 'SEA') {
       const fclContainers = this.fclContainers.filter(e => e.ContainerSpecID === parseInt(containerID))
-      if(fclContainers.length) {
+      if (fclContainers.length) {
         this.priceBasis = fclContainers[0].PriceBasis
       }
       console.log(fclContainers);
     }
+  }
+
+
+  /**
+   * GET BASE URL FOR UI IMAGES
+   *
+   * @param {string} $image
+   * @returns
+   * @memberof SeaRateDialogComponent
+   */
+  getShippingLineImage($image: string) {
+    return getImagePath(ImageSource.FROM_SERVER, '/' + $image, ImageRequiredSize.original)
+  }
+
+  setCurrency() {
+    const userCurrency = parseInt(localStorage.getItem('userCurrency'))
+    this.selectedCurrency = this.allCurrencies.find(
+      obj => obj.id === userCurrency
+    );
   }
 
 

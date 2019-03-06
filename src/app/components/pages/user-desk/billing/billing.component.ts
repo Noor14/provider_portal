@@ -303,8 +303,12 @@ export class BillingComponent implements OnInit, OnDestroy {
 
     const { ProviderID, CurrencyID } = this.userProfile
 
-    if (CurrencyID && CurrencyID > 0) {
-      await this.setCurrencyList()
+    try {
+      if (CurrencyID && CurrencyID > 0) {
+        await this.setCurrencyList()
+      }
+    } catch (error) {
+      console.warn('Error setting default Currency', error);
     }
 
     this._dashboardService.getProviderBillingDashboard(ProviderID, 'MONTHLY').subscribe((res: JsonResponse) => {
@@ -324,21 +328,20 @@ export class BillingComponent implements OnInit, OnDestroy {
     })
   }
 
-  private setBillingConfig() {
+  private async setBillingConfig() {
     try {
       this.setBillingDashboardData();
       this.providerBillingDashboardInvoice = cloneObject(this.providerBillingDashboard.invoices);
       this.viewBillingInvoice = cloneObject(this.providerBillingDashboard.invoices);
-      return new Promise((resolve, reject) => {
+      new Promise((resolve, reject) => {
         setTimeout(() => {
           this.isTableLoaded = true;
-          resolve()
+          resolve();
         }, 0);
-      }).then(() => {
-        setTimeout(() => {
-          this.dtTrigger.next();
-        }, 0);
-      })
+      });
+      setTimeout(() => {
+        this.dtTrigger.next();
+      }, 0);
     } catch (error) {
       console.log(error);
     }

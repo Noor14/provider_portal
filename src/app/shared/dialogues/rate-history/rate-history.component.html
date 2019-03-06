@@ -13,11 +13,11 @@
           <small class="d-block">From</small>
           <div class="d-flex">
             <div class="flag-container">
-              <img src="{{'../../../../assets/images/flags/1x1/'+ (originDet?.FromCountry | lowercase) + '.svg'}}" alt="icon">
+              <img src="{{'../../../../assets/images/flags/1x1/'+ (originDet?.CountryCode | lowercase) + '.svg'}}" alt="icon">
             </div>
             <div class="location">
-              <label class="ports-text">{{originDet?.FromCountry}}</label>
-              <span class=" d-block">Port of {{originDet?.FromPort}}</span>
+              <label class="ports-text">{{originDet?.PortCode}}</label>
+              <span class=" d-block">Port of {{originDet?.PortName}}</span>
             </div>
           </div>
         </div>
@@ -28,12 +28,12 @@
           <small class="d-block">To</small>
           <div class="d-flex">
             <div class="flag-container">
-              <img src="{{'../../../../assets/images/flags/1x1/'+ (destinationDet?.ToCountry | lowercase) + '.svg'}}"
+              <img src="{{'../../../../assets/images/flags/1x1/'+ (destinationDet?.CountryCode | lowercase) + '.svg'}}"
                 alt="icon">
             </div>
             <div class="location">
-              <label class="ports-text">{{destinationDet?.ToCountry}}</label>
-              <span class=" d-block">Port of {{destinationDet?.ToPort}}</span>
+              <label class="ports-text">{{destinationDet?.PortCode}}</label>
+              <span class=" d-block">Port of {{destinationDet?.PortName}}</span>
 
             </div>
           </div>
@@ -47,10 +47,10 @@
           <small class="d-block" *ngIf="getRecord.type == 'Rate_AIR'">Air Lines</small>
           <div class="d-flex">
             <div class="flag-container shipping-logo">
-              <img [src]="baseExternalAssets + '/' + shippingInfo?.ShippingLineLogo" alt="icon">
+              <img [src]="baseExternalAssets + '/' + shippingInfo[0]?.CarrierImage" alt="icon">
             </div>
             <div class="location">
-              <label class="ports-text">{{shippingInfo?.ShippingLine}}</label>
+              <label class="ports-text">{{shippingInfo[0]?.CarrierName}}</label>
             </div>
           </div>
         </div>
@@ -62,10 +62,10 @@
           <small class="d-block">Customer</small>
           <div class="d-flex">
             <div class="flag-container customer-logo">
-              <img [src]="baseExternalAssets + customerInfo?.CustomerImage" alt="icon">
+              <img src="{{getProviderImage(userProfile?.ProviderImage)}}" alt="icon">
             </div>
             <div class="location">
-              <label class="ports-text">{{customerInfo?.CustomerName}}</label>
+              <label class="ports-text">{{userProfile.FirstNameBL}} {{userProfile.LastNameBL}}</label>
             </div>
           </div>
         </div>
@@ -74,7 +74,7 @@
       <div class="col-6" *ngIf="getRecord.type != 'Rate_LCL' && getRecord.type != 'Rate_AIR'">
         <div class="ports">
           <small class="d-block">Container</small>
-          <label class="ports-text">{{containerInfo?.ContainerSpecDesc}}</label>
+          <label class="ports-text">{{containerInfo?.ContainerWithSize}}</label>
         </div>
       </div>
 
@@ -92,7 +92,7 @@
       <li class="list-group-item d-flex flex-column" *ngFor="let list of history">
         <label class="mb-0">{{list.AuditDesc.Desc}} by {{list.AuditDesc.ModifiedBy}}</label>
         <label class="mb-0 activity">{{list.AuditDesc.Activity}}</label>
-        <small>on {{list.AuditDesc.CreatedDateTime}} from {{list.AuditDesc.Location}}</small>
+        <small>on {{list.AuditDesc.CreatedDateTime | date:'dd MMM, yyyy HH:mm a'}} from {{list.AuditDesc.Location}}</small>
       </li>
     </ul>
     
