@@ -24,7 +24,6 @@ import { DataMapComponent } from './data-map/data-map.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { ReportsService } from './reports/reports.service';
 import { DataTablesModule } from 'angular-datatables';
-import { SearchPipe } from '../../../constants/search.pipe';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { BillingService } from './billing/billing.service';
@@ -34,6 +33,9 @@ import { SettingService } from './settings/setting.service';
 import { QuillEditorModule } from 'ngx-quill-editor';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
+import { ViewWarehouseComponent } from './view-warehouse/view-warehouse.component';
+import { WarehouseService } from './manage-rates/warehouse-list/warehouse.service';
+import { LightboxModule } from 'ngx-lightbox';
 @NgModule({
   imports: [
     CommonModule,
@@ -52,7 +54,8 @@ import { PaymentResultComponent } from './payment-result/payment-result.componen
     DataTablesModule,
     FormsModule,
     ReactiveFormsModule,
-    NgStepperModule
+    NgStepperModule,
+    LightboxModule
   ],
   declarations: [
     UserDeskComponent,
@@ -67,9 +70,9 @@ import { PaymentResultComponent } from './payment-result/payment-result.componen
     BillingComponent,
     SettingsComponent,
     DataMapComponent,
-    SearchPipe,
     WarehouseComponent,
     PaymentResultComponent,
+    ViewWarehouseComponent,
   ],
   providers: [
     ViewBookingService,
@@ -78,7 +81,8 @@ import { PaymentResultComponent } from './payment-result/payment-result.componen
     ReportsService,
     UserGuard,
     BillingService,
-    SettingService
+    SettingService,
+    WarehouseService
   ]
 })
 export class UserDeskModule { }

@@ -32,21 +32,26 @@ export class HeaderComponent implements OnInit {
       } else {
         this.isLoggedIn = state;
       }
+      this.setAvatar();
     })
     this._sharedService.signOutToggler.subscribe((state: any) => {
         this.signOutToggler();
+        this.setAvatar();
     })
-
-      if (localStorage.getItem('userInfo') && Object.keys('userInfo').length) {
-        let userObj = JSON.parse(localStorage.getItem('userInfo'));
-        let userData = JSON.parse(userObj.returnText)
-        if (userData.ProviderImage && userData.ProviderImage != "[]" && isJSON(userData.ProviderImage)) {
-          this.userAvatar = baseExternalAssets + JSON.parse(userData.ProviderImage)[0].DocumentFile;
-        }
-      }
     
   }
-
+  setAvatar(){
+    if (localStorage.getItem('userInfo') && Object.keys('userInfo').length && !this.isLoggedIn && this.logoutDisplay) {
+      let userObj = JSON.parse(localStorage.getItem('userInfo'));
+      let userData = JSON.parse(userObj.returnText)
+      if (userData.ProviderImage && userData.ProviderImage != "[]" && isJSON(userData.ProviderImage)) {
+        this.userAvatar = baseExternalAssets + JSON.parse(userData.ProviderImage)[0].DocumentFile;
+      }
+      else {
+        this.userAvatar = undefined;
+      }
+    }
+  }
   signOutToggler() {
     if (location.pathname.indexOf('otp') >= 0) {
       this.logoutDisplay = false;

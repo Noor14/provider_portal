@@ -1,0 +1,124 @@
+@import "../../../../../assets/scss/_variables";
+
+.viewWarehouseDetail {
+  .card {
+    border: 1px solid $left-sidebar-border-color;
+    transition: all ease 0.7s;
+    border-radius: 0;
+    background: none;
+    border: 0;
+
+    &-title {
+      font-size: $font-size-large + 0.25rem;
+    }
+
+    &-body {
+      padding: 23px 20px 25px 20px;
+
+      .gallery-section {
+        border: 1px solid $grey-border;
+        position: relative;
+        width: 180px;
+
+        img,
+        video {
+          width: 100%;
+          height: 136px;
+        }
+
+        &-item {
+          position: absolute;
+          top: 8px;
+          right: 5px;
+          background: #000000b0;
+          color: #fff;
+          border-radius: 12px;
+          font-weight: $font-weight-bold;
+          font-family: $font-proxima;
+          font-size: $font-size-base;
+          padding: 0.21rem 0.68rem;
+        }
+      }
+
+      .Wcontent {
+        padding-left: 0;
+
+        @media only screen and (max-width: $screen-lg-screen) {
+          padding-left: 2.5rem;
+        }
+        @media only screen and (max-width: $screen-xs-screen) {
+          padding-left: 1rem;
+        }
+
+        .warehousing-content {
+          color: $white-color;
+          display: flex;
+          flex-direction: column;
+
+          .list-group {
+            flex-direction: row;
+            display: flex;
+
+            li {
+              border: 0px;
+              padding: 0;
+              display: flex;
+              font-size: $font-size-medium;
+              font-family: $font-proxima;
+              color: $text-color-default;
+              line-height: 1;
+              margin-right: 1rem;
+              background: none; 
+            }
+          }
+
+          .warehouse-features {
+            .icons {
+              margin-right: 15px;
+
+              img {
+                width: 1.1rem;
+                filter: grayscale(100%);
+                opacity: 0.5;
+              }
+
+              .warehouse-features-active {
+                img {
+                  filter: grayscale(0%);
+                  opacity: 1;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .rate-btn {
+        margin-top: 12px;
+        width: 188px;
+
+        @media only screen and (max-width: $screen-lg-screen) {
+          width: auto;
+        }
+      }
+
+      .noti {
+        font-family: $font-proxima;
+        font-size: $font-size-base;
+        color: $color-topmenu;
+        position: relative;
+        padding-left: 2rem;
+        margin-top: 1.5rem;
+
+        &::before {
+          content: url("../../../../../assets/images/icons/warehouse-edit-icon.svg");
+          position: absolute;
+          left: 0px;
+          top: 3px;
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+}

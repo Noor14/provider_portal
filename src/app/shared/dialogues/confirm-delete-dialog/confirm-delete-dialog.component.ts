@@ -119,7 +119,6 @@ export class ConfirmDeleteDialogComponent implements OnInit {
       this.warehouseService.delWarehouse(this.deleteIds.data, this.userProfile.LoginID).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
           this.closeModal(res.returnStatus);
-          this._toast.success('Successfully deleted','');
         }
       })
     }

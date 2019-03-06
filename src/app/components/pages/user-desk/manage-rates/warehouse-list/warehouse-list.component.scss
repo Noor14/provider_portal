@@ -1,13 +1,12 @@
 @import "../../../../../../assets/scss/_variables";
-
 .warehouseList {
+  .warehouseInfo{
   .search-bar {
     .record-count {
       font-family: $font-proxima;
       font-size: $font-size-medium;
       color: $secondary-text-color;
     }
-
     .warehouse-search {
       input {
         background: $table-head url("../../../../../../assets/images/icons/icon-search.svg") no-repeat right 15px center;
@@ -18,6 +17,7 @@
         font-family: $font-proxima;
         font-size: $font-size-medium;
         color: $color-menuheading-black;
+        padding-right: 2.5rem;
       }
     }
 
@@ -40,7 +40,6 @@
       }
     }
   }
-
   .card {
     border: 1px solid $left-sidebar-border-color;
     transition: all ease 0.7s;
@@ -60,8 +59,6 @@
 
         img,
         video {
-          object-fit: cover;
-          padding: 0;
           width: 100%;
           height: 136px;
         }
@@ -80,58 +77,75 @@
         }
       }
 
-      .warehousing-content {
-        color: $white-color;
-        display: flex;
-        flex-direction: column;
+      .Wcontent {
+        padding-left: 0;
 
-        .list-group {
-          flex-direction: row;
+        @media only screen and (max-width: $screen-lg-screen) {
+          padding-left: 2.5rem;
+        }
+        @media only screen and (max-width: $screen-xs-screen) {
+          padding-left: 1rem;
+        }
+
+        .warehousing-content {
+          color: $white-color;
           display: flex;
+          flex-direction: column;
 
-          li {
-            border: 0px;
-            padding: 0;
+          .list-group {
+            flex-direction: row;
             display: flex;
-            font-size: $font-size-medium;
-            font-family: $font-proxima;
-            color: $text-color-default;
-            line-height: 1;
 
-            .tooltip {
-              width: 16rem;
+            li {
+              border: 0px;
+              padding: 0;
+              display: flex;
+              font-size: $font-size-medium;
+              font-family: $font-proxima;
+              color: $text-color-default;
+              line-height: 1;
 
-              .tooltip-inner {
+              .tooltip {
                 width: 16rem;
-                max-width: 16rem;
+
+                .tooltip-inner {
+                  width: 16rem;
+                  max-width: 16rem;
+                }
               }
             }
           }
-        }
 
-        .warehouse-features {
-          .icons {
-            margin-right: 15px;
+          .warehouse-features {
+            .icons {
+              margin-right: 15px;
 
-            img {
-              width: 1.1rem;
-              filter: grayscale(100%);
-              opacity: 0.5;
-            }
-
-            .warehouse-features-active {
               img {
-                filter: grayscale(0%);
-                opacity: 1;
+                width: 1.1rem;
+                filter: grayscale(100%);
+                opacity: 0.5;
+              }
+
+              .warehouse-features-active {
+                img {
+                  filter: grayscale(0%);
+                  opacity: 1;
+                }
               }
             }
           }
         }
       }
 
-      .book-btn {
+
+
+      .rate-btn {
         margin-top: 12px;
         width: 188px;
+
+        @media only screen and (max-width: $screen-lg-screen) {
+          width: auto;
+        }
       }
 
       .noti {
@@ -142,7 +156,7 @@
         padding-left: 2rem;
         margin-top: 1.5rem;
 
-        &:before {
+        &::before {
           content: url("../../../../../../assets/images/icons/icon_info_red.svg");
           position: absolute;
           left: 0px;
@@ -153,11 +167,37 @@
       }
     }
 
+    &.noRate {
+      border: 1px solid $probar-color;
+    }
+
+    &.inActive {
+      &::before {
+        content: "INACTIVE";
+        position: absolute;
+        top: -12px;
+        left: 21px;
+        border-radius: 2rem;
+        padding: 0.2rem 1.7rem;
+        background-color: $danger-color;
+        color: $white-color;
+        font-family: $font-proxima;
+        font-size: $font-size-base;
+        font-weight: $font-weight-bold;
+      }
+
+      .row {
+        opacity: 0.5;
+      }
+
+      &:hover {
+        box-shadow: none;
+      }
+    }
+   
     &:hover {
-      box-shadow: 0px 20px 50px 0px rgba(51, 59, 69, 0.15);
       transition: 0.5s;
       box-shadow: 0px 20px 50px 0px rgba(51, 59, 69, 0.15);
-      border: 1px solid $probar-color;
 
       button {
         background-color: $secondary-color !important;
@@ -165,6 +205,8 @@
         color: $white-color !important;
       }
     }
+    
+
 
     .warehouse-options {
       position: absolute;
@@ -211,5 +253,6 @@
         }
       }
     }
+  }
   }
 }

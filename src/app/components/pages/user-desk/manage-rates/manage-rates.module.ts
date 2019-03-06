@@ -12,6 +12,7 @@ import { ScrollbarModule } from 'ngx-scrollbar';
 import { SharedModule } from '../../../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UniquePipe } from '../../../../constants/unique-recordFilter';
+import { SearchPipe } from '../../../../constants/search.pipe';
 import { AirFreightService } from './air-freight/air-freight.service';
 import { GroundTransportService } from './ground-transport/ground-transport.service';
 import { ManageRatesService } from './manage-rates.service';
@@ -43,7 +44,8 @@ import { QuillEditorModule } from 'ngx-quill-editor';
     AirFreightComponent,
     GroundTransportComponent,
     WarehouseListComponent,
-    UniquePipe
+    UniquePipe,
+    SearchPipe
 
   ],
   providers: [SeaFreightService, AirFreightService, GroundTransportService, ManageRatesService, WarehouseService]
