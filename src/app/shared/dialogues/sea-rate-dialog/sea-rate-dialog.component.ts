@@ -73,6 +73,7 @@ export class SeaRateDialogComponent implements OnInit {
   public selectedCustomer: any[] = [];
   public selectedShipping: any;
   public selectedPrice: any;
+  public couplePrice: any;
   public defaultCurrency: any = {
     id: 101,
     shortName: "AED",
@@ -249,6 +250,12 @@ export class SeaRateDialogComponent implements OnInit {
       );
     }
 
+    this.containerChange(data.ContainerSpecID)
+    if(data.CouplePrice) {
+      this.couplePrice = data.CouplePrice
+      this.showDoubleRates = true;
+    }
+
     this.selectedShipping = this.allShippingLines.find(
       obj => obj.CarrierID == data.CarrierID
     );
@@ -374,6 +381,7 @@ export class SeaRateDialogComponent implements OnInit {
         }
         let FTLObj = {
           pricingID: element.id,
+          couplePrice: parseInt(this.couplePrice),
           rate: this.selectedPrice,
           effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
           effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
@@ -384,11 +392,11 @@ export class SeaRateDialogComponent implements OnInit {
           jsonCustomerDetail: element.jsonCustomerDetail,
           customerType: element.customerType
         }
-        if (type === 'fcl') {
+        if (type === 'fcl' && this.transPortMode === 'SEA' ) {
           rateData.push(FCLObj)
-        } else if (type === 'lcl') {
+        } else if (type === 'lcl' && this.transPortMode === 'SEA') {
           rateData.push(LCLObj)
-        } else if (type === 'ftl') {
+        } else if ((type === 'ftl' && this.transPortMode === 'GROUND') || (type === 'fcl' && this.transPortMode === 'GROUND')) {
           type = 'ground'
           rateData.push(FTLObj)
         }
@@ -400,48 +408,6 @@ export class SeaRateDialogComponent implements OnInit {
         this.closeModal(res.returnStatus);
       }
     })
-  }
-
-  saveDataInLCLDraft(type) {
-    let obj = [{
-      consolidatorPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ConsolidatorPricingDraftID : 0,
-      customerID: null,
-      providerID: this.userProfile.ProviderID,
-      // containerSpecID: (this.selectedContSize == null || this.selectedContSize == 'null') ? null : this.selectedContSize,
-      // containerSpecShortName: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? undefined : this.getHandlingSpecName(this.selectedHandlingUnit),
-      containerSpecID: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? null : null,
-      containerSpecShortName: (this.selectedHandlingUnit == null || this.selectedHandlingUnit == 'null') ? undefined : null,
-      shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : this.selectedCategory,
-      shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.getShippingName(this.selectedCategory),
-      containerLoadType: "LCL",
-      modeOfTrans: "SEA",
-      polID: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortID : null,
-      polName: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortName : null,
-      polCode: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortCode : null,
-      podID: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortID : null,
-      podName: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortName : null,
-      podCode: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortCode : null,
-      price: this.selectedPrice,
-      currencyID: (this.selectedCurrency.id) ? this.selectedCurrency.id : 101,
-      currencyCode: (this.selectedCurrency.shortName) ? this.selectedCurrency.shortName : 'AED',
-      effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
-      effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
-    }
-    ]
-    this._seaFreightService.saveDraftRateLCL(obj).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
-        this._toast.success("Rates added successfully", "");
-        this.allRatesFilledData.push(obj[0]);
-        if (type != "saveNadd") {
-          let object = {
-            data: this.allRatesFilledData
-          };
-          this.closeModal(object);
-        } else {
-          this.addRowLCL();
-        }
-      }
-    });
   }
 
   addRowLCL() {
@@ -514,7 +480,7 @@ export class SeaRateDialogComponent implements OnInit {
       containerLoadType: this.containerLoadParam,
       transportType: this.transPortMode,
       modeOfTrans: this.transPortMode,
-      priceBasis: (this.containerLoadParam === 'FTL') ? 'PER_TRUCK' : 'PER_CONTAINER',
+      priceBasis: this.priceBasis,
       providerLocationD: "",
       providerLocationL: "",
       polID: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortID : null,
@@ -526,6 +492,7 @@ export class SeaRateDialogComponent implements OnInit {
       podCode: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortCode : null,
       podType: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortType : null,
       price: this.selectedPrice,
+      couplePrice: this.couplePrice,
       currencyID: (this.selectedCurrency.id) ? this.selectedCurrency.id : 101,
       currencyCode: (this.selectedCurrency.shortName) ? this.selectedCurrency.shortName : 'AED',
       effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
@@ -596,12 +563,6 @@ export class SeaRateDialogComponent implements OnInit {
       return;
     }
 
-    if (!obj.price || obj.price < 1) {
-      this._toast.warning('Freight Charges cannot be zero', 'Warning')
-      return;
-    }
-
-    console.log(obj);
     if (this.selectedData.forType === 'FCL') {
       this._seaFreightService.saveDraftRate(this.selectedData.forType.toLowerCase(), obj).subscribe((res: any) => {
         if (res.returnId > 0) {
@@ -1122,19 +1083,6 @@ export class SeaRateDialogComponent implements OnInit {
       this.showPickupDropdown = false;
       this.showDestinationDropdown = false;
     }
-    if (this.transPortMode == 'GROUND') {
-
-      if (obj && obj.PortType && obj.PortType == 'SEA') {
-        // this.groundPorts = this.allPorts.filter(elem => elem.PortType.toLowerCase() != 'sea');
-      }
-      else if ((!this.filterOrigin || (this.filterOrigin && !this.filterOrigin.PortType)) && (!this.filterDestination || (this.filterDestination && !this.filterDestination.PortType))) {
-        // this.groundsPorts = this.allPorts;
-        // this.groundAddresses = this.allPorts
-      }
-      else {
-        return
-      }
-    }
   }
 
 
@@ -1149,6 +1097,33 @@ export class SeaRateDialogComponent implements OnInit {
   addressFormatter = (x: { PortName: string }) => {
     return x.PortName
   };
+
+  public showDoubleRates: boolean = false
+  public priceBasis: string = ''
+  containerChange(containerID) {
+    if (this.transPortMode === 'GROUND') {
+      let fclContainers = this.allContainers.filter(e => e.ContainerSpecID === parseInt(containerID) && e.ContainerSpecGroupName === 'Container')
+      let ftlContainers = this.allContainers.filter(e => e.ContainerSpecID === parseInt(containerID))
+      if(fclContainers.length) {
+        this.priceBasis = fclContainers[0].PriceBasis
+        this.showDoubleRates = true
+        this.containerLoadParam = 'FCL'
+      } else {
+        this.couplePrice = null
+        this.showDoubleRates = false
+        this.containerLoadParam = 'FTL'
+      }
+      if(ftlContainers.length) {
+        this.priceBasis = ftlContainers[0].PriceBasis
+      }
+    } else if(this.transPortMode === 'SEA') {
+      const fclContainers = this.fclContainers.filter(e => e.ContainerSpecID === parseInt(containerID))
+      if(fclContainers.length) {
+        this.priceBasis = fclContainers[0].PriceBasis
+      }
+      console.log(fclContainers);
+    }
+  }
 
 
 }
