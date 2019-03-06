@@ -18,6 +18,7 @@
         font-family: $font-proxima;
         font-size: $font-size-medium;
         color: $color-menuheading-black;
+        padding-right: 2.5rem;
       }
     }
 
@@ -78,58 +79,75 @@
         }
       }
 
-      .warehousing-content {
-        color: $white-color;
-        display: flex;
-        flex-direction: column;
+      .Wcontent {
+        padding-left: 0;
 
-        .list-group {
-          flex-direction: row;
+        @media only screen and (max-width: $screen-lg-screen) {
+          padding-left: 2.5rem;
+        }
+        @media only screen and (max-width: $screen-xs-screen) {
+          padding-left: 1rem;
+        }
+
+        .warehousing-content {
+          color: $white-color;
           display: flex;
+          flex-direction: column;
 
-          li {
-            border: 0px;
-            padding: 0;
+          .list-group {
+            flex-direction: row;
             display: flex;
-            font-size: $font-size-medium;
-            font-family: $font-proxima;
-            color: $text-color-default;
-            line-height: 1;
 
-            .tooltip {
-              width: 16rem;
+            li {
+              border: 0px;
+              padding: 0;
+              display: flex;
+              font-size: $font-size-medium;
+              font-family: $font-proxima;
+              color: $text-color-default;
+              line-height: 1;
 
-              .tooltip-inner {
+              .tooltip {
                 width: 16rem;
-                max-width: 16rem;
+
+                .tooltip-inner {
+                  width: 16rem;
+                  max-width: 16rem;
+                }
               }
             }
           }
-        }
 
-        .warehouse-features {
-          .icons {
-            margin-right: 15px;
+          .warehouse-features {
+            .icons {
+              margin-right: 15px;
 
-            img {
-              width: 1.1rem;
-              filter: grayscale(100%);
-              opacity: 0.5;
-            }
-
-            .warehouse-features-active {
               img {
-                filter: grayscale(0%);
-                opacity: 1;
+                width: 1.1rem;
+                filter: grayscale(100%);
+                opacity: 0.5;
+              }
+
+              .warehouse-features-active {
+                img {
+                  filter: grayscale(0%);
+                  opacity: 1;
+                }
               }
             }
           }
         }
       }
 
+
+
       .book-btn {
         margin-top: 12px;
         width: 188px;
+
+        @media only screen and (max-width: $screen-lg-screen) {
+          width: auto;
+        }
       }
 
       .noti {
@@ -154,6 +172,7 @@
     &.noRate {
       border: 1px solid $probar-color;
     }
+
     &.inActive {
       &::before {
         content: "INACTIVE";
@@ -168,16 +187,20 @@
         font-size: $font-size-base;
         font-weight: $font-weight-bold;
       }
+
       .row {
         opacity: 0.5;
       }
+
       &:hover {
         box-shadow: none;
       }
     }
+
     &:hover {
       transition: 0.5s;
       box-shadow: 0px 20px 50px 0px rgba(51, 59, 69, 0.15);
+
       button {
         background-color: $secondary-color !important;
         border-color: $secondary-color;
