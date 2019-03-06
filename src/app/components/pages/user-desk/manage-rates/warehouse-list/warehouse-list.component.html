@@ -19,7 +19,7 @@
       Showing 4 - 4
     </div>
     <div class="col-4 warehouse-search">
-      <input type="text" class="form-control" placeholder="Search by location of title" />
+      <input type="text" class="form-control" placeholder="Search by location of title" [(ngModel)]="wareHouseTitle" />
     </div>
     <div class="col-6 d-flex justify-content-end align-items-center warehouse-status">
       <label class="m-0 mr-2">SHOW :</label>
@@ -35,7 +35,8 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div class="card mb-4" *ngFor="let wareHouse of allWareHouseList | paginate: paginationConfig" [ngClass]="{'inActive' : wareHouse.IsBlocked, 'noRate' : !wareHouse.IsRateAvailable}">
+<div class="card mb-4" *ngFor="let wareHouse of allWareHouseList | paginate: paginationConfig"
+  [ngClass]="{'inActive' : wareHouse.IsBlocked, 'noRate' : !wareHouse.IsRateAvailable}">
         <div class="card-body">
           <div class="row mt-1">
             <div class="col-3">

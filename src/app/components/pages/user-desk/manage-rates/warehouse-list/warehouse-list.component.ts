@@ -22,7 +22,7 @@ export class WarehouseListComponent implements OnInit {
   public baseExternalAssets: string = baseExternalAssets;
   public userProfile;
   public allWareHouseList: any[] = [];
-
+  public wareHouseTitle: string;
   public autoHide: boolean = false;
   public responsive: boolean = true;
   public directionLinks: boolean = true;
@@ -125,7 +125,7 @@ export class WarehouseListComponent implements OnInit {
 
   }
   activeToggler(wh, whStatus){
-    wh.IsBlocked = whStatus;
+    wh.IsBlocked = !whStatus;
     let obj={
       whid: wh.WHID,
       status: whStatus,
