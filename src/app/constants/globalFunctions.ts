@@ -155,6 +155,18 @@ export const getImagePath = (fileSource: ImageSource, fileName: string, reqSize:
   return url
 }
 
+export function getProviderImage(strJsonPath: string) {
+  let jsonStr: any = null
+
+  try {
+    jsonStr = JSON.parse(strJsonPath)[0].ProviderLogo
+  } catch (error) {
+    jsonStr = ""
+  }
+
+  return jsonStr
+}
+
 
 export function isJSON(str) {
 
