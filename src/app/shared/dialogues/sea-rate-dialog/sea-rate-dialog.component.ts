@@ -113,6 +113,7 @@ export class SeaRateDialogComponent implements OnInit {
   public selectedDestinations: any = [{}];
   public disabledCustomers: boolean = false;
   public containerLoadParam: string = 'FCL'
+  public userCurrency: number;
 
   constructor(
     private location: PlatformLocation,
@@ -137,6 +138,7 @@ export class SeaRateDialogComponent implements OnInit {
       }
     })
     this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    this.setCurrency()
     this.setDateLimit()
     if (this.userInfo && this.userInfo.returnText) {
       this.userProfile = JSON.parse(this.userInfo.returnText);
@@ -441,6 +443,7 @@ export class SeaRateDialogComponent implements OnInit {
 
     let totalImp = []
     let totalExp = []
+
     const expCharges = this.selectedOrigins.filter((e) => e.Imp_Exp === 'EXPORT')
     const impCharges = this.selectedDestinations.filter((e) => e.Imp_Exp === 'IMPORT')
     if (impCharges.length) {
@@ -1133,6 +1136,13 @@ export class SeaRateDialogComponent implements OnInit {
    */
   getShippingLineImage($image: string) {
     return getImagePath(ImageSource.FROM_SERVER, '/' + $image, ImageRequiredSize.original)
+  }
+
+  setCurrency() {
+    const userCurrency = parseInt(localStorage.getItem('userCurrency'))
+    this.selectedCurrency = this.allCurrencies.find(
+      obj => obj.id === userCurrency
+    );
   }
 
 

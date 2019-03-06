@@ -138,7 +138,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   public allContainers = []
   public fclContainers = []
   public shippingCategories = []
-  public publishloadingLcl:boolean = false
+  public publishloadingLcl: boolean = false
 
   isHovered = date =>
     this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate)
@@ -226,22 +226,18 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     event.preventDefault();
     event.stopPropagation();
     if (type == "FCL") {
-      if ((this.filterbyShippingLine && this.filterbyShippingLine != 'undefined') ||
-        (this.filterbyCargoType && this.filterbyCargoType != 'undefined') ||
-        (this.filterbyContainerType && this.filterbyContainerType != 'undefined') ||
-        (this.filterDestination && Object.keys(this.filterDestination).length) ||
-        (this.filterOrigin && Object.keys(this.filterOrigin).length)
-      ) {
-        this.filterbyShippingLine = 'undefined';
-        this.filterbyCargoType = 'undefined';
-        this.filterbyContainerType = 'undefined';
-        this.model = null;
-        this.fromDate = null;
-        this.toDate = null;
-        this.filterDestination = {};
-        this.filterOrigin = {};
-        this.getAllPublishRates('fcl')
-      }
+      this.filterbyShippingLine = 'undefined';
+      this.filterbyCargoType = 'undefined';
+      this.filterbyContainerType = 'undefined';
+      this.model = null;
+      this.fromDate = null;
+      this.toDate = null;
+      this.filterDestination = {};
+      this.filterOrigin = {};
+      this.filterbyCustomer = null;
+      this.isMarketplace = true
+      this.isCustomer = false
+      this.getAllPublishRates('fcl')
     }
     else if (type == "LCL") {
       if (
@@ -291,12 +287,16 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     });
     modalRef.result.then((result) => {
       if (result) {
+        console.log(result);
+        
         if (type == 'FCL') {
-          loading(true)
+          // loading(true)
           this.setAddDraftData(type, result);
+          this.getDraftRates(type.toLowerCase())
         }
         else if (type == 'LCL') {
           this.setAddDraftData(type, result);
+          this.getDraftRates(type.toLowerCase())
           // this.setAddDraftDataLCL(result.data);
         }
       }
@@ -304,6 +304,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.savedRow.subscribe((emmitedValue) => {
       console.log(emmitedValue);
       this.setAddDraftData(type, emmitedValue);
+      this.getDraftRates(type.toLowerCase())
     });
     let object = {
       forType: type,
@@ -355,9 +356,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
         })
         this.draftslcl.unshift(dataObj)
       }
-      this.getDraftRates(type.toLowerCase()) //@todo remove it when we get the mechanism for parent to child changes emit
     });
-    // this.generateDraftTable();
   }
   addAnotherRates() {
     if (this.activeTab == "activeFCL") {
@@ -994,7 +993,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
     let obj = {
       id: recId,
-      type: fortype
+      type: fortype,
+      shippingLines: this.allShippingLines,
+      customers: this.allCustomers,
     }
     modalRef.componentInstance.getRecord = obj;
     setTimeout(() => {
@@ -1145,7 +1146,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
 
   /**
    *
-   * Event Emitter Observable for UI Table Component
+   * EVENT EMITTER OBSERVABLE FOR UI TABLE COMPONENT
    * @param {object} event
    * @memberof SeaFreightComponent
    */

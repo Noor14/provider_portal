@@ -210,17 +210,17 @@
 
                   <div class="col-5 form-group">
                     <label>Show Only Rates For </label>
-                    <div class="fancyOptionBoxes pull-left  filter-checkbox mr-3 pt-3">
+                    <div class="fancyOptionBoxes pull-left filter-checkbox mr-3 pt-3">
                       <input id="Radios" name="Radios" type="radio"
-                        (change)="isMarketplace = !isMarketplace; isCustomer = false">
+                        (change)="isMarketplace = !isMarketplace; isCustomer = false" [checked]="isMarketplace">
                       <label for="Radios">
                         <span></span>
                         Marketplace
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes pull-left  filter-checkbox  pt-3">
+                    <div class="fancyOptionBoxes pull-left filter-checkbox  pt-3">
                       <input id="Radios2" name="Radios" type="radio"
-                        (change)="isCustomer = !isCustomer; isMarketplace = false">
+                        (change)="isCustomer = !isCustomer; isMarketplace = false" [checked]="isCustomer">
                       <label for="Radios2">
                         <span></span>
                         My Customers

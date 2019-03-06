@@ -31,6 +31,8 @@ export class RateHistoryComponent implements OnInit {
 
   ngOnInit() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    console.log(this.getRecord);
+    
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
@@ -50,6 +52,7 @@ export class RateHistoryComponent implements OnInit {
   getHistoryFCL() {
     loading(true)
     this._seaFreightService.getRecHistoryFCL(this.getRecord.id, this.getRecord.type, this.userProfile.LoginID).subscribe((res: any) => {
+      console.log(res.returnObject);
       if (res.returnStatus == "Success") {
         loading(false)
         let records = JSON.parse(res.returnObject);
@@ -60,6 +63,8 @@ export class RateHistoryComponent implements OnInit {
             }
           })
           this.history = records[0].History;
+          console.log(this.history);
+          
         }
         if (records[0].customer) {
           let custDet = JSON.parse(records[0].customer)[0];

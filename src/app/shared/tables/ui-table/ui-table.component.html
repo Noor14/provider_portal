@@ -131,7 +131,7 @@
           <td (click)="draftAction(device, 'edit')">
             <div class="info-table-ports d-flex">
               <div class="d-block text-truncate">
-                <img [src]="getUIImage(device.carrierImage, true)" alt="" class="mr-2 rounded" height="24px"
+                <img *ngIf="device?.carrierImage" [src]="getUIImage(device.carrierImage, true)" alt="" class="mr-2 rounded" height="24px"
                   width="24px">
                 {{device?.carrierName || '-- Select --'}}
               </div>
