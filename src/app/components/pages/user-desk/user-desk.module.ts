@@ -24,7 +24,6 @@ import { DataMapComponent } from './data-map/data-map.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { ReportsService } from './reports/reports.service';
 import { DataTablesModule } from 'angular-datatables';
-import { SearchPipe } from '../../../constants/search.pipe';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { BillingService } from './billing/billing.service';
@@ -34,6 +33,7 @@ import { SettingService } from './settings/setting.service';
 import { QuillEditorModule } from 'ngx-quill-editor';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
+import { ViewWarhouseComponent } from './view-warhouse/view-warhouse.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -67,9 +67,9 @@ import { PaymentResultComponent } from './payment-result/payment-result.componen
     BillingComponent,
     SettingsComponent,
     DataMapComponent,
-    SearchPipe,
     WarehouseComponent,
     PaymentResultComponent,
+    ViewWarhouseComponent,
   ],
   providers: [
     ViewBookingService,

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { WarehouseService } from './warehouse.service';
-import { loading, isJSON } from '../../../../../constants/globalFunctions';
+import { loading, isJSON, encryptBookingID } from '../../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Lightbox } from 'ngx-lightbox';
@@ -29,7 +29,9 @@ export class WarehouseListComponent implements OnInit {
   public paginationConfig: PaginationInstance = {
     itemsPerPage: 5, currentPage: 1
   }
-  public searchBy: string
+  public inActiveStatus: boolean = true;
+  public activeStatus: boolean = true;
+
   constructor(
     private _warehouseService: WarehouseService,
     private _modalService: NgbModal,
@@ -136,6 +138,32 @@ export class WarehouseListComponent implements OnInit {
         this._toast.success('Warehouse update successfully', '')
       }
     })
+  }
+  goToDetail(whId){
+    let id = encryptBookingID(whId);
+    this._router.navigate(['/provider/warehouse-detail', id]);
+  }
+
+
+  filterByStatus(type, event){
+    let allwareHouse = Object.assign([], this.allWareHouseList)
+    if (type == 'active' && this.inActiveStatus){
+      this.activeStatus = !this.activeStatus;
+      event.currentTarget.checked = this.activeStatus;
+    }
+    else if (type == 'inactive' && this.activeStatus) {
+      this.inActiveStatus = !this.inActiveStatus;
+      event.currentTarget.checked = this.inActiveStatus;
+    }
+    if (this.activeStatus && !this.inActiveStatus){
+      this.allWareHouseList.filter(obj => obj.IsBlocked == false)
+    }
+    else if (this.inActiveStatus && !this.activeStatus) {
+      this.allWareHouseList.filter(obj => obj.IsBlocked == true)
+    }
+    else{
+      this.allWareHouseList
+    }
   }
 
 }
