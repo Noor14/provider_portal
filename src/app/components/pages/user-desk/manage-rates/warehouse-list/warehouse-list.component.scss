@@ -140,7 +140,7 @@
         padding-left: 2rem;
         margin-top: 1.5rem;
 
-        &:before {
+        &::before {
           content: url("../../../../../../assets/images/icons/icon_info_red.svg");
           position: absolute;
           left: 0px;
@@ -151,12 +151,33 @@
       }
     }
 
+    &.noRate {
+      border: 1px solid $probar-color;
+    }
+    &.inActive {
+      &::before {
+        content: "INACTIVE";
+        position: absolute;
+        top: -12px;
+        left: 21px;
+        border-radius: 2rem;
+        padding: 0.2rem 1.7rem;
+        background-color: $danger-color;
+        color: $white-color;
+        font-family: $font-proxima;
+        font-size: $font-size-base;
+        font-weight: $font-weight-bold;
+      }
+      .row {
+        opacity: 0.5;
+      }
+      &:hover {
+        box-shadow: none;
+      }
+    }
     &:hover {
-      box-shadow: 0px 20px 50px 0px rgba(51, 59, 69, 0.15);
       transition: 0.5s;
       box-shadow: 0px 20px 50px 0px rgba(51, 59, 69, 0.15);
-      border: 1px solid $probar-color;
-
       button {
         background-color: $secondary-color !important;
         border-color: $secondary-color;
