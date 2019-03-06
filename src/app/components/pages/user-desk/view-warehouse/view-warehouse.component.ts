@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WarehouseService } from '../manage-rates/warehouse-list/warehouse.service';
 import { loading, isJSON } from '../../../../constants/globalFunctions';
@@ -7,11 +7,12 @@ import { baseExternalAssets } from '../../../../constants/base.url';
 import { Lightbox } from 'ngx-lightbox';
 
 @Component({
-  selector: 'app-view-warhouse',
-  templateUrl: './view-warhouse.component.html',
-  styleUrls: ['./view-warhouse.component.scss']
+  selector: 'app-view-warehouse',
+  encapsulation: ViewEncapsulation.None,
+  templateUrl: './view-warehouse.component.html',
+  styleUrls: ['./view-warehouse.component.scss']
 })
-export class ViewWarhouseComponent implements OnInit, OnDestroy {
+export class ViewWarehouseComponent implements OnInit, OnDestroy {
 
   public baseExternalAssets: string = baseExternalAssets;
   private paramSubscriber: any;

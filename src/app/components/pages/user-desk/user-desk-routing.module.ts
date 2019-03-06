@@ -16,7 +16,7 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
 import { ManageRatesModule } from './manage-rates/manage-rates.module';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
 import { Observable } from 'rxjs';
-import { ViewWarhouseComponent } from './view-warhouse/view-warhouse.component';
+import { ViewWarehouseComponent } from './view-warehouse/view-warehouse.component';
 
 export function manageRatesModuleChildren(): Type<any> | NgModuleFactory<any> | Promise<Type<any>> | Observable<Type<any>> {
     return ManageRatesModule;
@@ -37,7 +37,7 @@ const routes: Routes = [
             { path: 'add-warehouse', component: WarehouseComponent },
             { path: 'payment_result', component: PaymentResultComponent }, 
             { path: 'booking-detail/:id', component: ViewBookingComponent },
-            { path: 'warehouse-detail/:id', component: ViewWarhouseComponent },
+            { path: 'warehouse-detail/:id', component: ViewWarehouseComponent },
             { path: 'manage-rates', loadChildren: manageRatesModuleChildren },
             { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
