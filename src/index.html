@@ -1,22 +1,47 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>hashmove</title>
   <base href="/">
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="./assets/fonts/fonts-hm.css">
-    <link rel="stylesheet" href="./assets/scss/_loader.css">
+  <link rel="stylesheet" href="./assets/scss/_loader.css">
   <link rel="stylesheet" href="https://use.typekit.net/gwn1jtf.css">
+  <link rel="stylesheet" href="https://www.paytabs.com/theme/express_checkout/css/express.css">
+
 </head>
 <body>
-    <div class="overlay">
-      <div class="loading">
-        <img src="./assets/images/loader.gif" alt="loader">
-      </div>
+  <div class="overlay">
+    <div class="loading">
+      <img src="./assets/images/loader.gif" alt="loader">
     </div>
+  </div>
   <app-root></app-root>
 </body>
+<script src="https://www.paytabs.com/theme/express_checkout/js/jquery-1.11.1.min.js"></script>
+<script src="https://www.paytabs.com/express/express_checkout_v3.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript">
+  Paytabs("#express_checkout").expresscheckout({
+    settings: {
+      merchant_id: "10038289",
+      customer_email: "abdur@hashmove.com",
+      secret_key: "ekQNVlcQwtHZv93SClVAqo9euW1k1cKgxA4sVgjrJ1qfat8NO3ofsxtXuviwH2MeCRHx81YS3o7dSf1HjpWMXqJrV1XC3KRFCzdK",
+      amount: "100.00",
+      currency: "AED",
+      title: "Mr. John Doe",
+      product_names: "Product1",
+      order_id: 25,
+      url_redirect: "http://10.20.1.65:9094/provider/payment_result",
+      display_customer_info: 1,
+      display_billing_fields: 1,
+      display_shipping_fields: 0,
+      language: "en",
+      redirect_on_reject: 0,
+    }
+  });
+</script>
 </html>

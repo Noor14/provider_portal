@@ -1,10 +1,14 @@
 
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, Type, NgModuleFactory } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PagesModule } from './components/pages/pages.module';
+import { Observable } from 'rxjs';
 
-
+export function pagesModuleChildren(): Type<any> | NgModuleFactory<any> | Promise<Type<any>> | Observable<Type<any>> {
+  return PagesModule;
+}
 const appRoutes:Routes = [
-  { path: '', loadChildren : 'app/components/pages/pages.module#PagesModule'}
+  { path: '', loadChildren: pagesModuleChildren}
 ]
 
 @NgModule({

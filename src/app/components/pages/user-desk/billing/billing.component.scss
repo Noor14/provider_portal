@@ -1,6 +1,5 @@
 @import "../../../../../assets/scss/_variables";
 .billing {
-
     &-summary {
     background: $white-color;
     padding: 23px 35px 17px 35px;
@@ -60,6 +59,20 @@
         }
     }
 }
+    .overview{
+        button.PT_express_checkout {
+            position: relative;
+            #en_button {
+                background: none;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%
+            }
+        }
+    }
+
 .invoicesOverview {
     .search {
         width: 300px;
@@ -124,30 +137,31 @@
     font-style: normal !important;
   }
 }
-  .pay-status{
-    border-radius: 50%;
-    width: 6px;
-    height: 6px;
-    padding: 0;
-  }
-}
-
-
-.billingInvoices{
-  .dataTables_scroll{
-    .dataTables_scrollBody{
-      .dataTable{
-        tbody{
-          td{
-            &:first-child{
-              font-size: $font-size-large;
-              color: $primary-color;
-              font-family: $font-proxima;
-              font-weight: $font-proxima-weight-semibold;
-            }
-          }
-        }
-      }
+    .pay-status{
+        border-radius: 50%;
+        width: 6px;
+        height: 6px;
+        padding: 0;
     }
-  }
+    .billingInvoices {
+        .dataTables_scroll {
+        .dataTables_scrollBody {
+            .dataTable {
+            tbody {
+                td {
+                &:first-child {
+                    font-size: $font-size-large;
+                    color: $primary-color;
+                    font-family: $font-proxima;
+                    font-weight: $font-proxima-weight-semibold;
+                }
+                }
+            }
+            }
+        }
+        }
+    }
 }
+
+
+

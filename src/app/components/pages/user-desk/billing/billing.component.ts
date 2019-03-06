@@ -22,11 +22,8 @@ import { BillingService } from './billing.service';
 })
 export class BillingComponent implements OnInit, OnDestroy {
 
-
   @ViewChild('billing') tablebillingByInvoice: ElementRef;
   @ViewChild(DataTableDirective) datatableElement: DataTableDirective;
-  @ViewChild('paymentbtn') paymentbtn: ElementRef
-
 
   dtTrigger = new Subject();
   public userProfile: UserInfo
@@ -280,8 +277,6 @@ export class BillingComponent implements OnInit, OnDestroy {
   public billingStatusList: CodeValMst[] = []
   public userCurrencyCode: string
 
-  // payment
-  public paymentScript:any
 
   constructor(
     private _billingService: BillingService,
@@ -327,24 +322,6 @@ export class BillingComponent implements OnInit, OnDestroy {
       this.setBillingConfig()
       console.log('ProviderBillingDashboard', message);
     })
-    this.paymentScript = this._renderer2.createElement('script');
-    this.paymentScript.type = `application/javascript`;
-    this.paymentScript.id = "paytabs-express-checkout"
-    this.paymentScript['data-secret-key'] = 'ekQNVlcQwtHZv93SClVAqo9euW1k1cKgxA4sVgjrJ1qfat8NO3ofsxtXuviwH2MeCRHx81YS3o7dSf1HjpWMXqJrV1XC3KRFCzdK'
-    this.paymentScript['data-url-redirect'] = 'http://localhost:4200/provider/dashboard'
-    this.paymentScript['data-merchant-id'] = '10038289'
-    this.paymentScript['data-amount'] = '10.0'
-    this.paymentScript['data-currency'] = 'AED';
-    this.paymentScript['data-title'] = 'John Doe';
-    this.paymentScript['data-product-names'] = 'Iphone';
-    this.paymentScript['data-order-id'] = '25';
-    this.paymentScript['data-customer-phone-number'] = '5486253';
-    this.paymentScript['data-customer-email-address'] = "abdur@hashmove.com"
-    this.paymentScript['data-customer-country-code'] = "973"
-    this.paymentScript.src = "https://www.paytabs.com/express/v4/paytabs-express-checkout.js";
-    setTimeout(() => {
-      this._renderer2.appendChild(this.paymentbtn.nativeElement, this.paymentScript);
-    }, 10);
   }
 
   private setBillingConfig() {
@@ -572,91 +549,6 @@ export class BillingComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.dtTrigger.unsubscribe();
   }
-
-  payment() {
-  
-    // let obj = {
-    //   merchant_email: "abdur@hashmove.com",
-    //   secret_key: "ekQNVlcQwtHZv93SClVAqo9euW1k1cKgxA4sVgjrJ1qfat8NO3ofsxtXuviwH2MeCRHx81YS3o7dSf1HjpWMXqJrV1XC3KRFCzdK",
-    //   currency: "AED",
-    //   amount: "10",
-    //   site_url: "http://10.20.1.13:9094/provider/billing",
-    //   title: "test",
-    //   quantity: "1",
-    //   unit_price: "10",
-    //   other_charges: "0",
-    //   discount: "0",
-    //   products_per_title: "test product 1",
-    //   return_url: "http://10.20.1.13:9094/provider/dashboard",
-    //   cc_first_name: "rizwan",
-    //   cc_last_name: "haq",
-    //   cc_phone_number: "111000101",
-    //   phone_number: "111000101",
-    //   billing_address: "test billing",
-    //   city: "Karachi",
-    //   state: "Sindh",
-    //   postal_code: "75000",
-    //   country: "ARE",
-    //   email: "rizwan@texpo.com",
-    //   address_shipping: "test shipping addres",
-    //   city_shipping: "Karachi",
-    //   state_shipping: "Sindh",
-    //   postal_code_shipping: "75000",
-    //   country_shipping: "ARE",
-    //   reference_no: "1286",
-    //   msg_lang: "Engish",
-    //   ip_merchant: "100.100.100.100",
-    //   ip_customer: "Texpo-khi-26",
-    //   cms_with_version: "API"
-    // };
-    // var formdata = "merchant_email=" + "abdur@hashmove.com"
-    //   + "&secret_key=" + "ekQNVlcQwtHZv93SClVAqo9euW1k1cKgxA4sVgjrJ1qfat8NO3ofsxtXuviwH2MeCRHx81YS3o7dSf1HjpWMXqJrV1XC3KRFCzdK"
-    //   + "&currency=" + "AED"
-    //   + "&amount=" + "10"
-    //   + "&site_url=" + "http://10.20.1.13:9094/provider/billing"
-    //   + "&title=" + "test"
-    //   + "&quantity=" + "1"
-    //   + "&unit_price=" + "10"
-    //   + "&other_charges=0"
-    //   + "&discount=0"
-    //   + "&products_per_title=" + "test product 1"
-    //   + "&return_url=" + "http://10.20.1.13:9094/provider/dashboard"
-    //   + "&cc_first_name=" + "rizwan"
-    //   + "&cc_last_name=" + "haq"
-    //   + "&cc_phone_number=" + "111000101"
-    //   + "&phone_number=" + "111000101"
-    //   + "&billing_address=" + "test billing"
-    //   + "&city=" + "karachi"
-    //   + "&state=" + "sindh"
-    //   + "&postal_code=" + "75000"
-    //   + "&country=" + "ARE"
-    //   + "&email=" + "rizwan@texpo.com"
-    //   + "&ip_customer=" + "Texpo-khi-26"
-    //   + "&ip_merchant=100.100.100.100"
-    //   + "&address_shipping=" + "test shipping address"
-    //   + "&city_shipping=" + "karachi"
-    //   + "&state_shipping=" + "sindh"
-    //   + "&postal_code_shipping=" + "75000"
-    //   + "&country_shipping=" + "ARE"
-    //   + "&reference_no=" + "1286"
-    //   + "&msg_lang=English"
-    //   + "&cms_with_version=API"
-    // let bytes = []; // char codes
-    // for (var i = 0; i < formdata.length; ++i) {
-    //   var code = formdata.charCodeAt(i);
-    //   var buffer = new ArrayBuffer(code)
-    //   bytes.push(buffer.byteLength);
-    // }
-
-    // this._billingService.makePayment(formdata).subscribe((res: any) => {
-    //   // if (res.returnStatus == "Success") {
-    //   console.log(res)
-    //   // }
-    // })
-
-  }
-
-
 
 }
 
