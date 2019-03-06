@@ -129,9 +129,10 @@
                 <li class="list-group-item">
                   <img src="../../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16" alt="icon" />
                   <span>Active / Inactive
-                    <div class="switch-box float-right">
-                      <ui-switch (change)="activeToggler(wareHouse.WHID, wareHouse.IsBlocked)"
-                        [checked]="!wareHouse.IsBlocked"></ui-switch>
+                    <div class="switch-box pull-right">
+                    <ui-switch (change)="wareHouse.IsBlocked = !wareHouse.IsBlocked; activeToggler(wareHouse, wareHouse.IsBlocked)"
+                        [checked]="!wareHouse.IsBlocked">
+                    </ui-switch>
                     </div>
                     <span class="warehouse-status" *ngIf="wareHouse.IsBlocked">Currently: Inactive</span>
                     <span class="warehouse-status" *ngIf="!wareHouse.IsBlocked">Currently: Active</span>
