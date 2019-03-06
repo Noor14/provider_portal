@@ -13,11 +13,11 @@
           <small class="d-block">From</small>
           <div class="d-flex">
             <div class="flag-container">
-              <img src="{{'../../../../assets/images/flags/1x1/'+ (originDet?.FromCountry | lowercase) + '.svg'}}" alt="icon">
+              <img src="{{'../../../../assets/images/flags/1x1/'+ (originDet?.CountryCode | lowercase) + '.svg'}}" alt="icon">
             </div>
             <div class="location">
-              <label class="ports-text">{{originDet?.FromPortCode}}</label>
-              <span class=" d-block">Port of {{originDet?.FromPort}}</span>
+              <label class="ports-text">{{originDet?.PortCode}}</label>
+              <span class=" d-block">Port of {{originDet?.PortName}}</span>
             </div>
           </div>
         </div>
@@ -28,12 +28,12 @@
           <small class="d-block">To</small>
           <div class="d-flex">
             <div class="flag-container">
-              <img src="{{'../../../../assets/images/flags/1x1/'+ (destinationDet?.ToCountry | lowercase) + '.svg'}}"
+              <img src="{{'../../../../assets/images/flags/1x1/'+ (destinationDet?.CountryCode | lowercase) + '.svg'}}"
                 alt="icon">
             </div>
             <div class="location">
-              <label class="ports-text">{{destinationDet?.ToPortCode}}</label>
-              <span class=" d-block">Port of {{destinationDet?.ToPort}}</span>
+              <label class="ports-text">{{destinationDet?.PortCode}}</label>
+              <span class=" d-block">Port of {{destinationDet?.PortName}}</span>
 
             </div>
           </div>

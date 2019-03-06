@@ -87,11 +87,12 @@ export class RateHistoryComponent implements OnInit {
           }
           this.customerInfo = obj;
         }
-        this.destinationDet = records[0].Toport[0];
-        this.originDet = records[0].fromport[0];
+        this.destinationDet = this.getRecord.ports.find(obj => obj.PortID === this.history[0].PodID);
+        this.originDet = this.getRecord.ports.find(obj => obj.PortID === this.history[0].PolID);
       }
     })
   }
+
   getHistoryLCL() {
     this._seaFreightService.getRecHistoryLCL(this.getRecord.id, this.getRecord.type, this.userProfile.LoginID).subscribe((res: any) => {
       console.log(JSON.parse(res.returnText));
@@ -112,9 +113,8 @@ export class RateHistoryComponent implements OnInit {
           this.allCargoType = this.fclContainers.filter(obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true));
           this.cargoInfo = this.allCargoType.find(obj => obj.ShippingCatID === this.history[0].ShippingCatID)
         }
-
-        this.destinationDet = records[0].Toport[0];
-        this.originDet = records[0].fromport[0];
+        this.destinationDet = this.getRecord.ports.find(obj => obj.PortID === this.history[0].PodID);
+        this.originDet = this.getRecord.ports.find(obj => obj.PortID === this.history[0].PolID);
       }
     })
   }

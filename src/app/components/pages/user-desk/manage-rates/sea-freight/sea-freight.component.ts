@@ -995,6 +995,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       type: fortype,
       shippingLines: this.allShippingLines,
       customers: this.allCustomers,
+      ports: this.allPorts
     }
     modalRef.componentInstance.getRecord = obj;
     setTimeout(() => {
