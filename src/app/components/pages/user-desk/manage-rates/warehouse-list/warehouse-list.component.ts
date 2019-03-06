@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { WarehouseService } from './warehouse.service';
-import { loading, isJSON } from '../../../../../constants/globalFunctions';
+import { loading, isJSON, encryptBookingID } from '../../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Lightbox } from 'ngx-lightbox';
@@ -22,14 +22,16 @@ export class WarehouseListComponent implements OnInit {
   public baseExternalAssets: string = baseExternalAssets;
   public userProfile;
   public allWareHouseList: any[] = [];
-
+  public wareHouseTitle: string;
   public autoHide: boolean = false;
   public responsive: boolean = true;
   public directionLinks: boolean = true;
   public paginationConfig: PaginationInstance = {
     itemsPerPage: 5, currentPage: 1
   }
-  public searchBy: string
+  public inActiveStatus: boolean = true;
+  public activeStatus: boolean = true;
+
   constructor(
     private _warehouseService: WarehouseService,
     private _modalService: NgbModal,
@@ -63,11 +65,9 @@ export class WarehouseListComponent implements OnInit {
               if (obj.FacilitiesProviding && obj.FacilitiesProviding != "[]" && isJSON(obj.FacilitiesProviding)){
                 obj.FacilitiesProviding = JSON.parse(obj.FacilitiesProviding);
               }
-            })
-              this.allWareHouseList.forEach((obj) => {
-                if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)){
-                  obj.WHGallery = JSON.parse(obj.WHGallery);
-            }
+              if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {
+                obj.WHGallery = JSON.parse(obj.WHGallery);
+              }
             })
           }
         }
@@ -128,7 +128,7 @@ export class WarehouseListComponent implements OnInit {
     wh.IsBlocked = whStatus;
     let obj={
       whid: wh.WHID,
-      status: whStatus,
+      status: !whStatus,
       modifiedBy: this.userProfile.LoginID
     }
     this._warehouseService.activeWarehouseToggler(obj).subscribe((res: any) => {
@@ -136,6 +136,32 @@ export class WarehouseListComponent implements OnInit {
         this._toast.success('Warehouse update successfully', '')
       }
     })
+  }
+  goToDetail(whId){
+    // let id = encryptBookingID(whId);
+    this._router.navigate(['/provider/warehouse-detail', whId]);
+  }
+
+
+  filterByStatus(type, event){
+    let allwareHouse = Object.assign([], this.allWareHouseList)
+    if (type == 'active' && this.inActiveStatus){
+      this.activeStatus = !this.activeStatus;
+      event.currentTarget.checked = this.activeStatus;
+    }
+    else if (type == 'inactive' && this.activeStatus) {
+      this.inActiveStatus = !this.inActiveStatus;
+      event.currentTarget.checked = this.inActiveStatus;
+    }
+    if (this.activeStatus && !this.inActiveStatus){
+      this.allWareHouseList.filter(obj => obj.IsBlocked == false)
+    }
+    else if (this.inActiveStatus && !this.activeStatus) {
+      this.allWareHouseList.filter(obj => obj.IsBlocked == true)
+    }
+    else{
+      this.allWareHouseList
+    }
   }
 
 }

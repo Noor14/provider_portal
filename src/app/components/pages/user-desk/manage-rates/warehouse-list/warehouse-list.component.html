@@ -19,23 +19,24 @@
       Showing 4 - 4
     </div>
     <div class="col-4 warehouse-search">
-      <input type="text" class="form-control" placeholder="Search by location of title" />
+      <input type="text" class="form-control" placeholder="Search by location or title" [(ngModel)]="wareHouseTitle" />
     </div>
     <div class="col-6 d-flex justify-content-end align-items-center warehouse-status">
       <label class="m-0 mr-2">SHOW :</label>
       <div class="fancyOptionBoxes mr-2">
-        <input id="checkboxOne" type="checkbox" />
+        <input id="checkboxOne" type="checkbox" [checked]="activeStatus" (change)="filterByStatus('active', $event)" />
         <label for="checkboxOne"> <span></span> Acive </label>
       </div>
       <div class="fancyOptionBoxes">
-        <input id="checkboxTwo" type="checkbox" />
+        <input id="checkboxTwo" type="checkbox" [checked]="inActiveStatus" (change)="filterByStatus('inactive', $event)"/>
         <label for="checkboxTwo"> <span></span> Inacive </label>
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div class="card mb-4" *ngFor="let wareHouse of allWareHouseList | paginate: paginationConfig" [ngClass]="{'inActive' : wareHouse.IsBlocked, 'noRate' : !wareHouse.IsRateAvailable}">
+      <div class="card mb-4" *ngFor="let wareHouse of allWareHouseList | search : wareHouseTitle | paginate: paginationConfig"
+        [ngClass]="{'inActive' : wareHouse.IsBlocked, 'noRate' : !wareHouse.IsRateAvailable}">
         <div class="card-body">
           <div class="row mt-1">
             <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12">
@@ -123,7 +124,7 @@
           <ng-template #option>
             <div class="option-popup fadeIn animated">
               <ul class="list-group">
-                <li class="list-group-item" (click)="deleteWarehouse(wareHouse.WHID)">
+                <li class="list-group-item" (click)="goToDetail(wareHouse.WHID)">
                   <img src="../../../../../../assets/images/icons/warehouse-edit-icon.svg" class="icon-size-16" alt="icon" /><span>Edit Info / Rates</span>
                 </li>
                 <li class="list-group-item">
@@ -138,7 +139,7 @@
                     <span class="warehouse-status" *ngIf="!wareHouse.IsBlocked">Currently: Active</span>
                   </span>
                 </li>
-                <li class="list-group-item" (click)="deleteWarehouse(wareHouse.WHID)">
+                <li class="list-group-item">
                   <img src="../../../../../../assets/images/icons/reload-icon.svg" class="icon-size-16" alt="icon" /><span>View Log</span>
                 </li>
                 <hr class="hr-solid mb-2">
@@ -153,7 +154,7 @@
       <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide" responsive="responsive"
        previousLabel="" nextLabel="" *ngIf="allWareHouseList.length > paginationConfig.itemsPerPage">
       </pagination-controls>
-      <div class="overflow-hidden" *ngIf="!allWareHouseList || (allWareHouseList && !allWareHouseList.length)">
+      <div class="overflow-hidden" *ngIf="!allWareHouseList || (allWareHouseList &&  !(allWareHouseList | search : wareHouseTitle).length )">
         <div class="animated bounceInDown card text-center p-1">
           <p class="mb-0">You don't have any warehouse yet</p>
         </div>
