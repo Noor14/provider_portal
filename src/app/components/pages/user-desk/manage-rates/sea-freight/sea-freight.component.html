@@ -52,21 +52,20 @@
           </svg>LCL</span>
       </ng-template>
       <ng-template ngbTabContent>
-        <section class="rates-grid draft-grid draft-Lcl without-scroll" [ngClass]="{
-            'no-data': !draftslcl.length,
-            'no-scroll-add': draftslcl.length,
-            'no-pagination':
-              draftslcl.length <= dtOptionsBySeaLCLDraft.pageLength}">
+        <section class="rates-grid draft-grid draft-Lcl without-scroll">
           <!-- <table id="draftRateTableLCL" cellspacing="0" #draftBYseaLCL class="row-border hover"></table> -->
           <app-ui-table *ngIf="draftslcl.length" [tableType]="'draftFCL'" [tableData]="draftslcl"
             (checkedRows)="tableCheckedRows($event)" [containerLoad]="'LCL'" [transMode]="'SEA'"></app-ui-table>
-          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()">
+          <button (click)="addAnotherRates()" *ngIf="!draftslcl.length"
+            class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2"> Click to add new rate </button>
+          <a href="javascript:;" class="addAnother animated fadeIn" *ngIf="draftslcl.length"
+            [ngClass]="draftslcl.length > 5 ? 'withScroll' : ''" (click)="addAnotherRates()">
             <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
             Add another rate
           </a>
           <!-- <app-loader-main *ngIf="draftloadingLCL"></app-loader-main> -->
         </section>
-        <div class="row mt-4">
+        <div class="row mt-4" *ngIf="draftslcl.length">
           <div class="col-12 text-right actions">
             <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase"
               [disabled]="!draftslcl || (draftslcl && !draftslcl.length)" (click)="discardDraft('lcl')">
@@ -250,8 +249,7 @@
             </ngb-panel>
           </ngb-accordion>
         </section>
-        <section class="rates-grid mt-5 publishRatesLCL"
-          [ngClass]="{'no-data': allRatesListLcL && !allRatesListLcL.length, 'no-scroll-add': allRatesListLcL && allRatesListLcL.length, 'no-pagination': allRatesListLcL && allRatesListLcL.length <= dtOptionsBySeaLCL.pageLength}">
+        <section class="rates-grid mt-5 publishRatesLCL">
           <div class="row mb-3 justify-content-end">
             <div class="col-6 d-flex justify-content-start rate-dur" *ngIf="allRatesListLcL && allRatesListLcL.length">
               <img src="../../../../../../assets/images/icons/Icons_Clock-2hour.svg" alt="del_icon"
@@ -316,7 +314,8 @@
           <!-- <table id="publishRateTableLcl" cellspacing="0" #publishByseaLcl class="row-border hover"></table> -->
           <app-ui-table *ngIf="allRatesListLcL" [tableType]="'publishFCL'" [tableData]="allRatesListLcL"
             (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('lcl', $event)"
-            (pageEvent)="paging('lcl', $event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'LCL'" [transMode]="'SEA'">
+            (pageEvent)="paging('lcl', $event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'LCL'"
+            [transMode]="'SEA'">
           </app-ui-table>
           <app-loader-main *ngIf="publishloading"></app-loader-main>
         </section>
@@ -379,13 +378,16 @@
           <!-- <table id="draftRateTable" cellspacing="0" #draftBYsea class="row-border hover"></table> -->
           <app-ui-table *ngIf="draftsfcl.length" [tableType]="'draftFCL'" [tableData]="draftsfcl"
             (checkedRows)="tableCheckedRows($event)" [containerLoad]="'FCL'" [transMode]="'SEA'"></app-ui-table>
-          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()">
+          <button (click)="addAnotherRates()" *ngIf="!draftsfcl.length"
+            class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2"> Click to add new rate </button>
+          <a href="javascript:;" class="addAnother animated fadeIn" *ngIf="draftsfcl.length"
+            [ngClass]="draftsfcl.length > 5 ? 'withScroll' : ''" (click)="addAnotherRates()">
             <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
             Add another rate
           </a>
-          <!-- <app-loader-main *ngIf="draftloading"></app-loader-main> -->
+          <app-loader-main *ngIf="draftloading"></app-loader-main>
         </section>
-        <div class="row mt-4">
+        <div class="row mt-4" *ngIf="draftsfcl.length">
           <div class="col-12 text-right actions">
             <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase"
               [disabled]="!draftsfcl || (draftsfcl && !draftsfcl.length)" (click)="discardDraft('fcl')">
@@ -640,7 +642,8 @@
           <!-- <table id="publishRateTable" cellspacing="0" #publishBysea class="row-border hover"></table> -->
           <app-ui-table *ngIf="allRatesList" [tableType]="'publishFCL'" [tableData]="allRatesList"
             (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('fcl', $event)"
-            (pageEvent)="paging('fcl' ,$event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'FCL'" [transMode]="'SEA'">
+            (pageEvent)="paging('fcl' ,$event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'FCL'"
+            [transMode]="'SEA'">
           </app-ui-table>
           <div *ngIf="!allRatesList">No Records Found</div>
           <app-loader-main *ngIf="publishloading"></app-loader-main>

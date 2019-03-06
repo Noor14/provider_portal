@@ -112,17 +112,17 @@
         </span>
       </ng-template>
       <ng-template ngbTabContent>
-        <section
-          [ngClass]="{'no-data': !draftslistFTL.length, 'no-scroll-add' : draftslistFTL.length, 'no-pagination': draftslistFTL.length <= dtOptionsByGroundDraftFTL.pageLength}"
-          class="rates-grid draft-grid draft-GroundFTL">
+        <section class="rates-grid draft-grid draft-GroundFTL">
           <!-- <table id="draftRateTableFTL" cellspacing="0" #draftBYGroundFTL class="row-border hover"></table> -->
           <app-ui-table *ngIf="draftslistFTL.length" [tableType]="'draftFCL'" [tableData]="draftslistFTL"
             (checkedRows)="tableCheckedRows($event)" [containerLoad]="'FTL'" [transMode]="'GROUND'"></app-ui-table>
-          <a href="javascript:;" class="addAnother animated fadeIn" (click)="addAnotherRates()">Add
-            another rate</a>
-          <!-- <app-loader-main *ngIf="draftloadingFTL"></app-loader-main> -->
+            <button (click)="addAnotherRates()" *ngIf="!draftslistFTL.length" class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2"> Click to add new rate </button>
+          <a href="javascript:;" *ngIf="draftslistFTL.length" [ngClass]="draftslistFTL.length > 5 ? 'withScroll' : ''" class="addAnother animated fadeIn" (click)="addAnotherRates()">
+            <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
+            Add another rate</a>
+          <app-loader-main *ngIf="draftloading"></app-loader-main>
         </section>
-        <div class="row mt-4">
+        <div class="row mt-4" *ngIf="draftslistFTL.length">
           <div class="col-12 text-right actions">
             <button class="discard-draft w-auto p-0 border-0 bg-transparent text-uppercase"
               [disabled]="!draftslistFTL || (draftslistFTL && !draftslistFTL.length)" (click)="discardDraft()">Discard

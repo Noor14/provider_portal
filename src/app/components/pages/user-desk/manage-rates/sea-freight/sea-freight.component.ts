@@ -68,7 +68,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   public allRatesList: any;
   public allRatesListLcL: any;
   public publishloading: boolean = false;
-  public draftloading: boolean = true;
+  public draftloading: boolean = false;
   public allShippingLines: any[] = [];
   public allCargoType: any[] = []
   public allPorts: any[] = [];
@@ -414,7 +414,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
               this.editorContentLCL = state[index].TCLCL;
               this.disableLCL = true;
             }
-            this.draftloading = true;
           }
         }
       }
@@ -1093,8 +1092,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
    * @memberof SeaFreightComponent
    */
   getDraftRates(type) {
-    loading(true)
+    // loading(true)
+    this.draftloading = true
     this._seaFreightService.getAllDrafts(type, this.userProfile.ProviderID, '').subscribe((res: any) => {
+      this.draftloading = false
       if (res.returnObject) {
         if (type === 'fcl') {
           this.allSeaDraftRatesByFCL = changeCase(res.returnObject, 'pascal')

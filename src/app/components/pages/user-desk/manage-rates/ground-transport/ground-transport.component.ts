@@ -73,7 +73,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   public dataTabledraftBygroundFTL: any;
   public allRatesList: any;
   public publishloading: boolean;
-  public draftloading: boolean = true;
+  public draftloading: boolean = false;
   public draftloadingFTL: boolean = true;
   public allCargoType: any[] = []
   public allContainersType: any[] = [];
@@ -737,9 +737,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
       keyboard: false
     });
     modalRef.result.then((result) => {
-      console.log(result);
       if (result) {
         this.setAddDraftData(result[0].containerLoadType, result);
+        this.getDraftRates('ground', type)
         this.getAllPublishRates('ftl')
       }
     });
@@ -796,7 +796,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
         })
         this.draftslistFTL.unshift(dataObj)
       }
-      this.getDraftRates('ground', type) //@todo remove it when we get the mechanism for parent to child changes emit
     });
     // this.generateDraftTable();
   }
@@ -934,8 +933,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
             }
             // this.generateDraftTable();
             // this.generateDraftTableFTL();
-            this.draftloading = true;
-            this.draftloadingFTL = true;
           }
         }
       }
@@ -1594,8 +1591,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
    */
   getDraftRates(type, containerLoad) {
     containerLoad = 'FTL'
-    loading(true)
+    this.draftloading = true
     this._manageRatesService.getAllDrafts(type, this.userProfile.ProviderID, containerLoad).subscribe((res: any) => {
+      this.draftloading = false
       if (res.returnId > 0) {
         if (containerLoad === 'FCL') {
           this.draftslist = (res.returnObject ? changeCase(res.returnObject, 'pascal') : [])

@@ -52,7 +52,7 @@ export class RateHistoryComponent implements OnInit {
   getHistoryFCL() {
     loading(true)
     this._seaFreightService.getRecHistoryFCL(this.getRecord.id, this.getRecord.type, this.userProfile.LoginID).subscribe((res: any) => {
-      console.log(res.returnObject);
+      console.log(res);
       if (res.returnStatus == "Success") {
         loading(false)
         let records = JSON.parse(res.returnObject);
