@@ -65,11 +65,9 @@ export class WarehouseListComponent implements OnInit {
               if (obj.FacilitiesProviding && obj.FacilitiesProviding != "[]" && isJSON(obj.FacilitiesProviding)){
                 obj.FacilitiesProviding = JSON.parse(obj.FacilitiesProviding);
               }
-            })
-              this.allWareHouseList.forEach((obj) => {
-                if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)){
-                  obj.WHGallery = JSON.parse(obj.WHGallery);
-            }
+              if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {
+                obj.WHGallery = JSON.parse(obj.WHGallery);
+              }
             })
           }
         }
@@ -140,8 +138,8 @@ export class WarehouseListComponent implements OnInit {
     })
   }
   goToDetail(whId){
-    let id = encryptBookingID(whId);
-    this._router.navigate(['/provider/warehouse-detail', id]);
+    // let id = encryptBookingID(whId);
+    this._router.navigate(['/provider/warehouse-detail', whId]);
   }
 
 

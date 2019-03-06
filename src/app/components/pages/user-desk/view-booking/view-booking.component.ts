@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, OnDestroy } from '@angular/core';
 import { PlatformLocation } from '@angular/common';
 import { ToastrService } from "ngx-toastr";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -22,7 +22,7 @@ declare var google: any;
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./view-booking.component.scss']
 })
-export class ViewBookingComponent implements OnInit {
+export class ViewBookingComponent implements OnInit, OnDestroy {
 
   public zoomlevel: number = 2;
   public location: any = { lat: undefined, lng: undefined };

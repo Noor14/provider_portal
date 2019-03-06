@@ -34,6 +34,8 @@ import { QuillEditorModule } from 'ngx-quill-editor';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
 import { ViewWarhouseComponent } from './view-warhouse/view-warhouse.component';
+import { WarehouseService } from './manage-rates/warehouse-list/warehouse.service';
+import { LightboxModule } from 'ngx-lightbox';
 @NgModule({
   imports: [
     CommonModule,
@@ -52,7 +54,8 @@ import { ViewWarhouseComponent } from './view-warhouse/view-warhouse.component';
     DataTablesModule,
     FormsModule,
     ReactiveFormsModule,
-    NgStepperModule
+    NgStepperModule,
+    LightboxModule
   ],
   declarations: [
     UserDeskComponent,
@@ -78,7 +81,8 @@ import { ViewWarhouseComponent } from './view-warhouse/view-warhouse.component';
     ReportsService,
     UserGuard,
     BillingService,
-    SettingService
+    SettingService,
+    WarehouseService
   ]
 })
 export class UserDeskModule { }
