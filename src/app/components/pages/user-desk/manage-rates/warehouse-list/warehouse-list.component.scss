@@ -1,13 +1,12 @@
 @import "../../../../../../assets/scss/_variables";
-
 .warehouseList {
+  .warehouseInfo{
   .search-bar {
     .record-count {
       font-family: $font-proxima;
       font-size: $font-size-medium;
       color: $secondary-text-color;
     }
-
     .warehouse-search {
       input {
         background: $table-head url("../../../../../../assets/images/icons/icon-search.svg") no-repeat right 15px center;
@@ -41,7 +40,6 @@
       }
     }
   }
-
   .card {
     border: 1px solid $left-sidebar-border-color;
     transition: all ease 0.7s;
@@ -196,7 +194,7 @@
         box-shadow: none;
       }
     }
-
+   
     &:hover {
       transition: 0.5s;
       box-shadow: 0px 20px 50px 0px rgba(51, 59, 69, 0.15);
@@ -207,6 +205,8 @@
         color: $white-color !important;
       }
     }
+    
+
 
     .warehouse-options {
       position: absolute;
@@ -253,5 +253,6 @@
         }
       }
     }
+  }
   }
 }
