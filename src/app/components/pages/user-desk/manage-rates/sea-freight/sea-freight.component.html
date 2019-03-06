@@ -318,7 +318,7 @@
             (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('lcl', $event)"
             (pageEvent)="paging('lcl', $event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'LCL'" [transMode]="'SEA'">
           </app-ui-table>
-          <app-loader-main *ngIf="publishloadingLcl"></app-loader-main>
+          <app-loader-main *ngIf="publishloading"></app-loader-main>
         </section>
         <section class="term-cond">
           <div class="row">
@@ -575,8 +575,7 @@
             </ngb-panel>
           </ngb-accordion>
         </section>
-        <section class="rates-grid mt-5 publishRatesFCL"
-          [ngClass]="{'no-data': allRatesList && !allRatesList.length, 'no-scroll-add': allRatesList && allRatesList.length, 'no-pagination': allRatesList && allRatesList.length <= dtOptionsBySeaFCL.pageLength}">
+        <section class="rates-grid mt-5 publishRatesFCL">
           <div class="row mb-3 justify-content-end" *ngIf="allRatesList">
             <div class="col-6 d-flex justify-content-start rate-dur" *ngIf="allRatesList && allRatesList.length">
               <img src="../../../../../../assets/images/icons/Icons_Clock-2hour.svg" alt="del_icon"

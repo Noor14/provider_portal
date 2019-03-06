@@ -13,8 +13,8 @@ import { loading } from '../../../constants/globalFunctions';
 })
 export class RateHistoryComponent implements OnInit {
   @Input() getRecord: any;
-  public baseExternalAssets:string = baseExternalAssets;
-  public userProfile:any;
+  public baseExternalAssets: string = baseExternalAssets;
+  public userProfile: any;
   public history: any;
   public destinationDet: any;
   public originDet: any;
@@ -27,14 +27,14 @@ export class RateHistoryComponent implements OnInit {
     private _seaFreightService: SeaFreightService,
     private _airFreightService: AirFreightService,
     private _groundTransportService: GroundTransportService
-    ) { }
+  ) { }
 
   ngOnInit() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
-    if (this.getRecord.type && this.getRecord.type == 'Rate_FCL'){
+    if (this.getRecord.type && this.getRecord.type == 'Rate_FCL') {
       this.getHistoryFCL();
     }
     else if (this.getRecord.type && this.getRecord.type == 'Rate_LCL') {
@@ -47,13 +47,13 @@ export class RateHistoryComponent implements OnInit {
       this.getHistoryGround();
     }
   }
-  getHistoryFCL(){
+  getHistoryFCL() {
     loading(true)
-    this._seaFreightService.getRecHistoryFCL(this.getRecord.id, this.getRecord.type, this.userProfile.LoginID).subscribe((res:any)=>{
-      if(res.returnStatus=="Success"){
+    this._seaFreightService.getRecHistoryFCL(this.getRecord.id, this.getRecord.type, this.userProfile.LoginID).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
         loading(false)
         let records = JSON.parse(res.returnObject);
-        if (records[0].History && records[0].History.length){
+        if (records[0].History && records[0].History.length) {
           records[0].History.map(obj => {
             if (typeof (obj.AuditDesc) == "string") {
               obj.AuditDesc = JSON.parse(obj.AuditDesc);
@@ -61,11 +61,11 @@ export class RateHistoryComponent implements OnInit {
           })
           this.history = records[0].History;
         }
-        if (records[0].customer){
+        if (records[0].customer) {
           let custDet = JSON.parse(records[0].customer)[0];
           let obj = {
-          CustomerImage: JSON.parse(custDet.CustomerImage)[0].DocumentFile,
-          CustomerName: custDet.CustomerName
+            CustomerImage: JSON.parse(custDet.CustomerImage)[0].DocumentFile,
+            CustomerName: custDet.CustomerName
           }
           this.customerInfo = obj;
         }
@@ -95,7 +95,7 @@ export class RateHistoryComponent implements OnInit {
             CustomerImage: JSON.parse(custDet.CustomerImage)[0].DocumentFile,
             CustomerName: custDet.CustomerName
           }
-         this.customerInfo = obj;
+          this.customerInfo = obj;
         }
         this.destinationDet = records[0].Toport[0];
         this.originDet = records[0].fromport[0];
@@ -133,7 +133,7 @@ export class RateHistoryComponent implements OnInit {
   getHistoryGround() {
     this._groundTransportService.getRecHistoryGround(this.getRecord.id, this.getRecord.type, this.userProfile.LoginID, this.getRecord.transportType).subscribe((res: any) => {
       console.log(res);
-      
+
       if (res.returnStatus == "Success") {
         let records = JSON.parse(res.returnObject);
         if (records[0].History && records[0].History.length) {
@@ -152,10 +152,10 @@ export class RateHistoryComponent implements OnInit {
           }
           this.customerInfo = obj;
         }
-        if (records[0].Toport){
+        if (records[0].Toport) {
           this.destinationDet = JSON.parse(records[0].Toport)[0];
         }
-        if (records[0].fromport){
+        if (records[0].fromport) {
           this.originDet = JSON.parse(records[0].fromport)[0];
         }
         this.cargoInfo = records[0].cargoType[0];
