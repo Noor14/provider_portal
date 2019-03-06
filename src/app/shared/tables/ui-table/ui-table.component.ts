@@ -262,13 +262,12 @@ export class UiTableComponent implements OnInit, OnChanges {
   publishAction(row, action) {
     if (this.tableType === 'draftFCL')
       return;
-
     let obj = {}
     if (action === 'history') {
       console.log(row);
       obj = {
         type: 'history',
-        id: ((this.transMode === 'GROUND') ? row.id : ((this.transMode === 'SEA' && row.containerLoadType === 'FCL') ? row.providerPricingDraftID : row.consolidatorPricingDraftID)),
+        id: ((this.transMode === 'GROUND') ? row.id : ((this.transMode === 'SEA' && this.containerLoad === 'FCL') ? row.carrierPricingID : row.consolidatorPricingID)),
         load: this.containerLoad
       }
     }

@@ -1278,6 +1278,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
             }
           }
         }
+        this._toast.success(res.returnText, 'Success')
         if (this.publishRates.length == i) {
           this.checkedalldraftRates = false;
           this.publishRates = [];
@@ -1592,6 +1593,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
    * @memberof GroundTransportComponent
    */
   getDraftRates(type, containerLoad) {
+    containerLoad = 'FTL'
     loading(true)
     this._manageRatesService.getAllDrafts(type, this.userProfile.ProviderID, containerLoad).subscribe((res: any) => {
       if (res.returnId > 0) {

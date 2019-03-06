@@ -225,7 +225,6 @@
         }
       }
     }
-
     &-count {
       font-family: $font-proxima;
       font-weight: $font-weight-mid;
@@ -287,6 +286,18 @@
             text-align: center;
           }
         }
+      }
+    }
+    /deep/ .paginationBox {
+      margin-bottom: 1rem;
+      p{
+        display: flex;
+        align-items: center;
+        margin: 0 !important;
+        margin-right: 1rem !important;
+      }
+      .ngx-pagination{
+        margin: 0 !important;
       }
     }
   }
