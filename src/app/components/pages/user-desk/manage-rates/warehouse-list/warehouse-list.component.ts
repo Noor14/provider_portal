@@ -125,10 +125,10 @@ export class WarehouseListComponent implements OnInit {
 
   }
   activeToggler(wh, whStatus){
-    wh.IsBlocked = !whStatus;
+    wh.IsBlocked = whStatus;
     let obj={
       whid: wh.WHID,
-      status: whStatus,
+      status: !whStatus,
       modifiedBy: this.userProfile.LoginID
     }
     this._warehouseService.activeWarehouseToggler(obj).subscribe((res: any) => {
