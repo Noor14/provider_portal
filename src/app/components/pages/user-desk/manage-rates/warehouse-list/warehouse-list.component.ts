@@ -87,8 +87,7 @@ export class WarehouseListComponent implements OnInit {
     this._lightbox.close();
   }
   addAnotherWarehouse() {
-    localStorage.removeItem('warehouseId');
-    this._router.navigate(['provider/add-warehouse'])
+    this._router.navigate(['provider/add-warehouse', 0])
   }
 
   onPageChange(number) {

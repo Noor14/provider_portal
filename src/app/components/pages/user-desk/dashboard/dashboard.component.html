@@ -222,7 +222,8 @@
                     <small class="d-block mb-2">CUSTOMER</small>
                     <div class="d-flex mt-1">
                       <div class="customer-image mr-2">
-                      <img [src]="baseExternalAssets + booking.CustomerLogo" alt="logo" />
+                        <img [src]="baseExternalAssets + booking.CustomerLogo" alt="logo" *ngIf="booking.CustomerLogo" />
+                        <img src="../../../../../assets/images/icons/icons_user.svg" alt="logo" *ngIf="!booking.CustomerLogo" />
                       </div>
                       <label class="ports-label">
                         {{booking.CustomerName}}

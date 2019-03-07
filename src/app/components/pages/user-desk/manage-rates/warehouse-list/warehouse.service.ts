@@ -34,4 +34,9 @@ export class WarehouseService {
     return this._http.post(baseApi + url, obj);
   }
 
+  getDropDownValuesWarehouse(leasTerm, unitLength, unitArea, unitVolume){
+    let url: string = `warehousesetup/GetAll/${leasTerm},${unitLength},${unitArea},${unitVolume}`;
+    return this._http.get(baseApi + url);
+  }
+
 }

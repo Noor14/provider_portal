@@ -35,8 +35,11 @@ export class AllBookingsComponent implements OnInit, OnDestroy {
     this.allBookingsSubscriber= this._sharedService.dashboardDetail.subscribe((state: any) => {
       if (state && state.BookingDetails && state.BookingDetails.length) {
         state.BookingDetails.map(elem => {
-            if (elem.CustomerImage && typeof elem.CustomerImage == "string" && isJSON(elem.CustomerImage)) {
+          if (elem.CustomerImage && typeof elem.CustomerImage == "string" && elem.CustomerImage != "[]" && isJSON(elem.CustomerImage)) {
               elem.CustomerLogo = JSON.parse(elem.CustomerImage).shift().DocumentFile
+            }
+          else if (elem.UserImage){
+            elem.CustomerLogo = elem.UserImage;
             }
           })
         let pastBookings = state.BookingDetails.filter(obj => obj.BookingTab === 'Past');

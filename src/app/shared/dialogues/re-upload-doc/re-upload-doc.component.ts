@@ -27,7 +27,7 @@ export class ReUploadDocComponent implements OnInit {
     this.getDocReason();
     this.docReasonForm = new FormGroup({
       reasonType: new FormControl(null, {validators: [Validators.required]}),
-      reasonDesc: new FormControl(null, {validators: [Validators.required, Validators.maxLength(1000)]})
+      reasonDesc: new FormControl(null, {validators: [Validators.required, Validators.maxLength(250)]})
     });
   }
   getDocReason(){
