@@ -414,11 +414,75 @@
         <!--  warehouse-info -->
       </section>
     </ngx-step>
-    <ngx-step [label]="'2. ADD RATES'">
+    <ngx-step [label]="'2. SET PRICING'">
       <section class="Add-warehouse ">
-        <h5 class="mt-5">Add rates</h5>
-        <p class="sub-title mt-2 mb-2">you can add multiple rates for different dates / months </p>
-        <div class="Add-warehouse-rates mt-3">
+        <section class="commission-rates mt-3">
+          <div class="row">
+            <div class="col-12">
+              <h5>Commission</h5>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
+              <div class="form-group">
+                <div class="fancyOptionBoxes pull-left">
+                  <input id="fixedamount" name="commison" type="checkbox">
+                    <label for="fixedamount">
+                    <span></span>
+                    Fixed Amount per booking
+                  </label>
+                </div>
+                <div class="fancyOptionBoxes pull-left ml-4">
+                    <input id="perbooking" name="commison" type="checkbox">
+                    <label for="perbooking">
+                    <span></span>
+                    Fixed percentage per booking
+                  </label>
+                </div>
+              </div>
+            </div>
+        
+          </div>
+        
+          <div class="row ">
+            <div class="col-2">
+              <div class="form-group mt-3 ">
+                <label>Per Booking</label>
+                <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="%">
+              </div>
+            </div>
+        
+            <div class="col-4">
+              <div class="form-group mt-3">
+                <label for="inputState">Minimum Commission</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <select id="inputState" class="form-control input-dropdown">
+                      <option selected>AED</option>
+                      <option>12</option>
+                    </select>
+                  </div>
+        
+                  <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                </div>
+        
+                <!-- <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text"><select><option>1</option></select></div>
+                    </div>
+                    <input class="form-control maxlength="15" placeholder="0.00" type="text">
+                  </div> -->
+              </div>
+        
+            </div>
+        
+          </div>
+        
+        </section>
+        <section class="Add-warehouse-rates mt-3">
+          <h5 class="mt-5">Set Pricing</h5>
+          <p class="sub-title mt-2 mb-2">you can add multiple rates for different dates / months </p>
           <table class="table table-hover  border">
             <thead>
               <tr>
@@ -532,8 +596,7 @@
             </tbody>
           </table>
 
-        </div>
-
+        </section>
         <div class="row">
           <div class="col-6 Add-warehouse-link mt-3" (click)="stepper.prev()">
             <a class="hvr-icon-back grey-anc-btn" href="javascript:;">
@@ -552,71 +615,4 @@
       </section>
     </ngx-step>
   </ngx-stepper>
-</section>
-
-<section class="commission-rates mt-5">
-
-  <div class="row">
-    <div class="col-12">
-      <h5 class="mt-5">Commission</h5>
-      <hr class="hr-solid">
-    </div>
-  </div>
-
-  <div class="row">
-    <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
-      <div class="form-group">
-        <div class="fancyOptionBoxes checkbox pull-left ">
-          <input id="bonded" name="bonded" type="checkbox">
-          <label for="fixed Amount">
-            <span></span>
-            Fixed Amount per booking
-          </label>
-        </div>
-        <div class="fancyOptionBoxes checkbox  pull-left ml-4">
-          <input id="transportation" name="transportation" type="checkbox">
-          <label for="Fixed pecentage">
-            <span></span>
-            Fixed percentage per booking
-          </label>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="row ">
-    <div class="col-2">
-      <div class="form-group mt-3 ">
-        <label>Per Booking</label>
-        <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="%">
-      </div>
-    </div>
-
-    <div class="col-4">
-      <div class="form-group mt-3">
-          <label for="inputState">Minimum Commission</label>
-          <div class="input-group">
-        <div class="input-group-prepend">
-        <select id="inputState" class="form-control input-dropdown">
-          <option selected>AED</option>
-          <option>12</option>
-        </select>
-        </div>
-
-        <input type="text" class="form-control" aria-label="Text input with dropdown button">
-        </div>
-
-        <!-- <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text"><select><option>1</option></select></div>
-            </div>
-            <input class="form-control ng-untouched ng-pristine ng-valid" maxlength="15" placeholder="0.00" type="text" ng-reflect-maxlength="15">
-          </div> -->
-      </div>
-
-    </div>
-
-  </div>
-
 </section>
