@@ -17,9 +17,10 @@
           <div class="shippingline-container" *ngIf="selectedShipping && selectedShipping.CarrierImage">
             <img src="{{getShippingLineImage(selectedShipping.CarrierImage)}}" alt="">
           </div>
-          <input type="text" class="form-control" [ngClass]="selectedShipping && selectedShipping.CarrierImage ? 'pl-5' : ''" placeholder="e.g: Maersk Shipping" [(ngModel)]="selectedShipping"
-            [ngbTypeahead]="shippings" [resultTemplate]="st" [inputFormatter]="formatter"
-            [disabled]="selectedData.mode === 'publish'">
+          <input type="text" class="form-control"
+            [ngClass]="selectedShipping && selectedShipping.CarrierImage ? 'pl-5' : ''"
+            placeholder="e.g: Maersk Shipping" [(ngModel)]="selectedShipping" [ngbTypeahead]="shippings"
+            [resultTemplate]="st" [inputFormatter]="formatter" [disabled]="selectedData.mode === 'publish'">
           <ng-template #st let-r="result">
             <div class="d-inline-block icon-size-16">
               <img src="{{getShippingLineImage(r.CarrierImage)}}" width="16px" height="16px">
@@ -300,12 +301,12 @@
               <div class="combine-filed-popup-left" *ngIf="selectedData.forType == 'LCL'">Rate / cbm</div>
             </div>
             <div class="col-6 pl-0">
-              <div class="form-group combine-filed-popup-right">
+              <div class="form-group combine-filed-popup-right" [ngClass]="showDoubleRates ? 'hasDoubleRates' : ''">
+                <span *ngIf="showDoubleRates">Single</span>
+                <span *ngIf="showDoubleRates">Double</span>
                 <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00"
                   [(ngModel)]="selectedPrice" (keypress)="numberValid($event)">
-              </div>
-              <div class="form-group combine-filed-popup-right" *ngIf="showDoubleRates">
-                <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00"
+                <input type="text" *ngIf="showDoubleRates" maxlength="1" maxlength="15" class="form-control" placeholder="0.00"
                   [(ngModel)]="couplePrice" (keypress)="numberValid($event)">
               </div>
             </div>
