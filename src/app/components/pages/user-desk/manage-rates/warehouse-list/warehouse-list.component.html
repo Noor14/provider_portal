@@ -17,7 +17,7 @@
     <section class="warehouseInfo" *ngIf="allWareHouseList && allWareHouseList.length">
       <div class="row mb-3 search-bar">
         <div class="col-2 d-flex align-items-center record-count">
-          Showing 4 - {{allWareHouseList.length}}
+          Showing {{(allWareHouseList | filterByCheckbox : activeStatus : inActiveStatus | paginate : paginationConfig).length}} - {{allWareHouseList.length}}
         </div>
         <div class="col-4 warehouse-search">
           <input type="text" class="form-control" placeholder="Search by location or title" [(ngModel)]="wareHouseTitle" />
@@ -153,7 +153,7 @@
             </div>
           </div>
           <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide" responsive="responsive"
-          previousLabel="" nextLabel="" *ngIf="allWareHouseList.length > paginationConfig.itemsPerPage">
+          previousLabel="" nextLabel="" *ngIf="(allWareHouseList | filterByCheckbox : activeStatus : inActiveStatus).length > paginationConfig.itemsPerPage">
           </pagination-controls>
         </div>
       </div>
