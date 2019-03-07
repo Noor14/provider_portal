@@ -143,25 +143,6 @@ export class WarehouseListComponent implements OnInit {
   }
 
 
-  filterByStatus(type, event){
-    let allwareHouse = Object.assign([], this.allWareHouseList)
-    if (type == 'active' && this.inActiveStatus){
-      this.activeStatus = !this.activeStatus;
-      event.currentTarget.checked = this.activeStatus;
-    }
-    else if (type == 'inactive' && this.activeStatus) {
-      this.inActiveStatus = !this.inActiveStatus;
-      event.currentTarget.checked = this.inActiveStatus;
-    }
-    if (this.activeStatus && !this.inActiveStatus){
-      this.allWareHouseList.filter(obj => obj.IsBlocked == false)
-    }
-    else if (this.inActiveStatus && !this.activeStatus) {
-      this.allWareHouseList.filter(obj => obj.IsBlocked == true)
-    }
-    else{
-      this.allWareHouseList
-    }
-  }
+
 
 }

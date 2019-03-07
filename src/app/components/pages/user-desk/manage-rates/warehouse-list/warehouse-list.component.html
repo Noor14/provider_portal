@@ -25,18 +25,18 @@
         <div class="col-6 d-flex justify-content-end align-items-center warehouse-status">
           <label class="m-0 mr-2">SHOW :</label>
           <div class="fancyOptionBoxes mr-2">
-            <input id="checkboxOne" type="checkbox" [checked]="activeStatus" (change)="filterByStatus('active', $event)" />
+            <input id="checkboxOne" type="checkbox" [checked]="activeStatus" (change)="activeStatus = !activeStatus" />
             <label for="checkboxOne"> <span></span> Acive </label>
           </div>
           <div class="fancyOptionBoxes">
-            <input id="checkboxTwo" type="checkbox" [checked]="inActiveStatus" (change)="filterByStatus('inactive', $event)"/>
+            <input id="checkboxTwo" type="checkbox" [checked]="inActiveStatus" (change)="inActiveStatus = !inActiveStatus"/>
             <label for="checkboxTwo"> <span></span> Inacive </label>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
-          <div class="card mb-4" *ngFor="let wareHouse of allWareHouseList | search : wareHouseTitle | paginate: paginationConfig"
+          <div class="card mb-4" *ngFor="let wareHouse of allWareHouseList | search : wareHouseTitle | filterByCheckbox : activeStatus : inActiveStatus | paginate: paginationConfig"
             [ngClass]="{'inActive' : wareHouse.IsBlocked, 'noRate' : !wareHouse.IsRateAvailable}">
             <div class="card-body">
               <div class="row mt-1">
@@ -158,7 +158,7 @@
         </div>
       </div>
     </section>
-    <div class="overflow-hidden row" *ngIf="!allWareHouseList || (allWareHouseList &&  !(allWareHouseList | search : wareHouseTitle).length )">
+    <div class="overflow-hidden row" *ngIf="!allWareHouseList || (allWareHouseList &&  !(allWareHouseList | search : wareHouseTitle).length) || (allWareHouseList &&  !(allWareHouseList | filterByCheckbox : activeStatus : inActiveStatus).length )">
       <div class="animated bounceInDown col-12">
         <p class="card p-1 text-center">You don't have any warehouse yet</p>
       </div>
