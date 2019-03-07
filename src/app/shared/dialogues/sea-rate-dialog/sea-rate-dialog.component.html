@@ -5,19 +5,25 @@
       <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
     </a>
   </div>
-  <div class="modal-body bg-light ">
+  <div class="modal-body bg-light">
     <div class="row bg-white popup-white pb-0"
       *ngIf="(selectedData.forType !== 'FCL-Ground' && selectedData.forType !== 'FTL')">
       <div class="col-12">
         <h5 class="model-sub-head mt-4">Route Info</h5>
       </div>
       <div class="col-4" *ngIf="selectedData.forType == 'FCL'">
-        <div class="form-group">
+        <div class="form-group shippingline">
           <label>Shipping Line</label>
-          <input type="text" class="form-control" placeholder="e.g: Maersk Shipping" [(ngModel)]="selectedShipping"
+          <div class="shippingline-container" *ngIf="selectedShipping && selectedShipping.CarrierImage">
+            <img src="{{getShippingLineImage(selectedShipping.CarrierImage)}}" alt="">
+          </div>
+          <input type="text" class="form-control" [ngClass]="selectedShipping && selectedShipping.CarrierImage ? 'pl-5' : ''" placeholder="e.g: Maersk Shipping" [(ngModel)]="selectedShipping"
             [ngbTypeahead]="shippings" [resultTemplate]="st" [inputFormatter]="formatter"
             [disabled]="selectedData.mode === 'publish'">
           <ng-template #st let-r="result">
+            <div class="d-inline-block icon-size-16">
+              <img src="{{getShippingLineImage(r.CarrierImage)}}" width="16px" height="16px">
+            </div>
             <ngb-highlight [result]="r.CarrierName"></ngb-highlight>
           </ng-template>
         </div>

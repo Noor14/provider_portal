@@ -127,8 +127,8 @@ export class SettingsComponent implements OnInit {
 
 
   // show more
-  public showTogglerText:string;
-  private showMoreTextLength:number = 700;
+  public showTogglerText: string;
+  private showMoreTextLength: number = 700;
 
   constructor(
     private modalService: NgbModal,
@@ -281,16 +281,16 @@ export class SettingsComponent implements OnInit {
       console.log(err);
     })
   }
-  showToggler(type){
+  showToggler(type) {
     let elem = document.getElementsByClassName('editor')[0];
-      if (elem.classList.contains('showMore')){
-        elem.classList.remove('showMore');
-        this.showTogglerText = "Show Less"
-      }
-      else{
-        elem.classList.add('showMore');
-        this.showTogglerText = "Show More"
-      }
+    if (elem.classList.contains('showMore')) {
+      elem.classList.remove('showMore');
+      this.showTogglerText = "Show Less"
+    }
+    else {
+      elem.classList.add('showMore');
+      this.showTogglerText = "Show More"
+    }
   }
   getUserDetail(UserID) {
     loading(true);
@@ -319,7 +319,7 @@ export class SettingsComponent implements OnInit {
         if (this.info.About) {
           this.editorContent = this.info.About;
           this.editable = false;
-          if(this.editorContent.length > this.showMoreTextLength){
+          if (this.editorContent.length > this.showMoreTextLength) {
             let elem = document.getElementsByClassName('editor')[0];
             if (elem.classList.contains('showMore')) {
               elem.classList.remove('showMore');
@@ -651,7 +651,7 @@ export class SettingsComponent implements OnInit {
       if (res.returnStatus == "Success") {
         this.editable = false;
         this._toastr.success('Updated Successfully.', '');
-        if(this.editorContent.length > this.showMoreTextLength){
+        if (this.editorContent.length > this.showMoreTextLength) {
           let elem = document.getElementsByClassName('editor')[0];
           if (elem.classList.contains('showMore')) {
             elem.classList.remove('showMore');
