@@ -29,21 +29,38 @@ export class WarehouseComponent implements OnInit {
       let id = params['id'];
       // (+) converts string 'id' to a number
       if (id) {
-        this.getWareHouseDetail(id);
+        this.getWareHouseDetail(this.userProfile.ProviderID, id);
       }
     });
   }
 
-  getWareHouseDetail(providerId) {
+  getWareHouseDetail(providerId, id) {
     loading(true)
-    const wId = 0;
-    this._warehouseService.getWarehouseList(providerId, wId).subscribe((res: any) => {
+    this._warehouseService.getWarehouseList(providerId, id).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         loading(false);
         if (res.returnObject) {
-          res.returnObject;
+          let leaseTerm = res.returnObject.MstLeaseTerm;
+          let unitLength = res.returnObject.MstUnitLength;
+          let unitArea = res.returnObject.MstUnitArea;
+          let unitVolume = res.returnObject.MstUnitVolume;
+          this.getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume);
         }
 
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+      loading(false);
+    })
+  }
+
+
+  getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume) {
+    loading(true)
+    this._warehouseService.getDropDownValuesWarehouse(leaseTerm, unitLength, unitArea, unitVolume).subscribe((res: any) => {
+      loading(false);
+      if (res && res.length) {
+          console.log(res);
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);

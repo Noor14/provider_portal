@@ -35,7 +35,7 @@ export class WarehouseService {
   }
 
   getDropDownValuesWarehouse(leasTerm, unitLength, unitArea, unitVolume){
-    let url: string = `warehousesetup/GetAll/${leasTerm},${unitLength},${unitArea},${unitVolume}`;
+    let url: string = `MstCodeVal/GetMstCodeValMultipleList/${leasTerm},${unitLength},${unitArea},${unitVolume}`;
     return this._http.get(baseApi + url);
   }
 
