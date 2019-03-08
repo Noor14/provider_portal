@@ -90,10 +90,11 @@
                   </div>
                   <div class="col-xl-6 col-md-6 col-sm-12">
                       <div class="row">
+                        <form autocomplete="off" novalidate [formGroup]="locationForm">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                           <div class="form-group select-city">
                             <label>City</label>
-                            <input type="text" maxlength="100" class="form-control" placeholder="Enter City" #searchElement>
+                            <input type="text" formControlName="city" maxlength="100" class="form-control" placeholder="Enter City" #searchElement>
                                     <!-- <span class="animated fadeIn" *ngIf="cityError">
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">{{requiredFields}}</p>
                                       <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
@@ -109,7 +110,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                           <div class="form-group">
                             <label>Address </label>
-                            <textarea cols="30" rows="3" class="form-control" placeholder="Enter at a minimum, the street and town where the property is located"></textarea>
+                            <textarea cols="30" rows="3" formControlName="address" class="form-control" placeholder="Enter at a minimum, the street and town where the property is located"></textarea>
                             <!-- <input type="text" maxlength="200" class="form-control" placeholder="Address line 1"> -->
                             <!-- <span class="animated fadeIn" *ngIf="addressline1Error">
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline1'].hasError('required') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">{{requiredFields}}</p>
@@ -125,16 +126,17 @@
                         <div class="col-lg-6 col-md-6 col-sm-12">
                           <div class="form-group">
                             <label>P.O Box</label>
-                            <input type="text" maxlength="16" class="form-control">
+                            <input type="text" formControlName="poBox" maxlength="16" class="form-control">
                             <!-- <span class="animated fadeIn" *ngIf="poBoxError">
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('required') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">{{requiredFields}}</p>
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('minlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">PO
                                         address should be minimum 4 characters</p>
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('maxlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">PO
                                         address should not exceed from 16 characters</p>
-                                    </span> -->
+                                  </span> -->
                           </div>
                         </div>
+                        </form>
                       </div>
                   </div>
                   <div class="col-6 map">
@@ -266,8 +268,8 @@
 
                     </div>
                     <div class="fancyOptionBoxes pull-left mr-4 mb-3" *ngFor="let obj of leaseTerm; let i = index">
-                      <input id="{{i+1}}" name="leaseTerm" type="radio">
-                        <label for="{{i+1}}">
+                      <input id="{{i+1}}rentedtime" name="leaseTerm" type="radio">
+                        <label for="{{i+1}}rentedtime">
                         <span></span>
                         {{obj.codeValDesc}}
                       </label>

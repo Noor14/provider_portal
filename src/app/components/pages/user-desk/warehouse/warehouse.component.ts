@@ -7,7 +7,8 @@ import { WarehouseService } from '../manage-rates/warehouse-list/warehouse.servi
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-
+import { UserCreationService } from '../../user-creation/user-creation.service';
+import { SharedService } from '../../../../services/shared.service';
 @Component({
   selector: 'app-warehouse',
   templateUrl: './warehouse.component.html',
@@ -36,12 +37,21 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   // propertyDetailForm
   public propertyDetailForm: any;
 
+
+  //map working
+  public location: any = { lat: undefined, lng: undefined };
+  public draggable: boolean = true;
+
+  public geoCoder;
+
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private _router: ActivatedRoute,
     private _warehouseService: WarehouseService,
     private _toastr: ToastrService,
+    private _sharedService: SharedService,
+    private _userCreationService: UserCreationService
     ) { }
 
   ngOnInit() {
@@ -73,29 +83,32 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       minimumlease: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
       leaseTerm: new FormControl(null, [Validators.required]),
     });
+    this._sharedService.getLocation.subscribe((state: any) => {
+      if (state && state.country) {
+        this.getMapLatlng(state.country);
+      }
+    })
+    this.getplacemapLoc();
   }
   ngOnDestroy() {
     this.paramSubscriber.unsubscribe();
   }
-  getplacemapLoc(countryBound) {
+  getplacemapLoc() {
     this.mapsAPILoader.load().then(() => {
       this.geoCoder = new google.maps.Geocoder;
       let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
-      autocomplete.setComponentRestrictions(
-        { 'country': [countryBound] });
+      // autocomplete.setComponentRestrictions(
+      //   { 'country': [countryBound] });
       autocomplete.addListener("place_changed", () => {
         this.ngZone.run(() => {
           //get the place result
           let place: google.maps.places.PlaceResult = autocomplete.getPlace();
           console.log(place)
-          // this.businessLocForm.controls['address'].setValue(place.formatted_address);
-          // this.businessLocForm.controls['transAddress'].setValue(place.formatted_address);
-
+          // this.locationForm.controls['address'].setValue(place.formatted_address);
           //verify result
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
-
           //set latitude, longitude and zoom
           this.location.lat = place.geometry.location.lat();
           this.location.lng = place.geometry.location.lng();
@@ -106,7 +119,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
 
   }
   getMapLatlng(region) {
-    this._userService.getLatlng(region).subscribe((res: any) => {
+    this._userCreationService.getLatlng(region).subscribe((res: any) => {
       if (res.status == "OK") {
         this.location = res.results[0].geometry.location;
       }
@@ -115,15 +128,14 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   markerDragEnd($event) {
     // console.log($event);
     this.geoCoder.geocode({ 'location': { lat: $event.coords.lat, lng: $event.coords.lng } }, (results, status) => {
-      console.log(results);
-      console.log(status);
+      // console.log(results);
+      // console.log(status);
       if (status === 'OK') {
         if (results[0]) {
-          console.log('aaaa');
-          console.log(results[0].formatted_address);
-          // this.businessLocForm.controls['address'].setValue(results[0].formatted_address);
-          // this.businessLocForm.controls['transAddress'].setValue(results[0].formatted_address);
-          this.searchElement.nativeElement.value = results[0].formatted_address;
+      
+          // console.log(results[0].formatted_address);
+          // this.locationForm.controls['address'].setValue(results[0].formatted_address);
+          // this.searchElement.nativeElement.value = results[0].formatted_address;
           // console.log(this.searchElementRef.nativeElement.value);
           // infowindow.setContent(results[0].formatted_address);
         } else {
@@ -185,12 +197,12 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       whAddress: this.generalForm.value.whDetail,
       // countryID: 0,
       // cityID: 0,
-      cityName: "string",
+      cityName: this.locationForm.city.value,
       // countryName: "string",
-      whpoBoxNo: "string",
+      whpoBoxNo: this.locationForm.poBox.value,
       // gLocID: 0,
-      latitude: "string",
-      longitude: "string",
+      latitude: this.location.lat,
+      longitude: this.location.lng,
       totalCoveredArea: 0,
       totalCoveredAreaUnit: "string",
       usageType: "string",
