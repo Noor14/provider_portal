@@ -155,8 +155,8 @@ export class BusinessInfoComponent implements OnInit {
     else{
       let charCode = (event.which) ? event.which : event.keyCode;
       let keyChar = String.fromCharCode(charCode);
-      let regex = /^[a-z0-9]+$/;
-      if (!regex.test(keyChar)){
+      let regex = /^[a-zA-Z0-9][a-zA-Z0-9-]*$/;
+      if (!regex.test(keyChar) && !event.target.value){
         this.profilUrlValid = true;
         if (this.profilUrlValid) {
           setTimeout(() => {

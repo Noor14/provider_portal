@@ -34,7 +34,7 @@ const routes: Routes = [
             { path: 'settings', component: SettingsComponent }, 
             { path: 'support', component: SupportComponent }, 
             { path: 'deals', component: DealsComponent }, 
-            { path: 'add-warehouse', component: WarehouseComponent },
+            { path: 'add-warehouse/:id', component: WarehouseComponent },
             { path: 'payment_result', component: PaymentResultComponent }, 
             { path: 'booking-detail/:id', component: ViewBookingComponent },
             { path: 'warehouse-detail/:id', component: ViewWarehouseComponent },

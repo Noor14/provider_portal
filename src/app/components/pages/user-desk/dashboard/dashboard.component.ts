@@ -23,8 +23,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.providerInfo = state;
         if (this.providerInfo.BookingDetails && this.providerInfo.BookingDetails.length){
           this.providerInfo.BookingDetails.map(elem =>{
-            if (elem.CustomerImage && typeof elem.CustomerImage == "string" && isJSON(elem.CustomerImage)){
+            if (elem.CustomerImage && typeof elem.CustomerImage == "string" && elem.CustomerImage != "[]" && isJSON(elem.CustomerImage)) {
               elem.CustomerLogo = JSON.parse(elem.CustomerImage).shift().DocumentFile
+            }
+            else if (elem.UserImage) {
+              elem.CustomerLogo = elem.UserImage;
             }
           })
           this.bookings = this.providerInfo.BookingDetails;

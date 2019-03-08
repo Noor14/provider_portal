@@ -13,6 +13,7 @@ import { SharedModule } from '../../../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UniquePipe } from '../../../../constants/unique-recordFilter';
 import { SearchPipe } from '../../../../constants/search.pipe';
+import { CheckboxPipe } from '../../../../constants/checkbox.pipe';
 import { AirFreightService } from './air-freight/air-freight.service';
 import { GroundTransportService } from './ground-transport/ground-transport.service';
 import { ManageRatesService } from './manage-rates.service';
@@ -45,7 +46,8 @@ import { QuillEditorModule } from 'ngx-quill-editor';
     GroundTransportComponent,
     WarehouseListComponent,
     UniquePipe,
-    SearchPipe
+    SearchPipe,
+    CheckboxPipe
 
   ],
   providers: [SeaFreightService, AirFreightService, GroundTransportService, ManageRatesService, WarehouseService]

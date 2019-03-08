@@ -3,7 +3,7 @@
   <p class="sub-title mt-2 mb-3"> Add your warehouse and create a listing of available capacity on HashMove </p>
   <ngx-stepper #stepper class="warehouse-stepper">
     <ngx-step [label]="'1. ADD INFO'">
-      <section class="warehouse ">
+      <section class="warehouse">
         <!--  warehouse-info -->
         <div class="warehouse-info">
           <div class="row">
@@ -28,7 +28,7 @@
                   </div>
                   <div class="col-12">
                     <div class="form-group">
-                      <label class="mb-0">Gallery (Optional)</label>
+                      <label class="mb-0">Gallery</label>
                       <small class="sub-title">Images show rthe condition of the property and are very compelling for space seekers.
                       </small>
                       <div class="document-Info d-flex flex-column mt-2">
@@ -185,15 +185,15 @@
                   <div class=" col-xl-6 col-md-6 col-sm-12 ">
                     <div class="form-group">
                       <label>Property Type</label>
-                      <div class="fancyOptionBoxes checkbox pull-left mb-3">
-                        <input id="fullwarehouse" name="fullwarehouse" type="checkbox">
+                      <div class="fancyOptionBoxes pull-left mb-3">
+                        <input id="fullwarehouse" checked name="warehouseType" (change)="warehouseTypeFull = !warehouseTypeFull" type="radio">
                         <label for="fullwarehouse">
                           <span></span>
                           Full Warehouse
                         </label>
                       </div>
-                      <div class="fancyOptionBoxes checkbox pull-left ml-4 mb-3">
-                        <input id="sharedwarehouse" name="sharedwarehouse" type="checkbox">
+                      <div class="fancyOptionBoxes pull-left ml-4 mb-3">
+                        <input id="sharedwarehouse" name="warehouseType" (change)="warehouseTypeFull = !warehouseTypeFull" type="radio">
                         <label for="sharedwarehouse">
                           <span></span>
                           Shared Warehouse
@@ -232,7 +232,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="row ">
+          <section class="forShared animated fadeIn" *ngIf="!warehouseTypeFull">
+                <div class="row">
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
                       <label>Offered Space on HashMove</label>
@@ -251,7 +252,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row ">
+                <div class="row">
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
                       <label class="form-group-label">Ceiling Height
@@ -273,9 +274,9 @@
                     </div>
                   </div>
                 </div>
-                <div class="row ">
-                  <div class="col-12 ">
-                    <label class="form-group-label">Minimuum Lease Space
+                <div class="row">
+                  <div class="col-12">
+                    <label class="form-group-label">Minimum Lease Space
                       <span class="sub-title sub-heading w-100 d-inline-block">The minimum space that can be lend per booking</span>
                     </label>
 
@@ -311,60 +312,61 @@
                     </div>
                   </div>
                 </div>
-                <div class="row ">
+                </section>
+                <div class="row">
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
-                      <label class="form-group-label">Minimuum Lease term
+                      <label class="form-group-label">Minimum Lease term
                         <span class="sub-title sub-heading w-100 d-inline-block">The shortest term that this property can be rented for
                         </span>
                       </label>
 
                     </div>
-                    <div class="fancyOptionBoxes checkbox pull-left mr-4 ">
-                      <input id="Radios" name="Radios" type="radio">
-                      <label for="Radios">
+                    <div class="fancyOptionBoxes pull-left mr-4">
+                      <input id="oneDay" name="leaseTerm" type="radio">
+                      <label for="oneDay">
                         <span></span>
                         1 Day
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes checkbox pull-left mr-4 ">
-                      <input id="Radios" name="Radios" type="radio">
-                      <label for="Radios">
+                    <div class="fancyOptionBoxes pull-left mr-4">
+                      <input id="oneWeek" name="leaseTerm" type="radio">
+                      <label for="oneWeek">
                         <span></span>
                         1 Week
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes checkbox pull-left mr-4 mb-3">
-                      <input id="Radios" name="Radios" type="radio">
-                      <label for="Radios">
+                    <div class="fancyOptionBoxes pull-left mr-4 mb-3">
+                      <input id="oneMonth" name="leaseTerm" type="radio">
+                      <label for="oneMonth">
                         <span></span>
                         1 Month
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes checkbox pull-left mr-4 mb-3">
-                      <input id="Radios" name="Radios" type="radio">
-                      <label for="Radios">
+                    <div class="fancyOptionBoxes pull-left mr-4 mb-3">
+                      <input id="threeMonths" name="leaseTerm" type="radio">
+                      <label for="threeMonths">
                         <span></span>
                         3 Months
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes checkbox pull-left mr-4 mb-3">
-                      <input id="Radios" name="Radios" type="radio">
-                      <label for="Radios">
+                    <div class="fancyOptionBoxes pull-left mr-4 mb-3">
+                      <input id="sixMonths" name="leaseTerm" type="radio">
+                      <label for="sixMonths">
                         <span></span>
                         6 Month
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes checkbox pull-left mr-4 mb-3">
-                      <input id="Radios" name="Radios" type="radio">
-                      <label for="Radios">
+                    <div class="fancyOptionBoxes pull-left mr-4 mb-3">
+                      <input id="oneYear" name="leaseTerm" type="radio">
+                      <label for="oneYear">
                         <span></span>
                         12 months
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes checkbox pull-left mr-4 mb-3">
-                      <input id="Radios" name="Radios" type="radio">
-                      <label for="Radios">
+                    <div class="fancyOptionBoxes pull-left mr-4 mb-3">
+                      <input id="any" name="leaseTerm" type="radio">
+                      <label for="any">
                         <span></span>
                         Any lease term
                       </label>
@@ -374,7 +376,7 @@
               </form>
             </div>
           </div>
-          <div class="row ">
+          <div class="row">
             <div class="col-12">
               <h5 class="mt-5">Other Amenities</h5>
               <hr class="hr-solid">
@@ -414,11 +416,75 @@
         <!--  warehouse-info -->
       </section>
     </ngx-step>
-    <ngx-step [label]="'2. ADD RATES'">
-      <section class="Add-warehouse ">
-        <h5 class="mt-5">Add rates</h5>
-        <p class="sub-title mt-2 mb-2">you can add multiple rates for different dates / months </p>
-        <div class="Add-warehouse-rates mt-3">
+    <ngx-step [label]="'2. SET PRICING'">
+      <section class="Add-warehouse">
+        <section class="commission-rates mt-3">
+          <div class="row">
+            <div class="col-12">
+              <h5>Commission</h5>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
+              <div class="form-group">
+                <div class="fancyOptionBoxes pull-left">
+                  <input id="fixedamount" name="commison" type="checkbox">
+                    <label for="fixedamount">
+                    <span></span>
+                    Fixed Amount per booking
+                  </label>
+                </div>
+                <div class="fancyOptionBoxes pull-left ml-4">
+                    <input id="perbooking" name="commison" type="checkbox">
+                    <label for="perbooking">
+                    <span></span>
+                    Fixed percentage per booking
+                  </label>
+                </div>
+              </div>
+            </div>
+        
+          </div>
+        
+          <div class="row">
+            <div class="col-2">
+              <div class="form-group mt-3">
+                <label>Per Booking</label>
+                <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="%">
+              </div>
+            </div>
+        
+            <div class="col-4">
+              <div class="form-group mt-3">
+                <label for="inputState">Minimum Commission</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <select id="inputState" class="form-control input-dropdown">
+                      <option selected>AED</option>
+                      <option>12</option>
+                    </select>
+                  </div>
+        
+                  <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                </div>
+        
+                <!-- <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text"><select><option>1</option></select></div>
+                    </div>
+                    <input class="form-control maxlength="15" placeholder="0.00" type="text">
+                  </div> -->
+              </div>
+        
+            </div>
+        
+          </div>
+        
+        </section>
+        <section class="Add-warehouse-rates mt-3">
+          <h5 class="mt-5">Set Pricing</h5>
+          <p class="sub-title mt-2 mb-2">you can add multiple rates for different dates / months </p>
           <table class="table table-hover  border">
             <thead>
               <tr>
@@ -532,8 +598,7 @@
             </tbody>
           </table>
 
-        </div>
-
+        </section>
         <div class="row">
           <div class="col-6 Add-warehouse-link mt-3" (click)="stepper.prev()">
             <a class="hvr-icon-back grey-anc-btn" href="javascript:;">
@@ -552,71 +617,4 @@
       </section>
     </ngx-step>
   </ngx-stepper>
-</section>
-
-<section class="commission-rates mt-5">
-
-  <div class="row">
-    <div class="col-12">
-      <h5 class="mt-5">Commission</h5>
-      <hr class="hr-solid">
-    </div>
-  </div>
-
-  <div class="row">
-    <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
-      <div class="form-group">
-        <div class="fancyOptionBoxes checkbox pull-left ">
-          <input id="bonded" name="bonded" type="checkbox">
-          <label for="fixed Amount">
-            <span></span>
-            Fixed Amount per booking
-          </label>
-        </div>
-        <div class="fancyOptionBoxes checkbox  pull-left ml-4">
-          <input id="transportation" name="transportation" type="checkbox">
-          <label for="Fixed pecentage">
-            <span></span>
-            Fixed percentage per booking
-          </label>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="row ">
-    <div class="col-2">
-      <div class="form-group mt-3 ">
-        <label>Per Booking</label>
-        <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="%">
-      </div>
-    </div>
-
-    <div class="col-4">
-      <div class="form-group mt-3">
-          <label for="inputState">Minimum Commission</label>
-          <div class="input-group">
-        <div class="input-group-prepend">
-        <select id="inputState" class="form-control input-dropdown">
-          <option selected>AED</option>
-          <option>12</option>
-        </select>
-        </div>
-
-        <input type="text" class="form-control" aria-label="Text input with dropdown button">
-        </div>
-
-        <!-- <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text"><select><option>1</option></select></div>
-            </div>
-            <input class="form-control ng-untouched ng-pristine ng-valid" maxlength="15" placeholder="0.00" type="text" ng-reflect-maxlength="15">
-          </div> -->
-      </div>
-
-    </div>
-
-  </div>
-
 </section>
