@@ -27,7 +27,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   public facilities: any[] = [];
   public warehouseUsageType:any[]=[];
   public ceilingsHeight: any[] = [];
-  public selectedMiniLeaseTerm:any[] = [];
+  public selectedMiniLeaseTerm:any;
   private paramSubscriber: any;
 
   //generalForm
@@ -243,7 +243,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       offeredHashMoveAreaUnit: this.propertyDetailForm.value.warehouseSpaceUnit,
       ceilingHeight: this.propertyDetailForm.value.ceilingHeight,
       ceilingHeightUnit: this.propertyDetailForm.value.ceilingUnit,
-      minimumLeaseTerm: this.selectedMiniLeaseTerm,
+      minimumLeaseTerm: [this.selectedMiniLeaseTerm],
       minimumLeaseSpace: [
         {
           Value: this.propertyDetailForm.value.minLeaseValueOne,
