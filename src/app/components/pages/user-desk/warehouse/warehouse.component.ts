@@ -170,6 +170,9 @@ export class WarehouseComponent implements OnInit, OnDestroy {
           this.facilities = res.returnObject.WHFacilitiesProviding;
           this.warehouseUsageType = res.returnObject.WHUsageType;
           this.ceilingsHeight = res.returnObject.CeilingDesc;
+          if (this.ceilingsHeight){
+            this.propertyDetailForm.controls['ceilingHeight'].setValue(this.ceilingsHeight[0].CeilingID);
+          }
           this.getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume);
         }
 
@@ -192,7 +195,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       if (obj.UsageTypeID == elem.UsageTypeID){
         elem.IsAllowed = $event.target.checked;
       }
-       else{
+      else{
         elem.IsAllowed = false;
       }
     });
@@ -205,10 +208,14 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     this._warehouseService.getDropDownValuesWarehouse(leaseTerm, unitLength, unitArea, unitVolume).subscribe((res: any) => {
       loading(false);
       if (res && res.length) {
-        console.log(res)
         this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM')
         this.units =  res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM');
-        // this.propertyDetailForm.controls['warehouseSpaceUnit'].setvalue(this.units[0].codeValDesc)
+        this.propertyDetailForm.patchValue({
+          warehouseSpaceUnit: this.units[0].codeValDesc,
+          ceilingUnit: this.units[0].codeValDesc,
+          minLeaseUnitOne: this.units[0].codeValDesc,
+          minLeaseUnitTwo: this.units[0].codeValDesc,
+        });
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
@@ -243,18 +250,18 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       offeredHashMoveAreaUnit: this.propertyDetailForm.value.warehouseSpaceUnit,
       ceilingHeight: this.propertyDetailForm.value.ceilingHeight,
       ceilingHeightUnit: this.propertyDetailForm.value.ceilingUnit,
-      minimumLeaseTerm: [{
+      whMinimumLeaseTerm: [{
         value: this.selectedMiniLeaseTerm.codeVal,
-        UnitType: this.selectedMiniLeaseTerm.codeValShortDesc
+        unitType: this.selectedMiniLeaseTerm.codeValShortDesc
       }],
       minimumLeaseSpace: [
         {
-          Value: this.propertyDetailForm.value.minLeaseValueOne,
-          UnitType: this.propertyDetailForm.value.minLeaseUnitOne
+          value: this.propertyDetailForm.value.minLeaseValueOne,
+          unitType: this.propertyDetailForm.value.minLeaseUnitOne
         },
         {
-          Value: this.propertyDetailForm.value.minLeaseValueOne,
-          UnitType: this.propertyDetailForm.value.minLeaseUnitTwo
+          value: this.propertyDetailForm.value.minLeaseValueOne,
+          unitType: this.propertyDetailForm.value.minLeaseUnitTwo
         }
       ],
       createdBy: this.userProfile.LoginID,
