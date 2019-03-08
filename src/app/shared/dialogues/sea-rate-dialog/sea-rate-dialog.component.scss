@@ -142,6 +142,22 @@
             outline: 0 !important;
           }
         }
+        &.hasDoubleRates{
+          .form-control{
+            width: 50%;
+            float: left;
+          }
+          span{
+            position: absolute;
+            top: -1.5rem;
+            &:first-child{
+              left: 1rem;
+            }
+            &:nth-child(2){
+              left: 5.7rem;
+            }
+          }
+        }
       }
 
       .active {

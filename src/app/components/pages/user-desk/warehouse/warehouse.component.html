@@ -14,18 +14,19 @@
               <hr class="hr-solid mt-3">
             </div>
             <div class="col-12">
-              <form autocomplete="off" novalidate>
                 <div class="row">
-                  <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group">
-                      <label>Listing Name</label>
-                      <input type="text" maxlength="100" class="form-control">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <form autocomplete="off" novalidate [formGroup]="generalForm">
+                      <div class="form-group">
+                        <label>Listing Name</label>
+                          <input type="text" maxlength="100" class="form-control" formControlName="whName">
+                      </div>
+                      <div class="form-group">
+                        <label>Property Description</label>
+                        <textarea formControlName="whDetail" cols="30" rows="4" class="form-control" placeholder="provide details about the properties you are listing"></textarea>
+                      </div>
+                      </form>
                     </div>
-                    <div class="form-group">
-                      <label>Property Description</label>
-                      <textarea cols="30" rows="4" class="form-control" placeholder="provide details about the properties you are listing"></textarea>
-                    </div>
-                  </div>
                   <div class="col-12">
                     <div class="form-group">
                       <label class="mb-0">Gallery</label>
@@ -58,7 +59,7 @@
                 </div>
                 <!-- <div class="row">
                       <div class="col-12">
-                 <h5 class="small-head mt-3">Property Description</h5>
+                        <h5 class="small-head mt-3">Property Description</h5>
                         <p class="sub-title sub-heading mb-0">You may add upto 1 video and 4 photos.</p>
                         <div class="documentInfo d-flex flex-column mt-3">
                           <div class="file-uploader">
@@ -88,17 +89,13 @@
                     <hr class="hr-solid">
                   </div>
                   <div class="col-xl-6 col-md-6 col-sm-12">
-                    <form autocomplete="off" novalidate>
                       <div class="row">
+                        <form autocomplete="off" novalidate [formGroup]="locationForm">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                           <div class="form-group select-city">
                             <label>City</label>
-                            <input type="text" maxlength="100" class="form-control" placeholder="Enter City">
-                            <!-- <div class="flag-container">
-                                    <img src="'../../../../../assets/images/flags/4x3/ae.svg" type="image/svg+xml" class="w-auto h-auto mh-100">
-                                  </div>
-                            <input type="text" maxlength="100" class="form-control" placeholder="Enter City">
-                            <span class="animated fadeIn" *ngIf="cityError">
+                            <input type="text" formControlName="city" maxlength="100" class="form-control" placeholder="Enter City" #searchElement>
+                                    <!-- <span class="animated fadeIn" *ngIf="cityError">
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">{{requiredFields}}</p>
                                       <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
                                         should be minimum 3 characters</p>
@@ -108,21 +105,12 @@
                                         enter valid information</p>
                                     </span>
                              <p class="inputError animated fadeIn" *ngIf="citySelError">City should be select from dropdown</p> -->
-                            <!-- <ng-template #rt let-r="result">
-                                      <div class="d-flex">
-                                        <div class="flag-container mr-1 flag-icon-20-12">
-                                          <img src="{{'../../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
-                                            class="w-auto h-auto mh-100">
-                                        </div>
-                                        <ngb-highlight [result]="r.title"></ngb-highlight>
-                                      </div>
-                                    </ng-template> -->
                           </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
                           <div class="form-group">
                             <label>Address </label>
-                            <textarea cols="30" rows="3" class="form-control" placeholder="Enter at a minimum, the street and town where the property is located"></textarea>
+                            <textarea cols="30" rows="3" formControlName="address" class="form-control" placeholder="Enter at a minimum, the street and town where the property is located"></textarea>
                             <!-- <input type="text" maxlength="200" class="form-control" placeholder="Address line 1"> -->
                             <!-- <span class="animated fadeIn" *ngIf="addressline1Error">
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline1'].hasError('required') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">{{requiredFields}}</p>
@@ -135,42 +123,28 @@
                                     </span> -->
                           </div>
                         </div>
-                        <!-- <div class="col-lg-12 col-md-12 col-sm-12">
-                              <div class="form-group">
-                                <label>Address Line 2</label>
-                                <input type="text" maxlength="200" class="form-control" placeholder="Address line 2"> -->
-                        <!-- <span class="animated fadeIn" *ngIf="addressline2Error">
-                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline2'].hasError('required') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">{{requiredFields}}</p>
-                                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline2'].hasError('pattern') && locationForm.controls['addressline2'].hasError('minlength') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Address
-                                        should be minimum 10 characters</p>
-                                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline2'].hasError('pattern') && locationForm.controls['addressline2'].hasError('maxlength') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Address
-                                        should not exceed from 200 characters</p>
-                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline2'].hasError('pattern') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Please
-                                        enter valid information</p>
-                                    </span> -->
-                        <!-- </div>
-                            </div> -->
                         <div class="col-lg-6 col-md-6 col-sm-12">
                           <div class="form-group">
                             <label>P.O Box</label>
-                            <input type="text" maxlength="16" class="form-control">
+                            <input type="text" formControlName="poBox" maxlength="16" class="form-control">
                             <!-- <span class="animated fadeIn" *ngIf="poBoxError">
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('required') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">{{requiredFields}}</p>
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('minlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">PO
                                         address should be minimum 4 characters</p>
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('maxlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">PO
                                         address should not exceed from 16 characters</p>
-                                    </span> -->
+                                  </span> -->
                           </div>
                         </div>
+                        </form>
                       </div>
-                    </form>
                   </div>
                   <div class="col-6 map">
-                    <!-- <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
-                              <agm-marker [latitude]="location.lat" [longitude]="location.lng"
-                                [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
-                            </agm-map> -->
+                    <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
+                      <agm-marker [latitude]="location.lat" [longitude]="location.lng"
+                        [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)">
+                      </agm-marker>
+                    </agm-map>
                   </div>
                 </div>
                 <div class="row">
@@ -185,18 +159,11 @@
                   <div class=" col-xl-6 col-md-6 col-sm-12 ">
                     <div class="form-group">
                       <label>Property Type</label>
-                      <div class="fancyOptionBoxes pull-left mb-3">
-                        <input id="fullwarehouse" checked name="warehouseType" (change)="warehouseTypeFull = !warehouseTypeFull" type="radio">
-                        <label for="fullwarehouse">
+                      <div class="fancyOptionBoxes pull-left mb-3 mr-3" *ngFor="let type of warehouseUsageType; let i = index">
+                      <input id="{{i+1}}" [checked]="type.UsageTypeTitle == 'Full Warehouse'" name="warehouseType" (change)="warehouseTypeFull = !warehouseTypeFull" type="radio">
+                        <label for="{{i+1}}">
                           <span></span>
-                          Full Warehouse
-                        </label>
-                      </div>
-                      <div class="fancyOptionBoxes pull-left ml-4 mb-3">
-                        <input id="sharedwarehouse" name="warehouseType" (change)="warehouseTypeFull = !warehouseTypeFull" type="radio">
-                        <label for="sharedwarehouse">
-                          <span></span>
-                          Shared Warehouse
+                            {{type.UsageTypeTitle}}
                         </label>
                       </div>
                     </div>
@@ -214,11 +181,8 @@
                       <div class="input-group">
                         <input class="form-control input-dropdown" type="text">
                         <div class="input-group-append">
-                          <select class="form-control input-dropdown" name="weightUnit">
-                            <option value="" selected>sqft</option>
-                            <option>
-                              sqft
-                            </option>
+                          <select class="form-control input-dropdown">
+                            <option [value]="" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
                           </select>
                         </div>
                       </div>
@@ -241,12 +205,7 @@
                       <div class="input-group">
                         <input class="form-control input-dropdown" type="text">
                         <div class="input-group-append">
-                          <select class="form-control input-dropdown" name="weightUnit">
-                            <option value="" selected>sqft</option>
-                            <option>
-                              sqft
-                            </option>
-                          </select>
+                          <span class="input-group-text">@</span>
                         </div>
                       </div>
                     </div>
@@ -263,10 +222,7 @@
                         <input class="form-control input-dropdown" type="text">
                         <div class="input-group-append">
                           <select class="form-control input-dropdown" name="weightUnit">
-                            <option value="" selected>sqft</option>
-                            <option>
-                              sqft
-                            </option>
+                            <option [value]="" selected>sqft</option>
                           </select>
                         </div>
                       </div>
@@ -279,19 +235,13 @@
                     <label class="form-group-label">Minimum Lease Space
                       <span class="sub-title sub-heading w-100 d-inline-block">The minimum space that can be lend per booking</span>
                     </label>
-
                   </div>
                   <div class="col-xl-3 col-md-3 col-sm-12">
                     <div class="form-group">
                       <div class="input-group">
                         <input class="form-control input-dropdown" type="text">
                         <div class="input-group-append">
-                          <select class="form-control input-dropdown" name="weightUnit">
-                            <option value="" selected>sqft</option>
-                            <option>
-                              sqft
-                            </option>
-                          </select>
+                          <span class="input-group-text">@</span>
                         </div>
                       </div>
                     </div>
@@ -301,12 +251,7 @@
                       <div class="input-group">
                         <input class="form-control input-dropdown" type="text">
                         <div class="input-group-append">
-                          <select class="form-control input-dropdown" name="weightUnit">
-                            <option value="" selected>sqft</option>
-                            <option>
-                              sqft
-                            </option>
-                          </select>
+                          <span class="input-group-text">@</span>
                         </div>
                       </div>
                     </div>
@@ -322,58 +267,15 @@
                       </label>
 
                     </div>
-                    <div class="fancyOptionBoxes pull-left mr-4">
-                      <input id="oneDay" name="leaseTerm" type="radio">
-                      <label for="oneDay">
+                    <div class="fancyOptionBoxes pull-left mr-4 mb-3" *ngFor="let obj of leaseTerm; let i = index">
+                      <input id="{{i+1}}rentedtime" name="leaseTerm" type="radio">
+                        <label for="{{i+1}}rentedtime">
                         <span></span>
-                        1 Day
-                      </label>
-                    </div>
-                    <div class="fancyOptionBoxes pull-left mr-4">
-                      <input id="oneWeek" name="leaseTerm" type="radio">
-                      <label for="oneWeek">
-                        <span></span>
-                        1 Week
-                      </label>
-                    </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mb-3">
-                      <input id="oneMonth" name="leaseTerm" type="radio">
-                      <label for="oneMonth">
-                        <span></span>
-                        1 Month
-                      </label>
-                    </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mb-3">
-                      <input id="threeMonths" name="leaseTerm" type="radio">
-                      <label for="threeMonths">
-                        <span></span>
-                        3 Months
-                      </label>
-                    </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mb-3">
-                      <input id="sixMonths" name="leaseTerm" type="radio">
-                      <label for="sixMonths">
-                        <span></span>
-                        6 Month
-                      </label>
-                    </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mb-3">
-                      <input id="oneYear" name="leaseTerm" type="radio">
-                      <label for="oneYear">
-                        <span></span>
-                        12 months
-                      </label>
-                    </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mb-3">
-                      <input id="any" name="leaseTerm" type="radio">
-                      <label for="any">
-                        <span></span>
-                        Any lease term
+                        {{obj.codeValDesc}}
                       </label>
                     </div>
                   </div>
                 </div>
-              </form>
             </div>
           </div>
           <div class="row">
@@ -381,33 +283,21 @@
               <h5 class="mt-5">Other Amenities</h5>
               <hr class="hr-solid">
             </div>
-
-            <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
+            <div class="col-xl-6 col-md-6 col-sm-12 mt-3">
               <div class="form-group">
-                <div class="fancyOptionBoxes warehousing-services">
-                  <input id="bonded" name="bonded" type="checkbox">
-                  <label for="bonded">
+                <div class="fancyOptionBoxes warehousing-services mb-3" *ngFor="let obj of facilities">
+                    <input id="{{obj.FacilitiesTypeTitle}}" name="facilities" type="checkbox">
+                    <label for="{{obj.FacilitiesTypeTitle}}">
                     <span></span>
-                    Bonded Warehouse
-                  </label>
-                </div>
-                <div class="fancyOptionBoxes warehousing-services mt-3">
-                  <input id="transportation" name="transportation" type="checkbox">
-                  <label for="transportation">
-                    <span></span>
-                    Transportation Service
+                      {{obj.FacilitiesTypeTitle}}
                   </label>
                 </div>
               </div>
             </div>
           </div>
           <div class="row mt-5">
-            <div class="col-6">
-              <button class="btn btn-primary btn-register hvr-sweep-to-right text-uppercase pl-5 pr-5 pt-2 pb-2 disable">
-                cancel</button>
-            </div>
-            <div class="col-6">
-              <button class="btn btn-primary btn-register hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 pull-right" (click)="stepper.next()">
+            <div class="col-12">
+              <button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 pull-right" (click)="aadwareHouse()">
                 save & add pricing </button>
             </div>
           </div>

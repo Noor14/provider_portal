@@ -54,4 +54,5 @@ export class ManageRatesService {
     let url: string = `providerrate${type}/GetAllDrafts/${ProviderID}/${ContainerLoad}`;
     return this._http.get(baseApi + url);
   }
+
 }

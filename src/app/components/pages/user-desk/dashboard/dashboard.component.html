@@ -153,7 +153,7 @@
     </div>
   </div>
 
-  <div class="bookingOverviewoverflow-hidden" *ngIf="providerInfo.BookingDetails">
+  <div class="bookingOverview overflow-hidden" *ngIf="providerInfo.BookingDetails">
     <app-bookings-card [booking]="obj" *ngFor="let obj of bookings | BookingMode : selectedBookingMode" (click)="viewBookingDetails(obj.BookingID)"></app-bookings-card>
   </div>
   <div class="overflow-hidden" *ngIf="!providerInfo.BookingDetails || (providerInfo.BookingDetails && !providerInfo.BookingDetails.length || !(providerInfo.BookingDetails | BookingMode : selectedBookingMode).length)">
