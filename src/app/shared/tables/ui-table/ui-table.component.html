@@ -11,14 +11,14 @@
     </button>
     <div ngbDropdownMenu>
       <button class="dropdown-item" (click)="onSortClick('CustomerName', 'Rate For', 'CustomerID')">Rate For</button>
-      <button class="dropdown-item" (click)="onSortClick('carrierName', 'Shipping Line', 'CarrierName')">Shipping
+      <button class="dropdown-item" (click)="onSortClick('carrierName', 'Shipping Line', 'CarrierName')" *ngIf="transMode === 'SEA' && containerLoad === 'FCL'">Shipping
         Line</button>
       <button class="dropdown-item"
         (click)="onSortClick('polName', 'Origin/Departure', 'PolName')">Origin/Departure</button>
       <button class="dropdown-item" (click)="onSortClick('shippingCatName', 'Cargo Type', 'ShippingCatName')">Cargo
         Type</button>
       <button class="dropdown-item"
-        (click)="onSortClick('containerSpecDesc', 'Container', 'ContainerSpecDesc')">Container</button>
+        (click)="onSortClick('containerSpecDesc', 'Container', 'ContainerSpecDesc')" *ngIf="transMode === 'GROUND'">Container</button>
       <button class="dropdown-item" (click)="onSortClick('effectiveTo', 'Rate Validity', 'EffectiveFrom')">Rate
         Validity</button>
     </div>
