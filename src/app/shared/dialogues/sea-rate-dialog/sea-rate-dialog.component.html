@@ -69,9 +69,32 @@
         </div>
       </div>
     </div>
-    <div class="row bg-white popup-white pb-0"
-      *ngIf="selectedData.forType === 'FCL-Ground' || selectedData.forType === 'FTL'">
-      <div class="col-6">
+    <div class="row bg-white popup-white">
+      <div class="col-4">
+        <div class="form-group">
+          <label>Cargo Type</label>
+          <select class="form-control" [(ngModel)]="selectedCategory"
+            [disabled]="selectedData.mode === 'publish' || selectedData.forType === 'FCL-Ground' || selectedData.forType === 'FTL' "
+            (change)="cargoTypeChange(selectedCategory)">
+            <option [value]="null" disabled>--Select--</option>
+            <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-4"
+        *ngIf="selectedData.forType == 'FCL' || selectedData.forType == 'FCL-Ground' || selectedData.forType == 'FTL'">
+        <div class="form-group">
+          <label>Container Size</label>
+          <select class="form-control" [(ngModel)]="selectedContSize"
+            [disabled]="!selectedCategory || selectedData.mode === 'publish'"
+            (change)="containerChange(selectedContSize)">
+            <option [value]="null" disabled>--Select--</option>
+            <option *ngFor="let container of allContainers" [value]="container.ContainerSpecID">
+              {{container.ContainerWithSize}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-6" *ngIf="selectedData.forType === 'FCL-Ground' || selectedData.forType === 'FTL'">
         <div class="form-group">
           <label>Origin</label>
           <div class="origin">
@@ -110,7 +133,7 @@
                       (ngModelChange)="portsFilterartion(filterOrigin)" />
                   </div>
                 </li>
-                <li *ngIf="!showPickupPorts" (click)="togglePorts('pickup-door')">
+                <li *ngIf="!showPickupPorts && showDoubleRates" (click)="togglePorts('pickup-door')">
                   <div class="d-flex">
                     <img async defer src="../../../../assets/images/icons/Icons_Location.svg" alt="icon"
                       class="img-responsive pickup-icon2" height="16px" />
@@ -138,7 +161,7 @@
           </div>
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-6" *ngIf="selectedData.forType === 'FCL-Ground' || selectedData.forType === 'FTL'">
         <div class="form-group">
           <label>Destination</label>
           <div class="destination">
@@ -174,7 +197,28 @@
                       (ngModelChange)="portsFilterartion(filterDestination)" />
                   </div>
                 </li>
-                <li *ngIf="!showDestPorts" (click)="togglePorts('delivery-door')">
+                <!-- <li (click)="togglePorts('delivery-sea')" *ngIf="!showDoubleRates && transPortMode === 'GROUND'">
+                  <div class="d-flex">
+                    <img async defer src="../../../../assets/images/icons/icon_anchor.svg" alt="icon"
+                      class="img-responsive pickup-icon2" height="16px" />
+                    <span class="pickup-heading">To City</span>
+                  </div>
+                  <p *ngIf="!showDestPorts">Delivering to city would mean you are responsible to revieve your cargo at
+                    city</p>
+                  <div class="ports-dropdown" *ngIf="showDestPorts">
+                    <div class="flag-container">
+                      <img *ngIf="filterDestination && filterDestination.CountryCode"
+                        src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
+                        type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                    </div>
+                    <input class="form-control" #originPickupBox autofocus [(ngModel)]="filterDestination"
+                      placeholder="e.g: Dubai" type="text"
+                      [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
+                      [ngbTypeahead]="citiesList" [resultTemplate]="rtc" [inputFormatter]="citiesFormatter"
+                      (ngModelChange)="portsFilterartion(filterDestination)" />
+                  </div>
+                </li> -->
+                <li *ngIf="!showDestPorts && showDoubleRates" (click)="togglePorts('delivery-door')">
                   <div class="d-flex">
                     <img async defer src="../../../../assets/images/icons/Icons_Location.svg" alt="icon"
                       class="img-responsive pickup-icon2" height="16px" />
@@ -197,43 +241,26 @@
               </ul>
             </div>
           </div>
-          <ng-template #rt let-r="result">
+          <!-- <ng-template #rtc let-r="result">
             <div class="d-flex">
               <div class="flag-container mr-1">
-                <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}"
+                <img src="{{'../../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
                   class="mw-100 w-auto h-auto mh-100">
               </div>
-              <ngb-highlight [result]="r.PortName"></ngb-highlight>
+              <ngb-highlight [result]="r.title"></ngb-highlight>
             </div>
-          </ng-template>
+          </ng-template> -->
         </div>
       </div>
-    </div>
-    <div class="row bg-white popup-white">
-      <div class="col-4">
-        <div class="form-group">
-          <label>Cargo Type</label>
-          <select class="form-control" [(ngModel)]="selectedCategory"
-            [disabled]="selectedData.mode === 'publish' || selectedData.forType === 'FCL-Ground' || selectedData.forType === 'FTL' "
-            (change)="cargoTypeChange(selectedCategory)">
-            <option [value]="null" disabled>--Select--</option>
-            <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
-          </select>
+      <ng-template #rt let-r="result">
+        <div class="d-flex">
+          <div class="flag-container mr-1">
+            <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}"
+              class="mw-100 w-auto h-auto mh-100">
+          </div>
+          <ngb-highlight [result]="r.PortName"></ngb-highlight>
         </div>
-      </div>
-      <div class="col-4"
-        *ngIf="selectedData.forType == 'FCL' || selectedData.forType == 'FCL-Ground' || selectedData.forType == 'FTL'">
-        <div class="form-group">
-          <label>Container Size</label>
-          <select class="form-control" [(ngModel)]="selectedContSize"
-            [disabled]="!selectedCategory || selectedData.mode === 'publish'"
-            (change)="containerChange(selectedContSize)">
-            <option [value]="null" disabled>--Select--</option>
-            <option *ngFor="let container of allContainers" [value]="container.ContainerSpecID">
-              {{container.ContainerWithSize}}</option>
-          </select>
-        </div>
-      </div>
+      </ng-template>
       <div class="col-12" *ngIf="selectedData.customers.length">
         <div class="form-group custom-multiselect">
           <label>Customer</label>
@@ -247,7 +274,6 @@
                 {{item.CustomerName}}</span>
               <span class="ng-value-icon right" aria-hidden="true" (click)="clear(item)">×</span>
             </ng-template>
-
             <ng-template ng-option-tmp let-item="item">
               <img [src]="item.CustomerImageParsed" width="20px" height="20px"
                 onerror="this.src='../../../../favicon.ico'"> {{item.CustomerName}}
@@ -306,8 +332,8 @@
                 <span *ngIf="showDoubleRates">Double</span>
                 <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00"
                   [(ngModel)]="selectedPrice" (keypress)="numberValid($event)">
-                <input type="text" *ngIf="showDoubleRates" maxlength="1" maxlength="15" class="form-control" placeholder="0.00"
-                  [(ngModel)]="couplePrice" (keypress)="numberValid($event)">
+                <input type="text" *ngIf="showDoubleRates" maxlength="1" maxlength="15" class="form-control"
+                  placeholder="0.00" [(ngModel)]="couplePrice" (keypress)="numberValid($event)">
               </div>
             </div>
           </div>
@@ -341,7 +367,7 @@
 
 
       <!-- Additional charges -->
-      <div class="row">
+      <div class="row more-charges">
         <div class="col-12">
           <h5 class="model-sub-head mt-4 pull-left">Additional Charges At Port Of Origin</h5>
         </div>
@@ -424,6 +450,8 @@
                 </div>
               </div>
             </div>
+            <img src="../../../../assets/images/icons/icon_del_round.svg" alt="delete-icon"
+              class="icon-size-16 combine-filed-popup-delete pointer">
           </div>
         </div>
         <div class="col-12">
@@ -431,7 +459,7 @@
           </a>
         </div>
       </div>
-      <div class="row">
+      <div class="row more-charges">
         <div class="col-12">
           <h5 class="model-sub-head mt-4 pull-left">Additional Charges At Port Of Destination</h5>
         </div>
@@ -513,6 +541,8 @@
                 </div>
               </div>
             </div>
+            <img src="../../../../assets/images/icons/icon_del_round.svg" alt="delete-icon"
+              class="icon-size-16 combine-filed-popup-delete pointer">
           </div>
         </div>
         <div class="col-12">
@@ -521,7 +551,6 @@
           </a>
         </div>
       </div>
-
       <div class="row mb-4">
         <div class="col-12 d-flex justify-content-end">
           <button class="btn btn-primary pl-3 pr-3 mt-4 hvr-sweep-to-right mr-4" *ngIf="selectedData.mode === 'draft'"

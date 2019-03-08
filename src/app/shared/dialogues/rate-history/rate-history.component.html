@@ -7,7 +7,8 @@
   </div>
 
   <div class="modal-body bg-light">
-    <div class="row detail">
+    <app-loader-main *ngIf="loading"></app-loader-main>
+    <div class="row detail" *ngIf="!loading">
       <div class="col-6 mb-4">
         <div class="ports">
           <small class="d-block">From</small>
@@ -92,7 +93,7 @@
       <li class="list-group-item d-flex flex-column" *ngFor="let list of history">
         <label class="mb-0">{{list.AuditDesc.Desc}} by {{list.AuditDesc.ModifiedBy}}</label>
         <label class="mb-0 activity">{{list.AuditDesc.Activity}}</label>
-        <small>on {{list.AuditDesc.CreatedDateTime | date:'dd MMM, yyyy HH:mm a'}} from {{list.AuditDesc.Location}}</small>
+        <small>on {{list.AuditDesc.CreatedDateTime | date:'dd MMM, yyyy HH:mm'}} from {{list.AuditDesc.Location}}</small>
       </li>
     </ul>
     

@@ -54,6 +54,9 @@ export class SeaRateDialogComponent implements OnInit {
   @Input() selectedData: any;
   @Output() savedRow = new EventEmitter<any>()
 
+  citiesResults: Object;
+  searchTerm$ = new Subject<string>();
+
   public allShippingLines: any[] = [];
   public allCargoType: any[] = [];
   public allContainersType: any[] = [];
@@ -340,15 +343,6 @@ export class SeaRateDialogComponent implements OnInit {
     } else if (type === 'update') {
       this.updateRatesfcl(this.containerLoadParam.toLowerCase())
     }
-    // if (this.selectedData.forType == 'FCL') {
-    //   if (type !== 'update') {
-    //     this.saveDataInFCLDraft(type);
-    //   } else if (type === 'update') {
-    //     this.updateRatesfcl()
-    //   }
-    // } else if (this.selectedData.forType == 'LCL') {
-    //   this.saveDataInFCLDraft(type);
-    // }
   }
 
   updateRatesfcl(type) {
@@ -462,6 +456,11 @@ export class SeaRateDialogComponent implements OnInit {
         return all + item;
       });
     }
+    console.log(this.containerLoadParam);
+    if (this.containerLoadParam === 'FTL') {
+
+    }
+
     let obj = {
       ID: (this.selectedData.ID ? this.selectedData.ID : 0),
       providerPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ProviderPricingDraftID : 0,
@@ -562,6 +561,30 @@ export class SeaRateDialogComponent implements OnInit {
       return;
     }
 
+    console.log(this.selectedData.drafts);
+    let duplicateRecord: boolean = false;
+    if (this.selectedData.drafts) {
+      this.selectedData.drafts.forEach(element => {
+        if (
+          element.CarrierID === obj.carrierID &&
+          element.ContainerSpecID === obj.containerSpecID &&
+          moment(element.EffectiveFrom).format('D MMM, Y') === moment(obj.effectiveFrom).format('D MMM, Y') &&
+          moment(element.EffectiveTo).format('D MMM, Y') === moment(obj.effectiveTo).format('D MMM, Y') &&
+          element.PodID === obj.podID &&
+          element.PolID === obj.polID &&
+          element.Price === parseInt(obj.price) &&
+          element.ShippingCatID === obj.shippingCatID
+        ) {
+          duplicateRecord = true;
+        }
+      });
+    }
+
+    if (duplicateRecord) {
+      this._toast.warning('This record has already been added', 'Warning')
+      return
+    }
+
     if (this.selectedData.forType === 'FCL') {
       this._seaFreightService.saveDraftRate(this.selectedData.forType.toLowerCase(), obj).subscribe((res: any) => {
         if (res.returnId > 0) {
@@ -569,6 +592,7 @@ export class SeaRateDialogComponent implements OnInit {
           if (type === "onlySave") {
             this.closeModal(res.returnObject);
           } else {
+            this.selectedData.data.ProviderPricingDraftID = 0;
             this.selectedPrice = undefined;
             this.selectedContSize = null;
             this.savedRow.emit(res.returnObject)
@@ -583,6 +607,7 @@ export class SeaRateDialogComponent implements OnInit {
             this.closeModal(res.returnObject);
           } else {
             this.selectedPrice = undefined;
+            this.selectedData.data.ConsolidatorPricingDraftID = 0;
             this.selectedContSize = null;
             this.savedRow.emit(res.returnObject)
           }
@@ -596,6 +621,7 @@ export class SeaRateDialogComponent implements OnInit {
             this.closeModal(res.returnObject);
           } else {
             this.selectedPrice = undefined;
+            this.selectedData.data.ID = 0;
             this.couplePrice = null;
             this.selectedContSize = null;
             this.savedRow.emit(res.returnObject)
@@ -835,6 +861,7 @@ export class SeaRateDialogComponent implements OnInit {
     } else if (type === 'draft') {
       parsedJsonSurchargeDet = JSON.parse(this.selectedData.data.JsonSurchargeDet)
     }
+    this.destinationsList = cloneObject(this.selectedData.addList)
     this.selectedData.addList.forEach(element => {
       this.destinationsList.forEach(e => {
         if (e.addChrID === element.addChrID) {
@@ -849,6 +876,7 @@ export class SeaRateDialogComponent implements OnInit {
       //   }
       // })
     });
+    console.log(this.destinationsList);
     this.selectedOrigins = parsedJsonSurchargeDet.filter((e) => e.Imp_Exp === 'EXPORT')
     if (!this.selectedOrigins.length) {
       this.selectedOrigins = [{}]
@@ -987,12 +1015,20 @@ export class SeaRateDialogComponent implements OnInit {
   public fclContainers = []
   public selectedFCLContainers = []
   public shippingCategories = []
+  public cities: any[] = []
   /**
    * Getting all dropdown values to fill
    *
    * @memberof SeaFreightComponent
    */
   getDropdownsList() {
+    this._sharedService.cityList.subscribe((state: any) => {
+      if (state) {
+        console.log(state);
+
+        this.cities = state;
+      }
+    });
     console.log(this.selectedData);
     this.transPortMode = 'SEA'
     this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
@@ -1029,6 +1065,7 @@ export class SeaRateDialogComponent implements OnInit {
   public showDestDoors: boolean = false;
 
   toggleDropdown(type) {
+    if (!this.selectedContSize) return;
     if (type === 'pickup') {
       this.showPickupDropdown = !this.showPickupDropdown
       this.closeDropDown('delivery')
@@ -1083,7 +1120,23 @@ export class SeaRateDialogComponent implements OnInit {
     if (typeof obj === 'object') {
       this.showPickupDropdown = false;
       this.showDestinationDropdown = false;
+      // if(obj.PortName) {
+      //   this.filt
+      // }
+      // console.log(this.filterDestination);
     }
+    // if (!this.showDoubleRates && this.transPortMode === 'GROUND') {
+    //   console.log(obj);
+    //   if (obj.length >= 3) {
+    //     this.searchTerm$ = obj
+    //     this._manageRateService.getAllCities(obj).pipe(debounceTime(400), distinctUntilChanged()).subscribe((res: any) => {
+    //       console.log(res)
+    //       this.cities = res;
+    //     }, (err: any) => {
+    //       console.log(err)
+    //     })
+    //   }
+    // }
   }
 
 
@@ -1097,6 +1150,17 @@ export class SeaRateDialogComponent implements OnInit {
     )
   addressFormatter = (x: { PortName: string }) => {
     return x.PortName
+  };
+
+  //Ground areas formatter and observer
+  citiesList = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 3) ? [] : this.cities.filter(
+        v => (v.title.toLowerCase().indexOf(term.toLowerCase()) > -1))))
+
+  citiesFormatter = (x: { title: string, imageName: string }) => {
+    return x.title
   };
 
   public showDoubleRates: boolean = false
