@@ -73,7 +73,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       whDetail: new FormControl(null, [Validators.required, Validators.maxLength(1000), Validators.minLength(10), Validators.pattern(/^\d+$/)]),
     });
     this.locationForm = new FormGroup({
-      city: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(5), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
+      city: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(5)]),
       address: new FormControl(null, [Validators.required, Validators.maxLength(1000), Validators.minLength(10), Validators.pattern(/^\d+$/)]),
       poBox: new FormControl(null, [Validators.required, Validators.maxLength(1000), Validators.minLength(10), Validators.pattern(/^\d+$/)]),
     });
