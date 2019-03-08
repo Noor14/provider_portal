@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 export class WarehouseComponent implements OnInit, OnDestroy {
 
   @ViewChild('stepper') public _stepper: any;
+  @ViewChild('searchElement') public searchElement: any;
   public zoomlevel: number = 5;
   private whID: any;
   private userProfile:any
@@ -76,6 +77,66 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.paramSubscriber.unsubscribe();
   }
+  getplacemapLoc(countryBound) {
+    this.mapsAPILoader.load().then(() => {
+      this.geoCoder = new google.maps.Geocoder;
+      let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
+      autocomplete.setComponentRestrictions(
+        { 'country': [countryBound] });
+      autocomplete.addListener("place_changed", () => {
+        this.ngZone.run(() => {
+          //get the place result
+          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          console.log(place)
+          // this.businessLocForm.controls['address'].setValue(place.formatted_address);
+          // this.businessLocForm.controls['transAddress'].setValue(place.formatted_address);
+
+          //verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+
+          //set latitude, longitude and zoom
+          this.location.lat = place.geometry.location.lat();
+          this.location.lng = place.geometry.location.lng();
+          this.zoomlevel = 14;
+        });
+      });
+    });
+
+  }
+  getMapLatlng(region) {
+    this._userService.getLatlng(region).subscribe((res: any) => {
+      if (res.status == "OK") {
+        this.location = res.results[0].geometry.location;
+      }
+    })
+  }
+  markerDragEnd($event) {
+    // console.log($event);
+    this.geoCoder.geocode({ 'location': { lat: $event.coords.lat, lng: $event.coords.lng } }, (results, status) => {
+      console.log(results);
+      console.log(status);
+      if (status === 'OK') {
+        if (results[0]) {
+          console.log('aaaa');
+          console.log(results[0].formatted_address);
+          // this.businessLocForm.controls['address'].setValue(results[0].formatted_address);
+          // this.businessLocForm.controls['transAddress'].setValue(results[0].formatted_address);
+          this.searchElement.nativeElement.value = results[0].formatted_address;
+          // console.log(this.searchElementRef.nativeElement.value);
+          // infowindow.setContent(results[0].formatted_address);
+        } else {
+          this._toastr.error('No results found', '');
+        }
+      } else {
+        this._toastr.error('Geocoder failed due to: ' + status, '');
+      }
+
+    });
+  }
+
+
   getWareHouseDetail(providerId, id) {
     loading(true)
     this._warehouseService.getWarehouseList(providerId, id).subscribe((res: any) => {
