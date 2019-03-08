@@ -340,15 +340,6 @@ export class SeaRateDialogComponent implements OnInit {
     } else if (type === 'update') {
       this.updateRatesfcl(this.containerLoadParam.toLowerCase())
     }
-    // if (this.selectedData.forType == 'FCL') {
-    //   if (type !== 'update') {
-    //     this.saveDataInFCLDraft(type);
-    //   } else if (type === 'update') {
-    //     this.updateRatesfcl()
-    //   }
-    // } else if (this.selectedData.forType == 'LCL') {
-    //   this.saveDataInFCLDraft(type);
-    // }
   }
 
   updateRatesfcl(type) {
@@ -462,6 +453,11 @@ export class SeaRateDialogComponent implements OnInit {
         return all + item;
       });
     }
+    console.log(this.containerLoadParam);
+    if (this.containerLoadParam === 'FTL') {
+
+    }
+    
     let obj = {
       ID: (this.selectedData.ID ? this.selectedData.ID : 0),
       providerPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ProviderPricingDraftID : 0,
@@ -569,6 +565,7 @@ export class SeaRateDialogComponent implements OnInit {
           if (type === "onlySave") {
             this.closeModal(res.returnObject);
           } else {
+            this.selectedData.data.ProviderPricingDraftID = 0;
             this.selectedPrice = undefined;
             this.selectedContSize = null;
             this.savedRow.emit(res.returnObject)
@@ -583,6 +580,7 @@ export class SeaRateDialogComponent implements OnInit {
             this.closeModal(res.returnObject);
           } else {
             this.selectedPrice = undefined;
+            this.selectedData.data.ConsolidatorPricingDraftID = 0;
             this.selectedContSize = null;
             this.savedRow.emit(res.returnObject)
           }
@@ -596,6 +594,7 @@ export class SeaRateDialogComponent implements OnInit {
             this.closeModal(res.returnObject);
           } else {
             this.selectedPrice = undefined;
+            this.selectedData.data.ID = 0;
             this.couplePrice = null;
             this.selectedContSize = null;
             this.savedRow.emit(res.returnObject)
@@ -987,12 +986,20 @@ export class SeaRateDialogComponent implements OnInit {
   public fclContainers = []
   public selectedFCLContainers = []
   public shippingCategories = []
+  public cities: any[] = []
   /**
    * Getting all dropdown values to fill
    *
    * @memberof SeaFreightComponent
    */
   getDropdownsList() {
+    this._sharedService.cityList.subscribe((state: any) => {
+      if (state) {
+        console.log(state)
+        this.cities = state;
+      }
+    });
+
     console.log(this.selectedData);
     this.transPortMode = 'SEA'
     this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
@@ -1029,6 +1036,7 @@ export class SeaRateDialogComponent implements OnInit {
   public showDestDoors: boolean = false;
 
   toggleDropdown(type) {
+    if (!this.selectedContSize) return;
     if (type === 'pickup') {
       this.showPickupDropdown = !this.showPickupDropdown
       this.closeDropDown('delivery')
@@ -1097,6 +1105,17 @@ export class SeaRateDialogComponent implements OnInit {
     )
   addressFormatter = (x: { PortName: string }) => {
     return x.PortName
+  };
+
+  //Ground areas formatter and observer
+  citiesList = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 3) ? []
+        : this.cities.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1))
+    )
+  citiesFormatter = (x: { title: string, imageName: string }) => {
+    return x.title
   };
 
   public showDoubleRates: boolean = false
