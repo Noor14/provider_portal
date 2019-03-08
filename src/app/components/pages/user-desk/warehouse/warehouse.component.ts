@@ -26,6 +26,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   public units: any[] = [];
   public facilities: any[] = [];
   public warehouseUsageType:any[]=[];
+  public ceilingsHeight:any[] = [];
   private paramSubscriber: any;
 
   //generalForm
@@ -78,8 +79,14 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     });
     this.propertyDetailForm = new FormGroup({
       warehouseSpace: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(5), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
+      warehouseSpaceUnit: new FormControl(null, [Validators.required]),
       hashmoveSpace: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
       ceilingHeight: new FormControl(null, [Validators.required]),
+      ceilingUnit: new FormControl(null, [Validators.required]),
+      minLeaseValueOne: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
+      minLeaseValueTwo: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
+      minLeaseUnitTwo: new FormControl(null, [Validators.required]),
+      minLeaseUnitOne: new FormControl(null, [Validators.required]),
       minimumlease: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
       leaseTerm: new FormControl(null, [Validators.required]),
     });
@@ -160,7 +167,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
           let unitArea = res.returnObject.MstUnitArea;
           let unitVolume = res.returnObject.MstUnitVolume;
           this.facilities = res.returnObject.WHFacilitiesProviding;
-          this.warehouseUsageType = res.returnObject.WHUsageType
+          this.warehouseUsageType = res.returnObject.WHUsageType;
+          this.ceilingsHeight = res.returnObject.CeilingDesc;
           this.getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume);
         }
 
@@ -170,7 +178,13 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       loading(false);
     })
   }
-
+  addFacilities(obj, $event) {
+    this.facilities.map((elem) => {
+      if (obj.BusinessLogic == elem.BusinessLogic){
+        elem.IsAllowed = $event.target.checked;
+      }
+    })
+  }
 
   getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume) {
     loading(true)
@@ -179,7 +193,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       if (res && res.length) {
         console.log(res)
         this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM')
-        this.units =  res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM')
+        this.units =  res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM');
+        // this.propertyDetailForm.controls['warehouseSpaceUnit'].setvalue(this.units[0].codeValDesc)
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
@@ -203,17 +218,27 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       // gLocID: 0,
       latitude: this.location.lat,
       longitude: this.location.lng,
-      totalCoveredArea: 0,
-      totalCoveredAreaUnit: "string",
+      totalCoveredArea: this.propertyDetailForm.warehouseSpace.value,
+      totalCoveredAreaUnit: this.propertyDetailForm.warehouseSpaceUnit.value,
       usageType: "string",
-      facilitiesProviding: "string" ,
+      facilitiesProviding: this.facilities,
       whGallery: "string",
       isBlocked: true,
-      offeredHashMoveArea: 0,
-      offeredHashMoveAreaUnit: "string",
-      ceilingHeight: 0,
-      ceilingHeightUnit: "string",
-      minimumLeaseSpace: "string",
+      offeredHashMoveArea: this.propertyDetailForm.hashmoveSpace.value,
+      offeredHashMoveAreaUnit: this.propertyDetailForm.warehouseSpaceUnit.value,
+      ceilingHeight: this.propertyDetailForm.ceilingHeight.value,
+      ceilingHeightUnit: this.propertyDetailForm.ceilingUnit.value,
+      // minimumLeaseTerm:[]
+      minimumLeaseSpace: [
+        {
+          Value: this.propertyDetailForm.minLeaseValueOne.value,
+          UnitType: this.propertyDetailForm.minLeaseUnitOne.value
+        },
+        {
+          Value: this.propertyDetailForm.minLeaseValueOne.value,
+          UnitType: this.propertyDetailForm.minLeaseUnitTwo.value
+        }
+      ],
       createdBy: this.userProfile.LoginID,
       modifiedBy: this.userProfile.LoginID,
     }
