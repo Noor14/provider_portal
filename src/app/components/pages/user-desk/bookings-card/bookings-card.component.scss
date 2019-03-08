@@ -49,8 +49,8 @@
 
   &-detail {
     &.eq-height {
-      min-height: 7.6rem;
-      margin-bottom: 1.9rem;
+      min-height: 7rem;
+      // margin-bottom: 1.9rem;
     }
 
     .ports {
@@ -84,7 +84,7 @@
         line-height: 1.2;
         vertical-align: bottom;
         text-align: left;
-        margin-top: 0.84375rem;
+        margin-top: 0.5rem;
       }
 
       span {
@@ -98,6 +98,8 @@
     .ports-calendar {
       font-size: $font-size-medium;
       font-family: $font-proxima;
+      padding-bottom: 0.9rem;
+      padding-top: 0.55rem;
 
     }
 
