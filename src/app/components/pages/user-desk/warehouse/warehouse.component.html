@@ -14,18 +14,19 @@
               <hr class="hr-solid mt-3">
             </div>
             <div class="col-12">
-              <form autocomplete="off" novalidate>
                 <div class="row">
-                  <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group">
-                      <label>Listing Name</label>
-                      <input type="text" maxlength="100" class="form-control">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <form autocomplete="off" novalidate [formGroup]="generalForm">
+                      <div class="form-group">
+                        <label>Listing Name</label>
+                          <input type="text" maxlength="100" class="form-control" formControlName="whName">
+                      </div>
+                      <div class="form-group">
+                        <label>Property Description</label>
+                        <textarea formControlName="whDetail" cols="30" rows="4" class="form-control" placeholder="provide details about the properties you are listing"></textarea>
+                      </div>
+                      </form>
                     </div>
-                    <div class="form-group">
-                      <label>Property Description</label>
-                      <textarea cols="30" rows="4" class="form-control" placeholder="provide details about the properties you are listing"></textarea>
-                    </div>
-                  </div>
                   <div class="col-12">
                     <div class="form-group">
                       <label class="mb-0">Gallery</label>
@@ -58,7 +59,7 @@
                 </div>
                 <!-- <div class="row">
                       <div class="col-12">
-                 <h5 class="small-head mt-3">Property Description</h5>
+                        <h5 class="small-head mt-3">Property Description</h5>
                         <p class="sub-title sub-heading mb-0">You may add upto 1 video and 4 photos.</p>
                         <div class="documentInfo d-flex flex-column mt-3">
                           <div class="file-uploader">
@@ -88,17 +89,12 @@
                     <hr class="hr-solid">
                   </div>
                   <div class="col-xl-6 col-md-6 col-sm-12">
-                    <form autocomplete="off" novalidate>
                       <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                           <div class="form-group select-city">
                             <label>City</label>
                             <input type="text" maxlength="100" class="form-control" placeholder="Enter City">
-                            <!-- <div class="flag-container">
-                                    <img src="'../../../../../assets/images/flags/4x3/ae.svg" type="image/svg+xml" class="w-auto h-auto mh-100">
-                                  </div>
-                            <input type="text" maxlength="100" class="form-control" placeholder="Enter City">
-                            <span class="animated fadeIn" *ngIf="cityError">
+                                    <!-- <span class="animated fadeIn" *ngIf="cityError">
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">{{requiredFields}}</p>
                                       <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
                                         should be minimum 3 characters</p>
@@ -108,15 +104,6 @@
                                         enter valid information</p>
                                     </span>
                              <p class="inputError animated fadeIn" *ngIf="citySelError">City should be select from dropdown</p> -->
-                            <!-- <ng-template #rt let-r="result">
-                                      <div class="d-flex">
-                                        <div class="flag-container mr-1 flag-icon-20-12">
-                                          <img src="{{'../../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
-                                            class="w-auto h-auto mh-100">
-                                        </div>
-                                        <ngb-highlight [result]="r.title"></ngb-highlight>
-                                      </div>
-                                    </ng-template> -->
                           </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -135,21 +122,6 @@
                                     </span> -->
                           </div>
                         </div>
-                        <!-- <div class="col-lg-12 col-md-12 col-sm-12">
-                              <div class="form-group">
-                                <label>Address Line 2</label>
-                                <input type="text" maxlength="200" class="form-control" placeholder="Address line 2"> -->
-                        <!-- <span class="animated fadeIn" *ngIf="addressline2Error">
-                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline2'].hasError('required') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">{{requiredFields}}</p>
-                                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline2'].hasError('pattern') && locationForm.controls['addressline2'].hasError('minlength') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Address
-                                        should be minimum 10 characters</p>
-                                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline2'].hasError('pattern') && locationForm.controls['addressline2'].hasError('maxlength') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Address
-                                        should not exceed from 200 characters</p>
-                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline2'].hasError('pattern') && (locationForm.controls.addressline2.dirty || locationForm.controls.addressline2.touched)">Please
-                                        enter valid information</p>
-                                    </span> -->
-                        <!-- </div>
-                            </div> -->
                         <div class="col-lg-6 col-md-6 col-sm-12">
                           <div class="form-group">
                             <label>P.O Box</label>
@@ -164,13 +136,13 @@
                           </div>
                         </div>
                       </div>
-                    </form>
                   </div>
                   <div class="col-6 map">
-                    <!-- <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
-                              <agm-marker [latitude]="location.lat" [longitude]="location.lng"
-                                [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
-                            </agm-map> -->
+                    <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
+                      <agm-marker [latitude]="location.lat" [longitude]="location.lng"
+                        [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)">
+                      </agm-marker>
+                    </agm-map>
                   </div>
                 </div>
                 <div class="row">
@@ -302,7 +274,6 @@
                     </div>
                   </div>
                 </div>
-              </form>
             </div>
           </div>
           <div class="row">
@@ -323,12 +294,8 @@
             </div>
           </div>
           <div class="row mt-5">
-            <div class="col-6">
-              <button class="btn btn-primary btn-register hvr-sweep-to-right text-uppercase pl-5 pr-5 pt-2 pb-2 disable">
-                cancel</button>
-            </div>
-            <div class="col-6">
-              <button class="btn btn-primary btn-register hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 pull-right" (click)="aadwareHouse()">
+            <div class="col-12">
+              <button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 pull-right" (click)="aadwareHouse()">
                 save & add pricing </button>
             </div>
           </div>

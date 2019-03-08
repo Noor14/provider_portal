@@ -1,9 +1,12 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, NgZone } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MapsAPILoader } from '@agm/core';
+import { } from '@types/googlemaps';
 import { loading } from '../../../../constants/globalFunctions';
 import { WarehouseService } from '../manage-rates/warehouse-list/warehouse.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-warehouse',
@@ -12,7 +15,8 @@ import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 })
 export class WarehouseComponent implements OnInit, OnDestroy {
 
-  // @ViewChild(stepper) stepper:any
+  @ViewChild('stepper') public _stepper: any;
+  public zoomlevel: number = 5;
   private whID: any;
   private userProfile:any
   public warehouseTypeFull: boolean = true;
@@ -32,8 +36,11 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   public propertyDetailForm: any;
 
   constructor(
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone,
     private _router: ActivatedRoute,
-    private _warehouseService: WarehouseService
+    private _warehouseService: WarehouseService,
+    private _toastr: ToastrService,
     ) { }
 
   ngOnInit() {
@@ -50,7 +57,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     });
 
     this.generalForm = new FormGroup({
-      whName: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(5), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
+      whName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(5), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
       whDetail: new FormControl(null, [Validators.required, Validators.maxLength(1000), Validators.minLength(10), Validators.pattern(/^\d+$/)]),
     });
     this.locationForm = new FormGroup({
@@ -113,8 +120,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     let obj = {
       whid: this.whID,
       providerID: this.userProfile.ProviderID,
-      whName: "string",
-      whAddress: "string",
+      whName: this.generalForm.value.whName,
+      whAddress: this.generalForm.value.whDetail,
       // countryID: 0,
       // cityID: 0,
       cityName: "string",
@@ -140,7 +147,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     this._warehouseService.addWarehouseDetail(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         console.log(res)
-        // this.stepper.next()
+        this._toastr.success('Warehouse detail saved', '')
+        this._stepper.next()
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
