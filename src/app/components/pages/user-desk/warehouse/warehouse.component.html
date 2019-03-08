@@ -89,8 +89,8 @@
                     <hr class="hr-solid">
                   </div>
                   <div class="col-xl-6 col-md-6 col-sm-12">
-                      <div class="row">
                         <form autocomplete="off" novalidate [formGroup]="locationForm">
+                      <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                           <div class="form-group select-city">
                             <label>City</label>
@@ -136,8 +136,8 @@
                                   </span> -->
                           </div>
                         </div>
-                        </form>
                       </div>
+                      </form>
                   </div>
                   <div class="col-6 map">
                     <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
@@ -155,7 +155,6 @@
                   </div>
                 </div>
                 <div class="row">
-
                   <div class=" col-xl-6 col-md-6 col-sm-12 ">
                     <div class="form-group">
                       <label>Property Type</label>
@@ -169,7 +168,7 @@
                     </div>
                   </div>
                 </div>
-
+              <form autocomplete="off" novalidate [formGroup]="propertyDetailForm">
                 <div class="row ">
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
@@ -179,10 +178,10 @@
                       </label>
 
                       <div class="input-group">
-                        <input class="form-control input-dropdown" type="text">
+                        <input class="form-control input-dropdown" type="text" formControlName="warehouseSpace">
                         <div class="input-group-append">
-                          <select class="form-control input-dropdown">
-                            <option [value]="" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
+                          <select class="form-control input-dropdown" formControlName="warehouseSpaceUnit">
+                            <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
                           </select>
                         </div>
                       </div>
@@ -192,20 +191,19 @@
                                     <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whArea'].hasError('pattern') && generalForm.controls['whArea'].hasError('maxlength') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Range 100 to 1,00,000</p>
                                     <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whArea'].hasError('pattern') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Please
                                       enter valid information</p>
-                                  </span> -->
+                            </span> -->
                     </div>
                   </div>
                 </div>
-          <section class="forShared animated fadeIn" *ngIf="!warehouseTypeFull">
+               <section class="forShared animated fadeIn" *ngIf="!warehouseTypeFull">
                 <div class="row">
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
                       <label>Offered Space on HashMove</label>
-
                       <div class="input-group">
-                        <input class="form-control input-dropdown" type="text">
-                        <div class="input-group-append">
-                          <span class="input-group-text">@</span>
+                        <input class="form-control input-dropdown" type="text" formControlName="hashmoveSpace">
+                          <div class="input-group-append">
+                          <span class="input-group-text">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span>
                         </div>
                       </div>
                     </div>
@@ -217,16 +215,16 @@
                       <label class="form-group-label">Ceiling Height
                         <span class="sub-title sub-heading w-100 d-inline-block">Maximum Availabla height for storage</span>
                       </label>
-
                       <div class="input-group">
-                        <input class="form-control input-dropdown" type="text">
+                        <select class="form-control input-dropdown" formControlName="ceilingHeight">
+                          <option [value]="obj.CeilingID" *ngFor="let obj of ceilingsHeight">{{obj.CeilingID}}</option>
+                        </select>
                         <div class="input-group-append">
-                          <select class="form-control input-dropdown" name="weightUnit">
-                            <option [value]="" selected>sqft</option>
+                          <select class="form-control input-dropdown" formControlName="ceilingUnit">
+                            <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
                           </select>
                         </div>
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -239,9 +237,11 @@
                   <div class="col-xl-3 col-md-3 col-sm-12">
                     <div class="form-group">
                       <div class="input-group">
-                        <input class="form-control input-dropdown" type="text">
+                      <input class="form-control input-dropdown" type="text" formControlName="minLeaseValueOne">
                         <div class="input-group-append">
-                          <span class="input-group-text">@</span>
+                            <select class="form-control input-dropdown" formControlName="minLeaseUnitOne">
+                            <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -249,15 +249,18 @@
                   <div class="col-xl-3 col-md-3 col-sm-12">
                     <div class="form-group">
                       <div class="input-group">
-                        <input class="form-control input-dropdown" type="text">
+                        <input class="form-control input-dropdown" type="text" formControlName="minLeaseValueTwo">
                         <div class="input-group-append">
-                          <span class="input-group-text">@</span>
+                          <select class="form-control input-dropdown" formControlName="minLeaseUnitTwo">
+                            <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
+                          </select>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
                 </section>
+              </form>
                 <div class="row">
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
@@ -265,7 +268,6 @@
                         <span class="sub-title sub-heading w-100 d-inline-block">The shortest term that this property can be rented for
                         </span>
                       </label>
-
                     </div>
                     <div class="fancyOptionBoxes pull-left mr-4 mb-3" *ngFor="let obj of leaseTerm; let i = index">
                       <input id="{{i+1}}rentedtime" name="leaseTerm" type="radio">
@@ -285,8 +287,8 @@
             </div>
             <div class="col-xl-6 col-md-6 col-sm-12 mt-3">
               <div class="form-group">
-                <div class="fancyOptionBoxes warehousing-services mb-3" *ngFor="let obj of facilities">
-                    <input id="{{obj.FacilitiesTypeTitle}}" name="facilities" type="checkbox">
+                <div class="fancyOptionBoxes warehousing-services mb-3" *ngFor="let obj of facilities" >
+                    <input id="{{obj.FacilitiesTypeTitle}}" name="facilities" type="checkbox" (change)="addFacilities(obj, $event)">
                     <label for="{{obj.FacilitiesTypeTitle}}">
                     <span></span>
                       {{obj.FacilitiesTypeTitle}}
