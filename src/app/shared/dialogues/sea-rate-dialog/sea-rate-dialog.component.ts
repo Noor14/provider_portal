@@ -457,7 +457,7 @@ export class SeaRateDialogComponent implements OnInit {
     if (this.containerLoadParam === 'FTL') {
 
     }
-    
+
     let obj = {
       ID: (this.selectedData.ID ? this.selectedData.ID : 0),
       providerPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ProviderPricingDraftID : 0,
@@ -556,6 +556,28 @@ export class SeaRateDialogComponent implements OnInit {
     if ((obj.podID && obj.polID) && obj.podID === obj.polID) {
       this._toast.warning('Source and Destination ports cannot be same', 'Warning')
       return;
+    }
+
+    console.log(this.selectedData.drafts);
+    let duplicateRecord: boolean = false;
+    this.selectedData.drafts.forEach(element => {
+      if (
+        element.CarrierID === obj.carrierID &&
+        element.ContainerSpecID === obj.containerSpecID &&
+        moment(element.EffectiveFrom).format('D MMM, Y') === moment(obj.effectiveFrom).format('D MMM, Y') &&
+        moment(element.EffectiveTo).format('D MMM, Y') === moment(obj.effectiveTo).format('D MMM, Y') &&
+        element.PodID === obj.podID &&
+        element.PolID === obj.polID &&
+        element.Price === parseInt(obj.price) &&
+        element.ShippingCatID === obj.shippingCatID
+      ) {
+        duplicateRecord = true;
+      }
+    });
+
+    if(duplicateRecord) {
+      this._toast.warning('This record has already been added', 'Warning')
+      return
     }
 
     if (this.selectedData.forType === 'FCL') {
@@ -834,6 +856,7 @@ export class SeaRateDialogComponent implements OnInit {
     } else if (type === 'draft') {
       parsedJsonSurchargeDet = JSON.parse(this.selectedData.data.JsonSurchargeDet)
     }
+    this.destinationsList = cloneObject(this.selectedData.addList)
     this.selectedData.addList.forEach(element => {
       this.destinationsList.forEach(e => {
         if (e.addChrID === element.addChrID) {
@@ -848,6 +871,7 @@ export class SeaRateDialogComponent implements OnInit {
       //   }
       // })
     });
+    console.log(this.destinationsList);
     this.selectedOrigins = parsedJsonSurchargeDet.filter((e) => e.Imp_Exp === 'EXPORT')
     if (!this.selectedOrigins.length) {
       this.selectedOrigins = [{}]

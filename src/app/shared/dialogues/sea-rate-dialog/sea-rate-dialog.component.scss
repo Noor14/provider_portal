@@ -24,28 +24,6 @@
         padding-bottom: 30px;
       }
     }
-    .more-charges {
-      .combine-filed-popup {
-        .d-flex {
-          position: relative;
-          &:hover {
-            &:after {
-              content: " ";
-              background: url('../../../../assets/images/icons/icon_del_round.svg') no-repeat;
-              width: 16px;
-              height: 16px;
-              position: absolute;
-              right: -7px;
-              top: -4px;
-              transition: all ease 1s;
-              transition-delay: 2s;
-              cursor: pointer;
-              z-index: 999;
-            }
-          }
-        }
-      }
-    }
     .combine-filed-popup {
       border-radius: 4px;
       &-left {
@@ -167,6 +145,21 @@
         box-shadow: 0 0 0 1px #00a2df;
         border-radius: 4px;
         position: relative;
+      }
+      &-delete {
+        position: absolute;
+        right: 10px;
+        top: -4px;
+        display: none;
+      }
+      &:hover {
+        transition: 1s all ease-in;
+        transition-delay: 2s;
+        .combine-filed-popup-delete {
+          transition: 2s all ease-in;
+          transition-delay: 2s;
+          display: block;
+        }
       }
     }
     a.addAnother {
