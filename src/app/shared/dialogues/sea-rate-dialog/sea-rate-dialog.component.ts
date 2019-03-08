@@ -54,6 +54,9 @@ export class SeaRateDialogComponent implements OnInit {
   @Input() selectedData: any;
   @Output() savedRow = new EventEmitter<any>()
 
+  citiesResults: Object;
+  searchTerm$ = new Subject<string>();
+
   public allShippingLines: any[] = [];
   public allCargoType: any[] = [];
   public allContainersType: any[] = [];
@@ -560,22 +563,24 @@ export class SeaRateDialogComponent implements OnInit {
 
     console.log(this.selectedData.drafts);
     let duplicateRecord: boolean = false;
-    this.selectedData.drafts.forEach(element => {
-      if (
-        element.CarrierID === obj.carrierID &&
-        element.ContainerSpecID === obj.containerSpecID &&
-        moment(element.EffectiveFrom).format('D MMM, Y') === moment(obj.effectiveFrom).format('D MMM, Y') &&
-        moment(element.EffectiveTo).format('D MMM, Y') === moment(obj.effectiveTo).format('D MMM, Y') &&
-        element.PodID === obj.podID &&
-        element.PolID === obj.polID &&
-        element.Price === parseInt(obj.price) &&
-        element.ShippingCatID === obj.shippingCatID
-      ) {
-        duplicateRecord = true;
-      }
-    });
+    if (this.selectedData.drafts) {
+      this.selectedData.drafts.forEach(element => {
+        if (
+          element.CarrierID === obj.carrierID &&
+          element.ContainerSpecID === obj.containerSpecID &&
+          moment(element.EffectiveFrom).format('D MMM, Y') === moment(obj.effectiveFrom).format('D MMM, Y') &&
+          moment(element.EffectiveTo).format('D MMM, Y') === moment(obj.effectiveTo).format('D MMM, Y') &&
+          element.PodID === obj.podID &&
+          element.PolID === obj.polID &&
+          element.Price === parseInt(obj.price) &&
+          element.ShippingCatID === obj.shippingCatID
+        ) {
+          duplicateRecord = true;
+        }
+      });
+    }
 
-    if(duplicateRecord) {
+    if (duplicateRecord) {
       this._toast.warning('This record has already been added', 'Warning')
       return
     }
@@ -1019,11 +1024,11 @@ export class SeaRateDialogComponent implements OnInit {
   getDropdownsList() {
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
-        console.log(state)
+        console.log(state);
+
         this.cities = state;
       }
     });
-
     console.log(this.selectedData);
     this.transPortMode = 'SEA'
     this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
@@ -1115,7 +1120,23 @@ export class SeaRateDialogComponent implements OnInit {
     if (typeof obj === 'object') {
       this.showPickupDropdown = false;
       this.showDestinationDropdown = false;
+      // if(obj.PortName) {
+      //   this.filt
+      // }
+      // console.log(this.filterDestination);
     }
+    // if (!this.showDoubleRates && this.transPortMode === 'GROUND') {
+    //   console.log(obj);
+    //   if (obj.length >= 3) {
+    //     this.searchTerm$ = obj
+    //     this._manageRateService.getAllCities(obj).pipe(debounceTime(400), distinctUntilChanged()).subscribe((res: any) => {
+    //       console.log(res)
+    //       this.cities = res;
+    //     }, (err: any) => {
+    //       console.log(err)
+    //     })
+    //   }
+    // }
   }
 
 
@@ -1135,9 +1156,9 @@ export class SeaRateDialogComponent implements OnInit {
   citiesList = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
-      map(term => (!term || term.length < 3) ? []
-        : this.cities.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1))
-    )
+      map(term => (!term || term.length < 3) ? [] : this.cities.filter(
+        v => (v.title.toLowerCase().indexOf(term.toLowerCase()) > -1))))
+
   citiesFormatter = (x: { title: string, imageName: string }) => {
     return x.title
   };

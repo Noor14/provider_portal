@@ -197,7 +197,7 @@
                       (ngModelChange)="portsFilterartion(filterDestination)" />
                   </div>
                 </li>
-                <!-- <li (click)="togglePorts('delivery-sea')" *ngIf="!showDestDoors">
+                <!-- <li (click)="togglePorts('delivery-sea')" *ngIf="!showDoubleRates && transPortMode === 'GROUND'">
                   <div class="d-flex">
                     <img async defer src="../../../../assets/images/icons/icon_anchor.svg" alt="icon"
                       class="img-responsive pickup-icon2" height="16px" />
@@ -241,15 +241,6 @@
               </ul>
             </div>
           </div>
-          <ng-template #rt let-r="result">
-            <div class="d-flex">
-              <div class="flag-container mr-1">
-                <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}"
-                  class="mw-100 w-auto h-auto mh-100">
-              </div>
-              <ngb-highlight [result]="r.PortName"></ngb-highlight>
-            </div>
-          </ng-template>
           <!-- <ng-template #rtc let-r="result">
             <div class="d-flex">
               <div class="flag-container mr-1">
@@ -261,6 +252,15 @@
           </ng-template> -->
         </div>
       </div>
+      <ng-template #rt let-r="result">
+        <div class="d-flex">
+          <div class="flag-container mr-1">
+            <img src="{{'../../../../../assets/images/flags/4x3/' + (r.CountryCode | lowercase) + '.svg'}}"
+              class="mw-100 w-auto h-auto mh-100">
+          </div>
+          <ngb-highlight [result]="r.PortName"></ngb-highlight>
+        </div>
+      </ng-template>
       <div class="col-12" *ngIf="selectedData.customers.length">
         <div class="form-group custom-multiselect">
           <label>Customer</label>
@@ -450,7 +450,8 @@
                 </div>
               </div>
             </div>
-            <img src="../../../../assets/images/icons/icon_del_round.svg" alt="delete-icon" class="icon-size-16 combine-filed-popup-delete pointer">
+            <img src="../../../../assets/images/icons/icon_del_round.svg" alt="delete-icon"
+              class="icon-size-16 combine-filed-popup-delete pointer">
           </div>
         </div>
         <div class="col-12">
@@ -540,7 +541,8 @@
                 </div>
               </div>
             </div>
-            <img src="../../../../assets/images/icons/icon_del_round.svg" alt="delete-icon" class="icon-size-16 combine-filed-popup-delete pointer">
+            <img src="../../../../assets/images/icons/icon_del_round.svg" alt="delete-icon"
+              class="icon-size-16 combine-filed-popup-delete pointer">
           </div>
         </div>
         <div class="col-12">
