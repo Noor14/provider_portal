@@ -185,18 +185,11 @@
                   <div class=" col-xl-6 col-md-6 col-sm-12 ">
                     <div class="form-group">
                       <label>Property Type</label>
-                      <div class="fancyOptionBoxes pull-left mb-3">
-                        <input id="fullwarehouse" checked name="warehouseType" (change)="warehouseTypeFull = !warehouseTypeFull" type="radio">
-                        <label for="fullwarehouse">
+                      <div class="fancyOptionBoxes pull-left mb-3 mr-3" *ngFor="let type of warehouseUsageType; let i = index">
+                      <input id="{{i+1}}" [checked]="type.UsageTypeTitle == 'Full Warehouse'" name="warehouseType" (change)="warehouseTypeFull = !warehouseTypeFull" type="radio">
+                        <label for="{{i+1}}">
                           <span></span>
-                          Full Warehouse
-                        </label>
-                      </div>
-                      <div class="fancyOptionBoxes pull-left ml-4 mb-3">
-                        <input id="sharedwarehouse" name="warehouseType" (change)="warehouseTypeFull = !warehouseTypeFull" type="radio">
-                        <label for="sharedwarehouse">
-                          <span></span>
-                          Shared Warehouse
+                            {{type.UsageTypeTitle}}
                         </label>
                       </div>
                     </div>
@@ -214,11 +207,8 @@
                       <div class="input-group">
                         <input class="form-control input-dropdown" type="text">
                         <div class="input-group-append">
-                          <select class="form-control input-dropdown" name="weightUnit">
-                            <option value="" selected>sqft</option>
-                            <option>
-                              sqft
-                            </option>
+                          <select class="form-control input-dropdown">
+                            <option [value]="" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
                           </select>
                         </div>
                       </div>
@@ -241,12 +231,7 @@
                       <div class="input-group">
                         <input class="form-control input-dropdown" type="text">
                         <div class="input-group-append">
-                          <select class="form-control input-dropdown" name="weightUnit">
-                            <option value="" selected>sqft</option>
-                            <option>
-                              sqft
-                            </option>
-                          </select>
+                          <span class="input-group-text">@</span>
                         </div>
                       </div>
                     </div>
@@ -263,10 +248,7 @@
                         <input class="form-control input-dropdown" type="text">
                         <div class="input-group-append">
                           <select class="form-control input-dropdown" name="weightUnit">
-                            <option value="" selected>sqft</option>
-                            <option>
-                              sqft
-                            </option>
+                            <option [value]="" selected>sqft</option>
                           </select>
                         </div>
                       </div>
@@ -279,19 +261,13 @@
                     <label class="form-group-label">Minimum Lease Space
                       <span class="sub-title sub-heading w-100 d-inline-block">The minimum space that can be lend per booking</span>
                     </label>
-
                   </div>
                   <div class="col-xl-3 col-md-3 col-sm-12">
                     <div class="form-group">
                       <div class="input-group">
                         <input class="form-control input-dropdown" type="text">
                         <div class="input-group-append">
-                          <select class="form-control input-dropdown" name="weightUnit">
-                            <option value="" selected>sqft</option>
-                            <option>
-                              sqft
-                            </option>
-                          </select>
+                          <span class="input-group-text">@</span>
                         </div>
                       </div>
                     </div>
@@ -301,12 +277,7 @@
                       <div class="input-group">
                         <input class="form-control input-dropdown" type="text">
                         <div class="input-group-append">
-                          <select class="form-control input-dropdown" name="weightUnit">
-                            <option value="" selected>sqft</option>
-                            <option>
-                              sqft
-                            </option>
-                          </select>
+                          <span class="input-group-text">@</span>
                         </div>
                       </div>
                     </div>
@@ -322,53 +293,11 @@
                       </label>
 
                     </div>
-                    <div class="fancyOptionBoxes pull-left mr-4">
-                      <input id="oneDay" name="leaseTerm" type="radio">
-                      <label for="oneDay">
+                    <div class="fancyOptionBoxes pull-left mr-4 mb-3" *ngFor="let obj of leaseTerm; let i = index">
+                      <input id="{{i+1}}" name="leaseTerm" type="radio">
+                        <label for="{{i+1}}">
                         <span></span>
-                        1 Day
-                      </label>
-                    </div>
-                    <div class="fancyOptionBoxes pull-left mr-4">
-                      <input id="oneWeek" name="leaseTerm" type="radio">
-                      <label for="oneWeek">
-                        <span></span>
-                        1 Week
-                      </label>
-                    </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mb-3">
-                      <input id="oneMonth" name="leaseTerm" type="radio">
-                      <label for="oneMonth">
-                        <span></span>
-                        1 Month
-                      </label>
-                    </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mb-3">
-                      <input id="threeMonths" name="leaseTerm" type="radio">
-                      <label for="threeMonths">
-                        <span></span>
-                        3 Months
-                      </label>
-                    </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mb-3">
-                      <input id="sixMonths" name="leaseTerm" type="radio">
-                      <label for="sixMonths">
-                        <span></span>
-                        6 Month
-                      </label>
-                    </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mb-3">
-                      <input id="oneYear" name="leaseTerm" type="radio">
-                      <label for="oneYear">
-                        <span></span>
-                        12 months
-                      </label>
-                    </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mb-3">
-                      <input id="any" name="leaseTerm" type="radio">
-                      <label for="any">
-                        <span></span>
-                        Any lease term
+                        {{obj.codeValDesc}}
                       </label>
                     </div>
                   </div>
@@ -381,21 +310,13 @@
               <h5 class="mt-5">Other Amenities</h5>
               <hr class="hr-solid">
             </div>
-
-            <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
+            <div class="col-xl-6 col-md-6 col-sm-12 mt-3">
               <div class="form-group">
-                <div class="fancyOptionBoxes warehousing-services">
-                  <input id="bonded" name="bonded" type="checkbox">
-                  <label for="bonded">
+                <div class="fancyOptionBoxes warehousing-services mb-3" *ngFor="let obj of facilities">
+                    <input id="{{obj.FacilitiesTypeTitle}}" name="facilities" type="checkbox">
+                    <label for="{{obj.FacilitiesTypeTitle}}">
                     <span></span>
-                    Bonded Warehouse
-                  </label>
-                </div>
-                <div class="fancyOptionBoxes warehousing-services mt-3">
-                  <input id="transportation" name="transportation" type="checkbox">
-                  <label for="transportation">
-                    <span></span>
-                    Transportation Service
+                      {{obj.FacilitiesTypeTitle}}
                   </label>
                 </div>
               </div>

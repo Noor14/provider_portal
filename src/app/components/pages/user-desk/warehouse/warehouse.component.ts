@@ -13,6 +13,10 @@ export class WarehouseComponent implements OnInit {
 
   private userProfile:any
   public warehouseTypeFull: boolean = true;
+  public leaseTerm: any[] = [];
+  public units: any[] = [];
+  public facilities: any[] = [];
+  public warehouseUsageType:any[]=[];
   private paramSubscriber: any;
 
   constructor(
@@ -44,6 +48,8 @@ export class WarehouseComponent implements OnInit {
           let unitLength = res.returnObject.MstUnitLength;
           let unitArea = res.returnObject.MstUnitArea;
           let unitVolume = res.returnObject.MstUnitVolume;
+          this.facilities = res.returnObject.WHFacilitiesProviding;
+          this.warehouseUsageType = res.returnObject.WHUsageType
           this.getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume);
         }
 
@@ -60,7 +66,9 @@ export class WarehouseComponent implements OnInit {
     this._warehouseService.getDropDownValuesWarehouse(leaseTerm, unitLength, unitArea, unitVolume).subscribe((res: any) => {
       loading(false);
       if (res && res.length) {
-          console.log(res);
+        console.log(res)
+        this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM')
+        this.units =  res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM')
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
