@@ -243,7 +243,10 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       offeredHashMoveAreaUnit: this.propertyDetailForm.value.warehouseSpaceUnit,
       ceilingHeight: this.propertyDetailForm.value.ceilingHeight,
       ceilingHeightUnit: this.propertyDetailForm.value.ceilingUnit,
-      minimumLeaseTerm: [this.selectedMiniLeaseTerm],
+      minimumLeaseTerm: [{
+        value: this.selectedMiniLeaseTerm.codeVal,
+        UnitType: this.selectedMiniLeaseTerm.codeValShortDesc
+      }],
       minimumLeaseSpace: [
         {
           Value: this.propertyDetailForm.value.minLeaseValueOne,
