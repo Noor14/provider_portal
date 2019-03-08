@@ -26,7 +26,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   public units: any[] = [];
   public facilities: any[] = [];
   public warehouseUsageType:any[]=[];
-  public ceilingsHeight:any[] = [];
+  public ceilingsHeight: any[] = [];
+  public selectedMiniLeaseTerm:any[] = [];
   private paramSubscriber: any;
 
   //generalForm
@@ -185,7 +186,20 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       }
     })
   }
-
+  wareHouseType(obj, $event){
+    this.warehouseTypeFull = !this.warehouseTypeFull; 
+      this.warehouseUsageType.map((elem) => {
+      if (obj.UsageTypeID == elem.UsageTypeID){
+        elem.IsAllowed = $event.target.checked;
+      }
+       else{
+        elem.IsAllowed = false;
+      }
+    });
+  }
+  addMinimumLeaseTerm(obj){
+    this.selectedMiniLeaseTerm = obj;
+  }
   getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume) {
     loading(true)
     this._warehouseService.getDropDownValuesWarehouse(leaseTerm, unitLength, unitArea, unitVolume).subscribe((res: any) => {
@@ -209,34 +223,35 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       whid: this.whID,
       providerID: this.userProfile.ProviderID,
       whName: this.generalForm.value.whName,
-      whAddress: this.generalForm.value.whDetail,
+      whDesc: this.generalForm.value.whDetail,
       // countryID: 0,
       // cityID: 0,
-      cityName: this.locationForm.city.value,
+      cityName: this.locationForm.value.city,
       // countryName: "string",
-      whpoBoxNo: this.locationForm.poBox.value,
+      whpoBoxNo: this.locationForm.value.poBox,
+      whAddress: this.locationForm.value.address,
       // gLocID: 0,
       latitude: this.location.lat,
       longitude: this.location.lng,
-      totalCoveredArea: this.propertyDetailForm.warehouseSpace.value,
-      totalCoveredAreaUnit: this.propertyDetailForm.warehouseSpaceUnit.value,
-      usageType: "string",
+      totalCoveredArea: this.propertyDetailForm.value.warehouseSpace,
+      totalCoveredAreaUnit: this.propertyDetailForm.value.warehouseSpaceUnit,
+      usageType: this.warehouseUsageType,
       facilitiesProviding: this.facilities,
       whGallery: "string",
       isBlocked: true,
-      offeredHashMoveArea: this.propertyDetailForm.hashmoveSpace.value,
-      offeredHashMoveAreaUnit: this.propertyDetailForm.warehouseSpaceUnit.value,
-      ceilingHeight: this.propertyDetailForm.ceilingHeight.value,
-      ceilingHeightUnit: this.propertyDetailForm.ceilingUnit.value,
-      // minimumLeaseTerm:[]
+      offeredHashMoveArea: this.propertyDetailForm.value.hashmoveSpace,
+      offeredHashMoveAreaUnit: this.propertyDetailForm.value.warehouseSpaceUnit,
+      ceilingHeight: this.propertyDetailForm.value.ceilingHeight,
+      ceilingHeightUnit: this.propertyDetailForm.value.ceilingUnit,
+      minimumLeaseTerm: this.selectedMiniLeaseTerm,
       minimumLeaseSpace: [
         {
-          Value: this.propertyDetailForm.minLeaseValueOne.value,
-          UnitType: this.propertyDetailForm.minLeaseUnitOne.value
+          Value: this.propertyDetailForm.value.minLeaseValueOne,
+          UnitType: this.propertyDetailForm.value.minLeaseUnitOne
         },
         {
-          Value: this.propertyDetailForm.minLeaseValueOne.value,
-          UnitType: this.propertyDetailForm.minLeaseUnitTwo.value
+          Value: this.propertyDetailForm.value.minLeaseValueOne,
+          UnitType: this.propertyDetailForm.value.minLeaseUnitTwo
         }
       ],
       createdBy: this.userProfile.LoginID,

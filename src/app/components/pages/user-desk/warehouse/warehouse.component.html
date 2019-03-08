@@ -92,7 +92,7 @@
                         <form autocomplete="off" novalidate [formGroup]="locationForm">
                       <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
-                          <div class="form-group select-city">
+                          <div class="form-group">
                             <label>City</label>
                             <input type="text" formControlName="city" maxlength="100" class="form-control" placeholder="Enter City" #searchElement>
                                     <!-- <span class="animated fadeIn" *ngIf="cityError">
@@ -159,7 +159,8 @@
                     <div class="form-group">
                       <label>Property Type</label>
                       <div class="fancyOptionBoxes pull-left mb-3 mr-3" *ngFor="let type of warehouseUsageType; let i = index">
-                      <input id="{{i+1}}" [checked]="type.UsageTypeTitle == 'Full Warehouse'" name="warehouseType" (change)="warehouseTypeFull = !warehouseTypeFull" type="radio">
+                      <input id="{{i+1}}" [checked]="type.IsAllowed && type.UsageTypeTitle == 'Full Warehouse'" name="warehouseType" (change)="wareHouseType(type, $event)"
+                        type="radio">
                         <label for="{{i+1}}">
                           <span></span>
                             {{type.UsageTypeTitle}}
@@ -269,7 +270,7 @@
                         </span>
                       </label>
                     </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mb-3" *ngFor="let obj of leaseTerm; let i = index">
+                    <div class="fancyOptionBoxes pull-left mr-4 mb-3" *ngFor="let obj of leaseTerm; let i = index" (click)="addMinimumLeaseTerm(obj)">
                       <input id="{{i+1}}rentedtime" name="leaseTerm" type="radio">
                         <label for="{{i+1}}rentedtime">
                         <span></span>
