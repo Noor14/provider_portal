@@ -36,6 +36,7 @@ import { PaymentResultComponent } from './payment-result/payment-result.componen
 import { ViewWarehouseComponent } from './view-warehouse/view-warehouse.component';
 import { WarehouseService } from './manage-rates/warehouse-list/warehouse.service';
 import { LightboxModule } from 'ngx-lightbox';
+import { BookingsCardComponent } from './bookings-card/bookings-card.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -73,6 +74,7 @@ import { LightboxModule } from 'ngx-lightbox';
     WarehouseComponent,
     PaymentResultComponent,
     ViewWarehouseComponent,
+    BookingsCardComponent,
   ],
   providers: [
     ViewBookingService,
