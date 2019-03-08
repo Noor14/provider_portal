@@ -11,14 +11,14 @@
     </button>
     <div ngbDropdownMenu>
       <button class="dropdown-item" (click)="onSortClick('CustomerName', 'Rate For', 'CustomerID')">Rate For</button>
-      <button class="dropdown-item" (click)="onSortClick('carrierName', 'Shipping Line', 'CarrierName')">Shipping
+      <button class="dropdown-item" (click)="onSortClick('carrierName', 'Shipping Line', 'CarrierName')" *ngIf="transMode === 'SEA' && containerLoad === 'FCL'">Shipping
         Line</button>
       <button class="dropdown-item"
         (click)="onSortClick('polName', 'Origin/Departure', 'PolName')">Origin/Departure</button>
       <button class="dropdown-item" (click)="onSortClick('shippingCatName', 'Cargo Type', 'ShippingCatName')">Cargo
         Type</button>
       <button class="dropdown-item"
-        (click)="onSortClick('containerSpecDesc', 'Container', 'ContainerSpecDesc')">Container</button>
+        (click)="onSortClick('containerSpecDesc', 'Container', 'ContainerSpecDesc')" *ngIf="transMode === 'GROUND'">Container</button>
       <button class="dropdown-item" (click)="onSortClick('effectiveTo', 'Rate Validity', 'EffectiveFrom')">Rate
         Validity</button>
     </div>
@@ -179,8 +179,16 @@
           </td>
           <td (click)="draftAction(device, 'edit')">
             <div class="d-flex info-table-logo align-items-center">
-              <span class="" *ngIf="device.currencyCode && device.price">{{device.currencyCode}}
-                {{device.price | number:'1.0-0'}}</span>
+              <span class="mr-1" *ngIf="device.currencyCode && device.price">
+                <span placement="top" ngbTooltip="{{device.couplePrice ? 'Single Price' : ''}}">
+                  {{device.currencyCode}}
+                  {{device.price | number:'1.0-0'}}
+                </span>
+              </span>
+              <span class="ml-1" *ngIf="device.couplePrice">
+                / <span placement="top" ngbTooltip="Double Price">{{device.currencyCode}}
+                  {{device.couplePrice | number:'1.0-0'}}</span>
+              </span>
               <span *ngIf="!device.price"> -- Select --</span>
             </div>
           </td>
