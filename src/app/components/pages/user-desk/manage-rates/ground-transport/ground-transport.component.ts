@@ -984,7 +984,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   getAllPublishRates(type?, number?) {
     console.log(this.orgfilter());
     console.log(number);
-    
+
     this.publishloading = true;
     let obj = {
       providerID: this.userProfile.ProviderID,
@@ -1600,15 +1600,15 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   filterRecords(type) {
     this.getAllPublishRates('FTL', 1)
   }
-  
+
   public filteredType = null
   filterContainerChange(obj) {
-    console.log(obj);
-    console.log(this.allContainersType);
-    let container = this.allContainersType.find(container => container.ContainerSpecID === parseInt(obj))
-    console.log(container);
-    
-    this.filteredType = container.ContainerSpecGroupName === 'Container' ? 'FCL' : 'FTL'
+    if (obj === 'all') {
+      this.filteredType = null
+    } else {
+      let container = this.allContainersType.find(container => container.ContainerSpecID === parseInt(obj))
+      this.filteredType = container.ContainerSpecGroupName === 'Container' ? 'FCL' : 'FTL'
+    }
   }
 
   onTabChange(event) {
@@ -1658,6 +1658,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   public combinedPorts: any[] = []
   public groundPorts: any = []
   public citiesPorts: any = []
+  
   /**
    * FILLIN DROPDOWN DETAILS
    *
