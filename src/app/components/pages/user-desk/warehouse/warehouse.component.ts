@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, NgZone, ViewEncapsulation } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MapsAPILoader } from '@agm/core';
-import { } from '@types/googlemaps';
+import { } from 'googlemaps';
 import { loading } from '../../../../constants/globalFunctions';
+import { Observable, Subject } from 'rxjs';
 import { WarehouseService } from '../manage-rates/warehouse-list/warehouse.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
@@ -11,6 +12,7 @@ import { UserCreationService } from '../../user-creation/user-creation.service';
 import { SharedService } from '../../../../services/shared.service';
 @Component({
   selector: 'app-warehouse',
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './warehouse.component.html',
   styleUrls: ['./warehouse.component.scss']
 })
@@ -27,6 +29,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   public facilities: any[] = [];
   public warehouseUsageType:any[]=[];
   public ceilingsHeight: any[] = [];
+  public cityList: any[] = [];
   public selectedMiniLeaseTerm:any;
   private paramSubscriber: any;
 
@@ -96,6 +99,11 @@ export class WarehouseComponent implements OnInit, OnDestroy {
         this.getMapLatlng(state.country);
       }
     })
+    this._sharedService.cityList.subscribe((state: any) => {
+      if (state) {
+        this.cityList = state;
+      }
+    })
     this.getplacemapLoc();
   }
   ngOnDestroy() {
@@ -140,7 +148,6 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       // console.log(status);
       if (status === 'OK') {
         if (results[0]) {
-      
           // console.log(results[0].formatted_address);
           // this.locationForm.controls['address'].setValue(results[0].formatted_address);
           // this.searchElement.nativeElement.value = results[0].formatted_address;
@@ -203,6 +210,26 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   addMinimumLeaseTerm(obj){
     this.selectedMiniLeaseTerm = obj;
   }
+
+  oneSpaceHandler(event) {
+    if (event.target.value) {
+      var end = event.target.selectionEnd;
+      if (event.keyCode == 32 && (event.target.value[end - 1] == " " || event.target.value[end] == " ")) {
+        event.preventDefault();
+        return false;
+      }
+    }
+    else if (event.target.selectionEnd == 0 && event.keyCode == 32) {
+      return false;
+    }
+  }
+  spaceHandler(event) {
+    if (event.charCode == 32) {
+      event.preventDefault();
+      return false;
+    }
+  }
+
   getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume) {
     loading(true)
     this._warehouseService.getDropDownValuesWarehouse(leaseTerm, unitLength, unitArea, unitVolume).subscribe((res: any) => {
@@ -232,8 +259,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       whName: this.generalForm.value.whName,
       whDesc: this.generalForm.value.whDetail,
       // countryID: 0,
-      // cityID: 0,
-      cityName: this.locationForm.value.city,
+      cityID: this.locationForm.value.city.id,
+      cityName: this.locationForm.value.city.title,
       // countryName: "string",
       whpoBoxNo: this.locationForm.value.poBox,
       whAddress: this.locationForm.value.address,
@@ -244,26 +271,25 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       totalCoveredAreaUnit: this.propertyDetailForm.value.warehouseSpaceUnit,
       whUsageType: this.warehouseUsageType,
       whFacilitiesProviding: this.facilities,
-      whGallery: "string",
       isBlocked: true,
-      offeredHashMoveArea: this.propertyDetailForm.value.hashmoveSpace,
-      offeredHashMoveAreaUnit: this.propertyDetailForm.value.warehouseSpaceUnit,
-      ceilingHeight: this.propertyDetailForm.value.ceilingHeight,
-      ceilingHeightUnit: this.propertyDetailForm.value.ceilingUnit,
+      offeredHashMoveArea: (!this.warehouseTypeFull)? this.propertyDetailForm.value.hashmoveSpace: null,
+      offeredHashMoveAreaUnit: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.warehouseSpaceUnit : null,
+      ceilingHeight: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.ceilingHeight : null,
+      ceilingHeightUnit: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.ceilingUnit : null,
       whMinimumLeaseTerm: [{
         value: this.selectedMiniLeaseTerm.codeVal,
         unitType: this.selectedMiniLeaseTerm.codeValShortDesc
       }],
-      minimumLeaseSpace: [
+      whMinimumLeaseSpace: (!this.warehouseTypeFull)?[
         {
           value: this.propertyDetailForm.value.minLeaseValueOne,
           unitType: this.propertyDetailForm.value.minLeaseUnitOne
         },
         {
-          value: this.propertyDetailForm.value.minLeaseValueOne,
+          value: this.propertyDetailForm.value.minLeaseValueTwo,
           unitType: this.propertyDetailForm.value.minLeaseUnitTwo
         }
-      ],
+      ]: null,
       createdBy: this.userProfile.LoginID,
       modifiedBy: this.userProfile.LoginID,
     }
@@ -277,5 +303,12 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       console.log(err);
     })
   }
+
+  searchCity = (text$: Observable<string>) =>
+    text$
+      .debounceTime(200)
+      .map(term => (!term || term.length < 3) ? []
+        : this.cityList.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1));
+  formatterCity = (x: { title: string }) => x.title;
 
 }
