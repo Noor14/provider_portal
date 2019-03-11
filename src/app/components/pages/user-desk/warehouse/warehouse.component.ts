@@ -301,8 +301,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     if (event) {
       try {
         const allDocsArr = []
-        const fileLenght: number = event.files.length
-        for (let index = 0; index < fileLenght; index++) {
+        const fileLength: number = event.files.length
+        for (let index = 0; index < fileLength; index++) {
           let reader = new FileReader();
           const element = event.files[index];
           let file = element
@@ -318,8 +318,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
               const docFile = JSON.parse(this.generateDocObject(selectedFile));
               allDocsArr.push(docFile);
               flag++
-              if (flag === fileLenght) {
-                this.uploadDocuments(allDocsArr)
+              if (flag === fileLength) {
+                this.uploadedGalleries = this.uploadedGalleries.concat(allDocsArr);
               }
             }
             else {
@@ -340,12 +340,14 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     object.DocumentLastStatus = this.fileStatus; 
     object.UserID = this.userProfile.UserID;
     object.ProviderID = this.userProfile.ProviderID;
+    object.WHID = this.whID;
     object.DocumentFileContent = null;
     object.DocumentName = null;
     object.DocumentUploadedFileType = null;
     object.FileContent = [{
       documentFileName: selectedFile.fileName,
       documentFile: selectedFile.fileBaseString,
+      docUrl: selectedFile.fileUrl,
       documentUploadedFileType: selectedFile.fileType.split('/').pop()
     }]
     return JSON.stringify(object);
@@ -354,12 +356,13 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     const totalDocLenght: number = docFiles.length
     for (let index = 0; index < totalDocLenght; index++) {
       try {
+        docFiles[index].WHID = this.whID;
         const resp: JsonResponse = await this.docSendService(docFiles[index])
         if (resp.returnStatus = 'Success') {
           let resObj = JSON.parse(resp.returnText);
             this.docTypeId = resObj.DocumentID;
             this.fileStatus = resObj.DocumentLastStaus;
-          let fileObj = JSON.parse(resObj.DocumentFile);
+            let fileObj = JSON.parse(resObj.DocumentFile);
 
           fileObj.forEach(element => {
             element.DocumentFile = baseExternalAssets + element.DocumentFile;
@@ -368,8 +371,6 @@ export class WarehouseComponent implements OnInit, OnDestroy {
             docFiles[index + 1].DocumentID = resObj.DocumentID;
             docFiles[index + 1].DocumentLastStatus = resObj.DocumentLastStaus;
           }
-
-            this.uploadedGalleries = fileObj;
           this._toastr.success("File upload successfully", "");
         }
         else {
@@ -448,9 +449,12 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     }
     this._warehouseService.addWarehouseDetail(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        console.log(res)
+        this.whID = res.returnObject[0].WHID;
+        if (JSON.parse(this.whID) > 0){
+          this.uploadDocuments(this.uploadedGalleries);
+        }
         this._toastr.success('Warehouse detail saved', '')
-        this._stepper.next()
+        this._stepper.next();
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
