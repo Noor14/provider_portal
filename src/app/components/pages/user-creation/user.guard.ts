@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { BasicInfoService } from './basic-info/basic-info.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SharedService } from '../../../services/shared.service';
+import { UserCreationService } from './user-creation.service';
 
 @Injectable()
 export class UserGuard implements CanActivate {
@@ -14,7 +15,8 @@ export class UserGuard implements CanActivate {
   constructor(
     private _basicInfoService: BasicInfoService, 
     private router: Router, 
-    private _sharedService: SharedService
+    private _sharedService: SharedService,
+    private _userCreationService: UserCreationService
   ) {
     // router.events
     //   .filter(event => event instanceof NavigationEnd)
