@@ -965,8 +965,15 @@ input[type="checkbox"]:focus+label>span {
     margin-bottom: 0;
   }
 
+ .input-group-prepend, .input-group-append {
+  margin-right: -2px;
+  z-index: 9;
   .input-group-text {
     padding: 0;
+    font-size: $font-size-medium !important;
+    font-family: $font-proxima;
+    color: $text-color-default !important;
+
     select {
       border: 0px;
       background-color: transparent;
@@ -980,6 +987,11 @@ input[type="checkbox"]:focus+label>span {
       }
     }
   }
+}
+.input-group-append {
+  margin-left: -2px;
+  z-index: 9;
+}
 
   .select-number {
     .input-group-prepend {
