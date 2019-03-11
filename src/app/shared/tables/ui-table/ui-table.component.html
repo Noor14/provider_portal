@@ -105,7 +105,7 @@
               placement="top" ngbTooltip="{{device.parsedpublishStatus.printStatus}}"></button>
           </td>
           <td (click)="draftAction(device, 'edit')">
-            <div class="d-flex">
+            <div class="d-flex info-table-logo">
               <img *ngIf="device?.parsedjsonCustomerDetail && device.customerID && device?.parsedjsonCustomerDetail[0].CustomerImage" [src]="getUIImage(device?.parsedjsonCustomerDetail[0].CustomerImage, false)"
                 alt="" class="mr-2 rounded" height="24px" width="24px" onerror="'../../../../assets/images/icons/icons_user.svg'">
               <img *ngIf="device?.parsedjsonCustomerDetail && device.customerID && !device?.parsedjsonCustomerDetail[0].CustomerImage"

@@ -95,13 +95,16 @@
               }
             }
             &-logo {
-              max-width: 150px;
-              word-break: break-all;
+              max-width: 190px;
+              align-items: center; // word-break: break-all;
               img {
-                width: 45px;
-                height: 35px;
+                // width: 45px;
+                // height: 35px;
+                // padding: 5px;
+                width: 30px;
+                height: 30px;
                 border: 1px solid $input-border;
-                padding: 5px;
+                padding: 2px;
               }
               span {
                 font-size: $font-size-large;
