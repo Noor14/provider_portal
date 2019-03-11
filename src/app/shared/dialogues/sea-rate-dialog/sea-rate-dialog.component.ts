@@ -236,6 +236,14 @@ export class SeaRateDialogComponent implements OnInit {
       this.filterOrigin = this.groundPorts.find(
         obj => obj.PortID == data.PolID
       );
+    } else if (data.PolType === 'CITY') {
+      this._manageRateService.getAllCities(data.PolName).pipe(debounceTime(400), distinctUntilChanged()).subscribe((res: any) => {
+        const cities = res;
+        this.showDoubleRates = false
+        this.filterOrigin = cities[0]
+      }, (err: any) => {
+        console.log(err)
+      })
     } else {
       this.filterOrigin = this.seaPorts.find(
         obj => obj.PortID == data.PolID
@@ -245,6 +253,14 @@ export class SeaRateDialogComponent implements OnInit {
       this.filterDestination = this.groundPorts.find(
         obj => obj.PortID == data.PodID
       );
+    } else if (data.PodType === 'CITY') {
+      this._manageRateService.getAllCities(data.PodName).pipe(debounceTime(400), distinctUntilChanged()).subscribe((res: any) => {
+        const cities = res;
+        this.showDoubleRates = false
+        this.filterDestination = cities[0]
+      }, (err: any) => {
+        console.log(err)
+      })
     } else {
       this.filterDestination = this.seaPorts.find(
         obj => obj.PortID == data.PodID
@@ -581,8 +597,8 @@ export class SeaRateDialogComponent implements OnInit {
     }
 
     if (duplicateRecord) {
-      this._toast.warning('This record has already been added', 'Warning')
-      return
+      // this._toast.warning('This record has already been added', 'Warning')
+      // return
     }
 
     if (this.selectedData.forType === 'FCL') {
@@ -1203,6 +1219,19 @@ export class SeaRateDialogComponent implements OnInit {
     this.selectedCurrency = this.allCurrencies.find(
       obj => obj.id === userCurrency
     );
+  }
+
+  removeAdditionalCharge(type, obj) {
+    console.log(type);
+    console.log(obj);
+    // if (type === 'origin') {
+    //   this.selectedOrigins.forEach(element => {
+    //     if (element.addChrID === obj.addChrID) {
+    //       let idx = this.selectedOrigins.indexOf(element)
+    //       this.selectedOrigins.splice(element, 1, {})
+    //     }
+    //   });
+    // }
   }
 
 

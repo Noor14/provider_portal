@@ -147,8 +147,8 @@
           <td (click)="draftAction(device, 'edit')">
             <div class="d-flex info-table-logo align-items-center">
               <!-- <img [src]="getUIImage(device.CarrierImage, false)" alt="" class="mr-2 "> -->
-              <span *ngIf="tableType === 'publishFCL'">{{device.containerSpecDesc || '-- Select --'}}</span>
-              <span *ngIf="tableType === 'draftFCL'">{{device.containerSpecName || '-- Select --'}}</span>
+              <span *ngIf="tableType === 'publishFCL'" placement="top" ngbTooltip="{{device.containerSpecDesc}}" [ngClass]="device?.containerSpecDesc?.length > 20 ? 'text-truncate': ''">{{device.containerSpecDesc || '-- Select --'}}</span>
+              <span *ngIf="tableType === 'draftFCL'" placement="top" ngbTooltip="{{device.containerSpecName}}" [ngClass]="device?.containerSpecName?.length > 20 ? 'text-truncate': ''">{{device.containerSpecName || '-- Select --'}}</span>
             </div>
           </td>
           <td (click)="draftAction(device, 'edit')">

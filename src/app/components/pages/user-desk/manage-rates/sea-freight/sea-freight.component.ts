@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, QueryList, AfterViewInit, OnDestroy, Output } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, QueryList, AfterViewInit, OnDestroy, Output, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import {
   NgbInputDatepicker,
   NgbDateStruct,
@@ -54,7 +54,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
   ]
 })
 
-export class SeaFreightComponent implements OnInit, OnDestroy {
+export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked {
   public draftRates: any;
   @ViewChild("dp") input: NgbInputDatepicker;
   @ViewChild("dpLCL") inputLCL: NgbInputDatepicker;
@@ -162,7 +162,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private _parserFormatter: NgbDateParserFormatter,
     private _toast: ToastrService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private cdRef : ChangeDetectorRef
   ) {
   }
 
@@ -199,6 +200,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     this.getAdditionalData()
 
   }
+
+  ngAfterViewChecked() {
+    this.cdRef.detectChanges();
+  }
+
 
   ngOnDestroy() {
   }
