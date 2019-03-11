@@ -6,7 +6,7 @@ import { loading } from '../../../../constants/globalFunctions';
 import { Observable, Subject } from 'rxjs';
 import { WarehouseService } from '../manage-rates/warehouse-list/warehouse.service';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UserCreationService } from '../../user-creation/user-creation.service';
 import { SharedService } from '../../../../services/shared.service';
@@ -108,15 +108,13 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     this.propertyDetailForm = new FormGroup({
       warehouseSpace: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(5), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
       warehouseSpaceUnit: new FormControl(null, [Validators.required]),
-      hashmoveSpace: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
-      ceilingHeight: new FormControl(null, [Validators.required]),
-      ceilingUnit: new FormControl(null, [Validators.required]),
-      minLeaseValueOne: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
-      minLeaseValueTwo: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
-      minLeaseUnitTwo: new FormControl(null, [Validators.required]),
-      minLeaseUnitOne: new FormControl(null, [Validators.required]),
-      minimumlease: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
-      leaseTerm: new FormControl(null, [Validators.required]),
+      hashmoveSpace: new FormControl(null, [warehouseValidator.bind(this), Validators.maxLength(4), Validators.minLength(1)]),
+      ceilingHeight: new FormControl(null, [warehouseValidator.bind(this)]),
+      ceilingUnit: new FormControl(null, [warehouseValidator.bind(this)]),
+      minLeaseValueOne: new FormControl(null, [warehouseValidator.bind(this), Validators.maxLength(4), Validators.minLength(1)]),
+      minLeaseValueTwo: new FormControl(null, [warehouseValidator.bind(this), Validators.maxLength(4), Validators.minLength(1)]),
+      minLeaseUnitTwo: new FormControl(null, [warehouseValidator.bind(this)]),
+      minLeaseUnitOne: new FormControl(null, [warehouseValidator.bind(this)]),
     });
     this._sharedService.getLocation.subscribe((state: any) => {
       if (state && state.country) {
@@ -469,3 +467,14 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   formatterCity = (x: { title: string }) => x.title;
 
 }
+
+export function warehouseValidator(control: AbstractControl) {
+  if (!this.warehouseTypeFull) {
+    if (!control.value) {
+      return {
+        required: true
+      }
+    }
+  }
+
+};
