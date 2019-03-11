@@ -807,19 +807,6 @@ input[type="checkbox"]:focus+label>span {
     &::-ms-reveal {
       display: none;
     }
-
-    &.input-dropdown {
-      background-color: $table-head;
-      border-left: 1px solid $input-border;
-      border-top-left-radius: 0 !important;
-      border-bottom-left-radius: 0 !important;
-      padding-right: 25px;
-      border: 1px solid $input-border;
-
-      &:focus {
-        border: 1px solid $input-border !important;
-      }
-    }
   }
 
   textarea {
@@ -976,6 +963,19 @@ input[type="checkbox"]:focus+label>span {
     color: $danger-color;
     font-size: $font-size-medium - 0.025;
     margin-bottom: 0;
+  }
+
+  .input-group-text {
+    select {
+      border: 0px;
+      background-color: transparent;
+      height: auto;
+      padding: 0 25px 0 0;
+
+      &:focus {
+        border: 0 !important;
+      }
+    }
   }
 
   .select-number {
