@@ -1,61 +1,50 @@
 @import "./_variables";
-
 body {
   font-family: $font-pragmatica; //font-size: $base-font-size;
   font-weight: $font-weight-normal;
   font-style: normal;
   background: $right-side-background;
-
   a {
     text-decoration: none !important;
     outline: none;
   }
-
   .overflow-hidden {
     overflow: hidden;
   }
-
   .small-modal {
     .modal-dialog {
       max-width: 400px !important;
       margin: auto;
     }
   }
-
   .medium-modal {
     .modal-dialog {
       max-width: 460px !important;
       margin: auto;
     }
   }
-
   .upper-medium-modal {
     .modal-dialog {
       max-width: 700px !important;
       margin: auto;
     }
   }
-
   .upper-medium-modal-history {
     .modal-dialog {
       max-width: 500px !important;
       margin: auto;
     }
   }
-
   .large-modal {
     .modal-dialog {
       max-width: 1070px;
     }
-  }
-
-  // Toast Styles
+  } // Toast Styles
   .alert-warning {
     background: $alert-warning--background-color;
     color: $text-color-default;
     padding: 0.75rem 0.87rem;
     border: 1px solid $default-yellow;
-
     p {
       margin: 0;
       color: $text-color-default;
@@ -64,13 +53,11 @@ body {
       font-weight: $font-weight-normal;
     }
   }
-
   .alert-secondary {
     background: $secondary-light-color;
     color: $text-color-default;
     padding: 0.75rem 0.87rem;
     border: 1px solid $secondary-color;
-
     p {
       margin: 0;
       color: $text-color-default;
@@ -79,11 +66,9 @@ body {
       font-weight: $font-weight-normal;
     }
   }
-
   .container {
     max-width: 1390px;
   }
-
   app-pages {
     display: -webkit-box;
     display: -webkit-flex;
@@ -91,27 +76,21 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100%;
-
     main {
       flex: auto;
       flex-shrink: 0;
     }
-
     app-header {
       flex-shrink: 0;
     }
-
     app-footer {
       flex-shrink: 0;
     }
-  }
-
-  //hr
+  } //hr
   .hr-solid {
     margin-top: 0.5rem;
     position: relative;
     width: 100%;
-
     &:before {
       content: " ";
       background: $hr-border-color;
@@ -121,36 +100,29 @@ body {
       margin-top: 0px;
     }
   }
-
   a.grey-anc-btn {
     color: $color-topmenu !important;
     font-size: 0.75rem;
     font-family: proxima-nova, sans-serif;
     font-weight: 600;
     text-transform: uppercase;
-  }
-
-  // link Hover
+  } // link Hover
   .link-hover {
     transition: all 0.5s ease;
     position: relative;
-
     &:-moz-focusring {
       border: none;
       box-shadow: none;
       outline: none;
     }
-
     &:after {
       content: "";
       position: absolute;
       transition: transform 0.5s ease;
       transform: scaleX(0);
     }
-
     &:hover {
       text-decoration: none;
-
       &:after {
         left: 0;
         bottom: -1px;
@@ -162,53 +134,41 @@ body {
       }
     }
   }
-
   .link-hover-secondary {
     @extend .link-hover;
-
     &:hover {
       &:after {
         background: darken($secondary-color, 3%); // transform: scaleX(1);
       }
     }
   }
-
   .link-hover-danger {
     @extend .link-hover;
-
     &:hover {
       &:after {
         background: darken($danger-color, 3%); // transform: scaleX(1);
       }
     }
   }
-
   .link-hover-grey {
     @extend .link-hover;
-
     &:hover {
       &:after {
         background: darken($color-topmenu, 3%); // transform: scaleX(1);
       }
     }
   }
-
   .link-hover-black {
     @extend .link-hover;
-
     &:hover {
       &:after {
-        background: darken($route-large-title-color,
-          3%); // transform: scaleX(1);
+        background: darken($route-large-title-color, 3%); // transform: scaleX(1);
       }
     }
-  }
-
-  // Pointer
+  } // Pointer
   .pointer {
     cursor: pointer;
   }
-
   /* from user portal */
   .hvr-sweep-to-right.btn-primary {
     &:before {
@@ -216,74 +176,60 @@ body {
       border-color: $btn-bg-primary !important;
       color: $color-white; //color: $secondary-color !important;
     }
-
     &:hover {
       //color: $secondary-color !important; //font-weight: $font-weight-mid;
       color: $color-white !important;
     }
-
     &:focus {
       //color: $secondary-color !important; //font-weight: $font-weight-mid;
       color: $color-white !important;
     }
   }
-
   .hvr-sweep-to-right.btn-danger {
     &:before {
       background: $btn-bg-danger; // color: $danger-color !important;
     }
-
     &:hover {
       // color: $danger-color !important; //font-weight: $font-weight-mid;
       background: $btn-bg-danger;
     }
-
     &:focus {
       // color: $danger-color !important; //font-weight: $font-weight-mid;
       background: $btn-bg-danger;
     }
   }
-
   .hvr-sweep-to-right.btn-outline-primary {
     &:before {
       background: $secondary-color;
       color: $white-color !important;
     }
-
     &:focus {
       background: $secondary-color;
       color: $white-color !important;
     }
   }
-
   .hvr-sweep-to-right.btn-outline-danger {
     &:before {
       background: #dc3545;
       color: $white-color !important;
     }
-
     &:focus {
       background: #dc3545;
       color: $white-color !important;
     }
-  }
-
-  // Btn scss or hover effect
+  } // Btn scss or hover effect
   .btn {
     transition: all 0.5s ease;
     font-size: $base-font-size;
     font-family: $font-proxima;
     border-radius: 3px;
     font-weight: 400;
-
     &:hover {
       box-shadow: 0 12px 20px -12px rgba(98, 100, 101, 0.95) !important;
     }
-
     &-primary {
       background-color: $secondary-color !important;
       border-color: $secondary-color;
-
       &:hover,
       &:focus,
       &:active,
@@ -294,15 +240,12 @@ body {
         box-shadow: 0px 0px 0px;
       }
     }
-
     &-outline-primary {
       color: $secondary-color !important;
       border-color: $secondary-color;
-
       &:disabled {
         color: $dropdown-shipping;
       }
-
       &:hover,
       &:active,
       &:focus,
@@ -313,22 +256,36 @@ body {
         box-shadow: 0px 0px 0px;
       }
     }
-
     &:disabled {
       cursor: not-allowed;
       border: 1px solid $btn-disable-background;
       background: $btn-disable-background !important;
       color: $color-topmenu !important;
-
       &:before {
         background: none !important;
         color: $color-topmenu !important;
         box-shadow: 0px 0px 0px !important;
       }
-
       &:hover {
         box-shadow: 0px 0px 0px !important;
         color: $color-topmenu !important;
+      }
+    }
+  } // generic styling on typehead
+  ngb-typeahead-window {
+    animation: bottomToTop 1s ease-in-out;
+    &.dropdown-menu {
+      padding: 0rem;
+      display: block;
+      border: 1px solid $primary-color;
+      &.show {
+        max-height: 260px;
+        overflow-y: auto;
+      }
+      button.dropdown-item {
+        &.active {
+          background: $primary-grey;
+        }
       }
     }
   }
@@ -368,7 +325,6 @@ body {
 .flag-icon-20-12 {
   width: 20px !important;
   height: 12px !important;
-
   img {
     width: 100%;
     height: 100%;
@@ -378,14 +334,12 @@ body {
 /*--  Checkbox Start  --*/
 
 .fancyOptionBoxes {
-
   input[type="radio"],
   input[type="checkbox"] {
     height: 0;
     width: 0;
     display: none;
   }
-
   input[type="radio"]+label,
   input[type="checkbox"]+label {
     font-size: $font-size-medium;
@@ -397,7 +351,6 @@ body {
     display: flex;
     margin: 0;
     transition: color 250ms cubic-bezier(0.4, 0, 0.23, 1);
-
     span {
       width: 20px;
       height: 20px;
@@ -406,22 +359,15 @@ body {
       border-radius: 2px;
       align-items: center;
       margin-right: 0.58em;
-      background: -moz-linear-gradient(bottom,
-        rgb(255, 255, 255) 0%,
-        rgb(235, 235, 235) 100%);
+      background: -moz-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       /* FF3.6-15 */
-      background: -webkit-linear-gradient(bottom,
-        rgb(255, 255, 255) 0%,
-        rgb(235, 235, 235) 100%);
+      background: -webkit-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       /* Chrome10-25,Safari5.1-6 */
-      background: linear-gradient(bottom,
-        rgb(255, 255, 255) 0%,
-        rgb(235, 235, 235) 100%);
+      background: linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
       filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$color-white', endColorstr='$pagination-bg-color', GradientType=0);
       /* IE6-9 */
       box-shadow: inset 0px 1px 1px 0px rgba(24, 23, 24, 0.07);
-
       &:after {
         border-radius: 2px !important;
         border: 2px;
@@ -432,13 +378,11 @@ body {
       }
     }
   }
-
   input[type="radio"]:checked+label,
   input[type="checkbox"]:checked+label {
     font-size: $font-size-medium; // font-family: $font-proxima;
     color: $text-color-default;
     font-weight: $font-weight-normal;
-
     span {
       width: 20px;
       height: 20px;
@@ -446,22 +390,15 @@ body {
       border-radius: 2px; // background-image: -moz-linear-gradient( 90deg, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       // background-image: -webkit-linear-gradient( 90deg, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       // background-image: -ms-linear-gradient( 90deg, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
-      background: -moz-linear-gradient(bottom,
-        rgb(255, 255, 255) 0%,
-        rgb(235, 235, 235) 100%);
+      background: -moz-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       /* FF3.6-15 */
-      background: -webkit-linear-gradient(bottom,
-        rgb(255, 255, 255) 0%,
-        rgb(235, 235, 235) 100%);
+      background: -webkit-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       /* Chrome10-25,Safari5.1-6 */
-      background: linear-gradient(bottom,
-        rgb(255, 255, 255) 0%,
-        rgb(235, 235, 235) 100%);
+      background: linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
       filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$white-color', endColorstr='$pagination-bg-color', GradientType=0);
       /* IE6-9 */
       box-shadow: inset 0px 1px 1px 0px rgba(24, 23, 24, 0.07);
-
       &:after {
         border-radius: 2px !important;
         border: 0 !important;
@@ -469,19 +406,12 @@ body {
         height: 12px; // background-image: -moz-linear-gradient( 90deg, rgb(0, 0, 0) 0%, rgb(255, 255, 255) 100%);
         // background-image: -webkit-linear-gradient( 90deg, rgb(0, 0, 0) 0%, rgb(255, 255, 255) 100%);
         // background-image: -ms-linear-gradient( 90deg, rgb(0, 0, 0) 0%, rgb(255, 255, 255) 100%);
-        box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.35),
-          inset 0px 0px 1px 0px rgba(0, 0, 0, 0.5);
-        background: -moz-linear-gradient(top,
-          rgb(30, 172, 227) 0%,
-          rgb(42, 150, 218) 100%);
+        box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.35), inset 0px 0px 1px 0px rgba(0, 0, 0, 0.5);
+        background: -moz-linear-gradient(top, rgb(30, 172, 227) 0%, rgb(42, 150, 218) 100%);
         /* FF3.6-15 */
-        background: -webkit-linear-gradient(top,
-          rgb(30, 172, 227) 0%,
-          rgb(42, 150, 218) 100%);
+        background: -webkit-linear-gradient(top, rgb(30, 172, 227) 0%, rgb(42, 150, 218) 100%);
         /* Chrome10-25,Safari5.1-6 */
-        background: linear-gradient(top,
-          rgb(30, 172, 227) 0%,
-          rgb(42, 150, 218) 100%);
+        background: linear-gradient(top, rgb(30, 172, 227) 0%, rgb(42, 150, 218) 100%);
         /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$white-color', endColorstr='$pagination-bg-color', GradientType=0);
         background-color: $checkboxes-border-color;
@@ -508,14 +438,12 @@ input[type="checkbox"]:focus+label>span {
 }
 
 .fancyOptionBoxes {
-
   input[type="radio"],
   input[type="checkbox"] {
     height: 0;
     width: 0;
     display: none;
   }
-
   input[type="radio"]+label,
   input[type="checkbox"]+label {
     font-size: $font-size-medium;
@@ -527,7 +455,6 @@ input[type="checkbox"]:focus+label>span {
     display: flex;
     margin: 0;
     transition: color 250ms cubic-bezier(0.4, 0, 0.23, 1);
-
     span {
       width: 20px;
       height: 20px;
@@ -536,22 +463,15 @@ input[type="checkbox"]:focus+label>span {
       border-radius: 2px;
       align-items: center;
       margin-right: 0.58em;
-      background: -moz-linear-gradient(bottom,
-        rgb(255, 255, 255) 0%,
-        rgb(235, 235, 235) 100%);
+      background: -moz-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       /* FF3.6-15 */
-      background: -webkit-linear-gradient(bottom,
-        rgb(255, 255, 255) 0%,
-        rgb(235, 235, 235) 100%);
+      background: -webkit-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       /* Chrome10-25,Safari5.1-6 */
-      background: linear-gradient(bottom,
-        rgb(255, 255, 255) 0%,
-        rgb(235, 235, 235) 100%);
+      background: linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
       filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$white-color', endColorstr='$pagination-bg-color', GradientType=0);
       /* IE6-9 */
       box-shadow: inset 0px 1px 1px 0px rgba(24, 23, 24, 0.07);
-
       &:after {
         border-radius: 2px !important;
         border: 2px;
@@ -562,13 +482,11 @@ input[type="checkbox"]:focus+label>span {
       }
     }
   }
-
   input[type="radio"]:checked+label,
   input[type="checkbox"]:checked+label {
     font-size: $font-size-medium; // font-family: $font-proxima;
     color: $text-color-default;
     font-weight: $font-weight-normal;
-
     span {
       width: 20px;
       height: 20px;
@@ -576,22 +494,15 @@ input[type="checkbox"]:focus+label>span {
       border-radius: 2px; // background-image: -moz-linear-gradient( 90deg, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       // background-image: -webkit-linear-gradient( 90deg, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       // background-image: -ms-linear-gradient( 90deg, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
-      background: -moz-linear-gradient(bottom,
-        rgb(255, 255, 255) 0%,
-        rgb(235, 235, 235) 100%);
+      background: -moz-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       /* FF3.6-15 */
-      background: -webkit-linear-gradient(bottom,
-        rgb(255, 255, 255) 0%,
-        rgb(235, 235, 235) 100%);
+      background: -webkit-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       /* Chrome10-25,Safari5.1-6 */
-      background: linear-gradient(bottom,
-        rgb(255, 255, 255) 0%,
-        rgb(235, 235, 235) 100%);
+      background: linear-gradient(bottom, rgb(255, 255, 255) 0%, rgb(235, 235, 235) 100%);
       /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
       filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$white-color', endColorstr='$pagination-bg-color', GradientType=0);
       /* IE6-9 */
       box-shadow: inset 0px 1px 1px 0px rgba(24, 23, 24, 0.07);
-
       &:after {
         border-radius: 2px !important;
         border: 0 !important;
@@ -599,19 +510,12 @@ input[type="checkbox"]:focus+label>span {
         height: 12px; // background-image: -moz-linear-gradient( 90deg, rgb(0, 0, 0) 0%, rgb(255, 255, 255) 100%);
         // background-image: -webkit-linear-gradient( 90deg, rgb(0, 0, 0) 0%, rgb(255, 255, 255) 100%);
         // background-image: -ms-linear-gradient( 90deg, rgb(0, 0, 0) 0%, rgb(255, 255, 255) 100%);
-        box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.35),
-          inset 0px 0px 1px 0px rgba(0, 0, 0, 0.5);
-        background: -moz-linear-gradient(top,
-          rgb(30, 172, 227) 0%,
-          rgb(42, 150, 218) 100%);
+        box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.35), inset 0px 0px 1px 0px rgba(0, 0, 0, 0.5);
+        background: -moz-linear-gradient(top, rgb(30, 172, 227) 0%, rgb(42, 150, 218) 100%);
         /* FF3.6-15 */
-        background: -webkit-linear-gradient(top,
-          rgb(30, 172, 227) 0%,
-          rgb(42, 150, 218) 100%);
+        background: -webkit-linear-gradient(top, rgb(30, 172, 227) 0%, rgb(42, 150, 218) 100%);
         /* Chrome10-25,Safari5.1-6 */
-        background: linear-gradient(top,
-          rgb(30, 172, 227) 0%,
-          rgb(42, 150, 218) 100%);
+        background: linear-gradient(top, rgb(30, 172, 227) 0%, rgb(42, 150, 218) 100%);
         /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$white-color', endColorstr='$pagination-bg-color', GradientType=0);
         background-color: $checkboxes-border-color;
@@ -641,36 +545,28 @@ input[type="checkbox"]:focus+label>span {
   ui-switch {
     float: left;
     margin-right: 12px;
-    background-image: -ms-linear-gradient(90deg,
-      $white-color 0,
-      $pagination-bg-color 100%);
+    background-image: -ms-linear-gradient(90deg, $white-color 0, $pagination-bg-color 100%);
     -webkit-box-shadow: inset 1px 2px 2px 2px rgba(24, 23, 24, 0.07);
     box-shadow: inset 1px 2px 2px 2px rgba(24, 23, 24, 0.07);
     width: 48px;
     height: 23px;
     padding: 3px;
     border-radius: 12px;
-
     .switch {
       background-color: $theme-border-grey !important;
       width: 40px;
       height: 16px;
-      background: -ms-linear-gradient(90deg,
-        $white-color 0,
-        $pagination-bg-color 100%);
+      background: -ms-linear-gradient(90deg, $white-color 0, $pagination-bg-color 100%);
       -webkit-box-shadow: inset 0 1px 3px 1px rgba(24, 23, 24, 0.07);
       box-shadow: inset 0 1px 3px 1px rgba(24, 23, 24, 0.07);
-
       &.checked {
         background: $secondary-color !important;
         -webkit-box-shadow: inset 0 1px 2px 0 rgba(24, 23, 24, 0.45);
         box-shadow: inset 0 1px 2px 0 rgba(24, 23, 24, 0.45);
-
         small {
           left: 25px !important;
         }
       }
-
       small {
         width: 15px !important;
         height: 15px !important;
@@ -678,9 +574,7 @@ input[type="checkbox"]:focus+label>span {
         -webkit-box-shadow: 0 4px 7px 0 rgba(24, 23, 24, 0.2);
         box-shadow: 0 4px 7px 0 rgba(24, 23, 24, 0.2);
         background: $white-color !important;
-        background: radial-gradient(circle,
-          $white-color 2%,
-          #f2f2f2 100%) !important;
+        background: radial-gradient(circle, $white-color 2%, #f2f2f2 100%) !important;
       }
     }
   }
@@ -691,7 +585,6 @@ input[type="checkbox"]:focus+label>span {
 // .form-row {
 .form-group {
   margin-bottom: 0.5rem;
-
   label {
     width: 100%;
     margin-top: 0.5rem;
@@ -700,72 +593,58 @@ input[type="checkbox"]:focus+label>span {
     font-size: $font-size-large;
     font-weight: $font-weight-normal;
     color: $text-color-default;
-
     small {
       margin: 0 10px;
     }
   }
-
   input {
     outline: 0;
     border-radius: 4px !important;
     line-height: 3 !important;
     height: 3rem;
     border: 1px solid $provider-input-border;
-
     &::placeholder {
       color: $place-holder-color;
       opacity: 1;
       font-family: $font-proxima;
       font-size: 14px;
     }
-
     &::-ms-input-placeholder {
       color: $place-holder-color;
       font-family: $font-proxima;
     }
-
     &::-webkit-input-placeholder {
       color: $place-holder-color;
       font-family: $font-proxima;
     }
-
     &.inputError {
       box-shadow: inset 0px 0px 0px 1px #d32020 !important;
     }
-
     &.inputErrorRemove {
       border: 1px solid $provider-input-border;
     }
-
     &:focus {
       box-shadow: none !important;
     }
-
     &:-moz-focusring {
       box-shadow: none;
     }
-
     &::-ms-clear,
     &::-ms-reveal {
       display: none;
     }
-
     &.password {
       padding-right: 40px;
     }
-
     &.input-dropdown {
       border-top-right-radius: 0 !important;
       border-bottom-right-radius: 0 !important;
       border-right: 1px solid $input-border;
     }
-
     &[type="time"] {
       line-height: 2 !important;
     }
   }
-
   select {
     height: 3rem;
     border: 1px solid $provider-input-border;
@@ -775,39 +654,31 @@ input[type="checkbox"]:focus+label>span {
     -o-appearance: none;
     background: url("assets/images/select-arrow.png") no-repeat center right 10px $color-white;
     padding-right: 25px;
-
     @media (max-width: $screen-fourteen-hundred) {
       font-size: 0.8rem;
     }
-
     &.inputError {
       border: 1px solid $danger-color;
     }
-
     &.inputErrorRemove {
       border: 1px solid $provider-input-border;
     }
-
     &::-ms-expand {
       display: none;
     }
-
     &:-moz-focusring {
       border: none;
       box-shadow: none;
     }
-
     &:focus {
       box-shadow: none !important;
       border: 1px solid $form-control-focus !important;
       outline: 0;
     }
-
     &::-ms-clear,
     &::-ms-reveal {
       display: none;
     }
-
     &.input-dropdown {
       background-color: $table-head;
       border-left: 1px solid $input-border;
@@ -815,105 +686,84 @@ input[type="checkbox"]:focus+label>span {
       border-bottom-left-radius: 0 !important;
       padding-right: 25px;
       border: 1px solid $input-border;
-
       &:focus {
         border: 1px solid $input-border !important;
       }
     }
   }
-
   textarea {
     border: 1px solid $provider-input-border;
     border-radius: 4px !important;
     -webkit-appearance: none;
     -moz-appearance: none;
     -o-appearance: none;
-
     &:focus {
       -webkit-box-shadow: none !important;
       box-shadow: none !important;
     }
-
     &::placeholder {
       color: $place-holder-color;
       opacity: 1;
       font-family: $font-proxima;
       font-size: 14px;
     }
-
     &.inputError {
       box-shadow: 0px 0px 0px 1px $danger-color !important;
     }
-  }
-
-  // direction RTL
+  } // direction RTL
   &.dir-otherLanguage {
     direction: rtl;
-
     label {
       font-family: $font-NeoSansArabic-Regular !important;
       float: right;
       text-align: right;
     }
-
     input {
       font-family: $font-NeoSansArabic-Regular;
-
       &.select-country-code {
         font-family: $font-pragmatica;
       }
-
       &::placeholder {
         font-family: $font-NeoSansArabic-Regular;
       }
-
       &:-ms-input-placeholder {
         font-family: $font-NeoSansArabic-Regular;
       }
-
       &:-webkit-input-placeholder {
         font-family: $font-NeoSansArabic-Regular;
       }
     }
-
     .select-number {
       input {
         &::placeholder {
           font-family: $font-proxima;
           font-size: $font-size-large + 0.15rem;
         }
-
         &:-ms-input-placeholder {
           font-family: $font-proxima;
           font-size: $font-size-large + 0.15rem;
         }
-
         &::-ms-input-placeholder {
           font-family: $font-proxima;
           font-size: $font-size-large + 0.15rem;
         }
-
         &::-webkit-input-placeholder {
           font-family: $font-proxima;
           font-size: $font-size-large + 0.15rem;
         }
       }
     }
-
     select {
       font-family: $font-NeoSansArabic-Regular;
       background-position: center left 10px;
     }
-
     .select-number {
       .dropdown {
         top: 12px;
-
         .country-section {
           &.dropdown-menu {
             padding: 0;
             right: -19px !important;
-
             ul {
               li {
                 .flag-container {
@@ -923,12 +773,10 @@ input[type="checkbox"]:focus+label>span {
                   margin-left: 9px;
                   margin-right: 0px;
                   text-align: right;
-
                   img {
                     border: 1px solid $primary-grey;
                   }
                 }
-
                 span {
                   direction: ltr;
                   display: inline-block;
@@ -937,7 +785,6 @@ input[type="checkbox"]:focus+label>span {
             }
           }
         }
-
         .dropdown-toggle {
           span {
             direction: ltr;
@@ -947,7 +794,6 @@ input[type="checkbox"]:focus+label>span {
             margin: 0;
             line-height: 1.8;
           }
-
           .flag-container {
             float: right;
             margin-left: 9px;
@@ -955,21 +801,17 @@ input[type="checkbox"]:focus+label>span {
           }
         }
       }
-
       .select-country-code {
         font-size: $root-font-size !important;
       }
-
       input {
         padding-top: 12px !important;
       }
     }
-
     p.inputError {
       text-align: right;
     }
   }
-
   p.inputError {
     line-height: 1;
     margin-top: 0.5rem;
@@ -977,14 +819,12 @@ input[type="checkbox"]:focus+label>span {
     font-size: $font-size-medium - 0.025;
     margin-bottom: 0;
   }
-
   .select-number {
     .input-group-prepend {
       background: $color-white;
       border-radius: 4px;
       border: 1px solid $provider-input-border;
       position: relative;
-
       .social-link-field {
         .social-place-label {
           position: absolute;
@@ -995,7 +835,6 @@ input[type="checkbox"]:focus+label>span {
           width: auto;
           z-index: 0;
         }
-
         input.select-country-code {
           padding-left: 1rem;
           z-index: 1;
@@ -1003,7 +842,6 @@ input[type="checkbox"]:focus+label>span {
           width: 100%;
         }
       }
-
       input.select-country-code {
         background: none;
         border: none;
@@ -1012,30 +850,25 @@ input[type="checkbox"]:focus+label>span {
         font-size: 0.875rem;
         padding-top: 8px;
       }
-
       .select-country-list {
         margin-left: 19px;
       }
-
       .phone {
         span {
           font-size: $font-size-medium;
         }
       }
-
       .country-section {
         border: 0px;
         top: 36px !important;
         left: -21px !important;
         background: transparent;
-
         ul {
           border: 1px solid $provider-input-border;
           max-height: 200px;
           overflow-y: scroll;
           z-index: 9999999;
           position: relative;
-
           li.list-group-item {
             padding-top: 0.45rem;
             padding-bottom: 0.45rem;
@@ -1043,11 +876,9 @@ input[type="checkbox"]:focus+label>span {
             cursor: pointer;
             z-index: 9999999;
             display: inline-block;
-
             img {
               border: 1px solid $grey-border;
             }
-
             &:hover {
               background: $dropdown-color;
             }
@@ -1058,43 +889,35 @@ input[type="checkbox"]:focus+label>span {
           bottom: 62px;
         }
       }
-
       &.inputError {
         // border: 1px solid $danger-color !important;
         box-shadow: inset 0px 0px 0px 1px $danger-color !important;
       }
     }
-
     .input-group-append {
       width: 100%;
       position: relative;
       @extend .input-group-prepend;
-
       input[type="text"] {
         padding-left: 0.75rem;
         padding-right: 34px;
       }
-
       img {
         margin-right: 0px;
         margin-left: 5px;
       }
-
       .dropdown {
         margin-left: 0;
         margin-right: 19px;
         top: 12px;
       }
-
       .country-section {
         left: 0 !important;
         right: -12px !important;
-
         ul {
           padding-right: 0;
         }
       }
-
       .select-country-list {
         .dropdown-toggle {
           &:after {
@@ -1103,20 +926,16 @@ input[type="checkbox"]:focus+label>span {
           }
         }
       }
-
       &.inputError {
         // border: 1px solid $danger-color !important;
         box-shadow: inset 0px 0px 0px 1px $danger-color !important;
       }
     }
-
     .dropdown {
       top: 12px;
-
       .country-section {
         &.dropdown-menu {
           padding: 0;
-
           ul {
             li {
               .flag-container {
@@ -1124,7 +943,6 @@ input[type="checkbox"]:focus+label>span {
                 height: 12px;
                 float: left;
                 margin-right: 9px;
-
                 img {
                   border: 1px solid $primary-grey;
                 }
@@ -1133,7 +951,6 @@ input[type="checkbox"]:focus+label>span {
           }
         }
       }
-
       .dropdown-toggle {
         &:after {
           color: $color-topmenu;
@@ -1141,18 +958,15 @@ input[type="checkbox"]:focus+label>span {
           right: -12px;
           top: 12px;
         }
-
         .flag-container {
           width: 16px;
           height: 12px;
           float: left;
           margin-right: 9px;
-
           img {
             border: 1px solid $primary-grey;
           }
         }
-
         span {
           margin-top: 3px;
           display: inline-flex;
@@ -1184,12 +998,10 @@ h5 {
 .dir-otherLanguage {
   direction: rtl;
   font-family: $font-NeoSansArabic-Regular !important;
-
   .sub-title,
   p {
     font-family: $font-NeoSansArabic-Regular;
   }
-
   h2,
   h3,
   h5 {
@@ -1212,21 +1024,17 @@ h5 {
     font-weight: $font-weight-mid;
     color: $text-color-default;
   }
-
   small {
     font-size: $font-size-medium;
     font-family: $font-proxima;
     font-weight: $font-weight-mid;
     color: $secondary-text-color;
   }
-
   &.dir-otherLanguage {
     text-align: right;
-
     label {
       font-family: $font-NeoSansArabic-Medium;
     }
-
     small {
       font-family: $font-NeoSansArabic-Regular;
     }
@@ -1234,17 +1042,14 @@ h5 {
 }
 
 select {
-
   option[value="undefined"],
   &:focus,
   &.ng-invalid {
     color: $place-holder-color;
   }
-
   &.ng-valid {
     color: inherit;
   }
-
   &[ng-reflect-model="undefined"] {
     color: $place-holder-color;
   }
@@ -1252,14 +1057,12 @@ select {
 
 .creatpass-eng {
   text-align: center;
-
   h3,
   p,
   h2,
   h5 {
     text-align: center !important;
   }
-
   p {
     display: inline-block;
     width: 70%;
@@ -1273,9 +1076,7 @@ select {
     input {
       line-height: 1 !important;
     }
-
     .select-number {
-
       .input-group-prepend,
       .input-group-append {
         input.select-country-code {
@@ -1298,19 +1099,15 @@ select {
 @media (max-width: $screen-sm-screen) {
   .border-md-0 {
     border: none !important;
-
     &-right {
       border-right: 0px !important;
     }
-
     &-left {
       border-left: 0px !important;
     }
-
     &-bottom {
       border-bottom: 0px !important;
     }
-
     &-top {
       border-top: 0px !important;
     }
@@ -1320,19 +1117,15 @@ select {
 @media (max-width: $screen-lg-screen) {
   .border-lg-0 {
     border: none !important;
-
     &-right {
       border-right: 0px !important;
     }
-
     &-left {
       border-left: 0px !important;
     }
-
     &-bottom {
       border-bottom: 0px !important;
     }
-
     &-top {
       border-top: 0px !important;
     }
@@ -1342,42 +1135,33 @@ select {
 @media (max-width: $screen-xs-screen) {
   .border-xs-0 {
     border: none !important;
-
     &-right {
       border-right: 0px !important;
     }
-
     &-left {
       border-left: 0px !important;
     }
-
     &-bottom {
       border-bottom: 0px !important;
     }
-
     &-top {
       border-top: 0px !important;
     }
   }
-
   .border-xs {
     border: none !important;
-
     &-right {
       border-right: 1px solid #6c757d2b !important;
       padding-right: 10px !important;
     }
-
     &-left {
       border-left: 1px solid #6c757d2b !important;
       padding-left: 10px !important;
     }
-
     &-bottom {
       border-bottom: 1px solid #6c757d2b !important;
       padding-bottom: 10px !important;
     }
-
     &-top {
       border-top: 1px solid #6c757d2b !important;
       padding-top: 10px !important;
@@ -1396,43 +1180,36 @@ select {
   padding: 0.45em 1em;
   text-transform: uppercase;
   border-radius: 20px;
-
   &-success {
     background-color: $badge-green;
     color: $secondary-color-dark;
     cursor: context-menu;
   }
-
   &.hashmove-badge {
     &-warning {
       background: $badge-yellow !important;
       color: $default-yellow !important;
       cursor: context-menu;
     }
-
     &-danger {
       background: $danger-light-color !important;
       color: $danger-color !important;
       cursor: context-menu;
     }
-
     &-primary-grey {
       background-color: rgba($primary-grey, 0.9);
       color: $white-color;
     }
-
     &-secondary {
       background-color: rgba($secondary-color, 0.2);
       color: $secondary-color-dark;
     }
-
     &-active {
       color: $active-text-color;
       background: $badge-light-blue;
       border: solid 1px $active-text-color;
     }
   }
-
   &-small {
     font-size: $font-size-medium !important;
     padding: 0 6.5px;
@@ -1447,20 +1224,15 @@ select {
 // Data table
 .rates-grid {
   position: relative;
-
   .dataTables_scroll {
     border: 1px solid $data-table-border;
-
     .dataTables_scrollHead {
       z-index: 2;
-
       .dataTable {
         thead {
           background: $data-table-header-bg;
-
           tr {
             will-change: transform;
-
             th {
               font-family: $font-proxima;
               color: $color-topmenu !important;
@@ -1468,17 +1240,14 @@ select {
               font-weight: normal !important;
               border-bottom: 1px solid $data-table-border !important;
               text-transform: uppercase;
-
               &:hover {
                 color: $primary-color;
               }
-
               &.sorting_asc {
                 background: url("assets/images/icons/sorting_asc.svg") no-repeat;
                 background-size: 10px !important;
                 background-position: center right 5px !important;
               }
-
               &.sorting_desc {
                 @extend .sorting_asc;
                 background: url("assets/images/icons/sorting_desc.svg") no-repeat;
@@ -1488,12 +1257,9 @@ select {
         }
       }
     }
-
     .dataTables_scrollBody {
       border: none;
-      background: $white-color;
-
-      // scrollbar-width: thin;
+      background: $white-color; // scrollbar-width: thin;
       // &::-webkit-scrollbar {
       //   height: 8px;
       //   background-color: #f5f5f5;
@@ -1516,15 +1282,12 @@ select {
         tbody {
           tr {
             will-change: transform;
-
             &.selected {
               background: $data-table-selected-bg;
-
               td {
                 border-bottom: 1px solid $color-topmenuactive !important;
               }
             }
-
             td {
               font-family: $font-proxima;
               font-size: $font-size-large;
@@ -1534,12 +1297,10 @@ select {
               padding: 1rem;
               line-height: 1;
               visibility: visible !important;
-
               .fancyOptionBoxes {
                 input[disabled="true"]+label {
                   span {
                     background: #f9f9f9;
-
                     &:after {
                       background: #f9f9f9;
                       border: 1px solid #f2f2f2;
@@ -1548,18 +1309,15 @@ select {
                   }
                 }
               }
-
               span {
                 color: $place-holder-color;
                 font-family: $font-proxima;
                 font-size: $font-size-large;
                 font-style: italic;
               }
-
               &.gridRoute {
                 .dropdown-menu {
                   padding: 0;
-
                   button {
                     .flag-container {
                       width: 15px;
@@ -1567,18 +1325,15 @@ select {
                       display: flex;
                       margin-top: 2px;
                       margin-right: 10px !important;
-
                       img {
                         border: 1px solid $primary-grey;
                       }
                     }
                   }
                 }
-
                 .origin,
                 .destination {
                   position: relative;
-
                   >.flag-container {
                     width: 16px;
                     height: 24px;
@@ -1586,18 +1341,15 @@ select {
                     position: absolute;
                     left: 10px;
                     top: 11px;
-
                     img {
                       border: 1px solid $primary-grey;
                     }
                   }
-
                   .routeSelected {
                     padding-left: 30px !important;
                   }
                 }
               }
-
               &.routeCell {
                 img {
                   border: 1px solid $primary-grey;
@@ -1605,7 +1357,6 @@ select {
                   top: -1px;
                   border: 1px solid $primary-grey;
                 }
-
                 .col-2 {
                   img {
                     border: unset;
@@ -1616,7 +1367,6 @@ select {
                   }
                 }
               }
-
               &.carrierName {
                 position: relative;
                 padding-left: 35px;
@@ -1628,7 +1378,7 @@ select {
                   position: absolute;
                   left: 0;
                 }
-                .badge{
+                .badge {
                   background-color: transparentize($color: $danger-color, $amount: 0.9);
                   color: $danger-color;
                   font-family: $font-proxima;
@@ -1636,9 +1386,7 @@ select {
                   border: 1px solid $danger-color;
                   font-size: $font-size-medium - 0.15 !important;
                 }
-              }
-
-              // &.dataTables_empty {
+              } // &.dataTables_empty {
               //   color: $dark-grey-border;
               // }
             }
@@ -1647,55 +1395,45 @@ select {
       }
     }
   }
-
   .DTFC_ScrollWrapper {
     .DTFC_LeftWrapper {
       display: none;
     }
-
     .DTFC_RightWrapper {
-
       .DTFC_RightHeadWrapper,
       .DTFC_RightFootWrapper {
         table {
           thead {
             background: none;
-
             th {
               border: none;
               padding: 0;
             }
           }
         }
-
         .DTFC_RightHeadBlocker {
           &.DTFC_Blocker {
             display: none !important;
           }
         }
       }
-
       .DTFC_RightBodyWrapper {
         margin-right: 1px;
         overflow: visible !important;
         margin-top: 1px;
-
         .DTFC_RightBodyLiner {
           overflow-y: unset !important;
           width: 100% !important;
-
           table {
             margin-bottom: 5rem !important;
             border: 0 !important;
             border-spacing: 0 !important;
             border-collapse: collapse !important;
-
             tbody {
               tr {
                 will-change: transform;
                 border-bottom: 1px solid $data-table-border !important;
                 display: block;
-
                 td {
                   border: none;
                   padding: 0 !important;
@@ -1713,91 +1451,71 @@ select {
       }
     }
   }
-
   .dataTables_info {
     font-family: $font-proxima;
     font-size: $font-size-medium;
     color: $pagination-text-color;
     padding-top: 1.3rem;
   }
-
   .dataTables_paginate {
     font-family: $font-proxima;
     padding-top: 1.1em;
-
     a.paginate_button {
       font-size: $font-size-base;
       color: $secondary-text-color !important;
       font-weight: $font-weight-mid;
-
       &.previous,
       &.next {
         padding: 2px 4px;
         border: none;
-        background: linear-gradient(to bottom,
-          $color-white 0,
-          $pagination-bg-color 100%);
+        background: linear-gradient(to bottom, $color-white 0, $pagination-bg-color 100%);
         border-radius: 5px;
         margin-right: 5px;
         border: 1px solid $grey-border;
-
         &:hover {
-          background: linear-gradient(to bottom,
-            $pagination-bg-color 0,
-            $color-white 100%);
+          background: linear-gradient(to bottom, $pagination-bg-color 0, $color-white 100%);
           border: 1px solid $grey-border;
           color: $secondary-text-color !important;
         }
       }
-
       &.first,
       &.last {
         @extend .previous;
         padding-right: 0.7rem;
         padding-left: 0.7rem;
       }
-
       &.disabled {
         cursor: no-drop;
         display: none;
       }
     }
-
     >span {
       >.paginate_button {
         padding: 6px 8px;
         border: 1px solid $grey-border;
-        background: linear-gradient(to bottom,
-          $color-white 0,
-          $pagination-bg-color 100%);
+        background: linear-gradient(to bottom, $color-white 0, $pagination-bg-color 100%);
         border-radius: 5px;
         margin-right: 5px;
         line-height: 1;
-
         &.current {
           background: #f1f2f6;
           border: none;
           box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
           padding: 7px 10px;
-
           &:hover {
             background: #f1f2f6;
             border: none;
             color: $secondary-text-color !important;
           }
         }
-
         &:hover {
-          background: linear-gradient(to bottom,
-            $pagination-bg-color 0,
-            $color-white 100%);
+          background: linear-gradient(to bottom, $pagination-bg-color 0, $color-white 100%);
           border: 1px solid $grey-border;
           color: $secondary-text-color !important;
         }
       }
     }
   }
-
   &.draft-grid {
     .dataTables_scrollBody {
       >table {
@@ -1805,12 +1523,10 @@ select {
       }
     }
   }
-
   &.no-data {
     .DTFC_RightWrapper {
       display: none;
     }
-
     .addAnother {
       width: 99.8%;
     }
@@ -1822,22 +1538,18 @@ select {
 .multiselect-dropdown {
   .dropdown-btn {
     padding: 10px !important;
-
     .dropdown-up,
     .dropdown-down {
       border-left: 5px solid transparent !important;
       border-right: 5px solid transparent !important;
     }
-
     .dropdown-down {
       border-top: 5px solid $secondary-grey !important;
     }
-
     .dropdown-up {
       border-bottom: 5px solid $secondary-grey !important;
     }
   }
-
   .dropdown-list {
     .item1 {
       display: none;
@@ -1846,7 +1558,8 @@ select {
 }
 
 quill-editor {
-  .ql-toolbar, .quill-editor {
+  .ql-toolbar,
+  .quill-editor {
     background-color: $white-color;
   }
 }
@@ -1861,43 +1574,43 @@ quill-editor {
   font-family: $font-proxima;
   transition: 0.5s;
   h1 {
-      font-size: 2rem !important;
+    font-size: 2rem !important;
   }
   h2 {
-      font-size: 1.5rem !important;
+    font-size: 1.5rem !important;
   }
   h3 {
-      font-size: 1.28rem !important;
+    font-size: 1.28rem !important;
   }
   h4 {
-      font-size: $root-font-size !important;
+    font-size: $root-font-size !important;
   }
   h5 {
-      font-size: $font-size-medium !important;
+    font-size: $font-size-medium !important;
   }
   h6 {
-      font-size: $font-size-base !important;
+    font-size: $font-size-base !important;
   }
   p {
-      font-size: $font-size-medium;
-      color: $color-menuheading-black;
-      margin: 0;
-      line-height: 1.5;
+    font-size: $font-size-medium;
+    color: $color-menuheading-black;
+    margin: 0;
+    line-height: 1.5;
   }
   .ql-align {
     &-center {
       text-align: center;
     }
     &-right {
-    text-align: right;      
+      text-align: right;
     }
     &-justify {
-    text-align: justify;      
+      text-align: justify;
     }
   }
   ol {
     li {
-    list-style: unset !important;
+      list-style: unset !important;
       &:before {
         content: "" !important;
       }
@@ -1907,35 +1620,34 @@ quill-editor {
   ul {
     padding-left: 1rem;
     padding-right: 1rem;
-      li {
-          font-family: $font-proxima;
-          font-size: $font-size-medium !important;
-          padding-left: 0px;
-          color: $color-menuheading-black !important;
-          list-style: none;
-          position: relative;
-          &::before {
-              color: $color-topmenuactive;
-              content: "\2022";
-              font-weight: bold;
-              display: inline-block;
-              transform: scale(1.8);
-              position: absolute;
-              left: -10px;
-              top: -1px;
-          }
-          &.ql-direction-rtl {
-            &.ql-align-right {
-              direction: rtl !important;
-              text-align: right !important;
-
-              &:before {
-                left: auto;
-                right: -10px;
-              }
-            }
-          }
+    li {
+      font-family: $font-proxima;
+      font-size: $font-size-medium !important;
+      padding-left: 0px;
+      color: $color-menuheading-black !important;
+      list-style: none;
+      position: relative;
+      &::before {
+        color: $color-topmenuactive;
+        content: "\2022";
+        font-weight: bold;
+        display: inline-block;
+        transform: scale(1.8);
+        position: absolute;
+        left: -10px;
+        top: -1px;
       }
+      &.ql-direction-rtl {
+        &.ql-align-right {
+          direction: rtl !important;
+          text-align: right !important;
+          &:before {
+            left: auto;
+            right: -10px;
+          }
+        }
+      }
+    }
   }
   &.showMore {
     height: 210px;
@@ -1943,18 +1655,13 @@ quill-editor {
   }
 }
 
-
-
 // pagination
-
 .ngx-pagination {
   margin: 30px 0 0 0;
   padding: 0;
   float: right;
-
   li {
     margin-right: 5px !important;
-
     a {
       padding: 0.45rem 0.65rem;
       border: 1px solid #e5e5e5;
@@ -1965,12 +1672,10 @@ quill-editor {
       font-size: 0.75rem;
       color: #555555 !important;
       font-weight: 500;
-
       .show-for-sr {
         display: none;
       }
     }
-
     &.current {
       padding: 0.3rem 0.65rem;
       background: #f1f2f6;
@@ -1980,22 +1685,18 @@ quill-editor {
       border-radius: 5px;
       font-size: 0.75rem;
       font-weight: 500;
-
       .show-for-sr {
         display: none;
       }
     }
-
     &.pagination-next {
       &.disabled {
         display: none;
       }
-
       a {
         padding: 0.3rem 0.35rem;
         top: 3px;
         position: relative;
-
         &:after {
           content: url("assets/images/icons/icon_arrow_right.svg");
           margin: 0 !important;
@@ -2004,12 +1705,10 @@ quill-editor {
         }
       }
     }
-
     &.pagination-previous {
       &.disabled {
         display: none;
       }
-
       a {
         padding: 0.3rem 0.35rem;
         top: 3px;
@@ -2018,7 +1717,6 @@ quill-editor {
         background: linear-gradient(to bottom, #ffffff 0, #ebebeb 100%);
         border-radius: 5px;
         line-height: 1;
-
         &:before {
           content: url("assets/images/icons/icon_arrow_left.svg");
           margin: 0 !important;
@@ -2027,7 +1725,6 @@ quill-editor {
         }
       }
     }
-
     &:last-child {
       margin-right: 0px !important;
     }

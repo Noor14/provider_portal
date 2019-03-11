@@ -380,17 +380,17 @@
       }
     }
   }
-  ngb-typeahead-window {
-    max-height: 200px;
-    overflow-y: auto;
-    padding: 0;
-    .dropdown-item {
-      &.active,
-      &:active {
-        background: $primary-grey;
-      }
-    }
-  }
+  // ngb-typeahead-window {
+  //   max-height: 200px;
+  //   overflow-y: auto;
+  //   padding: 0;
+  //   .dropdown-item {
+  //     &.active,
+  //     &:active {
+  //       background: $primary-grey;
+  //     }
+  //   }
+  // }
   .custom-multiselect {
     .ng-select-container {
       max-height: 155px !important;
