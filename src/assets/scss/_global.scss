@@ -966,11 +966,14 @@ input[type="checkbox"]:focus+label>span {
   }
 
   .input-group-text {
+    padding: 0;
     select {
       border: 0px;
       background-color: transparent;
       height: auto;
-      padding: 0 25px 0 0;
+      padding: 5px 20px 5px 10px;
+      font-size: $font-size-medium !important;
+      color: $text-color-default !important;
 
       &:focus {
         border: 0 !important;
