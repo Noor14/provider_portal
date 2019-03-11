@@ -19,11 +19,12 @@
                       <form autocomplete="off" novalidate [formGroup]="generalForm">
                       <div class="form-group">
                         <label>Listing Name</label>
-                          <input type="text" maxlength="100" class="form-control" formControlName="whName">
+                        <input type="text" (keypress)="oneSpaceHandler($event)" maxlength="100" class="form-control" formControlName="whName">
                       </div>
                       <div class="form-group">
                         <label>Property Description</label>
-                        <textarea formControlName="whDetail" cols="30" rows="4" class="form-control" placeholder="provide details about the properties you are listing"></textarea>
+                        <textarea formControlName="whDetail" (keypress)="oneSpaceHandler($event)" cols="30" rows="4" class="form-control"
+                          placeholder="provide details about the properties you are listing"></textarea>
                       </div>
                       </form>
                     </div>
@@ -33,23 +34,20 @@
                       <small class="sub-title">Images show rthe condition of the property and are very compelling for space seekers.
                       </small>
                       <div class="document-Info d-flex flex-column mt-2">
-                        <div class="file-uploader">
-                          <!-- <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'gallery')" [configId]="'config'"> -->
+                      <div class="file-uploader" *ngIf="uploadedGalleries && uploadedGalleries.length < config.maxFilesCount">
+                          <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event)" [configId]="'config'">
                           <img src="../../../assets/images/icons/manager-icon.png" />
                           <p class="m-0 mt-3">
                             Drag here or
                             <span class="browse-span">browse</span> to upload </p>
                           <small class="drag-support"> ( Maximum size per document: 5 MB) </small>
-                          <!-- </app-ng-files-drag-n-upload> -->
+                          </app-ng-files-drag-n-upload>
                         </div>
-                        <div class="row uploadedDocx ">
-                          <div class="col-lg-3 mt-3">
+                        <div class="row uploadedDocx mt-3">
+                          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-3 uploaded-images" *ngFor="let galleryDocx of uploadedGalleries; let i = index">
                             <div class="display-upload delete">
-                              <video class="animated fadeIn" controls>
-                                <source src="" type="video/mp4">
-                              </video>
-                              <img class="w-100" />
-                              <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" />
+                              <img [src]="galleryDocx.DocumentFile" />
+                              <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(i, galleryDocx)" />
                             </div>
                           </div>
                         </div>
@@ -94,7 +92,24 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                           <div class="form-group">
                             <label>City</label>
-                            <input type="text" formControlName="city" maxlength="100" class="form-control" placeholder="Enter City" #searchElement>
+                          <div class="city-dropdown">
+                            <div class="flag-container">
+                          <img *ngIf="locationForm.controls['city'].value && locationForm.controls['city'].value.imageName" src="{{'../../../../../assets/images/flags/4x3/' + (locationForm.controls['city'].value.imageName | lowercase) + '.svg'}}"
+                                type="image/svg+xml">
+                            </div>
+                            <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control"
+                            [ngClass]="{'routeSelected': locationForm.value.city && locationForm.value.city.title && locationForm.value.city.id}"
+                            maxlength="100" formControlName="city"
+                              [ngbTypeahead]="searchCity" [resultTemplate]="st"
+                              [inputFormatter]="formatterCity">
+                            <ng-template #st let-r="result">
+                              <div class="flag-container mr-1">
+                                <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}">
+                              </div>
+                              <ngb-highlight [result]="r.title"></ngb-highlight>
+                            </ng-template>
+                          </div>
+                            <!-- <input type="text" formControlName="city" maxlength="100" class="form-control" placeholder="Enter City" #searchElement> -->
                                     <!-- <span class="animated fadeIn" *ngIf="cityError">
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">{{requiredFields}}</p>
                                       <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
@@ -110,7 +125,8 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                           <div class="form-group">
                             <label>Address </label>
-                            <textarea cols="30" rows="3" formControlName="address" class="form-control" placeholder="Enter at a minimum, the street and town where the property is located"></textarea>
+                            <textarea cols="30" rows="3" #searchElement (keypress)="oneSpaceHandler($event)" formControlName="address" class="form-control"
+                              placeholder="Enter at a minimum, the street and town where the property is located"></textarea>
                             <!-- <input type="text" maxlength="200" class="form-control" placeholder="Address line 1"> -->
                             <!-- <span class="animated fadeIn" *ngIf="addressline1Error">
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline1'].hasError('required') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">{{requiredFields}}</p>
@@ -126,7 +142,7 @@
                         <div class="col-lg-6 col-md-6 col-sm-12">
                           <div class="form-group">
                             <label>P.O Box</label>
-                            <input type="text" formControlName="poBox" maxlength="16" class="form-control">
+                            <input type="text" (keypress)="oneSpaceHandler($event)" formControlName="poBox" maxlength="16" class="form-control">
                             <!-- <span class="animated fadeIn" *ngIf="poBoxError">
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('required') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">{{requiredFields}}</p>
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('minlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">PO
@@ -179,7 +195,7 @@
                       </label>
 
                       <div class="input-group">
-                        <input class="form-control input-dropdown" type="text" formControlName="warehouseSpace">
+                      <input class="form-control input-dropdown" (keypress)="oneSpaceHandler($event)" type="text" formControlName="warehouseSpace">
                         <div class="input-group-append">
                           <select class="form-control input-dropdown" formControlName="warehouseSpaceUnit">
                             <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
@@ -202,7 +218,7 @@
                     <div class="form-group">
                       <label>Offered Space on HashMove</label>
                       <div class="input-group">
-                        <input class="form-control input-dropdown" type="text" formControlName="hashmoveSpace">
+                        <input class="form-control input-dropdown" type="text" (keypress)="oneSpaceHandler($event)" formControlName="hashmoveSpace">
                           <div class="input-group-append">
                           <span class="input-group-text">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span>
                         </div>
@@ -238,7 +254,7 @@
                   <div class="col-xl-3 col-md-3 col-sm-12">
                     <div class="form-group">
                       <div class="input-group">
-                      <input class="form-control input-dropdown" type="text" formControlName="minLeaseValueOne">
+                        <input class="form-control input-dropdown" (keypress)="oneSpaceHandler($event)" type="text" formControlName="minLeaseValueOne">
                         <div class="input-group-append">
                             <select class="form-control input-dropdown" formControlName="minLeaseUnitOne">
                             <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
@@ -250,7 +266,7 @@
                   <div class="col-xl-3 col-md-3 col-sm-12">
                     <div class="form-group">
                       <div class="input-group">
-                        <input class="form-control input-dropdown" type="text" formControlName="minLeaseValueTwo">
+                      <input class="form-control input-dropdown" (keypress)="oneSpaceHandler($event)" type="text" formControlName="minLeaseValueTwo">
                         <div class="input-group-append">
                           <select class="form-control input-dropdown" formControlName="minLeaseUnitTwo">
                             <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>

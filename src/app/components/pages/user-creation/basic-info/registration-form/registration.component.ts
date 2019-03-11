@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, NgZone, state, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
-import { } from '@types/googlemaps';
+import { } from 'googlemaps';
 import { UserCreationService } from '../../user-creation.service';
 import { SharedService } from '../../../../../services/shared.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -226,12 +226,11 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
         this.location = res.results[0].geometry.location;
         if (country.id) {
           let selectedCountry = this.countryList.find(obj => obj.title.toLowerCase() == country.title.toLowerCase());
-          this.cityList.forEach(element => {
-            if (element.desc[0].CountryName === selectedCountry.title) {
-              this.cityAr = element
-            }
-          });
-
+          // this.cityList.forEach(element => {
+          //   if (element.desc[0].CountryName === selectedCountry.title) {
+          //     this.cityAr = element
+          //   }
+          // });
           this.selectedLangIdbyCountry = selectedCountry.desc[0].LanguageID;
           this.selectPhoneCode(selectedCountry);
           this.selectTelCode(selectedCountry);

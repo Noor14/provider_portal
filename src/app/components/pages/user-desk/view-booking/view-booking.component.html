@@ -40,7 +40,7 @@
       <div class="card">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-6 border-right border-md-0 d-flex justify-content-between">
+            <div class="col-md-4 border-right border-md-0 d-flex justify-content-between">
               <div class="statusView">
                 <label class="status-label">Booking</label>
                 <strong>{{bookingDetails.BookingStatus.toLowerCase()}}</strong>
@@ -61,23 +61,12 @@
 
             </div>
 
-            <!-- <div class="col-md-4 border-right border-md-0">
-              <label class="status-label">Shipping</label>
-              <strong *ngIf="bookingDetails.BookingStatus == 'Current'">
-                In-Transit -->
-            <!-- <span class="badge badge-pill hashmove-badge-secondary mr-1 mt-0 pull-right">On Time</span> -->
-            <!-- </strong> -->
-            <!-- <strong *ngIf="bookingDetails.BookingStatus == 'Past'"> -->
-            <!-- Completed -->
-            <!-- <span class="badge badge-pill hashmove-badge-secondary mr-1 mt-0 pull-right">On Time</span> -->
-            <!-- </strong> -->
-            <!-- <strong *ngIf="bookingDetails.BookingStatus == 'Saved'"> -->
-            <!-- -- -->
-            <!-- <span class="badge badge-pill hashmove-badge-secondary mr-1 mt-0 pull-right">On Time</span> -->
-            <!-- </strong> -->
+            <div class="col-md-4 border-right border-md-0">
+              <label class="status-label">Shipment Status</label>
+              <strong>{{bookingDetails.BookingStatus.toLowerCase()}}</strong>
+            </div>
 
-            <!-- </div> -->
-            <div class="col-md-6">
+            <div class="col-md-4">
               <label class="status-label">Billing</label>
               <strong class="billing-rate">
                 {{bookingDetails.CurrencyCode}} {{bookingDetails.BookingTotalAmount | number: '1.2-2'}}
@@ -169,7 +158,7 @@
                     <p>+/- {{bookingDetails.TransitTime}} Days</p>
                   </div>
                 </div>
-              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
                   <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Voyage #
@@ -177,14 +166,14 @@
                     <p>{{bookingDetails.VoyageRefNum}}</p>
                   </div>
                 </div>
-              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
                   <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Vessel Name</h5>
                     <p>{{bookingDetails.VesselName}}</p>
                   </div>
                 </div>
-              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
                   <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Vessel #
@@ -192,7 +181,7 @@
                     <p>{{bookingDetails.VesselCode}}</p>
                   </div>
                 </div>
-             <div class="media col-12" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
+                <div class="media col-12" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
                   <div class="align-self-start mr-3">
                     <img [src]="baseExternalAssets + '/' + bookingDetails.CarrierImage" alt="icon" width="62px" height="62px">
                   </div>
@@ -238,7 +227,8 @@
                   <span class="badge hashmove-badge-warning" *ngIf="invoiceDocOrigin && !invoiceDocOrigin.DocumentFileName">
                     AWAITING FROM CUSTOMER
                   </span>
-                  <span class="badge hashmove-badge-danger" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName &&  invoiceDocOrigin.DocumentLastStatus.toLowerCase() == 're-upload'"> REJECTED </span>
+                  <span class="badge hashmove-badge-danger" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName &&  invoiceDocOrigin.DocumentLastStatus.toLowerCase() == 're-upload'">
+                    REJECTED </span>
                 </div>
 
               </li>
@@ -258,10 +248,11 @@
                     (click)="reuploadDoc(packingListDocOrigin)">Reject</button>
                   <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable && (packingListDocOrigin.DocumentLastStatus.toLowerCase() != 'approved' && packingListDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"
                     (click)="approvedDoc(packingListDocOrigin)">Approve</button>
-                    <span class="badge hashmove-badge-warning" *ngIf="packingListDocOrigin && !packingListDocOrigin.DocumentFileName">
-                  AWAITING FROM CUSTOMER
-                </span> 
-                <span class="badge hashmove-badge-danger" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName &&  packingListDocOrigin.DocumentLastStatus.toLowerCase() == 're-upload'"> REJECTED </span>
+                  <span class="badge hashmove-badge-warning" *ngIf="packingListDocOrigin && !packingListDocOrigin.DocumentFileName">
+                    AWAITING FROM CUSTOMER
+                  </span>
+                  <span class="badge hashmove-badge-danger" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName &&  packingListDocOrigin.DocumentLastStatus.toLowerCase() == 're-upload'">
+                    REJECTED </span>
                 </div>
               </li>
             </ul>
@@ -289,7 +280,8 @@
                   <span class="badge badge-success" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
-                  <span class="badge hashmove-badge-danger" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName &&  invoiceDocDestination.DocumentLastStatus.toLowerCase() == 're-upload'"> REJECTED </span>
+                  <span class="badge hashmove-badge-danger" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName &&  invoiceDocDestination.DocumentLastStatus.toLowerCase() == 're-upload'">
+                    REJECTED </span>
                 </div>
 
               </li>
@@ -308,7 +300,8 @@
                   <span class="badge badge-success" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
-                  <span class="badge hashmove-badge-danger" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName &&  packingListDocDestination.DocumentLastStatus.toLowerCase() == 're-upload'"> REJECTED </span>
+                  <span class="badge hashmove-badge-danger" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName &&  packingListDocDestination.DocumentLastStatus.toLowerCase() == 're-upload'">
+                    REJECTED </span>
                   <button class="btn disable" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable && packingListDocDestination.DocumentLastStatus.toLowerCase() != 're-upload' && packingListDocDestination.DocumentLastStatus.toLowerCase() != 'approved'"
                     (click)="reuploadDoc(packingListDocDestination)">Reject</button>
                   <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable && (packingListDocDestination.DocumentLastStatus.toLowerCase() != 'approved' && packingListDocDestination.DocumentLastStatus.toLowerCase() != 're-upload')"
@@ -331,7 +324,8 @@
                   <span class="badge badge-success" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
-                  <span class="badge hashmove-badge-danger" *ngIf="ladingBill && ladingBill.DocumentFileName &&  ladingBill.DocumentLastStatus.toLowerCase() == 're-upload'"> REJECTED </span>
+                  <span class="badge hashmove-badge-danger" *ngIf="ladingBill && ladingBill.DocumentFileName &&  ladingBill.DocumentLastStatus.toLowerCase() == 're-upload'">
+                    REJECTED </span>
                   <button class="btn disable" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable && ladingBill.DocumentLastStatus.toLowerCase() != 're-upload' && ladingBill.DocumentLastStatus.toLowerCase() != 'approved'"
                     (click)="reuploadDoc(ladingBill)">Reject</button>
                   <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable && (ladingBill.DocumentLastStatus.toLowerCase() != 'approved' && ladingBill.DocumentLastStatus.toLowerCase() != 're-upload')"

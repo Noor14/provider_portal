@@ -112,11 +112,34 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
   // term and condition
   public editorContentFCL: any;
   public editorContentLCL: any;
+
+  private toolbarOptions = [
+    ['bold', 'italic', 'underline'],        // toggled buttons
+
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+    [{ 'direction': 'rtl' }],                         // text direction
+
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    [{ 'align': [] }],
+
+    ['clean']                                         // remove formatting button
+  ];
+
   public editorOptionsFCL = {
-    placeholder: "insert content..."
+    placeholder: "insert content...",
+       modules: {
+      toolbar: this.toolbarOptions
+    }
+
   };
   public editorOptionsLCL = {
-    placeholder: "insert content..."
+    placeholder: "insert content...",
+       modules: {
+      toolbar: this.toolbarOptions
+    }
   };
 
   public disableFCL: boolean;
