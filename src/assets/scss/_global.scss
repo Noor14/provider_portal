@@ -282,7 +282,18 @@ body {
         max-height: 260px;
         overflow-y: auto;
       }
-      button.dropdown-item {
+      .dropdown-item {
+        display: flex;
+        .flag-container {
+          width: 15px;
+          height: 12px;
+          margin-right: 10px !important;
+          img {
+            width: 16px;
+            height: 12px;
+            border: 1px solid $primary-grey;
+          }
+        }
         &.active {
           background: $primary-grey;
         }
