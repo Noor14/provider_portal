@@ -166,7 +166,7 @@ export class SettingsComponent implements OnInit {
     });
 
     this.businessInfoForm = new FormGroup({
-      orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
+      orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4)]),
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
       address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10)]),
       city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3)]),
