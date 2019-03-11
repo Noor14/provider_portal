@@ -481,18 +481,18 @@ export class SeaRateDialogComponent implements OnInit {
       priceBasis: this.priceBasis,
       providerLocationD: "",
       providerLocationL: "",
-      polID: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortID : null,
-      polName: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortName : null,
-      polCode: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortCode : null,
-      podID: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortID : null,
-      polType: (this.filterOrigin && this.filterOrigin.PortID) ? this.filterOrigin.PortType : null,
-      podName: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortName : null,
-      podCode: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortCode : null,
-      podType: (this.filterDestination && this.filterDestination.PortID) ? this.filterDestination.PortType : null,
+      polID: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortID || this.filterOrigin.id) : null,
+      polName: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortName || this.filterOrigin.title) : null,
+      polCode: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortCode || this.filterOrigin.code) : null,
+      podID: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortID || this.filterDestination.id) : null,
+      polType: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortType || 'GROUND') : null,
+      podName: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortName || this.filterDestination.title) : null,
+      podCode: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortID || this.filterDestination.code) : null,
+      podType: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortType || 'GROUND') : null,
       price: this.selectedPrice,
       couplePrice: this.couplePrice,
-      currencyID: (this.selectedCurrency.id) ? this.selectedCurrency.id : 101,
-      currencyCode: (this.selectedCurrency.shortName) ? this.selectedCurrency.shortName : 'AED',
+      currencyID: (this.selectedCurrency && this.selectedCurrency.id) ? this.selectedCurrency.id : 101,
+      currencyCode: (this.selectedCurrency && this.selectedCurrency.shortName) ? this.selectedCurrency.shortName : 'AED',
       effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
       effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
       JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
@@ -1022,13 +1022,13 @@ export class SeaRateDialogComponent implements OnInit {
    * @memberof SeaFreightComponent
    */
   getDropdownsList() {
-    this._sharedService.cityList.subscribe((state: any) => {
-      if (state) {
-        console.log(state);
+    // this._sharedService.cityList.subscribe((state: any) => {
+    //   if (state) {
+    //     console.log(state);
 
-        this.cities = state;
-      }
-    });
+    //     this.cities = state;
+    //   }
+    // });
     console.log(this.selectedData);
     this.transPortMode = 'SEA'
     this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
@@ -1120,23 +1120,19 @@ export class SeaRateDialogComponent implements OnInit {
     if (typeof obj === 'object') {
       this.showPickupDropdown = false;
       this.showDestinationDropdown = false;
-      // if(obj.PortName) {
-      //   this.filt
-      // }
-      // console.log(this.filterDestination);
     }
-    // if (!this.showDoubleRates && this.transPortMode === 'GROUND') {
-    //   console.log(obj);
-    //   if (obj.length >= 3) {
-    //     this.searchTerm$ = obj
-    //     this._manageRateService.getAllCities(obj).pipe(debounceTime(400), distinctUntilChanged()).subscribe((res: any) => {
-    //       console.log(res)
-    //       this.cities = res;
-    //     }, (err: any) => {
-    //       console.log(err)
-    //     })
-    //   }
-    // }
+    if (!this.showDoubleRates && this.transPortMode === 'GROUND') {
+      console.log(obj);
+      if (obj.length >= 3) {
+        this.searchTerm$ = obj
+        this._manageRateService.getAllCities(obj).pipe(debounceTime(400), distinctUntilChanged()).subscribe((res: any) => {
+          console.log(res)
+          this.cities = res;
+        }, (err: any) => {
+          console.log(err)
+        })
+      }
+    }
   }
 
 
@@ -1155,9 +1151,9 @@ export class SeaRateDialogComponent implements OnInit {
   //Ground areas formatter and observer
   citiesList = (text$: Observable<string>) =>
     text$.pipe(
-      debounceTime(200),
+      debounceTime(500),
       map(term => (!term || term.length < 3) ? [] : this.cities.filter(
-        v => (v.title.toLowerCase().indexOf(term.toLowerCase()) > -1))))
+        v => (v.title.toLowerCase().indexOf(term.toLowerCase()) > -1 || v.shortName.toLowerCase().indexOf(term.toLowerCase()) > -1 || v.code.toLowerCase().indexOf(term.toLowerCase()) > -1))))
 
   citiesFormatter = (x: { title: string, imageName: string }) => {
     return x.title
