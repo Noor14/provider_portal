@@ -49,6 +49,7 @@ export class SeaRateDialogComponent implements OnInit {
   @ViewChild("dp") input: NgbInputDatepicker;
   @ViewChild("rangeDp") rangeDp: ElementRef;
   @ViewChild('originPickupBox') originPickupBox: ElementRef;
+  @ViewChild('destinationPickupBox') destinationPickupBox: ElementRef;
   @ViewChild('originDropdown') originDropdown: any
   @ViewChild('destinationDropdown') destinationDropdown;
   @Input() selectedData: any;
@@ -501,10 +502,10 @@ export class SeaRateDialogComponent implements OnInit {
       polName: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortName || this.filterOrigin.title) : null,
       polCode: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortCode || this.filterOrigin.code) : null,
       podID: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortID || this.filterDestination.id) : null,
-      polType: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortType || 'CITY') : null,
+      polType: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortType || this.filterOrigin.type) : null,
       podName: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortName || this.filterDestination.title) : null,
       podCode: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortID || this.filterDestination.code) : null,
-      podType: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortType || 'CITY') : null,
+      podType: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortType || this.filterDestination.type) : null,
       price: this.selectedPrice,
       couplePrice: this.couplePrice,
       currencyID: (this.selectedCurrency && this.selectedCurrency.id) ? this.selectedCurrency.id : 101,
@@ -594,6 +595,11 @@ export class SeaRateDialogComponent implements OnInit {
           duplicateRecord = true;
         }
       });
+    }
+
+    if (obj.podType === 'Ground' && obj.polType === 'Ground') {
+      this._toast.info('Please change origin or destination type', 'Info')
+      return;
     }
 
     if (duplicateRecord) {
@@ -1099,12 +1105,28 @@ export class SeaRateDialogComponent implements OnInit {
   togglePorts(type) {
     if (type === 'pickup-sea') {
       this.showPickupPorts = true
+      setTimeout(() => {
+        this.originPickupBox.nativeElement.focus();
+        this.originPickupBox.nativeElement.select();
+      }, 10);
     } else if (type === 'pickup-door') {
       this.showPickupDoors = true
+      setTimeout(() => {
+        this.originPickupBox.nativeElement.focus();
+        this.originPickupBox.nativeElement.select();
+      }, 10);
     } else if (type === 'delivery-sea') {
       this.showDestPorts = true
+      setTimeout(() => {
+        this.destinationPickupBox.nativeElement.focus();
+        this.destinationPickupBox.nativeElement.select();
+      }, 10);
     } else if (type === 'delivery-door') {
       this.showDestDoors = true
+      setTimeout(() => {
+        this.destinationPickupBox.nativeElement.focus();
+        this.destinationPickupBox.nativeElement.select();
+      }, 10);
     }
   }
 
@@ -1138,7 +1160,6 @@ export class SeaRateDialogComponent implements OnInit {
       this.showDestinationDropdown = false;
     }
     if (!this.showDoubleRates && this.transPortMode === 'GROUND') {
-      console.log(obj);
       if (obj.length >= 3) {
         this.searchTerm$ = obj
         this._manageRateService.getAllCities(obj).pipe(debounceTime(400), distinctUntilChanged()).subscribe((res: any) => {
@@ -1149,6 +1170,11 @@ export class SeaRateDialogComponent implements OnInit {
         })
       }
     }
+  }
+
+
+  onCityKeyUp(obj) {
+    console.log(obj);
   }
 
 
