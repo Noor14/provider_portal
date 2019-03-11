@@ -10,6 +10,12 @@ import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UserCreationService } from '../../user-creation/user-creation.service';
 import { SharedService } from '../../../../services/shared.service';
+import { NgFilesService, NgFilesConfig, NgFilesStatus, NgFilesSelected } from '../../../../directives/ng-files';
+import { DocumentFile } from '../../../../interfaces/document.interface';
+import { JsonResponse } from '../../../../interfaces/JsonResponse';
+import { BasicInfoService } from '../../user-creation/basic-info/basic-info.service';
+import { baseExternalAssets } from '../../../../constants/base.url';
+
 @Component({
   selector: 'app-warehouse',
   encapsulation: ViewEncapsulation.None,
@@ -47,7 +53,21 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   public location: any = { lat: undefined, lng: undefined };
   public draggable: boolean = true;
 
-  public geoCoder;
+  public geoCoder: any;
+
+
+  // gallery
+  private fileStatus = undefined;
+  private docTypeId = null;
+  public uploadedGalleries: any[] = [];
+  public warehouseDocx: any;
+
+  public config: NgFilesConfig = {
+    acceptExtensions: ['jpg', 'png', 'bmp'],
+    maxFilesCount: 12,
+    maxFileSize: 12 * 1024 * 1000,
+    totalFilesSize: 12 * 12 * 1024 * 1000
+  };
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -56,10 +76,14 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     private _warehouseService: WarehouseService,
     private _toastr: ToastrService,
     private _sharedService: SharedService,
-    private _userCreationService: UserCreationService
+    private _userCreationService: UserCreationService,
+    private _basicInfoService: BasicInfoService,
+    private ngFilesService: NgFilesService,
+
     ) { }
 
   ngOnInit() {
+    this.ngFilesService.addConfig(this.config, 'config');
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
@@ -177,6 +201,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
           this.facilities = res.returnObject.WHFacilitiesProviding;
           this.warehouseUsageType = res.returnObject.WHUsageType;
           this.ceilingsHeight = res.returnObject.CeilingDesc;
+          this.warehouseDocx = res.returnObject.documentType;
           if (this.ceilingsHeight){
             this.propertyDetailForm.controls['ceilingHeight'].setValue(this.ceilingsHeight[0].CeilingID);
           }
@@ -250,7 +275,135 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     })
   }
 
+  selectDocx(selectedFiles: NgFilesSelected): void {
+    if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
+      if (selectedFiles.status == 1) this._toastr.error('Please select 12 or less file(s) to upload.', '')
+      else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 5 MB. Please upload smaller file.', '')
+      else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
+      return;
+    }
+    else {
+      try {
+        if (this.uploadedGalleries.length + selectedFiles.files.length > this.config.maxFilesCount) {
+            this._toastr.error('Please select 12 or less file(s) to upload.', '');
+            return;
+          }
+        this.onFileChange(selectedFiles)
+      } catch (error) {
+        console.log(error);
+      }
 
+    }
+  }
+
+  onFileChange(event) {
+    let flag = 0;
+    if (event) {
+      try {
+        const allDocsArr = []
+        const fileLenght: number = event.files.length
+        for (let index = 0; index < fileLenght; index++) {
+          let reader = new FileReader();
+          const element = event.files[index];
+          let file = element
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+            const selectedFile: DocumentFile = {
+              fileName: file.name,
+              fileType: file.type,
+              fileUrl: reader.result,
+              fileBaseString: (reader as any).result.split(',').pop()
+            }
+            if (event.files.length <= this.config.maxFilesCount) {
+              const docFile = JSON.parse(this.generateDocObject(selectedFile));
+              allDocsArr.push(docFile);
+              flag++
+              if (flag === fileLenght) {
+                this.uploadDocuments(allDocsArr)
+              }
+            }
+            else {
+              this._toastr.error('Please select only ' + this.config.maxFilesCount + 'file to upload', '');
+            }
+          }
+        }
+      }
+      catch (err) {
+        console.log(err);
+      }
+    }
+
+  }
+  generateDocObject(selectedFile): any {
+    let object = this.warehouseDocx;
+    object.DocumentID = this.docTypeId;
+    object.DocumentLastStatus = this.fileStatus; 
+    object.UserID = this.userProfile.UserID;
+    object.ProviderID = this.userProfile.ProviderID;
+    object.DocumentFileContent = null;
+    object.DocumentName = null;
+    object.DocumentUploadedFileType = null;
+    object.FileContent = [{
+      documentFileName: selectedFile.fileName,
+      documentFile: selectedFile.fileBaseString,
+      documentUploadedFileType: selectedFile.fileType.split('/').pop()
+    }]
+    return JSON.stringify(object);
+  }
+  async uploadDocuments(docFiles: Array<any>) {
+    const totalDocLenght: number = docFiles.length
+    for (let index = 0; index < totalDocLenght; index++) {
+      try {
+        const resp: JsonResponse = await this.docSendService(docFiles[index])
+        if (resp.returnStatus = 'Success') {
+          let resObj = JSON.parse(resp.returnText);
+            this.docTypeId = resObj.DocumentID;
+            this.fileStatus = resObj.DocumentLastStaus;
+          let fileObj = JSON.parse(resObj.DocumentFile);
+
+          fileObj.forEach(element => {
+            element.DocumentFile = baseExternalAssets + element.DocumentFile;
+          });
+          if (index !== (totalDocLenght - 1)) {
+            docFiles[index + 1].DocumentID = resObj.DocumentID;
+            docFiles[index + 1].DocumentLastStatus = resObj.DocumentLastStaus;
+          }
+
+            this.uploadedGalleries = fileObj;
+          this._toastr.success("File upload successfully", "");
+        }
+        else {
+          this._toastr.error("Error occured on upload", "");
+        }
+      } catch (error) {
+        this._toastr.error("Error occured on upload", "");
+      }
+    }
+  }
+
+  async docSendService(doc: any) {
+    const resp: JsonResponse = await this._basicInfoService.docUpload(doc).toPromise()
+    return resp
+  }
+
+  removeSelectedDocx(index, obj) {
+    obj.DocumentFile = obj.DocumentFile.split(baseExternalAssets).pop();
+    obj.DocumentID = this.docTypeId;
+    this._basicInfoService.removeDoc(obj).subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
+        this._toastr.success('Remove selected document succesfully', "");
+          this.uploadedGalleries.splice(index, 1);
+          if (!this.uploadedGalleries || (this.uploadedGalleries && !this.uploadedGalleries.length)) {
+            this.docTypeId = null;
+          }
+      }
+      else {
+        this._toastr.error('Error Occured', "");
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
+  }
 
   aadwareHouse(){
     let obj = {
