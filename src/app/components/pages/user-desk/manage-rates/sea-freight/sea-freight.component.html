@@ -255,7 +255,7 @@
               <img src="../../../../../../assets/images/icons/Icons_Clock-2hour.svg" alt="del_icon"
                 class="icon-size-24 mr-2" /> All Pending Rates will be published in 2 hours
             </div>
-            <div class="col-6 d-flex justify-content-end">
+            <div class="col-6 d-flex justify-content-end" *ngIf="allRatesListLcL">
               <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity('lcl')"
                 [ngClass]="{ 'no-drop': !delPublishRates.length }">
                 <!-- <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" /> -->
@@ -317,6 +317,9 @@
             (pageEvent)="paging('lcl', $event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'LCL'"
             [transMode]="'SEA'">
           </app-ui-table>
+          <div class="text-center" *ngIf="!allRatesListLcL">
+            No Records Found
+          </div>
           <app-loader-main *ngIf="publishloading"></app-loader-main>
         </section>
         <section class="term-cond">
@@ -645,7 +648,7 @@
             (pageEvent)="paging('fcl' ,$event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'FCL'"
             [transMode]="'SEA'">
           </app-ui-table>
-          <div *ngIf="!allRatesList">No Records Found</div>
+          <div class="text-center" *ngIf="!allRatesList">No Records Found</div>
           <app-loader-main *ngIf="publishloading"></app-loader-main>
         </section>
         <section class="term-cond">
