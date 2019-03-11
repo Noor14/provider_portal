@@ -432,7 +432,7 @@ export class SettingsComponent implements OnInit {
         this.selectPhoneCode(selectedCountry);
       }
     }
-    if (selectedCountry) {
+    if (selectedCountry && typeof selectedCountry == 'object' && Object.keys(selectedCountry).length) {
       let description = selectedCountry.desc;
       info.PrimaryPhone = info.PrimaryPhone.replace(description[0].CountryPhoneCode, "")
     }
@@ -469,7 +469,7 @@ export class SettingsComponent implements OnInit {
         this.selectTelCode(selectedCountry);
       }
     }
-    if (selectedCountry){
+    if (selectedCountry && typeof selectedCountry == 'object' && Object.keys(selectedCountry).length){
       let description = selectedCountry.desc;
       info.ProviderPhone = info.ProviderPhone.replace(description[0].CountryPhoneCode, "")
     }
