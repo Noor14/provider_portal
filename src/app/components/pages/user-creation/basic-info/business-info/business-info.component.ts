@@ -429,7 +429,13 @@ removeSelectedDocx(index,  obj, type) {
           }
           // this.docTypeId = resObj.DocumentID;
           // this.fileStatus = resObj.DocumentLastStaus;
+        
           let fileObj = JSON.parse(resObj.DocumentFile);
+          if (type == 'logo') {
+            // without baseExternalAssets
+            let avatar = Object.assign([], fileObj)
+            this._sharedService.updateAvatar.next(avatar);
+          }
           fileObj.forEach(element => {
             element.DocumentFile = baseExternalAssets + element.DocumentFile;
           });
