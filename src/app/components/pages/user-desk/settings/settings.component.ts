@@ -166,7 +166,7 @@ export class SettingsComponent implements OnInit {
     });
 
     this.businessInfoForm = new FormGroup({
-      orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
+      orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4)]),
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
       address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10)]),
       city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3)]),
@@ -432,6 +432,10 @@ export class SettingsComponent implements OnInit {
         this.selectPhoneCode(selectedCountry);
       }
     }
+    if (selectedCountry && typeof selectedCountry == 'object' && Object.keys(selectedCountry).length) {
+      let description = selectedCountry.desc;
+      info.PrimaryPhone = info.PrimaryPhone.replace(description[0].CountryPhoneCode, "")
+    }
     this.personalInfoForm.controls['mobile'].setValue(info.PrimaryPhone);
     this.personalInfoToggler = false;
   }
@@ -465,6 +469,11 @@ export class SettingsComponent implements OnInit {
         this.selectTelCode(selectedCountry);
       }
     }
+    if (selectedCountry && typeof selectedCountry == 'object' && Object.keys(selectedCountry).length){
+      let description = selectedCountry.desc;
+      info.ProviderPhone = info.ProviderPhone.replace(description[0].CountryPhoneCode, "")
+    }
+
     this.businessInfoForm.controls['phone'].setValue(info.ProviderPhone);
     if (info.SocialMediaAccountID && info.ProviderWebAdd) {
       let obj = this.socialWebs.find(elem => elem.SocialMediaPortalsID == info.SocialMediaAccountID);
