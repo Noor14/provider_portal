@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { baseApi } from '../../../../constants/base.url';
 import { HttpClient, HttpParams } from "@angular/common/http";
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ManageRatesService {
-
+  queryUrl: string = '?search=';
   constructor(private _http: HttpClient) { }
 
   termNCondition(obj) {
@@ -55,4 +59,16 @@ export class ManageRatesService {
     return this._http.get(baseApi + url);
   }
 
+  getAllCities(filterVal) {
+    let url: string = `city/GetCityDropDownDetail/1/${filterVal}`;
+    return this._http.get(baseApi + url);
+  }
+
+  // searchCities(terms: Observable<string>) {
+  //   return terms.pipe(
+  //     debounceTime(400),
+  //     distinctUntilChanged(),
+  //     switchMap(term => this.getAllCities(term))
+  //   );
+  // }
 }

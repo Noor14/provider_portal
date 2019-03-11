@@ -34,23 +34,20 @@
                       <small class="sub-title">Images show rthe condition of the property and are very compelling for space seekers.
                       </small>
                       <div class="document-Info d-flex flex-column mt-2">
-                        <div class="file-uploader">
-                          <!-- <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event, 'gallery')" [configId]="'config'"> -->
+                      <div class="file-uploader" *ngIf="uploadedGalleries && uploadedGalleries.length < config.maxFilesCount">
+                          <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event)" [configId]="'config'">
                           <img src="../../../assets/images/icons/manager-icon.png" />
                           <p class="m-0 mt-3">
                             Drag here or
                             <span class="browse-span">browse</span> to upload </p>
                           <small class="drag-support"> ( Maximum size per document: 5 MB) </small>
-                          <!-- </app-ng-files-drag-n-upload> -->
+                          </app-ng-files-drag-n-upload>
                         </div>
-                        <div class="row uploadedDocx ">
-                          <div class="col-lg-3 mt-3">
+                        <div class="row uploadedDocx mt-3">
+                          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-3 uploaded-images" *ngFor="let galleryDocx of uploadedGalleries; let i = index">
                             <div class="display-upload delete">
-                              <video class="animated fadeIn" controls>
-                                <source src="" type="video/mp4">
-                              </video>
-                              <img class="w-100" />
-                              <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" />
+                              <img [src]="galleryDocx.DocumentFile" />
+                              <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(i, galleryDocx)" />
                             </div>
                           </div>
                         </div>
@@ -128,7 +125,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                           <div class="form-group">
                             <label>Address </label>
-                            <textarea cols="30" rows="3" (keypress)="oneSpaceHandler($event)"  formControlName="address" class="form-control"
+                            <textarea cols="30" rows="3" #searchElement (keypress)="oneSpaceHandler($event)" formControlName="address" class="form-control"
                               placeholder="Enter at a minimum, the street and town where the property is located"></textarea>
                             <!-- <input type="text" maxlength="200" class="form-control" placeholder="Address line 1"> -->
                             <!-- <span class="animated fadeIn" *ngIf="addressline1Error">

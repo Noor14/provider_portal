@@ -311,7 +311,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
     modalRef.result.then((result) => {
       if (result) {
         console.log(result);
-        
+
         if (type == 'FCL') {
           // loading(true)
           this.setAddDraftData(type, result);
@@ -335,6 +335,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
       addList: this.seaCharges,
       mode: 'draft',
       customers: this.allCustomers,
+      drafts: type === 'FCL' ? this.draftsfcl : this.draftslcl
     }
     modalRef.componentInstance.selectedData = object;
     setTimeout(() => {
@@ -508,7 +509,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy {
           this.allRatesListLcL = res.returnObject.data;
           this.checkedallpublishRatesLcl = false;
         }
-        this.publishloading = false;
       }
     })
 

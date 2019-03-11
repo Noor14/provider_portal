@@ -24,6 +24,7 @@ import { TruncatePipe } from '../../constants/truncateFilter';
 import { RateHistoryComponent } from '../../shared/dialogues/rate-history/rate-history.component';
 import { RateValidityComponent } from '../../shared/dialogues/rate-validity/rate-validity.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SharedModule } from '../../shared/shared.module'
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FormsModule,
     ReactiveFormsModule,
     NgbModule.forRoot(),
-    NgSelectModule
+    NgSelectModule,
+    SharedModule
   ],
   declarations: [
     PagesComponent,
