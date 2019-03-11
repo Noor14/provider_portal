@@ -38,12 +38,24 @@ export class HeaderComponent implements OnInit {
         this.signOutToggler();
         this.setAvatar();
     })
+
+    this._sharedService.updateAvatar.subscribe((state: any) => {
+      if (state && state != null){
+        let userObj = JSON.parse(localStorage.getItem('userInfo'));
+        let userData = JSON.parse(userObj.returnText);
+        userData.ProviderImage = JSON.stringify(state);
+        userObj.returnText = JSON.stringify(userData);
+        localStorage.setItem('userInfo', JSON.stringify(userObj));
+        this.setAvatar();
+      }
+    
+    })
     
   }
   setAvatar(){
     if (localStorage.getItem('userInfo') && Object.keys('userInfo').length && !this.isLoggedIn && this.logoutDisplay) {
       let userObj = JSON.parse(localStorage.getItem('userInfo'));
-      let userData = JSON.parse(userObj.returnText)
+      let userData = JSON.parse(userObj.returnText);
       if (userData.ProviderImage && userData.ProviderImage != "[]" && isJSON(userData.ProviderImage)) {
         this.userAvatar = baseExternalAssets + JSON.parse(userData.ProviderImage)[0].DocumentFile;
       }
