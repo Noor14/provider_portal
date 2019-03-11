@@ -275,7 +275,7 @@ export class BillingComponent implements OnInit, OnDestroy {
   public isTableLoaded: boolean = false
 
   public billingStatusList: CodeValMst[] = []
-  public userCurrencyCode: string
+  public userCurrencyCode: string = ''
 
 
   constructor(
@@ -349,6 +349,7 @@ export class BillingComponent implements OnInit, OnDestroy {
 
   setBillingDashboardData() {
     this.setBarGraphData()
+    this.setTileCurrency()
   }
 
   onInvoiceCatClick($selectedCat: string) {
@@ -547,6 +548,17 @@ export class BillingComponent implements OnInit, OnDestroy {
         this.dtTrigger.next()
       }, 0);
     }
+  }
+
+  async setTileCurrency() {
+    const { exchangeRate } = this
+    let { billingTile, paymentDueTile, totalBillingTile } = this.providerBillingDashboard
+    const newBilledAmount = this._currencyControl.getNewPrice(billingTile.amount, exchangeRate.rate)
+    this.providerBillingDashboard.billingTile.amount = newBilledAmount
+    const newPaymentAmount = this._currencyControl.getNewPrice(paymentDueTile.amount, exchangeRate.rate)
+    this.providerBillingDashboard.paymentDueTile.amount = newPaymentAmount
+    const newTotalBilledAmount = this._currencyControl.getNewPrice(totalBillingTile.amount, exchangeRate.rate)
+    this.providerBillingDashboard.totalBillingTile.amount = newTotalBilledAmount
   }
 
   ngOnDestroy() {
