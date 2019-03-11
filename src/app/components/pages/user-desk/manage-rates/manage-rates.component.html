@@ -3,7 +3,7 @@
   <nav class="navbar navbar-light p-0">
     <ul class="nav">
       <li>
-        <a class="nav-link" href="javascript:;" [routerLink]="['/provider/manage-rates/sea']" [routerLinkActive]="['active']">
+        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/sea')" [ngClass]="getClass('/provider/manage-rates/sea')">
           <span class="man-tab-ico"><img alt="icon_sea" src="../../../../../assets/images/icons/icons_ship_blue.svg"></span>
           <span class="menu-text">
             SEA FREIGHT
@@ -11,7 +11,7 @@
         </a>
       </li>
       <li>
-        <a class="nav-link" href="javascript:;" [routerLink]="['/provider/manage-rates/air']" [routerLinkActive]="['active']">
+        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/air')" [ngClass]="getClass('/provider/manage-rates/air')">
           <span class="man-tab-ico"><img alt="icon_air" src="../../../../../assets/images/icons/Icons_Cargo_Plane_blue.svg"></span>
           <span class="menu-text">
             AIR FREIGHT
@@ -19,7 +19,7 @@
         </a>
       </li>
       <li>
-        <a class="nav-link" href="javascript:;" [routerLink]="['/provider/manage-rates/ground']" [routerLinkActive]="['active']">
+        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/ground')" [ngClass]="getClass('/provider/manage-rates/ground')">
           <span class="man-tab-ico"><img alt="icon_ground" src="../../../../../assets/images/icons/Icons_Cargo_Truck_blue.svg"></span>
           <span class="menu-text">
             GROUND TRANSPORT
@@ -27,7 +27,7 @@
         </a>
       </li>
       <li>
-        <a class="nav-link" href="javascript:;" [routerLink]="['/provider/manage-rates/warehouse']" [routerLinkActive]="['active']">
+        <a class="nav-link" href="javascript:;" (click)="tonavigate('/provider/manage-rates/warehouse')" [ngClass]="getClass('/provider/manage-rates/warehouse')">
           <span class="man-tab-ico"><img alt="icon_warehouse" src="../../../../../assets/images/icons/icon_warehouse_blue.svg"></span>
           <span class="menu-text">
             WAREHOUSING

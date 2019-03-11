@@ -23,7 +23,6 @@ import { LightboxModule } from 'ngx-lightbox';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { QuillEditorModule } from 'ngx-quill-editor';
-import { ServiceGuard } from './service.guard';
 @NgModule({
   imports: [
     CommonModule,
@@ -51,13 +50,6 @@ import { ServiceGuard } from './service.guard';
     CheckboxPipe
 
   ],
-  providers: [
-    SeaFreightService, 
-    AirFreightService, 
-    GroundTransportService, 
-    ManageRatesService, 
-    WarehouseService, 
-    ServiceGuard
-  ]
+  providers: [SeaFreightService, AirFreightService, GroundTransportService, ManageRatesService, WarehouseService]
 })
 export class ManageRatesModule { }

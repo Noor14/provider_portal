@@ -6,7 +6,7 @@ import { loading } from '../../../../constants/globalFunctions';
 import { Observable, Subject } from 'rxjs';
 import { WarehouseService } from '../manage-rates/warehouse-list/warehouse.service';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UserCreationService } from '../../user-creation/user-creation.service';
 import { SharedService } from '../../../../services/shared.service';
@@ -108,13 +108,15 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     this.propertyDetailForm = new FormGroup({
       warehouseSpace: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(5), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
       warehouseSpaceUnit: new FormControl(null, [Validators.required]),
-      hashmoveSpace: new FormControl(null, [warehouseValidator.bind(this), Validators.maxLength(4), Validators.minLength(1)]),
-      ceilingHeight: new FormControl(null, [warehouseValidator.bind(this)]),
-      ceilingUnit: new FormControl(null, [warehouseValidator.bind(this)]),
-      minLeaseValueOne: new FormControl(null, [warehouseValidator.bind(this), Validators.maxLength(4), Validators.minLength(1)]),
-      minLeaseValueTwo: new FormControl(null, [warehouseValidator.bind(this), Validators.maxLength(4), Validators.minLength(1)]),
-      minLeaseUnitTwo: new FormControl(null, [warehouseValidator.bind(this)]),
-      minLeaseUnitOne: new FormControl(null, [warehouseValidator.bind(this)]),
+      hashmoveSpace: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
+      ceilingHeight: new FormControl(null, [Validators.required]),
+      ceilingUnit: new FormControl(null, [Validators.required]),
+      minLeaseValueOne: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
+      minLeaseValueTwo: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
+      minLeaseUnitTwo: new FormControl(null, [Validators.required]),
+      minLeaseUnitOne: new FormControl(null, [Validators.required]),
+      minimumlease: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
+      leaseTerm: new FormControl(null, [Validators.required]),
     });
     this._sharedService.getLocation.subscribe((state: any) => {
       if (state && state.country) {
@@ -299,8 +301,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     if (event) {
       try {
         const allDocsArr = []
-        const fileLength: number = event.files.length
-        for (let index = 0; index < fileLength; index++) {
+        const fileLenght: number = event.files.length
+        for (let index = 0; index < fileLenght; index++) {
           let reader = new FileReader();
           const element = event.files[index];
           let file = element
@@ -316,8 +318,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
               const docFile = JSON.parse(this.generateDocObject(selectedFile));
               allDocsArr.push(docFile);
               flag++
-              if (flag === fileLength) {
-                this.uploadedGalleries = this.uploadedGalleries.concat(allDocsArr);
+              if (flag === fileLenght) {
+                this.uploadDocuments(allDocsArr)
               }
             }
             else {
@@ -338,14 +340,12 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     object.DocumentLastStatus = this.fileStatus; 
     object.UserID = this.userProfile.UserID;
     object.ProviderID = this.userProfile.ProviderID;
-    object.WHID = this.whID;
     object.DocumentFileContent = null;
     object.DocumentName = null;
     object.DocumentUploadedFileType = null;
     object.FileContent = [{
       documentFileName: selectedFile.fileName,
       documentFile: selectedFile.fileBaseString,
-      docUrl: selectedFile.fileUrl,
       documentUploadedFileType: selectedFile.fileType.split('/').pop()
     }]
     return JSON.stringify(object);
@@ -354,13 +354,12 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     const totalDocLenght: number = docFiles.length
     for (let index = 0; index < totalDocLenght; index++) {
       try {
-        docFiles[index].WHID = this.whID;
         const resp: JsonResponse = await this.docSendService(docFiles[index])
         if (resp.returnStatus = 'Success') {
           let resObj = JSON.parse(resp.returnText);
             this.docTypeId = resObj.DocumentID;
             this.fileStatus = resObj.DocumentLastStaus;
-            let fileObj = JSON.parse(resObj.DocumentFile);
+          let fileObj = JSON.parse(resObj.DocumentFile);
 
           fileObj.forEach(element => {
             element.DocumentFile = baseExternalAssets + element.DocumentFile;
@@ -369,6 +368,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
             docFiles[index + 1].DocumentID = resObj.DocumentID;
             docFiles[index + 1].DocumentLastStatus = resObj.DocumentLastStaus;
           }
+
+            this.uploadedGalleries = fileObj;
           this._toastr.success("File upload successfully", "");
         }
         else {
@@ -447,12 +448,9 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     }
     this._warehouseService.addWarehouseDetail(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.whID = res.returnObject[0].WHID;
-        if (JSON.parse(this.whID) > 0){
-          this.uploadDocuments(this.uploadedGalleries);
-        }
+        console.log(res)
         this._toastr.success('Warehouse detail saved', '')
-        this._stepper.next();
+        this._stepper.next()
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
@@ -467,14 +465,3 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   formatterCity = (x: { title: string }) => x.title;
 
 }
-
-export function warehouseValidator(control: AbstractControl) {
-  if (!this.warehouseTypeFull) {
-    if (!control.value) {
-      return {
-        required: true
-      }
-    }
-  }
-
-};
