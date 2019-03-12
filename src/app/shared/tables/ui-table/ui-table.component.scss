@@ -206,20 +206,19 @@
             &:nth-child(5) {
               min-width: 13rem;
             }
-            &:nth-child(4) {
+            &:nth-child(6) {
               display: none;
             }
-            &:nth-child(6) {
-              min-width: 11rem;
-            }
-            &:nth-child(9) {
+            &:nth-child(10) {
               min-width: 12rem;
             }
-            &:nth-child(4),
+            &:nth-child(4) {
+              min-width: 15rem;
+            }
             &:nth-child(8) {
               min-width: 15rem;
             }
-            &:nth-child(7){
+            &:nth-child(9), &:nth-child(10) {
               min-width: 10rem;
             }
           }
