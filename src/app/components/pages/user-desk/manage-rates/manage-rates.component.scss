@@ -580,16 +580,16 @@ $left-nav-icon-height: 20px;
                 }
             }
         }
-        ngb-typeahead-window {
-            max-height: 200px;
-            overflow-y: auto;
-            .dropdown-item {
-                &.active,
-                &:active {
-                    background: $primary-grey;
-                }
-            }
-        }
+        // ngb-typeahead-window {
+        //     max-height: 200px;
+        //     overflow-y: auto;
+        //     .dropdown-item {
+        //         &.active,
+        //         &:active {
+        //             background: $primary-grey;
+        //         }
+        //     }
+        // }
     }
     .actions {
         .discard-draft {

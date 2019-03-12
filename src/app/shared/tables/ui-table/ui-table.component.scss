@@ -13,20 +13,17 @@
         text-transform: uppercase;
         min-width: 10rem;
         &.none_sorting_asc {
-          background: url("../../../../assets/images/icons/ic_arraow_normal.png")
-            no-repeat;
+          background: url("../../../../assets/images/icons/ic_arraow_normal.png") no-repeat;
           background-position: center right 5px !important;
         }
         &.sorting_asc {
-          background: url("../../../../assets/images/icons/sorting_asc.svg")
-            no-repeat;
+          background: url("../../../../assets/images/icons/sorting_asc.svg") no-repeat;
           background-size: 10px !important;
           background-position: center right 5px !important;
         }
         &.sorting_desc {
           @extend .sorting_asc;
-          background: url("../../../../assets/images/icons/sorting_desc.svg")
-            no-repeat;
+          background: url("../../../../assets/images/icons/sorting_desc.svg") no-repeat;
         }
         &:nth-child(1),
         &:nth-child(2) {
@@ -60,10 +57,7 @@
             position: absolute;
             margin-top: 2.4rem !important;
             font-size: $font-size-base;
-            background-color: transparentize(
-              $color: $danger-color,
-              $amount: 0.9
-            );
+            background-color: transparentize( $color: $danger-color, $amount: 0.9);
             color: $danger-color;
             border: 1px solid $danger-color;
           }
@@ -101,13 +95,16 @@
               }
             }
             &-logo {
-              max-width: 150px;
-              word-break: break-all;
+              max-width: 190px;
+              align-items: center; // word-break: break-all;
               img {
-                width: 45px;
-                height: 35px;
+                // width: 45px;
+                // height: 35px;
+                // padding: 5px;
+                width: 30px;
+                height: 30px;
                 border: 1px solid $input-border;
-                padding: 5px;
+                padding: 2px;
               }
               span {
                 font-size: $font-size-large;
@@ -272,11 +269,7 @@
           color: $pagination-text-color;
           padding: 5px 8px;
           background: $pagination-bg-color;
-          background: linear-gradient(
-            to bottom,
-            #ffffff 0%,
-            $pagination-bg-color 100%
-          );
+          background: linear-gradient( to bottom, #ffffff 0%, $pagination-bg-color 100%);
         }
         &.active {
           a {
@@ -286,8 +279,7 @@
             filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f4', endColorstr='#f3f3f4', GradientType=0);
             background: -ms-linear-gradient(90deg, #e9ebf0 0%, #dde0e7 100%);
             border: 0;
-            box-shadow: 0 2px 0 0 rgba(255, 255, 255, 0.004),
-              inset 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 0 0 rgba(255, 255, 255, 0.004), inset 0 2px 3px 0 rgba(0, 0, 0, 0.2);
             text-align: center;
           }
         }
