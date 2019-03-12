@@ -129,6 +129,7 @@
                 flex-wrap: wrap;
                 align-items: flex-start;
                 align-content: space-between;
+                flex-direction: column;
               }
             }
           }
@@ -170,7 +171,7 @@
         thead {
           th {
             &:nth-child(4) {
-              min-width: 20rem;
+              min-width: 15rem;
             }
           }
         }
