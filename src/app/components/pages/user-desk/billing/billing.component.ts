@@ -14,6 +14,8 @@ import { applyRoundByDecimal, cloneObject, extractColumn, removeDuplicates } fro
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { BillingService } from './billing.service';
+import { DynamicScriptLoaderService } from '../../../../services/dynamic-script-loader.service';
+
 @Component({
   selector: 'app-billing',
   templateUrl: './billing.component.html',
@@ -284,13 +286,16 @@ export class BillingComponent implements OnInit, OnDestroy {
     private _toastr: ToastrService,
     private _commonService: CommonService,
     private _currencyControl: CurrencyControl,
-    private _renderer2: Renderer2
+    private _renderer2: Renderer2,
+    private _dynamicScriptLoader: DynamicScriptLoaderService
 
   ) { }
 
 
   async ngOnInit() {
+
     // (HassanSJ) work start
+    this.loadScripts();
 
     this._commonService.getMstCodeVal('BILLING_STATUS').subscribe((res: any) => {
       this.billingStatusList = res
@@ -327,7 +332,13 @@ export class BillingComponent implements OnInit, OnDestroy {
       console.log('ProviderBillingDashboard', message);
     })
   }
-
+  private loadScripts() {
+    // You can load multiple scripts by just providing the key as argument into load method of the service
+    this._dynamicScriptLoader.load(['paytabjs','random-num']).then(data => {
+      // Script Loaded Successfully
+      // console.log(data)
+    }).catch(error => console.log(error));
+  }
   private async setBillingConfig() {
     try {
       this.setBillingDashboardData();

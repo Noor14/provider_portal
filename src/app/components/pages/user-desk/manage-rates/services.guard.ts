@@ -23,7 +23,7 @@ export class ServicesGuard implements CanActivate {
     this.getloginStatus();
 
     this._sharedService.dashboardDetail.subscribe((state: any) => {
-      if (state) {
+      if (state && Object.keys(state).length) {
         if (state.LogisticService && isJSON(state.LogisticService)) {
           this.selectedServices = JSON.parse(state.LogisticService)
         }
@@ -37,13 +37,13 @@ export class ServicesGuard implements CanActivate {
           if (index >= 0) {
             return true
           }
-          else if (!this.previousUrl) {
+          else if (!this.previousUrl || !location.pathname.includes('manage-rates')) {
             let index = this.selectedServices.findIndex(obj => obj.LogServCode == "AIR_FFDR");
             if (index >= 0) {
               this.router.navigate(['provider/manage-rates/air']);
             }
             else {
-              let index = this.selectedServices.findIndex(obj => obj.LogServCode == "AIR_TRUK");
+              let index = this.selectedServices.findIndex(obj => obj.LogServCode == "TRUK");
               if (index >= 0) {
                 this.router.navigate(['provider/manage-rates/ground']);
               }
