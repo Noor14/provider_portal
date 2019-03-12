@@ -647,8 +647,8 @@ export class SeaRateDialogComponent implements OnInit {
             this.closeModal(res.returnObject);
           } else {
             this.selectedPrice = undefined;
-            this.selectedData.data.id = 0;
-            this.couplePrice = undefined;
+            this.selectedData.ID = 0;
+            this.couplePrice = null;
             this.selectedContSize = null;
             this.savedRow.emit(res.returnObject)
           }
