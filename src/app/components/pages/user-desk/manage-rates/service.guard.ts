@@ -8,7 +8,7 @@ import { isJSON } from '../../../../constants/globalFunctions';
 export class ServiceGuard implements CanActivate {
 
   private islogOut: boolean;
-  private infoObj: any;
+  private previousUrl:string = undefined;
   private selectedServices: any[]
 ;  constructor(
     private router: Router,
@@ -37,7 +37,7 @@ export class ServiceGuard implements CanActivate {
           if (index >= 0){
             return true
           }
-          else{
+          else if(!this.previousUrl){
             let index = this.selectedServices.findIndex(obj => obj.LogServCode == "AIR_FFDR");
             if (index >= 0) {
               this.router.navigate(['provider/manage-rates/air']);
@@ -71,6 +71,7 @@ export class ServiceGuard implements CanActivate {
         if (this.selectedServices.length) {
           let index = this.selectedServices.findIndex(obj => obj.LogServCode == "AIR_FFDR");
           if (index >= 0) {
+            this.previousUrl = state.url;
             return true
           }
         } else {
@@ -88,6 +89,7 @@ export class ServiceGuard implements CanActivate {
         if (this.selectedServices.length) {
           let index = this.selectedServices.findIndex(obj => obj.LogServCode == "TRUK");
           if (index >= 0) {
+            this.previousUrl = state.url;
             return true
           }
         } else {
@@ -104,6 +106,7 @@ export class ServiceGuard implements CanActivate {
         if (this.selectedServices.length) {
           let index = this.selectedServices.findIndex(obj => obj.LogServCode == "WRHS");
           if (index >= 0) {
+            this.previousUrl = state.url;
             return true
           }
           else {
@@ -127,7 +130,6 @@ export class ServiceGuard implements CanActivate {
   getloginStatus() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
-      this.infoObj = JSON.parse(userInfo.returnText);
       this._sharedService.IsloggedIn.subscribe((state: any) => {
         if (state == null) {
           this.islogOut = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
