@@ -90,7 +90,7 @@ export class UiTableComponent implements OnInit, OnChanges {
         { title: "Import Charges", activeClass: '', sortKey: "" },
         { title: "Export Charges", activeClass: '', sortKey: "" },
       ]
-    } else if ((this.containerLoad === 'FCL' || this.containerLoad === 'FTL') && this.transMode === 'GROUND') {
+    } else if ((this.containerLoad === 'FCL' || this.containerLoad === 'FTL') && this.transMode === 'TRUCK') {
       this.thList = [
         { title: "", activeClass: '', sortKey: "" },
         { title: "Origin/Departure", activeClass: '', sortKey: "" },
@@ -181,7 +181,7 @@ export class UiTableComponent implements OnInit, OnChanges {
                 this.checkList.push(e.providerPricingDraftID)
               } else if (this.containerLoad === 'LCL' && this.transMode === 'SEA') {
                 this.checkList.push(e.consolidatorPricingDraftID)
-              } else if (this.transMode === 'GROUND') {
+              } else if (this.transMode === 'TRUCK') {
                 this.checkList.push(e.id)
               }
             }
@@ -201,7 +201,7 @@ export class UiTableComponent implements OnInit, OnChanges {
               this.checkList.push(e.carrierPricingID)
             } else if (this.containerLoad === 'LCL' && this.transMode === 'SEA') {
               this.checkList.push(e.consolidatorPricingID)
-            } else if (this.transMode === 'GROUND') {
+            } else if (this.transMode === 'TRUCK') {
               this.checkList.push(e.id)
             }
           })
@@ -240,13 +240,13 @@ export class UiTableComponent implements OnInit, OnChanges {
     if (action === 'delete') {
       obj = {
         type: 'delete',
-        id: ((this.transMode === 'GROUND') ? row.id : ((this.transMode === 'SEA' && row.containerLoadType === 'FCL') ? row.providerPricingDraftID : row.consolidatorPricingDraftID)),
+        id: ((this.transMode === 'TRUCK') ? row.id : ((this.transMode === 'SEA' && row.containerLoadType === 'FCL') ? row.providerPricingDraftID : row.consolidatorPricingDraftID)),
         load: row.containerLoadType
       }
     } else if (action === 'edit') {
       obj = {
         type: 'edit',
-        id: ((this.transMode === 'GROUND') ? row.id : ((this.transMode === 'SEA' && row.containerLoadType === 'FCL') ? row.providerPricingDraftID : row.consolidatorPricingDraftID)),
+        id: ((this.transMode === 'TRUCK') ? row.id : ((this.transMode === 'SEA' && row.containerLoadType === 'FCL') ? row.providerPricingDraftID : row.consolidatorPricingDraftID)),
         load: row.containerLoadType
       }
     }
@@ -267,7 +267,7 @@ export class UiTableComponent implements OnInit, OnChanges {
       console.log(row);
       obj = {
         type: 'history',
-        id: ((this.transMode === 'GROUND') ? row.id : ((this.transMode === 'SEA' && this.containerLoad === 'FCL') ? row.carrierPricingID : row.consolidatorPricingID)),
+        id: ((this.transMode === 'TRUCK') ? row.id : ((this.transMode === 'SEA' && this.containerLoad === 'FCL') ? row.carrierPricingID : row.consolidatorPricingID)),
         load: this.containerLoad
       }
     }
@@ -310,7 +310,7 @@ export class UiTableComponent implements OnInit, OnChanges {
       } else {
         return false;
       }
-    } else if (this.transMode === 'GROUND') {
+    } else if (this.transMode === 'TRUCK') {
       if (!row.polID ||
         !row.podID ||
         !row.price ||
