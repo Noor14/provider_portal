@@ -518,48 +518,52 @@ export class SeaRateDialogComponent implements OnInit {
       createdBy: this.userProfile.LoginID
     }
 
-    let ADCHValidated: boolean = true;
-    let exportCharges
-    let importCharges
-    if (obj.JsonSurchargeDet) {
-      const parsedJsonSurchargeDet = JSON.parse(obj.JsonSurchargeDet)
-      exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
-      importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
+    if (obj.transportType === 'SEA') {
+      let ADCHValidated: boolean = true;
+      let exportCharges
+      let importCharges
+      if (obj.JsonSurchargeDet) {
+        const parsedJsonSurchargeDet = JSON.parse(obj.JsonSurchargeDet)
+        exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
+        importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
+      }
+
+      if (exportCharges.length) {
+        this.selectedOrigins.forEach(element => {
+          if (!element.Price) {
+            this._toast.error('Price is missing for ' + element.addChrName, 'Error')
+            ADCHValidated = false
+            return;
+          }
+          if (!element.CurrId) {
+            this._toast.error('Currency is missing for ' + element.addChrName, 'Error')
+            ADCHValidated = false
+            return;
+          }
+        });
+      }
+
+      if (importCharges.length) {
+        this.selectedDestinations.forEach(element => {
+          if (!element.Price) {
+            this._toast.error('Price is missing for ' + element.addChrName, 'Error')
+            ADCHValidated = false
+            return;
+          }
+          if (!element.CurrId) {
+            this._toast.error('Currency is missing for ' + element.addChrName, 'Error')
+            ADCHValidated = false
+            return;
+          }
+        });
+      }
+
+      if (!ADCHValidated) {
+        return false
+      }
+
     }
 
-    if (exportCharges.length) {
-      this.selectedOrigins.forEach(element => {
-        if (!element.Price) {
-          this._toast.error('Price is missing for ' + element.addChrName, 'Error')
-          ADCHValidated = false
-          return;
-        }
-        if (!element.CurrId) {
-          this._toast.error('Currency is missing for ' + element.addChrName, 'Error')
-          ADCHValidated = false
-          return;
-        }
-      });
-    }
-
-    if (importCharges.length) {
-      this.selectedDestinations.forEach(element => {
-        if (!element.Price) {
-          this._toast.error('Price is missing for ' + element.addChrName, 'Error')
-          ADCHValidated = false
-          return;
-        }
-        if (!element.CurrId) {
-          this._toast.error('Currency is missing for ' + element.addChrName, 'Error')
-          ADCHValidated = false
-          return;
-        }
-      });
-    }
-
-    if (!ADCHValidated) {
-      return false
-    }
     if (!obj.carrierID &&
       !obj.containerSpecID &&
       !obj.effectiveFrom &&
@@ -643,8 +647,8 @@ export class SeaRateDialogComponent implements OnInit {
             this.closeModal(res.returnObject);
           } else {
             this.selectedPrice = undefined;
-            this.selectedData.data.ID = 0;
-            this.couplePrice = null;
+            this.selectedData.data.id = 0;
+            this.couplePrice = undefined;
             this.selectedContSize = null;
             this.savedRow.emit(res.returnObject)
           }
@@ -1073,7 +1077,13 @@ export class SeaRateDialogComponent implements OnInit {
           localStorage.setItem('PortDetails', JSON.stringify(this.allPorts.concat(this.groundPorts)))
         })
       }
-      this.allContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FTL' && e.ShippingCatID === this.selectedCategory)
+      // this.allContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FTL' && e.ShippingCatID === this.selectedCategory)
+      const groundContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FTL' && e.ShippingCatID === this.selectedCategory)
+      const containers = groundContainers.filter(e => e.ContainerSpecGroupName === 'Container')
+      const trucks = groundContainers.filter(e => e.ContainerSpecGroupName != 'Container')
+      console.log(containers);
+      
+      this.allContainers = containers.concat(trucks)
     }
   }
 

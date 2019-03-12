@@ -121,7 +121,8 @@
             <div class="info-table-ports d-flex">
               <div class="d-block text-truncate">
                 <img *ngIf="device?.carrierImage" [src]="getUIImage(device.carrierImage, true)" alt="" class="mr-2 rounded" height="24px"
-                  width="24px"> {{device?.carrierName || '-- Select --'}}
+                  width="24px"> 
+                  <span [ngClass]="device?.carrierName?.length > 15 ? 'text-truncate': ''">{{device?.carrierName || '-- Select --'}}</span>
               </div>
             </div>
           </td>
