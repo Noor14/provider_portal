@@ -43,13 +43,6 @@
 
       &-body {
         padding: 1.56rem 1.55rem;
-
-        .billing-rate {
-          @media (max-width: $screen-sm-screen) {
-            display: flex;
-            flex-direction: column;
-          }
-        }
       }
     }
 
