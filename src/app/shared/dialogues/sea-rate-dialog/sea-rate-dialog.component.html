@@ -22,7 +22,7 @@
             placeholder="e.g: Maersk Shipping" [(ngModel)]="selectedShipping" [ngbTypeahead]="shippings"
             [resultTemplate]="st" [inputFormatter]="formatter" [disabled]="selectedData.mode === 'publish'">
           <ng-template #st let-r="result">
-            <div class="d-inline-block icon-size-16">
+            <div class="d-inline-block icon-size-16 mr-2">
               <img src="{{getShippingLineImage(r.CarrierImage)}}" width="16px" height="16px">
             </div>
             <ngb-highlight [result]="r.CarrierName"></ngb-highlight>
