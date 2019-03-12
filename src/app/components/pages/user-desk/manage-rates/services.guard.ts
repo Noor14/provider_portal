@@ -9,7 +9,7 @@ export class ServicesGuard implements CanActivate {
 
   private islogOut: boolean;
   private previousUrl: string = undefined;
-  private selectedServices: any[]
+  private selectedServices: any[];
     ; constructor(
       private router: Router,
       private _sharedService: SharedService,
@@ -32,7 +32,7 @@ export class ServicesGuard implements CanActivate {
     // if user go to manage rates sea page
     if (state.url == '/provider/manage-rates/sea') {
       if (!this.islogOut) {
-        if (this.selectedServices.length) {
+        if (this.selectedServices&& this.selectedServices.length) {
           let index = this.selectedServices.findIndex(obj => obj.LogServCode == "SEA_FFDR");
           if (index >= 0) {
             return true
@@ -68,7 +68,7 @@ export class ServicesGuard implements CanActivate {
 
     if (state.url == '/provider/manage-rates/air') {
       if (!this.islogOut) {
-        if (this.selectedServices.length) {
+        if (this.selectedServices && this.selectedServices.length) {
           let index = this.selectedServices.findIndex(obj => obj.LogServCode == "AIR_FFDR");
           if (index >= 0) {
             this.previousUrl = state.url;
@@ -86,7 +86,7 @@ export class ServicesGuard implements CanActivate {
 
     if (state.url == '/provider/manage-rates/ground') {
       if (!this.islogOut) {
-        if (this.selectedServices.length) {
+        if (this.selectedServices && this.selectedServices.length) {
           let index = this.selectedServices.findIndex(obj => obj.LogServCode == "TRUK");
           if (index >= 0) {
             this.previousUrl = state.url;
@@ -103,7 +103,7 @@ export class ServicesGuard implements CanActivate {
     }
     if (state.url == '/provider/manage-rates/warehouse') {
       if (!this.islogOut) {
-        if (this.selectedServices.length) {
+        if (this.selectedServices && this.selectedServices.length) {
           let index = this.selectedServices.findIndex(obj => obj.LogServCode == "WRHS");
           if (index >= 0) {
             this.previousUrl = state.url;

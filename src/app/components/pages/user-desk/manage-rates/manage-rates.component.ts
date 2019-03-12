@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 import { SeaFreightService } from './sea-freight/sea-freight.service';
 import { SharedService } from '../../../../services/shared.service';
 import { loading } from '../../../../constants/globalFunctions';
@@ -15,7 +14,6 @@ import { SettingService } from '../settings/setting.service';
 export class ManageRatesComponent implements OnInit, OnDestroy {
 
   constructor(
-    private _router: Router,
     private _seaFreightService: SeaFreightService,
     private _settingService: SettingService,
     private _sharedService: SharedService,
@@ -41,14 +39,6 @@ export class ManageRatesComponent implements OnInit, OnDestroy {
         this._sharedService.dataLogisticServiceBySea.next(res.returnObject);
     });
   }
-  tonavigate(url) {
-    this._router.navigate([url]);
-  }
-  getClass(path): string {
-    if (location.pathname === path) {
-      return 'active'
-    }
-  };
 
   getPortsData() {
     this._manageRatesService.getPortsData().subscribe((res: any) => {
