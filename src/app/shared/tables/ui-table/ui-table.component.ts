@@ -93,6 +93,7 @@ export class UiTableComponent implements OnInit, OnChanges {
     } else if ((this.containerLoad === 'FCL' || this.containerLoad === 'FTL') && this.transMode === 'TRUCK') {
       this.thList = [
         { title: "", activeClass: '', sortKey: "" },
+        { title: "Rate for", activeClass: '', sortKey: "" },
         { title: "Origin/Departure", activeClass: '', sortKey: "" },
         { title: "Cargo Type", activeClass: '', sortKey: "" },
         { title: "Size", activeClass: '', sortKey: "" },
