@@ -334,11 +334,35 @@ export class BillingComponent implements OnInit, OnDestroy {
   }
   private loadScripts() {
     // You can load multiple scripts by just providing the key as argument into load method of the service
-    this._dynamicScriptLoader.load(['paytabjs','random-num']).then(data => {
+    this._dynamicScriptLoader.load().then(data => {
       // Script Loaded Successfully
-      // console.log(data)
+      this.readyForPayment()
     }).catch(error => console.log(error));
   }
+
+readyForPayment(){
+  let dueAmount = 4429;
+  Paytabs("#express_checkout").expresscheckout({
+    settings: {
+      merchant_id: "10038289",
+      customer_email: "abdur@hashmove.com",
+      secret_key: "ekQNVlcQwtHZv93SClVAqo9euW1k1cKgxA4sVgjrJ1qfat8NO3ofsxtXuviwH2MeCRHx81YS3o7dSf1HjpWMXqJrV1XC3KRFCzdK",
+      currency: this.userCurrencyCode,
+      amount: dueAmount,
+      title: this.userProfile.FirstNameBL + this.userProfile.LastNameBL,
+      product_names: "HashMove_Provider",
+      order_id: 25,
+      url_redirect: "http://127.0.0.1:4200/provider/payment_result",
+      display_customer_info: 1,
+      display_billing_fields: 1,
+      display_shipping_fields: 0,
+      language: "en",
+      redirect_on_reject: 0,
+    }
+  });
+}
+
+
   private async setBillingConfig() {
     try {
       this.setBillingDashboardData();
