@@ -10,7 +10,7 @@ export class ServicesGuard implements CanActivate {
   private islogOut: boolean;
   private previousUrl: string = undefined;
   private selectedServices: any[];
-    ; constructor(
+    constructor(
       private router: Router,
       private _sharedService: SharedService,
   ) { }
