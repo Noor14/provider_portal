@@ -68,21 +68,21 @@ export class RateHistoryComponent implements OnInit {
       if (res.returnStatus == "Success") {
         this.loading = false
         let records = res.returnObject;
-        if (records[0].history && records[0].history.length) {
-          records[0].history.map(obj => {
+        if (records.history && records.history.length) {
+          records.history.map(obj => {
             if (typeof (obj.AuditDesc) == "string") {
               obj.AuditDesc = JSON.parse(obj.AuditDesc);
             }
           })
-          this.history = records[0].history;
+          this.history = records.history;
         }
-        this.historyHead = records[0].historyHead;
-        this.shippingInfo = this.getRecord.shippingLines.filter(e => e.CarrierID === this.historyHead[0].CarrierID)
+        this.historyHead = records.historyHead;
+        this.shippingInfo = this.getRecord.shippingLines.filter(e => e.CarrierID === this.historyHead[0].carrierID)
         const containers = JSON.parse(localStorage.getItem('containers'))
-        this.containerInfo = containers.find(e => e.ContainerSpecID === this.historyHead[0].ContainerSpecID && e.ContainerFor === 'FCL')
-        this.cargoInfo = this.historyHead[0].ShippingCatName
-        this.destinationDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].PodID);
-        this.originDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].PolID);
+        this.containerInfo = containers.find(e => e.ContainerSpecID === this.historyHead[0].containerSpecID && e.ContainerFor === 'FCL')
+        this.cargoInfo = this.historyHead[0].shippingCatName
+        this.destinationDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].podID);
+        this.originDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].polID);
       }
     })
   }
@@ -93,19 +93,19 @@ export class RateHistoryComponent implements OnInit {
       this.loading = false
       if (res.returnStatus == "Success") {
         let records = res.returnObject;
-        if (records[0].history && records[0].history.length) {
-          records[0].history.map(obj => {
+        if (records.history && records.history.length) {
+          records.history.map(obj => {
             if (typeof (obj.AuditDesc) == "string") {
               obj.AuditDesc = JSON.parse(obj.AuditDesc);
             }
           })
-          this.history = records[0].history;
+          this.history = records.history;
         }
-        this.historyHead = records[0].historyHead;
-        this.shippingInfo = this.getRecord.shippingLines.filter(e => e.CarrierID === this.historyHead[0].CarrierID)
-        this.cargoInfo = this.historyHead[0].ShippingCatName
-        this.destinationDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].PodID);
-        this.originDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].PolID);
+        this.historyHead = records.historyHead;
+        this.shippingInfo = this.getRecord.shippingLines.filter(e => e.CarrierID === this.historyHead[0].carrierID)
+        this.cargoInfo = this.historyHead[0].shippingCatName
+        this.destinationDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].podID);
+        this.originDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].polID);
       }
     })
   }
@@ -168,23 +168,19 @@ export class RateHistoryComponent implements OnInit {
           this.originDet = {
             polType: this.historyHead[0].polType,
             polName: this.historyHead[0].polName,
-            polImageName: this.historyHead[0].podImageName
+            polImageName: this.historyHead[0].polImageName
           }
         }
 
         if (this.historyHead[0].podType === 'Ground') {
-          console.log(this.groundPorts);
-          
           this.destinationDet = this.groundPorts.find(obj => obj.PortID === this.historyHead[0].podID);
         } else if (this.historyHead[0].podType === 'SEA') {
           this.destinationDet = ports.find(obj => obj.PortID === this.historyHead[0].podID);
         }
 
         if (this.historyHead[0].polType === 'Ground') {
-          console.log('here');
           this.originDet = this.groundPorts.find(obj => obj.PortID === this.historyHead[0].polID);
         } else if (this.historyHead[0].polType === 'SEA') {
-          console.log('here');
           this.originDet = ports.find(obj => obj.PortID === this.historyHead[0].polID);
         }
         // this.originDet = ports.find(obj => obj.PortID === this.historyHead[0].polID);

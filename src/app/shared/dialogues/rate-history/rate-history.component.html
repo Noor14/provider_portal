@@ -39,15 +39,15 @@
           <small class="d-block">To</small>
           <div class="d-flex" *ngIf="destinationDet?.PortType && destinationDet?.PortType !== 'CITY'">
             <div class="flag-container">
-              <img src="{{'../../../../assets/images/flags/1x1/'+ (destinationDet?.countryCode | lowercase) + '.svg'}}"
+              <img src="{{'../../../../assets/images/flags/1x1/'+ (destinationDet?.CountryCode | lowercase) + '.svg'}}"
                 alt="icon">
             </div>
             <div class="location">
-              <label class="ports-text">{{destinationDet?.portCode}}</label>
-              <span class=" d-block">Port of {{destinationDet?.portName}}</span>
+              <label class="ports-text">{{destinationDet?.PortCode}}</label>
+              <span class=" d-block">Port of {{destinationDet?.PortName}}</span>
             </div>
           </div>
-          <div class="d-flex" *ngIf="destinationDet?.podType === 'CITY'">
+          <div class="d-flex" *ngIf="destinationDet?.podType && destinationDet?.podType === 'CITY'">
             <div class="flag-container">
               <img src="{{'../../../../assets/images/flags/1x1/'+ (destinationDet?.podImageName | lowercase) + '.svg'}}"
                 alt="icon">
