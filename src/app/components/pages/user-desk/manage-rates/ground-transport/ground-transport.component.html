@@ -115,7 +115,7 @@
         <section class="rates-grid draft-grid draft-GroundFTL">
           <!-- <table id="draftRateTableFTL" cellspacing="0" #draftBYGroundFTL class="row-border hover"></table> -->
           <app-ui-table *ngIf="draftslistFTL.length" [tableType]="'draftFCL'" [tableData]="draftslistFTL"
-            (checkedRows)="tableCheckedRows($event)" [containerLoad]="'FTL'" [transMode]="'TRUCK'"></app-ui-table>
+            (checkedRows)="tableCheckedRows($event)" [containerLoad]="'FTL'" [transMode]="'GROUND'"></app-ui-table>
           <button (click)="addAnotherRates()" *ngIf="!draftslistFTL.length"
             class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2"> Click to add new rate </button>
           <a href="javascript:;" *ngIf="draftslistFTL.length" [ngClass]="draftslistFTL.length > 5 ? 'withScroll' : ''"
@@ -358,7 +358,7 @@
     <app-ui-table *ngIf="allRatesList?.length" [tableType]="'publishFCL'" [tableData]="allRatesList"
       (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('ftl', $event)"
       (pageEvent)="paging('ftl', $event)" [totalRecords]="totalPublishedRecords"
-      [containerLoad]="(activeTab === 'activeFCL' ? 'FCL' : 'FTL')" [transMode]="'TRUCK'"></app-ui-table>
+      [containerLoad]="(activeTab === 'activeFCL' ? 'FCL' : 'FTL')" [transMode]="'GROUND'"></app-ui-table>
     <app-loader-main *ngIf="publishloading"></app-loader-main>
   </section>
   <section class="term-cond">

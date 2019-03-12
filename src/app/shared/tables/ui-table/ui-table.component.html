@@ -1,5 +1,5 @@
 <!-- manage device table -->
-<div class="table-info mt-2 {{tableType}}" [ngClass]="transMode === 'TRUCK' ? transMode : containerLoad">
+<div class="table-info mt-2 {{tableType}}" [ngClass]="transMode === 'GROUND' ? transMode : containerLoad">
 
   <!-- <label class="table-info-count" *ngIf="tableType === 'draftFCL'">Showing top {{pageSize}} of {{data.length}}
     record(s)</label> -->
@@ -15,7 +15,7 @@
       <button class="dropdown-item" (click)="onSortClick('polName', 'Origin/Departure', 'PolName')">Origin/Departure</button>
       <button class="dropdown-item" (click)="onSortClick('shippingCatName', 'Cargo Type', 'ShippingCatName')">Cargo Type
       </button>
-      <button class="dropdown-item" (click)="onSortClick('containerSpecDesc', 'Container', 'ContainerSpecDesc')" *ngIf="transMode === 'TRUCK'">Container</button>
+      <button class="dropdown-item" (click)="onSortClick('containerSpecDesc', 'Container', 'ContainerSpecDesc')" *ngIf="transMode === 'GROUND'">Container</button>
       <button class="dropdown-item" (click)="onSortClick('effectiveTo', 'Rate Validity', 'EffectiveFrom')">Rate Validity
       </button>
     </div>
@@ -60,13 +60,13 @@
                 <span> </span>
               </label>
             </div>
-            <div class="fancyOptionBoxes" *ngIf="tableType === 'publishFCL' && containerLoad === 'FCL' && transMode === 'TRUCK'">
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'publishFCL' && containerLoad === 'FCL' && transMode === 'GROUND'">
               <input id="{{device.id}}" type="checkbox" [ngModel]="device.isChecked" (change)="device.isChecked = !device.isChecked; onCheck(device.id, device)">
               <label for="{{device.id}}">
                 <span> </span>
               </label>
             </div>
-            <div class="fancyOptionBoxes" *ngIf="tableType === 'publishFCL' && containerLoad === 'FTL' && transMode === 'TRUCK'">
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'publishFCL' && containerLoad === 'FTL' && transMode === 'GROUND'">
               <input id="{{device.id}}" type="checkbox" [ngModel]="device.isChecked" (change)="device.isChecked = !device.isChecked; onCheck(device.id, device)">
               <label for="{{device.id}}">
                 <span> </span>
@@ -86,13 +86,13 @@
                 <span> </span>
               </label>
             </div>
-            <div class="fancyOptionBoxes" *ngIf="tableType === 'draftFCL' && containerLoad === 'FCL' && transMode === 'TRUCK'">
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'draftFCL' && containerLoad === 'FCL' && transMode === 'GROUND'">
               <input id="{{device.id}}" type="checkbox" [ngModel]="device.isChecked" [disabled]="validateRow(device)" (change)="device.isChecked = !device.isChecked; onCheck(device.id, device)">
               <label for="{{device.id}}">
                 <span> </span>
               </label>
             </div>
-            <div class="fancyOptionBoxes" *ngIf="tableType === 'draftFCL' && containerLoad === 'FTL' && transMode === 'TRUCK'">
+            <div class="fancyOptionBoxes" *ngIf="tableType === 'draftFCL' && containerLoad === 'FTL' && transMode === 'GROUND'">
               <input id="{{device.id}}" type="checkbox" [ngModel]="device.isChecked" [disabled]="validateRow(device)" (change)="device.isChecked = !device.isChecked; onCheck(device.id, device)">
               <label for="{{device.id}}">
                 <span> </span>
