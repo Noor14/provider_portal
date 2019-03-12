@@ -23,7 +23,7 @@ import { LightboxModule } from 'ngx-lightbox';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { QuillEditorModule } from 'ngx-quill-editor';
-import { ServiceGuard } from './service.guard';
+import { ServicesGuard } from './services.guard';
 @NgModule({
   imports: [
     CommonModule,
@@ -55,9 +55,9 @@ import { ServiceGuard } from './service.guard';
     SeaFreightService, 
     AirFreightService, 
     GroundTransportService, 
-    ManageRatesService, 
-    WarehouseService, 
-    ServiceGuard
+    ManageRatesService,
+    WarehouseService,
+    ServicesGuard
   ]
 })
 export class ManageRatesModule { }

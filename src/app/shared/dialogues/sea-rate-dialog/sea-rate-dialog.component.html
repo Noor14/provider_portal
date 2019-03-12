@@ -98,18 +98,31 @@
         <div class="form-group">
           <label>Origin</label>
           <div class="origin">
-            <div class="flag-container">
+            <div class="flag-container" *ngIf="showDoubleRates">
               <img *ngIf="filterOrigin && filterOrigin.CountryCode"
                 src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
                 type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
             </div>
+
+            <div class="flag-container" *ngIf="!showDoubleRates">
+              <img *ngIf="filterOrigin && filterOrigin.imageName"
+                src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.imageName | lowercase) + '.svg'}}"
+                type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+            </div>
+
             <input class="form-control" [(ngModel)]="filterOrigin" placeholder="e.g: Dubai" type="text"
               [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}" [ngbTypeahead]="ports"
               [resultTemplate]="rt" [inputFormatter]="portsFormatter" (click)="toggleDropdown('pickup')"
-              (ngModelChange)="portsFilterartion(filterOrigin)" readonly />
+              (ngModelChange)="portsFilterartion(filterOrigin)" readonly *ngIf="showDoubleRates" />
+              
+              <input class="form-control" [(ngModel)]="filterOrigin" placeholder="e.g: Dubai" type="text"
+              [ngClass]="{'routeSelected': filterOrigin && filterOrigin.imageName}" [ngbTypeahead]="ports"
+              [resultTemplate]="rt" [inputFormatter]="citiesFormatter" (click)="toggleDropdown('pickup')"
+              (ngModelChange)="portsFilterartion(filterOrigin)" readonly *ngIf="!showDoubleRates"/>
+
             <div class="dropdown-pickup" *ngIf="showPickupDropdown">
               <ul>
-                <li *ngIf="!showPickupDoors" (click)="togglePorts('pickup-sea')">
+                <li *ngIf="!showPickupDoors && showDoubleRates" (click)="togglePorts('pickup-sea')">
                   <div class="d-flex">
                     <img async defer src="../../../../assets/images/icons/icon_anchor.svg" alt="icon"
                       class="img-responsive pickup-icon2" height="16px" />
@@ -133,6 +146,30 @@
                       (ngModelChange)="portsFilterartion(filterOrigin)" />
                   </div>
                 </li>
+                <li (click)="togglePorts('pickup-sea')" *ngIf="!showDoubleRates && transPortMode === 'GROUND'">
+                  <div class="d-flex">
+                    <img async defer src="../../../../assets/images/icons/Icons_Location.svg" alt="icon"
+                      class="img-responsive pickup-icon2" height="16px" />
+                    <span class="pickup-heading">From City</span>
+                  </div>
+                  <p *ngIf="!showPickupPorts">Picking up from city would mean you are responsible to get your cargo
+                    delivered
+                    to the
+                    city
+                    of departure.</p>
+                  <div class="ports-dropdown" *ngIf="showPickupPorts">
+                    <div class="flag-container">
+                      <img *ngIf="filterOrigin && filterOrigin.imageName"
+                        src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.imageName | lowercase) + '.svg'}}"
+                        type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                    </div>
+                    <input class="form-control" #originPickupBox autofocus [(ngModel)]="filterOrigin"
+                      placeholder="e.g: Dubai" type="text"
+                      [ngClass]="{'routeSelected': filterOrigin && filterOrigin.imageName}" [ngbTypeahead]="citiesList"
+                      [resultTemplate]="rtc" [inputFormatter]="citiesFormatter"
+                      (ngModelChange)="portsFilterartion(filterOrigin)" (keyup)="onCityKeyUp(filterOrigin)"/>
+                  </div>
+                </li>
                 <li *ngIf="!showPickupPorts && showDoubleRates" (click)="togglePorts('pickup-door')">
                   <div class="d-flex">
                     <img async defer src="../../../../assets/images/icons/Icons_Location.svg" alt="icon"
@@ -150,7 +187,7 @@
                         src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.CountryCode | lowercase) + '.svg'}}"
                         type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                     </div>
-                    <input class="form-control" autofocus [(ngModel)]="filterOrigin" placeholder="e.g: Dubai"
+                    <input class="form-control" #originPickupBox autofocus [(ngModel)]="filterOrigin" placeholder="e.g: Dubai"
                       type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.CountryCode}"
                       [ngbTypeahead]="addresses" [resultTemplate]="rt" [inputFormatter]="addressFormatter"
                       (ngModelChange)="portsFilterartion(filterOrigin)" />
@@ -165,18 +202,28 @@
         <div class="form-group">
           <label>Destination</label>
           <div class="destination">
-            <div class="flag-container">
+            <div class="flag-container" *ngIf="showDoubleRates">
               <img *ngIf="filterDestination && filterDestination.CountryCode"
                 src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
                 type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
             </div>
-            <input class="form-control" [(ngModel)]="filterDestination" placeholder="e.g: Dubai" type="text"
-              [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}" [ngbTypeahead]="ports"
-              [resultTemplate]="rt" [inputFormatter]="portsFormatter" (click)="toggleDropdown('delivery')" readonly
+            <div class="flag-container" *ngIf="!showDoubleRates">
+              <img *ngIf="filterDestination && filterDestination.imageName"
+                src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.imageName | lowercase) + '.svg'}}"
+                type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+            </div>
+            <input class="form-control" *ngIf="showDoubleRates" [(ngModel)]="filterDestination" placeholder="e.g: Dubai"
+              type="text" [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
+              [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="portsFormatter"
+              (click)="toggleDropdown('delivery')" readonly (ngModelChange)="portsFilterartion(filterDestination)" />
+            <input class="form-control" *ngIf="!showDoubleRates" [(ngModel)]="filterDestination"
+              placeholder="e.g: Dubai" type="text"
+              [ngClass]="{'routeSelected': filterDestination && filterDestination.imageName}" [ngbTypeahead]="ports"
+              [resultTemplate]="rtc" [inputFormatter]="citiesFormatter" (click)="toggleDropdown('delivery')" readonly
               (ngModelChange)="portsFilterartion(filterDestination)" />
             <div class="dropdown-pickup" *ngIf="showDestinationDropdown">
               <ul>
-                <li (click)="togglePorts('delivery-sea')" *ngIf="!showDestDoors">
+                <li (click)="togglePorts('delivery-sea')" *ngIf="!showDestDoors && showDoubleRates">
                   <div class="d-flex">
                     <img async defer src="../../../../assets/images/icons/icon_anchor.svg" alt="icon"
                       class="img-responsive pickup-icon2" height="16px" />
@@ -190,16 +237,16 @@
                         src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
                         type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                     </div>
-                    <input class="form-control" #originPickupBox autofocus [(ngModel)]="filterDestination"
+                    <input class="form-control" #destinationPickupBox autofocus [(ngModel)]="filterDestination"
                       placeholder="e.g: Dubai" type="text"
                       [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
                       [ngbTypeahead]="ports" [resultTemplate]="rt" [inputFormatter]="portsFormatter"
                       (ngModelChange)="portsFilterartion(filterDestination)" />
                   </div>
                 </li>
-                <!-- <li (click)="togglePorts('delivery-sea')" *ngIf="!showDoubleRates && transPortMode === 'GROUND'">
+                <li (click)="togglePorts('delivery-sea')" *ngIf="!showDoubleRates && transPortMode === 'GROUND'">
                   <div class="d-flex">
-                    <img async defer src="../../../../assets/images/icons/icon_anchor.svg" alt="icon"
+                    <img async defer src="../../../../assets/images/icons/Icons_Location.svg" alt="icon"
                       class="img-responsive pickup-icon2" height="16px" />
                     <span class="pickup-heading">To City</span>
                   </div>
@@ -207,17 +254,17 @@
                     city</p>
                   <div class="ports-dropdown" *ngIf="showDestPorts">
                     <div class="flag-container">
-                      <img *ngIf="filterDestination && filterDestination.CountryCode"
-                        src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
+                      <img *ngIf="filterDestination && filterDestination.imageName"
+                        src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.imageName | lowercase) + '.svg'}}"
                         type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                     </div>
-                    <input class="form-control" #originPickupBox autofocus [(ngModel)]="filterDestination"
+                    <input class="form-control" #destinationPickupBox autofocus [(ngModel)]="filterDestination"
                       placeholder="e.g: Dubai" type="text"
-                      [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
+                      [ngClass]="{'routeSelected': filterDestination && filterDestination.imageName}"
                       [ngbTypeahead]="citiesList" [resultTemplate]="rtc" [inputFormatter]="citiesFormatter"
-                      (ngModelChange)="portsFilterartion(filterDestination)" />
+                      (ngModelChange)="portsFilterartion(filterDestination)" (keyup)="onCityKeyUp(filterDestination)"/>
                   </div>
-                </li> -->
+                </li>
                 <li *ngIf="!showDestPorts && showDoubleRates" (click)="togglePorts('delivery-door')">
                   <div class="d-flex">
                     <img async defer src="../../../../assets/images/icons/Icons_Location.svg" alt="icon"
@@ -232,7 +279,7 @@
                         src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.CountryCode | lowercase) + '.svg'}}"
                         type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                     </div>
-                    <input class="form-control" autofocus [(ngModel)]="filterDestination" placeholder="e.g: Dubai"
+                    <input class="form-control" #destinationPickupBox autofocus [(ngModel)]="filterDestination" placeholder="e.g: Dubai"
                       type="text" [ngClass]="{'routeSelected': filterDestination && filterDestination.CountryCode}"
                       [ngbTypeahead]="addresses" [resultTemplate]="rt" [inputFormatter]="addressFormatter"
                       (ngModelChange)="portsFilterartion(filterDestination)" />
@@ -241,15 +288,6 @@
               </ul>
             </div>
           </div>
-          <!-- <ng-template #rtc let-r="result">
-            <div class="d-flex">
-              <div class="flag-container mr-1">
-                <img src="{{'../../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
-                  class="mw-100 w-auto h-auto mh-100">
-              </div>
-              <ngb-highlight [result]="r.title"></ngb-highlight>
-            </div>
-          </ng-template> -->
         </div>
       </div>
       <ng-template #rt let-r="result">
@@ -259,6 +297,15 @@
               class="mw-100 w-auto h-auto mh-100">
           </div>
           <ngb-highlight [result]="r.PortName"></ngb-highlight>
+        </div>
+      </ng-template>
+      <ng-template #rtc let-r="result">
+        <div class="d-flex">
+          <div class="flag-container mr-1">
+            <img src="{{'../../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
+              class="mw-100 w-auto h-auto mh-100">
+          </div>
+          <ngb-highlight [result]="r.title"></ngb-highlight>
         </div>
       </ng-template>
       <div class="col-12" *ngIf="selectedData.customers.length">
@@ -451,7 +498,7 @@
               </div>
             </div>
             <img src="../../../../assets/images/icons/icon_del_round.svg" alt="delete-icon"
-              class="icon-size-16 combine-filed-popup-delete pointer">
+              class="icon-size-16 combine-filed-popup-delete pointer" (click)="removeAdditionalCharge('origin', origin)">
           </div>
         </div>
         <div class="col-12">
@@ -542,7 +589,7 @@
               </div>
             </div>
             <img src="../../../../assets/images/icons/icon_del_round.svg" alt="delete-icon"
-              class="icon-size-16 combine-filed-popup-delete pointer">
+              class="icon-size-16 combine-filed-popup-delete pointer" (click)="removeAdditionalCharge('destination', destination)">
           </div>
         </div>
         <div class="col-12">

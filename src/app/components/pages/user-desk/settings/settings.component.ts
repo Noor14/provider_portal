@@ -469,11 +469,10 @@ export class SettingsComponent implements OnInit {
         this.selectTelCode(selectedCountry);
       }
     }
-    if (selectedCountry && typeof selectedCountry == 'object' && Object.keys(selectedCountry).length){
+    if (selectedCountry && typeof selectedCountry == 'object' && Object.keys(selectedCountry).length) {
       let description = selectedCountry.desc;
       info.ProviderPhone = info.ProviderPhone.replace(description[0].CountryPhoneCode, "")
     }
-
     this.businessInfoForm.controls['phone'].setValue(info.ProviderPhone);
     if (info.SocialMediaAccountID && info.ProviderWebAdd) {
       let obj = this.socialWebs.find(elem => elem.SocialMediaPortalsID == info.SocialMediaAccountID);

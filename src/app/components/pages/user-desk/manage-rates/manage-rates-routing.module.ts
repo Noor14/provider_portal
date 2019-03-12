@@ -5,17 +5,18 @@ import { SeaFreightComponent } from './sea-freight/sea-freight.component';
 import { AirFreightComponent } from './air-freight/air-freight.component';
 import { GroundTransportComponent } from './ground-transport/ground-transport.component';
 import { WarehouseListComponent } from './warehouse-list/warehouse-list.component';
-import { ServiceGuard } from './service.guard';
+import { ServicesGuard } from './services.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: ManageRatesComponent,
+    // canActivate: [UserGuard],
     children: [
-      { path: 'sea', component: SeaFreightComponent, canActivate: [ServiceGuard] },
-      { path: 'air', component: AirFreightComponent, canActivate: [ServiceGuard] },
-      { path: 'ground', component: GroundTransportComponent, canActivate: [ServiceGuard] },
-      { path: 'warehouse', component: WarehouseListComponent, canActivate: [ServiceGuard] },
+      { path: 'sea', component: SeaFreightComponent, canActivate: [ServicesGuard] },
+      { path: 'air', component: AirFreightComponent, canActivate: [ServicesGuard] },
+      { path: 'ground', component: GroundTransportComponent, canActivate: [ServicesGuard] },
+      { path: 'warehouse', component: WarehouseListComponent, canActivate: [ServicesGuard] },
       { path: '**', redirectTo: 'sea', pathMatch: 'full' }
     ]
   }

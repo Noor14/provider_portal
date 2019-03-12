@@ -191,17 +191,17 @@
     }
   }
 
-  ngb-typeahead-window {
-    max-height: 200px;
-    overflow-y: auto;
-    padding: 0;
+  // ngb-typeahead-window {
+  //   max-height: 200px;
+  //   overflow-y: auto;
+  //   padding: 0;
 
-    .dropdown-item {
+  //   .dropdown-item {
 
-      &.active,
-      &:active {
-        background: $primary-grey;
-      }
-    }
-  }
+  //     &.active,
+  //     &:active {
+  //       background: $primary-grey;
+  //     }
+  //   }
+  // }
 }

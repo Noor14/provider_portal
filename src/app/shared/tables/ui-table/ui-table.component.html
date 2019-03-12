@@ -105,7 +105,7 @@
               placement="top" ngbTooltip="{{device.parsedpublishStatus.printStatus}}"></button>
           </td>
           <td (click)="draftAction(device, 'edit')">
-            <div class="d-flex">
+            <div class="d-flex info-table-logo">
               <img *ngIf="device?.parsedjsonCustomerDetail && device.customerID && device?.parsedjsonCustomerDetail[0].CustomerImage" [src]="getUIImage(device?.parsedjsonCustomerDetail[0].CustomerImage, false)"
                 alt="" class="mr-2 rounded" height="24px" width="24px" onerror="'../../../../assets/images/icons/icons_user.svg'">
               <img *ngIf="device?.parsedjsonCustomerDetail && device.customerID && !device?.parsedjsonCustomerDetail[0].CustomerImage"
@@ -147,19 +147,18 @@
           <td (click)="draftAction(device, 'edit')">
             <div class="d-flex info-table-logo align-items-center">
               <!-- <img [src]="getUIImage(device.CarrierImage, false)" alt="" class="mr-2 "> -->
-              <span *ngIf="tableType === 'publishFCL'">{{device.containerSpecDesc || '-- Select --'}}</span>
-              <span *ngIf="tableType === 'draftFCL'">{{device.containerSpecName || '-- Select --'}}</span>
+              <span *ngIf="tableType === 'publishFCL'" placement="top" ngbTooltip="{{device.containerSpecDesc}}" [ngClass]="device?.containerSpecDesc?.length > 20 ? 'text-truncate': ''">{{device.containerSpecDesc || '-- Select --'}}</span>
+              <span *ngIf="tableType === 'draftFCL'" placement="top" ngbTooltip="{{device.containerSpecName}}" [ngClass]="device?.containerSpecName?.length > 20 ? 'text-truncate': ''">{{device.containerSpecName || '-- Select --'}}</span>
             </div>
           </td>
           <td (click)="draftAction(device, 'edit')">
-            <div class="d-flex info-table-logo align-items-center">
+            <div class="d-flex double-price info-table-logo align-items-center">
               <span class="mr-1" *ngIf="device.currencyCode && device.price">
                 <span placement="top" ngbTooltip="{{device.couplePrice ? 'Single Price' : ''}}">
                   {{device.currencyCode}} {{device.price | number:'1.0-0'}}
                 </span>
               </span>
-              <span class="ml-1" *ngIf="device.couplePrice">
-                /
+              <span *ngIf="device.couplePrice">
                 <span placement="top" ngbTooltip="Double Price">{{device.currencyCode}} {{device.couplePrice | number:'1.0-0'}}</span>
               </span>
               <span *ngIf="!device.price"> -- Select --</span>

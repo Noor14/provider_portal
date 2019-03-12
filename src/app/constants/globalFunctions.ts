@@ -237,3 +237,12 @@ export function getDateDiff(firstDate: string, secDate: string, mode: any, forma
   const test = a.diff(b, mode);
   return test + 1;
 }
+
+export function getLoggedUserData() {
+  try {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    return JSON.parse(userInfo.returnText);
+  } catch (error) {
+    return null
+  }
+}

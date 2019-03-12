@@ -28,22 +28,22 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   @ViewChild('searchElement') public searchElement: any;
   public zoomlevel: number = 5;
   private whID: any;
-  private userProfile:any
+  private userProfile: any
   public warehouseTypeFull: boolean = true;
   public leaseTerm: any[] = [];
   public units: any[] = [];
   public facilities: any[] = [];
-  public warehouseUsageType:any[]=[];
+  public warehouseUsageType: any[] = [];
   public ceilingsHeight: any[] = [];
   public cityList: any[] = [];
-  public selectedMiniLeaseTerm:any;
+  public selectedMiniLeaseTerm: any;
   private paramSubscriber: any;
 
   //generalForm
-  public generalForm:any;
+  public generalForm: any;
 
   // locationForm
-  public locationForm:any;
+  public locationForm: any;
 
   // propertyDetailForm
   public propertyDetailForm: any;
@@ -80,7 +80,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     private _basicInfoService: BasicInfoService,
     private ngFilesService: NgFilesService,
 
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.ngFilesService.addConfig(this.config, 'config');
@@ -200,7 +200,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
           this.warehouseUsageType = res.returnObject.WHUsageType;
           this.ceilingsHeight = res.returnObject.CeilingDesc;
           this.warehouseDocx = res.returnObject.documentType;
-          if (this.ceilingsHeight){
+          if (this.ceilingsHeight) {
             this.propertyDetailForm.controls['ceilingHeight'].setValue(this.ceilingsHeight[0].CeilingID);
           }
           this.getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume);
@@ -214,23 +214,23 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   }
   addFacilities(obj, $event) {
     this.facilities.map((elem) => {
-      if (obj.BusinessLogic == elem.BusinessLogic){
+      if (obj.BusinessLogic == elem.BusinessLogic) {
         elem.IsAllowed = $event.target.checked;
       }
     })
   }
-  wareHouseType(obj, $event){
-    this.warehouseTypeFull = !this.warehouseTypeFull; 
-      this.warehouseUsageType.map((elem) => {
-      if (obj.UsageTypeID == elem.UsageTypeID){
+  wareHouseType(obj, $event) {
+    this.warehouseTypeFull = !this.warehouseTypeFull;
+    this.warehouseUsageType.map((elem) => {
+      if (obj.UsageTypeID == elem.UsageTypeID) {
         elem.IsAllowed = $event.target.checked;
       }
-      else{
+      else {
         elem.IsAllowed = false;
       }
     });
   }
-  addMinimumLeaseTerm(obj){
+  addMinimumLeaseTerm(obj) {
     this.selectedMiniLeaseTerm = obj;
   }
 
@@ -259,7 +259,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       loading(false);
       if (res && res.length) {
         this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM')
-        this.units =  res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM');
+        this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM');
         this.propertyDetailForm.patchValue({
           warehouseSpaceUnit: this.units[0].codeValDesc,
           ceilingUnit: this.units[0].codeValDesc,
@@ -283,9 +283,9 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     else {
       try {
         if (this.uploadedGalleries.length + selectedFiles.files.length > this.config.maxFilesCount) {
-            this._toastr.error('Please select 12 or less file(s) to upload.', '');
-            return;
-          }
+          this._toastr.error('Please select 12 or less file(s) to upload.', '');
+          return;
+        }
         this.onFileChange(selectedFiles)
       } catch (error) {
         console.log(error);
@@ -335,7 +335,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   generateDocObject(selectedFile): any {
     let object = this.warehouseDocx;
     object.DocumentID = this.docTypeId;
-    object.DocumentLastStatus = this.fileStatus; 
+    object.DocumentLastStatus = this.fileStatus;
     object.UserID = this.userProfile.UserID;
     object.ProviderID = this.userProfile.ProviderID;
     object.WHID = this.whID;
@@ -358,9 +358,9 @@ export class WarehouseComponent implements OnInit, OnDestroy {
         const resp: JsonResponse = await this.docSendService(docFiles[index])
         if (resp.returnStatus = 'Success') {
           let resObj = JSON.parse(resp.returnText);
-            this.docTypeId = resObj.DocumentID;
-            this.fileStatus = resObj.DocumentLastStaus;
-            let fileObj = JSON.parse(resObj.DocumentFile);
+          this.docTypeId = resObj.DocumentID;
+          this.fileStatus = resObj.DocumentLastStaus;
+          let fileObj = JSON.parse(resObj.DocumentFile);
 
           fileObj.forEach(element => {
             element.DocumentFile = baseExternalAssets + element.DocumentFile;
@@ -391,10 +391,10 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     this._basicInfoService.removeDoc(obj).subscribe((res: any) => {
       if (res.returnStatus == 'Success') {
         this._toastr.success('Remove selected document succesfully', "");
-          this.uploadedGalleries.splice(index, 1);
-          if (!this.uploadedGalleries || (this.uploadedGalleries && !this.uploadedGalleries.length)) {
-            this.docTypeId = null;
-          }
+        this.uploadedGalleries.splice(index, 1);
+        if (!this.uploadedGalleries || (this.uploadedGalleries && !this.uploadedGalleries.length)) {
+          this.docTypeId = null;
+        }
       }
       else {
         this._toastr.error('Error Occured', "");
@@ -404,7 +404,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     })
   }
 
-  aadwareHouse(){
+  aadwareHouse() {
     let obj = {
       whid: this.whID,
       providerID: this.userProfile.ProviderID,
@@ -424,7 +424,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       whUsageType: this.warehouseUsageType,
       whFacilitiesProviding: this.facilities,
       isBlocked: true,
-      offeredHashMoveArea: (!this.warehouseTypeFull)? this.propertyDetailForm.value.hashmoveSpace: null,
+      offeredHashMoveArea: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.hashmoveSpace : null,
       offeredHashMoveAreaUnit: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.warehouseSpaceUnit : null,
       ceilingHeight: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.ceilingHeight : null,
       ceilingHeightUnit: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.ceilingUnit : null,
@@ -432,7 +432,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
         value: this.selectedMiniLeaseTerm.codeVal,
         unitType: this.selectedMiniLeaseTerm.codeValShortDesc
       }],
-      whMinimumLeaseSpace: (!this.warehouseTypeFull)?[
+      whMinimumLeaseSpace: (!this.warehouseTypeFull) ? [
         {
           value: this.propertyDetailForm.value.minLeaseValueOne,
           unitType: this.propertyDetailForm.value.minLeaseUnitOne
@@ -441,14 +441,14 @@ export class WarehouseComponent implements OnInit, OnDestroy {
           value: this.propertyDetailForm.value.minLeaseValueTwo,
           unitType: this.propertyDetailForm.value.minLeaseUnitTwo
         }
-      ]: null,
+      ] : null,
       createdBy: this.userProfile.LoginID,
       modifiedBy: this.userProfile.LoginID,
     }
     this._warehouseService.addWarehouseDetail(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.whID = res.returnObject[0].WHID;
-        if (JSON.parse(this.whID) > 0){
+        if (JSON.parse(this.whID) > 0) {
           this.uploadDocuments(this.uploadedGalleries);
         }
         this._toastr.success('Warehouse detail saved', '')

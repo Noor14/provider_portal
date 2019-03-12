@@ -2,25 +2,19 @@ import { Component, OnInit } from '@angular/core';
 // import { UserBarGraph, UserRegionBarGraph, UserPieChart, UserBarGraphDash, UserRegionBarGraphDash, UserPieChartDash, UserGraphData, CodeValMst } from './resports.interface';
 // import { BookingList, UserDashboardData } from '../../../interfaces/user-dashboard';
 import { SharedService } from '../../../../services/shared.service';
-
-// import { untilDestroyed } from 'ngx-take-until-destroy';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 import * as echarts from 'echarts'
-// import { DropDownService } from '../../../services/dropdownservice/dropdown.service';
-// import { UserService } from '../user-service';
-// import { LoginUser } from '../../../interfaces/user.interface';
-// import { getLoggedUserData, cloneObject, removeDuplicates, kFormatter, removeDuplicateCurrencies, compareValues, Tea, startElementsOfArr } from '../../../constants/globalfunctions';
-// import { JsonResponse } from '../../../interfaces/JsonResponse';
 import { firstBy } from 'thenby';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonService } from '../../../../services/common.service';
-import { encryptBookingID, isJSON } from '../../../../constants/globalFunctions';
+import { encryptBookingID, isJSON, getLoggedUserData } from '../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
-// import { CurrencyControl } from '../../../shared/currency/currency.injectable';
-// import { CurrencyDetails, ExchangeRate, Rate } from '../../../interfaces/currencyDetails';
-// import { SelectedCurrency } from '../../../shared/currency-dropdown/currency-dropdown.component';
-// import { currErrMsg } from '../../../shared/constants';
 import { baseExternalAssets } from '../../../../constants/base.url';
 import { ReportsService } from './reports.service';
+import { SelectedCurrency, ExchangeRate, Rate, CurrencyDetails } from '../../../../interfaces/currency.interface';
+import { JsonResponse } from '../../../../interfaces/JsonResponse';
+import { removeDuplicateCurrencies, compareValues } from '../billing/billing.component';
+import { CurrencyControl } from '../../../../services/currency.service';
 
 @Component({
   selector: 'app-reports',
@@ -87,10 +81,10 @@ export class ReportsComponent implements OnInit {
   };
   constRadius = [82, 90] //dont change
 
-  // currencyList: any
-  // currCurrency: SelectedCurrency
-  // exchangeData: ExchangeRate
-  // exchnageRate: Rate
+  currencyList: any
+  currCurrency: SelectedCurrency
+  exchangeData: ExchangeRate
+  exchnageRate: Rate
 
   public isCurrVsPrev: boolean = false
   public isBarGraph: boolean = false
@@ -105,8 +99,8 @@ export class ReportsComponent implements OnInit {
     private _sharedService: SharedService,
     private _dropDownSrv: CommonService,
     private _userService: ReportsService,
-    private _router: Router
-    // private _currencyControl: CurrencyControl
+    private _router: Router,
+    private _currencyControl: CurrencyControl
   ) { }
 
 
@@ -134,7 +128,11 @@ export class ReportsComponent implements OnInit {
       }
     });
 
-    // await this.setCurrencyList()
+    try {
+      await this.setCurrencyList()
+    } catch (error) {
+      console.warn('unable to set default-currency');
+    }
     this.setgraphdata()
 
 
@@ -148,22 +146,19 @@ export class ReportsComponent implements OnInit {
     this.bookingsSubscriber.unsubscribe();
   }
 
-getRecentBookings(){
-  this.bookingsSubscriber = this._sharedService.dashboardDetail.subscribe((state: any) => {
-    if (state && state.BookingDetails && state.BookingDetails.length) {
-      state.BookingDetails.map(elem => {
-        if (elem.CustomerImage && typeof elem.CustomerImage == "string" && elem.CustomerImage != "[]" && isJSON(elem.CustomerImage)) {
-          elem.CustomerLogo = JSON.parse(elem.CustomerImage).shift().DocumentFile
-        }
-        else if (elem.UserImage) {
-          elem.CustomerLogo = elem.UserImage;
-        }
-      })
-      let recentBookings = state.BookingDetails.filter(obj => obj.BookingTab === 'Current');
-      this.recentBookings = this.filterByDate(recentBookings).slice(0,3);
-    }
-  });
-}
+  getRecentBookings() {
+    this.bookingsSubscriber = this._sharedService.dashboardDetail.subscribe((state: any) => {
+      if (state && state.BookingDetails && state.BookingDetails.length) {
+        state.BookingDetails.map(elem => {
+          if (elem.CustomerImage && typeof elem.CustomerImage == "string" && isJSON(elem.CustomerImage)) {
+            elem.CustomerLogo = JSON.parse(elem.CustomerImage).shift().DocumentFile
+          }
+        })
+        let recentBookings = state.BookingDetails.filter(obj => obj.BookingTab === 'Current');
+        this.recentBookings = this.filterByDate(recentBookings).slice(0, 3);
+      }
+    });
+  }
   viewBookingDetails(bookingId) {
     let id = encryptBookingID(bookingId);
     this._router.navigate(['/provider/booking-detail', id]);
@@ -177,46 +172,39 @@ getRecentBookings(){
     });
   }
 
-  // async setCurrencyList() {
-  //   const res: any = await this._dropDownSrv.getCurrency().toPromise()
-  //   let currencyList = res;
-  //   currencyList = removeDuplicateCurrencies(currencyList)
-  //   currencyList.sort(compareValues('title', "asc"));
-  //   this.currencyList = currencyList;
-  //   await this.selectedCurrency();
-  // }
+  async setCurrencyList() {
+    const res: any = await this._dropDownSrv.getCurrency().toPromise()
+    let currencyList = res;
+    currencyList = removeDuplicateCurrencies(currencyList)
+    currencyList.sort(compareValues('title', "asc"));
+    this.currencyList = currencyList;
+    await this.selectedCurrency();
+  }
 
 
 
-  // async selectedCurrency() {
+  async selectedCurrency() {
 
-  //   const { CurrencyID } = getLoggedUserData()
+    const { CurrencyID } = getLoggedUserData()
 
-  //   const seletedCurrency: CurrencyDetails = this.currencyList.find(obj => obj.id == CurrencyID)
+    const seletedCurrency: CurrencyDetails = this.currencyList.find(obj => obj.id == CurrencyID)
 
-  //   let currentCurrency: SelectedCurrency = {
-  //     sortedCurrencyID: seletedCurrency.id,
-  //     sortedCountryFlag: seletedCurrency.imageName.toLowerCase(),
-  //     sortedCountryName: seletedCurrency.code,
-  //     sortedCountryId: JSON.parse(seletedCurrency.desc).CountryID
-  //   }
-  //   console.log('currentCurrency:', currentCurrency);
-
-
-  //   this.currCurrency = currentCurrency
-  //   const { currCurrency } = this
-  //   const baseCurrencyID = this._currencyControl.getBaseCurrencyID();
-  //   const res2: JsonResponse = await this._dropDownSrv.getExchangeRateList(baseCurrencyID).toPromise()
-  //   this.exchangeData = res2.returnObject
-  //   this.exchnageRate = this.exchangeData.rates.filter(rate => rate.currencyID === currCurrency.sortedCurrencyID)[0]
-  // }
+    let currentCurrency: SelectedCurrency = {
+      sortedCurrencyID: seletedCurrency.id,
+      sortedCountryFlag: seletedCurrency.imageName.toLowerCase(),
+      sortedCountryName: seletedCurrency.code,
+      sortedCountryId: JSON.parse(seletedCurrency.desc).CountryID
+    }
+    this.currCurrency = currentCurrency
+    const { currCurrency } = this
+    const baseCurrencyID = this._currencyControl.getBaseCurrencyID();
+    const res2: JsonResponse = await this._dropDownSrv.getExchangeRateList(baseCurrencyID).toPromise()
+    this.exchangeData = res2.returnObject
+    this.exchnageRate = this.exchangeData.rates.filter(rate => rate.currencyID === currCurrency.sortedCurrencyID)[0]
+  }
 
 
   setMasterGraph($reportPeriod) {
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-    const userData: any = JSON.parse(userInfo.returnText);
-    const { UserID } = userData
-
     this._userService.getUserGraphData(this.userProfile.ProviderID, $reportPeriod).subscribe((resp: any) => {
       const { returnId, returnObject } = resp
       if (returnId > 0) {
@@ -248,19 +236,18 @@ getRecentBookings(){
     }, 20);
 
     const { currentVsPrevious } = this.userGraphData
-    // const { exchnageRate, currCurrency } = this
-    // const { sortedCountryName } = currCurrency
-    // try {
-    //   currentVsPrevious.forEach(bar => {
-    //     const { totalAmount } = bar
-    //     bar.totalAmount = this._currencyControl.getNewPrice(totalAmount, exchnageRate.rate)
-    //     bar.currencyCode = sortedCountryName
-    //   })
-    // } catch (err) {
-    //   console.log(err);
-    //   const { title, text } = currErrMsg
-    //   // this._toast.error(text, title)
-    // }
+    const { exchnageRate, currCurrency } = this
+    const { sortedCountryName } = currCurrency
+    try {
+      currentVsPrevious.forEach(bar => {
+        const { totalAmount } = bar
+        bar.totalAmount = this._currencyControl.getNewPrice(totalAmount, exchnageRate.rate)
+        bar.currencyCode = sortedCountryName
+      })
+    } catch (err) {
+      console.warn(err);
+      // this._toast.error(text, title)
+    }
 
     setTimeout(() => {
       this.isCurrVsPrev = true
@@ -299,18 +286,17 @@ getRecentBookings(){
 
     } catch (err) {
     }
-    // const { exchnageRate } = this
-    // try {
-    //   barGraph.forEach(bar => {
-    //     const { totalCount } = bar
-    //     bar.totalCount = this._currencyControl.getNewPrice(totalCount, exchnageRate.rate)
-    //   })
+    const { exchnageRate } = this
+    try {
+      barGraph.forEach(bar => {
+        const { totalCount } = bar
+        bar.totalCount = this._currencyControl.getNewPrice(totalCount, exchnageRate.rate)
+      })
 
-    // } catch (err) {
-    //   console.log(err);
-    //   const { title, text } = currErrMsg
-    //   // this._toast.error(text, title)
-    // }
+    } catch (err) {
+      console.warn(err);
+      // this._toast.error(text, title)
+    }
 
 
 
