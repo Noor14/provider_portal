@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import {
   NgbInputDatepicker,
   NgbDateStruct,
@@ -53,7 +53,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
     ])
   ]
 })
-export class GroundTransportComponent implements OnInit, OnDestroy {
+export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   public rateValidityText = "Edit Rate / Validity";
   public activeTab = "activeFTL";
@@ -153,7 +153,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private _parserFormatter: NgbDateParserFormatter,
     private _toast: ToastrService,
-    private _manageRateService: ManageRatesService
+    private _manageRateService: ManageRatesService,
+    private cdRef: ChangeDetectorRef
   ) { }
 
 
@@ -180,6 +181,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     this.getDropdownsList()
   }
 
+  ngAfterViewChecked() {
+    this.cdRef.detectChanges();
+  }
 
   ngOnDestroy() {
   }
@@ -1167,7 +1171,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
       this.draftslist.forEach(elem => {
         let obj = {
           draftID: elem.Id,
-          transportType: elem.ModeOfTrans,
+          transportType: 'TRUCK',
         }
         discardarr.push(obj)
       })
@@ -1176,7 +1180,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
       this.draftslistFTL.forEach(elem => {
         let obj = {
           draftID: elem.Id,
-          transportType: elem.ModeOfTrans,
+          transportType: 'TRUCK',
         }
         discardarr.push(obj)
       })
@@ -1658,7 +1662,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   public combinedPorts: any[] = []
   public groundPorts: any = []
   public citiesPorts: any = []
-  
+
   /**
    * FILLIN DROPDOWN DETAILS
    *

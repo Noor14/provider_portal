@@ -5,26 +5,26 @@ import { SharedService } from '../../../../services/shared.service';
 import { isJSON } from '../../../../constants/globalFunctions';
 
 @Injectable()
-export class ServiceGuard implements CanActivate {
+export class ServicesGuard implements CanActivate {
 
   private islogOut: boolean;
-  private previousUrl:string = undefined;
-  private selectedServices: any[]
-;  constructor(
-    private router: Router,
-    private _sharedService: SharedService,
-  ) {}
+  private previousUrl: string = undefined;
+  private selectedServices: any[];
+    ; constructor(
+      private router: Router,
+      private _sharedService: SharedService,
+  ) { }
 
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-      this.getloginStatus();
+    this.getloginStatus();
 
     this._sharedService.dashboardDetail.subscribe((state: any) => {
-      if (state) {
-        if (state.LogisticService && isJSON(state.LogisticService)){
+      if (state && Object.keys(state).length) {
+        if (state.LogisticService && isJSON(state.LogisticService)) {
           this.selectedServices = JSON.parse(state.LogisticService)
         }
       }
@@ -32,22 +32,22 @@ export class ServiceGuard implements CanActivate {
     // if user go to manage rates sea page
     if (state.url == '/provider/manage-rates/sea') {
       if (!this.islogOut) {
-        if (this.selectedServices.length){
-        let index =  this.selectedServices.findIndex(obj => obj.LogServCode == "SEA_FFDR");
-          if (index >= 0){
+        if (this.selectedServices && this.selectedServices.length) {
+          let index = this.selectedServices.findIndex(obj => obj.LogServCode == "SEA_FFDR");
+          if (index >= 0) {
             return true
           }
-          else if(!this.previousUrl){
+          else if (!this.previousUrl || !location.pathname.includes('manage-rates')) {
             let index = this.selectedServices.findIndex(obj => obj.LogServCode == "AIR_FFDR");
             if (index >= 0) {
               this.router.navigate(['provider/manage-rates/air']);
             }
-            else{
-              let index = this.selectedServices.findIndex(obj => obj.LogServCode == "AIR_TRUK");
+            else {
+              let index = this.selectedServices.findIndex(obj => obj.LogServCode == "TRUK");
               if (index >= 0) {
                 this.router.navigate(['provider/manage-rates/ground']);
               }
-              else{
+              else {
                 let index = this.selectedServices.findIndex(obj => obj.LogServCode == "WRHS");
                 if (index >= 0) {
                   this.router.navigate(['provider/manage-rates/warehouse']);
@@ -56,7 +56,7 @@ export class ServiceGuard implements CanActivate {
             }
           }
 
-        } else{
+        } else {
           this.router.navigate(['provider/dashboard']);
         }
 
@@ -68,7 +68,7 @@ export class ServiceGuard implements CanActivate {
 
     if (state.url == '/provider/manage-rates/air') {
       if (!this.islogOut) {
-        if (this.selectedServices.length) {
+        if (this.selectedServices && this.selectedServices.length) {
           let index = this.selectedServices.findIndex(obj => obj.LogServCode == "AIR_FFDR");
           if (index >= 0) {
             this.previousUrl = state.url;
@@ -86,7 +86,7 @@ export class ServiceGuard implements CanActivate {
 
     if (state.url == '/provider/manage-rates/ground') {
       if (!this.islogOut) {
-        if (this.selectedServices.length) {
+        if (this.selectedServices && this.selectedServices.length) {
           let index = this.selectedServices.findIndex(obj => obj.LogServCode == "TRUK");
           if (index >= 0) {
             this.previousUrl = state.url;
@@ -103,7 +103,7 @@ export class ServiceGuard implements CanActivate {
     }
     if (state.url == '/provider/manage-rates/warehouse') {
       if (!this.islogOut) {
-        if (this.selectedServices.length) {
+        if (this.selectedServices && this.selectedServices.length) {
           let index = this.selectedServices.findIndex(obj => obj.LogServCode == "WRHS");
           if (index >= 0) {
             this.previousUrl = state.url;

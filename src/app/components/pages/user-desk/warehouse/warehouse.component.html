@@ -9,53 +9,57 @@
           <div class="row">
             <div class="col-12">
               <h5 class="mt-5">General Information</h5>
-              <p class="sub-title sub-heading mb-0">General Information about the listing .Enter its title , description, images
+              <p class="sub-title sub-heading mb-0">General Information about the listing .Enter its title ,
+                description, images
               </p>
               <hr class="hr-solid mt-3">
             </div>
             <div class="col-12">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                      <form autocomplete="off" novalidate [formGroup]="generalForm">
-                      <div class="form-group">
-                        <label>Listing Name</label>
-                        <input type="text" (keypress)="oneSpaceHandler($event)" maxlength="100" class="form-control" formControlName="whName">
-                      </div>
-                      <div class="form-group">
-                        <label>Property Description</label>
-                        <textarea formControlName="whDetail" (keypress)="oneSpaceHandler($event)" cols="30" rows="4" class="form-control"
-                          placeholder="provide details about the properties you are listing"></textarea>
-                      </div>
-                      </form>
-                    </div>
-                  <div class="col-12">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <form autocomplete="off" novalidate [formGroup]="generalForm">
                     <div class="form-group">
-                      <label class="mb-0">Gallery</label>
-                      <small class="sub-title">Images show rthe condition of the property and are very compelling for space seekers.
-                      </small>
-                      <div class="document-Info d-flex flex-column mt-2">
+                      <label>Listing Name</label>
+                      <input type="text" (keypress)="oneSpaceHandler($event)" maxlength="100" class="form-control"
+                        formControlName="whName">
+                    </div>
+                    <div class="form-group">
+                      <label>Property Description</label>
+                      <textarea formControlName="whDetail" (keypress)="oneSpaceHandler($event)" cols="30" rows="4"
+                        class="form-control" placeholder="provide details about the properties you are listing"></textarea>
+                    </div>
+                  </form>
+                </div>
+                <div class="col-12">
+                  <div class="form-group">
+                    <label class="mb-0">Gallery</label>
+                    <small class="sub-title">Images show rthe condition of the property and are very compelling for
+                      space seekers.
+                    </small>
+                    <div class="document-Info d-flex flex-column mt-2">
                       <div class="file-uploader" *ngIf="uploadedGalleries && uploadedGalleries.length < config.maxFilesCount">
-                          <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event)" [configId]="'config'">
+                        <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event)" [configId]="'config'">
                           <img src="../../../assets/images/icons/manager-icon.png" />
                           <p class="m-0 mt-3">
                             Drag here or
                             <span class="browse-span">browse</span> to upload </p>
-                          <small class="drag-support"> ( Maximum size per document: 5 MB) </small>
-                          </app-ng-files-drag-n-upload>
-                        </div>
-                        <div class="row uploadedDocx mt-3">
-                          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-3 uploaded-images" *ngFor="let galleryDocx of uploadedGalleries; let i = index">
-                            <div class="display-upload delete">
-                              <img [src]="galleryDocx.DocumentFile" />
-                              <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon" (click)="removeSelectedDocx(i, galleryDocx)" />
-                            </div>
+                          <small class="drag-support"> ( Maximum size per document: 5 MB ) </small>
+                        </app-ng-files-drag-n-upload>
+                      </div>
+                      <div class="row uploadedDocx mt-3">
+                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-3 uploaded-images" *ngFor="let galleryDocx of uploadedGalleries; let i = index">
+                          <div class="display-upload delete">
+                            <img [src]="galleryDocx.FileContent[0].docUrl" />
+                            <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
+                              (click)="removeSelectedDocx(i, galleryDocx)" />
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <!-- <div class="row">
+              </div>
+              <!-- <div class="row">
                       <div class="col-12">
                         <h5 class="small-head mt-3">Property Description</h5>
                         <p class="sub-title sub-heading mb-0">You may add upto 1 video and 4 photos.</p>
@@ -80,27 +84,26 @@
                         </div>
                 </div>
                 </div> -->
-                <div class="row ">
-                  <div class="col-12">
-                    <h5 class="mt-5">Property Location</h5>
-                    <p class="sub-title sub-heading mb-0">Enter the exact address of the Property</p>
-                    <hr class="hr-solid">
-                  </div>
-                  <div class="col-xl-6 col-md-6 col-sm-12">
-                        <form autocomplete="off" novalidate [formGroup]="locationForm">
-                      <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                          <div class="form-group">
-                            <label>City</label>
+              <div class="row ">
+                <div class="col-12">
+                  <h5 class="mt-5">Property Location</h5>
+                  <p class="sub-title sub-heading mb-0">Enter the exact address of the Property</p>
+                  <hr class="hr-solid">
+                </div>
+                <div class="col-xl-6 col-md-6 col-sm-12">
+                  <form autocomplete="off" novalidate [formGroup]="locationForm">
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                          <label>City</label>
                           <div class="city-dropdown">
                             <div class="flag-container">
-                          <img *ngIf="locationForm.controls['city'].value && locationForm.controls['city'].value.imageName" src="{{'../../../../../assets/images/flags/4x3/' + (locationForm.controls['city'].value.imageName | lowercase) + '.svg'}}"
+                              <img *ngIf="locationForm.controls['city'].value && locationForm.controls['city'].value.imageName"
+                                src="{{'../../../../../assets/images/flags/4x3/' + (locationForm.controls['city'].value.imageName | lowercase) + '.svg'}}"
                                 type="image/svg+xml">
                             </div>
-                            <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control"
-                            [ngClass]="{'routeSelected': locationForm.value.city && locationForm.value.city.title && locationForm.value.city.id}"
-                            maxlength="100" formControlName="city"
-                              [ngbTypeahead]="searchCity" [resultTemplate]="st"
+                            <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" [ngClass]="{'routeSelected': locationForm.value.city && locationForm.value.city.title && locationForm.value.city.id}"
+                              maxlength="100" formControlName="city" [ngbTypeahead]="searchCity" [resultTemplate]="st"
                               [inputFormatter]="formatterCity">
                             <ng-template #st let-r="result">
                               <div class="flag-container mr-1">
@@ -109,8 +112,8 @@
                               <ngb-highlight [result]="r.title"></ngb-highlight>
                             </ng-template>
                           </div>
-                            <!-- <input type="text" formControlName="city" maxlength="100" class="form-control" placeholder="Enter City" #searchElement> -->
-                                    <!-- <span class="animated fadeIn" *ngIf="cityError">
+                          <!-- <input type="text" formControlName="city" maxlength="100" class="form-control" placeholder="Enter City" #searchElement> -->
+                          <!-- <span class="animated fadeIn" *ngIf="cityError">
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">{{requiredFields}}</p>
                                       <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
                                         should be minimum 3 characters</p>
@@ -120,15 +123,15 @@
                                         enter valid information</p>
                                     </span>
                              <p class="inputError animated fadeIn" *ngIf="citySelError">City should be select from dropdown</p> -->
-                          </div>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                          <div class="form-group">
-                            <label>Address </label>
-                            <textarea cols="30" rows="3" #searchElement (keypress)="oneSpaceHandler($event)" formControlName="address" class="form-control"
-                              placeholder="Enter at a minimum, the street and town where the property is located"></textarea>
-                            <!-- <input type="text" maxlength="200" class="form-control" placeholder="Address line 1"> -->
-                            <!-- <span class="animated fadeIn" *ngIf="addressline1Error">
+                      </div>
+                      <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                          <label>Address </label>
+                          <textarea cols="30" rows="3" #searchElement (keypress)="oneSpaceHandler($event)"
+                            formControlName="address" class="form-control" placeholder="Enter at a minimum, the street and town where the property is located"></textarea>
+                          <!-- <input type="text" maxlength="200" class="form-control" placeholder="Address line 1"> -->
+                          <!-- <span class="animated fadeIn" *ngIf="addressline1Error">
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline1'].hasError('required') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">{{requiredFields}}</p>
                                       <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline1'].hasError('pattern') && locationForm.controls['addressline1'].hasError('minlength') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">Address
                                         should be minimum 10 characters</p>
@@ -137,65 +140,69 @@
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline1'].hasError('pattern') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">Please
                                         enter valid information</p>
                                     </span> -->
-                          </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <div class="form-group">
-                            <label>P.O Box</label>
-                            <input type="text" (keypress)="oneSpaceHandler($event)" formControlName="poBox" maxlength="16" class="form-control">
-                            <!-- <span class="animated fadeIn" *ngIf="poBoxError">
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                          <label>P.O Box</label>
+                          <input type="text" (keypress)="oneSpaceHandler($event)" formControlName="poBox" maxlength="16"
+                            class="form-control">
+                          <!-- <span class="animated fadeIn" *ngIf="poBoxError">
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('required') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">{{requiredFields}}</p>
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('minlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">PO
                                         address should be minimum 4 characters</p>
                                       <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('maxlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">PO
                                         address should not exceed from 16 characters</p>
                                   </span> -->
-                          </div>
                         </div>
                       </div>
-                      </form>
-                  </div>
-                  <div class="col-6 map">
-                    <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
-                      <agm-marker [latitude]="location.lat" [longitude]="location.lng"
-                        [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)">
-                      </agm-marker>
-                    </agm-map>
-                  </div>
+                    </div>
+                  </form>
                 </div>
-                <div class="row">
-                  <div class="col-xl-12">
-                    <h5 class="mt-5">Property Details</h5>
-                    <p class="sub-title sub-heading mb-0">Provide more information about your property thatis useful for finding a match</p>
-                    <hr class="hr-solid">
-                  </div>
+                <div class="col-6 map">
+                  <agm-map [zoom]="zoomlevel" [latitude]="location.lat" [longitude]="location.lng">
+                    <agm-marker [latitude]="location.lat" [longitude]="location.lng" [markerDraggable]="draggable"
+                      (dragEnd)="markerDragEnd($event)">
+                    </agm-marker>
+                  </agm-map>
                 </div>
-                <div class="row">
-                  <div class=" col-xl-6 col-md-6 col-sm-12 ">
-                    <div class="form-group">
-                      <label>Property Type</label>
-                      <div class="fancyOptionBoxes pull-left mb-3 mr-3" *ngFor="let type of warehouseUsageType; let i = index">
-                      <input id="{{i+1}}" [checked]="type.IsAllowed && type.UsageTypeTitle == 'Full Warehouse'" name="warehouseType" (change)="wareHouseType(type, $event)"
-                        type="radio">
-                        <label for="{{i+1}}">
-                          <span></span>
-                            {{type.UsageTypeTitle}}
-                        </label>
-                      </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12">
+                  <h5 class="mt-5">Property Details</h5>
+                  <p class="sub-title sub-heading mb-0">Provide more information about your property thatis useful for
+                    finding a match</p>
+                  <hr class="hr-solid">
+                </div>
+              </div>
+              <div class="row">
+                <div class=" col-xl-6 col-md-6 col-sm-12 ">
+                  <div class="form-group">
+                    <label>Property Type</label>
+                    <div class="fancyOptionBoxes pull-left mb-3 mr-3" *ngFor="let type of warehouseUsageType; let i = index">
+                      <input id="{{i+1}}" [checked]="type.IsAllowed && type.UsageTypeTitle == 'Full Warehouse'" name="warehouseType"
+                        (change)="wareHouseType(type, $event)" type="radio">
+                      <label for="{{i+1}}">
+                        <span></span>
+                        {{type.UsageTypeTitle}}
+                      </label>
                     </div>
                   </div>
                 </div>
+              </div>
               <form autocomplete="off" novalidate [formGroup]="propertyDetailForm">
                 <div class="row ">
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
                       <label class="form-group-label">Total warehouse Space
-                        <span class="sub-title sub-heading w-100 d-inline-block">Estimate total warehouse space excluding any office area.
+                        <span class="sub-title sub-heading w-100 d-inline-block">Estimate total warehouse space
+                          excluding any office area.
                         </span>
                       </label>
 
                       <div class="input-group">
-                      <input class="form-control input-dropdown" (keypress)="oneSpaceHandler($event)" type="text" formControlName="warehouseSpace">
+                        <input class="form-control input-dropdown" (keypress)="oneSpaceHandler($event)" type="text"
+                          formControlName="warehouseSpace">
                         <div class="input-group-append">
                           <select class="form-control input-dropdown" formControlName="warehouseSpaceUnit">
                             <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
@@ -212,89 +219,95 @@
                     </div>
                   </div>
                 </div>
-               <section class="forShared animated fadeIn" *ngIf="!warehouseTypeFull">
-                <div class="row">
-                  <div class="col-xl-6 col-md-6 col-sm-12">
-                    <div class="form-group">
-                      <label>Offered Space on HashMove</label>
-                      <div class="input-group">
-                        <input class="form-control input-dropdown" type="text" (keypress)="oneSpaceHandler($event)" formControlName="hashmoveSpace">
+                <section class="forShared animated fadeIn" *ngIf="!warehouseTypeFull">
+                  <div class="row">
+                    <div class="col-xl-6 col-md-6 col-sm-12">
+                      <div class="form-group">
+                        <label>Offered Space on HashMove</label>
+                        <div class="input-group">
+                          <input class="form-control input-dropdown" type="text" (keypress)="oneSpaceHandler($event)"
+                            formControlName="hashmoveSpace">
                           <div class="input-group-append">
-                          <span class="input-group-text">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span>
+                            <span class="input-group-text">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-xl-6 col-md-6 col-sm-12">
-                    <div class="form-group">
-                      <label class="form-group-label">Ceiling Height
-                        <span class="sub-title sub-heading w-100 d-inline-block">Maximum Availabla height for storage</span>
+                  <div class="row">
+                    <div class="col-xl-6 col-md-6 col-sm-12">
+                      <div class="form-group">
+                        <label class="form-group-label">Ceiling Height
+                          <span class="sub-title sub-heading w-100 d-inline-block">Maximum Availabla height for storage</span>
+                        </label>
+                        <div class="input-group">
+                          <select class="form-control input-dropdown" formControlName="ceilingHeight">
+                            <option [value]="obj.CeilingID" *ngFor="let obj of ceilingsHeight">{{obj.CeilingID}}</option>
+                          </select>
+                          <div class="input-group-append">
+                            <select class="form-control input-dropdown" formControlName="ceilingUnit">
+                              <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <label class="form-group-label">Minimum Lease Space
+                        <span class="sub-title sub-heading w-100 d-inline-block">The minimum space that can be lend per
+                          booking</span>
                       </label>
-                      <div class="input-group">
-                        <select class="form-control input-dropdown" formControlName="ceilingHeight">
-                          <option [value]="obj.CeilingID" *ngFor="let obj of ceilingsHeight">{{obj.CeilingID}}</option>
-                        </select>
-                        <div class="input-group-append">
-                          <select class="form-control input-dropdown" formControlName="ceilingUnit">
-                            <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
-                          </select>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label class="form-group-label">Minimum Lease Space
-                      <span class="sub-title sub-heading w-100 d-inline-block">The minimum space that can be lend per booking</span>
-                    </label>
-                  </div>
-                  <div class="col-xl-3 col-md-3 col-sm-12">
-                    <div class="form-group">
-                      <div class="input-group">
-                        <input class="form-control input-dropdown" (keypress)="oneSpaceHandler($event)" type="text" formControlName="minLeaseValueOne">
-                        <div class="input-group-append">
+                    <div class="col-xl-3 col-md-3 col-sm-12">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <input class="form-control input-dropdown" (keypress)="oneSpaceHandler($event)" type="text"
+                            formControlName="minLeaseValueOne">
+                          <div class="input-group-append">
                             <select class="form-control input-dropdown" formControlName="minLeaseUnitOne">
-                            <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
-                          </select>
+                              <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-3 col-md-3 col-sm-12">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <input class="form-control input-dropdown" (keypress)="oneSpaceHandler($event)" type="text"
+                            formControlName="minLeaseValueTwo">
+                          <div class="input-group-append">
+                            <select class="form-control input-dropdown" formControlName="minLeaseUnitTwo">
+                              <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
+                            </select>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-xl-3 col-md-3 col-sm-12">
-                    <div class="form-group">
-                      <div class="input-group">
-                      <input class="form-control input-dropdown" (keypress)="oneSpaceHandler($event)" type="text" formControlName="minLeaseValueTwo">
-                        <div class="input-group-append">
-                          <select class="form-control input-dropdown" formControlName="minLeaseUnitTwo">
-                            <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 </section>
               </form>
-                <div class="row">
-                  <div class="col-xl-6 col-md-6 col-sm-12">
-                    <div class="form-group">
-                      <label class="form-group-label">Minimum Lease term
-                        <span class="sub-title sub-heading w-100 d-inline-block">The shortest term that this property can be rented for
-                        </span>
-                      </label>
-                    </div>
-                    <div class="fancyOptionBoxes pull-left mr-4 mb-3" *ngFor="let obj of leaseTerm; let i = index" (click)="addMinimumLeaseTerm(obj)">
-                      <input id="{{i+1}}rentedtime" name="leaseTerm" type="radio">
-                        <label for="{{i+1}}rentedtime">
-                        <span></span>
-                        {{obj.codeValDesc}}
-                      </label>
-                    </div>
+              <div class="row">
+                <div class="col-xl-6 col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label class="form-group-label">Minimum Lease term
+                      <span class="sub-title sub-heading w-100 d-inline-block">The shortest term that this property can
+                        be rented for
+                      </span>
+                    </label>
+                  </div>
+                  <div class="fancyOptionBoxes pull-left mr-4 mb-3" *ngFor="let obj of leaseTerm; let i = index"
+                    (click)="addMinimumLeaseTerm(obj)">
+                    <input id="{{i+1}}rentedtime" name="leaseTerm" type="radio">
+                    <label for="{{i+1}}rentedtime">
+                      <span></span>
+                      {{obj.codeValDesc}}
+                    </label>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
           <div class="row">
@@ -304,11 +317,11 @@
             </div>
             <div class="col-xl-6 col-md-6 col-sm-12 mt-3">
               <div class="form-group">
-                <div class="fancyOptionBoxes warehousing-services mb-3" *ngFor="let obj of facilities" >
-                    <input id="{{obj.FacilitiesTypeTitle}}" name="facilities" type="checkbox" (change)="addFacilities(obj, $event)">
-                    <label for="{{obj.FacilitiesTypeTitle}}">
+                <div class="fancyOptionBoxes warehousing-services mb-3" *ngFor="let obj of facilities">
+                  <input id="{{obj.FacilitiesTypeTitle}}" name="facilities" type="checkbox" (change)="addFacilities(obj, $event)">
+                  <label for="{{obj.FacilitiesTypeTitle}}">
                     <span></span>
-                      {{obj.FacilitiesTypeTitle}}
+                    {{obj.FacilitiesTypeTitle}}
                   </label>
                 </div>
               </div>
@@ -333,29 +346,29 @@
               <h5>Commission</h5>
             </div>
           </div>
-        
+
           <div class="row">
             <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
               <div class="form-group">
                 <div class="fancyOptionBoxes pull-left">
                   <input id="fixedamount" name="commison" type="checkbox">
-                    <label for="fixedamount">
+                  <label for="fixedamount">
                     <span></span>
                     Fixed Amount per booking
                   </label>
                 </div>
                 <div class="fancyOptionBoxes pull-left ml-4">
-                    <input id="perbooking" name="commison" type="checkbox">
-                    <label for="perbooking">
+                  <input id="perbooking" name="commison" type="checkbox">
+                  <label for="perbooking">
                     <span></span>
                     Fixed percentage per booking
                   </label>
                 </div>
               </div>
             </div>
-        
+
           </div>
-        
+
           <div class="row">
             <div class="col-2">
               <div class="form-group mt-3">
@@ -363,7 +376,7 @@
                 <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="%">
               </div>
             </div>
-        
+
             <div class="col-4">
               <div class="form-group mt-3">
                 <label for="inputState">Minimum Commission</label>
@@ -374,10 +387,10 @@
                       <option>12</option>
                     </select>
                   </div>
-        
+
                   <input type="text" class="form-control" aria-label="Text input with dropdown button">
                 </div>
-        
+
                 <!-- <div class="input-group mb-2">
                     <div class="input-group-prepend">
                       <div class="input-group-text"><select><option>1</option></select></div>
@@ -385,11 +398,11 @@
                     <input class="form-control maxlength="15" placeholder="0.00" type="text">
                   </div> -->
               </div>
-        
+
             </div>
-        
+
           </div>
-        
+
         </section>
         <section class="Add-warehouse-rates mt-3">
           <h5 class="mt-5">Set Pricing</h5>

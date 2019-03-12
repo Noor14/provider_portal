@@ -23,6 +23,11 @@ import { ConfirmDeleteDialogComponent } from '../../../../shared/dialogues/confi
 })
 export class SettingsComponent implements OnInit {
 
+  // subscriber & selected services
+  private dashBoardSubscriber:any;
+  private dashboardDetails:any;
+  private selectedServices:any[] = [];
+
   public baseExternalAssets: string = baseExternalAssets;
   public activeAccordions: string[] = ['PersonalInfo', 'BusinessInfo', 'BusinessProfile', 'Gallery', 'AwardsCert', 'ChangePassword'];
   public selectedDocxlogo: any;
@@ -140,6 +145,15 @@ export class SettingsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.dashBoardSubscriber = this._sharedService.dashboardDetail.subscribe((state: any) => {
+      if (state && typeof state == "object" && Object.keys(state).length) {
+        this.dashboardDetails = state;
+        if (state.LogisticService && isJSON(state.LogisticService)){
+          this.selectedServices = JSON.parse(state.LogisticService);
+        }
+      }
+    });
+
     this.ngFilesService.addConfig(this.config, 'config');
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
@@ -166,7 +180,7 @@ export class SettingsComponent implements OnInit {
     });
 
     this.businessInfoForm = new FormGroup({
-      orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
+      orgName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4)]),
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
       address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10)]),
       city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3)]),
@@ -195,6 +209,11 @@ export class SettingsComponent implements OnInit {
     this.getUserDetail(this.userProfile.UserID);
     this.onChanges();
   }
+
+  ngOnDestroy() {
+    this.dashBoardSubscriber.unsubscribe();
+  }
+
   onChanges(): void {
     this.personalInfoForm.valueChanges.subscribe(val => {
       for (const key in this.personalInfoForm.controls) {
@@ -432,6 +451,10 @@ export class SettingsComponent implements OnInit {
         this.selectPhoneCode(selectedCountry);
       }
     }
+    if (selectedCountry && typeof selectedCountry == 'object' && Object.keys(selectedCountry).length) {
+      let description = selectedCountry.desc;
+      info.PrimaryPhone = info.PrimaryPhone.replace(description[0].CountryPhoneCode, "")
+    }
     this.personalInfoForm.controls['mobile'].setValue(info.PrimaryPhone);
     this.personalInfoToggler = false;
   }
@@ -465,6 +488,10 @@ export class SettingsComponent implements OnInit {
         this.selectTelCode(selectedCountry);
       }
     }
+    if (selectedCountry && typeof selectedCountry == 'object' && Object.keys(selectedCountry).length) {
+      let description = selectedCountry.desc;
+      info.ProviderPhone = info.ProviderPhone.replace(description[0].CountryPhoneCode, "")
+    }
     this.businessInfoForm.controls['phone'].setValue(info.ProviderPhone);
     if (info.SocialMediaAccountID && info.ProviderWebAdd) {
       let obj = this.socialWebs.find(elem => elem.SocialMediaPortalsID == info.SocialMediaAccountID);
@@ -493,6 +520,13 @@ export class SettingsComponent implements OnInit {
               this.wareHouseTypeToggler = false;
               this.IsRealEstate = false;
             }
+            let index = this.selectedServices.findIndex(elem => elem.LogServCode == obj.LogServCode);
+            if (index >= 0){
+              this.selectedServices.splice(index, 1);
+              let updatedServices = JSON.stringify(this.selectedServices);
+              this.dashboardDetails.LogisticService = updatedServices;
+              this._sharedService.dashboardDetail.next(this.dashboardDetails);
+            }
             this.removeServices(obj);
           }
           else {
@@ -510,6 +544,16 @@ export class SettingsComponent implements OnInit {
     if ((this.frtService && !this.frtService.length) || (i == this.frtService.length)) {
       selectedItem.add('active');
       this.frtService.push(obj);
+      let index = this.selectedServices.findIndex(elem => elem.LogServCode == obj.LogServCode);
+      if (index < 0) {
+        let object = {
+          LogServCode: obj.LogServCode
+        }
+        this.selectedServices.push(object);
+        let updatedServices = JSON.stringify(this.selectedServices);
+        this.dashboardDetails.LogisticService = updatedServices;
+        this._sharedService.dashboardDetail.next(this.dashboardDetails);
+      }
       this.selectServices(obj);
       if (obj.LogServCode == "WRHS") {
         this.wareHouseTypeToggler = true;

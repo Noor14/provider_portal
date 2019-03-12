@@ -130,14 +130,14 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   public editorOptionsFCL = {
     placeholder: "insert content...",
-       modules: {
+    modules: {
       toolbar: this.toolbarOptions
     }
 
   };
   public editorOptionsLCL = {
     placeholder: "insert content...",
-       modules: {
+    modules: {
       toolbar: this.toolbarOptions
     }
   };
@@ -186,7 +186,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
     private _parserFormatter: NgbDateParserFormatter,
     private _toast: ToastrService,
     private _commonService: CommonService,
-    private cdRef : ChangeDetectorRef
+    private cdRef: ChangeDetectorRef
   ) {
   }
 
@@ -1150,13 +1150,17 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    */
   getPortsData() {
     loading(true)
-    this._manageRatesService.getPortsData().subscribe((res: any) => {
-      loading(false)
-      this.allPorts = res;
-      localStorage.setItem("PortDetails", JSON.stringify(res));
-    }, (err: HttpErrorResponse) => {
-      loading(false)
-    })
+    this.allPorts = JSON.parse(localStorage.getItem("PortDetails"))
+    if (!this.allPorts.length) {
+      this._manageRatesService.getPortsData().subscribe((res: any) => {
+        loading(false)
+        this.allPorts = res;
+        localStorage.setItem("PortDetails", JSON.stringify(res));
+      }, (err: HttpErrorResponse) => {
+        loading(false)
+      })
+    }
+
   }
 
   /**
@@ -1166,13 +1170,16 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    */
   getContainersMapping() {
     loading(true)
-    this._manageRatesService.getContainersMapping().subscribe((res: any) => {
-      loading(false)
-      this.allContainers = res.returnObject;
-      localStorage.setItem('containers', JSON.stringify(this.allContainers))
-    }, (err: any) => {
-      loading(false)
-    })
+    this.allContainers = JSON.parse(localStorage.getItem('containers'))
+    if (!this.allContainers.length) {
+      this._manageRatesService.getContainersMapping().subscribe((res: any) => {
+        loading(false)
+        this.allContainers = res.returnObject;
+        localStorage.setItem('containers', JSON.stringify(this.allContainers))
+      }, (err: any) => {
+        loading(false)
+      })
+    }
   }
 
   /**
@@ -1254,6 +1261,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    * @memberof SeaFreightComponent
    */
   onTabChange(event) {
+    console.log(event);
+    
     if (event === 'activeLCL') {
       this.getAllPublishRates('lcl')
       this.getDraftRates('lcl')
