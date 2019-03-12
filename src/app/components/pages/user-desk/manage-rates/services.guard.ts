@@ -32,7 +32,7 @@ export class ServicesGuard implements CanActivate {
     // if user go to manage rates sea page
     if (state.url == '/provider/manage-rates/sea') {
       if (!this.islogOut) {
-        if (this.selectedServices&& this.selectedServices.length) {
+        if (this.selectedServices && this.selectedServices.length) {
           let index = this.selectedServices.findIndex(obj => obj.LogServCode == "SEA_FFDR");
           if (index >= 0) {
             return true
