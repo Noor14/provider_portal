@@ -52,7 +52,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   public propertyDetailForm: any;
 
   //commisionForm
-  public commisionForm:any
+  public commissionForm:any
 
   //map working
   public location: any = { lat: undefined, lng: undefined };
@@ -120,10 +120,10 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       minLeaseValueTwo: new FormControl(null, [warehouseValidator.bind(this), Validators.maxLength(4), Validators.minLength(1)]),
     });
 
-    this.commisionForm = new FormGroup({
-      commisionCurrency: new FormControl(null, [Validators.required, Validators.maxLength(5)]),
-      comissionValue: new FormControl(null, [Validators.maxLength(4), Validators.minLength(1)]),
-      minComissionValue: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
+    this.commissionForm = new FormGroup({
+      commissionCurrency: new FormControl(null, [Validators.maxLength(5)]),
+      commissionValue: new FormControl(null, [Validators.maxLength(4)]),
+      percentValue: new FormControl(null, [Validators.maxLength(4)]),
     });
     this._sharedService.currencyList.subscribe((state: any) => {
       if (state) {
@@ -450,9 +450,9 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       WHMinSQFT: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.minLeaseValueOne : null,
       WHMinCBM: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.minLeaseValueTwo : null,
       comissionType: (this.isRealEstate) ? ((this.fixedAmount) ? 'Fixed_Amount' : 'Fixed_Percent') : null,
-      comissionCurrencyID: (this.isRealEstate) ? this.commisionForm.value.commisionCurrency.id : null,
-      comissionValue: (this.isRealEstate) ? ((!this.fixedAmount) ? this.commisionForm.value.commisionValue : null) : null,
-      minComissionValue: (this.isRealEstate) ? this.commisionForm.value.minCommisionValue: null,
+      comissionCurrencyID: (this.isRealEstate) ? this.commissionForm.value.commissionCurrency.id : null,
+      comissionValue: (this.isRealEstate) ? this.commissionForm.value.commissionValue : null,
+      percent: (this.isRealEstate) ? ((!this.fixedAmount) ? this.commissionForm.value.percentValue : null) : null,
       createdBy: this.userProfile.LoginID,
       modifiedBy: this.userProfile.LoginID,
     }

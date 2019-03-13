@@ -359,28 +359,35 @@
               </div>
             </div>
             
-          <form autocomplete="off" novalidate [formGroup]="commisionForm">
+          <form autocomplete="off" novalidate [formGroup]="commissionForm">
             <div class="row">
               <div class="col-2 animated fadeIn" *ngIf="!fixedAmount">
                 <div class="form-group mt-3">
                   <label>Per Booking</label>
-                  <input type="text" class="form-control" formControlName="comissionValue" aria-label="Text input with dropdown button"
+                  <input type="text" class="form-control" formControlName="percentValue" aria-label="Text input with dropdown button"
                     placeholder="%">
                 </div>
               </div>
 
               <div class="col-4">
                 <div class="form-group mt-3">
-                  <label for="inputState">Minimum Commission</label>
+                  <label for="inputState">
+                    <span *ngIf="fixedAmount; else other">
+                      Commission
+                    </span>
+                    <ng-template #other>
+                      Minimum Commission
+                    </ng-template>
+                  </label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend col-4 p-0">
                       <div class="input-group-text">
                             <div class="city-dropdown currency">
-                              <div class="flag-container" *ngIf="commisionForm.value.commisionCurrency && commisionForm.value.commisionCurrency.imageName">
-                                <img src="{{'../../../../../assets/images/flags/4x3/' + (commisionForm.value.commisionCurrency.imageName | lowercase) + '.svg'}}"
+                              <div class="flag-container" *ngIf="commissionForm.value.commissionCurrency && commissionForm.value.commissionCurrency.imageName">
+                                <img src="{{'../../../../../assets/images/flags/4x3/' + (commissionForm.value.commissionCurrency.imageName | lowercase) + '.svg'}}"
                                   type="image/svg+xml">
                               </div>
-                              <input type="text" formControlName="commisionCurrency" (keypress)="spaceHandler($event)" [ngClass]="{'routeSelected': commisionForm.value.commisionCurrency && commisionForm.value.commisionCurrency.imageName}"
+                              <input type="text" formControlName="commissionCurrency" (keypress)="spaceHandler($event)" [ngClass]="{'routeSelected': commissionForm.value.commissionCurrency && commissionForm.value.commissionCurrency.imageName}"
                                 class="form-control" maxlength="5" [ngbTypeahead]="currency"
                                 [resultTemplate]="cur" [inputFormatter]="formatterCurrency" placeholder="eg: AED">
                               <ng-template #cur let-r="result">
@@ -393,7 +400,7 @@
                             </div>
                       </div>
                     </div>
-                    <input type="text" formControlName="minComissionValue" class="form-control" aria-label="Text input with dropdown button">
+                    <input type="text" formControlName="commissionValue" class="form-control" aria-label="Text input with dropdown button">
                   </div>
                 </div>
               </div>
