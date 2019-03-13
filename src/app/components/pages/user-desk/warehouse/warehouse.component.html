@@ -377,12 +377,24 @@
                 <div class="form-group mt-3">
                   <label for="inputState">Minimum Commission</label>
                   <div class="input-group mb-3">
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend col-4 p-0">
                       <div class="input-group-text">
-                        <select id="inputState" class="form-control input-dropdown">
-                          <option selected>AED</option>
-                          <option>12</option>
-                        </select>
+                          <div class="city-dropdown currency">
+                              <div class="flag-container" *ngIf="personalInfoForm.value.currency && personalInfoForm.value.currency.imageName">
+                                <img src="{{'../../../../../assets/images/flags/4x3/' + (personalInfoForm.value.currency.imageName | lowercase) + '.svg'}}"
+                                  type="image/svg+xml">
+                              </div>
+                              <input type="text" (keypress)="spaceHandler($event)" [ngClass]="{'routeSelected': personalInfoForm.value.currency && personalInfoForm.value.currency.imageName}"
+                                class="form-control" maxlength="5" formControlName="currency" [ngbTypeahead]="currency"
+                                [resultTemplate]="cur" [inputFormatter]="formatterCurrency" placeholder="eg: AED">
+                              <ng-template #cur let-r="result">
+                                <div class="flag-container mr-1">
+                                  <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
+                                    class="">
+                                </div>
+                                <ngb-highlight [result]="r.shortName"></ngb-highlight>
+                              </ng-template>
+                            </div>
                       </div>
                     </div>
                     <input type="text" class="form-control" aria-label="Text input with dropdown button">
