@@ -449,7 +449,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       minLeaseTermUnit: this.selectedMiniLeaseTerm.codeValShortDesc,
       WHMinSQFT: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.minLeaseValueOne : null,
       WHMinCBM: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.minLeaseValueTwo : null,
-      comissionType: (this.isRealEstate) ? ((this.fixedAmount) ? 'Fixed_Amount' : ' Fixed_Percent') : null,
+      comissionType: (this.isRealEstate) ? ((this.fixedAmount) ? 'Fixed_Amount' : 'Fixed_Percent') : null,
       comissionCurrencyID: (this.isRealEstate) ? this.commisionForm.value.commisionCurrency.id : null,
       comissionValue: (this.isRealEstate) ? ((!this.fixedAmount) ? this.commisionForm.value.commisionValue : null) : null,
       minComissionValue: (this.isRealEstate) ? this.commisionForm.value.minCommisionValue: null,
