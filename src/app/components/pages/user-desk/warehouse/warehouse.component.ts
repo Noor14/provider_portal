@@ -388,6 +388,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   }
 
   removeSelectedDocx(index, obj) {
+    if (obj && obj.DocumentFile){
     obj.DocumentFile = obj.DocumentFile.split(baseExternalAssets).pop();
     obj.DocumentID = this.docTypeId;
     this._basicInfoService.removeDoc(obj).subscribe((res: any) => {
@@ -404,6 +405,10 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     }, (err: HttpErrorResponse) => {
       console.log(err);
     })
+  }
+  else{
+      this.uploadedGalleries.splice(index, 1);
+  }
   }
 
   addwareHouse() {
