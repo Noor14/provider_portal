@@ -50,7 +50,7 @@
       display: block;
       font-size: $font-size-medium;
       color: $dark-grey-blue;
-      font-weight: $font-proxima-weight-semibold;
+      font-weight: $font-weight-mid;
       font-family: $font-proxima;
       text-transform: uppercase;
       margin-bottom: 0.25rem;
@@ -87,7 +87,7 @@
     h5 {
       font-size: $font-size-base;
       font-family: $font-proxima;
-      font-weight: 400;
+      font-weight: $font-weight-normal;
       color: $color-topmenu;
       text-transform: uppercase;
     }
@@ -120,7 +120,7 @@
     }
 
     .logo {
-      border: solid 1px #f4f4f4;
+      border: solid 1px $theme-border-grey;
       text-align: center;
       margin: 10px 0px;
       float: left;
@@ -192,7 +192,7 @@
           font-size: $font-size-medium;
           font-family: $font-proxima;
           color: $secondary-grey;
-          font-weight: 500;
+          font-weight: $font-weight-mid;
           word-spacing: 3px;
 
           img {
@@ -207,7 +207,7 @@
           }
 
           h6 {
-            font-weight: 600;
+            font-weight:$font-proxima-weight-semibold;
             font-family: $font-proxima;
             font-size: $font-size-large;
             margin-bottom: 0;
@@ -229,7 +229,7 @@
             &-title {
               font-size:$font-size-medium;
               font-family:  $font-proxima;
-              font-weight: 500;
+              font-weight: $font-weight-mid;
               color:$color-topmenu;
               margin-bottom: 5px;
 
@@ -239,7 +239,7 @@
               font-size: $font-size-medium;
               color:$route-large-title-color;
               margin-bottom: 0;
-              font-weight: 600;
+              font-weight: $font-proxima-weight-semibold;
               font-family: $font-proxima;
               line-height: 1;
             }
@@ -252,7 +252,7 @@
                 max-width: 100% !important;
                 font-size: $font-size-medium;
                 color: $place-holder-color;
-                font-weight: 500;
+                font-weight: $font-weight-mid;
                 font-family:  $font-proxima;
                 vertical-align: bottom;
                 line-height: 1.2;
@@ -451,7 +451,7 @@
               cursor: pointer;
               color: $primary-color;
               font-family: $font-proxima;
-              font-weight: 500;
+              font-weight: $font-weight-mid;
 
               .sub-text {
                 font-family: inherit;
