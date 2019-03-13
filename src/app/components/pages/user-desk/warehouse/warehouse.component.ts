@@ -38,6 +38,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   public cityList: any[] = [];
   public selectedMiniLeaseTerm: any;
   private paramSubscriber: any;
+  public isRealEstate:boolean = false;
+  public fixedAmount = true
 
   //generalForm
   public generalForm: any;
@@ -141,7 +143,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
         this.ngZone.run(() => {
           //get the place result
           let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-          console.log(place)
+          // console.log(place)
           // this.locationForm.controls['address'].setValue(place.formatted_address);
           //verify result
           if (place.geometry === undefined || place.geometry === null) {
@@ -200,6 +202,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
           this.warehouseUsageType = res.returnObject.WHUsageType;
           this.ceilingsHeight = res.returnObject.CeilingDesc;
           this.warehouseDocx = res.returnObject.documentType;
+          this.isRealEstate = res.returnObject.IsRealEstate
           if (this.ceilingsHeight) {
             this.propertyDetailForm.controls['ceilingHeight'].setValue(this.ceilingsHeight[0].CeilingID);
           }
@@ -219,17 +222,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       }
     })
   }
-  wareHouseType(obj, $event) {
-    this.warehouseTypeFull = !this.warehouseTypeFull;
-    this.warehouseUsageType.map((elem) => {
-      if (obj.UsageTypeID == elem.UsageTypeID) {
-        elem.IsAllowed = $event.target.checked;
-      }
-      else {
-        elem.IsAllowed = false;
-      }
-    });
-  }
+
   addMinimumLeaseTerm(obj) {
     this.selectedMiniLeaseTerm = obj;
   }
@@ -428,7 +421,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       longitude: this.location.lng,
       totalCoveredArea: this.propertyDetailForm.value.warehouseSpace,
       totalCoveredAreaUnit: this.propertyDetailForm.value.warehouseSpaceUnit,
-      whUsageType: this.warehouseUsageType,
+      whUsageType: (this.warehouseTypeFull)? 'FULL' : 'SHARED',
       whFacilitiesProviding: this.facilities,
       isBlocked: true,
       offeredHashMoveArea: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.hashmoveSpace : null,
