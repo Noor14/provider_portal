@@ -406,7 +406,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     })
   }
 
-  aadwareHouse() {
+  addwareHouse() {
     let obj = {
       whid: this.whID,
       providerID: this.userProfile.ProviderID,
@@ -469,3 +469,13 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   formatterCity = (x: { title: string }) => x.title;
 
 }
+export function warehouseValidator(control: AbstractControl) {
+  if (!this.warehouseTypeFull) {
+    if (!control.value) {
+      return {
+        required: true
+      }
+    }
+  }
+
+};
