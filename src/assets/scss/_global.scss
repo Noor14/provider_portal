@@ -690,18 +690,8 @@ input[type="checkbox"]:focus+label>span {
     &::-ms-reveal {
       display: none;
     }
-    &.input-dropdown {
-      background-color: $table-head;
-      border-left: 1px solid $input-border;
-      border-top-left-radius: 0 !important;
-      border-bottom-left-radius: 0 !important;
-      padding-right: 25px;
-      border: 1px solid $input-border;
-      &:focus {
-        border: 1px solid $input-border !important;
-      }
-    }
   }
+
   textarea {
     border: 1px solid $provider-input-border;
     border-radius: 4px !important;
@@ -830,6 +820,35 @@ input[type="checkbox"]:focus+label>span {
     font-size: $font-size-medium - 0.025;
     margin-bottom: 0;
   }
+
+ .input-group-prepend, .input-group-append {
+  margin-right: -2px;
+  z-index: 9;
+  .input-group-text {
+    padding: 0;
+    font-size: $font-size-medium !important;
+    font-family: $font-proxima;
+    color: $text-color-default !important;
+
+    select {
+      border: 0px;
+      background-color: transparent;
+      height: auto;
+      padding: 5px 20px 5px 10px;
+      font-size: $font-size-medium !important;
+      color: $text-color-default !important;
+
+      &:focus {
+        border: 0 !important;
+      }
+    }
+  }
+}
+.input-group-append {
+  margin-left: -2px;
+  z-index: 9;
+}
+
   .select-number {
     .input-group-prepend {
       background: $color-white;

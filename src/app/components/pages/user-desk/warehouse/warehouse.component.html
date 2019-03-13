@@ -204,9 +204,11 @@
                         <input class="form-control input-dropdown" (keypress)="oneSpaceHandler($event)" type="text"
                           formControlName="warehouseSpace">
                         <div class="input-group-append">
-                          <select class="form-control input-dropdown" formControlName="warehouseSpaceUnit">
-                            <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
-                          </select>
+                          <div class="input-group-text">
+                            <select class="form-control input-dropdown" formControlName="warehouseSpaceUnit">
+                              <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
+                            </select>
+                          </div>
                         </div>
                       </div>
                       <!-- <span class="animated fadeIn" *ngIf="whAreaError">
@@ -228,7 +230,7 @@
                           <input class="form-control input-dropdown" type="text" (keypress)="oneSpaceHandler($event)"
                             formControlName="hashmoveSpace">
                           <div class="input-group-append">
-                            <span class="input-group-text">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span>
+                            <div class="input-group-text"><span class="pl-3 pr-3 pt-2 pb-2">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span></div>
                           </div>
                         </div>
                       </div>
@@ -245,9 +247,11 @@
                             <option [value]="obj.CeilingID" *ngFor="let obj of ceilingsHeight">{{obj.CeilingID}}</option>
                           </select>
                           <div class="input-group-append">
-                            <select class="form-control input-dropdown" formControlName="ceilingUnit">
-                              <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
-                            </select>
+                            <div class="input-group-text">
+                              <select class="form-control input-dropdown" formControlName="ceilingUnit">
+                                <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
+                              </select>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -266,9 +270,11 @@
                           <input class="form-control input-dropdown" (keypress)="oneSpaceHandler($event)" type="text"
                             formControlName="minLeaseValueOne">
                           <div class="input-group-append">
-                            <select class="form-control input-dropdown" formControlName="minLeaseUnitOne">
-                              <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
-                            </select>
+                            <div class="input-group-text">
+                              <select class="form-control input-dropdown" formControlName="minLeaseUnitOne">
+                                <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
+                              </select>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -279,9 +285,11 @@
                           <input class="form-control input-dropdown" (keypress)="oneSpaceHandler($event)" type="text"
                             formControlName="minLeaseValueTwo">
                           <div class="input-group-append">
-                            <select class="form-control input-dropdown" formControlName="minLeaseUnitTwo">
-                              <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
-                            </select>
+                            <div class="input-group-text">
+                              <select class="form-control input-dropdown" formControlName="minLeaseUnitTwo">
+                                <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
+                              </select>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -327,6 +335,62 @@
               </div>
             </div>
           </div>
+
+          <div class="row commission-rates">
+            <div class="col-12">
+              <h5 class="mt-5">Commission</h5>
+              <hr class="hr-solid">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
+              <div class="form-group">
+                <div class="fancyOptionBoxes pull-left">
+                  <input id="fixedamount" name="commison" type="checkbox">
+                  <label for="fixedamount">
+                    <span></span>
+                    Fixed Amount per booking
+                  </label>
+                </div>
+                <div class="fancyOptionBoxes pull-left ml-4">
+                  <input id="perbooking" name="commison" type="checkbox">
+                  <label for="perbooking">
+                    <span></span>
+                    Fixed percentage per booking
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-2">
+              <div class="form-group mt-3">
+                <label>Per Booking</label>
+                <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="%">
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="form-group mt-3">
+                <label for="inputState">Minimum Commission</label>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <select id="inputState" class="form-control input-dropdown">
+                        <option selected>AED</option>
+                        <option>12</option>
+                      </select>
+                    </div>
+                  </div>
+                  <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="row mt-5">
             <div class="col-12">
               <button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 pull-right" (click)="aadwareHouse()">

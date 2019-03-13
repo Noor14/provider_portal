@@ -369,6 +369,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
             docFiles[index + 1].DocumentID = resObj.DocumentID;
             docFiles[index + 1].DocumentLastStatus = resObj.DocumentLastStaus;
           }
+
+            this.uploadedGalleries = fileObj;
           this._toastr.success("File upload successfully", "");
         }
         else {
@@ -467,14 +469,3 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   formatterCity = (x: { title: string }) => x.title;
 
 }
-
-export function warehouseValidator(control: AbstractControl) {
-  if (!this.warehouseTypeFull) {
-    if (!control.value) {
-      return {
-        required: true
-      }
-    }
-  }
-
-};
