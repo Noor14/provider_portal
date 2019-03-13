@@ -2,6 +2,7 @@ import { AbstractControl, ValidatorFn, FormControl } from '@angular/forms';
 import { baseExternalAssets } from './base.url';
 import { Base64 } from 'js-base64';
 import * as moment from 'moment'
+declare var Paytabs: any;
 
 
 export const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -87,11 +88,37 @@ export function CustomValidator(control: AbstractControl) {
     //  }
 
   }
-
-
-
-
 };
+
+export function readyForPayment(obj) {
+  Paytabs("#express_checkout").expresscheckout({
+    settings: {
+      merchant_id: "10038289",
+      customer_email: "abdur@hashmove.com",
+      secret_key: "ekQNVlcQwtHZv93SClVAqo9euW1k1cKgxA4sVgjrJ1qfat8NO3ofsxtXuviwH2MeCRHx81YS3o7dSf1HjpWMXqJrV1XC3KRFCzdK",
+      currency: obj.currency,
+      amount: obj.dueAmount,
+      title: obj.firstName + obj.lastName,
+      product_names: "HashMove_Provider",
+      order_id: obj.shipmentId,
+      url_redirect: window.location.protocol + "//" + window.location.host + "/provider/payment_result",
+      display_customer_info: 1,
+      display_billing_fields: 1,
+      display_shipping_fields: 0,
+      language: "en",
+      redirect_on_reject: window.location.protocol + "//" + window.location.host + "/provider/payment_result",
+    }
+  });
+}
+
+
+
+
+
+
+
+
+
 export const YOUTUBE_REGEX: RegExp = /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/
 export const FACEBOOK_REGEX: RegExp = /^(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.php\?id=(?=\d.*))?([\w\-]*)?/
 export const TWITTER_REGEX: RegExp = /(?:http:\/\/)?(?:www\.)?twitter\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/
@@ -181,7 +208,6 @@ export function isJSON(str) {
   }
 }
 
-
 // Object Keys Changes
 export function changeCase(o, toCase) {
   var newO, origKey, newKey, value
@@ -237,3 +263,13 @@ export function getDateDiff(firstDate: string, secDate: string, mode: any, forma
   const test = a.diff(b, mode);
   return test + 1;
 }
+
+export function getLoggedUserData() {
+  try {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    return JSON.parse(userInfo.returnText);
+  } catch (error) {
+    return null
+  }
+}
+

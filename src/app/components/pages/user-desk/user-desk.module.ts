@@ -37,6 +37,8 @@ import { ViewWarehouseComponent } from './view-warehouse/view-warehouse.componen
 import { WarehouseService } from './manage-rates/warehouse-list/warehouse.service';
 import { LightboxModule } from 'ngx-lightbox';
 import { BookingsCardComponent } from './bookings-card/bookings-card.component';
+import { DynamicScriptLoaderService } from '../../../services/dynamic-script-loader.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -84,7 +86,8 @@ import { BookingsCardComponent } from './bookings-card/bookings-card.component';
     UserGuard,
     BillingService,
     SettingService,
-    WarehouseService
+    WarehouseService,
+    DynamicScriptLoaderService
   ]
 })
 export class UserDeskModule { }

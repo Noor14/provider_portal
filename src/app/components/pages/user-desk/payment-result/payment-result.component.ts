@@ -14,6 +14,7 @@ export class PaymentResultComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    debugger
     this.addPayment();
   }
   addPayment() {

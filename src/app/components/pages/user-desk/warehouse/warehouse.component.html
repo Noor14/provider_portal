@@ -43,13 +43,13 @@
                           <p class="m-0 mt-3">
                             Drag here or
                             <span class="browse-span">browse</span> to upload </p>
-                          <small class="drag-support"> ( Maximum size per document: 5 MB) </small>
+                          <small class="drag-support"> ( Maximum size per document: 5 MB ) </small>
                         </app-ng-files-drag-n-upload>
                       </div>
                       <div class="row uploadedDocx mt-3">
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-3 uploaded-images" *ngFor="let galleryDocx of uploadedGalleries; let i = index">
                           <div class="display-upload delete">
-                            <img [src]="galleryDocx.DocumentFile" />
+                            <img [src]="galleryDocx.FileContent[0].docUrl" />
                             <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
                               (click)="removeSelectedDocx(i, galleryDocx)" />
                           </div>
@@ -393,7 +393,7 @@
 
           <div class="row mt-5">
             <div class="col-12">
-              <button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 pull-right" (click)="aadwareHouse()">
+<button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 pull-right" (click)="addwareHouse()">
                 save & add pricing </button>
             </div>
           </div>

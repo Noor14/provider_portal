@@ -201,7 +201,7 @@ export class UiTableComponent implements OnInit, OnChanges {
               this.checkList.push(e.carrierPricingID)
             } else if (this.containerLoad === 'LCL' && this.transMode === 'SEA') {
               this.checkList.push(e.consolidatorPricingID)
-            } else if(this.transMode === 'GROUND') {
+            } else if (this.transMode === 'GROUND') {
               this.checkList.push(e.id)
             }
           })
@@ -358,6 +358,7 @@ export class UiTableComponent implements OnInit, OnChanges {
     }
 
     if (changes.tableData) {
+      console.log(changes.tableData);
       this.data = changeCase(changes.tableData.currentValue, 'camel')
       this.checkAllPublish = false;
       this.data.forEach(e => {
@@ -380,10 +381,10 @@ export class UiTableComponent implements OnInit, OnChanges {
           e.dateDiff = null
         }
       })
+      if (!changes.tableData.previousValue || !changes.tableData.currentValue || !changes.tableData.currentValue.length || !changes.tableData.previousValue.length) {
+        this.onPageChangeBootstrap(1)
+      }
     }
-
-    console.log(this.data);
-
     this.checkList = []
   }
 }

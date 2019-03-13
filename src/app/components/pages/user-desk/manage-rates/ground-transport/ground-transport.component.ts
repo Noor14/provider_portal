@@ -21,7 +21,7 @@ import { ToastrService } from 'ngx-toastr';
 import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
 import { RateHistoryComponent } from '../../../../../shared/dialogues/rate-history/rate-history.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import { loading, getImagePath, ImageRequiredSize, ImageSource, changeCase } from '../../../../../constants/globalFunctions';
+import { loading, getImagePath, ImageRequiredSize, ImageSource, changeCase, removeDuplicates } from '../../../../../constants/globalFunctions';
 declare var $;
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -152,7 +152,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
     private element: ElementRef,
     private renderer: Renderer2,
     private _parserFormatter: NgbDateParserFormatter,
-    private _toast: ToastrService
+    private _toast: ToastrService,
+    private _manageRateService: ManageRatesService
   ) { }
 
 
@@ -980,21 +981,26 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   public pageNo: number = 1;
   public pageSize: number = 5;
   public totalPublishedRecords: number;
-  getAllPublishRates(type?) {
+  getAllPublishRates(type?, number?) {
+    console.log(this.orgfilter());
+    console.log(number);
+
     this.publishloading = true;
     let obj = {
       providerID: this.userProfile.ProviderID,
-      pageNo: this.pageNo,
+      pageNo: number ? number : this.pageNo,
       pageSize: this.pageSize,
       mode: this.filterbyMode,
       containerSpecID: (this.filterbyContainerType == 'undefined') ? null : parseInt(this.filterbyContainerType),
-      polID: this.orgfilter(),
-      podID: this.destfilter(),
+      polID: (this.filterOrigin && this.filterOrigin.id) ? this.filterOrigin.id : null,
+      podID: (this.filterDestination && this.filterDestination.id) ? this.filterDestination.id : null,
+      polType: (this.filterOrigin && this.filterOrigin.id) ? this.filterOrigin.type : null,
+      podType: (this.filterDestination && this.filterDestination.id) ? this.filterDestination.type : null,
       effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
       effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
       customerID: (this.filterbyCustomer ? parseInt(this.filterbyCustomer) : null),
       customerType: (this.isCustomer ? 'CUSTOMER' : (this.isMarketplace ? 'MARKETPLACE' : null)),
-      containerLoadType: type,
+      containerLoadType: this.filteredType,
       sortColumn: this.sortColumn,
       sortColumnDirection: this.sortColumnDirection
     }
@@ -1132,7 +1138,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
 
   orgfilter() {
     if (this.filterOrigin && typeof this.filterOrigin == "object" && Object.keys(this.filterOrigin).length) {
-      return this.filterOrigin.PortID;
+      return this.filterOrigin;
     }
     else if (this.filterOrigin && typeof this.filterOrigin == "string") {
       return -1;
@@ -1144,7 +1150,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   }
   destfilter() {
     if (this.filterDestination && typeof this.filterDestination == "object" && Object.keys(this.filterDestination).length) {
-      return this.filterDestination.PortID;
+      return this.filterDestination;
     }
     else if (this.filterDestination && typeof this.filterDestination == "string") {
       return -1;
@@ -1310,6 +1316,14 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
         : this.allPorts.filter(v => v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1))
     )
   formatter = (x: { PortName: string }) => x.PortName;
+
+  portsFilter = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => (!term || term.length < 3) ? []
+        : this.citiesPorts.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1 || v.shortName.toLowerCase().indexOf(term.toLowerCase()) > -1 || v.code.toLowerCase().indexOf(term.toLowerCase()) > -1))
+    )
+  filterPortsFormatter = (x: { title: string }) => x.title;
 
   deleteRow(id) {
     const modalRef = this.modalService.open(ConfirmDeleteDialogComponent, {
@@ -1584,7 +1598,17 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   public filterbyCustomer;
   public fromType: string = ''
   filterRecords(type) {
-    this.getAllPublishRates('FTL')
+    this.getAllPublishRates('FTL', 1)
+  }
+
+  public filteredType = null
+  filterContainerChange(obj) {
+    if (obj === 'all') {
+      this.filteredType = null
+    } else {
+      let container = this.allContainersType.find(container => container.ContainerSpecID === parseInt(obj))
+      this.filteredType = container.ContainerSpecGroupName === 'Container' ? 'FCL' : 'FTL'
+    }
   }
 
   onTabChange(event) {
@@ -1630,12 +1654,44 @@ export class GroundTransportComponent implements OnInit, OnDestroy {
   public allContainers = []
   public selectedFCLContainers = []
   public shippingCategories = []
+  public cities: any[] = []
+  public combinedPorts: any[] = []
+  public groundPorts: any = []
+  public citiesPorts: any = []
+  
   /**
    * FILLIN DROPDOWN DETAILS
    *
    * @memberof GroundTransportComponent
    */
   getDropdownsList() {
+    this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
+    loading(true)
+    this._manageRateService.getPortsData('ground').subscribe((res: any) => {
+      loading(false)
+      this.groundPorts = res;
+      console.log(res);
+      this.combinedPorts = this.allPorts.concat(this.groundPorts)
+      this.combinedPorts = removeDuplicates(this.combinedPorts, 'PortID')
+      localStorage.setItem('PortDetails', JSON.stringify(this.combinedPorts))
+    })
+    this._sharedService.cityList.subscribe((state: any) => {
+      if (state) {
+        console.log(state);
+        this.cities = state;
+        this.combinedPorts.forEach(e => {
+          e.title = e.PortName
+          e.id = e.PortID
+          e.imageName = e.CountryCode
+          e.type = e.PortType
+          e.code = e.PortCode
+          e.shortName = e.PortShortName
+        })
+        this.citiesPorts = this.combinedPorts.concat(this.cities)
+        console.log(this.citiesPorts);
+      }
+    });
+
     this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
     this.allContainersType = this.combinedContainers.filter(e => e.ContainerFor === 'FTL' && e.ShippingCatName === 'Goods')
   }

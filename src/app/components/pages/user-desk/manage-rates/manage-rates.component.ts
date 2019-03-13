@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { SeaFreightService } from './sea-freight/sea-freight.service';
 import { SharedService } from '../../../../services/shared.service';
-import { loading } from '../../../../constants/globalFunctions';
+import { loading, isJSON } from '../../../../constants/globalFunctions';
 import { ManageRatesService } from './manage-rates.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SettingService } from '../settings/setting.service';
@@ -14,6 +14,12 @@ import { SettingService } from '../settings/setting.service';
 })
 export class ManageRatesComponent implements OnInit, OnDestroy {
 
+  public selectedServices: any[];
+  private dashBoardSubscriber:any
+  public seaDisabled :boolean= true;
+  public airDisabled: boolean = true;
+  public groundDisabled: boolean = true;
+  public waarehouseDisabled: boolean = true;
   constructor(
     private _router: Router,
     private _seaFreightService: SeaFreightService,
@@ -29,10 +35,31 @@ export class ManageRatesComponent implements OnInit, OnDestroy {
       this.getAllservicesBySea(userProfile.UserID, userProfile.ProviderID);
       this.getUserDetail(userProfile.UserID);
     }
-    this.getPortsData()
-    this.getContainers()
+    this.getPortsData();
+    this.getContainers();
+    this.getDashboardDetail();
   }
   ngOnDestroy() {
+    this.dashBoardSubscriber.unsubscribe();
+  }
+  getDashboardDetail(){
+    this.dashBoardSubscriber = this._sharedService.dashboardDetail.subscribe((state: any) => {
+      if (state && Object.keys(state).length) {
+        if (state.LogisticService && isJSON(state.LogisticService)) {
+          this.selectedServices = JSON.parse(state.LogisticService);
+          let indexSEA = this.selectedServices.findIndex(elem => elem.LogServCode == 'SEA_FFDR');
+          let indexAIR = this.selectedServices.findIndex(elem => elem.LogServCode == 'AIR_FFDR');
+          let indexGround = this.selectedServices.findIndex(elem => elem.LogServCode == 'TRUK');
+          let indexWarehouse = this.selectedServices.findIndex(elem => elem.LogServCode =='WRHS');
+          this.seaDisabled = (indexSEA >= 0) ? false : true;
+          this.airDisabled = (indexAIR >= 0) ? false : true;
+          this.groundDisabled = (indexGround >= 0) ? false : true;
+          this.waarehouseDisabled = (indexWarehouse >= 0) ? false : true;
+
+        
+        }
+      }
+    });
   }
 
   getAllservicesBySea(userID, providerID) {

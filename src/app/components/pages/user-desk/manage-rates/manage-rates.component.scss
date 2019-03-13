@@ -82,6 +82,19 @@ $left-nav-icon-height: 20px;
                             }
                         }
                     }
+                    &.disabledLink{
+                        color: rgba(115, 133, 147, 0.6);
+                        cursor: context-menu;
+                        .man-tab-ico {
+                            img {
+                                    filter: grayscale(1);
+                                    opacity: 0.5;
+                            }
+                            &::after {
+                                display: none;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -580,16 +593,16 @@ $left-nav-icon-height: 20px;
                 }
             }
         }
-        ngb-typeahead-window {
-            max-height: 200px;
-            overflow-y: auto;
-            .dropdown-item {
-                &.active,
-                &:active {
-                    background: $primary-grey;
-                }
-            }
-        }
+        // ngb-typeahead-window {
+        //     max-height: 200px;
+        //     overflow-y: auto;
+        //     .dropdown-item {
+        //         &.active,
+        //         &:active {
+        //             background: $primary-grey;
+        //         }
+        //     }
+        // }
     }
     .actions {
         .discard-draft {

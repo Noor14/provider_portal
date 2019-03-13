@@ -14,6 +14,9 @@ import { applyRoundByDecimal, cloneObject, extractColumn, removeDuplicates } fro
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { BillingService } from './billing.service';
+import { DynamicScriptLoaderService } from '../../../../services/dynamic-script-loader.service';
+import { readyForPayment } from '../../../../constants/globalFunctions';
+import { paymentObj } from '../../../../interfaces/payment.interface';
 @Component({
   selector: 'app-billing',
   templateUrl: './billing.component.html',
@@ -275,8 +278,12 @@ export class BillingComponent implements OnInit, OnDestroy {
   public isTableLoaded: boolean = false
 
   public billingStatusList: CodeValMst[] = []
-  public userCurrencyCode: string
+  public userCurrencyCode: string = ''
 
+
+  // payment Btn
+
+  public paymentBtnDisabled:boolean = false;
 
   constructor(
     private _billingService: BillingService,
@@ -284,12 +291,14 @@ export class BillingComponent implements OnInit, OnDestroy {
     private _toastr: ToastrService,
     private _commonService: CommonService,
     private _currencyControl: CurrencyControl,
-    private _renderer2: Renderer2
+    private _renderer2: Renderer2,
+    private _dynamicScriptLoader: DynamicScriptLoaderService
 
   ) { }
 
 
   async ngOnInit() {
+
     // (HassanSJ) work start
 
     this._commonService.getMstCodeVal('BILLING_STATUS').subscribe((res: any) => {
@@ -327,6 +336,26 @@ export class BillingComponent implements OnInit, OnDestroy {
       console.log('ProviderBillingDashboard', message);
     })
   }
+  private loadScripts() {
+    // You can load multiple scripts by just providing the key as argument into load method of the service
+    this._dynamicScriptLoader.loadScript().then((data:any) => {
+      // Script Loaded Successfully
+      if (data && data.loaded){
+        let obj: paymentObj = {
+          currency: this.userCurrencyCode,
+          dueAmount: this.providerBillingDashboard.paymentDueTile.amount,
+          firstName: this.userProfile.FirstNameBL,
+          lastName: this.userProfile.LastNameBL,
+          shipmentId: 25,
+        }
+        readyForPayment(obj);
+      }
+      else{
+        this.paymentBtnDisabled = true;
+      }
+  
+    }).catch(error => console.log(error));
+  }
 
   private async setBillingConfig() {
     try {
@@ -349,6 +378,7 @@ export class BillingComponent implements OnInit, OnDestroy {
 
   setBillingDashboardData() {
     this.setBarGraphData()
+    this.setTileCurrency()
   }
 
   onInvoiceCatClick($selectedCat: string) {
@@ -549,6 +579,23 @@ export class BillingComponent implements OnInit, OnDestroy {
     }
   }
 
+  async setTileCurrency() {
+    const { exchangeRate } = this
+    let { billingTile, paymentDueTile, totalBillingTile } = this.providerBillingDashboard
+    const newBilledAmount = this._currencyControl.getNewPrice(billingTile.amount, exchangeRate.rate)
+    this.providerBillingDashboard.billingTile.amount = newBilledAmount
+    const newPaymentAmount = this._currencyControl.getNewPrice(paymentDueTile.amount, exchangeRate.rate)
+    this.providerBillingDashboard.paymentDueTile.amount = newPaymentAmount
+    const newTotalBilledAmount = this._currencyControl.getNewPrice(totalBillingTile.amount, exchangeRate.rate)
+    this.providerBillingDashboard.totalBillingTile.amount = newTotalBilledAmount;
+    if(paymentDueTile.amount){
+      this.loadScripts();
+    }else{
+      this.paymentBtnDisabled = true;
+    }
+    
+  }
+
   ngOnDestroy() {
     this.dtTrigger.unsubscribe();
   }
@@ -597,3 +644,4 @@ export const compareValues = (key: string, order = 'asc') => {
     );
   };
 }
+
