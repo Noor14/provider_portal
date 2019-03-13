@@ -373,12 +373,24 @@
                 <div class="form-group mt-3">
                   <label for="inputState">Minimum Commission</label>
                   <div class="input-group mb-3">
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend col-4 p-0">
                       <div class="input-group-text">
-                        <select id="inputState" class="form-control input-dropdown" formControlName="commisionCurrency">
-                          <option [value]="" selected>AED</option>
-                          <option>12</option>
-                        </select>
+                            <div class="city-dropdown currency">
+                              <div class="flag-container" *ngIf="commisionForm.value.commisionCurrency && commisionForm.value.commisionCurrency.imageName">
+                                <img src="{{'../../../../../assets/images/flags/4x3/' + (commisionForm.value.commisionCurrency.imageName | lowercase) + '.svg'}}"
+                                  type="image/svg+xml">
+                              </div>
+                              <input type="text" formControlName="commisionCurrency" (keypress)="spaceHandler($event)" [ngClass]="{'routeSelected': commisionForm.value.commisionCurrency && commisionForm.value.commisionCurrency.imageName}"
+                                class="form-control" maxlength="5" [ngbTypeahead]="currency"
+                                [resultTemplate]="cur" [inputFormatter]="formatterCurrency" placeholder="eg: AED">
+                              <ng-template #cur let-r="result">
+                                <div class="flag-container mr-1">
+                                  <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
+                                    class="">
+                                </div>
+                                <ngb-highlight [result]="r.shortName"></ngb-highlight>
+                              </ng-template>
+                            </div>
                       </div>
                     </div>
                     <input type="text" formControlName="minComissionValue" class="form-control" aria-label="Text input with dropdown button">

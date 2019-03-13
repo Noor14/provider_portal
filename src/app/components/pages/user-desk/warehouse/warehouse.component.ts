@@ -36,6 +36,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   public warehouseUsageType: any[] = [];
   public ceilingsHeight: any[] = [];
   public cityList: any[] = [];
+  public currencyList: any[] = [];
   public selectedMiniLeaseTerm: any;
   private paramSubscriber: any;
   public isRealEstate:boolean = false;
@@ -120,9 +121,14 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     });
 
     this.commisionForm = new FormGroup({
-      commisionCurrency: new FormControl(null, [Validators.required]),
+      commisionCurrency: new FormControl(null, [Validators.required, Validators.maxLength(5)]),
       comissionValue: new FormControl(null, [Validators.maxLength(4), Validators.minLength(1)]),
       minComissionValue: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
+    });
+    this._sharedService.currencyList.subscribe((state: any) => {
+      if (state) {
+        this.currencyList = state;
+      }
     });
     this._sharedService.getLocation.subscribe((state: any) => {
       if (state && state.country) {
@@ -430,7 +436,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       longitude: this.location.lng,
       totalCoveredArea: this.propertyDetailForm.value.warehouseSpace,
       totalCoveredAreaUnit: this.propertyDetailForm.value.warehouseSpaceUnit,
-      whUsageType: (this.warehouseTypeFull)? 'FULL' : 'SHARED',
+      usageType: (this.warehouseTypeFull)? 'FULL' : 'SHARED',
       whFacilitiesProviding: this.facilities,
       isBlocked: true,
       offeredHashMoveArea: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.hashmoveSpace : null,
@@ -444,8 +450,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       WHMinSQFT: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.minLeaseValueOne : null,
       WHMinCBM: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.minLeaseValueTwo : null,
       comissionType: (this.isRealEstate) ? ((this.fixedAmount) ? 'Fixed_Amount' : ' Fixed_Percent') : null,
-      // comissionCurrencyID: (this.isRealEstate) ? this.commisionForm.value.commisionCurrency : null,
-      comissionCurrencyID: (this.isRealEstate) ? 101 : null,
+      comissionCurrencyID: (this.isRealEstate) ? this.commisionForm.value.currency.id : null,
       comissionValue: (this.isRealEstate) ? ((!this.fixedAmount) ? this.commisionForm.value.commisionValue : null) : null,
       minComissionValue: (this.isRealEstate) ? this.commisionForm.value.minCommisionValue: null,
       createdBy: this.userProfile.LoginID,
@@ -471,6 +476,13 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       .map(term => (!term || term.length < 3) ? []
         : this.cityList.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1));
   formatterCity = (x: { title: string }) => x.title;
+
+  currency = (text$: Observable<string>) =>
+    text$
+      .debounceTime(200)
+      .map(term => (!term || term.length < 3) ? []
+        : this.currencyList.filter(v => v.shortName.toLowerCase().indexOf(term.toLowerCase()) > -1));
+  formatterCurrency = (x: { shortName: string }) => x.shortName;
 
 }
 export function warehouseValidator(control: AbstractControl) {
