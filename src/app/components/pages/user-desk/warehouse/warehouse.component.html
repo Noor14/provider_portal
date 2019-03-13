@@ -181,7 +181,7 @@
                     <label>Property Type</label>
                     <div class="fancyOptionBoxes pull-left mb-3 mr-3" *ngFor="let type of warehouseUsageType; let i = index">
                       <input id="{{i+1}}" [checked]="type.IsAllowed && type.UsageTypeTitle == 'Full Warehouse'" name="warehouseType"
-                        (change)="wareHouseType(type, $event)" type="radio">
+                      (change)="warehouseTypeFull = !warehouseTypeFull" type="radio">
                       <label for="{{i+1}}">
                         <span></span>
                         {{type.UsageTypeTitle}}
@@ -335,65 +335,65 @@
               </div>
             </div>
           </div>
-
-          <div class="row commission-rates">
-            <div class="col-12">
-              <h5 class="mt-5">Commission</h5>
-              <hr class="hr-solid">
-            </div>
-          </div>
-
-          <div class="row">
-            <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
-              <div class="form-group">
-                <div class="fancyOptionBoxes pull-left">
-                  <input id="fixedamount" name="commison" type="checkbox">
-                  <label for="fixedamount">
-                    <span></span>
-                    Fixed Amount per booking
-                  </label>
-                </div>
-                <div class="fancyOptionBoxes pull-left ml-4">
-                  <input id="perbooking" name="commison" type="checkbox">
-                  <label for="perbooking">
-                    <span></span>
-                    Fixed percentage per booking
-                  </label>
-                </div>
+          <section class="commisionRates" *ngIf="isRealEstate">
+            <div class="row commission-rates">
+              <div class="col-12">
+                <h5 class="mt-5">Commission</h5>
+                <hr class="hr-solid">
               </div>
             </div>
 
-          </div>
-
-          <div class="row">
-            <div class="col-2">
-              <div class="form-group mt-3">
-                <label>Per Booking</label>
-                <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="%">
-              </div>
-            </div>
-
-            <div class="col-4">
-              <div class="form-group mt-3">
-                <label for="inputState">Minimum Commission</label>
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">
-                      <select id="inputState" class="form-control input-dropdown">
-                        <option selected>AED</option>
-                        <option>12</option>
-                      </select>
-                    </div>
+            <div class="row">
+              <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
+                <div class="form-group">
+                  <div class="fancyOptionBoxes pull-left">
+                  <input id="fixedamount" name="commison" type="radio" [checked]="fixedAmount" (change)="fixedAmount = !fixedAmount">
+                    <label for="fixedamount">
+                      <span></span>
+                      Fixed Amount per booking
+                    </label>
                   </div>
-                  <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                  <div class="fancyOptionBoxes pull-left ml-4">
+                    <input id="perbooking" name="commison" type="radio" (change)="fixedAmount = !fixedAmount">
+                    <label for="perbooking">
+                      <span></span>
+                      Fixed percentage per booking
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-2 animated fadeIn" *ngIf="!fixedAmount">
+                <div class="form-group mt-3">
+                  <label>Per Booking</label>
+                  <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="%">
+                </div>
+              </div>
+
+              <div class="col-4">
+                <div class="form-group mt-3">
+                  <label for="inputState">Minimum Commission</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <select id="inputState" class="form-control input-dropdown">
+                          <option selected>AED</option>
+                          <option>12</option>
+                        </select>
+                      </div>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-
+          </section>
           <div class="row mt-5">
             <div class="col-12">
-<button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 pull-right" (click)="addwareHouse()">
+                <button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 pull-right" (click)="addwareHouse()">
                 save & add pricing </button>
             </div>
           </div>
@@ -404,70 +404,6 @@
     </ngx-step>
     <ngx-step [label]="'2. SET PRICING'">
       <section class="Add-warehouse">
-        <section class="commission-rates mt-3">
-          <div class="row">
-            <div class="col-12">
-              <h5>Commission</h5>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
-              <div class="form-group">
-                <div class="fancyOptionBoxes pull-left">
-                  <input id="fixedamount" name="commison" type="checkbox">
-                  <label for="fixedamount">
-                    <span></span>
-                    Fixed Amount per booking
-                  </label>
-                </div>
-                <div class="fancyOptionBoxes pull-left ml-4">
-                  <input id="perbooking" name="commison" type="checkbox">
-                  <label for="perbooking">
-                    <span></span>
-                    Fixed percentage per booking
-                  </label>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="row">
-            <div class="col-2">
-              <div class="form-group mt-3">
-                <label>Per Booking</label>
-                <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="%">
-              </div>
-            </div>
-
-            <div class="col-4">
-              <div class="form-group mt-3">
-                <label for="inputState">Minimum Commission</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <select id="inputState" class="form-control input-dropdown">
-                      <option selected>AED</option>
-                      <option>12</option>
-                    </select>
-                  </div>
-
-                  <input type="text" class="form-control" aria-label="Text input with dropdown button">
-                </div>
-
-                <!-- <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                      <div class="input-group-text"><select><option>1</option></select></div>
-                    </div>
-                    <input class="form-control maxlength="15" placeholder="0.00" type="text">
-                  </div> -->
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
         <section class="Add-warehouse-rates mt-3">
           <h5 class="mt-5">Set Pricing</h5>
           <p class="sub-title mt-2 mb-2">you can add multiple rates for different dates / months </p>
