@@ -19,14 +19,9 @@ export class DynamicScriptLoaderService {
         src: ScriptStore.src
       };
   }
-  load() {
-    const promises: any[] = [];
-    promises.push(this.loadScript('paytabjs'));
-    return Promise.all(promises);
-  }
-
-  loadScript(name: string) {
+  loadScript() {
     return new Promise((resolve, reject) => {
+      let name:string = "paytabjs";
       if (!this.scripts[name].loaded) {
         //load script
         let script = document.createElement('script');

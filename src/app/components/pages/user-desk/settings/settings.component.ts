@@ -1035,6 +1035,11 @@ export class SettingsComponent implements OnInit {
       if (res.returnStatus == "Success") {
         this._toastr.success('Personal Information Updated', '')
         this.personalInfoToggler = false;
+        let userObj = JSON.parse(localStorage.getItem('userInfo'));
+        let userData = JSON.parse(userObj.returnText);
+        userData.CurrencyID = this.personalInfoForm.value.currency.id;
+        userObj.returnText = JSON.stringify(userData);
+        localStorage.setItem('userInfo', JSON.stringify(userObj));
       }
     })
   }
