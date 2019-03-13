@@ -281,6 +281,10 @@ export class BillingComponent implements OnInit, OnDestroy {
   public userCurrencyCode: string = ''
 
 
+  // payment Btn
+
+  public paymentBtnDisabled:boolean = false;
+
   constructor(
     private _billingService: BillingService,
     private _dashboardService: DashboardService,
@@ -345,6 +349,9 @@ export class BillingComponent implements OnInit, OnDestroy {
           shipmentId: 25,
         }
         readyForPayment(obj);
+      }
+      else{
+        this.paymentBtnDisabled = true;
       }
   
     }).catch(error => console.log(error));
@@ -581,7 +588,11 @@ export class BillingComponent implements OnInit, OnDestroy {
     this.providerBillingDashboard.paymentDueTile.amount = newPaymentAmount
     const newTotalBilledAmount = this._currencyControl.getNewPrice(totalBillingTile.amount, exchangeRate.rate)
     this.providerBillingDashboard.totalBillingTile.amount = newTotalBilledAmount;
-    if(paymentDueTile.amount)this.loadScripts();
+    if(paymentDueTile.amount){
+      this.loadScripts();
+    }else{
+      this.paymentBtnDisabled = true;
+    }
     
   }
 
