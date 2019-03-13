@@ -50,6 +50,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   // propertyDetailForm
   public propertyDetailForm: any;
 
+  //commisionForm
+  public commisionForm:any
 
   //map working
   public location: any = { lat: undefined, lng: undefined };
@@ -115,8 +117,12 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       ceilingUnit: new FormControl(null, [warehouseValidator.bind(this)]),
       minLeaseValueOne: new FormControl(null, [warehouseValidator.bind(this), Validators.maxLength(4), Validators.minLength(1)]),
       minLeaseValueTwo: new FormControl(null, [warehouseValidator.bind(this), Validators.maxLength(4), Validators.minLength(1)]),
-      minLeaseUnitTwo: new FormControl(null, [warehouseValidator.bind(this)]),
-      minLeaseUnitOne: new FormControl(null, [warehouseValidator.bind(this)]),
+    });
+
+    this.commisionForm = new FormGroup({
+      commisionCurrency: new FormControl(null, [Validators.required]),
+      comissionValue: new FormControl(null, [Validators.maxLength(4), Validators.minLength(1)]),
+      minComissionValue: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.minLength(1)]),
     });
     this._sharedService.getLocation.subscribe((state: any) => {
       if (state && state.country) {
@@ -226,7 +232,12 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   addMinimumLeaseTerm(obj) {
     this.selectedMiniLeaseTerm = obj;
   }
-
+  numberValid(evt) {
+    let charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+      return false;
+    return true;
+  }
   oneSpaceHandler(event) {
     if (event.target.value) {
       var end = event.target.selectionEnd;
@@ -256,8 +267,6 @@ export class WarehouseComponent implements OnInit, OnDestroy {
         this.propertyDetailForm.patchValue({
           warehouseSpaceUnit: this.units[0].codeValDesc,
           ceilingUnit: this.units[0].codeValDesc,
-          minLeaseUnitOne: this.units[0].codeValDesc,
-          minLeaseUnitTwo: this.units[0].codeValDesc,
         });
       }
     }, (err: HttpErrorResponse) => {
@@ -410,7 +419,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       providerID: this.userProfile.ProviderID,
       whName: this.generalForm.value.whName,
       whDesc: this.generalForm.value.whDetail,
-      // countryID: 0,
+      countryID: this.locationForm.value.city.desc[0].CountryID,
       cityID: this.locationForm.value.city.id,
       cityName: this.locationForm.value.city.title,
       // countryName: "string",
@@ -427,21 +436,18 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       offeredHashMoveArea: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.hashmoveSpace : null,
       offeredHashMoveAreaUnit: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.warehouseSpaceUnit : null,
       ceilingHeight: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.ceilingHeight : null,
-      ceilingHeightUnit: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.ceilingUnit : null,
-      whMinimumLeaseTerm: [{
-        value: this.selectedMiniLeaseTerm.codeVal,
-        unitType: this.selectedMiniLeaseTerm.codeValShortDesc
-      }],
-      whMinimumLeaseSpace: (!this.warehouseTypeFull) ? [
-        {
-          value: this.propertyDetailForm.value.minLeaseValueOne,
-          unitType: this.propertyDetailForm.value.minLeaseUnitOne
-        },
-        {
-          value: this.propertyDetailForm.value.minLeaseValueTwo,
-          unitType: this.propertyDetailForm.value.minLeaseUnitTwo
-        }
-      ] : null,
+      ceilingLenght : (!this.warehouseTypeFull) ? 0 : null,
+      ceilingWidth : (!this.warehouseTypeFull) ? 0 : null,
+      ceilingUnit: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.ceilingUnit : null,
+      minLeaseTermValue: this.selectedMiniLeaseTerm.codeVal,
+      minLeaseTermUnit: this.selectedMiniLeaseTerm.codeValShortDesc,
+      WHMinSQFT: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.minLeaseValueOne : null,
+      WHMinCBM: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.minLeaseValueTwo : null,
+      comissionType: (this.isRealEstate) ? ((this.fixedAmount) ? 'Fixed_Amount' : ' Fixed_Percent') : null,
+      // comissionCurrencyID: (this.isRealEstate) ? this.commisionForm.value.commisionCurrency : null,
+      comissionCurrencyID: (this.isRealEstate) ? 101 : null,
+      comissionValue: (this.isRealEstate) ? ((!this.fixedAmount) ? this.commisionForm.value.commisionValue : null) : null,
+      minComissionValue: (this.isRealEstate) ? this.commisionForm.value.minCommisionValue: null,
       createdBy: this.userProfile.LoginID,
       modifiedBy: this.userProfile.LoginID,
     }
