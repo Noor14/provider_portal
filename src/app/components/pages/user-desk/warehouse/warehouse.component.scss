@@ -127,6 +127,13 @@
         }
       }
 
+      .percent {
+        content: "%";
+        position: absolute;
+        right: 0;
+        font-family: $font-proxima;
+      }
+
       .city-dropdown {
         position: relative;
         display: flex;

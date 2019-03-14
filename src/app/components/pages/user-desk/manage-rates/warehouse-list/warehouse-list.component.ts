@@ -70,6 +70,7 @@ export class WarehouseListComponent implements OnInit {
                 this.allWareHouseList.forEach((obj) => {
                   const albumArr = []
                   obj.WHGallery.forEach((elem) => {
+                    console.log (elem)
                     const album = {
                       src: baseExternalAssets + elem.DocumentFile,
                       caption: elem.DocumentFileName,

@@ -417,7 +417,7 @@
               <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 animated fadeIn" *ngIf="!fixedAmount">
                 <div class="form-group mt-3">
                   <label>Per Booking</label>
-                  <input type="text" class="form-control" formControlName="percentValue" 
+                  <input type="text" class="form-control percent" formControlName="percentValue" 
                     [ngClass]="{
                     'inputError': percentValueError && commissionForm.controls['percentValue'].errors
                     }"

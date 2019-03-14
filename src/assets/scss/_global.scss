@@ -4,6 +4,9 @@ body {
   font-weight: $font-weight-normal;
   font-style: normal;
   background: $right-side-background;
+  .lightboxOverlay {
+    width: 100%;
+  }
   a {
     text-decoration: none !important;
     outline: none;
