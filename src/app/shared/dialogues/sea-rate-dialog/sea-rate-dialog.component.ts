@@ -619,7 +619,7 @@ export class SeaRateDialogComponent implements OnInit {
             this.closeModal(res.returnObject);
           } else {
             console.log(this.selectedData);
-            if(this.selectedData.data) {
+            if (this.selectedData.data) {
               this.selectedData.data.ProviderPricingDraftID = 0;
             }
             this.selectedPrice = undefined;
@@ -636,10 +636,10 @@ export class SeaRateDialogComponent implements OnInit {
             this.closeModal(res.returnObject);
           } else {
             this.selectedPrice = undefined;
-            if(this.selectedData.data) {
+            if (this.selectedData.data) {
               this.selectedData.data.ConsolidatorPricingDraftID = 0;
             }
-            
+
             this.selectedContSize = null;
             this.savedRow.emit(res.returnObject)
           }
@@ -653,7 +653,7 @@ export class SeaRateDialogComponent implements OnInit {
             this.closeModal(res.returnObject);
           } else {
             this.selectedPrice = undefined;
-            if(this.selectedData) {
+            if (this.selectedData) {
               this.selectedData.ID = 0;
             }
             this.couplePrice = null;
@@ -1168,16 +1168,6 @@ export class SeaRateDialogComponent implements OnInit {
       this.showPickupDropdown = false;
       this.showDestinationDropdown = false;
     }
-    if (!this.showDoubleRates && this.transPortMode === 'GROUND') {
-      if (obj.length >= 3) {
-        this.searchTerm$ = obj
-        this._manageRateService.getAllCities(obj).pipe(debounceTime(400), distinctUntilChanged()).subscribe((res: any) => {
-          this.cities = res;
-        }, (err: any) => {
-          console.log(err)
-        })
-      }
-    }
   }
 
 
@@ -1199,15 +1189,31 @@ export class SeaRateDialogComponent implements OnInit {
   };
 
   //Ground areas formatter and observer
-  citiesList = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(500),
-      map(term => (!term || term.length < 3) ? [] : this.cities.filter(
-        v => (v.title.toLowerCase().indexOf(term.toLowerCase()) > -1 || v.shortName.toLowerCase().indexOf(term.toLowerCase()) > -1 || v.code.toLowerCase().indexOf(term.toLowerCase()) > -1))))
+  // citiesList = (text$: Observable<string>) =>
+  //   text$.pipe(
+  //     debounceTime(500),
+  //     map(term => (!term || term.length < 3) ? [] : this.cities.filter(
+  //       v => (v.title.toLowerCase().indexOf(term.toLowerCase()) > -1 || v.shortName.toLowerCase().indexOf(term.toLowerCase()) > -1 || v.code.toLowerCase().indexOf(term.toLowerCase()) > -1))))
 
   citiesFormatter = (x: { title: string, imageName: string }) => {
     return x.title
   };
+
+  citiesList = (text$: Observable<string>) =>
+    text$
+      .debounceTime(300) //debounce time
+      .distinctUntilChanged()
+      // .do(() => console.log('do action on typing here')) // do any action while the user is typing
+      .switchMap(term => {
+        let some: any = []; //  Initialize the object to return
+        if (term && term.length >= 3) { //search only if item are more than three
+          some = this._manageRateService.getAllCities(term)
+            .do((res) => res)
+            .catch(() => [])
+        } else { some = [] }
+        return some
+      })
+      .do((res) => res); // final server list
 
   public showDoubleRates: boolean = false
   public priceBasis: string = ''
