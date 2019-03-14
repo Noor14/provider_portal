@@ -111,7 +111,8 @@
 
       .city-dropdown {
         position: relative;
-        display: inline-block;
+        display: flex;
+        align-items: center;
         width: 100%;
 
         >.flag-container {
@@ -119,7 +120,6 @@
           height: 12px;
           position: absolute;
           left: 20px;
-          top: 19px;
           display: flex;
 
           img {
