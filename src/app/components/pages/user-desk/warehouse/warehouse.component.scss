@@ -127,11 +127,13 @@
         }
       }
 
-      .percent {
-        content: "%";
+      .percent-sign {
         position: absolute;
-        right: 0;
+        right: 1.5rem;
+        top: 4.3rem;
         font-family: $font-proxima;
+        color: $text-color-default;
+        font-size: $font-size-large;
       }
 
       .city-dropdown {
