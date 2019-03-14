@@ -172,38 +172,36 @@ export class SeaRateDialogComponent implements OnInit {
   allservicesBySea() {
     this.getDropdownsList()
     this._sharedService.dataLogisticServiceBySea.subscribe(state => {
-
       if (state && state.length) {
         for (let index = 0; index < state.length; index++) {
-          if (state[index].LogServName == "SEA") {
-            this.allShippingLines = state[index].DropDownValues.ShippingLine;
-            console.log(this.allShippingLines);
-            this.allHandlingType = state[index].DropDownValues.ContainerLCL;
-            if (this.selectedData && this.selectedData.data && this.containerLoadParam === "FCL") {
-              if (this.selectedData.mode === 'publish') {
-                this.disabledCustomers = true;
-                let data = changeCase(this.selectedData.data[0], 'pascal')
-                this.setData(data);
-              } else {
-                this.setData(this.selectedData.data);
-              }
-            }
-            else if (this.selectedData && this.selectedData.data && (this.containerLoadParam === "LCL" || this.containerLoadParam === "FTL")) {
-              if (this.selectedData.mode === 'publish') {
-                this.disabledCustomers = true;
-                let data = changeCase(this.selectedData.data[0], 'pascal')
-                this.setData(data);
-                // this.setDataLCL(data);
-              } else {
-                this.setData(this.selectedData.data);
-                // this.setDataLCL(this.selectedData.data);
-              }
-
+          if (this.selectedData.forType === 'FCL' || this.selectedData.forType === 'LCL') {
+            if (state[index].LogServName == "SEA") {
+              this.allShippingLines = state[index].DropDownValues.ShippingLine;
+              console.log(this.allShippingLines);
+              this.allHandlingType = state[index].DropDownValues.ContainerLCL;
             }
           }
         }
       }
     });
+    if (this.selectedData && this.selectedData.data && this.containerLoadParam === "FCL") {
+      if (this.selectedData.mode === 'publish') {
+        this.disabledCustomers = true;
+        let data = changeCase(this.selectedData.data[0], 'pascal')
+        this.setData(data);
+      } else {
+        this.setData(this.selectedData.data);
+      }
+    }
+    else if (this.selectedData && this.selectedData.data && (this.containerLoadParam === "LCL" || this.containerLoadParam === "FTL")) {
+      if (this.selectedData.mode === 'publish') {
+        this.disabledCustomers = true;
+        let data = changeCase(this.selectedData.data[0], 'pascal')
+        this.setData(data);
+      } else {
+        this.setData(this.selectedData.data);
+      }
+    }
   }
 
   setDateLimit() {
