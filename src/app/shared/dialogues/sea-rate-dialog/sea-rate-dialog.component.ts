@@ -18,7 +18,7 @@ import { NgbDateFRParserFormatter } from "../../../constants/ngb-date-parser-for
 import { SeaFreightService } from '../../../components/pages/user-desk/manage-rates/sea-freight/sea-freight.service';
 import { cloneObject } from '../../../components/pages/user-desk/reports/reports.component';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
-import { changeCase, loading, getImagePath, ImageSource, ImageRequiredSize } from '../../../constants/globalFunctions';
+import { changeCase, loading, getImagePath, ImageSource, ImageRequiredSize, removeDuplicates } from '../../../constants/globalFunctions';
 import *  as moment from 'moment'
 import { ManageRatesService } from '../../../components/pages/user-desk/manage-rates/manage-rates.service';
 
@@ -1065,7 +1065,9 @@ export class SeaRateDialogComponent implements OnInit {
     // });
     console.log(this.selectedData);
     this.transPortMode = 'SEA'
+    console.log(this.allPorts);
     this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
+    // this.allPorts = removeDuplicates(this.allPorts, 'PortID')
     this.seaPorts = this.allPorts.filter(e => e.PortType === 'SEA')
     this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
     this.fclContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FCL')
@@ -1077,20 +1079,9 @@ export class SeaRateDialogComponent implements OnInit {
       let selectedCategory = this.allCargoType.find(obj => obj.ShippingCatName.toLowerCase() == 'goods');
       this.selectedCategory = selectedCategory.ShippingCatID
       this.groundPorts = this.allPorts.filter(e => e.PortType === 'Ground')
-      if (this.groundPorts.length === 0) {
-        loading(true)
-        this._manageRateService.getPortsData('ground').subscribe((res: any) => {
-          loading(false)
-          this.groundPorts = res;
-          localStorage.setItem('PortDetails', JSON.stringify(this.allPorts.concat(this.groundPorts)))
-        })
-      }
-      // this.allContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FTL' && e.ShippingCatID === this.selectedCategory)
       const groundContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FTL' && e.ShippingCatID === this.selectedCategory)
       const containers = groundContainers.filter(e => e.ContainerSpecGroupName === 'Container')
       const trucks = groundContainers.filter(e => e.ContainerSpecGroupName != 'Container')
-      console.log(containers);
-      
       this.allContainers = containers.concat(trucks)
     }
   }
@@ -1181,7 +1172,6 @@ export class SeaRateDialogComponent implements OnInit {
       if (obj.length >= 3) {
         this.searchTerm$ = obj
         this._manageRateService.getAllCities(obj).pipe(debounceTime(400), distinctUntilChanged()).subscribe((res: any) => {
-          console.log(res)
           this.cities = res;
         }, (err: any) => {
           console.log(err)

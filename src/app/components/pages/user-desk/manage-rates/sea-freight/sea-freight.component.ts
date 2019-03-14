@@ -264,26 +264,21 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
       this.filterDestination = {};
       this.filterOrigin = {};
       this.filterbyCustomer = null;
-      this.isMarketplace = true
+      this.isMarketplace = false
       this.isCustomer = false
       this.getAllPublishRates('fcl')
     }
     else if (type == "LCL") {
-      if (
-        (this.filterbyCargoType && this.filterbyCargoType != 'undefined') ||
-        (this.filterbyHandlingType && this.filterbyHandlingType != 'undefined') ||
-        (this.filterDestination && Object.keys(this.filterDestination).length) ||
-        (this.filterOrigin && Object.keys(this.filterOrigin).length)
-      ) {
-        this.model = null;
-        this.fromDate = null;
-        this.toDate = null;
-        this.filterbyCargoType = 'undefined';
-        this.filterbyHandlingType = 'undefined';
-        this.filterDestination = {};
-        this.filterOrigin = {};
-        this.getAllPublishRates('lcl')
-      }
+      this.model = null;
+      this.fromDate = null;
+      this.toDate = null;
+      this.isMarketplace = false
+      this.isCustomer = false
+      this.filterbyCargoType = 'undefined';
+      this.filterbyHandlingType = 'undefined';
+      this.filterDestination = {};
+      this.filterOrigin = {};
+      this.getAllPublishRates('lcl')
     }
   }
 
@@ -471,6 +466,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
 
   }
+
   dateFilteronFocusOut(date, type) {
     if (type == "FCL") {
       if (!date) {
@@ -480,6 +476,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
   }
 
+  public filteredRecords: number;
   /**
    *
    * GET ALL PUBLISHED RATES FOR FCL OR LCL
@@ -487,6 +484,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    * @memberof SeaFreightComponent
    */
   getAllPublishRates(type) {
+    if (this.filteredRecords === 1) {
+      this.pageNo = this.pageNo - 1
+    }
     this.publishloading = true;
     let obj = {
       providerID: this.userProfile.ProviderID,
@@ -508,6 +508,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
       this.publishloading = false;
       if (res.returnId > 0) {
         this.totalPublishedRecords = res.returnObject.recordsTotal
+        this.filteredRecords = res.returnObject.recordsFiltered
         if (type === 'fcl') {
           this.allRatesList = cloneObject(res.returnObject.data);
           this.checkedallpublishRates = false;
@@ -1262,7 +1263,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    */
   onTabChange(event) {
     console.log(event);
-    
+
     if (event === 'activeLCL') {
       this.getAllPublishRates('lcl')
       this.getDraftRates('lcl')
