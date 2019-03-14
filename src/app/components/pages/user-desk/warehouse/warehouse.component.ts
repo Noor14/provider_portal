@@ -5,7 +5,7 @@ import { } from 'googlemaps';
 import { loading } from '../../../../constants/globalFunctions';
 import { Observable, Subject } from 'rxjs';
 import { WarehouseService } from '../manage-rates/warehouse-list/warehouse.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UserCreationService } from '../../user-creation/user-creation.service';
@@ -15,6 +15,8 @@ import { DocumentFile } from '../../../../interfaces/document.interface';
 import { JsonResponse } from '../../../../interfaces/JsonResponse';
 import { BasicInfoService } from '../../user-creation/basic-info/basic-info.service';
 import { baseExternalAssets } from '../../../../constants/base.url';
+import { ConfirmDeleteDialogComponent } from '../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-warehouse',
@@ -99,12 +101,14 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private _router: ActivatedRoute,
+    private _redirect: Router,
     private _warehouseService: WarehouseService,
     private _toastr: ToastrService,
     private _sharedService: SharedService,
     private _userCreationService: UserCreationService,
     private _basicInfoService: BasicInfoService,
     private ngFilesService: NgFilesService,
+    private _modalService: NgbModal,
 
   ) { }
 
@@ -495,6 +499,33 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       this.uploadedGalleries.splice(index, 1);
   }
   }
+
+  cancelWarehouse(){
+    const modalRef = this._modalService.open(ConfirmDeleteDialogComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.result.then((result) => {
+      if (result == "close") {
+        this._redirect.navigate(['provider/manage-rates/warehouse'])
+      }
+    });
+    let obj = {
+      data: this.whID,
+      type: "CancelWarehouse"
+    }
+    modalRef.componentInstance.deleteIds = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
+
+
 
   addwareHouse() {
     let obj = {
