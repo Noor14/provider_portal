@@ -210,7 +210,7 @@
                   <div class="col-5 form-group">
                     <label>Show Only Rates For </label>
                     <div class="fancyOptionBoxes pull-left filter-checkbox mr-3 pt-3">
-                      <input id="Radios" name="Radios" type="radio"
+                      <input id="Radios" name="Radios" type="checkbox"
                         (change)="isMarketplace = !isMarketplace; isCustomer = false" [checked]="isMarketplace">
                       <label for="Radios">
                         <span></span>
@@ -218,7 +218,7 @@
                       </label>
                     </div>
                     <div class="fancyOptionBoxes pull-left filter-checkbox  pt-3">
-                      <input id="Radios2" name="Radios" type="radio"
+                      <input id="Radios2" name="Radios" type="checkbox"
                         (change)="isCustomer = !isCustomer; isMarketplace = false" [checked]="isCustomer">
                       <label for="Radios2">
                         <span></span>
@@ -541,7 +541,7 @@
                   <div class="col-5 form-group">
                     <label>Show Only Rates For </label>
                     <div class="fancyOptionBoxes pull-left  filter-checkbox mr-3 pt-3">
-                      <input id="Radios" name="Radios" type="radio"
+                      <input id="Radios" name="Radios" type="checkbox" [checked]="isMarketplace"
                         (change)="isMarketplace = !isMarketplace; isCustomer = false">
                       <label for="Radios">
                         <span></span>
@@ -549,7 +549,7 @@
                       </label>
                     </div>
                     <div class="fancyOptionBoxes pull-left  filter-checkbox  pt-3">
-                      <input id="Radios2" name="Radios" type="radio"
+                      <input id="Radios2" name="Radios" type="checkbox" [checked]="isCustomer"
                         (change)="isCustomer = !isCustomer; isMarketplace = false">
                       <label for="Radios2">
                         <span></span>

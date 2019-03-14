@@ -183,8 +183,6 @@ export class RateValidityComponent implements OnInit {
     return true;
   }
   updateRates() {
-    console.log(this.validityData);
-
     if (this.validityData.type == 'fcl') {
       this.updateRatesfcl('fcl')
     }

@@ -177,15 +177,11 @@ export class RateHistoryComponent implements OnInit {
         } else if (this.historyHead[0].podType === 'SEA') {
           this.destinationDet = ports.find(obj => obj.PortID === this.historyHead[0].podID);
         }
-
         if (this.historyHead[0].polType === 'Ground') {
           this.originDet = this.groundPorts.find(obj => obj.PortID === this.historyHead[0].polID);
         } else if (this.historyHead[0].polType === 'SEA') {
           this.originDet = ports.find(obj => obj.PortID === this.historyHead[0].polID);
         }
-        // this.originDet = ports.find(obj => obj.PortID === this.historyHead[0].polID);
-        console.log(this.destinationDet);
-        console.log(this.originDet);
       }
     })
   }

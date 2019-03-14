@@ -191,23 +191,16 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
   clearFilter(event) {
     event.preventDefault();
     event.stopPropagation();
-    if ((this.filterbyContainerType && this.filterbyContainerType != 'undefined') ||
-      (this.filterbyMode && this.filterbyMode != 'undefined') ||
-      (this.filterDestination && Object.keys(this.filterDestination).length) ||
-      (this.filterOrigin && Object.keys(this.filterOrigin).length) ||
-      (this.fromDate && Object.keys(this.fromDate).length) ||
-      (this.toDate && Object.keys(this.toDate).length)
-    ) {
-      this.model = null;
-      this.fromDate = null;
-      this.toDate = null;
-      this.filterbyContainerType = 'undefined';
-      this.filterbyMode = 'undefined';
-      this.filterDestination = {};
-      this.filterOrigin = {};
-      this.filter();
-    }
-
+    this.model = null;
+    this.fromDate = null;
+    this.toDate = null;
+    this.isCustomer = false
+    this.isMarketplace = false;
+    this.filterbyContainerType = 'undefined';
+    this.filterbyMode = 'undefined';
+    this.filterDestination = {};
+    this.filterOrigin = {};
+    this.filter()
   }
   filter() {
     this.getAllPublishRates('fcl')
@@ -734,8 +727,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
 
 
   updatePopupRates(rowId, type) {
-    console.log(rowId);
-    console.log(this.draftslist);
     let obj;
     if (this.activeTab == 'activeFCL') {
       if (rowId > 0) {
@@ -985,9 +976,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
   public pageNo: number = 1;
   public pageSize: number = 5;
   public totalPublishedRecords: number;
+  public filteredRecords: number;
   getAllPublishRates(type?, number?) {
-    console.log(this.orgfilter());
-    console.log(number);
+    if (this.filteredRecords === 1) {
+      this.pageNo = this.pageNo - 1
+    }
 
     this.publishloading = true;
     let obj = {
@@ -1009,13 +1002,13 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
       sortColumnDirection: this.sortColumnDirection
     }
     this._seaFreightService.getAllrates(obj).subscribe((res: any) => {
-      console.log(res);
       this.publishloading = false;
       if (res.returnId > 0) {
         this.totalPublishedRecords = res.returnObject.recordsTotal
         this.allRatesList = res.returnObject.data;
         this.checkedallpublishRates = false;
         this.publishloading = false;
+        this.filteredRecords = res.returnObject.recordsFiltered
       }
     })
 
@@ -1493,9 +1486,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
   // NEW GROUND WORKING
   getPortsData() {
     this._manageRatesService.getPortsData('GROUND').subscribe((res: any) => {
-      console.log(res);
       let ports = JSON.parse(localStorage.getItem("PortDetails"));
-      console.log(ports.concat(res));
       localStorage.setItem("PortDetails", JSON.stringify(ports.concat(res)));
     }, (err: HttpErrorResponse) => {
       loading(false)
@@ -1545,7 +1536,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
    * @memberof GroundTransportComponent
    */
   tableCheckedRows(event) {
-    console.log(event);
     if (event.type === 'publishFCL') {
       if (typeof event.list[0] === 'object') {
         if (event.list[0].type === 'history') {
@@ -1580,7 +1570,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
    * @memberof GroundTransportComponent
    */
   sortedFilters(type, event) {
-    console.log(event);
     this.sortColumn = event.column
     this.sortColumnDirection = event.direction
     this.getAllPublishRates(type)
@@ -1594,7 +1583,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
    * @memberof GroundTransportComponent
    */
   paging(type, event) {
-    console.log(event);
     this.pageNo = event;
     this.getAllPublishRates(type)
   }
@@ -1621,7 +1609,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
       this.getDraftRates('ground', 'FTL')
       this.publishRates = []
     } else if (event === 'activeFCL') {
-      this.getAllPublishRates('fcl')
+      this.getAllPublishRates('FCL')
       this.getDraftRates('ground', 'FCL')
       this.publishRates = []
     }
@@ -1662,6 +1650,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
   public combinedPorts: any[] = []
   public groundPorts: any = []
   public citiesPorts: any = []
+  public serviceCities: any[] = []
 
   /**
    * FILLIN DROPDOWN DETAILS
@@ -1669,33 +1658,29 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
    * @memberof GroundTransportComponent
    */
   getDropdownsList() {
+    this._sharedService.cityList.subscribe((state: any) => {
+      if (state) {
+        this.serviceCities = state;
+      }
+    });
     this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
     loading(true)
     this._manageRateService.getPortsData('ground').subscribe((res: any) => {
       loading(false)
       this.groundPorts = res;
-      console.log(res);
       this.combinedPorts = this.allPorts.concat(this.groundPorts)
       this.combinedPorts = removeDuplicates(this.combinedPorts, 'PortID')
       localStorage.setItem('PortDetails', JSON.stringify(this.combinedPorts))
+      this.combinedPorts.forEach(e => {
+        e.title = e.PortName
+        e.id = e.PortID
+        e.imageName = e.CountryCode
+        e.type = e.PortType
+        e.code = e.PortCode
+        e.shortName = e.PortShortName
+      })
+      this.citiesPorts = this.combinedPorts.concat(this.cities)
     })
-    this._sharedService.cityList.subscribe((state: any) => {
-      if (state) {
-        console.log(state);
-        this.cities = state;
-        this.combinedPorts.forEach(e => {
-          e.title = e.PortName
-          e.id = e.PortID
-          e.imageName = e.CountryCode
-          e.type = e.PortType
-          e.code = e.PortCode
-          e.shortName = e.PortShortName
-        })
-        this.citiesPorts = this.combinedPorts.concat(this.cities)
-        console.log(this.citiesPorts);
-      }
-    });
-
     this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
     this.allContainersType = this.combinedContainers.filter(e => e.ContainerFor === 'FTL' && e.ShippingCatName === 'Goods')
   }

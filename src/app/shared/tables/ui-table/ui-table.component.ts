@@ -169,7 +169,6 @@ export class UiTableComponent implements OnInit, OnChanges {
 
   public checkList = [];
   onCheck(type, model) {
-    console.log(type, model);
     if (type === 'all') {
       if (this.tableType === 'draftFCL') {
         this.checkAllDrafts = !this.checkAllDrafts
@@ -177,7 +176,6 @@ export class UiTableComponent implements OnInit, OnChanges {
           this.data.forEach(e => {
             if (!this.validateRow(e)) {
               e.isChecked = true
-              console.log(this.containerLoad);
               if (this.containerLoad === 'FCL' && this.transMode === 'SEA') {
                 this.checkList.push(e.providerPricingDraftID)
               } else if (this.containerLoad === 'LCL' && this.transMode === 'SEA') {
@@ -233,7 +231,6 @@ export class UiTableComponent implements OnInit, OnChanges {
   }
 
   draftAction(row, action) {
-    console.log(row, action);
     if (this.tableType === 'publishFCL')
       return;
 
@@ -265,7 +262,6 @@ export class UiTableComponent implements OnInit, OnChanges {
       return;
     let obj = {}
     if (action === 'history') {
-      console.log(row);
       obj = {
         type: 'history',
         id: ((this.transMode === 'GROUND') ? row.id : ((this.transMode === 'SEA' && this.containerLoad === 'FCL') ? row.carrierPricingID : row.consolidatorPricingID)),
@@ -357,7 +353,6 @@ export class UiTableComponent implements OnInit, OnChanges {
     }
 
     if (changes.tableData) {
-      console.log(changes.tableData);
       this.data = changeCase(changes.tableData.currentValue, 'camel')
       this.checkAllPublish = false;
       this.data.forEach(e => {
@@ -380,9 +375,9 @@ export class UiTableComponent implements OnInit, OnChanges {
           e.dateDiff = null
         }
       })
-      if (!changes.tableData.previousValue || !changes.tableData.currentValue || !changes.tableData.currentValue.length || !changes.tableData.previousValue.length) {
-        this.onPageChangeBootstrap(1)
-      }
+      // if (!changes.tableData.previousValue || !changes.tableData.currentValue || !changes.tableData.currentValue.length || !changes.tableData.previousValue.length) {
+      //   this.onPageChangeBootstrap(1)
+      // }
     }
     this.checkList = []
   }

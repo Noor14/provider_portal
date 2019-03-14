@@ -4,10 +4,10 @@ export let baseApi;
 export let baseExternalAssets;
 if (environment.qa) {
     // QA URL
-    // baseApi = "http://10.20.1.13:8091/api/";
-    // baseExternalAssets = "http://10.20.1.13:8091";
-    baseApi = "http://10.20.1.13:7091/api/";
-    baseExternalAssets = "http://10.20.1.13:7091";
+    baseApi = "http://10.20.1.13:8091/api/";
+    baseExternalAssets = "http://10.20.1.13:8091";
+    // baseApi = "http://10.20.1.13:7091/api/";
+    // baseExternalAssets = "http://10.20.1.13:7091";
 
 }
 else if (environment.pers) {
