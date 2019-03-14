@@ -21,7 +21,7 @@
                     <div class="form-group">
                       <label>Listing Name</label>
                       <input type="text" (keypress)="oneSpaceHandler($event)" [ngClass]="{'inputError': whNameError && generalForm.controls['whName'].errors}"
-                      (focusout)="errorValidate()" (focus)="whNameError=false" maxlength="100" class="form-control" formControlName="whName">
+                      (focusout)="errorValidate()" (focus)="whNameError=false" maxlength="100" class="form-control" formControlName="whName" placeholder="Provide a meaningful listing name. e.g. Country - Location.">
                       <span *ngIf="whNameError">
                       <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whName'].hasError('required') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">{{requiredFields}}</p>
                       <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whName'].hasError('pattern') && generalForm.controls['whName'].hasError('minlength') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">
@@ -37,7 +37,7 @@
                       <textarea formControlName="whDetail" (keypress)="oneSpaceHandler($event)" cols="30" rows="4"
                         class="form-control" [ngClass]="{'inputError': whDetailError && generalForm.controls['whDetail'].errors}"
                         (focusout)="errorValidate()" (focus)="whDetailError=false"
-                        placeholder="provide details about the properties you are listing">
+                        placeholder="Provide details about the property you are listing.">
                       </textarea>
                       <span *ngIf="whDetailError">
                         <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whDetail'].hasError('required') && (generalForm.controls.whDetail.dirty || generalForm.controls.whDetail.touched)">{{requiredFields}}</p>
@@ -105,7 +105,7 @@
                               'inputError': cityError && locationForm.controls['city'].errors
                                 }"
                               maxlength="100" formControlName="city" (focusout)="errorValidate()" (focus)="cityError=false" [ngbTypeahead]="searchCity" [resultTemplate]="st"
-                              [inputFormatter]="formatterCity">
+                              [inputFormatter]="formatterCity" placeholder="Enter City">
                             <ng-template #st let-r="result">
                               <div class="flag-container mr-1">
                                 <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}">
@@ -134,7 +134,7 @@
                               'inputError': addressError && locationForm.controls['address'].errors
                               }"
                             (focusout)="errorValidate()" (focus)="addressError=false"
-                            placeholder="Enter at a minimum, the street and town where the property is located"></textarea>
+                            placeholder="Enter at a minimum, the street and town where the property is located."></textarea>
                           <span  *ngIf="addressError">
                             <p class="inputError animated fadeIn" *ngIf="locationForm.controls['address'].hasError('required') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">{{requiredFields}}</p>
                             <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['address'].hasError('pattern') && locationForm.controls['address'].hasError('minlength') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">Address
