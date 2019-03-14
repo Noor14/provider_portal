@@ -67,6 +67,20 @@ export class WarehouseListComponent implements OnInit {
               }
               if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {
                 obj.WHGallery = JSON.parse(obj.WHGallery);
+                this.allWareHouseList.forEach((obj) => {
+                  const albumArr = []
+                  obj.WHGallery.forEach((elem) => {
+                    const album = {
+                      src: baseExternalAssets + elem.DocumentFile,
+                      caption: elem.DocumentFileName,
+                      thumb: baseExternalAssets + elem.DocumentFile,
+                      DocumentUploadedFileType: elem.DocumentUploadedFileType
+                    };
+                    albumArr.push(album);
+                    obj.parsedGallery = albumArr;
+                  })
+
+                })
               }
             })
           }
