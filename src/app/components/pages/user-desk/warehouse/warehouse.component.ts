@@ -142,8 +142,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     });
 
     this.commissionForm = new FormGroup({
-      commissionCurrency: new FormControl(null, [Validators.required]),
-      commissionValue: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(1), Validators.pattern(/^[0-9]*$/)]),
+      commissionCurrency: new FormControl(null, [warehouseValidatorCommissionCurr.bind(this)]),
+      commissionValue: new FormControl(null, [warehouseValidatorCommissionVal.bind(this)]),
       percentValue: new FormControl(null, [warehouseValidatorCommission.bind(this)]),
     });
     this._sharedService.currencyList.subscribe((state: any) => {
@@ -631,6 +631,56 @@ export function warehouseValidatorCommission(control: AbstractControl) {
         }
       }
 
+    }
+    else {
+      return false;
+    }
+  }
+};
+export function warehouseValidatorCommissionVal(control: AbstractControl) {
+  if (this.isRealEstate) {
+    let regexp: RegExp = /^[0-9]*$/;
+    if (!control.value) {
+      return {
+        required: true
+      }
+    }
+    // else if (control.value.length < 1 && control.value) {
+    //   if (!regexp.test(control.value)) {
+    //     return {
+    //       pattern: true
+    //     }
+    //   }
+    //   else {
+    //     return {
+    //       minlength: true
+    //     }
+    //   }
+    // }
+    else if (control.value.length > 5 && control.value) {
+      if (!regexp.test(control.value)) {
+        return {
+          pattern: true
+        }
+      }
+      else {
+        return {
+          maxlength: true
+        }
+      }
+
+    }
+    else {
+      return false;
+    }
+  }
+};
+export function warehouseValidatorCommissionCurr(control: AbstractControl) {
+  if (this.isRealEstate) {
+    if (!control.value) {
+      return {
+        required: true
+      }
     }
     else {
       return false;
