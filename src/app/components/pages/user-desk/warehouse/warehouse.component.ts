@@ -163,9 +163,12 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
         this.cityList = state;
+        let countryBound = this.cityList.find(obj => obj.desc[0].CountryID == this.userProfile.CountryID).desc[0].CountryCode;
+        this.getplacemapLoc(countryBound);
+
       }
     })
-    this.getplacemapLoc();
+
   }
   ngOnDestroy() {
     this.paramSubscriber.unsubscribe();
@@ -207,21 +210,12 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
-
-
-
-
-
-
-
-  getplacemapLoc() {
+  getplacemapLoc(countryBound) {
     this.mapsAPILoader.load().then(() => {
       this.geoCoder = new google.maps.Geocoder;
       let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
-      // autocomplete.setComponentRestrictions(
-      //   { 'country': [countryBound] });
+      autocomplete.setComponentRestrictions(
+      { 'country': [countryBound] });
       autocomplete.addListener("place_changed", () => {
         this.ngZone.run(() => {
           //get the place result
