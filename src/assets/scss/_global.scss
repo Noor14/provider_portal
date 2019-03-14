@@ -710,6 +710,7 @@ input[type="checkbox"]:focus+label>span {
     }
     &.inputError {
       box-shadow: 0px 0px 0px 1px $danger-color !important;
+      margin-left: 1px;
     }
   } // direction RTL
   &.dir-otherLanguage {
