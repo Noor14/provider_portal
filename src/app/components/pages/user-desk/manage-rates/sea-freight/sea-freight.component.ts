@@ -198,13 +198,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
-
+    this.onTabChange('activeFCL')
     this.getAllPublishRates('fcl');
     this.allservicesBySea();
 
     // fill dropdow lists
     this.getDropdownsList()
-    this.getDraftRates('fcl')
     this.getPortsData()
     this.getContainersMapping()
 
@@ -1101,16 +1100,18 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    */
   getDropdownsList() {
     this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
-    this.seaPorts = this.allPorts.filter(e => e.PortType === 'SEA')
-    this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
-    this.fclContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FCL')
-    let uniq = {}
-    this.allCargoType = this.fclContainers.filter(obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true));
-    this._sharedService.currenciesList.subscribe(res => {
-      if (res) {
-        this.allCurrencies = res;
-      }
-    })
+    if (this.allPorts) {
+      this.seaPorts = this.allPorts.filter(e => e.PortType === 'SEA')
+      this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
+      this.fclContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FCL')
+      let uniq = {}
+      this.allCargoType = this.fclContainers.filter(obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true));
+      this._sharedService.currenciesList.subscribe(res => {
+        if (res) {
+          this.allCurrencies = res;
+        }
+      })
+    }
   }
 
   /**
@@ -1149,7 +1150,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
   getPortsData() {
     loading(true)
     this.allPorts = JSON.parse(localStorage.getItem("PortDetails"))
-    if (!this.allPorts.length) {
+    if (!this.allPorts) {
       this._manageRatesService.getPortsData().subscribe((res: any) => {
         loading(false)
         this.allPorts = res;
@@ -1169,7 +1170,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
   getContainersMapping() {
     loading(true)
     this.allContainers = JSON.parse(localStorage.getItem('containers'))
-    if (!this.allContainers.length) {
+    if (!this.allContainers) {
       this._manageRatesService.getContainersMapping().subscribe((res: any) => {
         loading(false)
         this.allContainers = res.returnObject;
