@@ -95,7 +95,7 @@ export class WarehouseListComponent implements OnInit {
   }
 
   openGallery(albumArr, index): void {
-    this._lightbox.open(albumArr, index);
+    this._lightbox.open(albumArr, index, {disableScrolling: true, centerVertically: true, alwaysShowNavOnTouchDevices: true });
   }
 
   closeLightBox(): void {
