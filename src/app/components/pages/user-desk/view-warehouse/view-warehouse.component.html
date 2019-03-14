@@ -9,15 +9,15 @@
         <div class="card-body">
           <div class="row mt-1">
             <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12">
-              <div *ngFor="let doc of wareHouse.WHGallery; let i = index" (click)="openGallery(wareHouse.WHGallery, i)">
+              <div *ngFor="let doc of wareHouse.parsedGallery; let i = index" (click)="openGallery(wareHouse.parsedGallery, i)">
                 <div class="gallery-section" *ngIf="i == 0">
                   <div class="images-carousel">
-                    <img [src]="baseExternalAssets + doc.DocumentFile" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
+                  <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
                     <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
-                      <source [src]="baseExternalAssets + doc.DocumentFile" type="video/mp4" />
+                      <source [src]="doc.DocumentFile" type="video/mp4" />
                     </video>
                     <div class="gallery-section-item d-flex justify-content-center align-items-center">
-                      <img src="../../../assets/images/icons/icon_pictures.svg" alt="" class="icon-size-14 mr-1" />
+                      <img src="../../../assets/images/icons/icon_pictures.svg" alt="count" class="icon-size-14 mr-1" />
                       {{ wareHouse.WHGallery.length }}
                     </div>
                   </div>

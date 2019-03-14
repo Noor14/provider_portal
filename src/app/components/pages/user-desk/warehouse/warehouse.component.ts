@@ -346,9 +346,10 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       if (res && res.length) {
         this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM')
         this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM');
+        let object = this.units.find(obj => obj.codeVal == 'SQFT');
         this.propertyDetailForm.patchValue({
-          warehouseSpaceUnit: this.units[0].codeValDesc,
-          ceilingUnit: this.units[0].codeValDesc,
+          warehouseSpaceUnit: object.codeValDesc,
+          ceilingUnit: object.codeValDesc,
         });
       }
     }, (err: HttpErrorResponse) => {

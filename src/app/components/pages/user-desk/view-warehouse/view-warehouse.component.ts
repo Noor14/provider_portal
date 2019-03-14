@@ -59,6 +59,17 @@ export class ViewWarehouseComponent implements OnInit, OnDestroy {
               else if (this.wareHouse.hasOwnProperty(key) && key == 'WHGallery') {
                 if (this.wareHouse[key] && this.wareHouse[key] != "[]" && isJSON(this.wareHouse[key])) {
                   this.wareHouse[key] = JSON.parse(this.wareHouse[key]);
+                    const albumArr = []
+                    this.wareHouse[key].forEach((elem) => {
+                      const album = {
+                        src: baseExternalAssets + elem.DocumentFile,
+                        caption: elem.DocumentFileName,
+                        thumb: baseExternalAssets + elem.DocumentFile,
+                        DocumentUploadedFileType: elem.DocumentUploadedFileType
+                      };
+                      albumArr.push(album);
+                    })
+                  this.wareHouse['parsedGallery'] = albumArr;
                 }
               }
 
@@ -73,7 +84,7 @@ export class ViewWarehouseComponent implements OnInit, OnDestroy {
     })
   }
   openGallery(albumArr, index): void {
-    this._lightbox.open(albumArr, index);
+    this._lightbox.open(albumArr, index, { disableScrolling: true, centerVertically: true, alwaysShowNavOnTouchDevices: true });
   }
   closeLightBox(): void {
     this._lightbox.close();
