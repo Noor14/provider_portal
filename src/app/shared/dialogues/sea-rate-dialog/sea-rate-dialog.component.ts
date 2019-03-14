@@ -153,18 +153,21 @@ export class SeaRateDialogComponent implements OnInit {
     if (this.selectedData.mode === 'draft') {
       if (this.selectedData.data && this.selectedData.data.JsonSurchargeDet) {
         this.setEditData(this.selectedData.mode)
+      } else {
+        this.destinationsList = this.selectedData.addList
+        this.originsList = this.selectedData.addList
       }
     } else if (this.selectedData.mode === 'publish') {
       if (this.selectedData.data && this.selectedData.data[0].jsonSurchargeDet) {
         this.setEditData(this.selectedData.mode)
+      } else {
+        this.destinationsList = this.selectedData.addList
+        this.originsList = this.selectedData.addList
       }
     }
 
-
-
     this.allCustomers = this.selectedData.customers
-    this.destinationsList = this.selectedData.addList
-    this.originsList = this.selectedData.addList
+
     this.getSurchargeBasis(this.containerLoadParam)
 
   }
@@ -807,7 +810,7 @@ export class SeaRateDialogComponent implements OnInit {
         selectedOrigins.push(model)
       }
       this.selectedOrigins = cloneObject(selectedOrigins)
-      this.originsList = this.originsList.filter(e => e.addChrID !== model.addChrID)
+      this.originsList = this.originsList.filter(e => e.addChrID && (e.addChrID !== model.addChrID))
     } else if (type === 'IMPORT') {
       if ((Object.keys(this.selectedDestinations[index]).length === 0 && this.selectedDestinations[index].constructor === Object) || !this.selectedDestinations[index].hasOwnProperty('currency')) {
         model.CurrId = this.selectedCurrency.id
@@ -830,7 +833,7 @@ export class SeaRateDialogComponent implements OnInit {
         selectedDestinations.push(model)
       }
       this.selectedDestinations = cloneObject(selectedDestinations)
-      this.destinationsList = this.destinationsList.filter(e => e.addChrID !== model.addChrID)
+      this.destinationsList = this.destinationsList.filter(e => e.addChrID && (e.addChrID !== model.addChrID))
     }
   }
 
@@ -894,21 +897,7 @@ export class SeaRateDialogComponent implements OnInit {
       parsedJsonSurchargeDet = JSON.parse(this.selectedData.data.JsonSurchargeDet)
     }
     this.destinationsList = cloneObject(this.selectedData.addList)
-    this.selectedData.addList.forEach(element => {
-      this.destinationsList.forEach(e => {
-        if (e.addChrID === element.addChrID) {
-          let idx = this.destinationsList.indexOf(e)
-          this.destinationsList.splice(1, idx)
-        }
-      })
-      // this.originsList.forEach(e => {
-      //   if (e.addChrID === element.addChrID) {
-      //     let idx = this.originsList.indexOf(e)
-      //     this.originsList.splice(1, idx)
-      //   }
-      // })
-    });
-    console.log(this.destinationsList);
+    this.originsList = cloneObject(this.selectedData.addList)
     this.selectedOrigins = parsedJsonSurchargeDet.filter((e) => e.Imp_Exp === 'EXPORT')
     if (!this.selectedOrigins.length) {
       this.selectedOrigins = [{}]
@@ -916,6 +905,27 @@ export class SeaRateDialogComponent implements OnInit {
     this.selectedDestinations = parsedJsonSurchargeDet.filter((e) => e.Imp_Exp === 'IMPORT')
     if (!this.selectedDestinations.length) {
       this.selectedDestinations = [{}]
+    }
+    if (this.selectedDestinations.length) {
+      this.selectedDestinations.forEach(element => {
+        this.destinationsList.forEach(e => {
+          if (e.addChrID === element.addChrID) {
+            let idx = this.destinationsList.indexOf(e)
+            this.destinationsList.splice(idx, 1)
+          }
+        })
+      });
+    }
+
+    if (this.selectedOrigins.length) {
+      this.selectedOrigins.forEach(element => {
+        this.originsList.forEach(e => {
+          if (e.addChrID === element.addChrID) {
+            let idx = this.originsList.indexOf(e)
+            this.originsList.splice(idx, 1)
+          }
+        })
+      });
     }
   }
 
@@ -1054,24 +1064,13 @@ export class SeaRateDialogComponent implements OnInit {
    * @memberof SeaFreightComponent
    */
   getDropdownsList() {
-    // this._sharedService.cityList.subscribe((state: any) => {
-    //   if (state) {
-    //     console.log(state);
-
-    //     this.cities = state;
-    //   }
-    // });
-    console.log(this.selectedData);
     this.transPortMode = 'SEA'
-    console.log(this.allPorts);
     this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
-    // this.allPorts = removeDuplicates(this.allPorts, 'PortID')
     this.seaPorts = this.allPorts.filter(e => e.PortType === 'SEA')
     this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
     this.fclContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FCL')
     let uniq = {}
     this.allCargoType = this.fclContainers.filter(obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true));
-    console.log(this.allCargoType)
     if (this.selectedData.forType === 'FCL-Ground' || this.selectedData.forType === 'FTL') {
       this.transPortMode = 'GROUND'
       let selectedCategory = this.allCargoType.find(obj => obj.ShippingCatName.toLowerCase() == 'goods');
@@ -1168,12 +1167,6 @@ export class SeaRateDialogComponent implements OnInit {
     }
   }
 
-
-  onCityKeyUp(obj) {
-    console.log(obj);
-  }
-
-
   //Ground areas formatter and observer
   public groundPorts = []
   addresses = (text$: Observable<string>) =>
@@ -1236,7 +1229,6 @@ export class SeaRateDialogComponent implements OnInit {
       if (fclContainers.length) {
         this.priceBasis = fclContainers[0].PriceBasis
       }
-      console.log(fclContainers);
     }
   }
 
@@ -1259,17 +1251,36 @@ export class SeaRateDialogComponent implements OnInit {
     );
   }
 
+
+  /**
+   *
+   * Removed added additional charges
+   * @param {string} type origin/destination
+   * @param {object} obj
+   * @memberof SeaRateDialogComponent
+   */
   removeAdditionalCharge(type, obj) {
-    console.log(type);
-    console.log(obj);
-    // if (type === 'origin') {
-    //   this.selectedOrigins.forEach(element => {
-    //     if (element.addChrID === obj.addChrID) {
-    //       let idx = this.selectedOrigins.indexOf(element)
-    //       this.selectedOrigins.splice(element, 1, {})
-    //     }
-    //   });
-    // }
+    if (type === 'origin' && this.selectedOrigins.length > 1) {
+      this.selectedOrigins.forEach(element => {
+        if (element.addChrID === obj.addChrID) {
+          let idx = this.selectedOrigins.indexOf(element)
+          this.selectedOrigins.splice(idx, 1)
+          if (element.addChrID) {
+            this.originsList.push(element)
+          }
+        }
+      });
+    } else if (type === 'destination' && this.selectedDestinations.length > 1) {
+      this.selectedDestinations.forEach(element => {
+        if (element.addChrID === obj.addChrID) {
+          let idx = this.selectedDestinations.indexOf(element)
+          this.selectedDestinations.splice(idx, 1)
+          if (element.addChrID) {
+            this.destinationsList.push(element)
+          }
+        }
+      });
+    }
   }
 
 

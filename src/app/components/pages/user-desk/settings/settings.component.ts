@@ -446,14 +446,14 @@ export class SettingsComponent implements OnInit {
       this.selectPhoneCode(selectedCountry);
     }
     else {
-      let selectedCountry = this.countryList.find(obj => obj.id == info.CountryID);
+      selectedCountry = this.countryList.find(obj => obj.id == info.CountryID);
       if (selectedCountry && Object.keys(selectedCountry).length) {
         this.selectPhoneCode(selectedCountry);
       }
     }
     if (selectedCountry && typeof selectedCountry == 'object' && Object.keys(selectedCountry).length) {
       let description = selectedCountry.desc;
-      info.PrimaryPhone = info.PrimaryPhone.replace(description[0].CountryPhoneCode, "")
+      info.PrimaryPhone = info.PrimaryPhone.replace(description[0].CountryPhoneCode, "");
     }
     this.personalInfoForm.controls['mobile'].setValue(info.PrimaryPhone);
     this.personalInfoToggler = false;
@@ -483,14 +483,14 @@ export class SettingsComponent implements OnInit {
       this.selectTelCode(selectedCountry);
     }
     else {
-      let selectedCountry = this.countryList.find(obj => obj.id == info.CountryID);
+      selectedCountry = this.countryList.find(obj => obj.id == info.CountryID);
       if (selectedCountry && Object.keys(selectedCountry).length) {
         this.selectTelCode(selectedCountry);
       }
     }
     if (selectedCountry && typeof selectedCountry == 'object' && Object.keys(selectedCountry).length) {
       let description = selectedCountry.desc;
-      info.ProviderPhone = info.ProviderPhone.replace(description[0].CountryPhoneCode, "")
+      info.ProviderPhone = info.ProviderPhone.replace(description[0].CountryPhoneCode, "");
     }
     this.businessInfoForm.controls['phone'].setValue(info.ProviderPhone);
     if (info.SocialMediaAccountID && info.ProviderWebAdd) {
@@ -1035,6 +1035,11 @@ export class SettingsComponent implements OnInit {
       if (res.returnStatus == "Success") {
         this._toastr.success('Personal Information Updated', '')
         this.personalInfoToggler = false;
+        let userObj = JSON.parse(localStorage.getItem('userInfo'));
+        let userData = JSON.parse(userObj.returnText);
+        userData.CurrencyID = this.personalInfoForm.value.currency.id;
+        userObj.returnText = JSON.stringify(userData);
+        localStorage.setItem('userInfo', JSON.stringify(userObj));
       }
     })
   }

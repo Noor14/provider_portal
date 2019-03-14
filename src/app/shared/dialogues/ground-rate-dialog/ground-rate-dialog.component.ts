@@ -130,13 +130,9 @@ export class GroundRateDialogComponent implements OnInit {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
     this.allservicesBySea();
-
     this.allCustomers = this.selectedData.customers
     this.destinationsList = this.selectedData.addList
     this.originsList = this.selectedData.addList
-    // this.getSurchargeBasis(this.selectedData.forType)
-    console.log(this.selectedData);
-
   }
 
 

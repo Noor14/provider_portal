@@ -189,7 +189,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
   }
 
   clearFilter(event) {
-    console.log(event);
     event.preventDefault();
     event.stopPropagation();
     this.model = null;
@@ -1537,7 +1536,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
    * @memberof GroundTransportComponent
    */
   tableCheckedRows(event) {
-    console.log(event);
     if (event.type === 'publishFCL') {
       if (typeof event.list[0] === 'object') {
         if (event.list[0].type === 'history') {

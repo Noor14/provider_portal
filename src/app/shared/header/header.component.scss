@@ -117,6 +117,10 @@ header {
           }
         }
       }
+
+      &:active {
+        background-color: #f8f9fa;
+      }
     }
 
     &:before {

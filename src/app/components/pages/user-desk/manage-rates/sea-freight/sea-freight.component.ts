@@ -311,8 +311,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
     });
     modalRef.result.then((result) => {
       if (result) {
-        console.log(result);
-
         if (type == 'FCL') {
           // loading(true)
           this.setAddDraftData(type, result);
@@ -326,7 +324,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
       }
     });
     modalRef.componentInstance.savedRow.subscribe((emmitedValue) => {
-      console.log(emmitedValue);
       this.setAddDraftData(type, emmitedValue);
       this.getDraftRates(type.toLowerCase())
     });
@@ -1190,7 +1187,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    * @memberof SeaFreightComponent
    */
   tableCheckedRows(event) {
-    console.log(event);
     if (event.type === 'publishFCL') {
       if (typeof event.list[0] === 'object') {
         if (event.list[0].type === 'history') {
@@ -1262,8 +1258,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    * @memberof SeaFreightComponent
    */
   onTabChange(event) {
-    console.log(event);
-
     if (event === 'activeLCL') {
       this.getAllPublishRates('lcl')
       this.getDraftRates('lcl')

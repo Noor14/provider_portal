@@ -6,10 +6,7 @@ interface Scripts {
   src: string;
 }
 
-export const ScriptStore: Scripts[] = [
-  { name: 'paytabjs', src: 'https://www.paytabs.com/express/express_checkout_v3.js' },
-  { name: 'random-gen', src: '../../../assets/js/random-num-generator.js' }
-];
+export const ScriptStore: Scripts = { name: 'paytabjs', src: 'https://www.paytabs.com/express/express_checkout_v3.js' };
 
 declare var document: any;
 
@@ -17,21 +14,14 @@ declare var document: any;
 export class DynamicScriptLoaderService {
   private scripts: any = {};
   constructor() {
-    ScriptStore.forEach((script: any) => {
-      this.scripts[script.name] = {
+      this.scripts[ScriptStore.name] = {
         loaded: false,
-        src: script.src
+        src: ScriptStore.src
       };
-    });
   }
-  load(scripts: string[]) {
-    const promises: any[] = [];
-    scripts.forEach((script) => promises.push(this.loadScript(script)));
-    return Promise.all(promises);
-  }
-
-  loadScript(name: string) {
+  loadScript() {
     return new Promise((resolve, reject) => {
+      let name:string = "paytabjs";
       if (!this.scripts[name].loaded) {
         //load script
         let script = document.createElement('script');

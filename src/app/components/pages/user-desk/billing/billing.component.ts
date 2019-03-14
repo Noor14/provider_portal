@@ -15,7 +15,8 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { BillingService } from './billing.service';
 import { DynamicScriptLoaderService } from '../../../../services/dynamic-script-loader.service';
-
+import { readyForPayment } from '../../../../constants/globalFunctions';
+import { paymentObj } from '../../../../interfaces/payment.interface';
 @Component({
   selector: 'app-billing',
   templateUrl: './billing.component.html',
@@ -280,6 +281,10 @@ export class BillingComponent implements OnInit, OnDestroy {
   public userCurrencyCode: string = ''
 
 
+  // payment Btn
+
+  public paymentBtnDisabled:boolean = false;
+
   constructor(
     private _billingService: BillingService,
     private _dashboardService: DashboardService,
@@ -295,7 +300,6 @@ export class BillingComponent implements OnInit, OnDestroy {
   async ngOnInit() {
 
     // (HassanSJ) work start
-    this.loadScripts();
 
     this._commonService.getMstCodeVal('BILLING_STATUS').subscribe((res: any) => {
       this.billingStatusList = res
@@ -334,11 +338,25 @@ export class BillingComponent implements OnInit, OnDestroy {
   }
   private loadScripts() {
     // You can load multiple scripts by just providing the key as argument into load method of the service
-    this._dynamicScriptLoader.load(['paytabjs','random-num']).then(data => {
+    this._dynamicScriptLoader.loadScript().then((data:any) => {
       // Script Loaded Successfully
-      // console.log(data)
+      if (data && data.loaded){
+        let obj: paymentObj = {
+          currency: this.userCurrencyCode,
+          dueAmount: this.providerBillingDashboard.paymentDueTile.amount,
+          firstName: this.userProfile.FirstNameBL,
+          lastName: this.userProfile.LastNameBL,
+          shipmentId: 25,
+        }
+        readyForPayment(obj);
+      }
+      else{
+        this.paymentBtnDisabled = true;
+      }
+  
     }).catch(error => console.log(error));
   }
+
   private async setBillingConfig() {
     try {
       this.setBillingDashboardData();
@@ -569,7 +587,13 @@ export class BillingComponent implements OnInit, OnDestroy {
     const newPaymentAmount = this._currencyControl.getNewPrice(paymentDueTile.amount, exchangeRate.rate)
     this.providerBillingDashboard.paymentDueTile.amount = newPaymentAmount
     const newTotalBilledAmount = this._currencyControl.getNewPrice(totalBillingTile.amount, exchangeRate.rate)
-    this.providerBillingDashboard.totalBillingTile.amount = newTotalBilledAmount
+    this.providerBillingDashboard.totalBillingTile.amount = newTotalBilledAmount;
+    if(paymentDueTile.amount){
+      this.loadScripts();
+    }else{
+      this.paymentBtnDisabled = true;
+    }
+    
   }
 
   ngOnDestroy() {
@@ -620,3 +644,4 @@ export const compareValues = (key: string, order = 'asc') => {
     );
   };
 }
+
