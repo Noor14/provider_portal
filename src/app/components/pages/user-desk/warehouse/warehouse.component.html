@@ -20,13 +20,35 @@
                   <form autocomplete="off" novalidate [formGroup]="generalForm">
                     <div class="form-group">
                       <label>Listing Name</label>
-                      <input type="text" (keypress)="oneSpaceHandler($event)" maxlength="100" class="form-control"
-                        formControlName="whName">
+                      <input type="text" (keypress)="oneSpaceHandler($event)" [ngClass]="{'inputError': whNameError && generalForm.controls['whName'].errors}"
+                      (focusout)="errorValidate()" (focus)="whNameError=false" maxlength="100" class="form-control" formControlName="whName">
+                      <span *ngIf="whNameError">
+                      <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whName'].hasError('required') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">{{requiredFields}}</p>
+                      <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whName'].hasError('pattern') && generalForm.controls['whName'].hasError('minlength') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">
+                        Warehouse name should be minimum 5 characters</p>
+                     <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whName'].hasError('pattern') && generalForm.controls['whName'].hasError('maxlength') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">
+                      Warehouse name should not exceed from 100 characters</p>
+                      <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whName'].hasError('pattern') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">
+                        Please enter valid information</p>
+                    </span>
                     </div>
                     <div class="form-group">
                       <label>Property Description</label>
                       <textarea formControlName="whDetail" (keypress)="oneSpaceHandler($event)" cols="30" rows="4"
-                        class="form-control" placeholder="provide details about the properties you are listing"></textarea>
+                        class="form-control" [ngClass]="{'inputError': whDetailError && generalForm.controls['whDetail'].errors}"
+                        (focusout)="errorValidate()" (focus)="whDetailError=false"
+                        placeholder="provide details about the properties you are listing">
+                      </textarea>
+                      <span *ngIf="whDetailError">
+                        <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whDetail'].hasError('required') && (generalForm.controls.whDetail.dirty || generalForm.controls.whDetail.touched)">{{requiredFields}}</p>
+                        <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whDetail'].hasError('pattern') && generalForm.controls['whDetail'].hasError('minlength') && (generalForm.controls.whDetail.dirty || generalForm.controls.whDetail.touched)">
+                          Warehouse detail should be minimum 10 characters</p>
+                        <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whDetail'].hasError('pattern') && generalForm.controls['whDetail'].hasError('maxlength') && (generalForm.controls.whDetail.dirty || generalForm.controls.whDetail.touched)">
+                        Warehouse detail should not exceed from 1000 characters</p>
+                        <!-- <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whDetail'].hasError('pattern') && (generalForm.controls.whDetail.dirty || generalForm.controls.whDetail.touched)">
+                          Please enter valid information
+                        </p> -->
+                      </span>
                     </div>
                   </form>
                 </div>
@@ -59,31 +81,6 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="row">
-                      <div class="col-12">
-                        <h5 class="small-head mt-3">Property Description</h5>
-                        <p class="sub-title sub-heading mb-0">You may add upto 1 video and 4 photos.</p>
-                        <div class="documentInfo d-flex flex-column mt-3">
-                          <div class="file-uploader">
-                            <img src="../../../assets/images/icons/manager-icon.png">
-                            <p class="m-0 pt-3"> Drag here or
-                              <span class="browse-span">browse</span> to upload</p>
-                            <small class="drag-support"> (supported types: pdf, jpeg, png, Maximum size per document: 4 MB) </small>
-                          </div>
-                        </div>
-                        <div class="row uploadedDocx">
-                          <div class="col-lg-3 ">
-                            <div class="display-upload delete pb-3">
-                              <video class="animated fadeIn" controls>
-          
-                                <source src="" type="video/mp4">
-                              </video>
-                              <img src="../../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon">
-                            </div>
-                          </div>
-                        </div>
-                </div>
-                </div> -->
               <div class="row ">
                 <div class="col-12">
                   <h5 class="mt-5">Property Location</h5>
@@ -102,8 +99,12 @@
                                 src="{{'../../../../../assets/images/flags/4x3/' + (locationForm.controls['city'].value.imageName | lowercase) + '.svg'}}"
                                 type="image/svg+xml">
                             </div>
-                            <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" [ngClass]="{'routeSelected': locationForm.value.city && locationForm.value.city.title && locationForm.value.city.id}"
-                              maxlength="100" formControlName="city" [ngbTypeahead]="searchCity" [resultTemplate]="st"
+                            <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" 
+                            [ngClass]="{
+                              'routeSelected': locationForm.value.city && locationForm.value.city.id,
+                              'inputError': cityError && locationForm.controls['city'].errors
+                                }"
+                              maxlength="100" formControlName="city" (focusout)="errorValidate()" (focus)="cityError=false" [ngbTypeahead]="searchCity" [resultTemplate]="st"
                               [inputFormatter]="formatterCity">
                             <ng-template #st let-r="result">
                               <div class="flag-container mr-1">
@@ -112,48 +113,54 @@
                               <ngb-highlight [result]="r.title"></ngb-highlight>
                             </ng-template>
                           </div>
-                          <!-- <input type="text" formControlName="city" maxlength="100" class="form-control" placeholder="Enter City" #searchElement> -->
-                          <!-- <span class="animated fadeIn" *ngIf="cityError">
-                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">{{requiredFields}}</p>
-                                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
-                                        should be minimum 3 characters</p>
-                                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('maxlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
-                                        should not exceed from 100 characters</p>
-                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('pattern') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">Please
-                                        enter valid information</p>
-                                    </span>
-                             <p class="inputError animated fadeIn" *ngIf="citySelError">City should be select from dropdown</p> -->
+                          <span *ngIf="cityError">
+                            <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">{{requiredFields}}</p>
+                            <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
+                              should be minimum 3 characters</p>
+                            <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('maxlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
+                              should not exceed from 100 characters</p>
+                            <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('pattern') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">Please
+                              enter valid information</p>
+                          </span>
+                            <!--  <p class="inputError animated fadeIn" *ngIf="citySelError">City should be select from dropdown</p> -->
                         </div>
                       </div>
                       <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="form-group">
                           <label>Address </label>
                           <textarea cols="30" rows="3" #searchElement (keypress)="oneSpaceHandler($event)"
-                            formControlName="address" class="form-control" placeholder="Enter at a minimum, the street and town where the property is located"></textarea>
-                          <!-- <input type="text" maxlength="200" class="form-control" placeholder="Address line 1"> -->
-                          <!-- <span class="animated fadeIn" *ngIf="addressline1Error">
-                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline1'].hasError('required') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">{{requiredFields}}</p>
-                                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline1'].hasError('pattern') && locationForm.controls['addressline1'].hasError('minlength') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">Address
-                                        should be minimum 10 characters</p>
-                                      <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['addressline1'].hasError('pattern') && locationForm.controls['addressline1'].hasError('maxlength') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">Address
-                                        should not exceed from 200 characters</p>
-                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['addressline1'].hasError('pattern') && (locationForm.controls.addressline1.dirty || locationForm.controls.addressline1.touched)">Please
-                                        enter valid information</p>
-                                    </span> -->
+                            formControlName="address" class="form-control" 
+                              [ngClass]="{
+                              'inputError': addressError && locationForm.controls['address'].errors
+                              }"
+                            (focusout)="errorValidate()" (focus)="addressError=false"
+                            placeholder="Enter at a minimum, the street and town where the property is located"></textarea>
+                          <span  *ngIf="addressError">
+                            <p class="inputError animated fadeIn" *ngIf="locationForm.controls['address'].hasError('required') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">{{requiredFields}}</p>
+                            <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['address'].hasError('pattern') && locationForm.controls['address'].hasError('minlength') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">Address
+                              should be minimum 10 characters</p>
+                            <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['address'].hasError('pattern') && locationForm.controls['address'].hasError('maxlength') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">Address
+                              should not exceed from 200 characters</p>
+                            <p class="inputError animated fadeIn" *ngIf="locationForm.controls['address'].hasError('pattern') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">Please
+                              enter valid information</p>
+                          </span>
                         </div>
                       </div>
                       <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="form-group">
                           <label>P.O Box</label>
                           <input type="text" (keypress)="oneSpaceHandler($event)" formControlName="poBox" maxlength="16"
-                            class="form-control">
-                          <!-- <span class="animated fadeIn" *ngIf="poBoxError">
-                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('required') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">{{requiredFields}}</p>
-                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('minlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">PO
-                                        address should be minimum 4 characters</p>
-                                      <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('maxlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">PO
-                                        address should not exceed from 16 characters</p>
-                                  </span> -->
+                            class="form-control" [ngClass]="{
+                            'inputError': poBoxError && locationForm.controls['poBox'].errors
+                            }"
+                            (focusout)="errorValidate()" (focus)="poBoxError=false">
+                          <span *ngIf="poBoxError">
+                            <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('required') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">{{requiredFields}}</p>
+                            <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('minlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">
+                              PO address should be minimum 4 characters</p>
+                            <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('maxlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">
+                              PO address should not exceed from 16 characters</p>
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -181,7 +188,7 @@
                     <label>Property Type</label>
                     <div class="fancyOptionBoxes pull-left mb-3 mr-3" *ngFor="let type of warehouseUsageType; let i = index">
                       <input id="{{i+1}}" [checked]="type.IsAllowed && type.UsageTypeTitle == 'Full Warehouse'" name="warehouseType"
-                      (change)="warehouseTypeFull = !warehouseTypeFull" type="radio">
+                      (change)="changeWarehouseType()" type="radio">
                       <label for="{{i+1}}">
                         <span></span>
                         {{type.UsageTypeTitle}}
@@ -201,7 +208,12 @@
                       </label>
 
                       <div class="input-group">
-                          <input class="form-control input-dropdown" (keypress)="numberValid($event)" type="text"
+                          <input class="form-control input-dropdown" (keypress)="numberValid($event)" 
+                          [ngClass]="{
+                          'inputError': warehouseSpaceError && propertyDetailForm.controls['warehouseSpace'].errors
+                          }"
+                          (focusout)="errorValidate()" (focus)="warehouseSpaceError=false"
+                          type="text"
                           formControlName="warehouseSpace">
                         <div class="input-group-append">
                           <div class="input-group-text">
@@ -211,13 +223,15 @@
                           </div>
                         </div>
                       </div>
-                      <!-- <span class="animated fadeIn" *ngIf="whAreaError">
-                                    <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whArea'].hasError('required') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">{{requiredFields}}</p>
-                                    <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whArea'].hasError('pattern') && generalForm.controls['whArea'].hasError('minlength') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Range 100 to 1,00,000</p>
-                                    <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whArea'].hasError('pattern') && generalForm.controls['whArea'].hasError('maxlength') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Range 100 to 1,00,000</p>
-                                    <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whArea'].hasError('pattern') && (generalForm.controls.whArea.dirty || generalForm.controls.whArea.touched)">Please
-                                      enter valid information</p>
-                            </span> -->
+                      <span *ngIf="warehouseSpaceError">
+                        <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('required') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">{{requiredFields}}</p>
+                        <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('minlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">Range
+                          100 to 1,00,000</p>
+                        <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('maxlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">Range
+                          100 to 1,00,000</p>
+                        <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">Please
+                          enter valid information</p>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -228,11 +242,24 @@
                         <label>Offered Space on HashMove</label>
                         <div class="input-group">
                           <input class="form-control input-dropdown" type="text" (keypress)="numberValid($event)"
+                          [ngClass]="{
+                          'inputError': hashmoveSpaceError && propertyDetailForm.controls['hashmoveSpace'].errors
+                          }"
+                          (focusout)="errorValidate()" (focus)="hashmoveSpaceError=false"
                             formControlName="hashmoveSpace">
                           <div class="input-group-append">
                             <div class="input-group-text"><span class="pl-3 pr-3 pt-2 pb-2">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span></div>
                           </div>
                         </div>
+                        <span *ngIf="hashmoveSpaceError">
+                          <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['hashmoveSpace'].hasError('required') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">{{requiredFields}}</p>
+                          <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && propertyDetailForm.controls['hashmoveSpace'].hasError('minlength') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">Range
+                            100 to 1,00,000</p>
+                          <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && propertyDetailForm.controls['hashmoveSpace'].hasError('maxlength') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">Range
+                            100 to 1,00,000</p>
+                          <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">Please
+                            enter valid information</p>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -268,6 +295,10 @@
                       <div class="form-group">
                         <div class="input-group">
                             <input class="form-control input-dropdown" (keypress)="numberValid($event)" type="text"
+                              [ngClass]="{
+                              'inputError': minLeaseValueOneError && propertyDetailForm.controls['minLeaseValueOne'].errors
+                              }"
+                              (focusout)="errorValidate()" (focus)="minLeaseValueOneError=false"
                             formControlName="minLeaseValueOne">
                           <div class="input-group-append">
                             <div class="input-group-text">
@@ -275,12 +306,25 @@
                             </div>
                           </div>
                         </div>
+                          <span *ngIf="minLeaseValueOneError">
+                            <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['minLeaseValueOne'].hasError('required') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">{{requiredFields}}</p>
+                            <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['minLeaseValueOne'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueOne'].hasError('minlength') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">Range
+                              100 to 1,00,000</p>
+                            <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['minLeaseValueOne'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueOne'].hasError('maxlength') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">Range
+                              100 to 1,00,000</p>
+                            <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['minLeaseValueOne'].hasError('pattern') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">Please
+                              enter valid information</p>
+                          </span>
                       </div>
                     </div>
                     <div class="col-xl-3 col-md-3 col-sm-12">
                       <div class="form-group">
                         <div class="input-group">
                             <input class="form-control input-dropdown" (keypress)="numberValid($event)" type="text"
+                            [ngClass]="{
+                            'inputError': minLeaseValueTwoError && propertyDetailForm.controls['minLeaseValueTwo'].errors
+                            }"
+                            (focusout)="errorValidate()" (focus)="minLeaseValueTwoError=false"
                             formControlName="minLeaseValueTwo">
                           <div class="input-group-append">
                             <div class="input-group-text">
@@ -288,6 +332,15 @@
                             </div>
                           </div>
                         </div>
+                        <span *ngIf="minLeaseValueTwoError">
+                          <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['minLeaseValueTwo'].hasError('required') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">{{requiredFields}}</p>
+                          <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['minLeaseValueTwo'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueTwo'].hasError('minlength') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">Range
+                            100 to 1,00,000</p>
+                          <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['minLeaseValueTwo'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueTwo'].hasError('maxlength') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">Range
+                            100 to 1,00,000</p>
+                          <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['minLeaseValueTwo'].hasError('pattern') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">Please
+                            enter valid information</p>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -342,7 +395,7 @@
               <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
                 <div class="form-group">
                   <div class="fancyOptionBoxes pull-left">
-                  <input id="fixedamount" name="commison" type="radio" [checked]="fixedAmount" (change)="fixedAmount = !fixedAmount">
+                    <input id="fixedamount" name="commison" type="radio" [checked]="fixedAmount" (change)="fixedAmount = !fixedAmount; commissionForm.controls['percentValue'].reset()">
                     <label for="fixedamount">
                       <span></span>
                       Fixed Amount per booking
@@ -364,8 +417,22 @@
               <div class="col-2 animated fadeIn" *ngIf="!fixedAmount">
                 <div class="form-group mt-3">
                   <label>Per Booking</label>
-                  <input type="text" class="form-control" formControlName="percentValue" aria-label="Text input with dropdown button"
+                  <input type="text" class="form-control" formControlName="percentValue" 
+                    [ngClass]="{
+                    'inputError': percentValueError && commissionForm.controls['percentValue'].errors
+                    }"
+                    (focusout)="errorValidate()" (focus)="percentValueError=false"
+                    (keypress)="numberValid($event)"
                     placeholder="%">
+                  <span *ngIf="percentValueError">
+                    <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['percentValue'].hasError('required') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">{{requiredFields}}</p>
+                    <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('minlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">Range
+                      1 to 1,00,000</p>
+                    <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('maxlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">Range
+                      1 to 1,00,000</p>
+                    <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['percentValue'].hasError('pattern') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">Please
+                      enter valid information</p>
+                  </span>
                 </div>
               </div>
 
@@ -392,16 +459,29 @@
                                 [resultTemplate]="cur" [inputFormatter]="formatterCurrency" placeholder="eg: AED">
                               <ng-template #cur let-r="result">
                                 <div class="flag-container mr-1">
-                                  <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
-                                    class="">
+                                  <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}">
                                 </div>
                                 <ngb-highlight [result]="r.shortName"></ngb-highlight>
                               </ng-template>
                             </div>
                       </div>
                     </div>
-                    <input type="text" formControlName="commissionValue" class="form-control" aria-label="Text input with dropdown button">
+                  <input type="text" formControlName="commissionValue" class="form-control" 
+                  [ngClass]="{
+                  'inputError': commissionValueError && commissionForm.controls['commissionValue'].errors
+                  }"
+                  (focusout)="errorValidate()" (focus)="commissionValueError=false"
+                  (keypress)="numberValid($event)"  aria-label="Text input with dropdown button">
                   </div>
+                  <span *ngIf="commissionValueError">
+                    <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['commissionValue'].hasError('required') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">{{requiredFields}}</p>
+                    <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('minlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">Range
+                      1 to 1,00,000</p>
+                    <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('maxlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">Range
+                      1 to 1,00,000</p>
+                    <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['commissionValue'].hasError('pattern') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">Please
+                      enter valid information</p>
+                  </span>
                 </div>
               </div>
             </div>
@@ -409,7 +489,10 @@
           </section>
           <div class="row mt-5">
             <div class="col-12">
-                <button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 pull-right" (click)="addwareHouse()">
+                <button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 pull-right"
+                [disabled]="generalForm.invalid || !uploadedGalleries.length || locationForm.invalid ||
+                propertyDetailForm.invalid || !selectedMiniLeaseTerm || !checkedFacilities ||
+                commissionForm.invalid" (click)="addwareHouse()">
                 save & add pricing </button>
             </div>
           </div>

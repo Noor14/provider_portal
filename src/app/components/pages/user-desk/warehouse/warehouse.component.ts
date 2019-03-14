@@ -26,6 +26,9 @@ export class WarehouseComponent implements OnInit, OnDestroy {
 
   @ViewChild('stepper') public _stepper: any;
   @ViewChild('searchElement') public searchElement: any;
+
+  public requiredFields: string = "This field is required";
+
   public zoomlevel: number = 5;
   private whID: any;
   private userProfile: any
@@ -59,6 +62,24 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   public draggable: boolean = true;
 
   public geoCoder: any;
+
+
+  // form Errors
+  public whNameError: boolean= false;
+  public whDetailError: boolean= false;
+  public cityError: boolean= false;
+  public addressError: boolean= false;
+  public poBoxError: boolean= false;
+  public warehouseSpaceError:boolean= false;
+  public hashmoveSpaceError: boolean= false;
+  public minLeaseValueOneError: boolean= false;
+  public minLeaseValueTwoError: boolean= false;
+  public commissionValueError:boolean= false;
+  public percentValueError: boolean= false;
+
+
+  //facilities
+  public checkedFacilities: boolean = false;
 
 
   // gallery
@@ -103,27 +124,27 @@ export class WarehouseComponent implements OnInit, OnDestroy {
 
     this.generalForm = new FormGroup({
       whName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(5), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
-      whDetail: new FormControl(null, [Validators.required, Validators.maxLength(1000), Validators.minLength(10), Validators.pattern(/^\d+$/)]),
+      whDetail: new FormControl(null, [Validators.required, Validators.maxLength(1000), Validators.minLength(10)]),
     });
     this.locationForm = new FormGroup({
-      city: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(5)]),
-      address: new FormControl(null, [Validators.required, Validators.maxLength(1000), Validators.minLength(10), Validators.pattern(/^\d+$/)]),
-      poBox: new FormControl(null, [Validators.required, Validators.maxLength(1000), Validators.minLength(10), Validators.pattern(/^\d+$/)]),
+      city: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(5), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      poBox: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
     });
     this.propertyDetailForm = new FormGroup({
-      warehouseSpace: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(5), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
+      warehouseSpace: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(3), Validators.pattern(/^[0-9]*$/)]),
       warehouseSpaceUnit: new FormControl(null, [Validators.required]),
-      hashmoveSpace: new FormControl(null, [warehouseValidator.bind(this), Validators.maxLength(4), Validators.minLength(1)]),
-      ceilingHeight: new FormControl(null, [warehouseValidator.bind(this)]),
-      ceilingUnit: new FormControl(null, [warehouseValidator.bind(this)]),
-      minLeaseValueOne: new FormControl(null, [warehouseValidator.bind(this), Validators.maxLength(4), Validators.minLength(1)]),
-      minLeaseValueTwo: new FormControl(null, [warehouseValidator.bind(this), Validators.maxLength(4), Validators.minLength(1)]),
+      hashmoveSpace: new FormControl(null, [warehouseValidator.bind(this)]),
+      ceilingHeight: new FormControl(null),
+      ceilingUnit: new FormControl(null),
+      minLeaseValueOne: new FormControl(null, [warehouseValidator.bind(this)]),
+      minLeaseValueTwo: new FormControl(null, [warehouseValidator.bind(this)]),
     });
 
     this.commissionForm = new FormGroup({
-      commissionCurrency: new FormControl(null, [Validators.maxLength(5)]),
-      commissionValue: new FormControl(null, [Validators.maxLength(4)]),
-      percentValue: new FormControl(null, [Validators.maxLength(4)]),
+      commissionCurrency: new FormControl(null, [Validators.required]),
+      commissionValue: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(1), Validators.pattern(/^[0-9]*$/)]),
+      percentValue: new FormControl(null, [warehouseValidatorCommission.bind(this)]),
     });
     this._sharedService.currencyList.subscribe((state: any) => {
       if (state) {
@@ -145,6 +166,52 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.paramSubscriber.unsubscribe();
   }
+
+  errorValidate() {
+    if (this.generalForm.controls.whName.status == "INVALID" && this.generalForm.controls.whName.touched) {
+      this.whNameError = true;
+    }
+    if (this.generalForm.controls.whDetail.status == "INVALID" && this.generalForm.controls.whDetail.touched) {
+      this.whDetailError = true;
+    }
+    if (this.locationForm.controls.city.status == "INVALID" && this.locationForm.controls.city.touched) {
+      this.cityError = true;
+    }
+    if (this.locationForm.controls.address.status == "INVALID" && this.locationForm.controls.address.touched) {
+      this.addressError = true;
+    }
+    if (this.locationForm.controls.poBox.status == "INVALID" && this.locationForm.controls.poBox.touched) {
+      this.poBoxError = true;
+    }
+    if (this.propertyDetailForm.controls.warehouseSpace.status == "INVALID" && this.propertyDetailForm.controls.warehouseSpace.touched) {
+      this.warehouseSpaceError = true;
+    }
+    if (this.propertyDetailForm.controls.hashmoveSpace.status == "INVALID" && this.propertyDetailForm.controls.hashmoveSpace.touched) {
+      this.hashmoveSpaceError = true;
+    }
+    if (this.propertyDetailForm.controls.minLeaseValueOne.status == "INVALID" && this.propertyDetailForm.controls.minLeaseValueOne.touched) {
+      this.minLeaseValueOneError = true;
+    }
+    if (this.propertyDetailForm.controls.minLeaseValueTwo.status == "INVALID" && this.propertyDetailForm.controls.minLeaseValueTwo.touched) {
+      this.minLeaseValueTwoError = true;
+    }
+    if (this.commissionForm.controls.commissionValue.status == "INVALID" && this.commissionForm.controls.commissionValue.touched) {
+      this.commissionValueError = true;
+    }
+    if (this.commissionForm.controls.percentValue.status == "INVALID" && this.commissionForm.controls.percentValue.touched) {
+      this.percentValueError = true;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
   getplacemapLoc() {
     this.mapsAPILoader.load().then(() => {
       this.geoCoder = new google.maps.Geocoder;
@@ -233,10 +300,19 @@ export class WarehouseComponent implements OnInit, OnDestroy {
         elem.IsAllowed = $event.target.checked;
       }
     })
+    this.checkedFacilities = this.facilities.some(obj => obj.IsAllowed == true);
   }
 
   addMinimumLeaseTerm(obj) {
     this.selectedMiniLeaseTerm = obj;
+  }
+  changeWarehouseType(){
+    this.warehouseTypeFull = !this.warehouseTypeFull;
+    if (this.warehouseTypeFull){
+      this.propertyDetailForm.controls.hashmoveSpace.reset();
+      this.propertyDetailForm.controls.minLeaseValueOne.reset();
+      this.propertyDetailForm.controls.minLeaseValueTwo.reset();
+    }
   }
   numberValid(evt) {
     let charCode = (evt.which) ? evt.which : evt.keyCode
@@ -487,11 +563,77 @@ export class WarehouseComponent implements OnInit, OnDestroy {
 }
 export function warehouseValidator(control: AbstractControl) {
   if (!this.warehouseTypeFull) {
+    let regexp: RegExp = /^[0-9]*$/;
     if (!control.value) {
       return {
         required: true
       }
     }
-  }
+    else if (control.value.length < 3 && control.value) {
+        if (!regexp.test(control.value)) {
+          return {
+            pattern: true
+          }
+        }
+        else {
+          return {
+            minlength: true
+          }
+        }
+      }
+    else if (control.value.length > 5 && control.value) {
+      if (!regexp.test(control.value)) {
+          return {
+            pattern: true
+          }
+        }
+        else {
+          return {
+            maxlength: true
+          }
+        }
 
+      }
+    else {
+      return false;
+    }
+  }
+};
+export function warehouseValidatorCommission(control: AbstractControl) {
+  if (this.isRealEstate && !this.fixedAmount) {
+    let regexp: RegExp = /^[0-9]*$/;
+    if (!control.value) {
+      return {
+        required: true
+      }
+    }
+    // else if (control.value.length < 1 && control.value) {
+    //   if (!regexp.test(control.value)) {
+    //     return {
+    //       pattern: true
+    //     }
+    //   }
+    //   else {
+    //     return {
+    //       minlength: true
+    //     }
+    //   }
+    // }
+    else if (control.value.length > 5 && control.value) {
+      if (!regexp.test(control.value)) {
+        return {
+          pattern: true
+        }
+      }
+      else {
+        return {
+          maxlength: true
+        }
+      }
+
+    }
+    else {
+      return false;
+    }
+  }
 };
