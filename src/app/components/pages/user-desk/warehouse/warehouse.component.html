@@ -46,7 +46,7 @@
                           <small class="drag-support"> ( Maximum size per document: 5 MB ) </small>
                         </app-ng-files-drag-n-upload>
                       </div>
-                      <div class="row uploadedDocx mt-3">
+                      <div class="row uploadedDocx">
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-3 uploaded-images" *ngFor="let galleryDocx of uploadedGalleries; let i = index">
                           <div class="display-upload delete">
                             <img [src]="galleryDocx.FileContent[0].docUrl" />
@@ -340,15 +340,15 @@
             </div>
             <div class="row">
               <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
-                <div class="form-group">
-                  <div class="fancyOptionBoxes pull-left">
+                <div class="form-group d-flex">
+                  <div class="fancyOptionBoxes">
                   <input id="fixedamount" name="commison" type="radio" [checked]="fixedAmount" (change)="fixedAmount = !fixedAmount">
                     <label for="fixedamount">
                       <span></span>
                       Fixed Amount per booking
                     </label>
                   </div>
-                  <div class="fancyOptionBoxes pull-left ml-4">
+                  <div class="fancyOptionBoxes ml-4">
                     <input id="perbooking" name="commison" type="radio" (change)="fixedAmount = !fixedAmount">
                     <label for="perbooking">
                       <span></span>
