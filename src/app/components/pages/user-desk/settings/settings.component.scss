@@ -259,7 +259,7 @@
   }
 
   .hvr-icon-forward {
-    font-size: 0.875rem;
+    font-size: $font-size-medium;
     color: $secondary-color;
     font-family: $font-proxima;
     font-weight: $font-proxima-weight-semibold;
@@ -281,11 +281,11 @@
   .provider-logo {
     width: 120px;
     height: 120px;
-    border: 1px solid #d5dade;
+    border: 1px solid $input-border;
     border-radius: 4px;
     position: relative;
     z-index: 0;
-    background: #ffffff;
+    background: $color-white;
     text-align: center;
     vertical-align: middle;
 
@@ -328,7 +328,7 @@
       }
 
       text-align: center;
-      background-color: #fff;
+      background-color: $color-white;
 
       app-ng-files-drag-n-upload {
         label {
