@@ -9,6 +9,6 @@ export class BillingService {
 
   addPayment(data) {
     let url: string = "providerpayment/AddPayment";
-    return this._http.post(url, data);
+    return this._http.post(baseApi + url, data);
   }
 }

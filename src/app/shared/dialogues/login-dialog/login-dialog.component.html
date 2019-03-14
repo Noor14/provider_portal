@@ -10,10 +10,12 @@
     <div class="modal-body">
       <form class="form-component" autocomplete="off" novalidate [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
 
-        <div *ngIf="savedUser">
-          <div class="user-profile-main gradient-border">
+        <div *ngIf="savedUser" class="d-flex flex-column align-items-center">
+          <div class="d-table gradient-border" style="border-radius: 50px;">
+          <div class="user-profile-main d-table-cell">
             <img *ngIf="userAvatar" [src]="userAvatar" alt="user_icon">
             <img *ngIf="!userAvatar" src="../../../../assets/images/icons/icons_user.svg" alt="user_icon">
+          </div>
           </div>
           <h4 class="username">Hi, {{userName}}</h4>
         </div>

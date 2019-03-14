@@ -2,7 +2,7 @@
 <h2 class="mb-5">Bookings</h2>
   <ngb-tabset (tabChange)="onTabChange()">
     <ngb-tab>
-      <ng-template ngbTabTitle> <span>CURRENT BOOKINGS</span> <span class="badge badge-pill badge-secondary" *ngIf="currentBookings.length">{{currentBookings.length}}</span></ng-template>
+      <ng-template ngbTabTitle> <span>CURRENT BOOKINGS</span> <span class="badge badge-secondary" *ngIf="currentBookings.length">{{currentBookings.length}}</span></ng-template>
       <ng-template ngbTabContent>
         <div class="bookingOverview overflow-hidden" *ngIf="currentBookings.length">
           <app-bookings-card [booking]="obj" *ngFor="let obj of currentBookings | paginate: paginationConfig" (click)="viewBookingDetails(obj.BookingID)"></app-bookings-card>
@@ -19,7 +19,7 @@
     </ngb-tab>
 
     <ngb-tab>
-      <ng-template ngbTabTitle><span>PAST BOOKINGS</span> <span class="badge badge-pill badge-secondary" *ngIf="pastBookings.length">{{pastBookings.length}}</span></ng-template>
+      <ng-template ngbTabTitle><span>PAST BOOKINGS</span> <span class="badge badge-secondary" *ngIf="pastBookings.length">{{pastBookings.length}}</span></ng-template>
       <ng-template ngbTabContent>
         <div class="bookingOverview overflow-hidden" *ngIf="pastBookings.length">
           <app-bookings-card [booking]="obj" *ngFor="let obj of pastBookings | paginate: paginationConfig" (click)="viewBookingDetails(obj.BookingID)"></app-bookings-card>
@@ -36,7 +36,7 @@
     </ngb-tab>
 
       <ngb-tab>
-        <ng-template ngbTabTitle><span>TOTAL BOOKINGS</span> <span class="badge badge-pill badge-secondary" *ngIf="totalBookings.length">{{totalBookings.length}}</span></ng-template>
+        <ng-template ngbTabTitle><span>TOTAL BOOKINGS</span> <span class="badge badge-secondary" *ngIf="totalBookings.length">{{totalBookings.length}}</span></ng-template>
         <ng-template ngbTabContent>
           <div class="bookingOverview overflow-hidden" *ngIf="totalBookings.length">
             <app-bookings-card [booking]="obj" *ngFor="let obj of totalBookings | paginate: paginationConfig" (click)="viewBookingDetails(obj.BookingID)"></app-bookings-card>
