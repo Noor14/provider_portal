@@ -5,7 +5,14 @@ body {
   font-style: normal;
   background: $right-side-background;
   .lightboxOverlay {
-    width: 100%;
+    width: 100% !important;
+  }
+  .lightbox {
+    .lb-closeContainer {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+  }
   }
   a {
     text-decoration: none !important;
