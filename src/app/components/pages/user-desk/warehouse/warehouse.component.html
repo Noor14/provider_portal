@@ -201,7 +201,7 @@
                       </label>
 
                       <div class="input-group">
-                        <input class="form-control input-dropdown" (keypress)="oneSpaceHandler($event)" type="text"
+                          <input class="form-control input-dropdown" (keypress)="numberValid($event)" type="text"
                           formControlName="warehouseSpace">
                         <div class="input-group-append">
                           <div class="input-group-text">
@@ -227,7 +227,7 @@
                       <div class="form-group">
                         <label>Offered Space on HashMove</label>
                         <div class="input-group">
-                          <input class="form-control input-dropdown" type="text" (keypress)="oneSpaceHandler($event)"
+                          <input class="form-control input-dropdown" type="text" (keypress)="numberValid($event)"
                             formControlName="hashmoveSpace">
                           <div class="input-group-append">
                             <div class="input-group-text"><span class="pl-3 pr-3 pt-2 pb-2">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span></div>
@@ -267,13 +267,11 @@
                     <div class="col-xl-3 col-md-3 col-sm-12">
                       <div class="form-group">
                         <div class="input-group">
-                          <input class="form-control input-dropdown" (keypress)="oneSpaceHandler($event)" type="text"
+                            <input class="form-control input-dropdown" (keypress)="numberValid($event)" type="text"
                             formControlName="minLeaseValueOne">
                           <div class="input-group-append">
                             <div class="input-group-text">
-                              <select class="form-control input-dropdown" formControlName="minLeaseUnitOne">
-                                <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
-                              </select>
+                              <span class="pl-3 pr-3 pt-2 pb-2">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span>
                             </div>
                           </div>
                         </div>
@@ -282,13 +280,11 @@
                     <div class="col-xl-3 col-md-3 col-sm-12">
                       <div class="form-group">
                         <div class="input-group">
-                          <input class="form-control input-dropdown" (keypress)="oneSpaceHandler($event)" type="text"
+                            <input class="form-control input-dropdown" (keypress)="numberValid($event)" type="text"
                             formControlName="minLeaseValueTwo">
                           <div class="input-group-append">
                             <div class="input-group-text">
-                              <select class="form-control input-dropdown" formControlName="minLeaseUnitTwo">
-                                <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
-                              </select>
+                            <span class="pl-3 pr-3 pt-2 pb-2">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span>
                             </div>
                           </div>
                         </div>
@@ -301,8 +297,8 @@
                 <div class="col-xl-6 col-md-6 col-sm-12">
                   <div class="form-group">
                     <label class="form-group-label">Minimum Lease term
-                      <span class="sub-title sub-heading w-100 d-inline-block">The shortest term that this property can
-                        be rented for
+                      <span class="sub-title sub-heading w-100 d-inline-block">
+                        The shortest term that this property can be rented for
                       </span>
                     </label>
                   </div>
@@ -342,7 +338,6 @@
                 <hr class="hr-solid">
               </div>
             </div>
-
             <div class="row">
               <div class=" col-xl-6 col-md-6 col-sm-12 mt-3">
                 <div class="form-group">
@@ -362,34 +357,55 @@
                   </div>
                 </div>
               </div>
-
             </div>
-
+            
+          <form autocomplete="off" novalidate [formGroup]="commissionForm">
             <div class="row">
               <div class="col-2 animated fadeIn" *ngIf="!fixedAmount">
                 <div class="form-group mt-3">
                   <label>Per Booking</label>
-                  <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="%">
+                  <input type="text" class="form-control" formControlName="percentValue" aria-label="Text input with dropdown button"
+                    placeholder="%">
                 </div>
               </div>
 
               <div class="col-4">
                 <div class="form-group mt-3">
-                  <label for="inputState">Minimum Commission</label>
+                  <label for="inputState">
+                    <span *ngIf="fixedAmount; else other">
+                      Commission
+                    </span>
+                    <ng-template #other>
+                      Minimum Commission
+                    </ng-template>
+                  </label>
                   <div class="input-group mb-3">
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend col-4 p-0">
                       <div class="input-group-text">
-                        <select id="inputState" class="form-control input-dropdown">
-                          <option selected>AED</option>
-                          <option>12</option>
-                        </select>
+                            <div class="city-dropdown currency">
+                              <div class="flag-container" *ngIf="commissionForm.value.commissionCurrency && commissionForm.value.commissionCurrency.imageName">
+                                <img src="{{'../../../../../assets/images/flags/4x3/' + (commissionForm.value.commissionCurrency.imageName | lowercase) + '.svg'}}"
+                                  type="image/svg+xml">
+                              </div>
+                              <input type="text" formControlName="commissionCurrency" (keypress)="spaceHandler($event)" [ngClass]="{'routeSelected': commissionForm.value.commissionCurrency && commissionForm.value.commissionCurrency.imageName}"
+                                class="form-control" maxlength="5" [ngbTypeahead]="currency"
+                                [resultTemplate]="cur" [inputFormatter]="formatterCurrency" placeholder="eg: AED">
+                              <ng-template #cur let-r="result">
+                                <div class="flag-container mr-1">
+                                  <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
+                                    class="">
+                                </div>
+                                <ngb-highlight [result]="r.shortName"></ngb-highlight>
+                              </ng-template>
+                            </div>
                       </div>
                     </div>
-                    <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                    <input type="text" formControlName="commissionValue" class="form-control" aria-label="Text input with dropdown button">
                   </div>
                 </div>
               </div>
             </div>
+            </form>
           </section>
           <div class="row mt-5">
             <div class="col-12">

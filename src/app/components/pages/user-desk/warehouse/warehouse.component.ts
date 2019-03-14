@@ -36,6 +36,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   public warehouseUsageType: any[] = [];
   public ceilingsHeight: any[] = [];
   public cityList: any[] = [];
+  public currencyList: any[] = [];
   public selectedMiniLeaseTerm: any;
   private paramSubscriber: any;
   public isRealEstate:boolean = false;
@@ -50,6 +51,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   // propertyDetailForm
   public propertyDetailForm: any;
 
+  //commisionForm
+  public commissionForm:any
 
   //map working
   public location: any = { lat: undefined, lng: undefined };
@@ -115,8 +118,17 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       ceilingUnit: new FormControl(null, [warehouseValidator.bind(this)]),
       minLeaseValueOne: new FormControl(null, [warehouseValidator.bind(this), Validators.maxLength(4), Validators.minLength(1)]),
       minLeaseValueTwo: new FormControl(null, [warehouseValidator.bind(this), Validators.maxLength(4), Validators.minLength(1)]),
-      minLeaseUnitTwo: new FormControl(null, [warehouseValidator.bind(this)]),
-      minLeaseUnitOne: new FormControl(null, [warehouseValidator.bind(this)]),
+    });
+
+    this.commissionForm = new FormGroup({
+      commissionCurrency: new FormControl(null, [Validators.maxLength(5)]),
+      commissionValue: new FormControl(null, [Validators.maxLength(4)]),
+      percentValue: new FormControl(null, [Validators.maxLength(4)]),
+    });
+    this._sharedService.currencyList.subscribe((state: any) => {
+      if (state) {
+        this.currencyList = state;
+      }
     });
     this._sharedService.getLocation.subscribe((state: any) => {
       if (state && state.country) {
@@ -226,7 +238,12 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   addMinimumLeaseTerm(obj) {
     this.selectedMiniLeaseTerm = obj;
   }
-
+  numberValid(evt) {
+    let charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+      return false;
+    return true;
+  }
   oneSpaceHandler(event) {
     if (event.target.value) {
       var end = event.target.selectionEnd;
@@ -256,8 +273,6 @@ export class WarehouseComponent implements OnInit, OnDestroy {
         this.propertyDetailForm.patchValue({
           warehouseSpaceUnit: this.units[0].codeValDesc,
           ceilingUnit: this.units[0].codeValDesc,
-          minLeaseUnitOne: this.units[0].codeValDesc,
-          minLeaseUnitTwo: this.units[0].codeValDesc,
         });
       }
     }, (err: HttpErrorResponse) => {
@@ -410,7 +425,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       providerID: this.userProfile.ProviderID,
       whName: this.generalForm.value.whName,
       whDesc: this.generalForm.value.whDetail,
-      // countryID: 0,
+      countryID: this.locationForm.value.city.desc[0].CountryID,
       cityID: this.locationForm.value.city.id,
       cityName: this.locationForm.value.city.title,
       // countryName: "string",
@@ -421,27 +436,23 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       longitude: this.location.lng,
       totalCoveredArea: this.propertyDetailForm.value.warehouseSpace,
       totalCoveredAreaUnit: this.propertyDetailForm.value.warehouseSpaceUnit,
-      whUsageType: (this.warehouseTypeFull)? 'FULL' : 'SHARED',
+      usageType: (this.warehouseTypeFull)? 'FULL' : 'SHARED',
       whFacilitiesProviding: this.facilities,
       isBlocked: true,
       offeredHashMoveArea: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.hashmoveSpace : null,
       offeredHashMoveAreaUnit: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.warehouseSpaceUnit : null,
       ceilingHeight: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.ceilingHeight : null,
-      ceilingHeightUnit: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.ceilingUnit : null,
-      whMinimumLeaseTerm: [{
-        value: this.selectedMiniLeaseTerm.codeVal,
-        unitType: this.selectedMiniLeaseTerm.codeValShortDesc
-      }],
-      whMinimumLeaseSpace: (!this.warehouseTypeFull) ? [
-        {
-          value: this.propertyDetailForm.value.minLeaseValueOne,
-          unitType: this.propertyDetailForm.value.minLeaseUnitOne
-        },
-        {
-          value: this.propertyDetailForm.value.minLeaseValueTwo,
-          unitType: this.propertyDetailForm.value.minLeaseUnitTwo
-        }
-      ] : null,
+      ceilingLenght : (!this.warehouseTypeFull) ? 0 : null,
+      ceilingWidth : (!this.warehouseTypeFull) ? 0 : null,
+      ceilingUnit: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.ceilingUnit : null,
+      minLeaseTermValue: this.selectedMiniLeaseTerm.codeVal,
+      minLeaseTermUnit: this.selectedMiniLeaseTerm.codeValShortDesc,
+      WHMinSQFT: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.minLeaseValueOne : null,
+      WHMinCBM: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.minLeaseValueTwo : null,
+      comissionType: (this.isRealEstate) ? ((this.fixedAmount) ? 'Fixed_Amount' : 'Fixed_Percent') : null,
+      comissionCurrencyID: (this.isRealEstate) ? this.commissionForm.value.commissionCurrency.id : null,
+      comissionValue: (this.isRealEstate) ? this.commissionForm.value.commissionValue : null,
+      percent: (this.isRealEstate) ? ((!this.fixedAmount) ? this.commissionForm.value.percentValue : null) : null,
       createdBy: this.userProfile.LoginID,
       modifiedBy: this.userProfile.LoginID,
     }
@@ -465,6 +476,13 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       .map(term => (!term || term.length < 3) ? []
         : this.cityList.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1));
   formatterCity = (x: { title: string }) => x.title;
+
+  currency = (text$: Observable<string>) =>
+    text$
+      .debounceTime(200)
+      .map(term => (!term || term.length < 3) ? []
+        : this.currencyList.filter(v => v.shortName.toLowerCase().indexOf(term.toLowerCase()) > -1));
+  formatterCurrency = (x: { shortName: string }) => x.shortName;
 
 }
 export function warehouseValidator(control: AbstractControl) {
