@@ -418,6 +418,11 @@ export class SeaRateDialogComponent implements OnInit {
    * @return      [description]
    */
   saveDraft(type) {
+    const { filterOrigin, filterDestination, transPortMode } = this
+    if (transPortMode === 'SEA' && filterOrigin && filterOrigin.CountryCode && filterDestination && filterDestination.CountryCode && filterOrigin.CountryCode.toLowerCase() === filterDestination.CountryCode.toLowerCase()) {
+      this._toast.warning("Please select different pickup and drop Country");
+      return
+    }
     let customers = [];
     if (this.selectedCustomer.length) {
       this.selectedCustomer.forEach(element => {
@@ -454,11 +459,7 @@ export class SeaRateDialogComponent implements OnInit {
         return all + item;
       });
     }
-
-    console.log(this.containerLoadParam);
-    if (this.containerLoadParam === 'FTL') {
-
-    }
+    
 
     let obj = {
       ID: (this.selectedData.ID ? this.selectedData.ID : 0),
