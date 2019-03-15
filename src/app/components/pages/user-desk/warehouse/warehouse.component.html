@@ -71,7 +71,8 @@
                       <div class="row uploadedDocx">
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-3 uploaded-images" *ngFor="let galleryDocx of uploadedGalleries; let i = index">
                           <div class="display-upload delete">
-                            <img [src]="galleryDocx.FileContent[0].docUrl" />
+                            <img *ngIf="whID == '0'" [src]="galleryDocx.FileContent[0].docUrl" />
+                            <img *ngIf="whID != '0'" [src]="(galleryDocx.DocumentFile)? (baseExternalAssets + galleryDocx.DocumentFile):galleryDocx.FileContent[0].docUrl " />
                             <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
                               (click)="removeSelectedDocx(i, galleryDocx)" />
                           </div>
@@ -187,7 +188,7 @@
                   <div class="form-group">
                     <label>Property Type</label>
                     <div class="fancyOptionBoxes pull-left mb-3 mr-3" *ngFor="let type of warehouseUsageType; let i = index">
-                      <input id="{{i+1}}" [checked]="type.IsAllowed && type.UsageTypeTitle == 'Full Warehouse'" name="warehouseType"
+                      <input id="{{i+1}}" [checked]="(type.UsageTypeTitle == 'Full Warehouse' && warehouseTypeFull)|| (type.UsageTypeTitle != 'Full Warehouse' && !warehouseTypeFull)" name="warehouseType"
                       (change)="changeWarehouseType()" type="radio">
                       <label for="{{i+1}}">
                         <span></span>
@@ -356,7 +357,7 @@
                   </div>
                   <div class="fancyOptionBoxes pull-left mr-4 mb-3" *ngFor="let obj of leaseTerm; let i = index"
                     (click)="addMinimumLeaseTerm(obj)">
-                    <input id="{{i+1}}rentedtime" name="leaseTerm" type="radio">
+                    <input id="{{i+1}}rentedtime" name="leaseTerm" type="radio" [checked]="obj.codeVal == warehouseDetail?.MinLeaseTermValue">
                     <label for="{{i+1}}rentedtime">
                       <span></span>
                       {{obj.codeValDesc}}
@@ -374,7 +375,7 @@
             <div class="col-xl-6 col-md-6 col-sm-12 mt-3">
               <div class="form-group">
                 <div class="fancyOptionBoxes warehousing-services mb-3" *ngFor="let obj of facilities">
-                  <input id="{{obj.FacilitiesTypeTitle}}" name="facilities" type="checkbox" (change)="addFacilities(obj, $event)">
+                  <input id="{{obj.FacilitiesTypeTitle}}" [checked]="obj.IsAllowed" name="facilities" type="checkbox" (change)="addFacilities(obj, $event)">
                   <label for="{{obj.FacilitiesTypeTitle}}">
                     <span></span>
                     {{obj.FacilitiesTypeTitle}}
@@ -401,7 +402,7 @@
                     </label>
                   </div>
                   <div class="fancyOptionBoxes ml-4">
-                    <input id="perbooking" name="commison" type="radio" (change)="fixedAmount = !fixedAmount">
+                    <input id="perbooking" name="commison" type="radio" [checked]="!fixedAmount" (change)="fixedAmount = !fixedAmount">
                     <label for="perbooking">
                       <span></span>
                       Fixed percentage per booking

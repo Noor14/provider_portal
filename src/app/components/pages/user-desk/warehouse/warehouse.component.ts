@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, NgZone, ViewEncapsulation } fr
 import { HttpErrorResponse } from '@angular/common/http';
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
-import { loading } from '../../../../constants/globalFunctions';
+import { loading, isJSON } from '../../../../constants/globalFunctions';
 import { Observable, Subject } from 'rxjs';
 import { WarehouseService } from '../manage-rates/warehouse-list/warehouse.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,8 +31,9 @@ export class WarehouseComponent implements OnInit, OnDestroy {
 
   public requiredFields: string = "This field is required";
 
+  public baseExternalAssets: string = baseExternalAssets;
   public zoomlevel: number = 5;
-  private whID: any;
+  public whID: any;
   private userProfile: any
   public warehouseTypeFull: boolean = true;
   public leaseTerm: any[] = [];
@@ -94,6 +95,13 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   public uploadedGalleries: any[] = [];
   public warehouseDocx: any;
 
+
+// edit warehouse detail
+
+  public warehouseDetail:any;
+
+
+
   public config: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', 'bmp'],
     maxFilesCount: 12,
@@ -122,14 +130,24 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
-    this.paramSubscriber = this._router.params.subscribe(params => {
-      this.whID = params['id'];
-      // (+) converts string 'id' to a number
-      if (this.whID) {
-        this.getWareHouseDetail(this.userProfile.ProviderID, this.whID);
+    this._sharedService.getLocation.subscribe((state: any) => {
+      if (state && state.country) {
+        this.getMapLatlng(state.country);
+      }
+    })
+    this._sharedService.currencyList.subscribe((state: any) => {
+      if (state) {
+        this.currencyList = state;
       }
     });
-
+    this._sharedService.cityList.subscribe((state: any) => {
+      if (state) {
+        this.cityList = state;
+        let countryBound = this.cityList.find(obj => obj.desc[0].CountryID == this.userProfile.CountryID).desc[0].CountryCode;
+        this.getplacemapLoc(countryBound);
+        this.getDetail();
+      }
+    });
     this.generalForm = new FormGroup({
       whName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(5), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
       whDetail: new FormControl(null, [Validators.required, Validators.maxLength(1000), Validators.minLength(10)]),
@@ -154,26 +172,19 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       commissionValue: new FormControl(null, [warehouseValidatorCommissionVal.bind(this)]),
       percentValue: new FormControl(null, [warehouseValidatorCommission.bind(this)]),
     });
-    this._sharedService.currencyList.subscribe((state: any) => {
-      if (state) {
-        this.currencyList = state;
-      }
-    });
-    this._sharedService.getLocation.subscribe((state: any) => {
-      if (state && state.country) {
-        this.getMapLatlng(state.country);
-      }
-    })
-    this._sharedService.cityList.subscribe((state: any) => {
-      if (state) {
-        this.cityList = state;
-        let countryBound = this.cityList.find(obj => obj.desc[0].CountryID == this.userProfile.CountryID).desc[0].CountryCode;
-        this.getplacemapLoc(countryBound);
-
-      }
-    })
 
   }
+
+  getDetail(){
+    this.paramSubscriber = this._router.params.subscribe(params => {
+      this.whID = params['id'];
+      // (+) converts string 'id' to a number
+      if (this.whID) {
+        this.getWareHouseDetail(this.userProfile.ProviderID, this.whID);
+      }
+    });
+  }
+
   ngOnDestroy() {
     this.paramSubscriber.unsubscribe();
   }
@@ -288,33 +299,90 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   getWareHouseDetail(providerId, id) {
     loading(true)
     this._warehouseService.getWarehouseList(providerId, id).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
+      if (res.returnStatus == "Success" && res.returnObject) {
         loading(false);
+        let leaseTerm = res.returnObject.MstLeaseTerm;
+        let unitLength = res.returnObject.MstUnitLength;
+        let unitArea = res.returnObject.MstUnitArea;
+        let unitVolume = res.returnObject.MstUnitVolume;
+        this.isRealEstate = res.returnObject.IsRealEstate;
+        this.ceilingsHeight = res.returnObject.CeilingDesc;
+        this.warehouseUsageType = res.returnObject.WHUsageType;
+        this.warehouseDocx = res.returnObject.documentType;
         if (res.returnObject && !Number(id)) {
-          let leaseTerm = res.returnObject.MstLeaseTerm;
-          let unitLength = res.returnObject.MstUnitLength;
-          let unitArea = res.returnObject.MstUnitArea;
-          let unitVolume = res.returnObject.MstUnitVolume;
           this.facilities = res.returnObject.WHFacilitiesProviding;
-          this.warehouseUsageType = res.returnObject.WHUsageType;
-          this.ceilingsHeight = res.returnObject.CeilingDesc;
-          this.warehouseDocx = res.returnObject.documentType;
-          this.isRealEstate = res.returnObject.IsRealEstate
           if (this.ceilingsHeight) {
             let ceilingID = this.ceilingsHeight.find(obj => obj.CeilingID == 4).CeilingID
             this.propertyDetailForm.controls['ceilingHeight'].setValue(ceilingID);
           }
-          this.getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume);
         }
         else if(Number(id)){
-          console.log('Noor')
+        
+          this.warehouseDetail = res.returnObject.WHModel[0];
+          this.setData(this.warehouseDetail);
         }
-
+        this.getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume);
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
       loading(false);
     })
+  }
+  setData(obj:any){
+    console.log(obj)
+    this.warehouseTypeFull = (obj.UsageType.toUpperCase() == 'SHARED')? false : true;
+    this.fixedAmount = (obj.ComissionType == 'Fixed_Amount')? true :false;
+    if (obj.FacilitiesProviding && isJSON(obj.FacilitiesProviding)) {
+      this.facilities = JSON.parse(obj.FacilitiesProviding);
+      this.checkedFacilities = this.facilities.some(obj => obj.IsAllowed == true);
+    }
+    if (obj.WHName){
+      this.generalForm.controls['whName'].setValue(obj.WHName);
+    }
+    if (obj.WHDesc){
+      this.generalForm.controls['whDetail'].setValue(obj.WHDesc);
+    }
+    if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)){
+      this.uploadedGalleries = JSON.parse(obj.WHGallery);
+      this.docTypeId = this.uploadedGalleries[0].DocumentID;
+    }
+    if (obj.WHAddress) {
+      this.locationForm.controls['address'].setValue(obj.WHAddress);
+    }
+    if (obj.WHPOBoxNo) {
+      this.locationForm.controls['poBox'].setValue(obj.WHPOBoxNo);
+    }
+    if (obj.CityID) {
+      let object = this.cityList.find(elem => elem.id == obj.CityID)
+      this.locationForm.controls['city'].setValue(object);
+    }
+    if (obj.TotalCoveredArea){
+      this.propertyDetailForm.controls['warehouseSpace'].setValue(obj.TotalCoveredArea);
+    }
+    if(!this.warehouseTypeFull && obj.CeilingHeight){
+      this.propertyDetailForm.controls['ceilingHeight'].setValue(obj.CeilingHeight);
+    }
+    if(!this.warehouseTypeFull && obj.OfferedHashMoveArea){
+      this.propertyDetailForm.controls['hashmoveSpace'].setValue(obj.OfferedHashMoveArea);
+    }
+    if(!this.warehouseTypeFull && obj.WHMinSQFT){
+      this.propertyDetailForm.controls['minLeaseValueOne'].setValue(obj.WHMinSQFT);
+    }
+    if(!this.warehouseTypeFull && obj.WHMinCBM){
+      this.propertyDetailForm.controls['minLeaseValueTwo'].setValue(obj.WHMinCBM);
+    }
+
+    if (this.isRealEstate && obj.ComissionValue){
+      this.commissionForm.controls['commissionValue'].setValue(obj.ComissionValue);
+    }
+    if (this.isRealEstate && obj.ComissionCurrencyID) {
+      let object = this.currencyList.find(elem => elem.id == obj.ComissionCurrencyID)
+      this.commissionForm.controls['commissionCurrency'].setValue(object);
+    }
+    if (this.isRealEstate && !this.fixedAmount && obj.Percent) {
+      this.commissionForm.controls['percentValue'].setValue(obj.Percent);
+    }
+
   }
   addFacilities(obj, $event) {
     this.facilities.map((elem) => {
@@ -368,11 +436,26 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       if (res && res.length) {
         this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM')
         this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM');
+        if(!Number(this.whID)){
         let object = this.units.find(obj => obj.codeVal == 'SQFT');
         this.propertyDetailForm.patchValue({
           warehouseSpaceUnit: object.codeValDesc,
           // ceilingUnit: object.codeValDesc,
         });
+        }
+        else{
+          if (this.warehouseDetail.TotalCoveredAreaUnit){
+            let object = this.units.find(obj => obj.codeVal == this.warehouseDetail.TotalCoveredAreaUnit.toUpperCase());
+            this.propertyDetailForm.patchValue({
+              warehouseSpaceUnit: object.codeValDesc,
+              // ceilingUnit: object.codeValDesc,
+            });
+          }
+          if (this.warehouseDetail.MinLeaseTermValue){
+            this.selectedMiniLeaseTerm = this.leaseTerm.find(obj => obj.codeVal == this.warehouseDetail.MinLeaseTermValue)
+          }
+          
+        }
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
@@ -425,6 +508,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
               flag++
               if (flag === fileLength) {
                 this.uploadedGalleries = this.uploadedGalleries.concat(allDocsArr);
+                console.log(this.uploadedGalleries)
               }
             }
             else {
@@ -476,7 +560,6 @@ export class WarehouseComponent implements OnInit, OnDestroy {
             docFiles[index + 1].DocumentID = resObj.DocumentID;
             docFiles[index + 1].DocumentLastStatus = resObj.DocumentLastStaus;
           }
-
             this.uploadedGalleries = fileObj;
           this._toastr.success("File upload successfully", "");
         }
@@ -495,7 +578,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   }
 
   removeSelectedDocx(index, obj) {
-    if (obj && obj.DocumentFile){
+  if (obj && obj.DocumentFile){
     obj.DocumentFile = obj.DocumentFile.split(baseExternalAssets).pop();
     obj.DocumentID = this.docTypeId;
     this._basicInfoService.removeDoc(obj).subscribe((res: any) => {
@@ -586,6 +669,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       if (res.returnStatus == "Success") {
         this.whID = res.returnObject[0].WHID;
         if (Number(this.whID) > 0) {
+          this.uploadedGalleries = this.uploadedGalleries.filter(obj => obj.BusinessLogic);
           this.uploadDocuments(this.uploadedGalleries);
         }
         this._toastr.success('Warehouse detail saved', '')
@@ -619,18 +703,18 @@ export function warehouseValidator(control: AbstractControl) {
         required: true
       }
     }
-    else if (control.value.length < 3 && control.value) {
-        if (!regexp.test(control.value)) {
-          return {
-            pattern: true
-          }
-        }
-        else {
-          return {
-            minlength: true
-          }
-        }
-      }
+    // else if (control.value.length < 3 && control.value) {
+    //     if (!regexp.test(control.value)) {
+    //       return {
+    //         pattern: true
+    //       }
+    //     }
+    //     else {
+    //       return {
+    //         minlength: true
+    //       }
+    //     }
+    //   }
     else if (control.value.length > 5 && control.value) {
       if (!regexp.test(control.value)) {
           return {
