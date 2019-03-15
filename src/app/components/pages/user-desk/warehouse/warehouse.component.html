@@ -138,7 +138,7 @@
                           <span  *ngIf="addressError">
                             <p class="inputError animated fadeIn" *ngIf="locationForm.controls['address'].hasError('required') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">{{requiredFields}}</p>
                             <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['address'].hasError('pattern') && locationForm.controls['address'].hasError('minlength') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">Address
-                              should be minimum 10 characters</p>
+                              should be minimum 1 character</p>
                             <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['address'].hasError('pattern') && locationForm.controls['address'].hasError('maxlength') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">Address
                               should not exceed from 200 characters</p>
                             <p class="inputError animated fadeIn" *ngIf="locationForm.controls['address'].hasError('pattern') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">Please
@@ -210,9 +210,9 @@
                       <div class="input-group">
                           <input class="form-control input-dropdown" (keypress)="numberValid($event)" 
                           [ngClass]="{
-                          'inputError': warehouseSpaceError && propertyDetailForm.controls['warehouseSpace'].errors
+                          'inputError': warehouseSpaceError && (propertyDetailForm.controls['warehouseSpace'].errors || warehousespaceMsg)
                           }"
-                          (focusout)="errorValidate()" (focus)="warehouseSpaceError=false"
+                        (focusout)="errorValidate(); spaceValidate('warehouseSpace')" (focus)="warehouseSpaceError=false"
                           type="text"
                           formControlName="warehouseSpace">
                         <div class="input-group-append">
@@ -231,6 +231,7 @@
                           100 to 1,00,000</p>
                         <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">Please
                           enter valid information</p>
+                        <p class="inputError animated fadeIn" [innerHTML]="warehousespaceMsg"></p>
                       </span>
                     </div>
                   </div>
@@ -243,9 +244,9 @@
                         <div class="input-group">
                           <input class="form-control input-dropdown" type="text" (keypress)="numberValid($event)"
                           [ngClass]="{
-                          'inputError': hashmoveSpaceError && propertyDetailForm.controls['hashmoveSpace'].errors
+                          'inputError': hashmoveSpaceError && (propertyDetailForm.controls['hashmoveSpace'].errors || hashmovespaceMsg)
                           }"
-                          (focusout)="errorValidate()" (focus)="hashmoveSpaceError=false"
+                          (focusout)="errorValidate(); spaceValidate('hashmoveSpace')" (focus)="hashmoveSpaceError=false"
                             formControlName="hashmoveSpace">
                           <div class="input-group-append">
                             <div class="input-group-text"><span class="pl-3 pr-3 pt-2 pb-2">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span></div>
@@ -259,6 +260,7 @@
                             1 to 1,00,000</p>
                           <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">Please
                             enter valid information</p>
+                          <p class="inputError animated fadeIn" [innerHTML]="hashmovespaceMsg"></p>
                         </span>
                       </div>
                     </div>
@@ -275,9 +277,7 @@
                           </select>
                           <div class="input-group-append">
                             <div class="input-group-text">
-                              <select class="form-control input-dropdown" formControlName="ceilingUnit">
-                                <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
-                              </select>
+                            <span class="pl-3 pr-3 pt-2 pb-2">ft</span>
                             </div>
                           </div>
                         </div>
@@ -495,7 +495,7 @@
               </button>
               <button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 mb-2"
                 [disabled]="generalForm.invalid || !uploadedGalleries.length || locationForm.invalid ||
-                propertyDetailForm.invalid || !selectedMiniLeaseTerm || !checkedFacilities ||
+                propertyDetailForm.invalid || hashmovespaceMsg || warehousespaceMsg || !selectedMiniLeaseTerm || !checkedFacilities ||
                 commissionForm.invalid" (click)="addwareHouse()">
                 save & add pricing </button>
             </div>

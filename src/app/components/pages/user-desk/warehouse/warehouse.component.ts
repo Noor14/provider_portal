@@ -80,6 +80,11 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   public percentValueError: boolean= false;
 
 
+  // space validation
+  public hashmovespaceMsg: string = undefined;
+  public warehousespaceMsg: string = undefined;
+
+
   //facilities
   public checkedFacilities: boolean = false;
 
@@ -132,7 +137,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     });
     this.locationForm = new FormGroup({
       city: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(5), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
-      address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(1), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
       poBox: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
     });
     this.propertyDetailForm = new FormGroup({
@@ -140,7 +145,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       warehouseSpaceUnit: new FormControl(null, [Validators.required]),
       hashmoveSpace: new FormControl(null, [warehouseValidator.bind(this)]),
       ceilingHeight: new FormControl(null),
-      ceilingUnit: new FormControl(null),
+      // ceilingUnit: new FormControl(null),
       minLeaseValueOne: new FormControl(null, [warehouseValidator.bind(this)]),
       minLeaseValueTwo: new FormControl(null, [warehouseValidator.bind(this)]),
     });
@@ -209,7 +214,32 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       this.percentValueError = true;
     }
   }
+  spaceValidate(type){
+    if(this.warehouseTypeFull) return;
+    if (type == 'hashmoveSpace'){
+      if (this.propertyDetailForm.controls.warehouseSpace.value && this.propertyDetailForm.controls.warehouseSpace.value < this.propertyDetailForm.controls.hashmoveSpace.value) {
+        this.propertyDetailForm.controls.hashmoveSpace.status = 'INVALID';
+        this.hashmoveSpaceError = true;
+        this.hashmovespaceMsg = "Offered space should be less than total space";
+      }
+      else{
+        this.hashmovespaceMsg = undefined;
+        this.warehousespaceMsg = undefined;
+      }
+    }
+    else if (type == 'warehouseSpace') {
+      if (this.propertyDetailForm.controls.hashmoveSpace.value && this.propertyDetailForm.controls.hashmoveSpace.value > this.propertyDetailForm.controls.warehouseSpace.value) {
+        this.propertyDetailForm.controls.warehouseSpace.status = 'INVALID';
+        this.warehouseSpaceError = true;
+        this.warehousespaceMsg = "Total space should be greater than offered space";
 
+      }
+      else{
+        this.warehousespaceMsg = undefined;
+        this.hashmovespaceMsg = undefined;
+      }
+    }
+  }
   getplacemapLoc(countryBound) {
     this.mapsAPILoader.load().then(() => {
       this.geoCoder = new google.maps.Geocoder;
@@ -281,7 +311,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
           this.warehouseDocx = res.returnObject.documentType;
           this.isRealEstate = res.returnObject.IsRealEstate
           if (this.ceilingsHeight) {
-            this.propertyDetailForm.controls['ceilingHeight'].setValue(this.ceilingsHeight[0].CeilingID);
+            let ceilingID = this.ceilingsHeight.find(obj => obj.CeilingID == 4).CeilingID
+            this.propertyDetailForm.controls['ceilingHeight'].setValue(ceilingID);
           }
           this.getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume);
         }
@@ -347,7 +378,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
         let object = this.units.find(obj => obj.codeVal == 'SQFT');
         this.propertyDetailForm.patchValue({
           warehouseSpaceUnit: object.codeValDesc,
-          ceilingUnit: object.codeValDesc,
+          // ceilingUnit: object.codeValDesc,
         });
       }
     }, (err: HttpErrorResponse) => {
@@ -546,7 +577,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       ceilingHeight: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.ceilingHeight : null,
       ceilingLenght : (!this.warehouseTypeFull) ? 0 : null,
       ceilingWidth : (!this.warehouseTypeFull) ? 0 : null,
-      ceilingUnit: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.ceilingUnit : null,
+      ceilingUnit: (!this.warehouseTypeFull) ? 'ft' : null,
       minLeaseTermValue: this.selectedMiniLeaseTerm.codeVal,
       minLeaseTermUnit: this.selectedMiniLeaseTerm.codeValShortDesc,
       WHMinSQFT: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.minLeaseValueOne : null,
