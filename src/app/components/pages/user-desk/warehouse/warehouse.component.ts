@@ -82,7 +82,6 @@ export class WarehouseComponent implements OnInit, OnDestroy {
 
   // space validation
   public hashmovespaceMsg: string = undefined;
-  public warehousespaceMsg: string = undefined;
 
 
   //facilities
@@ -214,31 +213,22 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       this.percentValueError = true;
     }
   }
-  spaceValidate(type){
+  spaceValidate(){
     if(this.warehouseTypeFull) return;
-    if (type == 'hashmoveSpace'){
-      if (this.propertyDetailForm.controls.warehouseSpace.value && this.propertyDetailForm.controls.warehouseSpace.value < this.propertyDetailForm.controls.hashmoveSpace.value) {
+      if (Number(this.propertyDetailForm.controls.warehouseSpace.value) && Number(this.propertyDetailForm.controls.warehouseSpace.value) < Number(this.propertyDetailForm.controls.hashmoveSpace.value)) {
         this.propertyDetailForm.controls.hashmoveSpace.status = 'INVALID';
         this.hashmoveSpaceError = true;
-        this.hashmovespaceMsg = "Offered space should be less than total space";
+        this.hashmovespaceMsg = "Offered space should be less than or equal to Total warehouse Space";
       }
-      else{
-        this.hashmovespaceMsg = undefined;
-        this.warehousespaceMsg = undefined;
-      }
-    }
-    else if (type == 'warehouseSpace') {
-      if (this.propertyDetailForm.controls.hashmoveSpace.value && this.propertyDetailForm.controls.hashmoveSpace.value > this.propertyDetailForm.controls.warehouseSpace.value) {
-        this.propertyDetailForm.controls.warehouseSpace.status = 'INVALID';
-        this.warehouseSpaceError = true;
-        this.warehousespaceMsg = "Total space should be greater than offered space";
+      else if (Number(this.propertyDetailForm.controls.hashmoveSpace.value) && Number(this.propertyDetailForm.controls.hashmoveSpace.value) > Number(this.propertyDetailForm.controls.warehouseSpace.value)) {
+        this.propertyDetailForm.controls.hashmoveSpace.status = 'INVALID';
+        this.hashmoveSpaceError = true;
+        this.hashmovespaceMsg = "Total warehouse Space should be greater than offered space";
 
       }
       else{
-        this.warehousespaceMsg = undefined;
         this.hashmovespaceMsg = undefined;
       }
-    }
   }
   getplacemapLoc(countryBound) {
     this.mapsAPILoader.load().then(() => {
