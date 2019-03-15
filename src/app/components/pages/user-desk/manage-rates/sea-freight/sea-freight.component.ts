@@ -257,9 +257,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
       this.filterbyShippingLine = 'undefined';
       this.filterbyCargoType = 'undefined';
       this.filterbyContainerType = 'undefined';
-      this.model = null;
-      this.fromDate = null;
-      this.toDate = null;
+      this.model = {};
+      this.fromDate = {};
+      this.toDate = {};
       this.filterDestination = {};
       this.filterOrigin = {};
       this.filterbyCustomer = null;
@@ -268,9 +268,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
       this.getAllPublishRates('fcl')
     }
     else if (type == "LCL") {
-      this.model = null;
-      this.fromDate = null;
-      this.toDate = null;
+      this.model = {};
+      this.fromDate = {};
+      this.toDate = {};
       this.isMarketplace = false
       this.isCustomer = false
       this.filterbyCargoType = 'undefined';
