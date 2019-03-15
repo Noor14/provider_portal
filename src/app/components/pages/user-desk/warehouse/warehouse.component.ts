@@ -616,18 +616,18 @@ export function warehouseValidator(control: AbstractControl) {
         required: true
       }
     }
-    // else if (control.value.length < 3 && control.value) {
-    //     if (!regexp.test(control.value)) {
-    //       return {
-    //         pattern: true
-    //       }
-    //     }
-    //     else {
-    //       return {
-    //         minlength: true
-    //       }
-    //     }
-    //   }
+    else if (control.value.length < 3 && control.value) {
+        if (!regexp.test(control.value)) {
+          return {
+            pattern: true
+          }
+        }
+        else {
+          return {
+            minlength: true
+          }
+        }
+      }
     else if (control.value.length > 5 && control.value) {
       if (!regexp.test(control.value)) {
           return {

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { WarehouseService } from './warehouse.service';
-import { loading, isJSON, encryptBookingID } from '../../../../../constants/globalFunctions';
+import { isJSON, encryptBookingID } from '../../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Lightbox } from 'ngx-lightbox';
@@ -32,6 +32,8 @@ export class WarehouseListComponent implements OnInit {
   public inActiveStatus: boolean = true;
   public activeStatus: boolean = true;
 
+  public loading: boolean = false
+
   constructor(
     private _warehouseService: WarehouseService,
     private _modalService: NgbModal,
@@ -53,11 +55,10 @@ export class WarehouseListComponent implements OnInit {
   }
 
   getWhlist(providerId) {
-    loading(true)
+    this.loading = true
     const wId = 0;
     this._warehouseService.getWarehouseList(providerId, wId).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        loading(false);
         if (res.returnObject && res.returnObject.WHModel && res.returnObject.WHModel.length){
           this.allWareHouseList = res.returnObject.WHModel;
           if (this.allWareHouseList && this.allWareHouseList.length) {
@@ -87,9 +88,11 @@ export class WarehouseListComponent implements OnInit {
         }
     
       }
+      this.loading = false;
+
     }, (err: HttpErrorResponse) => {
       console.log(err);
-      loading(false);
+      this.loading = false;
     })
   }
 

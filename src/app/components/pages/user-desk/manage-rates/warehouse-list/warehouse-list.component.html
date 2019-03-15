@@ -161,8 +161,9 @@
           </pagination-controls>
         </div>
       </div>
+      <app-loader-main *ngIf="loading"></app-loader-main>
     </section>
-    <div class="overflow-hidden row" *ngIf="!allWareHouseList || (allWareHouseList &&  !(allWareHouseList | search : wareHouseTitle).length) || (allWareHouseList &&  !(allWareHouseList | filterByCheckbox : activeStatus : inActiveStatus).length )">
+      <div class="overflow-hidden row" *ngIf="!loading && (!allWareHouseList || (allWareHouseList &&  !(allWareHouseList | search : wareHouseTitle).length) || (allWareHouseList &&  !(allWareHouseList | filterByCheckbox : activeStatus : inActiveStatus).length ))">
       <div class="animated bounceInDown col-12">
         <p class="card p-1 text-center">You don't have any warehouse yet</p>
       </div>
