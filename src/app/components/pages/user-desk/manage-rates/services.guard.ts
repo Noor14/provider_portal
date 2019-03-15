@@ -12,7 +12,8 @@ export class ServicesGuard implements CanActivate {
   private islogOut: boolean;
   private previousUrl: string = undefined;
   private selectedServices: any[];
-  private userProfile:any
+  private userProfile:any;
+  private apiLoaded:boolean = false;
     constructor(
       private router: Router,
       private _sharedService: SharedService,
@@ -57,7 +58,11 @@ export class ServicesGuard implements CanActivate {
             }
           }
         }else{
-          return this.getDashboardDataByRoute(this.userProfile.UserID, state, 'Air')
+          if (this.apiLoaded){
+            return true;
+          }else{
+            return this.getDashboardDataByRoute(this.userProfile.UserID, state, 'Air')
+          }
         }
       }
       else {
@@ -75,7 +80,11 @@ export class ServicesGuard implements CanActivate {
             }
           }
         }else{
-          return this.getDashboardDataByRoute(this.userProfile.UserID, state, 'Ground');
+          if (this.apiLoaded) {
+            return true;
+          }else{
+            return this.getDashboardDataByRoute(this.userProfile.UserID, state, 'Ground');
+          }
         }
         }
       else {
@@ -93,7 +102,11 @@ export class ServicesGuard implements CanActivate {
             }
           }
         }else{
+          if (this.apiLoaded) {
+            return true;
+          } else {
           return this.getDashboardDataByRoute(this.userProfile.UserID, state, 'Warehouse');
+          }
         }
       }
       else {
@@ -167,19 +180,19 @@ export class ServicesGuard implements CanActivate {
                 let index = this.selectedServices.findIndex(obj => obj.LogServCode == "AIR_FFDR");
                 if (index >= 0) {
                   this.router.navigate(['provider/manage-rates/air']);
-                  return true;
+                  this.apiLoaded = true;
                 }
                 else {
                   let index = this.selectedServices.findIndex(obj => obj.LogServCode == "TRUK");
                   if (index >= 0) {
                     this.router.navigate(['provider/manage-rates/ground']);
-                    return true;
+                    this.apiLoaded = true;
                   }
                   else {
                     let index = this.selectedServices.findIndex(obj => obj.LogServCode == "WRHS");
                     if (index >= 0) {
                       this.router.navigate(['provider/manage-rates/warehouse']);
-                      return true;
+                      this.apiLoaded = true;
                     }
                   }
                 }
