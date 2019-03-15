@@ -290,7 +290,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     this._warehouseService.getWarehouseList(providerId, id).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         loading(false);
-        if (res.returnObject) {
+        if (res.returnObject && !Number(id)) {
           let leaseTerm = res.returnObject.MstLeaseTerm;
           let unitLength = res.returnObject.MstUnitLength;
           let unitArea = res.returnObject.MstUnitArea;
@@ -305,6 +305,9 @@ export class WarehouseComponent implements OnInit, OnDestroy {
             this.propertyDetailForm.controls['ceilingHeight'].setValue(ceilingID);
           }
           this.getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume);
+        }
+        else if(Number(id)){
+          console.log('Noor')
         }
 
       }
@@ -582,7 +585,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     this._warehouseService.addWarehouseDetail(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.whID = res.returnObject[0].WHID;
-        if (JSON.parse(this.whID) > 0) {
+        if (Number(this.whID) > 0) {
           this.uploadDocuments(this.uploadedGalleries);
         }
         this._toastr.success('Warehouse detail saved', '')

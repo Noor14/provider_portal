@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WarehouseService } from '../manage-rates/warehouse-list/warehouse.service';
-import { loading, isJSON } from '../../../../constants/globalFunctions';
+import { isJSON } from '../../../../constants/globalFunctions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { baseExternalAssets } from '../../../../constants/base.url';
 import { Lightbox } from 'ngx-lightbox';
@@ -18,9 +18,11 @@ export class ViewWarehouseComponent implements OnInit, OnDestroy {
   private paramSubscriber: any;
   public userProfile: any;
   public wareHouse: any;
+  public loading: boolean = false;
 
   constructor(
     private _router: ActivatedRoute,
+    private _redirect: Router,
     private _warehouseService: WarehouseService,
     private _lightbox: Lightbox,
 
@@ -43,10 +45,9 @@ export class ViewWarehouseComponent implements OnInit, OnDestroy {
     this.paramSubscriber.unsubscribe();
   }
   getWareHouseDetail(whID){
-    loading(true)
+    this.loading = true;
     this._warehouseService.getWarehouseList(this.userProfile.ProviderID, whID).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        loading(false);
         if (res.returnObject && res.returnObject.WHModel && res.returnObject.WHModel.length) {
           this.wareHouse = res.returnObject.WHModel[0];
           if (this.wareHouse && Object.keys(this.wareHouse).length) {
@@ -76,13 +77,19 @@ export class ViewWarehouseComponent implements OnInit, OnDestroy {
             }
           }
         }
-
+        this.loading = false;
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
-      loading(false);
+       this.loading = false
     })
   }
+
+  editWarehouse(id){
+    this._redirect.navigate(['provider/add-warehouse', id])
+
+  }
+
   openGallery(albumArr, index): void {
     this._lightbox.open(albumArr, index, { disableScrolling: true, centerVertically: true, alwaysShowNavOnTouchDevices: true });
   }

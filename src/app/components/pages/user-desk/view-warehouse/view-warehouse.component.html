@@ -1,5 +1,5 @@
 <section class="viewWarehouseDetail">
-  <div class="row">
+<div class="row" *ngIf="!loading && wareHouse">
     <div class="col-md-12">
       <div class="card">
         <div class="card-body pt-0">
@@ -82,7 +82,7 @@
               <button class="btn btn-outline-primary hvr-sweep-to-right rate-btn pull-right text-uppercase">
                 Add rates
               </button>
-              <div class="noti text-center" *ngIf="!wareHouse.IsRateAvailable">
+              <div class="noti text-center pointer" *ngIf="!wareHouse.IsRateAvailable" (click)="editWarehouse(wareHouse.WHID)">
                   <img src="../../../assets/images/icons/warehouse-edit-icon.svg" alt="Edit" class="mr-2" />
                 EDIT DETAILS
               </div>
@@ -95,4 +95,5 @@
       </div>
     </div>
   </div>
-  </section>
+<app-loader-main *ngIf="loading"></app-loader-main>
+</section>
