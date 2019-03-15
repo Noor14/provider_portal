@@ -57,7 +57,7 @@ export class ViewWarehouseComponent implements OnInit, OnDestroy {
                   this.wareHouse[key] = JSON.parse(this.wareHouse[key]);
                 }
               }
-              else if (this.wareHouse.hasOwnProperty(key) && key == 'WHGallery') {
+              if (this.wareHouse.hasOwnProperty(key) && key == 'WHGallery') {
                 if (this.wareHouse[key] && this.wareHouse[key] != "[]" && isJSON(this.wareHouse[key])) {
                   this.wareHouse[key] = JSON.parse(this.wareHouse[key]);
                     const albumArr = []

@@ -329,7 +329,12 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     })
   }
   setData(obj:any){
-    console.log(obj)
+    if(obj.latitude){
+      this.location.lat = Number(obj.latitude);
+    }
+    if(obj.longitude){
+      this.location.lng = Number(obj.longitude);
+    }
     this.warehouseTypeFull = (obj.UsageType.toUpperCase() == 'SHARED')? false : true;
     this.fixedAmount = (obj.ComissionType == 'Fixed_Amount')? true :false;
     if (obj.FacilitiesProviding && isJSON(obj.FacilitiesProviding)) {
@@ -508,7 +513,6 @@ export class WarehouseComponent implements OnInit, OnDestroy {
               flag++
               if (flag === fileLength) {
                 this.uploadedGalleries = this.uploadedGalleries.concat(allDocsArr);
-                console.log(this.uploadedGalleries)
               }
             }
             else {

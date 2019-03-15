@@ -68,7 +68,7 @@ export class WarehouseListComponent implements OnInit {
               }
               if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {
                 obj.WHGallery = JSON.parse(obj.WHGallery);
-                this.allWareHouseList.forEach((obj) => {
+                this.allWareHouseList.forEach((object) => {
                   const albumArr = []
                   obj.WHGallery.forEach((elem) => {
                     const album = {
@@ -78,7 +78,7 @@ export class WarehouseListComponent implements OnInit {
                       DocumentUploadedFileType: elem.DocumentUploadedFileType
                     };
                     albumArr.push(album);
-                    obj.parsedGallery = albumArr;
+                    object.parsedGallery = albumArr;
                   })
 
                 })
