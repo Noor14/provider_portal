@@ -129,6 +129,7 @@
                 flex-wrap: wrap;
                 align-items: flex-start;
                 align-content: space-between;
+                flex-direction: column;
               }
             }
           }
@@ -170,7 +171,7 @@
         thead {
           th {
             &:nth-child(4) {
-              min-width: 20rem;
+              min-width: 15rem;
             }
           }
         }
@@ -184,7 +185,7 @@
               min-width: 10rem;
             }
             &:nth-child(7) {
-              min-width: 15rem;
+              min-width: 10rem;
             }
           }
         }
@@ -206,14 +207,19 @@
               min-width: 13rem;
             }
             &:nth-child(6) {
-              min-width: 11rem;
+              display: none;
             }
-            &:nth-child(9) {
+            &:nth-child(10) {
               min-width: 12rem;
             }
-            &:nth-child(4),
-            &:nth-child(7) {
+            &:nth-child(4) {
               min-width: 15rem;
+            }
+            &:nth-child(8) {
+              min-width: 15rem;
+            }
+            &:nth-child(9), &:nth-child(10) {
+              min-width: 10rem;
             }
           }
         }

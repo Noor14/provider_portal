@@ -35,6 +35,7 @@ export class RateHistoryComponent implements OnInit {
     private _seaFreightService: SeaFreightService,
     private _airFreightService: AirFreightService,
     private _groundTransportService: GroundTransportService,
+    private _manageRateService: ManageRatesService
   ) { }
 
   ngOnInit() {
@@ -66,22 +67,22 @@ export class RateHistoryComponent implements OnInit {
     this._seaFreightService.getRecHistoryFCL(this.getRecord.id, this.getRecord.type, this.userProfile.LoginID).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.loading = false
-        let records = JSON.parse(res.returnText);
-        if (records[0].History && records[0].History.length) {
-          records[0].History.map(obj => {
+        let records = res.returnObject;
+        if (records.history && records.history.length) {
+          records.history.map(obj => {
             if (typeof (obj.AuditDesc) == "string") {
               obj.AuditDesc = JSON.parse(obj.AuditDesc);
             }
           })
-          this.history = records[0].History;
+          this.history = records.history;
         }
-        this.historyHead = records[0].HistoryHead;
-        this.shippingInfo = this.getRecord.shippingLines.filter(e => e.CarrierID === this.historyHead[0].CarrierID)
+        this.historyHead = records.historyHead;
+        this.shippingInfo = this.getRecord.shippingLines.filter(e => e.CarrierID === this.historyHead[0].carrierID)
         const containers = JSON.parse(localStorage.getItem('containers'))
-        this.containerInfo = containers.find(e => e.ContainerSpecID === this.historyHead[0].ContainerSpecID && e.ContainerFor === 'FCL')
-        this.cargoInfo = this.historyHead[0].ShippingCatName
-        this.destinationDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].PodID);
-        this.originDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].PolID);
+        this.containerInfo = containers.find(e => e.ContainerSpecID === this.historyHead[0].containerSpecID && e.ContainerFor === 'FCL')
+        this.cargoInfo = this.historyHead[0].shippingCatName
+        this.destinationDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].podID);
+        this.originDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].polID);
       }
     })
   }
@@ -91,20 +92,20 @@ export class RateHistoryComponent implements OnInit {
     this._seaFreightService.getRecHistoryLCL(this.getRecord.id, this.getRecord.type, this.userProfile.LoginID).subscribe((res: any) => {
       this.loading = false
       if (res.returnStatus == "Success") {
-        let records = JSON.parse(res.returnText);
-        if (records[0].History && records[0].History.length) {
-          records[0].History.map(obj => {
+        let records = res.returnObject;
+        if (records.history && records.history.length) {
+          records.history.map(obj => {
             if (typeof (obj.AuditDesc) == "string") {
               obj.AuditDesc = JSON.parse(obj.AuditDesc);
             }
           })
-          this.history = records[0].History;
+          this.history = records.history;
         }
-        this.historyHead = records[0].HistoryHead;
-        this.shippingInfo = this.getRecord.shippingLines.filter(e => e.CarrierID === this.historyHead[0].CarrierID)
-        this.cargoInfo = this.historyHead[0].ShippingCatName
-        this.destinationDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].PodID);
-        this.originDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].PolID);
+        this.historyHead = records.historyHead;
+        this.shippingInfo = this.getRecord.shippingLines.filter(e => e.CarrierID === this.historyHead[0].carrierID)
+        this.cargoInfo = this.historyHead[0].shippingCatName
+        this.destinationDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].podID);
+        this.originDet = this.getRecord.ports.find(obj => obj.PortID === this.historyHead[0].polID);
       }
     })
   }
@@ -113,14 +114,14 @@ export class RateHistoryComponent implements OnInit {
     this._airFreightService.getRecHistory(this.getRecord.id, this.getRecord.type, this.userProfile.LoginID).subscribe((res: any) => {
       this.loading = false
       if (res.returnStatus == "Success") {
-        let records = JSON.parse(res.returnObject);
-        if (records[0].History && records[0].History.length) {
-          records[0].History.map(obj => {
+        let records = res.returnObject;
+        if (records[0].history && records[0].history.length) {
+          records[0].history.map(obj => {
             if (typeof (obj.AuditDesc) == "string") {
               obj.AuditDesc = JSON.parse(obj.AuditDesc);
             }
           })
-          this.history = records[0].History;
+          this.history = records[0].history;
         }
         if (records[0].customer && records[0].customer.length) {
           let custDet = records[0].customer[0];
@@ -139,31 +140,61 @@ export class RateHistoryComponent implements OnInit {
   }
   getHistoryGround() {
     this.loading = true
-    this._groundTransportService.getRecHistoryGround(this.getRecord.id, this.getRecord.type, this.userProfile.LoginID, this.getRecord.transportType).subscribe((res: any) => {
+    this.getGroundPorts()
+    this._groundTransportService.getRecHistoryGround(this.getRecord.id, 'RATE_TRUCK', this.userProfile.LoginID, this.getRecord.transportType).subscribe((res: any) => {
       this.loading = false
       if (res.returnStatus == "Success") {
-        let records = JSON.parse(res.returnText);
-        if (records[0].History && records[0].History.length) {
-          records[0].History.map(obj => {
+        let records = res.returnObject;
+        if (records.history && records.history.length) {
+          records.history.map(obj => {
             if (typeof (obj.AuditDesc) == "string") {
               obj.AuditDesc = JSON.parse(obj.AuditDesc);
             }
           })
-          this.history = records[0].History;
+          this.history = records.history;
         }
-        this.historyHead = records[0].HistoryHead;
+        this.historyHead = records.historyHead;
         const containers = JSON.parse(localStorage.getItem('containers'))
-        this.containerInfo = containers.find(e => e.ContainerSpecID === this.historyHead[0].ContainerSpecID && e.ContainerFor === 'FTL')
-        this.cargoInfo = this.historyHead[0].ShippingCatName
+        this.containerInfo = containers.find(e => e.ContainerSpecID === this.historyHead[0].containerSpecID && e.ContainerFor === 'FTL')
+        this.cargoInfo = this.historyHead[0].shippingCatName
         const ports = JSON.parse(localStorage.getItem('PortDetails'))
-        this.destinationDet = ports.find(obj => obj.PortID === this.historyHead[0].PodID);
-        this.originDet = ports.find(obj => obj.PortID === this.historyHead[0].PolID);
+        if (this.historyHead[0].podType === 'CITY' && this.historyHead[0].polType === 'CITY') {
+          this.destinationDet = {
+            podType: this.historyHead[0].podType,
+            podName: this.historyHead[0].podName,
+            podImageName: this.historyHead[0].podImageName,
+
+          }
+          this.originDet = {
+            polType: this.historyHead[0].polType,
+            polName: this.historyHead[0].polName,
+            polImageName: this.historyHead[0].polImageName
+          }
+        }
+
+        if (this.historyHead[0].podType === 'Ground') {
+          this.destinationDet = this.groundPorts.find(obj => obj.PortID === this.historyHead[0].podID);
+        } else if (this.historyHead[0].podType === 'SEA') {
+          this.destinationDet = ports.find(obj => obj.PortID === this.historyHead[0].podID);
+        }
+        if (this.historyHead[0].polType === 'Ground') {
+          this.originDet = this.groundPorts.find(obj => obj.PortID === this.historyHead[0].polID);
+        } else if (this.historyHead[0].polType === 'SEA') {
+          this.originDet = ports.find(obj => obj.PortID === this.historyHead[0].polID);
+        }
       }
     })
   }
   closeModal() {
     this._activeModal.close(status);
     document.getElementsByTagName('html')[0].style.overflowY = 'auto';
+  }
+
+  getGroundPorts() {
+    this._manageRateService.getPortsData('ground').subscribe((res: any) => {
+      loading(false)
+      this.groundPorts = res;
+    })
   }
 
   getProviderImage($image: string) {

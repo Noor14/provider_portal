@@ -252,7 +252,7 @@
             <div class="col-5 form-group">
               <label>Show Only Rates For </label>
               <div class="fancyOptionBoxes pull-left  filter-checkbox mr-3 pt-3">
-                <input id="Radios" name="Radios" type="radio"
+                <input id="Radios" name="Radios" type="checkbox" [checked]="isMarketplace"
                   (change)="isMarketplace = !isMarketplace; isCustomer = false">
                 <label for="Radios">
                   <span></span>
@@ -260,7 +260,7 @@
                 </label>
               </div>
               <div class="fancyOptionBoxes pull-left  filter-checkbox  pt-3">
-                <input id="Radios2" name="Radios" type="radio"
+                <input id="Radios2" name="Radios" type="checkbox" [checked]="isCustomer"
                   (change)="isCustomer = !isCustomer; isMarketplace = false">
                 <label for="Radios2">
                   <span></span>
@@ -292,8 +292,8 @@
   </section>
   <section class="rates-grid mt-5 publishRateGround"
     [ngClass]="{'no-data': allRatesList && !allRatesList.length, 'no-scroll-add': allRatesList && allRatesList.length, 'no-pagination': allRatesList && allRatesList.length <= dtOptionsByGround.pageLength}">
-    <div class="row mb-3 justify-content-end">
-      <div class="col-6 d-flex justify-content-start rate-dur" *ngIf="allRatesList && allRatesList.length">
+    <div class="row mb-3 justify-content-end" *ngIf="allRatesList">
+      <div class="col-6 d-flex justify-content-start rate-dur">
         <img src="../../../../../../assets/images/icons/Icons_Clock-2hour.svg" alt="del_icon"
           class="icon-size-24 mr-2" />
         Rates will be published in 2 hours
@@ -359,6 +359,7 @@
       (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('ftl', $event)"
       (pageEvent)="paging('ftl', $event)" [totalRecords]="totalPublishedRecords"
       [containerLoad]="(activeTab === 'activeFCL' ? 'FCL' : 'FTL')" [transMode]="'GROUND'"></app-ui-table>
+    <div class="text-center" *ngIf="!allRatesList">No Records Found</div>
     <app-loader-main *ngIf="publishloading"></app-loader-main>
   </section>
   <section class="term-cond">

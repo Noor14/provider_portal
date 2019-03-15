@@ -38,8 +38,6 @@ export class DiscardDraftComponent implements OnInit {
     })
   }
     else if (this.deleteIds.type == "draftGround"){
-      console.log(this.deleteIds);
-      
       this.groundTransportService.deleteNDiscardDraftRate(this.deleteIds.data).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
           this.closeModal(res.returnStatus);

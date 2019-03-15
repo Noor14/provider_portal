@@ -130,14 +130,14 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   public editorOptionsFCL = {
     placeholder: "insert content...",
-       modules: {
+    modules: {
       toolbar: this.toolbarOptions
     }
 
   };
   public editorOptionsLCL = {
     placeholder: "insert content...",
-       modules: {
+    modules: {
       toolbar: this.toolbarOptions
     }
   };
@@ -186,7 +186,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
     private _parserFormatter: NgbDateParserFormatter,
     private _toast: ToastrService,
     private _commonService: CommonService,
-    private cdRef : ChangeDetectorRef
+    private cdRef: ChangeDetectorRef
   ) {
   }
 
@@ -198,13 +198,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
     this.startDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.maxDate = { year: now.getFullYear() + 1, month: now.getMonth() + 1, day: now.getDate() };
     this.minDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
-
+    this.onTabChange('activeFCL')
     this.getAllPublishRates('fcl');
     this.allservicesBySea();
 
     // fill dropdow lists
     this.getDropdownsList()
-    this.getDraftRates('fcl')
     this.getPortsData()
     this.getContainersMapping()
 
@@ -264,26 +263,21 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
       this.filterDestination = {};
       this.filterOrigin = {};
       this.filterbyCustomer = null;
-      this.isMarketplace = true
+      this.isMarketplace = false
       this.isCustomer = false
       this.getAllPublishRates('fcl')
     }
     else if (type == "LCL") {
-      if (
-        (this.filterbyCargoType && this.filterbyCargoType != 'undefined') ||
-        (this.filterbyHandlingType && this.filterbyHandlingType != 'undefined') ||
-        (this.filterDestination && Object.keys(this.filterDestination).length) ||
-        (this.filterOrigin && Object.keys(this.filterOrigin).length)
-      ) {
-        this.model = null;
-        this.fromDate = null;
-        this.toDate = null;
-        this.filterbyCargoType = 'undefined';
-        this.filterbyHandlingType = 'undefined';
-        this.filterDestination = {};
-        this.filterOrigin = {};
-        this.getAllPublishRates('lcl')
-      }
+      this.model = null;
+      this.fromDate = null;
+      this.toDate = null;
+      this.isMarketplace = false
+      this.isCustomer = false
+      this.filterbyCargoType = 'undefined';
+      this.filterbyHandlingType = 'undefined';
+      this.filterDestination = {};
+      this.filterOrigin = {};
+      this.getAllPublishRates('lcl')
     }
   }
 
@@ -316,8 +310,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
     });
     modalRef.result.then((result) => {
       if (result) {
-        console.log(result);
-
         if (type == 'FCL') {
           // loading(true)
           this.setAddDraftData(type, result);
@@ -331,7 +323,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
       }
     });
     modalRef.componentInstance.savedRow.subscribe((emmitedValue) => {
-      console.log(emmitedValue);
       this.setAddDraftData(type, emmitedValue);
       this.getDraftRates(type.toLowerCase())
     });
@@ -471,6 +462,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
 
   }
+
   dateFilteronFocusOut(date, type) {
     if (type == "FCL") {
       if (!date) {
@@ -480,6 +472,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
   }
 
+  public filteredRecords: number;
   /**
    *
    * GET ALL PUBLISHED RATES FOR FCL OR LCL
@@ -487,6 +480,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    * @memberof SeaFreightComponent
    */
   getAllPublishRates(type) {
+    if (this.filteredRecords === 1) {
+      this.pageNo = this.pageNo - 1
+    }
     this.publishloading = true;
     let obj = {
       providerID: this.userProfile.ProviderID,
@@ -508,6 +504,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
       this.publishloading = false;
       if (res.returnId > 0) {
         this.totalPublishedRecords = res.returnObject.recordsTotal
+        this.filteredRecords = res.returnObject.recordsFiltered
         if (type === 'fcl') {
           this.allRatesList = cloneObject(res.returnObject.data);
           this.checkedallpublishRates = false;
@@ -1103,16 +1100,18 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    */
   getDropdownsList() {
     this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
-    this.seaPorts = this.allPorts.filter(e => e.PortType === 'SEA')
-    this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
-    this.fclContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FCL')
-    let uniq = {}
-    this.allCargoType = this.fclContainers.filter(obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true));
-    this._sharedService.currenciesList.subscribe(res => {
-      if (res) {
-        this.allCurrencies = res;
-      }
-    })
+    if (this.allPorts) {
+      this.seaPorts = this.allPorts.filter(e => e.PortType === 'SEA')
+      this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
+      this.fclContainers = this.combinedContainers.filter(e => e.ContainerFor === 'FCL')
+      let uniq = {}
+      this.allCargoType = this.fclContainers.filter(obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true));
+      this._sharedService.currenciesList.subscribe(res => {
+        if (res) {
+          this.allCurrencies = res;
+        }
+      })
+    }
   }
 
   /**
@@ -1150,13 +1149,17 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    */
   getPortsData() {
     loading(true)
-    this._manageRatesService.getPortsData().subscribe((res: any) => {
-      loading(false)
-      this.allPorts = res;
-      localStorage.setItem("PortDetails", JSON.stringify(res));
-    }, (err: HttpErrorResponse) => {
-      loading(false)
-    })
+    this.allPorts = JSON.parse(localStorage.getItem("PortDetails"))
+    if (!this.allPorts) {
+      this._manageRatesService.getPortsData().subscribe((res: any) => {
+        loading(false)
+        this.allPorts = res;
+        localStorage.setItem("PortDetails", JSON.stringify(res));
+      }, (err: HttpErrorResponse) => {
+        loading(false)
+      })
+    }
+
   }
 
   /**
@@ -1166,13 +1169,16 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    */
   getContainersMapping() {
     loading(true)
-    this._manageRatesService.getContainersMapping().subscribe((res: any) => {
-      loading(false)
-      this.allContainers = res.returnObject;
-      localStorage.setItem('containers', JSON.stringify(this.allContainers))
-    }, (err: any) => {
-      loading(false)
-    })
+    this.allContainers = JSON.parse(localStorage.getItem('containers'))
+    if (!this.allContainers) {
+      this._manageRatesService.getContainersMapping().subscribe((res: any) => {
+        loading(false)
+        this.allContainers = res.returnObject;
+        localStorage.setItem('containers', JSON.stringify(this.allContainers))
+      }, (err: any) => {
+        loading(false)
+      })
+    }
   }
 
   /**
@@ -1182,7 +1188,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    * @memberof SeaFreightComponent
    */
   tableCheckedRows(event) {
-    console.log(event);
     if (event.type === 'publishFCL') {
       if (typeof event.list[0] === 'object') {
         if (event.list[0].type === 'history') {

@@ -121,7 +121,8 @@
             <div class="info-table-ports d-flex">
               <div class="d-block text-truncate">
                 <img *ngIf="device?.carrierImage" [src]="getUIImage(device.carrierImage, true)" alt="" class="mr-2 rounded" height="24px"
-                  width="24px"> {{device?.carrierName || '-- Select --'}}
+                  width="24px"> 
+                  <span [ngClass]="device?.carrierName?.length > 15 ? 'text-truncate': ''">{{device?.carrierName || '-- Select --'}}</span>
               </div>
             </div>
           </td>
@@ -176,7 +177,7 @@
             <div class="d-flex info-table-logo align-items-center">
               <!-- <img [src]="getUIImage(device.CarrierImage, false)" alt="" class="mr-2 "> -->
               <span *ngIf="device.totalExportCharges && device.totalExportCharges > 0 && device.baseCurrencyCode">{{device.baseCurrencyCode}} {{device.totalImportCharges | number: '2.0-0'}}</span>
-              <span *ngIf="!device.totalExportCharges">-- Select --</span>
+              <span *ngIf="!device.totalExportCharges">0</span>
             </div>
           </td>
           <td (click)="draftAction(device, 'edit')">
@@ -184,7 +185,7 @@
               <!-- <img [src]="getUIImage(device.CarrierImage, false)" alt="" class="mr-2 "> -->
               <span *ngIf="device.totalExportCharges && device.totalExportCharges > 0 && device.baseCurrencyCode">
                 {{device.baseCurrencyCode}} {{device.totalExportCharges | number: '2.0-0'}}</span>
-              <span *ngIf="!device.totalExportCharges">-- Select --</span>
+              <span *ngIf="!device.totalExportCharges">0</span>
             </div>
           </td>
           <td>
