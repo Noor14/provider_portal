@@ -11,8 +11,8 @@
     .model-sub-head {
       color: $secondary-grey;
       font-family: $font-proxima;
-      font-weight: 500;
-      font-size: 0.875rem;
+      font-weight: $font-weight-mid;
+      font-size:$font-size-medium;
       text-transform: uppercase;
     }
     .popup-white {
@@ -30,7 +30,7 @@
         font-size: 1rem;
         color: #2b2b2b;
         font-family: "proxima-nova", sans-serif;
-        font-weight: 500;
+        font-weight:$font-weight-mid;
         background: #f1f0f0;
         line-height: 1;
         padding: 15px 10px;
@@ -142,7 +142,7 @@
         }
       }
       .active {
-        box-shadow: 0 0 0 1px #00a2df;
+        box-shadow: 0 0 0 1px $color-topmenuactive;
         border-radius: 4px;
         position: relative;
       }
@@ -215,7 +215,7 @@
           width: 100%;
           position: absolute;
           z-index: 999999;
-          background: #fff;
+          background:$color-white;
           border: 1px solid $primary-color;
           border-radius: 0.25rem;
           margin-top: 0.2rem;
@@ -234,11 +234,11 @@
                 font-family: $font-proxima;
                 font-size: $font-size-large;
                 margin-left: 1rem;
-                font-weight: 500;
+                font-weight: $font-weight-mid;
                 text-transform: uppercase;
               }
               p {
-                color: #555;
+                color:$secondary-text-color;
                 font-size: 0.75rem;
                 margin-bottom: 0;
                 padding: 0 2rem;
@@ -347,7 +347,7 @@
             font-style: normal !important;
           }
           .ngb-dp-day {
-            font-size: 0.875rem;
+            font-size: $font-size-medium;
             &:last-child {
               .custom-day {
                 color: $danger-color !important;

@@ -6,7 +6,7 @@
   }
 
   .modal-body {
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid $disabled-color;
 
     .detail {
       padding: 0px 15px;
@@ -74,7 +74,7 @@
     &-group {
       padding-bottom: 0;
       padding-left: 4px;
-      border-left: 1px solid #e9ecef;
+      border-left: 1px solid $disabled-color;
 
       &-item {
         padding: 1.2rem 1.5rem 0.2rem 1.5rem;
@@ -88,7 +88,7 @@
         }
 
         .activity {
-          font-weight: 500;
+          font-weight: $font-weight-mid;
         }
 
         // border-left: 0 !important;
@@ -96,7 +96,7 @@
           content: "";
           height: 8px;
           width: 8px;
-          background: #1caae3;
+          background: $btn-default-sky-blue;
           border-radius: 50%;
           position: absolute;
           left: -8.5px;
