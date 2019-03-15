@@ -78,7 +78,17 @@ export class UiTableComponent implements OnInit, OnChanges {
     } else if (this.tableType === 'publishFCL') {
       this.totalCount = this.totalRecords
     }
+    this.generateTableHeaders()
+    this.data = this.tableData
+    this.setPublishedRatesStatus()
+  }
 
+  /**
+   * [GENERATE TABLE HEADERS]
+   * @param  event [description]
+   * @return       [description]
+   */
+  generateTableHeaders() {
     if (this.containerLoad === 'LCL' && this.transMode === 'SEA') {
       this.thList = [
         { title: "", activeClass: '', sortKey: "" },
@@ -103,9 +113,13 @@ export class UiTableComponent implements OnInit, OnChanges {
         { title: "Export Charges", activeClass: '', sortKey: "" },
       ]
     }
-    this.data = this.tableData
-    console.log(this.data);
+  }
 
+  /**
+   * [SET STATUS FOR PUBLISHED RECORD]
+   * @return [description]
+   */
+  setPublishedRatesStatus() {
     this.data.forEach(e => {
       if (e.jsonCustomerDetail) {
         e.parsedjsonCustomerDetail = JSON.parse(e.jsonCustomerDetail)
@@ -115,7 +129,7 @@ export class UiTableComponent implements OnInit, OnChanges {
         if (e.parsedpublishStatus.Status === 'PENDING') {
           e.parsedpublishStatus.printStatus = 'Unpublished'
         } else if (e.parsedpublishStatus.Status === 'POSTED') {
-          e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MMMM Do YYYY h:mm:ss A')
+          e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('L h:mm:ss A')
         }
       }
       e.isChecked = false
@@ -128,10 +142,16 @@ export class UiTableComponent implements OnInit, OnChanges {
     })
   }
 
+  /**
+   * [ON DRAFTS GRID PAGE CHANGE ACTION]
+   * @param  {number} event [page number]
+   * @return       [description]
+   */
   onPageChangeBootstrap(event) {
     this.page = event;
     this.pageEvent.emit(this.page)
   }
+
 
   onHeadClick($index: number, $activeClass: string, $fieldToSort: any) {
     const cloneThList: HMTableHead[] = cloneObject(this.thList)
@@ -156,10 +176,21 @@ export class UiTableComponent implements OnInit, OnChanges {
     );
   }
 
+  /**
+   * [On Published Grid Page Change Action]
+   * @param  {number} number [page number]
+   * @return        [description]
+   */
   onPageChange(number: any) {
     this.devicPageConfig.currentPage = number;
   }
 
+  /**
+   * [Get UI image path from server]
+   * @param  $image [description]
+   * @param  type   [description]
+   * @return        [description]
+   */
   getUIImage($image: string, type) {
     if (type) {
       return baseExternalAssets + "/" + $image;
@@ -168,6 +199,12 @@ export class UiTableComponent implements OnInit, OnChanges {
   }
 
   public checkList = [];
+  /**
+   * [ACTION ON CHECKBOX SELECTION IN TABLE]
+   * @param  {string} type [all/ row id]
+   * @param  {object} model [selected row]
+   * @return       [description]
+   */
   onCheck(type, model) {
     if (type === 'all') {
       if (this.tableType === 'draftFCL') {
@@ -230,6 +267,12 @@ export class UiTableComponent implements OnInit, OnChanges {
     this.checkedRows.emit(obj)
   }
 
+  /**
+   * [Action on Draft Grid Row]
+   * @param  {object} row [selected table row]
+   * @param  action [delete/edit]
+   * @return        [description]
+   */
   draftAction(row, action) {
     if (this.tableType === 'publishFCL')
       return;
@@ -257,6 +300,12 @@ export class UiTableComponent implements OnInit, OnChanges {
     this.checkList = []
   }
 
+  /**
+   * [Action on Publish Grid Row]
+   * @param  {object} row [selected table row]
+   * @param  {string} action [history]
+   * @return        [description]
+   */
   publishAction(row, action) {
     if (this.tableType === 'draftFCL')
       return;
@@ -277,6 +326,11 @@ export class UiTableComponent implements OnInit, OnChanges {
     this.checkList = []
   }
 
+  /**
+   * [Validation on row selection via checkboxes]
+   * @param {object} row [table row]
+   * @return     [description]
+   */
   validateRow(row) {
     if (this.containerLoad === 'FCL' && this.transMode === 'SEA') {
       if (!row.polID ||
@@ -321,6 +375,13 @@ export class UiTableComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * [Sorting dropdown selection]
+   * @param  value  [string]
+   * @param  title  [string]
+   * @param  column [number]
+   * @return        [description]
+   */
   onSortClick(value, title, column) {
     this.selectedSort = {
       title: title,
@@ -334,6 +395,12 @@ export class UiTableComponent implements OnInit, OnChanges {
     this.sorting.emit(sortObj)
   }
 
+
+  /**
+   * [Change Detedction of Input in the Component]
+   * @param  changes [object]
+   * @return         [description]
+   */
   ngOnChanges(changes) {
     console.log(changes);
     if (changes.totalRecords) {
@@ -342,8 +409,6 @@ export class UiTableComponent implements OnInit, OnChanges {
       } else if (this.tableType === 'publishFCL') {
         this.totalCount = changes.totalRecords.currentValue
       }
-      // this.page = 1
-      // this.onPageChangeBootstrap(1)
     }
 
     if (changes.hasOwnProperty('containerLoad')) {
@@ -354,7 +419,6 @@ export class UiTableComponent implements OnInit, OnChanges {
 
     if (changes.tableData) {
       this.data = changeCase(changes.tableData.currentValue, 'camel')
-      this.checkAllPublish = false;
       this.data.forEach(e => {
         if (e.jsonCustomerDetail) {
           e.parsedjsonCustomerDetail = JSON.parse(e.jsonCustomerDetail)
@@ -367,7 +431,7 @@ export class UiTableComponent implements OnInit, OnChanges {
             e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MM/DD/YYYY h:mm:ss A')
           }
         }
-        e.isChecked = false
+        e.isChecked = this.checkAllPublish ? true : false
         let dateDiff = getDateDiff(moment(e.effectiveTo).format("L"), moment(new Date()).format("L"), 'days', "MM-DD-YYYY")
         if (dateDiff <= 15) {
           e.dateDiff = dateDiff
@@ -375,9 +439,6 @@ export class UiTableComponent implements OnInit, OnChanges {
           e.dateDiff = null
         }
       })
-      // if (!changes.tableData.previousValue || !changes.tableData.currentValue || !changes.tableData.currentValue.length || !changes.tableData.previousValue.length) {
-      //   this.onPageChangeBootstrap(1)
-      // }
     }
     this.checkList = []
   }
