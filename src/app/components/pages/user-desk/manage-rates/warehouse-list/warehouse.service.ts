@@ -31,4 +31,5 @@ export class WarehouseService {
     let url: string = "warehousesetup/AddWarehouse";
     return this._http.post(baseApi + url, obj);
   }
+
 }

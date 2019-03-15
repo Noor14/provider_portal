@@ -26,7 +26,16 @@
           </ng-template>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-4" *ngIf="selectedData.forType === 'WAREHOUSE'">
+        <div class="form-group">
+          <label>Warehouse Type</label>
+          <select class="form-control" name="" [ngModel]="storageType">
+            <option value="">Please Select</option>
+            <option [value]="type.codeVal" *ngFor="let type of warehouseTypes">{{type.codeValDesc}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-4" *ngIf="selectedData.forType !== 'WAREHOUSE'">
         <div class="form-group">
           <label>Port of Origin</label>
           <div class="origin">
@@ -38,7 +47,7 @@
           </div>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-4" *ngIf="selectedData.forType !== 'WAREHOUSE'">
         <div class="form-group">
           <label>Port of Destination</label>
           <div class="destination">
@@ -60,7 +69,7 @@
       </div>
     </div>
     <div class="row bg-white popup-white">
-      <div class="col-4">
+      <div class="col-4" *ngIf="selectedData.forType !== 'WAREHOUSE'">
         <div class="form-group">
           <label>Cargo Type</label>
           <select class="form-control" [(ngModel)]="selectedCategory" [disabled]="selectedData.mode === 'publish' || selectedData.forType === 'FCL-Ground' || selectedData.forType === 'FTL' " (change)="cargoTypeChange(selectedCategory)">
@@ -293,8 +302,9 @@
         <div class="col-xl-4 col-md-4 col-sm-12">
           <div class="row combine-filed-popup">
             <div class="col-6 pr-0">
-              <div class="combine-filed-popup-left" *ngIf="selectedData.forType !== 'LCL'">Freight Charges</div>
+              <div class="combine-filed-popup-left" *ngIf="selectedData.forType !== 'LCL' && selectedData.forType !== 'WAREHOUSE'">Freight Charges</div>
               <div class="combine-filed-popup-left" *ngIf="selectedData.forType == 'LCL'">Rate / cbm</div>
+              <div class="combine-filed-popup-left" *ngIf="selectedData.forType === 'WAREHOUSE'">Rate / cbm / day</div>
             </div>
             <div class="col-6 pl-0">
               <div class="form-group combine-filed-popup-right" [ngClass]="showDoubleRates ? 'hasDoubleRates' : ''">
@@ -307,8 +317,21 @@
           </div>
         </div>
 
+        <div class="col-xl-4 col-md-4 col-sm-12" *ngIf="selectedData.forType === 'WAREHOUSE'">
+          <div class="row combine-filed-popup">
+            <div class="col-6 pr-0">
+              <div class="combine-filed-popup-left">Rate / sqft / day</div>
+            </div>
+            <div class="col-6 pl-0">
+              <div class="form-group combine-filed-popup-right">
+                <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="couplePrice" (keypress)="numberValid($event)">
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <div class="col-xl-5 col-md-5 col-sm-12">
+
+        <div class="col-xl-5 col-md-5 col-sm-12" *ngIf="selectedData.forType !== 'WAREHOUSE'">
           <div class="row combine-filed-popup">
             <div class="col-4 pr-0">
               <div class="combine-filed-popup-left">Validity Date</div>

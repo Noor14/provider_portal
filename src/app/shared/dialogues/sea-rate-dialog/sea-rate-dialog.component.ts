@@ -120,6 +120,10 @@ export class SeaRateDialogComponent implements OnInit {
   public userCurrency: number;
   public TotalImportCharges: number = 0
   public TotalExportCharges: number = 0
+  public warehouseTypes:any[] = []
+  public storageType: string = ''
+  pricingJson: any;
+  whPricingID: any;
 
   constructor(
     private location: PlatformLocation,
@@ -151,6 +155,9 @@ export class SeaRateDialogComponent implements OnInit {
     }
     console.log(this.selectedData);
     this.containerLoadParam = (this.selectedData.forType === 'FCL-Ground' ? 'FCL' : this.selectedData.forType)
+    if(this.selectedData.forType === 'WAREHOUSE'){
+      this.warehouseTypes = this.selectedData.drafts
+    }
     this.allservicesBySea();
     if (this.selectedData.mode === 'draft') {
       if (this.selectedData.data && this.selectedData.data.JsonSurchargeDet) {
@@ -462,9 +469,15 @@ export class SeaRateDialogComponent implements OnInit {
     
 
     let obj = {
+      // GROUND ID
       ID: (this.selectedData.ID ? this.selectedData.ID : 0),
+
+      // FCL ID
       providerPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ProviderPricingDraftID : 0,
+
+      // LCL ID
       consolidatorPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ConsolidatorPricingDraftID : 0,
+
       customerID: (this.selectedCustomer.length ? this.selectedCustomer[0].CustomerID : null),
       customersList: (customers.length ? customers : null),
       carrierID: (this.selectedShipping) ? this.selectedShipping.CarrierID : undefined,
@@ -498,7 +511,13 @@ export class SeaRateDialogComponent implements OnInit {
       JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
       TotalImportCharges: this.TotalImportCharges,
       TotalExportCharges: this.TotalExportCharges,
-      createdBy: this.userProfile.LoginID
+      createdBy: this.userProfile.LoginID,
+      
+      //WAREHOUSE FIELDS 
+      storageType: this.storageType,
+      whPricingID: (this.selectedData.data) ? this.selectedData.data.whPricingID : 0,
+      pricingJson: this.pricingJson,
+      parentID: 0,
     }
 
     if(obj.price && parseInt(obj.price) === 0){

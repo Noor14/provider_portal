@@ -116,6 +116,9 @@
                   <button (click)="goToDetail(wareHouse.WHID)" class="btn btn-outline-primary hvr-sweep-to-right rate-btn pull-right text-uppercase" *ngIf="!wareHouse.IsRateAvailable">
                     Add rates
                   </button>
+                  <button (click)="addWarehouse(0)" class="btn btn-outline-primary hvr-sweep-to-right rate-btn pull-right text-uppercase" *ngIf="!wareHouse.IsRateAvailable">
+                    Add Warehouse Rates
+                  </button>
                   <button (click)="goToDetail(wareHouse.WHID)" class="btn btn-primary hvr-sweep-to-right rate-btn pull-right text-uppercase" *ngIf="wareHouse.IsRateAvailable">
                     View rates
                   </button>
