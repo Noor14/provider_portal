@@ -61,26 +61,21 @@
                   <h5 class="card-title">{{ wareHouse.WHName }}</h5>
                   <div class="warehousing-content">
                     <ul class="list-group">
-                      <li class="list-group-item">
+                      <li class="list-group-item mr-3">
                         <img src="../../../assets/images/icons/Icons_Location-grey.svg" alt="icon" class="icon-size-16 mr-2" />
                         <span>
                           {{ wareHouse.CityName }}, {{ wareHouse.CountryName }}
                         </span>
                       </li>
-                    </ul>
-                    <ul class="list-group mt-4">
                       <li class="list-group-item mr-4">
                         <img src="../../../assets/images/icons/icon_grid.svg" alt="icon" class="icon-size-14 mr-2" />
                         {{ wareHouse.TotalCoveredArea }}
                         {{ wareHouse.TotalCoveredAreaUnit }}
                         <!-- <sup>2</sup> -->
                       </li>
-                      <li class="list-group-item">
-                        <img src="../../../assets/images/icons/Icons_Clock-28-light-grey.svg" alt="icon" class="icon-size-14 mr-2" />
-                        8:30 am to 5:00am
-                      </li>
                     </ul>
-                    <div class="warehouse-features mt-3 d-flex">
+                    <p class="warehousing-disc mt-3 mb-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <div class="warehouse-features d-flex">
                       <div class="icons" *ngFor="let facilities of wareHouse.FacilitiesProviding">
                         <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse" *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse'"
                           [ngClass]="{
