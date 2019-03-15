@@ -165,7 +165,7 @@ export class ReportsComponent implements OnInit {
   }
 
   filterByDate(bookings) {
-    return bookings.sort(function (a, b) {
+    return bookings.sort(function(a, b) {
       let dateA: any = new Date(a.HashMoveBookingDate);
       let dateB: any = new Date(b.HashMoveBookingDate);
       return dateB - dateA;
@@ -585,6 +585,7 @@ export class ReportsComponent implements OnInit {
     };
     // ========== Chart #3 UserRegionBarGraph (Volume%) ========== /
     this.userRegionBarGraph = {
+      height: 340,
       color: ['#3398DB'],
       title: {
         // text: '各省数据合格率统计',
@@ -611,16 +612,37 @@ export class ReportsComponent implements OnInit {
       xAxis: {
         type: 'value',
         show: false,
+        axisLine: {
+          show: false,
+          onZero: false,
+        },
+        axisTick: {
+          show: false
+        },
+        splitLine: {
+          lineStyle: {
+            type: "dotted",
+            shadowBlur: -20
+          }
+        }
       },
       yAxis: {
         type: 'category',
         data: ['湖北省', '湖南省', '河南省', '安徽省', '浙江省', '山东省', '广东省'],
         axisLabel: {
           show: false,
-        }
+        },
+        axisTick: {
+          show: false
+        },
+        axisLine: {
+          show: false,
+          onZero: false,
+        },
       },
       series: [{
         type: 'bar',
+        barWidth: 30,
         label: {
           align: 'right',
           normal: {
@@ -990,7 +1012,7 @@ export function getColorList(legends) {
 
 export function getAxisData(list) {
   const sorted = list.sort(
-    firstBy(function (v1, v2) { return v1.sortingOrder - v2.sortingOrder; })
+    firstBy(function(v1, v2) { return v1.sortingOrder - v2.sortingOrder; })
   );
   const data = removeDuplicates(sorted, "key")
   const axisData = extractColumn(data, 'key')
@@ -1012,7 +1034,7 @@ export function getSerieData(legendsList, barGraph) {
   legendsList.forEach(legend => {
 
     const sortedMode = barGraph.sort(
-      firstBy(function (v1, v2) { return v1.sortingOrder - v2.sortingOrder; })
+      firstBy(function(v1, v2) { return v1.sortingOrder - v2.sortingOrder; })
     );
     // const currencyControl = new CurrencyControl()
     const filteredMode: Array<any> = sortedMode.filter(mode => mode.shippingModeCode.toLowerCase() === legend.toLowerCase())
