@@ -301,27 +301,23 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     this._warehouseService.getWarehouseList(providerId, id).subscribe((res: any) => {
       if (res.returnStatus == "Success" && res.returnObject) {
         loading(false);
-        let leaseTerm = res.returnObject.MstLeaseTerm;
-        let unitLength = res.returnObject.MstUnitLength;
-        let unitArea = res.returnObject.MstUnitArea;
-        let unitVolume = res.returnObject.MstUnitVolume;
         this.isRealEstate = res.returnObject.IsRealEstate;
-        this.ceilingsHeight = res.returnObject.CeilingDesc;
-        this.warehouseUsageType = res.returnObject.WHUsageType;
+        const data = [
+          'WH_MIN_LEASE_TERM',
+          'UNIT_AREA',
+          'WH_USAGE_TYPE',
+          'UNIT_VOLUME',
+          'WH_CEILING_HEIGHT'
+        ]
         this.warehouseDocx = res.returnObject.documentType;
         if (res.returnObject && !Number(id)) {
           this.facilities = res.returnObject.WHFacilitiesProviding;
-          if (this.ceilingsHeight) {
-            let ceilingID = this.ceilingsHeight.find(obj => obj.CeilingID == 4).CeilingID
-            this.propertyDetailForm.controls['ceilingHeight'].setValue(ceilingID);
-          }
         }
         else if(Number(id)){
-        
           this.warehouseDetail = res.returnObject.WHModel[0];
           this.setData(this.warehouseDetail);
         }
-        this.getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume);
+        this.getvaluesDropDown(data);
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
@@ -434,14 +430,21 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     }
   }
 
-  getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume) {
-    loading(true)
-    this._warehouseService.getDropDownValuesWarehouse(leaseTerm, unitLength, unitArea, unitVolume).subscribe((res: any) => {
+  getvaluesDropDown(data) {
+    loading(true);
+    this._warehouseService.getDropDownValuesWarehouse(data).subscribe((res: any) => {
       loading(false);
+      
       if (res && res.length) {
-        this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM')
-        this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM');
+        this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
+        this.warehouseUsageType = res.filter(obj => obj.codeType == 'WH_USAGE_TYPE');
+        this.ceilingsHeight = res.filter(obj => obj.codeType == 'WH_CEILING_HEIGHT');
+        this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM' && obj.codeType != 'WH_USAGE_TYPE' && obj.codeType != 'WH_CEILING_HEIGHT');
         if(!Number(this.whID)){
+          if (this.ceilingsHeight) {
+            let ceilingID = this.ceilingsHeight.find(obj => obj.codeVal == 4).codeVal
+            this.propertyDetailForm.controls['ceilingHeight'].setValue(ceilingID);
+          }
         let object = this.units.find(obj => obj.codeVal == 'SQFT');
         this.propertyDetailForm.patchValue({
           warehouseSpaceUnit: object.codeValDesc,

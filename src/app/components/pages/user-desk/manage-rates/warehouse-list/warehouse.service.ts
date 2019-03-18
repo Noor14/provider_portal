@@ -22,13 +22,20 @@ export class WarehouseService {
     return this._http.post(baseApi + url, obj);
   }
 
-  getDropDownValuesWarehouse(leasTerm, unitLength, unitArea, unitVolume){
-    let url: string = `MstCodeVal/GetMstCodeValMultipleList/${leasTerm},${unitLength},${unitArea},${unitVolume}`;
-    return this._http.get(baseApi + url);
+  getDropDownValuesWarehouse(data){
+    let url: string = "MstCodeVal/GetMstCodeValMultipleList";
+    return this._http.post(baseApi + url, data);
   }
 
   addWarehouseDetail(obj) {
     let url: string = "warehousesetup/AddWarehouse";
     return this._http.post(baseApi + url, obj);
   }
+
+
+  WHtermNcondition(providerID){
+    let url: string = `provider/GetProviderTermsCondition/warehouse/${providerID}`;
+    return this._http.get(baseApi + url);
+  }
+  
 }

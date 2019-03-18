@@ -188,11 +188,11 @@
                   <div class="form-group">
                     <label>Property Type</label>
                     <div class="fancyOptionBoxes pull-left mb-3 mr-3" *ngFor="let type of warehouseUsageType; let i = index">
-                      <input id="{{i+1}}" [checked]="(type.UsageTypeTitle == 'Full Warehouse' && warehouseTypeFull)|| (type.UsageTypeTitle != 'Full Warehouse' && !warehouseTypeFull)" name="warehouseType"
+                      <input id="{{i+1}}" [checked]="(type.codeValDesc == 'Full Warehouse' && warehouseTypeFull)|| (type.codeValDesc != 'Full Warehouse' && !warehouseTypeFull)" name="warehouseType"
                       (change)="changeWarehouseType()" type="radio">
                       <label for="{{i+1}}">
                         <span></span>
-                        {{type.UsageTypeTitle}}
+                        {{type.codeValDesc}}
                       </label>
                     </div>
                   </div>
@@ -273,7 +273,7 @@
                         </label>
                         <div class="input-group">
                           <select class="form-control input-dropdown" formControlName="ceilingHeight">
-                            <option [value]="obj.CeilingID" *ngFor="let obj of ceilingsHeight">{{obj.CeilingID}}</option>
+                            <option [value]="obj.codeVal" *ngFor="let obj of ceilingsHeight">{{obj.codeVal}}</option>
                           </select>
                           <div class="input-group-append">
                             <div class="input-group-text">
@@ -302,7 +302,7 @@
                             formControlName="minLeaseValueOne">
                           <div class="input-group-append">
                             <div class="input-group-text">
-                              <span class="pl-3 pr-3 pt-2 pb-2">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span>
+                              <span class="pl-3 pr-3 pt-2 pb-2">sqft</span>
                             </div>
                           </div>
                         </div>
@@ -328,7 +328,7 @@
                             formControlName="minLeaseValueTwo">
                           <div class="input-group-append">
                             <div class="input-group-text">
-                            <span class="pl-3 pr-3 pt-2 pb-2">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span>
+                            <span class="pl-3 pr-3 pt-2 pb-2">cbm</span>
                             </div>
                           </div>
                         </div>
