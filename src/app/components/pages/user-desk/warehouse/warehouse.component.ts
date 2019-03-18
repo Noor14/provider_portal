@@ -252,7 +252,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
           //get the place result
           let place: google.maps.places.PlaceResult = autocomplete.getPlace();
           // console.log(place)
-          // this.locationForm.controls['address'].setValue(place.formatted_address);
+          this.locationForm.controls['address'].setValue(this.searchElement.nativeElement.value);
           //verify result
           if (place.geometry === undefined || place.geometry === null) {
             return;
