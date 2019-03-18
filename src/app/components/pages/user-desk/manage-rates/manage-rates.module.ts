@@ -24,6 +24,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { QuillEditorModule } from 'ngx-quill-editor';
 import { ServicesGuard } from './services.guard';
+import { PipeModule } from '../../../../constants/pipe/pipe.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -37,7 +38,8 @@ import { ServicesGuard } from './services.guard';
     LightboxModule,
     NgxPaginationModule,
     UiSwitchModule,
-    QuillEditorModule
+    QuillEditorModule,
+    PipeModule
 
   ],
   declarations: [
@@ -49,7 +51,6 @@ import { ServicesGuard } from './services.guard';
     UniquePipe,
     SearchPipe,
     CheckboxPipe
-
   ],
   providers: [
     SeaFreightService, 

@@ -38,6 +38,7 @@ import { WarehouseService } from './manage-rates/warehouse-list/warehouse.servic
 import { LightboxModule } from 'ngx-lightbox';
 import { BookingsCardComponent } from './bookings-card/bookings-card.component';
 import { DynamicScriptLoaderService } from '../../../services/dynamic-script-loader.service';
+import { PipeModule } from '../../../constants/pipe/pipe.module';
 
 @NgModule({
   imports: [
@@ -58,7 +59,8 @@ import { DynamicScriptLoaderService } from '../../../services/dynamic-script-loa
     FormsModule,
     ReactiveFormsModule,
     NgStepperModule,
-    LightboxModule
+    LightboxModule,
+    PipeModule
   ],
   declarations: [
     UserDeskComponent,
