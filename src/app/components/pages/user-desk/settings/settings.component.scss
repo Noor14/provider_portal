@@ -362,6 +362,18 @@
       }
     }
   }
+  .select-number {
+    .select-country-list {
+      .dropdown-toggle{
+        padding-right:15px;
+        &::after {
+          right:0px !important;
+        }
+      }
+
+    }
+
+  }
 
   @media(max-width: $screen-md-screen) {
     .nav-tabs {
