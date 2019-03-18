@@ -744,7 +744,7 @@ input[type="checkbox"]:focus+label>span {
     }
 
     &.inputError {
-      box-shadow: inset 0px 0px 0px 1px #d32020 !important;
+      box-shadow: inset 0px 0px 0px 1px $danger-color !important;
     }
 
     &.inputErrorRemove {
@@ -982,7 +982,7 @@ input[type="checkbox"]:focus+label>span {
   .input-group-prepend,
   .input-group-append {
     margin-right: -2px;
-    z-index: 9;
+    // z-index: 9;
 
     .input-group-text {
       padding: 0;
@@ -1047,6 +1047,26 @@ input[type="checkbox"]:focus+label>span {
 
       .select-country-list {
         margin-left: 19px;
+        &.website {
+          .country-section {
+          top: auto !important;
+          bottom: 62px;
+          }
+          .dropdown-toggle {
+            &::after {
+              display: inline-block;
+              width: 0;
+              height: 0;
+              margin-left: .255em;
+              vertical-align: .255em;
+              content: "";
+              border-top: 0;
+              border-right: .3em solid transparent;
+              border-bottom: .3em solid;
+              border-left: .3em solid transparent;
+            }
+          }
+        }
       }
 
       .phone {
@@ -1086,10 +1106,7 @@ input[type="checkbox"]:focus+label>span {
           }
         }
 
-        &.website {
-          top: auto !important;
-          bottom: 62px;
-        }
+  
       }
 
       &.inputError {
@@ -1999,7 +2016,7 @@ quill-editor {
 
     a {
       padding: 0.45rem 0.65rem;
-      border: 1px solid #e5e5e5;
+      border: 1px solid $grey-border;
       background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ffffff), to(#ebebeb));
       background: linear-gradient(to bottom, #ffffff 0, #ebebeb 100%);
       border-radius: 5px;
