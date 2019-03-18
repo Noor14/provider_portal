@@ -506,7 +506,11 @@ export class SettingsComponent implements OnInit {
           }
           else {
             if (!obj.IsRemovable) {
-              this._toastr.info("Service can not be removed. Please first removed the rates", '')
+              if (obj.LogServCode == "WRHS"){
+                this._toastr.info("Service can not be removed. Please first removed the warehouse", '')
+              }else{
+                this._toastr.info("Service can not be removed. Please first removed the rates", '')
+              }
             }
             else {
               this._toastr.info("At least one service is mandatory.", '')
@@ -633,7 +637,12 @@ export class SettingsComponent implements OnInit {
   }
 
   realEstateSel(type) {
-    this.IsRealEstate = (type == 'owner') ? false : true
+    let wareHouseTypeSel = this.frtService.some(obj => obj.LogServCode == "WRHS" && obj.IsRemovable);
+    if (!wareHouseTypeSel){
+      this._toastr.info("Service can not be update. Please first removed the warehouse", '')
+      return;
+    } 
+    this.IsRealEstate = (type == 'owner') ? false : true;
     let object = {
       providerID: this.userProfile.ProviderID,
       modifiedBy: this.userProfile.LoginID,
