@@ -10,7 +10,7 @@
     .model-sub-head {
       color: $secondary-grey;
       font-family: $font-proxima;
-      font-weight: 500;
+      font-weight: $font-weight-mid;
       font-size: 0.875rem;
       text-transform: uppercase;
     }
@@ -75,7 +75,7 @@
           width: 100%;
           position: absolute;
           z-index: 999999;
-          background: #fff;
+          background:$color-white;
           border: 1px solid $primary-color;
           border-radius: 0.25rem;
           margin-top: 0.2rem;
@@ -94,7 +94,7 @@
                 font-family: $font-proxima;
                 font-size: $font-size-large;
                 margin-left: 1rem;
-                font-weight: 500;
+                font-weight: $font-weight-mid;
                 text-transform: uppercase;
               }
               p {

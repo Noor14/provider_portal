@@ -84,7 +84,7 @@
           width: 1px;
           position: absolute;
           right: 15px;
-          border-right: 1px dashed #e5e5e5;
+          border-right: 1px dashed $grey-border;
           top: -5px;
         }
 
@@ -127,8 +127,7 @@
   }
 
   .billingSummary {
-    padding: 10px 35px 11px 35px !important;
-
+    padding:11px 28px 10px 35px !important;
     .summarySection {
       &:first-child {
         &::after {

@@ -50,7 +50,7 @@
             @extend .address
         }
         .dotted {
-            border-bottom: 1px dashed #e5e5e5;
+            border-bottom: 1px dashed $grey-border;
         }
     }
     &-footer {
