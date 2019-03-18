@@ -439,7 +439,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
         this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
         this.warehouseUsageType = res.filter(obj => obj.codeType == 'WH_USAGE_TYPE');
         this.ceilingsHeight = res.filter(obj => obj.codeType == 'WH_CEILING_HEIGHT');
-        this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM' && obj.codeType != 'WH_USAGE_TYPE' && obj.codeType != 'WH_CEILING_HEIGHT');
+        this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM' && obj.codeType != 'WH_USAGE_TYPE' && obj.codeType != 'WH_CEILING_HEIGHT' && obj.codeVal.toUpperCase() != 'SQCM');
         if(!Number(this.whID)){
           if (this.ceilingsHeight) {
             let ceilingID = this.ceilingsHeight.find(obj => obj.codeVal == 4).codeVal
