@@ -9,7 +9,7 @@ export class CheckboxPipe implements PipeTransform {
 
     //check if search term is undefined
     if (!data) return null;
-    else if (param1 && param2) return data;
+    else if ((param1 && param2) || (!param1 && !param2)) return data;
     else if(!param1 && param2){
       return data.filter(function (item) {
         return !item.IsBlocked == param1;
