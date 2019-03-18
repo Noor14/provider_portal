@@ -101,37 +101,6 @@
         border: 1px solid $grey-border;
         overflow: hidden;
 
-        // ngb-typeahead-window {
-        //   max-height: 200px;
-        //   overflow-y: auto;
-        //   padding: 0;
-
-        //   .dropdown-item {
-        //     display: flex;
-
-        //     .flag-container {
-        //       width: 15px;
-        //       height: 12px;
-        //       margin-right: 10px !important;
-
-        //       img {
-        //         width: 16px;
-        //         height: 12px;
-        //         border: 1px solid $primary-grey;
-        //       }
-        //     }
-
-        //     ngb-highlight {
-        //       padding-right: 1rem;
-        //     }
-
-        //     &.active,
-        //     &:active {
-        //       background: $primary-grey;
-        //     }
-        //   }
-        // }
-
         .city-dropdown {
           position: relative;
           display: inline-block;
