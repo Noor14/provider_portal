@@ -10,10 +10,16 @@ header {
     padding-left: 1rem;
     padding-right: 1rem;
 
-    .logo {
-      width: 180px;
-      height: auto;
+    .text-hide{
+      background-image: url('../../../assets/images/hashmove-logo.png');
+      width: 199px;
+      height: 38px;
+      background-repeat: no-repeat;
     }
+    // .logo {
+    //   width: 180px;
+    //   height: auto;
+    // }
 
     &-nav {
       .nav-item {

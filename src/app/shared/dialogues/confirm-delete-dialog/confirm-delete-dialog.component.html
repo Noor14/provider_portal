@@ -1,6 +1,7 @@
 <div class="provider-modal animated fadeIn">
     <div class="modal-header">
-      <h4 class="provider-modal-title" *ngIf="deleteIds.type != 'DelAccount'">Delete</h4>
+      <h4 class="provider-modal-title" *ngIf="deleteIds.type == 'CancelWarehouse'">Cancel</h4>
+      <h4 class="provider-modal-title" *ngIf="deleteIds.type != 'DelAccount' && deleteIds.type != 'CancelWarehouse'">Delete</h4>
       <h4 class="provider-modal-title" *ngIf="deleteIds.type == 'DelAccount'">Delete Account</h4>
       <a class="pointer crossIcon" (click)="closeModal(null)">
         <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
@@ -8,9 +9,10 @@
     </div>
     <div class="modal-body">
       <div class="text-center">
-          <p *ngIf="deleteIds.type != 'DelWarehouse' && deleteIds.type != 'DelAccount'">Are you sure to delete this entry?</p>
+          <p *ngIf="deleteIds.type != 'DelWarehouse' && deleteIds.type != 'CancelWarehouse'">Are you sure to delete this entry?</p>
           <p *ngIf="deleteIds.type == 'DelAccount'">Are you sure to delete your account?</p>
           <p *ngIf="deleteIds.type == 'DelWarehouse'">Are you sure you want to delete this warehouse?</p>
+          <p *ngIf="deleteIds.type == 'CancelWarehouse'">Are you sure you want to cancel warehouse?</p>
         <button class="btn btn-danger btn-lg hvr-sweep-to-right" (click)="delete()">
           <span *ngIf="deleteIds.type != 'DelAccount'">YES, I AM SURE</span>
           <span *ngIf="deleteIds.type == 'DelAccount'">YES, I WANT TO DELETE MY ACCOUNT</span>

@@ -42,15 +42,15 @@
             <div class="card-body">
               <div class="row mt-1">
                 <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12">
-                  <div *ngFor="let doc of wareHouse.WHGallery; let i = index" (click)="openGallery(wareHouse.WHGallery, i)">
+                  <div *ngFor="let doc of wareHouse.parsedGallery; let i = index" (click)="openGallery(wareHouse.parsedGallery, i)">
                     <div class="gallery-section" *ngIf="i == 0">
                       <div class="images-carousel">
-                        <img [src]="baseExternalAssets + doc.DocumentFile" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
+                        <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
                         <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
-                          <source [src]="baseExternalAssets + doc.DocumentFile" type="video/mp4" />
+                          <source [src]="doc.DocumentFile" type="video/mp4" />
                         </video>
                         <div class="gallery-section-item d-flex justify-content-center align-items-center">
-                          <img src="../../../assets/images/icons/icon_pictures.svg" alt="" class="icon-size-14 mr-1" />
+                          <img src="../../../assets/images/icons/icon_pictures.svg" alt="count" class="icon-size-14 mr-1" />
                           {{ wareHouse.WHGallery.length }}
                         </div>
                       </div>
@@ -61,26 +61,21 @@
                   <h5 class="card-title">{{ wareHouse.WHName }}</h5>
                   <div class="warehousing-content">
                     <ul class="list-group">
-                      <li class="list-group-item">
+                      <li class="list-group-item mr-3">
                         <img src="../../../assets/images/icons/Icons_Location-grey.svg" alt="icon" class="icon-size-16 mr-2" />
                         <span>
                           {{ wareHouse.CityName }}, {{ wareHouse.CountryName }}
                         </span>
                       </li>
-                    </ul>
-                    <ul class="list-group mt-4">
                       <li class="list-group-item mr-4">
                         <img src="../../../assets/images/icons/icon_grid.svg" alt="icon" class="icon-size-14 mr-2" />
                         {{ wareHouse.TotalCoveredArea }}
                         {{ wareHouse.TotalCoveredAreaUnit }}
                         <!-- <sup>2</sup> -->
                       </li>
-                      <li class="list-group-item">
-                        <img src="../../../assets/images/icons/Icons_Clock-28-light-grey.svg" alt="icon" class="icon-size-14 mr-2" />
-                        8:30 am to 5:00am
-                      </li>
                     </ul>
-                    <div class="warehouse-features mt-3 d-flex">
+                    <p class="warehousing-desc mt-3 mb-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <div class="warehouse-features d-flex">
                       <div class="icons" *ngFor="let facilities of wareHouse.FacilitiesProviding">
                         <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse" *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse'"
                           [ngClass]="{
@@ -161,8 +156,9 @@
           </pagination-controls>
         </div>
       </div>
+      <app-loader-main *ngIf="loading"></app-loader-main>
     </section>
-    <div class="overflow-hidden row" *ngIf="!allWareHouseList || (allWareHouseList &&  !(allWareHouseList | search : wareHouseTitle).length) || (allWareHouseList &&  !(allWareHouseList | filterByCheckbox : activeStatus : inActiveStatus).length )">
+      <div class="overflow-hidden row" *ngIf="!loading && (!allWareHouseList || (allWareHouseList &&  !(allWareHouseList | search : wareHouseTitle).length) || (allWareHouseList &&  !(allWareHouseList | filterByCheckbox : activeStatus : inActiveStatus).length ))">
       <div class="animated bounceInDown col-12">
         <p class="card p-1 text-center">You don't have any warehouse yet</p>
       </div>

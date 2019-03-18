@@ -50,7 +50,7 @@
       display: block;
       font-size: $font-size-medium;
       color: $dark-grey-blue;
-      font-weight: $font-proxima-weight-semibold;
+      font-weight: $font-weight-mid;
       font-family: $font-proxima;
       text-transform: uppercase;
       margin-bottom: 0.25rem;
@@ -85,9 +85,9 @@
     margin-bottom: 40px;
 
     h5 {
-      font-size: .75rem;
+      font-size: $font-size-base;
       font-family: $font-proxima;
-      font-weight: 400;
+      font-weight: $font-weight-normal;
       color: $color-topmenu;
       text-transform: uppercase;
     }
@@ -120,7 +120,7 @@
     }
 
     .logo {
-      border: solid 1px #f4f4f4;
+      border: solid 1px $theme-border-grey;
       text-align: center;
       margin: 10px 0px;
       float: left;
@@ -189,10 +189,10 @@
         }
 
         &-title {
-          font-size: .875rem;
+          font-size: $font-size-medium;
           font-family: $font-proxima;
           color: $secondary-grey;
-          font-weight: 500;
+          font-weight: $font-weight-mid;
           word-spacing: 3px;
 
           img {
@@ -207,15 +207,15 @@
           }
 
           h6 {
-            font-weight: 600;
+            font-weight:$font-proxima-weight-semibold;
             font-family: $font-proxima;
             font-size: $font-size-large;
             margin-bottom: 0;
           }
 
           .ports {
-            font-family: proxima-nova, sans-serif;
-            font-size: .75rem;
+            font-family:  $font-proxima;
+            font-size: $font-size-base;
             max-width: 94px;
             width: 100%;
 
@@ -227,19 +227,20 @@
             }
 
             &-title {
-              font-size: .875rem;
-              font-family: proxima-nova, sans-serif;
-              font-weight: 500;
-              color: #738593;
+              font-size:$font-size-medium;
+              font-family:  $font-proxima;
+              font-weight: $font-weight-mid;
+              color:$color-topmenu;
               margin-bottom: 5px;
+
             }
 
             &-label {
-              font-size: .875rem;
-              color: #2b2b2b;
+              font-size: $font-size-medium;
+              color:$route-large-title-color;
               margin-bottom: 0;
-              font-weight: 600;
-              font-family: proxima-nova, sans-serif;
+              font-weight: $font-proxima-weight-semibold;
+              font-family: $font-proxima;
               line-height: 1;
             }
 
@@ -249,15 +250,20 @@
 
               small {
                 max-width: 100% !important;
-                font-size: .875rem;
-                color: #afafaf;
-                font-weight: 500;
-                font-family: proxima-nova, sans-serif;
+                font-size: $font-size-medium;
+                color: $place-holder-color;
+                font-weight: $font-weight-mid;
+                font-family:  $font-proxima;
                 vertical-align: bottom;
                 line-height: 1.2;
                 max-width: 78px;
                 word-break: break-word;
               }
+            }
+            .flag-icon-20-12 {
+                img {
+                   border: 1px solid $primary-grey;
+                }
             }
           }
         }
@@ -272,7 +278,7 @@
 
             .long-text {
               font-family: $font-proxima;
-              font-size: .875rem;
+              font-size: $font-size-medium;
               color: $route-large-title-color;
               font-weight: $font-proxima-weight-semibold;
               line-height: 1;
@@ -284,7 +290,7 @@
 
               .amount-text {
                 font-family: $font-proxima;
-                font-size: .875rem;
+                font-size: $font-size-medium;
                 color: $route-large-title-color;
                 line-height: 1;
               }
@@ -356,7 +362,7 @@
           }
 
           .dotted {
-            border-bottom: 1px dashed #e5e5e5;
+            border-bottom: 1px dashed $grey-border;
           }
         }
 
@@ -445,11 +451,11 @@
               cursor: pointer;
               color: $primary-color;
               font-family: $font-proxima;
-              font-weight: 500;
+              font-weight: $font-weight-mid;
 
               .sub-text {
                 font-family: inherit;
-                font-size: 0.75rem;
+                font-size:$font-size-base;
                 color: $place-holder-color;
                 line-height: 1;
               }
@@ -486,6 +492,10 @@
       margin: 1.875rem 1.25rem 0;
       border-bottom: 1px dashed rgba(0, 0, 0, .125);
       padding-bottom: 10px;
+
+      img {
+        border:1px solid $primary-grey;
+      }
     }
 
     .list-group {
@@ -543,7 +553,7 @@
 
           label {
             font-family: inherit;
-            font-size: 0.75rem;
+            font-size: $font-size-base;
             color: $text-grey !important;
             line-height: 1;
           }
