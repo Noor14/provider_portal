@@ -36,7 +36,6 @@ export class ConfirmDeleteDialogComponent implements OnInit {
     }
   }
   delete(){
-    debugger
     if (this.deleteIds.type == "draftSeaRateFCL"){
       this.seaFreightService.deleteNDiscardDraftRate(this.deleteIds.data).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
@@ -121,7 +120,7 @@ export class ConfirmDeleteDialogComponent implements OnInit {
         }
       })
     }
-    else if (this.deleteIds.type == "CancelWarehouse" && ! Number(this.deleteIds.data)) {
+    else if (this.deleteIds.type == "CancelWarehouse") {
           this.closeModal('close');
     }
     else if (this.deleteIds.type == "DelAccount") {
