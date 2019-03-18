@@ -639,10 +639,13 @@ export class SettingsComponent implements OnInit {
   realEstateSel(type, event) {
     let wareHouseTypeSel = this.frtService.some(obj => obj.LogServCode == "WRHS" && obj.IsRemovable);
     if (!wareHouseTypeSel){
-      event.preventDefault();
-      if(type != event.currentTarget.id){
-        this._toastr.info("Service can not be update. Please first removed the warehouse", '')
-      }
+        event.preventDefault();
+        if (this.IsRealEstate && type != 'realEstate'){
+          this._toastr.info("Service can not be update. Please first removed the warehouse", '')
+        }
+        else if (!this.IsRealEstate && type != 'owner'){
+          this._toastr.info("Service can not be update. Please first removed the warehouse", '')
+        }
       return;
     } 
     this.IsRealEstate = (type == 'owner') ? false : true;
