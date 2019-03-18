@@ -522,7 +522,7 @@
                         </div>
                         <div class="col-12 d-flex mt-3 animated fadeIn" *ngIf="wareHouseTypeToggler">
                           <div class="fancyOptionBoxes mr-4">
-                          <input id="owner" name="warehouseType" type="radio" [checked]="!IsRealEstate" (change)="realEstateSel('owner')">
+                          <input id="owner" name="warehouseType" type="radio" [checked]="!IsRealEstate" (click)="realEstateSel('owner', $event)">
                             <label for="owner">
                               <span></span>
                               I'm an owner / operator for Warehousing
@@ -530,7 +530,7 @@
                           </div>
 
                           <div class="fancyOptionBoxes">
-                          <input id="realEstate" name="warehouseType" type="radio" [checked]="IsRealEstate" (change)="realEstateSel('realState')">
+                          <input id="realEstate" name="warehouseType" type="radio" [checked]="IsRealEstate" (click)="realEstateSel('realEstate', $event)">
                             <label for="realEstate">
                               <span></span>
                               I'm a Real Estate Agent for Warehousing
