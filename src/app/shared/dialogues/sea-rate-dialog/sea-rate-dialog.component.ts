@@ -213,6 +213,10 @@ export class SeaRateDialogComponent implements OnInit {
       } else {
         this.setData(this.selectedData.data);
       }
+    } else if (this.selectedData && this.selectedData.data && (this.containerLoadParam === "WAREHOUSE")) {
+      this.disabledCustomers = true;
+      let data = changeCase(this.selectedData.data[0], 'pascal')
+      this.setData(data);
     }
   }
 
@@ -278,6 +282,18 @@ export class SeaRateDialogComponent implements OnInit {
       );
     }
 
+    if (data.ContainerLoadType === 'WAREHOUSE') {
+      this.storageType = data.StorageType
+      const parsedPricingJson = JSON.parse(data.PricingJson)
+      this.sharedWarehousePricing = parsedPricingJson;
+      // this.sharedWarehousePricing = this.warehousePricing.filter(e => (e.addChrBasis === 'PER_CBM_PER_DAY') || (e.addChrBasis === 'PER_SQFT_PER_DAY'))
+      console.log(this.sharedWarehousePricing);
+      this.selectedPrice = this.sharedWarehousePricing[0].price
+      this.couplePrice = this.sharedWarehousePricing[1].price
+    } else {
+      this.selectedPrice = data.Price;
+    }
+
     this.containerChange(data.ContainerSpecID)
     if (data.CouplePrice) {
       this.couplePrice = data.CouplePrice
@@ -291,7 +307,7 @@ export class SeaRateDialogComponent implements OnInit {
     this.selectedCurrency = this.allCurrencies.find(
       obj => obj.id === data.CurrencyID
     );
-    this.selectedPrice = data.Price;
+
     this.disabledCustomers = true;
     if (data.JsonCustomerDetail && data.CustomerType !== 'null') {
       this.selectedCustomer = JSON.parse(data.JsonCustomerDetail)
@@ -468,9 +484,6 @@ export class SeaRateDialogComponent implements OnInit {
       });
     }
 
-    console.log(this.selectedPrice);
-    console.log(this.couplePrice);
-    console.log(this.sharedWarehousePricing);
     let pricingArr: any[] = []
     if (this.selectedData.forType === 'WAREHOUSE') {
       this.transPortMode = 'WAREHOUSE'

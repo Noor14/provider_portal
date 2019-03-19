@@ -112,6 +112,16 @@ export class UiTableComponent implements OnInit, OnChanges {
         { title: "Import Charges", activeClass: '', sortKey: "" },
         { title: "Export Charges", activeClass: '', sortKey: "" },
       ]
+    } else if (this.containerLoad === 'WAREHOUSE' && this.transMode === 'WAREHOUSE') {
+      this.thList = [
+        { title: "", activeClass: '', sortKey: "" },
+        { title: "Rate for", activeClass: '', sortKey: "" },
+        { title: "Warehouse Type", activeClass: '', sortKey: "" },
+        { title: "Rate Validity", activeClass: '', sortKey: "" },
+        { title: "Rate / CBM / Day", activeClass: '', sortKey: "" },
+        { title: "Rate / SQFT / Day", activeClass: '', sortKey: "" },
+        { title: "Addtional CHarges", activeClass: '', sortKey: "" },
+      ]
     }
   }
 
@@ -148,8 +158,16 @@ export class UiTableComponent implements OnInit, OnChanges {
    * @return       [description]
    */
   onPageChangeBootstrap(event) {
-    this.page = event;
-    this.pageEvent.emit(this.page)
+    if(this.transMode === 'WAREHOUSE') {
+      let obj = {
+        page: event,
+        whid: this.tableData[0].whid
+      }
+      this.pageEvent.emit(obj)
+    } else {
+      this.page = event;
+      this.pageEvent.emit(this.page)
+    }
   }
 
 
@@ -239,6 +257,8 @@ export class UiTableComponent implements OnInit, OnChanges {
               this.checkList.push(e.consolidatorPricingID)
             } else if (this.transMode === 'GROUND') {
               this.checkList.push(e.id)
+            } else if (this.transMode === 'WAREHOUSE') {
+              this.checkList.push(e.whPricingID)
             }
           })
         } else if (!this.checkAllPublish) {
@@ -430,6 +450,11 @@ export class UiTableComponent implements OnInit, OnChanges {
           } else if (e.parsedpublishStatus.Status === 'POSTED') {
             e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MM/DD/YYYY h:mm:ss A')
           }
+        }
+        if(e.pricingJson) {
+          e.parsedpricingJson = JSON.parse(e.pricingJson)
+          e.whPrice1 = (e.parsedpricingJson[0].priceBasis === 'PER_CBM_PER_DAY') ? e.parsedpricingJson[0].price : 0
+          e.whPrice2 = (e.parsedpricingJson[1].priceBasis === 'PER_SQFT_PER_DAY') ? e.parsedpricingJson[1].price : 0
         }
         e.isChecked = this.checkAllPublish ? true : false
         let dateDiff = getDateDiff(moment(e.effectiveTo).format("L"), moment(new Date()).format("L"), 'days', "MM-DD-YYYY")

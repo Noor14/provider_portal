@@ -14,6 +14,7 @@ import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/co
 import { SeaRateDialogComponent } from '../../../../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
 import { CommonService } from '../../../../../services/common.service';
 import { cloneObject } from '../../reports/reports.component';
+import { RateValidityComponent } from '../../../../../shared/dialogues/rate-validity/rate-validity.component';
 
 @Component({
   selector: 'app-warehouse-list',
@@ -285,33 +286,13 @@ export class WarehouseListComponent implements OnInit {
   tableCheckedRows(event) {
     console.log(event);
 
-    // if (event.type === 'publishFCL') {
-    //   if (typeof event.list[0] === 'object') {
-    //     if (event.list[0].type === 'history') {
-    //       if (event.list[0].load === 'FCL') {
-    //         this.rateHistory(event.list[0].id, 'Rate_FCL')
-    //       } else if (event.list[0].load === 'LCL') {
-    //         this.rateHistory(event.list[0].id, 'Rate_LCL')
-    //       }
-    //     }
-    //   } else {
-    //     this.delPublishRates = event.list
-    //   }
-    // } else if (event.type === 'draftFCL') {
-    //   if (typeof event.list[0] === 'object') {
-    //     if (event.list[0].type === 'delete') {
-    //       if (event.list[0].load === 'LCL') {
-    //         this.deleteRowLCL(event.list[0].id)
-    //       } else if (event.list[0].load === 'FCL') {
-    //         this.deleteRow(event.list[0].id)
-    //       }
-    //     } else if (event.list[0].type === 'edit') {
-    //       this.updatePopupRates(event.list[0].id, event.list[0].load)
-    //     }
-    //   } else {
-    //     this.publishRates = event.list;
-    //   }
-    // }
+    if (typeof event.list[0] === 'object') {
+      if (event.list[0].type === 'history') {
+        // this.rateHistory(event.list[0].id, 'Rate_FCL')
+      }
+    } else {
+      this.delPublishRates = event.list
+    }
   }
 
   /**
@@ -334,9 +315,10 @@ export class WarehouseListComponent implements OnInit {
    * @param {number} event //page number 0,1,2...
    * @memberof SeaFreightComponent
    */
-  paging(type, event) {
-    this.pageNo = event;
-    // this.getAllPublishRates()
+  paging(event) {
+    console.log(event);
+    this.pageNo = event.page;
+    this.getAllPublishRates(event.whid)
   }
 
   /**
@@ -385,7 +367,114 @@ export class WarehouseListComponent implements OnInit {
         this.checkedallpublishRates = false;
       }
     })
+  }
 
+
+  /**
+   *
+   * DELETE PUBLISHDED RECORD FOR FCL
+   * @returns
+   * @memberof SeaFreightComponent
+   */
+  public delPublishRates: any[] = []
+  delPublishedRecord() {
+    if (!this.delPublishRates.length) return;
+    const modalRef = this._modalService.open(ConfirmDeleteDialogComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.result.then((result) => {
+      console.log(result);
+      if (result == "Success") {
+        this.getAllPublishRates(this.warehousePublishedRates[0].whid)
+      }
+    }, (reason) => {
+      // console.log("reason");
+    });
+    let obj = {
+      data: this.delPublishRates,
+      type: "warehouse"
+    }
+    modalRef.componentInstance.deleteIds = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
+
+  /**
+   *
+   * EDIT PUBLISH RATE POPUP MODAL ACTION
+   * @param {string} type //fcl or lcl
+   * @returns
+   * @memberof SeaFreightComponent
+   */
+  rateValidity(type) {
+    console.log(this.delPublishRates);
+    
+    if (!this.delPublishRates.length) return;
+    let updateValidity = [];
+    for (let i = 0; i < this.warehousePublishedRates.length; i++) {
+      for (let y = 0; y < this.delPublishRates.length; y++) {
+        if (this.warehousePublishedRates[i].whPricingID == this.delPublishRates[y]) {
+          updateValidity.push(this.warehousePublishedRates[i])
+        }
+      }
+    }
+    if (updateValidity && updateValidity.length > 1) {
+      const modalRef = this._modalService.open(RateValidityComponent, {
+        size: 'lg',
+        centered: true,
+        windowClass: 'upper-medium-modal',
+        backdrop: 'static',
+        keyboard: false
+      });
+      modalRef.result.then((result) => {
+        if (result == 'Success') {
+          this.getAllPublishRates(type);
+          this.checkedallpublishRates = false
+          this.delPublishRates = [];
+        }
+      });
+      let obj = {
+        data: updateValidity,
+        type: type
+      }
+      modalRef.componentInstance.validityData = obj;
+    } else if (updateValidity && updateValidity.length === 1) {
+      const modalRef2 = this._modalService.open(SeaRateDialogComponent, {
+        size: 'lg',
+        centered: true,
+        windowClass: 'large-modal',
+        backdrop: 'static',
+        keyboard: false
+      });
+      modalRef2.result.then((result) => {
+        if (result == 'Success') {
+          this.getAllPublishRates(type);
+          this.checkedallpublishRates = false
+          this.delPublishRates = [];
+        }
+      });
+      let object = {
+        forType: type.toUpperCase(),
+        data: updateValidity,
+        addList: this.warehouseCharges,
+        customers: this.allCustomers,
+        drafts: this.warehouseTypes,
+        mode: 'publish'
+      }
+      modalRef2.componentInstance.selectedData = object;
+    }
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
   }
 
 }
