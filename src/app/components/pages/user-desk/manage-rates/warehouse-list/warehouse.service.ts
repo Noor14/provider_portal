@@ -32,4 +32,9 @@ export class WarehouseService {
     return this._http.post(baseApi + url, obj);
   }
 
+  getAllPublishedrates(obj) {
+    let url: string = `ProviderRateWarehouse/GetAllWarehouseRates`;
+    return this._http.post(baseApi + url, obj);
+  }
+
 }

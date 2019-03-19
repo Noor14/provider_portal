@@ -94,8 +94,6 @@ export class ConfirmDeleteDialogComponent implements OnInit {
     }
 
     else if (this.deleteIds.type == "publishRateGround") {
-      console.log(this.deleteIds);
-      
       let obj = {
         publishedRateTransportType: this.deleteIds.data,
         modifiedBy: this.userProfile.LoginID,
@@ -121,6 +119,9 @@ export class ConfirmDeleteDialogComponent implements OnInit {
           this.closeModal(res.returnStatus);
         }
       })
+    }
+    else if (this.deleteIds.type == "CancelWarehouse") {
+          this.closeModal('close');
     }
     else if (this.deleteIds.type == "DelAccount") {
       this._settingService.deactivateAccount(this.deleteIds.data, this.deleteIds.data).subscribe((res: any) => {

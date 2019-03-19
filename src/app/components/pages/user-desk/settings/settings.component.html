@@ -515,7 +515,7 @@
                             class="servicechip-provides text-center d-flex flex-column justify-content-center pointer"
                             (click)="freightService(service, selectService)">
                             <span class="d-flex align-items-center justify-content-center">
-                            <img alt="icon" class="icon-size-20 mr-3 align-top" [src]=" baseExternalAssets + '/images/logistics/original/'+ service.ImageName">
+                            <img alt="icon" class="icon-size-20 mr-3 align-top" [src]="baseExternalAssets + '/images/logistics/original/'+ service.ImageName">
                               {{ service.LogServName }}
                             </span>
                           </div>
@@ -552,7 +552,10 @@
                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4" *ngFor="let service of valAddedServices">
                           <div #selectService [ngClass]="{'active': service.IsSelected && service.ProvLogServID}" class="servicechip-valueAdded text-center d-flex flex-column justify-content-center pointer"
                             (click)="valAdded(service, selectService)">
-                            <span>{{service.LogServName}}</span>
+                            <span class="d-flex align-items-center justify-content-center">
+                            <img alt="icon" class="icon-size-20 mr-3 align-top" [src]="baseExternalAssets + '/images/logistics/original/' + service.ImageName">
+                              {{ service.LogServName }}
+                            </span>
                           </div>
                         </div>
                       </div>

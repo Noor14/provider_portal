@@ -120,7 +120,7 @@ export class SeaRateDialogComponent implements OnInit {
   public userCurrency: number;
   public TotalImportCharges: number = 0
   public TotalExportCharges: number = 0
-  public warehouseTypes:any[] = []
+  public warehouseTypes: any[] = []
   public storageType: string = ''
   pricingJson: any;
   whPricingID: any;
@@ -155,8 +155,9 @@ export class SeaRateDialogComponent implements OnInit {
     }
     console.log(this.selectedData);
     this.containerLoadParam = (this.selectedData.forType === 'FCL-Ground' ? 'FCL' : this.selectedData.forType)
-    if(this.selectedData.forType === 'WAREHOUSE'){
+    if (this.selectedData.forType === 'WAREHOUSE') {
       this.warehouseTypes = this.selectedData.drafts
+      this.getWarehousePricing()
     }
     this.allservicesBySea();
     if (this.selectedData.mode === 'draft') {
@@ -466,7 +467,64 @@ export class SeaRateDialogComponent implements OnInit {
         return all + item;
       });
     }
-    
+
+    console.log(this.selectedPrice);
+    console.log(this.couplePrice);
+    console.log(this.sharedWarehousePricing);
+    let pricingArr: any[] = []
+    if (this.selectedData.forType === 'WAREHOUSE') {
+      this.transPortMode = 'WAREHOUSE'
+      if (this.selectedPrice) {
+        if (this.selectedData.data.UsageType === 'SHARED') {
+          let json = {
+            addChrID: this.sharedWarehousePricing[0].addChrID,
+            addChrCode: this.sharedWarehousePricing[0].addChrCode,
+            addChrName: this.sharedWarehousePricing[0].addChrName,
+            addChrType: this.sharedWarehousePricing[0].addChrType,
+            priceBasis: this.sharedWarehousePricing[0].addChrBasis,
+            price: parseInt(this.selectedPrice),
+            currencyID: this.selectedCurrency.id
+          }
+          pricingArr.push(json)
+        } else if (this.selectedData.data.UsageType === 'FULL') {
+          let json = {
+            addChrID: this.fullWarehousePricing[0].addChrID,
+            addChrCode: this.fullWarehousePricing[0].addChrCode,
+            addChrName: this.fullWarehousePricing[0].addChrName,
+            addChrType: this.fullWarehousePricing[0].addChrType,
+            priceBasis: this.fullWarehousePricing[0].addChrBasis,
+            price: parseInt(this.selectedPrice),
+            currencyID: this.selectedCurrency.id
+          }
+          pricingArr.push(json)
+        }
+      }
+      if (this.couplePrice) {
+        if (this.selectedData.data.UsageType === 'SHARED') {
+          let json = {
+            addChrID: this.sharedWarehousePricing[1].addChrID,
+            addChrCode: this.sharedWarehousePricing[1].addChrCode,
+            addChrName: this.sharedWarehousePricing[1].addChrName,
+            addChrType: this.sharedWarehousePricing[1].addChrType,
+            priceBasis: this.sharedWarehousePricing[1].addChrBasis,
+            price: parseInt(this.selectedPrice),
+            currencyID: this.selectedCurrency.id
+          }
+          pricingArr.push(json)
+        } else if (this.selectedData.data.UsageType === 'FULL') {
+          let json = {
+            addChrID: this.fullWarehousePricing[1].addChrID,
+            addChrCode: this.fullWarehousePricing[1].addChrCode,
+            addChrName: this.fullWarehousePricing[1].addChrName,
+            addChrType: this.fullWarehousePricing[1].addChrType,
+            priceBasis: this.fullWarehousePricing[1].addChrBasis,
+            price: parseInt(this.selectedPrice),
+            currencyID: this.selectedCurrency.id
+          }
+          pricingArr.push(json)
+        }
+      }
+    }
 
     let obj = {
       // GROUND ID
@@ -512,15 +570,16 @@ export class SeaRateDialogComponent implements OnInit {
       TotalImportCharges: this.TotalImportCharges,
       TotalExportCharges: this.TotalExportCharges,
       createdBy: this.userProfile.LoginID,
-      
-      //WAREHOUSE FIELDS 
+
+      //WAREHOUSE FIELDS
       storageType: this.storageType,
-      whPricingID: (this.selectedData.data) ? this.selectedData.data.whPricingID : 0,
-      pricingJson: this.pricingJson,
+      whPricingID: 0,
+      whid: this.selectedData.data && this.selectedData.data.WHID ? this.selectedData.data.WHID : null,
+      pricingJson: JSON.stringify(pricingArr),
       parentID: 0,
     }
 
-    if(obj.price && parseInt(obj.price) === 0){
+    if (obj.price && parseInt(obj.price) === 0) {
       this._toast.error('Price cannot be zero', 'Error')
       return;
     }
@@ -652,6 +711,23 @@ export class SeaRateDialogComponent implements OnInit {
           }
         }
       });
+    } else if (this.selectedData.forType == 'WAREHOUSE') {
+      this._seaFreightService.saveWarehouseRate(obj).subscribe((res: any) => {
+        if (res.returnId > 0) {
+          this._toast.success("Rates added successfully", "Success");
+          if (type === "onlySave") {
+            this.closeModal(res.returnObject);
+          } else {
+            this.selectedPrice = undefined;
+            if (this.selectedData.data) {
+              this.selectedData.data.ConsolidatorPricingDraftID = 0;
+            }
+
+            this.selectedContSize = null;
+            this.savedRow.emit(res.returnObject)
+          }
+        }
+      });
     } else if (this.selectedData.forType == 'FCL-Ground' || this.selectedData.forType == 'FTL') {
       this._seaFreightService.saveDraftRate('ground', obj).subscribe((res: any) => {
         if (res.returnId > 0) {
@@ -660,11 +736,10 @@ export class SeaRateDialogComponent implements OnInit {
             this.closeModal(res.returnObject);
           } else {
             this.selectedPrice = undefined;
-            if (this.selectedData) {
-              this.selectedData.ID = 0;
-            }
+            // if (this.selectedData) {
+            //   this.selectedData.ID = 0;
+            // }
             this.couplePrice = null;
-            this.selectedContSize = null;
             this.savedRow.emit(res.returnObject)
           }
         }
@@ -1292,5 +1367,26 @@ export class SeaRateDialogComponent implements OnInit {
     }
   }
 
+
+  // WAREHOUSE WORKING
+  /**
+   * [GET WAREHOUSE PRICING]
+   * @return [description]
+   */
+  public warehousePricing: any[] = []
+  public sharedWarehousePricing: any = []
+  public fullWarehousePricing: any = []
+  getWarehousePricing() {
+    loading(true)
+    this._manageRateService.getWarehousePricing('WAREHOUSE').subscribe((res: any) => {
+      loading(false)
+      console.log(res);
+      this.warehousePricing = res;
+      this.sharedWarehousePricing = this.warehousePricing.filter(e => (e.addChrBasis === 'PER_CBM_PER_DAY') || (e.addChrBasis === 'PER_SQFT_PER_DAY'))
+      this.fullWarehousePricing = this.warehousePricing.filter(e => (e.addChrBasis === 'PER_MONTH') || (e.addChrBasis === 'PER_YEAR'))
+    }, (err) => {
+      loading(false)
+    })
+  }
 
 }

@@ -6,8 +6,8 @@
           <h5 class="m-0">You have {{ allWareHouseList.length }} warehouse</h5>
         </div>
         <div class="col-6 d-flex justify-content-end">
-          <button (click)="addAnotherWarehouse()" class="btn btn-primary hvr-sweep-to-right pull-right text-uppercase pt-2 pb-2 pl-3"
-            type="button">
+          <button (click)="addAnotherWarehouse()"
+            class="btn btn-primary hvr-sweep-to-right pull-right text-uppercase pt-2 pb-2 pl-3" type="button">
             Add Another Warehouse
           </button>
         </div>
@@ -15,159 +15,186 @@
     </div>
   </div>
   <hr class="hr-solid mt-3" />
-    <section class="warehouseInfo" *ngIf="allWareHouseList && allWareHouseList.length">
-      <div class="row mb-3 search-bar">
-        <div class="col-2 d-flex align-items-center record-count">
-          Showing {{(allWareHouseList | filterByCheckbox : activeStatus : inActiveStatus | paginate : paginationConfig).length}} - {{allWareHouseList.length}}
+  <section class="warehouseInfo" *ngIf="allWareHouseList && allWareHouseList.length">
+    <div class="row mb-3 search-bar">
+      <div class="col-2 d-flex align-items-center record-count">
+        Showing
+        {{(allWareHouseList | filterByCheckbox : activeStatus : inActiveStatus | paginate : paginationConfig).length}} -
+        {{allWareHouseList.length}}
+      </div>
+      <div class="col-4 warehouse-search">
+        <input type="text" class="form-control" placeholder="Search by location or title"
+          [(ngModel)]="wareHouseTitle" />
+      </div>
+      <div class="col-6 d-flex justify-content-end align-items-center warehouse-status">
+        <label class="m-0 mr-2">SHOW :</label>
+        <div class="fancyOptionBoxes mr-2">
+          <input id="checkboxOne" type="checkbox" [checked]="activeStatus" (change)="activeStatus = !activeStatus" />
+          <label for="checkboxOne"> <span></span> Acive </label>
         </div>
-        <div class="col-4 warehouse-search">
-          <input type="text" class="form-control" placeholder="Search by location or title" [(ngModel)]="wareHouseTitle" />
-        </div>
-        <div class="col-6 d-flex justify-content-end align-items-center warehouse-status">
-          <label class="m-0 mr-2">SHOW :</label>
-          <div class="fancyOptionBoxes mr-2">
-            <input id="checkboxOne" type="checkbox" [checked]="activeStatus" (change)="activeStatus = !activeStatus" />
-            <label for="checkboxOne"> <span></span> Acive </label>
-          </div>
-          <div class="fancyOptionBoxes">
-            <input id="checkboxTwo" type="checkbox" [checked]="inActiveStatus" (change)="inActiveStatus = !inActiveStatus"/>
-            <label for="checkboxTwo"> <span></span> Inacive </label>
-          </div>
+        <div class="fancyOptionBoxes">
+          <input id="checkboxTwo" type="checkbox" [checked]="inActiveStatus"
+            (change)="inActiveStatus = !inActiveStatus" />
+          <label for="checkboxTwo"> <span></span> Inacive </label>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card mb-4" *ngFor="let wareHouse of allWareHouseList | search : wareHouseTitle | filterByCheckbox : activeStatus : inActiveStatus | paginate: paginationConfig"
-            [ngClass]="{'inActive' : wareHouse.IsBlocked, 'noRate' : !wareHouse.IsRateAvailable}">
-            <div class="card-body">
-              <div class="row mt-1">
-                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12">
-                  <div *ngFor="let doc of wareHouse.WHGallery; let i = index" (click)="openGallery(wareHouse.WHGallery, i)">
-                    <div class="gallery-section" *ngIf="i == 0">
-                      <div class="images-carousel">
-                        <img [src]="baseExternalAssets + doc.DocumentFile" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
-                        <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
-                          <source [src]="baseExternalAssets + doc.DocumentFile" type="video/mp4" />
-                        </video>
-                        <div class="gallery-section-item d-flex justify-content-center align-items-center">
-                          <img src="../../../assets/images/icons/icon_pictures.svg" alt="" class="icon-size-14 mr-1" />
-                          {{ wareHouse.WHGallery.length }}
-                        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card mb-4"
+          *ngFor="let wareHouse of allWareHouseList | search : wareHouseTitle | filterByCheckbox : activeStatus : inActiveStatus | paginate: paginationConfig"
+          [ngClass]="{'inActive' : wareHouse.IsBlocked, 'noRate' : !wareHouse.IsRateAvailable}">
+          <div class="card-body">
+            <div class="row mt-1">
+              <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12">
+                <div *ngFor="let doc of wareHouse.parsedGallery; let i = index"
+                  (click)="openGallery(wareHouse.parsedGallery, i)">
+                  <div class="gallery-section" *ngIf="i == 0">
+                    <div class="images-carousel">
+                      <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
+                      <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
+                        <source [src]="doc.DocumentFile" type="video/mp4" />
+                      </video>
+                      <div class="gallery-section-item d-flex justify-content-center align-items-center">
+                        <img src="../../../assets/images/icons/icon_pictures.svg" alt="count"
+                          class="icon-size-14 mr-1" />
+                        {{ wareHouse.WHGallery.length }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="mt-1 col-xl-6 col-lg-6 col-md-7 col-sm-7 col-12 Wcontent">
-                  <h5 class="card-title">{{ wareHouse.WHName }}</h5>
-                  <div class="warehousing-content">
-                    <ul class="list-group">
-                      <li class="list-group-item">
-                        <img src="../../../assets/images/icons/Icons_Location-grey.svg" alt="icon" class="icon-size-16 mr-2" />
-                        <span>
-                          {{ wareHouse.CityName }}, {{ wareHouse.CountryName }}
-                        </span>
-                      </li>
-                    </ul>
-                    <ul class="list-group mt-4">
-                      <li class="list-group-item mr-4">
-                        <img src="../../../assets/images/icons/icon_grid.svg" alt="icon" class="icon-size-14 mr-2" />
-                        {{ wareHouse.TotalCoveredArea }}
-                        {{ wareHouse.TotalCoveredAreaUnit }}
-                        <!-- <sup>2</sup> -->
-                      </li>
-                      <li class="list-group-item">
-                        <img src="../../../assets/images/icons/Icons_Clock-28-light-grey.svg" alt="icon" class="icon-size-14 mr-2" />
-                        8:30 am to 5:00am
-                      </li>
-                    </ul>
-                    <div class="warehouse-features mt-3 d-flex">
-                      <div class="icons" *ngFor="let facilities of wareHouse.FacilitiesProviding">
-                        <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse" *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse'"
-                          [ngClass]="{
+              </div>
+              <div class="mt-1 col-xl-6 col-lg-6 col-md-7 col-sm-7 col-12 Wcontent">
+                <h5 class="card-title">{{ wareHouse.WHName }}</h5>
+                <div class="warehousing-content">
+                  <ul class="list-group">
+                    <li class="list-group-item mr-3">
+                      <img src="../../../assets/images/icons/Icons_Location-grey.svg" alt="icon"
+                        class="icon-size-16 mr-2" />
+                      <span>
+                        {{ wareHouse.CityName }}, {{ wareHouse.CountryName }}
+                      </span>
+                    </li>
+                    <li class="list-group-item mr-4">
+                      <img src="../../../assets/images/icons/icon_grid.svg" alt="icon" class="icon-size-14 mr-2" />
+                      {{ wareHouse.TotalCoveredArea }}
+                      {{ wareHouse.TotalCoveredAreaUnit }}
+                      <!-- <sup>2</sup> -->
+                    </li>
+                  </ul>
+                  <p class="warehousing-desc mt-3 mb-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <div class="warehouse-features d-flex">
+                    <div class="icons" *ngFor="let facilities of wareHouse.FacilitiesProviding">
+                      <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse"
+                        *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse'" [ngClass]="{
                             'warehouse-features-active':
                               facilities.BusinessLogic == 'IsBondedWarehouse' &&
                               facilities.IsAllowed
                           }">
-                          <img src="../../../assets/images/icons/Icons_Warehousing_green.svg" alt="footer icon" class="hvr-icon" />
-                        </span>
-                        <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Temp. Controlled" *ngIf="
+                        <img src="../../../assets/images/icons/Icons_Warehousing_green.svg" alt="footer icon"
+                          class="hvr-icon" />
+                      </span>
+                      <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Temp. Controlled"
+                        *ngIf="
                             facilities.BusinessLogic == 'IsTempratureControlled'
-                          "
-                          [ngClass]="{
+                          " [ngClass]="{
                             'warehouse-features-active':
                               facilities.BusinessLogic ==
                                 'IsTempratureControlled' && facilities.IsAllowed
                           }">
-                          <img src="../../../assets/images/icons/Weight-Icon_1.svg" alt="footer icon" class="hvr-icon" />
-                        </span>
-                        <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Transport Available"
-                          *ngIf="facilities.BusinessLogic == 'IsTransportAvailable'" [ngClass]="{
+                        <img src="../../../assets/images/icons/Weight-Icon_1.svg" alt="footer icon" class="hvr-icon" />
+                      </span>
+                      <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Transport Available"
+                        *ngIf="facilities.BusinessLogic == 'IsTransportAvailable'" [ngClass]="{
                             'warehouse-features-active':
                               facilities.BusinessLogic == 'IsTransportAvailable' &&
                               facilities.IsAllowed
                           }">
-                          <img src="../../../assets/images/icons/Icons_Cargo_Truck_blue.svg" alt="footer icon" class="hvr-icon" />
-                        </span>
-                      </div>
+                        <img src="../../../assets/images/icons/Icons_Cargo_Truck_blue.svg" alt="footer icon"
+                          class="hvr-icon" />
+                      </span>
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 flex-column d-flex justify-content-center">
-                  <button (click)="goToDetail(wareHouse.WHID)" class="btn btn-outline-primary hvr-sweep-to-right rate-btn pull-right text-uppercase" *ngIf="!wareHouse.IsRateAvailable">
-                    Add rates
-                  </button>
-                  <button (click)="addWarehouse(0)" class="btn btn-outline-primary hvr-sweep-to-right rate-btn pull-right text-uppercase" *ngIf="!wareHouse.IsRateAvailable">
-                    Add Warehouse Rates
-                  </button>
-                  <button (click)="goToDetail(wareHouse.WHID)" class="btn btn-primary hvr-sweep-to-right rate-btn pull-right text-uppercase" *ngIf="wareHouse.IsRateAvailable">
-                    View rates
-                  </button>
-                  <div class="noti" *ngIf="!wareHouse.IsRateAvailable">
-                    Add rates in order to appear in search result.
-                  </div>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 flex-column d-flex justify-content-center">
+                <button (click)="goToDetail(wareHouse.WHID)"
+                  class="btn btn-outline-primary hvr-sweep-to-right rate-btn pull-right text-uppercase"
+                  *ngIf="!wareHouse.IsRateAvailable">
+                  Add rates
+                </button>
+                <button (click)="addWarehouse(wareHouse.WHID)"
+                  class="btn btn-outline-primary hvr-sweep-to-right rate-btn pull-right text-uppercase"
+                  *ngIf="!wareHouse.IsRateAvailable">
+                  Add Warehouse Rates
+                </button>
+                <button (click)="getAllPublishRates(wareHouse.WHID)" class="btn btn-outline-primary hvr-sweep-to-right rate-btn pull-right text-uppercase">
+                  View Rates
+                </button>
+                <button (click)="goToDetail(wareHouse.WHID)"
+                  class="btn btn-primary hvr-sweep-to-right rate-btn pull-right text-uppercase"
+                  *ngIf="wareHouse.IsRateAvailable">
+                  View rates
+                </button>
+                <div class="noti" *ngIf="!wareHouse.IsRateAvailable">
+                  Add rates in order to appear in search result.
                 </div>
               </div>
-              <img src="../../../../../../assets/images/icons/menu.svg" class="icon-size-16 warehouse-options pointer"
-                placement="bottom-right" [ngbPopover]="option" />
-              <ng-template #option>
-                <div class="option-popup fadeIn animated">
-                  <ul class="list-group">
-                    <li class="list-group-item" (click)="goToDetail(wareHouse.WHID)">
-                      <img src="../../../../../../assets/images/icons/warehouse-edit-icon.svg" class="icon-size-16" alt="icon" /><span>Edit Info / Rates</span>
-                    </li>
-                    <li class="list-group-item">
-                      <img src="../../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16" alt="icon" />
-                      <span>Active / Inactive
-                        <div class="switch-box pull-right">
-                        <ui-switch (change)="wareHouse.IsBlocked = !wareHouse.IsBlocked; activeToggler(wareHouse, wareHouse.IsBlocked)"
-                            [checked]="!wareHouse.IsBlocked">
-                        </ui-switch>
-                        </div>
-                        <span class="warehouse-status" *ngIf="wareHouse.IsBlocked">Currently: Inactive</span>
-                        <span class="warehouse-status" *ngIf="!wareHouse.IsBlocked">Currently: Active</span>
-                      </span>
-                    </li>
-                    <li class="list-group-item">
-                      <img src="../../../../../../assets/images/icons/reload-icon.svg" class="icon-size-16" alt="icon" /><span>View Log</span>
-                    </li>
-                    <hr class="hr-solid mb-2">
-                    <li class="list-group-item" (click)="deleteWarehouse(wareHouse.WHID)">
-                      <img src="../../../../../../assets/images/icons/icon_delete_red.svg" class="icon-size-16" alt="icon" /><span>Delete</span>
-                    </li>
-                  </ul>
-                </div>
-              </ng-template>
             </div>
+            <img src="../../../../../../assets/images/icons/menu.svg" class="icon-size-16 warehouse-options pointer"
+              placement="bottom-right" [ngbPopover]="option" />
+            <ng-template #option>
+              <div class="option-popup fadeIn animated">
+                <ul class="list-group">
+                  <li class="list-group-item" (click)="goToDetail(wareHouse.WHID)">
+                    <img src="../../../../../../assets/images/icons/warehouse-edit-icon.svg" class="icon-size-16"
+                      alt="icon" /><span>Edit Info / Rates</span>
+                  </li>
+                  <li class="list-group-item">
+                    <img src="../../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16"
+                      alt="icon" />
+                    <span>Active / Inactive
+                      <div class="switch-box pull-right">
+                        <ui-switch
+                          (change)="wareHouse.IsBlocked = !wareHouse.IsBlocked; activeToggler(wareHouse, wareHouse.IsBlocked)"
+                          [checked]="!wareHouse.IsBlocked">
+                        </ui-switch>
+                      </div>
+                      <span class="warehouse-status" *ngIf="wareHouse.IsBlocked">Currently: Inactive</span>
+                      <span class="warehouse-status" *ngIf="!wareHouse.IsBlocked">Currently: Active</span>
+                    </span>
+                  </li>
+                  <li class="list-group-item">
+                    <img src="../../../../../../assets/images/icons/reload-icon.svg" class="icon-size-16"
+                      alt="icon" /><span>View Log</span>
+                  </li>
+                  <hr class="hr-solid mb-2">
+                  <li class="list-group-item" (click)="deleteWarehouse(wareHouse.WHID)">
+                    <img src="../../../../../../assets/images/icons/icon_delete_red.svg" class="icon-size-16"
+                      alt="icon" /><span>Delete</span>
+                  </li>
+                </ul>
+              </div>
+            </ng-template>
           </div>
-          <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide" responsive="responsive"
-          previousLabel="" nextLabel="" *ngIf="(allWareHouseList | filterByCheckbox : activeStatus : inActiveStatus).length > paginationConfig.itemsPerPage">
-          </pagination-controls>
         </div>
-      </div>
-    </section>
-    <div class="overflow-hidden row" *ngIf="!allWareHouseList || (allWareHouseList &&  !(allWareHouseList | search : wareHouseTitle).length) || (allWareHouseList &&  !(allWareHouseList | filterByCheckbox : activeStatus : inActiveStatus).length )">
-      <div class="animated bounceInDown col-12">
-        <p class="card p-1 text-center">You don't have any warehouse yet</p>
+        <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide"
+          responsive="responsive" previousLabel="" nextLabel=""
+          *ngIf="(allWareHouseList | filterByCheckbox : activeStatus : inActiveStatus).length > paginationConfig.itemsPerPage">
+        </pagination-controls>
       </div>
     </div>
+    <app-loader-main *ngIf="loading"></app-loader-main>
+  </section>
+  <div class="overflow-hidden row"
+    *ngIf="!loading && (!allWareHouseList || (allWareHouseList &&  !(allWareHouseList | search : wareHouseTitle).length) || (allWareHouseList &&  !(allWareHouseList | filterByCheckbox : activeStatus : inActiveStatus).length ))">
+    <div class="animated bounceInDown col-12">
+      <p class="card p-1 text-center">You don't have any warehouse yet</p>
+    </div>
+  </div>
 </section>
+<app-ui-table *ngIf="warehousePublishedRates" [tableType]="'publishFCL'" [tableData]="warehousePublishedRates"
+  (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('warehouse', $event)" (pageEvent)="paging('warehouse' ,$event)"
+  [totalRecords]="totalPublishedRecords" [containerLoad]="'WAREHOUSE'" [transMode]="'WAREHOUSE'">
+</app-ui-table>

@@ -1,23 +1,25 @@
 <section class="viewWarehouseDetail">
-    <a class="hvr-icon-back grey-anc-btn" href="javascript:;" routerLink="/provider/manage-rates/warehouse" title="Back to warehouse">
-      <img alt="icon" class="icon-size-14 hvr-icon" src="../../../../../assets/images/icons/icon_arrow_left.svg">
-      <span class="link-hover-grey">Go Back To Listing</span>
-    </a>
-  <div class="row">
+<div class="row" *ngIf="!loading && wareHouse">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-body">
+        <div class="card-body pt-0">
           <div class="row mt-1">
+            <div class="col-12 mb-4">
+                <a class="hvr-icon-back grey-anc-btn" href="javascript:;" routerLink="/provider/manage-rates/warehouse" title="Back to warehouse">
+                  <img alt="icon" class="icon-size-14 hvr-icon" src="../../../../../assets/images/icons/icon_arrow_left.svg">
+                  <span class="link-hover-grey">Go Back To Listing</span>
+                </a>
+            </div>
             <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12">
-              <div *ngFor="let doc of wareHouse.WHGallery; let i = index" (click)="openGallery(wareHouse.WHGallery, i)">
+              <div *ngFor="let doc of wareHouse.parsedGallery; let i = index" (click)="openGallery(wareHouse.parsedGallery, i)">
                 <div class="gallery-section" *ngIf="i == 0">
                   <div class="images-carousel">
-                    <img [src]="baseExternalAssets + doc.DocumentFile" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
+                  <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
                     <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
-                      <source [src]="baseExternalAssets + doc.DocumentFile" type="video/mp4" />
+                      <source [src]="doc.DocumentFile" type="video/mp4" />
                     </video>
                     <div class="gallery-section-item d-flex justify-content-center align-items-center">
-                      <img src="../../../assets/images/icons/icon_pictures.svg" alt="" class="icon-size-14 mr-1" />
+                      <img src="../../../assets/images/icons/icon_pictures.svg" alt="count" class="icon-size-14 mr-1" />
                       {{ wareHouse.WHGallery.length }}
                     </div>
                   </div>
@@ -40,9 +42,9 @@
                     {{ wareHouse.TotalCoveredAreaUnit }}
                     <!-- <sup>2</sup> -->
                   </li>
-  
                 </ul>
-                <div class="warehouse-features mt-3 d-flex">
+                <p class="warehousing-desc mt-3 mb-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <div class="warehouse-features d-flex">
                   <div class="icons" *ngFor="let facilities of wareHouse.FacilitiesProviding">
                     <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse" *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse'"
                       [ngClass]="{
@@ -74,18 +76,22 @@
                 </div>
               </div>
             </div>
-            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 flex-column d-flex justify-content-center">
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 flex-column d-flex align-items-end">
               <button class="btn btn-outline-primary hvr-sweep-to-right rate-btn pull-right text-uppercase">
                 Add rates
               </button>
-              <div class="noti align-self-center" *ngIf="!wareHouse.IsRateAvailable">
+              <div class="noti text-center pointer" *ngIf="!wareHouse.IsRateAvailable" (click)="editWarehouse(wareHouse.WHID)">
+                  <img src="../../../assets/images/icons/warehouse-edit-icon.svg" alt="Edit" class="mr-2" />
                 EDIT DETAILS
               </div>
+            </div>
+            <div class="col-12">
+                <hr class="hr-solid mt-4">
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <hr class="hr-solid">
-  </section>
+<app-loader-main *ngIf="loading"></app-loader-main>
+</section>
