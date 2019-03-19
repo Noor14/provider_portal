@@ -325,11 +325,11 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     })
   }
   setData(obj:any){
-    if(obj.latitude){
-      this.location.lat = Number(obj.latitude);
+    if(obj.Latitude){
+      this.location.lat = Number(obj.Latitude);
     }
-    if(obj.longitude){
-      this.location.lng = Number(obj.longitude);
+    if(obj.Longitude){
+      this.location.lng = Number(obj.Longitude);
     }
     this.warehouseTypeFull = (obj.UsageType.toUpperCase() == 'SHARED')? false : true;
     this.fixedAmount = (obj.ComissionType == 'Fixed_Amount')? true :false;

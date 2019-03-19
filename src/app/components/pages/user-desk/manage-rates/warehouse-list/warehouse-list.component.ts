@@ -117,7 +117,7 @@ export class WarehouseListComponent implements OnInit {
         this.activeStatus = !this.activeStatus;
       }
       else{
-        event.preventDefault()
+        event.preventDefault();
       }
     }
     else if (type == 'inActiveStatus') {
@@ -125,7 +125,7 @@ export class WarehouseListComponent implements OnInit {
         this.inActiveStatus = !this.inActiveStatus;
       }
       else{
-        event.preventDefault()
+        event.preventDefault();
       }
     }
   }
