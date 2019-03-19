@@ -1,4 +1,4 @@
-<section class="warehouseList">
+<section class="warehouseList" *ngIf="!wareHouseDetTemplate">
   <div class="row">
     <div class="col-12">
       <div class="row">
@@ -165,4 +165,12 @@
         <p class="card p-1 text-center">You don't have any warehouse yet</p>
       </div>
     </div>
+</section>
+
+<section *ngIf="wareHouseDetTemplate">
+<a class="hvr-icon-back grey-anc-btn mb-4" href="javascript:;" (click)="wareHouseDetTemplate = !wareHouseDetTemplate" title="Back to warehouse">
+    <img alt="icon" class="icon-size-14 hvr-icon" src="../../../../../assets/images/icons/icon_arrow_left.svg">
+    <span class="link-hover-grey">Go Back To Listing</span>
+</a>
+<app-warehouse [whID]='warehouseID'></app-warehouse>
 </section>

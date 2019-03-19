@@ -24,7 +24,6 @@ import { SharedModule } from '../../../shared/shared.module';
 import { ReportsService } from './reports/reports.service';
 import { DataTablesModule } from 'angular-datatables';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { WarehouseComponent } from './warehouse/warehouse.component';
 import { BillingService } from './billing/billing.service';
 import { NgStepperModule } from '../../../directives/stepper/stepper.module';
 import { NgFilesModule } from '../../../directives/ng-files';
@@ -34,7 +33,6 @@ import { UiSwitchModule } from 'ngx-toggle-switch';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
 import { ViewWarehouseComponent } from './view-warehouse/view-warehouse.component';
 import { WarehouseService } from './manage-rates/warehouse-list/warehouse.service';
-import { LightboxModule } from 'ngx-lightbox';
 import { BookingsCardComponent } from './bookings-card/bookings-card.component';
 import { DynamicScriptLoaderService } from '../../../services/dynamic-script-loader.service';
 import { PipeModule } from '../../../constants/pipe/pipe.module';
@@ -57,8 +55,6 @@ import { PipeModule } from '../../../constants/pipe/pipe.module';
     DataTablesModule,
     FormsModule,
     ReactiveFormsModule,
-    NgStepperModule,
-    LightboxModule,
     PipeModule
   ],
   declarations: [
@@ -73,7 +69,6 @@ import { PipeModule } from '../../../constants/pipe/pipe.module';
     BillingComponent,
     SettingsComponent,
     DataMapComponent,
-    WarehouseComponent,
     PaymentResultComponent,
     ViewWarehouseComponent,
     BookingsCardComponent,

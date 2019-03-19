@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: '',
     component: ManageRatesComponent,
-    // canActivate: [UserGuard],
+    // canActivate: [ServicesGuard],
     children: [
       { path: 'sea', component: SeaFreightComponent, canActivate: [ServicesGuard] },
       { path: 'air', component: AirFreightComponent, canActivate: [ServicesGuard] },

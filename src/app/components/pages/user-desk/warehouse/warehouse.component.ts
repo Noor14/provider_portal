@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, NgZone, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation, Input } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
@@ -24,8 +24,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './warehouse.component.html',
   styleUrls: ['./warehouse.component.scss']
 })
-export class WarehouseComponent implements OnInit, OnDestroy {
-
+export class WarehouseComponent implements OnInit {
+  @Input() whID: number;
   @ViewChild('stepper') public _stepper: any;
   @ViewChild('searchElement') public searchElement: any;
 
@@ -33,7 +33,6 @@ export class WarehouseComponent implements OnInit, OnDestroy {
 
   public baseExternalAssets: string = baseExternalAssets;
   public zoomlevel: number = 5;
-  public whID: any;
   private userProfile: any
   public warehouseTypeFull: boolean = true;
   public leaseTerm: any[] = [];
@@ -44,7 +43,6 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   public cityList: any[] = [];
   public currencyList: any[] = [];
   public selectedMiniLeaseTerm: any;
-  private paramSubscriber: any;
   public isRealEstate:boolean = false;
   public fixedAmount = true
 
@@ -176,17 +174,9 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   }
 
   getDetail(){
-    this.paramSubscriber = this._router.params.subscribe(params => {
-      this.whID = params['id'];
-      // (+) converts string 'id' to a number
-      if (this.whID) {
-        this.getWareHouseDetail(this.userProfile.ProviderID, this.whID);
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.paramSubscriber.unsubscribe();
+    if (this.whID){
+      this.getWareHouseDetail(this.userProfile.ProviderID, this.whID);
+    }
   }
 
   errorValidate() {

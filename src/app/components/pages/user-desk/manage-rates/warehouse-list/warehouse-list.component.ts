@@ -29,10 +29,17 @@ export class WarehouseListComponent implements OnInit {
   public paginationConfig: PaginationInstance = {
     itemsPerPage: 5, currentPage: 1
   }
+  //filter 
+
   public inActiveStatus: boolean = true;
   public activeStatus: boolean = true;
 
+//loading
   public loading: boolean = false
+
+  // wareHouseDetTemplate
+  public wareHouseDetTemplate:boolean = false;
+  public warehouseID:number;
 
   constructor(
     private _warehouseService: WarehouseService,
@@ -104,7 +111,11 @@ export class WarehouseListComponent implements OnInit {
     this._lightbox.close();
   }
   addAnotherWarehouse() {
-    this._router.navigate(['provider/add-warehouse', 0])
+    this.wareHouseDetTemplate = true;
+    this.warehouseID = 0
+
+
+    // this._router.navigate(['provider/add-warehouse', 0])
   }
 
   onPageChange(number) {
@@ -176,7 +187,9 @@ export class WarehouseListComponent implements OnInit {
   }
   goToDetail(whId){
     // let id = encryptBookingID(whId);
-    this._router.navigate(['/provider/warehouse-detail', whId]);
+    this.wareHouseDetTemplate = true;
+    this.warehouseID = whId;
+    // this._router.navigate(['/provider/warehouse-detail', whId]);
   }
 
 
