@@ -5,7 +5,7 @@ import { } from 'googlemaps';
 import { loading, isJSON } from '../../../../constants/globalFunctions';
 import { Observable, Subject } from 'rxjs';
 import { WarehouseService } from '../manage-rates/warehouse-list/warehouse.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UserCreationService } from '../../user-creation/user-creation.service';
@@ -17,6 +17,7 @@ import { BasicInfoService } from '../../user-creation/basic-info/basic-info.serv
 import { baseExternalAssets } from '../../../../constants/base.url';
 import { ConfirmDeleteDialogComponent } from '../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Lightbox } from 'ngx-lightbox';
 
 @Component({
   selector: 'app-warehouse',
@@ -110,7 +111,6 @@ export class WarehouseComponent implements OnInit {
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
-    private _router: ActivatedRoute,
     private _redirect: Router,
     private _warehouseService: WarehouseService,
     private _toastr: ToastrService,
@@ -119,6 +119,7 @@ export class WarehouseComponent implements OnInit {
     private _basicInfoService: BasicInfoService,
     private ngFilesService: NgFilesService,
     private _modalService: NgbModal,
+    private _lightbox: Lightbox,
 
   ) { }
 
@@ -335,6 +336,17 @@ export class WarehouseComponent implements OnInit {
     }
     if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)){
       this.uploadedGalleries = JSON.parse(obj.WHGallery);
+      const albumArr = []
+      this.uploadedGalleries.forEach((elem) => {
+        const album = {
+          src: baseExternalAssets + elem.DocumentFile,
+          caption: elem.DocumentFileName,
+          thumb: baseExternalAssets + elem.DocumentFile,
+          DocumentUploadedFileType: elem.DocumentUploadedFileType
+        };
+        albumArr.push(album);
+      })
+      this.warehouseDetail['parsedGallery'] = albumArr;
       this.docTypeId = this.uploadedGalleries[0].DocumentID;
     }
     if (obj.WHAddress) {
@@ -596,6 +608,12 @@ export class WarehouseComponent implements OnInit {
   else{
       this.uploadedGalleries.splice(index, 1);
   }
+  }
+  openGallery(albumArr, index): void {
+    this._lightbox.open(albumArr, index, { disableScrolling: true, centerVertically: true, alwaysShowNavOnTouchDevices: true });
+  }
+  closeLightBox(): void {
+    this._lightbox.close();
   }
 
   cancelWarehouse(){
