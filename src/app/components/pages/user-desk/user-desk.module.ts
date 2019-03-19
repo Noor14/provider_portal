@@ -25,13 +25,11 @@ import { ReportsService } from './reports/reports.service';
 import { DataTablesModule } from 'angular-datatables';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BillingService } from './billing/billing.service';
-import { NgStepperModule } from '../../../directives/stepper/stepper.module';
 import { NgFilesModule } from '../../../directives/ng-files';
 import { SettingService } from './settings/setting.service';
 import { QuillEditorModule } from 'ngx-quill-editor';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
-import { ViewWarehouseComponent } from './view-warehouse/view-warehouse.component';
 import { WarehouseService } from './manage-rates/warehouse-list/warehouse.service';
 import { BookingsCardComponent } from './bookings-card/bookings-card.component';
 import { DynamicScriptLoaderService } from '../../../services/dynamic-script-loader.service';
@@ -70,7 +68,6 @@ import { PipeModule } from '../../../constants/pipe/pipe.module';
     SettingsComponent,
     DataMapComponent,
     PaymentResultComponent,
-    ViewWarehouseComponent,
     BookingsCardComponent,
   ],
   providers: [
