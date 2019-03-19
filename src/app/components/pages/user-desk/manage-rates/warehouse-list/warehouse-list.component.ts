@@ -39,7 +39,7 @@ export class WarehouseListComponent implements OnInit {
 
   // wareHouseDetTemplate
   public wareHouseDetTemplate:boolean = false;
-  public warehouseID:number;
+  public warehouseID:any;
 
   constructor(
     private _warehouseService: WarehouseService,
@@ -112,7 +112,7 @@ export class WarehouseListComponent implements OnInit {
   }
   addAnotherWarehouse() {
     this.wareHouseDetTemplate = true;
-    this.warehouseID = 0
+    this.warehouseID = '0'
 
 
     // this._router.navigate(['provider/add-warehouse', 0])
