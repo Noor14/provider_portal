@@ -111,6 +111,27 @@ export class WarehouseListComponent implements OnInit {
     this.paginationConfig.currentPage = number;
   }
 
+  statusType(type: string, event){
+    if (type == 'activeStatus'){
+      if (this.inActiveStatus){
+        this.activeStatus = !this.activeStatus;
+      }
+      else{
+        event.preventDefault()
+      }
+    }
+    else if (type == 'inActiveStatus') {
+      if (this.activeStatus){
+        this.inActiveStatus = !this.inActiveStatus;
+      }
+      else{
+        event.preventDefault()
+      }
+    }
+  }
+
+
+
   deleteWarehouse(whid){
     const modalRef = this._modalService.open(ConfirmDeleteDialogComponent, {
       size: 'lg',

@@ -26,11 +26,11 @@
         <div class="col-6 d-flex justify-content-end align-items-center warehouse-status">
           <label class="m-0 mr-2">SHOW :</label>
           <div class="fancyOptionBoxes mr-2">
-            <input id="checkboxOne" type="checkbox" [checked]="activeStatus" (change)="activeStatus = !activeStatus" />
+            <input id="checkboxOne" type="checkbox" [checked]="activeStatus" (click)="statusType('activeStatus', $event)" />
             <label for="checkboxOne"> <span></span> Acive </label>
           </div>
           <div class="fancyOptionBoxes">
-            <input id="checkboxTwo" type="checkbox" [checked]="inActiveStatus" (change)="inActiveStatus = !inActiveStatus"/>
+            <input id="checkboxTwo" type="checkbox" [checked]="inActiveStatus" (click)="statusType('inActiveStatus', $event)"/>
             <label for="checkboxTwo"> <span></span> Inacive </label>
           </div>
         </div>
