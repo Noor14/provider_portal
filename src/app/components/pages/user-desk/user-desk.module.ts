@@ -8,7 +8,6 @@ import { ViewBookingComponent } from './view-booking/view-booking.component';
 import { UserDeskRoutingModule } from './user-desk-routing.module';
 import { ViewBookingService } from './view-booking/view-booking.service';
 import { DashboardService } from './dashboard/dashboard.service';
-import { SearchBookingMode } from '../../../constants/dashboardBookingsFilter';
 import { AgmCoreModule } from '@agm/core';
 import { UserGuard } from '../user-creation/user.guard';
 import { AllBookingsComponent } from './all-bookings/all-bookings.component';
@@ -67,7 +66,6 @@ import { PipeModule } from '../../../constants/pipe/pipe.module';
     SideBarComponent,
     DashboardComponent,
     ViewBookingComponent,
-    SearchBookingMode,
     AllBookingsComponent,
     ReportsComponent,
     SupportComponent,

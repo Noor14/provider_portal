@@ -11,9 +11,6 @@ import { SeaFreightService } from './sea-freight/sea-freight.service';
 import { ScrollbarModule } from 'ngx-scrollbar';
 import { SharedModule } from '../../../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { UniquePipe } from '../../../../constants/unique-recordFilter';
-import { SearchPipe } from '../../../../constants/search.pipe';
-import { CheckboxPipe } from '../../../../constants/checkbox.pipe';
 import { AirFreightService } from './air-freight/air-freight.service';
 import { GroundTransportService } from './ground-transport/ground-transport.service';
 import { ManageRatesService } from './manage-rates.service';
@@ -47,10 +44,7 @@ import { PipeModule } from '../../../../constants/pipe/pipe.module';
     SeaFreightComponent,
     AirFreightComponent,
     GroundTransportComponent,
-    WarehouseListComponent,
-    UniquePipe,
-    SearchPipe,
-    CheckboxPipe
+    WarehouseListComponent
   ],
   providers: [
     SeaFreightService, 
