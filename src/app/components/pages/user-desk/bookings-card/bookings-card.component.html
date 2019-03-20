@@ -17,11 +17,17 @@
         <div class="d-flex mt-1 bookings-header-company">
           <div class="mr-3">
             <span class="status">Booking:</span>
-            <span class="badge badge-pill hashmove-badge-active">In-Review</span>
+            <span class="badge badge-pill hashmove-badge-danger" *ngIf="booking.BookingStatusCode.toLowerCase() === statusCode.cancelled || booking.BookingStatusCode.toLowerCase() === statusCode.rejected">{{booking.BookingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-active" *ngIf="booking.BookingStatusCode.toLowerCase() === statusCode.in_review">{{booking.BookingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-warning" *ngIf="booking.BookingStatusCode.toLowerCase() === statusCode.draft">{{booking.BookingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-secondary" *ngIf="booking.BookingStatusCode.toLowerCase() === statusCode.confirmed">{{booking.BookingStatus}}</span>
           </div>
           <div>
             <span class="status">Shipment:</span>
-            <span class="badge badge-pill hashmove-badge-warning">{{booking.ShippingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-danger" *ngIf="booking.ShippingStatusCode.toLowerCase() === statusCode.cancelled || booking.ShippingStatusCode.toLowerCase() === statusCode.rejected">{{booking.ShippingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-secondary" *ngIf="booking.ShippingStatusCode.toLowerCase() === statusCode.completed">{{booking.ShippingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-active" *ngIf="booking.ShippingStatusCode.toLowerCase() === statusCode.readytoship || booking.ShippingStatusCode.toLowerCase() === statusCode.in_transit">{{booking.ShippingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-warning" *ngIf="booking.ShippingStatusCode.toLowerCase() === statusCode.pending">{{booking.ShippingStatus}}</span>
           </div>
         </div>
       </div>

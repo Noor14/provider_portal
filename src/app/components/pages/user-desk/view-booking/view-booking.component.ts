@@ -3,7 +3,7 @@ import { PlatformLocation } from '@angular/common';
 import { ToastrService } from "ngx-toastr";
 import { Router, ActivatedRoute } from "@angular/router";
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { loading, getImagePath, ImageSource, ImageRequiredSize, encryptBookingID } from "../../../../constants/globalFunctions";
+import { loading, getImagePath, ImageSource, ImageRequiredSize, statusCode } from "../../../../constants/globalFunctions";
 import { HttpErrorResponse } from '@angular/common/http';
 import { BookingDetails } from '../../../../interfaces/bookingDetails';
 import { CommonService } from '../../../../services/common.service';
@@ -23,7 +23,7 @@ declare var google: any;
   styleUrls: ['./view-booking.component.scss']
 })
 export class ViewBookingComponent implements OnInit, OnDestroy {
-
+  public statusCode:any = statusCode;
   public zoomlevel: number = 2;
   public location: any = { lat: undefined, lng: undefined };
   public bookingDetails: BookingDetails;
