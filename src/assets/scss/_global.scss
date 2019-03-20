@@ -1054,6 +1054,12 @@ input[type="checkbox"]:focus+label>span {
           top: auto !important;
           bottom: 62px;
           }
+          .dropdown-toggle {
+            &::after {
+            border-top: 0;
+            border-bottom: .3em solid;
+            }
+          }
         }
       }
 
