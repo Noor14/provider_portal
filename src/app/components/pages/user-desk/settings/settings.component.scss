@@ -263,7 +263,7 @@
     z-index: 0;
     background-color: $color-white;
     text-align: center;
-    vertical-align: middle;          
+    vertical-align: middle;
     background-image: url("../../../../../assets/images/img-canvas.png");
     background-size: 20px;
 
@@ -366,12 +366,14 @@
       }
     }
   }
+
   .select-number {
     .select-country-list {
-      .dropdown-toggle{
-        padding-right:15px;
+      .dropdown-toggle {
+        padding-right: 15px;
+
         &::after {
-          right:0px !important;
+          right: 0px !important;
         }
       }
 
