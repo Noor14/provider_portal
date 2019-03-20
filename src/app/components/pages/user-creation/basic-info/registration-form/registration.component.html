@@ -346,7 +346,7 @@
                     <span>{{transPhoneCode}}</span>
                   </div>
                   <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
-                    <ul class="list-group">
+                    <ul class="list-group text-justify">
                       <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
                         <div class="flag-container">
                           <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}"
@@ -360,7 +360,7 @@
                 <input type="text" class="form-control select-country-code" formControlName="transLangPhone" (focusout)="errorValidate()"
                   (blur)="activeTransPhone=false" (focus)="translangPhoneError=false; phoneError=false; activeTransPhone=true"
                   (ngModelChange)="onModelTransPhoneChange(activePhone, activeTransPhone, 'phone', $event)" maxlength="13"
-                  placeholder="۹۸۷۶۵۴۳۲۱" (keypress)="NumberValid($event)">
+                  placeholder="۹۸۷٦۵۴۳۲۱" (keypress)="NumberValid($event)">
               </div>
               <span class="animated fadeIn" *ngIf="translangPhoneError && businessForm.controls['transLangPhone'].errors">
                 <p class="inputError animated fadeIn" *ngIf="businessForm.controls['transLangPhone'].hasError('required') && (businessForm.controls.transLangPhone.dirty || businessForm.controls.transLangPhone.touched)">
@@ -685,7 +685,7 @@
                 </div>
                 <input type="text" class="form-control select-country-code" (focusout)="errorValidate()" (blur)="activeTransTelephone=false"
                   (focus)="translangPhoneError=false; telephoneError=false; activeTransTelephone=true" (ngModelChange)="onModelTransTelephoneChange(activetelephone, activeTransTelephone, 'phone', $event)"
-                  maxlength="13" placeholder="۹۸۷۶۵۴۳۲۱" (keypress)="NumberValid($event)" formControlName="transLangtelephone">
+                  maxlength="13" placeholder="۹۸۷٦۵۴۳۲۱" (keypress)="NumberValid($event)" formControlName="transLangtelephone">
               </div>
               <span *ngIf="translangtelephoneError">
                 <p class="inputError animated fadeIn" *ngIf="personalInfoForm.controls['transLangtelephone'].hasError('required') && (personalInfoForm.controls.transLangtelephone.dirty || personalInfoForm.controls.transLangtelephone.touched)">

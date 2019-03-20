@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, ViewChild, NgZone, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation, Input } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
 import { loading, isJSON } from '../../../../constants/globalFunctions';
 import { Observable, Subject } from 'rxjs';
 import { WarehouseService } from '../manage-rates/warehouse-list/warehouse.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UserCreationService } from '../../user-creation/user-creation.service';
@@ -17,6 +17,7 @@ import { BasicInfoService } from '../../user-creation/basic-info/basic-info.serv
 import { baseExternalAssets } from '../../../../constants/base.url';
 import { ConfirmDeleteDialogComponent } from '../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Lightbox } from 'ngx-lightbox';
 
 @Component({
   selector: 'app-warehouse',
@@ -24,8 +25,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './warehouse.component.html',
   styleUrls: ['./warehouse.component.scss']
 })
-export class WarehouseComponent implements OnInit, OnDestroy {
-
+export class WarehouseComponent implements OnInit {
+  @Input() whID: any;
   @ViewChild('stepper') public _stepper: any;
   @ViewChild('searchElement') public searchElement: any;
 
@@ -33,7 +34,6 @@ export class WarehouseComponent implements OnInit, OnDestroy {
 
   public baseExternalAssets: string = baseExternalAssets;
   public zoomlevel: number = 5;
-  public whID: any;
   private userProfile: any
   public warehouseTypeFull: boolean = true;
   public leaseTerm: any[] = [];
@@ -44,7 +44,6 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   public cityList: any[] = [];
   public currencyList: any[] = [];
   public selectedMiniLeaseTerm: any;
-  private paramSubscriber: any;
   public isRealEstate:boolean = false;
   public fixedAmount = true
 
@@ -112,7 +111,6 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
-    private _router: ActivatedRoute,
     private _redirect: Router,
     private _warehouseService: WarehouseService,
     private _toastr: ToastrService,
@@ -121,6 +119,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     private _basicInfoService: BasicInfoService,
     private ngFilesService: NgFilesService,
     private _modalService: NgbModal,
+    private _lightbox: Lightbox,
 
   ) { }
 
@@ -176,17 +175,9 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   }
 
   getDetail(){
-    this.paramSubscriber = this._router.params.subscribe(params => {
-      this.whID = params['id'];
-      // (+) converts string 'id' to a number
-      if (this.whID) {
-        this.getWareHouseDetail(this.userProfile.ProviderID, this.whID);
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.paramSubscriber.unsubscribe();
+    if (this.whID){
+      this.getWareHouseDetail(this.userProfile.ProviderID, this.whID);
+    }
   }
 
   errorValidate() {
@@ -252,7 +243,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
           //get the place result
           let place: google.maps.places.PlaceResult = autocomplete.getPlace();
           // console.log(place)
-          // this.locationForm.controls['address'].setValue(place.formatted_address);
+          this.locationForm.controls['address'].setValue(this.searchElement.nativeElement.value);
           //verify result
           if (place.geometry === undefined || place.geometry === null) {
             return;
@@ -301,27 +292,23 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     this._warehouseService.getWarehouseList(providerId, id).subscribe((res: any) => {
       if (res.returnStatus == "Success" && res.returnObject) {
         loading(false);
-        let leaseTerm = res.returnObject.MstLeaseTerm;
-        let unitLength = res.returnObject.MstUnitLength;
-        let unitArea = res.returnObject.MstUnitArea;
-        let unitVolume = res.returnObject.MstUnitVolume;
         this.isRealEstate = res.returnObject.IsRealEstate;
-        this.ceilingsHeight = res.returnObject.CeilingDesc;
-        this.warehouseUsageType = res.returnObject.WHUsageType;
+        const data = [
+          'WH_MIN_LEASE_TERM',
+          'UNIT_AREA',
+          'WH_USAGE_TYPE',
+          'UNIT_VOLUME',
+          'WH_CEILING_HEIGHT'
+        ]
         this.warehouseDocx = res.returnObject.documentType;
         if (res.returnObject && !Number(id)) {
           this.facilities = res.returnObject.WHFacilitiesProviding;
-          if (this.ceilingsHeight) {
-            let ceilingID = this.ceilingsHeight.find(obj => obj.CeilingID == 4).CeilingID
-            this.propertyDetailForm.controls['ceilingHeight'].setValue(ceilingID);
-          }
         }
         else if(Number(id)){
-        
           this.warehouseDetail = res.returnObject.WHModel[0];
           this.setData(this.warehouseDetail);
         }
-        this.getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume);
+        this.getvaluesDropDown(data);
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
@@ -329,11 +316,11 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     })
   }
   setData(obj:any){
-    if(obj.latitude){
-      this.location.lat = Number(obj.latitude);
+    if(obj.Latitude){
+      this.location.lat = Number(obj.Latitude);
     }
-    if(obj.longitude){
-      this.location.lng = Number(obj.longitude);
+    if(obj.Longitude){
+      this.location.lng = Number(obj.Longitude);
     }
     this.warehouseTypeFull = (obj.UsageType.toUpperCase() == 'SHARED')? false : true;
     this.fixedAmount = (obj.ComissionType == 'Fixed_Amount')? true :false;
@@ -349,6 +336,17 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     }
     if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)){
       this.uploadedGalleries = JSON.parse(obj.WHGallery);
+      const albumArr = []
+      this.uploadedGalleries.forEach((elem) => {
+        const album = {
+          src: baseExternalAssets + elem.DocumentFile,
+          caption: elem.DocumentFileName,
+          thumb: baseExternalAssets + elem.DocumentFile,
+          DocumentUploadedFileType: elem.DocumentUploadedFileType
+        };
+        albumArr.push(album);
+      })
+      this.warehouseDetail['parsedGallery'] = albumArr;
       this.docTypeId = this.uploadedGalleries[0].DocumentID;
     }
     if (obj.WHAddress) {
@@ -434,14 +432,21 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     }
   }
 
-  getvaluesDropDown(leaseTerm, unitLength, unitArea, unitVolume) {
-    loading(true)
-    this._warehouseService.getDropDownValuesWarehouse(leaseTerm, unitLength, unitArea, unitVolume).subscribe((res: any) => {
+  getvaluesDropDown(data) {
+    loading(true);
+    this._warehouseService.getDropDownValuesWarehouse(data).subscribe((res: any) => {
       loading(false);
+      
       if (res && res.length) {
-        this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM')
-        this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM');
+        this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
+        this.warehouseUsageType = res.filter(obj => obj.codeType == 'WH_USAGE_TYPE');
+        this.ceilingsHeight = res.filter(obj => obj.codeType == 'WH_CEILING_HEIGHT');
+        this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM' && obj.codeType != 'WH_USAGE_TYPE' && obj.codeType != 'WH_CEILING_HEIGHT' && obj.codeVal.toUpperCase() != 'SQCM');
         if(!Number(this.whID)){
+          if (this.ceilingsHeight) {
+            let ceilingID = this.ceilingsHeight.find(obj => obj.codeVal == 4).codeVal
+            this.propertyDetailForm.controls['ceilingHeight'].setValue(ceilingID);
+          }
         let object = this.units.find(obj => obj.codeVal == 'SQFT');
         this.propertyDetailForm.patchValue({
           warehouseSpaceUnit: object.codeValDesc,
@@ -603,6 +608,12 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   else{
       this.uploadedGalleries.splice(index, 1);
   }
+  }
+  openGallery(albumArr, index): void {
+    this._lightbox.open(albumArr, index, { disableScrolling: true, centerVertically: true, alwaysShowNavOnTouchDevices: true });
+  }
+  closeLightBox(): void {
+    this._lightbox.close();
   }
 
   cancelWarehouse(){

@@ -13,7 +13,6 @@ import { ScrollbarModule } from 'ngx-scrollbar';
 import { UserCreationService } from './components/pages/user-creation/user-creation.service';
 import { GuestService } from './services/jwt.injectable';
 import { Interceptor } from './http-interceptors/interceptor';
-import { SafeUrlPipe } from './constants/safeurlfilter';
 import { CurrencyControl } from './services/currency.service';
 import { SetupService } from './services/setup.injectable';
 
@@ -24,8 +23,7 @@ export function guestServiceFactory(provider: GuestService) {
 
 @NgModule({
   declarations: [
-    AppComponent,
-    SafeUrlPipe
+    AppComponent
   ],
   imports: [
     BrowserModule,

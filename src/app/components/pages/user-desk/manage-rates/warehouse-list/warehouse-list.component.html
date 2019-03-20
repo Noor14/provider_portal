@@ -1,4 +1,4 @@
-<section class="warehouseList">
+<section class="warehouseList" *ngIf="!wareHouseDetTemplate">
   <div class="row">
     <div class="col-12">
       <div class="row">
@@ -26,11 +26,11 @@
         <div class="col-6 d-flex justify-content-end align-items-center warehouse-status">
           <label class="m-0 mr-2">SHOW :</label>
           <div class="fancyOptionBoxes mr-2">
-            <input id="checkboxOne" type="checkbox" [checked]="activeStatus" (change)="activeStatus = !activeStatus" />
+            <input id="checkboxOne" type="checkbox" [checked]="activeStatus" (click)="statusType('activeStatus', $event)" />
             <label for="checkboxOne"> <span></span> Acive </label>
           </div>
           <div class="fancyOptionBoxes">
-            <input id="checkboxTwo" type="checkbox" [checked]="inActiveStatus" (change)="inActiveStatus = !inActiveStatus"/>
+            <input id="checkboxTwo" type="checkbox" [checked]="inActiveStatus" (click)="statusType('inActiveStatus', $event)"/>
             <label for="checkboxTwo"> <span></span> Inacive </label>
           </div>
         </div>
@@ -74,7 +74,9 @@
                         <!-- <sup>2</sup> -->
                       </li>
                     </ul>
-                    <p class="warehousing-desc mt-3 mb-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="warehousing-desc mt-3 mb-1">
+                      {{ wareHouse.WHDesc | limitTo : 135 }}
+                    </p>
                     <div class="warehouse-features d-flex">
                       <div class="icons" *ngFor="let facilities of wareHouse.FacilitiesProviding">
                         <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse" *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse'"
@@ -163,4 +165,12 @@
         <p class="card p-1 text-center">You don't have any warehouse yet</p>
       </div>
     </div>
+</section>
+
+<section *ngIf="wareHouseDetTemplate">
+<a class="hvr-icon-back grey-anc-btn mb-4" href="javascript:;" (click)="wareHouseDetTemplate = !wareHouseDetTemplate" title="Back to warehouse">
+    <img alt="icon" class="icon-size-14 hvr-icon" src="../../../../../assets/images/icons/icon_arrow_left.svg">
+    <span class="link-hover-grey">Go Back To Listing</span>
+</a>
+<app-warehouse [whID]='warehouseID'></app-warehouse>
 </section>

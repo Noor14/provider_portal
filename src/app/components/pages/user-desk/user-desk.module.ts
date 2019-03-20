@@ -8,7 +8,6 @@ import { ViewBookingComponent } from './view-booking/view-booking.component';
 import { UserDeskRoutingModule } from './user-desk-routing.module';
 import { ViewBookingService } from './view-booking/view-booking.service';
 import { DashboardService } from './dashboard/dashboard.service';
-import { SearchBookingMode } from '../../../constants/dashboardBookingsFilter';
 import { AgmCoreModule } from '@agm/core';
 import { UserGuard } from '../user-creation/user.guard';
 import { AllBookingsComponent } from './all-bookings/all-bookings.component';
@@ -25,19 +24,16 @@ import { SharedModule } from '../../../shared/shared.module';
 import { ReportsService } from './reports/reports.service';
 import { DataTablesModule } from 'angular-datatables';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { WarehouseComponent } from './warehouse/warehouse.component';
 import { BillingService } from './billing/billing.service';
-import { NgStepperModule } from '../../../directives/stepper/stepper.module';
 import { NgFilesModule } from '../../../directives/ng-files';
 import { SettingService } from './settings/setting.service';
 import { QuillEditorModule } from 'ngx-quill-editor';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
-import { ViewWarehouseComponent } from './view-warehouse/view-warehouse.component';
 import { WarehouseService } from './manage-rates/warehouse-list/warehouse.service';
-import { LightboxModule } from 'ngx-lightbox';
 import { BookingsCardComponent } from './bookings-card/bookings-card.component';
 import { DynamicScriptLoaderService } from '../../../services/dynamic-script-loader.service';
+import { PipeModule } from '../../../constants/pipe/pipe.module';
 
 @NgModule({
   imports: [
@@ -57,15 +53,13 @@ import { DynamicScriptLoaderService } from '../../../services/dynamic-script-loa
     DataTablesModule,
     FormsModule,
     ReactiveFormsModule,
-    NgStepperModule,
-    LightboxModule
+    PipeModule
   ],
   declarations: [
     UserDeskComponent,
     SideBarComponent,
     DashboardComponent,
     ViewBookingComponent,
-    SearchBookingMode,
     AllBookingsComponent,
     ReportsComponent,
     SupportComponent,
@@ -73,9 +67,7 @@ import { DynamicScriptLoaderService } from '../../../services/dynamic-script-loa
     BillingComponent,
     SettingsComponent,
     DataMapComponent,
-    WarehouseComponent,
     PaymentResultComponent,
-    ViewWarehouseComponent,
     BookingsCardComponent,
   ],
   providers: [

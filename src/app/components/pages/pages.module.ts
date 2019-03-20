@@ -20,11 +20,12 @@ import { SeaRateDialogComponent } from '../../shared/dialogues/sea-rate-dialog/s
 import { BookingStatusUpdationComponent } from '../../shared/dialogues/booking-status-updation/booking-status-updation.component';
 import { AirRateDialogComponent } from '../../shared/dialogues/air-rate-dialog/air-rate-dialog.component';
 import { GroundRateDialogComponent } from '../../shared/dialogues/ground-rate-dialog/ground-rate-dialog.component';
-import { TruncatePipe } from '../../constants/truncateFilter';
+
 import { RateHistoryComponent } from '../../shared/dialogues/rate-history/rate-history.component';
 import { RateValidityComponent } from '../../shared/dialogues/rate-validity/rate-validity.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from '../../shared/shared.module'
+import { PipeModule } from '../../constants/pipe/pipe.module';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { SharedModule } from '../../shared/shared.module'
     ReactiveFormsModule,
     NgbModule.forRoot(),
     NgSelectModule,
-    SharedModule
+    SharedModule,
+    PipeModule
   ],
   declarations: [
     PagesComponent,
@@ -54,7 +56,6 @@ import { SharedModule } from '../../shared/shared.module'
     GroundRateDialogComponent,
     RateHistoryComponent,
     RateValidityComponent,
-    TruncatePipe
     // CancelBookingDialogComponent,
     // ConfirmModifySearchComponent,
     // ShareshippingComponent,
