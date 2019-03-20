@@ -221,6 +221,6 @@
     </pagination-controls>
   </div>
   <div *ngIf="tableType === 'publishFCL' && totalRecords > 5" class="paginationBox text-right mt-3 col-12 p-0 d-flex justify-content-end">
-    <ngb-pagination [(page)]="page" [pageSize]="5" (pageChange)="onPageChangeBootstrap($event)" [(collectionSize)]="totalCount"></ngb-pagination>
+    <ngb-pagination [(page)]="page" [pageSize]="5" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="onPageChangeBootstrap($event)" [(collectionSize)]="totalCount"></ngb-pagination>
   </div>
   <!--/ manage device table -->

@@ -54,7 +54,7 @@
         &.has-badge {
           position: relative;
           .badge {
-            position: absolute;
+            position: fixed;
             margin-top: 2.4rem !important;
             font-size: $font-size-base;
             background-color: transparentize( $color: $danger-color, $amount: 0.9);
@@ -181,11 +181,14 @@
       table {
         thead {
           th {
+            &:nth-child(3) {
+              min-width: 12rem;
+            }
             &:nth-child(5) {
               min-width: 10rem;
             }
             &:nth-child(7) {
-              min-width: 10rem;
+              min-width: 14rem;
             }
           }
         }

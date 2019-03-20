@@ -438,10 +438,11 @@ export class SeaRateDialogComponent implements OnInit {
 
     let totalImp = []
     let totalExp = []
-
+    this.selectedOrigins = this.selectedOrigins.filter(e => e.addChrID)
+    this.selectedDestinations = this.selectedDestinations.filter(e => e.addChrID)
     const expCharges = this.selectedOrigins.filter((e) => e.Imp_Exp === 'EXPORT')
     const impCharges = this.selectedDestinations.filter((e) => e.Imp_Exp === 'IMPORT')
-
+    
     if (impCharges.length) {
       impCharges.forEach(element => {
         totalImp.push(parseInt(element.Price));
@@ -459,7 +460,6 @@ export class SeaRateDialogComponent implements OnInit {
         return all + item;
       });
     }
-    
 
     let obj = {
       ID: (this.selectedData.ID ? this.selectedData.ID : 0),
