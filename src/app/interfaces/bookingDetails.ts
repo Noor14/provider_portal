@@ -153,6 +153,7 @@ export interface BookingDetails {
   BookingEnquiryDetail: EnquiryDetail[];
   BookingDocumentDetail: docDetail[];
   BookingStatus: string;
+  ShippingStatus: string;
   DiscountPrice?: number;
   DiscountPercent?: number;
   IDlist?: string;

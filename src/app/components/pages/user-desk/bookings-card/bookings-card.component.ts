@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { encryptBookingID } from '../../../../constants/globalFunctions';
+import { statusCode } from '../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
 import { baseExternalAssets } from '../../../../constants/base.url';
 
@@ -10,6 +10,7 @@ import { baseExternalAssets } from '../../../../constants/base.url';
 })
 export class BookingsCardComponent implements OnInit {
   public baseExternalAssets: string = baseExternalAssets;
+  public statusCode:any = statusCode;
   constructor(private _router: Router) { }
   @Input() booking: any
   ngOnInit() {
