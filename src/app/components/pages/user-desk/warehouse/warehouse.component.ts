@@ -157,7 +157,7 @@ export class WarehouseComponent implements OnInit {
       poBox: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
     });
     this.propertyDetailForm = new FormGroup({
-      warehouseSpace: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(3), Validators.pattern(/^[0-9]*$/)]),
+      warehouseSpace: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(1), Validators.pattern(/^[0-9]*$/)]),
       warehouseSpaceUnit: new FormControl(null, [Validators.required]),
       hashmoveSpace: new FormControl(null, [warehouseValidator.bind(this)]),
       ceilingHeight: new FormControl(null),
