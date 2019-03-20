@@ -981,8 +981,8 @@ input[type="checkbox"]:focus+label>span {
 
   .input-group-prepend,
   .input-group-append {
-    margin-right: -2px;
-    // z-index: 9;
+    margin-right: -3px;
+    z-index: 4;
 
     .input-group-text {
       padding: 0;
@@ -1016,6 +1016,8 @@ input[type="checkbox"]:focus+label>span {
       border-radius: 4px;
       border: 1px solid $provider-input-border;
       position: relative;
+      margin-right: -1px;
+      z-index: auto;
 
       .social-link-field {
         .social-place-label {
