@@ -64,7 +64,6 @@
       text-transform: capitalize;
       &.cancelStatus {
           color: $danger-color;
-          animation: 1.2s ease-in-out infinite alternate-reverse fadeIn;
       }
       a {
         font-size: $font-size-medium;

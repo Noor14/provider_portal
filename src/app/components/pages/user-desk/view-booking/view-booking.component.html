@@ -43,7 +43,7 @@
             <div class="col-md-4 border-right border-md-0 d-flex justify-content-between">
               <div class="statusView">
                 <label class="status-label">Booking</label>
-                <strong [ngClass]="{'cancelStatus': bookingDetails.BookingStatus.toLowerCase()==statusCode.cancelled}">{{bookingDetails.BookingStatus.toLowerCase()}}</strong>
+                <strong [ngClass]="{'cancelStatus': bookingDetails.BookingStatus.toLowerCase() == statusCode.cancelled}">{{bookingDetails.BookingStatus.toLowerCase()}}</strong>
               </div>
               <div class="statusUpdation align-self-end">
                 <strong class="d-flex flex-column">
@@ -58,12 +58,11 @@
                   </a>
                 </strong>
               </div>
-
             </div>
 
             <div class="col-md-4 border-right border-md-0">
               <label class="status-label">Shipment Status</label>
-              <strong>{{bookingDetails.ShippingStatus.toLowerCase()}}</strong>
+              <strong [ngClass]="{'cancelStatus': bookingDetails.ShippingStatus.toLowerCase() == statusCode.cancelled}">{{bookingDetails.ShippingStatus.toLowerCase()}}</strong>
             </div>
 
             <div class="col-md-4">
