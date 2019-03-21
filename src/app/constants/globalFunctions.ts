@@ -115,7 +115,7 @@ export function readyForPayment(obj) {
       title: obj.firstName + obj.lastName,
       product_names: "HashMove_Provider",
       order_id: obj.shipmentId,
-      url_redirect: "http://mywebsite.com/paymentresult",
+      url_redirect: window.location.protocol + "//" + window.location.host + "/provider/billing?" + obj.shipmentId,
       display_customer_info: 1,
       display_billing_fields: 1,
       display_shipping_fields: 0,
