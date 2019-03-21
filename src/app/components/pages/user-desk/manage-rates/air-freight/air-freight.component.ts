@@ -847,48 +847,73 @@ export class AirFreightComponent implements OnInit, OnDestroy {
         {
           title: '+45 PRICE',
           data: function (data) {
-            return (Number(data.slab.priceWithCode2.split(' ').pop())).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.slab.priceWithCode2.split(' ').shift(),
-            });
+            if (data.slab && data.slab.priceWithCode2){
+              return (Number(data.slab.priceWithCode2.split(' ').pop())).toLocaleString('en-US', {
+                style: 'currency',
+                currency: data.slab.priceWithCode2.split(' ').shift(),
+              });
+            }
+            else{
+              return '<span>--Currency--</span>'
+            }
           },
         },
 
         {
           title: '+100 PRICE',
           data: function (data) {
-            return (Number(data.slab.priceWithCode3.split(' ').pop())).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.slab.priceWithCode3.split(' ').shift(),
-            });
+            if (data.slab && data.slab.priceWithCode3){
+              return (Number(data.slab.priceWithCode3.split(' ').pop())).toLocaleString('en-US', {
+                style: 'currency',
+                currency: data.slab.priceWithCode3.split(' ').shift(),
+              });
+            }
+            else{
+            return '<span>--Currency--</span>'
+          }
           },
         },
 
         {
           title: '+250 PRICE',
           data: function (data) {
-            return (Number(data.slab.priceWithCode4.split(' ').pop())).toLocaleString('en-US', {
-              style: 'currency',
-              currency: data.slab.priceWithCode4.split(' ').shift(),
-            });
+            if (data.slab && data.slab.priceWithCode4){
+              return (Number(data.slab.priceWithCode4.split(' ').pop())).toLocaleString('en-US', {
+                style: 'currency',
+                currency: data.slab.priceWithCode4.split(' ').shift(),
+              });
+            }
+            else {
+              return '<span>--Currency--</span>'
+            }
           },
         },
         {
           title: '+500 PRICE',
           data: function (data) {
+            if (data.slab && data.slab.priceWithCode5) {
             return (Number(data.slab.priceWithCode5.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.slab.priceWithCode5.split(' ').shift(),
             });
+          }
+            else {
+              return '<span>--Currency--</span>'
+            }
           },
         },
         {
           title: '+1000 PRICE',
           data: function (data) {
+            if (data.slab && data.slab.priceWithCode6) {
             return (Number(data.slab.priceWithCode6.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.slab.priceWithCode6.split(' ').shift(),
             });
+          }
+            else {
+            return '<span>--Currency--</span>'
+          }
           },
         },
 

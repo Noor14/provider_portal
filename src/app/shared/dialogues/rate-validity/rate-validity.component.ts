@@ -194,34 +194,47 @@ export class RateValidityComponent implements OnInit {
     }
     else if (this.validityData.type == 'rateValidityAIR') {
       this.updateRatesAir()
+    } else if (this.validityData.type == 'warehouse') {
+      this.updateRatesfcl('warehouse')
     }
   }
 
   updateRatesfcl(type) {
     let rateData = [];
     if (this.validityData && this.validityData.data && this.validityData.data.length) {
-      this.validityData.data.forEach(element => {
-        if (type === 'fcl') {
-          let FCLObj = {
-            carrierPricingID: element.carrierPricingID,
-            rate: this.price,
-            effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
-            effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
-            modifiedBy: this.userProfile.LoginID
+        this.validityData.data.forEach(element => {
+          if (type === 'fcl') {
+            let FCLObj = {
+              carrierPricingID: element.carrierPricingID,
+              rate: this.price,
+              effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+              effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+              modifiedBy: this.userProfile.LoginID
+            }
+            rateData.push(FCLObj)
+          } else if (type === 'lcl') {
+            let LCLObj = {
+              consolidatorPricingID: element.consolidatorPricingID,
+              rate: this.price,
+              effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+              effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+              modifiedBy: this.userProfile.LoginID
+            }
+            rateData.push(LCLObj)
+          } else if (type === 'warehouse') {
+            let WHObj = {
+              whPricingID: element.whPricingID,
+              pricingJson: element.pricingJson,
+              rate: this.price,
+              effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+              effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+              modifiedBy: this.userProfile.LoginID
+            }
+            rateData.push(WHObj)
           }
-          rateData.push(FCLObj)
-        } else if (type === 'lcl') {
-          let LCLObj = {
-            consolidatorPricingID: element.consolidatorPricingID,
-            rate: this.price,
-            effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
-            effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
-            modifiedBy: this.userProfile.LoginID
-          }
-          rateData.push(LCLObj)
-        }
-      });
-    }
+        });
+      }
+
     this._seaFreightService.rateValidityFCL(type, rateData).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success('Record successfully updated', '')

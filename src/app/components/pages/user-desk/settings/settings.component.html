@@ -344,7 +344,7 @@
                           <div class="form-group">
                               <div class="select-number">
                                 <div class="input-group-prepend">
-                                  <div ngbDropdown class="select-country-list">
+                                  <div ngbDropdown class="select-country-list  website">
                                     <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                                   <div class="flag-container">
                                         <img *ngIf="!countryFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
@@ -354,7 +354,7 @@
                                       </div>
                                       <span>{{phoneCode}}</span>
                                     </div>
-                                    <div class="animated fadeIn country-section website" ngbDropdownMenu aria-labelledby="phoneCode">
+                                    <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
                                       <ul class="list-group">
                                         <li class="list-group-item" *ngFor="let list of countryList" (click)="selectTelCode(list)">
                                           <div class="flag-container">
@@ -383,11 +383,11 @@
                           <div class="form-group">
                         <div class="select-number">
                           <div class="input-group-prepend" [ngClass]=" {'inputError': socialInputValidate && businessInfoForm.controls['socialUrl'].errors}">
-                            <div ngbDropdown class="select-country-list social">
+                            <div ngbDropdown class="select-country-list social  website">
                               <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                                 <span *ngIf="selectedSocialsite && selectedSocialsite.Title">{{selectedSocialsite.Title}}</span>
                               </div>
-                              <div class="animated fadeIn country-section website" ngbDropdownMenu aria-labelledby="social">
+                              <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="social">
                                 <ul class="list-group">
                                   <li class="list-group-item" *ngFor="let link of socialWebs" (click)="selectedSocialLink(link)">
                                     <span>{{link.Title}}</span>
@@ -522,7 +522,7 @@
                         </div>
                         <div class="col-12 d-flex mt-3 animated fadeIn" *ngIf="wareHouseTypeToggler">
                           <div class="fancyOptionBoxes mr-4">
-                          <input id="owner" name="warehouseType" type="radio" [checked]="!IsRealEstate" (change)="realEstateSel('owner')">
+                          <input id="owner" name="warehouseType" type="radio" [checked]="!IsRealEstate" (click)="realEstateSel('owner', $event)">
                             <label for="owner">
                               <span></span>
                               I'm an owner / operator for Warehousing
@@ -530,7 +530,7 @@
                           </div>
 
                           <div class="fancyOptionBoxes">
-                          <input id="realEstate" name="warehouseType" type="radio" [checked]="IsRealEstate" (change)="realEstateSel('realState')">
+                          <input id="realEstate" name="warehouseType" type="radio" [checked]="IsRealEstate" (click)="realEstateSel('realEstate', $event)">
                             <label for="realEstate">
                               <span></span>
                               I'm a Real Estate Agent for Warehousing
@@ -794,7 +794,7 @@
         </section>
       </ng-template>
     </ngb-tab>
-    <ngb-tab>
+    <ngb-tab [disabled]="true">
       <ng-template ngbTabTitle><div class="setting-noti"><span class="circle"></span></div>Document Manager</ng-template>
       <ng-template ngbTabContent>
         <section class="DocumentManager">
@@ -826,7 +826,7 @@
         </section>
       </ng-template>
     </ngb-tab>
-    <ngb-tab>
+    <ngb-tab [disabled]="true">
       <ng-template ngbTabTitle>Notification</ng-template>
       <ng-template ngbTabContent>
         <section class="Notification">

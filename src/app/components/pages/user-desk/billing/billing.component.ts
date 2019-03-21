@@ -10,7 +10,7 @@ import { UserInfo, ProviderBillingDashboard, ProviderBillingDashboardInvoice, Gr
 import { ExchangeRate, Rate, CurrencyDetails, SelectedCurrency } from '../../../../interfaces/currency.interface';
 import { CurrencyControl } from '../../../../services/currency.service';
 import { firstBy } from 'thenby';
-import { applyRoundByDecimal, cloneObject, extractColumn, removeDuplicates } from '../reports/reports.component';
+import { cloneObject, extractColumn, removeDuplicates } from '../reports/reports.component';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { BillingService } from './billing.service';

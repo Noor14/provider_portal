@@ -5,18 +5,16 @@ import { UserGuard } from '../user-creation/user.guard';
 import { UserDeskComponent } from './user-desk.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ViewBookingComponent } from './view-booking/view-booking.component';
-import { ManageRatesComponent } from './manage-rates/manage-rates.component';
 import { AllBookingsComponent } from './all-bookings/all-bookings.component';
 import { ReportsComponent } from './reports/reports.component';
 import { SupportComponent } from './support/support.component';
 import { DealsComponent } from './deals/deals.component';
 import { BillingComponent } from './billing/billing.component';
 import { SettingsComponent } from './settings/settings.component';
-import { WarehouseComponent } from './warehouse/warehouse.component';
+// import { WarehouseComponent } from './warehouse/warehouse.component';
 import { ManageRatesModule } from './manage-rates/manage-rates.module';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
 import { Observable } from 'rxjs';
-import { ViewWarehouseComponent } from './view-warehouse/view-warehouse.component';
 
 export function manageRatesModuleChildren(): Type<any> | NgModuleFactory<any> | Promise<Type<any>> | Observable<Type<any>> {
     return ManageRatesModule;
@@ -34,10 +32,9 @@ const routes: Routes = [
             { path: 'settings', component: SettingsComponent }, 
             { path: 'support', component: SupportComponent }, 
             { path: 'deals', component: DealsComponent }, 
-            { path: 'add-warehouse/:id', component: WarehouseComponent },
+            // { path: 'add-warehouse/:id', component: WarehouseComponent },
             { path: 'payment_result', component: PaymentResultComponent }, 
             { path: 'booking-detail/:id', component: ViewBookingComponent },
-            { path: 'warehouse-detail/:id', component: ViewWarehouseComponent },
             { path: 'manage-rates', loadChildren: manageRatesModuleChildren },
             { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
         ]

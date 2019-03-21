@@ -90,6 +90,20 @@ export function CustomValidator(control: AbstractControl) {
   }
 };
 
+export const statusCode = {
+  draft: 'draft',
+  approved: 'approved',
+  rejected: 'rejected',
+  cancelled: 'cancelled',
+  confirmed: 'confirmed',
+  in_transit: 'in-transit',
+  re_upload: 're-upload',
+  completed: 'completed',
+  readytoship: 'ready to ship',
+  in_review: 'in-review',
+  pending: 'pending'
+}
+
 export function readyForPayment(obj) {
   Paytabs("#express_checkout").expresscheckout({
     settings: {

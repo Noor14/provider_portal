@@ -13,7 +13,9 @@
 
       .warehouse-search {
         input {
-          background: $table-head url("../../../../../../assets/images/icons/icon-search.svg") no-repeat right 15px center;
+          background: $table-head
+            url("../../../../../../assets/images/icons/icon-search.svg")
+            no-repeat right 15px center;
           background-size: 15px;
           border: none;
           outline: 0;
@@ -26,7 +28,7 @@
       }
 
       .warehouse-status {
-        >label {
+        > label {
           font-family: $font-proxima;
           font-weight: $font-weight-mid;
           font-size: $font-size-base;
@@ -146,13 +148,9 @@
               font-family: $font-proxima;
               font-size: $font-size-medium;
               color: $secondary-text-color;
-              height: 42px;
-              overflow: hidden;
             }
           }
         }
-
-
 
         .rate-btn {
           margin-top: 12px;
@@ -220,8 +218,6 @@
           color: $white-color !important;
         }
       }
-
-
 
       .warehouse-options {
         position: absolute;

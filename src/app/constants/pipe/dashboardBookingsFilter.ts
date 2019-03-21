@@ -7,7 +7,7 @@ import * as moment from 'moment';
 export class SearchBookingMode implements PipeTransform {
     transform(data: any, sel: any): any {
         if (sel == "CURRENT BOOKINGS"){
-          let bookings = data.filter(obj => obj.BookingTab === 'Current');
+            let bookings = data.filter(obj => obj.BookingTab === 'Current');
             return this.filterByDate(bookings).slice(0, 5);
         }
         else if (sel == "SAVED BOOKINGS"){

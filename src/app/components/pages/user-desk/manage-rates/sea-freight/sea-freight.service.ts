@@ -35,6 +35,11 @@ export class SeaFreightService {
     return this._http.post(baseApi + url, obj);
   }
 
+  saveWarehouseRate(obj) {
+    let url: string = `providerRateWarehouse/saveRate`;
+    return this._http.post(baseApi + url, obj);
+  }
+
   saveDraftRateLCL(obj) {
     let url: string = "providerratelcl/SaveDraft";
     return this._http.post(baseApi + url, obj);
