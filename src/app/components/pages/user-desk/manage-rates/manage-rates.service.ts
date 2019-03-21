@@ -64,11 +64,8 @@ export class ManageRatesService {
     return this._http.get(baseApi + url);
   }
 
-  // searchCities(terms: Observable<string>) {
-  //   return terms.pipe(
-  //     debounceTime(400),
-  //     distinctUntilChanged(),
-  //     switchMap(term => this.getAllCities(term))
-  //   );
-  // }
+  getWarehousePricing(modeofTrans) {
+    let url: string = `AdditionalCharge/GetBaseChagesList/${modeofTrans}`;
+    return this._http.get(baseApi + url);
+  }
 }

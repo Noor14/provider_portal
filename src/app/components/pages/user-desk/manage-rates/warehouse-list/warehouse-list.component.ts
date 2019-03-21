@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { WarehouseService } from './warehouse.service';
-import { isJSON, encryptBookingID } from '../../../../../constants/globalFunctions';
+import {isJSON} from '../../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Lightbox } from 'ngx-lightbox';
@@ -8,8 +8,10 @@ import { baseExternalAssets } from '../../../../../constants/base.url';
 import { PlatformLocation } from '@angular/common';
 import { PaginationInstance } from 'ngx-pagination';
 import { ToastrService } from 'ngx-toastr';
-import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SeaFreightService } from '../sea-freight/sea-freight.service';
 import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
+import { CommonService } from '../../../../../services/common.service';
 
 @Component({
   selector: 'app-warehouse-list',
@@ -33,6 +35,7 @@ export class WarehouseListComponent implements OnInit {
 
   public inActiveStatus: boolean = true;
   public activeStatus: boolean = true;
+  public warehouseCharges: any[] = [];
 
 //loading
   public loading: boolean = false
@@ -47,8 +50,7 @@ export class WarehouseListComponent implements OnInit {
     private _router: Router,
     private _lightbox: Lightbox,
     private _location: PlatformLocation,
-    private _toast: ToastrService
-
+    private _toast: ToastrService,
   ) {
     _location.onPopState(() => this.closeLightBox());
   }
@@ -66,11 +68,11 @@ export class WarehouseListComponent implements OnInit {
     const wId = 0;
     this._warehouseService.getWarehouseList(providerId, wId).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        if (res.returnObject && res.returnObject.WHModel && res.returnObject.WHModel.length){
+        if (res.returnObject && res.returnObject.WHModel && res.returnObject.WHModel.length) {
           this.allWareHouseList = res.returnObject.WHModel;
           if (this.allWareHouseList && this.allWareHouseList.length) {
-            this.allWareHouseList.map((obj)=>{
-              if (obj.FacilitiesProviding && obj.FacilitiesProviding != "[]" && isJSON(obj.FacilitiesProviding)){
+            this.allWareHouseList.map((obj) => {
+              if (obj.FacilitiesProviding && obj.FacilitiesProviding != "[]" && isJSON(obj.FacilitiesProviding)) {
                 obj.FacilitiesProviding = JSON.parse(obj.FacilitiesProviding);
               }
               if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {
@@ -93,7 +95,7 @@ export class WarehouseListComponent implements OnInit {
             })
           }
         }
-    
+
       }
       this.loading = false;
 
@@ -104,7 +106,7 @@ export class WarehouseListComponent implements OnInit {
   }
 
   openGallery(albumArr, index): void {
-    this._lightbox.open(albumArr, index, {disableScrolling: true, centerVertically: true, alwaysShowNavOnTouchDevices: true });
+    this._lightbox.open(albumArr, index, { disableScrolling: true, centerVertically: true, alwaysShowNavOnTouchDevices: true });
   }
 
   closeLightBox(): void {
@@ -155,7 +157,7 @@ export class WarehouseListComponent implements OnInit {
       if (result == "Success") {
         this._toast.success('Warehouse delete successfully', '')
         let index = this.allWareHouseList.findIndex(obj => obj.WHID == whid);
-        if (index >= 0){
+        if (index >= 0) {
           this.allWareHouseList.splice(index, 1);
         }
       }
@@ -172,9 +174,9 @@ export class WarehouseListComponent implements OnInit {
     }, 0);
 
   }
-  activeToggler(wh, whStatus){
+  activeToggler(wh, whStatus) {
     wh.IsBlocked = whStatus;
-    let obj={
+    let obj = {
       whid: wh.WHID,
       status: !whStatus,
       modifiedBy: this.userProfile.LoginID
@@ -185,14 +187,11 @@ export class WarehouseListComponent implements OnInit {
       }
     })
   }
-  goToDetail(whId){
+  goToDetail(whId) {
     // let id = encryptBookingID(whId);
     this.wareHouseDetTemplate = true;
     this.warehouseID = whId;
     // this._router.navigate(['/provider/warehouse-detail', whId]);
   }
-
-
-
 
 }

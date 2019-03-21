@@ -13,11 +13,11 @@ export class WarehouseService {
   }
 
 
-  delWarehouse(wid, modifiedBy){
+  delWarehouse(wid, modifiedBy) {
     let url: string = `warehousesetup/Delete/${wid}/${modifiedBy}`;
     return this._http.delete(baseApi + url);
   }
-  activeWarehouseToggler(obj){
+  activeWarehouseToggler(obj) {
     let url: string = "warehousesetup/UpdateStatus";
     return this._http.post(baseApi + url, obj);
   }
@@ -38,4 +38,14 @@ export class WarehouseService {
     return this._http.get(baseApi + url);
   }
   
+  getAllPublishedrates(obj) {
+    let url: string = `ProviderRateWarehouse/GetAllWarehouseRates`;
+    return this._http.post(baseApi + url, obj);
+  }
+
+  deletePublishedRate(data) {
+    let url: string = "providerratewarehouse/DeleteRate";
+    return this._http.request('delete', baseApi + url, { body: data });
+  }
+
 }

@@ -12,19 +12,19 @@
         border: 0;
         text-transform: uppercase;
         min-width: 10rem;
-        &.none_sorting_asc {
-          background: url("../../../../assets/images/icons/ic_arraow_normal.png") no-repeat;
-          background-position: center right 5px !important;
-        }
-        &.sorting_asc {
-          background: url("../../../../assets/images/icons/sorting_asc.svg") no-repeat;
-          background-size: 10px !important;
-          background-position: center right 5px !important;
-        }
-        &.sorting_desc {
-          @extend .sorting_asc;
-          background: url("../../../../assets/images/icons/sorting_desc.svg") no-repeat;
-        }
+        // &.none_sorting_asc {
+        //   background: url("../../../../assets/images/icons/ic_arraow_normal.png") no-repeat;
+        //   background-position: center right 5px !important;
+        // }
+        // &.sorting_asc {
+        //   background: url("../../../../assets/images/icons/sorting_asc.svg") no-repeat;
+        //   background-size: 10px !important;
+        //   background-position: center right 5px !important;
+        // }
+        // &.sorting_desc {
+        //   @extend .sorting_asc;
+        //   background: url("../../../../assets/images/icons/sorting_desc.svg") no-repeat;
+        // }
         &:nth-child(1),
         &:nth-child(2) {
           min-width: 1rem;
@@ -231,6 +231,33 @@
             &:nth-child(4),
             &:nth-child(6) {
               display: none;
+            }
+          }
+        }
+      }
+    }
+    &.WAREHOUSE{
+      table{
+        thead{
+          tr > th{
+            &:nth-child(3){
+              min-width: 11rem;
+            }
+            &:nth-child(5){
+              min-width: 15rem;
+            }
+            &:nth-child(8){
+              min-width: 14rem;
+            }
+          }
+        }
+        tbody{
+          tr > td{
+            &:nth-child(5), &:nth-child(6), &:nth-child(7), &:nth-child(8) {
+              display: none;
+            }
+            .badge{
+              margin-top: 0.75rem !important;
             }
           }
         }
