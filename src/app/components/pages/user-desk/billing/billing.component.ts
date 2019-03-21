@@ -291,7 +291,6 @@ export class BillingComponent implements OnInit, OnDestroy {
     private _toastr: ToastrService,
     private _commonService: CommonService,
     private _currencyControl: CurrencyControl,
-    private _renderer2: Renderer2,
     private _dynamicScriptLoader: DynamicScriptLoaderService
 
   ) { }

@@ -35,8 +35,6 @@ export class SharedService {
   private userLocation = new BehaviorSubject<any>(null);
   public getLocation = this.userLocation.asObservable();
 
-  public formChanger = new BehaviorSubject<boolean>(true);
-  public formChange = new BehaviorSubject<boolean>(true);
 
   public IsloggedIn = new BehaviorSubject<boolean>(null);
   public signOutToggler = new BehaviorSubject<boolean>(null);

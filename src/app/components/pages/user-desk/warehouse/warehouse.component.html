@@ -341,20 +341,12 @@
                         </div>
                       </div>
                       <span *ngIf="warehouseSpaceError">
-                        <p class="inputError animated fadeIn"
-                          *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('required') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
-                          {{requiredFields}}</p>
-                        <p class="inputError animated fadeIn"
-                          *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('minlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
-                          Range
-                          100 to 1,00,000</p>
-                        <p class="inputError animated fadeIn"
-                          *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('maxlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
-                          Range
-                          100 to 1,00,000</p>
-                        <p class="inputError animated fadeIn"
-                          *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
-                          Please
+                        <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('required') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">{{requiredFields}}</p>
+                        <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('minlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">Range
+                          1 to 1,00,000</p>
+                        <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('maxlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">Range
+                          1 to 1,00,000</p>
+                        <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">Please
                           enter valid information</p>
                       </span>
                     </div>
