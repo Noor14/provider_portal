@@ -231,7 +231,8 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
     );
     modalRef.result.then((result) => {
       if (result.resType == "Success"){
-          this.bookingDetails.BookingStatus = result.status;
+        this.bookingDetails.BookingStatus = result.status;
+        this.bookingDetails.ShippingStatus = result.status;
       }
     });
     modalRef.componentInstance.modalData = {
