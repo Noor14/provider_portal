@@ -62,7 +62,9 @@
       font-weight: $font-weight-mid;
       font-family: $font-pragmatica;
       text-transform: capitalize;
-
+      &.cancelStatus {
+          color: $danger-color;
+      }
       a {
         font-size: $font-size-medium;
         color: $secondary-color;
