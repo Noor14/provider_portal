@@ -47,11 +47,11 @@
               </div>
               <div class="statusUpdation align-self-end">
                 <strong class="d-flex flex-column">
-                  <a class="hvr-icon-forward m-0" *ngIf="bookingDetails.BookingStatus.toLowerCase() != statusCode.cancelled && bookingDetails.BookingStatus.toLowerCase() != statusCode.completed && bookingDetails.BookingStatus.toLowerCase() != statusCode.in_transit"
+                  <a class="hvr-icon-forward m-0" *ngIf="bookingDetails.ShippingStatus.toLowerCase() != statusCode.cancelled && bookingDetails.ShippingStatus.toLowerCase() != statusCode.completed && bookingDetails.ShippingStatus.toLowerCase() != statusCode.in_transit"
                     href="javascript:;" (click)="openDialogue('cancel')">
                     <span class="link-hover-danger">Cancel Booking</span>
                   </a>
-                  <a class="hvr-icon-forward m-0" href="javascript:;" *ngIf="bookingDetails.BookingStatus.toLowerCase() != statusCode.cancelled && bookingDetails.BookingStatus.toLowerCase() != statusCode.completed"
+                  <a class="hvr-icon-forward m-0" href="javascript:;" *ngIf="bookingDetails.ShippingStatus.toLowerCase() != statusCode.cancelled && bookingDetails.ShippingStatus.toLowerCase() != statusCode.completed"
                     (click)="openDialogue('updated')">
                     <span class="link-hover-secondary mr-1">Update Status</span>
                     <i class="fa fa-angle-right hvr-icon"></i>
