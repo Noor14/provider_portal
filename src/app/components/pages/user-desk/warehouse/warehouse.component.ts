@@ -32,7 +32,6 @@ import { SeaFreightService } from '../manage-rates/sea-freight/sea-freight.servi
 })
 export class WarehouseComponent implements OnInit {
   @Input() whID: any;
-  @Input() allWareHouseList: any;
   @ViewChild('stepper') public _stepper: any;
   @ViewChild('searchElement') public searchElement: any;
 
@@ -189,10 +188,6 @@ export class WarehouseComponent implements OnInit {
       commissionValue: new FormControl(null, [warehouseValidatorCommissionVal.bind(this)]),
       percentValue: new FormControl(null, [warehouseValidatorCommission.bind(this)]),
     });
-    this.getDropdownsList()
-    this.getAllCustomers(this.userProfile.ProviderID)
-    this.getAdditionalData()
-    this.getAllPublishRates(this.whID)
   }
 
   getDetail() {
@@ -710,6 +705,10 @@ export class WarehouseComponent implements OnInit {
         }
         this._toastr.success('Warehouse detail saved', '')
         this._stepper.next();
+        this.getDropdownsList()
+        this.getAllCustomers(this.userProfile.ProviderID)
+        this.getAdditionalData()
+        this.getAllPublishRates(this.whID)
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
@@ -740,7 +739,7 @@ export class WarehouseComponent implements OnInit {
   addWarehouseRate(rowId) {
     let obj;
     if (rowId > 0) {
-      obj = this.allWareHouseList.find(elem => elem.WHID == rowId);
+      obj = this.warehouseDetail;
     } else {
       obj = null
     }
@@ -753,14 +752,12 @@ export class WarehouseComponent implements OnInit {
     });
     modalRef.result.then((result) => {
       if (result) {
-        console.log(result);
         this.getAllPublishRates(this.whID)
       }
     });
-    // modalRef.componentInstance.savedRow.subscribe((emmitedValue) => {
-    //   this.setAddDraftData(type, emmitedValue);
-    //   this.getDraftRates(type.toLowerCase())
-    // });
+    modalRef.componentInstance.savedRow.subscribe((emmitedValue) => {
+      this.getAllPublishRates(this.whID)
+    });
     let object = {
       forType: 'WAREHOUSE',
       data: obj,
@@ -854,7 +851,7 @@ export class WarehouseComponent implements OnInit {
   sortedFilters(type, event) {
     this.sortColumn = event.column
     this.sortColumnDirection = event.direction
-    // this.getAllPublishRates()
+    this.getAllPublishRates(this.whID)
   }
 
   public pageNo: number = 1
@@ -915,12 +912,13 @@ export class WarehouseComponent implements OnInit {
       this.publishloading = false;
       if (res.returnId > 0) {
         this.totalPublishedRecords = res.returnObject.recordsTotal
-        this.filterRecords = res.returnObject.recordsFiltered
+        this.filteredRecords = res.returnObject.recordsFiltered
+        console.log(this.filteredRecords);
+        
         this.warehousePublishedRates = cloneObject(res.returnObject.data);
-        let warehouse = this.allWareHouseList.find(obj => obj.WHID === this.whID)
         if (this.warehousePublishedRates) {
           this.warehousePublishedRates.forEach(e => {
-            e.usageType = warehouse.UsageType
+            e.usageType = this.warehouseDetail.UsageType
           })
         }
         console.log(this.warehousePublishedRates);

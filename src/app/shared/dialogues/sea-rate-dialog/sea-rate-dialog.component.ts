@@ -217,7 +217,7 @@ export class SeaRateDialogComponent implements OnInit {
     else if (this.selectedData && this.selectedData.data && (this.containerLoadParam === "LCL" || this.containerLoadParam === "FTL")) {
       if (this.selectedData.mode === 'publish') {
         this.disabledCustomers = true;
-        let data = changeCase(this.selectedData.data, 'pascal')
+        let data = changeCase(this.selectedData.data[0], 'pascal')
         this.setData(data);
       } else {
         this.setData(this.selectedData.data);
@@ -266,6 +266,8 @@ export class SeaRateDialogComponent implements OnInit {
         obj => obj.PortID == data.PolID
       );
     } else if (data.PolType === 'CITY') {
+      console.log('here');
+      
       this._manageRateService.getAllCities(data.PolName).pipe(debounceTime(400), distinctUntilChanged()).subscribe((res: any) => {
         const cities = res;
         this.showDoubleRates = false

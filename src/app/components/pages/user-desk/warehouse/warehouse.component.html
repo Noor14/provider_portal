@@ -341,12 +341,20 @@
                         </div>
                       </div>
                       <span *ngIf="warehouseSpaceError">
-                        <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('required') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">{{requiredFields}}</p>
-                        <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('minlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">Range
+                        <p class="inputError animated fadeIn"
+                          *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('required') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
+                          {{requiredFields}}</p>
+                        <p class="inputError animated fadeIn"
+                          *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('minlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
+                          Range
                           1 to 1,00,000</p>
-                        <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('maxlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">Range
+                        <p class="inputError animated fadeIn"
+                          *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('maxlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
+                          Range
                           1 to 1,00,000</p>
-                        <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">Please
+                        <p class="inputError animated fadeIn"
+                          *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
+                          Please
                           enter valid information</p>
                       </span>
                     </div>
@@ -654,13 +662,31 @@
         </section>
 
         <section class="Add-warehouse-rates mt-3 rates-grid">
+          <h5 class="mt-5">Commission</h5>
+          <div class="row">
+            <div class="col-3">
+              <div class="fancyOptionBoxes">
+                <input id="fixedAMount" type="checkbox">
+                <label for="fixedAMount">
+                  <span></span>
+                  Fixed amount per booking
+                </label>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="fancyOptionBoxes">
+                <input id="fixedPercentage" type="checkbox">
+                <label for="fixedPercentage">
+                  <span></span>
+                  Fixed percentage per booking
+                </label>
+              </div>
+            </div>
+          </div>
           <h5 class="mt-5">Set Pricing</h5>
           <p class="sub-title mt-2 mb-2">you can add multiple rates for different dates / months </p>
           <div class="row mb-3 justify-content-end" *ngIf="warehousePublishedRates">
-            <div class="col-6 d-flex justify-content-start rate-dur"
-              *ngIf="warehousePublishedRates && warehousePublishedRates.length">
-              <!-- <img src="../../../../../../assets/images/icons/Icons_Clock-2hour.svg" alt="del_icon" class="icon-size-24 mr-2" />
-                      Unpublished Rates will be published in 2 hours -->
+            <div class="col-6 d-flex justify-content-start rate-dur">
             </div>
             <div class="col-6 d-flex justify-content-end">
               <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity('warehouse')"
