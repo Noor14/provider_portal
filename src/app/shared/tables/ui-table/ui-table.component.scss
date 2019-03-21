@@ -262,6 +262,14 @@
           }
         }
       }
+      /deep/ .dropdown-menu{
+        left: -34px !important;
+        button{
+          color: $primary-grey;
+          text-transform: unset;
+          padding: .25rem 1.5rem;
+        }
+      }
     }
     &-count {
       font-family: $font-proxima;
@@ -289,6 +297,9 @@
       }
       /deep/ .dropdown-menu {
         left: -55px !important;
+        button{
+          font-family: $font-proxima;
+        }
       }
     }
     /deep/ .pagination {

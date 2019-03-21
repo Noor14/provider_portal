@@ -15,8 +15,8 @@
         *ngIf="transMode === 'SEA' && containerLoad === 'FCL'">Shipping Line
       </button>
       <button class="dropdown-item"
-        (click)="onSortClick('polName', 'Origin/Departure', 'PolName')">Origin/Departure</button>
-      <button class="dropdown-item" (click)="onSortClick('shippingCatName', 'Cargo Type', 'ShippingCatName')">Cargo Type
+        (click)="onSortClick('polName', 'Origin/Departure', 'PolName')" *ngIf="transMode !== 'WAREHOUSE'">Origin/Departure</button>
+      <button class="dropdown-item" (click)="onSortClick('shippingCatName', 'Cargo Type', 'ShippingCatName')" *ngIf="transMode !== 'WAREHOUSE'">Cargo Type
       </button>
       <button class="dropdown-item" (click)="onSortClick('containerSpecDesc', 'Container', 'ContainerSpecDesc')"
         *ngIf="transMode === 'GROUND'">Container</button>
