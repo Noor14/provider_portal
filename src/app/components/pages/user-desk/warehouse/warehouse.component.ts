@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation, Input } from '
 import { HttpErrorResponse } from '@angular/common/http';
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
-import { loading, isJSON } from '../../../../constants/globalFunctions';
+import { loading, isJSON, getImagePath, ImageRequiredSize, ImageSource } from '../../../../constants/globalFunctions';
 import { Observable, Subject } from 'rxjs';
 import { WarehouseService } from '../manage-rates/warehouse-list/warehouse.service';
 import { Router } from '@angular/router';
@@ -18,6 +18,11 @@ import { baseExternalAssets } from '../../../../constants/base.url';
 import { ConfirmDeleteDialogComponent } from '../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Lightbox } from 'ngx-lightbox';
+import { SeaRateDialogComponent } from '../../../../shared/dialogues/sea-rate-dialog/sea-rate-dialog.component';
+import { cloneObject } from '../reports/reports.component';
+import { RateValidityComponent } from '../../../../shared/dialogues/rate-validity/rate-validity.component';
+import { CommonService } from '../../../../services/common.service';
+import { SeaFreightService } from '../manage-rates/sea-freight/sea-freight.service';
 
 @Component({
   selector: 'app-warehouse',
@@ -27,6 +32,7 @@ import { Lightbox } from 'ngx-lightbox';
 })
 export class WarehouseComponent implements OnInit {
   @Input() whID: any;
+  @Input() allWareHouseList: any;
   @ViewChild('stepper') public _stepper: any;
   @ViewChild('searchElement') public searchElement: any;
 
@@ -44,7 +50,7 @@ export class WarehouseComponent implements OnInit {
   public cityList: any[] = [];
   public currencyList: any[] = [];
   public selectedMiniLeaseTerm: any;
-  public isRealEstate:boolean = false;
+  public isRealEstate: boolean = false;
   public fixedAmount = true
 
   //generalForm
@@ -57,7 +63,7 @@ export class WarehouseComponent implements OnInit {
   public propertyDetailForm: any;
 
   //commisionForm
-  public commissionForm:any
+  public commissionForm: any
 
   //map working
   public location: any = { lat: undefined, lng: undefined };
@@ -67,17 +73,17 @@ export class WarehouseComponent implements OnInit {
 
 
   // form Errors
-  public whNameError: boolean= false;
-  public whDetailError: boolean= false;
-  public cityError: boolean= false;
-  public addressError: boolean= false;
-  public poBoxError: boolean= false;
-  public warehouseSpaceError:boolean= false;
-  public hashmoveSpaceError: boolean= false;
-  public minLeaseValueOneError: boolean= false;
-  public minLeaseValueTwoError: boolean= false;
-  public commissionValueError:boolean= false;
-  public percentValueError: boolean= false;
+  public whNameError: boolean = false;
+  public whDetailError: boolean = false;
+  public cityError: boolean = false;
+  public addressError: boolean = false;
+  public poBoxError: boolean = false;
+  public warehouseSpaceError: boolean = false;
+  public hashmoveSpaceError: boolean = false;
+  public minLeaseValueOneError: boolean = false;
+  public minLeaseValueTwoError: boolean = false;
+  public commissionValueError: boolean = false;
+  public percentValueError: boolean = false;
 
 
   // space validation
@@ -95,9 +101,9 @@ export class WarehouseComponent implements OnInit {
   public warehouseDocx: any;
 
 
-// edit warehouse detail
+  // edit warehouse detail
 
-  public warehouseDetail:any;
+  public warehouseDetail: any;
 
 
 
@@ -107,6 +113,16 @@ export class WarehouseComponent implements OnInit {
     maxFileSize: 12 * 1024 * 1000,
     totalFilesSize: 12 * 12 * 1024 * 1000
   };
+  warehouseCharges: any;
+  publishloading: boolean;
+  fromDate: any;
+  toDate: any;
+  filterbyCustomer: any;
+  isCustomer: any;
+  isMarketplace: any;
+  totalPublishedRecords: any;
+  checkedallpublishRates: boolean;
+  public warehousePublishedRates: any[] = []
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -120,6 +136,8 @@ export class WarehouseComponent implements OnInit {
     private ngFilesService: NgFilesService,
     private _modalService: NgbModal,
     private _lightbox: Lightbox,
+    private _commonService: CommonService,
+    private _seaFreightService: SeaFreightService
 
   ) { }
 
@@ -171,11 +189,14 @@ export class WarehouseComponent implements OnInit {
       commissionValue: new FormControl(null, [warehouseValidatorCommissionVal.bind(this)]),
       percentValue: new FormControl(null, [warehouseValidatorCommission.bind(this)]),
     });
-
+    this.getDropdownsList()
+    this.getAllCustomers(this.userProfile.ProviderID)
+    this.getAdditionalData()
+    this.getAllPublishRates(this.whID)
   }
 
-  getDetail(){
-    if (this.whID){
+  getDetail() {
+    if (this.whID) {
       this.getWareHouseDetail(this.userProfile.ProviderID, this.whID);
     }
   }
@@ -215,29 +236,29 @@ export class WarehouseComponent implements OnInit {
       this.percentValueError = true;
     }
   }
-  spaceValidate(){
-    if(this.warehouseTypeFull) return;
-      if (Number(this.propertyDetailForm.controls.warehouseSpace.value) && Number(this.propertyDetailForm.controls.warehouseSpace.value) < Number(this.propertyDetailForm.controls.hashmoveSpace.value)) {
-        this.propertyDetailForm.controls.hashmoveSpace.status = 'INVALID';
-        this.hashmoveSpaceError = true;
-        this.hashmovespaceMsg = "Offered space should be less than or equal to Total warehouse Space";
-      }
-      else if (Number(this.propertyDetailForm.controls.hashmoveSpace.value) && Number(this.propertyDetailForm.controls.hashmoveSpace.value) > Number(this.propertyDetailForm.controls.warehouseSpace.value)) {
-        this.propertyDetailForm.controls.hashmoveSpace.status = 'INVALID';
-        this.hashmoveSpaceError = true;
-        this.hashmovespaceMsg = "Total warehouse Space should be greater than offered space";
+  spaceValidate() {
+    if (this.warehouseTypeFull) return;
+    if (Number(this.propertyDetailForm.controls.warehouseSpace.value) && Number(this.propertyDetailForm.controls.warehouseSpace.value) < Number(this.propertyDetailForm.controls.hashmoveSpace.value)) {
+      this.propertyDetailForm.controls.hashmoveSpace.status = 'INVALID';
+      this.hashmoveSpaceError = true;
+      this.hashmovespaceMsg = "Offered space should be less than or equal to Total warehouse Space";
+    }
+    else if (Number(this.propertyDetailForm.controls.hashmoveSpace.value) && Number(this.propertyDetailForm.controls.hashmoveSpace.value) > Number(this.propertyDetailForm.controls.warehouseSpace.value)) {
+      this.propertyDetailForm.controls.hashmoveSpace.status = 'INVALID';
+      this.hashmoveSpaceError = true;
+      this.hashmovespaceMsg = "Total warehouse Space should be greater than offered space";
 
-      }
-      else{
-        this.hashmovespaceMsg = undefined;
-      }
+    }
+    else {
+      this.hashmovespaceMsg = undefined;
+    }
   }
   getplacemapLoc(countryBound) {
     this.mapsAPILoader.load().then(() => {
       this.geoCoder = new google.maps.Geocoder;
       let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
       autocomplete.setComponentRestrictions(
-      { 'country': [countryBound] });
+        { 'country': [countryBound] });
       autocomplete.addListener("place_changed", () => {
         this.ngZone.run(() => {
           //get the place result
@@ -304,7 +325,7 @@ export class WarehouseComponent implements OnInit {
         if (res.returnObject && !Number(id)) {
           this.facilities = res.returnObject.WHFacilitiesProviding;
         }
-        else if(Number(id)){
+        else if (Number(id)) {
           this.warehouseDetail = res.returnObject.WHModel[0];
           this.setData(this.warehouseDetail);
         }
@@ -315,26 +336,26 @@ export class WarehouseComponent implements OnInit {
       loading(false);
     })
   }
-  setData(obj:any){
-    if(obj.Latitude){
+  setData(obj: any) {
+    if (obj.Latitude) {
       this.location.lat = Number(obj.Latitude);
     }
-    if(obj.Longitude){
+    if (obj.Longitude) {
       this.location.lng = Number(obj.Longitude);
     }
-    this.warehouseTypeFull = (obj.UsageType.toUpperCase() == 'SHARED')? false : true;
-    this.fixedAmount = (obj.ComissionType == 'Fixed_Amount')? true :false;
+    this.warehouseTypeFull = (obj.UsageType.toUpperCase() == 'SHARED') ? false : true;
+    this.fixedAmount = (obj.ComissionType == 'Fixed_Amount') ? true : false;
     if (obj.FacilitiesProviding && isJSON(obj.FacilitiesProviding)) {
       this.facilities = JSON.parse(obj.FacilitiesProviding);
       this.checkedFacilities = this.facilities.some(obj => obj.IsAllowed == true);
     }
-    if (obj.WHName){
+    if (obj.WHName) {
       this.generalForm.controls['whName'].setValue(obj.WHName);
     }
-    if (obj.WHDesc){
+    if (obj.WHDesc) {
       this.generalForm.controls['whDetail'].setValue(obj.WHDesc);
     }
-    if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)){
+    if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {
       this.uploadedGalleries = JSON.parse(obj.WHGallery);
       const albumArr = []
       this.uploadedGalleries.forEach((elem) => {
@@ -359,23 +380,23 @@ export class WarehouseComponent implements OnInit {
       let object = this.cityList.find(elem => elem.id == obj.CityID)
       this.locationForm.controls['city'].setValue(object);
     }
-    if (obj.TotalCoveredArea){
+    if (obj.TotalCoveredArea) {
       this.propertyDetailForm.controls['warehouseSpace'].setValue(obj.TotalCoveredArea);
     }
-    if(!this.warehouseTypeFull && obj.CeilingHeight){
+    if (!this.warehouseTypeFull && obj.CeilingHeight) {
       this.propertyDetailForm.controls['ceilingHeight'].setValue(obj.CeilingHeight);
     }
-    if(!this.warehouseTypeFull && obj.OfferedHashMoveArea){
+    if (!this.warehouseTypeFull && obj.OfferedHashMoveArea) {
       this.propertyDetailForm.controls['hashmoveSpace'].setValue(obj.OfferedHashMoveArea);
     }
-    if(!this.warehouseTypeFull && obj.WHMinSQFT){
+    if (!this.warehouseTypeFull && obj.WHMinSQFT) {
       this.propertyDetailForm.controls['minLeaseValueOne'].setValue(obj.WHMinSQFT);
     }
-    if(!this.warehouseTypeFull && obj.WHMinCBM){
+    if (!this.warehouseTypeFull && obj.WHMinCBM) {
       this.propertyDetailForm.controls['minLeaseValueTwo'].setValue(obj.WHMinCBM);
     }
 
-    if (this.isRealEstate && obj.ComissionValue){
+    if (this.isRealEstate && obj.ComissionValue) {
       this.commissionForm.controls['commissionValue'].setValue(obj.ComissionValue);
     }
     if (this.isRealEstate && obj.ComissionCurrencyID) {
@@ -399,9 +420,9 @@ export class WarehouseComponent implements OnInit {
   addMinimumLeaseTerm(obj) {
     this.selectedMiniLeaseTerm = obj;
   }
-  changeWarehouseType(){
+  changeWarehouseType() {
     this.warehouseTypeFull = !this.warehouseTypeFull;
-    if (this.warehouseTypeFull){
+    if (this.warehouseTypeFull) {
       this.propertyDetailForm.controls.hashmoveSpace.reset();
       this.propertyDetailForm.controls.minLeaseValueOne.reset();
       this.propertyDetailForm.controls.minLeaseValueTwo.reset();
@@ -436,35 +457,35 @@ export class WarehouseComponent implements OnInit {
     loading(true);
     this._warehouseService.getDropDownValuesWarehouse(data).subscribe((res: any) => {
       loading(false);
-      
+
       if (res && res.length) {
         this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
         this.warehouseUsageType = res.filter(obj => obj.codeType == 'WH_USAGE_TYPE');
         this.ceilingsHeight = res.filter(obj => obj.codeType == 'WH_CEILING_HEIGHT');
         this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM' && obj.codeType != 'WH_USAGE_TYPE' && obj.codeType != 'WH_CEILING_HEIGHT' && obj.codeVal.toUpperCase() != 'SQCM');
-        if(!Number(this.whID)){
+        if (!Number(this.whID)) {
           if (this.ceilingsHeight) {
             let ceilingID = this.ceilingsHeight.find(obj => obj.codeVal == 4).codeVal
             this.propertyDetailForm.controls['ceilingHeight'].setValue(ceilingID);
           }
-        let object = this.units.find(obj => obj.codeVal == 'SQFT');
-        this.propertyDetailForm.patchValue({
-          warehouseSpaceUnit: object.codeValDesc,
-          // ceilingUnit: object.codeValDesc,
-        });
+          let object = this.units.find(obj => obj.codeVal == 'SQFT');
+          this.propertyDetailForm.patchValue({
+            warehouseSpaceUnit: object.codeValDesc,
+            // ceilingUnit: object.codeValDesc,
+          });
         }
-        else{
-          if (this.warehouseDetail.TotalCoveredAreaUnit){
+        else {
+          if (this.warehouseDetail.TotalCoveredAreaUnit) {
             let object = this.units.find(obj => obj.codeVal == this.warehouseDetail.TotalCoveredAreaUnit.toUpperCase());
             this.propertyDetailForm.patchValue({
               warehouseSpaceUnit: object.codeValDesc,
               // ceilingUnit: object.codeValDesc,
             });
           }
-          if (this.warehouseDetail.MinLeaseTermValue){
+          if (this.warehouseDetail.MinLeaseTermValue) {
             this.selectedMiniLeaseTerm = this.leaseTerm.find(obj => obj.codeVal == this.warehouseDetail.MinLeaseTermValue)
           }
-          
+
         }
       }
     }, (err: HttpErrorResponse) => {
@@ -569,7 +590,7 @@ export class WarehouseComponent implements OnInit {
             docFiles[index + 1].DocumentID = resObj.DocumentID;
             docFiles[index + 1].DocumentLastStatus = resObj.DocumentLastStaus;
           }
-            this.uploadedGalleries = fileObj;
+          this.uploadedGalleries = fileObj;
           this._toastr.success("File upload successfully", "");
         }
         else {
@@ -587,27 +608,27 @@ export class WarehouseComponent implements OnInit {
   }
 
   removeSelectedDocx(index, obj) {
-  if (obj && obj.DocumentFile){
-    obj.DocumentFile = obj.DocumentFile.split(baseExternalAssets).pop();
-    obj.DocumentID = this.docTypeId;
-    this._basicInfoService.removeDoc(obj).subscribe((res: any) => {
-      if (res.returnStatus == 'Success') {
-        this._toastr.success('Remove selected document succesfully', "");
-        this.uploadedGalleries.splice(index, 1);
-        if (!this.uploadedGalleries || (this.uploadedGalleries && !this.uploadedGalleries.length)) {
-          this.docTypeId = null;
+    if (obj && obj.DocumentFile) {
+      obj.DocumentFile = obj.DocumentFile.split(baseExternalAssets).pop();
+      obj.DocumentID = this.docTypeId;
+      this._basicInfoService.removeDoc(obj).subscribe((res: any) => {
+        if (res.returnStatus == 'Success') {
+          this._toastr.success('Remove selected document succesfully', "");
+          this.uploadedGalleries.splice(index, 1);
+          if (!this.uploadedGalleries || (this.uploadedGalleries && !this.uploadedGalleries.length)) {
+            this.docTypeId = null;
+          }
         }
-      }
-      else {
-        this._toastr.error('Error Occured', "");
-      }
-    }, (err: HttpErrorResponse) => {
-      console.log(err);
-    })
-  }
-  else{
+        else {
+          this._toastr.error('Error Occured', "");
+        }
+      }, (err: HttpErrorResponse) => {
+        console.log(err);
+      })
+    }
+    else {
       this.uploadedGalleries.splice(index, 1);
-  }
+    }
   }
   openGallery(albumArr, index): void {
     this._lightbox.open(albumArr, index, { disableScrolling: true, centerVertically: true, alwaysShowNavOnTouchDevices: true });
@@ -616,7 +637,7 @@ export class WarehouseComponent implements OnInit {
     this._lightbox.close();
   }
 
-  cancelWarehouse(){
+  cancelWarehouse() {
     const modalRef = this._modalService.open(ConfirmDeleteDialogComponent, {
       size: 'lg',
       centered: true,
@@ -660,14 +681,14 @@ export class WarehouseComponent implements OnInit {
       longitude: this.location.lng,
       totalCoveredArea: this.propertyDetailForm.value.warehouseSpace,
       totalCoveredAreaUnit: this.propertyDetailForm.value.warehouseSpaceUnit,
-      usageType: (this.warehouseTypeFull)? 'FULL' : 'SHARED',
+      usageType: (this.warehouseTypeFull) ? 'FULL' : 'SHARED',
       whFacilitiesProviding: this.facilities,
       isBlocked: true,
       offeredHashMoveArea: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.hashmoveSpace : null,
       offeredHashMoveAreaUnit: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.warehouseSpaceUnit : null,
       ceilingHeight: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.ceilingHeight : null,
-      ceilingLenght : (!this.warehouseTypeFull) ? 0 : null,
-      ceilingWidth : (!this.warehouseTypeFull) ? 0 : null,
+      ceilingLenght: (!this.warehouseTypeFull) ? 0 : null,
+      ceilingWidth: (!this.warehouseTypeFull) ? 0 : null,
       ceilingUnit: (!this.warehouseTypeFull) ? 'ft' : null,
       minLeaseTermValue: this.selectedMiniLeaseTerm.codeVal,
       minLeaseTermUnit: this.selectedMiniLeaseTerm.codeValShortDesc,
@@ -709,6 +730,311 @@ export class WarehouseComponent implements OnInit {
         : this.currencyList.filter(v => v.shortName.toLowerCase().indexOf(term.toLowerCase()) > -1));
   formatterCurrency = (x: { shortName: string }) => x.shortName;
 
+
+  /**
+   * [ADD WAREHOUSE RATES MODAL]
+   * @param  rowId [description]
+   * @return       [description]
+   */
+
+  addWarehouseRate(rowId) {
+    let obj;
+    if (rowId > 0) {
+      obj = this.allWareHouseList.find(elem => elem.WHID == rowId);
+    } else {
+      obj = null
+    }
+    const modalRef = this._modalService.open(SeaRateDialogComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'large-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.result.then((result) => {
+      if (result) {
+        console.log(result);
+        this.getAllPublishRates(this.whID)
+      }
+    });
+    // modalRef.componentInstance.savedRow.subscribe((emmitedValue) => {
+    //   this.setAddDraftData(type, emmitedValue);
+    //   this.getDraftRates(type.toLowerCase())
+    // });
+    let object = {
+      forType: 'WAREHOUSE',
+      data: obj,
+      addList: this.warehouseCharges,
+      mode: 'draft',
+      customers: this.allCustomers,
+      drafts: this.warehouseTypes,
+    }
+    modalRef.componentInstance.selectedData = object;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+
+  }
+
+  public warehouseTypes: any[] = []
+  getDropdownsList() {
+    loading(true)
+    this._commonService.getMstCodeVal('WH_STORAGE_TYPE').subscribe((res: any) => {
+      loading(false)
+      this.warehouseTypes = res
+    }, (err) => {
+      loading(false)
+    })
+  }
+
+  public allCustomers: any[] = []
+  /**
+   *
+   * Getting list of all customers
+   * @param {number} ProviderID
+   * @memberof SeaFreightComponent
+   */
+  getAllCustomers(ProviderID) {
+    loading(true)
+    this._seaFreightService.getAllCustomers(ProviderID).subscribe((res: any) => {
+      if (res.returnId > 0) {
+        this.allCustomers = res.returnObject
+        this.allCustomers.forEach(e => {
+          e.CustomerImageParsed = getImagePath(ImageSource.FROM_SERVER, e.CustomerImage, ImageRequiredSize._48x48)
+        })
+      }
+    }, (err) => {
+      loading(false)
+    })
+  }
+
+  /**
+   *
+   * Get Additional Port Charges
+   * @memberof WarehouseFreightComponent
+   */
+  getAdditionalData() {
+    loading(true)
+    this._seaFreightService.getAllAdditionalCharges(this.userProfile.ProviderID).subscribe((res: any) => {
+      console.log(res);
+      this.warehouseCharges = res.filter(e => e.modeOfTrans === 'WAREHOUSE' && e.addChrType === 'ADCH')
+      loading(false)
+    }, (err) => {
+      loading(false)
+    })
+  }
+
+  /**
+   *
+   * EVENT EMITTER OBSERVABLE FOR UI TABLE COMPONENT
+   * @param {object} event
+   * @memberof SeaFreightComponent
+   */
+  tableCheckedRows(event) {
+    console.log(event);
+
+    if (typeof event.list[0] === 'object') {
+      if (event.list[0].type === 'history') {
+        // this.rateHistory(event.list[0].id, 'Rate_FCL')
+      }
+    } else {
+      this.delPublishRates = event.list
+    }
+  }
+
+  /**
+   *
+   * EVENT EMITTER OBSERVABLE FOR SORTING IN UI TABLE
+   * @param {string} type //fcl or lcl
+   * @param {object} event // sorting object {columnName, columnDirection}
+   * @memberof SeaFreightComponent
+   */
+  sortedFilters(type, event) {
+    this.sortColumn = event.column
+    this.sortColumnDirection = event.direction
+    // this.getAllPublishRates()
+  }
+
+  public pageNo: number = 1
+  /**
+   * PAGING EVENT EMITTER OBSERVABLE FOR UI TABLE
+   *
+   * @param {string} type //fcl or lcl
+   * @param {number} event //page number 0,1,2...
+   * @memberof SeaFreightComponent
+   */
+  paging(event) {
+    console.log(event);
+    this.pageNo = event.page;
+    this.getAllPublishRates(event.whid)
+  }
+
+  /**
+   *
+   * FILTER BUTTON ACTION
+   * @param {string} type //fcl or lcl
+   * @memberof SeaFreightComponent
+   */
+  filterRecords(type) {
+    // this.getAllPublishRates()
+  }
+
+  /**
+   *
+   * GET ALL PUBLISHED RATES FOR FCL OR LCL
+   * @param {string} type // fcl or lcl
+   * @memberof SeaFreightComponent
+   */
+  public sortColumn: string = 'EffectiveFrom'
+  public sortColumnDirection: string = 'ASC'
+  public pageSize: number = 5
+  public filteredRecords: number;
+  getAllPublishRates(warehouseID) {
+    console.log(this.filteredRecords);
+    
+    if (this.filteredRecords === 1) {
+      this.pageNo = this.pageNo - 1
+    }
+    this.publishloading = true;
+    let obj = {
+      pageNo: (this.pageNo < 1) ? 1 : this.pageNo,
+      pageSize: this.pageSize,
+      providerID: this.userProfile.ProviderID,
+      whid: warehouseID,
+      effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+      effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+      sortColumn: this.sortColumn,
+      sortColumnDirection: this.sortColumnDirection,
+      customerID: (this.filterbyCustomer ? parseInt(this.filterbyCustomer) : null),
+      customerType: (this.isCustomer ? 'CUSTOMER' : (this.isMarketplace ? 'MARKETPLACE' : null)),
+      jsonCustomerDetail: null
+    }
+    this._warehouseService.getAllPublishedrates(obj).subscribe((res: any) => {
+      this.publishloading = false;
+      if (res.returnId > 0) {
+        this.totalPublishedRecords = res.returnObject.recordsTotal
+        this.filterRecords = res.returnObject.recordsFiltered
+        this.warehousePublishedRates = cloneObject(res.returnObject.data);
+        let warehouse = this.allWareHouseList.find(obj => obj.WHID === this.whID)
+        if (this.warehousePublishedRates) {
+          this.warehousePublishedRates.forEach(e => {
+            e.usageType = warehouse.UsageType
+          })
+        }
+        console.log(this.warehousePublishedRates);
+        this.checkedallpublishRates = false;
+      }
+    })
+  }
+
+
+  /**
+   *
+   * DELETE PUBLISHDED RECORD FOR FCL
+   * @returns
+   * @memberof SeaFreightComponent
+   */
+  public delPublishRates: any[] = []
+  delPublishedRecord() {
+    if (!this.delPublishRates.length) return;
+    const modalRef = this._modalService.open(ConfirmDeleteDialogComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'small-modal',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.result.then((result) => {
+      console.log(result);
+      if (result == "Success") {
+        this.getAllPublishRates(this.warehousePublishedRates[0].whid)
+      }
+    }, (reason) => {
+      // console.log("reason");
+    });
+    let obj = {
+      data: this.delPublishRates,
+      type: "warehouse"
+    }
+    modalRef.componentInstance.deleteIds = obj;
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
+
+  /**
+   *
+   * EDIT PUBLISH RATE POPUP MODAL ACTION
+   * @param {string} type //fcl or lcl
+   * @returns
+   * @memberof SeaFreightComponent
+   */
+  rateValidity(type) {
+    if (!this.delPublishRates.length) return;
+    let updateValidity = [];
+    for (let i = 0; i < this.warehousePublishedRates.length; i++) {
+      for (let y = 0; y < this.delPublishRates.length; y++) {
+        if (this.warehousePublishedRates[i].whPricingID == this.delPublishRates[y]) {
+          updateValidity.push(this.warehousePublishedRates[i])
+        }
+      }
+    }
+    if (updateValidity && updateValidity.length > 1) {
+      const modalRef = this._modalService.open(RateValidityComponent, {
+        size: 'lg',
+        centered: true,
+        windowClass: 'upper-medium-modal',
+        backdrop: 'static',
+        keyboard: false
+      });
+      modalRef.result.then((result) => {
+        if (result == 'Success') {
+          this.getAllPublishRates(this.whID);
+          this.checkedallpublishRates = false
+          this.delPublishRates = [];
+        }
+      });
+      let obj = {
+        data: updateValidity,
+        type: type
+      }
+      modalRef.componentInstance.validityData = obj;
+    } else if (updateValidity && updateValidity.length === 1) {
+      const modalRef2 = this._modalService.open(SeaRateDialogComponent, {
+        size: 'lg',
+        centered: true,
+        windowClass: 'large-modal',
+        backdrop: 'static',
+        keyboard: false
+      });
+      modalRef2.result.then((result) => {
+        if (result == 'Success') {
+          this.getAllPublishRates(this.whID);
+          this.checkedallpublishRates = false
+          this.delPublishRates = [];
+        }
+      });
+      let object = {
+        forType: type.toUpperCase(),
+        data: updateValidity.length > 1 ? updateValidity : updateValidity[0],
+        addList: this.warehouseCharges,
+        customers: this.allCustomers,
+        drafts: this.warehouseTypes,
+        mode: 'publish'
+      }
+      modalRef2.componentInstance.selectedData = object;
+    }
+    setTimeout(() => {
+      if (document.getElementsByTagName('body')[0].classList.contains('modal-open')) {
+        document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+      }
+    }, 0);
+  }
+
 }
 export function warehouseValidator(control: AbstractControl) {
   if (!this.warehouseTypeFull) {
@@ -732,17 +1058,17 @@ export function warehouseValidator(control: AbstractControl) {
     //   }
     else if (control.value.length > 5 && control.value) {
       if (!regexp.test(control.value)) {
-          return {
-            pattern: true
-          }
+        return {
+          pattern: true
         }
-        else {
-          return {
-            maxlength: true
-          }
-        }
-
       }
+      else {
+        return {
+          maxlength: true
+        }
+      }
+
+    }
     else {
       return false;
     }

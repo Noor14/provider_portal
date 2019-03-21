@@ -1,85 +1,88 @@
 <section class="warehouseSetup">
-<div class="viewWarehouseDetail" *ngIf="warehouseDetail && whID != '0'">
+  <div class="viewWarehouseDetail" *ngIf="warehouseDetail && whID != '0'">
     <div class="card">
-        <div class="card-body p-0">
-          <div class="row mt-1">
-            <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12">
-              <div *ngFor="let doc of warehouseDetail.parsedGallery; let i = index" (click)="openGallery(warehouseDetail.parsedGallery, i)">
-                <div class="gallery-section" *ngIf="i == 0">
-                  <div class="images-carousel">
-                    <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
-                    <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
-                      <source [src]="doc.DocumentFile" type="video/mp4" />
-                    </video>
-                    <div class="gallery-section-item d-flex justify-content-center align-items-center">
-                      <img src="../../../assets/images/icons/icon_pictures.svg" alt="count" class="icon-size-14 mr-1" />
-                        {{ warehouseDetail.parsedGallery.length }}
-                    </div>
+      <div class="card-body p-0">
+        <div class="row mt-1">
+          <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12">
+            <div *ngFor="let doc of warehouseDetail.parsedGallery; let i = index"
+              (click)="openGallery(warehouseDetail.parsedGallery, i)">
+              <div class="gallery-section" *ngIf="i == 0">
+                <div class="images-carousel">
+                  <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
+                  <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
+                    <source [src]="doc.DocumentFile" type="video/mp4" />
+                  </video>
+                  <div class="gallery-section-item d-flex justify-content-center align-items-center">
+                    <img src="../../../assets/images/icons/icon_pictures.svg" alt="count" class="icon-size-14 mr-1" />
+                    {{ warehouseDetail.parsedGallery.length }}
                   </div>
                 </div>
               </div>
             </div>
+          </div>
           <div class="mt-1 col-xl-9 col-lg-9 col-md-7 col-sm-7 col-12 Wcontent">
             <h5 class="card-title">{{ warehouseDetail.WHName }}</h5>
-              <div class="warehousing-content">
-                <ul class="list-group">
-                  <li class="list-group-item">
-                    <img src="../../../assets/images/icons/Icons_Location-grey.svg" alt="icon" class="icon-size-16 mr-2" />
-                    <span>
-                      {{ warehouseDetail.CityName }}, {{ warehouseDetail.CountryName }}
-                    </span>
-                  </li>
-                  <li class="list-group-item mr-4">
-                    <img src="../../../assets/images/icons/icon_grid.svg" alt="icon" class="icon-size-14 mr-2" />
-                    {{ warehouseDetail.TotalCoveredArea }}
-                    {{ warehouseDetail.TotalCoveredAreaUnit }}
-                    <!-- <sup>2</sup> -->
-                  </li>
-                </ul>
-                <p class="warehousing-desc mt-3 mb-1">
-                  {{ warehouseDetail.WHDesc }}
-                </p>
-                <div class="warehouse-features d-flex">
-                  <div class="icons" *ngFor="let facility of facilities">
-                    <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse" *ngIf="facility.BusinessLogic == 'IsBondedWarehouse'"
-                      [ngClass]="{
+            <div class="warehousing-content">
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <img src="../../../assets/images/icons/Icons_Location-grey.svg" alt="icon"
+                    class="icon-size-16 mr-2" />
+                  <span>
+                    {{ warehouseDetail.CityName }}, {{ warehouseDetail.CountryName }}
+                  </span>
+                </li>
+                <li class="list-group-item mr-4">
+                  <img src="../../../assets/images/icons/icon_grid.svg" alt="icon" class="icon-size-14 mr-2" />
+                  {{ warehouseDetail.TotalCoveredArea }}
+                  {{ warehouseDetail.TotalCoveredAreaUnit }}
+                  <!-- <sup>2</sup> -->
+                </li>
+              </ul>
+              <p class="warehousing-desc mt-3 mb-1">
+                {{ warehouseDetail.WHDesc }}
+              </p>
+              <div class="warehouse-features d-flex">
+                <div class="icons" *ngFor="let facility of facilities">
+                  <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse"
+                    *ngIf="facility.BusinessLogic == 'IsBondedWarehouse'" [ngClass]="{
                                   'warehouse-features-active':
                                     facility.BusinessLogic == 'IsBondedWarehouse' &&
                                     facility.IsAllowed
                                 }">
-                      <img src="../../../assets/images/icons/Icons_Warehousing_green.svg" alt="footer icon" class="hvr-icon" />
-                    </span>
-                    <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Temp. Controlled" *ngIf="
+                    <img src="../../../assets/images/icons/Icons_Warehousing_green.svg" alt="footer icon"
+                      class="hvr-icon" />
+                  </span>
+                  <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Temp. Controlled" *ngIf="
                                   facility.BusinessLogic == 'IsTempratureControlled'
-                                "
-                      [ngClass]="{
+                                " [ngClass]="{
                                   'warehouse-features-active':
                                     facility.BusinessLogic ==
                                       'IsTempratureControlled' && facility.IsAllowed
                                 }">
-                      <img src="../../../assets/images/icons/Weight-Icon_1.svg" alt="footer icon" class="hvr-icon" />
-                    </span>
-                    <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Transport Available"
-                      *ngIf="facility.BusinessLogic == 'IsTransportAvailable'" [ngClass]="{
+                    <img src="../../../assets/images/icons/Weight-Icon_1.svg" alt="footer icon" class="hvr-icon" />
+                  </span>
+                  <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Transport Available"
+                    *ngIf="facility.BusinessLogic == 'IsTransportAvailable'" [ngClass]="{
                                   'warehouse-features-active':
                                     facility.BusinessLogic == 'IsTransportAvailable' &&
                                     facility.IsAllowed
                                 }">
-                      <img src="../../../assets/images/icons/Icons_Cargo_Truck_blue.svg" alt="footer icon" class="hvr-icon" />
-                    </span>
-                  </div>
+                    <img src="../../../assets/images/icons/Icons_Cargo_Truck_blue.svg" alt="footer icon"
+                      class="hvr-icon" />
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <hr class="hr-solid mt-4">
+    </div>
+    <hr class="hr-solid mt-4">
   </div>
-<h2 *ngIf="!warehouseDetail && whID == '0'">Add a warehouse </h2>
-<p class="sub-title mt-2 mb-3" *ngIf="!warehouseDetail && whID == '0'">
-  Add your warehouse and create a listing of available capacity on HashMove 
-</p>
+  <h2 *ngIf="!warehouseDetail && whID == '0'">Add a warehouse </h2>
+  <p class="sub-title mt-2 mb-3" *ngIf="!warehouseDetail && whID == '0'">
+    Add your warehouse and create a listing of available capacity on HashMove
+  </p>
   <ngx-stepper #stepper class="warehouse-stepper">
     <ngx-step [label]="'1. INFO'">
       <section class="warehouse">
@@ -99,30 +102,43 @@
                   <form autocomplete="off" novalidate [formGroup]="generalForm">
                     <div class="form-group">
                       <label>Listing Name</label>
-                      <input type="text" (keypress)="oneSpaceHandler($event)" [ngClass]="{'inputError': whNameError && generalForm.controls['whName'].errors}"
+                      <input type="text" (keypress)="oneSpaceHandler($event)"
+                        [ngClass]="{'inputError': whNameError && generalForm.controls['whName'].errors}"
                         (focusout)="errorValidate()" (focus)="whNameError=false" maxlength="100" class="form-control"
-                        formControlName="whName" placeholder="Provide a meaningful listing name. e.g. Country - Location.">
+                        formControlName="whName"
+                        placeholder="Provide a meaningful listing name. e.g. Country - Location.">
                       <span *ngIf="whNameError">
-                        <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whName'].hasError('required') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">{{requiredFields}}</p>
-                        <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whName'].hasError('pattern') && generalForm.controls['whName'].hasError('minlength') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">
+                        <p class="inputError animated fadeIn"
+                          *ngIf="generalForm.controls['whName'].hasError('required') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">
+                          {{requiredFields}}</p>
+                        <p class="inputError animated fadeIn"
+                          *ngIf="!generalForm.controls['whName'].hasError('pattern') && generalForm.controls['whName'].hasError('minlength') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">
                           Warehouse name should be minimum 5 characters</p>
-                        <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whName'].hasError('pattern') && generalForm.controls['whName'].hasError('maxlength') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">
+                        <p class="inputError animated fadeIn"
+                          *ngIf="!generalForm.controls['whName'].hasError('pattern') && generalForm.controls['whName'].hasError('maxlength') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">
                           Warehouse name should not exceed from 100 characters</p>
-                        <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whName'].hasError('pattern') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">
+                        <p class="inputError animated fadeIn"
+                          *ngIf="generalForm.controls['whName'].hasError('pattern') && (generalForm.controls.whName.dirty || generalForm.controls.whName.touched)">
                           Please enter valid information</p>
                       </span>
                     </div>
                     <div class="form-group">
                       <label>Property Description</label>
                       <textarea formControlName="whDetail" (keypress)="oneSpaceHandler($event)" cols="30" rows="4"
-                        class="form-control" [ngClass]="{'inputError': whDetailError && generalForm.controls['whDetail'].errors}"
-                        (focusout)="errorValidate()" (focus)="whDetailError=false" placeholder="Provide details about the property you are listing.">
+                        class="form-control"
+                        [ngClass]="{'inputError': whDetailError && generalForm.controls['whDetail'].errors}"
+                        (focusout)="errorValidate()" (focus)="whDetailError=false"
+                        placeholder="Provide details about the property you are listing.">
                       </textarea>
                       <span *ngIf="whDetailError">
-                        <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whDetail'].hasError('required') && (generalForm.controls.whDetail.dirty || generalForm.controls.whDetail.touched)">{{requiredFields}}</p>
-                        <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whDetail'].hasError('pattern') && generalForm.controls['whDetail'].hasError('minlength') && (generalForm.controls.whDetail.dirty || generalForm.controls.whDetail.touched)">
+                        <p class="inputError animated fadeIn"
+                          *ngIf="generalForm.controls['whDetail'].hasError('required') && (generalForm.controls.whDetail.dirty || generalForm.controls.whDetail.touched)">
+                          {{requiredFields}}</p>
+                        <p class="inputError animated fadeIn"
+                          *ngIf="!generalForm.controls['whDetail'].hasError('pattern') && generalForm.controls['whDetail'].hasError('minlength') && (generalForm.controls.whDetail.dirty || generalForm.controls.whDetail.touched)">
                           Warehouse detail should be minimum 10 characters</p>
-                        <p class="inputError animated fadeIn" *ngIf="!generalForm.controls['whDetail'].hasError('pattern') && generalForm.controls['whDetail'].hasError('maxlength') && (generalForm.controls.whDetail.dirty || generalForm.controls.whDetail.touched)">
+                        <p class="inputError animated fadeIn"
+                          *ngIf="!generalForm.controls['whDetail'].hasError('pattern') && generalForm.controls['whDetail'].hasError('maxlength') && (generalForm.controls.whDetail.dirty || generalForm.controls.whDetail.touched)">
                           Warehouse detail should not exceed from 1000 characters</p>
                         <!-- <p class="inputError animated fadeIn" *ngIf="generalForm.controls['whDetail'].hasError('pattern') && (generalForm.controls.whDetail.dirty || generalForm.controls.whDetail.touched)">
                           Please enter valid information
@@ -138,7 +154,8 @@
                       space seekers.
                     </small>
                     <div class="document-Info d-flex flex-column mt-2">
-                      <div class="file-uploader" *ngIf="uploadedGalleries && uploadedGalleries.length < config.maxFilesCount">
+                      <div class="file-uploader"
+                        *ngIf="uploadedGalleries && uploadedGalleries.length < config.maxFilesCount">
                         <app-ng-files-drag-n-upload (filesSelect)="selectDocx($event)" [configId]="'config'">
                           <img src="../../../assets/images/icons/manager-icon.png" />
                           <p class="m-0 mt-3">
@@ -148,12 +165,14 @@
                         </app-ng-files-drag-n-upload>
                       </div>
                       <div class="row uploadedDocx">
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-3 uploaded-images" *ngFor="let galleryDocx of uploadedGalleries; let i = index">
+                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-3 uploaded-images"
+                          *ngFor="let galleryDocx of uploadedGalleries; let i = index">
                           <div class="display-upload delete">
                             <img *ngIf="whID == '0'" [src]="galleryDocx.FileContent[0].docUrl" />
-                            <img *ngIf="whID != '0'" [src]="(galleryDocx.DocumentFile)? (baseExternalAssets + galleryDocx.DocumentFile):galleryDocx.FileContent[0].docUrl " />
-                            <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
-                              (click)="removeSelectedDocx(i, galleryDocx)" />
+                            <img *ngIf="whID != '0'"
+                              [src]="(galleryDocx.DocumentFile)? (baseExternalAssets + galleryDocx.DocumentFile):galleryDocx.FileContent[0].docUrl " />
+                            <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del"
+                              class="pointer delete-icon" (click)="removeSelectedDocx(i, galleryDocx)" />
                           </div>
                         </div>
                       </div>
@@ -175,31 +194,40 @@
                           <label>City</label>
                           <div class="city-dropdown">
                             <div class="flag-container">
-                              <img *ngIf="locationForm.controls['city'].value && locationForm.controls['city'].value.imageName"
+                              <img
+                                *ngIf="locationForm.controls['city'].value && locationForm.controls['city'].value.imageName"
                                 src="{{'../../../../../assets/images/flags/4x3/' + (locationForm.controls['city'].value.imageName | lowercase) + '.svg'}}"
                                 type="image/svg+xml">
                             </div>
                             <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" [ngClass]="{
                               'routeSelected': locationForm.value.city && locationForm.value.city.id,
                               'inputError': cityError && locationForm.controls['city'].errors
-                                }"
-                              maxlength="100" formControlName="city" (focusout)="errorValidate()" (focus)="cityError=false"
-                              [ngbTypeahead]="searchCity" [resultTemplate]="st" [inputFormatter]="formatterCity"
-                              placeholder="Enter City">
+                                }" maxlength="100" formControlName="city" (focusout)="errorValidate()"
+                              (focus)="cityError=false" [ngbTypeahead]="searchCity" [resultTemplate]="st"
+                              [inputFormatter]="formatterCity" placeholder="Enter City">
                             <ng-template #st let-r="result">
                               <div class="flag-container mr-1">
-                                <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}">
+                                <img
+                                  src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}">
                               </div>
                               <ngb-highlight [result]="r.title"></ngb-highlight>
                             </ng-template>
                           </div>
                           <span *ngIf="cityError">
-                            <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">{{requiredFields}}</p>
-                            <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
+                            <p class="inputError animated fadeIn"
+                              *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">
+                              {{requiredFields}}</p>
+                            <p class="inputError animated fadeIn"
+                              *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('minlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">
+                              City
                               should be minimum 5 characters</p>
-                            <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('maxlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">City
+                            <p class="inputError animated fadeIn"
+                              *ngIf="!locationForm.controls['city'].hasError('pattern') && locationForm.controls['city'].hasError('maxlength') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">
+                              City
                               should not exceed from 50 characters</p>
-                            <p class="inputError animated fadeIn" *ngIf="locationForm.controls['city'].hasError('pattern') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">Please
+                            <p class="inputError animated fadeIn"
+                              *ngIf="locationForm.controls['city'].hasError('pattern') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">
+                              Please
                               enter valid information</p>
                           </span>
                           <!--  <p class="inputError animated fadeIn" *ngIf="citySelError">City should be select from dropdown</p> -->
@@ -211,15 +239,23 @@
                           <textarea cols="30" rows="3" #searchElement (keypress)="oneSpaceHandler($event)"
                             formControlName="address" class="form-control" [ngClass]="{
                               'inputError': addressError && locationForm.controls['address'].errors
-                              }"
-                            (focusout)="errorValidate()" (focus)="addressError=false" placeholder="Enter at a minimum, the street and town where the property is located."></textarea>
+                              }" (focusout)="errorValidate()" (focus)="addressError=false"
+                            placeholder="Enter at a minimum, the street and town where the property is located."></textarea>
                           <span *ngIf="addressError">
-                            <p class="inputError animated fadeIn" *ngIf="locationForm.controls['address'].hasError('required') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">{{requiredFields}}</p>
-                            <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['address'].hasError('pattern') && locationForm.controls['address'].hasError('minlength') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">Address
+                            <p class="inputError animated fadeIn"
+                              *ngIf="locationForm.controls['address'].hasError('required') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">
+                              {{requiredFields}}</p>
+                            <p class="inputError animated fadeIn"
+                              *ngIf="!locationForm.controls['address'].hasError('pattern') && locationForm.controls['address'].hasError('minlength') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">
+                              Address
                               should be minimum 1 character</p>
-                            <p class="inputError animated fadeIn" *ngIf="!locationForm.controls['address'].hasError('pattern') && locationForm.controls['address'].hasError('maxlength') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">Address
+                            <p class="inputError animated fadeIn"
+                              *ngIf="!locationForm.controls['address'].hasError('pattern') && locationForm.controls['address'].hasError('maxlength') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">
+                              Address
                               should not exceed from 200 characters</p>
-                            <p class="inputError animated fadeIn" *ngIf="locationForm.controls['address'].hasError('pattern') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">Please
+                            <p class="inputError animated fadeIn"
+                              *ngIf="locationForm.controls['address'].hasError('pattern') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">
+                              Please
                               enter valid information</p>
                           </span>
                         </div>
@@ -230,13 +266,16 @@
                           <input type="text" (keypress)="oneSpaceHandler($event)" formControlName="poBox" maxlength="16"
                             class="form-control" [ngClass]="{
                             'inputError': poBoxError && locationForm.controls['poBox'].errors
-                            }"
-                            (focusout)="errorValidate()" (focus)="poBoxError=false">
+                            }" (focusout)="errorValidate()" (focus)="poBoxError=false">
                           <span *ngIf="poBoxError">
-                            <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('required') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">{{requiredFields}}</p>
-                            <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('minlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">
+                            <p class="inputError animated fadeIn"
+                              *ngIf="locationForm.controls['poBox'].hasError('required') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">
+                              {{requiredFields}}</p>
+                            <p class="inputError animated fadeIn"
+                              *ngIf="locationForm.controls['poBox'].hasError('minlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">
                               PO address should be minimum 4 characters</p>
-                            <p class="inputError animated fadeIn" *ngIf="locationForm.controls['poBox'].hasError('maxlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">
+                            <p class="inputError animated fadeIn"
+                              *ngIf="locationForm.controls['poBox'].hasError('maxlength') && (locationForm.controls.poBox.dirty || locationForm.controls.poBox.touched)">
                               PO address should not exceed from 16 characters</p>
                           </span>
                         </div>
@@ -264,8 +303,10 @@
                 <div class=" col-xl-6 col-md-6 col-sm-12 ">
                   <div class="form-group">
                     <label>Property Type</label>
-                    <div class="fancyOptionBoxes pull-left mb-3 mr-3" *ngFor="let type of warehouseUsageType; let i = index">
-                      <input id="{{i+1}}" [checked]="(type.codeValDesc == 'Full Warehouse' && warehouseTypeFull)|| (type.codeValDesc != 'Full Warehouse' && !warehouseTypeFull)"
+                    <div class="fancyOptionBoxes pull-left mb-3 mr-3"
+                      *ngFor="let type of warehouseUsageType; let i = index">
+                      <input id="{{i+1}}"
+                        [checked]="(type.codeValDesc == 'Full Warehouse' && warehouseTypeFull)|| (type.codeValDesc != 'Full Warehouse' && !warehouseTypeFull)"
                         name="warehouseType" (change)="changeWarehouseType()" type="radio">
                       <label for="{{i+1}}">
                         <span></span>
@@ -288,24 +329,32 @@
                       <div class="input-group">
                         <input class="form-control input-dropdown" (keypress)="numberValid($event)" [ngClass]="{
                           'inputError': warehouseSpaceError && (propertyDetailForm.controls['warehouseSpace'].errors)
-                          }"
-                          (focusout)="errorValidate(); spaceValidate()" (focus)="warehouseSpaceError=false" type="text"
-                          formControlName="warehouseSpace">
+                          }" (focusout)="errorValidate(); spaceValidate()" (focus)="warehouseSpaceError=false"
+                          type="text" formControlName="warehouseSpace">
                         <div class="input-group-append">
                           <div class="input-group-text">
                             <select class="form-control input-dropdown" formControlName="warehouseSpaceUnit">
-                              <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}</option>
+                              <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}
+                              </option>
                             </select>
                           </div>
                         </div>
                       </div>
                       <span *ngIf="warehouseSpaceError">
-                        <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('required') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">{{requiredFields}}</p>
-                        <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('minlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">Range
+                        <p class="inputError animated fadeIn"
+                          *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('required') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
+                          {{requiredFields}}</p>
+                        <p class="inputError animated fadeIn"
+                          *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('minlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
+                          Range
                           100 to 1,00,000</p>
-                        <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('maxlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">Range
+                        <p class="inputError animated fadeIn"
+                          *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('maxlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
+                          Range
                           100 to 1,00,000</p>
-                        <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">Please
+                        <p class="inputError animated fadeIn"
+                          *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
+                          Please
                           enter valid information</p>
                       </span>
                     </div>
@@ -320,20 +369,29 @@
                           <input class="form-control input-dropdown" type="text" (keypress)="numberValid($event)"
                             [ngClass]="{
                           'inputError': hashmoveSpaceError && (propertyDetailForm.controls['hashmoveSpace'].errors || hashmovespaceMsg)
-                          }"
-                            (focusout)="errorValidate(); spaceValidate()" (focus)="hashmoveSpaceError=false"
+                          }" (focusout)="errorValidate(); spaceValidate()" (focus)="hashmoveSpaceError=false"
                             formControlName="hashmoveSpace">
                           <div class="input-group-append">
-                            <div class="input-group-text"><span class="pl-3 pr-3 pt-2 pb-2">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span></div>
+                            <div class="input-group-text"><span
+                                class="pl-3 pr-3 pt-2 pb-2">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span>
+                            </div>
                           </div>
                         </div>
                         <span *ngIf="hashmoveSpaceError">
-                          <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['hashmoveSpace'].hasError('required') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">{{requiredFields}}</p>
-                          <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && propertyDetailForm.controls['hashmoveSpace'].hasError('minlength') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">Range
+                          <p class="inputError animated fadeIn"
+                            *ngIf="propertyDetailForm.controls['hashmoveSpace'].hasError('required') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">
+                            {{requiredFields}}</p>
+                          <p class="inputError animated fadeIn"
+                            *ngIf="!propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && propertyDetailForm.controls['hashmoveSpace'].hasError('minlength') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">
+                            Range
                             1 to 1,00,000</p>
-                          <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && propertyDetailForm.controls['hashmoveSpace'].hasError('maxlength') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">Range
+                          <p class="inputError animated fadeIn"
+                            *ngIf="!propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && propertyDetailForm.controls['hashmoveSpace'].hasError('maxlength') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">
+                            Range
                             1 to 1,00,000</p>
-                          <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">Please
+                          <p class="inputError animated fadeIn"
+                            *ngIf="propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">
+                            Please
                             enter valid information</p>
                           <p class="inputError animated fadeIn" [innerHTML]="hashmovespaceMsg"></p>
                         </span>
@@ -344,7 +402,8 @@
                     <div class="col-xl-6 col-md-6 col-sm-12">
                       <div class="form-group">
                         <label class="form-group-label">Ceiling Height
-                          <span class="sub-title sub-heading w-100 d-inline-block">Maximum Availabla height for storage</span>
+                          <span class="sub-title sub-heading w-100 d-inline-block">Maximum Availabla height for
+                            storage</span>
                         </label>
                         <div class="input-group">
                           <select class="form-control input-dropdown" formControlName="ceilingHeight">
@@ -372,8 +431,8 @@
                           <input class="form-control input-dropdown" (keypress)="numberValid($event)" type="text"
                             [ngClass]="{
                               'inputError': minLeaseValueOneError && propertyDetailForm.controls['minLeaseValueOne'].errors
-                              }"
-                            (focusout)="errorValidate()" (focus)="minLeaseValueOneError=false" formControlName="minLeaseValueOne">
+                              }" (focusout)="errorValidate()" (focus)="minLeaseValueOneError=false"
+                            formControlName="minLeaseValueOne">
                           <div class="input-group-append">
                             <div class="input-group-text">
                               <span class="pl-3 pr-3 pt-2 pb-2">sqft</span>
@@ -381,12 +440,20 @@
                           </div>
                         </div>
                         <span *ngIf="minLeaseValueOneError">
-                          <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['minLeaseValueOne'].hasError('required') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">{{requiredFields}}</p>
-                          <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['minLeaseValueOne'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueOne'].hasError('minlength') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">Range
+                          <p class="inputError animated fadeIn"
+                            *ngIf="propertyDetailForm.controls['minLeaseValueOne'].hasError('required') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">
+                            {{requiredFields}}</p>
+                          <p class="inputError animated fadeIn"
+                            *ngIf="!propertyDetailForm.controls['minLeaseValueOne'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueOne'].hasError('minlength') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">
+                            Range
                             1 to 1,00,000</p>
-                          <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['minLeaseValueOne'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueOne'].hasError('maxlength') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">Range
+                          <p class="inputError animated fadeIn"
+                            *ngIf="!propertyDetailForm.controls['minLeaseValueOne'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueOne'].hasError('maxlength') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">
+                            Range
                             1 to 1,00,000</p>
-                          <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['minLeaseValueOne'].hasError('pattern') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">Please
+                          <p class="inputError animated fadeIn"
+                            *ngIf="propertyDetailForm.controls['minLeaseValueOne'].hasError('pattern') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">
+                            Please
                             enter valid information</p>
                         </span>
                       </div>
@@ -397,8 +464,8 @@
                           <input class="form-control input-dropdown" (keypress)="numberValid($event)" type="text"
                             [ngClass]="{
                             'inputError': minLeaseValueTwoError && propertyDetailForm.controls['minLeaseValueTwo'].errors
-                            }"
-                            (focusout)="errorValidate()" (focus)="minLeaseValueTwoError=false" formControlName="minLeaseValueTwo">
+                            }" (focusout)="errorValidate()" (focus)="minLeaseValueTwoError=false"
+                            formControlName="minLeaseValueTwo">
                           <div class="input-group-append">
                             <div class="input-group-text">
                               <span class="pl-3 pr-3 pt-2 pb-2">cbm</span>
@@ -406,12 +473,20 @@
                           </div>
                         </div>
                         <span *ngIf="minLeaseValueTwoError">
-                          <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['minLeaseValueTwo'].hasError('required') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">{{requiredFields}}</p>
-                          <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['minLeaseValueTwo'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueTwo'].hasError('minlength') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">Range
+                          <p class="inputError animated fadeIn"
+                            *ngIf="propertyDetailForm.controls['minLeaseValueTwo'].hasError('required') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">
+                            {{requiredFields}}</p>
+                          <p class="inputError animated fadeIn"
+                            *ngIf="!propertyDetailForm.controls['minLeaseValueTwo'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueTwo'].hasError('minlength') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">
+                            Range
                             1 to 1,00,000</p>
-                          <p class="inputError animated fadeIn" *ngIf="!propertyDetailForm.controls['minLeaseValueTwo'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueTwo'].hasError('maxlength') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">Range
+                          <p class="inputError animated fadeIn"
+                            *ngIf="!propertyDetailForm.controls['minLeaseValueTwo'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueTwo'].hasError('maxlength') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">
+                            Range
                             1 to 1,00,000</p>
-                          <p class="inputError animated fadeIn" *ngIf="propertyDetailForm.controls['minLeaseValueTwo'].hasError('pattern') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">Please
+                          <p class="inputError animated fadeIn"
+                            *ngIf="propertyDetailForm.controls['minLeaseValueTwo'].hasError('pattern') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">
+                            Please
                             enter valid information</p>
                         </span>
                       </div>
@@ -430,7 +505,8 @@
                   </div>
                   <div class="fancyOptionBoxes pull-left mr-4 mb-3" *ngFor="let obj of leaseTerm; let i = index"
                     (click)="addMinimumLeaseTerm(obj)">
-                    <input id="{{i+1}}rentedtime" name="leaseTerm" type="radio" [checked]="obj.codeVal == warehouseDetail?.MinLeaseTermValue">
+                    <input id="{{i+1}}rentedtime" name="leaseTerm" type="radio"
+                      [checked]="obj.codeVal == warehouseDetail?.MinLeaseTermValue">
                     <label for="{{i+1}}rentedtime">
                       <span></span>
                       {{obj.codeValDesc}}
@@ -469,14 +545,16 @@
               <div class="col-12 mt-3">
                 <div class="form-group d-flex">
                   <div class="fancyOptionBoxes">
-                    <input id="fixedamount" name="commison" type="radio" [checked]="fixedAmount" (change)="fixedAmount = !fixedAmount; commissionForm.controls['percentValue'].reset()">
+                    <input id="fixedamount" name="commison" type="radio" [checked]="fixedAmount"
+                      (change)="fixedAmount = !fixedAmount; commissionForm.controls['percentValue'].reset()">
                     <label for="fixedamount">
                       <span></span>
                       Fixed Amount per booking
                     </label>
                   </div>
                   <div class="fancyOptionBoxes ml-4">
-                    <input id="perbooking" name="commison" type="radio" [checked]="!fixedAmount" (change)="fixedAmount = !fixedAmount">
+                    <input id="perbooking" name="commison" type="radio" [checked]="!fixedAmount"
+                      (change)="fixedAmount = !fixedAmount">
                     <label for="perbooking">
                       <span></span>
                       Fixed percentage per booking
@@ -493,17 +571,24 @@
                     <label>Per Booking</label>
                     <input type="text" class="form-control pr-4" formControlName="percentValue" [ngClass]="{
                     'inputError': percentValueError && commissionForm.controls['percentValue'].errors
-                    }"
-                      (focusout)="errorValidate()" (focus)="percentValueError=false" (keypress)="numberValid($event)"
+                    }" (focusout)="errorValidate()" (focus)="percentValueError=false" (keypress)="numberValid($event)"
                       placeholder="0">
                     <span class="percent-sign">%</span>
                     <span *ngIf="percentValueError">
-                      <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['percentValue'].hasError('required') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">{{requiredFields}}</p>
-                      <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('minlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">Range
+                      <p class="inputError animated fadeIn"
+                        *ngIf="commissionForm.controls['percentValue'].hasError('required') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
+                        {{requiredFields}}</p>
+                      <p class="inputError animated fadeIn"
+                        *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('minlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
+                        Range
                         1 to 1,00,000</p>
-                      <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('maxlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">Range
+                      <p class="inputError animated fadeIn"
+                        *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('maxlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
+                        Range
                         1 to 1,00,000</p>
-                      <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['percentValue'].hasError('pattern') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">Please
+                      <p class="inputError animated fadeIn"
+                        *ngIf="commissionForm.controls['percentValue'].hasError('pattern') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
+                        Please
                         enter valid information</p>
                     </span>
                   </div>
@@ -523,8 +608,10 @@
                       <div class="input-group-prepend col-4 p-0">
                         <div class="input-group-text">
                           <div class="city-dropdown currency">
-                            <div class="flag-container" *ngIf="commissionForm.value.commissionCurrency && commissionForm.value.commissionCurrency.imageName">
-                              <img src="{{'../../../../../assets/images/flags/4x3/' + (commissionForm.value.commissionCurrency.imageName | lowercase) + '.svg'}}"
+                            <div class="flag-container"
+                              *ngIf="commissionForm.value.commissionCurrency && commissionForm.value.commissionCurrency.imageName">
+                              <img
+                                src="{{'../../../../../assets/images/flags/4x3/' + (commissionForm.value.commissionCurrency.imageName | lowercase) + '.svg'}}"
                                 type="image/svg+xml">
                             </div>
                             <input type="text" formControlName="commissionCurrency" (keypress)="spaceHandler($event)"
@@ -533,7 +620,8 @@
                               [inputFormatter]="formatterCurrency" placeholder="eg: AED">
                             <ng-template #cur let-r="result">
                               <div class="flag-container mr-1">
-                                <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}">
+                                <img
+                                  src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}">
                               </div>
                               <ngb-highlight [result]="r.shortName"></ngb-highlight>
                             </ng-template>
@@ -542,17 +630,24 @@
                       </div>
                       <input type="text" formControlName="commissionValue" class="form-control" [ngClass]="{
                   'inputError': commissionValueError && commissionForm.controls['commissionValue'].errors
-                  }"
-                        (focusout)="errorValidate()" (focus)="commissionValueError=false" (keypress)="numberValid($event)"
+                  }" (focusout)="errorValidate()" (focus)="commissionValueError=false" (keypress)="numberValid($event)"
                         aria-label="Text input with dropdown button" placeholder="0.00">
                     </div>
                     <span *ngIf="commissionValueError">
-                      <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['commissionValue'].hasError('required') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">{{requiredFields}}</p>
-                      <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('minlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">Range
+                      <p class="inputError animated fadeIn"
+                        *ngIf="commissionForm.controls['commissionValue'].hasError('required') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                        {{requiredFields}}</p>
+                      <p class="inputError animated fadeIn"
+                        *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('minlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                        Range
                         1 to 1,00,000</p>
-                      <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('maxlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">Range
+                      <p class="inputError animated fadeIn"
+                        *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('maxlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                        Range
                         1 to 1,00,000</p>
-                      <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['commissionValue'].hasError('pattern') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">Please
+                      <p class="inputError animated fadeIn"
+                        *ngIf="commissionForm.controls['commissionValue'].hasError('pattern') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                        Please
                         enter valid information</p>
                     </span>
                   </div>
@@ -568,8 +663,7 @@
               </button>
               <button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 mb-2" [disabled]="generalForm.invalid || !uploadedGalleries.length || locationForm.invalid ||
                 propertyDetailForm.invalid || hashmovespaceMsg || !selectedMiniLeaseTerm || !checkedFacilities ||
-                commissionForm.invalid"
-                (click)="addwareHouse()">
+                commissionForm.invalid" (click)="addwareHouse()">
                 save & add pricing </button>
             </div>
           </div>
@@ -579,128 +673,90 @@
       </section>
     </ngx-step>
     <ngx-step [label]="'2. PRICING'">
-      <section class="Add-warehouse">
-        <section class="Add-warehouse-rates mt-3">
+      <section class="Add-warehouse Allfreights">
+        <section class="Add-warehouse-rates mt-3 rates-grid">
           <h5 class="mt-5">Set Pricing</h5>
           <p class="sub-title mt-2 mb-2">you can add multiple rates for different dates / months </p>
-          <table class="table table-hover  border">
-            <thead>
-              <tr>
-                <th>VALIDITY DATE</th>
-                <th>DRY STORAGE RATES
-                  <span>(per CBM per Day)</span>
-                </th>
-                <th>DRY STORAGE RATES
-                  <span>(per CBM per Day)</span>
-                </th>
-                <th>COLD STORAGE RATE
-                  <span>(per CBM per Day)</span>
-                </th>
-                <th>COLD STORAGE RATE
-                  <span>(per CBM per Day)</span>
-                </th>
-                <th>COLD STORAGE RATE
-                  <span>(per CBM per Day)</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <label>From - To-- </label>
-                </td>
-                <td>
-                  <div ngbDropdown class="select-country-list pull-left mr-2">
-                    <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                      <span class="text">AED</span>
-                    </div>
-                    <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
-                      <ul class="list-group text-justify">
-                        <li class="list-group-item">
-                          <span> 092</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <label> 0.00 </label>
-                </td>
-                <td>
-                  <div ngbDropdown class="select-country-list pull-left mr-2">
-                    <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                      <span class="text">AED</span>
-                    </div>
-                    <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
-                      <ul class="list-group text-justify">
-                        <li class="list-group-item">
-                          <span> 092</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <label> 0.00 </label>
-                </td>
-                <td>
-                  <div ngbDropdown class="select-country-list pull-left mr-2">
-                    <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                      <span class="text">AED</span>
-                    </div>
-                    <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
-                      <ul class="list-group text-justify">
-                        <li class="list-group-item">
-                          <span> 092</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <label> 0.00 </label>
-                </td>
-                <td>
-                  <div ngbDropdown class="select-country-list pull-left mr-2">
-                    <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                      <span class="text">AED</span>
-                    </div>
-                    <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
-                      <ul class="list-group text-justify">
-                        <li class="list-group-item">
-                          <span> 092</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <label> 0.00 </label>
-                </td>
-                <td>
-                  <div ngbDropdown class="select-country-list pull-left mr-2">
-                    <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
-                      <span class="text">AED</span>
-                    </div>
-                    <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
-                      <ul class="list-group text-justify">
-                        <li class="list-group-item">
-                          <span> 092</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <label> 0.00 </label>
-                </td>
-              </tr>
+          <div class="row mb-3 justify-content-end" *ngIf="warehousePublishedRates">
+            <div class="col-6 d-flex justify-content-start rate-dur"
+              *ngIf="warehousePublishedRates && warehousePublishedRates.length">
+              <!-- <img src="../../../../../../assets/images/icons/Icons_Clock-2hour.svg" alt="del_icon" class="icon-size-24 mr-2" />
+    Unpublished Rates will be published in 2 hours -->
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+              <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity('warehouse')"
+                [ngClass]="{ 'no-drop': !delPublishRates.length }">
+                <!-- <img src="../../../../../../assets/images/icons/Icons_Calendar-Secondary.svg" alt="del_icon" class="icon-size-16" /> -->
+                <svg class="edit-validity-icon icon-size-16 mr-2" id="17f5b310-5508-485b-8001-dbaf3458113b"
+                  data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <defs>
+                    <style>
+                      .be7dd154-90ee-45f6-a47e-11a6c4eceb87 {
+                        fill: #02bdb6;
+                      }
 
-              <tr>
-                <td colspan="6">
-                  <span class="add-icon">
-                    <img src="../../../../../../assets/images/icons/icon_add.svg"> Add Another Rate
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
+                      .dd12900e-6340-4a89-b921-0b1d5cffc735 {
+                        fill: #fff;
+                      }
+                    </style>
+                  </defs>
+                  <title>icon</title>
+                  <g id="40ee8fd5-e28d-4347-b10e-66f9984b7564" data-name="calendar2">
+                    <path id="6d9cbed9-97a5-4544-9814-99b685f0d436" data-name="&lt;Compound Path&gt;"
+                      class="be7dd154-90ee-45f6-a47e-11a6c4eceb87"
+                      d="M15,2H3.8A2.8,2.8,0,0,0,1,4.8V16H12.2A2.8,2.8,0,0,0,15,13.2V2Z" />
+                    <path class="dd12900e-6340-4a89-b921-0b1d5cffc735"
+                      d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z" />
+                    <rect id="7d4ed2c6-f916-40cf-acce-d794196da080" data-name="&lt;Path&gt;"
+                      class="be7dd154-90ee-45f6-a47e-11a6c4eceb87" x="5" width="2" height="5" />
+                    <rect id="a37c2eb5-9844-41fa-8d51-9b1b7c64de14" data-name="&lt;Path&gt;"
+                      class="be7dd154-90ee-45f6-a47e-11a6c4eceb87" x="9" width="2" height="5" />
+                  </g>
+                </svg>
+                Edit Rate / Validity
+              </a>
+              <a href="javascript:;" class="grid-delete" (click)="delPublishedRecord('WAREHOUSE')"
+                [ngClass]="{ 'no-drop': !delPublishRates.length }">
+                <!-- <img src="../../../../../../assets/images/icons/icon_delete_red.svg" alt="del_icon" class="icon-size-16" /> -->
+                <svg class="delete-icon icon-size-16 mr-2" id="317c8c47-17e2-4e96-9063-97bc9a32118b" data-name="Layer 1"
+                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <defs>
+                    <style>
+                      .a2933809-f108-463d-a7d6-9972aa735edc {
+                        fill: #d32020;
+                      }
+                    </style>
+                  </defs>
+                  <title>icon</title>
+                  <g id="9ddd7984-9517-4e7f-881d-6292000e8e8a" data-name="delete">
+                    <rect class="a2933809-f108-463d-a7d6-9972aa735edc" y="2" width="16" height="2" />
+                    <rect class="a2933809-f108-463d-a7d6-9972aa735edc" x="5" width="6" height="2" />
+                    <path class="a2933809-f108-463d-a7d6-9972aa735edc"
+                      d="M2,5v9a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V5Zm5,9H5V7H7Zm4,0H9V7h2Z" />
+                  </g>
+                </svg>
+                Delete
+              </a>
+            </div>
+          </div>
+          <app-ui-table *ngIf="warehousePublishedRates" [tableType]="'publishFCL'" [tableData]="warehousePublishedRates"
+            (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('warehouse', $event)"
+            (pageEvent)="paging($event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'WAREHOUSE'"
+            [transMode]="'WAREHOUSE'">
+          </app-ui-table>
+          <button *ngIf="!warehousePublishedRates" class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2"
+            (click)="addWarehouseRate(whID)"> Click to add new rate </button>
         </section>
-        <div class="row">
+        <a href="javascript:;" class="addAnother animated fadeIn" *ngIf="warehousePublishedRates"
+          [ngClass]="totalPublishedRecords > 5 ? 'withScroll' : ''" (click)="addWarehouseRate(whID)">
+          <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
+          Add another rate
+        </a>
+        <!-- <div class="row" [ngClass]="totalPublishedRecords <= 5 ? 'mt-5' : ''">
           <div class="col-6 Add-warehouse-link mt-3" (click)="stepper.prev()">
             <a class="hvr-icon-back grey-anc-btn" href="javascript:;">
-              <img src="../../../../../assets/images/icons/icon_arrow_left.svg" alt="icon" class="icon-size-14 hvr-icon">
+              <img src="../../../../../assets/images/icons/icon_arrow_left.svg" alt="icon"
+                class="icon-size-14 hvr-icon">
               <span class="link-hover-grey">go back </span>
             </a>
           </div>
@@ -709,9 +765,7 @@
             <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right">
               save rates</button>
           </div>
-        </div>
-
-
+        </div> -->
       </section>
     </ngx-step>
   </ngx-stepper>

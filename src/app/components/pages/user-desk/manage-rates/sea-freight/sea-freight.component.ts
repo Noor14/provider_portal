@@ -389,14 +389,10 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
   addRatesByseaManually() {
     if (this.activeTab == "activeFCL") {
-      if ((!this.allSeaDraftRatesByFCL || (this.allSeaDraftRatesByFCL && !this.allSeaDraftRatesByFCL.length)) && (!this.draftDataBYSeaFCL || (this.draftDataBYSeaFCL && !this.draftDataBYSeaFCL.length))) {
-        this.addRatesManually();
-      }
+      this.updatePopupRates(0, 'FCL');
     }
     else if (this.activeTab == "activeLCL") {
-      if ((!this.allSeaDraftRatesByLCL || (this.allSeaDraftRatesByLCL && !this.allSeaDraftRatesByLCL.length)) && (!this.draftDataBYSeaLCL || (this.draftDataBYSeaLCL && !this.draftDataBYSeaLCL.length))) {
-        this.addRatesManuallyLCL();
-      }
+      this.updatePopupRates(0, 'LCL');
     }
   }
 
@@ -481,12 +477,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    */
   getAllPublishRates(type) {
     if (this.filteredRecords === 1) {
-      this.pageNo = this.pageNo - 1
+      this.pageNo--
     }
     this.publishloading = true;
     let obj = {
       providerID: this.userProfile.ProviderID,
-      pageNo: this.pageNo,
+      pageNo: (this.pageNo < 1) ? 1 : this.pageNo,
       pageSize: this.pageSize,
       carrierID: (this.filterbyShippingLine == 'undefined') ? null : this.filterbyShippingLine,
       shippingCatID: (this.filterbyCargoType == 'undefined') ? null : this.filterbyCargoType,
