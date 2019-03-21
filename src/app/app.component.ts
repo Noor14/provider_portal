@@ -33,12 +33,6 @@ export class AppComponent implements OnInit{
       this.scrollTop();
     });
 
-
-
-    this._sharedService.formChange.subscribe((state: any) => {
-      this.scrollTop();
-    })
-
     this._commonService.getCountry().subscribe((res:any) => {
         if(res && res.length){
           res.map((obj) => {

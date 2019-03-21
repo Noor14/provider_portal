@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { SharedService } from '../../../../services/shared.service';
 import { baseExternalAssets } from '../../../../constants/base.url';
 import { Router } from '@angular/router';
@@ -6,6 +6,7 @@ import { encryptBookingID, isJSON } from '../../../../constants/globalFunctions'
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
