@@ -159,10 +159,10 @@
               <div class="d-block text-truncate">
                 <img *ngIf="device?.carrierImage" [src]="getUIImage(device.carrierImage, true)" alt=""
                   class="mr-2 rounded" height="24px" width="24px"> <!-- SEA Fields -->
-                <span *ngIf="device?.carrierImage"
+                <span *ngIf="transMode !== 'WAREHOUSE'"
                   [ngClass]="device?.carrierName?.length > 15 ? 'text-truncate': ''">{{device?.carrierName || '-- Select --'}}</span>
                 <!-- SEA Fields -->
-                <span *ngIf="device?.storageType">{{device?.storageType}} Storage</span> <!-- Warehouse Fields -->
+                <span *ngIf="transMode === 'WAREHOUSE'">{{device?.storageType}} Storage</span> <!-- Warehouse Fields -->
               </div>
             </div>
           </td>
