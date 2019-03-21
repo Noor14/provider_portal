@@ -23,7 +23,7 @@ export class ConfirmDeleteDialogComponent implements OnInit {
     private seaFreightService : SeaFreightService,
     private airFreightService: AirFreightService,
     private groundTransportService: GroundTransportService,
-    private warehouseService: WarehouseService,
+    private _warehouseService: WarehouseService,
     private location: PlatformLocation,
     private _activeModal: NgbActiveModal,
     private _toast: ToastrService,
@@ -56,6 +56,19 @@ export class ConfirmDeleteDialogComponent implements OnInit {
         modifiedBy: this.userProfile.LoginID
       };
       this.seaFreightService.deletePublishRateFCL(obj).subscribe((res: any) => {
+        if (res.returnStatus == "Success") {
+          this.closeModal(res.returnStatus);
+        }
+      })
+    }
+    else if (this.deleteIds.type === "warehouse"){
+      let obj = {
+        publishRateIDs: this.deleteIds.data,
+        modifiedBy: this.userProfile.LoginID
+      };
+      this._warehouseService.deletePublishedRate(obj).subscribe((res: any) => {
+        console.log(res);
+        
         if (res.returnStatus == "Success") {
           this.closeModal(res.returnStatus);
         }
@@ -114,7 +127,7 @@ export class ConfirmDeleteDialogComponent implements OnInit {
     }
 
     else if (this.deleteIds.type == "DelWarehouse") {
-      this.warehouseService.delWarehouse(this.deleteIds.data, this.userProfile.LoginID).subscribe((res: any) => {
+      this._warehouseService.delWarehouse(this.deleteIds.data, this.userProfile.LoginID).subscribe((res: any) => {
         if (res.returnStatus == "Success") {
           this.closeModal(res.returnStatus);
         }
