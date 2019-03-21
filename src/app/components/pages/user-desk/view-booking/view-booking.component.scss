@@ -62,7 +62,9 @@
       font-weight: $font-weight-mid;
       font-family: $font-pragmatica;
       text-transform: capitalize;
-
+      &.cancelStatus {
+          animation: 1.2s ease-in-out infinite alternate-reverse fadeIn;
+      }
       a {
         font-size: $font-size-medium;
         color: $secondary-color;

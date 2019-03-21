@@ -120,7 +120,7 @@ export function readyForPayment(obj) {
       display_billing_fields: 1,
       display_shipping_fields: 0,
       language: "en",
-      redirect_on_reject: window.location.protocol + "//" + window.location.host + "/provider/billing?" +obj.shipmentId,
+      redirect_on_reject: window.location.protocol + "//" + window.location.host + "/provider/billing?"+obj.shipmentId,
     }
   });
 }
