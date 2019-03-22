@@ -32,6 +32,7 @@ import { SeaFreightService } from '../manage-rates/sea-freight/sea-freight.servi
 })
 export class WarehouseComponent implements OnInit {
   @Input() whID: any;
+  @Input() step: number;
   @ViewChild('stepper') public _stepper: any;
   @ViewChild('searchElement') public searchElement: any;
 
@@ -104,7 +105,7 @@ export class WarehouseComponent implements OnInit {
   // edit warehouse detail
 
   public warehouseDetail: any;
-  public activeStep: number = 0
+  public activeStep: number = this.step
 
 
 
@@ -148,8 +149,9 @@ export class WarehouseComponent implements OnInit {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
-    if (this.whID > 0) {
-      this.activeStep = 1
+    console.log(this.whID)
+    if (this.step === 1) {
+      this.activeStep = this.step
       this.getPricingDetails()
     }
     this._sharedService.getLocation.subscribe((state: any) => {
@@ -312,6 +314,7 @@ export class WarehouseComponent implements OnInit {
   getWareHouseDetail(providerId, id) {
     loading(true)
     this._warehouseService.getWarehouseList(providerId, id).subscribe((res: any) => {
+      loading(false)
       if (res.returnStatus == "Success" && res.returnObject) {
         this.isRealEstate = res.returnObject.IsRealEstate;
         const data = [
@@ -323,7 +326,7 @@ export class WarehouseComponent implements OnInit {
         ]
         this.warehouseDocx = res.returnObject.documentType;
         if (res.returnObject && !Number(id)) {
-          loading(false)
+          
           this.facilities = res.returnObject.WHFacilitiesProviding;
         }
         else if (Number(id)) {

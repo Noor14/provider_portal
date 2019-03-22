@@ -38,6 +38,7 @@ export class WarehouseListComponent implements OnInit {
   public inActiveStatus: boolean = true;
   public activeStatus: boolean = true;
   public warehouseCharges: any[] = [];
+  public step: number = 0
 
   //loading
   public loading: boolean = false
@@ -89,15 +90,15 @@ export class WarehouseListComponent implements OnInit {
               if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {
                 obj.WHGallery = JSON.parse(obj.WHGallery);
                 const albumArr = []
-                  obj.WHGallery.forEach((elem) => {
-                    const album = {
-                      src: baseExternalAssets + elem.DocumentFile,
-                      caption: elem.DocumentFileName,
-                      thumb: baseExternalAssets + elem.DocumentFile,
-                      DocumentUploadedFileType: elem.DocumentUploadedFileType
-                    };
-                    albumArr.push(album);
-                  })
+                obj.WHGallery.forEach((elem) => {
+                  const album = {
+                    src: baseExternalAssets + elem.DocumentFile,
+                    caption: elem.DocumentFileName,
+                    thumb: baseExternalAssets + elem.DocumentFile,
+                    DocumentUploadedFileType: elem.DocumentUploadedFileType
+                  };
+                  albumArr.push(album);
+                })
                 obj.parsedGallery = albumArr;
               }
             })
@@ -123,8 +124,7 @@ export class WarehouseListComponent implements OnInit {
   addAnotherWarehouse() {
     this.wareHouseDetTemplate = true;
     this.warehouseID = '0'
-
-
+    this.step = 0;
     // this._router.navigate(['provider/add-warehouse', 0])
   }
 
@@ -195,14 +195,15 @@ export class WarehouseListComponent implements OnInit {
       }
     })
   }
-  goToDetail(whId) {
+  goToDetail(whId, type?) {
     // let id = encryptBookingID(whId);
     this.wareHouseDetTemplate = true;
     this.warehouseID = whId;
+    this.step = (type === 'edit') ? 0 : ((type === 'rate') ? 1 : 0)
     // this._router.navigate(['/provider/warehouse-detail', whId]);
   }
 
-  warehouseList(){
+  warehouseList() {
     this.wareHouseDetTemplate = !this.wareHouseDetTemplate;
     this.getWhlist(this.userProfile.ProviderID);
   }
