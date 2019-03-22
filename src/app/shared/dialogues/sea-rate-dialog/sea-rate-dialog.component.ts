@@ -267,7 +267,7 @@ export class SeaRateDialogComponent implements OnInit {
       );
     } else if (data.PolType === 'CITY') {
       console.log('here');
-      
+
       this._manageRateService.getAllCities(data.PolName).pipe(debounceTime(400), distinctUntilChanged()).subscribe((res: any) => {
         const cities = res;
         this.showDoubleRates = false
@@ -305,10 +305,17 @@ export class SeaRateDialogComponent implements OnInit {
       this.sharedWarehousePricing = parsedPricingJson;
       // this.sharedWarehousePricing = this.warehousePricing.filter(e => (e.addChrBasis === 'PER_CBM_PER_DAY') || (e.addChrBasis === 'PER_SQFT_PER_DAY'))
       console.log(this.sharedWarehousePricing);
+      let userCurrency = localStorage.getItem('userCurrency')
       this.selectedPrice = this.sharedWarehousePricing[0].price
       this.couplePrice = this.sharedWarehousePricing[1].price
+      this.selectedCurrency = this.allCurrencies.find(
+        obj => obj.id === userCurrency
+      );
     } else {
       this.selectedPrice = data.Price;
+      this.selectedCurrency = this.allCurrencies.find(
+        obj => obj.id === data.CurrencyID
+      );
     }
 
     this.containerChange(data.ContainerSpecID)
@@ -319,10 +326,6 @@ export class SeaRateDialogComponent implements OnInit {
 
     this.selectedShipping = this.allShippingLines.find(
       obj => obj.CarrierID == data.CarrierID
-    );
-
-    this.selectedCurrency = this.allCurrencies.find(
-      obj => obj.id === data.CurrencyID
     );
 
     if (data.JsonCustomerDetail && data.CustomerType !== 'null') {
@@ -378,8 +381,6 @@ export class SeaRateDialogComponent implements OnInit {
    * @return [description]
    */
   updatePublishedRate(type) {
-    console.log(type);
-    console.log(this.selectedData.data);
     let rateData = [];
     if (this.selectedData.forType !== 'WAREHOUSE') {
       if (this.selectedData.data && this.selectedData.data && this.selectedData.data.length) {
@@ -447,8 +448,8 @@ export class SeaRateDialogComponent implements OnInit {
     }
     this._seaFreightService.rateValidityFCL(type, rateData).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this._toast.success('Record successfully updated', '')
-        this.closeModal(res.returnStatus);
+        this._toast.success('Rates updated successfully', 'Success')
+        this.closeModal(true);
       }
     })
   }
@@ -479,7 +480,7 @@ export class SeaRateDialogComponent implements OnInit {
   saveDraft(type) {
     const { filterOrigin, filterDestination, transPortMode } = this
     if (transPortMode === 'SEA' && filterOrigin && filterOrigin.CountryCode && filterDestination && filterDestination.CountryCode && filterOrigin.CountryCode.toLowerCase() === filterDestination.CountryCode.toLowerCase()) {
-      this._toast.warning("Please select different pickup and drop Country");
+      this._toast.warning("Please select different pickup and drop Country", 'Warning');
       return
     }
     let customers = [];
@@ -497,8 +498,8 @@ export class SeaRateDialogComponent implements OnInit {
 
     let totalImp = []
     let totalExp = []
-    this.selectedOrigins = this.selectedOrigins.filter(e => e.addChrID)
-    this.selectedDestinations = this.selectedDestinations.filter(e => e.addChrID)
+    // this.selectedOrigins = this.selectedOrigins.filter(e => e.addChrID)
+    // this.selectedDestinations = this.selectedDestinations.filter(e => e.addChrID)
     const expCharges = this.selectedOrigins.filter((e) => e.Imp_Exp === 'EXPORT')
     const impCharges = this.selectedDestinations.filter((e) => e.Imp_Exp === 'IMPORT')
 
@@ -643,14 +644,24 @@ export class SeaRateDialogComponent implements OnInit {
         this._toast.info('Please fill atleast one field to save', 'Info')
         return;
       }
-
-      if ((obj.podID && obj.polID) && obj.podID === obj.polID) {
-        this._toast.warning('Source and Destination ports cannot be same', 'Warning')
+    } else if (obj.transportType === 'WAREHOUSE') {
+      if (!obj.effectiveFrom &&
+        !obj.effectiveTo &&
+        !obj.podID &&
+        !obj.polID &&
+        !obj.price &&
+        !obj.couplePrice &&
+        !obj.storageType
+      ) {
+        this._toast.info('Please fill atleast one field to save', 'Info')
         return;
       }
     }
+    if ((obj.podID && obj.polID) && obj.podID === obj.polID) {
+      this._toast.warning('Source and Destination ports cannot be same', 'Warning')
+      return;
+    }
 
-    console.log(this.selectedData.drafts);
     let duplicateRecord: boolean = false;
     if (this.selectedData.drafts) {
       this.selectedData.drafts.forEach(element => {
@@ -715,18 +726,18 @@ export class SeaRateDialogComponent implements OnInit {
       });
     } else if (this.selectedData.forType == 'WAREHOUSE') {
       if (!obj.price && !obj.couplePrice) {
-        this._toast.error('Please provide atleast one price')
+        this._toast.error('Please provide atleast one price', 'Error')
         return
       } else if (!obj.effectiveFrom && !obj.effectiveTo) {
-        this._toast.error('Please provide date range')
+        this._toast.error('Please provide date range', 'Error')
         return
       } else if (!obj.storageType) {
-        this._toast.error('Please provide warehouse storage type')
+        this._toast.error('Please provide warehouse storage type', 'Error')
         return
       }
       this._seaFreightService.saveWarehouseRate(obj).subscribe((res: any) => {
         if (res.returnId > 0) {
-          this._toast.success("Rates added successfully", "Success");
+          this._toast.success(res.returnText, "Success");
           if (type === "onlySave") {
             this.closeModal(res.returnObject);
           } else {
@@ -1404,73 +1415,60 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   calculatePricingJSON() {
-    if (this.selectedData.data.UsageType === 'SHARED') {
-      let json1 = {
-        addChrID: this.sharedWarehousePricing[0].addChrID,
-        addChrCode: this.sharedWarehousePricing[0].addChrCode,
-        addChrName: this.sharedWarehousePricing[0].addChrName,
-        addChrType: this.sharedWarehousePricing[0].addChrType,
-        priceBasis: this.sharedWarehousePricing[0].addChrBasis,
-        price: parseInt(this.selectedPrice) || 0,
-        currencyID: this.selectedCurrency.id
+    console.log(this.selectedData.data);
+    
+    if (this.selectedPrice) {
+      if (this.selectedData.data.UsageType === 'SHARED') {
+        let json = {
+          addChrID: this.sharedWarehousePricing[0].addChrID,
+          addChrCode: this.sharedWarehousePricing[0].addChrCode,
+          addChrName: this.sharedWarehousePricing[0].addChrName,
+          addChrType: this.sharedWarehousePricing[0].addChrType,
+          priceBasis: this.sharedWarehousePricing[0].addChrBasis,
+          price: parseInt(this.selectedPrice),
+          currencyID: this.selectedCurrency.id
+        }
+        this.pricingJSON.push(json)
+      } else if (this.selectedData.data.UsageType === 'FULL') {
+        let json = {
+          addChrID: this.fullWarehousePricing[0].addChrID,
+          addChrCode: this.fullWarehousePricing[0].addChrCode,
+          addChrName: this.fullWarehousePricing[0].addChrName,
+          addChrType: this.fullWarehousePricing[0].addChrType,
+          priceBasis: this.fullWarehousePricing[0].addChrBasis,
+          price: parseInt(this.selectedPrice),
+          currencyID: this.selectedCurrency.id
+        }
+        this.pricingJSON.push(json)
       }
-      let json2 = {
-        addChrID: this.sharedWarehousePricing[1].addChrID,
-        addChrCode: this.sharedWarehousePricing[1].addChrCode,
-        addChrName: this.sharedWarehousePricing[1].addChrName,
-        addChrType: this.sharedWarehousePricing[1].addChrType,
-        priceBasis: this.sharedWarehousePricing[1].addChrBasis,
-        price: parseInt(this.couplePrice) || 0,
-        currencyID: this.selectedCurrency.id
-      }
-      this.pricingJSON.push(json1)
-      this.pricingJSON.push(json2)
-    } else if (this.selectedData.data.UsageType === 'FULL') {
-      let json1 = {
-        addChrID: this.fullWarehousePricing[0].addChrID,
-        addChrCode: this.fullWarehousePricing[0].addChrCode,
-        addChrName: this.fullWarehousePricing[0].addChrName,
-        addChrType: this.fullWarehousePricing[0].addChrType,
-        priceBasis: this.fullWarehousePricing[0].addChrBasis,
-        price: parseInt(this.selectedPrice) || 0,
-        currencyID: this.selectedCurrency.id
-      }
-      let json2 = {
-        addChrID: this.fullWarehousePricing[1].addChrID,
-        addChrCode: this.fullWarehousePricing[1].addChrCode,
-        addChrName: this.fullWarehousePricing[1].addChrName,
-        addChrType: this.fullWarehousePricing[1].addChrType,
-        priceBasis: this.fullWarehousePricing[1].addChrBasis,
-        price: parseInt(this.couplePrice) || 0,
-        currencyID: this.selectedCurrency.id
-      }
-      this.pricingJSON.push(json1)
-      this.pricingJSON.push(json2)
     }
 
-    // if (this.selectedData.data.UsageType === 'SHARED') {
-    //     let json = {
-    //       addChrID: this.sharedWarehousePricing[1].addChrID,
-    //       addChrCode: this.sharedWarehousePricing[1].addChrCode,
-    //       addChrName: this.sharedWarehousePricing[1].addChrName,
-    //       addChrType: this.sharedWarehousePricing[1].addChrType,
-    //       priceBasis: this.sharedWarehousePricing[1].addChrBasis,
-    //       price: parseInt(this.couplePrice) || 0,
-    //       currencyID: this.selectedCurrency.id
-    //     }
-    //     this.pricingJSON.push(json)
-    //   } else if (this.selectedData.data.UsageType === 'FULL') {
-    //     let json = {
-    //       addChrID: this.fullWarehousePricing[1].addChrID,
-    //       addChrCode: this.fullWarehousePricing[1].addChrCode,
-    //       addChrName: this.fullWarehousePricing[1].addChrName,
-    //       addChrType: this.fullWarehousePricing[1].addChrType,
-    //       priceBasis: this.fullWarehousePricing[1].addChrBasis,
-    //       price: parseInt(this.couplePrice) || 0,
-    //       currencyID: this.selectedCurrency.id
-    //     }
-    //     this.pricingJSON.push(json)
-    //   }
+    if (this.couplePrice) {
+      if (this.selectedData.data.UsageType === 'SHARED') {
+        let json = {
+          addChrID: this.sharedWarehousePricing[1].addChrID,
+          addChrCode: this.sharedWarehousePricing[1].addChrCode,
+          addChrName: this.sharedWarehousePricing[1].addChrName,
+          addChrType: this.sharedWarehousePricing[1].addChrType,
+          priceBasis: this.sharedWarehousePricing[1].addChrBasis,
+          price: parseInt(this.couplePrice),
+          currencyID: this.selectedCurrency.id
+        }
+        this.pricingJSON.push(json)
+      } else if (this.selectedData.data.UsageType === 'FULL') {
+        let json = {
+          addChrID: this.fullWarehousePricing[1].addChrID,
+          addChrCode: this.fullWarehousePricing[1].addChrCode,
+          addChrName: this.fullWarehousePricing[1].addChrName,
+          addChrType: this.fullWarehousePricing[1].addChrType,
+          priceBasis: this.fullWarehousePricing[1].addChrBasis,
+          price: parseInt(this.couplePrice),
+          currencyID: this.selectedCurrency.id
+        }
+        this.pricingJSON.push(json)
+      }
+    }
+    console.log(this.pricingJSON);
   }
 
 }

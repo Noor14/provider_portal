@@ -158,6 +158,8 @@ export class WarehouseComponent implements OnInit {
     });
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
+        console.log(state);
+
         this.cityList = state;
         let countryBound = this.cityList.find(obj => obj.desc[0].CountryID == this.userProfile.CountryID).desc[0].CountryCode;
         this.getplacemapLoc(countryBound);
@@ -165,7 +167,7 @@ export class WarehouseComponent implements OnInit {
       }
     });
     this.generalForm = new FormGroup({
-      whName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(5), Validators.pattern(/^(?=.*?[a-zA-Z])[^.]+$/)]),
+      whName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(5), Validators.pattern(/[a-zA-Z]/)]),
       whDetail: new FormControl(null, [Validators.required, Validators.maxLength(1000), Validators.minLength(10)]),
     });
     this.locationForm = new FormGroup({
@@ -465,7 +467,7 @@ export class WarehouseComponent implements OnInit {
           }
           let object = this.units.find(obj => obj.codeVal == 'SQFT');
           this.propertyDetailForm.patchValue({
-            warehouseSpaceUnit: object.codeValDesc,
+            warehouseSpaceUnit: object.codeVal,
             // ceilingUnit: object.codeValDesc,
           });
         }
@@ -473,12 +475,12 @@ export class WarehouseComponent implements OnInit {
           if (this.warehouseDetail.TotalCoveredAreaUnit) {
             let object = this.units.find(obj => obj.codeVal == this.warehouseDetail.TotalCoveredAreaUnit.toUpperCase());
             this.propertyDetailForm.patchValue({
-              warehouseSpaceUnit: object.codeValDesc,
+              warehouseSpaceUnit: object.codeVal,
               // ceilingUnit: object.codeValDesc,
             });
           }
-          if (this.warehouseDetail.MinLeaseTermValue) {
-            this.selectedMiniLeaseTerm = this.leaseTerm.find(obj => obj.codeVal == this.warehouseDetail.MinLeaseTermValue)
+          if (this.warehouseDetail.MinLeaseTermValue && this.warehouseDetail.MinLeaseTermUnit) {
+            this.selectedMiniLeaseTerm = this.leaseTerm.find(obj => obj.codeVal == this.warehouseDetail.MinLeaseTermValue && obj.codeValShortDesc == this.warehouseDetail.MinLeaseTermUnit)
           }
 
         }
@@ -689,9 +691,9 @@ export class WarehouseComponent implements OnInit {
       minLeaseTermUnit: this.selectedMiniLeaseTerm.codeValShortDesc,
       WHMinSQFT: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.minLeaseValueOne : null,
       WHMinCBM: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.minLeaseValueTwo : null,
-      comissionType: (this.isRealEstate) ? ((this.fixedAmount) ? 'Fixed_Amount' : 'Fixed_Percent') : null,
-      comissionCurrencyID: (this.isRealEstate) ? this.commissionForm.value.commissionCurrency.id : null,
-      comissionValue: (this.isRealEstate) ? this.commissionForm.value.commissionValue : null,
+      // comissionType: (this.isRealEstate) ? ((this.fixedAmount) ? 'Fixed_Amount' : 'Fixed_Percent') : null,
+      // comissionCurrencyID: (this.isRealEstate) ? this.commissionForm.value.commissionCurrency.id : null,
+      // comissionValue: (this.isRealEstate) ? this.commissionForm.value.commissionValue : null,
       percent: (this.isRealEstate) ? ((!this.fixedAmount) ? this.commissionForm.value.percentValue : null) : null,
       createdBy: this.userProfile.LoginID,
       modifiedBy: this.userProfile.LoginID,
@@ -702,13 +704,15 @@ export class WarehouseComponent implements OnInit {
         if (Number(this.whID) > 0) {
           this.uploadedGalleries = this.uploadedGalleries.filter(obj => obj.BusinessLogic);
           this.uploadDocuments(this.uploadedGalleries);
+          console.log(this.whID);
+          this.getWareHouseDetail(this.userProfile.ProviderID, this.whID);
+          this.getDropdownsList()
+          this.getAllCustomers(this.userProfile.ProviderID)
+          this.getAdditionalData()
+          this.getAllPublishRates(this.whID)
         }
         this._toastr.success('Warehouse detail saved', '')
         this._stepper.next();
-        this.getDropdownsList()
-        this.getAllCustomers(this.userProfile.ProviderID)
-        this.getAdditionalData()
-        this.getAllPublishRates(this.whID)
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
@@ -737,6 +741,8 @@ export class WarehouseComponent implements OnInit {
    */
 
   addWarehouseRate(rowId) {
+    console.log(this.warehouseDetail);
+
     let obj;
     if (rowId > 0) {
       obj = this.warehouseDetail;
@@ -751,9 +757,7 @@ export class WarehouseComponent implements OnInit {
       keyboard: false
     });
     modalRef.result.then((result) => {
-      if (result) {
-        this.getAllPublishRates(this.whID)
-      }
+      this.getAllPublishRates(this.whID)
     });
     modalRef.componentInstance.savedRow.subscribe((emmitedValue) => {
       this.getAllPublishRates(this.whID)
@@ -765,6 +769,7 @@ export class WarehouseComponent implements OnInit {
       mode: 'draft',
       customers: this.allCustomers,
       drafts: this.warehouseTypes,
+      usageType: this.warehouseDetail.UsageType
     }
     modalRef.componentInstance.selectedData = object;
     setTimeout(() => {
@@ -830,8 +835,6 @@ export class WarehouseComponent implements OnInit {
    * @memberof SeaFreightComponent
    */
   tableCheckedRows(event) {
-    console.log(event);
-
     if (typeof event.list[0] === 'object') {
       if (event.list[0].type === 'history') {
         // this.rateHistory(event.list[0].id, 'Rate_FCL')
@@ -890,7 +893,6 @@ export class WarehouseComponent implements OnInit {
   public filteredRecords: number;
   getAllPublishRates(warehouseID) {
     console.log(this.filteredRecords);
-    
     if (this.filteredRecords === 1) {
       this.pageNo = this.pageNo - 1
     }
@@ -913,12 +915,23 @@ export class WarehouseComponent implements OnInit {
       if (res.returnId > 0) {
         this.totalPublishedRecords = res.returnObject.recordsTotal
         this.filteredRecords = res.returnObject.recordsFiltered
-        console.log(this.filteredRecords);
-        
         this.warehousePublishedRates = cloneObject(res.returnObject.data);
         if (this.warehousePublishedRates) {
           this.warehousePublishedRates.forEach(e => {
             e.usageType = this.warehouseDetail.UsageType
+            if (e.pricingJson) {
+              e.parsedpricingJson = JSON.parse(e.pricingJson)
+              console.log(e.parsedpricingJson);
+              console.log(e.parsedpricingJson.length);
+              if (e.parsedpricingJson.length === 1) {
+                e.whPrice1 = e.parsedpricingJson[0].price
+                e.whPrice2 = 0
+              } else if (e.parsedpricingJson.length === 2) {
+                e.whPrice1 = e.parsedpricingJson[0].price
+                e.whPrice2 = e.parsedpricingJson[1].price
+              }
+            }
+
           })
         }
         console.log(this.warehousePublishedRates);

@@ -345,7 +345,7 @@ export class BillingComponent implements OnInit, OnDestroy {
           dueAmount: this.providerBillingDashboard.paymentDueTile.amount,
           firstName: this.userProfile.FirstNameBL,
           lastName: this.userProfile.LastNameBL,
-          shipmentId: 25,
+          shipmentId: Math.floor(100000 + Math.random() * 900000),
         }
         readyForPayment(obj);
       }

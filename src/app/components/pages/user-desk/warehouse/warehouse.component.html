@@ -321,8 +321,8 @@
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
                       <label class="form-group-label">Total warehouse Space
-                        <span class="sub-title sub-heading w-100 d-inline-block">Estimate total warehouse space
-                          excluding any office area.
+                        <span class="sub-title sub-heading w-100 d-inline-block">
+                          Estimate total warehouse space excluding any office area.
                         </span>
                       </label>
 
@@ -334,7 +334,7 @@
                         <div class="input-group-append">
                           <div class="input-group-text">
                             <select class="form-control input-dropdown" formControlName="warehouseSpaceUnit">
-                              <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}
+                              <option [value]="unit.codeVal" *ngFor="let unit of units">{{unit.codeValDesc}}
                               </option>
                             </select>
                           </div>
@@ -373,7 +373,7 @@
                             formControlName="hashmoveSpace">
                           <div class="input-group-append">
                             <div class="input-group-text"><span
-                                class="pl-3 pr-3 pt-2 pb-2">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span>
+                                class="pl-3 pr-3 pt-2 pb-2">{{(propertyDetailForm.controls['warehouseSpaceUnit'].value)?.toLowerCase()}}</span>
                             </div>
                           </div>
                         </div>
@@ -506,7 +506,7 @@
                   <div class="fancyOptionBoxes pull-left mr-4 mb-3" *ngFor="let obj of leaseTerm; let i = index"
                     (click)="addMinimumLeaseTerm(obj)">
                     <input id="{{i+1}}rentedtime" name="leaseTerm" type="radio"
-                      [checked]="obj.codeVal == warehouseDetail?.MinLeaseTermValue">
+                      [checked]="obj.codeVal == warehouseDetail?.MinLeaseTermValue && obj.codeValShortDesc == warehouseDetail?.MinLeaseTermUnit">
                     <label for="{{i+1}}rentedtime">
                       <span></span>
                       {{obj.codeValDesc}}
@@ -534,127 +534,6 @@
               </div>
             </div>
           </div>
-          <section class="commisionRates" *ngIf="isRealEstate">
-            <div class="row commission-rates">
-              <div class="col-12">
-                <h5 class="mt-5">Commission</h5>
-                <hr class="hr-solid">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12 mt-3">
-                <div class="form-group d-flex">
-                  <div class="fancyOptionBoxes">
-                    <input id="fixedamount" name="commison" type="radio" [checked]="fixedAmount"
-                      (change)="fixedAmount = !fixedAmount; commissionForm.controls['percentValue'].reset()">
-                    <label for="fixedamount">
-                      <span></span>
-                      Fixed Amount per booking
-                    </label>
-                  </div>
-                  <div class="fancyOptionBoxes ml-4">
-                    <input id="perbooking" name="commison" type="radio" [checked]="!fixedAmount"
-                      (change)="fixedAmount = !fixedAmount">
-                    <label for="perbooking">
-                      <span></span>
-                      Fixed percentage per booking
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <form autocomplete="off" novalidate [formGroup]="commissionForm">
-              <div class="row">
-                <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 animated fadeIn" *ngIf="!fixedAmount">
-                  <div class="form-group mt-3">
-                    <label>Per Booking</label>
-                    <input type="text" class="form-control pr-4" formControlName="percentValue" [ngClass]="{
-                    'inputError': percentValueError && commissionForm.controls['percentValue'].errors
-                    }" (focusout)="errorValidate()" (focus)="percentValueError=false" (keypress)="numberValid($event)"
-                      placeholder="0">
-                    <span class="percent-sign">%</span>
-                    <span *ngIf="percentValueError">
-                      <p class="inputError animated fadeIn"
-                        *ngIf="commissionForm.controls['percentValue'].hasError('required') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
-                        {{requiredFields}}</p>
-                      <p class="inputError animated fadeIn"
-                        *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('minlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
-                        Range
-                        1 to 1,00,000</p>
-                      <p class="inputError animated fadeIn"
-                        *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('maxlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
-                        Range
-                        1 to 1,00,000</p>
-                      <p class="inputError animated fadeIn"
-                        *ngIf="commissionForm.controls['percentValue'].hasError('pattern') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
-                        Please
-                        enter valid information</p>
-                    </span>
-                  </div>
-                </div>
-
-                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-6 col-12">
-                  <div class="form-group mt-3">
-                    <label for="inputState">
-                      <span *ngIf="fixedAmount; else other">
-                        Commission
-                      </span>
-                      <ng-template #other>
-                        Minimum Commission
-                      </ng-template>
-                    </label>
-                    <div class="input-group">
-                      <div class="input-group-prepend col-4 p-0">
-                        <div class="input-group-text">
-                          <div class="city-dropdown currency">
-                            <div class="flag-container"
-                              *ngIf="commissionForm.value.commissionCurrency && commissionForm.value.commissionCurrency.imageName">
-                              <img
-                                src="{{'../../../../../assets/images/flags/4x3/' + (commissionForm.value.commissionCurrency.imageName | lowercase) + '.svg'}}"
-                                type="image/svg+xml">
-                            </div>
-                            <input type="text" formControlName="commissionCurrency" (keypress)="spaceHandler($event)"
-                              [ngClass]="{'routeSelected': commissionForm.value.commissionCurrency && commissionForm.value.commissionCurrency.imageName}"
-                              class="form-control" maxlength="5" [ngbTypeahead]="currency" [resultTemplate]="cur"
-                              [inputFormatter]="formatterCurrency" placeholder="eg: AED">
-                            <ng-template #cur let-r="result">
-                              <div class="flag-container mr-1">
-                                <img
-                                  src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}">
-                              </div>
-                              <ngb-highlight [result]="r.shortName"></ngb-highlight>
-                            </ng-template>
-                          </div>
-                        </div>
-                      </div>
-                      <input type="text" formControlName="commissionValue" class="form-control" [ngClass]="{
-                  'inputError': commissionValueError && commissionForm.controls['commissionValue'].errors
-                  }" (focusout)="errorValidate()" (focus)="commissionValueError=false" (keypress)="numberValid($event)"
-                        aria-label="Text input with dropdown button" placeholder="0.00">
-                    </div>
-                    <span *ngIf="commissionValueError">
-                      <p class="inputError animated fadeIn"
-                        *ngIf="commissionForm.controls['commissionValue'].hasError('required') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
-                        {{requiredFields}}</p>
-                      <p class="inputError animated fadeIn"
-                        *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('minlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
-                        Range
-                        1 to 1,00,000</p>
-                      <p class="inputError animated fadeIn"
-                        *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('maxlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
-                        Range
-                        1 to 1,00,000</p>
-                      <p class="inputError animated fadeIn"
-                        *ngIf="commissionForm.controls['commissionValue'].hasError('pattern') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
-                        Please
-                        enter valid information</p>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </section>
           <div class="row mt-5">
             <div class="col-12 d-md-flex justify-content-md-between mb-3">
               <button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-5 pr-5 pt-2 pb-2 mb-2 disable"
@@ -662,8 +541,7 @@
                 cancel
               </button>
               <button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 mb-2" [disabled]="generalForm.invalid || !uploadedGalleries.length || locationForm.invalid ||
-                propertyDetailForm.invalid || hashmovespaceMsg || !selectedMiniLeaseTerm || !checkedFacilities ||
-                commissionForm.invalid" (click)="addwareHouse()">
+                propertyDetailForm.invalid || hashmovespaceMsg || !selectedMiniLeaseTerm || !checkedFacilities" (click)="addwareHouse()">
                 save & add pricing </button>
             </div>
           </div>
@@ -674,28 +552,116 @@
     </ngx-step>
     <ngx-step [label]="'2. PRICING'">
       <section class="Add-warehouse Allfreights">
-        <section class="Add-warehouse-rates mt-3 rates-grid">
-          <h5 class="mt-5">Commission</h5>
-          <div class="row">
-            <div class="col-3">
-              <div class="fancyOptionBoxes">
-                <input id="fixedAMount" type="checkbox">
-                <label for="fixedAMount">
-                  <span></span>
-                  Fixed amount per booking
-                </label>
-              </div>
+        <section class="commisionRates mt-3" *ngIf="isRealEstate">
+          <div class="row commission-rates">
+            <div class="col-12">
+              <h5>Commission</h5>
+              <hr class="hr-solid">
             </div>
-            <div class="col-3">
-              <div class="fancyOptionBoxes">
-                <input id="fixedPercentage" type="checkbox">
-                <label for="fixedPercentage">
-                  <span></span>
-                  Fixed percentage per booking
-                </label>
+          </div>
+          <div class="row">
+            <div class="col-12 mt-3">
+              <div class="form-group d-flex">
+                <div class="fancyOptionBoxes">
+                  <input id="fixedamount" name="commison" type="radio" [checked]="fixedAmount" (change)="fixedAmount = !fixedAmount; commissionForm.controls['percentValue'].reset()">
+                  <label for="fixedamount">
+                    <span></span>
+                    Fixed Amount per booking
+                  </label>
+                </div>
+                <div class="fancyOptionBoxes ml-4">
+                  <input id="perbooking" name="commison" type="radio" [checked]="!fixedAmount" (change)="fixedAmount = !fixedAmount">
+                  <label for="perbooking">
+                    <span></span>
+                    Fixed percentage per booking
+                  </label>
+                </div>
               </div>
             </div>
           </div>
+
+          <form autocomplete="off" novalidate [formGroup]="commissionForm">
+            <div class="row">
+              <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 animated fadeIn" *ngIf="!fixedAmount">
+                <div class="form-group mt-3">
+                  <label>Per Booking</label>
+                  <input type="text" class="form-control pr-4" formControlName="percentValue" [ngClass]="{
+                                      'inputError': percentValueError && commissionForm.controls['percentValue'].errors
+                                      }"
+                    (focusout)="errorValidate()" (focus)="percentValueError=false" (keypress)="numberValid($event)" placeholder="0">
+                  <span class="percent-sign">%</span>
+                  <span *ngIf="percentValueError">
+                    <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['percentValue'].hasError('required') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
+                      {{requiredFields}}</p>
+                    <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('minlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
+                      Range
+                      1 to 1,00,000</p>
+                    <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('maxlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
+                      Range
+                      1 to 1,00,000</p>
+                    <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['percentValue'].hasError('pattern') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
+                      Please
+                      enter valid information</p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-xl-4 col-lg-5 col-md-6 col-sm-6 col-12">
+                <div class="form-group mt-3">
+                  <label for="inputState">
+                    <span *ngIf="fixedAmount; else other">
+                      Commission
+                    </span>
+                    <ng-template #other>
+                      Minimum Commission
+                    </ng-template>
+                  </label>
+                  <div class="input-group">
+                    <div class="input-group-prepend col-4 p-0">
+                      <div class="input-group-text">
+                        <div class="city-dropdown currency">
+                          <div class="flag-container" *ngIf="commissionForm.value.commissionCurrency && commissionForm.value.commissionCurrency.imageName">
+                            <img src="{{'../../../../../assets/images/flags/4x3/' + (commissionForm.value.commissionCurrency.imageName | lowercase) + '.svg'}}"
+                              type="image/svg+xml">
+                          </div>
+                          <input type="text" formControlName="commissionCurrency" (keypress)="spaceHandler($event)" [ngClass]="{'routeSelected': commissionForm.value.commissionCurrency && commissionForm.value.commissionCurrency.imageName}"
+                            class="form-control" maxlength="5" [ngbTypeahead]="currency" [resultTemplate]="cur"
+                            [inputFormatter]="formatterCurrency" placeholder="eg: AED">
+                          <ng-template #cur let-r="result">
+                            <div class="flag-container mr-1">
+                              <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}">
+                            </div>
+                            <ngb-highlight [result]="r.shortName"></ngb-highlight>
+                          </ng-template>
+                        </div>
+                      </div>
+                    </div>
+                    <input type="text" formControlName="commissionValue" class="form-control" [ngClass]="{
+                                    'inputError': commissionValueError && commissionForm.controls['commissionValue'].errors
+                                    }"
+                      (focusout)="errorValidate()" (focus)="commissionValueError=false" (keypress)="numberValid($event)"
+                      aria-label="Text input with dropdown button" placeholder="0.00">
+                  </div>
+                  <span *ngIf="commissionValueError">
+                    <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['commissionValue'].hasError('required') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                      {{requiredFields}}</p>
+                    <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('minlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                      Range
+                      1 to 1,00,000</p>
+                    <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('maxlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                      Range
+                      1 to 1,00,000</p>
+                    <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['commissionValue'].hasError('pattern') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                      Please
+                      enter valid information</p>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <section class="Add-warehouse-rates mt-3 rates-grid">
           <h5 class="mt-5">Set Pricing</h5>
           <p class="sub-title mt-2 mb-2">you can add multiple rates for different dates / months </p>
           <div class="row mb-3 justify-content-end" *ngIf="warehousePublishedRates">

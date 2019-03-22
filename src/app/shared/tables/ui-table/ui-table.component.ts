@@ -116,8 +116,8 @@ export class UiTableComponent implements OnInit, OnChanges {
       let title1 = ''
       let title2 = ''
       if (this.data.length) {
-        title1 = (this.data[0].ususageType === 'SHARED') ? 'Rate / CBM / Day' : 'Rent Per Month'
-        title2 = (this.data[0].ususageType === 'SHARED') ? 'Rate / sqft / day' : 'Rent Per Year'
+        title1 = (this.data[0].usageType === 'SHARED') ? 'Rate / CBM / Day' : 'Rent Per Month'
+        title2 = (this.data[0].usageType === 'SHARED') ? 'Rate / sqft / day' : 'Rent Per Year'
       }
 
       this.thList = [
@@ -457,12 +457,6 @@ export class UiTableComponent implements OnInit, OnChanges {
           } else if (e.parsedpublishStatus.Status === 'POSTED') {
             e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MM/DD/YYYY h:mm:ss A')
           }
-        }
-        if (e.pricingJson && typeof e.pricingJson === 'string') {
-          e.parsedpricingJson = JSON.parse(e.pricingJson)
-          console.log(e.parsedpricingJson);
-          e.whPrice1 = e.parsedpricingJson[0].price
-          e.whPrice2 = e.parsedpricingJson[1].price
         }
         e.isChecked = this.checkAllPublish ? true : false
         let dateDiff = getDateDiff(moment(e.effectiveTo).format("L"), moment(new Date()).format("L"), 'days', "MM-DD-YYYY")

@@ -115,12 +115,12 @@ export function readyForPayment(obj) {
       title: obj.firstName + obj.lastName,
       product_names: "HashMove_Provider",
       order_id: obj.shipmentId,
-      url_redirect: window.location.protocol + "//" + window.location.host + "/provider/payment_result",
+      url_redirect: window.location.protocol + "//" + window.location.host + "/paytabs.asp",
       display_customer_info: 1,
       display_billing_fields: 1,
       display_shipping_fields: 0,
       language: "en",
-      redirect_on_reject: window.location.protocol + "//" + window.location.host + "/provider/payment_result",
+      redirect_on_reject: window.location.protocol + "//" + window.location.host + "/paytabs.asp",
     }
   });
 }

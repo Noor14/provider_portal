@@ -100,8 +100,9 @@ export class BookingStatusUpdationComponent implements OnInit {
           if (res.returnStatus == "Success"){
           this._toast.success(res.returnText, 'Success');
             let obj = {
-              status: "CANCELLED",
-              resType: "Success"
+              bookingStatus: res.returnObject.bookingStatus,
+              shippingStatus: res.returnObject.shippingStatus,
+              resType: res.returnStatus
             }
             this.closeModal(obj);
           }
@@ -126,9 +127,10 @@ export class BookingStatusUpdationComponent implements OnInit {
           if (res.returnStatus == "Success") {
           this._toast.success(res.returnText, 'Success');
           let obj = {
-            status: res.returnObject.bookingStatus,
+            bookingStatus: res.returnObject.bookingStatus,
+            shippingStatus: res.returnObject.shippingStatus,
             resType : res.returnStatus
-           }
+          }
             this.closeModal(obj);
         }
         }, (err: HttpErrorResponse) => {

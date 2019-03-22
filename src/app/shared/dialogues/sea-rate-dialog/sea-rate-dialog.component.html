@@ -373,7 +373,7 @@
 
 
       <!-- Additional charges -->
-      <div class="row more-charges">
+      <div class="row more-charges" [hidden]="selectedData.data?.UsageType && selectedData.data.UsageType === 'FULL'">
         <div class="col-12">
           <h5 class="model-sub-head mt-4 pull-left">Additional Charges At Port Of Origin</h5>
         </div>
@@ -450,7 +450,7 @@
           </a>
         </div>
       </div>
-      <div class="row more-charges">
+      <div class="row more-charges" [hidden]="selectedData.data?.UsageType && selectedData.data.UsageType === 'FULL'">
         <div class="col-12">
           <h5 class="model-sub-head mt-4 pull-left">Additional Charges At Port Of Destination</h5>
         </div>
