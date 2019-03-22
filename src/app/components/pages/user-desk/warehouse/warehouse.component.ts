@@ -87,6 +87,7 @@ export class WarehouseComponent implements OnInit {
 
   // space validation
   public hashmovespaceMsg: string = undefined;
+  public offeredHashmoveSpaceUnit:string;
 
 
   //facilities
@@ -449,6 +450,9 @@ export class WarehouseComponent implements OnInit {
       return false;
     }
   }
+  selectedspaceUnit(unit){
+    this.offeredHashmoveSpaceUnit = this.units.find(obj => obj.codeVal == unit).codeValDesc;
+  }
 
   getvaluesDropDown(data) {
     loading(true);
@@ -470,6 +474,7 @@ export class WarehouseComponent implements OnInit {
             warehouseSpaceUnit: object.codeVal,
             // ceilingUnit: object.codeValDesc,
           });
+          this.offeredHashmoveSpaceUnit = object.codeValDesc;
         }
         else {
           if (this.warehouseDetail.TotalCoveredAreaUnit) {
@@ -478,6 +483,7 @@ export class WarehouseComponent implements OnInit {
               warehouseSpaceUnit: object.codeVal,
               // ceilingUnit: object.codeValDesc,
             });
+            this.offeredHashmoveSpaceUnit = object.codeValDesc;
           }
           if (this.warehouseDetail.MinLeaseTermValue && this.warehouseDetail.MinLeaseTermUnit) {
             this.selectedMiniLeaseTerm = this.leaseTerm.find(obj => obj.codeVal == this.warehouseDetail.MinLeaseTermValue && obj.codeValShortDesc == this.warehouseDetail.MinLeaseTermUnit)
@@ -682,7 +688,7 @@ export class WarehouseComponent implements OnInit {
       whFacilitiesProviding: this.facilities,
       isBlocked: true,
       offeredHashMoveArea: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.hashmoveSpace : null,
-      offeredHashMoveAreaUnit: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.warehouseSpaceUnit : null,
+      offeredHashMoveAreaUnit: (!this.warehouseTypeFull) ? this.offeredHashmoveSpaceUnit : null,
       ceilingHeight: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.ceilingHeight : null,
       ceilingLenght: (!this.warehouseTypeFull) ? 0 : null,
       ceilingWidth: (!this.warehouseTypeFull) ? 0 : null,
