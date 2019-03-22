@@ -87,7 +87,7 @@ export class WarehouseComponent implements OnInit {
 
   // space validation
   public hashmovespaceMsg: string = undefined;
-  public offeredHashmoveSpaceUnit:string;
+  public offeredHashmoveSpaceUnit: string;
 
 
   //facilities
@@ -104,6 +104,7 @@ export class WarehouseComponent implements OnInit {
   // edit warehouse detail
 
   public warehouseDetail: any;
+  public activeStep: number = 0
 
 
 
@@ -147,6 +148,10 @@ export class WarehouseComponent implements OnInit {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
+    if (this.whID > 0) {
+      this.activeStep = 1
+      this.getPricingDetails()
+    }
     this._sharedService.getLocation.subscribe((state: any) => {
       if (state && state.country) {
         this.getMapLatlng(state.country);
@@ -159,8 +164,6 @@ export class WarehouseComponent implements OnInit {
     });
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
-        console.log(state);
-
         this.cityList = state;
         let countryBound = this.cityList.find(obj => obj.desc[0].CountryID == this.userProfile.CountryID).desc[0].CountryCode;
         this.getplacemapLoc(countryBound);
@@ -310,7 +313,6 @@ export class WarehouseComponent implements OnInit {
     loading(true)
     this._warehouseService.getWarehouseList(providerId, id).subscribe((res: any) => {
       if (res.returnStatus == "Success" && res.returnObject) {
-        loading(false);
         this.isRealEstate = res.returnObject.IsRealEstate;
         const data = [
           'WH_MIN_LEASE_TERM',
@@ -328,6 +330,7 @@ export class WarehouseComponent implements OnInit {
           this.setData(this.warehouseDetail);
         }
         this.getvaluesDropDown(data);
+        this.getPricingDetails()
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);
@@ -450,15 +453,12 @@ export class WarehouseComponent implements OnInit {
       return false;
     }
   }
-  selectedspaceUnit(unit){
+  selectedspaceUnit(unit) {
     this.offeredHashmoveSpaceUnit = this.units.find(obj => obj.codeVal == unit).codeValDesc;
   }
 
   getvaluesDropDown(data) {
-    loading(true);
     this._warehouseService.getDropDownValuesWarehouse(data).subscribe((res: any) => {
-      loading(false);
-
       if (res && res.length) {
         this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
         this.warehouseUsageType = res.filter(obj => obj.codeType == 'WH_USAGE_TYPE');
@@ -488,7 +488,6 @@ export class WarehouseComponent implements OnInit {
           if (this.warehouseDetail.MinLeaseTermValue && this.warehouseDetail.MinLeaseTermUnit) {
             this.selectedMiniLeaseTerm = this.leaseTerm.find(obj => obj.codeVal == this.warehouseDetail.MinLeaseTermValue && obj.codeValShortDesc == this.warehouseDetail.MinLeaseTermUnit)
           }
-
         }
       }
     }, (err: HttpErrorResponse) => {
@@ -711,11 +710,8 @@ export class WarehouseComponent implements OnInit {
           this.uploadedGalleries = this.uploadedGalleries.filter(obj => obj.BusinessLogic);
           this.uploadDocuments(this.uploadedGalleries);
           console.log(this.whID);
-          this.getWareHouseDetail(this.userProfile.ProviderID, this.whID);
-          this.getDropdownsList()
-          this.getAllCustomers(this.userProfile.ProviderID)
-          this.getAdditionalData()
-          this.getAllPublishRates(this.whID)
+          this.activeStep = 1
+          this.getPricingDetails()
         }
         this._toastr.success('Warehouse detail saved', '')
         this._stepper.next();
@@ -788,9 +784,7 @@ export class WarehouseComponent implements OnInit {
 
   public warehouseTypes: any[] = []
   getDropdownsList() {
-    loading(true)
     this._commonService.getMstCodeVal('WH_STORAGE_TYPE').subscribe((res: any) => {
-      loading(false)
       this.warehouseTypes = res
     }, (err) => {
       loading(false)
@@ -805,7 +799,6 @@ export class WarehouseComponent implements OnInit {
    * @memberof SeaFreightComponent
    */
   getAllCustomers(ProviderID) {
-    loading(true)
     this._seaFreightService.getAllCustomers(ProviderID).subscribe((res: any) => {
       if (res.returnId > 0) {
         this.allCustomers = res.returnObject
@@ -824,11 +817,9 @@ export class WarehouseComponent implements OnInit {
    * @memberof WarehouseFreightComponent
    */
   getAdditionalData() {
-    loading(true)
     this._seaFreightService.getAllAdditionalCharges(this.userProfile.ProviderID).subscribe((res: any) => {
       console.log(res);
       this.warehouseCharges = res.filter(e => e.modeOfTrans === 'WAREHOUSE' && e.addChrType === 'ADCH')
-      loading(false)
     }, (err) => {
       loading(false)
     })
@@ -898,7 +889,6 @@ export class WarehouseComponent implements OnInit {
   public pageSize: number = 5
   public filteredRecords: number;
   getAllPublishRates(warehouseID) {
-    console.log(this.filteredRecords);
     if (this.filteredRecords === 1) {
       this.pageNo = this.pageNo - 1
     }
@@ -918,29 +908,28 @@ export class WarehouseComponent implements OnInit {
     }
     this._warehouseService.getAllPublishedrates(obj).subscribe((res: any) => {
       this.publishloading = false;
+      loading(false)
       if (res.returnId > 0) {
         this.totalPublishedRecords = res.returnObject.recordsTotal
         this.filteredRecords = res.returnObject.recordsFiltered
         this.warehousePublishedRates = cloneObject(res.returnObject.data);
         if (this.warehousePublishedRates) {
           this.warehousePublishedRates.forEach(e => {
-            e.usageType = this.warehouseDetail.UsageType
-            if (e.pricingJson) {
-              e.parsedpricingJson = JSON.parse(e.pricingJson)
-              console.log(e.parsedpricingJson);
-              console.log(e.parsedpricingJson.length);
-              if (e.parsedpricingJson.length === 1) {
-                e.whPrice1 = e.parsedpricingJson[0].price
-                e.whPrice2 = 0
-              } else if (e.parsedpricingJson.length === 2) {
-                e.whPrice1 = e.parsedpricingJson[0].price
-                e.whPrice2 = e.parsedpricingJson[1].price
+            if (this.warehouseDetail) {
+              e.usageType = this.warehouseDetail.UsageType
+              if (e.pricingJson) {
+                e.parsedpricingJson = JSON.parse(e.pricingJson)
+                if (e.parsedpricingJson.length === 1) {
+                  e.whPrice1 = e.parsedpricingJson[0].price
+                  e.whPrice2 = 0
+                } else if (e.parsedpricingJson.length === 2) {
+                  e.whPrice1 = e.parsedpricingJson[0].price
+                  e.whPrice2 = e.parsedpricingJson[1].price
+                }
               }
             }
-
           })
         }
-        console.log(this.warehousePublishedRates);
         this.checkedallpublishRates = false;
       }
     })
@@ -1050,6 +1039,22 @@ export class WarehouseComponent implements OnInit {
         document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
       }
     }, 0);
+  }
+
+
+  /**
+   *
+   *  Get all priving details for single warehouse
+   * @memberof WarehouseComponent
+   */
+  getPricingDetails() {
+    if (this.activeStep === 1) {
+      // this.getWareHouseDetail(this.userProfile.ProviderID, this.whID);
+      this.getDropdownsList()
+      this.getAllCustomers(this.userProfile.ProviderID)
+      this.getAdditionalData()
+      this.getAllPublishRates(this.whID)
+    }
   }
 
 }

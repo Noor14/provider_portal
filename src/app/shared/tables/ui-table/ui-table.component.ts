@@ -459,6 +459,15 @@ export class UiTableComponent implements OnInit, OnChanges {
           }
         }
         e.isChecked = this.checkAllPublish ? true : false
+        if (this.containerLoad === 'FCL' && this.transMode === 'SEA') {
+          this.checkList.push(e.carrierPricingID)
+        } else if (this.containerLoad === 'LCL' && this.transMode === 'SEA') {
+          this.checkList.push(e.consolidatorPricingID)
+        } else if (this.transMode === 'GROUND') {
+          this.checkList.push(e.id)
+        } else if (this.transMode === 'WAREHOUSE') {
+          this.checkList.push(e.whPricingID)
+        }
         let dateDiff = getDateDiff(moment(e.effectiveTo).format("L"), moment(new Date()).format("L"), 'days', "MM-DD-YYYY")
         if (dateDiff <= 15) {
           e.dateDiff = dateDiff
