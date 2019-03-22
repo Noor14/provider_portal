@@ -116,8 +116,8 @@ export class UiTableComponent implements OnInit, OnChanges {
       let title1 = ''
       let title2 = ''
       if (this.data.length) {
-        title1 = (this.data[0].ususageType === 'SHARED') ? 'Rate / CBM / Day' : 'Rent Per Month'
-        title2 = (this.data[0].ususageType === 'SHARED') ? 'Rate / sqft / day' : 'Rent Per Year'
+        title1 = (this.data[0].usageType === 'SHARED') ? 'Rate / CBM / Day' : 'Rent Per Month'
+        title2 = (this.data[0].usageType === 'SHARED') ? 'Rate / sqft / day' : 'Rent Per Year'
       }
 
       this.thList = [
