@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { WarehouseService } from './warehouse.service';
-import {isJSON} from '../../../../../constants/globalFunctions';
+import { isJSON } from '../../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Lightbox } from 'ngx-lightbox';
@@ -39,12 +39,12 @@ export class WarehouseListComponent implements OnInit {
   public activeStatus: boolean = true;
   public warehouseCharges: any[] = [];
 
-//loading
+  //loading
   public loading: boolean = false
 
   // wareHouseDetTemplate
-  public wareHouseDetTemplate:boolean = false;
-  public warehouseID:any;
+  public wareHouseDetTemplate: boolean = false;
+  public warehouseID: any;
 
   constructor(
     private _warehouseService: WarehouseService,
@@ -59,16 +59,16 @@ export class WarehouseListComponent implements OnInit {
   }
 
   ngOnInit() {
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
         this.cityList = state;
+        if (userInfo && userInfo.returnText) {
+          this.userProfile = JSON.parse(userInfo.returnText);
+          this.getWhlist(this.userProfile.ProviderID);
+        }
       }
     });
-    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if (userInfo && userInfo.returnText) {
-      this.userProfile = JSON.parse(userInfo.returnText);
-      this.getWhlist(this.userProfile.ProviderID);
-    }
   }
 
   getWhlist(providerId) {
@@ -83,7 +83,7 @@ export class WarehouseListComponent implements OnInit {
               if (obj.FacilitiesProviding && obj.FacilitiesProviding != "[]" && isJSON(obj.FacilitiesProviding)) {
                 obj.FacilitiesProviding = JSON.parse(obj.FacilitiesProviding);
               }
-              if (obj.CityID && this.cityList && this.cityList.length){
+              if (obj.CityID && this.cityList && this.cityList.length) {
                 obj.Location = this.cityList.find(elem => elem.id == obj.CityID).title
               }
               if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {
@@ -135,20 +135,20 @@ export class WarehouseListComponent implements OnInit {
     this.paginationConfig.currentPage = number;
   }
 
-  statusType(type: string, event){
-    if (type == 'activeStatus'){
-      if (this.inActiveStatus){
+  statusType(type: string, event) {
+    if (type == 'activeStatus') {
+      if (this.inActiveStatus) {
         this.activeStatus = !this.activeStatus;
       }
-      else{
+      else {
         event.preventDefault();
       }
     }
     else if (type == 'inActiveStatus') {
-      if (this.activeStatus){
+      if (this.activeStatus) {
         this.inActiveStatus = !this.inActiveStatus;
       }
-      else{
+      else {
         event.preventDefault();
       }
     }
@@ -156,7 +156,7 @@ export class WarehouseListComponent implements OnInit {
 
 
 
-  deleteWarehouse(whid){
+  deleteWarehouse(whid) {
     const modalRef = this._modalService.open(ConfirmDeleteDialogComponent, {
       size: 'lg',
       centered: true,

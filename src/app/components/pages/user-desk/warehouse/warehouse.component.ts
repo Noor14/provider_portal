@@ -327,13 +327,13 @@ export class WarehouseComponent implements OnInit {
         }
         else if (Number(id)) {
           this.warehouseDetail = res.returnObject.WHModel[0];
+          this.warehouseDetail.Location = this.cityList.find(elem => elem.id == this.warehouseDetail.CityID).title
           this.setData(this.warehouseDetail);
         }
         this.getvaluesDropDown(data);
         this.getPricingDetails()
       }
     }, (err: HttpErrorResponse) => {
-      console.log(err);
       loading(false);
     })
   }
