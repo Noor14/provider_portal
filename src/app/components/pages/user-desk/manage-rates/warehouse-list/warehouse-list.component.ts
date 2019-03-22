@@ -88,8 +88,7 @@ export class WarehouseListComponent implements OnInit {
               }
               if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {
                 obj.WHGallery = JSON.parse(obj.WHGallery);
-                this.allWareHouseList.forEach((object) => {
-                  const albumArr = []
+                const albumArr = []
                   obj.WHGallery.forEach((elem) => {
                     const album = {
                       src: baseExternalAssets + elem.DocumentFile,
@@ -98,10 +97,8 @@ export class WarehouseListComponent implements OnInit {
                       DocumentUploadedFileType: elem.DocumentUploadedFileType
                     };
                     albumArr.push(album);
-                    object.parsedGallery = albumArr;
                   })
-
-                })
+                obj.parsedGallery = albumArr;
               }
             })
           }
@@ -203,6 +200,11 @@ export class WarehouseListComponent implements OnInit {
     this.wareHouseDetTemplate = true;
     this.warehouseID = whId;
     // this._router.navigate(['/provider/warehouse-detail', whId]);
+  }
+
+  warehouseList(){
+    this.wareHouseDetTemplate = !this.wareHouseDetTemplate;
+    this.getWhlist(this.userProfile.ProviderID);
   }
 
 }
