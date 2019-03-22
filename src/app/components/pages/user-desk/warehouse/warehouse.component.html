@@ -730,7 +730,9 @@
             [transMode]="'WAREHOUSE'">
           </app-ui-table>
           <button *ngIf="!warehousePublishedRates" class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2"
-            (click)="addWarehouseRate(whID)"> Click to add new rate </button>
+            (click)="addWarehouseRate(whID)"> 
+            Click to add rate 
+          </button>
         </section>
         <a href="javascript:;" class="addAnother animated fadeIn" *ngIf="warehousePublishedRates"
           [ngClass]="totalPublishedRecords > 5 ? 'withScroll' : ''" (click)="addWarehouseRate(whID)">
