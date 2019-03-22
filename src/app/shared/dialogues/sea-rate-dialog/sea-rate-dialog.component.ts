@@ -742,6 +742,7 @@ export class SeaRateDialogComponent implements OnInit {
           } else {
             this.selectedPrice = undefined;
             this.couplePrice = null;
+            this.pricingJSON = [];
             this.savedRow.emit(res.returnObject)
           }
         }
@@ -1408,7 +1409,6 @@ export class SeaRateDialogComponent implements OnInit {
 
   calculatePricingJSON() {
     console.log(this.selectedData.data);
-    
     if (this.selectedPrice) {
       if (this.selectedData.data.UsageType === 'SHARED') {
         let json = {
@@ -1420,7 +1420,9 @@ export class SeaRateDialogComponent implements OnInit {
           price: parseInt(this.selectedPrice),
           currencyID: this.selectedCurrency.id
         }
-        this.pricingJSON.push(json)
+        if (this.pricingJSON.length < 2) {
+          this.pricingJSON.push(json)
+        }
       } else if (this.selectedData.data.UsageType === 'FULL') {
         let json = {
           addChrID: this.fullWarehousePricing[0].addChrID,
@@ -1431,7 +1433,9 @@ export class SeaRateDialogComponent implements OnInit {
           price: parseInt(this.selectedPrice),
           currencyID: this.selectedCurrency.id
         }
-        this.pricingJSON.push(json)
+        if (this.pricingJSON.length < 2) {
+          this.pricingJSON.push(json)
+        }
       }
     }
 
@@ -1446,7 +1450,9 @@ export class SeaRateDialogComponent implements OnInit {
           price: parseInt(this.couplePrice),
           currencyID: this.selectedCurrency.id
         }
-        this.pricingJSON.push(json)
+        if (this.pricingJSON.length < 2) {
+          this.pricingJSON.push(json)
+        }
       } else if (this.selectedData.data.UsageType === 'FULL') {
         let json = {
           addChrID: this.fullWarehousePricing[1].addChrID,
@@ -1457,7 +1463,9 @@ export class SeaRateDialogComponent implements OnInit {
           price: parseInt(this.couplePrice),
           currencyID: this.selectedCurrency.id
         }
-        this.pricingJSON.push(json)
+        if (this.pricingJSON.length < 2) {
+          this.pricingJSON.push(json)
+        }
       }
     }
     console.log(this.pricingJSON);

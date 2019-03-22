@@ -147,7 +147,7 @@
         </div>
         <hr class="hr-solid mt-0 mb-4">
         <div class="col-12 justify-content-end mt-1 mb-2">
-            <button type="button" class="btn btn-primary pull-right hvr-sweep-to-right mr-4" [disabled]="(!fromDate || !this.fromDate && fromDate.month) || (!toDate || !this.toDate && toDate.month)"
+            <button type="button" class="btn btn-primary pull-right hvr-sweep-to-right mr-4" [disabled]="!fromDate.day && !fromDate.month && !fromDate.year && !toDate.day && !toDate.month && !toDate.year"
             (click)="updateRates()">
             Update
           </button>

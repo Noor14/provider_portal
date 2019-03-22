@@ -999,11 +999,9 @@ export class WarehouseComponent implements OnInit {
         keyboard: false
       });
       modalRef.result.then((result) => {
-        if (result == 'Success') {
-          this.getAllPublishRates(this.whID);
-          this.checkedallpublishRates = false
-          this.delPublishRates = [];
-        }
+        this.getAllPublishRates(this.whID);
+        this.checkedallpublishRates = false
+        this.delPublishRates = [];
       });
       let obj = {
         data: updateValidity,
@@ -1019,11 +1017,9 @@ export class WarehouseComponent implements OnInit {
         keyboard: false
       });
       modalRef2.result.then((result) => {
-        if (result == 'Success') {
-          this.getAllPublishRates(this.whID);
-          this.checkedallpublishRates = false
-          this.delPublishRates = [];
-        }
+        this.getAllPublishRates(this.whID);
+        this.checkedallpublishRates = false
+        this.delPublishRates = [];
       });
       let object = {
         forType: type.toUpperCase(),
