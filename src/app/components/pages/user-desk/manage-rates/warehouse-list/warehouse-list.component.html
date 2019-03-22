@@ -8,7 +8,8 @@
         <div class="col-6 d-flex justify-content-end">
           <button (click)="addAnotherWarehouse()" class="btn btn-primary hvr-sweep-to-right pull-right text-uppercase pt-2 pb-2 pl-3"
             type="button">
-            Add Another Warehouse
+            <span *ngIf="allWareHouseList && allWareHouseList.length; else other">Add Another Warehouse</span>
+            <ng-template #other>Add Warehouse</ng-template>
           </button>
         </div>
       </div>
@@ -168,7 +169,7 @@
 </section>
 
 <section *ngIf="wareHouseDetTemplate">
-<a class="hvr-icon-back grey-anc-btn mb-4" href="javascript:;" (click)="wareHouseDetTemplate = !wareHouseDetTemplate" title="Back to warehouse">
+<a class="hvr-icon-back grey-anc-btn mb-4" href="javascript:;" (click)="warehouseList()" title="Back to warehouse">
     <img alt="icon" class="icon-size-14 hvr-icon" src="../../../../../assets/images/icons/icon_arrow_left.svg">
     <span class="link-hover-grey">Go Back To Listing</span>
 </a>
