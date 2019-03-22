@@ -893,7 +893,6 @@ export class WarehouseComponent implements OnInit {
   public filteredRecords: number;
   getAllPublishRates(warehouseID) {
     console.log(this.filteredRecords);
-
     if (this.filteredRecords === 1) {
       this.pageNo = this.pageNo - 1
     }
@@ -920,6 +919,19 @@ export class WarehouseComponent implements OnInit {
         if (this.warehousePublishedRates) {
           this.warehousePublishedRates.forEach(e => {
             e.usageType = this.warehouseDetail.UsageType
+            if (e.pricingJson) {
+              e.parsedpricingJson = JSON.parse(e.pricingJson)
+              console.log(e.parsedpricingJson);
+              console.log(e.parsedpricingJson.length);
+              if (e.parsedpricingJson.length === 1) {
+                e.whPrice1 = e.parsedpricingJson[0].price
+                e.whPrice2 = 0
+              } else if (e.parsedpricingJson.length === 2) {
+                e.whPrice1 = e.parsedpricingJson[0].price
+                e.whPrice2 = e.parsedpricingJson[1].price
+              }
+            }
+
           })
         }
         console.log(this.warehousePublishedRates);

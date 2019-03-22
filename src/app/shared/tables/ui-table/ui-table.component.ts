@@ -458,18 +458,6 @@ export class UiTableComponent implements OnInit, OnChanges {
             e.parsedpublishStatus.printStatus = 'Published on ' + moment(e.parsedpublishStatus.PublishDate).format('MM/DD/YYYY h:mm:ss A')
           }
         }
-        if (e.pricingJson && typeof e.pricingJson === 'string') {
-          e.parsedpricingJson = JSON.parse(e.pricingJson)
-          console.log(e.parsedpricingJson);
-          if (e.parsedpricingJson.length === 1) {
-            e.whPrice1 = e.parsedpricingJson[0].price
-            e.whPrice2 = 0
-          } else if (e.parsedpricingJson.length === 2) {
-            e.whPrice1 = e.parsedpricingJson[0].price
-            e.whPrice2 = e.parsedpricingJson[1].price
-          }
-
-        }
         e.isChecked = this.checkAllPublish ? true : false
         let dateDiff = getDateDiff(moment(e.effectiveTo).format("L"), moment(new Date()).format("L"), 'days', "MM-DD-YYYY")
         if (dateDiff <= 15) {
