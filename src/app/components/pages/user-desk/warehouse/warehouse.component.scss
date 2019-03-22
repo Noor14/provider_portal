@@ -347,6 +347,12 @@
           filter: grayscale(1) opacity(0.9);
         }
       }
+      .rate-dur {
+        color: $color-topmenu;
+        animation: 1.2s ease-in-out infinite alternate-reverse fadeIn;
+        font-family: $font-proxima;
+        font-weight: $font-weight-mid;
+      }
     }
     a.addAnother {
       color: $primary-color;
