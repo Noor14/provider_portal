@@ -1415,6 +1415,8 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   calculatePricingJSON() {
+    console.log(this.selectedData.data);
+    
     if (this.selectedPrice) {
       if (this.selectedData.data.UsageType === 'SHARED') {
         let json = {
@@ -1429,11 +1431,11 @@ export class SeaRateDialogComponent implements OnInit {
         this.pricingJSON.push(json)
       } else if (this.selectedData.data.UsageType === 'FULL') {
         let json = {
-          addChrID: this.sharedWarehousePricing[0].addChrID,
-          addChrCode: this.sharedWarehousePricing[0].addChrCode,
-          addChrName: this.sharedWarehousePricing[0].addChrName,
-          addChrType: this.sharedWarehousePricing[0].addChrType,
-          priceBasis: this.sharedWarehousePricing[0].addChrBasis,
+          addChrID: this.fullWarehousePricing[0].addChrID,
+          addChrCode: this.fullWarehousePricing[0].addChrCode,
+          addChrName: this.fullWarehousePricing[0].addChrName,
+          addChrType: this.fullWarehousePricing[0].addChrType,
+          priceBasis: this.fullWarehousePricing[0].addChrBasis,
           price: parseInt(this.selectedPrice),
           currencyID: this.selectedCurrency.id
         }
@@ -1455,11 +1457,11 @@ export class SeaRateDialogComponent implements OnInit {
         this.pricingJSON.push(json)
       } else if (this.selectedData.data.UsageType === 'FULL') {
         let json = {
-          addChrID: this.sharedWarehousePricing[1].addChrID,
-          addChrCode: this.sharedWarehousePricing[1].addChrCode,
-          addChrName: this.sharedWarehousePricing[1].addChrName,
-          addChrType: this.sharedWarehousePricing[1].addChrType,
-          priceBasis: this.sharedWarehousePricing[1].addChrBasis,
+          addChrID: this.fullWarehousePricing[1].addChrID,
+          addChrCode: this.fullWarehousePricing[1].addChrCode,
+          addChrName: this.fullWarehousePricing[1].addChrName,
+          addChrType: this.fullWarehousePricing[1].addChrType,
+          priceBasis: this.fullWarehousePricing[1].addChrBasis,
           price: parseInt(this.couplePrice),
           currencyID: this.selectedCurrency.id
         }
