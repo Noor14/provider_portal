@@ -467,7 +467,7 @@ export class WarehouseComponent implements OnInit {
           }
           let object = this.units.find(obj => obj.codeVal == 'SQFT');
           this.propertyDetailForm.patchValue({
-            warehouseSpaceUnit: object.codeValDesc,
+            warehouseSpaceUnit: object.codeVal,
             // ceilingUnit: object.codeValDesc,
           });
         }
@@ -475,12 +475,12 @@ export class WarehouseComponent implements OnInit {
           if (this.warehouseDetail.TotalCoveredAreaUnit) {
             let object = this.units.find(obj => obj.codeVal == this.warehouseDetail.TotalCoveredAreaUnit.toUpperCase());
             this.propertyDetailForm.patchValue({
-              warehouseSpaceUnit: object.codeValDesc,
+              warehouseSpaceUnit: object.codeVal,
               // ceilingUnit: object.codeValDesc,
             });
           }
-          if (this.warehouseDetail.MinLeaseTermValue) {
-            this.selectedMiniLeaseTerm = this.leaseTerm.find(obj => obj.codeVal == this.warehouseDetail.MinLeaseTermValue)
+          if (this.warehouseDetail.MinLeaseTermValue && this.warehouseDetail.MinLeaseTermUnit) {
+            this.selectedMiniLeaseTerm = this.leaseTerm.find(obj => obj.codeVal == this.warehouseDetail.MinLeaseTermValue && obj.codeValShortDesc == this.warehouseDetail.MinLeaseTermUnit)
           }
 
         }
