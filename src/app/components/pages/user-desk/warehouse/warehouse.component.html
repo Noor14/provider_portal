@@ -83,7 +83,7 @@
   <p class="sub-title mt-2 mb-3" *ngIf="!warehouseDetail && whID == '0'">
     Add your warehouse and create a listing of available capacity on HashMove
   </p>
-  <ngx-stepper #stepper class="warehouse-stepper">
+  <ngx-stepper #stepper class="warehouse-stepper" [activeStep]="0">
     <ngx-step [label]="'1. INFO'">
       <section class="warehouse">
         <!--  warehouse-info -->
@@ -333,7 +333,8 @@
                           type="text" formControlName="warehouseSpace">
                         <div class="input-group-append">
                           <div class="input-group-text">
-                            <select class="form-control input-dropdown" formControlName="warehouseSpaceUnit">
+                            <select class="form-control input-dropdown" formControlName="warehouseSpaceUnit"
+                              (change)="selectedspaceUnit(propertyDetailForm.controls['warehouseSpaceUnit'].value)">
                               <option [value]="unit.codeVal" *ngFor="let unit of units">{{unit.codeValDesc}}
                               </option>
                             </select>
@@ -365,7 +366,7 @@
                             formControlName="hashmoveSpace">
                           <div class="input-group-append">
                             <div class="input-group-text"><span
-                                class="pl-3 pr-3 pt-2 pb-2">{{(propertyDetailForm.controls['warehouseSpaceUnit'].value)?.toLowerCase()}}</span>
+                                class="pl-3 pr-3 pt-2 pb-2">{{offeredHashmoveSpaceUnit}}</span>
                             </div>
                           </div>
                         </div>

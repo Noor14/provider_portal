@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SeaFreightService } from '../sea-freight/sea-freight.service';
 import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 import { CommonService } from '../../../../../services/common.service';
+import { SharedService } from '../../../../../services/shared.service';
 
 @Component({
   selector: 'app-warehouse-list',
@@ -24,6 +25,7 @@ export class WarehouseListComponent implements OnInit {
   public baseExternalAssets: string = baseExternalAssets;
   public userProfile;
   public allWareHouseList: any[] = [];
+  public cityList: any[] = [];
   public wareHouseTitle: string;
   public autoHide: boolean = false;
   public responsive: boolean = true;
@@ -47,10 +49,11 @@ export class WarehouseListComponent implements OnInit {
   constructor(
     private _warehouseService: WarehouseService,
     private _modalService: NgbModal,
-    private _router: Router,
     private _lightbox: Lightbox,
     private _location: PlatformLocation,
     private _toast: ToastrService,
+    private _sharedService: SharedService
+
   ) {
     _location.onPopState(() => this.closeLightBox());
   }
@@ -61,6 +64,11 @@ export class WarehouseListComponent implements OnInit {
       this.userProfile = JSON.parse(userInfo.returnText);
       this.getWhlist(this.userProfile.ProviderID);
     }
+    this._sharedService.cityList.subscribe((state: any) => {
+      if (state) {
+        this.cityList = state;
+      }
+    });
   }
 
   getWhlist(providerId) {
@@ -74,6 +82,9 @@ export class WarehouseListComponent implements OnInit {
             this.allWareHouseList.map((obj) => {
               if (obj.FacilitiesProviding && obj.FacilitiesProviding != "[]" && isJSON(obj.FacilitiesProviding)) {
                 obj.FacilitiesProviding = JSON.parse(obj.FacilitiesProviding);
+              }
+              if (obj.CityID){
+                obj.Location = this.cityList.find(elem => elem.id == obj.CityID).title
               }
               if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {
                 obj.WHGallery = JSON.parse(obj.WHGallery);
