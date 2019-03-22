@@ -711,7 +711,7 @@ export class WarehouseComponent implements OnInit {
           this.uploadedGalleries = this.uploadedGalleries.filter(obj => obj.BusinessLogic);
           this.uploadDocuments(this.uploadedGalleries);
           this.activeStep = 1
-          this.getPricingDetails()
+          this.getWareHouseDetail(this.userProfile.ProviderID, this.whID);
         }
         this._toastr.success('Warehouse detail saved', '')
         this._stepper.next();
@@ -744,7 +744,6 @@ export class WarehouseComponent implements OnInit {
 
   addWarehouseRate(rowId) {
     console.log(this.warehouseDetail);
-
     let obj;
     if (rowId > 0) {
       obj = this.warehouseDetail;
@@ -1051,7 +1050,6 @@ export class WarehouseComponent implements OnInit {
    */
   getPricingDetails() {
     if (this.activeStep === 1) {
-      // this.getWareHouseDetail(this.userProfile.ProviderID, this.whID);
       this.getDropdownsList()
       this.getAllCustomers(this.userProfile.ProviderID)
       this.getAdditionalData()
