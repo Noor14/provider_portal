@@ -718,7 +718,6 @@ export class SeaRateDialogComponent implements OnInit {
             if (this.selectedData.data) {
               this.selectedData.data.ConsolidatorPricingDraftID = 0;
             }
-
             this.selectedContSize = null;
             this.savedRow.emit(res.returnObject)
           }
@@ -742,11 +741,7 @@ export class SeaRateDialogComponent implements OnInit {
             this.closeModal(res.returnObject);
           } else {
             this.selectedPrice = undefined;
-            if (this.selectedData.data) {
-              this.selectedData.data.ConsolidatorPricingDraftID = 0;
-            }
-
-            this.selectedContSize = null;
+            this.couplePrice = null;
             this.savedRow.emit(res.returnObject)
           }
         }
@@ -759,9 +754,6 @@ export class SeaRateDialogComponent implements OnInit {
             this.closeModal(res.returnObject);
           } else {
             this.selectedPrice = undefined;
-            // if (this.selectedData) {
-            //   this.selectedData.ID = 0;
-            // }
             this.couplePrice = null;
             this.savedRow.emit(res.returnObject)
           }
