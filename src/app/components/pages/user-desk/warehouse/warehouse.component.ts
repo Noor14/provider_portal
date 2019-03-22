@@ -323,6 +323,7 @@ export class WarehouseComponent implements OnInit {
         ]
         this.warehouseDocx = res.returnObject.documentType;
         if (res.returnObject && !Number(id)) {
+          loading(false)
           this.facilities = res.returnObject.WHFacilitiesProviding;
         }
         else if (Number(id)) {
@@ -709,7 +710,6 @@ export class WarehouseComponent implements OnInit {
         if (Number(this.whID) > 0) {
           this.uploadedGalleries = this.uploadedGalleries.filter(obj => obj.BusinessLogic);
           this.uploadDocuments(this.uploadedGalleries);
-          console.log(this.whID);
           this.activeStep = 1
           this.getPricingDetails()
         }
@@ -786,6 +786,7 @@ export class WarehouseComponent implements OnInit {
   getDropdownsList() {
     this._commonService.getMstCodeVal('WH_STORAGE_TYPE').subscribe((res: any) => {
       this.warehouseTypes = res
+      loading(false)
     }, (err) => {
       loading(false)
     })
@@ -800,6 +801,7 @@ export class WarehouseComponent implements OnInit {
    */
   getAllCustomers(ProviderID) {
     this._seaFreightService.getAllCustomers(ProviderID).subscribe((res: any) => {
+      loading(false)
       if (res.returnId > 0) {
         this.allCustomers = res.returnObject
         this.allCustomers.forEach(e => {
@@ -818,7 +820,7 @@ export class WarehouseComponent implements OnInit {
    */
   getAdditionalData() {
     this._seaFreightService.getAllAdditionalCharges(this.userProfile.ProviderID).subscribe((res: any) => {
-      console.log(res);
+      loading(false)
       this.warehouseCharges = res.filter(e => e.modeOfTrans === 'WAREHOUSE' && e.addChrType === 'ADCH')
     }, (err) => {
       loading(false)
@@ -889,6 +891,7 @@ export class WarehouseComponent implements OnInit {
   public pageSize: number = 5
   public filteredRecords: number;
   getAllPublishRates(warehouseID) {
+    loading(false)
     if (this.filteredRecords === 1) {
       this.pageNo = this.pageNo - 1
     }
@@ -953,7 +956,6 @@ export class WarehouseComponent implements OnInit {
       keyboard: false
     });
     modalRef.result.then((result) => {
-      console.log(result);
       if (result == "Success") {
         this.getAllPublishRates(this.warehousePublishedRates[0].whid)
       }
