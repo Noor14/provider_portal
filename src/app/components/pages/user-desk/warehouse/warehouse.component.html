@@ -321,8 +321,8 @@
                   <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="form-group">
                       <label class="form-group-label">Total warehouse Space
-                        <span class="sub-title sub-heading w-100 d-inline-block">Estimate total warehouse space
-                          excluding any office area.
+                        <span class="sub-title sub-heading w-100 d-inline-block">
+                          Estimate total warehouse space excluding any office area.
                         </span>
                       </label>
 
@@ -334,7 +334,7 @@
                         <div class="input-group-append">
                           <div class="input-group-text">
                             <select class="form-control input-dropdown" formControlName="warehouseSpaceUnit">
-                              <option [value]="unit.codeValDesc" *ngFor="let unit of units">{{unit.codeValDesc}}
+                              <option [value]="unit.codeVal" *ngFor="let unit of units">{{unit.codeValDesc}}
                               </option>
                             </select>
                           </div>
@@ -365,7 +365,7 @@
                             formControlName="hashmoveSpace">
                           <div class="input-group-append">
                             <div class="input-group-text"><span
-                                class="pl-3 pr-3 pt-2 pb-2">{{propertyDetailForm.controls['warehouseSpaceUnit'].value}}</span>
+                                class="pl-3 pr-3 pt-2 pb-2">{{(propertyDetailForm.controls['warehouseSpaceUnit'].value)?.toLowerCase()}}</span>
                             </div>
                           </div>
                         </div>
@@ -498,7 +498,7 @@
                   <div class="fancyOptionBoxes pull-left mr-4 mb-3" *ngFor="let obj of leaseTerm; let i = index"
                     (click)="addMinimumLeaseTerm(obj)">
                     <input id="{{i+1}}rentedtime" name="leaseTerm" type="radio"
-                      [checked]="obj.codeVal == warehouseDetail?.MinLeaseTermValue">
+                      [checked]="obj.codeVal == warehouseDetail?.MinLeaseTermValue && obj.codeValShortDesc == warehouseDetail?.MinLeaseTermUnit">
                     <label for="{{i+1}}rentedtime">
                       <span></span>
                       {{obj.codeValDesc}}

@@ -174,24 +174,6 @@ export class SettingsComponent implements OnInit {
       socialUrl: new FormControl(null),
       profileUrl: new FormControl(null, [Validators.required]),
     });
-
-
-    this._sharedService.regionList.subscribe((state: any) => {
-      if (state) {
-        this.regionList = state;
-      }
-    });
-    this._sharedService.currencyList.subscribe((state: any) => {
-      if (state) {
-        this.currencyList = state;
-      }
-    });
-    this._sharedService.countryList.subscribe((state: any) => {
-      if (state) {
-        this.countryList = state;
-      }
-
-    });
     this.getUserDetail(this.userProfile.UserID);
     this.onChanges();
   }
@@ -265,12 +247,36 @@ export class SettingsComponent implements OnInit {
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
         this.cityList = state;
+        this.getRegions();
+        this.getCurrencies();
+        this.getCountries();
         this.setPersonalInfo(info);
         this.setBusinessInfo(info);
         loading(false);
       }
     });
   }
+  getRegions(){
+    this._sharedService.regionList.subscribe((state: any) => {
+      if (state) {
+        this.regionList = state;
+      }
+    });
+  }
+  getCountries(){
+    this._sharedService.countryList.subscribe((state: any) => {
+      if (state) {
+        this.countryList = state;
+      }
+    });
+  }
+    getCurrencies(){
+      this._sharedService.currencyList.subscribe((state: any) => {
+        if (state) {
+          this.currencyList = state;
+        }
+      });
+    }
 
   getListJobTitle(info) {
     this._basicInfoService.getjobTitles(info.CountryID).subscribe((res: any) => {
