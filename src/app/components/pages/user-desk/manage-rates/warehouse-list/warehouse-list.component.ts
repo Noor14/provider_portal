@@ -59,16 +59,16 @@ export class WarehouseListComponent implements OnInit {
   }
 
   ngOnInit() {
-    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if (userInfo && userInfo.returnText) {
-      this.userProfile = JSON.parse(userInfo.returnText);
-      this.getWhlist(this.userProfile.ProviderID);
-    }
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
         this.cityList = state;
       }
     });
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo && userInfo.returnText) {
+      this.userProfile = JSON.parse(userInfo.returnText);
+      this.getWhlist(this.userProfile.ProviderID);
+    }
   }
 
   getWhlist(providerId) {
@@ -83,7 +83,7 @@ export class WarehouseListComponent implements OnInit {
               if (obj.FacilitiesProviding && obj.FacilitiesProviding != "[]" && isJSON(obj.FacilitiesProviding)) {
                 obj.FacilitiesProviding = JSON.parse(obj.FacilitiesProviding);
               }
-              if (obj.CityID){
+              if (obj.CityID && this.cityList && this.cityList.length){
                 obj.Location = this.cityList.find(elem => elem.id == obj.CityID).title
               }
               if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {

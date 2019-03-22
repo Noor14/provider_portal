@@ -458,7 +458,6 @@ export class WarehouseComponent implements OnInit {
     loading(true);
     this._warehouseService.getDropDownValuesWarehouse(data).subscribe((res: any) => {
       loading(false);
-
       if (res && res.length) {
         this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
         this.warehouseUsageType = res.filter(obj => obj.codeType == 'WH_USAGE_TYPE');
