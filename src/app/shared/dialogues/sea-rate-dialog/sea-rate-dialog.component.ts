@@ -266,8 +266,6 @@ export class SeaRateDialogComponent implements OnInit {
         obj => obj.PortID == data.PolID
       );
     } else if (data.PolType === 'CITY') {
-      console.log('here');
-
       this._manageRateService.getAllCities(data.PolName).pipe(debounceTime(400), distinctUntilChanged()).subscribe((res: any) => {
         const cities = res;
         this.showDoubleRates = false
@@ -312,6 +310,7 @@ export class SeaRateDialogComponent implements OnInit {
         obj => obj.id === userCurrency
       );
     } else {
+      this.disabledCustomers = true;
       this.selectedPrice = data.Price;
       this.selectedCurrency = this.allCurrencies.find(
         obj => obj.id === data.CurrencyID
@@ -663,7 +662,7 @@ export class SeaRateDialogComponent implements OnInit {
     }
 
     let duplicateRecord: boolean = false;
-    if (this.selectedData.drafts) {
+    if (this.selectedData.drafts && this.selectedData.forType === 'FCL') {
       this.selectedData.drafts.forEach(element => {
         if (
           element.CarrierID === obj.carrierID &&
@@ -678,6 +677,31 @@ export class SeaRateDialogComponent implements OnInit {
           duplicateRecord = true;
         }
       });
+    } else if (this.selectedData.drafts && this.selectedData.forType === 'LCL') {
+      this.selectedData.drafts.forEach(element => {
+        if (
+          moment(element.EffectiveFrom).format('D MMM, Y') === moment(obj.effectiveFrom).format('D MMM, Y') &&
+          moment(element.EffectiveTo).format('D MMM, Y') === moment(obj.effectiveTo).format('D MMM, Y') &&
+          element.PodID === obj.podID &&
+          element.PolID === obj.polID &&
+          element.Price === parseInt(obj.price) &&
+          element.ShippingCatID === obj.shippingCatID
+        ) {
+          duplicateRecord = true;
+        }
+      });
+    } else if (this.selectedData.drafts && (this.selectedData.forType === 'FTL' || this.selectedData.forType === 'FCL-Ground')) {
+      this.selectedData.drafts.forEach(element => {
+        if (
+          moment(element.EffectiveFrom).format('D MMM, Y') === moment(obj.effectiveFrom).format('D MMM, Y') &&
+          moment(element.EffectiveTo).format('D MMM, Y') === moment(obj.effectiveTo).format('D MMM, Y') &&
+          element.PodID === obj.podID &&
+          element.PolID === obj.polID &&
+          element.Price === parseInt(obj.price)
+        ) {
+          duplicateRecord = true;
+        }
+      });
     }
 
     if ((obj.podType && obj.podType === 'Ground') && (obj.polType && obj.polType === 'Ground')) {
@@ -686,8 +710,8 @@ export class SeaRateDialogComponent implements OnInit {
     }
 
     if (duplicateRecord) {
-      // this._toast.warning('This record has already been added', 'Warning')
-      // return
+      this._toast.warning('This record has already been added', 'Warning')
+      return
     }
 
     if (this.selectedData.forType === 'FCL') {
