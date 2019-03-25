@@ -28,7 +28,7 @@
                   <img src="../../../assets/images/icons/Icons_Location-grey.svg" alt="icon"
                     class="icon-size-16 mr-2" />
                   <span>
-                    {{ warehouseDetail.CityName }}, {{ warehouseDetail.CountryName }}
+                    {{ warehouseDetail.Location }}
                   </span>
                 </li>
                 <li class="list-group-item mr-4">
@@ -83,7 +83,7 @@
   <p class="sub-title mt-2 mb-3" *ngIf="!warehouseDetail && whID == '0'">
     Add your warehouse and create a listing of available capacity on HashMove
   </p>
-  <ngx-stepper #stepper class="warehouse-stepper">
+  <ngx-stepper #stepper class="warehouse-stepper" [activeStep]="activeStep">
     <ngx-step [label]="'1. INFO'">
       <section class="warehouse">
         <!--  warehouse-info -->
@@ -333,7 +333,8 @@
                           type="text" formControlName="warehouseSpace">
                         <div class="input-group-append">
                           <div class="input-group-text">
-                            <select class="form-control input-dropdown" formControlName="warehouseSpaceUnit">
+                            <select class="form-control input-dropdown" formControlName="warehouseSpaceUnit"
+                              (change)="selectedspaceUnit(propertyDetailForm.controls['warehouseSpaceUnit'].value)">
                               <option [value]="unit.codeVal" *ngFor="let unit of units">{{unit.codeValDesc}}
                               </option>
                             </select>
@@ -373,7 +374,7 @@
                             formControlName="hashmoveSpace">
                           <div class="input-group-append">
                             <div class="input-group-text"><span
-                                class="pl-3 pr-3 pt-2 pb-2">{{(propertyDetailForm.controls['warehouseSpaceUnit'].value)?.toLowerCase()}}</span>
+                                class="pl-3 pr-3 pt-2 pb-2">{{offeredHashmoveSpaceUnit}}</span>
                             </div>
                           </div>
                         </div>
@@ -541,7 +542,8 @@
                 cancel
               </button>
               <button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 mb-2" [disabled]="generalForm.invalid || !uploadedGalleries.length || locationForm.invalid ||
-                propertyDetailForm.invalid || hashmovespaceMsg || !selectedMiniLeaseTerm || !checkedFacilities" (click)="addwareHouse()">
+                propertyDetailForm.invalid || hashmovespaceMsg || !selectedMiniLeaseTerm || !checkedFacilities"
+                (click)="addwareHouse()">
                 save & add pricing </button>
             </div>
           </div>
@@ -563,14 +565,16 @@
             <div class="col-12 mt-3">
               <div class="form-group d-flex">
                 <div class="fancyOptionBoxes">
-                  <input id="fixedamount" name="commison" type="radio" [checked]="fixedAmount" (change)="fixedAmount = !fixedAmount; commissionForm.controls['percentValue'].reset()">
+                  <input id="fixedamount" name="commison" type="radio" [checked]="fixedAmount"
+                    (change)="fixedAmount = !fixedAmount; commissionForm.controls['percentValue'].reset()">
                   <label for="fixedamount">
                     <span></span>
                     Fixed Amount per booking
                   </label>
                 </div>
                 <div class="fancyOptionBoxes ml-4">
-                  <input id="perbooking" name="commison" type="radio" [checked]="!fixedAmount" (change)="fixedAmount = !fixedAmount">
+                  <input id="perbooking" name="commison" type="radio" [checked]="!fixedAmount"
+                    (change)="fixedAmount = !fixedAmount">
                   <label for="perbooking">
                     <span></span>
                     Fixed percentage per booking
@@ -587,19 +591,23 @@
                   <label>Per Booking</label>
                   <input type="text" class="form-control pr-4" formControlName="percentValue" [ngClass]="{
                                       'inputError': percentValueError && commissionForm.controls['percentValue'].errors
-                                      }"
-                    (focusout)="errorValidate()" (focus)="percentValueError=false" (keypress)="numberValid($event)" placeholder="0">
+                                      }" (focusout)="errorValidate()" (focus)="percentValueError=false"
+                    (keypress)="numberValid($event)" placeholder="0">
                   <span class="percent-sign">%</span>
                   <span *ngIf="percentValueError">
-                    <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['percentValue'].hasError('required') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
+                    <p class="inputError animated fadeIn"
+                      *ngIf="commissionForm.controls['percentValue'].hasError('required') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
                       {{requiredFields}}</p>
-                    <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('minlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
+                    <p class="inputError animated fadeIn"
+                      *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('minlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
                       Range
                       1 to 1,00,000</p>
-                    <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('maxlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
+                    <p class="inputError animated fadeIn"
+                      *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('maxlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
                       Range
                       1 to 1,00,000</p>
-                    <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['percentValue'].hasError('pattern') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
+                    <p class="inputError animated fadeIn"
+                      *ngIf="commissionForm.controls['percentValue'].hasError('pattern') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
                       Please
                       enter valid information</p>
                   </span>
@@ -620,16 +628,20 @@
                     <div class="input-group-prepend col-4 p-0">
                       <div class="input-group-text">
                         <div class="city-dropdown currency">
-                          <div class="flag-container" *ngIf="commissionForm.value.commissionCurrency && commissionForm.value.commissionCurrency.imageName">
-                            <img src="{{'../../../../../assets/images/flags/4x3/' + (commissionForm.value.commissionCurrency.imageName | lowercase) + '.svg'}}"
+                          <div class="flag-container"
+                            *ngIf="commissionForm.value.commissionCurrency && commissionForm.value.commissionCurrency.imageName">
+                            <img
+                              src="{{'../../../../../assets/images/flags/4x3/' + (commissionForm.value.commissionCurrency.imageName | lowercase) + '.svg'}}"
                               type="image/svg+xml">
                           </div>
-                          <input type="text" formControlName="commissionCurrency" (keypress)="spaceHandler($event)" [ngClass]="{'routeSelected': commissionForm.value.commissionCurrency && commissionForm.value.commissionCurrency.imageName}"
+                          <input type="text" formControlName="commissionCurrency" (keypress)="spaceHandler($event)"
+                            [ngClass]="{'routeSelected': commissionForm.value.commissionCurrency && commissionForm.value.commissionCurrency.imageName}"
                             class="form-control" maxlength="5" [ngbTypeahead]="currency" [resultTemplate]="cur"
                             [inputFormatter]="formatterCurrency" placeholder="eg: AED">
                           <ng-template #cur let-r="result">
                             <div class="flag-container mr-1">
-                              <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}">
+                              <img
+                                src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}">
                             </div>
                             <ngb-highlight [result]="r.shortName"></ngb-highlight>
                           </ng-template>
@@ -638,20 +650,23 @@
                     </div>
                     <input type="text" formControlName="commissionValue" class="form-control" [ngClass]="{
                                     'inputError': commissionValueError && commissionForm.controls['commissionValue'].errors
-                                    }"
-                      (focusout)="errorValidate()" (focus)="commissionValueError=false" (keypress)="numberValid($event)"
-                      aria-label="Text input with dropdown button" placeholder="0.00">
+                                    }" (focusout)="errorValidate()" (focus)="commissionValueError=false"
+                      (keypress)="numberValid($event)" aria-label="Text input with dropdown button" placeholder="0.00">
                   </div>
                   <span *ngIf="commissionValueError">
-                    <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['commissionValue'].hasError('required') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                    <p class="inputError animated fadeIn"
+                      *ngIf="commissionForm.controls['commissionValue'].hasError('required') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
                       {{requiredFields}}</p>
-                    <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('minlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                    <p class="inputError animated fadeIn"
+                      *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('minlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
                       Range
                       1 to 1,00,000</p>
-                    <p class="inputError animated fadeIn" *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('maxlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                    <p class="inputError animated fadeIn"
+                      *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('maxlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
                       Range
                       1 to 1,00,000</p>
-                    <p class="inputError animated fadeIn" *ngIf="commissionForm.controls['commissionValue'].hasError('pattern') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                    <p class="inputError animated fadeIn"
+                      *ngIf="commissionForm.controls['commissionValue'].hasError('pattern') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
                       Please
                       enter valid information</p>
                   </span>
@@ -666,6 +681,8 @@
           <p class="sub-title mt-2 mb-2">you can add multiple rates for different dates / months </p>
           <div class="row mb-3 justify-content-end" *ngIf="warehousePublishedRates">
             <div class="col-6 d-flex justify-content-start rate-dur">
+              <img src="../../../../../../assets/images/icons/Icons_Clock-2hour.svg" alt="del_icon"
+                class="icon-size-24 mr-2" /> All Pending Rates will be published in 2 hours
             </div>
             <div class="col-6 d-flex justify-content-end">
               <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity('warehouse')"
@@ -729,7 +746,9 @@
             [transMode]="'WAREHOUSE'">
           </app-ui-table>
           <button *ngIf="!warehousePublishedRates" class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2"
-            (click)="addWarehouseRate(whID)"> Click to add new rate </button>
+            (click)="addWarehouseRate(whID)">
+            Click to add rate
+          </button>
         </section>
         <a href="javascript:;" class="addAnother animated fadeIn" *ngIf="warehousePublishedRates"
           [ngClass]="totalPublishedRecords > 5 ? 'withScroll' : ''" (click)="addWarehouseRate(whID)">

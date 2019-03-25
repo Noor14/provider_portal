@@ -718,7 +718,6 @@ export class SeaRateDialogComponent implements OnInit {
             if (this.selectedData.data) {
               this.selectedData.data.ConsolidatorPricingDraftID = 0;
             }
-
             this.selectedContSize = null;
             this.savedRow.emit(res.returnObject)
           }
@@ -742,11 +741,8 @@ export class SeaRateDialogComponent implements OnInit {
             this.closeModal(res.returnObject);
           } else {
             this.selectedPrice = undefined;
-            if (this.selectedData.data) {
-              this.selectedData.data.ConsolidatorPricingDraftID = 0;
-            }
-
-            this.selectedContSize = null;
+            this.couplePrice = null;
+            this.pricingJSON = [];
             this.savedRow.emit(res.returnObject)
           }
         }
@@ -759,9 +755,6 @@ export class SeaRateDialogComponent implements OnInit {
             this.closeModal(res.returnObject);
           } else {
             this.selectedPrice = undefined;
-            // if (this.selectedData) {
-            //   this.selectedData.ID = 0;
-            // }
             this.couplePrice = null;
             this.savedRow.emit(res.returnObject)
           }
@@ -1416,7 +1409,6 @@ export class SeaRateDialogComponent implements OnInit {
 
   calculatePricingJSON() {
     console.log(this.selectedData.data);
-    
     if (this.selectedPrice) {
       if (this.selectedData.data.UsageType === 'SHARED') {
         let json = {
@@ -1428,7 +1420,9 @@ export class SeaRateDialogComponent implements OnInit {
           price: parseInt(this.selectedPrice),
           currencyID: this.selectedCurrency.id
         }
-        this.pricingJSON.push(json)
+        if (this.pricingJSON.length < 2) {
+          this.pricingJSON.push(json)
+        }
       } else if (this.selectedData.data.UsageType === 'FULL') {
         let json = {
           addChrID: this.fullWarehousePricing[0].addChrID,
@@ -1439,7 +1433,9 @@ export class SeaRateDialogComponent implements OnInit {
           price: parseInt(this.selectedPrice),
           currencyID: this.selectedCurrency.id
         }
-        this.pricingJSON.push(json)
+        if (this.pricingJSON.length < 2) {
+          this.pricingJSON.push(json)
+        }
       }
     }
 
@@ -1454,7 +1450,9 @@ export class SeaRateDialogComponent implements OnInit {
           price: parseInt(this.couplePrice),
           currencyID: this.selectedCurrency.id
         }
-        this.pricingJSON.push(json)
+        if (this.pricingJSON.length < 2) {
+          this.pricingJSON.push(json)
+        }
       } else if (this.selectedData.data.UsageType === 'FULL') {
         let json = {
           addChrID: this.fullWarehousePricing[1].addChrID,
@@ -1465,7 +1463,9 @@ export class SeaRateDialogComponent implements OnInit {
           price: parseInt(this.couplePrice),
           currencyID: this.selectedCurrency.id
         }
-        this.pricingJSON.push(json)
+        if (this.pricingJSON.length < 2) {
+          this.pricingJSON.push(json)
+        }
       }
     }
     console.log(this.pricingJSON);

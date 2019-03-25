@@ -96,6 +96,10 @@ export class RateValidityComponent implements OnInit {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
+    console.log(this.fromDate);
+    console.log(typeof this.fromDate);
+    
+    
     this.allservicesBySea()
   }
   allservicesBySea() {

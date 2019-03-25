@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { WarehouseService } from './warehouse.service';
-import {isJSON} from '../../../../../constants/globalFunctions';
+import { isJSON } from '../../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Lightbox } from 'ngx-lightbox';
@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SeaFreightService } from '../sea-freight/sea-freight.service';
 import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 import { CommonService } from '../../../../../services/common.service';
+import { SharedService } from '../../../../../services/shared.service';
 
 @Component({
   selector: 'app-warehouse-list',
@@ -24,6 +25,7 @@ export class WarehouseListComponent implements OnInit {
   public baseExternalAssets: string = baseExternalAssets;
   public userProfile;
   public allWareHouseList: any[] = [];
+  public cityList: any[] = [];
   public wareHouseTitle: string;
   public autoHide: boolean = false;
   public responsive: boolean = true;
@@ -36,31 +38,38 @@ export class WarehouseListComponent implements OnInit {
   public inActiveStatus: boolean = true;
   public activeStatus: boolean = true;
   public warehouseCharges: any[] = [];
+  public step: number = 0
 
-//loading
+  //loading
   public loading: boolean = false
 
   // wareHouseDetTemplate
-  public wareHouseDetTemplate:boolean = false;
-  public warehouseID:any;
+  public wareHouseDetTemplate: boolean = false;
+  public warehouseID: any;
 
   constructor(
     private _warehouseService: WarehouseService,
     private _modalService: NgbModal,
-    private _router: Router,
     private _lightbox: Lightbox,
     private _location: PlatformLocation,
     private _toast: ToastrService,
+    private _sharedService: SharedService
+
   ) {
     _location.onPopState(() => this.closeLightBox());
   }
 
   ngOnInit() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if (userInfo && userInfo.returnText) {
-      this.userProfile = JSON.parse(userInfo.returnText);
-      this.getWhlist(this.userProfile.ProviderID);
-    }
+    this._sharedService.cityList.subscribe((state: any) => {
+      if (state) {
+        this.cityList = state;
+        if (userInfo && userInfo.returnText) {
+          this.userProfile = JSON.parse(userInfo.returnText);
+          this.getWhlist(this.userProfile.ProviderID);
+        }
+      }
+    });
   }
 
   getWhlist(providerId) {
@@ -75,22 +84,22 @@ export class WarehouseListComponent implements OnInit {
               if (obj.FacilitiesProviding && obj.FacilitiesProviding != "[]" && isJSON(obj.FacilitiesProviding)) {
                 obj.FacilitiesProviding = JSON.parse(obj.FacilitiesProviding);
               }
+              if (obj.CityID && this.cityList && this.cityList.length) {
+                obj.Location = this.cityList.find(elem => elem.id == obj.CityID).title
+              }
               if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {
                 obj.WHGallery = JSON.parse(obj.WHGallery);
-                this.allWareHouseList.forEach((object) => {
-                  const albumArr = []
-                  obj.WHGallery.forEach((elem) => {
-                    const album = {
-                      src: baseExternalAssets + elem.DocumentFile,
-                      caption: elem.DocumentFileName,
-                      thumb: baseExternalAssets + elem.DocumentFile,
-                      DocumentUploadedFileType: elem.DocumentUploadedFileType
-                    };
-                    albumArr.push(album);
-                    object.parsedGallery = albumArr;
-                  })
-
+                const albumArr = []
+                obj.WHGallery.forEach((elem) => {
+                  const album = {
+                    src: baseExternalAssets + elem.DocumentFile,
+                    caption: elem.DocumentFileName,
+                    thumb: baseExternalAssets + elem.DocumentFile,
+                    DocumentUploadedFileType: elem.DocumentUploadedFileType
+                  };
+                  albumArr.push(album);
                 })
+                obj.parsedGallery = albumArr;
               }
             })
           }
@@ -115,8 +124,7 @@ export class WarehouseListComponent implements OnInit {
   addAnotherWarehouse() {
     this.wareHouseDetTemplate = true;
     this.warehouseID = '0'
-
-
+    this.step = 0;
     // this._router.navigate(['provider/add-warehouse', 0])
   }
 
@@ -124,20 +132,20 @@ export class WarehouseListComponent implements OnInit {
     this.paginationConfig.currentPage = number;
   }
 
-  statusType(type: string, event){
-    if (type == 'activeStatus'){
-      if (this.inActiveStatus){
+  statusType(type: string, event) {
+    if (type == 'activeStatus') {
+      if (this.inActiveStatus) {
         this.activeStatus = !this.activeStatus;
       }
-      else{
+      else {
         event.preventDefault();
       }
     }
     else if (type == 'inActiveStatus') {
-      if (this.activeStatus){
+      if (this.activeStatus) {
         this.inActiveStatus = !this.inActiveStatus;
       }
-      else{
+      else {
         event.preventDefault();
       }
     }
@@ -145,7 +153,7 @@ export class WarehouseListComponent implements OnInit {
 
 
 
-  deleteWarehouse(whid){
+  deleteWarehouse(whid) {
     const modalRef = this._modalService.open(ConfirmDeleteDialogComponent, {
       size: 'lg',
       centered: true,
@@ -187,11 +195,17 @@ export class WarehouseListComponent implements OnInit {
       }
     })
   }
-  goToDetail(whId) {
+  goToDetail(whId, type?) {
     // let id = encryptBookingID(whId);
     this.wareHouseDetTemplate = true;
     this.warehouseID = whId;
+    this.step = (type === 'edit') ? 0 : ((type === 'rate') ? 1 : 0)
     // this._router.navigate(['/provider/warehouse-detail', whId]);
+  }
+
+  warehouseList() {
+    this.wareHouseDetTemplate = !this.wareHouseDetTemplate;
+    this.getWhlist(this.userProfile.ProviderID);
   }
 
 }
