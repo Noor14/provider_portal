@@ -195,7 +195,7 @@ export class WarehouseListComponent implements OnInit {
       }
     })
   }
-  goToDetail(whId, type?) {
+  goToDetail(whId, type) {
     // let id = encryptBookingID(whId);
     this.wareHouseDetTemplate = true;
     this.warehouseID = whId;
