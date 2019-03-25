@@ -43,6 +43,11 @@ export class WarehouseService {
     return this._http.post(baseApi + url, obj);
   }
 
+  updateComission(obj) {
+    let url: string = `warehousesetup/UpdateComission`;
+    return this._http.post(baseApi + url, obj);
+  }
+
   deletePublishedRate(data) {
     let url: string = "providerratewarehouse/DeleteRate";
     return this._http.request('delete', baseApi + url, { body: data });

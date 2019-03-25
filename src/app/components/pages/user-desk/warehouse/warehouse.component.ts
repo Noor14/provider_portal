@@ -326,7 +326,7 @@ export class WarehouseComponent implements OnInit {
         ]
         this.warehouseDocx = res.returnObject.documentType;
         if (res.returnObject && !Number(id)) {
-          
+
           this.facilities = res.returnObject.WHFacilitiesProviding;
         }
         else if (Number(id)) {
@@ -1054,6 +1054,30 @@ export class WarehouseComponent implements OnInit {
       this.getAdditionalData()
       this.getAllPublishRates(this.whID)
     }
+  }
+
+
+  /**
+   * UPDATE COMISSION SAVE REQUEST
+   *
+   * @memberof WarehouseComponent
+   */
+  updateComission() {
+    loading(true)
+    let obj = {
+      whid: this.whID,
+      comissionType: (this.fixedAmount ? 'Fixed_Amount' : 'Fixed_Percent'),
+      comissionCurrencyID: this.commissionForm.value.commissionCurrency.id,
+      comissionValue: this.commissionForm.value.commissionValue,
+      percent: this.commissionForm.value.percentValue,
+      modifiedBy: this.userProfile.LoginID
+    }
+    this._warehouseService.updateComission(obj).subscribe((res: any) => {
+      loading(false)
+      this._toastr.success('Comission updated successfully', 'Success')
+    }, (err) => {
+      loading(false)
+    })
   }
 
 }
