@@ -812,7 +812,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         keyboard: false
       });
       modalRef.result.then((result) => {
-        if (result == 'Success') {
+        if (result) {
           this.getAllPublishRates('FCL');
           this.checkedallpublishRates = false
           this.delPublishRates = [];
@@ -832,7 +832,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         keyboard: false
       });
       modalRef2.result.then((result) => {
-        if (result == 'Success') {
+        if (result) {
           this.getAllPublishRates('FTL');
           this.checkedallpublishRates = false
           this.delPublishRates = [];
