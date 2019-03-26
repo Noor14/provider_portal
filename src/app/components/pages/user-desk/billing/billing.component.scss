@@ -2,7 +2,8 @@
 .billing {
     &-summary {
     background: $white-color;
-    padding: 23px 35px 17px 35px;
+    padding: 23px 35px 22px 35px;
+    min-height: 150px; 
     border: 1px solid #e9e9e9;
     .summarySection {
         &:first-child,
