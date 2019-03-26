@@ -95,7 +95,11 @@
             </h5>
           </div>
           <div class="logo">
-            <img alt="icon" [src]="baseExternalAssets + bookingDetails.BookingUserInfo.UserImage">
+            <img alt="icon"
+              *ngIf="bookingDetails && bookingDetails.BookingUserInfo && bookingDetails.BookingUserInfo.UserImage"
+              [src]="baseExternalAssets + bookingDetails.BookingUserInfo.UserImage">
+            <img alt="icon" *ngIf="!bookingDetails.BookingUserInfo.UserImage"
+              src="../../../../../assets/images/icons/icons_user.svg">
           </div>
           <div class="company">
             <span>Your customer is</span>
