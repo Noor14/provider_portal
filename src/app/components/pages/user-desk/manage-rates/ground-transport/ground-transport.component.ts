@@ -258,6 +258,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
       forType: (type === 'FCL' ? 'FCL-Ground' : type),
       data: obj,
       addList: this.groundCharges,
+      drafts: this.draftslistFTL,
       mode: 'draft',
       customers: this.allCustomers,
     }
@@ -411,7 +412,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
     this.publishloading = true;
     let obj = {
       providerID: this.userProfile.ProviderID,
-      pageNo: number ? number : this.pageNo,
+      pageNo: number ? number : ((this.pageNo < 1) ? 1 : this.pageNo),
       pageSize: this.pageSize,
       mode: this.filterbyMode,
       containerSpecID: (this.filterbyContainerType == 'undefined') ? null : parseInt(this.filterbyContainerType),
@@ -812,7 +813,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         keyboard: false
       });
       modalRef.result.then((result) => {
-        if (result == 'Success') {
+        if (result) {
           this.getAllPublishRates('FCL');
           this.checkedallpublishRates = false
           this.delPublishRates = [];
@@ -832,7 +833,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         keyboard: false
       });
       modalRef2.result.then((result) => {
-        if (result == 'Success') {
+        if (result) {
           this.getAllPublishRates('FTL');
           this.checkedallpublishRates = false
           this.delPublishRates = [];
@@ -844,6 +845,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         data: updateValidity,
         addList: this.groundCharges,
         customers: this.allCustomers,
+        drafts: this.draftslistFTL,
         mode: 'publish'
       }
       modalRef2.componentInstance.selectedData = object;
