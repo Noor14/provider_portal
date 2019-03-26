@@ -433,6 +433,7 @@ removeSelectedDocx(index,  obj, type) {
           if (type == 'logo') {
             // without baseExternalAssets
             let avatar = Object.assign([], fileObj)
+            this.userProfile.ProviderImage = JSON.stringify(avatar);
             this._sharedService.updateAvatar.next(avatar);
           }
           fileObj.forEach(element => {
