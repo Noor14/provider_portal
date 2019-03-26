@@ -23,7 +23,7 @@
 
         &:before,
         &:after {
-          background: $secondary-color;
+          border-color: $secondary-color;
           animation-name: angle-arrow;
           animation-duration: 0.5s;
           animation-iteration-count: infinite;
@@ -146,10 +146,10 @@
         content: "";
         height: 70px;
         width: 1px;
-        background: #6c757d2b;
+        border: 0.5px solid #6c757d2b;
         position: absolute;
         transform: rotate(35deg);
-        top: 63px;
+        top: 62.5px;
         right: 25px;
         transition: 0.8s;
       }
@@ -158,10 +158,10 @@
         content: "";
         height: 70px;
         width: 1px;
-        background: #6c757d2b;
+        border: 0.5px solid #6c757d2b;
         position: absolute;
         transform: rotate(-35deg);
-        top: 5px;
+        top: 6.5px;
         right: 25px;
         transition: 0.8s;
       }
