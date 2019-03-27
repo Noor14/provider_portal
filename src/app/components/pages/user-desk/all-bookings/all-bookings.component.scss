@@ -1,60 +1,104 @@
 @import "../../../../../assets/scss/_variables";
-.allbookings {
-    .nav-tabs {
-        border: none;
-        margin-bottom: 30px;
-        .nav-item {
-            width: 33.33%;
-            text-align: center;
-            .nav-link {
-                background: none;
-                border: none;
-                box-shadow: 0px 1px 0px 0px $grey-border;
-                color: rgba(115, 133, 147, 0.6);
-                font-size:$font-size-medium;
-                font-weight: $font-weight-mid;
-                font-family: $font-proxima;
-                .badge {
-                    opacity: 0.6;
-                    font-size: 0.875rem !important;
-                    font-weight:normal !important;
-                    margin-left: 1rem !important;
-                    border-radius: 20px;
-                    min-width: 22px;
-                    min-height: 20px;
-                    line-height: 12px;
-                    padding: 5px;
-                }
-                &.active {
-                    box-shadow: 0px 2px 0px 0px $color-topmenuactive;
-                    color: $color-topmenuactive;
-                    .badge {
-                        opacity: 1;
-                        background-color: $color-topmenuactive;
-                    }
-                }
-            }
-        }
-    }
 
-    @media (max-width: $screen-md-screen) {
-        .nav-tabs {
-            justify-content: center !important;
-            .nav-item {
-                width: 50%;
-                margin-bottom: 20px;
-            }
+.allbookings {
+  .nav-tabs {
+    border: none;
+    margin-bottom: 30px;
+
+    .nav-item {
+      width: 33.33%;
+      text-align: center;
+
+      .nav-link {
+        background: none;
+        border: none;
+        box-shadow: 0px 1px 0px 0px $grey-border;
+        color: rgba(115, 133, 147, 0.6);
+        font-size: $font-size-medium;
+        font-weight: $font-weight-mid;
+        font-family: $font-proxima;
+        line-height: 2;
+
+        .badge {
+          opacity: 0.6;
+          font-size: 0.875rem !important;
+          font-weight: normal !important;
+          margin-left: 1rem !important;
+          border-radius: 20px;
+          min-width: 22px;
+          min-height: 20px;
+          line-height: 12px;
+          padding: 5px;
         }
-    }
-    @media (max-width: $screen-sm-screen) {
-        .nav-tabs {
-            .nav-item {
-                width: 100%;
-                .nav-link {
-                    justify-content: space-between;
-                    display: flex;
-                }
-            }
+
+        &.active {
+          box-shadow: 0px 2px 0px 0px $color-topmenuactive;
+          color: $color-topmenuactive;
+
+          .badge {
+            opacity: 1;
+            background-color: $color-topmenuactive;
+          }
         }
+
+        &:hover {
+          .badge {
+
+            animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+
+            @keyframes shake {
+
+              10%,
+              90% {
+                transform: translate3d(-1px, 0, 0);
+              }
+
+              20%,
+              80% {
+                transform: translate3d(1px, 0, 0);
+              }
+
+              30%,
+              50%,
+              70% {
+                transform: translate3d(-2px, 0, 0);
+              }
+
+              40%,
+              60% {
+                transform: translate3d(2px, 0, 0);
+              }
+            }
+          }
+        }
+      }
     }
+  }
+
+  @media (max-width: $screen-md-screen) {
+    .nav-tabs {
+      justify-content: center !important;
+
+      .nav-item {
+        width: 50%;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  @media (max-width: $screen-sm-screen) {
+    .nav-tabs {
+      .nav-item {
+        width: 100%;
+
+        .nav-link {
+          justify-content: space-between;
+          display: flex;
+        }
+      }
+    }
+  }
 }

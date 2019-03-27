@@ -2,63 +2,106 @@
 $left-nav-icon-width: 20px;
 $left-nav-icon-height:20px;
 $leftsidebar-h3-color: #c6c8ca;
+
 .user-dashboard-leftsidebar {
-    position: sticky;
-    max-height: 100%;
-    top: 0;
-    margin-left: 20px;
-    .navbar-nav {
-        h3 {
-            font-size: $font-size-base;
-            font-weight: $font-weight-mid;
-            color: $leftsidebar-h3-color;
-            text-transform: uppercase;
-            margin: 0px;
-        }
-        ul {
-            margin-left: 8px;
-            li {
-                padding: 10px 0 0;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                .nav-link {
-                    color: $text-color-default;
-                    font-size: $font-size-large;
-                    font-weight: $font-weight-mid;
-                    font-family: $font-proxima;
-                    img {
-                        width: $left-nav-icon-width;
-                        height: $left-nav-icon-height;
-                        margin-right: 10px;
-                        vertical-align: sub;
-                    }
-                    &.active {
-                        .menu-text {
-                            color: $primary-color;
-                        }
-                    }
-                    &:hover {
-                        color: $primary-color;
-                    }
-                }
-                .badge {
-                    background-color:$color-topmenu;
-                    font-weight: normal;
-                    margin-right: 4rem;
-                    border-radius: 20px;
-                    font-size: 0.8125rem !important;
-                    min-width: 22px;
-                    min-height: 20px;
-                    line-height: 12px;
-                    padding: 5px;
-                }
-                @media (max-width: $screen-md-screen) {
-                    .badge {
-                        margin-right: 0px;
-                    }
-                }
-            }
-        }
+  position: sticky;
+  max-height: 100%;
+  top: 0;
+  margin-left: 20px;
+
+  .navbar-nav {
+    h3 {
+      font-size: $font-size-base;
+      font-weight: $font-weight-mid;
+      color: $leftsidebar-h3-color;
+      text-transform: uppercase;
+      margin: 0px;
     }
+
+    ul {
+      margin-left: 8px;
+
+      li {
+        padding: 10px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .nav-link {
+          color: $text-color-default;
+          font-size: $font-size-large;
+          font-weight: $font-weight-mid;
+          font-family: $font-proxima;
+
+          img {
+            width: $left-nav-icon-width;
+            height: $left-nav-icon-height;
+            margin-right: 10px;
+            vertical-align: sub;
+          }
+
+          &.active {
+            .menu-text {
+              color: $primary-color;
+            }
+          }
+
+          &:hover {
+            color: $primary-color;
+          }
+        }
+
+        .badge {
+          background-color: $color-topmenu;
+          font-weight: normal;
+          margin-right: 4rem;
+          border-radius: 20px;
+          font-size: 0.8125rem !important;
+          min-width: 22px;
+          min-height: 20px;
+          line-height: 12px;
+          padding: 5px;
+        }
+
+        @media (max-width: $screen-md-screen) {
+          .badge {
+            margin-right: 0px;
+          }
+        }
+
+        &:hover {
+          .badge {
+            animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+
+            @keyframes shake {
+
+              10%,
+              90% {
+                transform: translate3d(-1px, 0, 0);
+              }
+
+              20%,
+              80% {
+                transform: translate3d(1px, 0, 0);
+              }
+
+              30%,
+              50%,
+              70% {
+                transform: translate3d(-2px, 0, 0);
+              }
+
+              40%,
+              60% {
+                transform: translate3d(2px, 0, 0);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
