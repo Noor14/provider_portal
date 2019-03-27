@@ -95,7 +95,11 @@
             </h5>
           </div>
           <div class="logo">
-            <img alt="icon" [src]="baseExternalAssets + bookingDetails.BookingUserInfo.UserImage">
+            <img alt="icon"
+              *ngIf="bookingDetails && bookingDetails.BookingUserInfo && bookingDetails.BookingUserInfo.UserImage"
+              [src]="baseExternalAssets + bookingDetails.BookingUserInfo.UserImage">
+            <img alt="icon" *ngIf="!bookingDetails.BookingUserInfo.UserImage"
+              src="../../../../../assets/images/icons/icons_user.svg">
           </div>
           <div class="company">
             <span>Your customer is</span>
@@ -446,9 +450,9 @@
             <div class="helpSupport-footer">
               <p>
                 For complaints or issues regarding your order, visit our
-                <a href="{{helpSupport[0].HMSupportWebAdd}}" class="link-hover-black" target="_blank">Help Center</a>
+                <a href="{{helpSupport.HMSupportWebAdd}}" class="link-hover-black" target="_blank">Help Center</a>
                 or send us an email at
-                <a class="link-hover-black" href="{{'mailto:' + helpSupport[0].HMSupportEmail}}">{{helpSupport[0].HMSupportEmail}}</a>
+                <a class="link-hover-black" href="{{'mailto:' + helpSupport.HMSupportEmail}}">{{helpSupport.HMSupportEmail}}</a>
               </p>
             </div>
           </div>
