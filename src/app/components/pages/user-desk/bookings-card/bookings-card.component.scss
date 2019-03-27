@@ -45,32 +45,44 @@
         text-transform: uppercase;
       }
     }
+
     .book-card-action {
 
-      // li {
-      //   font-family: $font-proxima;
-      //   font-size: 14px;
-      //   display: flex;
-      //   &.continue {
+      li {
+        font-family: $font-proxima;
+        font-size: $font-size-base;
+        font-weight: $font-weight-mid;
+        margin-right: 17px;
+        display: inline-block;
 
-      //   }
-      //   &.req-agai {
+        &:last-child {
+          margin-right: 0px;
+        }
 
-      //   }
-      //   &.discard {
+        &.continue {
+          color: $secondary-color;
+        }
 
-      //   }
-      // }
+        &.req-agai {
+          color: $badge-default;
+        }
+
+        &.discard {
+          color: $btn-bg-danger;
+        }
+      }
+
       color: $secondary-color;
       font-family: $font-proxima;
       font-size: $font-size-medium;
       font-weight: $font-proxima-weight-semibold;
-          text-transform: uppercase;
+      text-transform: uppercase;
       padding-left: 0.15rem;
+
       &:hover {
         color: $secondary-color;
       }
-    } 
+    }
   }
 
   &-detail {
