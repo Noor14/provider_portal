@@ -502,7 +502,7 @@ export class SeaRateDialogComponent implements OnInit {
     const expCharges = this.selectedOrigins.filter((e) => e.Imp_Exp === 'EXPORT')
     const impCharges = this.selectedDestinations.filter((e) => e.Imp_Exp === 'IMPORT')
 
-    if (impCharges.length) {
+    if (impCharges && impCharges.length) {
       impCharges.forEach(element => {
         totalImp.push(parseInt(element.Price));
       });
@@ -511,7 +511,7 @@ export class SeaRateDialogComponent implements OnInit {
       });
     }
 
-    if (expCharges.length) {
+    if (expCharges && expCharges.length) {
       expCharges.forEach(element => {
         totalExp.push(parseInt(element.Price));
       });
@@ -526,6 +526,8 @@ export class SeaRateDialogComponent implements OnInit {
       this.calculatePricingJSON()
     }
 
+    let JsonSurchargeDet = JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations));
+    console.log(JsonSurchargeDet === "[{},{}]");
     let obj = {
       // GROUND ID
       ID: (this.selectedData.ID ? this.selectedData.ID : 0),
@@ -566,7 +568,7 @@ export class SeaRateDialogComponent implements OnInit {
       currencyCode: (this.selectedCurrency && this.selectedCurrency.shortName) ? this.selectedCurrency.shortName : 'AED',
       effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
       effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
-      JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
+      JsonSurchargeDet: (JsonSurchargeDet === "[{},{}]" ? null : JsonSurchargeDet),
       TotalImportCharges: this.TotalImportCharges,
       TotalExportCharges: this.TotalExportCharges,
       createdBy: this.userProfile.LoginID,
@@ -595,7 +597,7 @@ export class SeaRateDialogComponent implements OnInit {
         importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
       }
 
-      if (exportCharges.length) {
+      if (exportCharges && exportCharges.length) {
         this.selectedOrigins.forEach(element => {
           if (!element.Price) {
             this._toast.error('Price is missing for ' + element.addChrName, 'Error')
@@ -610,7 +612,7 @@ export class SeaRateDialogComponent implements OnInit {
         });
       }
 
-      if (importCharges.length) {
+      if (importCharges && importCharges.length) {
         this.selectedDestinations.forEach(element => {
           if (!element.Price) {
             this._toast.error('Price is missing for ' + element.addChrName, 'Error')
