@@ -476,7 +476,9 @@ export class SeaRateDialogComponent implements OnInit {
    * @param {string}  type [description]
    * @return      [description]
    */
+  public buttonLoading:boolean  = false;
   saveDraft(type) {
+    this.buttonLoading = true
     const { filterOrigin, filterDestination, transPortMode } = this
     if (transPortMode === 'SEA' && filterOrigin && filterOrigin.CountryCode && filterDestination && filterDestination.CountryCode && filterOrigin.CountryCode.toLowerCase() === filterDestination.CountryCode.toLowerCase()) {
       this._toast.warning("Please select different pickup and drop Country", 'Warning');
@@ -718,6 +720,7 @@ export class SeaRateDialogComponent implements OnInit {
 
     if (this.selectedData.forType === 'FCL') {
       this._seaFreightService.saveDraftRate(this.selectedData.forType.toLowerCase(), obj).subscribe((res: any) => {
+        this.buttonLoading = false
         if (res.returnId > 0) {
           this._toast.success("Rates added successfully", "Success");
           if (type === "onlySave") {
@@ -735,6 +738,7 @@ export class SeaRateDialogComponent implements OnInit {
       });
     } else if (this.selectedData.forType == 'LCL') {
       this._seaFreightService.saveDraftRate('lcl', obj).subscribe((res: any) => {
+        this.buttonLoading = false
         if (res.returnId > 0) {
           this._toast.success("Rates added successfully", "Success");
           if (type === "onlySave") {
@@ -761,6 +765,7 @@ export class SeaRateDialogComponent implements OnInit {
         return
       }
       this._seaFreightService.saveWarehouseRate(obj).subscribe((res: any) => {
+        this.buttonLoading = false
         if (res.returnId > 0) {
           this._toast.success(res.returnText, "Success");
           if (type === "onlySave") {
@@ -774,6 +779,7 @@ export class SeaRateDialogComponent implements OnInit {
         }
       });
     } else if (this.selectedData.forType == 'FCL-Ground' || this.selectedData.forType == 'FTL') {
+      this.buttonLoading = false
       this._seaFreightService.saveDraftRate('ground', obj).subscribe((res: any) => {
         if (res.returnId > 0) {
           this._toast.success("Rates added successfully", "Success");

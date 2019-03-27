@@ -224,6 +224,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
 
 
   updatePopupRates(rowId, type) {
+    console.log(this.draftslistFTL);
     let obj;
     if (this.activeTab == 'activeFCL') {
       if (rowId > 0) {
@@ -253,12 +254,13 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         this.getAllPublishRates('ftl')
       }
     });
+    
     let object = {
       ID: rowId,
       forType: (type === 'FCL' ? 'FCL-Ground' : type),
       data: obj,
       addList: this.groundCharges,
-      drafts: this.draftslistFTL,
+      drafts: (Object.entries(this.draftslistFTL).length === 0 && this.draftslistFTL.constructor === Object ?  null : this.draftslistFTL),
       mode: 'draft',
       customers: this.allCustomers,
     }
@@ -1054,6 +1056,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
     containerLoad = 'FTL'
     this.draftloading = true
     this._manageRatesService.getAllDrafts(type, this.userProfile.ProviderID, containerLoad).subscribe((res: any) => {
+      console.log(res);
+      
       this.draftloading = false
       if (res.returnId > 0) {
         if (containerLoad === 'FCL') {
