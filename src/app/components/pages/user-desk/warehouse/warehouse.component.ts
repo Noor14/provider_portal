@@ -464,7 +464,8 @@ export class WarehouseComponent implements OnInit {
   getvaluesDropDown(data) {
     this._warehouseService.getDropDownValuesWarehouse(data).subscribe((res: any) => {
       if (res && res.length) {
-        this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
+        let leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
+        this.leaseTerm = leaseTerm.sort((a, b)=>  a.sortingOrder - b.sortingOrder);
         this.warehouseUsageType = res.filter(obj => obj.codeType == 'WH_USAGE_TYPE');
         this.ceilingsHeight = res.filter(obj => obj.codeType == 'WH_CEILING_HEIGHT');
         this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM' && obj.codeType != 'WH_USAGE_TYPE' && obj.codeType != 'WH_CEILING_HEIGHT' && obj.codeVal.toUpperCase() != 'SQCM');
