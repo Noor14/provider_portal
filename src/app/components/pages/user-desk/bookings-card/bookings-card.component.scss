@@ -45,6 +45,32 @@
         text-transform: uppercase;
       }
     }
+    .book-card-action {
+
+      // li {
+      //   font-family: $font-proxima;
+      //   font-size: 14px;
+      //   display: flex;
+      //   &.continue {
+
+      //   }
+      //   &.req-agai {
+
+      //   }
+      //   &.discard {
+
+      //   }
+      // }
+      color: $secondary-color;
+      font-family: $font-proxima;
+      font-size: $font-size-medium;
+      font-weight: $font-proxima-weight-semibold;
+          text-transform: uppercase;
+      padding-left: 0.15rem;
+      &:hover {
+        color: $secondary-color;
+      }
+    } 
   }
 
   &-detail {

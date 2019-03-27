@@ -101,3 +101,152 @@
     </div>
   </div>
 </div>
+
+<div class="bookings pointer mt-2">
+  <div class="card">
+    <div class="card-body pt-2">
+      <!-- booking top row -->
+      <div class="bookings-header d-md-flex ">
+        <div class="d-flex bookings-header-number">
+          <img *ngIf="booking.ShippingModeCode === 'SEA'" src="../../../../../assets/images/icons/icon_pin_sea.svg">
+          <img *ngIf="booking.ShippingModeCode === 'AIR'" src="../../../../../assets/images/icons/icon_pin_air.svg">
+          <img *ngIf="booking.ShippingModeCode === 'WAREHOUSE'" src="../../../../../assets/images/icons/icon_pin_warehouse.svg">
+          <img *ngIf="booking.ShippingModeCode === 'TRUCK'" src="../../../../../assets/images/icons/icon_pin_truck.svg">
+          <div class="d-flex flex-column info">
+            <span>{{booking.HashMoveBookingNum}}</span>
+            <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date :
+              "H:mm"}}</small>
+          </div>
+         
+        </div>
+        <div class="d-flex mt-1 bookings-header-company ">
+          <div class="mr-3">
+            
+            <span class="badge badge-pill hashmove-badge-danger ml-3" *ngIf="booking.BookingStatusCode.toLowerCase() === statusCode.cancelled || booking.BookingStatusCode.toLowerCase() === statusCode.rejected">{{booking.BookingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-active ml-3" *ngIf="booking.BookingStatusCode.toLowerCase() === statusCode.in_review">{{booking.BookingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-warning ml-3" *ngIf="booking.BookingStatusCode.toLowerCase() === statusCode.draft">{{booking.BookingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-secondary ml-3" *ngIf="booking.BookingStatusCode.toLowerCase() === statusCode.confirmed">{{booking.BookingStatus}}</span>
+          </div>
+     
+        </div>
+        <div class="bluebox-btn ">
+            <a class="bluebox-start-btn hvr-icon-forward pt-2" href="javascript:;">
+              <span class="link-hover-1">continue booking <i class="fa fa-angle-right hvr-icon ml-1"></i></span>
+            </a>
+          </div>
+          <div class="text">
+          <a href="#" class="text-danger pull-right"></a>
+          </div>
+          <ul class="book-card-action">
+            <li class="continue">Continue booking <i class="fa fa-angle-right hvr-icon ml-1"></i></li>
+            <li class="req-again">Request Again</li>
+            <li class="discard">Discard</li>
+          </ul>
+      </div>
+      <hr class="hr-solid mt-1">
+      <!-- booking top row -->
+
+      <!-- booking bottom row -->
+      <div class="row ">
+        <div class="col-lg-6 col-sm-12 border-separated">
+          <div class="row">
+            <div class="col-6">
+              <div class="bookings-detail angle-arrow eq-height d-flex justify-content-between flex-column">
+                <div class="ports">
+                  <small class="d-block mb-2">From</small>
+                  <label class="ports-label mt-1">{{booking.PolCode}}</label>
+                  <span class="d-block mb-2">Port of {{booking.PolCountry}}</span>
+                </div>
+                <div class="ports-calendar">
+                  <span>
+                    <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1">
+                    {{booking.EtdLcl | date : "d MMM, yyyy"}}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="bookings-detail eq-height d-flex justify-content-between flex-column">
+                <div class="ports">
+                  <small class="d-block mb-2">to</small>
+                  <label class="ports-label mt-1">{{booking.PodCode}}</label>
+                  <span class="d-block mb-2">Port of {{booking.PodCountry}}</span>
+                </div>
+                <div class="ports-calendar">
+                  <span>
+                    <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1">
+                    {{booking.EtaLcl | date : "d MMM, yyyy"}}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-12 pl-4 border-separated">
+          <div class="row">
+            <div class="col-12">
+                <div class="bookings-detail">
+                    <div class="ports">
+                      <small class="d-block mb-2">PROVIDER</small>
+                      <div class="d-flex pt-1">
+                        <div class="customer-image mr-2">
+                          <img [src]="baseExternalAssets + booking.CustomerLogo" alt="logo" *ngIf="booking.CustomerLogo" />
+                          <img src="../../../../../assets/images/icons/icons_user.svg" alt="logo" *ngIf="!booking.CustomerLogo" />
+                        </div>
+                        <label class="ports-label">
+                          {{booking.CustomerName}}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-6">
+                <div class="bookings-detail">
+                    <div class="ports">
+                      <small class="d-block mb-2">SHIPPING LINE</small>
+                      <div class="d-flex pt-1">
+                        <div class="customer-image mr-2">
+                          <img [src]="baseExternalAssets + booking.CustomerLogo" alt="logo" *ngIf="booking.CustomerLogo" />
+                          <img src="../../../../../assets/images/icons/icons_user.svg" alt="logo" *ngIf="!booking.CustomerLogo" />
+                        </div>
+                        <label class="ports-label">
+                          booking
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+           <div class="col-6">
+              <div class="bookings-detail">
+                  <div class="ports">
+                    <small class="d-block mb-2">CARGO</small>
+                    <label class="ports-label mt-1" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
+                      {{booking.CurrencyCode}} {{booking.BookingTotalAmount | number:'1.2-2'}}
+                    </label>
+                  </div>
+                  
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-12  pl-4">
+          <div class="bookings-detail">
+            <div class="ports">
+              <small class="d-block mb-2">Special Price</small>
+              <label class="ports-label mt-1" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
+                {{booking.CurrencyCode}} {{booking.BookingTotalAmount | number:'1.2-2'}}
+              </label>
+            </div>
+            <div class="ports pt-4">
+                <small class="d-block mb-2">Original Price</small>
+                <label class="ports-label mt-1" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
+                  {{booking.CurrencyCode}} {{booking.BookingTotalAmount | number:'1.2-2'}}
+                </label>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

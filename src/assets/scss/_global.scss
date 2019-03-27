@@ -1886,6 +1886,17 @@ select {
   }
 }
 
+.bluebox-start-btn {
+  color: $secondary-color;
+  font-family: $font-proxima;
+  font-size: $font-size-medium;
+  font-weight: $font-proxima-weight-semibold;
+      text-transform: uppercase;
+  padding-left: 0.15rem;
+  &:hover {
+    color: $secondary-color;
+  }
+}
 quill-editor {
 
   .ql-toolbar,

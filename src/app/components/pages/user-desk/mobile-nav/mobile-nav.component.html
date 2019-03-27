@@ -1,0 +1,198 @@
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+
+<!-- 
+<button  class="openbtn" (click)="clicked() ">☰  Sidepanel</button>  
+
+
+
+
+<div id="mySidepanel" class="sidepanel" [ngClass]="showHide ? 'activeMenu' : 'unactiveMenu'">
+
+
+  <div  class="navbar-nav">
+
+    <div class="leftsidebar-main">
+      <h3>
+        <span >Main</span>
+      </h3>
+      <ul class="nav flex-column">
+        <li>
+        <a href="javascript:void(0)" class="nav-link" [routerLink]="['/provider/dashboard']" [routerLinkActive]="['active']">
+            <img src="../../../../../assets/images/icons/icon_dashboard.svg" alt="icon_dashboard">
+            <span class="menu-text">
+              Dashboard
+            </span>
+          </a>
+        </li>
+        <li>
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/allbookings']">
+            <img src="../../../../../assets/images/icons/icon_booking.svg" alt="icon_booking">
+            <span class="menu-text">Bookings</span>
+          </a>
+          <span class="badge badge-secondary" *ngIf="currentBookings && currentBookings.length">{{currentBookings.length}}</span>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/billing']">
+            <img src="../../../../../assets/images/icons/billing.svg" alt="icon_billing">
+            <span class="menu-text">
+              Billing
+            </span>
+          </a>
+        </li>
+        <li>
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/reports']">
+            <img src="../../../../../assets/images/icons/icon_report.svg" alt="icon_report">
+            <span class="menu-text">
+              Reports
+            </span>
+          </a>
+        </li>
+              <li>
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/manage-rates']">
+                <img src="../../../../../assets/images/icons/icon_rate.svg" alt="icon_report">
+                  <span class="menu-text">
+                    Manage Rates
+                  </span>
+                </a>
+              </li>
+      <li>
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/deals']">
+      <img src="../../../../../assets/images/icons/icon_deal.svg" alt="icon_report">
+          <span class="menu-text">
+            Manage Deals
+          </span>
+        </a>
+      </li>
+      </ul>
+    </div>
+    <div class="leftsidebar-help mt-4">
+      <h3>
+        <span>Help</span>
+      </h3>
+      <ul class="nav flex-column">
+        <li>
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/settings']">
+            <img src="../../../../../assets/images/icons/icon_setting.svg" alt="icon_setting">
+            <span class="menu-text">
+              Settings
+            </span>
+          </a>
+        </li>
+        <li>
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/support']">
+            <img src="../../../../../assets/images/icons/icon_support.svg" alt="icon_support">
+            <span class="menu-text">
+              Support
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div> -->
+
+<div class="bookings pointer mt-2">
+  <div class="card">
+    <div class="card-body pt-2">
+      <!-- booking top row -->
+      <div class="bookings-header d-md-flex justify-content-md-between">
+        <div class="d-flex bookings-header-number">
+          <img *ngIf="booking.ShippingModeCode === 'SEA'" src="../../../../../assets/images/icons/icon_pin_sea.svg">
+          <img *ngIf="booking.ShippingModeCode === 'AIR'" src="../../../../../assets/images/icons/icon_pin_air.svg">
+          <img *ngIf="booking.ShippingModeCode === 'WAREHOUSE'" src="../../../../../assets/images/icons/icon_pin_warehouse.svg">
+          <img *ngIf="booking.ShippingModeCode === 'TRUCK'" src="../../../../../assets/images/icons/icon_pin_truck.svg">
+          <div class="d-flex flex-column info">
+            <span>{{booking.HashMoveBookingNum}}</span>
+            <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date :
+              "H:mm"}}</small>
+          </div>
+        </div>
+        <div class="d-flex mt-1 bookings-header-company">
+          <div class="mr-3">
+            <span class="status">Booking:</span>
+            <span class="badge badge-pill hashmove-badge-danger" *ngIf="booking.BookingStatusCode.toLowerCase() === statusCode.cancelled || booking.BookingStatusCode.toLowerCase() === statusCode.rejected">{{booking.BookingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-active" *ngIf="booking.BookingStatusCode.toLowerCase() === statusCode.in_review">{{booking.BookingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-warning" *ngIf="booking.BookingStatusCode.toLowerCase() === statusCode.draft">{{booking.BookingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-secondary" *ngIf="booking.BookingStatusCode.toLowerCase() === statusCode.confirmed">{{booking.BookingStatus}}</span>
+          </div>
+          <div>
+            <span class="status">Shipment:</span>
+            <span class="badge badge-pill hashmove-badge-danger" *ngIf="booking.ShippingStatusCode.toLowerCase() === statusCode.cancelled || booking.ShippingStatusCode.toLowerCase() === statusCode.rejected">{{booking.ShippingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-secondary" *ngIf="booking.ShippingStatusCode.toLowerCase() === statusCode.completed">{{booking.ShippingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-active" *ngIf="booking.ShippingStatusCode.toLowerCase() === statusCode.readytoship || booking.ShippingStatusCode.toLowerCase() === statusCode.in_transit">{{booking.ShippingStatus}}</span>
+            <span class="badge badge-pill hashmove-badge-warning" *ngIf="booking.ShippingStatusCode.toLowerCase() === statusCode.pending">{{booking.ShippingStatus}}</span>
+          </div>
+        </div>
+      </div>
+      <hr class="hr-solid mt-1">
+      <!-- booking top row -->
+
+      <!-- booking bottom row -->
+      <div class="row ">
+        <div class="col-lg-6 col-sm-12 border-separated">
+          <div class="row">
+            <div class="col-6">
+              <div class="bookings-detail angle-arrow eq-height d-flex justify-content-between flex-column">
+                <div class="ports">
+                  <small class="d-block mb-2">From</small>
+                  <label class="ports-label mt-1">{{booking.PolCode}}</label>
+                  <span class="d-block mb-2">Port of {{booking.PolCountry}}</span>
+                </div>
+                <div class="ports-calendar">
+                  <span>
+                    <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1">
+                    {{booking.EtdLcl | date : "d MMM, yyyy"}}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="bookings-detail eq-height d-flex justify-content-between flex-column">
+                <div class="ports">
+                  <small class="d-block mb-2">to</small>
+                  <label class="ports-label mt-1">{{booking.PodCode}}</label>
+                  <span class="d-block mb-2">Port of {{booking.PodCountry}}</span>
+                </div>
+                <div class="ports-calendar">
+                  <span>
+                    <img src="../../../../../assets/images/icons/Icons_Calendar.svg" class="icon-size-16 mr-2 mb-1">
+                    {{booking.EtaLcl | date : "d MMM, yyyy"}}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-12 pl-4 border-separated">
+          <div class="bookings-detail">
+            <div class="ports">
+              <small class="d-block mb-2">CUSTOMER</small>
+              <div class="d-flex pt-1">
+                <div class="customer-image mr-2">
+                  <img [src]="baseExternalAssets + booking.CustomerLogo" alt="logo" *ngIf="booking.CustomerLogo" />
+                  <img src="../../../../../assets/images/icons/icons_user.svg" alt="logo" *ngIf="!booking.CustomerLogo" />
+                </div>
+                <label class="ports-label">
+                  {{booking.CustomerName}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-12  pl-4">
+          <div class="bookings-detail">
+            <div class="ports">
+              <small class="d-block mb-2">Price</small>
+              <label class="ports-label mt-1" ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
+                {{booking.CurrencyCode}} {{booking.BookingTotalAmount | number:'1.2-2'}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
