@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation, Input, AfterViewInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
@@ -112,8 +112,8 @@ export class WarehouseComponent implements OnInit {
   public config: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', 'bmp'],
     maxFilesCount: 12,
-    maxFileSize: 12 * 1024 * 1000,
-    totalFilesSize: 12 * 12 * 1024 * 1000
+    maxFileSize: 5 * 1024 * 1000,
+    totalFilesSize: 12 * 5 * 1024 * 1000
   };
   warehouseCharges: any;
   publishloading: boolean;
@@ -149,7 +149,6 @@ export class WarehouseComponent implements OnInit {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
-    console.log(this.whID)
     if (this.step === 1) {
       this.activeStep = this.step
       this.getPricingDetails()
@@ -191,13 +190,17 @@ export class WarehouseComponent implements OnInit {
       minLeaseValueTwo: new FormControl(null, [warehouseValidator.bind(this)]),
     });
 
+
+    
+  }
+
+  commissionFormGenerate(){
     this.commissionForm = new FormGroup({
       commissionCurrency: new FormControl(null, [warehouseValidatorCommissionCurr.bind(this)]),
       commissionValue: new FormControl(null, [warehouseValidatorCommissionVal.bind(this)]),
       percentValue: new FormControl(null, [warehouseValidatorCommission.bind(this)]),
     });
   }
-
   getDetail() {
     if (this.whID) {
       this.getWareHouseDetail(this.userProfile.ProviderID, this.whID);
@@ -317,6 +320,9 @@ export class WarehouseComponent implements OnInit {
       loading(false)
       if (res.returnStatus == "Success" && res.returnObject) {
         this.isRealEstate = res.returnObject.IsRealEstate;
+        if (this.isRealEstate){
+          this.commissionFormGenerate();
+        }
         const data = [
           'WH_MIN_LEASE_TERM',
           'UNIT_AREA',
@@ -331,8 +337,6 @@ export class WarehouseComponent implements OnInit {
         }
         else if (Number(id)) {
           this.warehouseDetail = res.returnObject.WHModel[0];
-          console.log(this.warehouseDetail);
-          
           this.warehouseDetail.Location = this.cityList.find(elem => elem.id == this.warehouseDetail.CityID).title
           this.setData(this.warehouseDetail);
         }
@@ -706,7 +710,7 @@ export class WarehouseComponent implements OnInit {
       // comissionType: (this.isRealEstate) ? ((this.fixedAmount) ? 'Fixed_Amount' : 'Fixed_Percent') : null,
       // comissionCurrencyID: (this.isRealEstate) ? this.commissionForm.value.commissionCurrency.id : null,
       // comissionValue: (this.isRealEstate) ? this.commissionForm.value.commissionValue : null,
-      percent: (this.isRealEstate) ? ((!this.fixedAmount) ? this.commissionForm.value.percentValue : null) : null,
+      // percent: (this.isRealEstate) ? ((!this.fixedAmount) ? this.commissionForm.value.percentValue : null) : null,
       createdBy: this.userProfile.LoginID,
       modifiedBy: this.userProfile.LoginID,
     }
@@ -749,7 +753,6 @@ export class WarehouseComponent implements OnInit {
    */
 
   addWarehouseRate(rowId) {
-    console.log(this.warehouseDetail);
     let obj;
     if (rowId > 0) {
       obj = this.warehouseDetail;

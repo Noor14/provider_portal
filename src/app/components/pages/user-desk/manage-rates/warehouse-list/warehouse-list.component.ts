@@ -125,7 +125,6 @@ export class WarehouseListComponent implements OnInit {
     this.wareHouseDetTemplate = true;
     this.warehouseID = '0'
     this.step = 0;
-    // this._router.navigate(['provider/add-warehouse', 0])
   }
 
   onPageChange(number) {
@@ -204,7 +203,7 @@ export class WarehouseListComponent implements OnInit {
   }
 
   warehouseList() {
-    this.wareHouseDetTemplate = !this.wareHouseDetTemplate;
+    this.wareHouseDetTemplate = false;
     this.getWhlist(this.userProfile.ProviderID);
   }
 
