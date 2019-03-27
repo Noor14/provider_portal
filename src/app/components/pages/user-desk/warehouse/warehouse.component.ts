@@ -331,6 +331,8 @@ export class WarehouseComponent implements OnInit {
         }
         else if (Number(id)) {
           this.warehouseDetail = res.returnObject.WHModel[0];
+          console.log(this.warehouseDetail);
+          
           this.warehouseDetail.Location = this.cityList.find(elem => elem.id == this.warehouseDetail.CityID).title
           this.setData(this.warehouseDetail);
         }
