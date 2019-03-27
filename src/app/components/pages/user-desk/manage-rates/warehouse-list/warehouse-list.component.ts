@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { WarehouseService } from './warehouse.service';
 import { isJSON } from '../../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
@@ -206,5 +206,5 @@ export class WarehouseListComponent implements OnInit {
     this.wareHouseDetTemplate = false;
     this.getWhlist(this.userProfile.ProviderID);
   }
-
+  
 }

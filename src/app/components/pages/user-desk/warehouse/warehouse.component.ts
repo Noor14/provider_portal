@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
@@ -33,6 +33,7 @@ import { SeaFreightService } from '../manage-rates/sea-freight/sea-freight.servi
 export class WarehouseComponent implements OnInit {
   @Input() whID: any;
   @Input() step: number;
+  @Output() wareHouseTemplateChange = new EventEmitter();
   @ViewChild('stepper') public _stepper: any;
   @ViewChild('searchElement') public searchElement: any;
 
@@ -660,7 +661,7 @@ export class WarehouseComponent implements OnInit {
     });
     modalRef.result.then((result) => {
       if (result == "close") {
-        this._redirect.navigate(['provider/manage-rates/warehouse'])
+        this.wareHouseTemplateChange.emit(false);
       }
     });
     let obj = {
