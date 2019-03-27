@@ -764,9 +764,12 @@
             </a> -->
           </div>
 
-          <div class="col-6 mt-3">
-            <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="updateComission()" *ngIf="warehousePublishedRates && this.commissionForm.valid && isRealEstate">
-              save rates</button>
+          <div class="col-6 mt-3" *ngIf="isRealEstate">
+            <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="updateComission()"
+              [disabled]="!warehousePublishedRates || (warehousePublishedRates && !warehousePublishedRates.length) ||
+              commissionForm.invalid ">
+              save rates
+            </button>
           </div>
         </div>
       </section>
