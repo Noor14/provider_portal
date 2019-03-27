@@ -355,7 +355,9 @@ export class WarehouseComponent implements OnInit {
     if (obj.Longitude) {
       this.location.lng = Number(obj.Longitude);
     }
-    this.zoomlevel = 14;
+    if (this.location && this.location.lat && this.location.lng){
+      this.zoomlevel = 14;
+    }
     this.warehouseTypeFull = (obj.UsageType.toUpperCase() == 'SHARED') ? false : true;
     this.fixedAmount = (obj.ComissionType == 'Fixed_Amount') ? true : false;
     if (obj.FacilitiesProviding && isJSON(obj.FacilitiesProviding)) {
