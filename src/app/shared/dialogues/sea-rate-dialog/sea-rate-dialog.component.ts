@@ -476,7 +476,9 @@ export class SeaRateDialogComponent implements OnInit {
    * @param {string}  type [description]
    * @return      [description]
    */
+  public buttonLoading:boolean  = false;
   saveDraft(type) {
+    this.buttonLoading = true
     const { filterOrigin, filterDestination, transPortMode } = this
     if (transPortMode === 'SEA' && filterOrigin && filterOrigin.CountryCode && filterDestination && filterDestination.CountryCode && filterOrigin.CountryCode.toLowerCase() === filterDestination.CountryCode.toLowerCase()) {
       this._toast.warning("Please select different pickup and drop Country", 'Warning');
@@ -502,7 +504,7 @@ export class SeaRateDialogComponent implements OnInit {
     const expCharges = this.selectedOrigins.filter((e) => e.Imp_Exp === 'EXPORT')
     const impCharges = this.selectedDestinations.filter((e) => e.Imp_Exp === 'IMPORT')
 
-    if (impCharges.length) {
+    if (impCharges && impCharges.length) {
       impCharges.forEach(element => {
         totalImp.push(parseInt(element.Price));
       });
@@ -511,7 +513,7 @@ export class SeaRateDialogComponent implements OnInit {
       });
     }
 
-    if (expCharges.length) {
+    if (expCharges && expCharges.length) {
       expCharges.forEach(element => {
         totalExp.push(parseInt(element.Price));
       });
@@ -526,6 +528,8 @@ export class SeaRateDialogComponent implements OnInit {
       this.calculatePricingJSON()
     }
 
+    let JsonSurchargeDet = JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations));
+    console.log(JsonSurchargeDet === "[{},{}]");
     let obj = {
       // GROUND ID
       ID: (this.selectedData.ID ? this.selectedData.ID : 0),
@@ -566,7 +570,7 @@ export class SeaRateDialogComponent implements OnInit {
       currencyCode: (this.selectedCurrency && this.selectedCurrency.shortName) ? this.selectedCurrency.shortName : 'AED',
       effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
       effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
-      JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
+      JsonSurchargeDet: (JsonSurchargeDet === "[{},{}]" ? null : JsonSurchargeDet),
       TotalImportCharges: this.TotalImportCharges,
       TotalExportCharges: this.TotalExportCharges,
       createdBy: this.userProfile.LoginID,
@@ -595,7 +599,7 @@ export class SeaRateDialogComponent implements OnInit {
         importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
       }
 
-      if (exportCharges.length) {
+      if (exportCharges && exportCharges.length) {
         this.selectedOrigins.forEach(element => {
           if (!element.Price) {
             this._toast.error('Price is missing for ' + element.addChrName, 'Error')
@@ -610,7 +614,7 @@ export class SeaRateDialogComponent implements OnInit {
         });
       }
 
-      if (importCharges.length) {
+      if (importCharges && importCharges.length) {
         this.selectedDestinations.forEach(element => {
           if (!element.Price) {
             this._toast.error('Price is missing for ' + element.addChrName, 'Error')
@@ -716,6 +720,7 @@ export class SeaRateDialogComponent implements OnInit {
 
     if (this.selectedData.forType === 'FCL') {
       this._seaFreightService.saveDraftRate(this.selectedData.forType.toLowerCase(), obj).subscribe((res: any) => {
+        this.buttonLoading = false
         if (res.returnId > 0) {
           this._toast.success("Rates added successfully", "Success");
           if (type === "onlySave") {
@@ -733,6 +738,7 @@ export class SeaRateDialogComponent implements OnInit {
       });
     } else if (this.selectedData.forType == 'LCL') {
       this._seaFreightService.saveDraftRate('lcl', obj).subscribe((res: any) => {
+        this.buttonLoading = false
         if (res.returnId > 0) {
           this._toast.success("Rates added successfully", "Success");
           if (type === "onlySave") {
@@ -759,6 +765,7 @@ export class SeaRateDialogComponent implements OnInit {
         return
       }
       this._seaFreightService.saveWarehouseRate(obj).subscribe((res: any) => {
+        this.buttonLoading = false
         if (res.returnId > 0) {
           this._toast.success(res.returnText, "Success");
           if (type === "onlySave") {
@@ -772,6 +779,7 @@ export class SeaRateDialogComponent implements OnInit {
         }
       });
     } else if (this.selectedData.forType == 'FCL-Ground' || this.selectedData.forType == 'FTL') {
+      this.buttonLoading = false
       this._seaFreightService.saveDraftRate('ground', obj).subscribe((res: any) => {
         if (res.returnId > 0) {
           this._toast.success("Rates added successfully", "Success");
