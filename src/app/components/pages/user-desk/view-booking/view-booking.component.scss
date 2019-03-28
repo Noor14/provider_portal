@@ -62,9 +62,11 @@
       font-weight: $font-weight-mid;
       font-family: $font-pragmatica;
       text-transform: capitalize;
+
       &.cancelStatus {
-          color: $danger-color;
+        color: $danger-color;
       }
+
       a {
         font-size: $font-size-medium;
         color: $secondary-color;
@@ -93,6 +95,7 @@
       color: $color-topmenu;
       text-transform: uppercase;
     }
+
     &-heading {
       font-size: 1.25rem;
       font-family: $font-pragmatica;
@@ -100,7 +103,7 @@
       color: $text-color-default;
       margin-top: 2.4rem;
       margin-bottom: 1rem;
-  }
+    }
 
     .card-title {
       margin-bottom: 0;
@@ -209,14 +212,14 @@
           }
 
           h6 {
-            font-weight:$font-proxima-weight-semibold;
+            font-weight: $font-proxima-weight-semibold;
             font-family: $font-proxima;
             font-size: $font-size-large;
             margin-bottom: 0;
           }
 
           .ports {
-            font-family:  $font-proxima;
+            font-family: $font-proxima;
             font-size: $font-size-base;
             max-width: 94px;
             width: 100%;
@@ -229,17 +232,17 @@
             }
 
             &-title {
-              font-size:$font-size-medium;
-              font-family:  $font-proxima;
+              font-size: $font-size-medium;
+              font-family: $font-proxima;
               font-weight: $font-weight-mid;
-              color:$color-topmenu;
+              color: $color-topmenu;
               margin-bottom: 5px;
 
             }
 
             &-label {
               font-size: $font-size-medium;
-              color:$route-large-title-color;
+              color: $route-large-title-color;
               margin-bottom: 0;
               font-weight: $font-proxima-weight-semibold;
               font-family: $font-proxima;
@@ -255,17 +258,18 @@
                 font-size: $font-size-medium;
                 color: $place-holder-color;
                 font-weight: $font-weight-mid;
-                font-family:  $font-proxima;
+                font-family: $font-proxima;
                 vertical-align: bottom;
                 line-height: 1.2;
                 max-width: 78px;
                 word-break: break-word;
               }
             }
+
             .flag-icon-20-12 {
-                img {
-                   border: 1px solid $primary-grey;
-                }
+              img {
+                border: 1px solid $primary-grey;
+              }
             }
           }
         }
@@ -323,7 +327,7 @@
             float: left;
             font-size: $font-size-large;
             font-weight: $font-proxima-weight-semibold;
-            color:$color-menuheading-black;
+            color: $color-menuheading-black;
             padding-left: 10px;
             margin-bottom: 8px;
             text-transform: capitalize;
@@ -388,6 +392,25 @@
             }
           }
         }
+      }
+    }
+
+    .contact {
+      &-name {
+        font-family: $body-fontfamily;
+        font-weight: $font-weight-mid;
+        font-size: $font-size-large;
+        color: $text-color-default;
+      }
+
+      &-address {
+        font-family: $font-proxima;
+        font-size: $font-size-large;
+        color: $secondary-text-color;
+      }
+
+      &-info {
+        @extend .contact-address;
       }
     }
   }
@@ -457,7 +480,7 @@
 
               .sub-text {
                 font-family: inherit;
-                font-size:$font-size-base;
+                font-size: $font-size-base;
                 color: $place-holder-color;
                 line-height: 1;
               }
@@ -496,7 +519,7 @@
       padding-bottom: 10px;
 
       img {
-        border:1px solid $primary-grey;
+        border: 1px solid $primary-grey;
         height: 12px;
         margin-bottom: 0.2rem;
       }
@@ -551,7 +574,7 @@
               left: 0;
               top: 13px;
               animation: 1.2s ease-in-out infinite alternate-reverse fadeIn;
-              transition: color .1s ease;  
+              transition: color .1s ease;
             }
           }
 
@@ -572,7 +595,9 @@
     top: 110px !important;
 
     .arrow {
-      &:after, &:before {
+
+      &:after,
+      &:before {
         border-bottom-color: $white-color;
       }
     }

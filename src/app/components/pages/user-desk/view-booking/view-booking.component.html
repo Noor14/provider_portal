@@ -26,7 +26,8 @@
       </div>
 
       <div class="col-12 pr-0 pl-0">
-        <a class="hvr-icon-back grey-anc-btn mt-4" href="javascript:;" title="Back to Bookings" routerLink='/provider/allbookings'>
+        <a class="hvr-icon-back grey-anc-btn mt-4" href="javascript:;" title="Back to Bookings"
+          routerLink='/provider/allbookings'>
           <img src="../../../../../assets/images/icons/icon_arrow_left.svg" alt="icon" class="icon-size-14 hvr-icon">
           <span class="link-hover-grey">Back to Bookings </span>
         </a>
@@ -43,15 +44,18 @@
             <div class="col-md-4 border-right border-md-0 d-flex justify-content-between">
               <div class="statusView">
                 <label class="status-label">Booking</label>
-                <strong [ngClass]="{'cancelStatus': bookingDetails.BookingStatus.toLowerCase() == statusCode.cancelled}">{{bookingDetails.BookingStatus.toLowerCase()}}</strong>
+                <strong
+                  [ngClass]="{'cancelStatus': bookingDetails.BookingStatus.toLowerCase() == statusCode.cancelled}">{{bookingDetails.BookingStatus.toLowerCase()}}</strong>
               </div>
               <div class="statusUpdation align-self-end">
                 <strong class="d-flex flex-column">
-                  <a class="hvr-icon-forward m-0" *ngIf="bookingDetails.ShippingStatus.toLowerCase() != statusCode.cancelled && bookingDetails.ShippingStatus.toLowerCase() != statusCode.completed && bookingDetails.ShippingStatus.toLowerCase() != statusCode.in_transit"
+                  <a class="hvr-icon-forward m-0"
+                    *ngIf="bookingDetails.ShippingStatus.toLowerCase() != statusCode.cancelled && bookingDetails.ShippingStatus.toLowerCase() != statusCode.completed && bookingDetails.ShippingStatus.toLowerCase() != statusCode.in_transit"
                     href="javascript:;" (click)="openDialogue('cancel')">
                     <span class="link-hover-danger">Cancel Booking</span>
                   </a>
-                  <a class="hvr-icon-forward m-0" href="javascript:;" *ngIf="bookingDetails.ShippingStatus.toLowerCase() != statusCode.cancelled && bookingDetails.ShippingStatus.toLowerCase() != statusCode.completed"
+                  <a class="hvr-icon-forward m-0" href="javascript:;"
+                    *ngIf="bookingDetails.ShippingStatus.toLowerCase() != statusCode.cancelled && bookingDetails.ShippingStatus.toLowerCase() != statusCode.completed"
                     (click)="openDialogue('updated')">
                     <span class="link-hover-secondary mr-1">Update Status</span>
                     <i class="fa fa-angle-right hvr-icon"></i>
@@ -62,7 +66,8 @@
 
             <div class="col-md-4 border-right border-md-0">
               <label class="status-label">Shipment Status</label>
-              <strong [ngClass]="{'cancelStatus': bookingDetails.ShippingStatus.toLowerCase() == statusCode.cancelled}">{{bookingDetails.ShippingStatus.toLowerCase()}}</strong>
+              <strong
+                [ngClass]="{'cancelStatus': bookingDetails.ShippingStatus.toLowerCase() == statusCode.cancelled}">{{bookingDetails.ShippingStatus.toLowerCase()}}</strong>
             </div>
 
             <div class="col-md-4">
@@ -88,18 +93,19 @@
     <div class="col-xl-8">
       <div class="card mb-0">
         <div class="card-body">
-          <div class="card-title">
+          <!-- <div class="card-title">
             <h5>
               <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16" title="logo">
               INFORMATION
             </h5>
-          </div>
+          </div> -->
           <div class="logo">
             <img alt="icon" [src]="baseExternalAssets + bookingDetails.BookingUserInfo.UserImage">
           </div>
           <div class="company">
             <span>Your customer is</span>
-            <p *ngIf="bookingDetails.BookingUserInfo.UserType=='CORPORATE'; else custname">{{bookingDetails.BookingUserInfo.CompanyName}}</p>
+            <p *ngIf="bookingDetails.BookingUserInfo.UserType=='CORPORATE'; else custname">
+              {{bookingDetails.BookingUserInfo.CompanyName}}</p>
             <ng-template #custname>
               <p>{{bookingDetails.BookingUserInfo.FirstName}} {{bookingDetails.BookingUserInfo.LastName}}</p>
             </ng-template>
@@ -108,7 +114,8 @@
             placement="bottom" [ngbPopover]="contact">Contact</button>
           <ng-template #contact>
             <div class="contact-popup fadeIn animated">
-              <a [href]="(bookingDetails.BookingUserInfo.UserType =='CORPORATE')? 'mailto:' + bookingDetails.BookingUserInfo.CompanyEmail : 'mailto:' + bookingDetails.BookingUserInfo.PrimaryEmail">
+              <a
+                [href]="(bookingDetails.BookingUserInfo.UserType =='CORPORATE')? 'mailto:' + bookingDetails.BookingUserInfo.CompanyEmail : 'mailto:' + bookingDetails.BookingUserInfo.PrimaryEmail">
                 <img src="../../../../../assets/images/icons/icon_email.svg" alt="mail_Icon" class="icon-size-16">
                 <span *ngIf="bookingDetails.BookingUserInfo.UserType=='CORPORATE'; else custemail">
                   {{bookingDetails.BookingUserInfo.CompanyEmail}}
@@ -119,7 +126,8 @@
               </a>
               <p>
                 <img src="../../../../assets/images/icons/mob-icon.svg" alt="Contact_Icon" class="icon-size-16">
-                <strong align="middle" *ngIf="bookingDetails.BookingUserInfo.UserType=='CORPORATE'; else custcont">{{bookingDetails.BookingUserInfo.CompanyPhone}}</strong>
+                <strong align="middle"
+                  *ngIf="bookingDetails.BookingUserInfo.UserType=='CORPORATE'; else custcont">{{bookingDetails.BookingUserInfo.CompanyPhone}}</strong>
                 <ng-template #custcont>
                   <strong align="middle">{{bookingDetails.BookingUserInfo.PrimaryPhone}}</strong>
                 </ng-template>
@@ -134,7 +142,8 @@
             <div class="col-xl-12 col-sm-12 details">
               <div class="row">
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex">
-                  <img src="../../../../assets/images/icons/icon_anchor.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+                  <img src="../../../../assets/images/icons/icon_anchor.svg" alt="icon"
+                    class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">port cut off
                     </h5>
@@ -142,7 +151,8 @@
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex">
-                  <img src="../../../../../assets/images/icons/Icons_Clock-28.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+                  <img src="../../../../../assets/images/icons/Icons_Clock-28.svg" alt="icon"
+                    class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Departure
                     </h5>
@@ -150,39 +160,48 @@
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex">
-                  <img src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+                  <img src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon"
+                    class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Transit Time
                     </h5>
                     <p>+/- {{bookingDetails.TransitTime}} Days</p>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
-                  <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex"
+                  *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
+                  <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon"
+                    class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Voyage #
                     </h5>
                     <p>{{bookingDetails.VoyageRefNum}}</p>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
-                  <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex"
+                  *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
+                  <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon"
+                    class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Vessel Name</h5>
                     <p>{{bookingDetails.VesselName}}</p>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
-                  <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex"
+                  *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
+                  <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon"
+                    class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Vessel #
                     </h5>
                     <p>{{bookingDetails.VesselCode}}</p>
                   </div>
                 </div>
-                <div class="media col-12" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
+                <div class="media col-12"
+                  *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
                   <div class="align-self-start mr-3">
-                    <img [src]="baseExternalAssets + '/' + bookingDetails.CarrierImage" alt="icon" width="62px" height="62px">
+                    <img [src]="baseExternalAssets + '/' + bookingDetails.CarrierImage" alt="icon" width="62px"
+                      height="62px">
                   </div>
                   <div class="media-body">
                     <div class="details">
@@ -196,19 +215,18 @@
           </div>
         </div>
       </div>
+
       <!-- document required -->
-      <h4 class=" view-booking-shipment-detail-heading ">Documents</h4>
+      <h4 class=" view-booking-shipment-detail-heading ">Shipping Information For<img alt="flag icon"
+          src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.origin | lowercase) + '.svg'}}"
+          class="mr-2" width="20"> {{bookingDetails.PolName}}, {{bookingDetails.PolCountry}}</h4>
       <div class="row view-booking-document">
         <div class="col-12">
-          <div class="card">
-
-            <label class="view-booking-document-title">
-              <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.origin | lowercase) + '.svg'}}"
-                class="mr-2" width="20"> For {{bookingDetails.PolName}}, {{bookingDetails.PolCountry}}
-            </label>
+          <div class="card mb-0">
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
-                <a href="javascript:;" class="doc-title" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocOrigin && invoiceDocOrigin.DocumentFileName}">
+                <a href="javascript:;" class="doc-title" (click)="downloadDoc(invoiceDocOrigin, $event)"
+                  [ngClass]="{'primary-text': invoiceDocOrigin && invoiceDocOrigin.DocumentFileName}">
                   Commercial Inovice
                   <label class="sub-text d-flex" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName">Uploaded
                     on {{invoiceDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}}
@@ -216,101 +234,222 @@
                     | date : "H:mm"}}</label>
                 </a>
                 <div class="d-flex align-items-center">
-                  <span class="badge badge-success" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
+                  <span class="badge badge-success"
+                    *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
-                  <button class="btn disable" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable && invoiceDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && invoiceDocOrigin.DocumentLastStatus.toLowerCase() !== 'approved'"
+                  <button class="btn disable"
+                    *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable && invoiceDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && invoiceDocOrigin.DocumentLastStatus.toLowerCase() !== 'approved'"
                     (click)="reuploadDoc(invoiceDocOrigin)">Reject</button>
-                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable && (invoiceDocOrigin.DocumentLastStatus.toLowerCase() != 'approved' && invoiceDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"
+                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2"
+                    *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable && (invoiceDocOrigin.DocumentLastStatus.toLowerCase() != 'approved' && invoiceDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"
                     (click)="approvedDoc(invoiceDocOrigin)">Approve</button>
-                  <span class="badge hashmove-badge-warning" *ngIf="invoiceDocOrigin && !invoiceDocOrigin.DocumentFileName">
+                  <span class="badge hashmove-badge-warning"
+                    *ngIf="invoiceDocOrigin && !invoiceDocOrigin.DocumentFileName">
                     AWAITING FROM CUSTOMER
                   </span>
-                  <span class="badge hashmove-badge-danger" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName &&  invoiceDocOrigin.DocumentLastStatus.toLowerCase() == 're-upload'">
+                  <span class="badge hashmove-badge-danger"
+                    *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName &&  invoiceDocOrigin.DocumentLastStatus.toLowerCase() == 're-upload'">
                     REJECTED </span>
                 </div>
 
               </li>
               <li class="list-group-item">
-                <a href="javascript:;" class="doc-title" (click)="downloadDoc(packingListDocOrigin, $event)" [ngClass]="{'primary-text': packingListDocOrigin && packingListDocOrigin.DocumentFileName}">
+                <a href="javascript:;" class="doc-title" (click)="downloadDoc(packingListDocOrigin, $event)"
+                  [ngClass]="{'primary-text': packingListDocOrigin && packingListDocOrigin.DocumentFileName}">
                   Packing List
-                  <label class="sub-text d-flex" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName">Uploaded
+                  <label class="sub-text d-flex"
+                    *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName">Uploaded
                     on {{packingListDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}}
                     {{packingListDocOrigin.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
                 <div class="d-flex align-items-center">
-                  <span class="badge badge-success" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
+                  <span class="badge badge-success"
+                    *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
-                  <button class="btn disable" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable && packingListDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && packingListDocOrigin.DocumentLastStatus.toLowerCase() != 'approved'"
+                  <button class="btn disable"
+                    *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable && packingListDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && packingListDocOrigin.DocumentLastStatus.toLowerCase() != 'approved'"
                     (click)="reuploadDoc(packingListDocOrigin)">Reject</button>
-                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable && (packingListDocOrigin.DocumentLastStatus.toLowerCase() != 'approved' && packingListDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"
+                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2"
+                    *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable && (packingListDocOrigin.DocumentLastStatus.toLowerCase() != 'approved' && packingListDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"
                     (click)="approvedDoc(packingListDocOrigin)">Approve</button>
-                  <span class="badge hashmove-badge-warning" *ngIf="packingListDocOrigin && !packingListDocOrigin.DocumentFileName">
+                  <span class="badge hashmove-badge-warning"
+                    *ngIf="packingListDocOrigin && !packingListDocOrigin.DocumentFileName">
                     AWAITING FROM CUSTOMER
                   </span>
-                  <span class="badge hashmove-badge-danger" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName &&  packingListDocOrigin.DocumentLastStatus.toLowerCase() == 're-upload'">
+                  <span class="badge hashmove-badge-danger"
+                    *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName &&  packingListDocOrigin.DocumentLastStatus.toLowerCase() == 're-upload'">
                     REJECTED </span>
                 </div>
               </li>
             </ul>
-            <label class="view-booking-document-title">
-              <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.destination | lowercase) + '.svg'}}"
-                class="mr-2" width="20"> For {{bookingDetails.PodName}}, {{bookingDetails.PodCountry}}
-            </label>
+          </div>
+          <div class="card mb-0 grey-background">
+            <div class="card-body d-flex flex-column">
+              <div class="card-title mb-4 mt-3">
+                <h5>
+                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16" title="logo">
+                  Supplier Information
+                </h5>
+              </div>
+              <div class="row">
+                <div class="col-8 ml-4 contact">
+                  <h4 class="contact-name">John Smith</h4>
+                  <div class="contact-address mb-3 d-flex"><img
+                      src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon"
+                      class="icon-size-16 mt-1"><span class="ml-2">API Business Suites, Al Barsha 1, Sheikh Zayed
+                      Road Dubai, UAE</span></div>
+                  <div class="contact-info d-flex justify-content-between"><span><img
+                        src="../../../../assets/images/icons/mob-icon.svg" alt="icon-size-16"><span class="ml-2">+971 4
+                        395
+                        79 79</span></span><span><span class="ml-2">john@company.com</span></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card grey-background">
+            <div class="card-body">
+              <div class="card-title mb-4 mt-3">
+                <h5>
+                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16" title="logo">
+                  Agent Information
+                </h5>
+              </div>
+              <div class="row">
+                <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
+                  <div class="form-group">
+                    <label>Name</label>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                  <div class="form-group">
+                    <select class="form-control">
+                      <option value="null"> Please Select</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
+                  <div class="form-group">
+                    <label>Address</label>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                  <div class="form-group">
+                    <textarea class="form-control"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
+                  <div class="form-group">
+                    <label>Contact</label>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                  <div class="form-group">
+                    <input class="form-control" placeholder="abc@email.com">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
+                  <div class="form-group">
+                    <label>Email</label>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                  <div class="form-group">
+                    <input class="form-control" placeholder="abc@email.com">
+                    <button
+                      class="btn btn-outline-primary hvr-sweep-to-right pull-right mt-4 pl-5 pr-5">Confirm</button>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <h4 class=" view-booking-shipment-detail-heading ">Shipping Information For<img alt="flag icon"
+          src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.destination | lowercase) + '.svg'}}"
+          class="mr-2" width="20"> {{bookingDetails.PodName}}, {{bookingDetails.PodCountry}}</h4>
+      <div class="row view-booking-document">
+        <div class="col-12">
+          <div class="card mb-0">
             <ul class="list-group list-group-flush mb-3">
               <li class="list-group-item">
-                <a href="javascript:;" class="doc-title" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocDestination && invoiceDocDestination.DocumentFileName}">
+                <a href="javascript:;" class="doc-title" (click)="downloadDoc(invoiceDocOrigin, $event)"
+                  [ngClass]="{'primary-text': invoiceDocDestination && invoiceDocDestination.DocumentFileName}">
                   Commercial Inovice
-                  <label class="sub-text d-flex" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName">Uploaded
+                  <label class="sub-text d-flex"
+                    *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName">Uploaded
                     on {{invoiceDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}}
                     {{invoiceDocDestination.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
                 <div class="d-flex align-items-center">
-                  <button class="btn disable" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 're-upload' && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'approved'"
+                  <button class="btn disable"
+                    *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 're-upload' && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'approved'"
                     (click)="reuploadDoc(invoiceDocDestination)">Reject</button>
-                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable && (invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'approved' && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 're-upload')"
+                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2"
+                    *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable && (invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'approved' && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 're-upload')"
                     (click)="approvedDoc(invoiceDocDestination)">Approve</button>
-                  <span class="badge hashmove-badge-warning" *ngIf="invoiceDocDestination && !invoiceDocDestination.DocumentFileName">
+                  <span class="badge hashmove-badge-warning"
+                    *ngIf="invoiceDocDestination && !invoiceDocDestination.DocumentFileName">
                     AWAITING FROM CUSTOMER
                   </span>
-                  <span class="badge badge-success" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.DocumentLastStatus.toLowerCase() == 'approved'">
+                  <span class="badge badge-success"
+                    *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
-                  <span class="badge hashmove-badge-danger" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName &&  invoiceDocDestination.DocumentLastStatus.toLowerCase() == 're-upload'">
+                  <span class="badge hashmove-badge-danger"
+                    *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName &&  invoiceDocDestination.DocumentLastStatus.toLowerCase() == 're-upload'">
                     REJECTED </span>
                 </div>
 
               </li>
               <li class="list-group-item">
-                <a href="javascript:;" class="doc-title" (click)="downloadDoc(packingListDocOrigin, $event)" [ngClass]="{'primary-text': packingListDocDestination && packingListDocDestination.DocumentFileName}">
+                <a href="javascript:;" class="doc-title" (click)="downloadDoc(packingListDocOrigin, $event)"
+                  [ngClass]="{'primary-text': packingListDocDestination && packingListDocDestination.DocumentFileName}">
                   Packing List
-                  <label class="sub-text d-flex" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName">Uploaded
+                  <label class="sub-text d-flex"
+                    *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName">Uploaded
                     on {{packingListDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}}
                     {{packingListDocDestination.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
                 <div class="d-flex align-items-center">
-                  <span class="badge hashmove-badge-warning" *ngIf="packingListDocDestination && !packingListDocDestination.DocumentFileName">
+                  <span class="badge hashmove-badge-warning"
+                    *ngIf="packingListDocDestination && !packingListDocDestination.DocumentFileName">
                     AWAITING FROM CUSTOMER
                   </span>
-                  <span class="badge badge-success" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.DocumentLastStatus.toLowerCase() == 'approved'">
+                  <span class="badge badge-success"
+                    *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
-                  <span class="badge hashmove-badge-danger" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName &&  packingListDocDestination.DocumentLastStatus.toLowerCase() == 're-upload'">
+                  <span class="badge hashmove-badge-danger"
+                    *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName &&  packingListDocDestination.DocumentLastStatus.toLowerCase() == 're-upload'">
                     REJECTED </span>
-                  <button class="btn disable" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable && packingListDocDestination.DocumentLastStatus.toLowerCase() != 're-upload' && packingListDocDestination.DocumentLastStatus.toLowerCase() != 'approved'"
+                  <button class="btn disable"
+                    *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable && packingListDocDestination.DocumentLastStatus.toLowerCase() != 're-upload' && packingListDocDestination.DocumentLastStatus.toLowerCase() != 'approved'"
                     (click)="reuploadDoc(packingListDocDestination)">Reject</button>
-                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable && (packingListDocDestination.DocumentLastStatus.toLowerCase() != 'approved' && packingListDocDestination.DocumentLastStatus.toLowerCase() != 're-upload')"
+                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2"
+                    *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable && (packingListDocDestination.DocumentLastStatus.toLowerCase() != 'approved' && packingListDocDestination.DocumentLastStatus.toLowerCase() != 're-upload')"
                     (click)="approvedDoc(invoiceDocDestination)">Approve</button>
                 </div>
 
               </li>
               <li class="list-group-item">
-                <a href="javascript:;" (click)="downloadDoc(ladingBill, $event)" [ngClass]="{'primary-text': ladingBill && ladingBill.DocumentFileName}"
-                  class="bill-landing">
+                <a href="javascript:;" (click)="downloadDoc(ladingBill, $event)"
+                  [ngClass]="{'primary-text': ladingBill && ladingBill.DocumentFileName}" class="bill-landing">
                   Bill of Lading
                   <label class="sub-text d-flex" *ngIf="ladingBill && ladingBill.DocumentFileName">Uploaded on
                     {{ladingBill.DocumentUploadDate | date : "d MMM, yyyy"}} {{ladingBill.DocumentUploadDate |
@@ -320,43 +459,140 @@
                   <span class="badge hashmove-badge-warning" *ngIf="ladingBill && !ladingBill.DocumentFileName">
                     AWAITING FROM CUSTOMER
                   </span>
-                  <span class="badge badge-success" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.DocumentLastStatus.toLowerCase() == 'approved'">
+                  <span class="badge badge-success"
+                    *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
-                  <span class="badge hashmove-badge-danger" *ngIf="ladingBill && ladingBill.DocumentFileName &&  ladingBill.DocumentLastStatus.toLowerCase() == 're-upload'">
+                  <span class="badge hashmove-badge-danger"
+                    *ngIf="ladingBill && ladingBill.DocumentFileName &&  ladingBill.DocumentLastStatus.toLowerCase() == 're-upload'">
                     REJECTED </span>
-                  <button class="btn disable" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable && ladingBill.DocumentLastStatus.toLowerCase() != 're-upload' && ladingBill.DocumentLastStatus.toLowerCase() != 'approved'"
+                  <button class="btn disable"
+                    *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable && ladingBill.DocumentLastStatus.toLowerCase() != 're-upload' && ladingBill.DocumentLastStatus.toLowerCase() != 'approved'"
                     (click)="reuploadDoc(ladingBill)">Reject</button>
-                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable && (ladingBill.DocumentLastStatus.toLowerCase() != 'approved' && ladingBill.DocumentLastStatus.toLowerCase() != 're-upload')"
+                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2"
+                    *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable && (ladingBill.DocumentLastStatus.toLowerCase() != 'approved' && ladingBill.DocumentLastStatus.toLowerCase() != 're-upload')"
                     (click)="approvedDoc(ladingBill)">Approve</button>
                 </div>
               </li>
               <li class="list-group-item">
-                <a (click)="downloadDoc(certOrigin, $event)" href="javascript:;" class="doc-title" [ngClass]="{'primary-text': certOrigin && certOrigin.DocumentFileName}">
+                <a (click)="downloadDoc(certOrigin, $event)" href="javascript:;" class="doc-title"
+                  [ngClass]="{'primary-text': certOrigin && certOrigin.DocumentFileName}">
                   Certificate of Origin
                   <label class="sub-text d-flex" *ngIf="certOrigin && certOrigin.DocumentFileName">Uploaded on
                     {{certOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{certOrigin.DocumentUploadDate |
                     date : "H:mm"}}</label>
                 </a>
                 <div class="d-flex align-items-center">
-                  <button class="btn disable" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && certOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && certOrigin.DocumentLastStatus.toLowerCase() != 'approved'"
+                  <button class="btn disable"
+                    *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && certOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && certOrigin.DocumentLastStatus.toLowerCase() != 'approved'"
                     (click)="reuploadDoc(certOrigin)">Reject</button>
-                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && (certOrigin.DocumentLastStatus.toLowerCase() != 'approved' &&  certOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"
+                  <button class="btn btn-outline-primary hvr-sweep-to-right ml-2"
+                    *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && (certOrigin.DocumentLastStatus.toLowerCase() != 'approved' &&  certOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"
                     (click)="approvedDoc(certOrigin)">Approve</button>
                   <span class="badge hashmove-badge-warning" *ngIf="certOrigin && !certOrigin.DocumentFileName">
                     AWAITING FROM CUSTOMER
                   </span>
-                  <span class="badge badge-success" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
+                  <span class="badge badge-success"
+                    *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
-                  <span class="badge hashmove-badge-danger" *ngIf="certOrigin && certOrigin.DocumentFileName &&  certOrigin.DocumentLastStatus.toLowerCase() == 're-upload'">
+                  <span class="badge hashmove-badge-danger"
+                    *ngIf="certOrigin && certOrigin.DocumentFileName &&  certOrigin.DocumentLastStatus.toLowerCase() == 're-upload'">
                     REJECTED </span>
                 </div>
               </li>
             </ul>
           </div>
+          <div class="card mb-0 grey-background">
+            <div class="card-body d-flex flex-column">
+              <div class="card-title mb-4 mt-3">
+                <h5>
+                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16" title="logo">
+                  Supplier Information
+                </h5>
+              </div>
+              <div class="row">
+                <div class="col-8 ml-4 contact">
+                  <h4 class="contact-name">John Smith</h4>
+                  <div class="contact-address mb-3 d-flex"><img
+                      src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon"
+                      class="icon-size-16 mt-1"><span class="ml-2">API Business Suites, Al Barsha 1, Sheikh Zayed
+                      Road Dubai, UAE</span></div>
+                  <div class="contact-info d-flex justify-content-between"><span><img
+                        src="../../../../assets/images/icons/mob-icon.svg" alt="icon-size-16"><span class="ml-2">+971 4
+                        395
+                        79 79</span></span><span><span class="ml-2">john@company.com</span></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card grey-background">
+            <div class="card-body">
+              <div class="card-title mb-4 mt-3">
+                <h5>
+                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16" title="logo">
+                  Agent Information
+                </h5>
+              </div>
+              <div class="row">
+                <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
+                  <div class="form-group">
+                    <label>Name</label>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                  <div class="form-group">
+                    <select class="form-control">
+                      <option value="null"> Please Select</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
+                  <div class="form-group">
+                    <label>Address</label>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                  <div class="form-group">
+                    <textarea class="form-control"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
+                  <div class="form-group">
+                    <label>Contact</label>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                  <div class="form-group">
+                    <input class="form-control" placeholder="abc@email.com">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
+                  <div class="form-group">
+                    <label>Email</label>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                  <div class="form-group">
+                    <input class="form-control" placeholder="abc@email.com">
+                    <button
+                      class="btn btn-outline-primary hvr-sweep-to-right pull-right mt-4 pl-5 pr-5">Confirm</button>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
       </div>
+
       <!--/ document required -->
     </div>
     <div class="col-xl-4 view-booking-shipment-detail-right">
@@ -366,7 +602,8 @@
         <div class="map">
           <agm-map (mapReady)="mapInit($event)" [zoom]="zoomlevel" [mapDraggable]="false" [zoomControl]="false"
             [streetViewControl]="false">
-            <agm-marker [iconUrl]="icon" *ngFor="let marker of mapOrgiToDest" [latitude]="marker.lat" [longitude]="marker.lng">
+            <agm-marker [iconUrl]="icon" *ngFor="let marker of mapOrgiToDest" [latitude]="marker.lat"
+              [longitude]="marker.lng">
             </agm-marker>
             <agm-polyline [strokeWeight]="2" [strokeColor]="'#2196f3'">
               <agm-polyline-point *ngFor="let marker of mapOrgiToDest" [latitude]="marker.lat" [longitude]="marker.lng">
@@ -378,18 +615,21 @@
           <div class="ports">
             <span class="d-block ports-title">Origin</span>
             <div class="icon flag-icon-20-12 align-top mr-2 pull-left">
-              <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.origin | lowercase) + '.svg'}}">
+              <img alt="flag icon"
+                src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.origin | lowercase) + '.svg'}}">
             </div>
             <div class="d-flex mt-2">
               <label class="ports-label">{{bookingDetails.PolCode}}</label>
               <small class="d-block">{{bookingDetails.PolName}}</small>
             </div>
           </div>
-          <img alt="" class="icon-size-16 ports-direction" src="../../../../assets/images/icons/icon_route_arrow_blue.svg">
+          <img alt="" class="icon-size-16 ports-direction"
+            src="../../../../assets/images/icons/icon_route_arrow_blue.svg">
           <div class="ports">
             <span class="d-block ports-title">Destination</span>
             <div class="icon flag-icon-20-12 align-top mr-2 pull-left">
-              <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.destination | lowercase) + '.svg'}}">
+              <img alt="flag icon"
+                src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.destination | lowercase) + '.svg'}}">
             </div>
             <div class="d-flex mt-2">
               <label class="ports-label">{{bookingDetails.PodCode}}</label>
@@ -448,7 +688,8 @@
                 For complaints or issues regarding your order, visit our
                 <a href="{{helpSupport[0].HMSupportWebAdd}}" class="link-hover-black" target="_blank">Help Center</a>
                 or send us an email at
-                <a class="link-hover-black" href="{{'mailto:' + helpSupport[0].HMSupportEmail}}">{{helpSupport[0].HMSupportEmail}}</a>
+                <a class="link-hover-black"
+                  href="{{'mailto:' + helpSupport[0].HMSupportEmail}}">{{helpSupport[0].HMSupportEmail}}</a>
               </p>
             </div>
           </div>
