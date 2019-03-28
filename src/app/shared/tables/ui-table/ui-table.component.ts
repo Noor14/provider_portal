@@ -119,16 +119,27 @@ export class UiTableComponent implements OnInit, OnChanges {
         title1 = (this.data[0].usageType === 'SHARED') ? 'Rate / CBM / Day' : 'Rent Per Month'
         title2 = (this.data[0].usageType === 'SHARED') ? 'Rate / sqft / day' : 'Rent Per Year'
       }
+      if (this.data[0].usageType === 'SHARED') {
+        this.thList = [
+          { title: "", activeClass: '', sortKey: "" },
+          { title: "Rate for", activeClass: '', sortKey: "" },
+          { title: "Warehouse Type", activeClass: '', sortKey: "" },
+          { title: "Rate Validity", activeClass: '', sortKey: "" },
+          { title: title1, activeClass: '', sortKey: "" },
+          { title: title2, activeClass: '', sortKey: "" },
+          { title: "Addtional CHarges", activeClass: '', sortKey: "" },
+        ]
+      } else {
+        this.thList = [
+          { title: "", activeClass: '', sortKey: "" },
+          { title: "Rate for", activeClass: '', sortKey: "" },
+          { title: "Warehouse Type", activeClass: '', sortKey: "" },
+          { title: "Rate Validity", activeClass: '', sortKey: "" },
+          { title: title1, activeClass: '', sortKey: "" },
+          { title: title2, activeClass: '', sortKey: "" },
+        ]
+      }
 
-      this.thList = [
-        { title: "", activeClass: '', sortKey: "" },
-        { title: "Rate for", activeClass: '', sortKey: "" },
-        { title: "Warehouse Type", activeClass: '', sortKey: "" },
-        { title: "Rate Validity", activeClass: '', sortKey: "" },
-        { title: title1, activeClass: '', sortKey: "" },
-        { title: title2, activeClass: '', sortKey: "" },
-        { title: "Addtional CHarges", activeClass: '', sortKey: "" },
-      ]
     }
   }
 
