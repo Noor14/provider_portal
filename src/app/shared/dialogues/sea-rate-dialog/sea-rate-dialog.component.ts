@@ -100,6 +100,7 @@ export class SeaRateDialogComponent implements OnInit {
   };
   public model: any;
   private newProviderPricingDraftID = undefined;
+  public disableWarehouse:boolean = false
   isHovered = date =>
     this.fromDate &&
     !this.toDate &&
@@ -301,6 +302,7 @@ export class SeaRateDialogComponent implements OnInit {
       this.storageType = data.StorageType
       const parsedPricingJson = JSON.parse(data.PricingJson)
       this.sharedWarehousePricing = parsedPricingJson;
+      this.disableWarehouse = true
       // this.sharedWarehousePricing = this.warehousePricing.filter(e => (e.addChrBasis === 'PER_CBM_PER_DAY') || (e.addChrBasis === 'PER_SQFT_PER_DAY'))
       console.log(this.sharedWarehousePricing);
       let userCurrency = localStorage.getItem('userCurrency')
