@@ -5,6 +5,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { UiTableComponent } from './tables/ui-table/ui-table.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { AddDocumentComponent } from './dialogues/add-document/add-document.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FormsModule,
     NgxPaginationModule
   ],
-  declarations: [LoaderComponent, UiTableComponent],
-  exports: [LoaderComponent, UiTableComponent]
+  declarations: [LoaderComponent, UiTableComponent, AddDocumentComponent],
+  exports: [LoaderComponent, UiTableComponent,AddDocumentComponent]
 })
 export class SharedModule { }

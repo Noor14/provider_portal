@@ -17,10 +17,16 @@
           <option value="" selected>{{selectPlaceholder}}</option>
           <option *ngFor="let status of bookingStatuses" [value]="status.StatusID">{{status.StatusName}}</option>
         </select>
+        <label >Define Your Status </label>
+          <textarea placeholder="Details" class="form-control " *ngIf="modalData.type === 'updated'" [(ngModel)]="selectedReason.remarks"
+        rows="2">
+      </textarea>
+
         <textarea placeholder="Details" class="form-control mt-3" *ngIf="modalData.type === 'cancel'" [(ngModel)]="selectedReason.remarks"
           rows="3">
         </textarea>
       </div>
+
       <button class="btn btn-primary btn-lg hvr-sweep-to-right w-50 pull-right mt-3 mb-3" *ngIf="modalData.type === 'cancel'" [disabled]="!selectedReason.remarks || !selectedReason.id"
         (click)="submit()">SUBMIT
       </button>

@@ -1,0 +1,121 @@
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+
+
+<button  class="openbtn" (click)="clicked() ">☰  Sidepanel</button>  
+
+
+
+
+<div id="mySidepanel" class="sidepanel" [ngClass]="showHide ? 'activeMenu' : 'unactiveMenu'">
+
+
+  <div  class="navbar-nav">
+
+    <div class="leftsidebar-main">
+      <h3>
+        <span >Main</span>
+      </h3>
+      <ul class="nav flex-column">
+        <li>
+        <a href="javascript:void(0)" class="nav-link" [routerLink]="['/provider/dashboard']" [routerLinkActive]="['active']">
+            <img src="../../../../../assets/images/icons/icon_dashboard.svg" alt="icon_dashboard">
+            <span class="menu-text">
+              Dashboard
+            </span>
+          </a>
+        </li>
+        <li>
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/allbookings']">
+            <img src="../../../../../assets/images/icons/icon_booking.svg" alt="icon_booking">
+            <span class="menu-text">Bookings</span>
+          </a>
+          <span class="badge badge-secondary" *ngIf="currentBookings && currentBookings.length">{{currentBookings.length}}</span>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/billing']">
+            <img src="../../../../../assets/images/icons/billing.svg" alt="icon_billing">
+            <span class="menu-text">
+              Billing
+            </span>
+          </a>
+        </li>
+        <li>
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/reports']">
+            <img src="../../../../../assets/images/icons/icon_report.svg" alt="icon_report">
+            <span class="menu-text">
+              Reports
+            </span>
+          </a>
+        </li>
+              <li>
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/manage-rates']">
+                <img src="../../../../../assets/images/icons/icon_rate.svg" alt="icon_report">
+                  <span class="menu-text">
+                    Manage Rates
+                  </span>
+                </a>
+              </li>
+      <li>
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/deals']">
+      <img src="../../../../../assets/images/icons/icon_deal.svg" alt="icon_report">
+          <span class="menu-text">
+            Manage Deals
+          </span>
+        </a>
+      </li>
+      </ul>
+    </div>
+    <div class="leftsidebar-help mt-4">
+      <h3>
+        <span>Help</span>
+      </h3>
+      <ul class="nav flex-column">
+        <li>
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/settings']">
+            <img src="../../../../../assets/images/icons/icon_setting.svg" alt="icon_setting">
+            <span class="menu-text">
+              Settings
+            </span>
+          </a>
+        </li>
+        <li>
+        <a href="javascript:void(0)" class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/provider/support']">
+            <img src="../../../../../assets/images/icons/icon_support.svg" alt="icon_support">
+            <span class="menu-text">
+              Support
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div> 
+
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
