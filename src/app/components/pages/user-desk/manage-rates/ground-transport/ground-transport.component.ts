@@ -454,7 +454,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
           }
         },
         {
-          title: 'ORIGIN / DEPARTURE',
+          title: 'ORIGIN / DESTINATION',
           data: function (data) {
             let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
             let podUrl = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
