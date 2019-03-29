@@ -110,12 +110,13 @@
 
       h5 {
         font-size: $font-size-medium;
+        font-weight: $font-weight-mid;
         text-transform: uppercase;
         font-family: $font-proxima;
         color: $secondary-grey;
         word-spacing: 3px;
         margin-bottom: 0;
-        line-height: 0;
+        letter-spacing: 1px;
       }
 
       img {
@@ -184,6 +185,9 @@
     }
 
     &-right {
+      .position-sticky {
+        top: 3%;
+      }
 
       /*----BILLING SECTION - Start ----*/
       .card {
@@ -467,6 +471,7 @@
       .list-group {
         .list-group-item {
           padding-left: 20px !important;
+          margin: 0;
 
           a.doc-title {
             color: inherit;
