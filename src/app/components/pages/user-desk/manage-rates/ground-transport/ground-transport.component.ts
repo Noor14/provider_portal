@@ -702,20 +702,28 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
 
   publishRate(type) {
     let param;
-    if (type === 'fcl') {
-      param = {
-        pricingIDList: (this.draftslist.length === this.publishRates.length) ? [-1] : this.publishRates,
-        providerID: this.userProfile.ProviderID,
-        containerLoadType: type.toUpperCase()
+    loading(true)
+    try {
+      if (type === 'fcl') {
+        param = {
+          pricingIDList: (this.draftslist.length === this.publishRates.length) ? [-1] : this.publishRates,
+          providerID: this.userProfile.ProviderID,
+          containerLoadType: type.toUpperCase()
+        }
+      } else if (type === 'ftl') {
+        param = {
+          pricingIDList: (this.draftslistFTL.length === this.publishRates.length) ? [-1] : this.publishRates,
+          providerID: this.userProfile.ProviderID,
+          containerLoadType: type.toUpperCase()
+        }
       }
-    } else if (type === 'ftl') {
-      param = {
-        pricingIDList: (this.draftslistFTL.length === this.publishRates.length) ? [-1] : this.publishRates,
-        providerID: this.userProfile.ProviderID,
-        containerLoadType: type.toUpperCase()
-      }
+    } catch (error) {
+      console.log(error);
+
+      loading(false)
     }
     this._seaFreightService.publishDraftRate(param).subscribe((res: any) => {
+      loading(false)
       if (res.returnStatus == "Success") {
         for (var i = 0; i < this.publishRates.length; i++) {
           for (let y = 0; y < this.draftslist.length; y++) {
@@ -732,6 +740,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
           this.getAllPublishRates(type.toUpperCase());
         }
       }
+    }, error => {
+      loading(false);
+      console.log(error)
     })
   }
 

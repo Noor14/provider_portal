@@ -752,19 +752,26 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    */
   publishRate(type) {
     let param;
-    if (type === 'fcl') {
-      param = {
-        pricingIDList: (this.draftsfcl.length === this.publishRates.length) ? [-1] : this.publishRates,
-        providerID: this.userProfile.ProviderID
+    loading(true)
+    try {
+      if (type === 'fcl') {
+        param = {
+          pricingIDList: (this.draftsfcl.length === this.publishRates.length) ? [-1] : this.publishRates,
+          providerID: this.userProfile.ProviderID
+        }
+      } else if (type === 'lcl') {
+        param = {
+          pricingIDList: (this.draftslcl.length === this.publishRates.length) ? [-1] : this.publishRates,
+          providerID: this.userProfile.ProviderID
+        }
       }
-    } else if (type === 'lcl') {
-      param = {
-        pricingIDList: (this.draftslcl.length === this.publishRates.length) ? [-1] : this.publishRates,
-        providerID: this.userProfile.ProviderID
-      }
+    } catch (error) {
+      loading(false)
+      console.log(error)
     }
 
     this._seaFreightService.publishDraftRate(type, param).subscribe((res: any) => {
+      loading(false)
       if (res.returnStatus == "Success") {
         if (type === 'fcl') {
           for (var i = 0; i < this.publishRates.length; i++) {
@@ -791,6 +798,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
           this.getDraftRates(type) // todo remove is when we get the mechanism for transfer data between components
         }
       }
+    }, error => {
+      loading(false)
     })
   }
 

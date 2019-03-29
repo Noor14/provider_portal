@@ -185,7 +185,7 @@ export class WarehouseComponent implements OnInit {
       warehouseSpace: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(100000)]),
       warehouseSpaceUnit: new FormControl(null, [Validators.required]),
       // hashmoveSpace: new FormControl(null, [warehouseValidator.bind(this)]),
-      hashmoveSpace: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(100000)]),
+      hashmoveSpace: new FormControl(null, [Validators.min(1), Validators.max(100000)]),
       ceilingHeight: new FormControl(null),
       // ceilingUnit: new FormControl(null),
       minLeaseValueOne: new FormControl(null, [warehouseValidator.bind(this)]),
