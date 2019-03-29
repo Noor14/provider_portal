@@ -935,8 +935,8 @@ export class WarehouseComponent implements OnInit {
               if (e.pricingJson) {
                 e.parsedpricingJson = JSON.parse(e.pricingJson)
                 if (e.parsedpricingJson.length === 1) {
-                  e.whPrice1 = e.parsedpricingJson[0].price
-                  e.whPrice2 = 0
+                  e.whPrice1 = ((e.parsedpricingJson[0].priceBasis === 'PER_MONTH' || e.parsedpricingJson[0].priceBasis === 'PER_CBM_PER_DAY') ? e.parsedpricingJson[0].price : 0)
+                  e.whPrice2 = ((e.parsedpricingJson[0].priceBasis === 'PER_YEAR' || e.parsedpricingJson[0].priceBasis === 'PER_SQFT_PER_DAY') ? e.parsedpricingJson[0].price : 0)
                 } else if (e.parsedpricingJson.length === 2) {
                   e.whPrice1 = e.parsedpricingJson[0].price
                   e.whPrice2 = e.parsedpricingJson[1].price

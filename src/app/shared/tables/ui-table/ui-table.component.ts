@@ -436,7 +436,7 @@ export class UiTableComponent implements OnInit, OnChanges {
 
   /**
    * [Change Detedction of Input in the Component]
-   * @param  changes [object]
+  * @param  changes [object]
    * @return         [description]
    */
   ngOnChanges(changes) {

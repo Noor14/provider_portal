@@ -394,7 +394,7 @@ export class SeaRateDialogComponent implements OnInit {
             modifiedBy: this.userProfile.LoginID,
             JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
             customerID: element.customerID,
-            jsonCustomerDetail: element.jsonCustomerDetail,
+            jsonCustomerDetail: (JSON.stringify(element.jsonCustomerDetail) === "[{},{}]" ? null : element.jsonCustomerDetail),
             customerType: element.customerType
           }
           let FCLObj = {
@@ -403,7 +403,7 @@ export class SeaRateDialogComponent implements OnInit {
             effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
             effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
             modifiedBy: this.userProfile.LoginID,
-            JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
+            JsonSurchargeDet: (JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)) === '[{},{}]' ? null : JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations))),
             customerID: element.customerID,
             jsonCustomerDetail: element.jsonCustomerDetail,
             customerType: element.customerType
@@ -416,7 +416,7 @@ export class SeaRateDialogComponent implements OnInit {
             effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
             modifiedBy: this.userProfile.LoginID,
             transportType: 'TRUCK',
-            JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
+            JsonSurchargeDet: (JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)) === '[{},{}]' ? null : JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations))),
             customerID: element.customerID,
             jsonCustomerDetail: element.jsonCustomerDetail,
             customerType: element.customerType
@@ -433,14 +433,13 @@ export class SeaRateDialogComponent implements OnInit {
       }
     } else if (this.selectedData.forType === 'WAREHOUSE') {
       this.calculatePricingJSON()
-      console.log(this.selectedData);
       let WHObj = {
         whPricingID: this.selectedData.data.WhPricingID,
         pricingJson: JSON.stringify(this.pricingJSON),
         effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
         effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
         modifiedBy: this.userProfile.LoginID,
-        jsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
+        jsonSurchargeDet: (JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)) === '[{},{}]' ? null : JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations))),
         customerID: this.selectedData.data.CustomerID,
         jsonCustomerDetail: this.selectedData.data.JsonCustomerDetail,
         customerType: this.selectedData.data.CustomerType
