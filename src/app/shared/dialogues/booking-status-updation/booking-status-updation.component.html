@@ -17,10 +17,10 @@
           <option value="" selected>{{selectPlaceholder}}</option>
           <option *ngFor="let status of bookingStatuses" [value]="status.StatusID">{{status.StatusName}}</option>
         </select>
-        <!-- <label >Define Your Status </label>
+        <label >Define Your Status </label>
           <textarea placeholder="Details" class="form-control " *ngIf="modalData.type === 'updated'" [(ngModel)]="selectedReason.remarks"
         rows="2">
-      </textarea> -->
+      </textarea>
 
         <textarea placeholder="Details" class="form-control mt-3" *ngIf="modalData.type === 'cancel'" [(ngModel)]="selectedReason.remarks"
           rows="3">
