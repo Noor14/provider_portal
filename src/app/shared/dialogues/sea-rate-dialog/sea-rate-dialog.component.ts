@@ -530,6 +530,9 @@ export class SeaRateDialogComponent implements OnInit {
       this.calculatePricingJSON()
     }
 
+    console.log('selectedOrigin:', this.selectedOrigins);
+
+
     let JsonSurchargeDet = JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations));
     console.log(JsonSurchargeDet === "[{},{}]");
     let obj = {
@@ -591,40 +594,50 @@ export class SeaRateDialogComponent implements OnInit {
       return;
     }
 
-    if (obj.transportType === 'SEA') {
+    if (obj.transportType === 'SEA' || obj.transportType === 'GROUND') {
       let ADCHValidated: boolean = true;
-      let exportCharges
-      let importCharges
-      if (obj.JsonSurchargeDet) {
-        const parsedJsonSurchargeDet = JSON.parse(obj.JsonSurchargeDet)
-        exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
-        importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
-      }
+      // let exportCharges
+      // let importCharges
+      // if (obj.JsonSurchargeDet) {
+      //   const parsedJsonSurchargeDet = JSON.parse(obj.JsonSurchargeDet)
+      //   exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
+      //   importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
+      // }
 
-      if (exportCharges && exportCharges.length) {
+      if (this.selectedOrigins && this.selectedOrigins.length > 0) {
         this.selectedOrigins.forEach(element => {
-          if (!element.Price) {
-            this._toast.error('Price is missing for ' + element.addChrName, 'Error')
+          if (Object.keys(element).length && (!element.Price || parseInt(element.Price) === 0)) {
+            this._toast.error('Price is missing for Additional Charge', 'Error')
             ADCHValidated = false
             return;
           }
-          if (!element.CurrId) {
-            this._toast.error('Currency is missing for ' + element.addChrName, 'Error')
+          if (Object.keys(element).length && !element.CurrId) {
+            this._toast.error('Currency is missing for Additional Charge', 'Error')
+            ADCHValidated = false
+            return;
+          }
+          if (Object.keys(element).length && !element.addChrID) {
+            this._toast.error('Additional Charge is missing', 'Error')
             ADCHValidated = false
             return;
           }
         });
       }
-
-      if (importCharges && importCharges.length) {
+      if (this.selectedDestinations && this.selectedDestinations.length > 0) {
         this.selectedDestinations.forEach(element => {
-          if (!element.Price) {
-            this._toast.error('Price is missing for ' + element.addChrName, 'Error')
+          if (Object.keys(element).length && !element.Price) {
+            this._toast.error('Price is missing for Additional Charge', 'Error')
             ADCHValidated = false
             return;
           }
-          if (!element.CurrId) {
-            this._toast.error('Currency is missing for ' + element.addChrName, 'Error')
+          if (Object.keys(element).length && !element.CurrId) {
+            this._toast.error('Currency is missing for Additional Charge', 'Error')
+            ADCHValidated = false
+            return;
+          }
+
+          if (Object.keys(element).length && !element.addChrID) {
+            this._toast.error('Additional Charge is missing', 'Error')
             ADCHValidated = false
             return;
           }
@@ -678,7 +691,8 @@ export class SeaRateDialogComponent implements OnInit {
           element.PodID === obj.podID &&
           element.PolID === obj.polID &&
           element.Price === parseInt(obj.price) &&
-          element.ShippingCatID === obj.shippingCatID
+          element.ShippingCatID === obj.shippingCatID &&
+          element.JsonSurchargeDet === obj.JsonSurchargeDet
         ) {
           duplicateRecord = true;
         }
@@ -691,7 +705,8 @@ export class SeaRateDialogComponent implements OnInit {
           element.PodID === obj.podID &&
           element.PolID === obj.polID &&
           element.Price === parseInt(obj.price) &&
-          element.ShippingCatID === obj.shippingCatID
+          element.ShippingCatID === obj.shippingCatID &&
+          element.JsonSurchargeDet === obj.JsonSurchargeDet
         ) {
           duplicateRecord = true;
         }
@@ -703,7 +718,8 @@ export class SeaRateDialogComponent implements OnInit {
           moment(element.EffectiveTo).format('D MMM, Y') === moment(obj.effectiveTo).format('D MMM, Y') &&
           element.PodID === obj.podID &&
           element.PolID === obj.polID &&
-          element.Price === parseInt(obj.price)
+          element.Price === parseInt(obj.price) &&
+          element.JsonSurchargeDet === obj.JsonSurchargeDet
         ) {
           duplicateRecord = true;
         }
