@@ -1,23 +1,23 @@
 <ng-template #content let-modal>
 
   <div class="document-modal animated fadeIn">
-    <div class="modal-header">
+    <div class="modal-header ">
       <h4 class="document-modal-title">Add Document</h4>
       <a class="pointer crossIcon" (click)="closeModal(null)">
         <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
       </a>
     </div>
-    <div class="modal-body">
+    <div class="modal-body pt-2 pb-2">
       <div class="form">
         <div class="form-group">
-          <label for="formGroupExampleInput">Document label</label>
+          <label for="formGroupExampleInput">Document Label</label>
         <input type="text" class="form-control" id="formGroupExampleInput" placeholder="other">
-        <label for="formGroupExampleInput2">Upload Document</label>
+        <label class="pt-2" for="formGroupExampleInput2">Upload Document</label>
 
         <div class="document-Info d-flex flex-column ">
           <div class="file-uploader" >
             <!-- <app-ng-files-drag-n-upload> -->
-              <img  class="pt-4"src="../../../../../assets/images/icons/manager-icon.png" />
+              <img  class="pt-3"src="../../../../../assets/images/icons/manager-icon.png" />
                <p class="m-0 mt-3">
                 Drag here or <span class="browse-span">browse</span> to upload
               </p> 
