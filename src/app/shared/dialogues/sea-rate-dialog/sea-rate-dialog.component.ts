@@ -100,7 +100,7 @@ export class SeaRateDialogComponent implements OnInit {
   };
   public model: any;
   private newProviderPricingDraftID = undefined;
-  public disableWarehouse:boolean = false
+  public disableWarehouse: boolean = false
   isHovered = date =>
     this.fromDate &&
     !this.toDate &&
@@ -477,7 +477,7 @@ export class SeaRateDialogComponent implements OnInit {
    * @param {string}  type [description]
    * @return      [description]
    */
-  public buttonLoading:boolean  = false;
+  public buttonLoading: boolean = false;
   saveDraft(type) {
     this.buttonLoading = true
     const { filterOrigin, filterDestination, transPortMode } = this
