@@ -752,20 +752,27 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    */
   publishRate(type) {
     let param;
-    if (type === 'fcl') {
-      param = {
-        pricingIDList: (this.draftsfcl.length === this.publishRates.length) ? [-1] : this.publishRates,
-        providerID: this.userProfile.ProviderID
+    loading(true)
+
+    try {
+      if (type === 'fcl') {
+        param = {
+          pricingIDList: (this.draftsfcl.length === this.publishRates.length) ? [-1] : this.publishRates,
+          providerID: this.userProfile.ProviderID
+        }
+      } else if (type === 'lcl') {
+        param = {
+          pricingIDList: (this.draftslcl.length === this.publishRates.length) ? [-1] : this.publishRates,
+          providerID: this.userProfile.ProviderID
+        }
       }
-    } else if (type === 'lcl') {
-      param = {
-        pricingIDList: (this.draftslcl.length === this.publishRates.length) ? [-1] : this.publishRates,
-        providerID: this.userProfile.ProviderID
-      }
+    } catch (error) {
+      loading(false)
     }
 
     this._seaFreightService.publishDraftRate(type, param).subscribe((res: any) => {
-      if (res.returnStatus == "Success") {
+      loading(false)
+      if (res.returnId > 0) {
         if (type === 'fcl') {
           for (var i = 0; i < this.publishRates.length; i++) {
             for (let y = 0; y < this.draftsfcl.length; y++) {
@@ -790,7 +797,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
           this.getAllPublishRates(type);
           this.getDraftRates(type) // todo remove is when we get the mechanism for transfer data between components
         }
+      } else {
+        this._toast.error(res.returnText, 'Publish Failed')
       }
+    }, (error: HttpErrorResponse) => {
+      loading(false)
+      console.warn(error.message)
     })
   }
 

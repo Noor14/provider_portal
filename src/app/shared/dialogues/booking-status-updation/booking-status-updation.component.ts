@@ -53,7 +53,7 @@ export class BookingStatusUpdationComponent implements OnInit {
   getBookingReasons() {
     this._viewBookingService.getBookingReasons().subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.bookingReasons = res.returnObject.filter(e => e.BusinessLogic == null);
+        this.bookingReasons = res.returnObject;
       }
     }, (err: HttpErrorResponse) => {
       console.log(err);

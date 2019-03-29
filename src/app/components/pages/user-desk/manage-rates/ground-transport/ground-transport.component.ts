@@ -702,20 +702,26 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
 
   publishRate(type) {
     let param;
-    if (type === 'fcl') {
-      param = {
-        pricingIDList: (this.draftslist.length === this.publishRates.length) ? [-1] : this.publishRates,
-        providerID: this.userProfile.ProviderID,
-        containerLoadType: type.toUpperCase()
+    loading(true)
+    try {
+      if (type === 'fcl') {
+        param = {
+          pricingIDList: (this.draftslist.length === this.publishRates.length) ? [-1] : this.publishRates,
+          providerID: this.userProfile.ProviderID,
+          containerLoadType: type.toUpperCase()
+        }
+      } else if (type === 'ftl') {
+        param = {
+          pricingIDList: (this.draftslistFTL.length === this.publishRates.length) ? [-1] : this.publishRates,
+          providerID: this.userProfile.ProviderID,
+          containerLoadType: type.toUpperCase()
+        }
       }
-    } else if (type === 'ftl') {
-      param = {
-        pricingIDList: (this.draftslistFTL.length === this.publishRates.length) ? [-1] : this.publishRates,
-        providerID: this.userProfile.ProviderID,
-        containerLoadType: type.toUpperCase()
-      }
+    } catch (error) {
+      loading(false)
     }
     this._seaFreightService.publishDraftRate(param).subscribe((res: any) => {
+      loading(false)
       if (res.returnStatus == "Success") {
         for (var i = 0; i < this.publishRates.length; i++) {
           for (let y = 0; y < this.draftslist.length; y++) {
@@ -731,7 +737,13 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
           this.getDraftRates('ground', type.toUpperCase())
           this.getAllPublishRates(type.toUpperCase());
         }
+      } else {
+        this._toast.error(res.returnText, 'Publish Failed')
       }
+    }, (error: HttpErrorResponse) => {
+      loading(false)
+      this._toast.error('Failed to publish records', 'Publish Failed')
+      console.warn(error.message)
     })
   }
 
