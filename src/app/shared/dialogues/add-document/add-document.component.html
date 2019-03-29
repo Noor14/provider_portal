@@ -1,26 +1,45 @@
 <ng-template #content let-modal>
-  <div class="modal-header">
-    <h5 class="modal-title">ADD DOCUMENT</h5>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form>
-      <div class="form-group">
-        <label for="formGroupExampleInput">Document label</label>
-        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
-      </div>
-      <div class="form-group">
+
+  <div class="document-modal animated fadeIn">
+    <div class="modal-header">
+      <h4 class="document-modal-title">Add Document</h4>
+      <a class="pointer crossIcon" (click)="closeModal(null)">
+        <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
+      </a>
+    </div>
+    <div class="modal-body">
+      <div class="form">
+        <div class="form-group">
+          <label for="formGroupExampleInput">Document label</label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="other">
         <label for="formGroupExampleInput2">Upload Document</label>
-       
+
+        <div class="document-Info d-flex flex-column mt-2">
+          <div class="file-uploader" >
+            <!-- <app-ng-files-drag-n-upload> -->
+              <img  class="pt-4"src="../../../../../assets/images/icons/manager-icon.png" />
+               <p class="m-0 mt-3">
+                Drag here or <span class="browse-span">browse</span> to upload
+              </p> 
+            <!-- </app-ng-files-drag-n-upload> -->
+          </div>
+          <!-- <div class="row uploadedDocx">
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-3 uploaded-images">
+              <div class="display-upload delete"> -->
+                <!-- <img [src]="galleryDocx.DocumentFile" /> -->
+                <!-- <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del" class="pointer delete-icon"
+                   />
+              </div> -->
+            <!-- </div>
+          </div> -->
+        </div>
       </div>
-     
-    </form>
-    <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right w-100" >
-      Proceed</button>
-  </div>
+        </div>
+        <button class="btn btn-primary btn-lg hvr-sweep-to-right w-100  mt-3 mb-3">Proceed
+        </button>
  
+      </div>
+    </div>
 
  
 </ng-template>
