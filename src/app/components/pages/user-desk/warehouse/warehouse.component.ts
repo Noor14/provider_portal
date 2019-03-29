@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
@@ -33,6 +33,7 @@ import { SeaFreightService } from '../manage-rates/sea-freight/sea-freight.servi
 export class WarehouseComponent implements OnInit {
   @Input() whID: any;
   @Input() step: number;
+  @Output() wareHouseTemplateChange = new EventEmitter();
   @ViewChild('stepper') public _stepper: any;
   @ViewChild('searchElement') public searchElement: any;
 
@@ -112,8 +113,8 @@ export class WarehouseComponent implements OnInit {
   public config: NgFilesConfig = {
     acceptExtensions: ['jpg', 'png', 'bmp'],
     maxFilesCount: 12,
-    maxFileSize: 12 * 1024 * 1000,
-    totalFilesSize: 12 * 12 * 1024 * 1000
+    maxFileSize: 5 * 1024 * 1000,
+    totalFilesSize: 12 * 5 * 1024 * 1000
   };
   warehouseCharges: any;
   publishloading: boolean;
@@ -149,7 +150,6 @@ export class WarehouseComponent implements OnInit {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
-    console.log(this.whID)
     if (this.step === 1) {
       this.activeStep = this.step
       this.getPricingDetails()
@@ -191,13 +191,17 @@ export class WarehouseComponent implements OnInit {
       minLeaseValueTwo: new FormControl(null, [warehouseValidator.bind(this)]),
     });
 
+
+    
+  }
+
+  commissionFormGenerate(){
     this.commissionForm = new FormGroup({
       commissionCurrency: new FormControl(null, [warehouseValidatorCommissionCurr.bind(this)]),
       commissionValue: new FormControl(null, [warehouseValidatorCommissionVal.bind(this)]),
       percentValue: new FormControl(null, [warehouseValidatorCommission.bind(this)]),
     });
   }
-
   getDetail() {
     if (this.whID) {
       this.getWareHouseDetail(this.userProfile.ProviderID, this.whID);
@@ -317,6 +321,9 @@ export class WarehouseComponent implements OnInit {
       loading(false)
       if (res.returnStatus == "Success" && res.returnObject) {
         this.isRealEstate = res.returnObject.IsRealEstate;
+        if (this.isRealEstate){
+          this.commissionFormGenerate();
+        }
         const data = [
           'WH_MIN_LEASE_TERM',
           'UNIT_AREA',
@@ -326,7 +333,7 @@ export class WarehouseComponent implements OnInit {
         ]
         this.warehouseDocx = res.returnObject.documentType;
         if (res.returnObject && !Number(id)) {
-          
+
           this.facilities = res.returnObject.WHFacilitiesProviding;
         }
         else if (Number(id)) {
@@ -347,6 +354,9 @@ export class WarehouseComponent implements OnInit {
     }
     if (obj.Longitude) {
       this.location.lng = Number(obj.Longitude);
+    }
+    if (this.location && this.location.lat && this.location.lng){
+      this.zoomlevel = 14;
     }
     this.warehouseTypeFull = (obj.UsageType.toUpperCase() == 'SHARED') ? false : true;
     this.fixedAmount = (obj.ComissionType == 'Fixed_Amount') ? true : false;
@@ -464,7 +474,8 @@ export class WarehouseComponent implements OnInit {
   getvaluesDropDown(data) {
     this._warehouseService.getDropDownValuesWarehouse(data).subscribe((res: any) => {
       if (res && res.length) {
-        this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
+        let leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
+        this.leaseTerm = leaseTerm.sort((a, b)=>  a.sortingOrder - b.sortingOrder);
         this.warehouseUsageType = res.filter(obj => obj.codeType == 'WH_USAGE_TYPE');
         this.ceilingsHeight = res.filter(obj => obj.codeType == 'WH_CEILING_HEIGHT');
         this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM' && obj.codeType != 'WH_USAGE_TYPE' && obj.codeType != 'WH_CEILING_HEIGHT' && obj.codeVal.toUpperCase() != 'SQCM');
@@ -653,7 +664,7 @@ export class WarehouseComponent implements OnInit {
     });
     modalRef.result.then((result) => {
       if (result == "close") {
-        this._redirect.navigate(['provider/manage-rates/warehouse'])
+        this.wareHouseTemplateChange.emit(false);
       }
     });
     let obj = {
@@ -703,7 +714,7 @@ export class WarehouseComponent implements OnInit {
       // comissionType: (this.isRealEstate) ? ((this.fixedAmount) ? 'Fixed_Amount' : 'Fixed_Percent') : null,
       // comissionCurrencyID: (this.isRealEstate) ? this.commissionForm.value.commissionCurrency.id : null,
       // comissionValue: (this.isRealEstate) ? this.commissionForm.value.commissionValue : null,
-      percent: (this.isRealEstate) ? ((!this.fixedAmount) ? this.commissionForm.value.percentValue : null) : null,
+      // percent: (this.isRealEstate) ? ((!this.fixedAmount) ? this.commissionForm.value.percentValue : null) : null,
       createdBy: this.userProfile.LoginID,
       modifiedBy: this.userProfile.LoginID,
     }
@@ -746,7 +757,6 @@ export class WarehouseComponent implements OnInit {
    */
 
   addWarehouseRate(rowId) {
-    console.log(this.warehouseDetail);
     let obj;
     if (rowId > 0) {
       obj = this.warehouseDetail;
@@ -1054,6 +1064,30 @@ export class WarehouseComponent implements OnInit {
       this.getAdditionalData()
       this.getAllPublishRates(this.whID)
     }
+  }
+
+
+  /**
+   * UPDATE COMISSION SAVE REQUEST
+   *
+   * @memberof WarehouseComponent
+   */
+  updateComission() {
+    loading(true)
+    let obj = {
+      whid: this.whID,
+      comissionType: (this.fixedAmount ? 'Fixed_Amount' : 'Fixed_Percent'),
+      comissionCurrencyID: this.commissionForm.value.commissionCurrency.id,
+      comissionValue: this.commissionForm.value.commissionValue,
+      percent: this.commissionForm.value.percentValue,
+      modifiedBy: this.userProfile.LoginID
+    }
+    this._warehouseService.updateComission(obj).subscribe((res: any) => {
+      loading(false)
+      this._toastr.success('Comission updated successfully', 'Success')
+    }, (err) => {
+      loading(false)
+    })
   }
 
 }

@@ -175,5 +175,5 @@
     <img alt="icon" class="icon-size-14 hvr-icon" src="../../../../../assets/images/icons/icon_arrow_left.svg">
     <span class="link-hover-grey">Go Back To Listing</span>
 </a>
-<app-warehouse [whID]='warehouseID' [step]="step"></app-warehouse>
+<app-warehouse [whID]='warehouseID' [step]="step" (wareHouseTemplateChange)="wareHouseDetTemplate = $event"></app-warehouse>
 </section>

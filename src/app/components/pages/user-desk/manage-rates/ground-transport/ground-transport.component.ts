@@ -224,6 +224,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
 
 
   updatePopupRates(rowId, type) {
+    console.log(this.draftslistFTL);
     let obj;
     if (this.activeTab == 'activeFCL') {
       if (rowId > 0) {
@@ -253,11 +254,13 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         this.getAllPublishRates('ftl')
       }
     });
+    
     let object = {
       ID: rowId,
       forType: (type === 'FCL' ? 'FCL-Ground' : type),
       data: obj,
       addList: this.groundCharges,
+      drafts: (Object.entries(this.draftslistFTL).length === 0 && this.draftslistFTL.constructor === Object ?  null : this.draftslistFTL),
       mode: 'draft',
       customers: this.allCustomers,
     }
@@ -411,7 +414,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
     this.publishloading = true;
     let obj = {
       providerID: this.userProfile.ProviderID,
-      pageNo: number ? number : this.pageNo,
+      pageNo: number ? number : ((this.pageNo < 1) ? 1 : this.pageNo),
       pageSize: this.pageSize,
       mode: this.filterbyMode,
       containerSpecID: (this.filterbyContainerType == 'undefined') ? null : parseInt(this.filterbyContainerType),
@@ -812,7 +815,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         keyboard: false
       });
       modalRef.result.then((result) => {
-        if (result == 'Success') {
+        if (result) {
           this.getAllPublishRates('FCL');
           this.checkedallpublishRates = false
           this.delPublishRates = [];
@@ -832,7 +835,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         keyboard: false
       });
       modalRef2.result.then((result) => {
-        if (result == 'Success') {
+        if (result) {
           this.getAllPublishRates('FTL');
           this.checkedallpublishRates = false
           this.delPublishRates = [];
@@ -844,6 +847,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         data: updateValidity,
         addList: this.groundCharges,
         customers: this.allCustomers,
+        drafts: this.draftslistFTL,
         mode: 'publish'
       }
       modalRef2.componentInstance.selectedData = object;
@@ -1052,6 +1056,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
     containerLoad = 'FTL'
     this.draftloading = true
     this._manageRatesService.getAllDrafts(type, this.userProfile.ProviderID, containerLoad).subscribe((res: any) => {
+      console.log(res);
+      
       this.draftloading = false
       if (res.returnId > 0) {
         if (containerLoad === 'FCL') {
