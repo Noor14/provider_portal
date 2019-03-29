@@ -254,13 +254,13 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         this.getAllPublishRates('ftl')
       }
     });
-    
+
     let object = {
       ID: rowId,
       forType: (type === 'FCL' ? 'FCL-Ground' : type),
       data: obj,
       addList: this.groundCharges,
-      drafts: (Object.entries(this.draftslistFTL).length === 0 && this.draftslistFTL.constructor === Object ?  null : this.draftslistFTL),
+      drafts: (Object.entries(this.draftslistFTL).length === 0 && this.draftslistFTL.constructor === Object ? null : this.draftslistFTL),
       mode: 'draft',
       customers: this.allCustomers,
     }
@@ -449,13 +449,13 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
       columns: [
         {
           title: '<div class="fancyOptionBoxes"> <input id = "selectallpublishRates" type = "checkbox"> <label for= "selectallpublishRates"> <span> </span></label></div>',
-          data: function(data) {
+          data: function (data) {
             return '<div class="fancyOptionBoxes"> <input id = "' + data.id + '-' + data.transportType + '" type = "checkbox"> <label for= "' + data.id + '-' + data.transportType + '"> <span> </span></label></div>';
           }
         },
         {
           title: 'ORIGIN / DEPARTURE',
-          data: function(data) {
+          data: function (data) {
             let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
             let podUrl = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
@@ -469,7 +469,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         },
         {
           title: 'MODE',
-          data: function(data) {
+          data: function (data) {
             let string = data.transportType.toLowerCase();
             return string.charAt(0).toUpperCase() + string.slice(1);
           }
@@ -480,7 +480,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         },
         {
           title: 'RATE',
-          data: function(data) {
+          data: function (data) {
             return (Number(data.priceWithCode.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.priceWithCode.split(' ').shift(),
@@ -489,20 +489,20 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         },
         {
           title: 'RATE VALIDITY',
-          data: function(data) {
+          data: function (data) {
             return moment(data.effectiveFrom).format('D MMM, Y') + ' to ' + moment(data.effectiveTo).format('D MMM, Y')
           }
         },
         {
           title: '',
-          data: function(data) {
+          data: function (data) {
             let url = '../../../../../../assets/images/icons/menu.svg';
             return "<img id = '" + data.id + '-' + data.transportType + "'  src='" + url + "' class='icon-size-16 pointer' />";
           },
           className: 'moreOption'
         }
       ],
-      drawCallback: function() {
+      drawCallback: function () {
         let $api = this.api();
         let pages = $api.page.info().pages;
         if (pages === 1 || !pages) {
@@ -702,20 +702,26 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
 
   publishRate(type) {
     let param;
-    if (type === 'fcl') {
-      param = {
-        pricingIDList: (this.draftslist.length === this.publishRates.length) ? [-1] : this.publishRates,
-        providerID: this.userProfile.ProviderID,
-        containerLoadType: type.toUpperCase()
+    loading(true)
+    try {
+      if (type === 'fcl') {
+        param = {
+          pricingIDList: (this.draftslist.length === this.publishRates.length) ? [-1] : this.publishRates,
+          providerID: this.userProfile.ProviderID,
+          containerLoadType: type.toUpperCase()
+        }
+      } else if (type === 'ftl') {
+        param = {
+          pricingIDList: (this.draftslistFTL.length === this.publishRates.length) ? [-1] : this.publishRates,
+          providerID: this.userProfile.ProviderID,
+          containerLoadType: type.toUpperCase()
+        }
       }
-    } else if (type === 'ftl') {
-      param = {
-        pricingIDList: (this.draftslistFTL.length === this.publishRates.length) ? [-1] : this.publishRates,
-        providerID: this.userProfile.ProviderID,
-        containerLoadType: type.toUpperCase()
-      }
+    } catch (error) {
+      loading(false)
     }
     this._seaFreightService.publishDraftRate(param).subscribe((res: any) => {
+      loading(false)
       if (res.returnStatus == "Success") {
         for (var i = 0; i < this.publishRates.length; i++) {
           for (let y = 0; y < this.draftslist.length; y++) {
@@ -731,7 +737,13 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
           this.getDraftRates('ground', type.toUpperCase())
           this.getAllPublishRates(type.toUpperCase());
         }
+      } else {
+        this._toast.error(res.returnText, 'Publish Failed')
       }
+    }, (error: HttpErrorResponse) => {
+      loading(false)
+      this._toast.error('Failed to publish records', 'Publish Failed')
+      console.warn(error.message)
     })
   }
 
@@ -1057,7 +1069,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
     this.draftloading = true
     this._manageRatesService.getAllDrafts(type, this.userProfile.ProviderID, containerLoad).subscribe((res: any) => {
       console.log(res);
-      
+
       this.draftloading = false
       if (res.returnId > 0) {
         if (containerLoad === 'FCL') {
