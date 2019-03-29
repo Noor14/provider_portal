@@ -111,10 +111,10 @@ export class WarehouseComponent implements OnInit {
 
 
   public config: NgFilesConfig = {
-    acceptExtensions: ['jpg', 'png', 'bmp'],
-    maxFilesCount: 12,
+    acceptExtensions: ['jpg', 'png', 'bmp', 'mp4'],
+    maxFilesCount: 5,
     maxFileSize: 5 * 1024 * 1000,
-    totalFilesSize: 12 * 5 * 1024 * 1000
+    totalFilesSize: 5 * 5 * 1024 * 1000
   };
   warehouseCharges: any;
   publishloading: boolean;
@@ -182,9 +182,10 @@ export class WarehouseComponent implements OnInit {
       poBox: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
     });
     this.propertyDetailForm = new FormGroup({
-      warehouseSpace: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(1), Validators.pattern(/^[0-9]*$/)]),
+      warehouseSpace: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(100000)]),
       warehouseSpaceUnit: new FormControl(null, [Validators.required]),
-      hashmoveSpace: new FormControl(null, [warehouseValidator.bind(this)]),
+      // hashmoveSpace: new FormControl(null, [warehouseValidator.bind(this)]),
+      hashmoveSpace: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(100000)]),
       ceilingHeight: new FormControl(null),
       // ceilingUnit: new FormControl(null),
       minLeaseValueOne: new FormControl(null, [warehouseValidator.bind(this)]),
@@ -192,10 +193,10 @@ export class WarehouseComponent implements OnInit {
     });
 
 
-    
+
   }
 
-  commissionFormGenerate(){
+  commissionFormGenerate() {
     this.commissionForm = new FormGroup({
       commissionCurrency: new FormControl(null, [warehouseValidatorCommissionCurr.bind(this)]),
       commissionValue: new FormControl(null, [warehouseValidatorCommissionVal.bind(this)]),
@@ -236,10 +237,10 @@ export class WarehouseComponent implements OnInit {
     if (this.propertyDetailForm.controls.minLeaseValueTwo.status == "INVALID" && this.propertyDetailForm.controls.minLeaseValueTwo.touched) {
       this.minLeaseValueTwoError = true;
     }
-    if (this.commissionForm.controls.commissionValue.status == "INVALID" && this.commissionForm.controls.commissionValue.touched) {
+    if (this.isRealEstate && this.commissionForm.controls.commissionValue.status == "INVALID" && this.commissionForm.controls.commissionValue.touched) {
       this.commissionValueError = true;
     }
-    if (this.commissionForm.controls.percentValue.status == "INVALID" && this.commissionForm.controls.percentValue.touched) {
+    if (this.isRealEstate && this.commissionForm.controls.percentValue.status == "INVALID" && this.commissionForm.controls.percentValue.touched) {
       this.percentValueError = true;
     }
   }
@@ -321,7 +322,7 @@ export class WarehouseComponent implements OnInit {
       loading(false)
       if (res.returnStatus == "Success" && res.returnObject) {
         this.isRealEstate = res.returnObject.IsRealEstate;
-        if (this.isRealEstate){
+        if (this.isRealEstate) {
           this.commissionFormGenerate();
         }
         const data = [
@@ -355,7 +356,7 @@ export class WarehouseComponent implements OnInit {
     if (obj.Longitude) {
       this.location.lng = Number(obj.Longitude);
     }
-    if (this.location && this.location.lat && this.location.lng){
+    if (this.location && this.location.lat && this.location.lng) {
       this.zoomlevel = 14;
     }
     this.warehouseTypeFull = (obj.UsageType.toUpperCase() == 'SHARED') ? false : true;
@@ -380,8 +381,11 @@ export class WarehouseComponent implements OnInit {
           thumb: baseExternalAssets + elem.DocumentFile,
           DocumentUploadedFileType: elem.DocumentUploadedFileType
         };
+        console.log(album);
         albumArr.push(album);
       })
+      console.log(this.uploadedGalleries);
+
       this.warehouseDetail['parsedGallery'] = albumArr;
       this.docTypeId = this.uploadedGalleries[0].DocumentID;
     }
@@ -444,10 +448,14 @@ export class WarehouseComponent implements OnInit {
     }
   }
   numberValid(evt) {
-    let charCode = (evt.which) ? evt.which : evt.keyCode
-    if (charCode > 31 && (charCode < 48 || charCode > 57))
-      return false;
-    return true;
+    try {
+      let charCode = (evt.which) ? evt.which : evt.keyCode
+      if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+      return true;
+    } catch (error) {
+      return false
+    }
   }
   oneSpaceHandler(event) {
     if (event.target.value) {
@@ -475,7 +483,7 @@ export class WarehouseComponent implements OnInit {
     this._warehouseService.getDropDownValuesWarehouse(data).subscribe((res: any) => {
       if (res && res.length) {
         let leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
-        this.leaseTerm = leaseTerm.sort((a, b)=>  a.sortingOrder - b.sortingOrder);
+        this.leaseTerm = leaseTerm.sort((a, b) => a.sortingOrder - b.sortingOrder);
         this.warehouseUsageType = res.filter(obj => obj.codeType == 'WH_USAGE_TYPE');
         this.ceilingsHeight = res.filter(obj => obj.codeType == 'WH_CEILING_HEIGHT');
         this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM' && obj.codeType != 'WH_USAGE_TYPE' && obj.codeType != 'WH_CEILING_HEIGHT' && obj.codeVal.toUpperCase() != 'SQCM');
@@ -512,8 +520,11 @@ export class WarehouseComponent implements OnInit {
   }
 
   selectDocx(selectedFiles: NgFilesSelected): void {
+    console.log(selectedFiles);
+    let toUpload = selectedFiles
+
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.status == 1) this._toastr.error('Please select 12 or less file(s) to upload.', '')
+      if (selectedFiles.status == 1) this._toastr.error('Please select 5 or less file(s) to upload.', '')
       else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 5 MB. Please upload smaller file.', '')
       else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
       return;
@@ -521,12 +532,34 @@ export class WarehouseComponent implements OnInit {
     else {
       try {
         if (this.uploadedGalleries.length + selectedFiles.files.length > this.config.maxFilesCount) {
-          this._toastr.error('Please select 12 or less file(s) to upload.', '');
+          this._toastr.error('Please select 5 or less file(s) to upload.', '');
           return;
         }
-        this.onFileChange(selectedFiles)
+        const { uploadedGalleries } = this
+        console.log('uploadedGalleries:', uploadedGalleries);
+
+        const currVids = uploadedGalleries.filter(galleryDocx => ((galleryDocx.DocumentUploadedFileType && galleryDocx.DocumentUploadedFileType.length > 0 && galleryDocx.DocumentUploadedFileType.toLowerCase() === 'mp4') || (galleryDocx.FileContent && galleryDocx.FileContent.length > 0 && galleryDocx.FileContent[0].documentUploadedFileType.toLowerCase() === 'mp4')))
+        const { files } = selectedFiles
+        const newVids = files.filter(file => file.type.includes('mp4') || file.type.includes('video'))
+        if (newVids && newVids.length > 0) {
+          if (currVids && currVids.length > 0) {
+            this._toastr.error('Only one video is allowed.', '');
+            try {
+              newVids.forEach(newVid => {
+                let idx = toUpload.files.indexOf(newVid)
+                toUpload.files.splice(idx, 1)
+              })
+            } catch (error) {
+              this._toastr.warning('Unable to select file, please try again', '')
+              console.warn(error)
+              return
+            }
+          }
+        }
+
+        this.onFileChange(toUpload)
       } catch (error) {
-        console.log(error);
+        console.warn(error);
       }
 
     }
@@ -552,10 +585,14 @@ export class WarehouseComponent implements OnInit {
             }
             if (event.files.length <= this.config.maxFilesCount) {
               const docFile = JSON.parse(this.generateDocObject(selectedFile));
+              console.log(docFile);
+
               allDocsArr.push(docFile);
               flag++
               if (flag === fileLength) {
                 this.uploadedGalleries = this.uploadedGalleries.concat(allDocsArr);
+                console.log(this.uploadedGalleries);
+
               }
             }
             else {
@@ -594,6 +631,7 @@ export class WarehouseComponent implements OnInit {
       try {
         docFiles[index].WHID = this.whID;
         const resp: JsonResponse = await this.docSendService(docFiles[index])
+        loading(false)
         if (resp.returnStatus = 'Success') {
           let resObj = JSON.parse(resp.returnText);
           this.docTypeId = resObj.DocumentID;
@@ -614,6 +652,7 @@ export class WarehouseComponent implements OnInit {
           this._toastr.error("Error occured on upload", "");
         }
       } catch (error) {
+        loading(false)
         this._toastr.error("Error occured on upload", "");
       }
     }
@@ -629,7 +668,7 @@ export class WarehouseComponent implements OnInit {
       obj.DocumentFile = obj.DocumentFile.split(baseExternalAssets).pop();
       obj.DocumentID = this.docTypeId;
       this._basicInfoService.removeDoc(obj).subscribe((res: any) => {
-        if (res.returnStatus == 'Success') {
+        if (res.returnId > 0) {
           this._toastr.success('Remove selected document succesfully', "");
           this.uploadedGalleries.splice(index, 1);
           if (!this.uploadedGalleries || (this.uploadedGalleries && !this.uploadedGalleries.length)) {
@@ -637,7 +676,7 @@ export class WarehouseComponent implements OnInit {
           }
         }
         else {
-          this._toastr.error('Error Occured', "");
+          this._toastr.error(res.returnText, "");
         }
       }, (err: HttpErrorResponse) => {
         console.log(err);
@@ -679,9 +718,35 @@ export class WarehouseComponent implements OnInit {
     }, 0);
   }
 
+  cityValidation
+  cityValid
 
+  checkCity(type) {
+
+    let cityName = this.locationForm.value.city;
+    if (type == 'focusOut') {
+      if (typeof (cityName) == "string" && cityName.length > 2 && cityName.length < 26) {
+        this.cityValidation = "City should be selected from the dropdown";
+        this.cityValid = false;
+      }
+      if (this.locationForm.controls.city.status == "INVALID") {
+        this.cityError = true;
+      }
+    }
+    else if (type == 'focus' && this.cityValidation && typeof (cityName) == "string") {
+
+      this.cityValidation = false;
+      this.cityValid = true;
+    }
+  }
 
   addwareHouse() {
+
+    if(!this.locationForm.value.city || !this.locationForm.value.city.id) {
+      this._toastr.warning('Please select city from Dropdown')
+      return
+    }
+
     let obj = {
       whid: this.whID,
       providerID: this.userProfile.ProviderID,
@@ -718,9 +783,13 @@ export class WarehouseComponent implements OnInit {
       createdBy: this.userProfile.LoginID,
       modifiedBy: this.userProfile.LoginID,
     }
+    loading(true)
     this._warehouseService.addWarehouseDetail(obj).subscribe((res: any) => {
+      loading(false)
       if (res.returnStatus == "Success") {
         this.whID = res.returnObject[0].WHID;
+        console.log(res.returnObject[0].WHID);
+
         if (Number(this.whID) > 0) {
           this.uploadedGalleries = this.uploadedGalleries.filter(obj => obj.BusinessLogic);
           this.uploadDocuments(this.uploadedGalleries);
@@ -731,6 +800,7 @@ export class WarehouseComponent implements OnInit {
         this._stepper.next();
       }
     }, (err: HttpErrorResponse) => {
+      loading(false)
       console.log(err);
     })
   }
@@ -1099,18 +1169,6 @@ export function warehouseValidator(control: AbstractControl) {
         required: true
       }
     }
-    // else if (control.value.length < 3 && control.value) {
-    //     if (!regexp.test(control.value)) {
-    //       return {
-    //         pattern: true
-    //       }
-    //     }
-    //     else {
-    //       return {
-    //         minlength: true
-    //       }
-    //     }
-    //   }
     else if (control.value.length > 5 && control.value) {
       if (!regexp.test(control.value)) {
         return {
