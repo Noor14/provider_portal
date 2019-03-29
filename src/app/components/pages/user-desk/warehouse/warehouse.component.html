@@ -755,23 +755,20 @@
           <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
           Add another rate
         </a>
-        <div class="row" [ngClass]="totalPublishedRecords <= 5 ? 'mt-5' : ''">
+        <!-- <div class="row" [ngClass]="totalPublishedRecords <= 5 ? 'mt-5' : ''">
           <div class="col-6 Add-warehouse-link mt-3" (click)="stepper.prev()">
-            <!-- <a class="hvr-icon-back grey-anc-btn" href="javascript:;">
+            <a class="hvr-icon-back grey-anc-btn" href="javascript:;">
               <img src="../../../../../assets/images/icons/icon_arrow_left.svg" alt="icon"
                 class="icon-size-14 hvr-icon">
               <span class="link-hover-grey">go back </span>
-            </a> -->
+            </a>
           </div>
 
-          <div class="col-6 mt-3" *ngIf="isRealEstate">
-            <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="updateComission()"
-              [disabled]="!warehousePublishedRates || (warehousePublishedRates && !warehousePublishedRates.length) ||
-              commissionForm.invalid ">
-              save rates
-            </button>
+          <div class="col-6 mt-3">
+            <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right">
+              save rates</button>
           </div>
-        </div>
+        </div> -->
       </section>
     </ngx-step>
   </ngx-stepper>

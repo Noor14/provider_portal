@@ -919,7 +919,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
         keyboard: false
       });
       modalRef.result.then((result) => {
-        if (result) {
+        if (result == 'Success') {
           this.getAllPublishRates(type);
           this.checkedallpublishRates = false
           this.delPublishRates = [];
@@ -939,7 +939,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
         keyboard: false
       });
       modalRef2.result.then((result) => {
-        if (result) {
+        if (result == 'Success') {
           this.getAllPublishRates(type);
           this.checkedallpublishRates = false
           this.delPublishRates = [];
