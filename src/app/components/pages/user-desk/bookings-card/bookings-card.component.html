@@ -1,15 +1,26 @@
-<div class="bookings pointer mt-2">
+<!-- <div class="bookings pointer mt-2">
   <div class="card">
     <div class="card-body pt-2">
-      <!-- booking top row -->
+       booking top row 
       <div class="bookings-header d-md-flex justify-content-md-between">
         <div class="d-flex bookings-header-number">
-          <img *ngIf="booking.ShippingModeCode === 'SEA'" src="../../../../../assets/images/icons/icon_pin_sea.svg">
-          <img *ngIf="booking.ShippingModeCode === 'AIR'" src="../../../../../assets/images/icons/icon_pin_air.svg">
-          <img *ngIf="booking.ShippingModeCode === 'WAREHOUSE'"
-            src="../../../../../assets/images/icons/icon_pin_warehouse.svg">
-          <img *ngIf="booking.ShippingModeCode === 'TRUCK'" src="../../../../../assets/images/icons/icon_pin_truck.svg">
-          <div class="d-flex flex-column info">
+          <div *ngIf="booking.ShippingModeCode === 'SEA'"  class="bookings-header-number-icon sea-icon">
+              <img src="../../../../../assets/images/icons/icon_pin_sea.svg">
+          </div>
+         
+          <div *ngIf="booking.ShippingModeCode === 'AIR'" class="bookings-header-number-icon air-icon">
+              <img src="../../../../../assets/images/icons/icon_pin_air.svg">
+          </div>
+
+          <div *ngIf="booking.ShippingModeCode === 'WAREHOUSE'" class="bookings-header-number-icon ware-icon">
+              <img src="../../../../../assets/images/icons/icon_pin_warehouse.svg">
+          </div>
+          
+          <div *ngIf="booking.ShippingModeCode === 'TRUCK'" class="bookings-header-number-icon truck-icon">
+              <img src="../../../../../assets/images/icons/icon_pin_truck.svg">
+          </div>
+          
+          <div class="d-flex flex-column info ml-5 pl-3">
             <span>{{booking.HashMoveBookingNum}}</span>
             <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date :
               "H:mm"}}</small>
@@ -41,9 +52,9 @@
         </div>
       </div>
       <hr class="hr-solid mt-1">
-      <!-- booking top row -->
+       booking top row
 
-      <!-- booking bottom row -->
+       booking bottom row
       <div class="row ">
         <div class="col-lg-6 col-sm-12 border-separated">
           <div class="row">
@@ -111,7 +122,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="bookings pointer mt-2">
   <div class="card">
@@ -120,17 +131,27 @@
       <div class="bookings-header row">
         <div class="col-6 d-flex justify-content-start">
           <div class="d-flex bookings-header-number">
-            <img *ngIf="booking.ShippingModeCode === 'SEA'" src="../../../../../assets/images/icons/icon_pin_sea.svg">
-            <img *ngIf="booking.ShippingModeCode === 'AIR'" src="../../../../../assets/images/icons/icon_pin_air.svg">
-            <img *ngIf="booking.ShippingModeCode === 'WAREHOUSE'"
-              src="../../../../../assets/images/icons/icon_pin_warehouse.svg">
-            <img *ngIf="booking.ShippingModeCode === 'TRUCK'"
-              src="../../../../../assets/images/icons/icon_pin_truck.svg">
-            <div class="d-flex flex-column info">
-              <span>{{booking.HashMoveBookingNum}}</span>
-              <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date :
-              "H:mm"}}</small>
-            </div>
+              <div *ngIf="booking.ShippingModeCode === 'SEA'"  class="bookings-header-number-icon sea-icon">
+                  <img src="../../../../../assets/images/icons/icon_pin_sea.svg">
+              </div>
+             
+              <div *ngIf="booking.ShippingModeCode === 'AIR'" class="bookings-header-number-icon air-icon">
+                  <img src="../../../../../assets/images/icons/icon_pin_air.svg">
+              </div>
+    
+              <div *ngIf="booking.ShippingModeCode === 'WAREHOUSE'" class="bookings-header-number-icon ware-icon">
+                  <img src="../../../../../assets/images/icons/icon_pin_warehouse.svg">
+              </div>
+              
+              <div *ngIf="booking.ShippingModeCode === 'TRUCK'" class="bookings-header-number-icon truck-icon">
+                  <img src="../../../../../assets/images/icons/icon_pin_truck.svg">
+              </div>
+              
+              <div class="d-flex flex-column info ml-5 pl-4">
+                <span>{{booking.HashMoveBookingNum}}</span>
+                <small>Booked on {{booking.HashMoveBookingDate | date : "d MMM y"}} {{booking.HashMoveBookingDate | date :
+                  "H:mm"}}</small>
+              </div>
 
           </div>
           <div class="d-flex mt-1 bookings-header-company ">
