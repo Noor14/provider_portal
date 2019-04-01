@@ -12,8 +12,10 @@ import { DealsComponent } from './deals/deals.component';
 import { BillingComponent } from './billing/billing.component';
 import { SettingsComponent } from './settings/settings.component';
 // import { WarehouseComponent } from './warehouse/warehouse.component';
+import { MobileNavComponent } from './mobile-nav/mobile-nav.component';
 import { ManageRatesModule } from './manage-rates/manage-rates.module';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
+
 import { Observable } from 'rxjs';
 
 export function manageRatesModuleChildren(): Type<any> | NgModuleFactory<any> | Promise<Type<any>> | Observable<Type<any>> {

@@ -83,6 +83,44 @@
         text-transform: uppercase;
       }
     }
+
+    .book-card-action {
+
+      li {
+        font-family: $font-proxima;
+        font-size: $font-size-base;
+        font-weight: $font-weight-mid;
+        margin-right: 17px;
+        display: inline-block;
+
+        &:last-child {
+          margin-right: 0px;
+        }
+
+        &.continue {
+          color: $secondary-color;
+        }
+
+        &.req-agai {
+          color: $badge-default;
+        }
+
+        &.discard {
+          color: $btn-bg-danger;
+        }
+      }
+
+      color: $secondary-color;
+      font-family: $font-proxima;
+      font-size: $font-size-medium;
+      font-weight: $font-proxima-weight-semibold;
+      text-transform: uppercase;
+      padding-left: 0.15rem;
+
+      &:hover {
+        color: $secondary-color;
+      }
+    }
   }
 
   &-detail {
@@ -128,7 +166,7 @@
       span {
         font-size: $font-size-medium;
         font-family: $font-proxima;
-        color: rgb(43, 43, 43);
+        color:$color-topmenu;
         text-align: left;
       }
     }

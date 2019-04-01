@@ -6,10 +6,21 @@ import { UiTableComponent } from './tables/ui-table/ui-table.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UpdatePriceComponent } from './dialogues/update-price/update-price.component';
+import {AddDocumentComponent} from './dialogues/add-document/add-document.component';
 
 @NgModule({
   imports: [CommonModule, NgbModule, FormsModule, NgxPaginationModule],
-  declarations: [LoaderComponent, UiTableComponent, UpdatePriceComponent],
-  exports: [LoaderComponent, UiTableComponent, UpdatePriceComponent]
+  declarations: [
+    LoaderComponent,
+    UiTableComponent,
+    UpdatePriceComponent,
+    AddDocumentComponent
+  ],
+  exports: [
+    LoaderComponent,
+    UiTableComponent,
+    UpdatePriceComponent,
+    AddDocumentComponent
+  ]
 })
 export class SharedModule {}

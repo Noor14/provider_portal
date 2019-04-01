@@ -1,0 +1,106 @@
+@import '../../../../../assets/scss/_variables'; // Local Variables
+$left-nav-icon-width: 20px;
+$left-nav-icon-height:20px;
+$leftsidebar-h3-color: #c6c8ca;
+
+ .sidepanel  {
+    // width: 400px;
+    position: fixed;
+    z-index: 1;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background-color:#f7f8fc !important;
+    overflow-x: hidden;
+    padding-top: 60px;
+    transition: width 0.5s;
+    &.activeMenu {
+
+        width:400px;
+    }
+    &.unactiveMenu {
+
+        width:0;
+    } 
+    .navbar-nav {
+        padding-left:45px;
+      
+        h3 {
+            font-size: $font-size-base;
+            font-weight: $font-weight-mid;
+            color: $leftsidebar-h3-color;
+            text-transform: uppercase;
+            margin: 0px;
+        }
+        ul {
+            margin-left: 8px;
+            li {
+                padding: 10px 0 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .nav-link {
+                    color: $text-color-default;
+                    font-size: $font-size-large;
+                    font-weight: $font-weight-mid;
+                    font-family: $font-proxima;
+                    img {
+                        width: $left-nav-icon-width;
+                        height: $left-nav-icon-height;
+                        margin-right: 10px;
+                        vertical-align: sub;
+                    }
+                    &.active {
+                        .menu-text {
+                            color: $primary-color;
+                        }
+                    }
+                    &:hover {
+                        color: $primary-color;
+                    }
+                }
+                .badge {
+                    background-color:$color-topmenu;
+                    font-weight: normal;
+                    margin-right: 4rem;
+                    border-radius: 20px;
+                    font-size: 0.8125rem !important;
+                    min-width: 20px;
+                    min-height: 20px;
+                    line-height: 10px;
+                    padding: 5px;
+                }
+                @media (max-width: $screen-md-screen) {
+                    .badge {
+                        margin-right: 0px;
+                    }
+                }
+            }
+        }
+    }
+
+  }
+  
+  .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+  }
+ 
+  
+  .openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+  }
+  
+  .openbtn:hover {
+    background-color:#444;
+  }
+
+  
+
