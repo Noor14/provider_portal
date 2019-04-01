@@ -1,14 +1,16 @@
 <section class="allbookings">
-<h2 class="mb-5">Bookings</h2>
+  <h2 class="mb-5">Bookings</h2>
   <ngb-tabset (tabChange)="onTabChange()">
     <ngb-tab>
-      <ng-template ngbTabTitle> <span>CURRENT BOOKINGS</span> <span class="badge badge-secondary" *ngIf="currentBookings.length">{{currentBookings.length}}</span></ng-template>
+      <ng-template ngbTabTitle> <span>CURRENT BOOKINGS</span> <span class="badge badge-secondary"
+          *ngIf="currentBookings.length">{{currentBookings.length}}</span></ng-template>
       <ng-template ngbTabContent>
         <div class="bookingOverview overflow-hidden" *ngIf="currentBookings.length">
-          <app-bookings-card [booking]="obj" *ngFor="let obj of currentBookings | paginate: paginationConfig" (click)="viewBookingDetails(obj.BookingID)"></app-bookings-card>
-          <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks"
-          autoHide="autoHide" responsive="responsive" previousLabel="" nextLabel=""
-          *ngIf="currentBookings.length > paginationConfig.itemsPerPage" ></pagination-controls>
+          <app-bookings-card [booking]="obj" *ngFor="let obj of currentBookings | paginate: paginationConfig"
+            (click)="viewBookingDetails(obj.BookingID)"></app-bookings-card>
+          <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide"
+            responsive="responsive" previousLabel="" nextLabel=""
+            *ngIf="currentBookings.length > paginationConfig.itemsPerPage"></pagination-controls>
         </div>
         <div class="overflow-hidden" *ngIf="currentBookings && !currentBookings.length">
           <div class="animated bounceInDown card text-center p-1">
@@ -19,13 +21,15 @@
     </ngb-tab>
 
     <ngb-tab>
-      <ng-template ngbTabTitle><span>PAST BOOKINGS</span> <span class="badge badge-secondary" *ngIf="pastBookings.length">{{pastBookings.length}}</span></ng-template>
+      <ng-template ngbTabTitle><span>PAST BOOKINGS</span> <span class="badge badge-secondary"
+          *ngIf="pastBookings.length">{{pastBookings.length}}</span></ng-template>
       <ng-template ngbTabContent>
         <div class="bookingOverview overflow-hidden" *ngIf="pastBookings.length">
-          <app-bookings-card [booking]="obj" *ngFor="let obj of pastBookings | paginate: paginationConfig" (click)="viewBookingDetails(obj.BookingID)"></app-bookings-card>
-          <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks"
-          autoHide="autoHide" responsive="responsive" previousLabel="" nextLabel=""
-          *ngIf="pastBookings.length > paginationConfig.itemsPerPage" ></pagination-controls>
+          <app-bookings-card [booking]="obj" *ngFor="let obj of pastBookings | paginate: paginationConfig"
+            (click)="viewBookingDetails(obj.BookingID)"></app-bookings-card>
+          <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide"
+            responsive="responsive" previousLabel="" nextLabel=""
+            *ngIf="pastBookings.length > paginationConfig.itemsPerPage"></pagination-controls>
         </div>
         <div class="overflow-hidden" *ngIf="pastBookings && !pastBookings.length">
           <div class="animated bounceInDown card text-center p-1">
@@ -35,22 +39,43 @@
       </ng-template>
     </ngb-tab>
 
-      <ngb-tab>
-        <ng-template ngbTabTitle><span>TOTAL BOOKINGS</span> <span class="badge badge-secondary" *ngIf="totalBookings.length">{{totalBookings.length}}</span></ng-template>
-        <ng-template ngbTabContent>
-          <div class="bookingOverview overflow-hidden" *ngIf="totalBookings.length">
-            <app-bookings-card [booking]="obj" *ngFor="let obj of totalBookings | paginate: paginationConfig" (click)="viewBookingDetails(obj.BookingID)"></app-bookings-card>
-            <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks"
-            autoHide="autoHide" responsive="responsive" previousLabel="" nextLabel=""
-            *ngIf="totalBookings.length > paginationConfig.itemsPerPage" ></pagination-controls>
+    <ngb-tab>
+      <ng-template ngbTabTitle><span>TOTAL BOOKINGS</span> <span class="badge badge-secondary"
+          *ngIf="totalBookings.length">{{totalBookings.length}}</span></ng-template>
+      <ng-template ngbTabContent>
+        <div class="bookingOverview overflow-hidden" *ngIf="totalBookings.length">
+          <app-bookings-card [booking]="obj" *ngFor="let obj of totalBookings | paginate: paginationConfig"
+            (click)="viewBookingDetails(obj.BookingID)"></app-bookings-card>
+          <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide"
+            responsive="responsive" previousLabel="" nextLabel=""
+            *ngIf="totalBookings.length > paginationConfig.itemsPerPage"></pagination-controls>
+        </div>
+        <div class="overflow-hidden" *ngIf="totalBookings && !totalBookings.length">
+          <div class="animated bounceInDown card text-center p-1">
+            <p class="mb-0">You don't have any bookings yet </p>
           </div>
-          <div class="overflow-hidden" *ngIf="totalBookings && !totalBookings.length">
-            <div class="animated bounceInDown card text-center p-1">
-              <p class="mb-0">You don't have any bookings yet </p>
-            </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+
+    <ngb-tab>
+      <ng-template ngbTabTitle><span>SPECIAL REQUEST</span> <span class="badge badge-secondary"
+          *ngIf="totalBookings.length">{{totalBookings.length}}</span></ng-template>
+      <ng-template ngbTabContent>
+        <div class="bookingOverview overflow-hidden" *ngIf="totalBookings.length">
+          <app-bookings-card [booking]="obj" *ngFor="let obj of totalBookings | paginate: paginationConfig"
+            (click)="viewBookingDetails(obj.BookingID)"></app-bookings-card>
+          <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide"
+            responsive="responsive" previousLabel="" nextLabel=""
+            *ngIf="totalBookings.length > paginationConfig.itemsPerPage"></pagination-controls>
+        </div>
+        <div class="overflow-hidden" *ngIf="totalBookings && !totalBookings.length">
+          <div class="animated bounceInDown card text-center p-1">
+            <p class="mb-0">You don't have any bookings yet </p>
           </div>
-        </ng-template>
-      </ngb-tab>
+        </div>
+      </ng-template>
+    </ngb-tab>
   </ngb-tabset>
 
 </section>
