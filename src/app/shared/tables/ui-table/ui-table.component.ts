@@ -44,7 +44,7 @@ export class UiTableComponent implements OnInit, OnChanges {
     { title: "", activeClass: '', sortKey: "" },
     { title: "Rate For", activeClass: '', sortKey: "CustomerName" },
     { title: "Shipping Line", activeClass: '', sortKey: "" },
-    { title: "Origin/Departure", activeClass: '', sortKey: "" },
+    { title: "Origin/Destination", activeClass: '', sortKey: "" },
     { title: "Cargo Type", activeClass: '', sortKey: "" },
     { title: "Container", activeClass: '', sortKey: "" },
     { title: "Rate", activeClass: '', sortKey: "" },
@@ -93,7 +93,7 @@ export class UiTableComponent implements OnInit, OnChanges {
       this.thList = [
         { title: "", activeClass: '', sortKey: "" },
         { title: "Rate For", activeClass: '', sortKey: "CustomerName" },
-        { title: "Origin/Departure", activeClass: '', sortKey: "" },
+        { title: "Origin/Destination", activeClass: '', sortKey: "" },
         { title: "Cargo Type", activeClass: '', sortKey: "" },
         { title: "Rate", activeClass: '', sortKey: "" },
         { title: "Rate Validity", activeClass: '', sortKey: "" },
@@ -104,7 +104,7 @@ export class UiTableComponent implements OnInit, OnChanges {
       this.thList = [
         { title: "", activeClass: '', sortKey: "" },
         { title: "Rate for", activeClass: '', sortKey: "" },
-        { title: "Origin/Departure", activeClass: '', sortKey: "" },
+        { title: "Origin/Destination", activeClass: '', sortKey: "" },
         { title: "Cargo Type", activeClass: '', sortKey: "" },
         { title: "Size", activeClass: '', sortKey: "" },
         { title: "Rate", activeClass: '', sortKey: "" },
@@ -119,16 +119,27 @@ export class UiTableComponent implements OnInit, OnChanges {
         title1 = (this.data[0].usageType === 'SHARED') ? 'Rate / CBM / Day' : 'Rent Per Month'
         title2 = (this.data[0].usageType === 'SHARED') ? 'Rate / sqft / day' : 'Rent Per Year'
       }
+      if (this.data[0].usageType === 'SHARED') {
+        this.thList = [
+          { title: "", activeClass: '', sortKey: "" },
+          { title: "Rate for", activeClass: '', sortKey: "" },
+          { title: "Warehouse Type", activeClass: '', sortKey: "" },
+          { title: "Rate Validity", activeClass: '', sortKey: "" },
+          { title: title1, activeClass: '', sortKey: "" },
+          { title: title2, activeClass: '', sortKey: "" },
+          { title: "Addtional CHarges", activeClass: '', sortKey: "" },
+        ]
+      } else {
+        this.thList = [
+          { title: "", activeClass: '', sortKey: "" },
+          { title: "Rate for", activeClass: '', sortKey: "" },
+          { title: "Warehouse Type", activeClass: '', sortKey: "" },
+          { title: "Rate Validity", activeClass: '', sortKey: "" },
+          { title: title1, activeClass: '', sortKey: "" },
+          { title: title2, activeClass: '', sortKey: "" },
+        ]
+      }
 
-      this.thList = [
-        { title: "", activeClass: '', sortKey: "" },
-        { title: "Rate for", activeClass: '', sortKey: "" },
-        { title: "Warehouse Type", activeClass: '', sortKey: "" },
-        { title: "Rate Validity", activeClass: '', sortKey: "" },
-        { title: title1, activeClass: '', sortKey: "" },
-        { title: title2, activeClass: '', sortKey: "" },
-        { title: "Addtional CHarges", activeClass: '', sortKey: "" },
-      ]
     }
   }
 
@@ -425,7 +436,7 @@ export class UiTableComponent implements OnInit, OnChanges {
 
   /**
    * [Change Detedction of Input in the Component]
-   * @param  changes [object]
+  * @param  changes [object]
    * @return         [description]
    */
   ngOnChanges(changes) {
