@@ -16,9 +16,9 @@
     </div>
     <div class="helpSupport-content">
       <h4>Customer Support</h4>
-      <div *ngFor="let help of helpSupport" class="address">
-        <p class="address">
-          {{help.HMSupportAddress}}
+      <div class="address">
+        <p>
+          {{helpSupport.HMSupportAddress}}
         </p>
         <!-- <div class="helpLine">
           <p>
@@ -39,8 +39,9 @@
       <div class="helpSupport-footer">
         <p>
           For complaints or issues regarding your order, visit our
-          <a href="{{helpSupport[0].HMSupportWebAdd}}" class="link-hover-black" target="_blank">Help Center</a> or send us an email at
-          <a class="link-hover-black" href="{{'mailto:' + helpSupport[0].HMSupportEmail}}">{{helpSupport[0].HMSupportEmail}}</a>
+          <a href="{{helpSupport.HMSupportWebAdd}}" class="link-hover-black" target="_blank">Help Center</a>
+          or send us an email at
+          <a class="link-hover-black" href="{{'mailto:' + helpSupport.HMSupportEmail}}">{{helpSupport.HMSupportEmail}}</a>
         </p>
       </div>
     </div>
