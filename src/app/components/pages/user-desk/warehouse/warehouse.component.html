@@ -83,7 +83,7 @@
     Add your warehouse and create a listing of available capacity on HashMove
   </p>
   <ngx-stepper #stepper class="warehouse-stepper" [activeStep]="activeStep">
-    <ngx-step [label]="'1. INFO'">
+    <ngx-step [label]="'ADD INFO'">
       <section class="warehouse">
         <!--  warehouse-info -->
         <div class="warehouse-info">
@@ -550,7 +550,7 @@
         <!--  warehouse-info -->
       </section>
     </ngx-step>
-    <ngx-step [label]="'2. PRICING'">
+    <ngx-step [label]="'SET PRICING'">
       <section class="Add-warehouse Allfreights">
         <section class="commisionRates mt-3" *ngIf="isRealEstate">
           <div class="row commission-rates">
