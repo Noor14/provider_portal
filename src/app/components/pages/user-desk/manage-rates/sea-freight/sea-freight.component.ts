@@ -753,7 +753,6 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
   publishRate(type) {
     let param;
     loading(true)
-
     try {
       if (type === 'fcl') {
         param = {
@@ -768,11 +767,12 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
       }
     } catch (error) {
       loading(false)
+      console.log(error)
     }
 
     this._seaFreightService.publishDraftRate(type, param).subscribe((res: any) => {
       loading(false)
-      if (res.returnId > 0) {
+      if (res.returnStatus == "Success") {
         if (type === 'fcl') {
           for (var i = 0; i < this.publishRates.length; i++) {
             for (let y = 0; y < this.draftsfcl.length; y++) {
@@ -800,9 +800,8 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
       } else {
         this._toast.error(res.returnText, 'Publish Failed')
       }
-    }, (error: HttpErrorResponse) => {
+    }, error => {
       loading(false)
-      console.warn(error.message)
     })
   }
 

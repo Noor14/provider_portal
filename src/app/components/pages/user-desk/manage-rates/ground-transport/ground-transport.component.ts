@@ -454,7 +454,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
           }
         },
         {
-          title: 'ORIGIN / DEPARTURE',
+          title: 'ORIGIN / DESTINATION',
           data: function (data) {
             let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
             let podUrl = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
@@ -718,6 +718,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         }
       }
     } catch (error) {
+      console.log(error);
+
       loading(false)
     }
     this._seaFreightService.publishDraftRate(param).subscribe((res: any) => {
@@ -740,10 +742,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
       } else {
         this._toast.error(res.returnText, 'Publish Failed')
       }
-    }, (error: HttpErrorResponse) => {
-      loading(false)
-      this._toast.error('Failed to publish records', 'Publish Failed')
-      console.warn(error.message)
+    }, error => {
+      loading(false);
+      console.log(error)
     })
   }
 
@@ -927,6 +928,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
 
   // NEW GROUND WORKING
   getPortsData() {
+    console.log('Yolox');
+
     this._manageRatesService.getPortsData('GROUND').subscribe((res: any) => {
       let ports = JSON.parse(localStorage.getItem("PortDetails"));
       localStorage.setItem("PortDetails", JSON.stringify(ports.concat(res)));
@@ -1108,22 +1111,32 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
       }
     });
     this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
+    console.log(JSON.parse(localStorage.getItem('PortDetails')));
     loading(true)
     this._manageRateService.getPortsData('ground').subscribe((res: any) => {
-      loading(false)
-      this.groundPorts = res;
-      this.combinedPorts = this.allPorts.concat(this.groundPorts)
-      this.combinedPorts = removeDuplicates(this.combinedPorts, 'PortID')
-      localStorage.setItem('PortDetails', JSON.stringify(this.combinedPorts))
-      this.combinedPorts.forEach(e => {
-        e.title = e.PortName
-        e.id = e.PortID
-        e.imageName = e.CountryCode
-        e.type = e.PortType
-        e.code = e.PortCode
-        e.shortName = e.PortShortName
-      })
-      this.citiesPorts = this.combinedPorts.concat(this.cities)
+      try {
+        this.groundPorts = res;
+        this.combinedPorts = this.allPorts.concat(this.groundPorts)
+        this.combinedPorts = removeDuplicates(this.combinedPorts, 'PortID')
+        const { combinedPorts } = this
+        localStorage.setItem('PortDetails', JSON.stringify(combinedPorts))
+        console.log('part2:', combinedPorts);
+        this.combinedPorts.forEach(e => {
+          e.title = e.PortName
+          e.id = e.PortID
+          e.imageName = e.CountryCode
+          e.type = e.PortType
+          e.code = e.PortCode
+          e.shortName = e.PortShortName
+        })
+        this.citiesPorts = this.combinedPorts.concat(this.cities)
+        loading(false)
+      } catch (error) {
+        loading(false)
+      }
+    }, (error: HttpErrorResponse) => {
+      const { message } = error
+      console.warn(message)
     })
     this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
     this.allContainersType = this.combinedContainers.filter(e => e.ContainerFor === 'FTL' && e.ShippingCatName === 'Goods')

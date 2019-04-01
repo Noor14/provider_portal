@@ -276,7 +276,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           className: "carrierName"
         },
         {
-          title: 'ORIGIN / DEPARTURE',
+          title: 'ORIGIN / DESTINATION',
           data: function (data) {
             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
             if (!data.PolID || !data.PodID) {
@@ -812,7 +812,7 @@ export class AirFreightComponent implements OnInit, OnDestroy {
           className: "carrierName"
         },
         {
-          title: 'ORIGIN / DEPARTURE',
+          title: 'ORIGIN / DESTINATION',
           data: function (data) {
             let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
             let podCode = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
