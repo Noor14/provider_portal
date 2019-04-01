@@ -15,7 +15,6 @@ import { SettingsComponent } from './settings/settings.component';
 import { MobileNavComponent } from './mobile-nav/mobile-nav.component';
 import { ManageRatesModule } from './manage-rates/manage-rates.module';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
-
 import { Observable } from 'rxjs';
 
 export function manageRatesModuleChildren(): Type<any> | NgModuleFactory<any> | Promise<Type<any>> | Observable<Type<any>> {
@@ -28,15 +27,15 @@ const routes: Routes = [
         canActivate: [UserGuard],
         children: [
             { path: 'dashboard', component: DashboardComponent },
-            { path: 'billing', component: BillingComponent }, 
-            { path: 'allbookings', component: AllBookingsComponent }, 
-            { path: 'reports', component: ReportsComponent }, 
-            { path: 'settings', component: SettingsComponent }, 
-            { path: 'support', component: SupportComponent }, 
-            { path: 'deals', component: DealsComponent }, 
+            { path: 'billing', component: BillingComponent },
+            { path: 'allbookings', component: AllBookingsComponent },
+            { path: 'reports', component: ReportsComponent },
+            { path: 'settings', component: SettingsComponent },
+            { path: 'support', component: SupportComponent },
             { path: 'nav', component: MobileNavComponent }, 
+            // { path: 'deals', component: DealsComponent },
             // { path: 'add-warehouse/:id', component: WarehouseComponent },
-            { path: 'payment_result', component: PaymentResultComponent }, 
+            { path: 'payment_result', component: PaymentResultComponent },
             { path: 'booking-detail/:id', component: ViewBookingComponent },
             { path: 'manage-rates', loadChildren: manageRatesModuleChildren },
             { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }

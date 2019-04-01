@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
@@ -33,6 +33,7 @@ import { SeaFreightService } from '../manage-rates/sea-freight/sea-freight.servi
 export class WarehouseComponent implements OnInit {
   @Input() whID: any;
   @Input() step: number;
+  @Output() wareHouseTemplateChange = new EventEmitter();
   @ViewChild('stepper') public _stepper: any;
   @ViewChild('searchElement') public searchElement: any;
 
@@ -110,10 +111,10 @@ export class WarehouseComponent implements OnInit {
 
 
   public config: NgFilesConfig = {
-    acceptExtensions: ['jpg', 'png', 'bmp'],
-    maxFilesCount: 12,
-    maxFileSize: 12 * 1024 * 1000,
-    totalFilesSize: 12 * 12 * 1024 * 1000
+    acceptExtensions: ['jpg', 'png', 'bmp', 'mp4'],
+    maxFilesCount: 5,
+    maxFileSize: 5 * 1024 * 1000,
+    totalFilesSize: 5 * 5 * 1024 * 1000
   };
   warehouseCharges: any;
   publishloading: boolean;
@@ -182,15 +183,21 @@ export class WarehouseComponent implements OnInit {
       poBox: new FormControl(null, [Validators.required, Validators.maxLength(16), Validators.minLength(4)]),
     });
     this.propertyDetailForm = new FormGroup({
-      warehouseSpace: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(1), Validators.pattern(/^[0-9]*$/)]),
+      warehouseSpace: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(100000)]),
       warehouseSpaceUnit: new FormControl(null, [Validators.required]),
-      hashmoveSpace: new FormControl(null, [warehouseValidator.bind(this)]),
+      // hashmoveSpace: new FormControl(null, [warehouseValidator.bind(this)]),
+      hashmoveSpace: new FormControl(null, [Validators.min(1), Validators.max(100000)]),
       ceilingHeight: new FormControl(null),
       // ceilingUnit: new FormControl(null),
       minLeaseValueOne: new FormControl(null, [warehouseValidator.bind(this)]),
       minLeaseValueTwo: new FormControl(null, [warehouseValidator.bind(this)]),
     });
 
+
+
+  }
+
+  commissionFormGenerate() {
     this.commissionForm = new FormGroup({
       commissionCurrency: new FormControl(null, [warehouseValidatorCommissionCurr.bind(this)]),
       commissionValue: new FormControl(null, [warehouseValidatorCommissionVal.bind(this)]),
@@ -232,10 +239,10 @@ export class WarehouseComponent implements OnInit {
     if (this.propertyDetailForm.controls.minLeaseValueTwo.status == "INVALID" && this.propertyDetailForm.controls.minLeaseValueTwo.touched) {
       this.minLeaseValueTwoError = true;
     }
-    if (this.commissionForm.controls.commissionValue.status == "INVALID" && this.commissionForm.controls.commissionValue.touched) {
+    if (this.isRealEstate && this.commissionForm.controls.commissionValue.status == "INVALID" && this.commissionForm.controls.commissionValue.touched) {
       this.commissionValueError = true;
     }
-    if (this.commissionForm.controls.percentValue.status == "INVALID" && this.commissionForm.controls.percentValue.touched) {
+    if (this.isRealEstate && this.commissionForm.controls.percentValue.status == "INVALID" && this.commissionForm.controls.percentValue.touched) {
       this.percentValueError = true;
     }
   }
@@ -317,6 +324,9 @@ export class WarehouseComponent implements OnInit {
       loading(false)
       if (res.returnStatus == "Success" && res.returnObject) {
         this.isRealEstate = res.returnObject.IsRealEstate;
+        if (this.isRealEstate) {
+          this.commissionFormGenerate();
+        }
         const data = [
           'WH_MIN_LEASE_TERM',
           'UNIT_AREA',
@@ -348,6 +358,9 @@ export class WarehouseComponent implements OnInit {
     if (obj.Longitude) {
       this.location.lng = Number(obj.Longitude);
     }
+    if (this.location && this.location.lat && this.location.lng) {
+      this.zoomlevel = 14;
+    }
     this.warehouseTypeFull = (obj.UsageType.toUpperCase() == 'SHARED') ? false : true;
     this.fixedAmount = (obj.ComissionType == 'Fixed_Amount') ? true : false;
     if (obj.FacilitiesProviding && isJSON(obj.FacilitiesProviding)) {
@@ -372,6 +385,7 @@ export class WarehouseComponent implements OnInit {
         };
         albumArr.push(album);
       })
+
       this.warehouseDetail['parsedGallery'] = albumArr;
       this.docTypeId = this.uploadedGalleries[0].DocumentID;
     }
@@ -434,10 +448,14 @@ export class WarehouseComponent implements OnInit {
     }
   }
   numberValid(evt) {
-    let charCode = (evt.which) ? evt.which : evt.keyCode
-    if (charCode > 31 && (charCode < 48 || charCode > 57))
-      return false;
-    return true;
+    try {
+      let charCode = (evt.which) ? evt.which : evt.keyCode
+      if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+      return true;
+    } catch (error) {
+      return false
+    }
   }
   oneSpaceHandler(event) {
     if (event.target.value) {
@@ -464,7 +482,8 @@ export class WarehouseComponent implements OnInit {
   getvaluesDropDown(data) {
     this._warehouseService.getDropDownValuesWarehouse(data).subscribe((res: any) => {
       if (res && res.length) {
-        this.leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
+        let leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
+        this.leaseTerm = leaseTerm.sort((a, b) => a.sortingOrder - b.sortingOrder);
         this.warehouseUsageType = res.filter(obj => obj.codeType == 'WH_USAGE_TYPE');
         this.ceilingsHeight = res.filter(obj => obj.codeType == 'WH_CEILING_HEIGHT');
         this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM' && obj.codeType != 'WH_USAGE_TYPE' && obj.codeType != 'WH_CEILING_HEIGHT' && obj.codeVal.toUpperCase() != 'SQCM');
@@ -501,8 +520,9 @@ export class WarehouseComponent implements OnInit {
   }
 
   selectDocx(selectedFiles: NgFilesSelected): void {
+    let toUpload = selectedFiles
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
-      if (selectedFiles.status == 1) this._toastr.error('Please select 12 or less file(s) to upload.', '')
+      if (selectedFiles.status == 1) this._toastr.error('Please select 5 or less file(s) to upload.', '')
       else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 5 MB. Please upload smaller file.', '')
       else if (selectedFiles.status == 4) this._toastr.error('File format is not supported. Please upload supported format file.', '')
       return;
@@ -510,12 +530,32 @@ export class WarehouseComponent implements OnInit {
     else {
       try {
         if (this.uploadedGalleries.length + selectedFiles.files.length > this.config.maxFilesCount) {
-          this._toastr.error('Please select 12 or less file(s) to upload.', '');
+          this._toastr.error('Please select 5 or less file(s) to upload.', '');
           return;
         }
-        this.onFileChange(selectedFiles)
+        const { uploadedGalleries } = this
+        const currVids = uploadedGalleries.filter(galleryDocx => ((galleryDocx.DocumentUploadedFileType && galleryDocx.DocumentUploadedFileType.length > 0 && galleryDocx.DocumentUploadedFileType.toLowerCase() === 'mp4') || (galleryDocx.FileContent && galleryDocx.FileContent.length > 0 && galleryDocx.FileContent[0].documentUploadedFileType.toLowerCase() === 'mp4')))
+        const { files } = selectedFiles
+        const newVids = files.filter(file => file.type.includes('mp4') || file.type.includes('video'))
+        if (newVids && newVids.length > 0) {
+          if (currVids && currVids.length > 0) {
+            this._toastr.error('Only one video is allowed.', '');
+            try {
+              newVids.forEach(newVid => {
+                let idx = toUpload.files.indexOf(newVid)
+                toUpload.files.splice(idx, 1)
+              })
+            } catch (error) {
+              this._toastr.warning('Unable to select file, please try again', '')
+              console.warn(error)
+              return
+            }
+          }
+        }
+
+        this.onFileChange(toUpload)
       } catch (error) {
-        console.log(error);
+        console.warn(error);
       }
 
     }
@@ -583,6 +623,7 @@ export class WarehouseComponent implements OnInit {
       try {
         docFiles[index].WHID = this.whID;
         const resp: JsonResponse = await this.docSendService(docFiles[index])
+        loading(false)
         if (resp.returnStatus = 'Success') {
           let resObj = JSON.parse(resp.returnText);
           this.docTypeId = resObj.DocumentID;
@@ -603,6 +644,7 @@ export class WarehouseComponent implements OnInit {
           this._toastr.error("Error occured on upload", "");
         }
       } catch (error) {
+        loading(false)
         this._toastr.error("Error occured on upload", "");
       }
     }
@@ -618,7 +660,7 @@ export class WarehouseComponent implements OnInit {
       obj.DocumentFile = obj.DocumentFile.split(baseExternalAssets).pop();
       obj.DocumentID = this.docTypeId;
       this._basicInfoService.removeDoc(obj).subscribe((res: any) => {
-        if (res.returnStatus == 'Success') {
+        if (res.returnId > 0) {
           this._toastr.success('Remove selected document succesfully', "");
           this.uploadedGalleries.splice(index, 1);
           if (!this.uploadedGalleries || (this.uploadedGalleries && !this.uploadedGalleries.length)) {
@@ -626,7 +668,7 @@ export class WarehouseComponent implements OnInit {
           }
         }
         else {
-          this._toastr.error('Error Occured', "");
+          this._toastr.error(res.returnText, "");
         }
       }, (err: HttpErrorResponse) => {
         console.log(err);
@@ -653,7 +695,7 @@ export class WarehouseComponent implements OnInit {
     });
     modalRef.result.then((result) => {
       if (result == "close") {
-        this._redirect.navigate(['provider/manage-rates/warehouse'])
+        this.wareHouseTemplateChange.emit(false);
       }
     });
     let obj = {
@@ -668,9 +710,35 @@ export class WarehouseComponent implements OnInit {
     }, 0);
   }
 
+  cityValidation
+  cityValid
 
+  checkCity(type) {
+
+    let cityName = this.locationForm.value.city;
+    if (type == 'focusOut') {
+      if (typeof (cityName) == "string" && cityName.length > 2 && cityName.length < 26) {
+        this.cityValidation = "City should be selected from the dropdown";
+        this.cityValid = false;
+      }
+      if (this.locationForm.controls.city.status == "INVALID") {
+        this.cityError = true;
+      }
+    }
+    else if (type == 'focus' && this.cityValidation && typeof (cityName) == "string") {
+
+      this.cityValidation = false;
+      this.cityValid = true;
+    }
+  }
 
   addwareHouse() {
+
+    if(!this.locationForm.value.city || !this.locationForm.value.city.id) {
+      this._toastr.warning('Please select city from Dropdown')
+      return
+    }
+
     let obj = {
       whid: this.whID,
       providerID: this.userProfile.ProviderID,
@@ -703,11 +771,13 @@ export class WarehouseComponent implements OnInit {
       // comissionType: (this.isRealEstate) ? ((this.fixedAmount) ? 'Fixed_Amount' : 'Fixed_Percent') : null,
       // comissionCurrencyID: (this.isRealEstate) ? this.commissionForm.value.commissionCurrency.id : null,
       // comissionValue: (this.isRealEstate) ? this.commissionForm.value.commissionValue : null,
-      percent: (this.isRealEstate) ? ((!this.fixedAmount) ? this.commissionForm.value.percentValue : null) : null,
+      // percent: (this.isRealEstate) ? ((!this.fixedAmount) ? this.commissionForm.value.percentValue : null) : null,
       createdBy: this.userProfile.LoginID,
       modifiedBy: this.userProfile.LoginID,
     }
+    loading(true)
     this._warehouseService.addWarehouseDetail(obj).subscribe((res: any) => {
+      loading(false)
       if (res.returnStatus == "Success") {
         this.whID = res.returnObject[0].WHID;
         if (Number(this.whID) > 0) {
@@ -720,6 +790,7 @@ export class WarehouseComponent implements OnInit {
         this._stepper.next();
       }
     }, (err: HttpErrorResponse) => {
+      loading(false)
       console.log(err);
     })
   }
@@ -746,7 +817,6 @@ export class WarehouseComponent implements OnInit {
    */
 
   addWarehouseRate(rowId) {
-    console.log(this.warehouseDetail);
     let obj;
     if (rowId > 0) {
       obj = this.warehouseDetail;
@@ -867,7 +937,6 @@ export class WarehouseComponent implements OnInit {
    * @memberof SeaFreightComponent
    */
   paging(event) {
-    console.log(event);
     this.pageNo = event.page;
     this.getAllPublishRates(event.whid)
   }
@@ -878,9 +947,6 @@ export class WarehouseComponent implements OnInit {
    * @param {string} type //fcl or lcl
    * @memberof SeaFreightComponent
    */
-  filterRecords(type) {
-    // this.getAllPublishRates()
-  }
 
   /**
    *
@@ -925,8 +991,8 @@ export class WarehouseComponent implements OnInit {
               if (e.pricingJson) {
                 e.parsedpricingJson = JSON.parse(e.pricingJson)
                 if (e.parsedpricingJson.length === 1) {
-                  e.whPrice1 = e.parsedpricingJson[0].price
-                  e.whPrice2 = 0
+                  e.whPrice1 = ((e.parsedpricingJson[0].priceBasis === 'PER_MONTH' || e.parsedpricingJson[0].priceBasis === 'PER_CBM_PER_DAY') ? e.parsedpricingJson[0].price : 0)
+                  e.whPrice2 = ((e.parsedpricingJson[0].priceBasis === 'PER_YEAR' || e.parsedpricingJson[0].priceBasis === 'PER_SQFT_PER_DAY') ? e.parsedpricingJson[0].price : 0)
                 } else if (e.parsedpricingJson.length === 2) {
                   e.whPrice1 = e.parsedpricingJson[0].price
                   e.whPrice2 = e.parsedpricingJson[1].price
@@ -961,8 +1027,6 @@ export class WarehouseComponent implements OnInit {
       if (result == "Success") {
         this.getAllPublishRates(this.warehousePublishedRates[0].whid)
       }
-    }, (reason) => {
-      // console.log("reason");
     });
     let obj = {
       data: this.delPublishRates,
@@ -1056,6 +1120,30 @@ export class WarehouseComponent implements OnInit {
     }
   }
 
+
+  /**
+   * UPDATE COMISSION SAVE REQUEST
+   *
+   * @memberof WarehouseComponent
+   */
+  updateComission() {
+    loading(true)
+    let obj = {
+      whid: this.whID,
+      comissionType: (this.fixedAmount ? 'Fixed_Amount' : 'Fixed_Percent'),
+      comissionCurrencyID: this.commissionForm.value.commissionCurrency.id,
+      comissionValue: this.commissionForm.value.commissionValue,
+      percent: this.commissionForm.value.percentValue,
+      modifiedBy: this.userProfile.LoginID
+    }
+    this._warehouseService.updateComission(obj).subscribe((res: any) => {
+      loading(false)
+      this._toastr.success('Comission updated successfully', 'Success')
+    }, (err) => {
+      loading(false)
+    })
+  }
+
 }
 export function warehouseValidator(control: AbstractControl) {
   if (!this.warehouseTypeFull) {
@@ -1065,18 +1153,6 @@ export function warehouseValidator(control: AbstractControl) {
         required: true
       }
     }
-    // else if (control.value.length < 3 && control.value) {
-    //     if (!regexp.test(control.value)) {
-    //       return {
-    //         pattern: true
-    //       }
-    //     }
-    //     else {
-    //       return {
-    //         minlength: true
-    //       }
-    //     }
-    //   }
     else if (control.value.length > 5 && control.value) {
       if (!regexp.test(control.value)) {
         return {

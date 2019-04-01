@@ -253,11 +253,13 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         this.getAllPublishRates('ftl')
       }
     });
+
     let object = {
       ID: rowId,
       forType: (type === 'FCL' ? 'FCL-Ground' : type),
       data: obj,
       addList: this.groundCharges,
+      drafts: (Object.entries(this.draftslistFTL).length === 0 && this.draftslistFTL.constructor === Object ? null : this.draftslistFTL),
       mode: 'draft',
       customers: this.allCustomers,
     }
@@ -411,7 +413,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
     this.publishloading = true;
     let obj = {
       providerID: this.userProfile.ProviderID,
-      pageNo: number ? number : this.pageNo,
+      pageNo: number ? number : ((this.pageNo < 1) ? 1 : this.pageNo),
       pageSize: this.pageSize,
       mode: this.filterbyMode,
       containerSpecID: (this.filterbyContainerType == 'undefined') ? null : parseInt(this.filterbyContainerType),
@@ -446,13 +448,13 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
       columns: [
         {
           title: '<div class="fancyOptionBoxes"> <input id = "selectallpublishRates" type = "checkbox"> <label for= "selectallpublishRates"> <span> </span></label></div>',
-          data: function(data) {
+          data: function (data) {
             return '<div class="fancyOptionBoxes"> <input id = "' + data.id + '-' + data.transportType + '" type = "checkbox"> <label for= "' + data.id + '-' + data.transportType + '"> <span> </span></label></div>';
           }
         },
         {
-          title: 'ORIGIN / DEPARTURE',
-          data: function(data) {
+          title: 'ORIGIN / DESTINATION',
+          data: function (data) {
             let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
             let podUrl = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
             const arrow = '../../../../../../assets/images/icons/grid-arrow.svg';
@@ -466,7 +468,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         },
         {
           title: 'MODE',
-          data: function(data) {
+          data: function (data) {
             let string = data.transportType.toLowerCase();
             return string.charAt(0).toUpperCase() + string.slice(1);
           }
@@ -477,7 +479,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         },
         {
           title: 'RATE',
-          data: function(data) {
+          data: function (data) {
             return (Number(data.priceWithCode.split(' ').pop())).toLocaleString('en-US', {
               style: 'currency',
               currency: data.priceWithCode.split(' ').shift(),
@@ -486,20 +488,20 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         },
         {
           title: 'RATE VALIDITY',
-          data: function(data) {
+          data: function (data) {
             return moment(data.effectiveFrom).format('D MMM, Y') + ' to ' + moment(data.effectiveTo).format('D MMM, Y')
           }
         },
         {
           title: '',
-          data: function(data) {
+          data: function (data) {
             let url = '../../../../../../assets/images/icons/menu.svg';
             return "<img id = '" + data.id + '-' + data.transportType + "'  src='" + url + "' class='icon-size-16 pointer' />";
           },
           className: 'moreOption'
         }
       ],
-      drawCallback: function() {
+      drawCallback: function () {
         let $api = this.api();
         let pages = $api.page.info().pages;
         if (pages === 1 || !pages) {
@@ -699,20 +701,28 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
 
   publishRate(type) {
     let param;
-    if (type === 'fcl') {
-      param = {
-        pricingIDList: (this.draftslist.length === this.publishRates.length) ? [-1] : this.publishRates,
-        providerID: this.userProfile.ProviderID,
-        containerLoadType: type.toUpperCase()
+    loading(true)
+    try {
+      if (type === 'fcl') {
+        param = {
+          pricingIDList: (this.draftslist.length === this.publishRates.length) ? [-1] : this.publishRates,
+          providerID: this.userProfile.ProviderID,
+          containerLoadType: type.toUpperCase()
+        }
+      } else if (type === 'ftl') {
+        param = {
+          pricingIDList: (this.draftslistFTL.length === this.publishRates.length) ? [-1] : this.publishRates,
+          providerID: this.userProfile.ProviderID,
+          containerLoadType: type.toUpperCase()
+        }
       }
-    } else if (type === 'ftl') {
-      param = {
-        pricingIDList: (this.draftslistFTL.length === this.publishRates.length) ? [-1] : this.publishRates,
-        providerID: this.userProfile.ProviderID,
-        containerLoadType: type.toUpperCase()
-      }
+    } catch (error) {
+      console.log(error);
+
+      loading(false)
     }
     this._seaFreightService.publishDraftRate(param).subscribe((res: any) => {
+      loading(false)
       if (res.returnStatus == "Success") {
         for (var i = 0; i < this.publishRates.length; i++) {
           for (let y = 0; y < this.draftslist.length; y++) {
@@ -728,7 +738,12 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
           this.getDraftRates('ground', type.toUpperCase())
           this.getAllPublishRates(type.toUpperCase());
         }
+      } else {
+        this._toast.error(res.returnText, 'Publish Failed')
       }
+    }, error => {
+      loading(false);
+      console.log(error)
     })
   }
 
@@ -911,6 +926,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
 
   // NEW GROUND WORKING
   getPortsData() {
+    console.log('Yolox');
+
     this._manageRatesService.getPortsData('GROUND').subscribe((res: any) => {
       let ports = JSON.parse(localStorage.getItem("PortDetails"));
       localStorage.setItem("PortDetails", JSON.stringify(ports.concat(res)));
@@ -1052,6 +1069,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
     containerLoad = 'FTL'
     this.draftloading = true
     this._manageRatesService.getAllDrafts(type, this.userProfile.ProviderID, containerLoad).subscribe((res: any) => {
+      console.log(res);
+
       this.draftloading = false
       if (res.returnId > 0) {
         if (containerLoad === 'FCL') {
@@ -1090,22 +1109,32 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
       }
     });
     this.allPorts = JSON.parse(localStorage.getItem('PortDetails'))
+    console.log(JSON.parse(localStorage.getItem('PortDetails')));
     loading(true)
     this._manageRateService.getPortsData('ground').subscribe((res: any) => {
-      loading(false)
-      this.groundPorts = res;
-      this.combinedPorts = this.allPorts.concat(this.groundPorts)
-      this.combinedPorts = removeDuplicates(this.combinedPorts, 'PortID')
-      localStorage.setItem('PortDetails', JSON.stringify(this.combinedPorts))
-      this.combinedPorts.forEach(e => {
-        e.title = e.PortName
-        e.id = e.PortID
-        e.imageName = e.CountryCode
-        e.type = e.PortType
-        e.code = e.PortCode
-        e.shortName = e.PortShortName
-      })
-      this.citiesPorts = this.combinedPorts.concat(this.cities)
+      try {
+        this.groundPorts = res;
+        this.combinedPorts = this.allPorts.concat(this.groundPorts)
+        this.combinedPorts = removeDuplicates(this.combinedPorts, 'PortID')
+        const { combinedPorts } = this
+        localStorage.setItem('PortDetails', JSON.stringify(combinedPorts))
+        console.log('part2:', combinedPorts);
+        this.combinedPorts.forEach(e => {
+          e.title = e.PortName
+          e.id = e.PortID
+          e.imageName = e.CountryCode
+          e.type = e.PortType
+          e.code = e.PortCode
+          e.shortName = e.PortShortName
+        })
+        this.citiesPorts = this.combinedPorts.concat(this.cities)
+        loading(false)
+      } catch (error) {
+        loading(false)
+      }
+    }, (error: HttpErrorResponse) => {
+      const { message } = error
+      console.warn(message)
     })
     this.combinedContainers = JSON.parse(localStorage.getItem('containers'))
     this.allContainersType = this.combinedContainers.filter(e => e.ContainerFor === 'FTL' && e.ShippingCatName === 'Goods')

@@ -29,7 +29,7 @@
       <div class="col-4" *ngIf="selectedData.forType === 'WAREHOUSE'">
         <div class="form-group">
           <label>Warehouse Type</label>
-          <select class="form-control" name="" [(ngModel)]="storageType">
+          <select class="form-control" name="" [(ngModel)]="storageType" [disabled]="disableWarehouse">
             <option value="">Please Select</option>
             <option [value]="type.codeVal" *ngFor="let type of warehouseTypes">{{type.codeValDesc}}</option>
           </select>

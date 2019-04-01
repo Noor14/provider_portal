@@ -8,10 +8,9 @@
               (click)="openGallery(warehouseDetail.parsedGallery, i)">
               <div class="gallery-section" *ngIf="i == 0">
                 <div class="images-carousel">
-                  <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
-                  <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
-                    <source [src]="doc.DocumentFile" type="video/mp4" />
-                  </video>
+                  <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType.toLowerCase() !== 'mp4'" alt="thumbnail" />
+                  <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType.toLowerCase() === 'mp4'"
+                    [src]="doc.DocumentFile" type="video/mp4"></video>
                   <div class="gallery-section-item d-flex justify-content-center align-items-center">
                     <img src="../../../assets/images/icons/icon_pictures.svg" alt="count" class="icon-size-14 mr-1" />
                     {{ warehouseDetail.parsedGallery.length }}
@@ -150,7 +149,7 @@
                 <div class="col-12">
                   <div class="form-group">
                     <label class="mb-0">Gallery</label>
-                    <small class="sub-title">Images show rthe condition of the property and are very compelling for
+                    <small class="sub-title">Images show the condition of the property and are very compelling for
                       space seekers.
                     </small>
                     <div class="document-Info d-flex flex-column mt-2">
@@ -168,9 +167,8 @@
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-3 uploaded-images"
                           *ngFor="let galleryDocx of uploadedGalleries; let i = index">
                           <div class="display-upload delete">
-                            <img *ngIf="whID == '0'" [src]="galleryDocx.FileContent[0].docUrl" />
-                            <img *ngIf="whID != '0'"
-                              [src]="(galleryDocx.DocumentFile)? (baseExternalAssets + galleryDocx.DocumentFile):galleryDocx.FileContent[0].docUrl " />
+                            <img  *ngIf="((galleryDocx?.DocumentUploadedFileType?.length > 0 && galleryDocx?.DocumentUploadedFileType?.toLowerCase() !== 'mp4') || ( galleryDocx?.FileContent?.length > 0 && galleryDocx?.FileContent[0]?.documentUploadedFileType?.toLowerCase() !== 'mp4'))" [src]="(galleryDocx.DocumentFile)? (baseExternalAssets + galleryDocx.DocumentFile):galleryDocx?.FileContent[0]?.docUrl" />
+                            <video  *ngIf="((galleryDocx?.DocumentUploadedFileType?.length > 0 && galleryDocx?.DocumentUploadedFileType?.toLowerCase() === 'mp4') || ( galleryDocx?.FileContent?.length > 0 && galleryDocx?.FileContent[0]?.documentUploadedFileType?.toLowerCase() === 'mp4'))" class="animated fadeIn" controls [src]="(galleryDocx?.DocumentFile)? (baseExternalAssets + galleryDocx?.DocumentFile):galleryDocx?.FileContent[0]?.docUrl" type="video/mp4"></video>
                             <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del"
                               class="pointer delete-icon" (click)="removeSelectedDocx(i, galleryDocx)" />
                           </div>
@@ -202,8 +200,8 @@
                             <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" [ngClass]="{
                               'routeSelected': locationForm.value.city && locationForm.value.city.id,
                               'inputError': cityError && locationForm.controls['city'].errors
-                                }" maxlength="100" formControlName="city" (focusout)="errorValidate()"
-                              (focus)="cityError=false" [ngbTypeahead]="searchCity" [resultTemplate]="st"
+                                }" maxlength="100" formControlName="city" (focusout)="errorValidate();checkCity('focusOut')"
+                                (focus)="checkCity('focus'); cityError=false" [ngbTypeahead]="searchCity" [resultTemplate]="st"
                               [inputFormatter]="formatterCity" placeholder="Enter City">
                             <ng-template #st let-r="result">
                               <div class="flag-container mr-1">
@@ -213,7 +211,8 @@
                               <ngb-highlight [result]="r.title"></ngb-highlight>
                             </ng-template>
                           </div>
-                          <span *ngIf="cityError">
+                          <p class="inputError animated fadeIn" *ngIf="cityValidation">{{cityValidation}}</p>
+                          <span *ngIf="!cityValidation && cityError">
                             <p class="inputError animated fadeIn"
                               *ngIf="locationForm.controls['city'].hasError('required') && (locationForm.controls.city.dirty || locationForm.controls.city.touched)">
                               {{requiredFields}}</p>
@@ -346,13 +345,13 @@
                           *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('required') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
                           {{requiredFields}}</p>
                         <p class="inputError animated fadeIn"
-                          *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('minlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
+                          *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('min') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
                           Range
-                          1 to 1,00,000</p>
+                          1 to 100,000</p>
                         <p class="inputError animated fadeIn"
-                          *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('maxlength') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
+                          *ngIf="!propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && propertyDetailForm.controls['warehouseSpace'].hasError('max') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
                           Range
-                          1 to 1,00,000</p>
+                          1 to 100,000</p>
                         <p class="inputError animated fadeIn"
                           *ngIf="propertyDetailForm.controls['warehouseSpace'].hasError('pattern') && (propertyDetailForm.controls.warehouseSpace.dirty || propertyDetailForm.controls.warehouseSpace.touched)">
                           Please
@@ -383,13 +382,13 @@
                             *ngIf="propertyDetailForm.controls['hashmoveSpace'].hasError('required') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">
                             {{requiredFields}}</p>
                           <p class="inputError animated fadeIn"
-                            *ngIf="!propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && propertyDetailForm.controls['hashmoveSpace'].hasError('minlength') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">
+                            *ngIf="!propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && propertyDetailForm.controls['hashmoveSpace'].hasError('min') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">
                             Range
-                            1 to 1,00,000</p>
+                            1 to 100,000</p>
                           <p class="inputError animated fadeIn"
-                            *ngIf="!propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && propertyDetailForm.controls['hashmoveSpace'].hasError('maxlength') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">
+                            *ngIf="!propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && propertyDetailForm.controls['hashmoveSpace'].hasError('max') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">
                             Range
-                            1 to 1,00,000</p>
+                            1 to 100,000</p>
                           <p class="inputError animated fadeIn"
                             *ngIf="propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">
                             Please
@@ -447,11 +446,11 @@
                           <p class="inputError animated fadeIn"
                             *ngIf="!propertyDetailForm.controls['minLeaseValueOne'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueOne'].hasError('minlength') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">
                             Range
-                            1 to 1,00,000</p>
+                            1 to 100,000</p>
                           <p class="inputError animated fadeIn"
                             *ngIf="!propertyDetailForm.controls['minLeaseValueOne'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueOne'].hasError('maxlength') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">
                             Range
-                            1 to 1,00,000</p>
+                            1 to 100,000</p>
                           <p class="inputError animated fadeIn"
                             *ngIf="propertyDetailForm.controls['minLeaseValueOne'].hasError('pattern') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">
                             Please
@@ -480,11 +479,11 @@
                           <p class="inputError animated fadeIn"
                             *ngIf="!propertyDetailForm.controls['minLeaseValueTwo'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueTwo'].hasError('minlength') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">
                             Range
-                            1 to 1,00,000</p>
+                            1 to 100,000</p>
                           <p class="inputError animated fadeIn"
                             *ngIf="!propertyDetailForm.controls['minLeaseValueTwo'].hasError('pattern') && propertyDetailForm.controls['minLeaseValueTwo'].hasError('maxlength') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">
                             Range
-                            1 to 1,00,000</p>
+                            1 to 100,000</p>
                           <p class="inputError animated fadeIn"
                             *ngIf="propertyDetailForm.controls['minLeaseValueTwo'].hasError('pattern') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">
                             Please
@@ -542,8 +541,7 @@
                 cancel
               </button>
               <button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 mb-2" [disabled]="generalForm.invalid || !uploadedGalleries.length || locationForm.invalid ||
-                propertyDetailForm.invalid || hashmovespaceMsg || !selectedMiniLeaseTerm || !checkedFacilities"
-                (click)="addwareHouse()">
+                propertyDetailForm.invalid || hashmovespaceMsg || !selectedMiniLeaseTerm" (click)="addwareHouse()">
                 save & add pricing </button>
             </div>
           </div>
@@ -601,11 +599,11 @@
                     <p class="inputError animated fadeIn"
                       *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('minlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
                       Range
-                      1 to 1,00,000</p>
+                      1 to 100,000</p>
                     <p class="inputError animated fadeIn"
                       *ngIf="!commissionForm.controls['percentValue'].hasError('pattern') && commissionForm.controls['percentValue'].hasError('maxlength') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
                       Range
-                      1 to 1,00,000</p>
+                      1 to 100,000</p>
                     <p class="inputError animated fadeIn"
                       *ngIf="commissionForm.controls['percentValue'].hasError('pattern') && (commissionForm.controls.percentValue.dirty || commissionForm.controls.percentValue.touched)">
                       Please
@@ -660,11 +658,11 @@
                     <p class="inputError animated fadeIn"
                       *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('minlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
                       Range
-                      1 to 1,00,000</p>
+                      1 to 100,000</p>
                     <p class="inputError animated fadeIn"
                       *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('maxlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
                       Range
-                      1 to 1,00,000</p>
+                      1 to 100,000</p>
                     <p class="inputError animated fadeIn"
                       *ngIf="commissionForm.controls['commissionValue'].hasError('pattern') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
                       Please
@@ -740,10 +738,10 @@
               </a>
             </div>
           </div>
-          <app-ui-table *ngIf="warehousePublishedRates" [tableType]="'publishFCL'" [tableData]="warehousePublishedRates"
-            (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('warehouse', $event)"
-            (pageEvent)="paging($event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'WAREHOUSE'"
-            [transMode]="'WAREHOUSE'">
+          <app-ui-table *ngIf="warehousePublishedRates?.length > 0" [tableType]="'publishFCL'"
+            [tableData]="warehousePublishedRates" (checkedRows)="tableCheckedRows($event)"
+            (sorting)="sortedFilters('warehouse', $event)" (pageEvent)="paging($event)"
+            [totalRecords]="totalPublishedRecords" [containerLoad]="'WAREHOUSE'" [transMode]="'WAREHOUSE'">
           </app-ui-table>
           <button *ngIf="!warehousePublishedRates" class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2"
             (click)="addWarehouseRate(whID)">
