@@ -381,10 +381,8 @@ export class WarehouseComponent implements OnInit {
           thumb: baseExternalAssets + elem.DocumentFile,
           DocumentUploadedFileType: elem.DocumentUploadedFileType
         };
-        console.log(album);
         albumArr.push(album);
       })
-      console.log(this.uploadedGalleries);
 
       this.warehouseDetail['parsedGallery'] = albumArr;
       this.docTypeId = this.uploadedGalleries[0].DocumentID;
@@ -520,9 +518,7 @@ export class WarehouseComponent implements OnInit {
   }
 
   selectDocx(selectedFiles: NgFilesSelected): void {
-    console.log(selectedFiles);
     let toUpload = selectedFiles
-
     if (selectedFiles.status !== NgFilesStatus.STATUS_SUCCESS) {
       if (selectedFiles.status == 1) this._toastr.error('Please select 5 or less file(s) to upload.', '')
       else if (selectedFiles.status == 2) this._toastr.error('File size should not exceed 5 MB. Please upload smaller file.', '')
@@ -536,8 +532,6 @@ export class WarehouseComponent implements OnInit {
           return;
         }
         const { uploadedGalleries } = this
-        console.log('uploadedGalleries:', uploadedGalleries);
-
         const currVids = uploadedGalleries.filter(galleryDocx => ((galleryDocx.DocumentUploadedFileType && galleryDocx.DocumentUploadedFileType.length > 0 && galleryDocx.DocumentUploadedFileType.toLowerCase() === 'mp4') || (galleryDocx.FileContent && galleryDocx.FileContent.length > 0 && galleryDocx.FileContent[0].documentUploadedFileType.toLowerCase() === 'mp4')))
         const { files } = selectedFiles
         const newVids = files.filter(file => file.type.includes('mp4') || file.type.includes('video'))
@@ -585,14 +579,10 @@ export class WarehouseComponent implements OnInit {
             }
             if (event.files.length <= this.config.maxFilesCount) {
               const docFile = JSON.parse(this.generateDocObject(selectedFile));
-              console.log(docFile);
-
               allDocsArr.push(docFile);
               flag++
               if (flag === fileLength) {
                 this.uploadedGalleries = this.uploadedGalleries.concat(allDocsArr);
-                console.log(this.uploadedGalleries);
-
               }
             }
             else {
@@ -788,8 +778,6 @@ export class WarehouseComponent implements OnInit {
       loading(false)
       if (res.returnStatus == "Success") {
         this.whID = res.returnObject[0].WHID;
-        console.log(res.returnObject[0].WHID);
-
         if (Number(this.whID) > 0) {
           this.uploadedGalleries = this.uploadedGalleries.filter(obj => obj.BusinessLogic);
           this.uploadDocuments(this.uploadedGalleries);
@@ -947,7 +935,6 @@ export class WarehouseComponent implements OnInit {
    * @memberof SeaFreightComponent
    */
   paging(event) {
-    console.log(event);
     this.pageNo = event.page;
     this.getAllPublishRates(event.whid)
   }
@@ -958,9 +945,6 @@ export class WarehouseComponent implements OnInit {
    * @param {string} type //fcl or lcl
    * @memberof SeaFreightComponent
    */
-  filterRecords(type) {
-    // this.getAllPublishRates()
-  }
 
   /**
    *
@@ -1041,8 +1025,6 @@ export class WarehouseComponent implements OnInit {
       if (result == "Success") {
         this.getAllPublishRates(this.warehousePublishedRates[0].whid)
       }
-    }, (reason) => {
-      // console.log("reason");
     });
     let obj = {
       data: this.delPublishRates,
