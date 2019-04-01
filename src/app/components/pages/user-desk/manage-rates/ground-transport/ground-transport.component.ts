@@ -454,7 +454,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
           }
         },
         {
-          title: 'ORIGIN / DEPARTURE',
+          title: 'ORIGIN / DESTINATION',
           data: function (data) {
             let polUrl = '../../../../../../assets/images/flags/4x3/' + data.polCode.split(' ').shift().toLowerCase() + '.svg';
             let podUrl = '../../../../../../assets/images/flags/4x3/' + data.podCode.split(' ').shift().toLowerCase() + '.svg';
@@ -718,6 +718,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         }
       }
     } catch (error) {
+      console.log(error);
+
       loading(false)
     }
     this._seaFreightService.publishDraftRate(param).subscribe((res: any) => {
@@ -740,10 +742,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
       } else {
         this._toast.error(res.returnText, 'Publish Failed')
       }
-    }, (error: HttpErrorResponse) => {
-      loading(false)
-      this._toast.error('Failed to publish records', 'Publish Failed')
-      console.warn(error.message)
+    }, error => {
+      loading(false);
+      console.log(error)
     })
   }
 

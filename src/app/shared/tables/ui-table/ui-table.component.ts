@@ -44,7 +44,7 @@ export class UiTableComponent implements OnInit, OnChanges {
     { title: "", activeClass: '', sortKey: "" },
     { title: "Rate For", activeClass: '', sortKey: "CustomerName" },
     { title: "Shipping Line", activeClass: '', sortKey: "" },
-    { title: "Origin/Departure", activeClass: '', sortKey: "" },
+    { title: "Origin/Destination", activeClass: '', sortKey: "" },
     { title: "Cargo Type", activeClass: '', sortKey: "" },
     { title: "Container", activeClass: '', sortKey: "" },
     { title: "Rate", activeClass: '', sortKey: "" },
@@ -93,7 +93,7 @@ export class UiTableComponent implements OnInit, OnChanges {
       this.thList = [
         { title: "", activeClass: '', sortKey: "" },
         { title: "Rate For", activeClass: '', sortKey: "CustomerName" },
-        { title: "Origin/Departure", activeClass: '', sortKey: "" },
+        { title: "Origin/Destination", activeClass: '', sortKey: "" },
         { title: "Cargo Type", activeClass: '', sortKey: "" },
         { title: "Rate", activeClass: '', sortKey: "" },
         { title: "Rate Validity", activeClass: '', sortKey: "" },
@@ -104,7 +104,7 @@ export class UiTableComponent implements OnInit, OnChanges {
       this.thList = [
         { title: "", activeClass: '', sortKey: "" },
         { title: "Rate for", activeClass: '', sortKey: "" },
-        { title: "Origin/Departure", activeClass: '', sortKey: "" },
+        { title: "Origin/Destination", activeClass: '', sortKey: "" },
         { title: "Cargo Type", activeClass: '', sortKey: "" },
         { title: "Size", activeClass: '', sortKey: "" },
         { title: "Rate", activeClass: '', sortKey: "" },
