@@ -363,12 +363,17 @@ export class SeaRateDialogComponent implements OnInit {
     }
   }
 
+  isRateUpdating = false
   /**
    * [On Save Button Click Action]
    * @param  type [string] fcl/lcl/ftl/fcl-ground
    * @return      [description]
    */
   savedraftrow(type) {
+    if (this.isRateUpdating) {
+      return;
+    }
+    this.isRateUpdating = true;
     if (type !== 'update') {
       this.saveDraft(type);
     } else if (type === 'update') {
@@ -383,74 +388,89 @@ export class SeaRateDialogComponent implements OnInit {
    */
   updatePublishedRate(type) {
     let rateData = [];
-    if (this.selectedData.forType !== 'WAREHOUSE') {
-      if (this.selectedData.data && this.selectedData.data && this.selectedData.data.length) {
-        this.selectedData.data.forEach(element => {
-          let LCLObj = {
-            consolidatorPricingID: element.consolidatorPricingID,
-            rate: this.selectedPrice,
-            effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
-            effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
-            modifiedBy: this.userProfile.LoginID,
-            JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
-            customerID: element.customerID,
-            jsonCustomerDetail: (JSON.stringify(element.jsonCustomerDetail) === "[{},{}]" ? null : element.jsonCustomerDetail),
-            customerType: element.customerType
-          }
-          let FCLObj = {
-            carrierPricingID: element.carrierPricingID,
-            rate: this.selectedPrice,
-            effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
-            effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
-            modifiedBy: this.userProfile.LoginID,
-            JsonSurchargeDet: (JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)) === '[{},{}]' ? null : JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations))),
-            customerID: element.customerID,
-            jsonCustomerDetail: element.jsonCustomerDetail,
-            customerType: element.customerType
-          }
-          let FTLObj = {
-            pricingID: element.id,
-            couplePrice: parseInt(this.couplePrice),
-            rate: this.selectedPrice,
-            effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
-            effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
-            modifiedBy: this.userProfile.LoginID,
-            transportType: 'TRUCK',
-            JsonSurchargeDet: (JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)) === '[{},{}]' ? null : JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations))),
-            customerID: element.customerID,
-            jsonCustomerDetail: element.jsonCustomerDetail,
-            customerType: element.customerType
-          }
-          if (type === 'fcl' && this.transPortMode === 'SEA') {
-            rateData.push(FCLObj)
-          } else if (type === 'lcl' && this.transPortMode === 'SEA') {
-            rateData.push(LCLObj)
-          } else if ((type === 'ftl' && this.transPortMode === 'GROUND') || (type === 'fcl' && this.transPortMode === 'GROUND')) {
-            type = 'ground'
-            rateData.push(FTLObj)
-          }
-        });
+    try {
+      if (this.selectedData.forType !== 'WAREHOUSE') {
+        if (this.selectedData.data && this.selectedData.data && this.selectedData.data.length) {
+          this.selectedData.data.forEach(element => {
+            let LCLObj = {
+              consolidatorPricingID: element.consolidatorPricingID,
+              rate: this.selectedPrice,
+              effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+              effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+              modifiedBy: this.userProfile.LoginID,
+              JsonSurchargeDet: JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)),
+              customerID: element.customerID,
+              jsonCustomerDetail: (JSON.stringify(element.jsonCustomerDetail) === "[{},{}]" ? null : element.jsonCustomerDetail),
+              customerType: element.customerType
+            }
+            let FCLObj = {
+              carrierPricingID: element.carrierPricingID,
+              rate: this.selectedPrice,
+              effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+              effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+              modifiedBy: this.userProfile.LoginID,
+              JsonSurchargeDet: (JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)) === '[{},{}]' ? null : JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations))),
+              customerID: element.customerID,
+              jsonCustomerDetail: element.jsonCustomerDetail,
+              customerType: element.customerType
+            }
+            let FTLObj = {
+              pricingID: element.id,
+              couplePrice: parseInt(this.couplePrice),
+              rate: this.selectedPrice,
+              effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+              effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+              modifiedBy: this.userProfile.LoginID,
+              transportType: 'TRUCK',
+              JsonSurchargeDet: (JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)) === '[{},{}]' ? null : JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations))),
+              customerID: element.customerID,
+              jsonCustomerDetail: element.jsonCustomerDetail,
+              customerType: element.customerType
+            }
+            if (type === 'fcl' && this.transPortMode === 'SEA') {
+              rateData.push(FCLObj)
+            } else if (type === 'lcl' && this.transPortMode === 'SEA') {
+              rateData.push(LCLObj)
+            } else if ((type === 'ftl' && this.transPortMode === 'GROUND') || (type === 'fcl' && this.transPortMode === 'GROUND')) {
+              type = 'ground'
+              rateData.push(FTLObj)
+            }
+          });
+        }
+      } else if (this.selectedData.forType === 'WAREHOUSE') {
+        this.calculatePricingJSON()
+        let WHObj = {
+          whPricingID: this.selectedData.data.WhPricingID,
+          pricingJson: JSON.stringify(this.pricingJSON),
+          effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+          effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+          modifiedBy: this.userProfile.LoginID,
+          jsonSurchargeDet: (JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)) === '[{},{}]' ? null : JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations))),
+          customerID: this.selectedData.data.CustomerID,
+          jsonCustomerDetail: this.selectedData.data.JsonCustomerDetail,
+          customerType: this.selectedData.data.CustomerType
+        }
+        rateData.push(WHObj)
       }
-    } else if (this.selectedData.forType === 'WAREHOUSE') {
-      this.calculatePricingJSON()
-      let WHObj = {
-        whPricingID: this.selectedData.data.WhPricingID,
-        pricingJson: JSON.stringify(this.pricingJSON),
-        effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
-        effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
-        modifiedBy: this.userProfile.LoginID,
-        jsonSurchargeDet: (JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations)) === '[{},{}]' ? null : JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations))),
-        customerID: this.selectedData.data.CustomerID,
-        jsonCustomerDetail: this.selectedData.data.JsonCustomerDetail,
-        customerType: this.selectedData.data.CustomerType
-      }
-      rateData.push(WHObj)
+    } catch (error) {
+      this.isRateUpdating = false;
+      console.warn(error)
     }
+
     this._seaFreightService.rateValidityFCL(type, rateData).subscribe((res: any) => {
+      loading(false)
+      this.isRateUpdating = false;
       if (res.returnStatus == "Success") {
         this._toast.success('Rates updated successfully', 'Success')
         this.closeModal(true);
+      } else {
+        this._toast.warning(res.returnText)
       }
+    }, error => {
+      this.isRateUpdating = false;
+      loading(false)
+      console.warn(error)
+      this._toast.error('Error while saving rates, please try later')
     })
   }
 
@@ -480,264 +500,274 @@ export class SeaRateDialogComponent implements OnInit {
   public buttonLoading: boolean = false;
   saveDraft(type) {
     this.buttonLoading = true
-    const { filterOrigin, filterDestination, transPortMode } = this
-    if (transPortMode === 'SEA' && filterOrigin && filterOrigin.CountryCode && filterDestination && filterDestination.CountryCode && filterOrigin.CountryCode.toLowerCase() === filterDestination.CountryCode.toLowerCase()) {
-      this._toast.warning("Please select different pickup and drop Country", 'Warning');
-      return
-    }
-    let customers = [];
-    if (this.selectedCustomer.length) {
-      this.selectedCustomer.forEach(element => {
-        let obj = {
-          CustomerID: element.CustomerID,
-          CustomerType: element.CustomerType,
-          CustomerName: element.CustomerName,
-          CustomerImage: element.CustomerImage
-        }
-        customers.push(obj)
-      });
-    }
-
-    let totalImp = []
-    let totalExp = []
-    // this.selectedOrigins = this.selectedOrigins.filter(e => e.addChrID)
-    // this.selectedDestinations = this.selectedDestinations.filter(e => e.addChrID)
-    const expCharges = this.selectedOrigins.filter((e) => e.Imp_Exp === 'EXPORT')
-    const impCharges = this.selectedDestinations.filter((e) => e.Imp_Exp === 'IMPORT')
-
-    if (impCharges && impCharges.length) {
-      impCharges.forEach(element => {
-        totalImp.push(parseInt(element.Price));
-      });
-      this.TotalImportCharges = totalImp.reduce((all, item) => {
-        return all + item;
-      });
-    }
-
-    if (expCharges && expCharges.length) {
-      expCharges.forEach(element => {
-        totalExp.push(parseInt(element.Price));
-      });
-      this.TotalExportCharges = totalExp.reduce((all, item) => {
-        return all + item;
-      });
-    }
-
-
-    if (this.selectedData.forType === 'WAREHOUSE') {
-      this.transPortMode = 'WAREHOUSE'
-      this.calculatePricingJSON()
-    }
-
-    console.log('selectedOrigin:', this.selectedOrigins);
-
-
-    let JsonSurchargeDet = JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations));
-    console.log(JsonSurchargeDet === "[{},{}]");
-    let obj = {
-      // GROUND ID
-      ID: (this.selectedData.ID ? this.selectedData.ID : 0),
-
-      // FCL ID
-      providerPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ProviderPricingDraftID : 0,
-
-      // LCL ID
-      consolidatorPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ConsolidatorPricingDraftID : 0,
-
-      customerID: (this.selectedCustomer.length ? this.selectedCustomer[0].CustomerID : null),
-      customersList: (customers.length ? customers : null),
-      carrierID: (this.selectedShipping) ? this.selectedShipping.CarrierID : undefined,
-      carrierName: (this.selectedShipping) ? this.selectedShipping.CarrierName : undefined,
-      carrierImage: (this.selectedShipping) ? this.selectedShipping.CarrierImage : undefined,
-      providerID: this.userProfile.ProviderID,
-      containerSpecID: (this.selectedContSize == null || this.selectedContSize == 'null') ? null : parseInt(this.selectedContSize),
-      containerSpecName: (this.selectedContSize == null || this.selectedContSize == 'null') ? undefined : this.getContSpecName(this.selectedContSize),
-      shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : parseInt(this.selectedCategory),
-      shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.getShippingName(this.selectedCategory),
-      containerLoadType: this.containerLoadParam,
-      transportType: this.transPortMode,
-      modeOfTrans: this.transPortMode,
-      priceBasis: this.priceBasis,
-      providerLocationD: "",
-      providerLocationL: "",
-      polID: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortID || this.filterOrigin.id) : null,
-      polName: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortName || this.filterOrigin.title) : null,
-      polCode: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortCode || this.filterOrigin.code) : null,
-      podID: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortID || this.filterDestination.id) : null,
-      polType: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortType || this.filterOrigin.type) : null,
-      podName: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortName || this.filterDestination.title) : null,
-      podCode: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortID || this.filterDestination.code) : null,
-      podType: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortType || this.filterDestination.type) : null,
-      price: this.selectedPrice,
-      couplePrice: this.couplePrice,
-      currencyID: (this.selectedCurrency && this.selectedCurrency.id) ? this.selectedCurrency.id : 101,
-      currencyCode: (this.selectedCurrency && this.selectedCurrency.shortName) ? this.selectedCurrency.shortName : 'AED',
-      effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
-      effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
-      JsonSurchargeDet: (JsonSurchargeDet === "[{},{}]" ? null : JsonSurchargeDet),
-      TotalImportCharges: this.TotalImportCharges,
-      TotalExportCharges: this.TotalExportCharges,
-      createdBy: this.userProfile.LoginID,
-
-      //WAREHOUSE FIELDS
-      storageType: this.storageType,
-      whPricingID: 0,
-      whid: this.selectedData.data && this.selectedData.data.WHID ? this.selectedData.data.WHID : null,
-      pricingJson: JSON.stringify(this.pricingJSON),
-      parentID: 0,
-    }
-    console.log(obj);
-
-    if (obj.price && parseInt(obj.price) === 0) {
-      this._toast.error('Price cannot be zero', 'Error')
-      return;
-    }
-
-    if (obj.transportType === 'SEA' || obj.transportType === 'GROUND') {
-      let ADCHValidated: boolean = true;
-      // let exportCharges
-      // let importCharges
-      // if (obj.JsonSurchargeDet) {
-      //   const parsedJsonSurchargeDet = JSON.parse(obj.JsonSurchargeDet)
-      //   exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
-      //   importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
-      // }
-
-      if (this.selectedOrigins && this.selectedOrigins.length > 0) {
-        this.selectedOrigins.forEach(element => {
-          if (Object.keys(element).length && (!element.Price || parseInt(element.Price) === 0)) {
-            this._toast.error('Price is missing for Additional Charge', 'Error')
-            ADCHValidated = false
-            return;
-          }
-          if (Object.keys(element).length && !element.CurrId) {
-            this._toast.error('Currency is missing for Additional Charge', 'Error')
-            ADCHValidated = false
-            return;
-          }
-          if (Object.keys(element).length && !element.addChrID) {
-            this._toast.error('Additional Charge is missing', 'Error')
-            ADCHValidated = false
-            return;
-          }
-        });
+    let obj: any
+    try {
+      const { filterOrigin, filterDestination, transPortMode } = this
+      if (transPortMode === 'SEA' && filterOrigin && filterOrigin.CountryCode && filterDestination && filterDestination.CountryCode && filterOrigin.CountryCode.toLowerCase() === filterDestination.CountryCode.toLowerCase()) {
+        this._toast.warning("Please select different pickup and drop Country", 'Warning');
+        return
       }
-      if (this.selectedDestinations && this.selectedDestinations.length > 0) {
-        this.selectedDestinations.forEach(element => {
-          if (Object.keys(element).length && !element.Price) {
-            this._toast.error('Price is missing for Additional Charge', 'Error')
-            ADCHValidated = false
-            return;
+      let customers = [];
+      if (this.selectedCustomer.length) {
+        this.selectedCustomer.forEach(element => {
+          let obj = {
+            CustomerID: element.CustomerID,
+            CustomerType: element.CustomerType,
+            CustomerName: element.CustomerName,
+            CustomerImage: element.CustomerImage
           }
-          if (Object.keys(element).length && !element.CurrId) {
-            this._toast.error('Currency is missing for Additional Charge', 'Error')
-            ADCHValidated = false
-            return;
-          }
-
-          if (Object.keys(element).length && !element.addChrID) {
-            this._toast.error('Additional Charge is missing', 'Error')
-            ADCHValidated = false
-            return;
-          }
+          customers.push(obj)
         });
       }
 
-      if (!ADCHValidated) {
-        return false
-      }
-    }
+      let totalImp = []
+      let totalExp = []
+      // this.selectedOrigins = this.selectedOrigins.filter(e => e.addChrID)
+      // this.selectedDestinations = this.selectedDestinations.filter(e => e.addChrID)
+      const expCharges = this.selectedOrigins.filter((e) => e.Imp_Exp === 'EXPORT')
+      const impCharges = this.selectedDestinations.filter((e) => e.Imp_Exp === 'IMPORT')
 
-    if (obj.transportType !== 'WAREHOUSE') {
-      if (!obj.carrierID &&
-        !obj.containerSpecID &&
-        !obj.effectiveFrom &&
-        !obj.effectiveTo &&
-        !obj.podID &&
-        !obj.polID &&
-        !obj.price &&
-        !obj.shippingCatID
-      ) {
-        this._toast.info('Please fill atleast one field to save', 'Info')
+      if (impCharges && impCharges.length) {
+        impCharges.forEach(element => {
+          totalImp.push(parseInt(element.Price));
+        });
+        this.TotalImportCharges = totalImp.reduce((all, item) => {
+          return all + item;
+        });
+      }
+
+      if (expCharges && expCharges.length) {
+        expCharges.forEach(element => {
+          totalExp.push(parseInt(element.Price));
+        });
+        this.TotalExportCharges = totalExp.reduce((all, item) => {
+          return all + item;
+        });
+      }
+
+
+      if (this.selectedData.forType === 'WAREHOUSE') {
+        this.transPortMode = 'WAREHOUSE'
+        this.calculatePricingJSON()
+      }
+
+      console.log('selectedOrigin:', this.selectedOrigins);
+
+
+      let JsonSurchargeDet = JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations));
+      console.log(JsonSurchargeDet === "[{},{}]");
+      obj = {
+        // GROUND ID
+        ID: (this.selectedData.ID ? this.selectedData.ID : 0),
+
+        // FCL ID
+        providerPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ProviderPricingDraftID : 0,
+
+        // LCL ID
+        consolidatorPricingDraftID: (this.selectedData.data) ? this.selectedData.data.ConsolidatorPricingDraftID : 0,
+
+        customerID: (this.selectedCustomer.length ? this.selectedCustomer[0].CustomerID : null),
+        customersList: (customers.length ? customers : null),
+        carrierID: (this.selectedShipping) ? this.selectedShipping.CarrierID : undefined,
+        carrierName: (this.selectedShipping) ? this.selectedShipping.CarrierName : undefined,
+        carrierImage: (this.selectedShipping) ? this.selectedShipping.CarrierImage : undefined,
+        providerID: this.userProfile.ProviderID,
+        containerSpecID: (this.selectedContSize == null || this.selectedContSize == 'null') ? null : parseInt(this.selectedContSize),
+        containerSpecName: (this.selectedContSize == null || this.selectedContSize == 'null') ? undefined : this.getContSpecName(this.selectedContSize),
+        shippingCatID: (this.selectedCategory == null || this.selectedCategory == 'null') ? null : parseInt(this.selectedCategory),
+        shippingCatName: (this.selectedCategory == null || this.selectedCategory == 'null') ? undefined : this.getShippingName(this.selectedCategory),
+        containerLoadType: this.containerLoadParam,
+        transportType: this.transPortMode,
+        modeOfTrans: this.transPortMode,
+        priceBasis: this.priceBasis,
+        providerLocationD: "",
+        providerLocationL: "",
+        polID: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortID || this.filterOrigin.id) : null,
+        polName: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortName || this.filterOrigin.title) : null,
+        polCode: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortCode || this.filterOrigin.code) : null,
+        podID: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortID || this.filterDestination.id) : null,
+        polType: (this.filterOrigin && (this.filterOrigin.PortID || this.filterOrigin.id)) ? (this.filterOrigin.PortType || this.filterOrigin.type) : null,
+        podName: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortName || this.filterDestination.title) : null,
+        podCode: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortID || this.filterDestination.code) : null,
+        podType: (this.filterDestination && (this.filterDestination.PortID || this.filterDestination.id)) ? (this.filterDestination.PortType || this.filterDestination.type) : null,
+        price: this.selectedPrice,
+        couplePrice: this.couplePrice,
+        currencyID: (this.selectedCurrency && this.selectedCurrency.id) ? this.selectedCurrency.id : 101,
+        currencyCode: (this.selectedCurrency && this.selectedCurrency.shortName) ? this.selectedCurrency.shortName : 'AED',
+        effectiveFrom: (this.fromDate && this.fromDate.month) ? this.fromDate.month + '/' + this.fromDate.day + '/' + this.fromDate.year : null,
+        effectiveTo: (this.toDate && this.toDate.month) ? this.toDate.month + '/' + this.toDate.day + '/' + this.toDate.year : null,
+        JsonSurchargeDet: (JsonSurchargeDet === "[{},{}]" ? null : JsonSurchargeDet),
+        TotalImportCharges: this.TotalImportCharges,
+        TotalExportCharges: this.TotalExportCharges,
+        createdBy: this.userProfile.LoginID,
+
+        //WAREHOUSE FIELDS
+        storageType: this.storageType,
+        whPricingID: 0,
+        whid: this.selectedData.data && this.selectedData.data.WHID ? this.selectedData.data.WHID : null,
+        pricingJson: JSON.stringify(this.pricingJSON),
+        parentID: 0,
+      }
+      console.log(obj);
+
+      if (obj.price && parseInt(obj.price) === 0) {
+        this._toast.error('Price cannot be zero', 'Error')
         return;
       }
-    } else if (obj.transportType === 'WAREHOUSE') {
-      if (!obj.effectiveFrom &&
-        !obj.effectiveTo &&
-        !obj.podID &&
-        !obj.polID &&
-        !obj.price &&
-        !obj.couplePrice &&
-        !obj.storageType
-      ) {
-        this._toast.info('Please fill atleast one field to save', 'Info')
+
+      if (obj.transportType === 'SEA' || obj.transportType === 'GROUND') {
+        let ADCHValidated: boolean = true;
+        // let exportCharges
+        // let importCharges
+        // if (obj.JsonSurchargeDet) {
+        //   const parsedJsonSurchargeDet = JSON.parse(obj.JsonSurchargeDet)
+        //   exportCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'EXPORT')
+        //   importCharges = parsedJsonSurchargeDet.filter(e => e.Imp_Exp === 'IMPORT')
+        // }
+
+        if (this.selectedOrigins && this.selectedOrigins.length > 0) {
+          this.selectedOrigins.forEach(element => {
+            if (Object.keys(element).length && (!element.Price || parseInt(element.Price) === 0)) {
+              this._toast.error('Price is missing for Additional Charge', 'Error')
+              ADCHValidated = false
+              return;
+            }
+            if (Object.keys(element).length && !element.CurrId) {
+              this._toast.error('Currency is missing for Additional Charge', 'Error')
+              ADCHValidated = false
+              return;
+            }
+            if (Object.keys(element).length && !element.addChrID) {
+              this._toast.error('Additional Charge is missing', 'Error')
+              ADCHValidated = false
+              return;
+            }
+          });
+        }
+        if (this.selectedDestinations && this.selectedDestinations.length > 0) {
+          this.selectedDestinations.forEach(element => {
+            if (Object.keys(element).length && !element.Price) {
+              this._toast.error('Price is missing for Additional Charge', 'Error')
+              ADCHValidated = false
+              return;
+            }
+            if (Object.keys(element).length && !element.CurrId) {
+              this._toast.error('Currency is missing for Additional Charge', 'Error')
+              ADCHValidated = false
+              return;
+            }
+
+            if (Object.keys(element).length && !element.addChrID) {
+              this._toast.error('Additional Charge is missing', 'Error')
+              ADCHValidated = false
+              return;
+            }
+          });
+        }
+
+        if (!ADCHValidated) {
+          return false
+        }
+      }
+
+      if (obj.transportType !== 'WAREHOUSE') {
+        if (!obj.carrierID &&
+          !obj.containerSpecID &&
+          !obj.effectiveFrom &&
+          !obj.effectiveTo &&
+          !obj.podID &&
+          !obj.polID &&
+          !obj.price &&
+          !obj.shippingCatID
+        ) {
+          this._toast.info('Please fill atleast one field to save', 'Info')
+          return;
+        }
+      } else if (obj.transportType === 'WAREHOUSE') {
+        if (!obj.effectiveFrom &&
+          !obj.effectiveTo &&
+          !obj.podID &&
+          !obj.polID &&
+          !obj.price &&
+          !obj.couplePrice &&
+          !obj.storageType
+        ) {
+          this._toast.info('Please fill atleast one field to save', 'Info')
+          return;
+        }
+      }
+      if ((obj.podID && obj.polID) && obj.podID === obj.polID) {
+        this._toast.warning('Source and Destination ports cannot be same', 'Warning')
         return;
       }
-    }
-    if ((obj.podID && obj.polID) && obj.podID === obj.polID) {
-      this._toast.warning('Source and Destination ports cannot be same', 'Warning')
-      return;
-    }
 
-    let duplicateRecord: boolean = false;
-    if (this.selectedData.drafts && this.selectedData.forType === 'FCL') {
-      this.selectedData.drafts.forEach(element => {
-        if (
-          element.CarrierID === obj.carrierID &&
-          element.ContainerSpecID === obj.containerSpecID &&
-          moment(element.EffectiveFrom).format('D MMM, Y') === moment(obj.effectiveFrom).format('D MMM, Y') &&
-          moment(element.EffectiveTo).format('D MMM, Y') === moment(obj.effectiveTo).format('D MMM, Y') &&
-          element.PodID === obj.podID &&
-          element.PolID === obj.polID &&
-          element.Price === parseInt(obj.price) &&
-          element.ShippingCatID === obj.shippingCatID &&
-          element.JsonSurchargeDet === obj.JsonSurchargeDet
-        ) {
-          duplicateRecord = true;
-        }
-      });
-    } else if (this.selectedData.drafts && this.selectedData.forType === 'LCL') {
-      this.selectedData.drafts.forEach(element => {
-        if (
-          moment(element.EffectiveFrom).format('D MMM, Y') === moment(obj.effectiveFrom).format('D MMM, Y') &&
-          moment(element.EffectiveTo).format('D MMM, Y') === moment(obj.effectiveTo).format('D MMM, Y') &&
-          element.PodID === obj.podID &&
-          element.PolID === obj.polID &&
-          element.Price === parseInt(obj.price) &&
-          element.ShippingCatID === obj.shippingCatID &&
-          element.JsonSurchargeDet === obj.JsonSurchargeDet
-        ) {
-          duplicateRecord = true;
-        }
-      });
-    } else if (this.selectedData.drafts && (this.selectedData.forType === 'FTL' || this.selectedData.forType === 'FCL-Ground')) {
-      this.selectedData.drafts.forEach(element => {
-        if (
-          moment(element.EffectiveFrom).format('D MMM, Y') === moment(obj.effectiveFrom).format('D MMM, Y') &&
-          moment(element.EffectiveTo).format('D MMM, Y') === moment(obj.effectiveTo).format('D MMM, Y') &&
-          element.PodID === obj.podID &&
-          element.PolID === obj.polID &&
-          element.Price === parseInt(obj.price) &&
-          element.JsonSurchargeDet === obj.JsonSurchargeDet
-        ) {
-          duplicateRecord = true;
-        }
-      });
-    }
+      let duplicateRecord: boolean = false;
+      if (this.selectedData.drafts && this.selectedData.forType === 'FCL') {
+        this.selectedData.drafts.forEach(element => {
+          if (
+            element.CarrierID === obj.carrierID &&
+            element.ContainerSpecID === obj.containerSpecID &&
+            moment(element.EffectiveFrom).format('D MMM, Y') === moment(obj.effectiveFrom).format('D MMM, Y') &&
+            moment(element.EffectiveTo).format('D MMM, Y') === moment(obj.effectiveTo).format('D MMM, Y') &&
+            element.PodID === obj.podID &&
+            element.PolID === obj.polID &&
+            element.Price === parseInt(obj.price) &&
+            element.ShippingCatID === obj.shippingCatID &&
+            element.JsonSurchargeDet === obj.JsonSurchargeDet
+          ) {
+            duplicateRecord = true;
+          }
+        });
+      } else if (this.selectedData.drafts && this.selectedData.forType === 'LCL') {
+        this.selectedData.drafts.forEach(element => {
+          if (
+            moment(element.EffectiveFrom).format('D MMM, Y') === moment(obj.effectiveFrom).format('D MMM, Y') &&
+            moment(element.EffectiveTo).format('D MMM, Y') === moment(obj.effectiveTo).format('D MMM, Y') &&
+            element.PodID === obj.podID &&
+            element.PolID === obj.polID &&
+            element.Price === parseInt(obj.price) &&
+            element.ShippingCatID === obj.shippingCatID &&
+            element.JsonSurchargeDet === obj.JsonSurchargeDet
+          ) {
+            duplicateRecord = true;
+          }
+        });
+      } else if (this.selectedData.drafts && (this.selectedData.forType === 'FTL' || this.selectedData.forType === 'FCL-Ground')) {
+        this.selectedData.drafts.forEach(element => {
+          if (
+            moment(element.EffectiveFrom).format('D MMM, Y') === moment(obj.effectiveFrom).format('D MMM, Y') &&
+            moment(element.EffectiveTo).format('D MMM, Y') === moment(obj.effectiveTo).format('D MMM, Y') &&
+            element.PodID === obj.podID &&
+            element.PolID === obj.polID &&
+            element.Price === parseInt(obj.price) &&
+            element.JsonSurchargeDet === obj.JsonSurchargeDet
+          ) {
+            duplicateRecord = true;
+          }
+        });
+      }
 
-    if ((obj.podType && obj.podType === 'Ground') && (obj.polType && obj.polType === 'Ground')) {
-      this._toast.info('Please change origin or destination type', 'Info')
-      return;
-    }
+      if ((obj.podType && obj.podType === 'Ground') && (obj.polType && obj.polType === 'Ground')) {
+        this.isRateUpdating = false;
+        this._toast.info('Please change origin or destination type', 'Info')
+        return;
+      }
 
-    if (duplicateRecord) {
-      this._toast.warning('This record has already been added', 'Warning')
+      if (duplicateRecord) {
+        this.isRateUpdating = false;
+        this._toast.warning('This record has already been added', 'Warning')
+        return
+      }
+
+    } catch (error) {
+      console.warn(error)
+      this.isRateUpdating = false
       return
     }
-
     if (this.selectedData.forType === 'FCL') {
       this._seaFreightService.saveDraftRate(this.selectedData.forType.toLowerCase(), obj).subscribe((res: any) => {
         this.buttonLoading = false
+        this.isRateUpdating = false;
         if (res.returnId > 0) {
           this._toast.success("Rates added successfully", "Success");
           if (type === "onlySave") {
@@ -751,11 +781,18 @@ export class SeaRateDialogComponent implements OnInit {
             this.selectedContSize = null;
             this.savedRow.emit(res.returnObject)
           }
+        } else {
+          this._toast.warning(res.returnText)
         }
+      }, error => {
+        this.isRateUpdating = false;
+        console.warn(error);
+        this._toast.error('Error While saving, please try late')
       });
     } else if (this.selectedData.forType == 'LCL') {
       this._seaFreightService.saveDraftRate('lcl', obj).subscribe((res: any) => {
         this.buttonLoading = false
+        this.isRateUpdating = false;
         if (res.returnId > 0) {
           this._toast.success("Rates added successfully", "Success");
           if (type === "onlySave") {
@@ -768,21 +805,31 @@ export class SeaRateDialogComponent implements OnInit {
             this.selectedContSize = null;
             this.savedRow.emit(res.returnObject)
           }
+        } else {
+          this._toast.warning(res.returnText)
         }
+      }, error => {
+        this.isRateUpdating = false;
+        console.warn(error);
+        this._toast.error('Error While saving, please try late')
       });
     } else if (this.selectedData.forType == 'WAREHOUSE') {
       if (!obj.price && !obj.couplePrice) {
+        this.isRateUpdating = false;
         this._toast.error('Please provide atleast one price', 'Error')
         return
       } else if (!obj.effectiveFrom && !obj.effectiveTo) {
+        this.isRateUpdating = false;
         this._toast.error('Please provide date range', 'Error')
         return
       } else if (!obj.storageType) {
+        this.isRateUpdating = false;
         this._toast.error('Please provide warehouse storage type', 'Error')
         return
       }
       this._seaFreightService.saveWarehouseRate(obj).subscribe((res: any) => {
-        this.buttonLoading = false
+        this.buttonLoading = false;
+        this.isRateUpdating = false;
         if (res.returnId > 0) {
           this._toast.success(res.returnText, "Success");
           if (type === "onlySave") {
@@ -793,11 +840,18 @@ export class SeaRateDialogComponent implements OnInit {
             this.pricingJSON = [];
             this.savedRow.emit(res.returnObject)
           }
+        } else {
+          this._toast.warning(res.returnText)
         }
+      }, error => {
+        this.isRateUpdating = false;
+        console.warn(error);
+        this._toast.error('Error While saving, please try late')
       });
     } else if (this.selectedData.forType == 'FCL-Ground' || this.selectedData.forType == 'FTL') {
-      this.buttonLoading = false
+      this.buttonLoading = false;
       this._seaFreightService.saveDraftRate('ground', obj).subscribe((res: any) => {
+        this.isRateUpdating = false;
         if (res.returnId > 0) {
           this._toast.success("Rates added successfully", "Success");
           if (type === "onlySave") {
@@ -808,6 +862,13 @@ export class SeaRateDialogComponent implements OnInit {
             this.savedRow.emit(res.returnObject)
           }
         }
+        else {
+          this._toast.warning(res.returnText)
+        }
+      }, error => {
+        this.isRateUpdating = false;
+        console.warn(error);
+        this._toast.error('Error While saving, please try late')
       });
     }
   }

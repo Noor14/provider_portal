@@ -126,6 +126,7 @@ export class WarehouseComponent implements OnInit {
   totalPublishedRecords: any;
   checkedallpublishRates: boolean;
   public warehousePublishedRates: any[] = []
+  autocomplete: any
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -167,7 +168,12 @@ export class WarehouseComponent implements OnInit {
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
         this.cityList = state;
-        let countryBound = this.cityList.find(obj => obj.desc[0].CountryID == this.userProfile.CountryID).desc[0].CountryCode;
+        let countryBound: string
+        try {
+          countryBound = this.cityList.find(obj => obj.desc[0].CountryID == this.userProfile.CountryID).desc[0].CountryCode;
+        } catch (error) {
+          console.log(error);
+        }
         this.getplacemapLoc(countryBound);
         this.getDetail();
       }
@@ -264,13 +270,19 @@ export class WarehouseComponent implements OnInit {
   getplacemapLoc(countryBound) {
     this.mapsAPILoader.load().then(() => {
       this.geoCoder = new google.maps.Geocoder;
-      let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
-      autocomplete.setComponentRestrictions(
-        { 'country': [countryBound] });
-      autocomplete.addListener("place_changed", () => {
+      this.autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
+      try {
+        if (countryBound) {
+          this.autocomplete.setComponentRestrictions({ 'country': [countryBound.toLowerCase()] });
+        }
+      } catch (error) {
+        console.warn(error);
+      }
+
+      this.autocomplete.addListener("place_changed", () => {
         this.ngZone.run(() => {
           //get the place result
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          let place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
           // console.log(place)
           this.locationForm.controls['address'].setValue(this.searchElement.nativeElement.value);
           //verify result
@@ -742,7 +754,7 @@ export class WarehouseComponent implements OnInit {
 
   addwareHouse() {
 
-    if(!this.locationForm.value.city || !this.locationForm.value.city.id) {
+    if (!this.locationForm.value.city || !this.locationForm.value.city.id) {
       this._toastr.warning('Please select city from Dropdown')
       return
     }
@@ -786,7 +798,7 @@ export class WarehouseComponent implements OnInit {
     loading(true)
     this._warehouseService.addWarehouseDetail(obj).subscribe((res: any) => {
       loading(false)
-      if (res.returnStatus == "Success") {
+      if (res.returnId > 0) {
         this.whID = res.returnObject[0].WHID;
         console.log(res.returnObject[0].WHID);
 
@@ -798,6 +810,8 @@ export class WarehouseComponent implements OnInit {
         }
         this._toastr.success('Warehouse detail saved', '')
         this._stepper.next();
+      } else {
+        this._toastr.error(res.returnText, '')
       }
     }, (err: HttpErrorResponse) => {
       loading(false)
@@ -810,7 +824,17 @@ export class WarehouseComponent implements OnInit {
       .debounceTime(200)
       .map(term => (!term || term.length < 3) ? []
         : this.cityList.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1));
-  formatterCity = (x: { title: string }) => x.title;
+  formatterCity = (x) => {
+    const { desc, title } = x
+    try {
+      const country = desc[0]
+      const { CountryCode } = country
+      this.autocomplete.setComponentRestrictions({ 'country': CountryCode.toLowerCase() });
+    } catch (error) {
+      console.warn(error);
+    }
+    return title
+  };
 
   currency = (text$: Observable<string>) =>
     text$
@@ -1158,6 +1182,11 @@ export class WarehouseComponent implements OnInit {
     }, (err) => {
       loading(false)
     })
+  }
+
+  flag(type) {
+    this.cityValidation = false;
+    this.cityValid = false;
   }
 
 }
