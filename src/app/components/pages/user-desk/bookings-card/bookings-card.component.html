@@ -226,7 +226,7 @@
             <div class="col-12 mb-2">
               <div class="bookings-detail">
                 <div class="ports">
-                  <small class="d-block mb-2">PROVIDER</small>
+                  <small class="d-block mb-2">Customer</small>
                   <div class="d-flex pt-1">
                     <div class="customer-image mr-2">
                       <img [src]="baseExternalAssets + booking.CustomerLogo" alt="logo" *ngIf="booking.CustomerLogo" />
@@ -246,7 +246,7 @@
         <div class="col-lg-3 col-sm-12  pl-4">
           <div class="bookings-detail">
             <div class="ports">
-              <small class="d-block mb-2">Special Price</small>
+              <small class="d-block mb-2">Price</small>
               <label class="ports-label mt-1"
                 ngbTooltip="{{booking.CurrencyCode}} {{booking.BookingTotalAmount | number: '1.2-2'}}">
                 {{booking.CurrencyCode}} {{booking.BookingTotalAmount | number:'1.2-2'}}
