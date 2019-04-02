@@ -357,36 +357,39 @@
                   </div>
                 </div>
                 <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                    <div class="form-group">
-                        <div class="select-number">
-                          <div class="input-group-prepend">
-                            <div ngbDropdown class="select-country-list">
-                              <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
+                  <div class="form-group">
+                    <div class="select-number">
+                      <div class="input-group-prepend">
+                        <div ngbDropdown class="select-country-list">
+                          <div class="pointer phone" id="phoneCode" ngbDropdownToggle>
                             <div class="flag-container">
-                                  <img *ngIf="!mobileCountFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags"
-                                    type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
-                                  <img *ngIf="mobileCountFlagImage" [src]="'../../../../../assets/images/flags/4x3/' + (mobileCountFlagImage | lowercase) + '.svg'"
-                                    alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
-                                </div>
-                                <span>{{mobileCode}}</span>
-                              </div>
-                              <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
-                                <ul class="list-group">
-                                  <li class="list-group-item" *ngFor="let list of countryList" (click)="selectPhoneCode(list)">
-                                    <div class="flag-container">
-                                      <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flag'}}"
-                                        class="mw-100 w-auto h-auto mh-100">
-                                    </div>
-                                    <span> {{list.desc[0].CountryPhoneCode}}</span>
-                                  </li>
-                                </ul>
-                              </div>
+                              <img *ngIf="!mobileCountFlagImage" src="../../../../../assets/images/flags/4x3/ae.svg"
+                                alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                              <img *ngIf="mobileCountFlagImage"
+                                [src]="'../../../../../assets/images/flags/4x3/' + (mobileCountFlagImage | lowercase) + '.svg'"
+                                alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                             </div>
-                            <input type="text" class="form-control select-country-code" maxlength="13" placeholder="123456789"
-                              formControlName="mobile" (keypress)="numberValid($event)" />
+                            <span>{{mobileCode}}</span>
+                          </div>
+                          <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                            <ul class="list-group">
+                              <li class="list-group-item" *ngFor="let list of countryList"
+                                (click)="selectPhoneCode(list)">
+                                <div class="flag-container">
+                                  <img
+                                    [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'"
+                                    alt="{{list.code + '-flag'}}" class="mw-100 w-auto h-auto mh-100">
+                                </div>
+                                <span> {{list.desc[0].CountryPhoneCode}}</span>
+                              </li>
+                            </ul>
                           </div>
                         </div>
+                        <input type="text" class="form-control select-country-code" maxlength="13"
+                          placeholder="123456789" formControlName="mobile" (keypress)="numberValid($event)" />
                       </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="row">
@@ -406,18 +409,18 @@
               </div>
 
               <div class="row">
-                  <div class="col-8 ml-4 contact">
-                    <h4 class="contact-name">John Smith</h4>
-                    <div class="contact-address mb-3 d-flex"><img
-                        src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon"
-                        class="icon-size-16 mt-1"><span class="ml-2">API Business Suites, Al Barsha 1, Sheikh Zayed
-                        Road Dubai, UAE</span></div>
-                    <div class="contact-info d-flex justify-content-between"><span><img
-                          src="../../../../assets/images/icons/mob-icon.svg" alt="icon-size-16"><span class="ml-2">+971 4
-                          395
-                          79 79</span></span><span><span class="ml-2">john@company.com</span></span></div>
-                  </div>
+                <div class="col-8 ml-4 contact">
+                  <h4 class="contact-name">John Smith</h4>
+                  <div class="contact-address mb-3 d-flex"><img
+                      src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon"
+                      class="icon-size-16 mt-1"><span class="ml-2">API Business Suites, Al Barsha 1, Sheikh Zayed
+                      Road Dubai, UAE</span></div>
+                  <div class="contact-info d-flex justify-content-between"><span><img
+                        src="../../../../assets/images/icons/mob-icon.svg" alt="icon-size-16"><span class="ml-2">+971 4
+                        395
+                        79 79</span></span><span><span class="ml-2">john@company.com</span></span></div>
                 </div>
+              </div>
 
             </div>
           </div>
@@ -791,7 +794,8 @@
                   For complaints or issues regarding your order, visit our
                   <a href="{{helpSupport.HMSupportWebAdd}}" class="link-hover-black" target="_blank">Help Center</a>
                   or send us an email at
-                  <a class="link-hover-black" href="{{'mailto:' + helpSupport.HMSupportEmail}}">{{helpSupport.HMSupportEmail}}</a>
+                  <a class="link-hover-black"
+                    href="{{'mailto:' + helpSupport.HMSupportEmail}}">{{helpSupport.HMSupportEmail}}</a>
                 </p>
               </div>
             </div>
