@@ -1,11 +1,11 @@
 <section class="reports">
   <div class="row">
     <div class="col-xl-6 col-sm-12">
-      <h2>Report</h2>
+      <h2>Reports</h2>
     </div>
     <div class="col-xl-6 col-sm-12 reports-top-btn mt-1 text-right ">
 
-      <div ngbDropdown class="d-inline-block mr-5 pt-1">
+      <div ngbDropdown class="d-inline-block pt-1">
         <a class="hvr-icon-forward" id="dropdownBasic1" ngbDropdownToggle>
           <img src="../../../../../assets/images/icons/Icons_Calendar.svg" alt="icon" class="icon-size-16 mr-2">
           <span class="link-hover-1 mr-2">{{reportPeriodDesc}}</span>
@@ -14,7 +14,7 @@
           <li *ngFor="let period of periodList" (click)="onPeriodChange(period.codeVal, period.codeValDesc)" class="dropdown-item">{{period.codeValDesc}}</li>
         </ul>
       </div>
-
+<!-- 
       <a href="javascript:;" class="hvr-icon-forward mr-5">
         <img src="../../../../../assets/images/icons/icon_print.svg" alt="icon" class="icon-size-16 mr-2">
         <span class="link-hover-1">Print</span>
@@ -22,7 +22,7 @@
       <a href="javascript:;" class="hvr-icon-forward">
         <img src="../../../../../assets/images/icons/icon_share_blue.svg" alt="icon" class="icon-size-16 mr-2">
         <span class="link-hover-1">Share</span>
-      </a>
+      </a> -->
     </div>
   </div>
   <hr class="hr-solid mt-2">
