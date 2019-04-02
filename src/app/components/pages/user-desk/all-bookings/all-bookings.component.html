@@ -57,25 +57,6 @@
         </div>
       </ng-template>
     </ngb-tab>
-
-    <ngb-tab>
-      <ng-template ngbTabTitle><span>SPECIAL REQUEST</span> <span class="badge badge-secondary"
-          *ngIf="totalBookings.length">{{totalBookings.length}}</span></ng-template>
-      <ng-template ngbTabContent>
-        <div class="bookingOverview overflow-hidden" *ngIf="totalBookings.length">
-          <app-bookings-card [booking]="obj" *ngFor="let obj of totalBookings | paginate: paginationConfig"
-            (click)="viewBookingDetails(obj.BookingID)"></app-bookings-card>
-          <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide"
-            responsive="responsive" previousLabel="" nextLabel=""
-            *ngIf="totalBookings.length > paginationConfig.itemsPerPage"></pagination-controls>
-        </div>
-        <div class="overflow-hidden" *ngIf="totalBookings && !totalBookings.length">
-          <div class="animated bounceInDown card text-center p-1">
-            <p class="mb-0">You don't have any bookings yet </p>
-          </div>
-        </div>
-      </ng-template>
-    </ngb-tab>
   </ngb-tabset>
 
 </section>
