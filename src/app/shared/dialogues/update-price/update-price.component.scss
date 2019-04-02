@@ -1,0 +1,198 @@
+@import "../../../../assets/scss/_variables";
+.updatePrice {
+  .user-modal {
+    .modal-header {
+      padding: 10px 32px;
+      background: $modal-header-background;
+      display: block;
+      h4 {
+        margin: 0px;
+        text-shadow: 0px 0px $text-color-default;
+        font-size: 22px;
+        margin-top: 4px;
+        font-weight: 400;
+        font-family: "pragmatica", sans-serif;
+      }
+      p {
+        font-size: 14px;
+        font-weight: 300;
+        margin-top: 4px;
+        margin-bottom: 0px;
+      }
+      a.crossIcon {
+        position: absolute;
+        right: 8px;
+        top: 4px;
+        width: 14px;
+        height: 14px;
+        img {
+          width: 100%;
+        }
+      }
+    }
+    .modal-body {
+      padding: 25px 32px;
+      .alert {
+        &-secondary {
+          background: $grey-background;
+          font-family: $font-proxima;
+          font-size: $font-size-medium;
+          font-weight: $font-weight-normal;
+          color: $text-color-default;
+          border: 1px solid $input-border;
+        }
+      }
+      .form-component {
+        .form-group {
+          label {
+            font-size: $font-size-large;
+            font-weight: $font-weight-mid;
+            font-family: $font-pragmatica;
+            color: $text-color-default;
+          }
+          textarea {
+            height: 4.5rem;
+            width: 100%;
+          }
+          .container-main {
+            .container-boxes {
+              cursor: pointer;
+              position: relative;
+              border: 1px solid $boxes-border !important;
+              border-radius: 3px;
+              background: transparent;
+              text-align: center;
+              font-family: $font-proxima;
+              margin: 0.1875rem 0.125rem;
+              &.selected-container {
+                border: 1px solid $primary-color !important;
+              }
+              .card-body {
+                font-family: $font-proxima;
+                padding-top: 8px;
+                padding-bottom: 0;
+                width: 100%;
+                transition: all 0.2s;
+                border: 0px solid $primary-color;
+              }
+              small {
+                font-size: $font-size-base;
+                font-family: $font-proxima;
+                color: $copyrights-color;
+              }
+              .containerInfo {
+                display: flex;
+                justify-content: space-around;
+                .container-weight,
+                .container-size {
+                  display: flex;
+                  flex-direction: column;
+                  text-align: left;
+                  small {
+                    font-size: $font-size-base;
+                    font-family: $font-proxima;
+                    color: $copyrights-color;
+                  }
+                  label {
+                    font-size: $font-size-base;
+                    margin: 0;
+                    font-weight: $font-proxima-weight-semibold;
+                  }
+                }
+              }
+              &.active {
+                border-color: $primary-color !important;
+              }
+              .count-triangle {
+                width: 0;
+                height: 0;
+                border-top: 45px solid $primary-color;
+                border-left: 45px solid transparent;
+                position: absolute;
+                right: 0;
+                top: 0;
+                font-size: $font-size-base;
+                img {
+                  width: 35px;
+                  height: 35px;
+                  top: -48px;
+                  position: relative;
+                  left: -31px;
+                }
+                span {
+                  top: -42px;
+                  position: absolute;
+                  right: 0px;
+                  color: $color-white;
+                  width: 30px;
+                  text-align: center;
+                }
+              }
+              p {
+                padding: 0;
+                font-size: $font-size-large;
+              }
+              img {
+                margin: 0 auto;
+                &.ContainerImg20 {
+                  width: 65%;
+                  height: 90px;
+                }
+                &.ContainerImg40 {
+                  width: 74%;
+                  height: 95px;
+                  margin-bottom: -3px;
+                }
+                &.ContainerImg45 {
+                  width: 95%;
+                  margin-bottom: -7px;
+                  height: 100px;
+                }
+              }
+            }
+          }
+
+          .input-group {
+            &-text {
+              background: $grey-background;
+              padding: 0.375rem 0.75rem !important;
+            }
+            .select-country-list {
+              .dropdown-toggle::after {
+                margin-top: 8px;
+              }
+              .dropdown-menu.show {
+                li.list-group-item {
+                  border: 0px;
+                }
+              }
+            }
+          }
+        }
+        .btn {
+          font-size: $font-size-large;
+          font-family: $font-proxima !important;
+          font-weight: $font-proxima-weight-semibold;
+          padding: 12px 50px;
+          color: $white-color;
+          background: $secondary-color;
+          text-transform: uppercase;
+          border-radius: 2px;
+          border: 0;
+          &:disabled {
+            cursor: no-drop;
+            border: 0;
+            background: $btn-disable-background !important;
+            color: $btn-disable-color !important;
+            border-radius: 2px;
+            &:before {
+              background: $btn-disable-background !important;
+              color: $btn-disable-color !important;
+            }
+          }
+        }
+
+      }
+    }
+  }
+}

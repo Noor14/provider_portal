@@ -44,10 +44,16 @@ export class ViewBookingService {
     return this._http.post(baseApi + url, obj);
   }
 
-
   approvedDocx(data){
     let url = "Document/AddDocumentStatus";
     return this._http.post(baseApi + url, data);
     
   }
+
+  updateAgentInfo(data){
+    let url = `booking/UpdateBookingContactInfo/${data.BookingNature}/${data.BookingID}/${data.LoginUserID}/${data.PortNature}/${data.ContactInfoFor}`
+    return this._http.put(baseApi + url, data.BookingSupDistInfo);  
+  }
+
+
 }

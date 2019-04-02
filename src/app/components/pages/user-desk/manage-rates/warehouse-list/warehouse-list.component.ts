@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { WarehouseService } from './warehouse.service';
 import { isJSON } from '../../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
@@ -125,6 +125,7 @@ export class WarehouseListComponent implements OnInit {
     this.wareHouseDetTemplate = true;
     this.warehouseID = '0'
     this.step = 0;
+    // this._router.navigate(['provider/add-warehouse', 0])
   }
 
   onPageChange(number) {
@@ -203,8 +204,8 @@ export class WarehouseListComponent implements OnInit {
   }
 
   warehouseList() {
-    this.wareHouseDetTemplate = false;
+    this.wareHouseDetTemplate = !this.wareHouseDetTemplate;
     this.getWhlist(this.userProfile.ProviderID);
   }
-  
+
 }

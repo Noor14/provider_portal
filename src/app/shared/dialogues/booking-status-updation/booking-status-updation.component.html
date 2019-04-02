@@ -5,10 +5,10 @@
       <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
     </a>
   </div>
-  <div class="modal-body">
+  <div class="modal-body pt-0">
     <div class="form">
       <div class="form-group">
-        <label>{{description}}</label>
+        <label >{{description}}</label>
         <select class="form-control" *ngIf="modalData.type === 'cancel'" [(ngModel)]="selectedReason.id" (change)="onModelChange(selectedReason)">
           <option value="" selected>{{selectPlaceholder}}</option>
           <option *ngFor="let reason of bookingReasons" [value]="reason.ReasonID">{{reason.ReasonName}}</option>
@@ -17,10 +17,10 @@
           <option value="" selected>{{selectPlaceholder}}</option>
           <option *ngFor="let status of bookingStatuses" [value]="status.StatusID">{{status.StatusName}}</option>
         </select>
-        <!-- <label >Define Your Status </label>
+        <label >Define Your Status </label>
           <textarea placeholder="Details" class="form-control " *ngIf="modalData.type === 'updated'" [(ngModel)]="selectedReason.remarks"
         rows="2">
-      </textarea> -->
+      </textarea>
 
         <textarea placeholder="Details" class="form-control mt-3" *ngIf="modalData.type === 'cancel'" [(ngModel)]="selectedReason.remarks"
           rows="3">
