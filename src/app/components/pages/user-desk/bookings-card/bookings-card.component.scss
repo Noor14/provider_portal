@@ -4,14 +4,12 @@
   .card {
     border: 1px solid #e9e9e9 !important;
     transition: 0.8s;
-    overflow: hidden;
 
     &:hover {
       border-color: $secondary-color !important;
 
       .bookings-header {
         &-number {
-
           img {
             backface-visibility: visible !important;
             animation-name: flipInY;
@@ -65,54 +63,6 @@
       font-weight: $font-proxima-weight-semibold;
       color: $primary-color;
 
-      &-icon {
-        position: absolute;
-        top: -8px;
-        left: -5px;
-        padding: 7px 0px 8px 15px;
-        width: 60px;
-
-        &:before {
-          content: " ";
-          width: 0;
-          height: 0;
-          border-top: 22px solid transparent;
-          border-bottom: 22px solid transparent;
-          position: absolute;
-          left: 60px;
-          top: 0px;
-        }
-
-        &.sea-icon {
-          background: #02bdb6;
-
-          &:before {
-            border-left: 10px solid #02bdb6;
-          }
-        }
-        &.air-icon {
-          background: #00a2df;
-
-          &:before {
-            border-left: 10px solid #00a2df;
-          }
-        }
-        &.ware-icon {
-          background: #738593;
-
-          &:before {
-            border-left: 10px solid #738593;
-          }
-        }
-        &.truck-icon {
-          background: #3f5165;
-
-          &:before {
-            border-left: 10px solid #3f5165;
-          }
-        }
-      }
-
       img {
         width: 35px;
         height: 30px;
@@ -131,44 +81,6 @@
         font-family: $font-proxima;
         font-weight: $font-proxima-weight-semibold;
         text-transform: uppercase;
-      }
-    }
-
-    .book-card-action {
-
-      li {
-        font-family: $font-proxima;
-        font-size: $font-size-base;
-        font-weight: $font-weight-mid;
-        margin-right: 17px;
-        display: inline-block;
-
-        &:last-child {
-          margin-right: 0px;
-        }
-
-        &.continue {
-          color: $secondary-color;
-        }
-
-        &.req-agai {
-          color: $badge-default;
-        }
-
-        &.discard {
-          color: $btn-bg-danger;
-        }
-      }
-
-      color: $secondary-color;
-      font-family: $font-proxima;
-      font-size: $font-size-medium;
-      font-weight: $font-proxima-weight-semibold;
-      text-transform: uppercase;
-      padding-left: 0.15rem;
-
-      &:hover {
-        color: $secondary-color;
       }
     }
   }
@@ -216,7 +128,7 @@
       span {
         font-size: $font-size-medium;
         font-family: $font-proxima;
-        color: $color-topmenu;
+        color: rgb(43, 43, 43);
         text-align: left;
       }
     }
