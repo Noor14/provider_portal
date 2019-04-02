@@ -283,11 +283,12 @@
             height: 200px;
             z-index: 0;
             border: 1px solid $input-border;
-            background: $color-white;
             border-radius: 4px;
             text-align: center;
             display: table-cell;
             vertical-align: middle;
+            background-image: url("../../../../../../assets/images/img-canvas.png");
+            background-size: 20px;
 
             img,
             video {

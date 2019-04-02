@@ -1886,6 +1886,7 @@ select {
   }
 }
 
+
 quill-editor {
 
   .ql-toolbar,
@@ -1895,7 +1896,7 @@ quill-editor {
 }
 
 .editor {
-  padding: 0 1rem;
+  // padding: 0 1rem;
   border-radius: 4px;
   background: $color-white;
   color: $color-menuheading-black;

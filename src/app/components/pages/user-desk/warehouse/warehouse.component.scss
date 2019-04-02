@@ -188,6 +188,8 @@
               text-align: center;
               display: table-cell;
               vertical-align: middle;
+              background-image: url("../../../../../assets/images/img-canvas.png");
+              background-size: 20px;
 
               img,
               video {
@@ -288,8 +290,8 @@
 
     &.currency {
       ngb-typeahead-window {
-        top: auto !important;
-        bottom: 50px;
+        max-height: 194px;
+        top: 43px !important;
       }
 
       input {
@@ -389,7 +391,7 @@
       }
     }
 
-    button {
+    button.btn-outline-primary {
       font-size: $font-size-large;
       color: $white-color;
       text-transform: uppercase;

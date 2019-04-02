@@ -12,6 +12,7 @@ import { DealsComponent } from './deals/deals.component';
 import { BillingComponent } from './billing/billing.component';
 import { SettingsComponent } from './settings/settings.component';
 // import { WarehouseComponent } from './warehouse/warehouse.component';
+import { MobileNavComponent } from './mobile-nav/mobile-nav.component';
 import { ManageRatesModule } from './manage-rates/manage-rates.module';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
 import { Observable } from 'rxjs';
@@ -31,6 +32,7 @@ const routes: Routes = [
             { path: 'reports', component: ReportsComponent },
             { path: 'settings', component: SettingsComponent },
             { path: 'support', component: SupportComponent },
+            { path: 'nav', component: MobileNavComponent }, 
             // { path: 'deals', component: DealsComponent },
             // { path: 'add-warehouse/:id', component: WarehouseComponent },
             { path: 'payment_result', component: PaymentResultComponent },

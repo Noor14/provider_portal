@@ -34,6 +34,7 @@ import { WarehouseService } from './manage-rates/warehouse-list/warehouse.servic
 import { BookingsCardComponent } from './bookings-card/bookings-card.component';
 import { DynamicScriptLoaderService } from '../../../services/dynamic-script-loader.service';
 import { PipeModule } from '../../../constants/pipe/pipe.module';
+import { MobileNavComponent } from './mobile-nav/mobile-nav.component';
 
 @NgModule({
   imports: [
@@ -66,6 +67,7 @@ import { PipeModule } from '../../../constants/pipe/pipe.module';
     DealsComponent,
     BillingComponent,
     SettingsComponent,
+    MobileNavComponent,
     DataMapComponent,
     PaymentResultComponent,
     BookingsCardComponent,

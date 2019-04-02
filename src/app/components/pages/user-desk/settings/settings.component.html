@@ -266,6 +266,12 @@
                         <div class="switch-box">
                           <ui-switch (change)="isPrivateMode = !isPrivateMode" [checked]="isPrivateMode"></ui-switch>
                         </div>
+                        <!-- <span *ngIf="isPrivateMode"> -->
+                          <img src="../../../../../assets/images/icons/icon_info2 - grey.svg" class="icon-size-16 mr-1" />
+                          <small class="text-muted">
+                            Private means your results will not appear for anonymous user
+                          </small>
+                        <!-- </span> -->
                     </div>
                   </div>
                   <form autocomplete="off" novalidate [formGroup]="businessInfoForm">
@@ -826,13 +832,13 @@
         </section>
       </ng-template>
     </ngb-tab>
-    <ngb-tab [disabled]="true">
+    <!-- <ngb-tab [disabled]="true">
       <ng-template ngbTabTitle>Notification</ng-template>
       <ng-template ngbTabContent>
         <section class="Notification">
           <p>Under Construction</p>
         </section>
       </ng-template>
-    </ngb-tab>
+    </ngb-tab> -->
   </ngb-tabset>
 </section>

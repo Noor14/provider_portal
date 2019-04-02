@@ -224,7 +224,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
 
 
   updatePopupRates(rowId, type) {
-    console.log(this.draftslistFTL);
     let obj;
     if (this.activeTab == 'activeFCL') {
       if (rowId > 0) {
@@ -828,7 +827,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         keyboard: false
       });
       modalRef.result.then((result) => {
-        if (result) {
+        if (result == 'Success') {
           this.getAllPublishRates('FCL');
           this.checkedallpublishRates = false
           this.delPublishRates = [];
@@ -848,7 +847,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         keyboard: false
       });
       modalRef2.result.then((result) => {
-        if (result) {
+        if (result == 'Success') {
           this.getAllPublishRates('FTL');
           this.checkedallpublishRates = false
           this.delPublishRates = [];
@@ -860,7 +859,6 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         data: updateValidity,
         addList: this.groundCharges,
         customers: this.allCustomers,
-        drafts: this.draftslistFTL,
         mode: 'publish'
       }
       modalRef2.componentInstance.selectedData = object;

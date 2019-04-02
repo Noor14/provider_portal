@@ -83,7 +83,7 @@
     Add your warehouse and create a listing of available capacity on HashMove
   </p>
   <ngx-stepper #stepper class="warehouse-stepper" [activeStep]="activeStep">
-    <ngx-step [label]="'1. INFO'">
+    <ngx-step [label]="'ADD INFO'">
       <section class="warehouse">
         <!--  warehouse-info -->
         <div class="warehouse-info">
@@ -553,7 +553,7 @@
         <!--  warehouse-info -->
       </section>
     </ngx-step>
-    <ngx-step [label]="'2. PRICING'">
+    <ngx-step [label]="'SET PRICING'">
       <section class="Add-warehouse Allfreights">
         <section class="commisionRates mt-3" *ngIf="isRealEstate">
           <div class="row commission-rates">
@@ -677,7 +677,7 @@
           </form>
         </section>
 
-        <section class="Add-warehouse-rates mt-3 rates-grid">
+        <section class="Add-warehouse-rates mt-3 rates-grid mb-5">
           <h5 class="mt-5">Set Pricing</h5>
           <p class="sub-title mt-2 mb-2">you can add multiple rates for different dates / months </p>
           <div class="row mb-3 justify-content-end" *ngIf="warehousePublishedRates">
@@ -756,23 +756,20 @@
           <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
           Add another rate
         </a>
-        <div class="row" [ngClass]="totalPublishedRecords <= 5 ? 'mt-5' : ''">
+        <!-- <div class="row" [ngClass]="totalPublishedRecords <= 5 ? 'mt-5' : ''">
           <div class="col-6 Add-warehouse-link mt-3" (click)="stepper.prev()">
-            <!-- <a class="hvr-icon-back grey-anc-btn" href="javascript:;">
+            <a class="hvr-icon-back grey-anc-btn" href="javascript:;">
               <img src="../../../../../assets/images/icons/icon_arrow_left.svg" alt="icon"
                 class="icon-size-14 hvr-icon">
               <span class="link-hover-grey">go back </span>
-            </a> -->
+            </a>
           </div>
 
-          <div class="col-6 mt-3" *ngIf="isRealEstate">
-            <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right" (click)="updateComission()"
-              [disabled]="!warehousePublishedRates || (warehousePublishedRates && !warehousePublishedRates.length) ||
-              commissionForm.invalid ">
-              save rates
-            </button>
+          <div class="col-6 mt-3">
+            <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right">
+              save rates</button>
           </div>
-        </div>
+        </div> -->
       </section>
     </ngx-step>
   </ngx-stepper>

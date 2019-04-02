@@ -1,0 +1,107 @@
+<!-- Update Price Modal -->
+<ng-template #content let-modal>
+  <div class="updatePrice">
+    <div class="user-modal animated fadeIn">
+      <div class="modal-header">
+        <h4 class="user-modal-title">Update Price</h4>
+        <a class="pointer crossIcon" (click)="closeModal()">
+          <img
+            src="../../../../assets/images/icons/icon_close.svg"
+            alt="close"
+          />
+        </a>
+      </div>
+      <div class="modal-body">
+        <form class="form-component">
+          <!-- input row -->
+          <div class="form-group">
+              <label>Description</label>
+              <div class="alert alert-secondary" role="alert">
+                This is a secondary alert—check it out!This is a secondary
+                alert—check it out!
+              </div>
+          </div>
+          <!--/ input row -->
+          <!-- input row -->
+          <div class="form-group">
+            <div class="container-main">
+              <label>Container</label>              
+              <div class="row">
+                <div class="col-xl-6 col-md-6 col-12">
+                  <div class="card container-boxes ">
+                    <span class="count-triangle">
+                      <span>1</span>
+                    </span>
+                    <div class="card-body mb-2">
+                      <p class="card-text">
+                        Standard 20'
+                      </p>
+                      <div class="image-container">
+                        <img async defer src="../../../../assets/images/icons/Standard_Container.svg" alt="container-icons" class="ContainerImg20" />
+                      </div>
+                      <div class="containerInfo">
+                        <div class="container-size">
+                          <label>Size</label>
+                          <small>40' x 8' x 8'6"</small>
+                        </div>
+                        <div class="container-weight">
+                          <label>Max Weight</label>
+                          <small>37,000 Kg</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--/ input row -->
+          <!-- input row -->
+          <div class="row form-group">
+            <div class="col-xl-7 col-lg-7 col-12">
+              <label>Your Price</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <div ngbDropdown class="select-country-list">
+                      <div class="pointer phone d-flex align-items-start" id="phoneCode" ngbDropdownToggle>
+                        <div class="flag-container flag-icon-20-12">
+                          <img src="../../../../../assets/images/flags/4x3/ae.svg" alt="flags" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
+                        </div>
+                        <span>AED</span>
+                      </div>
+                      <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                        <ul class="list-group">
+                          <li class="list-group-item">
+                            <div class="flag-container flag-icon-20-12">
+                              <img src="'../../../../../assets/images/flags/4x3/ae.svg" class="mw-100 w-auto h-auto mh-100 mr-2">
+                              <span>+92</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Username">
+              </div>
+            </div>
+          </div>
+          <!--/ input row -->
+          <!-- input row -->
+          <div class="form-group">
+            <label>Comment (Optional)</label>
+              <textarea name="comments" id="" cols="30" rows="10" class="form-control" placeholder="type here"></textarea>
+          </div>
+          <!--/ input row -->
+          <button type="submit" class="btn btn-primary w-100 hvr-sweep-to-right mt-2">Submit Price</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">
+  Launch demo modal
+</button>
+<!--/ Update Price Modal -->

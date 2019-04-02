@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, OnDestroy } from '@angular/core';
-import { PlatformLocation } from '@angular/common';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ToastrService } from "ngx-toastr";
-import { Router, ActivatedRoute } from "@angular/router";
-import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { loading, getImagePath, ImageSource, ImageRequiredSize, statusCode } from "../../../../constants/globalFunctions";
+import { ActivatedRoute } from "@angular/router";
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { loading, getImagePath, ImageSource, ImageRequiredSize, statusCode, EMAIL_REGEX, isJSON, } from "../../../../constants/globalFunctions";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BookingDetails } from '../../../../interfaces/bookingDetails';
 import { CommonService } from '../../../../services/common.service';
@@ -60,7 +60,16 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
   public bookingReasons = [];
   public bookingStatuses = [];
   public selectedReason: any = {};
-  private approvedStatus: any
+  private approvedStatus: any;
+
+  // forms
+  public AgentInfoFormOrigin: any;
+  public AgentInfoFormDest:any;
+
+  // togglers
+  public editAgentorgToggler: boolean = false
+  public editAgentDestToggler: boolean = false
+
   constructor(
     private _modalService: NgbModal,
     private _toast: ToastrService,
@@ -71,10 +80,30 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
+    this.AgentInfoFormOrigin = new FormGroup({
+      name: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
+      address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      email: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(EMAIL_REGEX),
+        Validators.maxLength(320)
+      ]),
+      contact: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
+    });
+    this.AgentInfoFormDest = new FormGroup({
+      name: new FormControl(null, [Validators.required, Validators.pattern(/[a-zA-Z-][a-zA-Z -]*$/), Validators.minLength(2), Validators.maxLength(100)]),
+      address: new FormControl(null, [Validators.required, Validators.maxLength(200), Validators.minLength(10), Validators.pattern(/^(?=.*?[a-zA-Z])[^%*$=+^<>}{]+$/)]),
+      email: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(EMAIL_REGEX),
+        Validators.maxLength(320)
+      ]),
+      contact: new FormControl(null, [Validators.required, Validators.pattern(/^(?!(\d)\1+(?:\1+){0}$)\d+(\d+){0}$/), Validators.minLength(7), Validators.maxLength(13)]),
+    });
+
     this.paramSubscriber = this._router.params.subscribe(params => {
       this.bookingId = params['id'];
       // (+) converts string 'id' to a number
@@ -90,6 +119,99 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
         this.HelpDataLoaded = true
       }
     })
+  }
+  setAgentOrgInfo(){
+    this.editAgentorgToggler = false; 
+    if (this.bookingDetails.JsonAgentOrgInfo.Name){
+      this.AgentInfoFormOrigin.controls['name'].setValue(this.bookingDetails.JsonAgentOrgInfo.Name);
+    }
+    if (this.bookingDetails.JsonAgentOrgInfo.Email) {
+      this.AgentInfoFormOrigin.controls['email'].setValue(this.bookingDetails.JsonAgentOrgInfo.Email);
+    }
+    if (this.bookingDetails.JsonAgentOrgInfo.Address) {
+      this.AgentInfoFormOrigin.controls['address'].setValue(this.bookingDetails.JsonAgentOrgInfo.Address);
+    }
+    if (this.bookingDetails.JsonAgentOrgInfo.PhoneNumber) {
+      this.AgentInfoFormOrigin.controls['contact'].setValue(this.bookingDetails.JsonAgentOrgInfo.PhoneNumber);
+    }
+    
+  }
+  setAgentDestInfo() {
+    this.editAgentDestToggler = false; 
+    if (this.bookingDetails.JsonAgentDestInfo.Name) {
+      this.AgentInfoFormDest.controls['name'].setValue(this.bookingDetails.JsonAgentDestInfo.Name);
+    }
+    if (this.bookingDetails.JsonAgentDestInfo.Email) {
+      this.AgentInfoFormDest.controls['email'].setValue(this.bookingDetails.JsonAgentDestInfo.Email);
+    }
+    if (this.bookingDetails.JsonAgentDestInfo.Address) {
+      this.AgentInfoFormDest.controls['address'].setValue(this.bookingDetails.JsonAgentDestInfo.Address);
+    }
+    if (this.bookingDetails.JsonAgentDestInfo.PhoneNumber) {
+      this.AgentInfoFormDest.controls['contact'].setValue(this.bookingDetails.JsonAgentDestInfo.PhoneNumber);
+    }
+
+  }
+  updateAgentInfoOrig(){
+    let obj={
+      BookingNature: (this.bookingDetails.ShippingModeCode == "WAREHOUSE")? 'WH' : "SEA",
+      BookingID: this.bookingDetails.BookingID,
+      LoginUserID: this.userProfile.LoginID,
+      PortNature: 'Origin',
+      ContactInfoFor: 'Agent',
+      BookingSupDistInfo:{
+        BookingID: this.bookingDetails.BookingID,
+        Name: this.AgentInfoFormOrigin.value.name,
+        Address: this.AgentInfoFormOrigin.value.address,
+        Email: this.AgentInfoFormOrigin.value.email,
+        PhoneNumber: this.AgentInfoFormOrigin.value.contact,
+        PhoneCountryCode: "+92",
+        PhoneCountryID: "100",
+        InfoFor: "Agent"
+      }
+    }
+    this._viewBookingService.updateAgentInfo(obj).subscribe((res:any)=>{
+      if (res.returnStatus == "Success"){
+        this._toast.success('Agent information is updated', '');
+        this.editAgentorgToggler = true;
+        if (res.returnText && isJSON(res.returnText)) {
+          this.bookingDetails.JsonAgentOrgInfo = JSON.parse(res.returnText);
+        }
+      }
+    })
+
+
+  }
+
+  updateAgentInfoDest() {
+    let obj = {
+      BookingNature: (this.bookingDetails.ShippingModeCode == "WAREHOUSE") ? 'WH' : "SEA",
+      BookingID: this.bookingDetails.BookingID,
+      LoginUserID: this.userProfile.LoginID,
+      PortNature: 'Destination',
+      ContactInfoFor: 'Agent',
+      BookingSupDistInfo: {
+        BookingID: this.bookingDetails.BookingID,
+        Name: this.AgentInfoFormDest.value.name,
+        Address: this.AgentInfoFormDest.value.address,
+        Email: this.AgentInfoFormDest.value.email,
+        PhoneNumber: this.AgentInfoFormDest.value.contact,
+        PhoneCountryCode: "+92",
+        PhoneCountryID: "100",
+        InfoFor: "Agent"
+      }
+    }
+    this._viewBookingService.updateAgentInfo(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toast.success('Agent information is updated', '');
+        this.editAgentDestToggler = true; 
+        if (res.returnText && isJSON(res.returnText)){
+          this.bookingDetails.JsonAgentDestInfo =  JSON.parse(res.returnText);
+        }
+      }
+    })
+
+
   }
 
   mapInit(map) {
@@ -111,6 +233,21 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
         this.bookingDetails = JSON.parse(res.returnText);
         this.bookingDetails.origin = this.bookingDetails.PolCode.split(' ')[0];
         this.bookingDetails.destination = this.bookingDetails.PodCode.split(' ')[0];
+        if (this.bookingDetails.JsonShippingDestInfo && isJSON(this.bookingDetails.JsonShippingDestInfo)){
+          this.bookingDetails.JsonShippingDestInfo = JSON.parse(this.bookingDetails.JsonShippingDestInfo)
+        }
+        if (this.bookingDetails.JsonShippingOrgInfo && isJSON(this.bookingDetails.JsonShippingOrgInfo)) {
+          this.bookingDetails.JsonShippingOrgInfo = JSON.parse(this.bookingDetails.JsonShippingOrgInfo)
+        }
+        if (this.bookingDetails.JsonAgentOrgInfo && isJSON(this.bookingDetails.JsonAgentOrgInfo)) {
+          this.bookingDetails.JsonAgentOrgInfo = JSON.parse(this.bookingDetails.JsonAgentOrgInfo);
+          this.editAgentorgToggler = true;
+        }
+        if (this.bookingDetails.JsonAgentDestInfo && isJSON(this.bookingDetails.JsonAgentDestInfo)) {
+          this.bookingDetails.JsonAgentDestInfo = JSON.parse(this.bookingDetails.JsonAgentDestInfo);
+          this.editAgentDestToggler = true;
+        }
+
         // this.bookingDetails.ProviderDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.ProviderImage[0].ProviderLogo, ImageRequiredSize._48x48)
         // this.bookingDetails.CarrierDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.CarrierImage, ImageRequiredSize._48x48)
         // this.bookingDetails.ProviderDisplayImage = baseExternalAssets + JSON.parse(this.bookingDetails.ProviderImage)[0].ProviderLogo;

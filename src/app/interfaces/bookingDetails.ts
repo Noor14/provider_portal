@@ -172,6 +172,10 @@ export interface BookingDetails {
   UserCountryName: string;
   UserCityName: string;
   BookingUserInfo: any;
+  JsonShippingOrgInfo: any;
+  JsonShippingDestInfo: any;
+  JsonAgentOrgInfo: any;
+  JsonAgentDestInfo:any;
 }
 
 
