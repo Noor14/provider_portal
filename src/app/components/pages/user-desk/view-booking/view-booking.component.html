@@ -217,16 +217,16 @@
       </div>
 
       <!-- document required -->
-      <h4 class=" view-booking-shipment-detail-heading ">Shipping Information For<img alt="flag icon"
-          src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.origin | lowercase) + '.svg'}}"
-          class="mr-2" width="20"> {{bookingDetails.PolName}}, {{bookingDetails.PolCountry}}</h4>
+      <h4 class=" view-booking-shipment-detail-heading">Shipping Information For
+        <img alt="flag icon"src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.origin | lowercase) + '.svg'}}" class="ml-2 mr-2" width="20">
+          {{bookingDetails.PolName}}, {{bookingDetails.PolCountry}}</h4>
       <div class="row view-booking-document">
         <div class="col-12">
           <div class="card mb-0">
             <div class="card-body">
               <div class="card-title mt-3">
                 <h5>Upload Documents</h5>
-                <hr class="">
+                <hr />
               </div>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -293,91 +293,122 @@
               </ul>
             </div>
           </div>
-          <div class="card mb-0 grey-background">
+          <div class="card mb-0 grey-background" *ngIf="bookingDetails.JsonShippingOrgInfo">
             <div class="card-body d-flex flex-column">
               <div class="card-title mb-4 mt-3">
                 <h5>
-                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16" title="logo">
+                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16">
                   Supplier Information
                 </h5>
               </div>
               <div class="row">
                 <div class="col-8 ml-4 contact">
-                  <h4 class="contact-name">John Smith</h4>
+                  <h4 class="contact-name">{{bookingDetails.JsonShippingOrgInfo.Name}}</h4>
                   <div class="contact-address mb-3 d-flex"><img
                       src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon"
-                      class="icon-size-16 mt-1"><span class="ml-2">API Business Suites, Al Barsha 1, Sheikh Zayed
-                      Road Dubai, UAE</span></div>
-                  <div class="contact-info d-flex justify-content-between"><span><img
-                        src="../../../../assets/images/icons/mob-icon.svg" alt="icon-size-16"><span class="ml-2">+971 4
-                        395
-                        79 79</span></span><span><span class="ml-2">john@company.com</span></span></div>
+                      class="icon-size-16 mt-1">
+                      <span class="ml-2">{{bookingDetails.JsonShippingOrgInfo.Address}}</span>
+                    </div>
+                  <div class="contact-info d-flex justify-content-between">
+                    <span>
+                      <img src="../../../../assets/images/icons/mob-icon.svg" alt="icon-size-16">
+                        <span class="ml-2">{{bookingDetails.JsonShippingOrgInfo.PhoneCountryCode}}{{bookingDetails.JsonShippingOrgInfo.PhoneNumber}}</span>
+                    </span>
+                    <span>
+                      <img src="../../../../assets/images/icons/icon_email.svg" alt="icon-size-16">
+                      <span class="ml-2">{{bookingDetails.JsonShippingOrgInfo.Email}}</span>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="card grey-background">
             <div class="card-body">
-              <div class="card-title mb-4 mt-3">
+              <div class="card-title mb-4 mt-3 d-flex justify-content-between align-items-center">
                 <h5>
-                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16" title="logo">
+                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16">
                   Agent Information
                 </h5>
+                <span *ngIf="editAgentorgToggler">
+                  <img src="../../../../../assets/images/icons/warehouse-edit-icon.svg" class="icon-size-16 pointer" alt="edit" (click)= "setAgentOrgInfo()">
+                </span>
               </div>
-              <div class="row">
-                <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
-                  <div class="form-group">
-                    <label>Name</label>
+              <div class="row" *ngIf="editAgentorgToggler">
+                <div class="col-8 ml-4 contact">
+                  <h4 class="contact-name">{{bookingDetails.JsonAgentOrgInfo.Name}}</h4>
+                  <div class="contact-address mb-3 d-flex">
+                    <img src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon"
+                      class="icon-size-16 mt-1">
+                    <span class="ml-2">{{bookingDetails.JsonAgentOrgInfo.Address}}</span>
                   </div>
-                </div>
-                <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                  <div class="form-group">
-                    <select class="form-control">
-                      <option value="null"> Please Select</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
-                  <div class="form-group">
-                    <label>Address</label>
-                  </div>
-                </div>
-                <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                  <div class="form-group">
-                    <textarea class="form-control"></textarea>
+                  <div class="contact-info d-flex justify-content-between">
+                    <span>
+                      <img src="../../../../assets/images/icons/mob-icon.svg" alt="icon-size-16">
+                      <span
+                        class="ml-2">{{bookingDetails.JsonAgentOrgInfo.PhoneCountryCode}}{{bookingDetails.JsonAgentOrgInfo.PhoneNumber}}</span>
+                    </span>
+                    <span>
+                      <img src="../../../../assets/images/icons/icon_email.svg" alt="icon-size-16">
+                      <span class="ml-2">{{bookingDetails.JsonAgentOrgInfo.Email}}</span>
+                    </span>
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
-                  <div class="form-group">
-                    <label>Contact</label>
+                <form autocomplete="off" novalidate [formGroup]="AgentInfoFormOrigin" *ngIf="!editAgentorgToggler">
+                  <div class="row">
+                    <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
+                      <div class="form-group">
+                        <label>Name</label>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                      <div class="form-group">
+                        <input type="text" class="form-control" formControlName="name">
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                  <div class="form-group">
-                    <input class="form-control" placeholder="abc@email.com">
+                  <div class="row">
+                    <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
+                      <div class="form-group">
+                        <label>Address</label>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                      <div class="form-group">
+                        <textarea class="form-control" formControlName="address"></textarea>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
-                  <div class="form-group">
-                    <label>Email</label>
+                  <div class="row">
+                    <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
+                      <div class="form-group">
+                        <label>Contact</label>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                      <div class="form-group">
+                        <input class="form-control" placeholder="1234567" formControlName="contact">
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                  <div class="form-group">
-                    <input class="form-control" placeholder="abc@email.com">
-                    <button
-                      class="btn btn-outline-primary hvr-sweep-to-right pull-right mt-4 pl-5 pr-5">Confirm</button>
-
+                  <div class="row">
+                    <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
+                      <div class="form-group">
+                        <label>Email</label>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                      <div class="form-group">
+                        <input class="form-control" placeholder="abc@email.com" type="email" formControlName="email">
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-
+                  <div class="row">
+                    <button class="btn btn-outline-primary hvr-sweep-to-right pull-right mt-4 pl-5 pr-5"
+                      (click)="updateAgentInfoOrig()">Confirm</button>
+                  </div>
+                </form>
             </div>
           </div>
         </div>
@@ -385,16 +416,16 @@
 
 
 
-      <h4 class=" view-booking-shipment-detail-heading ">Shipping Information For<img alt="flag icon"
-          src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.destination | lowercase) + '.svg'}}"
-          class="mr-2" width="20"> {{bookingDetails.PodName}}, {{bookingDetails.PodCountry}}</h4>
+      <h4 class=" view-booking-shipment-detail-heading ">Shipping Information For
+        <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.destination | lowercase) + '.svg'}}" class="ml-2 mr-2" width="20">
+          {{bookingDetails.PodName}}, {{bookingDetails.PodCountry}}</h4>
       <div class="row view-booking-document">
         <div class="col-12">
           <div class="card mb-0">
             <div class="card-body">
               <div class="card-title mt-3">
                 <h5>Upload Documents</h5>
-                <hr class="">
+                <hr />
               </div>
               <ul class="list-group list-group-flush mb-3">
                 <li class="list-group-item">
@@ -516,37 +547,67 @@
               </ul>
             </div>
           </div>
-          <div class="card mb-0 grey-background">
+          <div class="card mb-0 grey-background" *ngIf="bookingDetails.JsonShippingDestInfo">
             <div class="card-body d-flex flex-column">
               <div class="card-title mb-4 mt-3">
                 <h5>
-                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16" title="logo">
+                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16">
                   Supplier Information
                 </h5>
               </div>
               <div class="row">
                 <div class="col-8 ml-4 contact">
-                  <h4 class="contact-name">John Smith</h4>
-                  <div class="contact-address mb-3 d-flex"><img
-                      src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon"
-                      class="icon-size-16 mt-1"><span class="ml-2">API Business Suites, Al Barsha 1, Sheikh Zayed
-                      Road Dubai, UAE</span></div>
-                  <div class="contact-info d-flex justify-content-between"><span><img
-                        src="../../../../assets/images/icons/mob-icon.svg" alt="icon-size-16"><span class="ml-2">+971 4
-                        395
-                        79 79</span></span><span><span class="ml-2">john@company.com</span></span></div>
+                  <h4 class="contact-name">{{bookingDetails.JsonShippingDestInfo.Name}}</h4>
+                  <div class="contact-address mb-3 d-flex">
+                    <img src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon" class="icon-size-16 mt-1">
+                    <span class="ml-2">{{bookingDetails.JsonShippingDestInfo.Address}}</span>
+                  </div>
+                  <div class="contact-info d-flex justify-content-between">
+                    <span>
+                      <img src="../../../../assets/images/icons/mob-icon.svg" alt="icon-size-16"> 
+                      <span class="ml-2">{{bookingDetails.JsonShippingDestInfo.PhoneCountryCode}}{{bookingDetails.JsonShippingDestInfo.PhoneNumber}}</span>
+                    </span>
+                    <span>
+                      <img src="../../../../assets/images/icons/icon_email.svg" alt="icon-size-16">
+                      <span class="ml-2">{{bookingDetails.JsonShippingDestInfo.Email}}</span>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="card grey-background">
             <div class="card-body">
-              <div class="card-title mb-4 mt-3">
+              <div class="card-title mb-4 mt-3 d-flex justify-content-between align-items-center">
                 <h5>
-                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16" title="logo">
+                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16">
                   Agent Information
                 </h5>
+                <span *ngIf="editAgentDestToggler">
+                  <img src="../../../../../assets/images/icons/warehouse-edit-icon.svg" class="icon-size-16 pointer" alt="edit"
+                    (click)="setAgentDestInfo()">
+                </span>
               </div>
+              <div class="row" *ngIf="editAgentDestToggler">
+                <div class="col-8 ml-4 contact">
+                  <h4 class="contact-name">{{bookingDetails.JsonAgentDestInfo.Name}}</h4>
+                  <div class="contact-address mb-3 d-flex">
+                    <img src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon" class="icon-size-16 mt-1">
+                    <span class="ml-2">{{bookingDetails.JsonAgentDestInfo.Address}}</span>
+                  </div>
+                  <div class="contact-info d-flex justify-content-between">
+                    <span>
+                      <img src="../../../../assets/images/icons/mob-icon.svg" alt="icon-size-16">
+                      <span class="ml-2">{{bookingDetails.JsonAgentDestInfo.PhoneCountryCode}}{{bookingDetails.JsonAgentDestInfo.PhoneNumber}}</span>
+                    </span>
+                    <span>
+                      <img src="../../../../assets/images/icons/icon_email.svg" alt="icon-size-16">
+                      <span class="ml-2">{{bookingDetails.JsonAgentDestInfo.Email}}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <form autocomplete="off" novalidate [formGroup]="AgentInfoFormDest" *ngIf="!editAgentDestToggler">
               <div class="row">
                 <div class="offset-1 col-xl-2 col-lg-3 col-md-4 col-sm-4 col-xs-12 text-right">
                   <div class="form-group">
@@ -555,9 +616,7 @@
                 </div>
                 <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                   <div class="form-group">
-                    <select class="form-control">
-                      <option value="null"> Please Select</option>
-                    </select>
+                  <input type="text" class="form-control" formControlName="name">
                   </div>
                 </div>
               </div>
@@ -569,7 +628,7 @@
                 </div>
                 <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                   <div class="form-group">
-                    <textarea class="form-control"></textarea>
+                    <textarea class="form-control" formControlName="address"></textarea>
                   </div>
                 </div>
               </div>
@@ -581,7 +640,7 @@
                 </div>
                 <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                   <div class="form-group">
-                    <input class="form-control" placeholder="abc@email.com">
+                    <input class="form-control" placeholder="1234567" formControlName="contact">
                   </div>
                 </div>
               </div>
@@ -593,21 +652,23 @@
                 </div>
                 <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
                   <div class="form-group">
-                    <input class="form-control" placeholder="abc@email.com">
-                    <button
-                      class="btn btn-outline-primary hvr-sweep-to-right pull-right mt-4 pl-5 pr-5">Confirm</button>
+                    <input type="email" class="form-control" placeholder="abc@email.com" formControlName="email">
+                  
 
                   </div>
                 </div>
               </div>
-
+              <div class="row">
+                  <button class="btn btn-outline-primary hvr-sweep-to-right pull-right mt-4 pl-5 pr-5" (click)="updateAgentInfoDest()">Confirm</button>
+              </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
 
 
-      <h4 class=" view-booking-shipment-detail-heading ">Other Documents</h4>
+      <!-- <h4 class=" view-booking-shipment-detail-heading ">Other Documents</h4>
       <div class="row view-booking-document">
         <div class="col-12">
           <div class="card mb-0">
@@ -647,12 +708,12 @@
               </ul>
               <div class="card-title mt-5">
                 <h5>Agent Information</h5>
-                <hr class="">
+                <hr />
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!--/ document required -->
     </div>
