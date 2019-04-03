@@ -2,11 +2,11 @@
   <section class="manage-rate-card mb-5">
     <div class="row">
       <div class="col-xl-5 col-lg-5 col-md-12">
-        <div class="card pointer">
-          <img class="card-icon" src="../../../../../assets/images/icons/manager-icon.png" alt="*" />
+        <div class="card pointer" (click)="addRatesBygroundManually()">
+          <img class="card-icon" src="../../../../../assets/images/icons/add-edit-icon.svg" alt="*" />
           <div class="card-body">
-            <h5 class="card-title">Upload Your Rates</h5>
-            <p class="sub-title">Upload your rates if you already have it</p>
+            <h5 class="card-title">Add Your Rates Manually </h5>
+            <p class="sub-title">Use our tool to add your rates manually</p>
           </div>
         </div>
       </div>
@@ -17,12 +17,12 @@
           </strong>
         </div>
       </div>
-      <div class="col-xl-5 col-lg-5 col-md-12">
-        <div class="card pointer" (click)="addRatesBygroundManually()">
-          <img class="card-icon" src="../../../../../assets/images/icons/add-edit-icon.svg" alt="*" />
+      <div class="col-xl-5 col-lg-5 col-md-12" style="filter: grayscale(1);">
+        <div class="card pointer" ngbTooltip="coming soon">
+          <img class="card-icon" src="../../../../../assets/images/icons/manager-icon.png" alt="*" />
           <div class="card-body">
-            <h5 class="card-title">Add Your Rates Manually </h5>
-            <p class="sub-title">Use our tool to add your rates manually</p>
+            <h5 class="card-title">Upload Your Rates</h5>
+            <p class="sub-title">Upload your rates if you already have it</p>
           </div>
         </div>
       </div>
@@ -34,7 +34,7 @@
     </ngb-tab>
     <ngb-tab id="activeFCL" [disabled]="true">
       <ng-template ngbTabTitle>
-        <span>
+        <span ngbTooltip="coming soon">
           <svg data-name="Layer 1" id="ee0cf102-a966-4a3f-95ef-2d85d2845fce" viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg">
             <g data-name="box" id="77a57afb-dc84-48f7-bcef-1ea8af6a0a74">
@@ -213,7 +213,8 @@
             <div class="col-4">
               <div class="form-group">
                 <label>Traller / Container</label>
-                <select class="form-control" [(ngModel)]="filterbyContainerType" (change)="filterContainerChange(filterbyContainerType)">
+                <select class="form-control" [(ngModel)]="filterbyContainerType"
+                  (change)="filterContainerChange(filterbyContainerType)">
                   <option [value]="'all'">All</option>
                   <option *ngFor="let container of allContainersType" [value]="container.ContainerSpecID">
                     {{container.ContainerWithSize}}</option>
@@ -296,7 +297,7 @@
       <div class="col-6 d-flex justify-content-start rate-dur">
         <img src="../../../../../../assets/images/icons/Icons_Clock-2hour.svg" alt="del_icon"
           class="icon-size-24 mr-2" />
-        Rates will be published in 2 hours
+        Rates will be published within 30-60 minutes
       </div>
       <div class="col-6 d-flex justify-content-end">
         <a href="javascript:;" class="rate-validate mr-5" (click)="rateValidity()"
@@ -313,6 +314,7 @@
                 .dd12900e-6340-4a89-b921-0b1d5cffc735 {
                   fill: #fff;
                 }
+
               </style>
             </defs>
             <title>icon</title>
@@ -340,6 +342,7 @@
                 .a2933809-f108-463d-a7d6-9972aa735edc {
                   fill: #d32020;
                 }
+
               </style>
             </defs>
             <title>icon</title>
