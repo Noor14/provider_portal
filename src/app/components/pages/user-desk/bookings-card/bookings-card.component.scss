@@ -71,6 +71,7 @@
         left: -5px;
         padding: 7px 0px 8px 15px;
         width: 60px;
+        background: #02bdb6;
 
         &:before {
           content: " ";
@@ -81,34 +82,14 @@
           position: absolute;
           left: 60px;
           top: 0px;
+          border-left: 10px solid #02bdb6;
         }
 
-        &.sea-icon {
-          background: #02bdb6;
-
-          &:before {
-            border-left: 10px solid #02bdb6;
-          }
-        }
-        &.air-icon {
-          background: #00a2df;
-
-          &:before {
-            border-left: 10px solid #00a2df;
-          }
-        }
         &.ware-icon {
-          background: #738593;
+          background: #738593 !important;
 
           &:before {
-            border-left: 10px solid #738593;
-          }
-        }
-        &.truck-icon {
-          background: #3f5165;
-
-          &:before {
-            border-left: 10px solid #3f5165;
+            border-left: 10px solid #738593 !important;
           }
         }
       }

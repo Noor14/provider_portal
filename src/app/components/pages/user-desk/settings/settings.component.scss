@@ -284,6 +284,9 @@
     letter-spacing: 1px;
   }
 
+  .text-muted {
+    line-height: 1;
+  }
   .regional {
     h6 {
       @extend .change-logo;

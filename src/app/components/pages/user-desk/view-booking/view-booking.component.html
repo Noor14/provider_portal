@@ -98,7 +98,7 @@
             <img alt="icon" [src]="baseExternalAssets + bookingDetails.BookingUserInfo.UserImage">
           </div>
           <div class="company">
-            <span>Your customer is</span>
+            <span>Your customer is {{bookingDetails.UserName}} from</span>
             <p *ngIf="bookingDetails.BookingUserInfo.UserType=='CORPORATE'; else custname">{{bookingDetails.BookingUserInfo.CompanyName}}</p>
             <ng-template #custname>
               <p>{{bookingDetails.BookingUserInfo.FirstName}} {{bookingDetails.BookingUserInfo.LastName}}</p>
