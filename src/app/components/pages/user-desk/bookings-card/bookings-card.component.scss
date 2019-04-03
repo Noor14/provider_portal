@@ -10,31 +10,13 @@
       border-color: $secondary-color !important;
 
       .bookings-header {
-
         &-number {
-          .info {
-            color: #fff;
-            z-index: 9;
 
-            small {
-              color: #fff;
-            }
-          }
-
-          &-icon {
-            width: 203%;
-
-            img {
-              backface-visibility: visible !important;
-              animation-name: flipInY;
-              animation-fill-mode: both;
-              animation-duration: 1s;
-            }
-          }
-        }
-        &-company {
-          .status {
-            color: #fff;
+          img {
+            backface-visibility: visible !important;
+            animation-name: flipInY;
+            animation-fill-mode: both;
+            animation-duration: 1s;
           }
         }
       }
@@ -89,7 +71,6 @@
         left: -5px;
         padding: 7px 0px 8px 15px;
         width: 60px;
-        transition: 0.5s;
 
         &:before {
           content: " ";
@@ -98,7 +79,7 @@
           border-top: 22px solid transparent;
           border-bottom: 22px solid transparent;
           position: absolute;
-          right: -10px;
+          left: 60px;
           top: 0px;
         }
 
@@ -109,7 +90,6 @@
             border-left: 10px solid #02bdb6;
           }
         }
-
         &.air-icon {
           background: #00a2df;
 
@@ -117,7 +97,6 @@
             border-left: 10px solid #00a2df;
           }
         }
-
         &.ware-icon {
           background: #738593;
 
@@ -125,7 +104,6 @@
             border-left: 10px solid #738593;
           }
         }
-
         &.truck-icon {
           background: #3f5165;
 
@@ -143,8 +121,6 @@
 
       .info {
         line-height: 16px;
-        transition: 0.5s;
-        z-index: 9;
       }
     }
 
@@ -155,7 +131,6 @@
         font-family: $font-proxima;
         font-weight: $font-proxima-weight-semibold;
         text-transform: uppercase;
-        transition: 0.5s;
       }
     }
 
