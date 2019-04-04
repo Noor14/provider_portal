@@ -110,10 +110,8 @@
           <img src="../../../../../assets/images/icons/icon_booking_current.svg" class="icon-size-24 mr-3"> Current Bookings</h5>
       </div>
       <div class="summaryQuantity pt-2 pb-2">
-        <div class="rates">
-            <a href="javascript:void(0)" class="nav-link p-0" [routerLinkActive]="['active']" [routerLink]="['/provider/allbookings']">
+        <div class="rates" (click)="bookingsTabRedirect('currentBookings')">
           <span>{{providerInfo.CurrentBookingCount}}</span>
-          </a>
         </div>
       </div>
     </div>
@@ -123,11 +121,9 @@
         <h5>
           <img src="../../../../../assets/images/icons/icon_booking_total.svg" class="icon-size-24 mr-3">Total Bookings</h5>
       </div>
-      <div class="summaryQuantity d-flex pt-2 pb-2">
-        <div class="rates">
-            <a href="javascript:void(0)" class="nav-link p-0" [routerLinkActive]="['active']" [routerLink]="['/provider/allbookings']">
+      <div class="summaryQuantity pt-2 pb-2">
+        <div class="rates" (click)="bookingsTabRedirect('totalBookings')">
           <span>{{providerInfo.TotalBookingCount}}</span>
-          </a>
         </div>
       </div>
     </div>
