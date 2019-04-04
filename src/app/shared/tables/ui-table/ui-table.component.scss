@@ -55,7 +55,7 @@
           position: relative;
           .badge {
             position: fixed;
-            margin-top: 2.4rem !important;
+            margin-top: 0.8rem !important;
             font-size: $font-size-base;
             background-color: transparentize( $color: $danger-color, $amount: 0.9);
             color: $danger-color;

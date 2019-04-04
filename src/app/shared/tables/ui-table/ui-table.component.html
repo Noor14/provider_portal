@@ -179,13 +179,13 @@
                 alt="" class="mr-2" width="18px">
               <span class="ports-names" placement="top" ngbTooltip="{{device.podName}}"
                 [ngClass]="device?.podName?.length > 10 ? 'text-truncate': ''">{{device?.podName || '-- Select --'}}</span>
-              <span class="badge badge-danger mt-2"
+            </div>
+            <span class="badge badge-danger mt-2"
                 *ngIf="device?.dateDiff && device.dateDiff > 0 && tableType === 'publishFCL'">Rate Expiring in
                 {{device.dateDiff}} days</span>
               <span class="badge badge-danger mt-2"
                 *ngIf="device?.dateDiff && device.dateDiff < 0 && tableType === 'publishFCL'">Rate has been expired
               </span>
-            </div>
           </td>
           <td (click)="draftAction(device, 'edit')">
             <div class="d-flex info-table-logo align-items-center">

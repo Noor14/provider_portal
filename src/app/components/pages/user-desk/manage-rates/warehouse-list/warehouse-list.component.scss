@@ -180,11 +180,8 @@
         }
       }
 
-      &.noRate {
-        border: 1px solid $probar-color;
-      }
-
       &.inActive {
+        border: 1px solid $probar-color;
         &::before {
           content: "INACTIVE";
           position: absolute;
