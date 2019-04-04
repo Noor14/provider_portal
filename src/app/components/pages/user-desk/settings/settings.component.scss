@@ -275,6 +275,13 @@
     }
   }
 
+  .fancyOptionBoxes {
+    input[disabled=""] + label {
+      cursor: no-drop;
+      filter: grayscale(1);
+    }
+  }
+
   .change-logo {
     font-family: $font-proxima;
     font-size: $font-size-medium;
