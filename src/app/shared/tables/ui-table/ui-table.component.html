@@ -133,7 +133,7 @@
           <td>
             <button *ngIf="device.parsedpublishStatus"
               class="btn rounded-circle icon-size-8 p-0 btn-{{device.parsedpublishStatus.Status === 'PENDING' ? 'danger' : 'success'}}"
-              placement="top" ngbTooltip="{{device.parsedpublishStatus.printStatus}}"></button>
+              placement="right-bottom" ngbTooltip="{{device.parsedpublishStatus.printStatus}}"></button>
           </td>
           <td (click)="draftAction(device, 'edit')">
             <div class="d-flex info-table-logo">
