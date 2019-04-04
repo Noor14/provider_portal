@@ -627,7 +627,8 @@ export class SeaRateDialogComponent implements OnInit {
 
         if (this.selectedOrigins && this.selectedOrigins.length > 0) {
           this.selectedOrigins.forEach(element => {
-            if (Object.keys(element).length && (!element.Price || parseInt(element.Price) === 0)) {
+            console.log(element);
+            if (Object.keys(element).length && (!(typeof parseInt(element.Price) == 'number') || parseInt(element.Price) === 0)) {
               this._toast.error('Price is missing for Additional Charge', 'Error')
               ADCHValidated = false
               return;
@@ -646,7 +647,7 @@ export class SeaRateDialogComponent implements OnInit {
         }
         if (this.selectedDestinations && this.selectedDestinations.length > 0) {
           this.selectedDestinations.forEach(element => {
-            if (Object.keys(element).length && !element.Price) {
+            if (Object.keys(element).length && (!(typeof parseInt(element.Price) == 'number') || parseInt(element.Price) === 0)) {
               this._toast.error('Price is missing for Additional Charge', 'Error')
               ADCHValidated = false
               return;

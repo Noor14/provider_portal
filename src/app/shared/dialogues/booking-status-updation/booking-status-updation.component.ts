@@ -94,7 +94,11 @@ export class BookingStatusUpdationComponent implements OnInit {
           modifiedBy: this.modalData.loginID,
           approverID: this.modalData.providerID,
           approverType: 'PROVIDER',
-          reasonID: id
+          reasonID: id,
+          providerName: this.modalData.booking.ProviderName,
+          emailTo: this.modalData.booking.ProviderEmail,
+          userName: this.modalData.booking.UserName,
+          hashMoveBookingNum: this.modalData.booking.HashMoveBookingNum,
         }
         this._viewBookingService.cancelBooking(this.actionObj).subscribe((res: any) => {
           if (res.returnStatus == "Success"){
@@ -129,7 +133,11 @@ export class BookingStatusUpdationComponent implements OnInit {
           let obj = {
             bookingStatus: res.returnObject.bookingStatus,
             shippingStatus: res.returnObject.shippingStatus,
-            resType : res.returnStatus
+            resType : res.returnStatus,
+            providerName: this.modalData.booking.ProviderName,
+            emailTo: this.modalData.booking.ProviderEmail,
+            userName: this.modalData.booking.UserName,
+            hashMoveBookingNum: this.modalData.booking.HashMoveBookingNum,
           }
             this.closeModal(obj);
         }
