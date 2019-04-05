@@ -14,6 +14,8 @@ import { IconSequence } from '@agm/core/services/google-maps-types';
 import { baseExternalAssets } from '../../../../constants/base.url';
 import { LatLngBounds } from '@agm/core';
 import { BookingStatusUpdationComponent } from '../../../../shared/dialogues/booking-status-updation/booking-status-updation.component';
+import { Lightbox } from 'ngx-lightbox';
+import { WarehouseService } from '../manage-rates/warehouse-list/warehouse.service';
 declare var google: any;
 
 @Component({
@@ -27,6 +29,7 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
   public zoomlevel: number = 2;
   public location: any = { lat: undefined, lng: undefined };
   public bookingDetails: BookingDetails;
+  public wareHouse:any;
   public paramSubscriber: any;
   public HelpDataLoaded: boolean;
   // public ProviderEmails: any[];
@@ -76,6 +79,8 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
     private _viewBookingService: ViewBookingService,
     private _router: ActivatedRoute,
     private _commonService: CommonService,
+    private _lightbox: Lightbox,
+    private _warehouseService: WarehouseService
   ) { }
 
   ngOnInit() {
@@ -231,8 +236,6 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       loading(false);
       if (res.returnId > 0) {
         this.bookingDetails = JSON.parse(res.returnText);
-        this.bookingDetails.origin = this.bookingDetails.PolCode.split(' ')[0];
-        this.bookingDetails.destination = this.bookingDetails.PodCode.split(' ')[0];
         if (this.bookingDetails.JsonShippingDestInfo && isJSON(this.bookingDetails.JsonShippingDestInfo)) {
           this.bookingDetails.JsonShippingDestInfo = JSON.parse(this.bookingDetails.JsonShippingDestInfo)
         }
@@ -247,16 +250,20 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
           this.bookingDetails.JsonAgentDestInfo = JSON.parse(this.bookingDetails.JsonAgentDestInfo);
           this.editAgentDestToggler = true;
         }
-
-        // this.bookingDetails.ProviderDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.ProviderImage[0].ProviderLogo, ImageRequiredSize._48x48)
-        // this.bookingDetails.CarrierDisplayImage = getImagePath(ImageSource.FROM_SERVER, this.bookingDetails.CarrierImage, ImageRequiredSize._48x48)
-        // this.bookingDetails.ProviderDisplayImage = baseExternalAssets + JSON.parse(this.bookingDetails.ProviderImage)[0].ProviderLogo;
-        // this.ProviderEmails = this.bookingDetails.ProviderEmail.split(',');
-        this.mapOrgiToDest.push(
-          { lat: Number(this.bookingDetails.PolLatitude), lng: Number(this.bookingDetails.PolLongitude) },
-          { lat: Number(this.bookingDetails.PodLatitude), lng: Number(this.bookingDetails.PodLongitude) });
-        // this.mapInit();
-        this.bookingDocs();
+        if (this.bookingDetails.ShippingModeCode != 'WAREHOUSE'){
+          this.bookingDetails.origin = this.bookingDetails.PolCode.split(' ')[0];
+          this.bookingDetails.destination = this.bookingDetails.PodCode.split(' ')[0];
+          this.bookingDocs();
+          this.mapOrgiToDest.push(
+            { lat: Number(this.bookingDetails.PolLatitude), lng: Number(this.bookingDetails.PolLongitude) },
+            { lat: Number(this.bookingDetails.PodLatitude), lng: Number(this.bookingDetails.PodLongitude) });
+        }
+        else if (this.bookingDetails.ShippingModeCode == 'WAREHOUSE'){
+          if (this.bookingDetails.ActualScheduleDetail && isJSON(this.bookingDetails.ActualScheduleDetail)){
+            let whid = JSON.parse(this.bookingDetails.ActualScheduleDetail).WHID;
+            this.getWarehouseDetail(whid);
+          }
+        }
       } else {
         this._toast.error('Unable to find this booking. Please check the link and try again', 'Failed to Fetch Data')
       }
@@ -265,7 +272,36 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       console.log(err);
     })
   }
-
+  getWarehouseDetail(id){
+    this._warehouseService.getWarehouseList(this.userProfile.ProviderID, id).subscribe((res: any) => {
+      if (res.returnStatus == "Success" && res.returnObject) {
+          this.wareHouse = res.returnObject.WHModel[0];
+            if (this.bookingDetails.WHCityName && this.bookingDetails.WHCountryName) {
+              this.wareHouse.Location = this.bookingDetails.WHCityName + ', ' + this.bookingDetails.WHCountryName;
+            }
+            if (this.wareHouse.FacilitiesProviding && this.wareHouse.FacilitiesProviding != "[]" && isJSON(this.wareHouse.FacilitiesProviding)) {
+              this.wareHouse.FacilitiesProviding = JSON.parse(this.wareHouse.FacilitiesProviding);
+            }
+            if (this.wareHouse.WHGallery && this.wareHouse.WHGallery != "[]" && isJSON(this.wareHouse.WHGallery)) {
+              this.wareHouse.WHGallery = JSON.parse(this.wareHouse.WHGallery);
+              const albumArr = []
+              this.wareHouse.WHGallery.forEach((elem) => {
+                const album = {
+                  src: baseExternalAssets + elem.DocumentFile,
+                  caption: elem.DocumentFileName,
+                  thumb: baseExternalAssets + elem.DocumentFile,
+                  DocumentUploadedFileType: elem.DocumentUploadedFileType
+                };
+                albumArr.push(album);
+              })
+              this.wareHouse.parsedGallery = albumArr;
+            }
+          // this.wareHouse.Location = this.cityList.find(elem => elem.id == this.warehouseDetail.CityID).title
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
+  }
   bookingDocs() {
     this.bookingDetails.BookingDocumentDetail.forEach((obj) => {
       if (obj.DocumentNature == "CERTIFICATE") {
@@ -357,7 +393,12 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
     let doc = window as any;
     doc.print()
   }
-
+  openGallery(albumArr, index): void {
+    this._lightbox.open(albumArr, index, { disableScrolling: true, centerVertically: true, alwaysShowNavOnTouchDevices: true });
+  }
+  closeLightBox(): void {
+    this._lightbox.close();
+  }
   openDialogue(type) {
     const modalRef = this._modalService.open(BookingStatusUpdationComponent, {
       size: 'lg',

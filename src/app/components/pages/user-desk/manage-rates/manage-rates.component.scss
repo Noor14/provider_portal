@@ -339,7 +339,7 @@ $left-nav-icon-height: 20px;
             font-weight: $font-weight-mid;
             font-size: $font-size-medium;
             position: absolute;
-            padding: 1rem 5rem 1rem 1rem;
+            padding: 1rem 5rem 1rem 0rem;
             bottom: -4.1rem;
             // left: 1px;
             z-index: 1;
@@ -625,60 +625,9 @@ $left-nav-icon-height: 20px;
         .editor {
             border: 1px solid $data-table-border;
             padding: 1rem;
-            border-radius: 4px;
             background: $color-white;
-            text-align: justify;
-            color: $color-topmenu;
-            font-size: $font-size-medium;
             height: 300px;
             overflow-y: auto;
-            font-family: $font-proxima;
-            font-size: $root-font-size;
-            color: $color-menuheading-black !important;
-            h1 {
-                font-size: 2rem !important;
-            }
-            h2 {
-                font-size: 1.5rem !important;
-            }
-            h3 {
-                font-size: 1.28rem !important;
-            }
-            h4 {
-                font-size: $root-font-size !important;
-            }
-            h5 {
-                font-size: $font-size-medium !important;
-            }
-            h6 {
-                font-size: $font-size-base !important;
-            }
-            p {
-                font-size: $root-font-size;
-                color: $color-menuheading-black;
-                margin: 0;
-                line-height: 1.5;
-            }
-            ol,
-            ul {
-                li {
-                    font-family: $font-proxima;
-                    font-size: 1.125rem !important;
-                    line-height: 2;
-                    padding-left: 0px;
-                    color: $color-menuheading-black !important;
-                    list-style: none;
-                    &::before {
-                        color: $color-topmenuactive;
-                        content: "\2022";
-                        font-weight: bold;
-                        display: inline-block;
-                        transform: scale(1.5);
-                        width: 1em;
-                        margin-left: -1em;
-                    }
-                }
-            }
         }
     }
 }
