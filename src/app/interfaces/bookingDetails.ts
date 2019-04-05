@@ -86,9 +86,10 @@ export interface docDetail{
   FileContent: any
 }
 export interface BookingDetails {
-  WHCityName: string;
-  WHCountryName: string;
-  ActualScheduleDetail:any;
+  WHCityName?: string;
+  WHCountryName?: string;
+  ActualScheduleDetail?:any;
+  BookingDesc?:string;
   BookingID: number;
   HashMoveBookingNum: string;
   HashMoveBookingDate: string;

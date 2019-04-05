@@ -201,7 +201,7 @@
             </div>
             </div>
           <div class="row mt-1" *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE'">
-            <div class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-12">
+            <div class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-12" *ngIf="wareHouse.parsedGallery && wareHouse.parsedGallery.length">
               <div *ngFor="let doc of wareHouse.parsedGallery; let i = index"
                 (click)="openGallery(wareHouse.parsedGallery, i)">
                 <div class="gallery-section" *ngIf="i == 0">
@@ -280,7 +280,6 @@
         <div class="row view-booking-document" *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'">
           <div class="col-12">
             <div class="card">
-  
               <label class="view-booking-document-title">
                 <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.origin | lowercase) + '.svg'}}"
                   class="mr-2" width="20"> For {{bookingDetails.PolName}}, {{bookingDetails.PolCountry}}
@@ -476,11 +475,11 @@
               </div>
             </div>
           </div>
-          <div class="card-body" *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE'">
+          <div class="card-body d-flex" *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE'">
             <div class="billing-box">
               <span class="d-block ports-title">Location</span>
               <ul class="list-group list-group-flush mt-1">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li class="list-group-item">
                   <div class="category">
                     <img src="../../../../assets/images/icons/icon_container.svg" alt="umbrella-icon" class="icon">
                     <span class="long-text">{{bookingDetails.ShippingCatName}}</span>
@@ -510,6 +509,22 @@
                 </ul>
               </div>
             </div>
+              <div class="card-body" *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE'">
+                <div class="billing-box">
+                  <!-- <h5 class="card-title">
+                                Cargo Details
+                              </h5> -->
+                  <span class="d-block ports-title">In The Shipment</span>
+                  <ul class="list-group list-group-flush mt-1">
+                    <li class="list-group-item">
+                      <div class="category">
+                        <img src="../../../../assets/images/icons/icon_container.svg" alt="umbrella-icon" class="icon">
+                        <span class="long-text">{{bookingDetails.BookingDesc}}</span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
         </div>
         <!--/ Help & Support -->
   
