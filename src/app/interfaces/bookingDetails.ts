@@ -86,7 +86,7 @@ export interface docDetail{
   FileContent: any
 }
 export interface BookingDetails {
-  parsedGallery?:any;
+  ActualScheduleDetail:any;
   BookingID: number;
   HashMoveBookingNum: string;
   HashMoveBookingDate: string;
@@ -177,9 +177,6 @@ export interface BookingDetails {
   JsonShippingDestInfo: any;
   JsonAgentOrgInfo: any;
   JsonAgentDestInfo:any;
-  JsonSearchCriteria?: any;
-  WHMedia?:any;
-  WHName?:string
 }
 
 

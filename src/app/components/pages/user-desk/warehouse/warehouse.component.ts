@@ -151,7 +151,6 @@ export class WarehouseComponent implements OnInit {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
     }
-    console.log(this.whID)
     if (this.step === 1) {
       this.activeStep = this.step
       this.getPricingDetails()

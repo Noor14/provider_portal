@@ -15,6 +15,7 @@ import { baseExternalAssets } from '../../../../constants/base.url';
 import { LatLngBounds } from '@agm/core';
 import { BookingStatusUpdationComponent } from '../../../../shared/dialogues/booking-status-updation/booking-status-updation.component';
 import { Lightbox } from 'ngx-lightbox';
+import { WarehouseService } from '../manage-rates/warehouse-list/warehouse.service';
 declare var google: any;
 
 @Component({
@@ -79,6 +80,7 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
     private _router: ActivatedRoute,
     private _commonService: CommonService,
     private _lightbox: Lightbox,
+    private _warehouseService: WarehouseService
   ) { }
 
   ngOnInit() {
@@ -257,22 +259,9 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
             { lat: Number(this.bookingDetails.PodLatitude), lng: Number(this.bookingDetails.PodLongitude) });
         }
         else if (this.bookingDetails.ShippingModeCode == 'WAREHOUSE'){
-          if (this.bookingDetails.JsonSearchCriteria && isJSON(this.bookingDetails.JsonSearchCriteria)){
-            this.wareHouse = JSON.parse(this.bookingDetails.JsonSearchCriteria);
-            if (this.bookingDetails.WHMedia && this.bookingDetails.WHMedia != "[]" && isJSON(this.bookingDetails.WHMedia)) {
-              this.bookingDetails.WHMedia = JSON.parse(this.bookingDetails.WHMedia);
-              const albumArr = []
-              this.bookingDetails.WHMedia.forEach((elem) => {
-                const album = {
-                  src: baseExternalAssets + elem.DocumentFile,
-                  caption: elem.DocumentFileName,
-                  thumb: baseExternalAssets + elem.DocumentFile,
-                  DocumentUploadedFileType: elem.DocumentUploadedFileType
-                };
-                albumArr.push(album);
-              })
-              this.bookingDetails.parsedGallery = albumArr;
-            }
+          if (this.bookingDetails.ActualScheduleDetail && isJSON(this.bookingDetails.ActualScheduleDetail)){
+            let whid = JSON.parse(this.bookingDetails.ActualScheduleDetail).WHID;
+            this.getWarehouseDetail(whid);
           }
         }
       } else {
@@ -283,7 +272,33 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       console.log(err);
     })
   }
-
+  getWarehouseDetail(id){
+    this._warehouseService.getWarehouseList(this.userProfile.ProviderID, 181).subscribe((res: any) => {
+      if (res.returnStatus == "Success" && res.returnObject) {
+          this.wareHouse = res.returnObject.WHModel[0];
+            if (this.wareHouse.FacilitiesProviding && this.wareHouse.FacilitiesProviding != "[]" && isJSON(this.wareHouse.FacilitiesProviding)) {
+              this.wareHouse.FacilitiesProviding = JSON.parse(this.wareHouse.FacilitiesProviding);
+            }
+            if (this.wareHouse.WHGallery && this.wareHouse.WHGallery != "[]" && isJSON(this.wareHouse.WHGallery)) {
+              this.wareHouse.WHGallery = JSON.parse(this.wareHouse.WHGallery);
+              const albumArr = []
+              this.wareHouse.WHGallery.forEach((elem) => {
+                const album = {
+                  src: baseExternalAssets + elem.DocumentFile,
+                  caption: elem.DocumentFileName,
+                  thumb: baseExternalAssets + elem.DocumentFile,
+                  DocumentUploadedFileType: elem.DocumentUploadedFileType
+                };
+                albumArr.push(album);
+              })
+              this.wareHouse.parsedGallery = albumArr;
+            }
+          // this.wareHouse.Location = this.cityList.find(elem => elem.id == this.warehouseDetail.CityID).title
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
+  }
   bookingDocs() {
     this.bookingDetails.BookingDocumentDetail.forEach((obj) => {
       if (obj.DocumentNature == "CERTIFICATE") {
