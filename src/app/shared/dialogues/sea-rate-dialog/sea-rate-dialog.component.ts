@@ -187,6 +187,8 @@ export class SeaRateDialogComponent implements OnInit {
     }
 
     this.allCustomers = this.selectedData.customers
+    console.log('customerList:',this.allCustomers);
+    
     this.getSurchargeBasis(this.containerLoadParam)
 
   }
@@ -209,28 +211,41 @@ export class SeaRateDialogComponent implements OnInit {
     if (this.selectedData && this.selectedData.data && this.containerLoadParam === "FCL") {
       if (this.selectedData.mode === 'publish') {
         this.disabledCustomers = true;
+        console.log('yolo', this.selectedData);
+        
         let data = changeCase(this.selectedData.data[0], 'pascal')
+        console.log('here:', this.selectedData)
         this.setData(data);
       } else {
+        console.log('here:', this.selectedData)
         this.setData(this.selectedData.data);
       }
     }
     else if (this.selectedData && this.selectedData.data && (this.containerLoadParam === "LCL" || this.containerLoadParam === "FTL")) {
       if (this.selectedData.mode === 'publish') {
         this.disabledCustomers = true;
+        console.log('yolo', this.selectedData);
+        
         let data = changeCase(this.selectedData.data[0], 'pascal')
+        console.log('here:', this.selectedData)
         this.setData(data);
       } else {
+        console.log('here:', this.selectedData)
         this.setData(this.selectedData.data);
       }
     } else if (this.selectedData && this.selectedData.data && (this.containerLoadParam === "WAREHOUSE")) {
       if (this.selectedData.mode === 'publish') {
         console.log(this.selectedData.data);
         this.selectedData.data = changeCase(this.selectedData.data, 'pascal')
+        console.log('yolo', this.selectedData);
         this.disabledCustomers = true;
+        console.log('yolo', this.selectedData);
         // let data = changeCase(this.selectedData.data, 'pascal')
+        console.log('here:', this.selectedData)
         this.setData(this.selectedData.data);
       } else {
+        console.log('yolo', this.selectedData);
+        console.log('here:', this.selectedData)
         this.setData(this.selectedData.data);
       }
     }
@@ -297,7 +312,7 @@ export class SeaRateDialogComponent implements OnInit {
       );
     }
 
-    // this.disabledCustomers = true;
+    // this.disabledCustomers = true;    
     if (data.ContainerLoadType === 'WAREHOUSE') {
       this.storageType = data.StorageType
       const parsedPricingJson = JSON.parse(data.PricingJson)
@@ -312,7 +327,7 @@ export class SeaRateDialogComponent implements OnInit {
         obj => obj.id === userCurrency
       );
     } else {
-      this.disabledCustomers = true;
+      console.log('yolo', data);
       this.selectedPrice = data.Price;
       this.selectedCurrency = this.allCurrencies.find(
         obj => obj.id === data.CurrencyID
@@ -630,7 +645,7 @@ export class SeaRateDialogComponent implements OnInit {
         if (this.selectedOrigins && this.selectedOrigins.length > 0) {
           this.selectedOrigins.forEach(element => {
             console.log(element);
-            if (Object.keys(element).length && (!element.Price || !(typeof parseInt(element.Price) == 'number') || parseInt(element.Price) === 0)) {
+            if (Object.keys(element).length && (!element.Price || !(typeof parseInt(element.Price) == 'number') || parseInt(element.Price) <= 0)) {
               this._toast.error('Price is missing for Additional Charge', 'Error')
               this.isRateUpdating = false;
               ADCHValidated = false
@@ -652,7 +667,7 @@ export class SeaRateDialogComponent implements OnInit {
         }
         if (this.selectedDestinations && this.selectedDestinations.length > 0) {
           this.selectedDestinations.forEach(element => {
-            if (Object.keys(element).length && (!element.Price || !(typeof parseInt(element.Price) == 'number') || parseInt(element.Price) === 0)) {
+            if (Object.keys(element).length && (!element.Price || !(typeof parseInt(element.Price) == 'number') || parseInt(element.Price) <= 0)) {
               this._toast.error('Price is missing for Additional Charge', 'Error')
               this.isRateUpdating = false;
               ADCHValidated = false

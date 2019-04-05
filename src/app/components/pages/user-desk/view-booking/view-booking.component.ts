@@ -336,7 +336,8 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       docTypeID: data.DocumentTypeID,
       docID: data.DocumentID,
       userID: this.userProfile.UserID,
-      createdBy: this.userProfile.LoginID
+      createdBy: this.userProfile.LoginID,
+      bookingData: this.bookingDetails
     }
     modalRef.result.then((result) => {
       if (result.resType == "Success") {
@@ -395,6 +396,21 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       modifiedBy: "",
       approverIDType: "PROVIDER"
     }
+
+    let toSend
+    try {
+      toSend = {
+        ...obj,
+        providerName: this.bookingDetails.ProviderName,
+        userName: this.bookingDetails.UserName,
+        hashMoveBookingNum: this.bookingDetails.HashMoveBookingNum,
+        emailTo: ( this.bookingDetails.BookingUserInfo && this.bookingDetails.BookingUserInfo.PrimaryEmail) ? this.bookingDetails.BookingUserInfo.PrimaryEmail : '',
+        userCompanyName: (this.bookingDetails && this.bookingDetails.BookingUserInfo && this.bookingDetails.BookingUserInfo.CompanyName) ? this.bookingDetails.BookingUserInfo.CompanyName : ''
+      }
+    } catch (error) {
+      toSend = obj
+    }
+
     this._viewBookingService.approvedDocx(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         data.DocumentLastStatus = this.approvedStatus[0].StatusName;
