@@ -95,11 +95,14 @@
               </h5>
             </div>
             <div class="logo">
-              <img alt="icon" [src]="baseExternalAssets + bookingDetails.BookingUserInfo?.UserImage">
+              <img alt="icon"
+                *ngIf="bookingDetails && bookingDetails.BookingUserInfo && bookingDetails.BookingUserInfo?.UserImage"
+                [src]="baseExternalAssets + bookingDetails.BookingUserInfo?.UserImage">
+              <img alt="icon" *ngIf="!bookingDetails.BookingUserInfo?.UserImage" src="../../../../../assets/images/icons/icons_user.svg">
             </div>
             <div class="company">
               <span>Your customer is {{bookingDetails.UserName}} from</span>
-              <p *ngIf="bookingDetails.BookingUserInfo?.UserType=='CORPORATE'; else custname">{{bookingDetails.BookingUserInfo?.CompanyName}}</p>
+              <p *ngIf="bookingDetails.BookingUserInfo?.UserType == 'CORPORATE'; else custname">{{bookingDetails.BookingUserInfo?.CompanyName}}</p>
               <ng-template #custname>
                 <p>{{bookingDetails.BookingUserInfo?.FirstName}} {{bookingDetails.BookingUserInfo?.LastName}}</p>
               </ng-template>
@@ -128,6 +131,8 @@
             </ng-template>
           </div>
         </div>
+
+
         <div class="card grey-background">
           <div class="card-body">
             <div class="row mt-1 details" *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'">
@@ -200,80 +205,172 @@
               </div>
             </div>
             </div>
-          <div class="row mt-1"
-            *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE' && wareHouse && wareHouse.parsedGallery">
-            <div class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-12">
-              <div *ngFor="let doc of wareHouse.parsedGallery; let i = index"
-                (click)="openGallery(wareHouse.parsedGallery, i)">
-                <div class="gallery-section" *ngIf="i == 0">
-                  <div class="images-carousel">
-                    <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
-                    <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
-                      <source [src]="doc.DocumentFile" type="video/mp4" />
-                    </video>
-                    <div class="gallery-section-item d-flex justify-content-center align-items-center">
-                      <img src="../../../assets/images/icons/icon_pictures.svg" alt="count" class="icon-size-14 mr-1" />
-                      {{ wareHouse.WHGallery.length }}
+            <div class="row mt-1" *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE' && wareHouse && wareHouse.parsedGallery">
+              <div *ngIf="false" class="col-12 warehousing-header d-flex justify-content-between align-items-center mb-1">
+                <div>
+                  <i class="icon mr-2">
+                    <svg class="icon-size-16" data-name="Layer 1"
+                      id="4a12fca4-e18c-475e-bd3e-22cd7e281a70" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <style>
+                          .\33 949e7c5-f605-4c5e-87a9-b12329243bbe {
+                            fill: #738593;
+                          }
+
+                          .\38 d48c0e3-bd07-43c0-8228-4127926f0f37 {
+                            fill: #fff;
+                          }
+                        </style>
+                      </defs>
+                      <g data-name="calendar2" id="8158930b-cef2-4edb-b5e1-ba3f6425e989">
+                        <path class="3949e7c5-f605-4c5e-87a9-b12329243bbe"
+                          d="M15,2H3.8A2.8,2.8,0,0,0,1,4.8V16H12.2A2.8,2.8,0,0,0,15,13.2V2Z" data-name="<Compound Path>"
+                          id="faf814a2-64c6-47f5-af64-79a811794184"></path>
+                        <path class="8d48c0e3-bd07-43c0-8228-4127926f0f37"
+                          d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z">
+                        </path>
+                        <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5"
+                          id="2b57c6dd-e369-4754-b6e3-53be44a39248" width="2" x="5"></rect>
+                        <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5"
+                          id="2f608205-02c1-4439-8b66-12ac37428e6c" width="2" x="9"></rect>
+                      </g>
+                    </svg>
+                  </i><span class="lable">Booked From</span>
+                  <!---->
+                  <h4 class="ml-4"> 5 Apr, 2019 </h4>
+                  <!---->
+                </div>
+                <div>
+                  <!---->
+                  <div><i class="icon mr-2"><svg class="icon-size-16" data-name="Layer 1" id="4a12fca4-e18c-475e-bd3e-22cd7e281a70"
+                        viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                          <style>
+                            .\33 949e7c5-f605-4c5e-87a9-b12329243bbe {
+                              fill: #738593;
+                            }
+
+                            .\38 d48c0e3-bd07-43c0-8228-4127926f0f37 {
+                              fill: #fff;
+                            }
+                          </style>
+                        </defs>
+                        <g data-name="calendar2" id="8158930b-cef2-4edb-b5e1-ba3f6425e989">
+                          <path class="3949e7c5-f605-4c5e-87a9-b12329243bbe"
+                            d="M15,2H3.8A2.8,2.8,0,0,0,1,4.8V16H12.2A2.8,2.8,0,0,0,15,13.2V2Z" data-name="<Compound Path>"
+                            id="faf814a2-64c6-47f5-af64-79a811794184"></path>
+                          <path class="8d48c0e3-bd07-43c0-8228-4127926f0f37"
+                            d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z">
+                          </path>
+                          <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5"
+                            id="2b57c6dd-e369-4754-b6e3-53be44a39248" width="2" x="5"></rect>
+                          <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5"
+                            id="2f608205-02c1-4439-8b66-12ac37428e6c" width="2" x="9"></rect>
+                        </g>
+                      </svg></i><span class="lable">Booked Till</span>
+                    <!---->
+                    <h4 class="ml-4">12 Apr, 2019 </h4>
+                  </div>
+                </div>
+                <div><span><i class="icon mr-2"><svg class="icon-size-14" data-name="Layer 1"
+                        id="daf2a9d0-ed1e-40c3-8dc2-534f350396d2" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                          <style>
+                            .bf3de19e-df40-4e76-a7cd-2f9395b9693a {
+                              fill: #738593;
+                            }
+                          </style>
+                        </defs>
+                        <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="16 10 10 16 16 16 16 10">
+                        </polygon>
+                        <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="0 6 6 0 0 0 0 6">
+                        </polygon>
+                        <rect class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" height="21.261"
+                          transform="translate(-3.314 8) rotate(-45)" width="1.367" x="7.317" y="-2.63">
+                        </rect>
+                        <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="2 14 2 9 0 9 0 16 7 16 7 14 2 14">
+                        </polygon>
+                        <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="14 2 14 6 16 6 16 0 10 0 10 2 14 2"></polygon>
+                      </svg></i><span class="lable">Your Space</span>
+                    <!---->
+                    <h4 class="ml-4"> 2,200 ft<sup>2</sup></h4>
+                    <!---->
+                  </span></div>
+
+              </div>
+              <hr class="hr-solid mb-4 mt-0" *ngIf="false"/>
+              <div class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-12">
+                <div *ngFor="let doc of wareHouse.parsedGallery; let i = index"
+                  (click)="openGallery(wareHouse.parsedGallery, i)">
+                  <div class="gallery-section" *ngIf="i == 0">
+                    <div class="images-carousel">
+                      <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
+                      <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
+                        <source [src]="doc.DocumentFile" type="video/mp4" />
+                      </video>
+                      <div class="gallery-section-item d-flex justify-content-center align-items-center">
+                        <img src="../../../assets/images/icons/icon_pictures.svg" alt="count" class="icon-size-14 mr-1" />
+                        {{ wareHouse.WHGallery.length }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-1 col-xl-8 col-lg-8 col-md-7 col-sm-7 col-12 Wcontent">
+                <h5 class="card-title wareHouse mb-4">{{ wareHouse.WHName }}</h5>
+                <div class="warehousing-content">
+                  <ul class="list-group">
+                    <li class="list-group-item mr-3">
+                      <img src="../../../assets/images/icons/Icons_Location-grey.svg" alt="icon"
+                        class="icon-size-16 mr-2" />
+                      <span>
+                        {{ wareHouse.Location}}
+                      </span>
+                    </li>
+                    <li class="list-group-item mr-4">
+                      <img src="../../../assets/images/icons/icon_grid.svg" alt="icon" class="icon-size-14 mr-2" />
+                      {{ wareHouse.TotalCoveredArea }}
+                      {{ wareHouse.TotalCoveredAreaUnit }}
+                      <!-- <sup>2</sup> -->
+                    </li>
+                  </ul>
+                  <p class="warehousing-desc mb-1">
+                    {{ wareHouse.WHDesc | limitTo : 135 }}
+                  </p>
+                  <div class="warehouse-features d-flex">
+                    <div class="icons" *ngFor="let facilities of wareHouse.FacilitiesProviding">
+                      <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse"
+                        *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse'" [ngClass]="{
+                                'warehouse-features-active':
+                                  facilities.BusinessLogic == 'IsBondedWarehouse' &&
+                                  facilities.IsAllowed
+                              }">
+                        <img src="../../../assets/images/icons/Icons_Warehousing_green.svg" alt="footer icon"
+                          class="hvr-icon" />
+                      </span>
+                      <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Temp. Controlled" *ngIf="
+                                facilities.BusinessLogic == 'IsTempratureControlled'
+                              " [ngClass]="{
+                                'warehouse-features-active':
+                                  facilities.BusinessLogic ==
+                                    'IsTempratureControlled' && facilities.IsAllowed
+                              }">
+                        <img src="../../../assets/images/icons/Weight-Icon_1.svg" alt="footer icon" class="hvr-icon" />
+                      </span>
+                      <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Transport Available"
+                        *ngIf="facilities.BusinessLogic == 'IsTransportAvailable'" [ngClass]="{
+                                'warehouse-features-active':
+                                  facilities.BusinessLogic == 'IsTransportAvailable' &&
+                                  facilities.IsAllowed
+                              }">
+                        <img src="../../../assets/images/icons/Icons_Cargo_Truck_blue.svg" alt="footer icon"
+                          class="hvr-icon" />
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="mt-1 col-xl-8 col-lg-8 col-md-7 col-sm-7 col-12 Wcontent">
-              <h5 class="card-title wareHouse mb-4">{{ wareHouse.WHName }}</h5>
-              <div class="warehousing-content">
-                <ul class="list-group">
-                  <li class="list-group-item mr-3">
-                    <img src="../../../assets/images/icons/Icons_Location-grey.svg" alt="icon"
-                      class="icon-size-16 mr-2" />
-                    <span>
-                      {{ wareHouse.Location}}
-                    </span>
-                  </li>
-                  <li class="list-group-item mr-4">
-                    <img src="../../../assets/images/icons/icon_grid.svg" alt="icon" class="icon-size-14 mr-2" />
-                    {{ wareHouse.TotalCoveredArea }}
-                    {{ wareHouse.TotalCoveredAreaUnit }}
-                    <!-- <sup>2</sup> -->
-                  </li>
-                </ul>
-                <p class="warehousing-desc mb-1">
-                  {{ wareHouse.WHDesc | limitTo : 135 }}
-                </p>
-                <div class="warehouse-features d-flex">
-                  <div class="icons" *ngFor="let facilities of wareHouse.FacilitiesProviding">
-                    <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse"
-                      *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse'" [ngClass]="{
-                              'warehouse-features-active':
-                                facilities.BusinessLogic == 'IsBondedWarehouse' &&
-                                facilities.IsAllowed
-                            }">
-                      <img src="../../../assets/images/icons/Icons_Warehousing_green.svg" alt="footer icon"
-                        class="hvr-icon" />
-                    </span>
-                    <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Temp. Controlled" *ngIf="
-                              facilities.BusinessLogic == 'IsTempratureControlled'
-                            " [ngClass]="{
-                              'warehouse-features-active':
-                                facilities.BusinessLogic ==
-                                  'IsTempratureControlled' && facilities.IsAllowed
-                            }">
-                      <img src="../../../assets/images/icons/Weight-Icon_1.svg" alt="footer icon" class="hvr-icon" />
-                    </span>
-                    <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Transport Available"
-                      *ngIf="facilities.BusinessLogic == 'IsTransportAvailable'" [ngClass]="{
-                              'warehouse-features-active':
-                                facilities.BusinessLogic == 'IsTransportAvailable' &&
-                                facilities.IsAllowed
-                            }">
-                      <img src="../../../assets/images/icons/Icons_Cargo_Truck_blue.svg" alt="footer icon"
-                        class="hvr-icon" />
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
           </div>
         </div>
         <!-- document required -->

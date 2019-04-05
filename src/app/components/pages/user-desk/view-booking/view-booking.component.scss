@@ -105,29 +105,35 @@
       margin-bottom: 1rem;
     }
 
-    .card-title {
-      margin-bottom: 0;
-
-      &.wareHouse {
-        font-size: 1.25rem;
-        font-family: pragmatica, sans-serif;
-        font-weight: 500;
-        color: #2b2b2b;
+    .card {
+      &.grey-background {
+        background-color: $white-color;
       }
 
-      h5 {
-        font-size: $font-size-medium;
-        text-transform: uppercase;
-        font-family: $font-proxima;
-        color: $secondary-grey;
-        word-spacing: 3px;
+      .card-title {
         margin-bottom: 0;
-        line-height: 0;
-      }
 
-      img {
-        position: relative;
-        top: -2px;
+        &.wareHouse {
+          font-size: 1.25rem;
+          font-family: pragmatica, sans-serif;
+          font-weight: 500;
+          color: #2b2b2b;
+        }
+
+        h5 {
+          font-size: $font-size-medium;
+          text-transform: uppercase;
+          font-family: $font-proxima;
+          color: $secondary-grey;
+          word-spacing: 3px;
+          margin-bottom: 0;
+          line-height: 0;
+        }
+
+        img {
+          position: relative;
+          top: -2px;
+        }
       }
     }
 
@@ -681,6 +687,7 @@
     color: $secondary-text-color;
   }
 }
+
 .gallery-section {
   border: 1px solid $grey-border;
   position: relative;
@@ -704,5 +711,24 @@
     font-family: $font-proxima;
     font-size: $font-size-base;
     padding: 0.21rem 0.68rem;
+  }
+}
+
+.warehousing-header {
+  .icon {
+    margin-top: 1rem;
+  }
+
+  .lable {
+    text-transform: uppercase;
+    font-size: $font-size-base;
+    color: $secondary-grey;
+  }
+
+  h4 {
+    font-size: $font-size-large;
+    color: $text-color-default;
+    font-weight: $font-weight-mid;
+    margin-left: 1.2rem;
   }
 }
