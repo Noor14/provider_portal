@@ -16,6 +16,8 @@ import { LatLngBounds } from '@agm/core';
 import { BookingStatusUpdationComponent } from '../../../../shared/dialogues/booking-status-updation/booking-status-updation.component';
 import { Lightbox } from 'ngx-lightbox';
 import { WarehouseService } from '../manage-rates/warehouse-list/warehouse.service';
+import { DashboardService } from '../dashboard/dashboard.service';
+import { SharedService } from '../../../../services/shared.service';
 declare var google: any;
 
 @Component({
@@ -80,7 +82,9 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
     private _router: ActivatedRoute,
     private _commonService: CommonService,
     private _lightbox: Lightbox,
-    private _warehouseService: WarehouseService
+    private _warehouseService: WarehouseService,
+    private _dashboardService: DashboardService,
+    private _sharedService: SharedService
   ) { }
 
   ngOnInit() {
@@ -259,6 +263,8 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
             { lat: Number(this.bookingDetails.PodLatitude), lng: Number(this.bookingDetails.PodLongitude) });
         }
         else if (this.bookingDetails.ShippingModeCode == 'WAREHOUSE'){
+          this.mapOrgiToDest.push(
+            { lat: Number(this.bookingDetails.WHLatitude), lng: Number(this.bookingDetails.WHLongitude) });
           if (this.bookingDetails.ActualScheduleDetail && isJSON(this.bookingDetails.ActualScheduleDetail)){
             let whid = JSON.parse(this.bookingDetails.ActualScheduleDetail).WHID;
             this.getWarehouseDetail(whid);
@@ -372,7 +378,8 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       docTypeID: data.DocumentTypeID,
       docID: data.DocumentID,
       userID: this.userProfile.UserID,
-      createdBy: this.userProfile.LoginID
+      createdBy: this.userProfile.LoginID,
+      bookingData: this.bookingDetails
     }
     modalRef.result.then((result) => {
       if (result.resType == "Success") {
@@ -411,6 +418,7 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       if (res.resType == "Success") {
         this.bookingDetails.BookingStatus = res.bookingStatus;
         this.bookingDetails.ShippingStatus = res.shippingStatus;
+        this.getDashboardData(this.userProfile.UserID);
       }
     });
     modalRef.componentInstance.modalData = {
@@ -422,7 +430,15 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       booking: this.bookingDetails
     }
   }
-
+  getDashboardData(id) {
+    this._dashboardService.getdashboardDetails(id).subscribe((res: any) => {
+      if (res.returnStatus == 'Success') {
+        this._sharedService.dashboardDetail.next(res.returnObject);
+      }
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    })
+  }
   approvedDoc(data) {
     if (data.DocumentLastStatus.toLowerCase() == 'approved' || data.DocumentLastStatus.toLowerCase() == 're-upload') return;
     let obj = {
@@ -436,6 +452,21 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       modifiedBy: "",
       approverIDType: "PROVIDER"
     }
+
+    let toSend
+    try {
+      toSend = {
+        ...obj,
+        providerName: this.bookingDetails.ProviderName,
+        userName: this.bookingDetails.UserName,
+        hashMoveBookingNum: this.bookingDetails.HashMoveBookingNum,
+        emailTo: ( this.bookingDetails.BookingUserInfo && this.bookingDetails.BookingUserInfo.PrimaryEmail) ? this.bookingDetails.BookingUserInfo.PrimaryEmail : '',
+        userCompanyName: (this.bookingDetails && this.bookingDetails.BookingUserInfo && this.bookingDetails.BookingUserInfo.CompanyName) ? this.bookingDetails.BookingUserInfo.CompanyName : ''
+      }
+    } catch (error) {
+      toSend = obj
+    }
+
     this._viewBookingService.approvedDocx(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         data.DocumentLastStatus = this.approvedStatus[0].StatusName;

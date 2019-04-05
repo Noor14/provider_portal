@@ -255,15 +255,19 @@ export class ReportsComponent implements OnInit {
   }
 
   async setlastCustomer(userGraphData: any) {
-    const { customer } = userGraphData
+    try {
+      const { customer } = userGraphData
 
-    const { exchnageRate } = this
-    customer.forEach(cust => {
-      const { customerRevenue } = cust
-      cust.customerRevenue = this._currencyControl.getNewPrice(customerRevenue, exchnageRate.rate)
-      cust.currencyCode = this.currCurrency.sortedCountryName
-    })
-    this.topCustomers = customer;
+      const { exchnageRate } = this
+      customer.forEach(cust => {
+        const { customerRevenue } = cust
+        cust.customerRevenue = this._currencyControl.getNewPrice(customerRevenue, exchnageRate.rate)
+        cust.currencyCode = this.currCurrency.sortedCountryName
+      })
+      this.topCustomers = customer;
+    } catch (error) {
+      console.warn('Customers ot set:',error)
+    }
   }
 
   async setBarGraphData(userGraphData: any) {

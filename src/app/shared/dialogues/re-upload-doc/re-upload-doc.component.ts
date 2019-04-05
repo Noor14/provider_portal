@@ -20,40 +20,56 @@ export class ReUploadDocComponent implements OnInit {
     private _activeModal: NgbActiveModal,
     private _viewBookingService: ViewBookingService,
     private _toast: ToastrService,
-    
+
   ) { location.onPopState(() => this.closeModal(null)); }
 
   ngOnInit() {
     this.getDocReason();
     this.docReasonForm = new FormGroup({
-      reasonType: new FormControl(null, {validators: [Validators.required]}),
-      reasonDesc: new FormControl(null, {validators: [Validators.required, Validators.maxLength(250)]})
+      reasonType: new FormControl(null, { validators: [Validators.required] }),
+      reasonDesc: new FormControl(null, { validators: [Validators.required, Validators.maxLength(250)] })
     });
   }
-  getDocReason(){
-    this._viewBookingService.getDocReasons().subscribe((res:any)=>{
-      if (res.returnStatus == "Success"){
+  getDocReason() {
+    this._viewBookingService.getDocReasons().subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
         this.docsReasons = res.returnObject;
       }
     })
   }
-  submitReason(){
+  submitReason() {
     let obj = {
       documentID: this.documentObj.docID,
       documentTypeID: this.documentObj.docTypeID,
       reasonID: this.docReasonForm.value.reasonType,
+      reasonDesc: this.docReasonForm.value.reasonDesc,
       documentStausRemarks: this.docReasonForm.value.reasonDesc,
       documentStaus: "RE-UPLOAD",
       documentLastApproverID: this.documentObj.userID,
       approverIDType: "PROVIDER",
       createdBy: this.documentObj.createdBy
     }
-    this._viewBookingService.uploadDocReason(obj).subscribe((res: any) => {
+
+    let toSend
+    try {
+      toSend = {
+        ...obj,
+        providerName: this.documentObj.bookingData.ProviderName,
+        userName: this.documentObj.bookingData.UserName,
+        hashMoveBookingNum: this.documentObj.bookingData.HashMoveBookingNum,
+        emailTo: (this.documentObj.bookingData && this.documentObj.bookingData.BookingUserInfo && this.documentObj.bookingData.BookingUserInfo.PrimaryEmail) ? this.documentObj.bookingData.BookingUserInfo.PrimaryEmail : '',
+        userCompanyName: (this.documentObj.bookingData && this.documentObj.bookingData.BookingUserInfo && this.documentObj.bookingData.BookingUserInfo.CompanyName) ? this.documentObj.bookingData.BookingUserInfo.CompanyName : ''
+      }
+    } catch (error) {
+      toSend = obj
+    }
+
+    this._viewBookingService.uploadDocReason(toSend).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-            let object = {
-            status: obj.documentStaus,
-            resType : res.returnStatus
-           }
+        let object = {
+          status: obj.documentStaus,
+          resType: res.returnStatus
+        }
         this.closeModal(object);
         this._toast.success(res.returnText);
       }

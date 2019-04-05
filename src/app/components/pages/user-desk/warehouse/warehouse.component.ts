@@ -23,6 +23,7 @@ import { cloneObject } from '../reports/reports.component';
 import { RateValidityComponent } from '../../../../shared/dialogues/rate-validity/rate-validity.component';
 import { CommonService } from '../../../../services/common.service';
 import { SeaFreightService } from '../manage-rates/sea-freight/sea-freight.service';
+import { CurrencyControl } from '../../../../services/currency.service';
 
 @Component({
   selector: 'app-warehouse',
@@ -100,7 +101,7 @@ export class WarehouseComponent implements OnInit {
   private fileStatus = undefined;
   private docTypeId = null;
   public uploadedGalleries: any[] = [];
-  public warehouseDocx: any;
+  public warehouseDocx: any = {};
 
 
   // edit warehouse detail
@@ -141,7 +142,8 @@ export class WarehouseComponent implements OnInit {
     private _modalService: NgbModal,
     private _lightbox: Lightbox,
     private _commonService: CommonService,
-    private _seaFreightService: SeaFreightService
+    private _seaFreightService: SeaFreightService,
+    private _currencyControl: CurrencyControl
 
   ) { }
 
@@ -204,9 +206,9 @@ export class WarehouseComponent implements OnInit {
 
   commissionFormGenerate() {
     this.commissionForm = new FormGroup({
-      commissionCurrency: new FormControl(null, [warehouseValidatorCommissionCurr.bind(this)]),
-      commissionValue: new FormControl(null, [warehouseValidatorCommissionVal.bind(this)]),
-      percentValue: new FormControl(null, [warehouseValidatorCommission.bind(this)]),
+      commissionCurrency: new FormControl(null, [Validators.required, warehouseValidatorCommissionCurr.bind(this)]),
+      commissionValue: new FormControl(null, [Validators.required, warehouseValidatorCommissionVal.bind(this)]),
+      percentValue: new FormControl(null, [Validators.required, warehouseValidatorCommission.bind(this)]),
     });
   }
 
@@ -347,7 +349,7 @@ export class WarehouseComponent implements OnInit {
         ]
         this.warehouseDocx = res.returnObject.documentType;
         if (res.returnObject && !Number(id)) {
-          
+
           this.facilities = res.returnObject.WHFacilitiesProviding;
         }
         else if (Number(id)) {
@@ -427,14 +429,22 @@ export class WarehouseComponent implements OnInit {
     }
 
     if (this.isRealEstate && obj.ComissionValue) {
-      this.commissionForm.controls['commissionValue'].setValue(obj.ComissionValue);
+      try {
+        this.commissionForm.controls['commissionValue'].setValue(this._currencyControl.applyRoundByDecimal(parseFloat(obj.ComissionValue), 2));
+      } catch (error) {
+        this.commissionForm.controls['commissionValue'].setValue(0);
+      }
     }
     if (this.isRealEstate && obj.ComissionCurrencyID) {
       let object = this.currencyList.find(elem => elem.id == obj.ComissionCurrencyID)
       this.commissionForm.controls['commissionCurrency'].setValue(object);
     }
     if (this.isRealEstate && !this.fixedAmount && obj.Percent) {
-      this.commissionForm.controls['percentValue'].setValue(obj.Percent);
+      try {
+        this.commissionForm.controls['percentValue'].setValue(this._currencyControl.applyRoundByDecimal(parseFloat(obj.Percent), 2));
+      } catch (error) {
+        this.commissionForm.controls['percentValue'].setValue(0);
+      }
     }
 
   }
@@ -1159,8 +1169,14 @@ export class WarehouseComponent implements OnInit {
       percent: this.commissionForm.value.percentValue,
       modifiedBy: this.userProfile.LoginID
     }
-    this._warehouseService.updateComission(obj).subscribe((res: any) => {
+    this._warehouseService.updateComission(obj).subscribe((res: JsonResponse) => {
       loading(false)
+      const { returnId, returnText } = res
+      if (returnId > 0) {
+        this._toastr.success(returnText, 'Success')
+      } else {
+        this._toastr.error(returnText)
+      }
       this._toastr.success('Comission updated successfully', 'Success')
     }, (err) => {
       loading(false)

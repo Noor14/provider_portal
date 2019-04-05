@@ -18,16 +18,17 @@ export class BookingInvoiceComponent implements OnInit {
   public freightData;
   public additionalData;
   public valueAddedData;
+  public taxData;
   public currencyCode;
   public totalAmount : number = 0;
   ngOnInit() {
     if (this.BookingInvoiceDet){
       this.currencyCode = this.BookingInvoiceDet.CurrencyCode;
-      const readArray = this.BookingInvoiceDet.BookingPriceDetail.filter((e) => e.TransMode === 'Read');
-      this.billingData = readArray;
+      this.billingData = this.BookingInvoiceDet.BookingPriceDetail.filter((e) => e.TransMode === 'WRITE');
       this.freightData = this.billingData.filter((element: any) => element.SurchargeType === 'FSUR');
       this.additionalData = this.billingData.filter((element: any) => element.SurchargeType === 'ADCH');
       this.valueAddedData = this.billingData.filter((element: any) => element.SurchargeType === 'VASV');
+      this.taxData = this.billingData.filter((element: any) => element.SurchargeType === 'TAX');
       this.freightData.forEach(element => {
         this.totalAmount += element.TotalAmount;
       });
@@ -35,6 +36,9 @@ export class BookingInvoiceComponent implements OnInit {
         this.totalAmount += element.TotalAmount;
       });
       this.valueAddedData.forEach(element => {
+        this.totalAmount += element.TotalAmount;
+      });
+      this.taxData.forEach(element => {
         this.totalAmount += element.TotalAmount;
       });
     }

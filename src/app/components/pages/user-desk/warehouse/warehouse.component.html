@@ -167,8 +167,14 @@
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-xs-12 mb-3 uploaded-images"
                           *ngFor="let galleryDocx of uploadedGalleries; let i = index">
                           <div class="display-upload delete">
-                            <img  *ngIf="((galleryDocx?.DocumentUploadedFileType?.length > 0 && galleryDocx?.DocumentUploadedFileType?.toLowerCase() !== 'mp4') || ( galleryDocx?.FileContent?.length > 0 && galleryDocx?.FileContent[0]?.documentUploadedFileType?.toLowerCase() !== 'mp4'))" [src]="(galleryDocx.DocumentFile)? (baseExternalAssets + galleryDocx.DocumentFile):galleryDocx?.FileContent[0]?.docUrl" />
-                            <video  *ngIf="((galleryDocx?.DocumentUploadedFileType?.length > 0 && galleryDocx?.DocumentUploadedFileType?.toLowerCase() === 'mp4') || ( galleryDocx?.FileContent?.length > 0 && galleryDocx?.FileContent[0]?.documentUploadedFileType?.toLowerCase() === 'mp4'))" class="animated fadeIn" controls [src]="(galleryDocx?.DocumentFile)? (baseExternalAssets + galleryDocx?.DocumentFile):galleryDocx?.FileContent[0]?.docUrl" type="video/mp4"></video>
+                            <img
+                              *ngIf="((galleryDocx?.DocumentUploadedFileType?.length > 0 && galleryDocx?.DocumentUploadedFileType?.toLowerCase() !== 'mp4') || ( galleryDocx?.FileContent?.length > 0 && galleryDocx?.FileContent[0]?.documentUploadedFileType?.toLowerCase() !== 'mp4'))"
+                              [src]="(galleryDocx.DocumentFile)? (baseExternalAssets + galleryDocx.DocumentFile):galleryDocx?.FileContent[0]?.docUrl" />
+                            <video
+                              *ngIf="((galleryDocx?.DocumentUploadedFileType?.length > 0 && galleryDocx?.DocumentUploadedFileType?.toLowerCase() === 'mp4') || ( galleryDocx?.FileContent?.length > 0 && galleryDocx?.FileContent[0]?.documentUploadedFileType?.toLowerCase() === 'mp4'))"
+                              class="animated fadeIn" controls
+                              [src]="(galleryDocx?.DocumentFile)? (baseExternalAssets + galleryDocx?.DocumentFile):galleryDocx?.FileContent[0]?.docUrl"
+                              type="video/mp4"></video>
                             <img src="../../../../../assets/images/icons/icon_del_round.svg" alt="del"
                               class="pointer delete-icon" (click)="removeSelectedDocx(i, galleryDocx)" />
                           </div>
@@ -200,9 +206,11 @@
                             <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" [ngClass]="{
                               'routeSelected': locationForm.value.city && locationForm.value.city.id,
                               'inputError': cityError && locationForm.controls['city'].errors
-                                }" maxlength="100" formControlName="city" (focusout)="errorValidate();checkCity('focusOut')"
-                                (focus)="checkCity('focus'); cityError=false" [ngbTypeahead]="searchCity" [resultTemplate]="st"
-                              [inputFormatter]="formatterCity" placeholder="Enter City" (ngModelChange)="flag('city')">
+                                }" maxlength="100" formControlName="city"
+                              (focusout)="errorValidate();checkCity('focusOut')"
+                              (focus)="checkCity('focus'); cityError=false" [ngbTypeahead]="searchCity"
+                              [resultTemplate]="st" [inputFormatter]="formatterCity" placeholder="Enter City"
+                              (ngModelChange)="flag('city')">
                             <ng-template #st let-r="result">
                               <div class="flag-container mr-1">
                                 <img
@@ -239,7 +247,7 @@
                             formControlName="address" class="form-control" [ngClass]="{
                               'inputError': addressError && locationForm.controls['address'].errors
                               }" (focusout)="errorValidate()" (focus)="addressError=false"
-                            placeholder="Enter at a minimum, the street and town where the property is located."/>
+                            placeholder="Enter at a minimum, the street and town where the property is located." />
                           <span *ngIf="addressError">
                             <p class="inputError animated fadeIn"
                               *ngIf="locationForm.controls['address'].hasError('required') && (locationForm.controls.address.dirty || locationForm.controls.address.touched)">
@@ -545,7 +553,7 @@
                 (click)="cancelWarehouse()">
                 cancel
               </button>
-              
+
             </div>
           </div>
 
@@ -672,6 +680,11 @@
                       enter valid information</p>
                   </span>
                 </div>
+              </div>
+              <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 animated fadeIn">
+                <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2" style="margin-top: 3.4rem !important;" (click)="updateComission()">
+                  Update Commision
+                </button>
               </div>
             </div>
           </form>

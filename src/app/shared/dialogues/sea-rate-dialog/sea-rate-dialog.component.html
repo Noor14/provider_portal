@@ -249,10 +249,10 @@
           <ngb-highlight [result]="r.title"></ngb-highlight>
         </div>
       </ng-template>
-      <div class="col-12" *ngIf="selectedData.customers.length">
+      <div class="col-12" *ngIf="allCustomers?.length">
         <div class="form-group custom-multiselect">
           <label>Customer</label>
-          <ng-select [items]="selectedData.customers" [multiple]="true" [closeOnSelect]="false" [hideSelected]="true" bindLabel="CustomerName" placeholder="Select Customer" [disabled]="disabledCustomers" [(ngModel)]="selectedCustomer">
+          <ng-select [items]="allCustomers" [multiple]="true" [closeOnSelect]="false" [hideSelected]="true" bindLabel="CustomerName" placeholder="Select Customer" [disabled]="disabledCustomers" [(ngModel)]="selectedCustomer">
             <ng-template ng-label-tmp let-item="item" let-clear="clear">
               <span class="ng-value-label">
                 <img [src]="item.CustomerImageParsed" width="20px" height="20px" onerror="this.src='../../../../favicon.ico'">
