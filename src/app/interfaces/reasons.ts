@@ -6,5 +6,9 @@ export interface Reasons {
     modifiedBy: string,
     approverID: number,
     approverType: string,
-    reasonID: number
+    reasonID: number,
+    providerName?: any;
+    emailTo?: any;
+    userName?: any;
+    hashMoveBookingNum?: any;
 }

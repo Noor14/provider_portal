@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ToastrService } from "ngx-toastr";
 import { ActivatedRoute } from "@angular/router";
-import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { loading, getImagePath, ImageSource, ImageRequiredSize, statusCode, EMAIL_REGEX, isJSON, } from "../../../../constants/globalFunctions";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -23,7 +23,7 @@ declare var google: any;
   styleUrls: ['./view-booking.component.scss']
 })
 export class ViewBookingComponent implements OnInit, OnDestroy {
-  public statusCode:any = statusCode;
+  public statusCode: any = statusCode;
   public zoomlevel: number = 2;
   public location: any = { lat: undefined, lng: undefined };
   public bookingDetails: BookingDetails;
@@ -64,7 +64,7 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
 
   // forms
   public AgentInfoFormOrigin: any;
-  public AgentInfoFormDest:any;
+  public AgentInfoFormDest: any;
 
   // togglers
   public editAgentorgToggler: boolean = false
@@ -120,9 +120,9 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       }
     })
   }
-  setAgentOrgInfo(){
-    this.editAgentorgToggler = false; 
-    if (this.bookingDetails.JsonAgentOrgInfo.Name){
+  setAgentOrgInfo() {
+    this.editAgentorgToggler = false;
+    if (this.bookingDetails.JsonAgentOrgInfo.Name) {
       this.AgentInfoFormOrigin.controls['name'].setValue(this.bookingDetails.JsonAgentOrgInfo.Name);
     }
     if (this.bookingDetails.JsonAgentOrgInfo.Email) {
@@ -134,10 +134,10 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
     if (this.bookingDetails.JsonAgentOrgInfo.PhoneNumber) {
       this.AgentInfoFormOrigin.controls['contact'].setValue(this.bookingDetails.JsonAgentOrgInfo.PhoneNumber);
     }
-    
+
   }
   setAgentDestInfo() {
-    this.editAgentDestToggler = false; 
+    this.editAgentDestToggler = false;
     if (this.bookingDetails.JsonAgentDestInfo.Name) {
       this.AgentInfoFormDest.controls['name'].setValue(this.bookingDetails.JsonAgentDestInfo.Name);
     }
@@ -152,14 +152,14 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
     }
 
   }
-  updateAgentInfoOrig(){
-    let obj={
-      BookingNature: (this.bookingDetails.ShippingModeCode == "WAREHOUSE")? 'WH' : "SEA",
+  updateAgentInfoOrig() {
+    let obj = {
+      BookingNature: (this.bookingDetails.ShippingModeCode == "WAREHOUSE") ? 'WH' : "SEA",
       BookingID: this.bookingDetails.BookingID,
       LoginUserID: this.userProfile.LoginID,
       PortNature: 'Origin',
       ContactInfoFor: 'Agent',
-      BookingSupDistInfo:{
+      BookingSupDistInfo: {
         BookingID: this.bookingDetails.BookingID,
         Name: this.AgentInfoFormOrigin.value.name,
         Address: this.AgentInfoFormOrigin.value.address,
@@ -170,8 +170,8 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
         InfoFor: "Agent"
       }
     }
-    this._viewBookingService.updateAgentInfo(obj).subscribe((res:any)=>{
-      if (res.returnStatus == "Success"){
+    this._viewBookingService.updateAgentInfo(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
         this._toast.success('Agent information is updated', '');
         this.editAgentorgToggler = true;
         if (res.returnText && isJSON(res.returnText)) {
@@ -204,9 +204,9 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
     this._viewBookingService.updateAgentInfo(obj).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this._toast.success('Agent information is updated', '');
-        this.editAgentDestToggler = true; 
-        if (res.returnText && isJSON(res.returnText)){
-          this.bookingDetails.JsonAgentDestInfo =  JSON.parse(res.returnText);
+        this.editAgentDestToggler = true;
+        if (res.returnText && isJSON(res.returnText)) {
+          this.bookingDetails.JsonAgentDestInfo = JSON.parse(res.returnText);
         }
       }
     })
@@ -233,7 +233,7 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
         this.bookingDetails = JSON.parse(res.returnText);
         this.bookingDetails.origin = this.bookingDetails.PolCode.split(' ')[0];
         this.bookingDetails.destination = this.bookingDetails.PodCode.split(' ')[0];
-        if (this.bookingDetails.JsonShippingDestInfo && isJSON(this.bookingDetails.JsonShippingDestInfo)){
+        if (this.bookingDetails.JsonShippingDestInfo && isJSON(this.bookingDetails.JsonShippingDestInfo)) {
           this.bookingDetails.JsonShippingDestInfo = JSON.parse(this.bookingDetails.JsonShippingDestInfo)
         }
         if (this.bookingDetails.JsonShippingOrgInfo && isJSON(this.bookingDetails.JsonShippingOrgInfo)) {
@@ -339,8 +339,8 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       createdBy: this.userProfile.LoginID
     }
     modalRef.result.then((result) => {
-        if (result.resType == "Success"){
-           data.DocumentLastStatus = result.status;
+      if (result.resType == "Success") {
+        data.DocumentLastStatus = result.status;
       }
     });
     modalRef.componentInstance.documentObj = obj;
@@ -367,7 +367,7 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
     }
     );
     modalRef.result.then((res) => {
-      if (res.resType == "Success"){
+      if (res.resType == "Success") {
         this.bookingDetails.BookingStatus = res.bookingStatus;
         this.bookingDetails.ShippingStatus = res.shippingStatus;
       }
@@ -377,11 +377,12 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       bookingID: this.bookingDetails.BookingID,
       bookingStatus: this.bookingDetails.BookingStatus,
       loginID: this.userProfile.LoginID,
-      providerID: this.userProfile.ProviderID
+      providerID: this.userProfile.ProviderID,
+      booking: this.bookingDetails
     }
   }
 
-  approvedDoc(data){
+  approvedDoc(data) {
     if (data.DocumentLastStatus.toLowerCase() == 'approved' || data.DocumentLastStatus.toLowerCase() == 're-upload') return;
     let obj = {
       documentStatusID: 0,
@@ -394,8 +395,8 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       modifiedBy: "",
       approverIDType: "PROVIDER"
     }
-    this._viewBookingService.approvedDocx(obj).subscribe((res: any)=>{
-      if(res.returnStatus == "Success"){
+    this._viewBookingService.approvedDocx(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
         data.DocumentLastStatus = this.approvedStatus[0].StatusName;
         this._toast.success('Document has been approved', '')
       }
@@ -403,10 +404,10 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
   }
 
 
-  getdocStatus(){
+  getdocStatus() {
     this._viewBookingService.getDocStatuses().subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-         this.approvedStatus = res.returnObject.filter(elem => elem.BusinessLogic == "APPROVED");
+        this.approvedStatus = res.returnObject.filter(elem => elem.BusinessLogic == "APPROVED");
       }
     })
   }

@@ -165,7 +165,7 @@ export class ReportsComponent implements OnInit {
   }
 
   filterByDate(bookings) {
-    return bookings.sort(function(a, b) {
+    return bookings.sort(function (a, b) {
       let dateA: any = new Date(a.HashMoveBookingDate);
       let dateB: any = new Date(b.HashMoveBookingDate);
       return dateB - dateA;
@@ -255,8 +255,15 @@ export class ReportsComponent implements OnInit {
   }
 
   async setlastCustomer(userGraphData: any) {
+    const { customer } = userGraphData
 
-    this.topCustomers = userGraphData.customer;
+    const { exchnageRate } = this
+    customer.forEach(cust => {
+      const { customerRevenue } = cust
+      cust.customerRevenue = this._currencyControl.getNewPrice(customerRevenue, exchnageRate.rate)
+      cust.currencyCode = this.currCurrency.sortedCountryName
+    })
+    this.topCustomers = customer;
   }
 
   async setBarGraphData(userGraphData: any) {
@@ -1012,7 +1019,7 @@ export function getColorList(legends) {
 
 export function getAxisData(list) {
   const sorted = list.sort(
-    firstBy(function(v1, v2) { return v1.sortingOrder - v2.sortingOrder; })
+    firstBy(function (v1, v2) { return v1.sortingOrder - v2.sortingOrder; })
   );
   const data = removeDuplicates(sorted, "key")
   const axisData = extractColumn(data, 'key')
@@ -1034,7 +1041,7 @@ export function getSerieData(legendsList, barGraph) {
   legendsList.forEach(legend => {
 
     const sortedMode = barGraph.sort(
-      firstBy(function(v1, v2) { return v1.sortingOrder - v2.sortingOrder; })
+      firstBy(function (v1, v2) { return v1.sortingOrder - v2.sortingOrder; })
     );
     // const currencyControl = new CurrencyControl()
     const filteredMode: Array<any> = sortedMode.filter(mode => mode.shippingModeCode.toLowerCase() === legend.toLowerCase())
