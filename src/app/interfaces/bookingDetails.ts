@@ -177,6 +177,9 @@ export interface BookingDetails {
   JsonShippingDestInfo: any;
   JsonAgentOrgInfo: any;
   JsonAgentDestInfo:any;
+  JsonSearchCriteria:any;
+  WHCityName: string;
+  WHCountryName: string;
 }
 
 

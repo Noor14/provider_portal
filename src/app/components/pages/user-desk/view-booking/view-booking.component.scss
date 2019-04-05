@@ -62,9 +62,11 @@
       font-weight: $font-weight-mid;
       font-family: $font-pragmatica;
       text-transform: capitalize;
+
       &.cancelStatus {
-          color: $danger-color;
+        color: $danger-color;
       }
+
       a {
         font-size: $font-size-medium;
         color: $secondary-color;
@@ -93,6 +95,7 @@
       color: $color-topmenu;
       text-transform: uppercase;
     }
+
     &-heading {
       font-size: 1.25rem;
       font-family: $font-pragmatica;
@@ -100,10 +103,17 @@
       color: $text-color-default;
       margin-top: 1.8rem;
       margin-bottom: 1rem;
-  }
+    }
 
     .card-title {
       margin-bottom: 0;
+
+      &.wareHouse {
+        font-size: 1.25rem;
+        font-family: pragmatica, sans-serif;
+        font-weight: 500;
+        color: #2b2b2b;
+      }
 
       h5 {
         font-size: $font-size-medium;
@@ -209,14 +219,14 @@
           }
 
           h6 {
-            font-weight:$font-proxima-weight-semibold;
+            font-weight: $font-proxima-weight-semibold;
             font-family: $font-proxima;
             font-size: $font-size-large;
             margin-bottom: 0;
           }
 
           .ports {
-            font-family:  $font-proxima;
+            font-family: $font-proxima;
             font-size: $font-size-base;
             max-width: 94px;
             width: 100%;
@@ -229,17 +239,17 @@
             }
 
             &-title {
-              font-size:$font-size-medium;
-              font-family:  $font-proxima;
+              font-size: $font-size-medium;
+              font-family: $font-proxima;
               font-weight: $font-weight-mid;
-              color:$color-topmenu;
+              color: $color-topmenu;
               margin-bottom: 5px;
 
             }
 
             &-label {
               font-size: $font-size-medium;
-              color:$route-large-title-color;
+              color: $route-large-title-color;
               margin-bottom: 0;
               font-weight: $font-proxima-weight-semibold;
               font-family: $font-proxima;
@@ -255,17 +265,18 @@
                 font-size: $font-size-medium;
                 color: $place-holder-color;
                 font-weight: $font-weight-mid;
-                font-family:  $font-proxima;
+                font-family: $font-proxima;
                 vertical-align: bottom;
                 line-height: 1.2;
                 max-width: 78px;
                 word-break: break-word;
               }
             }
+
             .flag-icon-20-12 {
-                img {
-                   border: 1px solid $primary-grey;
-                }
+              img {
+                border: 1px solid $primary-grey;
+              }
             }
           }
         }
@@ -323,7 +334,7 @@
             float: left;
             font-size: $font-size-large;
             font-weight: $font-proxima-weight-semibold;
-            color:$color-menuheading-black;
+            color: $color-menuheading-black;
             padding-left: 10px;
             margin-bottom: 8px;
             text-transform: capitalize;
@@ -457,7 +468,7 @@
 
               .sub-text {
                 font-family: inherit;
-                font-size:$font-size-base;
+                font-size: $font-size-base;
                 color: $place-holder-color;
                 line-height: 1;
               }
@@ -496,7 +507,7 @@
       padding-bottom: 10px;
 
       img {
-        border:1px solid $primary-grey;
+        border: 1px solid $primary-grey;
         height: 12px;
         margin-bottom: 0.2rem;
       }
@@ -551,7 +562,7 @@
               left: 0;
               top: 13px;
               animation: 1.2s ease-in-out infinite alternate-reverse fadeIn;
-              transition: color .1s ease;  
+              transition: color .1s ease;
             }
           }
 
@@ -572,7 +583,9 @@
     top: 110px !important;
 
     .arrow {
-      &:after, &:before {
+
+      &:after,
+      &:before {
         border-bottom-color: $white-color;
       }
     }
@@ -610,5 +623,86 @@
         }
       }
     }
+  }
+}
+
+
+
+
+// warehouse View
+
+
+.warehousing-content {
+
+  .list-group {
+
+    li {
+      border: 0px;
+      padding: 0;
+      font-size: $font-size-medium;
+      font-family: $font-proxima;
+      color: $text-color-default;
+      line-height: 1;
+      margin-bottom: 15px;
+
+      .tooltip {
+        width: 16rem;
+
+        .tooltip-inner {
+          width: 16rem;
+          max-width: 16rem;
+        }
+      }
+    }
+  }
+
+  .warehouse-features {
+    .icons {
+      margin-right: 15px;
+
+      img {
+        width: 1.1rem;
+        filter: grayscale(100%);
+        opacity: 0.5;
+      }
+
+      .warehouse-features-active {
+        img {
+          filter: grayscale(0%);
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .warehousing-desc {
+    font-family: $font-proxima;
+    font-size: $font-size-medium;
+    color: $secondary-text-color;
+  }
+}
+.gallery-section {
+  border: 1px solid $grey-border;
+  position: relative;
+  width: 180px;
+  text-align: center;
+
+  img,
+  video {
+    max-width: 100%;
+    height: 136px;
+  }
+
+  &-item {
+    position: absolute;
+    top: 8px;
+    right: 5px;
+    background: #000000b0;
+    color: $color-white;
+    border-radius: 12px;
+    font-weight: $font-weight-bold;
+    font-family: $font-proxima;
+    font-size: $font-size-base;
+    padding: 0.21rem 0.68rem;
   }
 }
