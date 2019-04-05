@@ -187,8 +187,8 @@ export class SeaRateDialogComponent implements OnInit {
     }
 
     this.allCustomers = this.selectedData.customers
-    console.log('customerList:',this.allCustomers);
-    
+    console.log('customerList:', this.allCustomers);
+
     this.getSurchargeBasis(this.containerLoadParam)
 
   }
@@ -212,7 +212,7 @@ export class SeaRateDialogComponent implements OnInit {
       if (this.selectedData.mode === 'publish') {
         this.disabledCustomers = true;
         console.log('yolo', this.selectedData);
-        
+
         let data = changeCase(this.selectedData.data[0], 'pascal')
         console.log('here:', this.selectedData)
         this.setData(data);
@@ -225,7 +225,7 @@ export class SeaRateDialogComponent implements OnInit {
       if (this.selectedData.mode === 'publish') {
         this.disabledCustomers = true;
         console.log('yolo', this.selectedData);
-        
+
         let data = changeCase(this.selectedData.data[0], 'pascal')
         console.log('here:', this.selectedData)
         this.setData(data);
@@ -322,7 +322,10 @@ export class SeaRateDialogComponent implements OnInit {
       console.log(this.sharedWarehousePricing);
       let userCurrency = localStorage.getItem('userCurrency')
       this.selectedPrice = this.sharedWarehousePricing[0].price
-      this.couplePrice = this.sharedWarehousePricing[1].price
+      try {
+        this.couplePrice = this.sharedWarehousePricing[1].price
+      } catch (error) {
+      }
       this.selectedCurrency = this.allCurrencies.find(
         obj => obj.id === userCurrency
       );
@@ -453,6 +456,12 @@ export class SeaRateDialogComponent implements OnInit {
           });
         }
       } else if (this.selectedData.forType === 'WAREHOUSE') {
+        if (!this.selectedPrice || !(typeof parseInt(this.selectedPrice) == 'number') || parseInt(this.selectedPrice) <= 0) {
+          this._toast.error('Price cannot be zero', 'Error')
+          this.isRateUpdating = false;
+          return;
+        }
+        
         this.calculatePricingJSON()
         let WHObj = {
           whPricingID: this.selectedData.data.WhPricingID,
@@ -572,6 +581,17 @@ export class SeaRateDialogComponent implements OnInit {
 
       let JsonSurchargeDet = JSON.stringify(this.selectedOrigins.concat(this.selectedDestinations));
       console.log(JsonSurchargeDet === "[{},{}]");
+
+      let singlePrice: number = 0
+      let doublePRice: number = 0
+
+      try {
+        singlePrice = (this.selectedPrice || (typeof parseInt(this.selectedPrice) == 'number') || parseInt(this.selectedPrice) <= 0) ? parseFloat(this.selectedPrice) : 0
+        doublePRice = (this.couplePrice || (typeof parseInt(this.couplePrice) == 'number') || parseInt(this.couplePrice) <= 0) ? parseFloat(this.couplePrice) : 0
+      } catch (error) {
+        console.log(error);
+      }
+
       obj = {
         // GROUND ID
         ID: (this.selectedData.ID ? this.selectedData.ID : 0),
