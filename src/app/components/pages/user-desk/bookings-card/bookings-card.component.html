@@ -129,7 +129,7 @@
     <div class="card-body pt-2">
       <!-- booking top row -->
       <div class="bookings-header row">
-        <div class="col-6 d-flex justify-content-start">
+        <div class="col-xl-6 col-lg-5 col-md-12 col-sm-12 col-12 d-flex justify-content-start">
           <div class="d-flex bookings-header-number">
               <div *ngIf="booking.ShippingModeCode === 'SEA'"  class="bookings-header-number-icon sea-icon">
                   <img class="icon-size-24" src="../../../../../assets/images/icons/icons_cargo_ship_white.svg">
@@ -154,7 +154,7 @@
 
           </div>
         </div>
-        <div class="col-6 d-flex justify-content-end align-items-center">
+        <div class="col-xl-6 col-lg-7 col-md-12 col-sm-12 col-12 d-flex justify-content-xl-end justify-content-lg-end align-items-center">
           <div class="d-flex bookings-header-company">
             <div class="mr-3">
               <span class="status">Booking:</span>
@@ -188,7 +188,7 @@
       <div class="row ">
         <div class="col-lg-6 col-sm-12 border-separated ">
           <div class="row">
-            <div class="col-6">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
               <div class="bookings-detail eq-height d-flex justify-content-between flex-column" [ngClass]="{'angle-arrow': booking?.ShippingModeCode?.toLowerCase() !== 'warehouse'}">
                 <div class="ports">
                   <small *ngIf="booking.ShippingModeCode.toLowerCase() !== 'warehouse'" class="d-block mb-2">From</small>
@@ -213,7 +213,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-6" *ngIf="booking.ShippingModeCode.toLowerCase() !== 'warehouse'">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" *ngIf="booking.ShippingModeCode.toLowerCase() !== 'warehouse'">
               <div class="bookings-detail eq-height d-flex justify-content-between flex-column">
                 <div class="ports">
                   <small class="d-block mb-2">to</small>

@@ -113,6 +113,10 @@
         font-weight: $font-proxima-weight-semibold;
         text-transform: uppercase;
       }
+
+      @media only screen and (max-width: $screen-md-screen) {
+        margin-top: 1rem;
+      }
     }
 
     .book-card-action {
@@ -233,6 +237,13 @@
         top: 6.5px;
         right: 25px;
         transition: 0.8s;
+      }
+      @media only screen and (max-width: $screen-xs-screen) {
+
+        &:before,
+        &:after {
+          display: none;
+        }
       }
     }
 
