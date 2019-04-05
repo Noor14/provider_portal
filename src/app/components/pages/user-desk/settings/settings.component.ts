@@ -22,7 +22,9 @@ import { ConfirmDeleteDialogComponent } from '../../../../shared/dialogues/confi
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-
+  public loadingServices: boolean = false;
+  public loadingAssoc:boolean = false;
+  public loadingValAdded: boolean = false;
   public baseExternalAssets: string = baseExternalAssets;
   public activeAccordions: string[] = ['PersonalInfo', 'BusinessInfo', 'BusinessProfile', 'Gallery', 'AwardsCert', 'ChangePassword'];
   public selectedDocxlogo: any;
@@ -502,6 +504,7 @@ export class SettingsComponent implements OnInit {
       for (var i = 0; i < this.frtService.length; i++) {
         if (this.frtService[i].LogServID == obj.LogServID) {
           if (this.frtService.length > 1 && obj.IsRemovable) {
+            this.loadingServices=true;
             this.frtService.splice(i, 1);
             selectedItem.remove('active');
             if (obj.LogServCode == "WRHS") {
@@ -527,6 +530,7 @@ export class SettingsComponent implements OnInit {
       }
     }
     if ((this.frtService && !this.frtService.length) || (i == this.frtService.length)) {
+      this.loadingServices = true;
       selectedItem.add('active');
       this.frtService.push(obj);
       this.selectServices(obj);
@@ -540,6 +544,7 @@ export class SettingsComponent implements OnInit {
     if (this.assocService && this.assocService.length) {
       for (var i = 0; i < this.assocService.length; i++) {
         if (this.assocService[i].AssnWithID == obj.AssnWithID) {
+          this.loadingAssoc = true;
           this.assocService.splice(i, 1);
           selectedItem.remove('active');
           this.removeAssocServices(obj);
@@ -548,6 +553,7 @@ export class SettingsComponent implements OnInit {
       }
     }
     if ((this.assocService && !this.assocService.length) || (i == this.assocService.length)) {
+      this.loadingAssoc = true;
       selectedItem.add('active');
       this.assocService.push(obj);
       this.selectAssocServices(obj);
@@ -558,6 +564,7 @@ export class SettingsComponent implements OnInit {
     if (this.valueService && this.valueService.length) {
       for (var i = 0; i < this.valueService.length; i++) {
         if (this.valueService[i].LogServID == obj.LogServID) {
+          this.loadingValAdded = true;
           this.valueService.splice(i, 1);
           selectedItem.remove('active');
           this.removeServices(obj);
@@ -566,6 +573,7 @@ export class SettingsComponent implements OnInit {
       }
     }
     if ((this.valueService && !this.valueService.length) || (i == this.valueService.length)) {
+      this.loadingValAdded = true;
       selectedItem.add('active');
       this.valueService.push(obj);
       this.selectServices(obj);
@@ -580,6 +588,7 @@ export class SettingsComponent implements OnInit {
       serviceID: obj.AssnWithID
     }
     this._settingService.selectAssociationService(object).subscribe((res: any) => {
+      this.loadingAssoc = false;
       if (res.returnStatus == "Success") {
         obj.ProviderAssnID = res.returnObject;
       }
@@ -592,6 +601,7 @@ export class SettingsComponent implements OnInit {
       serviceID: obj.ProviderAssnID
     }
     this._settingService.deSelectAssociationService(object).subscribe((res: any) => {
+      this.loadingAssoc=false;
       if (res.returnStatus == "Success") {
         obj.ProviderAssnID = null;
       }
@@ -618,6 +628,8 @@ export class SettingsComponent implements OnInit {
       logServCode: obj.LogServCode,
     }
     this._settingService.selectProviderService(object).subscribe((res: any) => {
+      this.loadingServices = false;
+      this.loadingValAdded = false;
       if (res.returnStatus == "Success") {
         if (res.returnObject.logServCode != 'WRHS'){
           obj.ProvLogServID = res.returnObject.provLogServID;
@@ -638,6 +650,8 @@ export class SettingsComponent implements OnInit {
       logServID: obj.LogServID
     }
     this._settingService.deSelectService(object).subscribe((res: any) => {
+      this.loadingServices = false;
+      this.loadingValAdded = false;
       if (res.returnStatus == "Success") {
         obj.ProvLogServID = null;
       }

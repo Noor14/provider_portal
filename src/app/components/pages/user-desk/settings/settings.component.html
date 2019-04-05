@@ -515,7 +515,7 @@
                       </div>
                     </div>
                     <div class="col-xl-9 col-lg-9 col-md-12 col-sm-8 col-xs-12">
-                      <div class="row">
+                      <div class="row position-relative">
                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4" *ngFor="let service of freightServices">
                           <div #selectService [ngClass]="{'active': service.IsSelected && service.ProvLogServID }"
                             class="servicechip-provides text-center d-flex flex-column justify-content-center pointer"
@@ -543,6 +543,7 @@
                             </label>
                           </div>
                         </div>
+                        <app-loader-main *ngIf=loadingServices></app-loader-main>
                       </div>
                     </div>
                   </div>
@@ -554,7 +555,7 @@
                       </div>
                     </div>
                     <div class="col-xl-9 col-lg-9 col-md-12 col-sm-8 col-xs-12">
-                      <div class="row">
+                      <div class="row position-relative">
                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4" *ngFor="let service of valAddedServices">
                           <div #selectService [ngClass]="{'active': service.IsSelected && service.ProvLogServID}" class="servicechip-valueAdded text-center d-flex flex-column justify-content-center pointer"
                             (click)="valAdded(service, selectService)">
@@ -564,6 +565,7 @@
                             </span>
                           </div>
                         </div>
+                        <app-loader-main *ngIf=loadingValAdded></app-loader-main>
                       </div>
                     </div>
                   </div>
@@ -575,7 +577,7 @@
                       </div>
                     </div>
                     <div class="col-xl-9 col-lg-9 col-md-12 col-sm-8 col-xs-12">
-                      <div class="row">
+                      <div class="row position-relative">
                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3" *ngFor="let associate of allAssociations">
                           <div #selectService [ngClass]="{'active': associate.IsSelected && associate.ProviderAssnID}"
                             class="servicechip-asscoiation text-center pointer d-flex align-items-center justify-content-center"
@@ -584,6 +586,7 @@
                             <!-- <span>{{ associate.AssnWithName }}</span> -->
                           </div>
                         </div>
+                        <app-loader-main *ngIf=loadingAssoc></app-loader-main>
                       </div>
                     </div>
                   </div>
