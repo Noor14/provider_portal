@@ -619,7 +619,12 @@ export class SettingsComponent implements OnInit {
     }
     this._settingService.selectProviderService(object).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        obj.ProvLogServID = res.returnObject;
+        if (res.returnObject.LogServCode != 'WRHS'){
+          obj.ProvLogServID = res.returnObject.ProvLogServID;
+        }else{
+          obj.ProvLogServID = res.returnObject.ProvLogServID;
+          this.IsRealEstate = res.returnObject.IsRealEstate;
+        }
       }
     })
   }

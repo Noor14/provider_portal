@@ -130,11 +130,10 @@
       </div>
       <div class="card grey-background">
         <div class="card-body">
-          <div class="row mt-1">
-            <div class="col-xl-12 col-sm-12 details">
-              <div class="row">
+          <div class="row mt-1 details" *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'">
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex">
-                  <img src="../../../../assets/images/icons/icon_anchor.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+                  <img src="../../../../assets/images/icons/icon_anchor.svg" alt="icon"
+                    class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">port cut off
                     </h5>
@@ -142,7 +141,8 @@
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex">
-                  <img src="../../../../../assets/images/icons/Icons_Clock-28.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+                  <img src="../../../../../assets/images/icons/Icons_Clock-28.svg" alt="icon"
+                    class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Departure
                     </h5>
@@ -150,55 +150,136 @@
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex">
-                  <img src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+                  <img src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon"
+                    class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Transit Time
                     </h5>
                     <p>+/- {{bookingDetails.TransitTime}} Days</p>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
-                  <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex"
+                  *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
+                  <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon"
+                    class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Voyage #
                     </h5>
                     <p>{{bookingDetails.VoyageRefNum}}</p>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
-                  <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex"
+                  *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
+                  <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon"
+                    class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Vessel Name</h5>
                     <p>{{bookingDetails.VesselName}}</p>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
-                  <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex"
+                  *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
+                  <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon"
+                    class="icon-size-16 mr-3 align-top">
                   <div class="info">
                     <h5 class="mt-0 mb-1">Vessel #
                     </h5>
                     <p>{{bookingDetails.VesselCode}}</p>
                   </div>
                 </div>
-                <div class="media col-12" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
-                  <div class="align-self-start mr-3">
-                    <img [src]="baseExternalAssets + '/' + bookingDetails.CarrierImage" alt="icon" width="62px" height="62px">
-                  </div>
-                  <div class="media-body">
-                    <div class="details">
-                      <h5 class="mt-0 mb-1">SHIPPING LINE</h5>
-                      <p>{{bookingDetails.CarrierName}}</p>
-                    </div>
-                  </div>
-                </div>
+              <div class="media col-12"
+            *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.ContainerLoad != 'LCL'">
+            <div class="align-self-start mr-3">
+              <img [src]="baseExternalAssets + '/' + bookingDetails.CarrierImage" alt="icon" width="62px" height="62px">
+            </div>
+            <div class="media-body">
+              <div class="details">
+                <h5 class="mt-0 mb-1">SHIPPING LINE</h5>
+                <p>{{bookingDetails.CarrierName}}</p>
               </div>
             </div>
           </div>
+          </div>
+           <div class="row mt-1" *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE'">
+             <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12">
+               <div *ngFor="let doc of bookingDetails.parsedGallery; let i = index"
+                 (click)="openGallery(bookingDetails.parsedGallery, i)">
+                 <div class="gallery-section" *ngIf="i == 0">
+                   <div class="images-carousel">
+                     <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
+                     <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
+                       <source [src]="doc.DocumentFile" type="video/mp4" />
+                     </video>
+                     <div class="gallery-section-item d-flex justify-content-center align-items-center">
+                       <img src="../../../assets/images/icons/icon_pictures.svg" alt="count"
+                         class="icon-size-14 mr-1" />
+                       {{ bookingDetails.WHMedia.length }}
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="mt-1 col-xl-6 col-lg-6 col-md-7 col-sm-7 col-12 Wcontent">
+               <h5 class="card-title">{{ bookingDetails.WHName }}</h5>
+               <div class="warehousing-content">
+                 <ul class="list-group">
+                   <li class="list-group-item mr-3">
+                     <img src="../../../assets/images/icons/Icons_Location-grey.svg" alt="icon"
+                       class="icon-size-16 mr-2" />
+                     <span>
+                       {{ wareHouse.CityName }}
+                     </span>
+                   </li>
+                   <li class="list-group-item mr-4">
+                     <img src="../../../assets/images/icons/icon_grid.svg" alt="icon" class="icon-size-14 mr-2" />
+                     {{ wareHouse.TotalCoveredArea }}
+                     {{ wareHouse.TotalCoveredAreaUnit }}
+                     <!-- <sup>2</sup> -->
+                   </li>
+                 </ul>
+                 <p class="warehousing-desc mt-3 mb-1">
+                   <!-- {{ wareHouse.WHDesc | limitTo : 135 }} -->
+                 </p>
+                 <div class="warehouse-features d-flex">
+                   <div class="icons" *ngFor="let facilities of wareHouse.FacilitiesProviding">
+                     <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse"
+                       *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse'" [ngClass]="{
+                            'warehouse-features-active':
+                              facilities.BusinessLogic == 'IsBondedWarehouse' &&
+                              facilities.IsAllowed
+                          }">
+                       <img src="../../../assets/images/icons/Icons_Warehousing_green.svg" alt="footer icon"
+                         class="hvr-icon" />
+                     </span>
+                     <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Temp. Controlled"
+                       *ngIf="
+                            facilities.BusinessLogic == 'IsTempratureControlled'
+                          " [ngClass]="{
+                            'warehouse-features-active':
+                              facilities.BusinessLogic ==
+                                'IsTempratureControlled' && facilities.IsAllowed
+                          }">
+                       <img src="../../../assets/images/icons/Weight-Icon_1.svg" alt="footer icon" class="hvr-icon" />
+                     </span>
+                     <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Transport Available"
+                       *ngIf="facilities.BusinessLogic == 'IsTransportAvailable'" [ngClass]="{
+                            'warehouse-features-active':
+                              facilities.BusinessLogic == 'IsTransportAvailable' &&
+                              facilities.IsAllowed
+                          }">
+                       <img src="../../../assets/images/icons/Icons_Cargo_Truck_blue.svg" alt="footer icon"
+                         class="hvr-icon" />
+                     </span>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
         </div>
       </div>
       <!-- document required -->
-      <h4 class=" view-booking-shipment-detail-heading ">Documents</h4>
-      <div class="row view-booking-document">
+      <h4 class=" view-booking-shipment-detail-heading" *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'">Documents</h4>
+      <div class="row view-booking-document" *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'">
         <div class="col-12">
           <div class="card">
 

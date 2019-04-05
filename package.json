@@ -9,7 +9,7 @@
     "prod": "ng build --prod --env=prod --aot=false --build-optimizer=false",
     "qa": "ng build --prod --env=qa --aot=false --build-optimizer=false",
     "pers": "ng build --prod --env=pers --aot=false --build-optimizer=false",
-    "dev": "ng build --prod --env=pers --aot=false --build-optimizer=false",
+    "dev": "ng build --prod --env=dev --aot=false --build-optimizer=false",
     "uat": "ng build --prod --env=uat --aot=false --build-optimizer=false",
     "test": "ng test",
     "lint": "ng lint",
