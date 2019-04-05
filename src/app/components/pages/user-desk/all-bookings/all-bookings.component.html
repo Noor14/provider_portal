@@ -1,7 +1,7 @@
 <section class="allbookings">
   <h2 class="mb-5">Bookings</h2>
-  <ngb-tabset (tabChange)="onTabChange()">
-    <ngb-tab>
+  <ngb-tabset (tabChange)="onTabChange()" [activeId]="activeTab">
+    <ngb-tab id="currentBookings">
       <ng-template ngbTabTitle> <span>CURRENT BOOKINGS</span> <span class="badge badge-secondary"
           *ngIf="currentBookings.length">{{currentBookings.length}}</span></ng-template>
       <ng-template ngbTabContent>
@@ -20,7 +20,7 @@
       </ng-template>
     </ngb-tab>
 
-    <ngb-tab>
+    <ngb-tab id="pastBookings">
       <ng-template ngbTabTitle><span>PAST BOOKINGS</span> <span class="badge badge-secondary"
           *ngIf="pastBookings.length">{{pastBookings.length}}</span></ng-template>
       <ng-template ngbTabContent>
@@ -39,7 +39,7 @@
       </ng-template>
     </ngb-tab>
 
-    <ngb-tab>
+    <ngb-tab id="totalBookings">
       <ng-template ngbTabTitle><span>TOTAL BOOKINGS</span> <span class="badge badge-secondary"
           *ngIf="totalBookings.length">{{totalBookings.length}}</span></ng-template>
       <ng-template ngbTabContent>

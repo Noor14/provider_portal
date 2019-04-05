@@ -1208,6 +1208,10 @@ input[type="checkbox"]:focus+label>span {
       }
     }
   }
+
+  .form-control[readonly] {
+    background-color:$white-color !important;
+  }
 }
 
 //out of form-group

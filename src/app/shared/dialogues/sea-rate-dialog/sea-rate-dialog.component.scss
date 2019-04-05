@@ -8,6 +8,10 @@
     border-bottom-right-radius: 0.3rem;
     overflow-y: auto;
     max-height: 700px;
+
+    &.warehouseActive {
+      overflow: visible;
+    }
     .model-sub-head {
       color: $secondary-grey;
       font-family: $font-proxima;

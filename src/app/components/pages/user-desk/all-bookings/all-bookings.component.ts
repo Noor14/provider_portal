@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation, Input } from '@angular/core';
 import { SharedService } from '../../../../services/shared.service';
 import { encryptBookingID, isJSON } from '../../../../constants/globalFunctions';
 import { baseExternalAssets } from '../../../../constants/base.url';
@@ -13,7 +13,8 @@ import { PaginationInstance } from 'ngx-pagination';
 })
 export class AllBookingsComponent implements OnInit, OnDestroy {
 
-  private allBookingsSubscriber;
+  private allBookingsSubscriber: any;
+  private tabSubscriber: any;
   public pastBookings:any[] =[];
   public currentBookings: any[] = [];
   public totalBookings: any[] = [];
@@ -23,8 +24,9 @@ export class AllBookingsComponent implements OnInit, OnDestroy {
   public autoHide: boolean = false;
   public baseExternalAssets: string = baseExternalAssets;
   public paginationConfig: PaginationInstance = {
-     itemsPerPage: 5, currentPage: 1 
+    itemsPerPage: 5, currentPage: 1 
   }
+  public activeTab: string = "currentBookings" 
 
   constructor(
     private _sharedService: SharedService,
@@ -32,6 +34,13 @@ export class AllBookingsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+
+    this.tabSubscriber = this._sharedService.activatedBookingTab.subscribe(tabName => {
+      if(tabName){
+        this.activeTab = tabName;
+      }
+    });
+
     this.allBookingsSubscriber= this._sharedService.dashboardDetail.subscribe((state: any) => {
       if (state && state.BookingDetails && state.BookingDetails.length) {
         state.BookingDetails.map(elem => {
@@ -53,6 +62,8 @@ export class AllBookingsComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.allBookingsSubscriber.unsubscribe();
+    this._sharedService.activatedBookingTab.next(null);
+    this.tabSubscriber.unsubscribe();
   }
   filterByDate(bookings) {
     return bookings.sort(function (a, b) {
@@ -72,7 +83,6 @@ export class AllBookingsComponent implements OnInit, OnDestroy {
 
   onTabChange(){
     this.paginationConfig.currentPage = 1;
-    
   }
 
 }

@@ -13,14 +13,14 @@
         </div>
         <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
           <div class="view-booking-top-btn mt-1 text-right mb-2">
-            <a href="javascript:;" class="hvr-icon-forward mr-5" (click)="printDetail()">
+            <a href="javascript:;" class="hvr-icon-forward " (click)="printDetail()">
               <img src="../../../../../assets/images/icons/icon_print.svg" alt="icon" class="icon-size-16 mr-2">
               <span class="link-hover-grey">Print</span>
             </a>
-            <a href="javascript:;" class="hvr-icon-forward">
+            <!-- <a href="javascript:;" class="hvr-icon-forward">
               <img src="../../../../../assets/images/icons/icon_share_blue.svg" alt="icon" class="icon-size-16 mr-2">
               <span class="link-hover-grey">Share</span>
-            </a>
+            </a> -->
           </div>
         </div>
       </div>
@@ -215,7 +215,7 @@
                     {{invoiceDocOrigin.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center" *ngIf="bookingDetails.BookingStatus.toLowerCase() != statusCode.cancelled">
                   <span class="badge badge-success" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
@@ -239,7 +239,7 @@
                     {{packingListDocOrigin.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center" *ngIf="bookingDetails.BookingStatus.toLowerCase() != statusCode.cancelled">
                   <span class="badge badge-success" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
                     APPROVED
                   </span>
@@ -268,7 +268,7 @@
                     {{invoiceDocDestination.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center" *ngIf="bookingDetails.BookingStatus.toLowerCase() != statusCode.cancelled">
                   <button class="btn disable" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 're-upload' && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'approved'"
                     (click)="reuploadDoc(invoiceDocDestination)">Reject</button>
                   <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable && (invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'approved' && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 're-upload')"
@@ -292,7 +292,7 @@
                     {{packingListDocDestination.DocumentUploadDate
                     | date : "H:mm"}}</label>
                 </a>
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center" *ngIf="bookingDetails.BookingStatus.toLowerCase() != statusCode.cancelled">
                   <span class="badge hashmove-badge-warning" *ngIf="packingListDocDestination && !packingListDocDestination.DocumentFileName">
                     AWAITING FROM CUSTOMER
                   </span>
@@ -316,7 +316,7 @@
                     {{ladingBill.DocumentUploadDate | date : "d MMM, yyyy"}} {{ladingBill.DocumentUploadDate |
                     date : "H:mm"}}</label>
                 </a>
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center" *ngIf="bookingDetails.BookingStatus.toLowerCase() != statusCode.cancelled">
                   <span class="badge hashmove-badge-warning" *ngIf="ladingBill && !ladingBill.DocumentFileName">
                     AWAITING FROM CUSTOMER
                   </span>
@@ -338,7 +338,7 @@
                     {{certOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{certOrigin.DocumentUploadDate |
                     date : "H:mm"}}</label>
                 </a>
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center" *ngIf="bookingDetails.BookingStatus.toLowerCase() != statusCode.cancelled">
                   <button class="btn disable" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && certOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && certOrigin.DocumentLastStatus.toLowerCase() != 'approved'"
                     (click)="reuploadDoc(certOrigin)">Reject</button>
                   <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && (certOrigin.DocumentLastStatus.toLowerCase() != 'approved' &&  certOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"

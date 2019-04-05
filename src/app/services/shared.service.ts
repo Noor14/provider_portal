@@ -11,6 +11,7 @@ export class SharedService {
   public regionList = new BehaviorSubject<any>(null);
   public currencyList = new BehaviorSubject<any>(null);
   public cityList = new BehaviorSubject<any>(null);
+  public activatedBookingTab = new BehaviorSubject<any>(null);
   public updateAvatar = new BehaviorSubject<any>(null);
   // public countryList = this.countries.asObservable();
 
