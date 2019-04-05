@@ -86,6 +86,10 @@ export interface docDetail{
   FileContent: any
 }
 export interface BookingDetails {
+  WHLatitude?:string;
+  WHLongitude?: string;
+  WHCountryCode?: string;
+  WHGLocName?: string;
   WHCityName?: string;
   WHCountryName?: string;
   ActualScheduleDetail?:any;
