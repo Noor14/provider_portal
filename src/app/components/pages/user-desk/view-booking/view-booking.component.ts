@@ -276,9 +276,9 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
     this._warehouseService.getWarehouseList(this.userProfile.ProviderID, id).subscribe((res: any) => {
       if (res.returnStatus == "Success" && res.returnObject) {
           this.wareHouse = res.returnObject.WHModel[0];
-          if (this.bookingDetails.WHCityName && this.bookingDetails.WHCountryName) {
-            this.wareHouse.Location = this.bookingDetails.WHCityName + ', ' + this.bookingDetails.WHCountryName;
-          }
+            if (this.bookingDetails.WHCityName && this.bookingDetails.WHCountryName) {
+              this.wareHouse.Location = this.bookingDetails.WHCityName + ', ' + this.bookingDetails.WHCountryName;
+            }
             if (this.wareHouse.FacilitiesProviding && this.wareHouse.FacilitiesProviding != "[]" && isJSON(this.wareHouse.FacilitiesProviding)) {
               this.wareHouse.FacilitiesProviding = JSON.parse(this.wareHouse.FacilitiesProviding);
             }

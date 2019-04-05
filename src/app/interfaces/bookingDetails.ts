@@ -86,6 +86,8 @@ export interface docDetail{
   FileContent: any
 }
 export interface BookingDetails {
+  WHCityName: string;
+  WHCountryName: string;
   ActualScheduleDetail:any;
   BookingID: number;
   HashMoveBookingNum: string;
@@ -177,9 +179,6 @@ export interface BookingDetails {
   JsonShippingDestInfo: any;
   JsonAgentOrgInfo: any;
   JsonAgentDestInfo:any;
-  JsonSearchCriteria:any;
-  WHCityName: string;
-  WHCountryName: string;
 }
 
 
