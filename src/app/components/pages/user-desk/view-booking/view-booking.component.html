@@ -200,8 +200,9 @@
               </div>
             </div>
             </div>
-          <div class="row mt-1" *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE'">
-            <div class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-12" *ngIf="wareHouse.parsedGallery && wareHouse.parsedGallery.length">
+          <div class="row mt-1"
+            *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE' && wareHouse && wareHouse.parsedGallery">
+            <div class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-12">
               <div *ngFor="let doc of wareHouse.parsedGallery; let i = index"
                 (click)="openGallery(wareHouse.parsedGallery, i)">
                 <div class="gallery-section" *ngIf="i == 0">
@@ -481,8 +482,9 @@
               <ul class="list-group list-group-flush mt-1">
                 <li class="list-group-item">
                   <div class="category">
-                    <img src="../../../../assets/images/icons/icon_container.svg" alt="umbrella-icon" class="icon">
-                    <span class="long-text">{{bookingDetails.ShippingCatName}}</span>
+                    <img src="{{'../../../../../assets/images/flags/4x3/' +(bookingDetails.WHCountryCode | lowercase)+'.svg'}}"
+                      alt="icon" class="icon icon-size-22-14">
+                    <span class="long-text">{{bookingDetails.WHGLocName}}</span>
                   </div>
                 </li>
               </ul>
@@ -517,10 +519,7 @@
                   <span class="d-block ports-title">In The Shipment</span>
                   <ul class="list-group list-group-flush mt-1">
                     <li class="list-group-item">
-                      <div class="category">
-                        <img src="../../../../assets/images/icons/icon_container.svg" alt="umbrella-icon" class="icon">
                         <span class="long-text">{{bookingDetails.BookingDesc}}</span>
-                      </div>
                     </li>
                   </ul>
                 </div>
