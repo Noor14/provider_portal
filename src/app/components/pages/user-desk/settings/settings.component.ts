@@ -83,7 +83,7 @@ export class SettingsComponent implements OnInit {
   public businessInfoForm: any;
   public isPrivateMode: boolean;
 
-  // Association 
+  // Association
   public allAssociations: any[] = [];
   public assocService: any[] = [];
   // Value Added Services
@@ -249,33 +249,33 @@ export class SettingsComponent implements OnInit {
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
         this.cityList = state;
-        this.getRegions();
-        this.getCurrencies();
-        this.getCountries();
-        this.setPersonalInfo(info);
-        this.setBusinessInfo(info);
+        this.getRegions(info);
         loading(false);
       }
     });
   }
-  getRegions(){
+  getRegions(info){
     this._sharedService.regionList.subscribe((state: any) => {
       if (state) {
         this.regionList = state;
+        this.getCountries(info);
       }
     });
   }
-  getCountries(){
+  getCountries(info){
     this._sharedService.countryList.subscribe((state: any) => {
       if (state) {
         this.countryList = state;
+        this.getCurrencies(info);
       }
     });
   }
-    getCurrencies(){
+  getCurrencies(info){
       this._sharedService.currencyList.subscribe((state: any) => {
         if (state) {
           this.currencyList = state;
+          this.setPersonalInfo(info);
+          this.setBusinessInfo(info);
         }
       });
     }
@@ -672,7 +672,7 @@ export class SettingsComponent implements OnInit {
           this._toastr.info("Service can not be update. Please first removed the warehouse", '')
         }
       return;
-    } 
+    }
     this.IsRealEstate = (type == 'owner') ? false : true;
     let object = {
       providerID: this.userProfile.ProviderID,

@@ -86,14 +86,17 @@ export interface docDetail{
   FileContent: any
 }
 export interface BookingDetails {
-  WHLatitude?:string;
+  JsonSearchCriteria?:any;
+  BookingJsonDetail?: any;
+  WHMedia?: any;
+  WHLatitude?: string;
   WHLongitude?: string;
   WHCountryCode?: string;
   WHGLocName?: string;
   WHCityName?: string;
   WHCountryName?: string;
-  ActualScheduleDetail?:any;
-  BookingDesc?:string;
+  ActualScheduleDetail?: any;
+  BookingDesc?: string;
   BookingID: number;
   HashMoveBookingNum: string;
   HashMoveBookingDate: string;
@@ -106,11 +109,11 @@ export interface BookingDetails {
   ShippingSubCatName: string;
   origin?: string;
   destination?: string;
-  PolID: number
+  PolID: number;
   PolCode: string;
   PolName: string;
   PolCountry: string;
-  PodID: number
+  PodID: number;
   PodCode: string;
   PodName: string;
   PodCountry: string;
@@ -132,10 +135,10 @@ export interface BookingDetails {
   ProviderImage: any;
   ProviderEmail: string;
   ProviderPhone: string;
-  PolLatitude: string,
-  PolLongitude: string,
-  PodLatitude: string,
-  PodLongitude: string,
+  PolLatitude: string;
+  PolLongitude: string;
+  PodLatitude: string;
+  PodLongitude: string;
   CarrierID: number;
   CarrierName: string;
   CarrierImage: string;
@@ -143,14 +146,14 @@ export interface BookingDetails {
   VesselName: string;
   VoyageRefNum: string;
   IsInsured: boolean;
-  ProviderInsurancePercent: number,
+  ProviderInsurancePercent: number;
   InsuredGoodsPrice: number;
   InsuredGoodsCurrencyID: number;
   InsuredGoodsCurrencyCode: string;
   IsInsuredGoodsBrandNew: boolean;
   InsuredGoodsProviderID: number;
   InsuredStatus: string;
-  IsInsuranceProvider: boolean,
+  IsInsuranceProvider: boolean;
   IsAnyRestriction: boolean;
   CurrencyID: number;
   CurrencyCode: string;
@@ -183,7 +186,7 @@ export interface BookingDetails {
   JsonShippingOrgInfo: any;
   JsonShippingDestInfo: any;
   JsonAgentOrgInfo: any;
-  JsonAgentDestInfo:any;
+  JsonAgentDestInfo: any;
 }
 
 

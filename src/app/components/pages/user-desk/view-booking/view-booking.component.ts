@@ -31,7 +31,7 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
   public zoomlevel: number = 2;
   public location: any = { lat: undefined, lng: undefined };
   public bookingDetails: BookingDetails;
-  public wareHouse:any;
+  public wareHouse:any = {};
   public paramSubscriber: any;
   public HelpDataLoaded: boolean;
   // public ProviderEmails: any[];
@@ -262,12 +262,59 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
             { lat: Number(this.bookingDetails.PolLatitude), lng: Number(this.bookingDetails.PolLongitude) },
             { lat: Number(this.bookingDetails.PodLatitude), lng: Number(this.bookingDetails.PodLongitude) });
         }
-        else if (this.bookingDetails.ShippingModeCode == 'WAREHOUSE'){
+        else if (this.bookingDetails.ShippingModeCode == 'WAREHOUSE') {
           this.mapOrgiToDest.push(
             { lat: Number(this.bookingDetails.WHLatitude), lng: Number(this.bookingDetails.WHLongitude) });
-          if (this.bookingDetails.ActualScheduleDetail && isJSON(this.bookingDetails.ActualScheduleDetail)){
-            let whid = JSON.parse(this.bookingDetails.ActualScheduleDetail).WHID;
-            this.getWarehouseDetail(whid);
+          // if (this.bookingDetails.ActualScheduleDetail && isJSON(this.bookingDetails.ActualScheduleDetail)){
+          //   const whid = JSON.parse(this.bookingDetails.ActualScheduleDetail).WHID;
+          //   this.getWarehouseDetail(whid);
+          // }
+          if (this.bookingDetails.WHCityName && this.bookingDetails.WHCountryName) {
+            this.wareHouse.Location = this.bookingDetails.WHCityName + ', ' + this.bookingDetails.WHCountryName;
+          }
+          if (this.bookingDetails.WHMedia && this.bookingDetails.WHMedia != "[]" && isJSON(this.bookingDetails.WHMedia)) {
+            this.bookingDetails.WHMedia = JSON.parse(this.bookingDetails.WHMedia);
+            const albumArr = [];
+            this.bookingDetails.WHMedia.forEach((elem) => {
+              const album = {
+                src: baseExternalAssets + elem.DocumentFile,
+                caption: elem.DocumentFileName,
+                thumb: baseExternalAssets + elem.DocumentFile,
+                DocumentUploadedFileType: elem.DocumentUploadedFileType
+              };
+              albumArr.push(album);
+            })
+            this.wareHouse.parsedGallery = albumArr;
+          }
+          if (this.bookingDetails.ActualScheduleDetail && isJSON(this.bookingDetails.ActualScheduleDetail)) {
+            let facilities = JSON.parse(
+              this.bookingDetails.ActualScheduleDetail
+            ).WHFacilities;
+            if (facilities && isJSON(facilities)){
+              this.wareHouse.FacilitiesProviding = JSON.parse(facilities);
+            }
+          }
+          if (this.bookingDetails.BookingJsonDetail && this.bookingDetails.BookingJsonDetail != "[]" && isJSON(this.bookingDetails.BookingJsonDetail)){
+            let wareHouseDetail = JSON.parse(
+              this.bookingDetails.BookingJsonDetail
+            );
+            this.wareHouse.WHName = wareHouseDetail.WHName;
+            this.wareHouse.WHDesc = wareHouseDetail.WHDesc;
+            this.wareHouse.TotalCoveredArea = wareHouseDetail.AvailableSQFT;
+          }
+          if (this.bookingDetails.JsonSearchCriteria && this.bookingDetails.JsonSearchCriteria != "[]" && isJSON(this.bookingDetails.JsonSearchCriteria)) {
+            let JsonDetail = JSON.parse(
+              this.bookingDetails.JsonSearchCriteria
+            );
+            if (JsonDetail.storageType == 'shared'){
+              if (JsonDetail.searchBy == 'by_area'){
+                this.wareHouse.TotalCoveredAreaUnit = 'sqft';
+              }else{
+                this.wareHouse.TotalCoveredAreaUnit = "cbm";
+              }
+            }else{
+              this.wareHouse.TotalCoveredAreaUnit = 'sqft';
+            }
           }
         }
       } else {
@@ -275,36 +322,6 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       }
     }, (err: HttpErrorResponse) => {
       loading(false);
-      console.log(err);
-    })
-  }
-  getWarehouseDetail(id){
-    this._warehouseService.getWarehouseList(this.userProfile.ProviderID, id).subscribe((res: any) => {
-      if (res.returnStatus == "Success" && res.returnObject) {
-          this.wareHouse = res.returnObject.WHModel[0];
-            if (this.bookingDetails.WHCityName && this.bookingDetails.WHCountryName) {
-              this.wareHouse.Location = this.bookingDetails.WHCityName + ', ' + this.bookingDetails.WHCountryName;
-            }
-            if (this.wareHouse.FacilitiesProviding && this.wareHouse.FacilitiesProviding != "[]" && isJSON(this.wareHouse.FacilitiesProviding)) {
-              this.wareHouse.FacilitiesProviding = JSON.parse(this.wareHouse.FacilitiesProviding);
-            }
-            if (this.wareHouse.WHGallery && this.wareHouse.WHGallery != "[]" && isJSON(this.wareHouse.WHGallery)) {
-              this.wareHouse.WHGallery = JSON.parse(this.wareHouse.WHGallery);
-              const albumArr = []
-              this.wareHouse.WHGallery.forEach((elem) => {
-                const album = {
-                  src: baseExternalAssets + elem.DocumentFile,
-                  caption: elem.DocumentFileName,
-                  thumb: baseExternalAssets + elem.DocumentFile,
-                  DocumentUploadedFileType: elem.DocumentUploadedFileType
-                };
-                albumArr.push(album);
-              })
-              this.wareHouse.parsedGallery = albumArr;
-            }
-          // this.wareHouse.Location = this.cityList.find(elem => elem.id == this.warehouseDetail.CityID).title
-      }
-    }, (err: HttpErrorResponse) => {
       console.log(err);
     })
   }

@@ -24,7 +24,7 @@
             </div>
           </div>
         </div>
-  
+
         <div class="col-12 pr-0 pl-0">
           <a class="hvr-icon-back grey-anc-btn mt-3" href="javascript:;" title="Back to Bookings" routerLink='/provider/allbookings'>
             <img src="../../../../../assets/images/icons/icon_arrow_left.svg" alt="icon" class="icon-size-14 hvr-icon">
@@ -59,12 +59,12 @@
                   </strong>
                 </div>
               </div>
-  
+
               <div class="col-md-4 border-right border-md-0">
                 <label class="status-label">Shipment Status</label>
                 <strong [ngClass]="{'cancelStatus': bookingDetails.ShippingStatus.toLowerCase() == statusCode.cancelled}">{{bookingDetails.ShippingStatus.toLowerCase()}}</strong>
               </div>
-  
+
               <div class="col-md-4">
                 <label class="status-label">Billing</label>
                 <strong class="billing-rate">
@@ -81,7 +81,7 @@
       </div>
     </div>
     <!--/ status -->
-  
+
     <!-- shipping details -->
     <div class="row view-booking-shipment-detail">
       <h4 class="col-12 view-booking-shipment-detail-heading">Customer Details</h4>
@@ -310,7 +310,7 @@
                       </video>
                       <div class="gallery-section-item d-flex justify-content-center align-items-center">
                         <img src="../../../assets/images/icons/icon_pictures.svg" alt="count" class="icon-size-14 mr-1" />
-                        {{ wareHouse.WHGallery.length }}
+                        {{ wareHouse.parsedGallery.length }}
                       </div>
                     </div>
                   </div>
@@ -405,7 +405,7 @@
                     <span class="badge hashmove-badge-danger" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName &&  invoiceDocOrigin.DocumentLastStatus.toLowerCase() == 're-upload'">
                       REJECTED </span>
                   </div>
-  
+
                 </li>
                 <li class="list-group-item">
                   <a href="javascript:;" class="doc-title" (click)="downloadDoc(packingListDocOrigin, $event)" [ngClass]="{'primary-text': packingListDocOrigin && packingListDocOrigin.DocumentFileName}">
@@ -458,7 +458,7 @@
                     <span class="badge hashmove-badge-danger" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName &&  invoiceDocDestination.DocumentLastStatus.toLowerCase() == 're-upload'">
                       REJECTED </span>
                   </div>
-  
+
                 </li>
                 <li class="list-group-item">
                   <a href="javascript:;" class="doc-title" (click)="downloadDoc(packingListDocOrigin, $event)" [ngClass]="{'primary-text': packingListDocDestination && packingListDocDestination.DocumentFileName}">
@@ -482,7 +482,7 @@
                     <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable && (packingListDocDestination.DocumentLastStatus.toLowerCase() != 'approved' && packingListDocDestination.DocumentLastStatus.toLowerCase() != 're-upload')"
                       (click)="approvedDoc(invoiceDocDestination)">Approve</button>
                   </div>
-  
+
                 </li>
                 <li class="list-group-item">
                   <a href="javascript:;" (click)="downloadDoc(ladingBill, $event)" [ngClass]="{'primary-text': ladingBill && ladingBill.DocumentFileName}"
@@ -536,7 +536,7 @@
         <!--/ document required -->
       </div>
       <div class="col-xl-4 view-booking-shipment-detail-right">
-  
+
         <!-- Help & Support -->
         <div class="card mb-4">
           <div class="map">
@@ -623,7 +623,7 @@
               </div>
         </div>
         <!--/ Help & Support -->
-  
+
         <!-- Help & Support -->
         <div class="card">
           <div class="card-body">
@@ -661,7 +661,6 @@
       </div>
     </div>
     <!--/ shipping details -->
-  
+
   </div>
   <!--/ view booking -->
-  
