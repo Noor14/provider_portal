@@ -84,6 +84,7 @@ export class WarehouseComponent implements OnInit {
   public poBoxError: boolean = false;
   public warehouseSpaceError: boolean = false;
   public hashmoveSpaceError: boolean = false;
+  public leaseSpaceError: boolean = false;
   public minLeaseValueOneError: boolean = false;
   public minLeaseValueTwoError: boolean = false;
   public commissionValueError: boolean = false;
@@ -92,6 +93,7 @@ export class WarehouseComponent implements OnInit {
 
   // space validation
   public hashmovespaceMsg: string = undefined;
+  public leaseSpaceMsg:string = undefined;
   public offeredHashmoveSpaceUnit: string;
 
 
@@ -283,6 +285,30 @@ export class WarehouseComponent implements OnInit {
     else {
       this.hashmovespaceMsg = undefined;
     }
+  }
+  minLeaseSpaceValidate(type){
+    // if (this.warehouseTypeFull) return;
+    // if (type == 'sqft' && this.offeredHashmoveSpaceUnit == 'sqft'){
+    //   if (Number(this.propertyDetailForm.controls.hashmoveSpace.value) && Number(this.propertyDetailForm.controls.minLeaseValueOne.value) > Number(this.propertyDetailForm.controls.hashmoveSpace.value)) {
+    //     this.propertyDetailForm.controls.minLeaseValueOne.status = 'INVALID';
+    //     this.leaseSpaceError = true;
+    //     this.leaseSpaceMsg = "Minimum lease value should be less than or equal to Offered space";
+    //   }
+    //   else{
+    //     this.leaseSpaceMsg = undefined;
+    //   }
+    // }
+    // if (type == 'cbm' && this.offeredHashmoveSpaceUnit == 'cbm') {
+    //   if (Number(this.propertyDetailForm.controls.hashmoveSpace.value) && Number(this.propertyDetailForm.controls.minLeaseValueTwo.value) > Number(this.propertyDetailForm.controls.hashmoveSpace.value)) {
+    //     this.propertyDetailForm.controls.minLeaseValueTwo.status = 'INVALID';
+    //     this.leaseSpaceError = true;
+    //     this.leaseSpaceMsg = "Minimum lease value should be less than or equal to  Offered space";
+    //   }
+    //   else{
+    //     this.leaseSpaceMsg = undefined;
+    //   }
+    // }
+
   }
   getplacemapLoc(countryBound) {
     this.mapsAPILoader.load().then(() => {

@@ -266,7 +266,7 @@ export class ReportsComponent implements OnInit {
       })
       this.topCustomers = customer;
     } catch (error) {
-      console.warn('Customers ot set:',error)
+      console.warn('Customers ot set:', error)
     }
   }
 
@@ -301,7 +301,7 @@ export class ReportsComponent implements OnInit {
     try {
       barGraph.forEach(bar => {
         const { totalCount } = bar
-        bar.totalCount = this._currencyControl.getNewPrice(totalCount, exchnageRate.rate)
+        bar.totalCount = this._currencyControl.applyRoundByDecimal(this._currencyControl.getNewPrice(totalCount, exchnageRate.rate), 2)
       })
 
     } catch (err) {

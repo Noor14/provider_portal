@@ -429,8 +429,8 @@
                   <div class="row">
                     <div class="col-12">
                       <label class="form-group-label">Minimum Lease Space
-                        <span class="sub-title sub-heading w-100 d-inline-block">The minimum space that can be lend per
-                          booking</span>
+                        <span class="sub-title sub-heading w-100 d-inline-block">
+                          The minimum space that can be lend per booking</span>
                       </label>
                     </div>
                     <div class="col-xl-3 col-md-3 col-sm-12">
@@ -439,7 +439,7 @@
                           <input class="form-control input-dropdown" (keypress)="numberValid($event)" type="text"
                             [ngClass]="{
                               'inputError': minLeaseValueOneError && propertyDetailForm.controls['minLeaseValueOne'].errors
-                              }" (focusout)="errorValidate()" (focus)="minLeaseValueOneError=false"
+                              }" (focusout)="errorValidate(); minLeaseSpaceValidate('sqft')" (focus)="minLeaseValueOneError=false"
                             formControlName="minLeaseValueOne">
                           <div class="input-group-append">
                             <div class="input-group-text">
@@ -472,7 +472,7 @@
                           <input class="form-control input-dropdown" (keypress)="numberValid($event)" type="text"
                             [ngClass]="{
                             'inputError': minLeaseValueTwoError && propertyDetailForm.controls['minLeaseValueTwo'].errors
-                            }" (focusout)="errorValidate()" (focus)="minLeaseValueTwoError=false"
+                            }" (focusout)="errorValidate(); minLeaseSpaceValidate('cbm')" (focus)="minLeaseValueTwoError=false"
                             formControlName="minLeaseValueTwo">
                           <div class="input-group-append">
                             <div class="input-group-text">
@@ -679,9 +679,10 @@
                   </span>
                 </div>
               </div>
-              <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 animated fadeIn">
-                <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2" style="margin-top: 3.4rem !important;" (click)="updateComission()">
-                  Update Commision
+              <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 mt-5 animated fadeIn d-flex align-items-center">
+                <button class="btn btn-outline-primary btn-lg hvr-sweep-to-right" [disabled]="commissionForm.invalid"
+                  (click)="updateComission()">
+                  Update Commission
                 </button>
               </div>
             </div>

@@ -6,5 +6,5 @@ export interface WarehouseAddCharges {
   currencyID: string;
   price: string;
   priceBasis: string;
-  addChrBasis?:any;
+  addChrBasis?: any;
 }
