@@ -203,14 +203,13 @@
                                 src="{{'../../../../../assets/images/flags/4x3/' + (locationForm.controls['city'].value.imageName | lowercase) + '.svg'}}"
                                 type="image/svg+xml">
                             </div>
-                            <input type="text" (keypress)="oneSpaceHandler($event)" class="form-control" [ngClass]="{
+                            <input type="text" #city (keypress)="oneSpaceHandler($event)" class="form-control" [ngClass]="{
                               'routeSelected': locationForm.value.city && locationForm.value.city.id,
-                              'inputError': cityError && locationForm.controls['city'].errors
+                              'inputError': cityError && (locationForm.controls['city'].errors || cityValidation)
                                 }" maxlength="100" formControlName="city"
-                              (focusout)="errorValidate();checkCity('focusOut')"
-                              (focus)="checkCity('focus'); cityError=false" [ngbTypeahead]="searchCity"
-                              [resultTemplate]="st" [inputFormatter]="formatterCity" placeholder="Enter City"
-                              (ngModelChange)="flag('city')">
+                              (focusout)="errorValidate()"
+                              (focus)="cityValidation = undefined ; cityError=false" [ngbTypeahead]="searchCity"
+                              [resultTemplate]="st" [inputFormatter]="formatterCity" placeholder="Enter City">
                             <ng-template #st let-r="result">
                               <div class="flag-container mr-1">
                                 <img
@@ -313,7 +312,7 @@
                     <div class="fancyOptionBoxes pull-left mb-3 mr-3"
                       *ngFor="let type of warehouseUsageType; let i = index">
                       <input id="{{i+1}}"
-                        [checked]="(type.codeValDesc == 'Full Warehouse' && warehouseTypeFull)|| (type.codeValDesc != 'Full Warehouse' && !warehouseTypeFull)"
+                        [checked]="type.codeValDesc == 'Full Warehouse' && warehouseTypeFull"
                         name="warehouseType" (change)="changeWarehouseType()" type="radio">
                       <label for="{{i+1}}">
                         <span></span>
@@ -340,11 +339,12 @@
                           type="text" formControlName="warehouseSpace">
                         <div class="input-group-append">
                           <div class="input-group-text">
-                            <select class="form-control input-dropdown" formControlName="warehouseSpaceUnit"
+                            <select class="form-control input-dropdown" *ngIf="!warehouseTypeFull" formControlName="warehouseSpaceUnit"
                               (change)="selectedspaceUnit(propertyDetailForm.controls['warehouseSpaceUnit'].value)">
                               <option [value]="unit.codeVal" *ngFor="let unit of units">{{unit.codeValDesc}}
                               </option>
                             </select>
+                              <span class="pl-3 pr-3 pt-2 pb-2" *ngIf="warehouseTypeFull">sqft</span>
                           </div>
                         </div>
                       </div>
@@ -380,8 +380,8 @@
                           }" (focusout)="errorValidate(); spaceValidate()" (focus)="hashmoveSpaceError=false"
                             formControlName="hashmoveSpace">
                           <div class="input-group-append">
-                            <div class="input-group-text"><span
-                                class="pl-3 pr-3 pt-2 pb-2">{{offeredHashmoveSpaceUnit}}</span>
+                            <div class="input-group-text">
+                              <span class="pl-3 pr-3 pt-2 pb-2">{{offeredHashmoveSpaceUnit}}</span>
                             </div>
                           </div>
                         </div>
@@ -544,11 +544,9 @@
           </div>
           <div class="row mt-5">
             <div class="col-12 d-flex justify-content-end mb-3">
-
               <button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 mb-2" [disabled]="generalForm.invalid || !uploadedGalleries.length || locationForm.invalid ||
-                propertyDetailForm.invalid || hashmovespaceMsg || !selectedMiniLeaseTerm" (click)="addwareHouse()">
-                save & add pricing </button>
-
+                propertyDetailForm.invalid || hashmovespaceMsg || !selectedMiniLeaseTerm || cityValidation"
+                (click)="addwareHouse()"> save & add pricing </button>
               <button class="btn btn-primary hvr-sweep-to-right ml-2 text-uppercase pl-5 pr-5 pt-2 pb-2 mb-2 disable"
                 (click)="cancelWarehouse()">
                 cancel
@@ -787,3 +785,4 @@
     </ngx-step>
   </ngx-stepper>
 </section>
+

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
@@ -24,6 +24,7 @@ import { RateValidityComponent } from '../../../../shared/dialogues/rate-validit
 import { CommonService } from '../../../../services/common.service';
 import { SeaFreightService } from '../manage-rates/sea-freight/sea-freight.service';
 import { CurrencyControl } from '../../../../services/currency.service';
+import { ElementDef } from '@angular/core/src/view';
 
 @Component({
   selector: 'app-warehouse',
@@ -37,6 +38,7 @@ export class WarehouseComponent implements OnInit {
   @Output() wareHouseTemplateChange = new EventEmitter();
   @ViewChild('stepper') public _stepper: any;
   @ViewChild('searchElement') public searchElement: any;
+  @ViewChild('city') cityValue: ElementRef
 
   public requiredFields: string = "This field is required";
 
@@ -86,7 +88,7 @@ export class WarehouseComponent implements OnInit {
   public minLeaseValueTwoError: boolean = false;
   public commissionValueError: boolean = false;
   public percentValueError: boolean = false;
-
+  public cityValidation:string;
 
   // space validation
   public hashmovespaceMsg: string = undefined;
@@ -200,6 +202,18 @@ export class WarehouseComponent implements OnInit {
       minLeaseValueTwo: new FormControl(null, [warehouseValidator.bind(this)]),
     });
 
+    Observable.fromEvent(this.cityValue.nativeElement, "focusout")
+      // get value
+      .map((evt: any) => evt.target.value)
+      // text length must be > 2 chars
+      //.filter(res => res.length > 2)
+      // emit after 1s of silence
+      .debounceTime(200)
+      // emit only if data changes since the last emit
+      // subscription
+      .subscribe((text: string) => {
+        this.checkCity();
+      });
 
 
   }
@@ -731,26 +745,19 @@ export class WarehouseComponent implements OnInit {
     }, 0);
   }
 
-  cityValidation
-  cityValid
 
-  checkCity(type) {
 
+  checkCity() {
     let cityName = this.locationForm.value.city;
-    if (type == 'focusOut') {
-      if (typeof (cityName) == "string" && cityName.length > 2 && cityName.length < 26) {
+      if (typeof (cityName) == "string") {
         this.cityValidation = "City should be selected from the dropdown";
-        this.cityValid = false;
-      }
-      if (this.locationForm.controls.city.status == "INVALID") {
+        this.locationForm.controls.city.status = "INVALID";
         this.cityError = true;
       }
-    }
-    else if (type == 'focus' && this.cityValidation && typeof (cityName) == "string") {
-
-      this.cityValidation = false;
-      this.cityValid = true;
-    }
+      else if (typeof (cityName) == "object"){
+        this.cityValidation = undefined;
+        this.cityError = false;
+      }
   }
 
   addwareHouse() {
@@ -775,7 +782,7 @@ export class WarehouseComponent implements OnInit {
       latitude: this.location.lat,
       longitude: this.location.lng,
       totalCoveredArea: this.propertyDetailForm.value.warehouseSpace,
-      totalCoveredAreaUnit: this.propertyDetailForm.value.warehouseSpaceUnit,
+      totalCoveredAreaUnit: (!this.warehouseTypeFull)? this.propertyDetailForm.value.warehouseSpaceUnit: 'sqft',
       usageType: (this.warehouseTypeFull) ? 'FULL' : 'SHARED',
       whFacilitiesProviding: this.facilities,
       isBlocked: true,
@@ -1181,11 +1188,6 @@ export class WarehouseComponent implements OnInit {
     }, (err) => {
       loading(false)
     })
-  }
-
-  flag(type) {
-    this.cityValidation = false;
-    this.cityValid = false;
   }
 
 }
