@@ -561,7 +561,7 @@
                 <small class="d-block">{{bookingDetails.PolName}}</small>
               </div>
             </div>
-            <img alt="" class="icon-size-16 ports-direction" src="../../../../assets/images/icons/icon_route_arrow_blue.svg">
+            <img alt="img" class="icon-size-16 ports-direction" src="../../../../assets/images/icons/icon_route_arrow_blue.svg">
             <div class="ports">
               <span class="d-block ports-title">Destination</span>
               <div class="icon flag-icon-20-12 align-top mr-2 pull-left">
@@ -573,7 +573,7 @@
               </div>
             </div>
           </div>
-          <div class="card-body d-flex" *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE'">
+          <div class="card-body" *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE'">
             <div class="billing-box">
               <span class="d-block ports-title">Location</span>
               <ul class="list-group list-group-flush mt-1">
@@ -608,19 +608,19 @@
                 </ul>
               </div>
             </div>
-              <div class="card-body" *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE'">
-                <div class="billing-box">
-                  <!-- <h5 class="card-title">
-                                Cargo Details
-                              </h5> -->
-                  <span class="d-block ports-title">In The Shipment</span>
-                  <ul class="list-group list-group-flush mt-1">
-                    <li class="list-group-item">
-                        <span class="long-text">{{bookingDetails.BookingDesc}}</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+          <div class="card-body">
+            <div class="billing-box">
+              <!-- <h5 class="card-title">
+                                          Cargo Details
+                                        </h5> -->
+              <span class="d-block ports-title">In The Shipment</span>
+              <ul class="list-group list-group-flush mt-1">
+                <li class="list-group-item">
+                  <span class="long-text">{{bookingDetails.BookingDesc}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
         <!--/ Help & Support -->
 

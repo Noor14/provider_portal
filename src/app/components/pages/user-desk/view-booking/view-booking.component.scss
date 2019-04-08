@@ -221,9 +221,10 @@
         }
 
         &-body {
-          &.d-flex {
             border-bottom: 1px solid $boxes-border-grey;
-          }
+            &:last-child{
+            border-bottom: none;
+            }
 
           h6 {
             font-weight: $font-proxima-weight-semibold;
