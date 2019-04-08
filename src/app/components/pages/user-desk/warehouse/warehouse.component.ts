@@ -222,9 +222,9 @@ export class WarehouseComponent implements OnInit {
 
   commissionFormGenerate() {
     this.commissionForm = new FormGroup({
-      commissionCurrency: new FormControl(null, [Validators.required, warehouseValidatorCommissionCurr.bind(this)]),
-      commissionValue: new FormControl(null, [Validators.required, warehouseValidatorCommissionVal.bind(this)]),
-      percentValue: new FormControl(null, [Validators.required, warehouseValidatorCommission.bind(this)]),
+      commissionCurrency: new FormControl(null, [warehouseValidatorCommissionCurr.bind(this)]),
+      commissionValue: new FormControl(null, [warehouseValidatorCommissionVal.bind(this)]),
+      percentValue: new FormControl(null, [warehouseValidatorCommission.bind(this)]),
     });
   }
 
@@ -1279,6 +1279,9 @@ export function warehouseValidatorCommission(control: AbstractControl) {
     else {
       return false;
     }
+  }
+  else {
+    return false;
   }
 };
 export function warehouseValidatorCommissionVal(control: AbstractControl) {

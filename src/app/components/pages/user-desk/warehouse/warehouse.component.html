@@ -572,7 +572,7 @@
             <div class="col-12 mt-3">
               <div class="form-group d-flex">
                 <div class="fancyOptionBoxes">
-                  <input id="fixedamount" name="commison" type="radio" [checked]="fixedAmount"
+                  <input id="fixedamount" name="commission" type="radio" [checked]="fixedAmount"
                     (change)="fixedAmount = !fixedAmount; commissionForm.controls['percentValue'].reset()">
                   <label for="fixedamount">
                     <span></span>
@@ -580,7 +580,7 @@
                   </label>
                 </div>
                 <div class="fancyOptionBoxes ml-4">
-                  <input id="perbooking" name="commison" type="radio" [checked]="!fixedAmount"
+                  <input id="perbooking" name="commission" type="radio" [checked]="!fixedAmount"
                     (change)="fixedAmount = !fixedAmount">
                   <label for="perbooking">
                     <span></span>
