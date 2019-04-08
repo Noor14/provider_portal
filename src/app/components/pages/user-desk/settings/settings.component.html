@@ -187,9 +187,9 @@
                           <svg class="icon-size-16 mr-2 animated" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px"
                             viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
-                            <polygon fill="#FFFFFF" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11 
+                            <polygon fill="#FFFFFF" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11
                             11,9.534 9.458,7.998 " />
-                            <polygon fill="#738593" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11 
+                            <polygon fill="#738593" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11
                                 11,9.534 9.458,7.998 " />
                             <g>
                               <defs>
@@ -216,7 +216,7 @@
                                     .\35 625662d-fc96-4a60-8cdc-d6d1934d7651 {
                                       fill: #02bdb6;
                                     }
-    
+
                                   </style>
                             </defs>
                             <g id="bd7b2ffc-e30d-421d-8d45-c357208e125a" data-name="sucess">
@@ -429,9 +429,9 @@
                           <svg class="icon-size-16 mr-2 animated" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px"
                             viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
-                            <polygon fill="#FFFFFF" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11 
+                            <polygon fill="#FFFFFF" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11
                               11,9.534 9.458,7.998 " />
-                            <polygon fill="#738593" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11 
+                            <polygon fill="#738593" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11
                                 11,9.534 9.458,7.998 " />
                             <g>
                               <defs>
@@ -493,7 +493,7 @@
                       </quill-editor>
                         <div class="editor" *ngIf="!editable" [innerHTML]="editorContent"></div>
                         <a class="hvr-icon-forward mt-3" href="javascript:;" *ngIf="!editable && showTogglerText" (click)="showToggler()">
-                          <span class="link-hover-secondary">{{showTogglerText}}</span>                          
+                          <span class="link-hover-secondary">{{showTogglerText}}</span>
                           <i class="fa fa-angle-right hvr-icon"></i>
                         </a>
                       </div>
@@ -528,7 +528,8 @@
                         </div>
                         <div class="col-12 d-flex mt-3 animated fadeIn" *ngIf="wareHouseTypeToggler">
                           <div class="fancyOptionBoxes mr-4">
-                          <input disabled id="owner" name="warehouseType" type="radio" [checked]="!IsRealEstate" (click)="realEstateSel('owner', $event)">
+                          <input [disabled]="IsRealEstate != null" id="owner" name="warehouseType" type="radio"
+                            [checked]="!IsRealEstate" (click)="realEstateSel('owner', $event)">
                             <label for="owner">
                               <span></span>
                               I'm an owner / operator for Warehousing
@@ -536,7 +537,8 @@
                           </div>
 
                           <div class="fancyOptionBoxes">
-                          <input disabled id="realEstate" name="warehouseType" type="radio" [checked]="IsRealEstate" (click)="realEstateSel('realEstate', $event)">
+                          <input [disabled]="IsRealEstate != null" id="realEstate" name="warehouseType" type="radio"
+                            [checked]="IsRealEstate" (click)="realEstateSel('realEstate', $event)">
                             <label for="realEstate">
                               <span></span>
                               I'm a Real Estate Agent for Warehousing
@@ -721,9 +723,9 @@
                           <svg class="icon-size-16 mr-2 animated" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px"
                             viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
-                            <polygon fill="#FFFFFF" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11 
+                            <polygon fill="#FFFFFF" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11
 	                            11,9.534 9.458,7.998 " />
-                            <polygon fill="#738593" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11 
+                            <polygon fill="#738593" points="11,6.451 9.554,5 8.021,6.564 6.451,5 5,6.446 6.601,8.015 5,9.648 6.466,11 8.038,9.423 9.648,11
 	                            11,9.534 9.458,7.998 " />
                             <g>
                               <defs>

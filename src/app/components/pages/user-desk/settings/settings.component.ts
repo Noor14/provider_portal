@@ -101,7 +101,7 @@ export class SettingsComponent implements OnInit {
   public freightServices: any[] = [];
   public frtService: any[] = [];
   public wareHouseTypeToggler: boolean = false;
-  public IsRealEstate: boolean = false;
+  public IsRealEstate: boolean = null;
 
   // about Editor
   public editorContent: any;
