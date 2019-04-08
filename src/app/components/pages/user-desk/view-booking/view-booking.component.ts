@@ -306,14 +306,22 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
             let JsonDetail = JSON.parse(
               this.bookingDetails.JsonSearchCriteria
             );
-            if (JsonDetail.storageType == 'shared'){
-              if (JsonDetail.searchBy == 'by_area'){
-                this.wareHouse.TotalCoveredAreaUnit = 'sqft';
-              }else{
+
+            this.wareHouse.storageType = JsonDetail.storageType;
+            if (this.wareHouse.storageType == "shared") {
+              this.wareHouse.StoreFrom = JsonDetail.StoreFrom;
+              this.wareHouse.StoreUntill = JsonDetail.StoreUntill;
+              if (JsonDetail.searchBy == "by_area") {
+                this.wareHouse.TotalCoveredAreaUnit = "sqft";
+                this.wareHouse.bookedArea = JsonDetail.SQFT;
+              } else {
                 this.wareHouse.TotalCoveredAreaUnit = "cbm";
+                this.wareHouse.bookedArea = JsonDetail.CBM
               }
-            }else{
-              this.wareHouse.TotalCoveredAreaUnit = 'sqft';
+            } else {
+              this.wareHouse.minimumLeaseTerm = JsonDetail.minimumLeaseTermString;
+              this.wareHouse.spaceReqWarehouse = JsonDetail.spaceReqString
+              this.wareHouse.TotalCoveredAreaUnit = "sqft";
             }
           }
         }

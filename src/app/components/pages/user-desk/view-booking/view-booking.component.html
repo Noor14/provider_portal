@@ -11,18 +11,18 @@
               {{bookingDetails.HashMoveBookingDate | date : "d MMM yyyy"}} at {{bookingDetails.HashMoveBookingDate
               | date : "H:mm" }}</small>
           </div>
-          <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+          <!-- <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
             <div class="view-booking-top-btn mt-1 text-right mb-2">
               <a href="javascript:;" class="hvr-icon-forward " (click)="printDetail()">
                 <img src="../../../../../assets/images/icons/icon_print.svg" alt="icon" class="icon-size-16 mr-2">
                 <span class="link-hover-grey">Print</span>
               </a>
-              <!-- <a href="javascript:;" class="hvr-icon-forward">
+              <a href="javascript:;" class="hvr-icon-forward">
                 <img src="../../../../../assets/images/icons/icon_share_blue.svg" alt="icon" class="icon-size-16 mr-2">
                 <span class="link-hover-grey">Share</span>
-              </a> -->
+              </a>
             </div>
-          </div>
+          </div> -->
         </div>
 
         <div class="col-12 pr-0 pl-0">
@@ -135,7 +135,7 @@
 
         <div class="card grey-background">
           <div class="card-body">
-            <div class="row mt-1 details" *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'">
+            <div class="row details" *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'">
                   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex">
                     <img src="../../../../assets/images/icons/icon_anchor.svg" alt="icon"
                       class="icon-size-16 mr-3 align-top">
@@ -205,45 +205,13 @@
               </div>
             </div>
             </div>
-            <div class="row mt-1" *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE' && wareHouse && wareHouse.parsedGallery">
-              <div *ngIf="false" class="col-12 warehousing-header d-flex justify-content-between align-items-center mb-1">
-                <div>
-                  <i class="icon mr-2">
-                    <svg class="icon-size-16" data-name="Layer 1"
-                      id="4a12fca4-e18c-475e-bd3e-22cd7e281a70" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                      <defs>
-                        <style>
-                          .\33 949e7c5-f605-4c5e-87a9-b12329243bbe {
-                            fill: #738593;
-                          }
-
-                          .\38 d48c0e3-bd07-43c0-8228-4127926f0f37 {
-                            fill: #fff;
-                          }
-                        </style>
-                      </defs>
-                      <g data-name="calendar2" id="8158930b-cef2-4edb-b5e1-ba3f6425e989">
-                        <path class="3949e7c5-f605-4c5e-87a9-b12329243bbe"
-                          d="M15,2H3.8A2.8,2.8,0,0,0,1,4.8V16H12.2A2.8,2.8,0,0,0,15,13.2V2Z" data-name="<Compound Path>"
-                          id="faf814a2-64c6-47f5-af64-79a811794184"></path>
-                        <path class="8d48c0e3-bd07-43c0-8228-4127926f0f37"
-                          d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z">
-                        </path>
-                        <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5"
-                          id="2b57c6dd-e369-4754-b6e3-53be44a39248" width="2" x="5"></rect>
-                        <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5"
-                          id="2f608205-02c1-4439-8b66-12ac37428e6c" width="2" x="9"></rect>
-                      </g>
-                    </svg>
-                  </i><span class="lable">Booked From</span>
-                  <!---->
-                  <h4 class="ml-4"> 5 Apr, 2019 </h4>
-                  <!---->
-                </div>
-                <div>
-                  <!---->
-                  <div><i class="icon mr-2"><svg class="icon-size-16" data-name="Layer 1" id="4a12fca4-e18c-475e-bd3e-22cd7e281a70"
-                        viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <div class="row" [style.margin-top]="bookingDetails.ShippingModeCode == 'WAREHOUSE' ? '-10px' : '' "
+              *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE' && wareHouse && wareHouse.parsedGallery">
+              <div class="col-12 warehousing-header d-flex justify-content-between align-items-center mb-1">
+                  <div *ngIf="wareHouse.storageType =='shared'">
+                    <i class="icon mr-2">
+                      <svg class="icon-size-16" data-name="Layer 1"
+                        id="4a12fca4-e18c-475e-bd3e-22cd7e281a70" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                           <style>
                             .\33 949e7c5-f605-4c5e-87a9-b12329243bbe {
@@ -267,38 +235,131 @@
                           <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5"
                             id="2f608205-02c1-4439-8b66-12ac37428e6c" width="2" x="9"></rect>
                         </g>
-                      </svg></i><span class="lable">Booked Till</span>
+                      </svg>
+                    </i><span class="lable">Booked From</span>
                     <!---->
-                    <h4 class="ml-4">12 Apr, 2019 </h4>
+                    <h4 class="ml-4">{{wareHouse.StoreFrom | date : "d MMM, y"}}</h4>
+                    <!---->
                   </div>
-                </div>
-                <div><span><i class="icon mr-2"><svg class="icon-size-14" data-name="Layer 1"
-                        id="daf2a9d0-ed1e-40c3-8dc2-534f350396d2" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                          <style>
-                            .bf3de19e-df40-4e76-a7cd-2f9395b9693a {
-                              fill: #738593;
-                            }
-                          </style>
-                        </defs>
-                        <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="16 10 10 16 16 16 16 10">
-                        </polygon>
-                        <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="0 6 6 0 0 0 0 6">
-                        </polygon>
-                        <rect class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" height="21.261"
-                          transform="translate(-3.314 8) rotate(-45)" width="1.367" x="7.317" y="-2.63">
-                        </rect>
-                        <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="2 14 2 9 0 9 0 16 7 16 7 14 2 14">
-                        </polygon>
-                        <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="14 2 14 6 16 6 16 0 10 0 10 2 14 2"></polygon>
-                      </svg></i><span class="lable">Your Space</span>
+                  <div *ngIf="wareHouse.storageType =='shared'">
                     <!---->
-                    <h4 class="ml-4"> 2,200 ft<sup>2</sup></h4>
-                    <!---->
-                  </span></div>
+
+                      <i class="icon mr-2"><svg class="icon-size-16" data-name="Layer 1" id="4a12fca4-e18c-475e-bd3e-22cd7e281a70"
+                          viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                          <defs>
+                            <style>
+                              .\33 949e7c5-f605-4c5e-87a9-b12329243bbe {
+                                fill: #738593;
+                              }
+
+                              .\38 d48c0e3-bd07-43c0-8228-4127926f0f37 {
+                                fill: #fff;
+                              }
+                            </style>
+                          </defs>
+                          <g data-name="calendar2" id="8158930b-cef2-4edb-b5e1-ba3f6425e989">
+                            <path class="3949e7c5-f605-4c5e-87a9-b12329243bbe"
+                              d="M15,2H3.8A2.8,2.8,0,0,0,1,4.8V16H12.2A2.8,2.8,0,0,0,15,13.2V2Z" data-name="<Compound Path>"
+                              id="faf814a2-64c6-47f5-af64-79a811794184"></path>
+                            <path class="8d48c0e3-bd07-43c0-8228-4127926f0f37"
+                              d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z">
+                            </path>
+                            <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5"
+                              id="2b57c6dd-e369-4754-b6e3-53be44a39248" width="2" x="5"></rect>
+                            <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5"
+                              id="2f608205-02c1-4439-8b66-12ac37428e6c" width="2" x="9"></rect>
+                          </g>
+                        </svg></i><span class="lable">Booked Till</span>
+                      <!---->
+                      <h4 class="ml-4">{{wareHouse.StoreFrom | date : "d MMM, y"}}</h4>
+
+                  </div>
+                  <div *ngIf="wareHouse.storageType =='shared'">
+                    <i class="icon mr-2"><svg class="icon-size-14" data-name="Layer 1"
+                          id="daf2a9d0-ed1e-40c3-8dc2-534f350396d2" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                          <defs>
+                            <style>
+                              .bf3de19e-df40-4e76-a7cd-2f9395b9693a {
+                                fill: #738593;
+                              }
+                            </style>
+                          </defs>
+                          <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="16 10 10 16 16 16 16 10">
+                          </polygon>
+                          <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="0 6 6 0 0 0 0 6">
+                          </polygon>
+                          <rect class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" height="21.261"
+                            transform="translate(-3.314 8) rotate(-45)" width="1.367" x="7.317" y="-2.63">
+                          </rect>
+                          <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="2 14 2 9 0 9 0 16 7 16 7 14 2 14">
+                          </polygon>
+                          <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="14 2 14 6 16 6 16 0 10 0 10 2 14 2"></polygon>
+                        </svg></i><span class="lable">Your Space</span>
+                      <!---->
+                      <h4 class="ml-4">{{wareHouse.bookedArea}} {{wareHouse.TotalCoveredAreaUnit}}</h4>
+                      <!---->
+                  </div>
+
+                    <div *ngIf="wareHouse.storageType !='shared'">
+                      <i class="icon mr-2">
+                        <svg class="icon-size-16" data-name="Layer 1" id="4a12fca4-e18c-475e-bd3e-22cd7e281a70" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                          <defs>
+                            <style>
+                              .\33 949e7c5-f605-4c5e-87a9-b12329243bbe {
+                                fill: #738593;
+                              }
+
+                              .\38 d48c0e3-bd07-43c0-8228-4127926f0f37 {
+                                fill: #fff;
+                              }
+                            </style>
+                          </defs>
+                          <g data-name="calendar2" id="8158930b-cef2-4edb-b5e1-ba3f6425e989">
+                            <path class="3949e7c5-f605-4c5e-87a9-b12329243bbe" d="M15,2H3.8A2.8,2.8,0,0,0,1,4.8V16H12.2A2.8,2.8,0,0,0,15,13.2V2Z"
+                              data-name="<Compound Path>" id="faf814a2-64c6-47f5-af64-79a811794184"></path>
+                            <path class="8d48c0e3-bd07-43c0-8228-4127926f0f37" d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z">
+                            </path>
+                            <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5" id="2b57c6dd-e369-4754-b6e3-53be44a39248"
+                              width="2" x="5"></rect>
+                            <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5" id="2f608205-02c1-4439-8b66-12ac37428e6c"
+                              width="2" x="9"></rect>
+                          </g>
+                        </svg>
+                      </i><span class="lable">MINIMUM LEASE TERM</span>
+                      <!---->
+                      <h4 class="ml-4"> {{wareHouse.minimumLeaseTerm}}</h4>
+                      <!---->
+                    </div>
+                    <div *ngIf="wareHouse.storageType !='shared'">
+                      <!---->
+                      <i class="icon mr-2"><svg class="icon-size-14" data-name="Layer 1" id="daf2a9d0-ed1e-40c3-8dc2-534f350396d2"
+                          viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                          <defs>
+                            <style>
+                              .bf3de19e-df40-4e76-a7cd-2f9395b9693a {
+                                fill: #738593;
+                              }
+                            </style>
+                          </defs>
+                          <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="16 10 10 16 16 16 16 10">
+                          </polygon>
+                          <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="0 6 6 0 0 0 0 6">
+                          </polygon>
+                          <rect class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" height="21.261"
+                            transform="translate(-3.314 8) rotate(-45)" width="1.367" x="7.317" y="-2.63">
+                          </rect>
+                          <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="2 14 2 9 0 9 0 16 7 16 7 14 2 14">
+                          </polygon>
+                          <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="14 2 14 6 16 6 16 0 10 0 10 2 14 2"></polygon>
+                        </svg></i>
+                      <span class="lable">APPROX SPACE REQUIRED</span>
+                        <!---->
+                        <h4 class="ml-4" [innerHTML]="wareHouse.spaceReqWarehouse"></h4>
+
+                    </div>
 
               </div>
-              <hr class="hr-solid mb-4 mt-0" *ngIf="false"/>
+              <hr class="hr-solid mb-4 mt-0"/>
               <div class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-12">
                 <div *ngFor="let doc of wareHouse.parsedGallery; let i = index"
                   (click)="openGallery(wareHouse.parsedGallery, i)">
