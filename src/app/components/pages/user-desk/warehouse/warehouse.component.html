@@ -312,7 +312,7 @@
                     <div class="fancyOptionBoxes pull-left mb-3 mr-3"
                       *ngFor="let type of warehouseUsageType; let i = index">
                       <input id="{{i+1}}"
-                        [checked]="type.codeValDesc == 'Full Warehouse' && warehouseTypeFull"
+                        [checked]="(type.codeValDesc == 'Full Warehouse' && warehouseTypeFull) || (type.codeValDesc != 'Full Warehouse' && !warehouseTypeFull)"
                         name="warehouseType" (change)="changeWarehouseType()" type="radio">
                       <label for="{{i+1}}">
                         <span></span>
