@@ -98,6 +98,7 @@ export interface BookingDetails {
   ActualScheduleDetail?: any;
   BookingDesc?: string;
   BookingID: number;
+  UserImage:string;
   HashMoveBookingNum: string;
   HashMoveBookingDate: string;
   ShippingCatID: number;
