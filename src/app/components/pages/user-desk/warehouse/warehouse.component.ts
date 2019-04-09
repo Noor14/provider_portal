@@ -25,6 +25,7 @@ import { CommonService } from '../../../../services/common.service';
 import { SeaFreightService } from '../manage-rates/sea-freight/sea-freight.service';
 import { CurrencyControl } from '../../../../services/currency.service';
 import { ElementDef } from '@angular/core/src/view';
+import { VideoDialogueComponent } from '../../../../shared/dialogues/video-dialogue/video-dialogue.component';
 
 @Component({
   selector: 'app-warehouse',
@@ -89,11 +90,11 @@ export class WarehouseComponent implements OnInit {
   public minLeaseValueTwoError: boolean = false;
   public commissionValueError: boolean = false;
   public percentValueError: boolean = false;
-  public cityValidation:string;
+  public cityValidation: string;
 
   // space validation
   public hashmovespaceMsg: string = undefined;
-  public leaseSpaceMsg:string = undefined;
+  public leaseSpaceMsg: string = undefined;
   public offeredHashmoveSpaceUnit: string;
 
 
@@ -286,7 +287,7 @@ export class WarehouseComponent implements OnInit {
       this.hashmovespaceMsg = undefined;
     }
   }
-  minLeaseSpaceValidate(type){
+  minLeaseSpaceValidate(type) {
     // if (this.warehouseTypeFull) return;
     // if (type == 'sqft' && this.offeredHashmoveSpaceUnit == 'sqft'){
     //   if (Number(this.propertyDetailForm.controls.hashmoveSpace.value) && Number(this.propertyDetailForm.controls.minLeaseValueOne.value) > Number(this.propertyDetailForm.controls.hashmoveSpace.value)) {
@@ -426,20 +427,53 @@ export class WarehouseComponent implements OnInit {
     if (obj.WHDesc) {
       this.generalForm.controls['whDetail'].setValue(obj.WHDesc);
     }
+    // this.allWareHouseList.forEach(element => {
+    //   const albumArr = []
+    //   const docsArray: Array<any> = JSON.parse(element.WHGallery)
+    //   let idx = this.allWareHouseList.indexOf(element);
+    //   try {
+    //     docsArray.forEach(doc => {
+    //       if (doc.DocumentUploadedFileType.toLowerCase() === 'png' || doc.DocumentUploadedFileType.toLowerCase() === 'jpg' || doc.DocumentUploadedFileType.toLowerCase() === 'jpeg') {
+    //         const album = {
+    //           src: baseExternalAssets + '/' + doc.DocumentFile,
+    //           caption: '&nbsp;',
+    //           thumb: baseExternalAssets + '/' + doc.DocumentFile
+    //         };
+    //         albumArr.push(album)
+    //         this.allWareHouseList[idx].WHParsedMedia = albumArr;
+    //       } else if (doc.DocumentUploadedFileType.toLowerCase() === 'mp4') {
+    //         this.videoURL = baseExternalAssets + '/' + doc.DocumentFile
+    //         this.allWareHouseList[idx].videoURL = this.videoURL;
+    //       }
+    //     })
+    //   } catch (error) { }
+    // });
     if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {
       this.uploadedGalleries = JSON.parse(obj.WHGallery);
       const albumArr = []
       this.uploadedGalleries.forEach((elem) => {
-        const album = {
-          src: baseExternalAssets + elem.DocumentFile,
-          caption: elem.DocumentFileName,
-          thumb: baseExternalAssets + elem.DocumentFile,
-          DocumentUploadedFileType: elem.DocumentUploadedFileType
-        };
-        albumArr.push(album);
-      })
+        // const album = {
+        //   src: baseExternalAssets + elem.DocumentFile,
+        //   caption: elem.DocumentFileName,
+        //   thumb: baseExternalAssets + elem.DocumentFile,
+        //   DocumentUploadedFileType: elem.DocumentUploadedFileType
+        // };
+        // albumArr.push(album);
 
-      this.warehouseDetail['parsedGallery'] = albumArr;
+        if (elem.DocumentUploadedFileType.toLowerCase() === 'png' || elem.DocumentUploadedFileType.toLowerCase() === 'jpg' || elem.DocumentUploadedFileType.toLowerCase() === 'jpeg') {
+          const album = {
+            src: baseExternalAssets + elem.DocumentFile,
+            caption: elem.DocumentFileName,
+            thumb: baseExternalAssets + elem.DocumentFile,
+            DocumentUploadedFileType: elem.DocumentUploadedFileType
+          };
+          albumArr.push(album);
+          // this.warehouseDetail.WHParsedMedia = albumArr
+          this.warehouseDetail['WHParsedMedia'] = albumArr;
+        } else if (elem.DocumentUploadedFileType.toLowerCase() === 'mp4') {
+          this.warehouseDetail.videoURL = baseExternalAssets + '/' + elem.DocumentFile;
+        }
+      })      
       this.docTypeId = this.uploadedGalleries[0].DocumentID;
     }
     if (obj.WHAddress) {
@@ -739,7 +773,7 @@ export class WarehouseComponent implements OnInit {
       this.uploadedGalleries.splice(index, 1);
     }
   }
-  openGallery(albumArr, index): void {
+  openGallery(index, albumArr): void {
     this._lightbox.open(albumArr, index, { disableScrolling: true, centerVertically: true, alwaysShowNavOnTouchDevices: true });
   }
   closeLightBox(): void {
@@ -775,15 +809,15 @@ export class WarehouseComponent implements OnInit {
 
   checkCity() {
     let cityName = this.locationForm.value.city;
-      if (typeof (cityName) == "string") {
-        this.cityValidation = "City should be selected from the dropdown";
-        this.locationForm.controls.city.status = "INVALID";
-        this.cityError = true;
-      }
-      else if (typeof (cityName) == "object"){
-        this.cityValidation = undefined;
-        this.cityError = false;
-      }
+    if (typeof (cityName) == "string") {
+      this.cityValidation = "City should be selected from the dropdown";
+      this.locationForm.controls.city.status = "INVALID";
+      this.cityError = true;
+    }
+    else if (typeof (cityName) == "object") {
+      this.cityValidation = undefined;
+      this.cityError = false;
+    }
   }
 
   addwareHouse() {
@@ -808,7 +842,7 @@ export class WarehouseComponent implements OnInit {
       latitude: this.location.lat,
       longitude: this.location.lng,
       totalCoveredArea: this.propertyDetailForm.value.warehouseSpace,
-      totalCoveredAreaUnit: (!this.warehouseTypeFull)? this.propertyDetailForm.value.warehouseSpaceUnit: 'sqft',
+      totalCoveredAreaUnit: (!this.warehouseTypeFull) ? this.propertyDetailForm.value.warehouseSpaceUnit : 'sqft',
       usageType: (this.warehouseTypeFull) ? 'FULL' : 'SHARED',
       whFacilitiesProviding: this.facilities,
       isBlocked: true,
@@ -1214,6 +1248,17 @@ export class WarehouseComponent implements OnInit {
     }, (err) => {
       loading(false)
     })
+  }
+
+  openVideo(videoURL) {
+    const modalRefVideo = this._modalService.open(VideoDialogueComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'video',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRefVideo.componentInstance.videoURL = videoURL
   }
 
 }
