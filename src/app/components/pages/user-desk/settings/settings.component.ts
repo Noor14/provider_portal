@@ -249,33 +249,33 @@ export class SettingsComponent implements OnInit {
     this._sharedService.cityList.subscribe((state: any) => {
       if (state) {
         this.cityList = state;
-        this.getRegions(info);
+        this.getRegions();
+        this.getCountries();
+        this.getCurrencies();
+        this.setPersonalInfo(info);
+        this.setBusinessInfo(info);
         loading(false);
       }
     });
   }
-  getRegions(info){
+  getRegions(){
     this._sharedService.regionList.subscribe((state: any) => {
       if (state) {
         this.regionList = state;
-        this.getCountries(info);
       }
     });
   }
-  getCountries(info){
+  getCountries(){
     this._sharedService.countryList.subscribe((state: any) => {
       if (state) {
         this.countryList = state;
-        this.getCurrencies(info);
       }
     });
   }
-  getCurrencies(info){
+  getCurrencies(){
       this._sharedService.currencyList.subscribe((state: any) => {
         if (state) {
           this.currencyList = state;
-          this.setPersonalInfo(info);
-          this.setBusinessInfo(info);
         }
       });
     }

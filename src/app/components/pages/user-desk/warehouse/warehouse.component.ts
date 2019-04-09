@@ -432,7 +432,7 @@ export class WarehouseComponent implements OnInit {
       this.uploadedGalleries.forEach((elem) => {
         const album = {
           src: baseExternalAssets + elem.DocumentFile,
-          caption: elem.DocumentFileName,
+          // caption: elem.DocumentFileName,
           thumb: baseExternalAssets + elem.DocumentFile,
           DocumentUploadedFileType: elem.DocumentUploadedFileType
         };
