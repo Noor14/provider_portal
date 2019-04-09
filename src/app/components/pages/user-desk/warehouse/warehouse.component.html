@@ -599,7 +599,7 @@
                   <input type="text" class="form-control pr-4" formControlName="percentValue" [ngClass]="{
                                       'inputError': percentValueError && commissionForm.controls['percentValue'].errors
                                       }" (focusout)="errorValidate()" (focus)="percentValueError=false"
-                    (keypress)="numberValid($event)" placeholder="0">
+                    (keypress)="numberValidwithDecimal($event)" placeholder="0">
                   <span class="percent-sign">%</span>
                   <span *ngIf="percentValueError">
                     <p class="inputError animated fadeIn"
@@ -658,7 +658,7 @@
                     <input type="text" formControlName="commissionValue" class="form-control" [ngClass]="{
                                     'inputError': commissionValueError && commissionForm.controls['commissionValue'].errors
                                     }" (focusout)="errorValidate()" (focus)="commissionValueError=false"
-                      (keypress)="numberValid($event)" aria-label="Text input with dropdown button" placeholder="0.00">
+                      (keypress)="numberValidwithDecimal($event)" placeholder="0.00">
                   </div>
                   <span *ngIf="commissionValueError">
                     <p class="inputError animated fadeIn"
