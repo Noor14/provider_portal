@@ -14,12 +14,13 @@ import { SettingService } from '../settings/setting.service';
 })
 export class ManageRatesComponent implements OnInit, OnDestroy {
 
+  public notSupTooltipText:string;
   public selectedServices: any[];
   private dashBoardSubscriber:any
   public seaDisabled :boolean= true;
   public airDisabled: boolean = true;
   public groundDisabled: boolean = true;
-  public waarehouseDisabled: boolean = true;
+  public warehouseDisabled: boolean = true;
   constructor(
     private _router: Router,
     private _seaFreightService: SeaFreightService,
@@ -32,6 +33,7 @@ export class ManageRatesComponent implements OnInit, OnDestroy {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       let userProfile = JSON.parse(userInfo.returnText);
+      this.notSupTooltipText = userProfile.FirstNameBL + " " + userProfile.LastNameBL +" did not support this category";
       this.getAllservicesBySea(userProfile.UserID, userProfile.ProviderID);
       this.getUserDetail(userProfile.UserID);
     }
@@ -54,7 +56,7 @@ export class ManageRatesComponent implements OnInit, OnDestroy {
           this.seaDisabled = (indexSEA >= 0) ? false : true;
           this.airDisabled = (indexAIR >= 0) ? false : true;
           this.groundDisabled = (indexGround >= 0) ? false : true;
-          this.waarehouseDisabled = (indexWarehouse >= 0) ? false : true;
+          this.warehouseDisabled = (indexWarehouse >= 0) ? false : true;
 
         
         }
