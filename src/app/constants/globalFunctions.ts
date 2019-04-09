@@ -165,12 +165,10 @@ export enum ImageRequiredSize {
 
 
 export const getImagePath = (fileSource: ImageSource, fileName: string, reqSize: ImageRequiredSize): string => {
-
   let url = ''
   if (fileSource === ImageSource.FROM_ASSETS) {
 
-  }
-
+  }  
   if (fileSource === ImageSource.FROM_SERVER) {
     try {
       if (reqSize === ImageRequiredSize.original) {
@@ -204,7 +202,6 @@ export function getProviderImage(strJsonPath: string) {
   } catch (error) {
     jsonStr = ""
   }
-
   return jsonStr
 }
 

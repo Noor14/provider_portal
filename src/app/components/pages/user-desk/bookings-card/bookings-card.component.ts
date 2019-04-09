@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { statusCode } from '../../../../constants/globalFunctions';
+import { statusCode, isJSON, getImagePath, ImageRequiredSize, ImageSource } from '../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
 import { baseExternalAssets } from '../../../../constants/base.url';
 
@@ -14,5 +14,18 @@ export class BookingsCardComponent implements OnInit {
   constructor(private _router: Router) { }
   @Input() booking: any
   ngOnInit() {
+    console.log(this.booking);
+    
+  }
+
+  getCustomerImage($image: string) {
+    console.log($image);
+    
+    if (isJSON($image)) {
+      const providerImage = JSON.parse($image)
+      return baseExternalAssets + '/' + providerImage[0].DocumentFile
+    } else {
+      return getImagePath(ImageSource.FROM_SERVER, $image, ImageRequiredSize.original)
+    }
   }
 }
