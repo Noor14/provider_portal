@@ -265,8 +265,8 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
         else if (this.bookingDetails.ShippingModeCode == 'WAREHOUSE') {
           this.mapOrgiToDest.push(
             { lat: Number(this.bookingDetails.WHLatitude), lng: Number(this.bookingDetails.WHLongitude) });
-          if (this.bookingDetails.UserImage && this.bookingDetails.UserImage != "[]" && isJSON(this.bookingDetails.UserImage)){
-            this.bookingDetails.UserImage = JSON.parse(this.bookingDetails.UserImage).DocumentFile;
+          if (this.bookingDetails.BookingUserInfo.UserImage && this.bookingDetails.BookingUserInfo.UserImage != "[]" && isJSON(this.bookingDetails.BookingUserInfo.UserImage)){
+            this.bookingDetails.BookingUserInfo.UserImage = JSON.parse(this.bookingDetails.BookingUserInfo.UserImage)[0].DocumentFile;
           }
           if (this.bookingDetails.WHCityName && this.bookingDetails.WHCountryName) {
             this.wareHouse.Location = this.bookingDetails.WHCityName + ', ' + this.bookingDetails.WHCountryName;
