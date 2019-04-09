@@ -265,10 +265,9 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
         else if (this.bookingDetails.ShippingModeCode == 'WAREHOUSE') {
           this.mapOrgiToDest.push(
             { lat: Number(this.bookingDetails.WHLatitude), lng: Number(this.bookingDetails.WHLongitude) });
-          // if (this.bookingDetails.ActualScheduleDetail && isJSON(this.bookingDetails.ActualScheduleDetail)){
-          //   const whid = JSON.parse(this.bookingDetails.ActualScheduleDetail).WHID;
-          //   this.getWarehouseDetail(whid);
-          // }
+          if (this.bookingDetails.UserImage && this.bookingDetails.UserImage != "[]" && isJSON(this.bookingDetails.UserImage)){
+            this.bookingDetails.UserImage = JSON.parse(this.bookingDetails.UserImage).DocumentFile;
+          }
           if (this.bookingDetails.WHCityName && this.bookingDetails.WHCountryName) {
             this.wareHouse.Location = this.bookingDetails.WHCityName + ', ' + this.bookingDetails.WHCountryName;
           }
