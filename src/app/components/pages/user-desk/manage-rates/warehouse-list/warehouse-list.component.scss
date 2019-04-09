@@ -1,266 +1,276 @@
 @import "../../../../../../assets/scss/_variables";
 
 .warehouseList {
-  .warehouseInfo {
-    position: relative;
+    .warehouseInfo {
+        position: relative;
 
-    .search-bar {
-      .record-count {
-        font-family: $font-proxima;
-        font-size: $font-size-medium;
-        color: $secondary-text-color;
-      }
-
-      .warehouse-search {
-        input {
-          background: $table-head
-            url("../../../../../../assets/images/icons/icon-search.svg")
-            no-repeat right 15px center;
-          background-size: 15px;
-          border: none;
-          outline: 0;
-          box-shadow: none;
-          font-family: $font-proxima;
-          font-size: $font-size-medium;
-          color: $color-menuheading-black;
-          padding-right: 2.5rem;
-        }
-      }
-
-      .warehouse-status {
-        > label {
-          font-family: $font-proxima;
-          font-weight: $font-weight-mid;
-          font-size: $font-size-base;
-          color: $color-topmenu;
-          text-transform: uppercase;
-        }
-
-        .fancyOptionBoxes {
-          label {
-            font-family: $font-proxima;
-            font-size: $font-size-large;
-            color: $color-menuheading-black;
-            line-height: 1;
-          }
-        }
-      }
-    }
-
-    .card {
-      border: 1px solid $left-sidebar-border-color;
-      transition: all ease 0.7s;
-      border-radius: 0;
-
-      &-title {
-        font-size: $font-size-large + 0.25rem;
-      }
-
-      &-body {
-        padding: 23px 20px 25px 20px;
-
-        .gallery-section {
-          border: 1px solid $grey-border;
-          position: relative;
-          width: 180px;
-          text-align: center;
-
-          img,
-          video {
-            max-width: 100%;
-            height: 136px;
-          }
-
-          &-item {
-            position: absolute;
-            top: 8px;
-            right: 5px;
-            background: #000000b0;
-            color: $color-white;
-            border-radius: 12px;
-            font-weight: $font-weight-bold;
-            font-family: $font-proxima;
-            font-size: $font-size-base;
-            padding: 0.21rem 0.68rem;
-          }
-        }
-
-        .Wcontent {
-          padding-left: 0;
-
-          @media only screen and (max-width: $screen-lg-screen) {
-            padding-left: 2.5rem;
-          }
-
-          @media only screen and (max-width: $screen-xs-screen) {
-            padding-left: 1rem;
-          }
-
-          .warehousing-content {
-            color: $white-color;
-            display: flex;
-            flex-direction: column;
-
-            .list-group {
-              flex-direction: row;
-              display: flex;
-
-              li {
-                border: 0px;
-                padding: 0;
-                display: flex;
-                font-size: $font-size-medium;
+        .search-bar {
+            .record-count {
                 font-family: $font-proxima;
-                color: $text-color-default;
-                line-height: 1;
-
-                .tooltip {
-                  width: 16rem;
-
-                  .tooltip-inner {
-                    width: 16rem;
-                    max-width: 16rem;
-                  }
-                }
-              }
-            }
-
-            .warehouse-features {
-              .icons {
-                margin-right: 15px;
-
-                img {
-                  width: 1.1rem;
-                  filter: grayscale(100%);
-                  opacity: 0.5;
-                }
-
-                .warehouse-features-active {
-                  img {
-                    filter: grayscale(0%);
-                    opacity: 1;
-                  }
-                }
-              }
-            }
-
-            .warehousing-desc {
-              font-family: $font-proxima;
-              font-size: $font-size-medium;
-              color: $secondary-text-color;
-            }
-          }
-        }
-
-        .rate-btn {
-          margin-top: 12px;
-          width: 188px;
-
-          @media only screen and (max-width: $screen-lg-screen) {
-            width: auto;
-          }
-        }
-
-        .noti {
-          font-family: $font-proxima;
-          font-size: $font-size-medium;
-          color: $probar-color;
-          position: relative;
-          padding-left: 2rem;
-          margin-top: 1.5rem;
-
-          &::before {
-            content: url("../../../../../../assets/images/icons/icon_info_red.svg");
-            position: absolute;
-            left: 0px;
-            top: 3px;
-            width: 16px;
-            height: 16px;
-          }
-        }
-      }
-
-      &.inActive {
-        border: 1px solid $probar-color;
-        &::before {
-          content: "INACTIVE";
-          position: absolute;
-          top: -12px;
-          left: 21px;
-          border-radius: 2rem;
-          padding: 0.2rem 1.7rem;
-          background-color: $danger-color;
-          color: $white-color;
-          font-family: $font-proxima;
-          font-size: $font-size-base;
-          font-weight: $font-weight-bold;
-        }
-
-        .row {
-          opacity: 0.5;
-        }
-
-        &:hover {
-          box-shadow: none;
-        }
-      }
-
-      &:hover {
-        transition: 0.5s;
-        box-shadow: 0px 20px 50px 0px rgba(51, 59, 69, 0.15);
-
-        button {
-          background-color: $secondary-color !important;
-          border-color: $secondary-color;
-          color: $white-color !important;
-        }
-      }
-
-      .warehouse-options {
-        position: absolute;
-        right: 5px;
-        top: 10px;
-      }
-
-      ngb-popover-window {
-        width: 255px;
-        box-shadow: 0px 20px 50px 0px rgba(51, 59, 69, 0.15);
-        border: none;
-
-        .arrow {
-          display: none;
-        }
-
-        .option-popup {
-          .list-group {
-            &-item {
-              display: flex;
-              align-items: start;
-              border: none;
-              cursor: pointer;
-              font-family: $font-proxima;
-              font-size: $font-size-large;
-              color: $text-color-default;
-              margin: 10px 0;
-              padding: 0;
-              line-height: 1;
-
-              img {
-                margin-right: 20px;
-              }
-
-              .warehouse-status {
                 font-size: $font-size-medium;
-                color: $text-grey;
-              }
-
-              &:last-child {
-                color: $danger-color;
-              }
+                color: $secondary-text-color;
             }
-          }
+
+            .warehouse-search {
+                input {
+                    background: $table-head url("../../../../../../assets/images/icons/icon-search.svg") no-repeat right 15px center;
+                    background-size: 15px;
+                    border: none;
+                    outline: 0;
+                    box-shadow: none;
+                    font-family: $font-proxima;
+                    font-size: $font-size-medium;
+                    color: $color-menuheading-black;
+                    padding-right: 2.5rem;
+                }
+            }
+
+            .warehouse-status {
+                >label {
+                    font-family: $font-proxima;
+                    font-weight: $font-weight-mid;
+                    font-size: $font-size-base;
+                    color: $color-topmenu;
+                    text-transform: uppercase;
+                }
+
+                .fancyOptionBoxes {
+                    label {
+                        font-family: $font-proxima;
+                        font-size: $font-size-large;
+                        color: $color-menuheading-black;
+                        line-height: 1;
+                    }
+                }
+            }
         }
-      }
+
+        .card {
+            border: 1px solid $left-sidebar-border-color;
+            transition: all ease 0.7s;
+            border-radius: 0;
+
+            &-title {
+                font-size: $font-size-large + 0.25rem;
+            }
+
+            &-body {
+                padding: 23px 20px 25px 20px;
+
+                .gallery-section {
+                    border: 1px solid $grey-border;
+                    position: relative;
+                    width: 180px;
+                    text-align: center;
+
+                    img,
+                    video {
+                        max-width: 100%;
+                        height: 136px;
+                    }
+
+                    .video-icon {
+                        position: absolute;
+                        bottom: 0;
+                        padding: 6px 10px;
+                        background: #ffffffd6 !important;
+                        border-radius: 0px 3px 0px 0px;
+                        a {
+                            color: $secondary-color;
+                        }
+                    }
+
+                    &-item {
+                        position: absolute;
+                        top: 8px;
+                        right: 5px;
+                        background: #000000b0;
+                        color: $color-white;
+                        border-radius: 12px;
+                        font-weight: $font-weight-bold;
+                        font-family: $font-proxima;
+                        font-size: $font-size-base;
+                        padding: 0.21rem 0.68rem;
+                    }
+                }
+
+                .Wcontent {
+                    padding-left: 0;
+
+                    @media only screen and (max-width: $screen-lg-screen) {
+                        padding-left: 2.5rem;
+                    }
+
+                    @media only screen and (max-width: $screen-xs-screen) {
+                        padding-left: 1rem;
+                    }
+
+                    .warehousing-content {
+                        color: $white-color;
+                        display: flex;
+                        flex-direction: column;
+
+                        .list-group {
+                            flex-direction: row;
+                            display: flex;
+
+                            li {
+                                border: 0px;
+                                padding: 0;
+                                display: flex;
+                                font-size: $font-size-medium;
+                                font-family: $font-proxima;
+                                color: $text-color-default;
+                                line-height: 1;
+
+                                .tooltip {
+                                    width: 16rem;
+
+                                    .tooltip-inner {
+                                        width: 16rem;
+                                        max-width: 16rem;
+                                    }
+                                }
+                            }
+                        }
+
+                        .warehouse-features {
+                            .icons {
+                                margin-right: 15px;
+
+                                img {
+                                    width: 1.1rem;
+                                    filter: grayscale(100%);
+                                    opacity: 0.5;
+                                }
+
+                                .warehouse-features-active {
+                                    img {
+                                        filter: grayscale(0%);
+                                        opacity: 1;
+                                    }
+                                }
+                            }
+                        }
+
+                        .warehousing-desc {
+                            font-family: $font-proxima;
+                            font-size: $font-size-medium;
+                            color: $secondary-text-color;
+                        }
+                    }
+                }
+
+                .rate-btn {
+                    margin-top: 12px;
+                    width: 188px;
+
+                    @media only screen and (max-width: $screen-lg-screen) {
+                        width: auto;
+                    }
+                }
+
+                .noti {
+                    font-family: $font-proxima;
+                    font-size: $font-size-medium;
+                    color: $probar-color;
+                    position: relative;
+                    padding-left: 2rem;
+                    margin-top: 1.5rem;
+
+                    &::before {
+                        content: url("../../../../../../assets/images/icons/icon_info_red.svg");
+                        position: absolute;
+                        left: 0px;
+                        top: 3px;
+                        width: 16px;
+                        height: 16px;
+                    }
+                }
+            }
+
+            &.inActive {
+                border: 1px solid $probar-color;
+
+                &::before {
+                    content: "INACTIVE";
+                    position: absolute;
+                    top: -12px;
+                    left: 21px;
+                    border-radius: 2rem;
+                    padding: 0.2rem 1.7rem;
+                    background-color: $danger-color;
+                    color: $white-color;
+                    font-family: $font-proxima;
+                    font-size: $font-size-base;
+                    font-weight: $font-weight-bold;
+                }
+
+                .row {
+                    opacity: 0.5;
+                }
+
+                &:hover {
+                    box-shadow: none;
+                }
+            }
+
+            &:hover {
+                transition: 0.5s;
+                box-shadow: 0px 20px 50px 0px rgba(51, 59, 69, 0.15);
+
+                button {
+                    background-color: $secondary-color !important;
+                    border-color: $secondary-color;
+                    color: $white-color !important;
+                }
+            }
+
+            .warehouse-options {
+                position: absolute;
+                right: 5px;
+                top: 10px;
+            }
+
+            ngb-popover-window {
+                width: 255px;
+                box-shadow: 0px 20px 50px 0px rgba(51, 59, 69, 0.15);
+                border: none;
+
+                .arrow {
+                    display: none;
+                }
+
+                .option-popup {
+                    .list-group {
+                        &-item {
+                            display: flex;
+                            align-items: start;
+                            border: none;
+                            cursor: pointer;
+                            font-family: $font-proxima;
+                            font-size: $font-size-large;
+                            color: $text-color-default;
+                            margin: 10px 0;
+                            padding: 0;
+                            line-height: 1;
+
+                            img {
+                                margin-right: 20px;
+                            }
+
+                            .warehouse-status {
+                                font-size: $font-size-medium;
+                                color: $text-grey;
+                            }
+
+                            &:last-child {
+                                color: $danger-color;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-  }
 }

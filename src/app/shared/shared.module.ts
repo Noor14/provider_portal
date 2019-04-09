@@ -6,7 +6,8 @@ import { UiTableComponent } from './tables/ui-table/ui-table.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UpdatePriceComponent } from './dialogues/update-price/update-price.component';
-import {AddDocumentComponent} from './dialogues/add-document/add-document.component';
+import { AddDocumentComponent } from './dialogues/add-document/add-document.component';
+import { VideoDialogueComponent } from './dialogues/video-dialogue/video-dialogue.component';
 
 @NgModule({
   imports: [CommonModule, NgbModule, FormsModule, NgxPaginationModule],
@@ -14,13 +15,18 @@ import {AddDocumentComponent} from './dialogues/add-document/add-document.compon
     LoaderComponent,
     UiTableComponent,
     UpdatePriceComponent,
-    AddDocumentComponent
+    AddDocumentComponent,
+    VideoDialogueComponent,
   ],
   exports: [
     LoaderComponent,
     UiTableComponent,
     UpdatePriceComponent,
-    AddDocumentComponent
+    AddDocumentComponent,
+
+  ],
+  entryComponents: [
+    VideoDialogueComponent
   ]
 })
-export class SharedModule {}
+export class SharedModule { }

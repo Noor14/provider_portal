@@ -700,7 +700,6 @@ export class SeaRateDialogComponent implements OnInit {
       }
     } catch (error) {
       this.isRateUpdating = false;
-      console.warn(error);
     }
 
     this._seaFreightService.rateValidityFCL(type, rateData).subscribe(

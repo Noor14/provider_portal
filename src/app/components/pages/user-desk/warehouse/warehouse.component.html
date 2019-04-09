@@ -4,18 +4,20 @@
       <div class="card-body p-0">
         <div class="row mt-1">
           <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12">
-            <div *ngFor="let doc of warehouseDetail.parsedGallery; let i = index"
-              (click)="openGallery(warehouseDetail.parsedGallery, i)">
-              <div class="gallery-section" *ngIf="i == 0">
-                <div class="images-carousel">
-                  <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType.toLowerCase() !== 'mp4'" alt="thumbnail" />
-                  <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType.toLowerCase() === 'mp4'"
-                    [src]="doc.DocumentFile" type="video/mp4"></video>
-                  <div class="gallery-section-item d-flex justify-content-center align-items-center">
-                    <img src="../../../assets/images/icons/icon_pictures.svg" alt="count" class="icon-size-14 mr-1" />
-                    {{ warehouseDetail.parsedGallery.length }}
-                  </div>
+            <div class="gallery-section">
+              <div class="images-carousel" *ngFor="let image of warehouseDetail.WHParsedMedia; let i=index">
+                <img [src]="image.thumb" (click)="openGallery(i, warehouseDetail.WHParsedMedia)" />
+                <div class="gallery-section-item d-flex justify-content-center align-items-center"
+                  (click)="openGallery(i, warehouseDetail.WHParsedMedia)">
+                  <img src="../../../../assets/images/icons/icon_pictures.svg" alt="" class="icon-size-14 mr-1">
+                  {{warehouseDetail.WHParsedMedia.length}}
                 </div>
+              </div>
+              <img *ngIf="!warehouseDetail.WHParsedMedia" src="../../../../../../assets/images/placeholder_image.gif" alt="">
+              <div class="video-icon" *ngIf="warehouseDetail.videoURL" (click)="openVideo(warehouseDetail.videoURL)">
+                <a href="javascript:;">
+                  <i class="fa fa-play"></i>
+                </a>
               </div>
             </div>
           </div>
@@ -203,11 +205,11 @@
                                 src="{{'../../../../../assets/images/flags/4x3/' + (locationForm.controls['city'].value.imageName | lowercase) + '.svg'}}"
                                 type="image/svg+xml">
                             </div>
-                            <input type="text" #city (keypress)="oneSpaceHandler($event)" class="form-control" [ngClass]="{
+                            <input type="text" #city (keypress)="oneSpaceHandler($event)" class="form-control"
+                              [ngClass]="{
                               'routeSelected': locationForm.value.city && locationForm.value.city.id,
                               'inputError': cityError && (locationForm.controls['city'].errors || cityValidation)
-                                }" maxlength="100" formControlName="city"
-                              (focusout)="errorValidate()"
+                                }" maxlength="100" formControlName="city" (focusout)="errorValidate()"
                               (focus)="cityValidation = undefined ; cityError=false" [ngbTypeahead]="searchCity"
                               [resultTemplate]="st" [inputFormatter]="formatterCity" placeholder="Enter City">
                             <ng-template #st let-r="result">
@@ -311,8 +313,7 @@
                     <label>Property Type</label>
                     <div class="fancyOptionBoxes pull-left mb-3 mr-3"
                       *ngFor="let type of warehouseUsageType; let i = index">
-                      <input id="{{i+1}}"
-                        [checked]="type.codeValDesc == 'Full Warehouse' && warehouseTypeFull"
+                      <input id="{{i+1}}" [checked]="type.codeValDesc == 'Full Warehouse' && warehouseTypeFull"
                         name="warehouseType" (change)="changeWarehouseType()" type="radio">
                       <label for="{{i+1}}">
                         <span></span>
@@ -339,12 +340,13 @@
                           type="text" formControlName="warehouseSpace">
                         <div class="input-group-append">
                           <div class="input-group-text">
-                            <select class="form-control input-dropdown" *ngIf="!warehouseTypeFull" formControlName="warehouseSpaceUnit"
+                            <select class="form-control input-dropdown" *ngIf="!warehouseTypeFull"
+                              formControlName="warehouseSpaceUnit"
                               (change)="selectedspaceUnit(propertyDetailForm.controls['warehouseSpaceUnit'].value)">
                               <option [value]="unit.codeVal" *ngFor="let unit of units">{{unit.codeValDesc}}
                               </option>
                             </select>
-                              <span class="pl-3 pr-3 pt-2 pb-2" *ngIf="warehouseTypeFull">sqft</span>
+                            <span class="pl-3 pr-3 pt-2 pb-2" *ngIf="warehouseTypeFull">sqft</span>
                           </div>
                         </div>
                       </div>
@@ -439,8 +441,8 @@
                           <input class="form-control input-dropdown" (keypress)="numberValid($event)" type="text"
                             [ngClass]="{
                               'inputError': minLeaseValueOneError && propertyDetailForm.controls['minLeaseValueOne'].errors
-                              }" (focusout)="errorValidate(); minLeaseSpaceValidate('sqft')" (focus)="minLeaseValueOneError=false"
-                            formControlName="minLeaseValueOne">
+                              }" (focusout)="errorValidate(); minLeaseSpaceValidate('sqft')"
+                            (focus)="minLeaseValueOneError=false" formControlName="minLeaseValueOne">
                           <div class="input-group-append">
                             <div class="input-group-text">
                               <span class="pl-3 pr-3 pt-2 pb-2">sqft</span>
@@ -472,8 +474,8 @@
                           <input class="form-control input-dropdown" (keypress)="numberValid($event)" type="text"
                             [ngClass]="{
                             'inputError': minLeaseValueTwoError && propertyDetailForm.controls['minLeaseValueTwo'].errors
-                            }" (focusout)="errorValidate(); minLeaseSpaceValidate('cbm')" (focus)="minLeaseValueTwoError=false"
-                            formControlName="minLeaseValueTwo">
+                            }" (focusout)="errorValidate(); minLeaseSpaceValidate('cbm')"
+                            (focus)="minLeaseValueTwoError=false" formControlName="minLeaseValueTwo">
                           <div class="input-group-append">
                             <div class="input-group-text">
                               <span class="pl-3 pr-3 pt-2 pb-2">cbm</span>
@@ -786,4 +788,3 @@
     </ngx-step>
   </ngx-stepper>
 </section>
-

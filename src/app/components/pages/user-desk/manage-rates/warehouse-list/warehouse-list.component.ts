@@ -13,6 +13,7 @@ import { SeaFreightService } from '../sea-freight/sea-freight.service';
 import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
 import { CommonService } from '../../../../../services/common.service';
 import { SharedService } from '../../../../../services/shared.service';
+import { VideoDialogueComponent } from '../../../../../shared/dialogues/video-dialogue/video-dialogue.component'
 
 @Component({
   selector: 'app-warehouse-list',
@@ -72,6 +73,7 @@ export class WarehouseListComponent implements OnInit {
     });
   }
 
+  public videoURL:any
   getWhlist(providerId) {
     this.loading = true
     const wId = 0;
@@ -87,20 +89,42 @@ export class WarehouseListComponent implements OnInit {
               if (obj.CityID && this.cityList && this.cityList.length) {
                 obj.Location = this.cityList.find(elem => elem.id == obj.CityID).title
               }
-              if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {
-                obj.WHGallery = JSON.parse(obj.WHGallery);
+              this.allWareHouseList.forEach(element => {
                 const albumArr = []
-                obj.WHGallery.forEach((elem) => {
-                  const album = {
-                    src: baseExternalAssets + elem.DocumentFile,
-                    caption: elem.DocumentFileName,
-                    thumb: baseExternalAssets + elem.DocumentFile,
-                    DocumentUploadedFileType: elem.DocumentUploadedFileType
-                  };
-                  albumArr.push(album);
-                })
-                obj.parsedGallery = albumArr;
-              }
+                const docsArray: Array<any> = JSON.parse(element.WHGallery)
+                let idx = this.allWareHouseList.indexOf(element);
+                try {
+                  docsArray.forEach(doc => {
+                    if (doc.DocumentUploadedFileType.toLowerCase() === 'png' || doc.DocumentUploadedFileType.toLowerCase() === 'jpg' || doc.DocumentUploadedFileType.toLowerCase() === 'jpeg') {
+                      const album = {
+                        src: baseExternalAssets + '/' + doc.DocumentFile,
+                        caption: '&nbsp;',
+                        thumb: baseExternalAssets + '/' + doc.DocumentFile
+                      };
+                      albumArr.push(album)
+                      this.allWareHouseList[idx].WHParsedMedia = albumArr;
+                    } else if (doc.DocumentUploadedFileType.toLowerCase() === 'mp4') {
+                      this.videoURL = baseExternalAssets + '/' + doc.DocumentFile
+                      this.allWareHouseList[idx].videoURL = this.videoURL;
+                    }
+                  })
+                } catch (error) { }
+              });
+
+              // if (obj.WHGallery && obj.WHGallery != "[]" && isJSON(obj.WHGallery)) {
+              //   obj.WHGallery = JSON.parse(obj.WHGallery);
+              //   const albumArr = []
+              //   obj.WHGallery.forEach((elem) => {
+              //     const album = {
+              //       src: baseExternalAssets + elem.DocumentFile,
+              //       caption: elem.DocumentFileName,
+              //       thumb: baseExternalAssets + elem.DocumentFile,
+              //       DocumentUploadedFileType: elem.DocumentUploadedFileType
+              //     };
+              //     albumArr.push(album);
+              //   })
+              //   obj.parsedGallery = albumArr;
+              // }
             })
           }
         }
@@ -114,7 +138,7 @@ export class WarehouseListComponent implements OnInit {
     })
   }
 
-  openGallery(albumArr, index): void {
+  openGallery(index, albumArr): void {
     this._lightbox.open(albumArr, index, { disableScrolling: true, centerVertically: true, alwaysShowNavOnTouchDevices: true });
   }
 
@@ -206,6 +230,17 @@ export class WarehouseListComponent implements OnInit {
   warehouseList() {
     this.wareHouseDetTemplate = !this.wareHouseDetTemplate;
     this.getWhlist(this.userProfile.ProviderID);
+  }
+
+  openVideo(videoURL) {
+    const modalRefVideo = this._modalService.open(VideoDialogueComponent, {
+      size: 'lg',
+      centered: true,
+      windowClass: 'video',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRefVideo.componentInstance.videoURL = videoURL
   }
 
 }
