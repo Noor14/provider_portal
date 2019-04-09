@@ -306,7 +306,6 @@ export class SettingsComponent implements OnInit {
     this._settingService.getSettingInfo(UserID).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         this.info = res.returnObject;
-        this.isPrivateMode = this.info.IsPrivateMode;
         this.socialWebs = this.info.SocialMedia;
         this.allAssociations = this.info.Association;
         this.galleriesDocx = this.info.Gallery;
@@ -460,6 +459,7 @@ export class SettingsComponent implements OnInit {
 
 
   setBusinessInfo(info) {
+    this.isPrivateMode = info.IsPrivateMode;
     this.businessInfoForm.controls['orgName'].setValue(info.ProviderName);
     this.businessInfoForm.controls['address'].setValue(info.ProviderAddress);
     this.businessInfoForm.controls['poBoxNo'].setValue(info.POBox);
