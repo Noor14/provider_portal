@@ -7,7 +7,7 @@ import * as echarts from 'echarts'
 import { firstBy } from 'thenby';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonService } from '../../../../services/common.service';
-import { encryptBookingID, isJSON, getLoggedUserData } from '../../../../constants/globalFunctions';
+import { encryptBookingID, isJSON, getLoggedUserData, getProviderImage, getImagePath, ImageSource, ImageRequiredSize } from '../../../../constants/globalFunctions';
 import { Router } from '@angular/router';
 import { baseExternalAssets } from '../../../../constants/base.url';
 import { ReportsService } from './reports.service';
@@ -266,7 +266,7 @@ export class ReportsComponent implements OnInit {
       })
       this.topCustomers = customer;
     } catch (error) {
-      console.warn('Customers ot set:',error)
+      console.warn('Customers ot set:', error)
     }
   }
 
@@ -975,6 +975,15 @@ export class ReportsComponent implements OnInit {
     this.isVas = false
     this.isTypeCompare = false
     this.setMasterGraph($period)
+  }
+
+  getProviderImage($image: string) {
+    if (isJSON($image)) {
+      const providerImage = JSON.parse($image)
+      return baseExternalAssets + '/' + providerImage[0].DocumentFile
+    } else {
+      return getImagePath(ImageSource.FROM_SERVER, $image, ImageRequiredSize.original)
+    }
   }
 
 }
