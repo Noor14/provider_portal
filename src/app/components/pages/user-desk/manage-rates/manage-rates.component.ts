@@ -21,6 +21,7 @@ export class ManageRatesComponent implements OnInit, OnDestroy {
   public airDisabled: boolean = true;
   public groundDisabled: boolean = true;
   public warehouseDisabled: boolean = true;
+  public userProfile: any;
   constructor(
     private _router: Router,
     private _seaFreightService: SeaFreightService,
@@ -32,10 +33,10 @@ export class ManageRatesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
-      let userProfile = JSON.parse(userInfo.returnText);
-      this.notSupTooltipText = userProfile.FirstNameBL + " " + userProfile.LastNameBL +" did not support this category";
-      this.getAllservicesBySea(userProfile.UserID, userProfile.ProviderID);
-      this.getUserDetail(userProfile.UserID);
+      this.userProfile = JSON.parse(userInfo.returnText);
+      this.notSupTooltipText = this.userProfile.FirstNameBL + " " + this.userProfile.LastNameBL +" did not support this category";
+      this.getAllservicesBySea(this.userProfile.UserID, this.userProfile.ProviderID);
+      this.getUserDetail(this.userProfile.UserID);
     }
     this.getPortsData();
     this.getContainers();

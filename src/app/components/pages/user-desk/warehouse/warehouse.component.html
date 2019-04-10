@@ -759,7 +759,7 @@
           <app-ui-table *ngIf="warehousePublishedRates?.length > 0" [tableType]="'publishFCL'"
             [tableData]="warehousePublishedRates" (checkedRows)="tableCheckedRows($event)"
             (sorting)="sortedFilters('warehouse', $event)" (pageEvent)="paging($event)"
-            [totalRecords]="totalPublishedRecords" [containerLoad]="'WAREHOUSE'" [transMode]="'WAREHOUSE'">
+            [totalRecords]="totalPublishedRecords" [containerLoad]="'WAREHOUSE'" [transMode]="'WAREHOUSE'" [incomingPage]="pageNo">
           </app-ui-table>
           <button *ngIf="!warehousePublishedRates" class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2"
             (click)="addWarehouseRate(whID)">

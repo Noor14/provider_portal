@@ -1053,7 +1053,7 @@ export class WarehouseComponent implements OnInit {
    */
   paging(event) {
     this.pageNo = event.page;
-    this.getAllPublishRates(event.whid)
+    this.getAllPublishRates(event.whid, event)
   }
 
   /**
@@ -1073,14 +1073,11 @@ export class WarehouseComponent implements OnInit {
   public sortColumnDirection: string = 'ASC'
   public pageSize: number = 5
   public filteredRecords: number;
-  getAllPublishRates(warehouseID) {
+  getAllPublishRates(warehouseID, number?) {
     loading(false)
-    if (this.filteredRecords === 1) {
-      this.pageNo = this.pageNo - 1
-    }
     this.publishloading = true;
     let obj = {
-      pageNo: (this.pageNo < 1) ? 1 : this.pageNo,
+      pageNo: (number) ? number : this.pageNo,
       pageSize: this.pageSize,
       providerID: this.userProfile.ProviderID,
       whid: warehouseID,
@@ -1140,7 +1137,9 @@ export class WarehouseComponent implements OnInit {
     });
     modalRef.result.then((result) => {
       if (result == "Success") {
-        this.getAllPublishRates(this.warehousePublishedRates[0].whid)
+        // this.getAllPublishRates(this.warehousePublishedRates[0].whid)
+        this.paging(1)
+        this.pageNo = 1
       }
     });
     let obj = {

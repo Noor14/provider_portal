@@ -229,8 +229,6 @@ export class SeaRateDialogComponent implements OnInit {
     }
 
     this.allCustomers = this.selectedData.customers;
-    console.log("customerList:", this.allCustomers);
-
     this.getSurchargeBasis(this.containerLoadParam);
   }
 
@@ -245,7 +243,6 @@ export class SeaRateDialogComponent implements OnInit {
           ) {
             if (state[index].LogServName == "SEA") {
               this.allShippingLines = state[index].DropDownValues.ShippingLine;
-              console.log(this.allShippingLines);
               this.allHandlingType = state[index].DropDownValues.ContainerLCL;
             }
           }
@@ -259,13 +256,9 @@ export class SeaRateDialogComponent implements OnInit {
     ) {
       if (this.selectedData.mode === "publish") {
         this.disabledCustomers = true;
-        console.log("yolo", this.selectedData);
-
         let data = changeCase(this.selectedData.data[0], "pascal");
-        console.log("here:", this.selectedData);
         this.setData(data);
       } else {
-        console.log("here:", this.selectedData);
         this.setData(this.selectedData.data);
       }
     } else if (
@@ -275,13 +268,9 @@ export class SeaRateDialogComponent implements OnInit {
     ) {
       if (this.selectedData.mode === "publish") {
         this.disabledCustomers = true;
-        console.log("yolo", this.selectedData);
-
         let data = changeCase(this.selectedData.data[0], "pascal");
-        console.log("here:", this.selectedData);
         this.setData(data);
       } else {
-        console.log("here:", this.selectedData);
         this.setData(this.selectedData.data);
       }
     } else if (
@@ -290,17 +279,11 @@ export class SeaRateDialogComponent implements OnInit {
       this.containerLoadParam === "WAREHOUSE"
     ) {
       if (this.selectedData.mode === "publish") {
-        console.log(this.selectedData.data);
         this.selectedData.data = changeCase(this.selectedData.data, "pascal");
-        console.log("yolo", this.selectedData);
         this.disabledCustomers = true;
-        console.log("yolo", this.selectedData);
         // let data = changeCase(this.selectedData.data, 'pascal')
-        console.log("here:", this.selectedData);
         this.setData(this.selectedData.data);
       } else {
-        console.log("yolo", this.selectedData);
-        console.log("here:", this.selectedData);
         this.setData(this.selectedData.data);
       }
     }
@@ -390,13 +373,11 @@ export class SeaRateDialogComponent implements OnInit {
       this.sharedWarehousePricing = parsedPricingJson;
       this.disableWarehouse = true;
       // this.sharedWarehousePricing = this.warehousePricing.filter(e => (e.addChrBasis === 'PER_CBM_PER_DAY') || (e.addChrBasis === 'PER_SQFT_PER_DAY'))
-      console.log(this.sharedWarehousePricing);
       let userCurrency = localStorage.getItem("userCurrency");
       const { sharedWarehousePricing } = this;
       try {
         sharedWarehousePricing.forEach(adCharge => {
           const { priceBasis, price } = adCharge;
-          console.log(priceBasis);
           if (priceBasis === "PER_CBM_PER_DAY") {
             this.selectedPrice = price;
           } else if (priceBasis === "PER_YEAR") {
@@ -414,7 +395,7 @@ export class SeaRateDialogComponent implements OnInit {
         obj => obj.id === userCurrency
       );
     } else {
-      console.log("yolo", data);
+      this.disabledCustomers = true;
       this.selectedPrice = data.Price;
       this.selectedCurrency = this.allCurrencies.find(
         obj => obj.id === data.CurrencyID

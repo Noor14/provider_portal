@@ -406,14 +406,10 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
   public totalPublishedRecords: number;
   public filteredRecords: number;
   getAllPublishRates(type?, number?) {
-    if (this.filteredRecords === 1) {
-      this.pageNo = this.pageNo - 1
-    }
-
     this.publishloading = true;
     let obj = {
       providerID: this.userProfile.ProviderID,
-      pageNo: number ? number : ((this.pageNo < 1) ? 1 : this.pageNo),
+      pageNo: number ? number : this.pageNo,
       pageSize: this.pageSize,
       mode: this.filterbyMode,
       containerSpecID: (this.filterbyContainerType == 'undefined') ? null : parseInt(this.filterbyContainerType),
@@ -679,6 +675,8 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
           }
         }
         this.getAllPublishRates('FTL')
+        this.paging('FTL', 1)
+        this.pageNo = 1;
       }
     }, (reason) => {
       // console.log("reason");
@@ -1027,7 +1025,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
    */
   paging(type, event) {
     this.pageNo = event;
-    this.getAllPublishRates(type)
+    this.getAllPublishRates(type, event)
   }
 
   public filterbyCustomer;

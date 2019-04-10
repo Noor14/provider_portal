@@ -31,6 +31,7 @@ export class UiTableComponent implements OnInit, OnChanges {
   @Input() tableType: string; //draftFCL; publishFCL
   @Input() totalRecords: number;
   @Input() containerLoad: string;
+  @Input() incomingPage: number
   @Output() checkedRows = new EventEmitter<any>();
   @Output() sorting = new EventEmitter<any>();
   @Output() pageEvent = new EventEmitter<any>();
@@ -83,7 +84,7 @@ export class UiTableComponent implements OnInit, OnChanges {
 
   public totalCount: number;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     if (this.tableType === "draftFCL") {
@@ -91,6 +92,9 @@ export class UiTableComponent implements OnInit, OnChanges {
       this.totalCount = this.tableData.length;
     } else if (this.tableType === "publishFCL") {
       this.totalCount = this.totalRecords;
+      if (this.incomingPage) {
+        this.page = this.incomingPage
+      }
     }
     this.data = this.tableData;
     this.generateTableHeaders();
@@ -361,8 +365,8 @@ export class UiTableComponent implements OnInit, OnChanges {
           this.transMode === "GROUND"
             ? row.id
             : this.transMode === "SEA" && row.containerLoadType === "FCL"
-            ? row.providerPricingDraftID
-            : row.consolidatorPricingDraftID,
+              ? row.providerPricingDraftID
+              : row.consolidatorPricingDraftID,
         load: row.containerLoadType
       };
     } else if (action === "edit") {
@@ -372,8 +376,8 @@ export class UiTableComponent implements OnInit, OnChanges {
           this.transMode === "GROUND"
             ? row.id
             : this.transMode === "SEA" && row.containerLoadType === "FCL"
-            ? row.providerPricingDraftID
-            : row.consolidatorPricingDraftID,
+              ? row.providerPricingDraftID
+              : row.consolidatorPricingDraftID,
         load: row.containerLoadType
       };
     }
@@ -402,8 +406,8 @@ export class UiTableComponent implements OnInit, OnChanges {
           this.transMode === "GROUND"
             ? row.id
             : this.transMode === "SEA" && this.containerLoad === "FCL"
-            ? row.carrierPricingID
-            : row.consolidatorPricingID,
+              ? row.carrierPricingID
+              : row.consolidatorPricingID,
         load: this.containerLoad
       };
     }
@@ -501,6 +505,10 @@ export class UiTableComponent implements OnInit, OnChanges {
       } else if (this.tableType === "publishFCL") {
         this.totalCount = changes.totalRecords.currentValue;
       }
+    }
+
+    if (changes.incomingPage) {
+      this.page = this.incomingPage
     }
 
     if (changes.hasOwnProperty("containerLoad")) {
