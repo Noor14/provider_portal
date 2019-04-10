@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
+import { setBaseApi, setBaseExternal } from "../constants/base.url";
 import { JWTObj, UserCreationService } from "../components/pages/user-creation/user-creation.service";
 
 
@@ -21,6 +22,7 @@ export class GuestService {
 
     constructor(
         private _authService: UserCreationService,
+        private _http: HttpClient
     ) { }
 
 
@@ -73,7 +75,12 @@ export class GuestService {
     }
 
 
-    load() {
+    async load() {
+        AppComponent.clearStorage()
+        const _config: AppApiConfig = await this._http.get('assets/app.settings.json').toPromise() as any
+        const { MAIN_API_BASE_URL, MAIN_API_BASE_EXTERNAL_URL } = _config
+        setBaseApi(MAIN_API_BASE_URL);
+        setBaseExternal(MAIN_API_BASE_EXTERNAL_URL)
         if (!getJwtToken() || !isUserLogin()) {
             this.countryCode = 'AE'
             const { guestObject } = this
@@ -114,7 +121,7 @@ export class GuestService {
         this.countryCode = 'AE';
         const { guestObject } = this;
         guestObject.CountryCode = this.countryCode;
-        const encObjectL: AESModel = encryptStringAES({ d1: moment(Date.now()).format().substring(0, 16), d2: JSON.stringify(guestObject)})
+        const encObjectL: AESModel = encryptStringAES({ d1: moment(Date.now()).format().substring(0, 16), d2: JSON.stringify(guestObject) })
         this._authService.guestLoginService(encObjectL).subscribe((response: AESModel) => {
             console.log('guest-login-success:', response);
 
@@ -174,6 +181,7 @@ import * as AesCryrpto from 'aes-js'
 import { Buffer } from 'buffer'
 import aes from 'js-crypto-aes';
 import { loading } from "../constants/globalFunctions";
+import { AppComponent } from "../app.component";
 
 
 
@@ -223,7 +231,7 @@ export interface AESModel {
 
 export function isUserLogin(): boolean {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-    if(!userInfo) {
+    if (!userInfo) {
         return false
     }
     const user = JSON.parse(userInfo.returnText);
@@ -266,4 +274,9 @@ const PADDING = [
     [2, 2],
     [1]
 ];
+
+export interface AppApiConfig {
+  MAIN_API_BASE_URL: string
+  MAIN_API_BASE_EXTERNAL_URL: string
+}
 

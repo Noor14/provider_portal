@@ -1,19 +1,20 @@
 {
   "name": "hashmove-provider-portal",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
-    "prod": "ng build --prod --env=prod --aot=false --build-optimizer=false",
-    "qa": "ng build --prod --env=qa --aot=false --build-optimizer=false",
-    "pers": "ng build --prod --env=pers --aot=false --build-optimizer=false",
-    "dev": "ng build --prod --env=dev --aot=false --build-optimizer=false",
-    "uat": "ng build --prod --env=uat --aot=false --build-optimizer=false",
+    "build": "npm version patch && ng build --prod",
+    "prod": "npm version patch && ng build --prod --env=prod --aot=false --build-optimizer=false",
+    "qa": "npm version patch && ng build --prod --env=qa --aot=false --build-optimizer=false",
+    "dev": "npm version patch && ng build --prod --env=dev --aot=false --build-optimizer=false",
+    "uat": "npm version patch && ng build --prod --env=uat --aot=false --build-optimizer=false",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "node version.js",
+    "versioning": "npm version patch && node version.js"
   },
   "private": true,
   "dependencies": {
@@ -47,6 +48,7 @@
     "echarts": "^4.2.0-rc.2",
     "echarts-gl": "^1.1.1",
     "font-awesome": "^4.7.0",
+    "git-describe": "^4.0.4",
     "hover.css": "^2.3.2",
     "jquery": "^3.3.1",
     "js-base64": "^2.5.1",
