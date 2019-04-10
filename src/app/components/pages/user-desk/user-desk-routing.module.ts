@@ -27,7 +27,7 @@ const routes: Routes = [
         canActivate: [UserGuard],
         children: [
             { path: 'dashboard', component: DashboardComponent },
-            { path: 'billing', component: BillingComponent },
+            // { path: 'billing', component: BillingComponent },
             { path: 'allbookings', component: AllBookingsComponent },
             { path: 'reports', component: ReportsComponent },
             { path: 'settings', component: SettingsComponent },

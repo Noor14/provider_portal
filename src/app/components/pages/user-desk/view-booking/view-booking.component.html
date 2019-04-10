@@ -675,7 +675,9 @@
               <span class="d-block ports-title">In The Shipment</span>
               <ul class="list-group list-group-flush mt-1">
                 <li class="list-group-item">
-                  <span class="long-text">{{bookingDetails.BookingDesc | limitTo : 135}}</span>
+                  <div class="catDetail">
+                  <span class="amount-text">{{bookingDetails.BookingDesc | limitTo : 135}}</span>
+                  </div>
                 </li>
               </ul>
             </div>
