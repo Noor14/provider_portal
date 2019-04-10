@@ -565,7 +565,7 @@ export class SeaRateDialogComponent implements OnInit {
             };
             let FTLObj = {
               pricingID: element.id,
-              couplePrice: parseInt(this.couplePrice),
+              couplePrice: parseFloat(this.couplePrice),
               rate: this.selectedPrice,
               effectiveFrom:
                 this.fromDate && this.fromDate.month
@@ -795,7 +795,7 @@ export class SeaRateDialogComponent implements OnInit {
 
       if (impCharges && impCharges.length) {
         impCharges.forEach(element => {
-          totalImp.push(parseInt(element.Price));
+          totalImp.push(parseFloat(element.Price));
         });
         this.TotalImportCharges = totalImp.reduce((all, item) => {
           return all + item;
@@ -804,7 +804,7 @@ export class SeaRateDialogComponent implements OnInit {
 
       if (expCharges && expCharges.length) {
         expCharges.forEach(element => {
-          totalExp.push(parseInt(element.Price));
+          totalExp.push(parseFloat(element.Price));
         });
         this.TotalExportCharges = totalExp.reduce((all, item) => {
           return all + item;
@@ -874,7 +874,7 @@ export class SeaRateDialogComponent implements OnInit {
         containerSpecID:
           this.selectedContSize == null || this.selectedContSize == "null"
             ? null
-            : parseInt(this.selectedContSize),
+            : this.selectedContSize,
         containerSpecName:
           this.selectedContSize == null || this.selectedContSize == "null"
             ? undefined
@@ -882,7 +882,7 @@ export class SeaRateDialogComponent implements OnInit {
         shippingCatID:
           this.selectedCategory == null || this.selectedCategory == "null"
             ? null
-            : parseInt(this.selectedCategory),
+            : this.selectedCategory,
         shippingCatName:
           this.selectedCategory == null || this.selectedCategory == "null"
             ? undefined
@@ -976,8 +976,8 @@ export class SeaRateDialogComponent implements OnInit {
       if (this.transPortMode !== "WAREHOUSE") {
         if (
           !obj.price ||
-          !(typeof parseInt(obj.price) == "number") ||
-          parseInt(obj.price) <= 0
+          !(typeof parseFloat(obj.price) == "number") ||
+          parseFloat(obj.price) <= 0
         ) {
           this._toast.error("Price cannot be zero", "Error");
           this.isRateUpdating = false;
@@ -1058,7 +1058,7 @@ export class SeaRateDialogComponent implements OnInit {
               moment(obj.effectiveTo).format("D MMM, Y") &&
             element.PodID === obj.podID &&
             element.PolID === obj.polID &&
-            element.Price === parseInt(obj.price) &&
+            element.Price === parseFloat(obj.price) &&
             element.ShippingCatID === obj.shippingCatID &&
             element.JsonSurchargeDet === obj.JsonSurchargeDet
           ) {
@@ -1077,7 +1077,7 @@ export class SeaRateDialogComponent implements OnInit {
               moment(obj.effectiveTo).format("D MMM, Y") &&
             element.PodID === obj.podID &&
             element.PolID === obj.polID &&
-            element.Price === parseInt(obj.price) &&
+            element.Price === parseFloat(obj.price) &&
             element.ShippingCatID === obj.shippingCatID &&
             element.JsonSurchargeDet === obj.JsonSurchargeDet
           ) {
@@ -1097,7 +1097,7 @@ export class SeaRateDialogComponent implements OnInit {
               moment(obj.effectiveTo).format("D MMM, Y") &&
             element.PodID === obj.podID &&
             element.PolID === obj.polID &&
-            element.Price === parseInt(obj.price) &&
+            element.Price === parseFloat(obj.price) &&
             element.JsonSurchargeDet === obj.JsonSurchargeDet
           ) {
             duplicateRecord = true;
@@ -1265,8 +1265,8 @@ export class SeaRateDialogComponent implements OnInit {
         if (
           Object.keys(element).length &&
           (!element.Price ||
-            !(typeof parseInt(element.Price) == "number") ||
-            parseInt(element.Price) <= 0)
+            !(typeof parseFloat(element.Price) == "number") ||
+            parseFloat(element.Price) <= 0)
         ) {
           this._toast.error("Price is missing for Additional Charge", "Error");
           this.isRateUpdating = false;
@@ -1295,8 +1295,8 @@ export class SeaRateDialogComponent implements OnInit {
         if (
           Object.keys(element).length &&
           (!element.Price ||
-            !(typeof parseInt(element.Price) == "number") ||
-            parseInt(element.Price) <= 0)
+            !(typeof parseFloat(element.Price) == "number") ||
+            parseFloat(element.Price) <= 0)
         ) {
           this._toast.error("Price is missing for Additional Charge", "Error");
           this.isRateUpdating = false;
@@ -1555,7 +1555,7 @@ export class SeaRateDialogComponent implements OnInit {
           this.selectedOrigins[this.selectedOrigins.length - 1].constructor ===
             Object
         ) &&
-        parseInt(this.selectedOrigins[this.selectedOrigins.length - 1].Price) &&
+        parseFloat(this.selectedOrigins[this.selectedOrigins.length - 1].Price) &&
         this.selectedOrigins[this.selectedOrigins.length - 1].CurrId
       ) {
         this.selectedOrigins.push({
@@ -1593,7 +1593,7 @@ export class SeaRateDialogComponent implements OnInit {
           this.selectedDestinations[this.selectedDestinations.length - 1]
             .constructor === Object
         ) &&
-        parseInt(
+        parseFloat(
           this.selectedDestinations[this.selectedDestinations.length - 1].Price
         ) &&
         this.selectedDestinations[this.selectedDestinations.length - 1].CurrId
@@ -1718,7 +1718,7 @@ export class SeaRateDialogComponent implements OnInit {
       return;
     }
     const selectedSurcharge = this.surchargesList.find(
-      obj => obj.codeValID === parseInt(this.surchargeType)
+      obj => obj.codeValID === this.surchargeType
     );
     let obj = {
       addChrID: -1,
@@ -1980,11 +1980,11 @@ export class SeaRateDialogComponent implements OnInit {
     if (this.transPortMode === "GROUND") {
       let fclContainers = this.allContainers.filter(
         e =>
-          e.ContainerSpecID === parseInt(containerID) &&
+          e.ContainerSpecID === containerID &&
           e.ContainerSpecGroupName === "Container"
       );
       let ftlContainers = this.allContainers.filter(
-        e => e.ContainerSpecID === parseInt(containerID)
+        e => e.ContainerSpecID === containerID
       );
       if (fclContainers.length) {
         this.priceBasis = fclContainers[0].PriceBasis;
@@ -2000,7 +2000,7 @@ export class SeaRateDialogComponent implements OnInit {
       }
     } else if (this.transPortMode === "SEA") {
       const fclContainers = this.fclContainers.filter(
-        e => e.ContainerSpecID === parseInt(containerID)
+        e => e.ContainerSpecID === containerID
       );
       if (fclContainers.length) {
         this.priceBasis = fclContainers[0].PriceBasis;
@@ -2024,7 +2024,7 @@ export class SeaRateDialogComponent implements OnInit {
   }
 
   setCurrency() {
-    const userCurrency = parseInt(localStorage.getItem("userCurrency"));
+    const userCurrency = localStorage.getItem("userCurrency");
     this.selectedCurrency = this.allCurrencies.find(
       obj => obj.id === userCurrency
     );
@@ -2105,7 +2105,7 @@ export class SeaRateDialogComponent implements OnInit {
           addChrName: this.sharedWarehousePricing[0].addChrName,
           addChrType: this.sharedWarehousePricing[0].addChrType,
           priceBasis: this.sharedWarehousePricing[0].addChrBasis,
-          price: parseInt(this.selectedPrice),
+          price: parseFloat(this.selectedPrice),
           currencyID: this.selectedCurrency.id
         };
         if (this.pricingJSON.length < 2) {
@@ -2118,7 +2118,7 @@ export class SeaRateDialogComponent implements OnInit {
           addChrName: this.fullWarehousePricing[0].addChrName,
           addChrType: this.fullWarehousePricing[0].addChrType,
           priceBasis: this.fullWarehousePricing[0].addChrBasis,
-          price: parseInt(this.selectedPrice),
+          price: parseFloat(this.selectedPrice),
           currencyID: this.selectedCurrency.id
         };
         if (this.pricingJSON.length < 2) {
@@ -2135,7 +2135,7 @@ export class SeaRateDialogComponent implements OnInit {
           addChrName: this.sharedWarehousePricing[1].addChrName,
           addChrType: this.sharedWarehousePricing[1].addChrType,
           priceBasis: this.sharedWarehousePricing[1].addChrBasis,
-          price: parseInt(this.couplePrice),
+          price: parseFloat(this.couplePrice),
           currencyID: this.selectedCurrency.id
         };
         if (this.pricingJSON.length < 2) {
@@ -2148,7 +2148,7 @@ export class SeaRateDialogComponent implements OnInit {
           addChrName: this.fullWarehousePricing[1].addChrName,
           addChrType: this.fullWarehousePricing[1].addChrType,
           priceBasis: this.fullWarehousePricing[1].addChrBasis,
-          price: parseInt(this.couplePrice),
+          price: parseFloat(this.couplePrice),
           currencyID: this.selectedCurrency.id
         };
         if (this.pricingJSON.length < 2) {

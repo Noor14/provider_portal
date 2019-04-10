@@ -573,7 +573,7 @@
               <div class="form-group d-flex">
                 <div class="fancyOptionBoxes">
                   <input id="fixedamount" name="commission" type="radio" [checked]="fixedAmount"
-                    (change)="fixedAmount = !fixedAmount; commissionForm.controls['percentValue'].reset()">
+                    (change)=" fixedAmountToggler()">
                   <label for="fixedamount">
                     <span></span>
                     Fixed Amount per booking
@@ -581,7 +581,7 @@
                 </div>
                 <div class="fancyOptionBoxes ml-4">
                   <input id="perbooking" name="commission" type="radio" [checked]="!fixedAmount"
-                    (change)="fixedAmount = !fixedAmount">
+                    (change)="fixedAmountToggler()">
                   <label for="perbooking">
                     <span></span>
                     Fixed percentage per booking
