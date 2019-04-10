@@ -24,7 +24,7 @@ export class BookingInvoiceComponent implements OnInit {
   ngOnInit() {
     if (this.BookingInvoiceDet){
       this.currencyCode = this.BookingInvoiceDet.CurrencyCode;
-      this.billingData = this.BookingInvoiceDet.BookingPriceDetail.filter((e) => e.TransMode === 'WRITE');
+      this.billingData = (this.BookingInvoiceDet.ShippingModeCode == "SEA") ? this.BookingInvoiceDet.BookingPriceDetail.filter((e) => e.TransMode === 'Read') : this.BookingInvoiceDet.BookingPriceDetail.filter((e) => e.TransMode === 'WRITE');
       this.freightData = this.billingData.filter((element: any) => element.SurchargeType === 'FSUR');
       this.additionalData = this.billingData.filter((element: any) => element.SurchargeType === 'ADCH');
       this.valueAddedData = this.billingData.filter((element: any) => element.SurchargeType === 'VASV');

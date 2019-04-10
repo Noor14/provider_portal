@@ -658,7 +658,8 @@
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="category">
                       <img src="../../../../assets/images/icons/icon_container.svg" alt="umbrella-icon" class="icon">
-                      <span class="long-text">{{bookingDetails.ShippingCatName}}</span>
+                      <span class="long-text" *ngIf="bookingDetails.ShippingModeCode != 'SEA'">{{bookingDetails.ContainerSpecShortName}}</span>
+                      <span class="long-text" *ngIf="bookingDetails.ShippingModeCode == 'SEA'">{{bookingDetails.ShippingCatName}}</span>
                     </div>
                     <div class="catDetail">
                       <span class="amount-text" *ngFor="let contDetail of bookingDetails.BookingContainerDetail">
