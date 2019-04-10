@@ -8,7 +8,6 @@
     "build": "npm version patch && ng build --prod",
     "prod": "npm version patch && ng build --prod --env=prod --aot=false --build-optimizer=false",
     "qa": "npm version patch && ng build --prod --env=qa --aot=false --build-optimizer=false",
-    "pers": "npm version patch && ng build --prod --env=pers --aot=false --build-optimizer=false",
     "dev": "npm version patch && ng build --prod --env=dev --aot=false --build-optimizer=false",
     "uat": "npm version patch && ng build --prod --env=uat --aot=false --build-optimizer=false",
     "test": "ng test",
