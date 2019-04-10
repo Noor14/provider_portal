@@ -361,7 +361,7 @@
     <app-ui-table *ngIf="allRatesList?.length" [tableType]="'publishFCL'" [tableData]="allRatesList"
       (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('ftl', $event)"
       (pageEvent)="paging('ftl', $event)" [totalRecords]="totalPublishedRecords"
-      [containerLoad]="(activeTab === 'activeFCL' ? 'FCL' : 'FTL')" [transMode]="'GROUND'"></app-ui-table>
+      [containerLoad]="(activeTab === 'activeFCL' ? 'FCL' : 'FTL')" [transMode]="'GROUND'" [incomingPage]="pageNo"></app-ui-table>
     <div class="text-center" *ngIf="!allRatesList">No Records Found</div>
     <app-loader-main *ngIf="publishloading"></app-loader-main>
   </section>

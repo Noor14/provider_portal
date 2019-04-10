@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, QueryList, AfterViewInit, OnDestroy, Output, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Renderer2, QueryList, AfterViewInit, OnDestroy, Output, AfterViewChecked, ChangeDetectorRef, EventEmitter } from '@angular/core';
 import {
   NgbInputDatepicker,
   NgbDateStruct,
@@ -475,14 +475,11 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    * @param {string} type // fcl or lcl
    * @memberof SeaFreightComponent
    */
-  getAllPublishRates(type) {
-    if (this.filteredRecords === 1) {
-      this.pageNo--
-    }
+  getAllPublishRates(type, pageNo?) {
     this.publishloading = true;
     let obj = {
       providerID: this.userProfile.ProviderID,
-      pageNo: (this.pageNo < 1) ? 1 : this.pageNo,
+      pageNo: pageNo ? pageNo : this.pageNo,
       pageSize: this.pageSize,
       carrierID: (this.filterbyShippingLine == 'undefined') ? null : this.filterbyShippingLine,
       shippingCatID: (this.filterbyCargoType == 'undefined') ? null : this.filterbyCargoType,
@@ -661,7 +658,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
             this.delPublishRates = [];
           }
         }
-        this.getAllPublishRates('fcl')
+        // this.getAllPublishRates('fcl', 1)
+        this.paging('fcl', 1)
+        this.pageNo = 1
       }
     }, (reason) => {
       // console.log("reason");
@@ -712,7 +711,9 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
             this.delPublishRates = [];
           }
         }
-        this.getAllPublishRates('lcl')
+        // this.getAllPublishRates('lcl', 1)
+        this.paging('lcl', 1)
+        this.pageNo = 1
       }
     }, (reason) => {
       // console.log("reason");
@@ -1246,7 +1247,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
    */
   paging(type, event) {
     this.pageNo = event;
-    this.getAllPublishRates(type)
+    this.getAllPublishRates(type, event)
   }
 
   /**
