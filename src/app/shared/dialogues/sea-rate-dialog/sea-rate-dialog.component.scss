@@ -9,9 +9,11 @@
     overflow-y: auto;
     max-height: 700px;
 
-    // &.warehouseActive {
-    //   overflow: visible;
-    // }
+    &.warehouseActive {
+      .warehouse-height {
+        min-height: 200px;
+      }
+    }
     .model-sub-head {
       color: $secondary-grey;
       font-family: $font-proxima;
