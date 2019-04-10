@@ -234,28 +234,28 @@
             <div class="d-flex info-table-logo align-items-center" *ngIf="transMode !== 'WAREHOUSE'">
               <span
                 *ngIf="device.totalExportCharges && device.totalExportCharges > 0 && device.baseCurrencyCode">{{device.baseCurrencyCode}}
-                {{device.totalImportCharges | number: '2.0-0'}}</span>
+                {{device.totalImportCharges | number : '1.2-2'}}</span>
               <span *ngIf="!device.totalExportCharges">0</span>
             </div>
             <div class="d-flex info-table-logo align-items-center" *ngIf="transMode === 'WAREHOUSE'">
-              <span *ngIf="device.whPrice1">{{device.baseCurrencyCode}} {{device.whPrice1 | number: '2.0-0'}}</span>
+              <span *ngIf="device.whPrice1">{{device.baseCurrencyCode}} {{device.whPrice1 | number : '1.2-2'}}</span>
               <span *ngIf="!device.whPrice1">0</span>
             </div>
           </td>
           <td (click)="draftAction(device, 'edit')">
             <div class="d-flex info-table-logo align-items-center" *ngIf="transMode !== 'WAREHOUSE'">
               <span *ngIf="device.totalExportCharges && device.totalExportCharges > 0 && device.baseCurrencyCode">
-                {{device.baseCurrencyCode}} {{device.totalExportCharges | number: '2.0-0'}}</span>
+                {{device.baseCurrencyCode}} {{device.totalExportCharges | number : '1.2-2'}}</span>
               <span *ngIf="!device.totalExportCharges">0</span>
             </div>
             <div class="d-flex info-table-logo align-items-center" *ngIf="transMode === 'WAREHOUSE'">
-              <span *ngIf="device.whPrice2">{{device.baseCurrencyCode}} {{device.whPrice2 | number: '2.0-0'}}</span>
+              <span *ngIf="device.whPrice2">{{device.baseCurrencyCode}} {{device.whPrice2 | number : '1.2-2'}}</span>
               <span *ngIf="!device.whPrice2">0</span>
             </div>
           </td>
           <td>
             <span *ngIf="device.addCharges">
-              {{device.baseCurrencyCode}} {{device.addCharges | number: '2.0-0'}}</span>
+              {{device.baseCurrencyCode}} {{device.addCharges | number : '1.2-2'}}</span>
             <span *ngIf="!device.addCharges">0</span>
           </td>
           <td>

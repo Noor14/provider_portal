@@ -522,6 +522,18 @@ export class WarehouseComponent implements OnInit {
     }
 
   }
+
+  fixedAmountToggler(){
+    this.fixedAmount = !this.fixedAmount;
+    if (this.fixedAmount){
+      this.commissionForm.controls['percentValue'].reset()
+    }else{
+      if (this.isRealEstate && !this.fixedAmount && this.warehouseDetail.Percent) {
+      this.commissionForm.controls['percentValue'].setValue(this._currencyControl.applyRoundByDecimal(parseFloat(this.warehouseDetail.Percent), 2));
+      }
+    }
+  }
+
   addFacilities(obj, $event) {
     this.facilities.map((elem) => {
       if (obj.BusinessLogic == elem.BusinessLogic) {
@@ -1255,11 +1267,13 @@ export class WarehouseComponent implements OnInit {
       loading(false)
       const { returnId, returnText } = res
       if (returnId > 0) {
-        this._toastr.success(returnText, 'Success')
+        if (!this.fixedAmount && this.isRealEstate){
+          this.warehouseDetail.Percent = this.commissionForm.value.percentValue
+        }
+        this._toastr.success('Comission updated successfully', 'Success')
       } else {
         this._toastr.error(returnText)
       }
-      this._toastr.success('Comission updated successfully', 'Success')
     }, (err) => {
       loading(false)
     })
