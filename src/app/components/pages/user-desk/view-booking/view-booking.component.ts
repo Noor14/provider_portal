@@ -265,10 +265,9 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
         else if (this.bookingDetails.ShippingModeCode == 'WAREHOUSE') {
           this.mapOrgiToDest.push(
             { lat: Number(this.bookingDetails.WHLatitude), lng: Number(this.bookingDetails.WHLongitude) });
-          // if (this.bookingDetails.ActualScheduleDetail && isJSON(this.bookingDetails.ActualScheduleDetail)){
-          //   const whid = JSON.parse(this.bookingDetails.ActualScheduleDetail).WHID;
-          //   this.getWarehouseDetail(whid);
-          // }
+          if (this.bookingDetails.BookingUserInfo.UserImage && this.bookingDetails.BookingUserInfo.UserImage != "[]" && isJSON(this.bookingDetails.BookingUserInfo.UserImage)){
+            this.bookingDetails.BookingUserInfo.UserImage = JSON.parse(this.bookingDetails.BookingUserInfo.UserImage)[0].DocumentFile;
+          }
           if (this.bookingDetails.WHCityName && this.bookingDetails.WHCountryName) {
             this.wareHouse.Location = this.bookingDetails.WHCityName + ', ' + this.bookingDetails.WHCountryName;
           }
@@ -278,7 +277,7 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
             this.bookingDetails.WHMedia.forEach((elem) => {
               const album = {
                 src: baseExternalAssets + elem.DocumentFile,
-                caption: elem.DocumentFileName,
+                // caption: elem.DocumentFileName,
                 thumb: baseExternalAssets + elem.DocumentFile,
                 DocumentUploadedFileType: elem.DocumentUploadedFileType
               };

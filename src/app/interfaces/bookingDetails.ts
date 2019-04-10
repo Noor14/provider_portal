@@ -88,6 +88,7 @@ export interface docDetail{
 export interface BookingDetails {
   JsonSearchCriteria?:any;
   BookingJsonDetail?: any;
+  WHAddress?:string;
   WHMedia?: any;
   WHLatitude?: string;
   WHLongitude?: string;

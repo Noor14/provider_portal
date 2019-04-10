@@ -463,7 +463,7 @@ export class WarehouseComponent implements OnInit {
         if (elem.DocumentUploadedFileType.toLowerCase() === 'png' || elem.DocumentUploadedFileType.toLowerCase() === 'jpg' || elem.DocumentUploadedFileType.toLowerCase() === 'jpeg') {
           const album = {
             src: baseExternalAssets + elem.DocumentFile,
-            caption: elem.DocumentFileName,
+            // caption: elem.DocumentFileName,
             thumb: baseExternalAssets + elem.DocumentFile,
             DocumentUploadedFileType: elem.DocumentUploadedFileType
           };
@@ -551,6 +551,21 @@ export class WarehouseComponent implements OnInit {
     } catch (error) {
       return false
     }
+  }
+  numberValidwithDecimal(evt) {
+    let charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (evt.target.value && evt.target.value[evt.target.value.length - 1] == '.') {
+      if (charCode > 31
+        && (charCode < 48 || charCode > 57))
+        return false;
+
+      return true;
+    }
+    if (charCode != 46 && charCode > 31
+      && (charCode < 48 || charCode > 57))
+      return false;
+
+    return true;
   }
   oneSpaceHandler(event) {
     if (event.target.value) {

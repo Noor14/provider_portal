@@ -111,7 +111,8 @@
             <div class="input-group-prepend">
               <div class="input-group-text pl-2 pr-2">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
-            <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="minPrice" (keypress)="numberValid($event)">
+            <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="minPrice"
+              (keypress)="numberValidwithDecimal($event)">
           </div>
         </div>
       </div>
@@ -123,7 +124,7 @@
               <div class="input-group-text pl-2 pr-2">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
             <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="normalPrice"
-              (keypress)="numberValid($event)">
+              (keypress)="numberValidwithDecimal($event)">
           </div>
         </div>
       </div>
@@ -135,7 +136,7 @@
               <div class="input-group-text pl-2 pr-2">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
             <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="plusfortyFivePrice"
-              (keypress)="numberValid($event)">
+              (keypress)="numberValidwithDecimal($event)">
           </div>
         </div>
       </div>
@@ -147,7 +148,7 @@
               <div class="input-group-text pl-2 pr-2">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
             <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="plushundredPrice"
-              (keypress)="numberValid($event)">
+              (keypress)="numberValidwithDecimal($event)">
           </div>
         </div>
       </div>
@@ -159,7 +160,7 @@
               <div class="input-group-text pl-2 pr-2">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
             <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="plusTwoFiftyPrice"
-              (keypress)="numberValid($event)">
+              (keypress)="numberValidwithDecimal($event)">
           </div>
         </div>
       </div>
@@ -171,7 +172,7 @@
               <div class="input-group-text pl-2 pr-2">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
             <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="plusFiveHundPrice"
-              (keypress)="numberValid($event)">
+              (keypress)="numberValidwithDecimal($event)">
           </div>
         </div>
       </div>
@@ -183,7 +184,7 @@
               <div class="input-group-text pl-2 pr-2">{{selectedCurrency?.CurrencyCode || 'AED'}}</div>
             </div>
             <input type="text" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="plusThousandPrice"
-              (keypress)="numberValid($event)">
+              (keypress)="numberValidwithDecimal($event)">
           </div>
         </div>
       </div>

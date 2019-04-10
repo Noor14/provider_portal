@@ -1342,9 +1342,18 @@ export class SeaRateDialogComponent implements OnInit {
       });
   }
 
-  numberValid(evt) {
-    let charCode = evt.which ? evt.which : evt.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
+  numberValidwithDecimal(evt) {
+    let charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (evt.target.value && evt.target.value[evt.target.value.length - 1] == '.'){
+      if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+
+      return true;
+    }
+    if (charCode != 46 && charCode > 31
+      && (charCode < 48 || charCode > 57))
+      return false;
+
     return true;
   }
 

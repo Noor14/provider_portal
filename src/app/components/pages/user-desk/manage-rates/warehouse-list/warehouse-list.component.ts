@@ -73,7 +73,7 @@ export class WarehouseListComponent implements OnInit {
     });
   }
 
-  public videoURL:any
+  public videoURL: any
   getWhlist(providerId) {
     this.loading = true
     const wId = 0;
@@ -98,8 +98,9 @@ export class WarehouseListComponent implements OnInit {
                     if (doc.DocumentUploadedFileType.toLowerCase() === 'png' || doc.DocumentUploadedFileType.toLowerCase() === 'jpg' || doc.DocumentUploadedFileType.toLowerCase() === 'jpeg') {
                       const album = {
                         src: baseExternalAssets + '/' + doc.DocumentFile,
-                        caption: '&nbsp;',
-                        thumb: baseExternalAssets + '/' + doc.DocumentFile
+                        // caption: '&nbsp;',
+                        thumb: baseExternalAssets + '/' + doc.DocumentFile,
+                        DocumentUploadedFileType: doc.DocumentUploadedFileType
                       };
                       albumArr.push(album)
                       this.allWareHouseList[idx].WHParsedMedia = albumArr;

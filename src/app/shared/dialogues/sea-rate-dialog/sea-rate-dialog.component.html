@@ -313,8 +313,9 @@
               <div class="form-group combine-filed-popup-right" [ngClass]="showDoubleRates ? 'hasDoubleRates' : ''">
                 <span *ngIf="showDoubleRates">Single</span>
                 <span *ngIf="showDoubleRates">Double</span>
-                <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="selectedPrice" (keypress)="numberValid($event)">
-                <input type="text" *ngIf="showDoubleRates" maxlength="1" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="couplePrice" (keypress)="numberValid($event)">
+                <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00"
+                  [(ngModel)]="selectedPrice" (keypress)="numberValidwithDecimal($event)">
+                <input type="text" *ngIf="showDoubleRates" maxlength="1" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="couplePrice" (keypress)="numberValidwithDecimal($event)">
               </div>
             </div>
           </div>
@@ -327,7 +328,7 @@
             </div>
             <div class="col-6 pl-0">
               <div class="form-group combine-filed-popup-right">
-                <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="couplePrice" (keypress)="numberValid($event)">
+                <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00" [(ngModel)]="couplePrice" (keypress)="numberValidwithDecimal($event)">
               </div>
             </div>
           </div>
@@ -405,7 +406,7 @@
               </div>
               <div class="col-3 pl-0 pr-0">
                 <div class="form-group mb-0 combine-filed-popup-mid">
-                  <input type="text" maxlength="15" class="form-control" [(ngModel)]="origin.Price" placeholder="0.00" (keypress)="numberValid($event)">
+                  <input type="text" maxlength="15" class="form-control" [(ngModel)]="origin.Price" placeholder="0.00" (keypress)="numberValidwithDecimal($event)">
                 </div>
               </div>
               <div class="col-2 pl-0 pr-0">
@@ -480,7 +481,7 @@
               </div>
               <div class="col-3 pl-0 pr-0">
                 <div class="form-group mb-0 combine-filed-popup-mid">
-                  <input type="text" maxlength="15" class="form-control" [(ngModel)]="destination.Price" placeholder="0.00" (keypress)="numberValid($event)">
+                  <input type="text" maxlength="15" class="form-control" [(ngModel)]="destination.Price" placeholder="0.00" (keypress)="numberValidwithDecimal($event)">
                 </div>
               </div>
               <div class="col-2 pl-0 pr-0">
