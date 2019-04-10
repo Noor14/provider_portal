@@ -5,15 +5,17 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
-    "prod": "ng build --prod --env=prod --aot=false --build-optimizer=false",
-    "qa": "ng build --prod --env=qa --aot=false --build-optimizer=false",
-    "pers": "ng build --prod --env=pers --aot=false --build-optimizer=false",
-    "dev": "ng build --prod --env=dev --aot=false --build-optimizer=false",
-    "uat": "ng build --prod --env=uat --aot=false --build-optimizer=false",
+    "build": "npm version patch && ng build --prod",
+    "prod": "npm version patch && ng build --prod --env=prod --aot=false --build-optimizer=false",
+    "qa": "npm version patch && ng build --prod --env=qa --aot=false --build-optimizer=false",
+    "pers": "npm version patch && ng build --prod --env=pers --aot=false --build-optimizer=false",
+    "dev": "npm version patch && ng build --prod --env=dev --aot=false --build-optimizer=false",
+    "uat": "npm version patch && ng build --prod --env=uat --aot=false --build-optimizer=false",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "node version.js",
+    "versioning": "npm version patch && node version.js"
   },
   "private": true,
   "dependencies": {

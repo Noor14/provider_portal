@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
+import { setBaseApi, setBaseExternal } from "../constants/base.url";
 import { JWTObj, UserCreationService } from "../components/pages/user-creation/user-creation.service";
 
 
@@ -21,6 +22,7 @@ export class GuestService {
 
     constructor(
         private _authService: UserCreationService,
+        private _http: HttpClient
     ) { }
 
 
@@ -73,7 +75,7 @@ export class GuestService {
     }
 
 
-    load() {
+    async load() {
         AppComponent.clearStorage()
         const _config: AppApiConfig = await this._http.get('assets/app.settings.json').toPromise() as any
         const { MAIN_API_BASE_URL, MAIN_API_BASE_EXTERNAL_URL } = _config
@@ -272,4 +274,9 @@ const PADDING = [
     [2, 2],
     [1]
 ];
+
+export interface AppApiConfig {
+  MAIN_API_BASE_URL: string
+  MAIN_API_BASE_EXTERNAL_URL: string
+}
 

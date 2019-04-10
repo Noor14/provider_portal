@@ -2,6 +2,14 @@ import { environment } from '../../environments/environment';
 
 export let baseApi;
 export let baseExternalAssets;
+export function setBaseApi(_baseApi: string) {
+    baseApi = _baseApi
+}
+
+export function setBaseExternal(_baseExternalAssets: string) {
+    baseExternalAssets = _baseExternalAssets
+}
+
 if (environment.qa) {
     // QA URL
     baseApi = "http://10.20.1.13:8091/api/";
