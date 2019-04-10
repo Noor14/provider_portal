@@ -6,6 +6,7 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import '../assets/scss/_loader.css';
 import { HttpErrorResponse } from '@angular/common/http';
+import { VERSION } from '../environments/version'
 import { removeDuplicateCurrencies, compareValues } from './components/pages/user-desk/billing/billing.component';
 
 
@@ -16,16 +17,17 @@ import { removeDuplicateCurrencies, compareValues } from './components/pages/use
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
 
   @ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
+  public static version = VERSION;
 
   constructor(
-    private _commonService : CommonService,
+    private _commonService: CommonService,
     private _sharedService: SharedService,
     private _router: Router,
-    ){}
-  
+  ) { }
+
   ngOnInit() {
     this._router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -33,16 +35,16 @@ export class AppComponent implements OnInit{
       this.scrollTop();
     });
 
-    this._commonService.getCountry().subscribe((res:any) => {
-        if(res && res.length){
-          res.map((obj) => {
-            if (typeof (obj.desc) == "string") {
-              obj.desc = JSON.parse(obj.desc);
-            }
-          })
+    this._commonService.getCountry().subscribe((res: any) => {
+      if (res && res.length) {
+        res.map((obj) => {
+          if (typeof (obj.desc) == "string") {
+            obj.desc = JSON.parse(obj.desc);
+          }
+        })
         this._sharedService.countryList.next(res);
-        }
-      });
+      }
+    });
 
     this._commonService.getCities().subscribe((res: any) => {
       if (res && res.length) {
@@ -68,21 +70,31 @@ export class AppComponent implements OnInit{
       }
     });
 
-    this._commonService.getBrowserlocation().subscribe((state:any)=>{
-      if(state.status == "success"){
+    this._commonService.getBrowserlocation().subscribe((state: any) => {
+      if (state.status == "success") {
         this._sharedService.setMapLocation(state);
       }
     })
 
 
-    
+
   }
 
-  scrollTop(){
+  scrollTop() {
     if (this.scrollRef) {
       setTimeout(() => {
         this.scrollRef.scrollYTo(0, 20);
       }, 0)
     }
   }
+
+  static clearStorage() {
+    let currVersion = AppComponent.version.version;
+    let oldVersion = localStorage.getItem('version');
+    if (!oldVersion || oldVersion !== currVersion) {
+      localStorage.clear();
+      localStorage.setItem('version', AppComponent.version.version);
+    }
+  }
 }
+
