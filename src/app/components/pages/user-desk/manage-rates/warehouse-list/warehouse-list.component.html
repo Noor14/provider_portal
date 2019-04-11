@@ -55,11 +55,11 @@
                     <div class="images-carousel">
                       <img [src]="image.thumb" *ngIf="image.DocumentUploadedFileType != 'mp4'" />
                       <div class="gallery-section-item d-flex justify-content-center align-items-center">
-                        <img src="../../../../assets/images/icons/icon_pictures.svg" alt="" class="icon-size-14 mr-1">
+                        <img src="../../../../assets/images/icons/icon_pictures.svg" alt="icon" class="icon-size-14 mr-1">
                         {{wareHouse.WHParsedMedia.length}}
                       </div>
                     </div>
-                    <div class="video-icon" *ngIf="wareHouse.videoURL" (click)="openVideo(wareHouse.videoURL)">
+                    <div class="video-icon" *ngIf="wareHouse.videoURL" (click)="openVideo(wareHouse.videoURL, $event)">
                       <a href="javascript:;">
                         <i class="fa fa-play"></i>
                       </a>

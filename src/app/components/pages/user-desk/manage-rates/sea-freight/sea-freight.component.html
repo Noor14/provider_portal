@@ -340,13 +340,13 @@
                   (blur)="onEditorBlured($event, 'LCL')" (focus)="onEditorFocused($event,'LCL')"
                   (ready)="onEditorCreated($event,'LCL')" (change)="onContentChanged($event,'LCL')">
                 </quill-editor>
+              </div>
                 <div *ngIf="disableLCL" class="editor" [innerHTML]="editorContentLCL">
                 </div>
                 <button *ngIf="!disableLCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4"
                   type="button" [disabled]="!editorContentLCL" (click)="saveTermNcond('LCL')">
                   SAVE
                 </button>
-              </div>
             </div>
           </div>
         </section>
@@ -666,18 +666,18 @@
                   EDIT
                 </button>
               </div>
-              <div class="form-group text-editor ">
+              <div class="form-group">
                 <quill-editor *ngIf="!disableFCL" [(ngModel)]="editorContentFCL" [options]="editorOptionsFCL"
                   (blur)="onEditorBlured($event,'FCL')" (focus)="onEditorFocused($event,'FCL')"
                   (ready)="onEditorCreated($event,'FCL')" (change)="onContentChanged($event,'FCL')">
                 </quill-editor>
+              </div>
                 <div *ngIf="disableFCL" class="editor" [innerHTML]="editorContentFCL">
                 </div>
                 <button *ngIf="!disableFCL" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4"
                   type="button" [disabled]="!editorContentFCL" (click)="saveTermNcond('FCL')">
                   SAVE
                 </button>
-              </div>
             </div>
           </div>
         </section>
