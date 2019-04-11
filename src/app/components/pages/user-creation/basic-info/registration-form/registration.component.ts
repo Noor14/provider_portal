@@ -118,8 +118,11 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     { baseNumber: '8', arabicNumber: '۸' },
     { baseNumber: '9', arabicNumber: '۹' }
   ]
-  public onRegistrationForm;
-  public showTranslatedLangSide;
+  public onRegistrationForm:boolean = false;
+  public showTranslatedLangSide: boolean = false;
+
+  //terms And Cond
+  public term:boolean = false;
 
   constructor(
     private _toastr: ToastrService,
