@@ -949,17 +949,17 @@ export class SeaRateDialogComponent implements OnInit {
       };
       console.log(obj);
 
-      if (this.transPortMode !== "WAREHOUSE") {
-        if (
-          !obj.price ||
-          !(typeof parseFloat(obj.price) == "number") ||
-          parseFloat(obj.price) <= 0
-        ) {
-          this._toast.error("Price cannot be zero", "Error");
-          this.isRateUpdating = false;
-          return;
-        }
-      }
+      // if (this.transPortMode !== "WAREHOUSE") {
+      //   if (
+      //     !obj.price ||
+      //     !(typeof parseFloat(obj.price) == "number") ||
+      //     parseFloat(obj.price) <= 0
+      //   ) {
+      //     this._toast.error("Price cannot be zero", "Error");
+      //     this.isRateUpdating = false;
+      //     return;
+      //   }
+      // }
 
       if (
         this.transPortMode === "WAREHOUSE" &&
