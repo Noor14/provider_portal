@@ -31,7 +31,7 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
   public zoomlevel: number = 2;
   public location: any = { lat: undefined, lng: undefined };
   public bookingDetails: BookingDetails;
-  public wareHouse:any = {};
+  public wareHouse: any = {};
   public paramSubscriber: any;
   public HelpDataLoaded: boolean;
   // public ProviderEmails: any[];
@@ -289,11 +289,11 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
             let facilities = JSON.parse(
               this.bookingDetails.ActualScheduleDetail
             ).WHFacilities;
-            if (facilities && isJSON(facilities)){
+            if (facilities && isJSON(facilities)) {
               this.wareHouse.FacilitiesProviding = JSON.parse(facilities);
             }
           }
-          if (this.bookingDetails.BookingJsonDetail && this.bookingDetails.BookingJsonDetail != "[]" && isJSON(this.bookingDetails.BookingJsonDetail)){
+          if (this.bookingDetails.BookingJsonDetail && this.bookingDetails.BookingJsonDetail != "[]" && isJSON(this.bookingDetails.BookingJsonDetail)) {
             let wareHouseDetail = JSON.parse(
               this.bookingDetails.BookingJsonDetail
             );
@@ -477,21 +477,21 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       approverIDType: "PROVIDER"
     }
 
-    let toSend
+    let toSend: any
     try {
       toSend = {
         ...obj,
         providerName: this.bookingDetails.ProviderName,
         userName: this.bookingDetails.UserName,
         hashMoveBookingNum: this.bookingDetails.HashMoveBookingNum,
-        emailTo: ( this.bookingDetails.BookingUserInfo && this.bookingDetails.BookingUserInfo.PrimaryEmail) ? this.bookingDetails.BookingUserInfo.PrimaryEmail : '',
+        emailTo: (this.bookingDetails.BookingUserInfo && this.bookingDetails.BookingUserInfo.PrimaryEmail) ? this.bookingDetails.BookingUserInfo.PrimaryEmail : '',
         userCompanyName: (this.bookingDetails && this.bookingDetails.BookingUserInfo && this.bookingDetails.BookingUserInfo.CompanyName) ? this.bookingDetails.BookingUserInfo.CompanyName : ''
       }
     } catch (error) {
       toSend = obj
     }
 
-    this._viewBookingService.approvedDocx(obj).subscribe((res: any) => {
+    this._viewBookingService.approvedDocx(toSend).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
         data.DocumentLastStatus = this.approvedStatus[0].StatusName;
         this._toast.success('Document has been approved', '')

@@ -1126,7 +1126,7 @@ export class WarehouseComponent implements OnInit {
    */
   paging(event) {
     this.pageNo = event.page;
-    this.getAllPublishRates(event.whid, event)
+    this.getAllPublishRates(event.whid, event.page)
   }
 
   /**
@@ -1211,7 +1211,7 @@ export class WarehouseComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result == "Success") {
         // this.getAllPublishRates(this.warehousePublishedRates[0].whid)
-        this.paging(1)
+        this.paging({page: 1, whid: this.whID})
         this.pageNo = 1
       }
     });

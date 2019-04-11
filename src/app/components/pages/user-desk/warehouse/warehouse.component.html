@@ -6,21 +6,23 @@
           <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12">
             <div *ngFor="let image of warehouseDetail.WHParsedMedia; let i=index"
               (click)="openGallery(i, warehouseDetail.WHParsedMedia)">
-            <div class="gallery-section" *ngIf="i==0">
-              <div class="images-carousel" >
-                <img [src]="image.thumb" *ngIf="image.DocumentUploadedFileType != 'mp4'"  />
-                <div class="gallery-section-item d-flex justify-content-center align-items-center">
-                  <img src="../../../../assets/images/icons/icon_pictures.svg" alt="icon" class="icon-size-14 mr-1">
-                  {{warehouseDetail.WHParsedMedia.length}}
+              <div class="gallery-section" *ngIf="i==0">
+                <div class="images-carousel">
+                  <img [src]="image.thumb" *ngIf="image.DocumentUploadedFileType != 'mp4'" />
+                  <div class="gallery-section-item d-flex justify-content-center align-items-center">
+                    <img src="../../../../assets/images/icons/icon_pictures.svg" alt="icon" class="icon-size-14 mr-1">
+                    {{warehouseDetail.WHParsedMedia.length}}
+                  </div>
+                </div>
+                <img *ngIf="!warehouseDetail.WHParsedMedia" src="../../../../../../assets/images/placeholder_image.gif"
+                  alt="">
+                <div class="video-icon" *ngIf="warehouseDetail.videoURL"
+                  (click)="openVideo(warehouseDetail.videoURL, $event)">
+                  <a href="javascript:;">
+                    <i class="fa fa-play"></i>
+                  </a>
                 </div>
               </div>
-              <img *ngIf="!warehouseDetail.WHParsedMedia" src="../../../../../../assets/images/placeholder_image.gif" alt="">
-              <div class="video-icon" *ngIf="warehouseDetail.videoURL" (click)="openVideo(warehouseDetail.videoURL, $event)">
-                <a href="javascript:;">
-                  <i class="fa fa-play"></i>
-                </a>
-              </div>
-            </div>
             </div>
           </div>
           <div class="mt-1 col-xl-9 col-lg-9 col-md-7 col-sm-7 col-12 Wcontent">
@@ -761,18 +763,19 @@
           <app-ui-table *ngIf="warehousePublishedRates?.length > 0" [tableType]="'publishFCL'"
             [tableData]="warehousePublishedRates" (checkedRows)="tableCheckedRows($event)"
             (sorting)="sortedFilters('warehouse', $event)" (pageEvent)="paging($event)"
-            [totalRecords]="totalPublishedRecords" [containerLoad]="'WAREHOUSE'" [transMode]="'WAREHOUSE'" [incomingPage]="pageNo">
+            [totalRecords]="totalPublishedRecords" [containerLoad]="'WAREHOUSE'" [transMode]="'WAREHOUSE'"
+            [incomingPage]="pageNo">
           </app-ui-table>
           <button *ngIf="!warehousePublishedRates" class="btn btn-outline-primary btn-lg hvr-sweep-to-right mr-2"
             (click)="addWarehouseRate(whID)">
             Click to add rate
           </button>
+          <a href="javascript:;" class="addAnother animated fadeIn" *ngIf="warehousePublishedRates"
+            [ngClass]="totalPublishedRecords > 5 ? 'withScroll' : ''" (click)="addWarehouseRate(whID)">
+            <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
+            Add another rate
+          </a>
         </section>
-        <a href="javascript:;" class="addAnother animated fadeIn" *ngIf="warehousePublishedRates"
-          [ngClass]="totalPublishedRecords > 5 ? 'withScroll' : ''" (click)="addWarehouseRate(whID)">
-          <img src="../../../../../../assets/images/icons/icon_add.svg" width="16px" alt="">
-          Add another rate
-        </a>
         <!-- <div class="row" [ngClass]="totalPublishedRecords <= 5 ? 'mt-5' : ''">
           <div class="col-6 Add-warehouse-link mt-3" (click)="stepper.prev()">
             <a class="hvr-icon-back grey-anc-btn" href="javascript:;">

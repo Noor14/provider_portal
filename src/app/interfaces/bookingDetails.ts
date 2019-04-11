@@ -1,3 +1,9 @@
+export interface FooterDetails {
+  HMSupportID: number;
+  HMPrivacyURL?: string;
+  HMTermsURL?: string;
+}
+
 export interface ContainerDetail {
   ContainerSpecID: number;
   ContainerSpecCode: string;
