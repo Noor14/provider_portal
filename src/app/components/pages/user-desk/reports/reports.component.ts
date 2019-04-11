@@ -159,8 +159,8 @@ export class ReportsComponent implements OnInit {
       }
     });
   }
-  viewBookingDetails(bookingId) {
-    let id = encryptBookingID(bookingId);
+  viewBookingDetails(bookingId, providerId, shippingModeCode) {
+    let id = encryptBookingID(bookingId, providerId, shippingModeCode);
     this._router.navigate(['/provider/booking-detail', id]);
   }
 

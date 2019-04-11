@@ -179,7 +179,7 @@
     <h4 class="totalBookings-title mt-4">Recent Bookings</h4>
   </div>
   <div class="bookingOverview overflow-hidden" *ngIf="recentBookings && recentBookings.length">
-    <app-bookings-card [booking]="obj" *ngFor="let obj of recentBookings" (click)="viewBookingDetails(obj.BookingID)"></app-bookings-card>
+    <app-bookings-card [booking]="obj" *ngFor="let obj of recentBookings" (click)="viewBookingDetails(obj.BookingID, obj.ProviderID, obj.ShippingModeCodeobj)"></app-bookings-card>
   </div>
   <div class="overflow-hidden" *ngIf="recentBookings && !recentBookings.length">
     <div class="animated bounceInDown card text-center p-1">
