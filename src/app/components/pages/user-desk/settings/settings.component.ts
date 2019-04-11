@@ -158,7 +158,7 @@ export class SettingsComponent implements OnInit {
       jobTitle: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
       city: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3)]),
       currency: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(2)]),
-      region: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(3)]),
+      region: new FormControl(null, [Validators.maxLength(50), Validators.minLength(3)]),
       email: new FormControl(null, [
         Validators.required,
         Validators.pattern(EMAIL_REGEX),
@@ -1033,7 +1033,7 @@ export class SettingsComponent implements OnInit {
       mobileNumber: this.personalInfoForm.value.mobile,
       countryPhoneCode: this.mobileCode,
       phoneCodeCountryID: this.mobileCountryId,
-      regionID: this.personalInfoForm.value.region,
+      regionID: (!this.personalInfoForm.value.region)? null : this.personalInfoForm.value.region,
       currencyID: this.personalInfoForm.value.currency.id
     }
     this._settingService.personalSetting(obj).subscribe((res: any) => {
