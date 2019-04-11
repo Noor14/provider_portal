@@ -92,6 +92,7 @@ export interface docDetail{
   FileContent: any
 }
 export interface BookingDetails {
+  ContainerSpecShortName?:string;
   JsonSearchCriteria?:any;
   BookingJsonDetail?: any;
   WHAddress?:string;

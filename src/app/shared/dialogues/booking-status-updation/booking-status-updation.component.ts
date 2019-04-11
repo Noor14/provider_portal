@@ -125,7 +125,11 @@ export class BookingStatusUpdationComponent implements OnInit {
           modifiedBy: this.modalData.loginID,
           approverID: this.modalData.providerID,
           approverType: 'PROVIDER',
-          reasonID: id
+          reasonID: id,
+          providerName: this.modalData.booking.ProviderName,
+          emailTo: this.modalData.booking.ProviderEmail,
+          userName: this.modalData.booking.UserName,
+          hashMoveBookingNum: this.modalData.booking.HashMoveBookingNum,
         }
         this._viewBookingService.updateBookingStatus(this.actionObj).subscribe((res: any) => {
           if (res.returnStatus == "Success") {

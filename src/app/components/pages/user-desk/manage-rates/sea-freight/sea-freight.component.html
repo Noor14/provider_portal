@@ -317,7 +317,7 @@
           <app-ui-table *ngIf="allRatesListLcL" [tableType]="'publishFCL'" [tableData]="allRatesListLcL"
             (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('lcl', $event)"
             (pageEvent)="paging('lcl', $event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'LCL'"
-            [transMode]="'SEA'">
+            [transMode]="'SEA'" [incomingPage]="pageNo">
           </app-ui-table>
           <div class="text-center" *ngIf="!allRatesListLcL">
             No Records Found
@@ -650,7 +650,7 @@
           <app-ui-table *ngIf="allRatesList" [tableType]="'publishFCL'" [tableData]="allRatesList"
             (checkedRows)="tableCheckedRows($event)" (sorting)="sortedFilters('fcl', $event)"
             (pageEvent)="paging('fcl' ,$event)" [totalRecords]="totalPublishedRecords" [containerLoad]="'FCL'"
-            [transMode]="'SEA'">
+            [transMode]="'SEA'" [incomingPage]="pageNo">
           </app-ui-table>
           <div class="text-center" *ngIf="!allRatesList">No Records Found</div>
           <app-loader-main *ngIf="publishloading"></app-loader-main>

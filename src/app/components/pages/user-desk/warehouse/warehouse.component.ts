@@ -522,6 +522,18 @@ export class WarehouseComponent implements OnInit {
     }
 
   }
+
+  fixedAmountToggler(){
+    this.fixedAmount = !this.fixedAmount;
+    if (this.fixedAmount){
+      this.commissionForm.controls['percentValue'].reset()
+    }else{
+      if (this.isRealEstate && !this.fixedAmount && this.warehouseDetail.Percent) {
+      this.commissionForm.controls['percentValue'].setValue(this._currencyControl.applyRoundByDecimal(parseFloat(this.warehouseDetail.Percent), 2));
+      }
+    }
+  }
+
   addFacilities(obj, $event) {
     this.facilities.map((elem) => {
       if (obj.BusinessLogic == elem.BusinessLogic) {
@@ -1053,7 +1065,7 @@ export class WarehouseComponent implements OnInit {
    */
   paging(event) {
     this.pageNo = event.page;
-    this.getAllPublishRates(event.whid)
+    this.getAllPublishRates(event.whid, event)
   }
 
   /**
@@ -1073,14 +1085,11 @@ export class WarehouseComponent implements OnInit {
   public sortColumnDirection: string = 'ASC'
   public pageSize: number = 5
   public filteredRecords: number;
-  getAllPublishRates(warehouseID) {
+  getAllPublishRates(warehouseID, number?) {
     loading(false)
-    if (this.filteredRecords === 1) {
-      this.pageNo = this.pageNo - 1
-    }
     this.publishloading = true;
     let obj = {
-      pageNo: (this.pageNo < 1) ? 1 : this.pageNo,
+      pageNo: (number) ? number : this.pageNo,
       pageSize: this.pageSize,
       providerID: this.userProfile.ProviderID,
       whid: warehouseID,
@@ -1140,7 +1149,9 @@ export class WarehouseComponent implements OnInit {
     });
     modalRef.result.then((result) => {
       if (result == "Success") {
-        this.getAllPublishRates(this.warehousePublishedRates[0].whid)
+        // this.getAllPublishRates(this.warehousePublishedRates[0].whid)
+        this.paging(1)
+        this.pageNo = 1
       }
     });
     let obj = {
@@ -1255,11 +1266,13 @@ export class WarehouseComponent implements OnInit {
       loading(false)
       const { returnId, returnText } = res
       if (returnId > 0) {
-        this._toastr.success(returnText, 'Success')
+        if (!this.fixedAmount && this.isRealEstate){
+          this.warehouseDetail.Percent = this.commissionForm.value.percentValue
+        }
+        this._toastr.success('Comission updated successfully', 'Success')
       } else {
         this._toastr.error(returnText)
       }
-      this._toastr.success('Comission updated successfully', 'Success')
     }, (err) => {
       loading(false)
     })
