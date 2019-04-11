@@ -7,7 +7,7 @@
       <ng-template ngbTabContent>
         <div class="bookingOverview overflow-hidden" *ngIf="currentBookings.length">
           <app-bookings-card [booking]="obj" *ngFor="let obj of currentBookings | paginate: paginationConfig"
-            (click)="viewBookingDetails(obj.BookingID, obj)"></app-bookings-card>
+            (click)="viewBookingDetails(obj.BookingID, obj.ProviderID, obj.ShippingModeCode)"></app-bookings-card>
           <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide"
             responsive="responsive" previousLabel="" nextLabel=""
             *ngIf="currentBookings.length > paginationConfig.itemsPerPage"></pagination-controls>
@@ -26,7 +26,7 @@
       <ng-template ngbTabContent>
         <div class="bookingOverview overflow-hidden" *ngIf="pastBookings.length">
           <app-bookings-card [booking]="obj" *ngFor="let obj of pastBookings | paginate: paginationConfig"
-            (click)="viewBookingDetails(obj.BookingID)"></app-bookings-card>
+            (click)="viewBookingDetails(obj.BookingID, obj.ProviderID, obj.ShippingModeCode)"></app-bookings-card>
           <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide"
             responsive="responsive" previousLabel="" nextLabel=""
             *ngIf="pastBookings.length > paginationConfig.itemsPerPage"></pagination-controls>
@@ -45,7 +45,7 @@
       <ng-template ngbTabContent>
         <div class="bookingOverview overflow-hidden" *ngIf="totalBookings.length">
           <app-bookings-card [booking]="obj" *ngFor="let obj of totalBookings | paginate: paginationConfig"
-            (click)="viewBookingDetails(obj.BookingID)"></app-bookings-card>
+            (click)="viewBookingDetails(obj.BookingID, obj.ProviderID, obj.ShippingModeCode)"></app-bookings-card>
           <pagination-controls (pageChange)="onPageChange($event)" directionLinks="directionLinks" autoHide="autoHide"
             responsive="responsive" previousLabel="" nextLabel=""
             *ngIf="totalBookings.length > paginationConfig.itemsPerPage"></pagination-controls>
