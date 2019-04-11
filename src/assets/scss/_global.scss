@@ -388,6 +388,9 @@ body {
         &.active {
           background: $primary-grey;
         }
+        ngb-highlight {
+          white-space: normal;
+        }
       }
     }
   }
