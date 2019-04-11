@@ -799,8 +799,8 @@
                         EDIT
                       </button>
                     </div>
-                    <div class="form-group">
-                      <quill-editor *ngIf="!disableEditor" [(ngModel)]="editorContent" [options]="editorOptions"
+                    <div class="form-group" *ngIf="!disableEditor && disableEditor != undefined">
+                      <quill-editor [(ngModel)]="editorContent" [options]="editorOptions"
                         (change)="onContentChanged($event)">
                       </quill-editor>
                     </div>

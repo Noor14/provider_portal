@@ -488,8 +488,8 @@
                       </div>
                     </div>
                     <div class="col-xl-8 col-lg-8 col-md-12 col-sm-8 col-xs-12">
-                      <div class="form-group">
-                      <quill-editor *ngIf="editable" [(ngModel)]="editorContent" [options]="editorOptions" (change)="onContentChanged($event)">
+                      <div class="form-group" *ngIf="editable && editable != undefined">
+                      <quill-editor [(ngModel)]="editorContent" [options]="editorOptions" (change)="onContentChanged($event)">
                       </quill-editor>
                       </div>
                         <div class="editor" *ngIf="!editable" [innerHTML]="editorContent"></div>

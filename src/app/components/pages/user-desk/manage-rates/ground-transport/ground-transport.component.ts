@@ -372,6 +372,9 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
               this.editorContent = state[index].TCGround;
               this.disable = true;
             }
+            else{
+              this.disable = false;
+            }
             if (state[index].DraftDataGround && state[index].DraftDataGround.length) {
             }
           }

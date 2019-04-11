@@ -105,7 +105,7 @@ export class SettingsComponent implements OnInit {
 
   // about Editor
   public editorContent: any;
-  public editable: boolean
+  public editable: boolean;
   private toolbarOptions = [
     ['bold', 'italic', 'underline'],        // toggled buttons
 
@@ -338,6 +338,9 @@ export class SettingsComponent implements OnInit {
               this.showTogglerText = "Show More"
             }
           }
+        }else{
+          this.editable = true;
+
         }
         if (this.info.UploadedCompanyLogo && this.info.UploadedCompanyLogo[0].DocumentFileName &&
           this.info.UploadedCompanyLogo[0].DocumentFileName != "[]" &&

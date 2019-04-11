@@ -715,6 +715,8 @@ export class AirFreightComponent implements OnInit, OnDestroy {
             if (state[index].TCAIR) {
               this.editorContent = state[index].TCAIR;
               this.disable = true;
+            }else{
+              this.disable = false;
             }
             this._sharedService.updatedDraftsAir.pipe(untilDestroyed(this)).subscribe((res: any) => {
               if (!res) {

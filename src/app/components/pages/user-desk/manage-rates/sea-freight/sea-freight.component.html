@@ -335,8 +335,8 @@
                   EDIT
                 </button>
               </div>
-              <div class="form-group">
-                <quill-editor *ngIf="!disableLCL" [(ngModel)]="editorContentLCL" [options]="editorOptionsLCL"
+              <div class="form-group" *ngIf="!disableLCL && disableLCL != undefined">
+                <quill-editor [(ngModel)]="editorContentLCL" [options]="editorOptionsLCL"
                   (blur)="onEditorBlured($event, 'LCL')" (focus)="onEditorFocused($event,'LCL')"
                   (ready)="onEditorCreated($event,'LCL')" (change)="onContentChanged($event,'LCL')">
                 </quill-editor>
@@ -666,8 +666,8 @@
                   EDIT
                 </button>
               </div>
-              <div class="form-group">
-                <quill-editor *ngIf="!disableFCL" [(ngModel)]="editorContentFCL" [options]="editorOptionsFCL"
+              <div class="form-group" *ngIf="!disableFCL && disableFCL != undefined">
+                <quill-editor [(ngModel)]="editorContentFCL" [options]="editorOptionsFCL"
                   (blur)="onEditorBlured($event,'FCL')" (focus)="onEditorFocused($event,'FCL')"
                   (ready)="onEditorCreated($event,'FCL')" (change)="onContentChanged($event,'FCL')">
                 </quill-editor>

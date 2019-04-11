@@ -147,7 +147,8 @@ export class WarehouseComponent implements OnInit {
     }
   };
   public editorContent: any;
-  public disableEditor: boolean = false;
+  public disableEditor: boolean;
+
 
 
 
@@ -459,6 +460,8 @@ export class WarehouseComponent implements OnInit {
           if (res.returnObject && res.returnObject.TermsCondition) {
           this.editorContent= res.returnObject.TermsCondition;
           this.disableEditor = true;
+        }else{
+            this.disableEditor = false;
         }
       }
     })

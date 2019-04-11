@@ -5,9 +5,9 @@
       <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
     </a>
   </div>
-  <div class="modal-body bg-light" [ngClass]="selectedData.forType === 'WAREHOUSE' ? 'warehouseActive': ''">
+  <div class="modal-body bg-light" [ngClass]="{'warehouseActive': selectedData.forType === 'WAREHOUSE'}">
     <div class="row bg-white popup-white pb-0 warehouse-height" *ngIf="(selectedData.forType !== 'FCL-Ground' && selectedData.forType !== 'FTL')">
-      <div class="col-12">
+      <div class="col-12" *ngIf="selectedData.forType !== 'WAREHOUSE'">
         <h5 class="model-sub-head mt-4">Route Info</h5>
       </div>
       <div class="col-4" *ngIf="selectedData.forType == 'FCL'">
