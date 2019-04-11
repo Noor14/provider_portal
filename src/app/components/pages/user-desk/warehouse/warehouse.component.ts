@@ -257,7 +257,7 @@ export class WarehouseComponent implements OnInit {
     let obj = {
       providerID: this.userProfile.ProviderID,
       termsAndConditions: this.editorContent,
-      transportType: "Warehouse",
+      transportType: "WAREHOUSE",
       modifiedBy: this.userProfile.LoginID
     }
     this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
@@ -425,10 +425,7 @@ export class WarehouseComponent implements OnInit {
     this._warehouseService.getWarehouseList(providerId, id).subscribe((res: any) => {
       loading(false)
       if (res.returnStatus == "Success" && res.returnObject) {
-          // if (state[index].TCFCL) {
-        //   this.editorContent= state[index].TCFCL;
-        //   this.disableEditor = true;
-        // }
+        this.getWarehousetermNcond();
         this.isRealEstate = res.returnObject.IsRealEstate;
         if (this.isRealEstate) {
           this.commissionFormGenerate();
@@ -442,7 +439,6 @@ export class WarehouseComponent implements OnInit {
         ]
         this.warehouseDocx = res.returnObject.documentType;
         if (res.returnObject && !Number(id)) {
-
           this.facilities = res.returnObject.WHFacilitiesProviding;
         }
         else if (Number(id)) {
@@ -456,6 +452,17 @@ export class WarehouseComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       loading(false);
     })
+  }
+  getWarehousetermNcond(){
+    this._warehouseService.WHtermNcondition(this.userProfile.ProviderID).subscribe((res: any) => {
+      if(res.returnStatus == "Success"){
+          if (res.returnObject && res.returnObject.TermsCondition) {
+          this.editorContent= res.returnObject.TermsCondition;
+          this.disableEditor = true;
+        }
+      }
+    })
+
   }
   setData(obj: any) {
     if (obj.Latitude) {
