@@ -1960,11 +1960,11 @@ export class SeaRateDialogComponent implements OnInit {
     if (this.transPortMode === "GROUND") {
       let fclContainers = this.allContainers.filter(
         e =>
-          e.ContainerSpecID === containerID &&
+          e.ContainerSpecID === parseInt(containerID) &&
           e.ContainerSpecGroupName === "Container"
       );
       let ftlContainers = this.allContainers.filter(
-        e => e.ContainerSpecID === containerID
+        e => e.ContainerSpecID === parseInt(containerID)
       );
       if (fclContainers.length) {
         this.priceBasis = fclContainers[0].PriceBasis;
