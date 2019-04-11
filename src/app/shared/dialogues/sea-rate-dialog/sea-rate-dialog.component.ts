@@ -2000,7 +2000,7 @@ export class SeaRateDialogComponent implements OnInit {
   setCurrency() {
     const userCurrency = localStorage.getItem("userCurrency");
     this.selectedCurrency = this.allCurrencies.find(
-      obj => obj.id === userCurrency
+      obj => obj.id === parseInt(userCurrency)
     );
   }
 

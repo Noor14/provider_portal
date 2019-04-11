@@ -431,8 +431,6 @@ export class UiTableComponent implements OnInit, OnChanges {
         !row.polID ||
         !row.podID ||
         !row.price ||
-        !row.totalExportCharges ||
-        !row.totalImportCharges ||
         !row.shippingCatID ||
         !row.effectiveFrom ||
         !row.effectiveTo ||
