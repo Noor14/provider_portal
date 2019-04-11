@@ -9,9 +9,7 @@ import { PlatformLocation } from '@angular/common';
 import { PaginationInstance } from 'ngx-pagination';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SeaFreightService } from '../sea-freight/sea-freight.service';
 import { ConfirmDeleteDialogComponent } from '../../../../../shared/dialogues/confirm-delete-dialog/confirm-delete-dialog.component';
-import { CommonService } from '../../../../../services/common.service';
 import { SharedService } from '../../../../../services/shared.service';
 import { VideoDialogueComponent } from '../../../../../shared/dialogues/video-dialogue/video-dialogue.component'
 
@@ -24,13 +22,14 @@ import { VideoDialogueComponent } from '../../../../../shared/dialogues/video-di
 export class WarehouseListComponent implements OnInit {
 
   public baseExternalAssets: string = baseExternalAssets;
-  public userProfile;
+  public userProfile:any;
   public allWareHouseList: any[] = [];
   public cityList: any[] = [];
   public wareHouseTitle: string;
   public autoHide: boolean = false;
   public responsive: boolean = true;
   public directionLinks: boolean = true;
+  public videoURL: any;
   public paginationConfig: PaginationInstance = {
     itemsPerPage: 5, currentPage: 1
   }
@@ -47,6 +46,8 @@ export class WarehouseListComponent implements OnInit {
   // wareHouseDetTemplate
   public wareHouseDetTemplate: boolean = false;
   public warehouseID: any;
+
+
 
   constructor(
     private _warehouseService: WarehouseService,
@@ -73,7 +74,6 @@ export class WarehouseListComponent implements OnInit {
     });
   }
 
-  public videoURL: any
   getWhlist(providerId) {
     this.loading = true
     const wId = 0;
@@ -98,7 +98,7 @@ export class WarehouseListComponent implements OnInit {
                     if (doc.DocumentUploadedFileType.toLowerCase() === 'png' || doc.DocumentUploadedFileType.toLowerCase() === 'jpg' || doc.DocumentUploadedFileType.toLowerCase() === 'jpeg') {
                       const album = {
                         src: baseExternalAssets + '/' + doc.DocumentFile,
-                        // caption: '&nbsp;',
+                      // caption: elem.DocumentFileName,
                         thumb: baseExternalAssets + '/' + doc.DocumentFile,
                         DocumentUploadedFileType: doc.DocumentUploadedFileType
                       };
@@ -177,7 +177,6 @@ export class WarehouseListComponent implements OnInit {
   }
 
 
-
   deleteWarehouse(whid) {
     const modalRef = this._modalService.open(ConfirmDeleteDialogComponent, {
       size: 'lg',
@@ -233,7 +232,9 @@ export class WarehouseListComponent implements OnInit {
     this.getWhlist(this.userProfile.ProviderID);
   }
 
-  openVideo(videoURL) {
+  openVideo(videoURL, event) {
+    event.preventDefault()
+    event.stopPropagation()
     const modalRefVideo = this._modalService.open(VideoDialogueComponent, {
       size: 'lg',
       centered: true,

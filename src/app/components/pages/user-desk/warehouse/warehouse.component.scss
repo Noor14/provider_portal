@@ -23,8 +23,6 @@
                     position: relative;
                     width: 180px;
                     text-align: center;
-                    height: 138px;
-                    overflow: hidden;
                     .video-icon {
                         position: absolute;
                         bottom: 0;
@@ -398,7 +396,7 @@
             }
 
             &.withScroll {
-                bottom: 1.5rem;
+                bottom: 0.5rem;
                 display: inline-block;
             }
         }

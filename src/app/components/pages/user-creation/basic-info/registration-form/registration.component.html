@@ -760,9 +760,18 @@
       </div>
     </form>
     <div class="row mt-5">
-      <div class="col">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="switch-box">
+          <ui-switch size="small" [checked]="term" (change)="term = !term"></ui-switch>
+          <span>I agree to the</span>
+          <a href="https://www.hashmove.com/terms-of-use.html" target="_blank">
+            Terms and Conditions
+          </a>
+        </div>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <button class="btn btn-primary btn-register hvr-sweep-to-right pull-right pt-2 pr-5 pl-5 pb-2" type="submit"
-          (click)="registration()" [disabled]="businessForm.invalid || personalInfoForm.invalid">
+          (click)="registration()" [disabled]="businessForm.invalid || personalInfoForm.invalid || !term">
           <span>Register</span>
           <span class="dir-otherLanguage" *ngIf="showTranslatedLangSide"> / تسجيل</span>
         </button>

@@ -796,13 +796,9 @@ export class SeaRateDialogComponent implements OnInit {
         this.calculatePricingJSON();
       }
 
-      console.log("selectedOrigin:", this.selectedOrigins);
-
       let JsonSurchargeDet = JSON.stringify(
         this.selectedOrigins.concat(this.selectedDestinations)
       );
-      console.log(JsonSurchargeDet === "[{},{}]");
-
       let singlePrice: number = 0;
       let doublePRice: number = 0;
 
@@ -1593,8 +1589,6 @@ export class SeaRateDialogComponent implements OnInit {
   setEditData(type) {
     let parsedJsonSurchargeDet;
     if (type === "publish") {
-      console.log(this.selectedData.data);
-
       parsedJsonSurchargeDet =
         this.selectedData.forType === "WAREHOUSE"
           ? JSON.parse(this.selectedData.data.JsonSurchargeDet)

@@ -254,7 +254,10 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
           this.bookingDetails.JsonAgentDestInfo = JSON.parse(this.bookingDetails.JsonAgentDestInfo);
           this.editAgentDestToggler = true;
         }
-        if (this.bookingDetails.ShippingModeCode != 'WAREHOUSE') {
+        if (this.bookingDetails.ShippingModeCode != 'SEA' && this.bookingDetails.BookingUserInfo.UserImage && this.bookingDetails.BookingUserInfo.UserImage != "[]" && isJSON(this.bookingDetails.BookingUserInfo.UserImage)) {
+          this.bookingDetails.BookingUserInfo.UserImage = JSON.parse(this.bookingDetails.BookingUserInfo.UserImage)[0].DocumentFile;
+        }
+        if (this.bookingDetails.ShippingModeCode != 'WAREHOUSE'){
           this.bookingDetails.origin = this.bookingDetails.PolCode.split(' ')[0];
           this.bookingDetails.destination = this.bookingDetails.PodCode.split(' ')[0];
           this.bookingDocs();
@@ -265,9 +268,6 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
         else if (this.bookingDetails.ShippingModeCode == 'WAREHOUSE') {
           this.mapOrgiToDest.push(
             { lat: Number(this.bookingDetails.WHLatitude), lng: Number(this.bookingDetails.WHLongitude) });
-          if (this.bookingDetails.BookingUserInfo.UserImage && this.bookingDetails.BookingUserInfo.UserImage != "[]" && isJSON(this.bookingDetails.BookingUserInfo.UserImage)) {
-            this.bookingDetails.BookingUserInfo.UserImage = JSON.parse(this.bookingDetails.BookingUserInfo.UserImage)[0].DocumentFile;
-          }
           if (this.bookingDetails.WHCityName && this.bookingDetails.WHCountryName) {
             this.wareHouse.Location = this.bookingDetails.WHCityName + ', ' + this.bookingDetails.WHCountryName;
           }

@@ -142,7 +142,7 @@
                     <div class="row mt-3">
                       <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
-                          <label>My Region</label>
+                          <label>My Region (Optional)</label>
                         </div>
                       </div>
                       <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8 col-xs-12">
@@ -491,12 +491,13 @@
                       <div class="form-group">
                       <quill-editor *ngIf="editable" [(ngModel)]="editorContent" [options]="editorOptions" (change)="onContentChanged($event)">
                       </quill-editor>
+                      </div>
                         <div class="editor" *ngIf="!editable" [innerHTML]="editorContent"></div>
-                        <a class="hvr-icon-forward mt-3" href="javascript:;" *ngIf="!editable && showTogglerText" (click)="showToggler()">
+                        <a class="hvr-icon-forward mt-3" href="javascript:;" *ngIf="!editable && showTogglerText"
+                          (click)="showToggler()">
                           <span class="link-hover-secondary">{{showTogglerText}}</span>
                           <i class="fa fa-angle-right hvr-icon"></i>
                         </a>
-                      </div>
                     </div>
                     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-8 col-xs-12 d-flex justify-content-end align-items-start">
                     <button *ngIf="!editable" (click)="editable = true" class="editButton">

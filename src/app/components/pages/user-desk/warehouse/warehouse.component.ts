@@ -26,6 +26,7 @@ import { SeaFreightService } from '../manage-rates/sea-freight/sea-freight.servi
 import { CurrencyControl } from '../../../../services/currency.service';
 import { ElementDef } from '@angular/core/src/view';
 import { VideoDialogueComponent } from '../../../../shared/dialogues/video-dialogue/video-dialogue.component';
+import { ManageRatesService } from '../manage-rates/manage-rates.service';
 
 @Component({
   selector: 'app-warehouse',
@@ -122,6 +123,34 @@ export class WarehouseComponent implements OnInit {
     maxFileSize: 5 * 1024 * 1000,
     totalFilesSize: 5 * 5 * 1024 * 1000
   };
+
+  //term & cond.
+  private toolbarOptions = [
+    ['bold', 'italic', 'underline'],        // toggled buttons
+
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+    [{ 'direction': 'rtl' }],                         // text direction
+
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    [{ 'align': [] }],
+
+    ['clean']                                         // remove formatting button
+  ];
+
+  public editorOptions = {
+    placeholder: "insert content...",
+    modules: {
+      toolbar: this.toolbarOptions
+    }
+  };
+  public editorContent: any;
+  public disableEditor: boolean = false;
+
+
+
   warehouseCharges: any;
   publishloading: boolean;
   fromDate: any;
@@ -148,7 +177,8 @@ export class WarehouseComponent implements OnInit {
     private _lightbox: Lightbox,
     private _commonService: CommonService,
     private _seaFreightService: SeaFreightService,
-    private _currencyControl: CurrencyControl
+    private _currencyControl: CurrencyControl,
+    private _manageRatesService: ManageRatesService
 
   ) { }
 
@@ -219,6 +249,24 @@ export class WarehouseComponent implements OnInit {
       });
 
 
+  }
+  onContentChanged({ quill, html, text }) {
+    this.editorContent = html
+  }
+  saveTermNcond() {
+    let obj = {
+      providerID: this.userProfile.ProviderID,
+      termsAndConditions: this.editorContent,
+      transportType: "WAREHOUSE",
+      modifiedBy: this.userProfile.LoginID
+    }
+    this._manageRatesService.termNCondition(obj).subscribe((res: any) => {
+      if (res.returnStatus == "Success") {
+        this._toastr.success("Term and Condition saved Successfully", "");
+        this._sharedService.termNcondLCL.next(this.editorContent);
+        this.disableEditor = true;
+      }
+    })
   }
 
   commissionFormGenerate() {
@@ -377,6 +425,7 @@ export class WarehouseComponent implements OnInit {
     this._warehouseService.getWarehouseList(providerId, id).subscribe((res: any) => {
       loading(false)
       if (res.returnStatus == "Success" && res.returnObject) {
+        this.getWarehousetermNcond();
         this.isRealEstate = res.returnObject.IsRealEstate;
         if (this.isRealEstate) {
           this.commissionFormGenerate();
@@ -390,7 +439,6 @@ export class WarehouseComponent implements OnInit {
         ]
         this.warehouseDocx = res.returnObject.documentType;
         if (res.returnObject && !Number(id)) {
-
           this.facilities = res.returnObject.WHFacilitiesProviding;
         }
         else if (Number(id)) {
@@ -404,6 +452,17 @@ export class WarehouseComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       loading(false);
     })
+  }
+  getWarehousetermNcond(){
+    this._warehouseService.WHtermNcondition(this.userProfile.ProviderID).subscribe((res: any) => {
+      if(res.returnStatus == "Success"){
+          if (res.returnObject && res.returnObject.TermsCondition) {
+          this.editorContent= res.returnObject.TermsCondition;
+          this.disableEditor = true;
+        }
+      }
+    })
+
   }
   setData(obj: any) {
     if (obj.Latitude) {
@@ -427,10 +486,9 @@ export class WarehouseComponent implements OnInit {
     if (obj.WHDesc) {
       this.generalForm.controls['whDetail'].setValue(obj.WHDesc);
     }
-    // this.allWareHouseList.forEach(element => {
+    // this.allWareHouseList.forEach((element, index) => {
     //   const albumArr = []
     //   const docsArray: Array<any> = JSON.parse(element.WHGallery)
-    //   let idx = this.allWareHouseList.indexOf(element);
     //   try {
     //     docsArray.forEach(doc => {
     //       if (doc.DocumentUploadedFileType.toLowerCase() === 'png' || doc.DocumentUploadedFileType.toLowerCase() === 'jpg' || doc.DocumentUploadedFileType.toLowerCase() === 'jpeg') {
@@ -440,10 +498,10 @@ export class WarehouseComponent implements OnInit {
     //           thumb: baseExternalAssets + '/' + doc.DocumentFile
     //         };
     //         albumArr.push(album)
-    //         this.allWareHouseList[idx].WHParsedMedia = albumArr;
+    //         this.allWareHouseList[index].WHParsedMedia = albumArr;
     //       } else if (doc.DocumentUploadedFileType.toLowerCase() === 'mp4') {
     //         this.videoURL = baseExternalAssets + '/' + doc.DocumentFile
-    //         this.allWareHouseList[idx].videoURL = this.videoURL;
+    //         this.allWareHouseList[index].videoURL = this.videoURL;
     //       }
     //     })
     //   } catch (error) { }
@@ -1065,7 +1123,7 @@ export class WarehouseComponent implements OnInit {
    */
   paging(event) {
     this.pageNo = event.page;
-    this.getAllPublishRates(event.whid, event)
+    this.getAllPublishRates(event.whid, event.page)
   }
 
   /**
@@ -1150,7 +1208,7 @@ export class WarehouseComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result == "Success") {
         // this.getAllPublishRates(this.warehousePublishedRates[0].whid)
-        this.paging(1)
+        this.paging({page: 1, whid: this.whID})
         this.pageNo = 1
       }
     });
@@ -1278,7 +1336,9 @@ export class WarehouseComponent implements OnInit {
     })
   }
 
-  openVideo(videoURL) {
+  openVideo(videoURL, event) {
+    event.preventDefault()
+    event.stopPropagation()
     const modalRefVideo = this._modalService.open(VideoDialogueComponent, {
       size: 'lg',
       centered: true,

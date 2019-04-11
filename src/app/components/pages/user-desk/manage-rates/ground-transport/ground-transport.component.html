@@ -381,13 +381,13 @@
             (blur)="onEditorBlured($event)" (focus)="onEditorFocused($event)" (ready)="onEditorCreated($event)"
             (change)="onContentChanged($event)">
           </quill-editor>
+        </div>
           <div *ngIf="disable" class="editor" [innerHTML]="editorContent">
           </div>
           <button *ngIf="!disable" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4"
             type="button" [disabled]="!editorContent" (click)="saveTermNcond()">
             SAVE
           </button>
-        </div>
       </div>
     </div>
   </section>
