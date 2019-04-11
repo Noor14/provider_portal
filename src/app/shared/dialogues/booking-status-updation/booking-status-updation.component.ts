@@ -21,10 +21,10 @@ export class BookingStatusUpdationComponent implements OnInit {
   public actionObj: Reasons;
   public cancelledStatus: any;
   public selectPlaceholder: string;
-  public selectedReason: any = {
+  public selectedReason = {
     remarks: '',
     status: '',
-    id: ''
+    id: 0
   };
 
   constructor(
@@ -84,7 +84,7 @@ export class BookingStatusUpdationComponent implements OnInit {
 
   submit() {
     if (this.modalData.type === 'cancel') {
-      const { id, remarks } = this.selectedReason;
+      const { id, remarks, status } = this.selectedReason;
       if (id && remarks) {
         this.actionObj = {
           bookingID: this.modalData.bookingID,
@@ -95,14 +95,15 @@ export class BookingStatusUpdationComponent implements OnInit {
           approverID: this.modalData.providerID,
           approverType: 'PROVIDER',
           reasonID: id,
+          reasonText: status,
           providerName: this.modalData.booking.ProviderName,
-          emailTo: this.modalData.booking.ProviderEmail,
+          emailTo: (this.modalData.booking && this.modalData.booking.BookingUserInfo && this.modalData.booking.BookingUserInfo.PrimaryEmail) ? this.modalData.booking.BookingUserInfo.PrimaryEmail : '',
           userName: this.modalData.booking.UserName,
           hashMoveBookingNum: this.modalData.booking.HashMoveBookingNum,
         }
         this._viewBookingService.cancelBooking(this.actionObj).subscribe((res: any) => {
-          if (res.returnStatus == "Success"){
-          this._toast.success(res.returnText, 'Success');
+          if (res.returnStatus == "Success") {
+            this._toast.success(res.returnText, 'Success');
             let obj = {
               bookingStatus: res.returnObject.bookingStatus,
               shippingStatus: res.returnObject.shippingStatus,
@@ -126,25 +127,22 @@ export class BookingStatusUpdationComponent implements OnInit {
           approverID: this.modalData.providerID,
           approverType: 'PROVIDER',
           reasonID: id,
+          reasonText: status,
           providerName: this.modalData.booking.ProviderName,
-          emailTo: this.modalData.booking.ProviderEmail,
+          emailTo: (this.modalData.booking && this.modalData.booking.BookingUserInfo && this.modalData.booking.BookingUserInfo.PrimaryEmail) ? this.modalData.booking.BookingUserInfo.PrimaryEmail : '',
           userName: this.modalData.booking.UserName,
           hashMoveBookingNum: this.modalData.booking.HashMoveBookingNum,
         }
         this._viewBookingService.updateBookingStatus(this.actionObj).subscribe((res: any) => {
           if (res.returnStatus == "Success") {
-          this._toast.success(res.returnText, 'Success');
-          let obj = {
-            bookingStatus: res.returnObject.bookingStatus,
-            shippingStatus: res.returnObject.shippingStatus,
-            resType : res.returnStatus,
-            providerName: this.modalData.booking.ProviderName,
-            emailTo: this.modalData.booking.ProviderEmail,
-            userName: this.modalData.booking.UserName,
-            hashMoveBookingNum: this.modalData.booking.HashMoveBookingNum,
-          }
+            this._toast.success(res.returnText, 'Success');
+            let obj = {
+              bookingStatus: res.returnObject.bookingStatus,
+              shippingStatus: res.returnObject.shippingStatus,
+              resType: res.returnStatus,
+            }
             this.closeModal(obj);
-        }
+          }
         }, (err: HttpErrorResponse) => {
           console.log(err);
         })
