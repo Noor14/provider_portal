@@ -11,4 +11,5 @@ export interface Reasons {
     emailTo?: any;
     userName?: any;
     hashMoveBookingNum?: any;
+    reasonText?: any;
 }
