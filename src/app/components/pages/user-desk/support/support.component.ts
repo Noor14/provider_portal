@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SupportService } from './support.service';
+import { CommonService } from '../../../../services/common.service';
 
 @Component({
   selector: 'app-support',
@@ -9,10 +9,10 @@ import { SupportService } from './support.service';
 export class SupportComponent implements OnInit {
   public helpSupport: any;
   public HelpDataLoaded: boolean;
-  constructor(private _supportService: SupportService) { }
+  constructor(private _commonService: CommonService) { }
 
   ngOnInit() {
-    this._supportService.getHelpSupport().subscribe((res: any) => {
+    this._commonService.getHelpSupport(true).subscribe((res: any) => {
       if (res.returnId > 0) {
         this.helpSupport = JSON.parse(res.returnText);
         this.HelpDataLoaded = true;
