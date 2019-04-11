@@ -141,7 +141,8 @@ export const INSTAGRAM_REGEX: RegExp = /(https?:\/\/(www\.)?)?instagram\.com(\/\
 export const URL_REGEX: RegExp = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
 export const GEN_URL: RegExp = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
 
-export const encryptBookingID = (bookingId: number): string => {
+export const encryptBookingID = (bookingId: number, userId?: any, shippingModeCode?: string): string => {
+  // const toEncrypt: string = bookingId + '|' + userId + '|' + shippingModeCode
   const toEncrypt: string = bookingId + '00000' + bookingId
   const toSend: string = Base64.encode(toEncrypt)
   return toSend
