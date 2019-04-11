@@ -18,8 +18,8 @@ if (environment.qa) {
     // baseExternalAssets = "http://10.20.1.13:7091";
 
 }
-else if (environment.dev) {
-    // DEV URL
+else if (environment.pers) {
+    // PERS URL
     baseApi = "http://10.20.1.13:9091/api/";
     baseExternalAssets = "http://10.20.1.13:9091";
 }

@@ -49,21 +49,21 @@
           <div class="card-body">
             <div class="row mt-1">
               <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12">
-                <div class="gallery-section">
-                  <div class="images-carousel" *ngFor="let image of wareHouse.WHParsedMedia; let i=index">
-                    <img [src]="image.thumb" (click)="openGallery(i, wareHouse.WHParsedMedia)" />
-                    <div class="gallery-section-item d-flex justify-content-center align-items-center"
-                      (click)="openGallery(i, wareHouse.WHParsedMedia)">
-                      <img src="../../../../assets/images/icons/icon_pictures.svg" alt="" class="icon-size-14 mr-1">
-                      {{wareHouse.WHParsedMedia.length}}
+                <div *ngFor="let image of wareHouse.WHParsedMedia; let i=index"
+                  (click)="openGallery(i, wareHouse.WHParsedMedia)">
+                  <div class="gallery-section" *ngIf="i==0">
+                    <div class="images-carousel">
+                      <img [src]="image.thumb" *ngIf="image.DocumentUploadedFileType != 'mp4'" />
+                      <div class="gallery-section-item d-flex justify-content-center align-items-center">
+                        <img src="../../../../assets/images/icons/icon_pictures.svg" alt="" class="icon-size-14 mr-1">
+                        {{wareHouse.WHParsedMedia.length}}
+                      </div>
                     </div>
-                  </div>
-                  <img *ngIf="!wareHouse.WHParsedMedia" src="../../../../../../assets/images/placeholder_image.gif"
-                    alt="">
-                  <div class="video-icon" *ngIf="wareHouse.videoURL" (click)="openVideo(wareHouse.videoURL)">
-                    <a href="javascript:;">
-                      <i class="fa fa-play"></i>
-                    </a>
+                    <div class="video-icon" *ngIf="wareHouse.videoURL" (click)="openVideo(wareHouse.videoURL)">
+                      <a href="javascript:;">
+                        <i class="fa fa-play"></i>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -14,7 +14,6 @@ import { SettingService } from '../settings/setting.service';
 })
 export class ManageRatesComponent implements OnInit, OnDestroy {
 
-  public notSupTooltipText:string;
   public selectedServices: any[];
   private dashBoardSubscriber:any
   public seaDisabled :boolean= true;
@@ -34,7 +33,6 @@ export class ManageRatesComponent implements OnInit, OnDestroy {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
-      this.notSupTooltipText = this.userProfile.FirstNameBL + " " + this.userProfile.LastNameBL +" did not support this category";
       this.getAllservicesBySea(this.userProfile.UserID, this.userProfile.ProviderID);
       this.getUserDetail(this.userProfile.UserID);
     }

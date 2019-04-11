@@ -98,7 +98,7 @@ export class WarehouseListComponent implements OnInit {
                     if (doc.DocumentUploadedFileType.toLowerCase() === 'png' || doc.DocumentUploadedFileType.toLowerCase() === 'jpg' || doc.DocumentUploadedFileType.toLowerCase() === 'jpeg') {
                       const album = {
                         src: baseExternalAssets + '/' + doc.DocumentFile,
-                        // caption: '&nbsp;',
+                      // caption: elem.DocumentFileName,
                         thumb: baseExternalAssets + '/' + doc.DocumentFile,
                         DocumentUploadedFileType: doc.DocumentUploadedFileType
                       };
