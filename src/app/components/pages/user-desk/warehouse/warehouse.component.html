@@ -408,7 +408,8 @@
                             *ngIf="propertyDetailForm.controls['hashmoveSpace'].hasError('pattern') && (propertyDetailForm.controls.hashmoveSpace.dirty || propertyDetailForm.controls.hashmoveSpace.touched)">
                             Please
                             enter valid information</p>
-                          <p class="inputError animated fadeIn" [innerHTML]="hashmovespaceMsg"></p>
+                          <p class="inputError animated fadeIn" [innerHTML]="hashmovespaceMsg"
+                            *ngIf="!propertyDetailForm.controls['hashmoveSpace'].errors && hashmovespaceMsg"></p>
                         </span>
                       </div>
                     </div>
