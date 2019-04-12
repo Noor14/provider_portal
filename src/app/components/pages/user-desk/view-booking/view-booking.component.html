@@ -24,7 +24,7 @@
             </div>
           </div> -->
         </div>
-        
+
 
         <div class="col-12 pr-0 pl-0">
           <a class="hvr-icon-back grey-anc-btn mt-3" href="javascript:;" title="Back to Bookings" routerLink='/provider/allbookings'>
@@ -114,16 +114,17 @@
               <div class="contact-popup fadeIn animated">
                 <a [href]="(bookingDetails.BookingUserInfo?.UserType =='CORPORATE')? 'mailto:' + bookingDetails.BookingUserInfo?.CompanyEmail : 'mailto:' + bookingDetails.BookingUserInfo?.PrimaryEmail">
                   <img src="../../../../../assets/images/icons/icon_email.svg" alt="mail_Icon" class="icon-size-16">
-                  <span *ngIf="bookingDetails.BookingUserInfo?.UserType=='CORPORATE'; else custemail">
+                  <span>{{bookingDetails.BookingUserInfo?.PrimaryEmail}}</span>
+                  <!-- <span *ngIf="bookingDetails.BookingUserInfo?.UserType=='CORPORATE'; else custemail">
                     {{bookingDetails.BookingUserInfo?.CompanyEmail}}
-                  </span>
-                  <ng-template #custemail>
+                  </span> -->
+                  <!-- <ng-template #custemail>
                     <span>{{bookingDetails.BookingUserInfo?.PrimaryEmail}}</span>
-                  </ng-template>
+                  </ng-template> -->
                 </a>
                 <p>
                   <img src="../../../../assets/images/icons/mob-icon.svg" alt="Contact_Icon" class="icon-size-16">
-                  <strong align="middle">{{bookingDetails.BookingUserInfo?.ContactNumber}}</strong>
+                  <strong align="middle">{{bookingDetails.BookingUserInfo?.PrimaryPhone}}</strong>
                   <!-- <ng-template #custcont>
                     <strong align="middle">{{bookingDetails.BookingUserInfo?.PrimaryPhone}}</strong>
                   </ng-template> -->
