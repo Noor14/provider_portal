@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { JsonResponse } from '../../../../interfaces/JsonResponse';
 import { BasicInfoService } from '../../user-creation/basic-info/basic-info.service';
 import { ToastrService } from 'ngx-toastr';
@@ -127,6 +127,7 @@ export class SettingsComponent implements OnInit {
     }
   };
 
+  @ViewChild('editor') editContainer:ElementRef
 
   // show more
   public showTogglerText: string;
@@ -290,14 +291,14 @@ export class SettingsComponent implements OnInit {
       console.log(err);
     })
   }
-  showToggler(type) {
-    let elem = document.getElementsByClassName('editor')[0];
-    if (elem.classList.contains('showMore')) {
-      elem.classList.remove('showMore');
+  showToggler() {
+    let elem = this.editContainer as any;
+    if (elem.nativeElement.classList.contains('showMore')) {
+      elem.nativeElement.classList.remove('showMore');
       this.showTogglerText = "Show Less"
     }
     else {
-      elem.classList.add('showMore');
+      elem.nativeElement.classList.add('showMore');
       this.showTogglerText = "Show More"
     }
   }
@@ -328,19 +329,20 @@ export class SettingsComponent implements OnInit {
           this.editorContent = this.info.About;
           this.editable = false;
           if (this.editorContent.length > this.showMoreTextLength) {
-            let elem = document.getElementsByClassName('editor')[0];
-            if (elem.classList.contains('showMore')) {
-              elem.classList.remove('showMore');
+            let elem = this.editContainer as any;
+            if (elem && elem.nativeElement.classList.contains('showMore')) {
+              elem.nativeElement.classList.remove('showMore');
               this.showTogglerText = "Show Less"
             }
             else {
-              elem.classList.add('showMore');
-              this.showTogglerText = "Show More"
+              if (elem){
+                elem.nativeElement.classList.add('showMore');
+                this.showTogglerText = "Show More"
+              }
             }
           }
         }else{
           this.editable = true;
-
         }
         if (this.info.UploadedCompanyLogo && this.info.UploadedCompanyLogo[0].DocumentFileName &&
           this.info.UploadedCompanyLogo[0].DocumentFileName != "[]" &&
@@ -701,19 +703,26 @@ export class SettingsComponent implements OnInit {
     }
     this._settingService.companyAbout(object).subscribe((res: any) => {
       if (res.returnStatus == "Success") {
-        this.editable = false;
         this._toastr.success('Updated Successfully.', '');
-        if (this.editorContent.length > this.showMoreTextLength) {
-          let elem = document.getElementsByClassName('editor')[0];
-          if (elem.classList.contains('showMore')) {
-            elem.classList.remove('showMore');
-            this.showTogglerText = "Show Less"
+        this.editable = false;
+        setTimeout(()=>{
+          if (this.editorContent.length > this.showMoreTextLength) {
+            let elem = this.editContainer as any;
+            if (elem && elem.nativeElement.classList.contains('showMore')) {
+              elem.nativeElement.classList.remove('showMore');
+              this.showTogglerText = "Show Less"
+            }
+            else {
+              if(elem){
+                elem.nativeElement.classList.add('showMore');
+                this.showTogglerText = "Show More"
+              }
+            }
           }
           else {
-            elem.classList.add('showMore');
-            this.showTogglerText = "Show More"
+            this.showTogglerText = undefined;
           }
-        }
+        },0)
       }
       else {
         this._toastr.error(res.returnText, '');
