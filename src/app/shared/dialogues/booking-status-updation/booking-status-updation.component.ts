@@ -98,6 +98,7 @@ export class BookingStatusUpdationComponent implements OnInit {
           reasonText: status,
           providerName: this.modalData.booking.ProviderName,
           emailTo: (this.modalData.booking && this.modalData.booking.BookingUserInfo && this.modalData.booking.BookingUserInfo.PrimaryEmail) ? this.modalData.booking.BookingUserInfo.PrimaryEmail : '',
+          phoneTo: (this.modalData.booking && this.modalData.booking.BookingUserInfo && this.modalData.booking.BookingUserInfo.PrimaryPhone) ? this.modalData.booking.BookingUserInfo.PrimaryPhone : '',
           userName: this.modalData.booking.UserName,
           hashMoveBookingNum: this.modalData.booking.HashMoveBookingNum,
         }
@@ -130,6 +131,7 @@ export class BookingStatusUpdationComponent implements OnInit {
           reasonText: status,
           providerName: this.modalData.booking.ProviderName,
           emailTo: (this.modalData.booking && this.modalData.booking.BookingUserInfo && this.modalData.booking.BookingUserInfo.PrimaryEmail) ? this.modalData.booking.BookingUserInfo.PrimaryEmail : '',
+          phoneTo: (this.modalData.booking && this.modalData.booking.BookingUserInfo && this.modalData.booking.BookingUserInfo.PrimaryPhone) ? this.modalData.booking.BookingUserInfo.PrimaryPhone : '',
           userName: this.modalData.booking.UserName,
           hashMoveBookingNum: this.modalData.booking.HashMoveBookingNum,
         }
