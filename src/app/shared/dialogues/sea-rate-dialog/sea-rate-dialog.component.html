@@ -366,7 +366,7 @@
             <div class="d-flex ml-3 mr-3 mb-2" [ngClass]="addOriginActive ? 'active' : ''">
               <div class="col-7 pr-0 pl-0">
                 <div ngbDropdown #originDropdown="ngbDropdown" class="combine-filed-popup-left-btn" (openChange)="dropdownToggle($event, 'origin')">
-                  <button class="btn has-open" id="{{selectedOrigins[i]?.addChrName}}" placement="top" ngbTooltip="{{selectedOrigins[i]?.addChrName}}" ngbDropdownToggle>
+                  <button class="btn has-open" id="{{selectedOrigins[i]?.addChrName}}" placement="top" ngbTooltip="{{selectedOrigins[i]?.addChrName - (selectedOrigins[i]?.addChrBasis)}}" ngbDropdownToggle>
                     {{selectedOrigins[i]?.addChrName || 'Select' | limitTo : 30 }}
                   </button>
                   <div ngbDropdownMenu aria-labelledby="originExport">
@@ -443,7 +443,7 @@
             <div class="d-flex ml-3 mr-3 mb-2" [ngClass]="addDestinationActive ? 'active' : ''">
               <div class="col-7 pr-0 pl-0">
                 <div ngbDropdown #destinationDropdown="ngbDropdown" (openChange)="dropdownToggle($event, 'destination')" class="combine-filed-popup-left-btn" placement="top-left">
-                  <button class="btn has-open" id="destinationExport" placement="top" ngbTooltip="{{selectedDestinations[i]?.addChrName}}" ngbDropdownToggle>
+                  <button class="btn has-open" id="destinationExport" placement="top" ngbTooltip="{{selectedDestinations[i]?.addChrName - (selectedOrigins[i]?.addChrBasis)}}" ngbDropdownToggle>
                     {{selectedDestinations[i]?.addChrName || 'Select' | limitTo : 30 }} </button>
                   <div ngbDropdownMenu aria-labelledby="destinationExport">
                     <button *ngIf="!isDestinationChargesForm" class="dropdown-item custom-label has-open" (click)="showCustomChargesForm('destination')">
