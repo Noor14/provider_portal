@@ -10,11 +10,11 @@
       <div class="form-group">
         <label >{{description}}</label>
         <select class="form-control" *ngIf="modalData.type === 'cancel'" [(ngModel)]="selectedReason.id" (change)="onModelChange(selectedReason)">
-          <option value="" selected>{{selectPlaceholder}}</option>
+          <option [value]="selectedReason.id" disabled>{{selectPlaceholder}}</option>
           <option *ngFor="let reason of bookingReasons" [value]="reason.ReasonID">{{reason.ReasonName}}</option>
         </select>
         <select class="form-control" *ngIf="modalData.type === 'updated'" [(ngModel)]="selectedReason.id" (change)="onModelChange(selectedReason)">
-          <option value="" selected>{{selectPlaceholder}}</option>
+          <option [value]="selectedReason.id" disabled>{{selectPlaceholder}}</option>
           <option *ngFor="let status of bookingStatuses" [value]="status.StatusID">{{status.StatusName}}</option>
         </select>
         <!-- <label >Define Your Status </label>
