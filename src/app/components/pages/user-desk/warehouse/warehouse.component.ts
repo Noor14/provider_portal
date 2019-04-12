@@ -1005,6 +1005,7 @@ export class WarehouseComponent implements OnInit {
    */
 
   addWarehouseRate(rowId) {
+    console.log(this.warehouseDetail);
     let obj;
     if (rowId > 0) {
       obj = this.warehouseDetail;

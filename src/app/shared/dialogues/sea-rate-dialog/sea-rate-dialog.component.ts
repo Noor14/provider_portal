@@ -257,7 +257,7 @@ export class SeaRateDialogComponent implements OnInit {
       if (this.selectedData.mode === "publish") {
         this.disabledCustomers = true;
         let data = changeCase(this.selectedData.data[0], "pascal");
-        this.setData(data);
+        this.setData(data);        
       } else {
         this.setData(this.selectedData.data);
       }
@@ -280,8 +280,8 @@ export class SeaRateDialogComponent implements OnInit {
     ) {
       if (this.selectedData.mode === "publish") {
         this.selectedData.data = changeCase(this.selectedData.data, "pascal");
-        this.disabledCustomers = true;
         // let data = changeCase(this.selectedData.data, 'pascal')
+        this.disabledCustomers = true;
         this.setData(this.selectedData.data);
       } else {
         this.setData(this.selectedData.data);
@@ -366,8 +366,8 @@ export class SeaRateDialogComponent implements OnInit {
       );
     }
 
-    // this.disabledCustomers = true;
-    if (data.ContainerLoadType === "WAREHOUSE") {
+    console.log(this.selectedData);
+    if (this.selectedData.forType === 'WAREHOUSE' && this.selectedData.mode === "publish") {
       this.storageType = data.StorageType;
       const parsedPricingJson = JSON.parse(data.PricingJson);
       this.sharedWarehousePricing = parsedPricingJson;
@@ -394,7 +394,9 @@ export class SeaRateDialogComponent implements OnInit {
       this.selectedCurrency = this.allCurrencies.find(
         obj => obj.id === userCurrency
       );
-    } else {
+    } else if (this.selectedData.forType === 'WAREHOUSE' && this.selectedData.mode === "draft") {
+        this.disabledCustomers = false;
+    }else {
       this.disabledCustomers = true;
       this.selectedPrice = data.Price;
       this.selectedCurrency = this.allCurrencies.find(
@@ -850,7 +852,7 @@ export class SeaRateDialogComponent implements OnInit {
         containerSpecID:
           this.selectedContSize == null || this.selectedContSize == "null"
             ? null
-            : this.selectedContSize,
+            : parseInt(this.selectedContSize),
         containerSpecName:
           this.selectedContSize == null || this.selectedContSize == "null"
             ? undefined
@@ -858,7 +860,7 @@ export class SeaRateDialogComponent implements OnInit {
         shippingCatID:
           this.selectedCategory == null || this.selectedCategory == "null"
             ? null
-            : this.selectedCategory,
+            : parseInt(this.selectedCategory),
         shippingCatName:
           this.selectedCategory == null || this.selectedCategory == "null"
             ? undefined

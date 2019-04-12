@@ -253,7 +253,11 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
         this.getAllPublishRates('ftl')
       }
     });
-
+    modalRef.componentInstance.savedRow.subscribe((emmitedValue) => {
+    
+      this.setAddDraftData(type, emmitedValue);
+      this.getDraftRates('ground', type)
+    });
     let object = {
       ID: rowId,
       forType: (type === 'FCL' ? 'FCL-Ground' : type),
@@ -372,7 +376,7 @@ export class GroundTransportComponent implements OnInit, OnDestroy, AfterViewChe
               this.editorContent = state[index].TCGround;
               this.disable = true;
             }
-            else{
+            else {
               this.disable = false;
             }
             if (state[index].DraftDataGround && state[index].DraftDataGround.length) {
