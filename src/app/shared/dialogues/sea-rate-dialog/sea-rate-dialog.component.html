@@ -5,9 +5,9 @@
       <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
     </a>
   </div>
-  <div class="modal-body bg-light" [ngClass]="selectedData.forType === 'WAREHOUSE' ? 'warehouseActive': ''">
-    <div class="row bg-white popup-white pb-0" [ngClass]="allCustomers?.length ? 'warehouse-height' : ''"  *ngIf="(selectedData.forType !== 'FCL-Ground' && selectedData.forType !== 'FTL')">
-      <div class="col-12" *ngIf="selectedData.forType === 'WAREHOUSE'">
+  <div class="modal-body bg-light" [ngClass]="{'warehouseActive': selectedData.forType === 'WAREHOUSE'}">
+    <div class="row bg-white popup-white pb-0 warehouse-height" *ngIf="(selectedData.forType !== 'FCL-Ground' && selectedData.forType !== 'FTL')">
+      <div class="col-12" *ngIf="selectedData.forType !== 'WAREHOUSE'">
         <h5 class="model-sub-head mt-4">Route Info</h5>
       </div>
       <div class="col-4" *ngIf="selectedData.forType == 'FCL'">
@@ -141,7 +141,7 @@
                       <img *ngIf="filterOrigin && filterOrigin.imageName" src="{{'../../../../../assets/images/flags/4x3/' + (filterOrigin.imageName | lowercase) + '.svg'}}" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                     </div>
                     <input class="form-control" #originPickupBox autofocus [(ngModel)]="filterOrigin" placeholder="e.g: Dubai" type="text" [ngClass]="{'routeSelected': filterOrigin && filterOrigin.imageName}" [ngbTypeahead]="citiesList"
-                      [resultTemplate]="rtc" [inputFormatter]="citiesFormatter" (ngModelChange)="portsFilterartion(filterOrigin)" (keyup)="onCityKeyUp(filterOrigin)" />
+                      [resultTemplate]="rtc" [inputFormatter]="citiesFormatter" (ngModelChange)="portsFilterartion(filterOrigin)" />
                   </div>
                 </li>
                 <li *ngIf="!showPickupPorts && showDoubleRates" (click)="togglePorts('pickup-door')">
@@ -210,7 +210,7 @@
                       <img *ngIf="filterDestination && filterDestination.imageName" src="{{'../../../../../assets/images/flags/4x3/' + (filterDestination.imageName | lowercase) + '.svg'}}" type="image/svg+xml" class="mw-100 w-auto h-auto mh-100">
                     </div>
                     <input class="form-control" #destinationPickupBox autofocus [(ngModel)]="filterDestination" placeholder="e.g: Dubai" type="text" [ngClass]="{'routeSelected': filterDestination && filterDestination.imageName}"
-                      [ngbTypeahead]="citiesList" [resultTemplate]="rtc" [inputFormatter]="citiesFormatter" (ngModelChange)="portsFilterartion(filterDestination)" (keyup)="onCityKeyUp(filterDestination)" />
+                      [ngbTypeahead]="citiesList" [resultTemplate]="rtc" [inputFormatter]="citiesFormatter" (ngModelChange)="portsFilterartion(filterDestination)" />
                   </div>
                 </li>
                 <li *ngIf="!showDestPorts && showDoubleRates" (click)="togglePorts('delivery-door')">
@@ -257,7 +257,7 @@
               <span class="ng-value-label">
                 <img [src]="item.CustomerImageParsed" width="20px" height="20px" onerror="this.src='../../../../favicon.ico'">
                 {{item.CustomerName}}</span>
-              <span class="ng-value-icon right" aria-hidden="true" (click)="clear(item)">×</span>
+              <span class="ng-value-icon right" aria-hidden="true">×</span>
             </ng-template>
             <ng-template ng-option-tmp let-item="item">
               <img [src]="item.CustomerImageParsed" width="20px" height="20px" onerror="this.src='../../../../favicon.ico'"> {{item.CustomerName}}

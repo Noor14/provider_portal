@@ -426,10 +426,15 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
             if (state[index].TCFCL) {
               this.editorContentFCL = state[index].TCFCL;
               this.disableFCL = true;
+            }else{
+              this.disableFCL = false;
+
             }
             if (state[index].TCLCL) {
               this.editorContentLCL = state[index].TCLCL;
               this.disableLCL = true;
+            }else{
+              this.disableLCL = false;
             }
           }
         }

@@ -790,31 +790,33 @@
               save rates</button>
           </div>
         </div> -->
-        <section class="term-cond">
-          <div class="row">
-            <div class="col-12">
-              <hr class="hr-solid mt-4" />
-              <div class="policyEditor mb-4 mt-4 d-flex justify-content-between align-items-center">
-                <h5 class="add-rate-head">Terms & Conditions</h5>
-                <button *ngIf="disableEditor" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5"
-                  (click)="disableEditor = !disableEditor">
-                  EDIT
-                </button>
-              </div>
-              <div class="form-group">
-                <quill-editor *ngIf="!disableEditor" [(ngModel)]="editorContent" [options]="editorOptions"
-                  (change)="onContentChanged($event)">
-                </quill-editor>
-              </div>
-              <div *ngIf="disableEditor" class="editor" [innerHTML]="editorContent">
-              </div>
-              <button *ngIf="!disableEditor" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4"
-                type="button" [disabled]="!editorContent" (click)="saveTermNcond()">
-                SAVE
-              </button>
-            </div>
-          </div>
-        </section>
+              <section class="term-cond">
+                <div class="row">
+                  <div class="col-12">
+                    <hr class="hr-solid mt-4" />
+                    <div class="policyEditor mb-4 mt-4 d-flex justify-content-between align-items-center">
+                      <h5 class="add-rate-head">Terms & Conditions</h5>
+                      <button *ngIf="disableEditor"
+                        class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5"
+                        (click)="disableEditor = !disableEditor">
+                        EDIT
+                      </button>
+                    </div>
+                    <div class="form-group" *ngIf="!disableEditor && disableEditor != undefined">
+                      <quill-editor [(ngModel)]="editorContent" [options]="editorOptions"
+                        (change)="onContentChanged($event)">
+                      </quill-editor>
+                    </div>
+                    <div *ngIf="disableEditor" class="editor" [innerHTML]="editorContent">
+                    </div>
+                    <button *ngIf="!disableEditor"
+                      class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="button"
+                      [disabled]="!editorContent" (click)="saveTermNcond()">
+                      SAVE
+                    </button>
+                  </div>
+                </div>
+              </section>
       </section>
     </ngx-step>
   </ngx-stepper>

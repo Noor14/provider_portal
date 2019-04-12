@@ -268,8 +268,8 @@
             EDIT
           </button>
         </div>
-        <div class="form-group">
-          <quill-editor *ngIf="!disable" [(ngModel)]="editorContent" [options]="editorOptions"
+        <div class="form-group" *ngIf="!disable && disable != undefined">
+          <quill-editor [(ngModel)]="editorContent" [options]="editorOptions"
             (blur)="onEditorBlured($event)" (focus)="onEditorFocused($event)" (ready)="onEditorCreated($event)"
             (change)="onContentChanged($event)">
           </quill-editor>
