@@ -1692,8 +1692,9 @@ export class SeaRateDialogComponent implements OnInit {
       return;
     }
     const selectedSurcharge = this.surchargesList.find(
-      obj => obj.codeValID === this.surchargeType
+      obj => obj.codeValID === parseInt(this.surchargeType)
     );
+    
     let obj = {
       addChrID: -1,
       addChrCode: "OTHR",

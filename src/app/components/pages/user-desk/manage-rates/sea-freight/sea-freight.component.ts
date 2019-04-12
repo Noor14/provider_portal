@@ -800,7 +800,7 @@ export class SeaFreightComponent implements OnInit, OnDestroy, AfterViewChecked 
         if (this.publishRates.length == i) {
           this.checkedalldraftRates = false;
           this.publishRates = [];
-          this.getAllPublishRates(type);
+          this.getAllPublishRates(type, 1);
           this.getDraftRates(type) // todo remove is when we get the mechanism for transfer data between components
         }
       } else {
