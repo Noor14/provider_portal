@@ -492,8 +492,9 @@
                       <quill-editor [(ngModel)]="editorContent" [options]="editorOptions" (change)="onContentChanged($event)">
                       </quill-editor>
                       </div>
-                        <div class="editor" *ngIf="!editable" [innerHTML]="editorContent"></div>
-                        <a class="hvr-icon-forward mt-3" href="javascript:;" *ngIf="!editable && showTogglerText"
+                        <div #editor class="editor" *ngIf="!editable" [innerHTML]="editorContent"></div>
+                        <a class="hvr-icon-forward mt-3" href="javascript:;"
+                          *ngIf="!editable && showTogglerText"
                           (click)="showToggler()">
                           <span class="link-hover-secondary">{{showTogglerText}}</span>
                           <i class="fa fa-angle-right hvr-icon"></i>
