@@ -74,6 +74,7 @@ export class AllBookingsComponent implements OnInit, OnDestroy {
   }
 
   viewBookingDetails(bookingId, providerId, shippingModeCode) {
+    console.log(bookingId, providerId, shippingModeCode)
     let id = encryptBookingID(bookingId, providerId, shippingModeCode);
     this._router.navigate(['/provider/booking-detail', id]);
   }
