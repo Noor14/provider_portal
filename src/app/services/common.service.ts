@@ -43,7 +43,7 @@ export class CommonService {
   }
 
   getBrowserlocation() {
-    let url: string = 'http://ip-api.com/json';
+    let url = 'http://pro.ip-api.com/json/?key=UiODtRP30Ri1Xhz';
     return this._http.get(url);
   }
 

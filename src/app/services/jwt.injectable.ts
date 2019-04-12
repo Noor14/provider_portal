@@ -3,6 +3,7 @@ import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
 import { setBaseApi, setBaseExternal } from "../constants/base.url";
 import { JWTObj, UserCreationService } from "../components/pages/user-creation/user-creation.service";
+import { SharedService } from "../services/shared.service";
 
 
 @Injectable()
@@ -22,7 +23,8 @@ export class GuestService {
 
     constructor(
         private _authService: UserCreationService,
-        private _http: HttpClient
+        private _http: HttpClient,
+        private _sharedService:SharedService
     ) { }
 
 
@@ -115,36 +117,33 @@ export class GuestService {
 
     }
 
-    sessionRefresh() {
-        // this._authService.logoutAction()
-        this.removeTokens();
-        this.countryCode = 'AE';
-        const { guestObject } = this;
-        guestObject.CountryCode = this.countryCode;
-        const encObjectL: AESModel = encryptStringAES({ d1: moment(Date.now()).format().substring(0, 16), d2: JSON.stringify(guestObject) })
-        this._authService.guestLoginService(encObjectL).subscribe((response: AESModel) => {
-            console.log('guest-login-success:', response);
+    async sessionRefresh() {
+      return new Promise(async (resolve, reject) => {
+      this._authService.logoutAction()
+      this.removeTokens();
+      this.countryCode = (this._sharedService.getMapLocation())?this._sharedService.getMapLocation():'AE';
+      const { guestObject } = this;
+      guestObject.CountryCode = this.countryCode;
+      const encObjectL: AESModel = encryptStringAES({ d1: moment(Date.now()).format().substring(0, 16), d2: JSON.stringify(guestObject) })
+      try {
+        const response: AESModel = await this._authService.guestLoginService(encObjectL).toPromise() as any
+        const decryptedData = decryptStringAES(response)
+        const { token, refreshToken } = JSON.parse(decryptedData);
+        this.token = token;
+        this.refreshToken = refreshToken;
+        setTimeout(() => {
+          this.saveJwtToken(token);
+          this.saveRefreshToken(refreshToken);
+          loading(false)
+          resolve()
+        }, 0);
+      } catch (error) {
+        loading(false)
+        resolve()
+      }
+    })
 
-            const decryptedData = decryptStringAES(response)
-            console.log('decryptedData:', decryptedData);
-            const { token, refreshToken } = JSON.parse(decryptedData);
-            this.token = token;
-            this.refreshToken = refreshToken;
-            setTimeout(() => {
-                this.saveJwtToken(token);
-                this.saveRefreshToken(refreshToken);
-                loading(false)
-            }, 0);
-
-            // setTimeout(() => {
-            //     loading(false)
-            // }, 0);
-            // this.setJWTByApi(response);
-        }, (error: HttpErrorResponse) => {
-            console.log('error:', error);
-        })
-        console.clear()
-    }
+  }
 
 
     setJWTByApi(response: JWTObj) {
@@ -182,7 +181,6 @@ import { Buffer } from 'buffer'
 import aes from 'js-crypto-aes';
 import { loading } from "../constants/globalFunctions";
 import { AppComponent } from "../app.component";
-
 
 
 
