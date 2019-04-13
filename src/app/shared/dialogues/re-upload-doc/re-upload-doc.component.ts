@@ -38,10 +38,12 @@ export class ReUploadDocComponent implements OnInit {
     })
   }
   submitReason() {
+    const reasonText = this.docsReasons.find(e=> e.ReasonID === this.docReasonForm.value.reasonType);
     let obj = {
       documentID: this.documentObj.docID,
       documentTypeID: this.documentObj.docTypeID,
       reasonID: this.docReasonForm.value.reasonType,
+      reasonText: reasonText.ReasonName,
       reasonDesc: this.docReasonForm.value.reasonDesc,
       documentStausRemarks: this.docReasonForm.value.reasonDesc,
       documentStaus: "RE-UPLOAD",
