@@ -68,7 +68,7 @@ export class Interceptor implements HttpInterceptor {
           setTimeout(() => {
             this._toastr.warning('Redirecting to registration page', 'Session Expired');
           }, 0);
-          this._sharedService.IsloggedIn.next(false)
+          // this._sharedService.IsloggedIn.next(false)
           this._jwtService.sessionRefresh().then((res) => {
             console.log('yolo');
 

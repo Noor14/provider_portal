@@ -76,14 +76,20 @@ export class UserCreationService {
     return this._http.post(baseApi + url, body);
   }
 
-  logoutAction() {
+  async logoutAction() {
 
-    let userInfo = JSON.parse(localStorage.getItem('userInfo'))
-    let loginData = JSON.parse(userInfo.returnText);
-    loginData.IsLogedOut = true
-    localStorage.removeItem('userInfo')
-    userInfo.returnText = JSON.stringify(loginData)
-    localStorage.setItem('userInfo', JSON.stringify(userInfo))
+    // let userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    // let loginData = JSON.parse(userInfo.returnText);
+    // loginData.IsLogedOut = true
+    // localStorage.removeItem('userInfo')
+    // userInfo.returnText = JSON.stringify(loginData)
+    // localStorage.setItem('userInfo', JSON.stringify(userInfo))
+
+    let userObj = JSON.parse(localStorage.getItem("userInfo"));
+    let loginData = JSON.parse(userObj.returnText);
+    loginData.IsLogedOut = true;
+    userObj.returnText = JSON.stringify(loginData);
+    localStorage.setItem("userInfo", JSON.stringify(userObj));
 
     const data = {
       PrimaryEmail: loginData.PrimaryEmail,
@@ -92,8 +98,13 @@ export class UserCreationService {
       LogoutRemarks: ""
     }
 
-    this.userLogOut(data).subscribe(res => {
-    })
+    try {
+      await this.userLogOut(data)
+    } catch (error) { }
+
+    this._sharedService.dashboardDetail.next(null);
+    this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
+    return null
   }
 
 
