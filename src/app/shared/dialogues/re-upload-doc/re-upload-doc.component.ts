@@ -59,7 +59,8 @@ export class ReUploadDocComponent implements OnInit {
         hashMoveBookingNum: this.documentObj.bookingData.HashMoveBookingNum,
         emailTo: (this.documentObj.bookingData && this.documentObj.bookingData.BookingUserInfo && this.documentObj.bookingData.BookingUserInfo.PrimaryEmail) ? this.documentObj.bookingData.BookingUserInfo.PrimaryEmail : '',
         phoneTo: (this.documentObj.bookingData && this.documentObj.bookingData.BookingUserInfo && this.documentObj.bookingData.BookingUserInfo.PrimaryPhone) ? this.documentObj.bookingData.BookingUserInfo.PrimaryPhone : '',
-        userCompanyName: (this.documentObj.bookingData && this.documentObj.bookingData.BookingUserInfo && this.documentObj.bookingData.BookingUserInfo.CompanyName) ? this.documentObj.bookingData.BookingUserInfo.CompanyName : ''
+        userCompanyName: (this.documentObj.bookingData && this.documentObj.bookingData.BookingUserInfo && this.documentObj.bookingData.BookingUserInfo.CompanyName) ? this.documentObj.bookingData.BookingUserInfo.CompanyName : '',
+        userCountryPhoneCode: this.documentObj.bookingData.UserCountryPhoneCodeID
       }
     } catch (error) {
       toSend = obj

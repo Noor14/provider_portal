@@ -42,6 +42,7 @@ export class AllBookingsComponent implements OnInit, OnDestroy {
     });
 
     this.allBookingsSubscriber= this._sharedService.dashboardDetail.subscribe((state: any) => {
+      
       if (state && state.BookingDetails && state.BookingDetails.length) {
         state.BookingDetails.map(elem => {
           if (elem.CustomerImage && typeof elem.CustomerImage == "string" && elem.CustomerImage != "[]" && isJSON(elem.CustomerImage)) {
