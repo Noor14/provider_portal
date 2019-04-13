@@ -9,7 +9,7 @@
             </h4>
             <small class="view-booking-info">Booked by {{bookingDetails.UserName}} on
               {{bookingDetails.HashMoveBookingDate | date : "d MMM yyyy"}} at {{bookingDetails.HashMoveBookingDate
-              | date : "H:mm" }}</small>
+              | date : "H:mm" }} (GMT)</small>
           </div>
           <!-- <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
             <div class="view-booking-top-btn mt-1 text-right mb-2">
@@ -553,7 +553,7 @@
                     Bill of Lading
                     <label class="sub-text d-flex" *ngIf="ladingBill && ladingBill.DocumentFileName">Uploaded on
                       {{ladingBill.DocumentUploadDate | date : "d MMM, yyyy"}} {{ladingBill.DocumentUploadDate |
-                      date : "H:mm"}}</label>
+                      date : "H:mm"}} (GMT)</label>
                   </a>
                   <div class="d-flex align-items-center" *ngIf="bookingDetails.BookingStatus.toLowerCase() != statusCode.cancelled">
                     <span class="badge hashmove-badge-warning" *ngIf="ladingBill && !ladingBill.DocumentFileName">
@@ -575,7 +575,7 @@
                     Certificate of Origin
                     <label class="sub-text d-flex" *ngIf="certOrigin && certOrigin.DocumentFileName">Uploaded on
                       {{certOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{certOrigin.DocumentUploadDate |
-                      date : "H:mm"}}</label>
+                      date : "H:mm"}} (GMT)</label>
                   </a>
                   <div class="d-flex align-items-center" *ngIf="bookingDetails.BookingStatus.toLowerCase() != statusCode.cancelled">
                     <button class="btn disable" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && certOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && certOrigin.DocumentLastStatus.toLowerCase() != 'approved'"
