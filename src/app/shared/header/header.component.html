@@ -6,13 +6,13 @@
         <h1 class="text-hide m-0">HashMove</h1>
       </a>
       <ul class="navbar-nav flex-row">
-        <li class="nav-item" (click)="login()" *ngIf="isLoggedIn">
+        <li class="nav-item" (click)="login()" *ngIf="!isLoggedIn">
           <a class="nav-link loginLink d-flex align-items-center" href="javascript:;">
             <span class="mr-2">Login</span>
             <img src="../../../assets/images/icons/icons_login.svg" alt="login" class="icon-size-20">
           </a>
         </li>
-        <li class="nav-item" ngbDropdown placement="bottom-right" *ngIf="!isLoggedIn && logoutDisplay">
+        <li class="nav-item" ngbDropdown placement="bottom-right" *ngIf="isLoggedIn">
           <a class="nav-link hvr-icon-hang d-flex align-items-center pointer" id="dropdownBasic" ngbDropdownToggle>
             <img *ngIf="userAvatar" class="user-avatar mr-2" [src]="userAvatar" alt="user_icon">
            <img *ngIf="!userAvatar" class="user-avatar mr-2" src="../../../../assets/images/icons/icons_user.svg" alt="user_icon">

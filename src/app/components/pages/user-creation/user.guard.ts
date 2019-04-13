@@ -147,15 +147,21 @@ export class UserGuard implements CanActivate {
   }
   getloginStatus() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    console.log(userInfo);
+    
     if (userInfo && userInfo.returnText) {
       this.infoObj = JSON.parse(userInfo.returnText);
+      console.log(this.infoObj.IsLogedOut);
+      
       const state = this._sharedService.IsloggedIn.getValue()
-      if (state == null) {
-        this.islogOut = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
-      }
-      else {
-        this.islogOut = state;
-      }
+      console.log(state)
+      this.islogOut = this.infoObj.IsLogedOut
+      // if (!state) {
+      //   this.islogOut = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
+      // }
+      // else {
+      //   this.islogOut = state;
+      // }
 
     } else {
       this.islogOut = true;

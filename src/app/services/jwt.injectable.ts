@@ -24,7 +24,7 @@ export class GuestService {
     constructor(
         private _authService: UserCreationService,
         private _http: HttpClient,
-        private _sharedService:SharedService
+        private _sharedService:SharedService,
     ) { }
 
 
@@ -181,6 +181,7 @@ import { Buffer } from 'buffer'
 import aes from 'js-crypto-aes';
 import { loading } from "../constants/globalFunctions";
 import { AppComponent } from "../app.component";
+
 
 
 

@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
 
   logoutDisplay: boolean;
   isLoggedIn: boolean;
+  public userInfo: any
   public userAvatar: string;
   constructor(
     private modalService: NgbModal,
@@ -25,22 +26,28 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    this._sharedService.IsloggedIn.subscribe((state: any) => {
-      if (state == null) {
-        this.isLoggedIn = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
-      } else {
-        this.isLoggedIn = state;
-      }
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (this.userInfo)
+      this.isLoggedIn = this.userInfo.IsLogedOut
+      this._sharedService.IsloggedIn.subscribe((state: any) => {
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      const userObj = JSON.parse(this.userInfo.returnText)
+      this.isLoggedIn = !userObj.IsLogedOut
+      // if (state == null) {
+      //   this.isLoggedIn = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
+      // } else {
+      //   this.isLoggedIn = state;
+      // }
+      // this.isLoggedIn = state
       this.setAvatar();
     })
     this._sharedService.signOutToggler.subscribe((state: any) => {
-        this.signOutToggler();
-        this.setAvatar();
+      this.signOutToggler();
+      this.setAvatar();
     })
 
     this._sharedService.updateAvatar.subscribe((state: any) => {
-      if (state && state != null){
+      if (state && state != null) {
         let userObj = JSON.parse(localStorage.getItem('userInfo'));
         let userData = JSON.parse(userObj.returnText);
         userData.ProviderImage = JSON.stringify(state);
@@ -48,14 +55,15 @@ export class HeaderComponent implements OnInit {
         localStorage.setItem('userInfo', JSON.stringify(userObj));
         this.setAvatar();
       }
-    
+
     })
-    
+
   }
-  setAvatar(){
-    if (localStorage.getItem('userInfo') && Object.keys('userInfo').length && !this.isLoggedIn && this.logoutDisplay) {
+  setAvatar() {
+    if (localStorage.getItem('userInfo')) {
       let userObj = JSON.parse(localStorage.getItem('userInfo'));
       let userData = JSON.parse(userObj.returnText);
+      console.log(userData)
       if (userData.ProviderImage && userData.ProviderImage != "[]" && isJSON(userData.ProviderImage)) {
         this.userAvatar = baseExternalAssets + JSON.parse(userData.ProviderImage)[0].DocumentFile;
       }
