@@ -558,8 +558,9 @@
         }
 
         .bill-landing {
-          color: $danger-color;
-          animation: 1.2s ease-in-out infinite alternate-reverse fadeIn;
+          color: $text-color-default;
+          // color: $danger-color;
+          // animation: 1.2s ease-in-out infinite alternate-reverse fadeIn;
 
           &.primary-text {
             &:before {
