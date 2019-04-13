@@ -110,7 +110,7 @@
       <li class="list-group-item d-flex flex-column" *ngFor="let list of history">
         <label class="mb-0">{{list.AuditDesc.Desc}} by {{list.AuditDesc.ModifiedBy}}</label>
         <label class="mb-0 activity">{{list.AuditDesc.Activity}}</label>
-        <small>on {{list.AuditDesc.CreatedDateTime | date:'dd MMM, yyyy HH:mm'}} from
+        <small>on {{list.AuditDesc.CreatedDateTime | date:'dd MMM, yyyy HH:mm'}} (GMT) from
           {{list.AuditDesc.Location}}</small>
       </li>
     </ul>

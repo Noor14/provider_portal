@@ -188,7 +188,7 @@ export class UiTableComponent implements OnInit, OnChanges {
         } else if (e.parsedpublishStatus.Status === "POSTED") {
           e.parsedpublishStatus.printStatus =
             "Published on " +
-            moment(e.parsedpublishStatus.PublishDate).format("L h:mm:ss A");
+            moment(e.parsedpublishStatus.PublishDate).format("L h:mm:ss A") + " (GMT)";
         }
       }
       e.isChecked = false;
@@ -446,8 +446,6 @@ export class UiTableComponent implements OnInit, OnChanges {
         !row.polID ||
         !row.podID ||
         !row.price ||
-        !row.totalExportCharges ||
-        !row.totalImportCharges ||
         !row.effectiveFrom ||
         !row.effectiveTo
       ) {
@@ -530,7 +528,7 @@ export class UiTableComponent implements OnInit, OnChanges {
               "Published on " +
               moment(e.parsedpublishStatus.PublishDate).format(
                 "MM/DD/YYYY h:mm:ss A"
-              );
+              ) + " (GMT)";
           }
         }
         e.isChecked = this.checkAllPublish ? true : false;
