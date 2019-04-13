@@ -24,7 +24,6 @@ export class CookieBarComponent implements OnInit {
         if (localStorage.getItem('cookiesPopup')) {
           cookieInner.classList.add("slideOutDown");
           setTimeout(function () {
-            this.isCookeStored = false;
             cookieInner.classList.add("hidePopup");
             cookieMain.classList.add("hidePopup");
           }, 500);

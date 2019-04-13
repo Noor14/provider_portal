@@ -274,7 +274,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xl-3 col-md-3 col-sm-12">
+        <div class="col-xl-3 col-md-6 col-sm-12">
           <div class="row combine-filed-popup">
             <div class="col-6 pr-0">
               <div class="combine-filed-popup-left">Currency</div>
@@ -299,7 +299,7 @@
         </div>
 
 
-        <div class="col-xl-4 col-md-4 col-sm-12">
+        <div class="col-xl-4 col-md-6 col-sm-12">
           <div class="row combine-filed-popup">
             <div class="col-6 pr-0">
               <div class="combine-filed-popup-left" *ngIf="selectedData.forType !== 'LCL' && selectedData.forType !== 'WAREHOUSE'">Freight Charges</div>
@@ -334,7 +334,7 @@
           </div>
         </div>
 
-        <div class="col-xl-5 col-md-5 col-sm-12">
+        <div class="col-xl-5 col-md-6 col-sm-12">
           <div class="row combine-filed-popup">
             <div class="col-4 pr-0">
               <div class="combine-filed-popup-left">Validity Range</div>
@@ -361,7 +361,7 @@
         <div class="col-12">
           <h5 class="model-sub-head mt-4 pull-left">Additional Charges <span [hidden]="selectedData.data?.UsageType && selectedData.data.UsageType === 'SHARED'">At Port Of Origin</span></h5>
         </div>
-        <div class="col-6" *ngFor="let origin of selectedOrigins; let i=index">
+        <div class="col-xl-6 col-md-6 col-12" *ngFor="let origin of selectedOrigins; let i=index">
           <div class="row combine-filed-popup">
             <div class="d-flex ml-3 mr-3 mb-2" [ngClass]="addOriginActive ? 'active' : ''">
               <div class="col-7 pr-0 pl-0">
@@ -438,7 +438,7 @@
         <div class="col-12">
           <h5 class="model-sub-head mt-4 pull-left">Additional Charges At Port Of Destination</h5>
         </div>
-        <div class="col-6" *ngFor="let destination of selectedDestinations; let i=index">
+        <div class="col-xl-6 col-md-6 col-12" *ngFor="let destination of selectedDestinations; let i=index">
           <div class="row combine-filed-popup">
             <div class="d-flex ml-3 mr-3 mb-2" [ngClass]="addDestinationActive ? 'active' : ''">
               <div class="col-7 pr-0 pl-0">
