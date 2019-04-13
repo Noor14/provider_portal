@@ -11,14 +11,32 @@ import { SharedService } from '../../services/shared.service';
 })
 export class PagesComponent implements OnInit {
   public ports: any = [];
+
+  public isCookeStored =  true;
+
   constructor(
     private _commonService: CommonService,
     private _sharedService: SharedService
   ) { }
 
   ngOnInit() {
+    this.getCookie();
     // this.getPortsData()
     // this.getCurrenciesList()
+  }
+
+  getCookie() {
+    setTimeout(function () {
+      const cookieInner = document.querySelector(".cookie-law-info-bar");
+      const cookieMain = document.querySelector("app-cookie-bar");
+      if (localStorage.getItem('cookiesPopup')) {
+        this.isCookeStored = false;
+        cookieMain.classList.add("hidePopup");
+        cookieInner.classList.add("hidePopup");
+      } else {
+        console.log('cookies not generat')
+      }
+    }, 0.5)
   }
 
   getCurrenciesList() {
@@ -28,6 +46,7 @@ export class PagesComponent implements OnInit {
       loading(false)
     })
   }
+  
   ngAfterViewInit() {
     loading(false);
   }
