@@ -119,7 +119,7 @@ export class GuestService {
 
     async sessionRefresh() {
       return new Promise(async (resolve, reject) => {
-      this._authService.logoutAction()
+      await this._authService.logoutAction()
       this.removeTokens();
       this.countryCode = (this._sharedService.getMapLocation())?this._sharedService.getMapLocation():'AE';
       const { guestObject } = this;
