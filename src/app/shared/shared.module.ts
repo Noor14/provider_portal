@@ -8,6 +8,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { UpdatePriceComponent } from './dialogues/update-price/update-price.component';
 import { AddDocumentComponent } from './dialogues/add-document/add-document.component';
 import { VideoDialogueComponent } from './dialogues/video-dialogue/video-dialogue.component';
+import { CookieBarComponent } from './dialogues/cookie-bar/cookie-bar.component';
 
 @NgModule({
   imports: [CommonModule, NgbModule, FormsModule, NgxPaginationModule],
@@ -17,13 +18,14 @@ import { VideoDialogueComponent } from './dialogues/video-dialogue/video-dialogu
     UpdatePriceComponent,
     AddDocumentComponent,
     VideoDialogueComponent,
+    CookieBarComponent,
   ],
   exports: [
     LoaderComponent,
     UiTableComponent,
     UpdatePriceComponent,
     AddDocumentComponent,
-
+    CookieBarComponent
   ],
   entryComponents: [
     VideoDialogueComponent
