@@ -9,11 +9,11 @@ import { SharedService } from '../../../services/shared.service';
 export class UserGuard implements CanActivate {
 
   public previousUrl;
-  private islogOut : boolean;
+  private islogOut: boolean;
   private infoObj;
   constructor(
-    private _basicInfoService: BasicInfoService, 
-    private router: Router, 
+    private _basicInfoService: BasicInfoService,
+    private router: Router,
     private _sharedService: SharedService
   ) {
     // router.events
@@ -27,10 +27,10 @@ export class UserGuard implements CanActivate {
 
   canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
 
-     this.getloginStatus();
+    this.getloginStatus();
 
     // if user go to otp direct page
-     if (state.url.indexOf('otp') >= 0) {
+    if (state.url.indexOf('otp') >= 0) {
       let otpKey = state.url.split('/').pop();
       if (otpKey != 'otp') {
         return this.checkOtp(otpKey);
@@ -46,23 +46,23 @@ export class UserGuard implements CanActivate {
       if (otpKey != 'password') {
         return this.checkPassword(otpKey);
       }
-      else if (!this.islogOut){
+      else if (!this.islogOut) {
         this.router.navigate(['business-info']);
       }
-      else{
+      else {
         this.router.navigate(['registration']);
       }
     }
     // if user go to direct business info page
     if (state.url == '/business-info') {
       if (!this.islogOut) {
-          if (this.infoObj.UserProfileStatus == "Dashboard") {
+        if (this.infoObj.UserProfileStatus == "Dashboard") {
           this.router.navigate(['provider/dashboard']);
         }
-          else if (this.infoObj.UserProfileStatus == "Business Info Pending") {
+        else if (this.infoObj.UserProfileStatus == "Business Info Pending") {
           return true;
         }
-  
+
       }
       else {
         this.router.navigate(['registration']);
@@ -86,13 +86,13 @@ export class UserGuard implements CanActivate {
     }
 
 
-   // if user go to user desk pages
+    // if user go to user desk pages
     if (state.url.indexOf('provider') >= 0) {
       if (!this.islogOut) {
-        if (this.infoObj.UserProfileStatus == "Dashboard"){
+        if (this.infoObj.UserProfileStatus == "Dashboard") {
           return true;
         }
-        else if (this.infoObj.UserProfileStatus == "Business Info Pending"){
+        else if (this.infoObj.UserProfileStatus == "Business Info Pending") {
           this.router.navigate(['business-info']);
         }
       }
@@ -127,9 +127,9 @@ export class UserGuard implements CanActivate {
   checkPassword(otpKey): Observable<boolean> {
     return this._basicInfoService.getUserOtpVerified(otpKey).map((res: any) => {
       if (res.returnStatus == "Success") {
-        if (res.returnId == 1){
-        this._sharedService.getUserOtpVerified.next(res);
-        return true;
+        if (res.returnId == 1) {
+          this._sharedService.getUserOtpVerified.next(res);
+          return true;
         }
         else if (res.returnId == 2) {
           this.router.navigate(['registration']);
@@ -145,21 +145,21 @@ export class UserGuard implements CanActivate {
       return Observable.of(true);
     })
   }
-   getloginStatus(){
-  let userInfo = JSON.parse(localStorage.getItem('userInfo')); 
-  if (userInfo && userInfo.returnText){
-   this.infoObj = JSON.parse(userInfo.returnText);
-  this._sharedService.IsloggedIn.subscribe((state: any) => {
-    if (state == null) {
-      this.islogOut = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
-    } 
-    else {
-      this.islogOut = state;
-    }
-  })
-    }else{
+  getloginStatus() {
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo && userInfo.returnText) {
+      this.infoObj = JSON.parse(userInfo.returnText);
+      const state = this._sharedService.IsloggedIn.getValue()
+      if (state == null) {
+        this.islogOut = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
+      }
+      else {
+        this.islogOut = state;
+      }
+
+    } else {
       this.islogOut = true;
     }
 
-}
+  }
 }

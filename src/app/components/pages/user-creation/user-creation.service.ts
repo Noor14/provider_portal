@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import { baseApi } from '../../../constants/base.url';
 import { HttpClient, HttpParams } from "@angular/common/http";
+import { getLoggedUserData } from '../../../constants/globalFunctions';
+import { SharedService } from '../../../services/shared.service';
 
 @Injectable()
 export class UserCreationService {
 
-  constructor(private _http: HttpClient) { }
+  constructor(
+    private _http: HttpClient,
+    private _sharedService: SharedService,
+  ) { }
 
   getlabelsDescription(page) {
     let url: string = `languagetranslate/LanguageDictionary/[En-US]/[Ar-AE]/${page}`;
@@ -54,7 +59,7 @@ export class UserCreationService {
   getRefreshToken() {
     return localStorage.getItem('refreshToken');
   }
-  getUserProfileStatus(userID){
+  getUserProfileStatus(userID) {
     let url = `usersprovider/GetUserProfileStatus/${userID}`;
     return this._http.get(baseApi + url)
   }
@@ -71,6 +76,36 @@ export class UserCreationService {
     return this._http.post(baseApi + url, body);
   }
 
+  async logoutAction() {
+
+    // let userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    // let loginData = JSON.parse(userInfo.returnText);
+    // loginData.IsLogedOut = true
+    // localStorage.removeItem('userInfo')
+    // userInfo.returnText = JSON.stringify(loginData)
+    // localStorage.setItem('userInfo', JSON.stringify(userInfo))
+
+    let userObj = JSON.parse(localStorage.getItem("userInfo"));
+    let loginData = JSON.parse(userObj.returnText);
+    loginData.IsLogedOut = true;
+    userObj.returnText = JSON.stringify(loginData);
+    localStorage.setItem("userInfo", JSON.stringify(userObj));
+
+    const data = {
+      PrimaryEmail: loginData.PrimaryEmail,
+      UserLoginID: loginData.UserLoginID,
+      LogoutDate: new Date().toLocaleString(),
+      LogoutRemarks: ""
+    }
+
+    try {
+      await this.userLogOut(data)
+    } catch (error) { }
+
+    this._sharedService.dashboardDetail.next(null);
+    this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
+    return null
+  }
 
 
 
