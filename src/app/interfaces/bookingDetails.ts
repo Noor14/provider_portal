@@ -195,6 +195,7 @@ export interface BookingDetails {
   JsonShippingDestInfo: any;
   JsonAgentOrgInfo: any;
   JsonAgentDestInfo: any;
+  UserCountryPhoneCodeID?: number
 }
 
 
