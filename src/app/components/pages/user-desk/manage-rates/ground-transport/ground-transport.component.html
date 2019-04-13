@@ -182,7 +182,7 @@
                     <input class="form-control" [(ngModel)]="filterOrigin" (focusout)="filtertionPort(filterOrigin)"
                       (ngModelChange)="filterByroute(filterOrigin)" placeholder="Origin" type="text"
                       [ngClass]="{'routeSelected': filterOrigin && filterOrigin.imageName}" [ngbTypeahead]="portsFilter"
-                      [resultTemplate]="rt" [inputFormatter]="filterPortsFormatter" />
+                      [resultTemplate]="rt" [inputFormatter]="filterPortsFormatter" container="body"/>
                   </div>
                   <div class="col-6 destination pl-0">
                     <div class="flag-container">
@@ -194,12 +194,13 @@
                       (focusout)="filtertionPort(filterDestination)" (ngModelChange)="filterByroute(filterDestination)"
                       type="text" class="form-control"
                       [ngClass]="{'routeSelected': filterDestination && filterDestination.imageName}"
-                      [ngbTypeahead]="portsFilter" [resultTemplate]="rt" [inputFormatter]="filterPortsFormatter" />
+                      [ngbTypeahead]="portsFilter" [resultTemplate]="rt"
+                      [inputFormatter]="filterPortsFormatter" container="body"/>
                   </div>
                 </div>
               </div>
             </div>
-            <ng-template #rt let-r="result">
+            <ng-template #rt let-r="result" container="body">
               <div class="d-flex">
                 <div class="flag-container mr-1">
                   <!-- <img *ngIf="r.type === 'CITY'" src="../../../../../../assets/images/icons/Icons_Location.svg" type="image/svg+xml"
