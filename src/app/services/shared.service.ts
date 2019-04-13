@@ -37,7 +37,7 @@ export class SharedService {
   public getLocation = this.userLocation.asObservable();
 
 
-  public IsloggedIn = new BehaviorSubject<boolean>(null);
+  public IsloggedIn = new BehaviorSubject<boolean>(false);
   public signOutToggler = new BehaviorSubject<boolean>(null);
 
   private currencyDataSource = new BehaviorSubject<any[]>(null);

@@ -14,13 +14,9 @@ export class BookingsCardComponent implements OnInit {
   constructor(private _router: Router) { }
   @Input() booking: any
   ngOnInit() {
-    console.log(this.booking);
-    
   }
 
   getCustomerImage($image: string) {
-    console.log($image);
-    
     if (isJSON($image)) {
       const providerImage = JSON.parse($image)
       return baseExternalAssets + '/' + providerImage[0].DocumentFile

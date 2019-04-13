@@ -35,6 +35,8 @@ export class BookingStatusUpdationComponent implements OnInit {
     public _activeModal: NgbActiveModal) { location.onPopState(() => this.closeModal(null)); }
 
   ngOnInit() {
+    console.log(this.modalData);
+    
     if (this.modalData.type === 'cancel') {
       this.label = 'Cancel Booking'
       this.description = 'Please provide the reason of cancellation.'
@@ -101,6 +103,7 @@ export class BookingStatusUpdationComponent implements OnInit {
           phoneTo: (this.modalData.booking && this.modalData.booking.BookingUserInfo && this.modalData.booking.BookingUserInfo.PrimaryPhone) ? this.modalData.booking.BookingUserInfo.PrimaryPhone : '',
           userName: this.modalData.booking.UserName,
           hashMoveBookingNum: this.modalData.booking.HashMoveBookingNum,
+          userCountryPhoneCode: this.modalData.booking.UserCountryPhoneCodeID
         }
         this._viewBookingService.cancelBooking(this.actionObj).subscribe((res: any) => {
           if (res.returnStatus == "Success") {
@@ -134,6 +137,7 @@ export class BookingStatusUpdationComponent implements OnInit {
           phoneTo: (this.modalData.booking && this.modalData.booking.BookingUserInfo && this.modalData.booking.BookingUserInfo.PrimaryPhone) ? this.modalData.booking.BookingUserInfo.PrimaryPhone : '',
           userName: this.modalData.booking.UserName,
           hashMoveBookingNum: this.modalData.booking.HashMoveBookingNum,
+          userCountryPhoneCode: this.modalData.booking.UserCountryPhoneCodeID
         }
         this._viewBookingService.updateBookingStatus(this.actionObj).subscribe((res: any) => {
           if (res.returnStatus == "Success") {

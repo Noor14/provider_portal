@@ -4,7 +4,7 @@
     <h2>Hey {{providerInfo.CompanyName}}, Welcome<span *ngIf="providerInfo.LoginRank > 1"> Back</span>!</h2>
     <p class="provider-info" *ngIf="providerInfo.LoginRank > 1">
       Last logged in {{providerInfo.LastLoginDate | date : "d MMM, yyyy"}} {{providerInfo.LastLoginDate | date :
-      "H:mm"}} from {{providerInfo.LastLoginCountryName}}
+      "H:mm"}} (GMT) from {{providerInfo.LastLoginCountryName}}
     </p>
   </div>
 

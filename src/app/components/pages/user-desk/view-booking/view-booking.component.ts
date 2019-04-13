@@ -474,7 +474,7 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
       documentID: data.DocumentID,
       createdBy: this.userProfile.LoginID,
       modifiedBy: "",
-      approverIDType: "PROVIDER"
+      approverIDType: "PROVIDER",
     }
 
     let toSend: any
@@ -485,7 +485,8 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
         userName: this.bookingDetails.UserName,
         hashMoveBookingNum: this.bookingDetails.HashMoveBookingNum,
         emailTo: (this.bookingDetails.BookingUserInfo && this.bookingDetails.BookingUserInfo.PrimaryEmail) ? this.bookingDetails.BookingUserInfo.PrimaryEmail : '',
-        userCompanyName: (this.bookingDetails && this.bookingDetails.BookingUserInfo && this.bookingDetails.BookingUserInfo.CompanyName) ? this.bookingDetails.BookingUserInfo.CompanyName : ''
+        userCompanyName: (this.bookingDetails && this.bookingDetails.BookingUserInfo && this.bookingDetails.BookingUserInfo.CompanyName) ? this.bookingDetails.BookingUserInfo.CompanyName : '',
+        userCountryPhoneCode: this.bookingDetails.UserCountryPhoneCodeID
       }
     } catch (error) {
       toSend = obj

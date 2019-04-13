@@ -72,7 +72,7 @@
       <div class="col-4" *ngIf="selectedData.forType !== 'WAREHOUSE'">
         <div class="form-group">
           <label>Cargo Type</label>
-          <select class="form-control" [(ngModel)]="selectedCategory" (change)="cargoTypeChange(selectedCategory)">
+          <select class="form-control" [disabled]="selectedData.mode === 'publish'" [(ngModel)]="selectedCategory" (change)="cargoTypeChange(selectedCategory)">
             <option [value]="null" disabled>--Select--</option>
             <option *ngFor="let cargo of allCargoType" [value]="cargo.ShippingCatID">{{cargo.ShippingCatName}}</option>
           </select>
@@ -81,7 +81,7 @@
       <div class="col-4" *ngIf="selectedData.forType == 'FCL' || selectedData.forType == 'FCL-Ground' || selectedData.forType == 'FTL'">
         <div class="form-group">
           <label>Container Size</label>
-          <select class="form-control" [(ngModel)]="selectedContSize" [disabled]="!selectedCategory || selectedData.mode === 'publish'" (change)="containerChange(selectedContSize)">
+          <select class="form-control" [(ngModel)]="selectedContSize" [disabled]="selectedData.mode === 'publish'" (change)="containerChange(selectedContSize)">
             <option [value]="null" disabled>--Select--</option>
             <option *ngFor="let container of allContainers" [value]="container.ContainerSpecID">
               {{container.ContainerWithSize}}</option>
@@ -257,7 +257,7 @@
               <span class="ng-value-label">
                 <img [src]="item.CustomerImageParsed" width="20px" height="20px" onerror="this.src='../../../../favicon.ico'">
                 {{item.CustomerName}}</span>
-              <span class="ng-value-icon right" aria-hidden="true">×</span>
+              <span class="ng-value-icon right" aria-hidden="true" (click)="clear(item)">×</span>
             </ng-template>
             <ng-template ng-option-tmp let-item="item">
               <img [src]="item.CustomerImageParsed" width="20px" height="20px" onerror="this.src='../../../../favicon.ico'"> {{item.CustomerName}}
@@ -366,7 +366,7 @@
             <div class="d-flex ml-3 mr-3 mb-2" [ngClass]="addOriginActive ? 'active' : ''">
               <div class="col-7 pr-0 pl-0">
                 <div ngbDropdown #originDropdown="ngbDropdown" class="combine-filed-popup-left-btn" (openChange)="dropdownToggle($event, 'origin')">
-                  <button class="btn has-open" id="{{selectedOrigins[i]?.addChrName}}" placement="top" ngbTooltip="{{selectedOrigins[i]?.addChrName - (selectedOrigins[i]?.addChrBasis)}}" ngbDropdownToggle>
+                  <button class="btn has-open" id="{{selectedOrigins[i]?.addChrName}}" placement="top" ngbTooltip="{{selectedOrigins[i]?.addChrName}}" ngbDropdownToggle>
                     {{selectedOrigins[i]?.addChrName || 'Select' | limitTo : 30 }}
                   </button>
                   <div ngbDropdownMenu aria-labelledby="originExport">
@@ -443,7 +443,7 @@
             <div class="d-flex ml-3 mr-3 mb-2" [ngClass]="addDestinationActive ? 'active' : ''">
               <div class="col-7 pr-0 pl-0">
                 <div ngbDropdown #destinationDropdown="ngbDropdown" (openChange)="dropdownToggle($event, 'destination')" class="combine-filed-popup-left-btn" placement="top-left">
-                  <button class="btn has-open" id="destinationExport" placement="top" ngbTooltip="{{selectedDestinations[i]?.addChrName - (selectedOrigins[i]?.addChrBasis)}}" ngbDropdownToggle>
+                  <button class="btn has-open" id="destinationExport" placement="top" ngbTooltip="{{selectedDestinations[i]?.addChrName}}" ngbDropdownToggle>
                     {{selectedDestinations[i]?.addChrName || 'Select' | limitTo : 30 }} </button>
                   <div ngbDropdownMenu aria-labelledby="destinationExport">
                     <button *ngIf="!isDestinationChargesForm" class="dropdown-item custom-label has-open" (click)="showCustomChargesForm('destination')">
