@@ -45,7 +45,7 @@ export class ConfirmLogoutDialogComponent implements OnInit {
     localStorage.setItem("userInfo", JSON.stringify(userObj));
     let data = {
       PrimaryEmail: loginData.PrimaryEmail,
-      UserLoginID: loginData.UserID,
+      UserLoginID: loginData.UserLoginID,
       LogoutDate: moment(Date.now()).format(),
       LogoutRemarks: null
     };
