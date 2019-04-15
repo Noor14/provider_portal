@@ -418,7 +418,7 @@
                     <div class="col-xl-6 col-md-6 col-sm-12">
                       <div class="form-group">
                         <label class="form-group-label">Ceiling Height
-                          <span class="sub-title sub-heading w-100 d-inline-block">Maximum Availabla height for
+                          <span class="sub-title sub-heading w-100 d-inline-block">Maximum Available height for
                             storage</span>
                         </label>
                         <div class="input-group">
@@ -791,33 +791,30 @@
               save rates</button>
           </div>
         </div> -->
-              <section class="term-cond">
-                <div class="row">
-                  <div class="col-12">
-                    <hr class="hr-solid mt-4" />
-                    <div class="policyEditor mb-4 mt-4 d-flex justify-content-between align-items-center">
-                      <h5 class="add-rate-head">Terms & Conditions</h5>
-                      <button *ngIf="disableEditor"
-                        class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5"
-                        (click)="disableEditor = !disableEditor">
-                        EDIT
-                      </button>
-                    </div>
-                    <div class="form-group" *ngIf="!disableEditor && disableEditor != undefined">
-                      <quill-editor [(ngModel)]="editorContent" [options]="editorOptions"
-                        (change)="onContentChanged($event)">
-                      </quill-editor>
-                    </div>
-                    <div *ngIf="disableEditor" class="editor" [innerHTML]="editorContent">
-                    </div>
-                    <button *ngIf="!disableEditor"
-                      class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4" type="button"
-                      [disabled]="!editorContent" (click)="saveTermNcond()">
-                      SAVE
-                    </button>
-                  </div>
-                </div>
-              </section>
+        <section class="term-cond">
+          <div class="row">
+            <div class="col-12">
+              <hr class="hr-solid mt-4" />
+              <div class="policyEditor mb-4 mt-4 d-flex justify-content-between align-items-center">
+                <h5 class="add-rate-head">Terms & Conditions</h5>
+                <button *ngIf="disableEditor" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5"
+                  (click)="disableEditor = !disableEditor">
+                  EDIT
+                </button>
+              </div>
+              <div class="form-group" *ngIf="!disableEditor && disableEditor != undefined">
+                <quill-editor [(ngModel)]="editorContent" [options]="editorOptions" (change)="onContentChanged($event)">
+                </quill-editor>
+              </div>
+              <div *ngIf="disableEditor" class="editor" [innerHTML]="editorContent">
+              </div>
+              <button *ngIf="!disableEditor" class="btn btn-primary btn-lg hvr-sweep-to-right pull-right pr-5 pl-5 mt-4"
+                type="button" [disabled]="!editorContent" (click)="saveTermNcond()">
+                SAVE
+              </button>
+            </div>
+          </div>
+        </section>
       </section>
     </ngx-step>
   </ngx-stepper>

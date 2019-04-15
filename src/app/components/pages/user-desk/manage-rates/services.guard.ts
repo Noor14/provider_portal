@@ -12,14 +12,14 @@ export class ServicesGuard implements CanActivate {
   private islogOut: boolean;
   private previousUrl: string = undefined;
   private selectedServices: any[];
-  private userProfile:any;
-  private apiLoaded:boolean = false;
-    constructor(
-      private router: Router,
-      private _sharedService: SharedService,
-      private _dashboardService: DashboardService
-  ) { 
-  
+  private userProfile: any;
+  private apiLoaded: boolean = false;
+  constructor(
+    private router: Router,
+    private _sharedService: SharedService,
+    private _dashboardService: DashboardService
+  ) {
+
   }
 
 
@@ -28,18 +28,18 @@ export class ServicesGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
     this.getloginStatus();
-      // if user go to manage rates sea page
+    // if user go to manage rates sea page
     if (state.url == '/provider/manage-rates/sea') {
       if (!this.islogOut) {
-        if (this.previousUrl && this.previousUrl.includes('manage-rates') && location.pathname.includes('manage-rates')){
+        if (this.previousUrl && this.previousUrl.includes('manage-rates') && location.pathname.includes('manage-rates')) {
           if (this.selectedServices && this.selectedServices.length) {
             let index = this.selectedServices.findIndex(obj => obj.LogServCode == "SEA_FFDR");
             if (index >= 0) {
               return true;
             }
-            }
+          }
         }
-        else{
+        else {
           return this.getDashboardDataBySea(this.userProfile.UserID);
         }
       }
@@ -54,14 +54,15 @@ export class ServicesGuard implements CanActivate {
           if (this.selectedServices && this.selectedServices.length) {
             let index = this.selectedServices.findIndex(obj => obj.LogServCode == "AIR_FFDR");
             if (index >= 0) {
-              return true;
+              return false; //@todo move to true for enable on condition basis
             }
           }
-        }else{
-          if (this.apiLoaded){
-            return true;
-          }else{
-            return this.getDashboardDataByRoute(this.userProfile.UserID, state, 'Air')
+        } else {
+          if (this.apiLoaded) {
+            return false; //@todo move to true for enable on condition basis
+          } else {
+            // return this.getDashboardDataByRoute(this.userProfile.UserID, state, 'Air')
+            return false
           }
         }
       }
@@ -79,14 +80,14 @@ export class ServicesGuard implements CanActivate {
               return true;
             }
           }
-        }else{
+        } else {
           if (this.apiLoaded) {
             return true;
-          }else{
+          } else {
             return this.getDashboardDataByRoute(this.userProfile.UserID, state, 'Ground');
           }
         }
-        }
+      }
       else {
         this.router.navigate(['registration']);
       }
@@ -101,11 +102,11 @@ export class ServicesGuard implements CanActivate {
               return true;
             }
           }
-        }else{
+        } else {
           if (this.apiLoaded) {
             return true;
           } else {
-          return this.getDashboardDataByRoute(this.userProfile.UserID, state, 'Warehouse');
+            return this.getDashboardDataByRoute(this.userProfile.UserID, state, 'Warehouse');
           }
         }
       }
@@ -117,7 +118,7 @@ export class ServicesGuard implements CanActivate {
 
 
   }
-  getDashboardDataByRoute(id , state, type): Observable<boolean> {
+  getDashboardDataByRoute(id, state, type): Observable<boolean> {
     return this._dashboardService.getdashboardDetails(id).map((res: any) => {
       if (res.returnStatus == 'Success') {
         if (res.returnObject && Object.keys(res.returnObject).length) {
@@ -125,7 +126,7 @@ export class ServicesGuard implements CanActivate {
           if (res.returnObject.LogisticService && isJSON(res.returnObject.LogisticService)) {
             this.selectedServices = JSON.parse(res.returnObject.LogisticService);
             if (this.selectedServices && this.selectedServices.length) {
-              if(type =='Air'){
+              if (type == 'Air') {
                 let index = this.selectedServices.findIndex(obj => obj.LogServCode == "AIR_FFDR");
                 if (index >= 0) {
                   this.previousUrl = state.url;
@@ -146,7 +147,7 @@ export class ServicesGuard implements CanActivate {
                   return true
                 }
               }
-            
+
             } else {
               this.router.navigate(['provider/dashboard']);
             }
@@ -167,10 +168,10 @@ export class ServicesGuard implements CanActivate {
   getDashboardDataBySea(id): Observable<boolean> {
     return this._dashboardService.getdashboardDetails(id).map((res: any) => {
       if (res.returnStatus == 'Success') {
-      if (res.returnObject && Object.keys(res.returnObject).length) {
-        this._sharedService.dashboardDetail.next(res.returnObject);
-        if (res.returnObject.LogisticService && isJSON(res.returnObject.LogisticService)) {
-          this.selectedServices = JSON.parse(res.returnObject.LogisticService);
+        if (res.returnObject && Object.keys(res.returnObject).length) {
+          this._sharedService.dashboardDetail.next(res.returnObject);
+          if (res.returnObject.LogisticService && isJSON(res.returnObject.LogisticService)) {
+            this.selectedServices = JSON.parse(res.returnObject.LogisticService);
             if (this.selectedServices && this.selectedServices.length) {
               let index = this.selectedServices.findIndex(obj => obj.LogServCode == "SEA_FFDR");
               if (index >= 0) {
@@ -200,18 +201,18 @@ export class ServicesGuard implements CanActivate {
 
             } else {
               this.router.navigate(['provider/dashboard']);
-              }
+            }
           }
         }
       }
-      else{
+      else {
         return false;
 
       }
     }, (err: HttpErrorResponse) => {
-        console.log(err)
-        this.router.navigate(['provider/dashboard']);
-        return Observable.of(true);
+      console.log(err)
+      this.router.navigate(['provider/dashboard']);
+      return Observable.of(true);
     })
   }
   getloginStatus() {
