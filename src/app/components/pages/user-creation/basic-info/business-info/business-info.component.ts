@@ -485,6 +485,7 @@ removeSelectedDocx(index,  obj, type) {
       if(res && res.returnStatus == 'Success'){
         this.userProfile.UserProfileStatus = "Dashboard";
         this.userInfo.returnText = JSON.stringify(this.userProfile);
+        this._sharedService.IsloggedIn.next(true);
         localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
         this._router.navigate(['provider/dashboard']);
         loading(false);
