@@ -613,6 +613,10 @@ export class WarehouseComponent implements OnInit {
       this.propertyDetailForm.controls.hashmoveSpace.reset();
       this.propertyDetailForm.controls.minLeaseValueOne.reset();
       this.propertyDetailForm.controls.minLeaseValueTwo.reset();
+      this.leaseTerm = this.allLeaseTerms.filter(e => e.codeValShortDesc !== 'DAY' && e.codeValShortDesc !== 'WEEK')
+      this.leaseTerm = this.leaseTerm.sort((a, b) => a.sortingOrder - b.sortingOrder);
+    } else {
+      this.leaseTerm = this.allLeaseTerms.sort((a, b) => a.sortingOrder - b.sortingOrder);
     }
   }
   numberValid(evt) {
@@ -662,18 +666,20 @@ export class WarehouseComponent implements OnInit {
     this.offeredHashmoveSpaceUnit = this.units.find(obj => obj.codeVal == unit).codeValDesc;
   }
 
+  public allLeaseTerms = []
   getvaluesDropDown(data) {
     this._warehouseService.getDropDownValuesWarehouse(data).subscribe((res: any) => {
       if (res && res.length) {
-        let leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
-        if (this.warehouseDetail.UsageType === 'FULL') {
-          this.leaseTerm = leaseTerm.filter(e => e.codeValShortDesc !== 'DAY' && e.codeValShortDesc !== 'WEEK')
-          this.leaseTerm = this.leaseTerm.sort((a, b) => a.sortingOrder - b.sortingOrder);
-          console.log(this.leaseTerm)
-        } else if (this.warehouseDetail.UsageType === 'SHARED') {
-          this.leaseTerm = leaseTerm.sort((a, b) => a.sortingOrder - b.sortingOrder);
-        }
+        this.allLeaseTerms = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
         this.warehouseUsageType = res.filter(obj => obj.codeType == 'WH_USAGE_TYPE');
+        console.log(this.warehouseTypeFull)
+        if ((this.warehouseDetail && this.warehouseDetail.UsageType === 'FULL') || this.warehouseTypeFull) {
+          this.leaseTerm = this.allLeaseTerms.filter(e => e.codeValShortDesc !== 'DAY' && e.codeValShortDesc !== 'WEEK')
+          this.leaseTerm = this.leaseTerm.sort((a, b) => a.sortingOrder - b.sortingOrder);
+        } else {
+          this.leaseTerm = this.allLeaseTerms.sort((a, b) => a.sortingOrder - b.sortingOrder);
+        }
+        
         this.ceilingsHeight = res.filter(obj => obj.codeType == 'WH_CEILING_HEIGHT');
         this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM' && obj.codeType != 'WH_USAGE_TYPE' && obj.codeType != 'WH_CEILING_HEIGHT' && obj.codeVal.toUpperCase() != 'SQCM');
         if (!Number(this.whID)) {
