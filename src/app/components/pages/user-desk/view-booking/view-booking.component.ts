@@ -237,8 +237,6 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
   getBookingDetail(bookingId) {
     loading(true);
     this._viewBookingService.getBookingDetails(bookingId).subscribe((res: any) => {
-      console.log(res);
-      
       loading(false);
       if (res.returnId > 0) {
         this.bookingDetails = JSON.parse(res.returnText);
