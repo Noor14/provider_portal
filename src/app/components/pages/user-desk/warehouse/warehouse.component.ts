@@ -454,14 +454,14 @@ export class WarehouseComponent implements OnInit {
       loading(false);
     })
   }
-  getWarehousetermNcond(){
+  getWarehousetermNcond() {
     this._warehouseService.WHtermNcondition(this.userProfile.ProviderID).subscribe((res: any) => {
-      if(res.returnStatus == "Success"){
-          if (res.returnObject && res.returnObject.TermsCondition) {
-          this.editorContent= res.returnObject.TermsCondition;
+      if (res.returnStatus == "Success") {
+        if (res.returnObject && res.returnObject.TermsCondition) {
+          this.editorContent = res.returnObject.TermsCondition;
           this.disableEditor = true;
-        }else{
-            this.disableEditor = false;
+        } else {
+          this.disableEditor = false;
         }
       }
     })
@@ -534,7 +534,7 @@ export class WarehouseComponent implements OnInit {
         } else if (elem.DocumentUploadedFileType.toLowerCase() === 'mp4') {
           this.warehouseDetail.videoURL = baseExternalAssets + '/' + elem.DocumentFile;
         }
-      })      
+      })
       this.docTypeId = this.uploadedGalleries[0].DocumentID;
     }
     if (obj.WHAddress) {
@@ -584,13 +584,13 @@ export class WarehouseComponent implements OnInit {
 
   }
 
-  fixedAmountToggler(){
+  fixedAmountToggler() {
     this.fixedAmount = !this.fixedAmount;
-    if (this.fixedAmount){
+    if (this.fixedAmount) {
       this.commissionForm.controls['percentValue'].reset()
-    }else{
+    } else {
       if (this.isRealEstate && !this.fixedAmount && this.warehouseDetail.Percent) {
-      this.commissionForm.controls['percentValue'].setValue(this._currencyControl.applyRoundByDecimal(parseFloat(this.warehouseDetail.Percent), 2));
+        this.commissionForm.controls['percentValue'].setValue(this._currencyControl.applyRoundByDecimal(parseFloat(this.warehouseDetail.Percent), 2));
       }
     }
   }
@@ -666,7 +666,13 @@ export class WarehouseComponent implements OnInit {
     this._warehouseService.getDropDownValuesWarehouse(data).subscribe((res: any) => {
       if (res && res.length) {
         let leaseTerm = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
-        this.leaseTerm = leaseTerm.sort((a, b) => a.sortingOrder - b.sortingOrder);
+        if (this.warehouseDetail.UsageType === 'FULL') {
+          this.leaseTerm = leaseTerm.filter(e => e.codeValShortDesc !== 'DAY' && e.codeValShortDesc !== 'WEEK')
+          this.leaseTerm = this.leaseTerm.sort((a, b) => a.sortingOrder - b.sortingOrder);
+          console.log(this.leaseTerm)
+        } else if (this.warehouseDetail.UsageType === 'SHARED') {
+          this.leaseTerm = leaseTerm.sort((a, b) => a.sortingOrder - b.sortingOrder);
+        }
         this.warehouseUsageType = res.filter(obj => obj.codeType == 'WH_USAGE_TYPE');
         this.ceilingsHeight = res.filter(obj => obj.codeType == 'WH_CEILING_HEIGHT');
         this.units = res.filter(obj => obj.codeType != 'WH_MIN_LEASE_TERM' && obj.codeType != 'WH_USAGE_TYPE' && obj.codeType != 'WH_CEILING_HEIGHT' && obj.codeVal.toUpperCase() != 'SQCM');
@@ -1212,7 +1218,7 @@ export class WarehouseComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result == "Success") {
         // this.getAllPublishRates(this.warehousePublishedRates[0].whid)
-        this.paging({page: 1, whid: this.whID})
+        this.paging({ page: 1, whid: this.whID })
         this.pageNo = 1
       }
     });
@@ -1328,7 +1334,7 @@ export class WarehouseComponent implements OnInit {
       loading(false)
       const { returnId, returnText } = res
       if (returnId > 0) {
-        if (!this.fixedAmount && this.isRealEstate){
+        if (!this.fixedAmount && this.isRealEstate) {
           this.warehouseDetail.Percent = this.commissionForm.value.percentValue
         }
         this._toastr.success('Comission updated successfully', 'Success')
