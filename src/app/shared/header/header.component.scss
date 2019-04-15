@@ -33,6 +33,7 @@ header {
             height: 32px;
             border-radius: 50%;
             border: 2px solid #e5e5e5;
+            object-fit: contain;
           }
 
           &.loginLink {
