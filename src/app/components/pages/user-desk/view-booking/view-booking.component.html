@@ -371,6 +371,7 @@
                       <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
                         <source [src]="doc.DocumentFile" type="video/mp4" />
                       </video>
+                      <div class="box-content"></div>
                       <div class="gallery-section-item d-flex justify-content-center align-items-center">
                         <img src="../../../assets/images/icons/icon_pictures.svg" alt="count" class="icon-size-14 mr-1" />
                         {{ wareHouse.parsedGallery.length }}
