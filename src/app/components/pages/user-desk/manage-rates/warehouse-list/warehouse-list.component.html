@@ -37,7 +37,7 @@
         <div class="fancyOptionBoxes">
           <input id="checkboxTwo" type="checkbox" [checked]="inActiveStatus"
             (click)="statusType('inActiveStatus', $event)" />
-          <label for="checkboxTwo"> <span></span> Inacive </label>
+          <label for="checkboxTwo"> <span></span> Inactive </label>
         </div>
       </div>
     </div>
@@ -54,6 +54,7 @@
                   <div class="gallery-section" *ngIf="i==0">
                     <div class="images-carousel">
                       <img [src]="image.thumb" *ngIf="image.DocumentUploadedFileType != 'mp4'" />
+                      <div class="box-content"></div>
                       <div class="gallery-section-item d-flex justify-content-center align-items-center">
                         <img src="../../../../assets/images/icons/icon_pictures.svg" alt="icon" class="icon-size-14 mr-1">
                         {{wareHouse.WHParsedMedia.length}}

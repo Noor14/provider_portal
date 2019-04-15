@@ -371,6 +371,7 @@
                       <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
                         <source [src]="doc.DocumentFile" type="video/mp4" />
                       </video>
+                      <div class="box-content"></div>
                       <div class="gallery-section-item d-flex justify-content-center align-items-center">
                         <img src="../../../assets/images/icons/icon_pictures.svg" alt="count" class="icon-size-14 mr-1" />
                         {{ wareHouse.parsedGallery.length }}
@@ -641,7 +642,7 @@
               <span class="d-block ports-title">Location</span>
               <ul class="list-group list-group-flush mt-1">
                 <li class="list-group-item">
-                  <div class="category">
+                  <div class="category d-flex">
                     <img src="{{'../../../../../assets/images/flags/4x3/' +(bookingDetails.WHCountryCode | lowercase)+'.svg'}}"
                       alt="icon" class="icon icon-size-22-14">
                     <span class="long-text">{{bookingDetails.WHAddress}}</span>
@@ -658,8 +659,8 @@
                 <span class="d-block ports-title">Cargo Details</span>
                 <ul class="list-group list-group-flush mt-1">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="category">
-                      <img src="../../../../assets/images/icons/icon_container.svg" alt="umbrella-icon" class="icon">
+                    <div class="category d-flex">
+                      <img src="../../../../assets/images/icons/icon_container.svg" alt="Goods" class="icon icon-size-16">
                       <span class="long-text">{{bookingDetails.ShippingCatName}}</span>
                     </div>
                     <div class="catDetail">
