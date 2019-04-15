@@ -613,7 +613,7 @@ export class WarehouseComponent implements OnInit {
       this.propertyDetailForm.controls.hashmoveSpace.reset();
       this.propertyDetailForm.controls.minLeaseValueOne.reset();
       this.propertyDetailForm.controls.minLeaseValueTwo.reset();
-      this.leaseTerm = this.allLeaseTerms.filter(e => e.codeValShortDesc !== 'DAY' && e.codeValShortDesc !== 'WEEK')
+      this.leaseTerm = this.allLeaseTerms.filter(e => e.codeValShortDesc !== 'DAY')
       this.leaseTerm = this.leaseTerm.sort((a, b) => a.sortingOrder - b.sortingOrder);
     } else {
       this.leaseTerm = this.allLeaseTerms.sort((a, b) => a.sortingOrder - b.sortingOrder);
@@ -674,7 +674,7 @@ export class WarehouseComponent implements OnInit {
         this.warehouseUsageType = res.filter(obj => obj.codeType == 'WH_USAGE_TYPE');
         console.log(this.warehouseTypeFull)
         if ((this.warehouseDetail && this.warehouseDetail.UsageType === 'FULL') || this.warehouseTypeFull) {
-          this.leaseTerm = this.allLeaseTerms.filter(e => e.codeValShortDesc !== 'DAY' && e.codeValShortDesc !== 'WEEK')
+          this.leaseTerm = this.allLeaseTerms.filter(e => e.codeValShortDesc !== 'DAY')
           this.leaseTerm = this.leaseTerm.sort((a, b) => a.sortingOrder - b.sortingOrder);
         } else {
           this.leaseTerm = this.allLeaseTerms.sort((a, b) => a.sortingOrder - b.sortingOrder);
