@@ -453,7 +453,7 @@
                     <label class="sub-text d-flex" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName">Uploaded
                       on {{invoiceDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}}
                       {{invoiceDocOrigin.DocumentUploadDate
-                      | date : "H:mm"}}</label>
+                      | date : "H:mm"}} (GMT)</label>
                   </a>
                   <div class="d-flex align-items-center" *ngIf="bookingDetails.BookingStatus.toLowerCase() != statusCode.cancelled">
                     <span class="badge badge-success" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
@@ -477,7 +477,7 @@
                     <label class="sub-text d-flex" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName">Uploaded
                       on {{packingListDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}}
                       {{packingListDocOrigin.DocumentUploadDate
-                      | date : "H:mm"}}</label>
+                      | date : "H:mm"}} (GMT)</label>
                   </a>
                   <div class="d-flex align-items-center" *ngIf="bookingDetails.BookingStatus.toLowerCase() != statusCode.cancelled">
                     <span class="badge badge-success" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
@@ -506,7 +506,7 @@
                     <label class="sub-text d-flex" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName">Uploaded
                       on {{invoiceDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}}
                       {{invoiceDocDestination.DocumentUploadDate
-                      | date : "H:mm"}}</label>
+                      | date : "H:mm"}} (GMT)</label>
                   </a>
                   <div class="d-flex align-items-center" *ngIf="bookingDetails.BookingStatus.toLowerCase() != statusCode.cancelled">
                     <button class="btn disable" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 're-upload' && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'approved'"
@@ -530,7 +530,7 @@
                     <label class="sub-text d-flex" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName">Uploaded
                       on {{packingListDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}}
                       {{packingListDocDestination.DocumentUploadDate
-                      | date : "H:mm"}}</label>
+                      | date : "H:mm"}} (GMT)</label>
                   </a>
                   <div class="d-flex align-items-center" *ngIf="bookingDetails.BookingStatus.toLowerCase() != statusCode.cancelled">
                     <span class="badge hashmove-badge-warning" *ngIf="packingListDocDestination && !packingListDocDestination.DocumentFileName">
