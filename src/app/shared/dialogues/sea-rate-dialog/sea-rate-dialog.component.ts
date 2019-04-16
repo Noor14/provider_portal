@@ -1786,14 +1786,17 @@ export class SeaRateDialogComponent implements OnInit {
     this.seaPorts = this.allPorts.filter(e => e.PortType === "SEA");
     this.combinedContainers = JSON.parse(localStorage.getItem("containers"));
     if (this.selectedData.forType === 'LCL') {
-      console.log('here');
       this.fclContainers = this.combinedContainers.filter(
         e => e.ContainerFor === "LCL"
       );
+      console.log(this.fclContainers);
       let uniq = {};
       this.allCargoType = this.fclContainers.filter(
         obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true)
       );
+      console.log(this.allCargoType);
+      
+      
     } else {
       this.fclContainers = this.combinedContainers.filter(
         e => e.ContainerFor === "FCL"
