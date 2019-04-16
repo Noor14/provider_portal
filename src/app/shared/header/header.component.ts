@@ -27,21 +27,37 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if (this.userInfo) {
-      this.isLoggedIn = this.userInfo.IsLogedOut
-      this._sharedService.IsloggedIn.subscribe((state: any) => {
-        this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        const userObj = JSON.parse(this.userInfo.returnText)
-        this.isLoggedIn = !userObj.IsLogedOut
-        // if (state == null) {
-        //   this.isLoggedIn = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
-        // } else {
-        //   this.isLoggedIn = state;
-        // }
-        // this.isLoggedIn = state
-        this.setAvatar();
-      })
-    }
+    this._sharedService.IsloggedIn.subscribe((state: any) => {
+      console.log(state)
+      console.log(this.userInfo);
+      if (!state) {
+        if (this.userInfo) {
+          this.isLoggedIn = this.userInfo.IsLogedOut
+          this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+          const userObj = JSON.parse(this.userInfo.returnText)
+          this.isLoggedIn = !userObj.IsLogedOut
+        } else {
+          this.isLoggedIn = true
+        }
+      } else {
+        if (this.userInfo) {
+          this.isLoggedIn = this.userInfo.IsLogedOut
+          this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+          const userObj = JSON.parse(this.userInfo.returnText)
+          this.isLoggedIn = !userObj.IsLogedOut
+        } else {
+          this.isLoggedIn = false
+        }
+      }
+
+      // if (state == null) {
+      //   this.isLoggedIn = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
+      // } else {
+      //   this.isLoggedIn = state;
+      // }
+      // this.isLoggedIn = state
+      this.setAvatar();
+    })
 
     this._sharedService.signOutToggler.subscribe((state: any) => {
       this.signOutToggler();
