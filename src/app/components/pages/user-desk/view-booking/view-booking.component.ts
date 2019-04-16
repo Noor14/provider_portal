@@ -254,7 +254,7 @@ export class ViewBookingComponent implements OnInit, OnDestroy {
           this.bookingDetails.JsonAgentDestInfo = JSON.parse(this.bookingDetails.JsonAgentDestInfo);
           this.editAgentDestToggler = true;
         }
-        if (this.bookingDetails.ShippingModeCode != 'SEA' && this.bookingDetails.BookingUserInfo.UserImage && this.bookingDetails.BookingUserInfo.UserImage != "[]" && isJSON(this.bookingDetails.BookingUserInfo.UserImage)) {
+        if (this.bookingDetails.BookingUserInfo.UserImage && this.bookingDetails.BookingUserInfo.UserImage != "[]" && isJSON(this.bookingDetails.BookingUserInfo.UserImage)) {
           this.bookingDetails.BookingUserInfo.UserImage = JSON.parse(this.bookingDetails.BookingUserInfo.UserImage)[0].DocumentFile;
         }
         if (this.bookingDetails.ShippingModeCode != 'WAREHOUSE'){

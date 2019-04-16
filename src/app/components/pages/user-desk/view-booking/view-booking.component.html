@@ -659,9 +659,10 @@
                 <span class="d-block ports-title">Cargo Details</span>
                 <ul class="list-group list-group-flush mt-1">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="category d-flex">
-                      <img src="../../../../assets/images/icons/icon_container.svg" alt="Goods" class="icon icon-size-16">
-                      <span class="long-text">{{bookingDetails.ShippingCatName}}</span>
+                    <div class="category d-flex align-items-center">
+                      <img src="../../../../assets/images/icons/icon_container.svg" alt="Goods" *ngIf="(bookingDetails.ShippingModeCode | lowercase) != 'truck'" class="icon icon-size-16">
+                      <span class="long-text" *ngIf="(bookingDetails.ShippingModeCode | lowercase) != 'truck'">{{bookingDetails.ShippingCatName}}</span>
+                      <span class="long-text" *ngIf="(bookingDetails.ShippingModeCode | lowercase) == 'truck'">{{bookingDetails.BookingContainerDetail[0].ContainerSpecShortName}}</span>
                     </div>
                     <div class="catDetail">
                       <span class="amount-text" *ngFor="let contDetail of bookingDetails.BookingContainerDetail">

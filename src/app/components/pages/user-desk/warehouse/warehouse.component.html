@@ -446,7 +446,7 @@
                         <div class="input-group">
                           <input class="form-control input-dropdown" (keypress)="numberValid($event)" type="text"
                             [ngClass]="{
-                              'inputError': minLeaseValueOneError && propertyDetailForm.controls['minLeaseValueOne'].errors
+                              'inputError': minLeaseValueOneError && (propertyDetailForm.controls['minLeaseValueOne'].errors || leaseSpaceMsg)
                               }" (focusout)="errorValidate(); minLeaseSpaceValidate('sqft')"
                             (focus)="minLeaseValueOneError=false" formControlName="minLeaseValueOne">
                           <div class="input-group-append">
@@ -471,6 +471,7 @@
                             *ngIf="propertyDetailForm.controls['minLeaseValueOne'].hasError('pattern') && (propertyDetailForm.controls.minLeaseValueOne.dirty || propertyDetailForm.controls.minLeaseValueOne.touched)">
                             Please
                             enter valid information</p>
+                            <p class="inputError animated fadeIn" [innerHTML]="leaseSpaceMsg" *ngIf="!propertyDetailForm.controls['minLeaseValueOne'].errors && leaseSpaceMsg"></p>
                         </span>
                       </div>
                     </div>
@@ -479,7 +480,7 @@
                         <div class="input-group">
                           <input class="form-control input-dropdown" (keypress)="numberValid($event)" type="text"
                             [ngClass]="{
-                            'inputError': minLeaseValueTwoError && propertyDetailForm.controls['minLeaseValueTwo'].errors
+                            'inputError': minLeaseValueTwoError && (propertyDetailForm.controls['minLeaseValueTwo'].errors || leaseSpaceMsg)
                             }" (focusout)="errorValidate(); minLeaseSpaceValidate('cbm')"
                             (focus)="minLeaseValueTwoError=false" formControlName="minLeaseValueTwo">
                           <div class="input-group-append">
@@ -504,6 +505,8 @@
                             *ngIf="propertyDetailForm.controls['minLeaseValueTwo'].hasError('pattern') && (propertyDetailForm.controls.minLeaseValueTwo.dirty || propertyDetailForm.controls.minLeaseValueTwo.touched)">
                             Please
                             enter valid information</p>
+                            <p class="inputError animated fadeIn" [innerHTML]="leaseSpaceMsg" *ngIf="!propertyDetailForm.controls['minLeaseValueTwo'].errors && leaseSpaceMsg"></p>
+
                         </span>
                       </div>
                     </div>
@@ -553,7 +556,7 @@
           <div class="row mt-5">
             <div class="col-12 d-flex justify-content-end mb-3">
               <button class="btn btn-primary hvr-sweep-to-right text-uppercase pl-4 pr-4 pt-2 pb-2 mb-2" [disabled]="generalForm.invalid || !uploadedGalleries.length || locationForm.invalid ||
-                propertyDetailForm.invalid || hashmovespaceMsg || !selectedMiniLeaseTerm || cityValidation"
+                propertyDetailForm.invalid || hashmovespaceMsg || !selectedMiniLeaseTerm || cityValidation || leaseSpaceMsg"
                 (click)="addwareHouse()"> save & add pricing </button>
               <button class="btn btn-primary hvr-sweep-to-right ml-2 text-uppercase pl-5 pr-5 pt-2 pb-2 mb-2 disable"
                 (click)="cancelWarehouse()">

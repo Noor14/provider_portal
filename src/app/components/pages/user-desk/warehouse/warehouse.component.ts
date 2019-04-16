@@ -86,7 +86,6 @@ export class WarehouseComponent implements OnInit {
   public poBoxError: boolean = false;
   public warehouseSpaceError: boolean = false;
   public hashmoveSpaceError: boolean = false;
-  public leaseSpaceError: boolean = false;
   public minLeaseValueOneError: boolean = false;
   public minLeaseValueTwoError: boolean = false;
   public commissionValueError: boolean = false;
@@ -325,39 +324,66 @@ export class WarehouseComponent implements OnInit {
       this.propertyDetailForm.controls.hashmoveSpace.status = 'INVALID';
       this.hashmoveSpaceError = true;
       this.hashmovespaceMsg = "Offered space should be less than or equal to Total warehouse Space";
+      this.validateLeaseTerm();
     }
-    else if (Number(this.propertyDetailForm.controls.hashmoveSpace.value) && Number(this.propertyDetailForm.controls.hashmoveSpace.value) > Number(this.propertyDetailForm.controls.warehouseSpace.value)) {
+    else if (Number(this.propertyDetailForm.controls.warehouseSpace.value) && Number(this.propertyDetailForm.controls.hashmoveSpace.value) && Number(this.propertyDetailForm.controls.hashmoveSpace.value) > Number(this.propertyDetailForm.controls.warehouseSpace.value)) {
       this.propertyDetailForm.controls.hashmoveSpace.status = 'INVALID';
       this.hashmoveSpaceError = true;
       this.hashmovespaceMsg = "Total warehouse Space should be greater than offered space";
-
+      this.validateLeaseTerm();
     }
     else {
+      this.validateLeaseTerm();
       this.hashmovespaceMsg = undefined;
     }
   }
+  validateLeaseTerm(){
+    if (this.offeredHashmoveSpaceUnit == 'sqft') {
+      this.minLeaseValueTwoError = false;
+      if (Number(this.propertyDetailForm.controls.minLeaseValueOne.value <= Number(this.propertyDetailForm.controls.hashmoveSpace.value))) {
+        this.leaseSpaceMsg = undefined;
+      }
+      else if (Number(this.propertyDetailForm.controls.minLeaseValueOne.value && Number(this.propertyDetailForm.controls.minLeaseValueOne.value) > Number(this.propertyDetailForm.controls.hashmoveSpace.value))) {
+        this.leaseSpaceMsg = "Minimum lease value should be less than or equal to Offered space";
+        this.minLeaseValueOneError = true;
+
+      }
+    }
+    else if (this.offeredHashmoveSpaceUnit == 'cbm') {
+      this.minLeaseValueOneError = false;
+      if (Number(this.propertyDetailForm.controls.minLeaseValueTwo.value <= Number(this.propertyDetailForm.controls.hashmoveSpace.value))) {
+        this.leaseSpaceMsg = undefined;
+      }
+      else if (Number(this.propertyDetailForm.controls.minLeaseValueTwo.value && Number(this.propertyDetailForm.controls.minLeaseValueTwo.value) > Number(this.propertyDetailForm.controls.hashmoveSpace.value))) {
+        this.leaseSpaceMsg = "Minimum lease value should be less than or equal to Offered space";
+        this.minLeaseValueTwoError = true;
+      }
+    }
+  }
   minLeaseSpaceValidate(type) {
-    // if (this.warehouseTypeFull) return;
-    // if (type == 'sqft' && this.offeredHashmoveSpaceUnit == 'sqft'){
-    //   if (Number(this.propertyDetailForm.controls.hashmoveSpace.value) && Number(this.propertyDetailForm.controls.minLeaseValueOne.value) > Number(this.propertyDetailForm.controls.hashmoveSpace.value)) {
-    //     this.propertyDetailForm.controls.minLeaseValueOne.status = 'INVALID';
-    //     this.leaseSpaceError = true;
-    //     this.leaseSpaceMsg = "Minimum lease value should be less than or equal to Offered space";
-    //   }
-    //   else{
-    //     this.leaseSpaceMsg = undefined;
-    //   }
-    // }
-    // if (type == 'cbm' && this.offeredHashmoveSpaceUnit == 'cbm') {
-    //   if (Number(this.propertyDetailForm.controls.hashmoveSpace.value) && Number(this.propertyDetailForm.controls.minLeaseValueTwo.value) > Number(this.propertyDetailForm.controls.hashmoveSpace.value)) {
-    //     this.propertyDetailForm.controls.minLeaseValueTwo.status = 'INVALID';
-    //     this.leaseSpaceError = true;
-    //     this.leaseSpaceMsg = "Minimum lease value should be less than or equal to  Offered space";
-    //   }
-    //   else{
-    //     this.leaseSpaceMsg = undefined;
-    //   }
-    // }
+    if (this.warehouseTypeFull) return;
+    if (type == 'sqft' && this.offeredHashmoveSpaceUnit == 'sqft'){
+      this.minLeaseValueTwoError = false;
+      if (Number(this.propertyDetailForm.controls.hashmoveSpace.value) && Number(this.propertyDetailForm.controls.minLeaseValueOne.value) > Number(this.propertyDetailForm.controls.hashmoveSpace.value)) {
+        this.propertyDetailForm.controls.minLeaseValueOne.status = 'INVALID';
+        this.minLeaseValueOneError = true;
+        this.leaseSpaceMsg = "Minimum lease value should be less than or equal to Offered space";
+      }
+      else{
+        this.leaseSpaceMsg = undefined;
+      }
+    }
+    if (type == 'cbm' && this.offeredHashmoveSpaceUnit == 'cbm') {
+      this.minLeaseValueOneError = false;
+      if (Number(this.propertyDetailForm.controls.hashmoveSpace.value) && Number(this.propertyDetailForm.controls.minLeaseValueTwo.value) > Number(this.propertyDetailForm.controls.hashmoveSpace.value)) {
+        this.propertyDetailForm.controls.minLeaseValueTwo.status = 'INVALID';
+        this.minLeaseValueTwoError = true;
+        this.leaseSpaceMsg = "Minimum lease value should be less than or equal to  Offered space";
+      }
+      else{
+        this.leaseSpaceMsg = undefined;
+      }
+    }
 
   }
   getplacemapLoc(countryBound) {
@@ -664,6 +690,7 @@ export class WarehouseComponent implements OnInit {
   }
   selectedspaceUnit(unit) {
     this.offeredHashmoveSpaceUnit = this.units.find(obj => obj.codeVal == unit).codeValDesc;
+    this.validateLeaseTerm();
   }
 
   public allLeaseTerms = []
@@ -672,7 +699,6 @@ export class WarehouseComponent implements OnInit {
       if (res && res.length) {
         this.allLeaseTerms = res.filter(obj => obj.codeType == 'WH_MIN_LEASE_TERM');
         this.warehouseUsageType = res.filter(obj => obj.codeType == 'WH_USAGE_TYPE');
-        console.log(this.warehouseTypeFull)
         if ((this.warehouseDetail && this.warehouseDetail.UsageType === 'FULL') || this.warehouseTypeFull) {
           this.leaseTerm = this.allLeaseTerms.filter(e => e.codeValShortDesc !== 'DAY')
           this.leaseTerm = this.leaseTerm.sort((a, b) => a.sortingOrder - b.sortingOrder);
