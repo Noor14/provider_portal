@@ -435,7 +435,7 @@
               </ng-template>
               <ng-template ngbPanelContent>
                 <div class="row" [@fadeInOut]>
-                  <div class="col-3">
+                  <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12">
                     <div class="form-group">
                       <label>Shipping Lines</label>
                       <select class="form-control" [(ngModel)]="filterbyShippingLine" placeholder="Select">
@@ -445,7 +445,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-xl-6 col-lg-8 col-md-12 col-sm-12 col-12">
                     <div class="form-group">
                       <label>Route</label>
                       <div class="row combine-field">
@@ -496,7 +496,7 @@
                       <ngb-highlight [result]="r.PortName"></ngb-highlight>
                     </div>
                   </ng-template>
-                  <div class="col-3">
+                  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group">
                       <label>Cargo Type</label>
                       <select class="form-control" [(ngModel)]="filterbyCargoType">
@@ -506,7 +506,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="col-3">
+                  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group">
                       <label>Container</label>
                       <select class="form-control" [(ngModel)]="filterbyContainerType">
@@ -516,7 +516,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="col-4">
+                  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
                     <div class="form-group date-control">
                       <label>Rate Validity</label>
                       <div class="dateIcon">
@@ -540,7 +540,7 @@
                     </div>
                   </div>
 
-                  <div class="col-5 form-group">
+                  <div class="col-xl-5 col-lg-6 col-md-12 col-sm-12 col-12 form-group">
                     <label>Show Only Rates For </label>
                     <div class="fancyOptionBoxes pull-left  filter-checkbox mr-3 pt-3">
                       <input id="Radios" name="Radios" type="checkbox" [checked]="isMarketplace"
@@ -570,7 +570,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="col-8">
+                  <div class="col-xl-8 col-lg-6 col-md-12 col-sm-12 col-12">
                     <div class="form-group">
                       <label for="">&nbsp;</label>
                       <button class="btn btn-primary w-50 btn-lg" (click)="filterRecords('fcl')">Filter

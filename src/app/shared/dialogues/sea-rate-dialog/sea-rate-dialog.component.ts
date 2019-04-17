@@ -51,23 +51,23 @@ const before = (one: NgbDateStruct, two: NgbDateStruct) =>
   !one || !two
     ? false
     : one.year === two.year
-    ? one.month === two.month
-      ? one.day === two.day
-        ? false
-        : one.day < two.day
-      : one.month < two.month
-    : one.year < two.year;
+      ? one.month === two.month
+        ? one.day === two.day
+          ? false
+          : one.day < two.day
+        : one.month < two.month
+      : one.year < two.year;
 
 const after = (one: NgbDateStruct, two: NgbDateStruct) =>
   !one || !two
     ? false
     : one.year === two.year
-    ? one.month === two.month
-      ? one.day === two.day
-        ? false
-        : one.day > two.day
-      : one.month > two.month
-    : one.year > two.year;
+      ? one.month === two.month
+        ? one.day === two.day
+          ? false
+          : one.day > two.day
+        : one.month > two.month
+      : one.year > two.year;
 @Component({
   selector: "app-sea-rate-dialog",
   templateUrl: "./sea-rate-dialog.component.html",
@@ -257,7 +257,7 @@ export class SeaRateDialogComponent implements OnInit {
       if (this.selectedData.mode === "publish") {
         this.disabledCustomers = true;
         let data = changeCase(this.selectedData.data[0], "pascal");
-        this.setData(data);        
+        this.setData(data);
       } else {
         this.setData(this.selectedData.data);
       }
@@ -395,8 +395,8 @@ export class SeaRateDialogComponent implements OnInit {
         obj => obj.id === userCurrency
       );
     } else if (this.selectedData.forType === 'WAREHOUSE' && this.selectedData.mode === "draft") {
-        this.disabledCustomers = false;
-    }else {
+      this.disabledCustomers = false;
+    } else {
       this.disabledCustomers = true;
       this.selectedPrice = data.Price;
       this.selectedCurrency = this.allCurrencies.find(
@@ -490,18 +490,18 @@ export class SeaRateDialogComponent implements OnInit {
               effectiveFrom:
                 this.fromDate && this.fromDate.month
                   ? this.fromDate.month +
-                    "/" +
-                    this.fromDate.day +
-                    "/" +
-                    this.fromDate.year
+                  "/" +
+                  this.fromDate.day +
+                  "/" +
+                  this.fromDate.year
                   : null,
               effectiveTo:
                 this.toDate && this.toDate.month
                   ? this.toDate.month +
-                    "/" +
-                    this.toDate.day +
-                    "/" +
-                    this.toDate.year
+                  "/" +
+                  this.toDate.day +
+                  "/" +
+                  this.toDate.year
                   : null,
               modifiedBy: this.userProfile.LoginID,
               JsonSurchargeDet: JSON.stringify(
@@ -520,18 +520,18 @@ export class SeaRateDialogComponent implements OnInit {
               effectiveFrom:
                 this.fromDate && this.fromDate.month
                   ? this.fromDate.month +
-                    "/" +
-                    this.fromDate.day +
-                    "/" +
-                    this.fromDate.year
+                  "/" +
+                  this.fromDate.day +
+                  "/" +
+                  this.fromDate.year
                   : null,
               effectiveTo:
                 this.toDate && this.toDate.month
                   ? this.toDate.month +
-                    "/" +
-                    this.toDate.day +
-                    "/" +
-                    this.toDate.year
+                  "/" +
+                  this.toDate.day +
+                  "/" +
+                  this.toDate.year
                   : null,
               modifiedBy: this.userProfile.LoginID,
               JsonSurchargeDet:
@@ -540,8 +540,8 @@ export class SeaRateDialogComponent implements OnInit {
                 ) === "[{},{}]"
                   ? null
                   : JSON.stringify(
-                      this.selectedOrigins.concat(this.selectedDestinations)
-                    ),
+                    this.selectedOrigins.concat(this.selectedDestinations)
+                  ),
               customerID: element.customerID,
               jsonCustomerDetail: element.jsonCustomerDetail,
               customerType: element.customerType
@@ -553,18 +553,18 @@ export class SeaRateDialogComponent implements OnInit {
               effectiveFrom:
                 this.fromDate && this.fromDate.month
                   ? this.fromDate.month +
-                    "/" +
-                    this.fromDate.day +
-                    "/" +
-                    this.fromDate.year
+                  "/" +
+                  this.fromDate.day +
+                  "/" +
+                  this.fromDate.year
                   : null,
               effectiveTo:
                 this.toDate && this.toDate.month
                   ? this.toDate.month +
-                    "/" +
-                    this.toDate.day +
-                    "/" +
-                    this.toDate.year
+                  "/" +
+                  this.toDate.day +
+                  "/" +
+                  this.toDate.year
                   : null,
               modifiedBy: this.userProfile.LoginID,
               transportType: "TRUCK",
@@ -574,8 +574,8 @@ export class SeaRateDialogComponent implements OnInit {
                 ) === "[{},{}]"
                   ? null
                   : JSON.stringify(
-                      this.selectedOrigins.concat(this.selectedDestinations)
-                    ),
+                    this.selectedOrigins.concat(this.selectedDestinations)
+                  ),
               customerID: element.customerID,
               jsonCustomerDetail: element.jsonCustomerDetail,
               customerType: element.customerType
@@ -606,14 +606,14 @@ export class SeaRateDialogComponent implements OnInit {
         try {
           singlePrice =
             this.selectedPrice ||
-            parseFloat(this.selectedPrice) === NaN ||
-            parseFloat(this.selectedPrice) <= 0
+              parseFloat(this.selectedPrice) === NaN ||
+              parseFloat(this.selectedPrice) <= 0
               ? parseFloat(this.selectedPrice)
               : 0;
           doublePRice =
             this.couplePrice ||
-            parseFloat(this.couplePrice) === NaN ||
-            parseFloat(this.couplePrice) <= 0
+              parseFloat(this.couplePrice) === NaN ||
+              parseFloat(this.couplePrice) <= 0
               ? parseFloat(this.couplePrice)
               : 0;
         } catch (error) {
@@ -653,18 +653,18 @@ export class SeaRateDialogComponent implements OnInit {
           effectiveFrom:
             this.fromDate && this.fromDate.month
               ? this.fromDate.month +
-                "/" +
-                this.fromDate.day +
-                "/" +
-                this.fromDate.year
+              "/" +
+              this.fromDate.day +
+              "/" +
+              this.fromDate.year
               : null,
           effectiveTo:
             this.toDate && this.toDate.month
               ? this.toDate.month +
-                "/" +
-                this.toDate.day +
-                "/" +
-                this.toDate.year
+              "/" +
+              this.toDate.day +
+              "/" +
+              this.toDate.year
               : null,
           modifiedBy: this.userProfile.LoginID,
           jsonSurchargeDet:
@@ -673,8 +673,8 @@ export class SeaRateDialogComponent implements OnInit {
             ) === "[{},{}]"
               ? null
               : JSON.stringify(
-                  this.selectedOrigins.concat(this.selectedDestinations)
-                ),
+                this.selectedOrigins.concat(this.selectedDestinations)
+              ),
           customerID: this.selectedData.data.CustomerID,
           jsonCustomerDetail: this.selectedData.data.JsonCustomerDetail,
           customerType: this.selectedData.data.CustomerType
@@ -742,7 +742,7 @@ export class SeaRateDialogComponent implements OnInit {
         filterDestination &&
         filterDestination.CountryCode &&
         filterOrigin.CountryCode.toLowerCase() ===
-          filterDestination.CountryCode.toLowerCase()
+        filterDestination.CountryCode.toLowerCase()
       ) {
         this._toast.warning(
           "Please select different pickup and drop Country",
@@ -807,14 +807,14 @@ export class SeaRateDialogComponent implements OnInit {
       try {
         singlePrice =
           this.selectedPrice ||
-          parseFloat(this.selectedPrice) === NaN ||
-          parseFloat(this.selectedPrice) <= 0
+            parseFloat(this.selectedPrice) === NaN ||
+            parseFloat(this.selectedPrice) <= 0
             ? parseFloat(this.selectedPrice)
             : 0;
         doublePRice =
           this.couplePrice ||
-          parseFloat(this.couplePrice) === NaN ||
-          parseFloat(this.couplePrice) <= 0
+            parseFloat(this.couplePrice) === NaN ||
+            parseFloat(this.couplePrice) <= 0
             ? parseFloat(this.couplePrice)
             : 0;
       } catch (error) {
@@ -873,42 +873,42 @@ export class SeaRateDialogComponent implements OnInit {
         providerLocationL: "",
         polID:
           this.filterOrigin &&
-          (this.filterOrigin.PortID || this.filterOrigin.id)
+            (this.filterOrigin.PortID || this.filterOrigin.id)
             ? this.filterOrigin.PortID || this.filterOrigin.id
             : null,
         polName:
           this.filterOrigin &&
-          (this.filterOrigin.PortID || this.filterOrigin.id)
+            (this.filterOrigin.PortID || this.filterOrigin.id)
             ? this.filterOrigin.PortName || this.filterOrigin.title
             : null,
         polCode:
           this.filterOrigin &&
-          (this.filterOrigin.PortID || this.filterOrigin.id)
+            (this.filterOrigin.PortID || this.filterOrigin.id)
             ? this.filterOrigin.PortCode || this.filterOrigin.code
             : null,
         podID:
           this.filterDestination &&
-          (this.filterDestination.PortID || this.filterDestination.id)
+            (this.filterDestination.PortID || this.filterDestination.id)
             ? this.filterDestination.PortID || this.filterDestination.id
             : null,
         polType:
           this.filterOrigin &&
-          (this.filterOrigin.PortID || this.filterOrigin.id)
+            (this.filterOrigin.PortID || this.filterOrigin.id)
             ? this.filterOrigin.PortType || this.filterOrigin.type
             : null,
         podName:
           this.filterDestination &&
-          (this.filterDestination.PortID || this.filterDestination.id)
+            (this.filterDestination.PortID || this.filterDestination.id)
             ? this.filterDestination.PortName || this.filterDestination.title
             : null,
         podCode:
           this.filterDestination &&
-          (this.filterDestination.PortID || this.filterDestination.id)
+            (this.filterDestination.PortID || this.filterDestination.id)
             ? this.filterDestination.PortID || this.filterDestination.code
             : null,
         podType:
           this.filterDestination &&
-          (this.filterDestination.PortID || this.filterDestination.id)
+            (this.filterDestination.PortID || this.filterDestination.id)
             ? this.filterDestination.PortType || this.filterDestination.type
             : null,
         price: this.selectedPrice,
@@ -924,10 +924,10 @@ export class SeaRateDialogComponent implements OnInit {
         effectiveFrom:
           this.fromDate && this.fromDate.month
             ? this.fromDate.month +
-              "/" +
-              this.fromDate.day +
-              "/" +
-              this.fromDate.year
+            "/" +
+            this.fromDate.day +
+            "/" +
+            this.fromDate.year
             : null,
         effectiveTo:
           this.toDate && this.toDate.month
@@ -1031,9 +1031,9 @@ export class SeaRateDialogComponent implements OnInit {
             element.CarrierID === obj.carrierID &&
             element.ContainerSpecID === obj.containerSpecID &&
             moment(element.EffectiveFrom).format("D MMM, Y") ===
-              moment(obj.effectiveFrom).format("D MMM, Y") &&
+            moment(obj.effectiveFrom).format("D MMM, Y") &&
             moment(element.EffectiveTo).format("D MMM, Y") ===
-              moment(obj.effectiveTo).format("D MMM, Y") &&
+            moment(obj.effectiveTo).format("D MMM, Y") &&
             element.PodID === obj.podID &&
             element.PolID === obj.polID &&
             element.Price === parseFloat(obj.price) &&
@@ -1050,9 +1050,9 @@ export class SeaRateDialogComponent implements OnInit {
         this.selectedData.drafts.forEach(element => {
           if (
             moment(element.EffectiveFrom).format("D MMM, Y") ===
-              moment(obj.effectiveFrom).format("D MMM, Y") &&
+            moment(obj.effectiveFrom).format("D MMM, Y") &&
             moment(element.EffectiveTo).format("D MMM, Y") ===
-              moment(obj.effectiveTo).format("D MMM, Y") &&
+            moment(obj.effectiveTo).format("D MMM, Y") &&
             element.PodID === obj.podID &&
             element.PolID === obj.polID &&
             element.Price === parseFloat(obj.price) &&
@@ -1070,9 +1070,9 @@ export class SeaRateDialogComponent implements OnInit {
         this.selectedData.drafts.forEach(element => {
           if (
             moment(element.EffectiveFrom).format("D MMM, Y") ===
-              moment(obj.effectiveFrom).format("D MMM, Y") &&
+            moment(obj.effectiveFrom).format("D MMM, Y") &&
             moment(element.EffectiveTo).format("D MMM, Y") ===
-              moment(obj.effectiveTo).format("D MMM, Y") &&
+            moment(obj.effectiveTo).format("D MMM, Y") &&
             element.PodID === obj.podID &&
             element.PolID === obj.polID &&
             element.Price === parseFloat(obj.price) &&
@@ -1323,7 +1323,7 @@ export class SeaRateDialogComponent implements OnInit {
 
   numberValidwithDecimal(evt) {
     let charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (evt.target.value && evt.target.value[evt.target.value.length - 1] == '.'){
+    if (evt.target.value && evt.target.value[evt.target.value.length - 1] == '.') {
       if (charCode > 31 && (charCode < 48 || charCode > 57))
         return false;
 
@@ -1394,10 +1394,10 @@ export class SeaRateDialogComponent implements OnInit {
         !term || term.length < 3
           ? []
           : this.allShippingLines.filter(
-              v =>
-                v.CarrierName &&
-                v.CarrierName.toLowerCase().indexOf(term.toLowerCase()) > -1
-            )
+            v =>
+              v.CarrierName &&
+              v.CarrierName.toLowerCase().indexOf(term.toLowerCase()) > -1
+          )
       )
     );
   formatter = (x: { CarrierName: string; CarrierImage: string }) =>
@@ -1410,10 +1410,10 @@ export class SeaRateDialogComponent implements OnInit {
         !term || term.length < 3
           ? []
           : this.seaPorts.filter(
-              v =>
-                v.PortName &&
-                v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1
-            )
+            v =>
+              v.PortName &&
+              v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1
+          )
       )
     );
   portsFormatter = (x: { PortName: string }) => x.PortName;
@@ -1425,10 +1425,10 @@ export class SeaRateDialogComponent implements OnInit {
         !term || term.length < 3
           ? []
           : this.allCurrencies.filter(
-              v =>
-                v.shortName &&
-                v.shortName.toLowerCase().indexOf(term.toLowerCase()) > -1
-            )
+            v =>
+              v.shortName &&
+              v.shortName.toLowerCase().indexOf(term.toLowerCase()) > -1
+          )
       )
     );
   currencyFormatter = x => x.shortName;
@@ -1531,7 +1531,7 @@ export class SeaRateDialogComponent implements OnInit {
           Object.keys(this.selectedOrigins[this.selectedOrigins.length - 1])
             .length === 0 &&
           this.selectedOrigins[this.selectedOrigins.length - 1].constructor ===
-            Object
+          Object
         ) &&
         parseFloat(this.selectedOrigins[this.selectedOrigins.length - 1].Price) &&
         this.selectedOrigins[this.selectedOrigins.length - 1].CurrId
@@ -1652,7 +1652,7 @@ export class SeaRateDialogComponent implements OnInit {
       res => {
         this.surchargesList = res;
       },
-      err => {}
+      err => { }
     );
   }
   public isOriginChargesForm = false;
@@ -1680,7 +1680,7 @@ export class SeaRateDialogComponent implements OnInit {
       }
     }
 
-}
+  }
 
   public canAddLabel: boolean = true;
   addCustomLabel(type) {
@@ -1696,7 +1696,7 @@ export class SeaRateDialogComponent implements OnInit {
     const selectedSurcharge = this.surchargesList.find(
       obj => obj.codeValID === parseInt(this.surchargeType)
     );
-    
+
     let obj = {
       addChrID: -1,
       addChrCode: "OTHR",
@@ -1779,18 +1779,33 @@ export class SeaRateDialogComponent implements OnInit {
    *
    * @memberof SeaFreightComponent
    */
+  public lclContainers = []
   getDropdownsList() {
     this.transPortMode = "SEA";
     this.allPorts = JSON.parse(localStorage.getItem("PortDetails"));
     this.seaPorts = this.allPorts.filter(e => e.PortType === "SEA");
     this.combinedContainers = JSON.parse(localStorage.getItem("containers"));
-    this.fclContainers = this.combinedContainers.filter(
-      e => e.ContainerFor === "FCL"
-    );
-    let uniq = {};
-    this.allCargoType = this.fclContainers.filter(
-      obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true)
-    );
+    if (this.selectedData.forType === 'LCL') {
+      this.fclContainers = this.combinedContainers.filter(
+        e => e.ContainerFor === "LCL"
+      );
+      console.log(this.fclContainers);
+      let uniq = {};
+      this.allCargoType = this.fclContainers.filter(
+        obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true)
+      );
+      console.log(this.allCargoType);
+      
+      
+    } else {
+      this.fclContainers = this.combinedContainers.filter(
+        e => e.ContainerFor === "FCL"
+      );
+      let uniq = {};
+      this.allCargoType = this.fclContainers.filter(
+        obj => !uniq[obj.ShippingCatID] && (uniq[obj.ShippingCatID] = true)
+      );
+    }
     if (
       this.selectedData.forType === "FCL-Ground" ||
       this.selectedData.forType === "FTL"
@@ -1910,10 +1925,10 @@ export class SeaRateDialogComponent implements OnInit {
         !term || term.length < 3
           ? []
           : this.groundPorts.filter(
-              v =>
-                v.PortName &&
-                v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1
-            )
+            v =>
+              v.PortName &&
+              v.PortName.toLowerCase().indexOf(term.toLowerCase()) > -1
+          )
       )
     );
   addressFormatter = (x: { PortName: string }) => {

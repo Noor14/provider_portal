@@ -26,7 +26,7 @@ export class ServicesGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-
+    
     this.getloginStatus();
     // if user go to manage rates sea page
     if (state.url == '/provider/manage-rates/sea') {
@@ -220,12 +220,7 @@ export class ServicesGuard implements CanActivate {
     if (userInfo && userInfo.returnText) {
       this.userProfile = JSON.parse(userInfo.returnText);
       this._sharedService.IsloggedIn.subscribe((state: any) => {
-        if (state == null) {
-          this.islogOut = (userInfo && Object.keys('userInfo').length) ? this.userProfile.IsLogedOut : true;
-        }
-        else {
-          this.islogOut = state;
-        }
+        this.islogOut = this.userProfile.IsLogedOut
       })
     } else {
       this.islogOut = true;

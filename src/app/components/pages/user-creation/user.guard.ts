@@ -28,6 +28,8 @@ export class UserGuard implements CanActivate {
   canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
 
     this.getloginStatus();
+    console.log(this.getloginStatus());
+    
 
     // if user go to otp direct page
     if (state.url.indexOf('otp') >= 0) {
@@ -147,15 +149,10 @@ export class UserGuard implements CanActivate {
   }
   getloginStatus() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    console.log(userInfo);
-    
     if (userInfo && userInfo.returnText) {
       this.infoObj = JSON.parse(userInfo.returnText);
-      console.log(this.infoObj.IsLogedOut);
-      
       const state = this._sharedService.IsloggedIn.getValue()
-      console.log(state)
-      this.islogOut = this.infoObj.IsLogedOut
+      return this.islogOut = this.infoObj.IsLogedOut
       // if (!state) {
       //   this.islogOut = (userInfo && Object.keys('userInfo').length) ? JSON.parse(userInfo.returnText).IsLogedOut : true;
       // }
@@ -164,8 +161,7 @@ export class UserGuard implements CanActivate {
       // }
 
     } else {
-      this.islogOut = true;
+      return this.islogOut = true;
     }
-
   }
 }

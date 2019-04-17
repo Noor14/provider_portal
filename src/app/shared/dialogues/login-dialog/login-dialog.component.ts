@@ -122,23 +122,21 @@ export class LoginDialogComponent implements OnInit {
       if (resp.returnStatus == "Success" && resp.returnId > 0) {
         this.loading = false;
         if (localStorage) {
+          localStorage.setItem('userInfo', JSON.stringify(resp));
           if (resp.returnObject) {
             this._userCreationService.saveJwtToken(resp.returnObject.token)
             this._userCreationService.saveRefreshToken(resp.returnObject.refreshToken)
           }
-
           let loginData = JSON.parse(resp.returnText)
           loginData.IsLogedOut = false;
           if (loginData.WHID){
           localStorage.setItem('warehouseId', loginData.WHID);
          }
-          localStorage.setItem('userInfo', JSON.stringify(resp));
-          this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
           this.toastr.success('Login Successful!', 'Success');
           this.activeModal.close();
           document.getElementsByTagName('html')[0].style.overflowY = 'auto';
+          this._sharedService.IsloggedIn.next(loginData.IsLogedOut);
           this._router.navigate(['provider/dashboard']);
-
         } else {
           this.toastr.warning("Please Enable Cookies to use this app", "Cookies Disabled")
           // this._router.navigate(['enable-cookies']);
