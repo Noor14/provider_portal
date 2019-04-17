@@ -9,6 +9,7 @@ export interface ContainerDetail {
   ContainerSpecCode: string;
   ContainerSpecDesc: string;
   BookingContTypeQty: number;
+  ContainerSpecShortName?: string;
 }
 
 export interface RouteDetail {
